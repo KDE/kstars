@@ -107,15 +107,6 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                                             << "host"
                                             << "port");
 
-    captureProgress->setValue(0);
-    sequenceProgress->setValue(0);
-    sequenceProgress->setDecimals(0);
-    sequenceProgress->setFormat("%v");
-    imageProgress->setValue(0);
-    imageProgress->setDecimals(0);
-    imageProgress->setFormat("%v");
-    imageProgress->setBarStyle(QRoundProgressBar::StyleLine);
-    captureProgress->setDecimals(0);
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
 
@@ -229,9 +220,6 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(dialog->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &Ekos::Manager::updateDebugInterfaces);
     connect(dialog->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &Ekos::Manager::updateDebugInterfaces);
 
-    // Summary
-    // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
-
     // Profiles
     connect(addProfileB, &QPushButton::clicked, this, &Ekos::Manager::addProfile);
     connect(editProfileB, &QPushButton::clicked, this, &Ekos::Manager::editProfile);
@@ -300,12 +288,13 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(0, i18n("Setup"));
 
     // Initialize Ekos Scheduler Module
-    schedulerProcess.reset(new Ekos::Scheduler());
-    int index = addModuleTab(EkosModule::Scheduler, schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"));
+    schedulerProcess = QSharedPointer<Scheduler>(new Scheduler(), &QObject::deleteLater);
+    int index = addModuleTab(EkosModule::Scheduler, schedulerProcess.data(), QIcon(":/icons/ekos_scheduler.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
-    connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
-    //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
-    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
+    captureCountsWidget->shareSchedulerProcess(schedulerProcess);
+    connect(schedulerProcess.data(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
+    //connect(schedulerProcess.data(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+    connect(schedulerProcess.data(), &Ekos::Scheduler::newTarget, [&](const QString & target)
     {
         mountTarget->setText(target);
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
@@ -331,6 +320,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     summaryPreview->createFloatingToolBar();
     summaryPreview->setCursorMode(FITSView::dragCursor);
     QVBoxLayout * vlayout = new QVBoxLayout();
+    vlayout->setContentsMargins(0, 0, 0, 0);
     vlayout->addWidget(summaryPreview.get());
     previewWidget->setLayout(vlayout);
 
@@ -423,8 +413,8 @@ void Manager::showEvent(QShowEvent * /*event*/)
 
 void Manager::resizeEvent(QResizeEvent *)
 {
-    updateFocusDetailView();
-    updateGuideDetailView();
+    focusManager->updateFocusDetailView();
+    guideManager->updateGuideDetailView();
 }
 
 void Manager::loadProfiles()
@@ -558,28 +548,17 @@ void Manager::reset()
     processINDIB->setEnabled(true);
 
     mountGroup->setEnabled(false);
-    focusGroup->setEnabled(false);
     captureGroup->setEnabled(false);
-    guideGroup->setEnabled(false);
-    sequenceLabel->setText(i18n("Sequence"));
-    sequenceProgress->setValue(0);
-    captureProgress->setValue(0);
-    overallRemainingTime->setText("--:--:--");
-    sequenceRemainingTime->setText("--:--:--");
-    imageRemainingTime->setText("--:--:--");
+    captureCountsWidget->reset();
     mountStatus->setText(i18n("Idle"));
     mountStatus->setStyleSheet(QString());
     captureStatus->setText(i18n("Idle"));
-    focusStatus->setText(i18n("Idle"));
-    guideStatus->setText(i18n("Idle"));
     if (capturePI)
         capturePI->stopAnimation();
     if (mountPI)
         mountPI->stopAnimation();
-    if (focusPI)
-        focusPI->stopAnimation();
-    if (guidePI)
-        guidePI->stopAnimation();
+    focusManager->reset();
+    guideManager->reset();
 
     m_isStarted = false;
 
@@ -1357,8 +1336,11 @@ void Manager::deviceConnected()
     }
     else if (dev->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
+        {
             captureProcess->setEnabled(true);
+            captureCountsWidget->setEnabled(true);
+        }
         if (focusProcess.get() != nullptr)
             focusProcess->setEnabled(true);
         if (alignProcess.get() != nullptr)
@@ -1498,6 +1480,7 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
     initCapture();
 
     captureProcess->setEnabled(true);
+    captureCountsWidget->setEnabled(true);
     captureProcess->addCCD(ccdDevice);
 
     QString primaryCCD, guiderCCD;
@@ -1620,7 +1603,7 @@ void Manager::setDome(ISD::GDInterface * domeDevice)
 
     domeProcess->setDome(domeDevice);
 
-    if (captureProcess.get() != nullptr)
+    if (captureProcess.data() != nullptr)
         captureProcess->setDome(domeDevice);
 
     if (alignProcess.get() != nullptr)
@@ -1667,7 +1650,7 @@ void Manager::setDustCap(ISD::GDInterface * dustCapDevice)
 
     appendLogText(i18n("%1 is online.", dustCapDevice->getDeviceName()));
 
-    if (captureProcess.get() != nullptr)
+    if (captureProcess.data() != nullptr)
         captureProcess->setDustCap(dustCapDevice);
 
     //DarkLibrary::Instance()->setRemoteCap(dustCapDevice);
@@ -1681,7 +1664,7 @@ void Manager::setLightBox(ISD::GDInterface * lightBoxDevice)
     if (findDevices(KSTARS_AUXILIARY).contains(lightBoxDevice) == false)
         managedDevices.insertMulti(KSTARS_AUXILIARY, lightBoxDevice);
 
-    if (captureProcess.get() != nullptr)
+    if (captureProcess.data() != nullptr)
         captureProcess->setLightBox(lightBoxDevice);
 }
 
@@ -1837,7 +1820,7 @@ void Manager::processNewNumber(INumberVectorProperty * nvp)
     /*
     if (!strcmp(nvp->name, "FILTER_SLOT"))
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -2024,7 +2007,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (prop->isNameMatch("CCD_FRAME_TYPE"))
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
         {
             for (auto &device : findDevices(KSTARS_CCD))
             {
@@ -2041,7 +2024,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (prop->isNameMatch("CCD_ISO"))
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
             captureProcess->checkCCD();
 
         return;
@@ -2049,7 +2032,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (prop->isNameMatch("TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
             captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
         if (mountProcess.get() != nullptr)
@@ -2061,7 +2044,7 @@ void Manager::processNewProperty(INDI::Property prop)
     /*
     if (prop->isNameMatch("FILTER_NAME"))
     {
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
             captureProcess->checkFilter();
 
         if (focusProcess.get() != nullptr)
@@ -2091,7 +2074,7 @@ void Manager::processNewProperty(INDI::Property prop)
     if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
     {
         managedDevices[KSTARS_ROTATOR] = deviceInterface;
-        if (captureProcess.get() != nullptr)
+        if (captureProcess.data() != nullptr)
             captureProcess->setRotator(deviceInterface);
         if (alignProcess.get() != nullptr)
             alignProcess->setRotator(deviceInterface);
@@ -2184,7 +2167,7 @@ void Manager::processTabChange()
 
         alignProcess->checkCCD();
     }
-    else if (captureProcess.get() != nullptr && currentWidget == captureProcess.get())
+    else if (captureProcess.data() != nullptr && currentWidget == captureProcess.data())
     {
         captureProcess->checkCCD();
     }
@@ -2208,7 +2191,7 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(m_LogText.join("\n"));
     else if (currentWidget == alignProcess.get())
         ekosLogOut->setPlainText(alignProcess->getLogText());
-    else if (currentWidget == captureProcess.get())
+    else if (currentWidget == captureProcess.data())
         ekosLogOut->setPlainText(captureProcess->getLogText());
     else if (currentWidget == focusProcess.get())
         ekosLogOut->setPlainText(focusProcess->getLogText());
@@ -2216,7 +2199,7 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(guideProcess->getLogText());
     else if (currentWidget == mountProcess.get())
         ekosLogOut->setPlainText(mountProcess->getLogText());
-    else if (currentWidget == schedulerProcess.get())
+    else if (currentWidget == schedulerProcess.data())
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
     else if (currentWidget == observatoryProcess.get())
         ekosLogOut->setPlainText(observatoryProcess->getLogText());
@@ -2249,7 +2232,7 @@ void Manager::clearLog()
     }
     else if (currentWidget == alignProcess.get())
         alignProcess->clearLog();
-    else if (currentWidget == captureProcess.get())
+    else if (currentWidget == captureProcess.data())
         captureProcess->clearLog();
     else if (currentWidget == focusProcess.get())
         focusProcess->clearLog();
@@ -2257,7 +2240,7 @@ void Manager::clearLog()
         guideProcess->clearLog();
     else if (currentWidget == mountProcess.get())
         mountProcess->clearLog();
-    else if (currentWidget == schedulerProcess.get())
+    else if (currentWidget == schedulerProcess.data())
         schedulerProcess->clearLog();
     else if (currentWidget == observatoryProcess.get())
         observatoryProcess->clearLog();
@@ -2265,12 +2248,13 @@ void Manager::clearLog()
 
 void Manager::initCapture()
 {
-    if (captureProcess.get() != nullptr)
+    if (captureProcess.data() != nullptr)
         return;
 
-    captureProcess.reset(new Ekos::Capture());
+    captureProcess = QSharedPointer<Capture>(new Capture(), &QObject::deleteLater);
     captureProcess->setEnabled(false);
-    int index = addModuleTab(EkosModule::Capture, captureProcess.get(), QIcon(":/icons/ekos_ccd.png"));
+    captureCountsWidget->shareCaptureProcess(captureProcess);
+    int index = addModuleTab(EkosModule::Capture, captureProcess.data(), QIcon(":/icons/ekos_ccd.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     if (Options::ekosLeftIcons())
     {
@@ -2281,24 +2265,15 @@ void Manager::initCapture()
         icon        = QIcon(pix.transformed(trans));
         toolsWidget->setTabIcon(index, icon);
     }
-    connect(captureProcess.get(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
-    connect(captureProcess.get(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
-    connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
-    connect(captureProcess.get(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
-    connect(captureProcess.get(), &Ekos::Capture::newDownloadProgress, this, &Ekos::Manager::updateDownloadProgress);
-    connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
+    connect(captureProcess.data(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
+    connect(captureProcess.data(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
+    connect(captureProcess.data(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
+    connect(captureProcess.data(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
+    connect(captureProcess.data(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     captureGroup->setEnabled(true);
-    sequenceProgress->setEnabled(true);
-    captureProgress->setEnabled(true);
-    imageProgress->setEnabled(true);
+    captureCountsWidget->setEnabled(true);
 
     captureProcess->setFilterManager(filterManager);
-
-    if (!capturePI)
-    {
-        capturePI = new QProgressIndicator(captureProcess.get());
-        captureStatusLayout->insertWidget(-1, capturePI);
-    }
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
@@ -2375,10 +2350,17 @@ void Manager::initFocus()
 
     // Focus <---> Manager connections
     connect(focusProcess.get(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
-    connect(focusProcess.get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::setFocusStatus);
-    connect(focusProcess.get(), &Ekos::Focus::newStarPixmap, this, &Ekos::Manager::updateFocusStarPixmap);
-    connect(focusProcess.get(), &Ekos::Focus::newProfilePixmap, this, &Ekos::Manager::updateFocusProfilePixmap);
-    connect(focusProcess.get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
+    connect(focusProcess.get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::updateFocusStatus);
+    connect(focusProcess.get(), &Ekos::Focus::newStarPixmap, focusManager, &Ekos::FocusManager::updateFocusStarPixmap);
+    connect(focusProcess.get(), &Ekos::Focus::newHFR, focusManager, &Ekos::FocusManager::updateCurrentHFR);
+
+    // connect HFR plot widget
+    connect(focusProcess.get(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
+    connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
+    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
+    connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
+    connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
+
 
     // Focus <---> Filter Manager connections
     focusProcess->setFilterManager(filterManager);
@@ -2403,35 +2385,8 @@ void Manager::initFocus()
         toolsWidget->setTabIcon(index, icon);
     }
 
-    // focus details buttons
-    connect(focusDetailNextButton, &QPushButton::clicked, [this]()
-    {
-        if (currentFocusPixmapIndex == 0 && focusStarPixmap.get() != nullptr)
-            currentFocusPixmapIndex++;
-        else if (currentFocusPixmapIndex > 0)
-            currentFocusPixmapIndex = 0;
-
-        focusDetailView->setToolTip(focusDetailViewTooltips[currentFocusPixmapIndex]);
-        updateFocusDetailView();
-    });
-    connect(focusDetailPrevButton, &QPushButton::clicked, [this]()
-    {
-        if (currentFocusPixmapIndex == 0 && focusStarPixmap.get() != nullptr)
-            currentFocusPixmapIndex++;
-        else if (currentFocusPixmapIndex > 0)
-            currentFocusPixmapIndex = 0;
-
-        focusDetailView->setToolTip(focusDetailViewTooltips[currentFocusPixmapIndex]);
-        updateFocusDetailView();
-    });
-
-    focusGroup->setEnabled(true);
-
-    if (!focusPI)
-    {
-        focusPI = new QProgressIndicator(focusProcess.get());
-        focusTitleLayout->insertWidget(2, focusPI);
-    }
+    focusManager->init(focusProcess.get());
+    focusManager->setEnabled(true);
 
     // Check for weather device to snoop temperature
     for (auto &device : findDevices(KSTARS_WEATHER))
@@ -2446,7 +2401,7 @@ void Manager::initFocus()
 
 void Manager::updateCurrentHFR(double newHFR, int position)
 {
-    currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
+    focusManager->updateCurrentHFR(newHFR);
 
     QJsonObject cStatus =
     {
@@ -2457,41 +2412,13 @@ void Manager::updateCurrentHFR(double newHFR, int position)
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
 }
 
-void Manager::updateFocusDetailView()
-{
-    if (currentFocusPixmapIndex == 0 && focusProfilePixmap.get() != nullptr)
-    {
-        focusDetailView->setPixmap(focusProfilePixmap.get()->scaled(focusDetailView->width(), focusDetailView->height(),
-                                   Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }
-    else if (currentFocusPixmapIndex == 1 && focusStarPixmap.get() != nullptr)
-    {
-        focusDetailView->setPixmap(focusStarPixmap.get()->scaled(focusDetailView->width(), focusDetailView->height(),
-                                   Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }
-}
-
 void Manager::updateSigmas(double ra, double de)
 {
-    errRA->setText(QString::number(ra, 'f', 2) + "\"");
-    errDEC->setText(QString::number(de, 'f', 2) + "\"");
+    guideManager->updateSigmas(ra, de);
 
     QJsonObject cStatus = { {"rarms", ra}, {"derms", de} };
 
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
-}
-
-void Manager::updateGuideDetailView()
-{
-    if (currentGuidePixmapIndex == 0 && guideProfilePixmap.get() != nullptr)
-        guideDetailView->setPixmap(guideProfilePixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
-                                   Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    else if (currentGuidePixmapIndex == 1 && guidePlotPixmap.get() != nullptr)
-        guideDetailView->setPixmap(guidePlotPixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
-                                   Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    else if (currentGuidePixmapIndex == 2 && guideStarPixmap.get() != nullptr)
-        guideDetailView->setPixmap(guideStarPixmap.get()->scaled(guideDetailView->width(), guideDetailView->height(),
-                                   Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 void Manager::initMount()
@@ -2554,12 +2481,6 @@ void Manager::initMount()
         toolsWidget->setTabIcon(index, icon);
     }
 
-    if (!mountPI)
-    {
-        mountPI = new QProgressIndicator(mountProcess.get());
-        mountStatusLayout->insertWidget(-1, mountPI);
-    }
-
     mountGroup->setEnabled(true);
 
     connectModules();
@@ -2592,18 +2513,10 @@ void Manager::initGuide()
         connect(guideProcess.get(), &Ekos::Guide::newLog, this, &Ekos::Manager::updateLog);
         connect(guideProcess.get(), &Ekos::Guide::driverTimedout, this, &Ekos::Manager::restartDriver);
 
-        guideGroup->setEnabled(true);
-
-        if (!guidePI)
-        {
-            guidePI = new QProgressIndicator(guideProcess.get());
-            guideTitleLayout->insertWidget(2, guidePI);
-        }
+        guideManager->setEnabled(true);
 
         connect(guideProcess.get(), &Ekos::Guide::newStatus, this, &Ekos::Manager::updateGuideStatus);
-        connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, this, &Ekos::Manager::updateGuideStarPixmap);
-        connect(guideProcess.get(), &Ekos::Guide::newProfilePixmap, this, &Ekos::Manager::updateGuideProfilePixmap);
-        connect(guideProcess.get(), &Ekos::Guide::newDriftPlotPixmap, this, &Ekos::Manager::updateGuidePlotPixmap);
+        connect(guideProcess.get(), &Ekos::Guide::newStarPixmap, guideManager, &Ekos::GuideManager::updateGuideStarPixmap);
         connect(guideProcess.get(), &Ekos::Guide::newAxisSigma, this, &Ekos::Manager::updateSigmas);
         connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, [&](double ra, double de)
         {
@@ -2620,38 +2533,7 @@ void Manager::initGuide()
             icon        = QIcon(pix.transformed(trans));
             toolsWidget->setTabIcon(index, icon);
         }
-
-        // guide details buttons
-        connect(guideDetailNextButton, &QPushButton::clicked, [this]()
-        {
-            if (currentGuidePixmapIndex == 0 && guidePlotPixmap.get() != nullptr)
-                currentGuidePixmapIndex++;
-            else if (currentGuidePixmapIndex == 1 && guideStarPixmap.get() != nullptr)
-                currentGuidePixmapIndex++;
-            else if (currentGuidePixmapIndex > 0)
-                currentGuidePixmapIndex = 0;
-
-            guideDetailView->setToolTip(guideDetailViewTooltips[currentGuidePixmapIndex]);
-            updateGuideDetailView();
-        });
-        connect(guideDetailPrevButton, &QPushButton::clicked, [this]()
-        {
-            switch (currentGuidePixmapIndex)
-            {
-                case 0:
-                    if (guideStarPixmap.get() != nullptr)
-                        currentGuidePixmapIndex = 2;
-                    else if (guidePlotPixmap.get() != nullptr)
-                        currentGuidePixmapIndex = 1;
-                    break;
-                default:
-                    currentGuidePixmapIndex--;
-                    break;
-            }
-
-            guideDetailView->setToolTip(guideDetailViewTooltips[currentGuidePixmapIndex]);
-            updateGuideDetailView();
-        });
+        guideManager->init(guideProcess.get());
     }
 
     connectModules();
@@ -2810,7 +2692,7 @@ bool Manager::isRunning(const QString &process)
 
 void Manager::addObjectToScheduler(SkyObject * object)
 {
-    if (schedulerProcess.get() != nullptr)
+    if (schedulerProcess.data() != nullptr)
         schedulerProcess->addObject(object);
 }
 
@@ -3087,93 +2969,42 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
 void Manager::updateCaptureStatus(Ekos::CaptureState status)
 {
     captureStatus->setText(Ekos::getCaptureStatusString(status));
-    overallCountDown.setHMS(0, 0, 0);
-    bool infinite_loop = false;
-    int total_remaining_time = 0;
-    double total_percentage = 0;
-
-    if (schedulerProcess.get() != nullptr && schedulerProcess.get()->getCurrentJob() != nullptr)
-    {
-        // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
-        int total_completed = schedulerProcess.get()->getCurrentJob()->getCompletedCount();
-        int total_count     = schedulerProcess.get()->getCurrentJob()->getSequenceCount();
-        infinite_loop       = (schedulerProcess.get()->getCurrentJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
-        overallLabel->setText(QString("Schedule: %1 (%2/%3)")
-                              .arg(getCurrentJobName())
-                              .arg(total_completed)
-                              .arg(infinite_loop ? QString("-") : QString::number(total_count)));
-        if (total_count > 0)
-            total_percentage = (100 * total_completed) / total_count;
-        if (schedulerProcess.get()->getCurrentJob()->getEstimatedTime() > 0)
-            total_remaining_time = schedulerProcess.get()->getCurrentJob()->getEstimatedTime();
-    }
-    else
-    {
-        total_percentage = captureProcess->getProgressPercentage();
-        total_remaining_time = captureProcess->getOverallRemainingTime();
-    }
+    captureCountsWidget->updateCaptureStatus(status);
 
     switch (status)
     {
-        case Ekos::CAPTURE_IDLE:
-            sequenceProgress->setValue(0);
-            captureProgress->setValue(0);
-            sequenceLabel->setText(i18n("Sequence"));
-            overallLabel->setText("Overall");
-            imageRemainingTime->setText("--:--:--");
-            overallRemainingTime->setText("--:--:--");
-            sequenceRemainingTime->setText("--:--:--");
+    case Ekos::CAPTURE_IDLE:
         /* Fall through */
-        case Ekos::CAPTURE_ABORTED:
+    case Ekos::CAPTURE_ABORTED:
         /* Fall through */
-        case Ekos::CAPTURE_COMPLETE:
-            imageProgress->setValue(0);
-            if (capturePI->isAnimated())
-            {
-                capturePI->stopAnimation();
-                countdownTimer.stop();
+    case Ekos::CAPTURE_COMPLETE:
+        if (capturePI->isAnimated())
+        {
+            capturePI->stopAnimation();
+            countdownTimer.stop();
 
-                if (focusStatus->text() == "Complete")
-                {
-                    if (focusPI->isAnimated())
-                        focusPI->stopAnimation();
-                }
-            }
-            break;
-        default:
-            if (infinite_loop == false)
-            {
-                captureProgress->setValue(total_percentage);
-                overallCountDown = overallCountDown.addSecs(total_remaining_time);
-            }
-            else
-            {
-                captureProgress->setValue(0);
-                overallRemainingTime->setText("--:--:--");
-            }
-            captureProgress->setEnabled(infinite_loop == false);
-            overallRemainingTime->setEnabled(infinite_loop == false);
-
-            sequenceCountDown.setHMS(0, 0, 0);
-            sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
-
-            if (status == Ekos::CAPTURE_CAPTURING)
-                capturePI->setColor(Qt::darkGreen);
-            else
-                capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (capturePI->isAnimated() == false)
-            {
-                capturePI->startAnimation();
-                countdownTimer.start();
-            }
-            break;
+            if (getFocusStatusText() == "Complete")
+                focusManager->stopAnimation();
+        }
+        break;
+    default:
+        if (status == Ekos::CAPTURE_CAPTURING)
+            capturePI->setColor(Qt::darkGreen);
+        else
+            capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+        if (capturePI->isAnimated() == false)
+        {
+            capturePI->startAnimation();
+            countdownTimer.start();
+        }
+        break;
     }
 
     QJsonObject cStatus =
     {
         {"status", captureStatus->text()},
-        {"seqt", sequenceRemainingTime->text()},
-        {"ovt", overallRemainingTime->text()}
+        {"seqt", captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovt", captureCountsWidget->overallRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
@@ -3181,31 +3012,13 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
 void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data)
 {
-    // Image is set to nullptr only on initial capture start up
-    int completed = job->getCompleted();
-
-    if (job->isPreview() == false)
-    {
-        sequenceLabel->setText(QString("Job (%1/%2):  %3%4 %5s (%6/%7)")
-                               .arg(captureProcess->getActiveJobID() + 1)
-                               .arg(captureProcess->getJobCount())
-                               .arg(CCDFrameTypeNames[job->getFrameType()])
-                               .arg(static_cast<QString>(job->getFilterName().isEmpty() ? QString("") : " " + job->getFilterName()))
-                               .arg(job->getExposure(), 0, 'f', job->getExposure() >= 1 ? 1 : 3)
-                               .arg(completed)
-                               .arg(job->getCount()));
-    }
-    else
-        sequenceLabel->setText(i18n("Preview"));
-
-    sequenceProgress->setRange(0, job->getCount());
-    sequenceProgress->setValue(completed);
+    captureCountsWidget->updateCaptureProgress(job);
 
     QJsonObject status =
     {
-        {"seqv", completed},
+        {"seqv", job->getCompleted()},
         {"seqr", job->getCount()},
-        {"seql", sequenceLabel->text()}
+        {"seql", captureCountsWidget->sequenceLabel->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
@@ -3231,25 +3044,8 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
     }
 }
 
-void Manager::updateDownloadProgress(double timeLeft)
-{
-    imageCountDown.setHMS(0, 0, 0);
-    imageCountDown = imageCountDown.addSecs(timeLeft);
-    imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
-}
-
 void Manager::updateExposureProgress(Ekos::SequenceJob * job)
 {
-    imageCountDown.setHMS(0, 0, 0);
-    imageCountDown = imageCountDown.addSecs(job->getExposeLeft() + captureProcess->getEstimatedDownloadTime());
-    if (imageCountDown.hour() == 23)
-        imageCountDown.setHMS(0, 0, 0);
-
-    imageProgress->setRange(0, job->getExposure());
-    imageProgress->setValue(job->getExposeLeft());
-
-    imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
-
     QJsonObject status
     {
         {"expv", job->getExposeLeft()},
@@ -3261,69 +3057,25 @@ void Manager::updateExposureProgress(Ekos::SequenceJob * job)
 
 void Manager::updateCaptureCountDown()
 {
-    overallCountDown = overallCountDown.addSecs(-1);
-    if (overallCountDown.hour() == 23)
-        overallCountDown.setHMS(0, 0, 0);
-
-    sequenceCountDown = sequenceCountDown.addSecs(-1);
-    if (sequenceCountDown.hour() == 23)
-        sequenceCountDown.setHMS(0, 0, 0);
-
-    overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
-    sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
+    captureCountsWidget->updateCaptureCountDown(-1);
 
     QJsonObject status =
     {
-        {"seqt", sequenceRemainingTime->text()},
-        {"ovt", overallRemainingTime->text()}
+        {"seqt", captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovt", captureCountsWidget->overallRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
 }
 
-void Manager::updateFocusStarPixmap(QPixmap &starPixmap)
+
+void Manager::updateFocusStatus(Ekos::FocusState status)
 {
-    if (starPixmap.isNull())
-        return;
-
-    focusStarPixmap.reset(new QPixmap(starPixmap));
-    updateFocusDetailView();
-}
-
-void Manager::updateFocusProfilePixmap(QPixmap &profilePixmap)
-{
-    if (profilePixmap.isNull())
-        return;
-
-    focusProfilePixmap.reset(new QPixmap(profilePixmap));
-    updateFocusDetailView();
-}
-
-void Manager::setFocusStatus(Ekos::FocusState status)
-{
-    focusStatus->setText(Ekos::getFocusStatusString(status));
-
-    if (status >= Ekos::FOCUS_PROGRESS)
-    {
-        focusPI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (focusPI->isAnimated() == false)
-            focusPI->startAnimation();
-    }
-    else if (status == Ekos::FOCUS_COMPLETE && Options::enforceAutofocus() && captureProcess->getActiveJobID() != -1)
-    {
-        focusPI->setColor(Qt::darkGreen);
-        if (focusPI->isAnimated() == false)
-            focusPI->startAnimation();
-    }
-    else
-    {
-        if (focusPI->isAnimated())
-            focusPI->stopAnimation();
-    }
+    focusManager->updateFocusStatus(status);
 
     QJsonObject cStatus =
     {
-        {"status", focusStatus->text()}
+        {"status", getFocusStatusText()}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
@@ -3331,80 +3083,13 @@ void Manager::setFocusStatus(Ekos::FocusState status)
 
 void Manager::updateGuideStatus(Ekos::GuideState status)
 {
-    guideStatus->setText(Ekos::getGuideStatusString(status));
-
-    switch (status)
-    {
-        case Ekos::GUIDE_IDLE:
-        case Ekos::GUIDE_CALIBRATION_ERROR:
-        case Ekos::GUIDE_ABORTED:
-        case Ekos::GUIDE_SUSPENDED:
-        case Ekos::GUIDE_DITHERING_ERROR:
-        case Ekos::GUIDE_CALIBRATION_SUCESS:
-            if (guidePI->isAnimated())
-                guidePI->stopAnimation();
-            break;
-
-        case Ekos::GUIDE_CALIBRATING:
-            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-        case Ekos::GUIDE_GUIDING:
-            guidePI->setColor(Qt::darkGreen);
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-        case Ekos::GUIDE_DITHERING:
-            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-        case Ekos::GUIDE_DITHERING_SUCCESS:
-            guidePI->setColor(Qt::darkGreen);
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-
-        default:
-            if (guidePI->isAnimated())
-                guidePI->stopAnimation();
-            break;
-    }
-
+    guideManager->updateGuideStatus(status);
     QJsonObject cStatus =
     {
-        {"status", guideStatus->text()}
+        {"status", getGuideStatusText()}
     };
 
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
-}
-
-void Manager::updateGuideStarPixmap(QPixmap &starPix)
-{
-    if (starPix.isNull())
-        return;
-
-    guideStarPixmap.reset(new QPixmap(starPix));
-    updateGuideDetailView();
-}
-
-void Manager::updateGuideProfilePixmap(QPixmap &profilePix)
-{
-    if (profilePix.isNull())
-        return;
-
-    guideProfilePixmap.reset(new QPixmap(profilePix));
-    updateGuideDetailView();
-}
-
-void Manager::updateGuidePlotPixmap(QPixmap &plotPix)
-{
-    if (plotPix.isNull())
-        return;
-
-    guidePlotPixmap.reset(new QPixmap(plotPix));
-    updateGuideDetailView();
 }
 
 void Manager::setTarget(SkyObject * o)
@@ -3557,33 +3242,33 @@ void Manager::announceEvent(const QString &message, KSNotification::EventType ev
 void Manager::connectModules()
 {
     // Guide <---> Capture connections
-    if (captureProcess.get() && guideProcess.get())
+    if (captureProcess.data() && guideProcess.get())
     {
-        //        captureProcess.get()->disconnect(guideProcess.get());
-        //        guideProcess.get()->disconnect(captureProcess.get());
+        //        captureProcess.data()->disconnect(guideProcess.get());
+        //        guideProcess.get()->disconnect(captureProcess.data());
 
         // Guide Limits
-        connect(guideProcess.get(), &Ekos::Guide::newStatus, captureProcess.get(), &Ekos::Capture::setGuideStatus,
+        connect(guideProcess.get(), &Ekos::Guide::newStatus, captureProcess.data(), &Ekos::Capture::setGuideStatus,
                 Qt::UniqueConnection);
-        connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, captureProcess.get(), &Ekos::Capture::setGuideDeviation,
+        connect(guideProcess.get(), &Ekos::Guide::newAxisDelta, captureProcess.data(), &Ekos::Capture::setGuideDeviation,
                 Qt::UniqueConnection);
 
         // Dithering
-        connect(captureProcess.get(), &Ekos::Capture::newStatus, guideProcess.get(), &Ekos::Guide::setCaptureStatus,
+        connect(captureProcess.data(), &Ekos::Capture::newStatus, guideProcess.get(), &Ekos::Guide::setCaptureStatus,
                 Qt::UniqueConnection);
 
         // Guide Head
-        connect(captureProcess.get(), &Ekos::Capture::suspendGuiding, guideProcess.get(), &Ekos::Guide::suspend,
+        connect(captureProcess.data(), &Ekos::Capture::suspendGuiding, guideProcess.get(), &Ekos::Guide::suspend,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::resumeGuiding, guideProcess.get(), &Ekos::Guide::resume,
+        connect(captureProcess.data(), &Ekos::Capture::resumeGuiding, guideProcess.get(), &Ekos::Guide::resume,
                 Qt::UniqueConnection);
-        connect(guideProcess.get(), &Ekos::Guide::guideChipUpdated, captureProcess.get(), &Ekos::Capture::setGuideChip,
+        connect(guideProcess.get(), &Ekos::Guide::guideChipUpdated, captureProcess.data(), &Ekos::Capture::setGuideChip,
                 Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort,
+        connect(captureProcess.data(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(),
+        connect(captureProcess.data(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(),
                 &Ekos::Guide::guideAfterMeridianFlip, Qt::UniqueConnection);
     }
 
@@ -3607,47 +3292,47 @@ void Manager::connectModules()
     }
 
     // Capture <---> Focus connections
-    if (captureProcess.get() && focusProcess.get())
+    if (captureProcess.data() && focusProcess.get())
     {
         // Check focus HFR value
-        connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
+        connect(captureProcess.data(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
                 Qt::UniqueConnection);
 
         // Reset Focus
-        connect(captureProcess.get(), &Ekos::Capture::resetFocus, focusProcess.get(), &Ekos::Focus::resetFrame,
+        connect(captureProcess.data(), &Ekos::Capture::resetFocus, focusProcess.get(), &Ekos::Focus::resetFrame,
                 Qt::UniqueConnection);
 
         // New Focus Status
-        connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus,
+        connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.data(), &Ekos::Capture::setFocusStatus,
                 Qt::UniqueConnection);
         // New Focus HFR
-        connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.data(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
         // New Focus temperature delta
-        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.get(),
+        connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta, captureProcess.data(),
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::abort,
+        connect(captureProcess.data(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::abort,
                 Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections
-    if (captureProcess.get() && alignProcess.get())
+    if (captureProcess.data() && alignProcess.get())
     {
         // Alignment flag
-        connect(alignProcess.get(), &Ekos::Align::newStatus, captureProcess.get(), &Ekos::Capture::setAlignStatus,
+        connect(alignProcess.get(), &Ekos::Align::newStatus, captureProcess.data(), &Ekos::Capture::setAlignStatus,
                 Qt::UniqueConnection);
         // Solver data
-        connect(alignProcess.get(), &Ekos::Align::newSolverResults, captureProcess.get(),  &Ekos::Capture::setAlignResults,
+        connect(alignProcess.get(), &Ekos::Align::newSolverResults, captureProcess.data(),  &Ekos::Capture::setAlignResults,
                 Qt::UniqueConnection);
         // Capture Status
-        connect(captureProcess.get(), &Ekos::Capture::newStatus, alignProcess.get(), &Ekos::Align::setCaptureStatus,
+        connect(captureProcess.data(), &Ekos::Capture::newStatus, alignProcess.get(), &Ekos::Align::setCaptureStatus,
                 Qt::UniqueConnection);
     }
 
     // Capture <---> Mount connections
-    if (captureProcess.get() && mountProcess.get())
+    if (captureProcess.data() && mountProcess.get())
     {
         // Register both modules since both are now created and ready
         // In case one module misses the DBus signal, then it will be correctly initialized.
@@ -3655,30 +3340,30 @@ void Manager::connectModules()
         mountProcess->registerNewModule("Capture");
 
         // Meridian Flip states
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits,
+        connect(captureProcess.data(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits,
+        connect(captureProcess.data(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::newMeridianFlipStatus, mountProcess.get(),
+        connect(captureProcess.data(), &Ekos::Capture::newMeridianFlipStatus, mountProcess.get(),
                 &Ekos::Mount::meridianFlipStatusChanged, Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus, captureProcess.get(),
+        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus, captureProcess.data(),
                 &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);
 
         // Mount Status
-        connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus,
+        connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.data(), &Ekos::Capture::setMountStatus,
                 Qt::UniqueConnection);
     }
 
     // Capture <---> EkosLive connections
-    if (captureProcess.get() && ekosLiveClient.get())
+    if (captureProcess.data() && ekosLiveClient.get())
     {
-        //captureProcess.get()->disconnect(ekosLiveClient.get()->message());
+        //captureProcess.data()->disconnect(ekosLiveClient.get()->message());
 
-        connect(captureProcess.get(), &Ekos::Capture::dslrInfoRequested, ekosLiveClient.get()->message(),
+        connect(captureProcess.data(), &Ekos::Capture::dslrInfoRequested, ekosLiveClient.get()->message(),
                 &EkosLive::Message::requestDSLRInfo, Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(),
+        connect(captureProcess.data(), &Ekos::Capture::sequenceChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendCaptureSequence, Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(),
+        connect(captureProcess.data(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
     }
 
@@ -3779,19 +3464,19 @@ void Manager::connectModules()
     // Analyze connections.
     if (analyzeProcess.get())
     {
-        if (captureProcess.get())
+        if (captureProcess.data())
         {
-            connect(captureProcess.get(), &Ekos::Capture::captureComplete,
+            connect(captureProcess.data(), &Ekos::Capture::captureComplete,
                     analyzeProcess.get(), &Ekos::Analyze::captureComplete, Qt::UniqueConnection);
-            connect(captureProcess.get(), &Ekos::Capture::captureStarting,
+            connect(captureProcess.data(), &Ekos::Capture::captureStarting,
                     analyzeProcess.get(), &Ekos::Analyze::captureStarting, Qt::UniqueConnection);
-            connect(captureProcess.get(), &Ekos::Capture::captureAborted,
+            connect(captureProcess.data(), &Ekos::Capture::captureAborted,
                     analyzeProcess.get(), &Ekos::Analyze::captureAborted, Qt::UniqueConnection);
 #if 0
             // Meridian Flip
-            connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted,
+            connect(captureProcess.data(), &Ekos::Capture::meridianFlipStarted,
                     analyzeProcess.get(), &Ekos::Analyze::meridianFlipStarted, Qt::UniqueConnection);
-            connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted,
+            connect(captureProcess.data(), &Ekos::Capture::meridianFlipCompleted,
                     analyzeProcess.get(), &Ekos::Analyze::meridianFlipComplete, Qt::UniqueConnection);
 #endif
         }

@@ -1473,10 +1473,10 @@ void Message::sendStates()
         sendResponse(commands[NEW_MOUNT_STATE], mountState);
     }
 
-    QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
+    QJsonObject focusState = {{ "status", m_Manager->getFocusStatusText()}};
     sendResponse(commands[NEW_FOCUS_STATE], focusState);
 
-    QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
+    QJsonObject guideState = {{ "status", m_Manager->getGuideStatusText()}};
     sendResponse(commands[NEW_GUIDE_STATE], guideState);
 
     if (m_Manager->alignModule())
@@ -1639,12 +1639,12 @@ void Message::sendModuleState(const QString &name)
     }
     else if (name == "Focus")
     {
-        QJsonObject focusState = {{ "status", m_Manager->focusStatus->text()}};
+        QJsonObject focusState = {{ "status", m_Manager->getFocusStatusText()}};
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
     else if (name == "Guide")
     {
-        QJsonObject guideState = {{ "status", m_Manager->guideStatus->text()}};
+        QJsonObject guideState = {{ "status", m_Manager->getGuideStatusText()}};
         sendResponse(commands[NEW_GUIDE_STATE], guideState);
     }
     else if (name == "Align")

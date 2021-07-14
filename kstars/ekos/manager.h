@@ -18,6 +18,8 @@
 #include "ui_manager.h"
 
 #include "ekos.h"
+#include "manager/focusmanager.h"
+#include "manager/guidemanager.h"
 #include "align/align.h"
 #include "auxiliary/dome.h"
 #include "auxiliary/weather.h"
@@ -50,7 +52,6 @@ class Message;
 class Media;
 }
 
-class QProgressIndicator;
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
@@ -436,24 +437,18 @@ class Manager : public QDialog, public Ui::Manager
         // Capture Summary
         void updateCaptureStatus(CaptureState status);
         void updateCaptureProgress(SequenceJob *job, const QSharedPointer<FITSData> &data);
-        void updateDownloadProgress(double timeLeft);
         void updateExposureProgress(SequenceJob *job);
         void updateCaptureCountDown();
 
         // Focus summary
-        void setFocusStatus(FocusState status);
-        void updateFocusStarPixmap(QPixmap &starPixmap);
-        void updateFocusProfilePixmap(QPixmap &profilePixmap);
+        void updateFocusStatus(FocusState status);
         void updateCurrentHFR(double newHFR, int position);
-        void updateFocusDetailView();
+        const QString getFocusStatusText() {return focusManager->focusStatus->text();}
 
         // Guide Summary
         void updateGuideStatus(GuideState status);
-        void updateGuideStarPixmap(QPixmap &starPix);
-        void updateGuideProfilePixmap(QPixmap &profilePix);
-        void updateGuidePlotPixmap(QPixmap &plotPix);
         void updateSigmas(double ra, double de);
-        void updateGuideDetailView();
+        const QString getGuideStatusText() {return guideManager->guideStatus->text();}
 
     private:
         explicit Manager(QWidget *parent);
@@ -530,13 +525,13 @@ class Manager : public QDialog, public Ui::Manager
         QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
         // Smart pointers for the various Ekos Modules
-        std::unique_ptr<Capture> captureProcess;
+        QSharedPointer<Capture> captureProcess;
         std::unique_ptr<Focus> focusProcess;
         std::unique_ptr<Guide> guideProcess;
         std::unique_ptr<Align> alignProcess;
         std::unique_ptr<Mount> mountProcess;
         std::unique_ptr<Analyze> analyzeProcess;
-        std::unique_ptr<Scheduler> schedulerProcess;
+        QSharedPointer<Scheduler> schedulerProcess;
         std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<Dome> domeProcess;
         std::unique_ptr<Weather> weatherProcess;
@@ -566,34 +561,13 @@ class Manager : public QDialog, public Ui::Manager
         QSharedPointer<FilterManager> filterManager;
 
         // Mount Summary
-        QProgressIndicator *mountPI { nullptr };
         QPointer<QProcess> indiHubAgent;
 
         // Capture Summary
-        QTime imageCountDown;
-        QTime overallCountDown;
-        QTime sequenceCountDown;
         QTimer countdownTimer;
         QTimer settleTimer;
-        QProgressIndicator *capturePI { nullptr };
         // Preview Frame
         std::unique_ptr<FITSView> summaryPreview;
-
-        // Focus Summary
-        QProgressIndicator *focusPI { nullptr };
-        std::unique_ptr<QPixmap> focusStarPixmap;
-        std::unique_ptr<QPixmap> focusProfilePixmap;
-        int currentFocusPixmapIndex = 0;
-        const QString focusDetailViewTooltips[2] = {"Focus Profile", "Focus Star"};
-
-
-        // Guide Summary
-        QProgressIndicator *guidePI { nullptr };
-        std::unique_ptr<QPixmap> guideStarPixmap;
-        std::unique_ptr<QPixmap> guideProfilePixmap;
-        std::unique_ptr<QPixmap> guidePlotPixmap;
-        int currentGuidePixmapIndex = 0;
-        const QString guideDetailViewTooltips[3] = {"Guide Profile", "Guide Plot", "Guide Star"};
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };

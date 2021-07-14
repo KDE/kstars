@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>806</width>
-    <height>616</height>
+    <width>809</width>
+    <height>684</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
@@ -488,7 +488,7 @@
        <property name="title">
         <string>Guide Info</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="guideInfoLayout">
         <property name="spacing">
          <number>3</number>
         </property>
@@ -504,49 +504,6 @@
         <property name="bottomMargin">
          <number>3</number>
         </property>
-        <item>
-         <layout class="QHBoxLayout" name="stateGroupBox">
-          <item>
-           <widget class="QLabel" name="idlingStateLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Idling</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="preparingStateLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Preparing</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="runningStateLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Running</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <property name="spacing">
@@ -1137,7 +1094,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QCustomPlot" name="driftGraph" native="true">
+             <widget class="GuideDriftGraph" name="driftGraph" native="true">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -1480,7 +1437,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QCustomPlot" name="driftPlot" native="true">
+            <widget class="GuideTargetPlot" name="targetPlot" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -1862,6 +1819,18 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>GuideDriftGraph</class>
+   <extends>QWidget</extends>
+   <header>ekos/guide/guidedriftgraph.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GuideTargetPlot</class>
+   <extends>QWidget</extends>
+   <header>ekos/guide/guidetargetplot.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>

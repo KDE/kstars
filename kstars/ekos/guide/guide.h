@@ -11,6 +11,7 @@
 
 #include "ui_guide.h"
 #include "guideinterface.h"
+#include "guidestatewidget.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/inditelescope.h"
@@ -409,32 +410,15 @@ class Guide : public QWidget, public Ui::Guide
              */
         void setDECSwap(bool enable);
 
-        /** @brief Update colors following a color scheme update notification.
-         */
-        void refreshColorScheme();
-
-        void setupNSEWLabels();
-
         //plot slots
         void handleVerticalPlotSizeChange();
         void handleHorizontalPlotSizeChange();
         void clearGuideGraphs();
         void clearCalibrationGraphs();
         void slotAutoScaleGraphs();
-        void slotZoomInX();
-        void slotZoomOutX();
         void buildTarget();
         void guideHistory();
         void setLatestGuidePoint(bool isChecked);
-        void toggleShowRAPlot(bool isChecked);
-        void toggleShowDEPlot(bool isChecked);
-        void toggleRACorrectionsPlot(bool isChecked);
-        void toggleDECorrectionsPlot(bool isChecked);
-        void toggleShowSNRPlot(bool isChecked);
-        void toggleShowRMSPlot(bool isChecked);
-        void exportGuideData();
-        void setCorrectionGraphScale();
-        void updateCorrectionsScaleVisibility();
 
         void updateDirectionsFromPHD2(const QString &mode);
 
@@ -460,12 +444,6 @@ class Guide : public QWidget, public Ui::Guide
         void saveDefaultGuideExposure();
 
         void updateTrackingBoxSize(int currentIndex);
-
-        // Display guide information when hovering over the drift graph
-        void driftMouseOverLine(QMouseEvent *event);
-
-        // Reset graph if right clicked
-        void driftMouseClicked(QMouseEvent *event);
 
         //void onXscaleChanged( int i );
         //void onYscaleChanged( int i );
@@ -525,11 +503,6 @@ class Guide : public QWidget, public Ui::Guide
         void resizeEvent(QResizeEvent *event) override;
 
         /**
-             * @brief zoomX zooms in or out of the X-axis of the drift graph.
-             */
-        void zoomX(int zoomLevel);
-
-        /**
              * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
              */
         void updateGuideParams();
@@ -568,10 +541,6 @@ class Guide : public QWidget, public Ui::Guide
          */
         void prepareCapture(ISD::CCDChip *targetChip);
 
-        /**
-         * @brief setRMSVisibility Decides which RMS plot is visible.
-         */
-        void setRMSVisibility();
 
         void handleManualDither();
 
@@ -583,7 +552,6 @@ class Guide : public QWidget, public Ui::Guide
         // Init Functions
         void initPlots();
         void initDriftGraph();
-        void initDriftPlot();
         void initCalibrationPlot();
         void initView();
         void initConnections();
@@ -630,6 +598,7 @@ class Guide : public QWidget, public Ui::Guide
 
         // State
         GuideState state { GUIDE_IDLE };
+        GuideStateWidget *guideStateWidget { nullptr };
 
         // Guide timer
         QTime guideTimer;
@@ -686,13 +655,7 @@ class Guide : public QWidget, public Ui::Guide
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
 
-        QCPCurve *centralTarget { nullptr };
-        QCPCurve *yellowTarget { nullptr };
-        QCPCurve *redTarget { nullptr };
-        QCPCurve *concentricRings { nullptr };
-
         bool graphOnLatestPt = true;
-        QUrl guideURLPath;
 
         //This is for enforcing the PHD2 Star lock when Guide is pressed,
         //autostar is not selected, and the user has chosen a star.
@@ -700,14 +663,6 @@ class Guide : public QWidget, public Ui::Guide
         QMetaObject::Connection guideConnect;
 
         QCPItemText *calLabel  { nullptr };
-
-        // State
-        KLed * idlingStateLed { nullptr };
-        KLed * preparingStateLed { nullptr };
-        KLed * runningStateLed { nullptr };
-
-        // Axis for the SNR part of the driftGraph. Qt owns this pointer's memory.
-        QCPAxis *snrAxis;
 
         // The scales of these zoom levels are defined in Guide::zoomX().
         static constexpr int defaultXZoomLevel = 3;

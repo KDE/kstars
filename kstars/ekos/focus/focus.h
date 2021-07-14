@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ui_focus.h"
+#include "focusprofileplot.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
@@ -396,7 +397,10 @@ class Focus : public QWidget, public Ui::Focus
 
 
 
-    private slots:
+protected:
+        void addPlotPosition(int pos, double hfr);
+
+private slots:
         /**
              * @brief toggleSubframe Process enabling and disabling subfrag.
              * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
@@ -423,8 +427,6 @@ class Focus : public QWidget, public Ui::Focus
 
         void syncSettings();
 
-        void graphPolynomialFunction();
-
         void calculateHFR();
         void setCurrentHFR(double value);
 
@@ -441,13 +443,53 @@ class Focus : public QWidget, public Ui::Focus
         void resumeGuiding();
         void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
-        void newProfilePixmap(QPixmap &);
         void settingsUpdated(const QJsonObject &settings);
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
+
+        // HFR V curve plot events
+        /**
+         * @brief initialize the HFR V plot
+         * @param showPosition show focuser position (true) or count focus iterations (false)
+         */
+        void initHFRPlot(bool showPosition);
+
+        /**
+          * @brief new HFR plot position
+          * @param pos focuser position
+          * @param hfr measured star HFR value
+          * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
+          *        or the number of ticks in a relative or absolute focuser
+          * */
+        void newHFRPlotPosition(double pos, double hfr, int pulseDuration);
+
+        /**
+         * @brief draw the approximating polynomial into the HFR V-graph
+         * @param poly pointer to the polynomial approximation
+         * @param isVShape has the solution a V shape?
+         * @param activate make the graph visible?
+         */
+        void drawPolynomial(PolynomialFit *poly, bool isVShape, bool activate);
+
+        /**
+         * @brief Focus solution with minimal HFR found
+         * @param solutionPosition focuser position
+         * @param solutionValue HFR value
+         */
+        void minimumFound(double solutionPosition, double solutionValue);
+
+        /**
+         * @brief redraw the entire HFR plot
+         * @param poly pointer to the polynomial approximation
+         * @param solutionPosition solution focuser position
+         * @param solutionValue solution HFR value
+         */
+        void redrawHFRPlot(PolynomialFit *poly, double solutionPosition, double solutionValue);
+
+
     private:
 
         QList<SSolver::Parameters> m_StellarSolverProfiles;
@@ -476,9 +518,6 @@ class Focus : public QWidget, public Ui::Focus
         /// HFR Plot
         ////////////////////////////////////////////////////////////////////
         void initPlots();
-        void drawHFRPlot();
-        void drawHFRIndeces();
-        void drawProfilePlot();
 
         ////////////////////////////////////////////////////////////////////
         /// Positions
@@ -488,6 +527,11 @@ class Focus : public QWidget, public Ui::Focus
         void autoFocusAbs();
         void autoFocusLinear();
         void autoFocusRel();
+
+        /** @brief Helper function determining whether the focuser behaves like a position
+         *         based one (vs. a timer based)
+         */
+        bool isPositionBased() {return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR));}
         void resetButtons();
         void stop(bool aborted = false);
 
@@ -694,21 +738,10 @@ class Focus : public QWidget, public Ui::Focus
         double minPos { 1e6 };
         /// Plot maximum positions
         double maxPos { 0 };
-        /// List of V curve plot points
-        /// V-Curve graph
-        QCPGraph *v_graph { nullptr };
 
-        // Last gaussian fit values
-        QVector<double> lastGausIndexes;
-        QVector<double> lastGausFrequencies;
-        QCPGraph *currentGaus { nullptr };
-        QCPGraph *firstGaus { nullptr };
-        QCPGraph *lastGaus { nullptr };
-
+        /// HFR V curve plot points
         QVector<double> hfr_position, hfr_value;
-
-        // Pixmaps
-        QPixmap profilePixmap;
+        bool isVShapeSolution = false;
 
         /// State
         Ekos::FocusState state { Ekos::FOCUS_IDLE };
@@ -738,15 +771,12 @@ class Focus : public QWidget, public Ui::Focus
         QVector<QVector3D> starsHFR;
 
         /// Relative Profile
-        QCustomPlot *profilePlot { nullptr };
+        FocusProfilePlot *profilePlot { nullptr };
         QDialog *profileDialog { nullptr };
 
         /// Polynomial fitting.
         std::unique_ptr<PolynomialFit> polynomialFit;
         int polySolutionFound { 0 };
-        QCPGraph *polynomialGraph = nullptr;
-        QCPGraph *focusPoint = nullptr;
-        bool polynomialGraphIsShown = false;
 
         // Capture timers
         QTimer captureTimer;

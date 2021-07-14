@@ -27,11 +27,13 @@ public:
     // Returns false if the polynomial couldn't be solved.
     bool findMinimum(double expected, double minPosition, double maxPosition, double *position, double *value);
 
-    // Draws the polynomial on the plot's graph.
-    void drawPolynomial(QCustomPlot *plot, QCPGraph *graph);
-    // Annotate's the plot's solution graph with the solution position.
-    void drawMinimum(QCustomPlot *plot, QCPGraph *solutionGraph,
-                     double solutionPosition, double solutionValue, const QFont& font);
+    /**
+     * @brief Polynomial function f(x)
+     * @param x argument
+     * @return f(x)
+     */
+    double f(double x);
+
 
 private:
     // Solves for the polynomial coefficients.

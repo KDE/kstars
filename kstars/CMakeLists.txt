@@ -102,6 +102,8 @@ if (INDI_FOUND)
         set(ekosui_SRCS
             ekos/opsekos.ui
             ekos/manager.ui
+            ekos/manager/focusmanager.ui
+            ekos/manager/guidemanager.ui
             ekos/profileeditor.ui
             ekos/profilewizard.ui
             # Analyze
@@ -112,6 +114,7 @@ if (INDI_FOUND)
             # Capture
             ekos/capture/capture.ui
             ekos/capture/calibrationoptions.ui
+            ekos/capture/capturecountswidget.ui
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
@@ -132,6 +135,7 @@ if (INDI_FOUND)
             ekos/mount/mount.ui
             # Guide
             ekos/guide/guide.ui
+            ekos/guide/guidestatewidget.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
             ekos/guide/opsgpg.ui
@@ -155,6 +159,8 @@ if (INDI_FOUND)
         set(ekos_SRCS
             ekos/ekos.cpp
             ekos/manager.cpp
+            ekos/manager/focusmanager.cpp
+            ekos/manager/guidemanager.cpp
             ekos/profileeditor.cpp
             ekos/profilewizard.cpp
             ekos/qMDNS.cpp
@@ -177,6 +183,7 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturecountswidget.cpp
             ekos/capture/sequencejob.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
@@ -194,6 +201,8 @@ if (INDI_FOUND)
 
             # Focus
             ekos/focus/focus.cpp
+            ekos/focus/focushfrvplot.cpp
+            ekos/focus/focusprofileplot.cpp
             ekos/focus/focusalgorithms.cpp
             ekos/focus/polynomialfit.cpp
 
@@ -220,10 +229,13 @@ if (INDI_FOUND)
 
             # Guide
             ekos/guide/guide.cpp
+            ekos/guide/guidestatewidget.cpp
             ekos/guide/guideinterface.cpp
             ekos/guide/opscalibration.cpp
             ekos/guide/opsguide.cpp
             ekos/guide/opsgpg.cpp
+            ekos/guide/guidedriftgraph.cpp
+            ekos/guide/guidetargetplot.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
             ekos/guide/internalguide/internalguider.cpp

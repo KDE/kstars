@@ -55,8 +55,9 @@ ADD_TEST(NAME TestEkosCaptureCount COMMAND test_ekos_capture_count)
 
 ADD_EXECUTABLE(test_ekos_align ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_align.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_align ${KSTARS_UI_EKOS_LIBS})
-ADD_TEST(NAME TestEkosAlign COMMAND test_ekos_align)
-SET_TESTS_PROPERTIES( TestEkosAlign PROPERTIES LABELS "unstable;ui" TIMEOUT 300 )
+# excluded to avoid CI timelimit failure
+# ADD_TEST(NAME TestEkosAlign COMMAND test_ekos_align)
+# SET_TESTS_PROPERTIES( TestEkosAlign PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )
 
 ADD_EXECUTABLE(test_ekos_meridianflip ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip ${KSTARS_UI_EKOS_LIBS})

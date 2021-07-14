@@ -27,12 +27,12 @@
     for (auto loc: locs) { \
         QString const path = KSPaths::writableLocation(loc); \
         if (!QDir(path).removeRecursively()) \
-            qFatal(qPrintable(QString("Local application location '%1' must be removable.").arg(path))); \
+            qFatal("Local application location '%s' must be removable.", qPrintable(path)); \
         if (QDir(KSPaths::writableLocation(loc)).exists()) \
-            qFatal(qPrintable(QString("Local application location '%1' must not exist after having been removed.").arg(path))); \
+            qFatal("Local application location '%s' must not exist after having been removed.", qPrintable(path)); \
         if (recreate) \
             if (!QDir(path).mkpath(".")) \
-                qFatal(qPrintable(QString("Local application location '%1' must be recreatable.").arg(path))); \
+                qFatal("Local application location '%s' must be recreatable.", qPrintable(path)); \
         }} while(false)
 
 #define KTEST_CLEAN_RCFILE() do { \
