@@ -966,14 +966,14 @@ selected object.
 </mediaobject>
 </screenshot>
 <para>
-In the top right you can choose whether coordinated are being
+In the top right you can choose whether coordinates are being
 expressed in degrees or
 hours/minutes/seconds. The <guilabel>Mapping</guilabel> section lets
 you map columns in the CSV file to data fields in
 &kstars;. Selecting <guilabel>Ignore</guilabel> assigns the default
 value for this field. Entering your own text will use this as the
 value for every object being read.  The <guilabel>Type
-Mapping</guilabel> sections maps strings to object types. You can add
+Mapping</guilabel> section maps strings to object types. You can add
 and remove mappings by clicking <guilabel>+</guilabel>
 or <guilabel>-</guilabel>.  When you're done mapping, you can test
 your settings by clicking <guilabel>Preview</guilabel> to read the
