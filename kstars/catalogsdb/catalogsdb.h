@@ -238,6 +238,14 @@ class DBManager
                                            const int limit = -1);
 
     /**
+     * \brief Find an objects by searching the name four wildcard. See
+     * the LIKE sqlite statement.
+     *
+     * \return a list of matching objects
+     */
+    CatalogObjectList find_objects_by_wildcard(const QString &wildcard,
+                                               const int limit = -1);
+    /**
      * \brief Get an object by \p `oid`. Optinally a \p `catalog_id` can be speicfied.
      *
      * \returns if the object was found and the object itself

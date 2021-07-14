@@ -1055,3 +1055,19 @@ CatalogsDB::DBManager::add_objects(const int catalog_id,
     return { m_db.commit() && update_catalog_views() && compile_master_catalog(),
              m_db.lastError().text() };
 };
+
+DBManager::CatalogObjectList
+CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard, const int limit)
+{
+    QMutexLocker _{ &m_mutex };
+
+    QSqlQuery query{ m_db };
+    if (!query.prepare(SqlStatements::dso_by_wildcard()))
+    {
+        return {};
+    }
+    query.bindValue(":wildcard", wildcard);
+    query.bindValue(":limit", limit);
+
+    return fetch_objects(query);
+};

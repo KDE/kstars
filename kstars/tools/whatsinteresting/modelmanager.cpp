@@ -293,7 +293,7 @@ void ModelManager::loadCatalog(const QString &name)
 
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
 
-    m_CatalogMap[id] = manager.find_objects_by_name(search_prefixes.at(name));
+    m_CatalogMap[id] = manager.find_objects_by_wildcard(search_prefixes.at(name) + "%");
     auto &lst        = m_CatalogSkyObjItems[id];
 
     for (auto &obj : m_CatalogMap[id])

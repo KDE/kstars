@@ -341,6 +341,14 @@ inline const QString dso_by_name_and_catalog(const int id)
         .arg(mag_asc);
 }
 
+const QString _dso_by_wildcard =
+    "SELECT %1 FROM master WHERE name LIKE :wildcard LIMIT :limit ";
+
+inline const QString dso_by_wildcard()
+{
+    return QString(_dso_by_wildcard).arg(object_fields);
+}
+
 const QString _dso_by_maglim = "SELECT %1 FROM master WHERE magnitude < :maglim "
                                "ORDER BY %2 LIMIT :limit";
 
