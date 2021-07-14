@@ -554,7 +554,7 @@ void Message::sendFilterWheels()
             break;
 
         QJsonArray filters;
-        for (const auto &it: *filterNames)
+        for (const auto &it : *filterNames)
             filters.append(it.getText());
 
         QJsonObject oneFilter =
@@ -1122,6 +1122,10 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     {
         m_Manager->setProfileMapping(payload);
     }
+    else if (command == commands[SET_PROFILE_PORT_SELECTION])
+    {
+        m_Manager->acceptPortSelection();
+    }
 }
 
 void Message::sendProfiles()
@@ -1350,6 +1354,11 @@ void Message::requestDSLRInfo(const QString &cameraName)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(
         QJsonDocument::Compact));
+}
+
+void Message::requestPortSelection()
+{
+    m_WebSocket.sendTextMessage(QJsonDocument({"type", commands[GET_PROFILE_PORT_SELECTION]}).toJson(QJsonDocument::Compact));
 }
 
 void Message::sendDialog(const QJsonObject &message)

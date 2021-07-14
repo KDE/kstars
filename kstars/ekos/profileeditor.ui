@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
-    <height>404</height>
+    <width>608</width>
+    <height>417</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -84,6 +84,19 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="portSelectorCheck">
+          <property name="toolTip">
+           <string>Show port selector dialog when first connecting to equipment. It is automatically disabled after connection is established.</string>
+          </property>
+          <property name="text">
+           <string>Port Selector</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="loadSiteCheck">

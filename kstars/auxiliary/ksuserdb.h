@@ -380,5 +380,5 @@ class KSUserDB
         /** XML reader for importing old formats **/
         QXmlStreamReader *reader_ { nullptr };
 
-        static const uint16_t SCHEMA_VERSION = 307;
+        static const uint16_t SCHEMA_VERSION = 308;
 };

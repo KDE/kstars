@@ -31,7 +31,7 @@
 #include "analyze/analyze.h"
 #include "observatory/observatory.h"
 #include "auxiliary/filtermanager.h"
-#include "auxiliary/serialportassistant.h"
+#include "auxiliary/portselector.h"
 #include "ksnotification.h"
 // Can't use forward declaration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
@@ -73,7 +73,7 @@ class KPageWidgetItem;
  *  Ekos Manager provides a summary of operations progress in the <i>Summary</i> section of the <i>Setup</i> tab.
  *
  * @author Jasem Mutlaq
- * @version 1.7
+ * @version 1.8
  */
 namespace Ekos
 {
@@ -333,6 +333,11 @@ class Manager : public QDialog, public Ui::Manager
          */
         Q_SCRIPTABLE void setEkosLiveUser(const QString &username, const QString &password);
 
+        /**
+         * @brief acceptPortSelection Accept current port selection settings in the Selector Dialog
+         */
+        Q_SCRIPTABLE void acceptPortSelection();
+
     signals:
         // Have to use full Ekos::CommunicationStatus for DBus signal to work
         void ekosStatusChanged(Ekos::CommunicationStatus status);
@@ -497,6 +502,8 @@ class Manager : public QDialog, public Ui::Manager
         {
             m_ProfileMapping = payload;
         }
+        // Port Selector Save profile when connect all is pressed
+        void setPortSelectionComplete();
         // Check if the driver binary must be one only to avoid duplicate instances
         // Some driver binaries support multiple devices per binary
         // so we only need to start a single instance to handle them all.
@@ -591,8 +598,8 @@ class Manager : public QDialog, public Ui::Manager
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };
 
-        // Serial Port Assistant
-        std::unique_ptr<SerialPortAssistant> serialPortAssistant;
+        // Port Selector
+        std::unique_ptr<Selector::Dialog> m_PortSelector;
 
         // Logs
         QPointer<OpsLogs> opsLogs;

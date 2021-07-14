@@ -169,16 +169,17 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             &EkosLive::Message::setBoundingRect);
     connect(ekosLiveClient.get()->message(), &EkosLive::Message::resetPolarView, ekosLiveClient.get()->media(),
             &EkosLive::Media::resetPolarView);
-    //    connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(),
-    //            &EkosLive::Media::sendPreviewJPEG);
     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendDialog);
 
-    // Serial Port Assistant
-    connect(serialPortAssistantB, &QPushButton::clicked, [&]()
+    // Port Selector
+    connect(portSelectorB, &QPushButton::clicked, [&]()
     {
-        serialPortAssistant->show();
-        serialPortAssistant->raise();
+        if (m_PortSelector)
+        {
+            m_PortSelector->show();
+            m_PortSelector->raise();
+        }
     });
 
     connect(this, &Ekos::Manager::ekosStatusChanged, [&](Ekos::CommunicationStatus status)
@@ -461,28 +462,28 @@ int Manager::addModuleTab(Manager::EkosModule module, QWidget *tab, const QIcon 
     int index = 0;
     switch(module)
     {
-    case EkosModule::Observatory:
-        index += guideProcess ? 1 : 0;
-    case EkosModule::Guide:
-        index += alignProcess ? 1 : 0;
-    case EkosModule::Align:
-        index += mountProcess ? 1 : 0;
-    case EkosModule::Mount:
-        index += focusProcess ? 1 : 0;
-    case EkosModule::Focus:
-        index += captureProcess ? 1 : 0;
-    case EkosModule::Capture:
-        index += analyzeProcess ? 1 : 0;
-    case EkosModule::Analyze:
-        index += schedulerProcess ? 1 : 0;
-    case EkosModule::Scheduler:
-        index += 1;
-    case EkosModule::Setup:
-        // do nothing
-        break;
-    default:
-        index = toolsWidget->count();
-        break;
+        case EkosModule::Observatory:
+            index += guideProcess ? 1 : 0;
+        case EkosModule::Guide:
+            index += alignProcess ? 1 : 0;
+        case EkosModule::Align:
+            index += mountProcess ? 1 : 0;
+        case EkosModule::Mount:
+            index += focusProcess ? 1 : 0;
+        case EkosModule::Focus:
+            index += captureProcess ? 1 : 0;
+        case EkosModule::Capture:
+            index += analyzeProcess ? 1 : 0;
+        case EkosModule::Analyze:
+            index += schedulerProcess ? 1 : 0;
+        case EkosModule::Scheduler:
+            index += 1;
+        case EkosModule::Setup:
+            // do nothing
+            break;
+        default:
+            index = toolsWidget->count();
+            break;
     }
 
     toolsWidget->insertTab(index, tab, icon, "");
@@ -532,6 +533,7 @@ void Manager::reset()
     dustCapProcess.reset();
 
     DarkLibrary::Release();
+    m_PortSelector.reset();
 
     Ekos::CommunicationStatus previousStatus;
 
@@ -596,9 +598,8 @@ void Manager::processINDI()
 void Manager::stop()
 {
     cleanDevices();
-
-    serialPortAssistant.reset();
-    serialPortAssistantB->setEnabled(false);
+    m_PortSelector.reset();
+    portSelectorB->setEnabled(false);
 
     if (indiHubAgent)
         indiHubAgent->terminate();
@@ -1265,28 +1266,6 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
     connect(devInterface, &ISD::GDInterface::lightUpdated, this, &Ekos::Manager::processNewLight);
     connect(devInterface, &ISD::GDInterface::BLOBUpdated, this, &Ekos::Manager::processNewBLOB);
 
-    if (currentProfile->isStellarMate)
-    {
-        connect(devInterface, &ISD::GDInterface::systemPortDetected, [this, devInterface]()
-        {
-            if (!serialPortAssistant)
-            {
-                serialPortAssistant.reset(new SerialPortAssistant(currentProfile, this));
-                serialPortAssistantB->setEnabled(true);
-            }
-
-            uint32_t driverInterface = devInterface->getDriverInterface();
-            // Ignore CCD interface
-            if (driverInterface & INDI::BaseDevice::CCD_INTERFACE)
-                return;
-
-            serialPortAssistant->addDevice(devInterface);
-
-            if (Options::autoLoadSerialAssistant())
-                serialPortAssistant->show();
-        });
-    }
-
     if (nDevices <= 0)
     {
         m_ekosStatus = Ekos::Success;
@@ -1294,7 +1273,6 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
-        //controlPanelB->setEnabled(true);
 
         if (m_LocalMode == false && nDevices == 0)
         {
@@ -1302,6 +1280,27 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
                 appendLogText(i18n("Remote devices established."));
             else
                 appendLogText(i18n("Remote devices established. Please connect devices."));
+        }
+
+        if (!m_PortSelector)
+        {
+            portSelectorB->setEnabled(false);
+            m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
+        }
+
+        if (m_PortSelector && currentProfile->portSelector)
+        {
+            if (m_PortSelector->empty() == false)
+            {
+                m_PortSelector->show();
+                m_PortSelector->raise();
+
+                ekosLiveClient.get()->message()->requestPortSelection();
+            }
+            // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
+            else if (currentProfile->autoConnect)
+                setPortSelectionComplete();
         }
     }
 }
@@ -1865,34 +1864,21 @@ void Manager::processNewProperty(INDI::Property prop)
 
     ekosLiveClient.get()->message()->processNewProperty(prop);
 
-    if (prop->isNameMatch("CONNECTION") && currentProfile->autoConnect)
+    if (prop->isNameMatch("CONNECTION") && currentProfile->autoConnect && currentProfile->portSelector == false)
     {
-        // Check if we need to do any mappings
-        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
-        // If we don't have port mapping, then we connect immediately.
-        if (port.isEmpty())
-            QTimer::singleShot(50, this, [deviceInterface]()
-        {
-            deviceInterface->Connect();
-        });
-
+        deviceInterface->Connect();
         return;
     }
 
-    if (prop->isNameMatch("DEVICE_PORT"))
+    if (prop->isNameMatch("DEVICE_PORT_SCAN") || prop->isNameMatch("CONNECTION_TYPE"))
     {
-        // Check if we need to do any mappings
-        const QString port = m_ProfileMapping.value(QString(deviceInterface->getDeviceName())).toString();
-        if (!port.isEmpty())
+        if (!m_PortSelector)
         {
-            auto tvp = prop->getText();
-            tvp->at(0)->setText(port.toLatin1().data());
-            deviceInterface->getDriverInfo()->getClientManager()->sendNewText(tvp);
-            // Now connect if we need to.
-            if (currentProfile->autoConnect)
-                deviceInterface->Connect();
-            return;
+            m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
+            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
+        portSelectorB->setEnabled(true);
+        m_PortSelector->addDevice(deviceInterface);
     }
 
     // Check if we need to turn on DEBUG for logging purposes
@@ -4055,5 +4041,24 @@ void Manager::setEkosLoggingEnabled(const QString &name, bool enabled)
         Options::setObservatoryLogging(enabled);
         KSUtils::Logging::SyncFilterRules();
     }
+}
+
+void Manager::acceptPortSelection()
+{
+    if (m_PortSelector)
+        m_PortSelector->accept();
+}
+
+void Manager::setPortSelectionComplete()
+{
+    if (currentProfile->portSelector)
+    {
+        // Turn off port selector
+        currentProfile->portSelector = false;
+        KStarsData::Instance()->userdb()->SaveProfile(currentProfile);
+    }
+
+    if (currentProfile->autoConnect)
+        connectDevices();
 }
 }

@@ -173,6 +173,7 @@ if (INDI_FOUND)
             ekos/auxiliary/stellarsolverprofileeditor.cpp
             ekos/auxiliary/stellarsolverprofile.cpp
             ekos/auxiliary/serialportassistant.cpp
+            ekos/auxiliary/portselector.cpp
 
             # Capture
             ekos/capture/capture.cpp

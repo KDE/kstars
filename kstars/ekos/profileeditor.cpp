@@ -233,6 +233,8 @@ void ProfileEditor::saveProfile()
 
     // Auto Connect
     pi->autoConnect = ui->autoConnectCheck->isChecked();
+    // Port Selector
+    pi->portSelector = ui->portSelectorCheck->isChecked();
 
     // Guider Type
     pi->guidertype = ui->guideTypeCombo->currentIndex();
@@ -382,6 +384,7 @@ void ProfileEditor::setPi(ProfileInfo *newProfile)
 
     ui->loadSiteCheck->setChecked(!pi->city.isEmpty());
     ui->autoConnectCheck->setChecked(pi->autoConnect);
+    ui->portSelectorCheck->setChecked(pi->portSelector);
 
     if (pi->city.isEmpty() == false)
     {
@@ -927,6 +930,7 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
 {
     ui->profileIN->setText(profile["name"].toString());
     ui->autoConnectCheck->setChecked(profile["auto_connect"].toBool(true));
+    ui->portSelectorCheck->setChecked(profile["port_selector"].toBool(false));
     ui->localMode->setChecked(profile["mode"].toString() == "local");
     ui->remoteMode->setChecked(profile["mode"].toString() == "remote");
     ui->remoteHost->setText(profile["remote_host"].toString("localhost"));

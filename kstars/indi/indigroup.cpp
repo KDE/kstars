@@ -59,7 +59,7 @@ INDI_G::~INDI_G()
 
 bool INDI_G::addProperty(INDI::Property newProperty)
 {
-    if (!newProperty.getRegistered())
+    if (!newProperty.isValid())
         return false;
 
     QString name(newProperty.getName());
@@ -68,11 +68,11 @@ bool INDI_G::addProperty(INDI::Property newProperty)
     if (getProperty(name))
         return false;
 
-    if (m_Dirty)
-    {
-        resetLayout();
-        m_Dirty = false;
-    }
+    //    if (m_Dirty)
+    //    {
+    //        m_Dirty = false;
+    //        resetLayout();
+    //    }
 
     INDI_P *property = new INDI_P(this, newProperty);
     m_PropertiesList.append(property);
