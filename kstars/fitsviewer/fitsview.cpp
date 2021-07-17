@@ -959,8 +959,10 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
     if (showObjects)
         drawObjectNames(painter, scale);
 
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
     if (showEQGrid)
         drawEQGrid(painter, scale);
+#endif
 
     if (showPixelGrid)
         drawPixelGrid(painter, scale);
@@ -1335,6 +1337,7 @@ judge which gridLines to draw.  Then it calls the drawEQGridlines methods below
 to draw gridlines at those specific RA and Dec values.
  */
 
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 void FITSView::drawEQGrid(QPainter * painter, double scale)
 {
     const int image_width = m_ImageData->width();
@@ -1499,6 +1502,7 @@ void FITSView::drawEQGrid(QPainter * painter, double scale)
         }
     }
 }
+#endif
 
 bool FITSView::pointIsInImage(QPointF pt, double scale)
 {

@@ -128,7 +128,10 @@ class FITSView : public QScrollArea
         void drawTrackingBox(QPainter *, double scale);
         void drawMarker(QPainter *, double scale);
         void drawCrosshair(QPainter *, double scale);
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
         void drawEQGrid(QPainter *, double scale);
+#endif
         void drawObjectNames(QPainter *painter, double scale);
         void drawPixelGrid(QPainter *painter, double scale);
         void drawMagnifyingGlass(QPainter *painter, double scale);
