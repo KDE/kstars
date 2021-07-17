@@ -59,7 +59,8 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-const QString FITSData::m_TemporaryPath = QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName()).path();
+const QString FITSData::m_TemporaryPath = QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
+        qAppName()).path();
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
@@ -3913,7 +3914,7 @@ template <typename T> void FITSData::constructHistogramInternal()
         m_HistogramIntensity[n].fill(0, m_HistogramBinCount + 1);
         m_HistogramFrequency[n].fill(0, m_HistogramBinCount + 1);
         m_CumulativeFrequency[n].fill(0, m_HistogramBinCount + 1);
-        m_HistogramBinWidth[n] = (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1);
+        m_HistogramBinWidth[n] = qMax(1.0, (m_Statistics.max[n] - m_Statistics.min[n]) / (m_HistogramBinCount - 1));
     }
 
     QVector<QFuture<void>> futures;
