@@ -58,7 +58,6 @@ class SequenceJob : public QObject
         ~SequenceJob() = default;
 
         CAPTUREResult capture(bool autofocusReady);
-        void reset();
         void abort();
         void done();
         void prepareCapture();

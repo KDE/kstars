@@ -754,13 +754,11 @@ void Capture::stop(CaptureState targetState)
         if (activeJob->isPreview() == false)
         {
             activeJob->disconnect(this);
-            activeJob->reset();
         }
         // or preview job in calibration stage
         else if (calibrationStage == CAL_CALIBRATION)
         {
             activeJob->disconnect(this);
-            activeJob->reset();
             activeJob->setPreview(false);
             currentCCD->setUploadMode(rememberUploadMode);
         }
