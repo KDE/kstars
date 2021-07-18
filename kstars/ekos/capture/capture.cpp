@@ -119,6 +119,12 @@ Capture::Capture()
 
     connect(clearConfigurationB, &QPushButton::clicked, this, &Ekos::Capture::clearCameraConfiguration);
 
+    darkB->setChecked(Options::autoDark());
+    connect(darkB, &QAbstractButton::toggled, this, [this]()
+    {
+        Options::setAutoDark(darkB->isChecked());
+    });
+
     connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultFilterWheel);
     connect(filterWheelS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
@@ -1682,45 +1688,14 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         if (activeJob->isPreview() && previewB->isEnabled() == false)
             previewB->setEnabled(true);
 
-        // m_isLooping client-side looping (next capture starts after image is downloaded to client)
-        // currentCCD->isLooping driver side looping (without any delays, next capture starts after driver reads data)
-        if (data && m_isLooping == false && currentCCD->isLooping() == false)
+        // If dark is selected, perform dark substraction.
+        if (data && darkB->isChecked() && activeJob->isPreview() && useGuideHead == false)
         {
-            disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
-
-            //            if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
-            //            {
-            //                uint16_t offsetX       = static_cast<uint16_t>(activeJob->getSubX() / activeJob->getXBin());
-            //                uint16_t offsetY       = static_cast<uint16_t>(activeJob->getSubY() / activeJob->getYBin());
-
-            //                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-            //                {
-            //                    if (currentCCD->isLooping() == false)
-            //                        DarkLibrary::Instance()->disconnect(this);
-            //                    if (completed)
-            //                    {
-            //                        FITSView *view = targetChip->getImageView(FITS_NORMAL);
-            //                        if (view)
-            //                        {
-            //                            view->rescale(ZOOM_KEEP_LEVEL);
-            //                            view->updateFrame();
-            //                        }
-            //                        setCaptureComplete();
-            //                    }
-            //                    else
-            //                        abort();
-            //                });
-
-            //                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Capture::appendLogText);
-            //                DarkLibrary::Instance()->captureAndSubtract(targetChip, m_ImageData, activeJob->getExposure(),
-            //                        targetChip->getCaptureFilter(), offsetX, offsetY);
-            //                return;
-            //            }
+            // Dark subtract the frame if possible.
+            DarkLibrary::Instance()->denoise(targetChip, m_ImageData, activeJob->getExposure(),
+                                             targetChip->getCaptureFilter(), activeJob->getSubX(), activeJob->getSubY());
         }
     }
-
-    //    blobChip    = bp ? static_cast<ISD::CCDChip *>(bp->aux0) : nullptr;
-    //    blobFilename = bp ? static_cast<const char *>(bp->aux2) : QString();
 
     setCaptureComplete();
 }
@@ -4653,6 +4628,7 @@ QJsonObject Capture::getPresetSettings()
     settings.insert("camera", cameraS->currentText());
     settings.insert("fw", filterWheelS->currentText());
     settings.insert("filter", captureFilterS->currentText());
+    settings.insert("darl", darkB->isChecked());
     settings.insert("exp", captureExposureN->value());
     settings.insert("bin", captureBinHN->value());
     settings.insert("iso", iso);
@@ -6882,6 +6858,10 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     int isoIndex = settings["iso"].toInt(-1);
     if (isoIndex >= 0)
         setISO(isoIndex);
+
+    bool dark = settings["dark"].toBool(darkB->isChecked());
+    if (dark != darkB->isChecked())
+        darkB->setChecked(dark);
 
     init = true;
 }

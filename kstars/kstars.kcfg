@@ -1629,6 +1629,10 @@
          <whatsthis>If the temperature change exceeds this limit, the autofocus routine will be automatically started.</whatsthis>
          <default>1</default>
       </entry>
+      <entry name="AutoDark" type="Bool">
+         <label>Automatically apply dark subtraction if a suitable dark frame is available.</label>
+         <default>false</default>
+      </entry>
       <entry name="EnforceGuideDeviation" type="Bool">
          <label>Enforce guiding deviation limit.</label>
          <default>false</default>

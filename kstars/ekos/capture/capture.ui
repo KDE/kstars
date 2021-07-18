@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>687</width>
+    <width>690</width>
     <height>613</height>
    </rect>
   </property>
@@ -473,7 +473,8 @@ font-weight:bold;
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="colors-chromablue"/>
+             <iconset theme="colors-chromablue">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -2231,6 +2232,16 @@ font-weight:bold;
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="darkB">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically apply dark subtraction on preview images if a suitable dark frame is available.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Dark</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
