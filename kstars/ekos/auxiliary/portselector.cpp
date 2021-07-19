@@ -41,18 +41,18 @@ Device::Device(ISD::GDInterface *device, QGridLayout *grid, uint8_t row) :  m_De
     connect(m_Device, &ISD::GDInterface::Connected, this, &Device::setConnected);
     connect(m_Device, &ISD::GDInterface::Disconnected, this, &Device::setDisconnected);
 
-    initGUI();
-    syncGUI();
+    if (initGUI())
+        syncGUI();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-void Device::initGUI()
+bool Device::initGUI()
 {
     INDI::Property modeProperty = m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE");
     if (!modeProperty.isValid())
-        return;
+        return false;
 
     m_LED = new KLed;
     m_LED->setLook(KLed::Sunken);
@@ -203,6 +203,8 @@ void Device::initGUI()
     connect(m_DisconnectB, &QPushButton::clicked, m_Device, &ISD::GDInterface::Disconnect);
 
     setConnectionMode(static_cast<ConnectionMode>(connectionMode.findOnSwitchIndex()));
+
+    return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

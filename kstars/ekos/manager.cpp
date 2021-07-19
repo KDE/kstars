@@ -164,6 +164,24 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             &EkosLive::Message::sendDialog);
 
     // Port Selector
+    m_PortSelectorTimer.setInterval(500);
+    m_PortSelectorTimer.setSingleShot(true);
+    connect(&m_PortSelectorTimer, &QTimer::timeout, this, [this]()
+    {
+        if (m_PortSelector && currentProfile->portSelector)
+        {
+            if (m_PortSelector->shouldShow())
+            {
+                m_PortSelector->show();
+                m_PortSelector->raise();
+
+                ekosLiveClient.get()->message()->requestPortSelection(true);
+            }
+            // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
+            else if (currentProfile->autoConnect)
+                setPortSelectionComplete();
+        }
+    });
     connect(portSelectorB, &QPushButton::clicked, [&]()
     {
         if (m_PortSelector)
@@ -524,6 +542,7 @@ void Manager::reset()
 
     DarkLibrary::Release();
     m_PortSelector.reset();
+    m_PortSelectorTimer.stop();
 
     Ekos::CommunicationStatus previousStatus;
 
@@ -578,6 +597,7 @@ void Manager::stop()
 {
     cleanDevices();
     m_PortSelector.reset();
+    m_PortSelectorTimer.stop();
     portSelectorB->setEnabled(false);
 
     if (indiHubAgent)
@@ -1267,20 +1287,6 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
             connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
-
-        if (m_PortSelector && currentProfile->portSelector)
-        {
-            if (m_PortSelector->shouldShow())
-            {
-                m_PortSelector->show();
-                m_PortSelector->raise();
-
-                ekosLiveClient.get()->message()->requestPortSelection(true);
-            }
-            // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
-            else if (currentProfile->autoConnect)
-                setPortSelectionComplete();
-        }
     }
 }
 
@@ -1860,6 +1866,7 @@ void Manager::processNewProperty(INDI::Property prop)
             m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
             connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
+        m_PortSelectorTimer.start();
         portSelectorB->setEnabled(true);
         m_PortSelector->addDevice(deviceInterface);
     }

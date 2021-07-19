@@ -51,7 +51,7 @@ class Device : public QObject
         uint8_t systemPortCount() const;
 
         // Create GUI
-        void initGUI();
+        bool initGUI();
         // Sync GUI to data
         void syncGUI();
 
