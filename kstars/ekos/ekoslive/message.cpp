@@ -1124,6 +1124,7 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[SET_PROFILE_PORT_SELECTION])
     {
+        requestPortSelection(false);
         m_Manager->acceptPortSelection();
     }
 }
@@ -1356,9 +1357,10 @@ void Message::requestDSLRInfo(const QString &cameraName)
         QJsonDocument::Compact));
 }
 
-void Message::requestPortSelection()
+void Message::requestPortSelection(bool show)
 {
-    m_WebSocket.sendTextMessage(QJsonDocument({"type", commands[GET_PROFILE_PORT_SELECTION]}).toJson(QJsonDocument::Compact));
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[GET_PROFILE_PORT_SELECTION]}, {"payload", show}}).toJson(
+        QJsonDocument::Compact));
 }
 
 void Message::sendDialog(const QJsonObject &message)

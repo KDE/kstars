@@ -106,7 +106,7 @@ class Message : public QObject
         void requestDSLRInfo(const QString &cameraName);
 
         // Port Selection
-        void requestPortSelection();
+        void requestPortSelection(bool show);
 
         // Dialogs
         void sendDialog(const QJsonObject &message);

@@ -1275,7 +1275,7 @@ void Manager::processNewDevice(ISD::GDInterface * devInterface)
                 m_PortSelector->show();
                 m_PortSelector->raise();
 
-                ekosLiveClient.get()->message()->requestPortSelection();
+                ekosLiveClient.get()->message()->requestPortSelection(true);
             }
             // If port selector is enabled, but we have zero ports to work with, let's proceed to connecting if it is enabled.
             else if (currentProfile->autoConnect)
@@ -2973,31 +2973,31 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     switch (status)
     {
-    case Ekos::CAPTURE_IDLE:
+        case Ekos::CAPTURE_IDLE:
         /* Fall through */
-    case Ekos::CAPTURE_ABORTED:
+        case Ekos::CAPTURE_ABORTED:
         /* Fall through */
-    case Ekos::CAPTURE_COMPLETE:
-        if (capturePI->isAnimated())
-        {
-            capturePI->stopAnimation();
-            countdownTimer.stop();
+        case Ekos::CAPTURE_COMPLETE:
+            if (capturePI->isAnimated())
+            {
+                capturePI->stopAnimation();
+                countdownTimer.stop();
 
-            if (getFocusStatusText() == "Complete")
-                focusManager->stopAnimation();
-        }
-        break;
-    default:
-        if (status == Ekos::CAPTURE_CAPTURING)
-            capturePI->setColor(Qt::darkGreen);
-        else
-            capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (capturePI->isAnimated() == false)
-        {
-            capturePI->startAnimation();
-            countdownTimer.start();
-        }
-        break;
+                if (getFocusStatusText() == "Complete")
+                    focusManager->stopAnimation();
+            }
+            break;
+        default:
+            if (status == Ekos::CAPTURE_CAPTURING)
+                capturePI->setColor(Qt::darkGreen);
+            else
+                capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+            if (capturePI->isAnimated() == false)
+            {
+                capturePI->startAnimation();
+                countdownTimer.start();
+            }
+            break;
     }
 
     QJsonObject cStatus =
