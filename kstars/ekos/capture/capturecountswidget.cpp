@@ -24,13 +24,13 @@ CaptureCountsWidget::CaptureCountsWidget(QWidget *parent) : QWidget(parent)
     captureProgress->setDecimals(0);
 }
 
-void CaptureCountsWidget::shareCaptureProcess(const QSharedPointer<Ekos::Capture> &process) {
-    captureProcess = QSharedPointer<Ekos::Capture>(process);
+void CaptureCountsWidget::shareCaptureProcess(Ekos::Capture *process) {
+    captureProcess = process;
 
-    if (captureProcess.data() != nullptr)
+    if (captureProcess != nullptr)
     {
-        connect(captureProcess.data(), &Ekos::Capture::newDownloadProgress, this, &CaptureCountsWidget::updateDownloadProgress);
-        connect(captureProcess.data(), &Ekos::Capture::newExposureProgress, this, &CaptureCountsWidget::updateExposureProgress);
+        connect(captureProcess, &Ekos::Capture::newDownloadProgress, this, &CaptureCountsWidget::updateDownloadProgress);
+        connect(captureProcess, &Ekos::Capture::newExposureProgress, this, &CaptureCountsWidget::updateExposureProgress);
     }
 }
 
@@ -68,20 +68,20 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
     int total_remaining_time = 0;
     double total_percentage = 0;
 
-    if (schedulerProcess.get() != nullptr && schedulerProcess.get()->getCurrentJob() != nullptr)
+    if (schedulerProcess != nullptr && schedulerProcess->getCurrentJob() != nullptr)
     {
         // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
-        int total_completed = schedulerProcess.get()->getCurrentJob()->getCompletedCount();
-        int total_count     = schedulerProcess.get()->getCurrentJob()->getSequenceCount();
-        infinite_loop       = (schedulerProcess.get()->getCurrentJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
+        int total_completed = schedulerProcess->getCurrentJob()->getCompletedCount();
+        int total_count     = schedulerProcess->getCurrentJob()->getSequenceCount();
+        infinite_loop       = (schedulerProcess->getCurrentJob()->getCompletionCondition() == SchedulerJob::FINISH_LOOP);
         overallLabel->setText(QString("Schedule: %1 (%2/%3)")
                               .arg(schedulerProcess->getCurrentJobName())
                               .arg(total_completed)
                               .arg(infinite_loop ? QString("-") : QString::number(total_count)));
         if (total_count > 0)
             total_percentage = (100 * total_completed) / total_count;
-        if (schedulerProcess.get()->getCurrentJob()->getEstimatedTime() > 0)
-            total_remaining_time = schedulerProcess.get()->getCurrentJob()->getEstimatedTime();
+        if (schedulerProcess->getCurrentJob()->getEstimatedTime() > 0)
+            total_remaining_time = schedulerProcess->getCurrentJob()->getEstimatedTime();
     }
     else
     {

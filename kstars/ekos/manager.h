@@ -531,13 +531,13 @@ class Manager : public QDialog, public Ui::Manager
         QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
         // Smart pointers for the various Ekos Modules
-        QSharedPointer<Capture> captureProcess;
+        std::unique_ptr<Capture> captureProcess;
         std::unique_ptr<Focus> focusProcess;
         std::unique_ptr<Guide> guideProcess;
         std::unique_ptr<Align> alignProcess;
         std::unique_ptr<Mount> mountProcess;
         std::unique_ptr<Analyze> analyzeProcess;
-        QSharedPointer<Scheduler> schedulerProcess;
+        std::unique_ptr<Scheduler> schedulerProcess;
         std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<Dome> domeProcess;
         std::unique_ptr<Weather> weatherProcess;

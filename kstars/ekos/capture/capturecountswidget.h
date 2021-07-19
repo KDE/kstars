@@ -25,8 +25,8 @@ class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
 public:
     explicit CaptureCountsWidget(QWidget *parent = nullptr);
 
-    void shareCaptureProcess(const QSharedPointer<Ekos::Capture> &process);
-    void shareSchedulerProcess(const QSharedPointer<Ekos::Scheduler> &process) {schedulerProcess = QSharedPointer<Ekos::Scheduler>(process);}
+    void shareCaptureProcess(Ekos::Capture *process);
+    void shareSchedulerProcess(Ekos::Scheduler *process) {schedulerProcess = process;}
 
     void updateCaptureCountDown(int delta);
 
@@ -40,8 +40,8 @@ public slots:
     void setEnabled(bool enabled);
 
 private:
-    QSharedPointer<Ekos::Scheduler> schedulerProcess;
-    QSharedPointer<Ekos::Capture> captureProcess;
+    Ekos::Scheduler *schedulerProcess = nullptr;
+    Ekos::Capture *captureProcess = nullptr;
 
     QTime imageCountDown;
     QTime sequenceCountDown;
