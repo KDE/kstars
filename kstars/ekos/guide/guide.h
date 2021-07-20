@@ -479,8 +479,6 @@ class Guide : public QWidget, public Ui::Guide
 
         void newImage(FITSView *view);
         void newStarPixmap(QPixmap &);
-        void newProfilePixmap(QPixmap &);
-        void newDriftPlotPixmap(QPixmap &);
 
         // Immediate deviations in arcsecs
         void newAxisDelta(double ra, double de);

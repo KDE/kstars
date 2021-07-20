@@ -36,10 +36,11 @@ public slots:
     void autoScaleGraphs(double accuracyRadius);
     void clear();
 
-    void setAxisDelta(double ra, double de);
-
 protected:
     // virtual void resizeEvent(QResizeEvent *resize) override;
+
+private slots:
+    void setAxisDelta(double ra, double de);
 
 
 private:

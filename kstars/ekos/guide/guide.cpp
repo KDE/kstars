@@ -2265,19 +2265,10 @@ void Guide::setAxisDelta(double ra, double de)
     {
         guideSlider->setValue(currentNumPoints);
     }
-    //Add to Drift Plot
-    targetPlot->setAxisDelta(ra, de);
-
     l_DeltaRA->setText(QString::number(ra, 'f', 2));
     l_DeltaDEC->setText(QString::number(de, 'f', 2));
 
     emit newAxisDelta(ra, de);
-
-    profilePixmap = driftGraph->grab();
-    emit newProfilePixmap(profilePixmap);
-
-    driftPlotPixmap = targetPlot->grab();
-    emit newDriftPlotPixmap(driftPlotPixmap);
 }
 
 void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message,
