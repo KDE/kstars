@@ -1996,6 +1996,11 @@
          <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
          <default>4</default>
       </entry>
+      <entry name="SolverCamGain" type="Double">
+         <label>Default camera gain while in alignment mode</label>
+         <whatsthis>Set gain of camera while in alignment mode.</whatsthis>
+         <default>0</default>
+      </entry>
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
          <default>false</default>
@@ -2232,9 +2237,17 @@
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
          <default>1000</default>
       </entry>
+      <entry name="GuideBinSizeIndex" type="UInt">
+         <label>Guide binning size index (0 to 3) corresponding to binning (1x1 to 4x4).</label>
+         <default>0</default>
+      </entry>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>2</default>
+      </entry>
+      <entry name="GuideFilterFITSIndex" type="UInt">
+         <label>Effect FITS filter index corresponding to the available image enhancing filters.</label>
+         <default>0</default>
       </entry>
       <entry name="ImageGuidingEnabled" type="Bool">
          <label>Use Image Guiding algorithms instead of classical centroid guiding.</label>

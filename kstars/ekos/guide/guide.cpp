@@ -73,6 +73,7 @@ Guide::Guide() : QWidget()
     // Image Filters
     for (auto &filter : FITSViewer::filterTypes)
         filterCombo->addItem(filter);
+    filterCombo->setCurrentIndex(guideFilterIndex);
 
     // Progress Indicator
     pi = new QProgressIndicator(this);
@@ -130,6 +131,7 @@ Guide::Guide() : QWidget()
     {
         onThresholdChanged(Options::guideAlgorithm());
         configurePHD2Camera();
+        configSEPMultistarOptions(); // due to changes in 'Guide Setting: Algorithm'
     });
 
     page = dialog->addPage(opsGuide, i18n("Guide"));
@@ -604,8 +606,13 @@ void Guide::updateGuideParams()
         for (int i = 1; i <= maxBinX; i++)
             binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
 
-        binningCombo->setCurrentIndex(subBinX - 1);
-
+        if (useGuideHead)
+            binningCombo->setCurrentIndex(subBinX - 1);
+        else if (guideBinIndex + 1 <= maxBinX)
+        {
+            subBinX = subBinY = guideBinIndex + 1;
+            binningCombo->setCurrentIndex(guideBinIndex);
+        }
         binningCombo->blockSignals(false);
     }
 
@@ -1710,6 +1717,25 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
     }
 }
 
+void Guide::configSEPMultistarOptions()
+{
+    // SEP MultiStar always uses an automated guide star & doesn't subframe.
+    if (internalGuider->SEPMultiStarEnabled())
+    {
+        subFrameCheck->setChecked(false);
+        subFrameCheck->setEnabled(false);
+        autoStarCheck->setChecked(true);
+        autoStarCheck->setEnabled(false);
+    }
+    else
+    {
+        subFrameCheck->setChecked(Options::guideSubframeEnabled());
+        subFrameCheck->setEnabled(true);
+        autoStarCheck->setChecked(Options::guideAutoStarEnabled());
+        autoStarCheck->setEnabled(true);
+    }
+}
+
 void Guide::setDarkFrameEnabled(bool enable)
 {
     Options::setGuideDarkFrameEnabled(enable);
@@ -1836,9 +1862,9 @@ bool Guide::setGuiderType(int type)
             guideB->setEnabled(true);
             captureB->setEnabled(true);
             loopB->setEnabled(true);
+
+            configSEPMultistarOptions();
             darkFrameCheck->setEnabled(true);
-            subFrameCheck->setEnabled(true);
-            autoStarCheck->setEnabled(true);
 
             guiderCombo->setEnabled(true);
             ST4Combo->setEnabled(true);
@@ -2162,8 +2188,12 @@ void Guide::loadSettings()
 {
     // Exposure
     exposureIN->setValue(Options::guideExposure());
+    // Bin Size
+    guideBinIndex = Options::guideBinSizeIndex();
     // Box Size
     boxSizeCombo->setCurrentIndex(Options::guideSquareSizeIndex());
+    // Effect filter
+    guideFilterIndex = Options::guideFilterFITSIndex();
     // Dark frame?
     darkFrameCheck->setChecked(Options::guideDarkFrameEnabled());
     // Subframed?
@@ -2202,8 +2232,12 @@ void Guide::saveSettings()
 {
     // Exposure
     Options::setGuideExposure(exposureIN->value());
+    // Bin Size
+    Options::setGuideBinSizeIndex(binningCombo->currentIndex());
     // Box Size
     Options::setGuideSquareSizeIndex(boxSizeCombo->currentIndex());
+    // Effect filter
+    Options::setGuideFilterFITSIndex(filterCombo->currentIndex());
     // Dark frame?
     Options::setGuideDarkFrameEnabled(darkFrameCheck->isChecked());
     // Subframed?

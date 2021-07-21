@@ -1977,6 +1977,7 @@ void Align::checkCCD(int ccdNum)
 
         // Set the custom gain if we have one
         // otherwise it will not have an effect.
+        TargetCustomGainValue = Options::solverCamGain();
         if (TargetCustomGainValue > 0)
             GainSpin->setValue(TargetCustomGainValue);
         else
@@ -1987,7 +1988,10 @@ void Align::checkCCD(int ccdNum)
         connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
         {
             if (GainSpin->value() > GainSpinSpecialValue)
+            {
                 TargetCustomGainValue = GainSpin->value();
+                Options::setSolverCamGain(TargetCustomGainValue);  // Save custom gain
+            }
         });
     }
     else

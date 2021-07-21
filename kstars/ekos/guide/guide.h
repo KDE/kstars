@@ -444,6 +444,7 @@ class Guide : public QWidget, public Ui::Guide
                                double dy = 0);
 
         void processGuideOptions();
+        void configSEPMultistarOptions();
 
         void onControlDirectionChanged(bool enable);
         void updatePHD2Directions();
@@ -563,6 +564,8 @@ class Guide : public QWidget, public Ui::Guide
         QVector3D starCenter;
 
         // Guide Params
+        int guideBinIndex { 0 };
+        int guideFilterIndex { 0 };
         double ccdPixelSizeX { -1 };
         double ccdPixelSizeY { -1 };
         double aperture { -1 };
