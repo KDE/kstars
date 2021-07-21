@@ -608,6 +608,16 @@ void TestSchedulerUnit::evaluateJobsTest()
                          now.addSecs(Scheduler::timeHeuristics(&job) +
                                      computeExposureDurations(details9Filters))));
 
+    Scheduler::calculateDawnDusk();
+
+    // The job should run inside the twilight interval and have the same twilight values as Scheduler current values
+    QVERIFY(job.runsDuringAstronomicalNightTime());
+    QVERIFY(job.getDawnAstronomicalTwilight() == Scheduler::Dawn);
+    QVERIFY(job.getDuskAstronomicalTwilight() == Scheduler::Dusk);
+
+    // The job can start now, thus the next events are dawn, then dusk
+    QVERIFY(Scheduler::Dawn <= Scheduler::Dusk);
+
     jobs.clear();
     sortedJobs.clear();
 
@@ -652,6 +662,17 @@ void TestSchedulerUnit::evaluateJobsTest()
 
     QVERIFY(compareTimes(sortedJobs[1]->getStartupTime(), midNight.addSecs(48 * 60), 300));
     QVERIFY(compareTimes(sortedJobs[1]->getCompletionTime(), midNight.addSecs(1 * 3600 + 36 * 60), 300));
+
+    Scheduler::calculateDawnDusk();
+
+    // The two job should run inside the twilight interval and have the same twilight values as Scheduler current values
+    QVERIFY(sortedJobs[0]->runsDuringAstronomicalNightTime());
+    QVERIFY(sortedJobs[1]->runsDuringAstronomicalNightTime());
+    QVERIFY(sortedJobs[0]->getDawnAstronomicalTwilight() == Scheduler::Dawn);
+    QVERIFY(sortedJobs[1]->getDuskAstronomicalTwilight() == Scheduler::Dusk);
+
+    // The two job can start now, thus the next events for today are dawn, then dusk
+    QVERIFY(Scheduler::Dawn <= Scheduler::Dusk);
 
     jobs.clear();
     sortedJobs.clear();

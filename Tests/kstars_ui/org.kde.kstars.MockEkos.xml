@@ -1,0 +1,43 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.MockEkos">
+    <property name="indiStatus" type="i" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CommunicationStatus"/>
+    </property>
+    <property name="ekosStatus" type="i" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CommunicationStatus"/>
+    </property>
+    <method name="connectDevices">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="disconnectDevices">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="start">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="stop">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getProfiles">
+      <arg type="as" direction="out"/>
+    </method>
+    <method name="setProfile">
+      <arg name="profileName" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
+    <signal name="indiStatusChanged">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="ekosStatusChanged">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CommunicationStatus"/>
+    </signal>
+    <signal name="newModule">
+        <arg name="name" type="s" direction="out"/>
+    </signal>
+  </interface>
+</node>

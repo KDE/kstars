@@ -1,0 +1,29 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.MockEkos.MockGuide">
+    <property name="status" type="i" access="read">
+      <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::GuideState"/>
+    </property>
+    <method name="connectGuider">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="guide">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="abort">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="clearCalibration">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCalibrationAutoStar">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <signal name="newStatus">
+      <arg name="status" type="(i)" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::GuideState"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::GuideState"/>
+    </signal>
+  </interface>
+</node>

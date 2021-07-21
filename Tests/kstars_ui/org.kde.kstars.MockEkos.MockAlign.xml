@@ -1,0 +1,36 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.MockEkos.MockAlign">
+    <property name="status" type="i" access="read">
+      <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::AlignState"/>
+    </property>
+    <method name="abort">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="captureAndSolve">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="loadAndSlew">
+      <arg type="b" direction="out"/>
+      <arg name="fileURL" type="s" direction="in"/>
+    </method>
+    <method name="setSolverAction">
+      <arg name="mode" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setTargetCoords">
+      <arg name="ra" type="d" direction="in"/>
+      <arg name="de" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setTargetRotation">
+      <arg name="rotation" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <signal name="newStatus">
+      <arg name="status" type="(i)" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::AlignState"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::AlignState"/>
+    </signal>
+  </interface>
+</node>

@@ -1,0 +1,34 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.MockEkos.MockCapture">
+    <property name="targetName" type="s" access="readwrite"/>
+    <property name="coolerControl" type="b" access="readwrite"/>
+    <property name="status" type="i" access="read">
+        <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CaptureState"/>
+    </property>
+    <method name="start">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="abort">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="loadSequenceQueue">
+      <arg type="b" direction="out"/>
+      <arg name="fileURL" type="s" direction="in"/>
+    </method>
+    <method name="clearAutoFocusHFR">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="setCapturedFramesMap">
+      <arg name="signature" type="s" direction="in"/>
+      <arg name="count" type="i" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <signal name="newStatus">
+        <arg name="status" type="(i)" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CaptureState"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CaptureState"/>
+    </signal>
+    <signal name="ready"/>
+  </interface>
+</node>
