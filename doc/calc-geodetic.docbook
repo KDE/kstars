@@ -20,28 +20,28 @@ The Geodetic Coordinates calculator module
 </screenshot>
 
 <para>
-The normal <link linkend="ai-geocoords">geographic coordinate 
-system</link> assumes that the Earth is a perfect sphere.  This is 
+The normal <link linkend="ai-geocoords">geographic coordinate
+system</link> assumes that the Earth is a perfect sphere.  This is
 nearly true, so for most purposes geographic coordinates are fine.
-If very high precision is required, then we must take the true shape 
+If very high precision is required, then we must take the true shape
 of the Earth into account.  The Earth is an ellipsoid; the distance
-around the equator is about 0.3% longer than a <link 
-linkend="ai-greatcircle">Great Circle</link> that passes through the 
+around the equator is about 0.3% longer than a <link
+linkend="ai-greatcircle">Great Circle</link> that passes through the
 poles.  The <firstterm>Geodetic Coordinate system</firstterm> takes
 this ellipsoidal shape into account, and expresses the position
-on the Earth's surface in Cartesian coordinates (X, Y and Z) or in 
+on the Earth's surface in Cartesian coordinates (X, Y and Z) or in
 Geographic coordinates (Longitude, Latitude and Elevation).
 </para>
 
 <para>
-To use the module, first select which coordinates you will use as 
-input in the <guilabel>Select Input Coordinates</guilabel> section: <quote>Cartesian</quote> 
+To use the module, first select which coordinates you will use as
+input in the <guilabel>Select Input Coordinates</guilabel> section: <quote>Cartesian</quote>
 or <quote>Geographic</quote>.
-Then select an ellipsoid model and fill 
+Then select an ellipsoid model and fill
 in the input coordinates in either the <guilabel>Cartesian
-Coordinates</guilabel> section or the <guilabel>Geographic 
-Coordinates</guilabel> section.  When you press the 
-<guibutton>Convert</guibutton> button, the corresponding 
+Coordinates</guilabel> section or the <guilabel>Geographic
+Coordinates</guilabel> section.  When you press the
+<guibutton>Convert</guibutton> button, the corresponding
 coordinates will be filled in.
 </para>
 

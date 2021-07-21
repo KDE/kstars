@@ -24,12 +24,12 @@ Here is a screenshot of the &kstars; main window:
 The above screenshot shows a typical view of the &kstars; program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
 the constellation Orion. Stars are displayed with <link linkend="ai-colorandtemp">realistic
-colors</link> and relative brightnesses.  In three corners 
-of the sky display, there are on-screen text labels displaying data on 
-the current time (<quote>LT: 3:08:30 AM EEST Wednesday, July 6, 2016</quote>), the current 
-Geographic Location (<quote>Bucharest, Romania</quote>), and the 
-current object in the center of the display (<quote>Focused on: Betelgeuse 
-(alpha Orionis)</quote>).  Above the sky display, there are two toolbars.  
+colors</link> and relative brightnesses.  In three corners
+of the sky display, there are on-screen text labels displaying data on
+the current time (<quote>LT: 3:08:30 AM EEST Wednesday, July 6, 2016</quote>), the current
+Geographic Location (<quote>Bucharest, Romania</quote>), and the
+current object in the center of the display (<quote>Focused on: Betelgeuse
+(alpha Orionis)</quote>).  Above the sky display, there are two toolbars.
 The main toolbar contains shortcuts for
 <link linkend="kstars-menus">menu functions</link>, as well as a
 time-step widget which controls how fast the simulation clock runs.
@@ -86,7 +86,7 @@ Note that while the display is scrolling, not all objects are
 displayed.  This is done to cut down on the <acronym>CPU</acronym> load
 of recomputing object positions, which makes the scrolling smoother
 (you can configure what gets hidden while scrolling in the <link
-linkend="config">Configure &kstars;</link> window).
+linkend="config">Configure - &kstars;</link> window).
 
 There are several ways to change the magnification (or
 <firstterm>Zoom level</firstterm>) of the display:</para>
@@ -94,23 +94,22 @@ There are several ways to change the magnification (or
 <orderedlist>
 <listitem>
 	<para>Use the <keycap>+</keycap> and
-	<keycap>-</keycap> keys</para>
+	<keycap>-</keycap> keys.</para>
 </listitem>
 <listitem>
-	<para>Press the Zoom In/Zoom Out buttons in the toolbar</para>
+    <para>Press the <guibutton>Zoom In</guibutton>/<guibutton>Zoom Out</guibutton> buttons in the toolbar.</para>
 </listitem>
 <listitem>
-	<para>Select
-	<guimenuitem>Zoom In</guimenuitem>/<guimenuitem>Zoom Out</guimenuitem>
-	from the <guimenu>View</guimenu> menu</para>
+    <para>Select the <menuchoice><guimenu>View</guimenu> <guimenuitem>Zoom In / Zoom 
+    Out</guimenuitem></menuchoice> menu item.</para>
 </listitem>
 <listitem>
-	<para>Select <guimenuitem>Zoom to Angular Size...</guimenuitem> from
-	the <guimenu>View</guimenu> menu.  This allows you to specify 
+    <para>Select the <menuchoice><guimenu>View</guimenu> <guimenuitem>Zoom
+    to Angular Size...</guimenuitem></menuchoice> menu item. This allows you to specify
 	the field-of-view angle for the display, in degrees.</para>
 </listitem>
 <listitem>
-	<para>Use the scroll wheel on your mouse</para>
+	<para>Use the scroll <mousebutton>wheel</mousebutton> on your mouse.</para>
 </listitem>
 <listitem>
 	<para>Drag the mouse up and down with the &MMB; pressed.</para>
@@ -139,16 +138,16 @@ planets are never far from it.
 </para>
 
 <para>
-You can configure &kstars; to draw or not the celestial equator and Ecliptic curves 
-on the Sky Map using the 
-<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kstars;</guisubmenu></menuchoice> submenu. 
-Select the <guimenu>Guides</guimenu> tab and check/uncheck the <guilabel>Celestial equator</guilabel> 
-and <guilabel>Ecliptic</guilabel> check boxes. You can also configure which colors &kstars; uses for 
-drawing these curves, using the <guimenu>Colors</guimenu> tab.
+You can configure &kstars; to draw or not the celestial equator and Ecliptic curves
+on the Sky Map using the <menuchoice><guimenu>Settings</guimenu> <guimenuitem>Configure
+&kstars;...</guimenuitem></menuchoice> menu item.
+Select the <guimenu>Guides</guimenu> page and check/uncheck the <guilabel>Celestial equator</guilabel>
+and <guilabel>Ecliptic</guilabel> check boxes. You can also configure which colors &kstars; uses for
+drawing these curves, using the <guimenu>Colors</guimenu> page.
 </para>
 <screenshot>
 <screeninfo>
-Here is a screenshot of the &kstars; main window, focusing on horizon, 
+Here is a screenshot of the &kstars; main window, focusing on horizon,
 celestial equator and Ecliptic curves:
 </screeninfo>
 <mediaobject>
@@ -156,7 +155,7 @@ celestial equator and Ecliptic curves:
     <imagedata fileref="kstars_horizon.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>KStars Window</phrase>
+    <phrase>&kstars; Window</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -211,17 +210,17 @@ menu</link>.
 The top section contains some lines of information which are not
 selectable: the object's names ("Uranus"),
 object type ("Solar system object"), and the constellation
-which contains the object ("Pisces").  The next three lines show the 
-object's rise, set, and transit times.  If the rise and set times 
-say "circumpolar", it means that the object is always above the 
+which contains the object ("Pisces").  The next three lines show the
+object's rise, set, and transit times.  If the rise and set times
+say "circumpolar", it means that the object is always above the
 horizon for the present location.
 </para>
 <para>
 The middle section contains actions which can be performed on the
 selected object, such as <guimenuitem>Center &amp; Track</guimenuitem>,
 <guimenuitem>Details</guimenuitem>, and
-<guimenuitem>Attach Label</guimenuitem>.  See the <link 
-linkend="popup-menu">popup menu description</link> for a full list 
+<guimenuitem>Attach Label</guimenuitem>.  See the <link
+linkend="popup-menu">popup menu description</link> for a full list
 and description of each action.
 </para>
 <para>
@@ -231,9 +230,9 @@ and description of each action.
 The bottom section contains links to images and/or informative webpages
 about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
-object's popup menu. Use the <guimenuitem>Details</guimenuitem> item in 
-the popup menu to open the <guilabel>Object Details</guilabel> dialog. 
-On the <guilabel>Link</guilabel> tab use the <guimenuitem>Add Link...</guimenuitem> 
+object's popup menu. Use the <guimenuitem>Details</guimenuitem> item in
+the popup menu to open the <guilabel>Object Details</guilabel> dialog.
+On the <guilabel>Link</guilabel> tab use the <guimenuitem>Add Link...</guimenuitem>
 item.
 </para>
 </sect2>
@@ -247,8 +246,8 @@ item.
 You can search for named objects using the <guilabel>Find
 Object</guilabel> tool, which can be opened by clicking on the
 <guiicon>search</guiicon> icon in the toolbar, by selecting
-<guimenuitem>Find Object...</guimenuitem> from the
-<guimenu>Pointing</guimenu> menu, or by pressing
+<menuchoice><guimenu>Pointing</guimenu> <guimenuitem>Find
+Object...</guimenuitem></menuchoice> menu item, or by pressing
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>.
 The <guilabel>Find Object</guilabel> window is shown below:
 
@@ -277,34 +276,35 @@ filter by type, select a type from the combo box at the bottom of the
 window.
 </para>
 <para>
-&kstars; provides another method for resolving the objects that are 
-missing from any of its predefined catalogues, by using an internet 
-connection. Thus, if you want to find an object that &kstars; is not 
-aware of, you can easily do this by querying several professional 
-astronomical databases as: SIMBAD, NED or VizieR. This can be done by 
-entering the object's name and then press the <guibutton>or search the 
-internet for ObjectName</guibutton> button. After your object is found, 
-you can use it exactly as any object that is already loaded into &kstars; 
-(&ie; adding it to the Observing WishList). If the object was not found 
-in the online databases, then a warning dialogue will pop-up. Once you 
-resolve an object by using this method, it is stored in &kstars; database, 
-so if you close &kstars; and open it again, your object will still be there. 
+&kstars; provides another method for resolving the objects that are
+missing from any of its predefined catalogues, by using an internet
+connection. Thus, if you want to find an object that &kstars; is not
+aware of, you can easily do this by querying several professional
+astronomical databases as: SIMBAD, NED or VizieR. This can be done by
+entering the object's name and then press the <guibutton>or search the
+internet for ObjectName</guibutton> button. After your object is found,
+you can use it exactly as any object that is already loaded into &kstars;
+(&ie; adding it to the Observing WishList). If the object was not found
+in the online databases, then a warning dialogue will pop-up. Once you
+resolve an object by using this method, it is stored in &kstars; database,
+so if you close &kstars; and open it again, your object will still be there.
 </para>
 
 <para>
-You can choose to enable or disable this feature by checking or unchecking the 
-<guibutton>Resolve names not known to &kstars; using online services</guibutton> 
-check box from <guilabel>Catalogs</guilabel> tab, inside of 
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars</guimenuitem></menuchoice> 
-window. If this checkbox is checked, when an object name unknown to &kstars; 
-is entered in the <guilabel>Find Dialog</guilabel>, &kstars; will contact online 
-services to learn about the desired object and then add it directly to &kstars; 
-database. The objects acquired in this manner are stored in a fake catalog, called 
-<quote>_Internet_Resolved</quote>. Thus, you can enable or disable the display of 
-these objects by checking or unchecking the <quote>_Internet_Resolved</quote> catalog 
-from the catalogues list. Note that you can not delete this fake catalogue, as you can 
-do with a custom catalogue. If this checkbox is unchecked, then the 
-<guilabel>Find Dialog</guilabel> window will be exactly the same, excepting a minor change: 
+You can choose to enable or disable this feature by checking or unchecking the
+<guibutton>Resolve names not known to &kstars; using online services</guibutton>
+check box from <guilabel>Catalogs</guilabel> page, inside of <guilabel>Configure
+- &kstars;</guilabel> dialog (select the <menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> menu item).
+If this checkbox is checked, when an object name unknown to &kstars;
+is entered in the <guilabel>Find Dialog</guilabel>, &kstars; will contact online
+services to learn about the desired object and then add it directly to &kstars;
+database. The objects acquired in this manner are stored in a fake catalog, called
+<quote>_Internet_Resolved</quote>. Thus, you can enable or disable the display of
+these objects by checking or unchecking the <quote>_Internet_Resolved</quote> catalog
+from the catalogues list. Note that you can not delete this fake catalogue, as you can
+do with a custom catalogue. If this checkbox is unchecked, then the
+<guilabel>Find Object</guilabel> window will be exactly the same, excepting a minor change:
 the online searching button will no longer be visible.
 </para>
 <screenshot>
@@ -339,8 +339,8 @@ Object</guilabel> window, by double-clicking on it, or by
 selecting <guimenuitem>Center &amp; Track</guimenuitem> from its
 <mousebutton>right</mousebutton>-click popup menu.  You can disengage
 tracking by panning the display, pressing the <guiicon>Stop Tracking</guiicon>
-icon in the Main toolbar, or selecting <guimenuitem>Stop Tracking</guimenuitem> 
-from the <guimenu>Pointing</guimenu> menu.
+icon in the Main toolbar, or selecting <menuchoice><guimenu>Pointing</guimenu>
+<guimenuitem>Stop Tracking</guimenuitem></menuchoice> menu item.
 </para>
 
 <note>
@@ -371,38 +371,38 @@ which act on the selected object:
 <varlistentry>
 <term><keycap>C</keycap></term>
 <listitem>
-<para>Center and Track on the selected object</para>
+<para>Center and Track on the selected object.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>D</keycap></term>
 <listitem>
-<para>Show the <link linkend="tool-details">Details window</link> 
-for the selected object</para>
+<para>Show the <link linkend="tool-details">Details window</link>
+for the selected object.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>L</keycap></term>
 <listitem>
-<para>Toggle a visible name label on the selected object</para>
+<para>Toggle a visible name label on the selected object.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>O</keycap></term>
 <listitem>
-<para>Add the selected object to the 
-<link linkend="tool-obsplanner">Observing wish-list</link></para>
+<para>Add the selected object to the
+<link linkend="tool-obsplanner">Observing wish-list</link>.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>T</keycap></term>
 <listitem>
-<para>Toggle a visible curve on the sky, showing the path of the 
-object across the sky (only applicable to Solar System bodies)
+<para>Toggle a visible curve on the sky, showing the path of the
+object across the sky (only applicable to Solar System bodies).
 </para>
 </listitem>
 </varlistentry>
@@ -412,8 +412,8 @@ object across the sky (only applicable to Solar System bodies)
 
 <note>
 <para>
-By holding down the &Shift; key, you can perform 
-these actions on the centered object, rather than the selected 
+By holding down the &Shift; key, you can perform
+these actions on the centered object, rather than the selected
 object.
 </para>
 </note>

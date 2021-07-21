@@ -53,7 +53,7 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
 
     geo = KStarsData::Instance()->geo();
 
-    setWindowTitle(i18n("Sky Calendar"));
+    setWindowTitle(i18nc("@title:window", "Sky Calendar"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
@@ -427,7 +427,7 @@ void SkyCalendar::slotPrint()
     //NOTE Changed from pointer to statically allocated object, what effect will it have?
     //QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     QPrintDialog dialog(&printer, this);
-    dialog.setWindowTitle(i18n("Print sky calendar"));
+    dialog.setWindowTitle(i18nc("@title:window", "Print sky calendar"));
     if (dialog.exec() == QDialog::Accepted)
     {
         // Change mouse cursor

@@ -102,7 +102,7 @@ void OpsSatellites::updateListView()
     m_Model->clear();
     SatListTreeView->reset();
 
-    m_Model->setHorizontalHeaderLabels(QStringList(i18n("Satellite name")));
+    m_Model->setHorizontalHeaderLabels(QStringList(i18n("Satellite Name")));
 
     // Add each groups and satellites in the list
     foreach (SatelliteGroup *sat_group, data->skyComposite()->satellites()->groups())

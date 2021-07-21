@@ -1024,7 +1024,7 @@
                 <string>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</string>
                </property>
                <property name="text">
-                <string>T. Threshold:</string>
+                <string>T. threshold:</string>
                </property>
               </widget>
              </item>
@@ -1051,7 +1051,7 @@
                 <string>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</string>
                </property>
                <property name="text">
-                <string>Dark Validity</string>
+                <string>Dark validity:</string>
                </property>
               </widget>
              </item>

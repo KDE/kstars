@@ -109,7 +109,7 @@ CatalogCSVImport::~CatalogCSVImport()
 
 void CatalogCSVImport::select_file()
 {
-    QFileDialog dialog(this, i18n("Import Catalog"), QDir::homePath(),
+    QFileDialog dialog(this, i18nc("@title:window", "Import Catalog"), QDir::homePath(),
                        QString("CSV") + i18n("File") + QString(" (*.csv);;") +
                            i18n("Any File") + QString(" (*);;"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);

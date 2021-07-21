@@ -247,7 +247,7 @@
 </tip>
 <tip category="KStars|Tools">
 	<html>
-		<p>With the What's Up Tonight? tool (Ctrl+U), you can tell at a glance what
+		<p>With the What's up Tonight? tool (Ctrl+U), you can tell at a glance what
 			objects will be visible from your location on a given night.
 		</p>
 	</html>
@@ -310,8 +310,8 @@
 </tip>
 <tip category="KStars|Customize">
 	<html>
-		<p>To add your own custom Object Catalogs, select "Import Catalog" or 
-			"Load Catalog" from the Catalogs tab in the KStars Configuration window.
+		<p>To add your own custom Object Catalogs, select "Import Catalog..." or 
+			"Create Catalog..." from the Catalogs page in the KStars Configuration window.
 			See the Handbook for instructions on formatting your catalog file.
 		</p>
 	</html>

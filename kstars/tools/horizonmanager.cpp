@@ -57,7 +57,7 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     ui->regionValidation->setToolTip(i18n("Region is invalid."));
     ui->regionValidation->hide();
 
-    setWindowTitle(i18n("Artificial Horizon Manager"));
+    setWindowTitle(i18nc("@title:window", "Artificial Horizon Manager"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);

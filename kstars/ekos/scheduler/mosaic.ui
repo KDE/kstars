@@ -252,7 +252,7 @@
              <string>Mount focal length in millimeters</string>
             </property>
             <property name="text">
-             <string>Focal Length:</string>
+             <string>Focal length:</string>
             </property>
            </widget>
           </item>

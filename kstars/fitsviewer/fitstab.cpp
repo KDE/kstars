@@ -695,7 +695,7 @@ bool FITSTab::saveFile()
     if (currentURL.isEmpty())
     {
         currentURL =
-            QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save FITS"), currentDir,
+            QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
                                         "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
 
         // if user presses cancel

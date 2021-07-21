@@ -288,7 +288,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Download asteroids brighter than</string>
+           <string>Download asteroids brighter than:</string>
           </property>
          </widget>
         </item>
@@ -356,7 +356,7 @@
         <item row="0" column="1">
          <widget class="QLabel" name="textLabel3">
           <property name="text">
-           <string>Show asteroids brighter than</string>
+           <string>Show asteroids brighter than:</string>
           </property>
          </widget>
         </item>
@@ -369,7 +369,7 @@
            <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
           </property>
           <property name="text">
-           <string>Show names of comets within</string>
+           <string>Show names of comets within:</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">solarButtonGroup</string>
@@ -384,7 +384,7 @@
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="toolTip">
-             <string>faint limit for asteroids</string>
+             <string>Faint limit for asteroids</string>
             </property>
             <property name="whatsThis">
              <string>Set the faintest magnitude for drawing asteroids</string>
@@ -503,7 +503,7 @@
         <item row="5" column="1">
          <widget class="QCheckBox" name="kcfg_ShowCometComas">
           <property name="text">
-           <string>Show Comet Comas</string>
+           <string>Show comet comas</string>
           </property>
          </widget>
         </item>
@@ -513,7 +513,7 @@
            <string>Update orbital element from online sources on startup.</string>
           </property>
           <property name="text">
-           <string>Auto Online Update</string>
+           <string>Auto online update</string>
           </property>
          </widget>
         </item>

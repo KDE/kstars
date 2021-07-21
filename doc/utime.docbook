@@ -37,13 +37,13 @@ setting sail.
 Set the geographic location to <quote>Greenwich, England</quote> using the
 <guilabel>Set Location</guilabel> window
 (<keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>).  Note that the
-Local Time (<abbrev>LT</abbrev>)and the Universal Time (<abbrev>UT</abbrev>) are
+Local Time (<abbrev>LT</abbrev>) and the Universal Time (<abbrev>UT</abbrev>) are
 now the same.
 </para><para>
 Further Reading: The history behind the construction of the first clock
 that was accurate and stable enough to be used on ships to keep Universal Time
-is a fascinating tale, and one told expertly in the book
-<quote>Longitude</quote>, by Dava Sobel.
+is a fascinating tale, and one told expertly in the book <quote>Longitude</quote>,
+by Dava Sobel.
 </para>
 </tip>
 </sect1>

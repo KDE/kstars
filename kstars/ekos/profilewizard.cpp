@@ -274,7 +274,7 @@ void ProfileWizard::detectStellarMate()
     stellarMateDetectDialog = new QProgressDialog(this);
     stellarMateDetectDialog->setMinimum(0);
     stellarMateDetectDialog->setMaximum(0);
-    stellarMateDetectDialog->setWindowTitle(i18n("Detecting StellarMate..."));
+    stellarMateDetectDialog->setWindowTitle(i18nc("@title:window", "Detecting StellarMate..."));
     stellarMateDetectDialog->setLabelText(i18n("Please wait while searching for StellarMate..."));
 
     stellarMateDetectDialog->show();

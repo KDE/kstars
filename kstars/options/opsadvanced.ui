@@ -107,7 +107,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Default DSS Image Size: </string>
+               <string>Default DSS image size:</string>
               </property>
              </widget>
             </item>
@@ -155,7 +155,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Padding around Deep Sky Objects:</string>
+               <string>Padding around deep sky objects:</string>
               </property>
              </widget>
             </item>
@@ -447,14 +447,14 @@
          <item row="2" column="0">
           <widget class="QCheckBox" name="kcfg_LeftClickSelectsObject">
            <property name="text">
-            <string>Left Click selects object</string>
+            <string>Left click selects object</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>Default Cursor:</string>
+            <string>Default cursor:</string>
            </property>
           </widget>
          </item>
@@ -506,7 +506,7 @@
             <string>Adjust speed of zooming when scrolling in and out with the mouse wheel</string>
            </property>
            <property name="text">
-            <string>Zoom Scroll Speed:</string>
+            <string>Zoom scroll speed:</string>
            </property>
           </widget>
          </item>

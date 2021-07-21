@@ -17,7 +17,7 @@
       <string>Cache space on hard disk used to store HiPS images.</string>
      </property>
      <property name="text">
-      <string>Disk</string>
+      <string>Disk:</string>
      </property>
     </widget>
    </item>

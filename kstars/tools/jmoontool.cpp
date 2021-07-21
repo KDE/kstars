@@ -37,7 +37,7 @@ JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 {
     QFrame *page = new QFrame(this);
 
-    setWindowTitle(i18n("Jupiter Moons Tool"));
+    setWindowTitle(i18nc("@title:window", "Jupiter Moons Tool"));
     setModal(false);
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);

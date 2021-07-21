@@ -16,7 +16,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>Supernovae options</string>
+        <string>Supernovae Options</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -50,14 +50,14 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Set the magnitude limit for supernova to show</string>
+             <string>Set the magnitude limit for supernova to show:</string>
             </property>
            </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Set the magnitude limit for supernova alerts</string>
+             <string>Set the magnitude limit for supernova alerts:</string>
             </property>
            </widget>
           </item>

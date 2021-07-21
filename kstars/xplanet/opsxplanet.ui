@@ -166,14 +166,14 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>XPlanet Timeout</string>
+              <string>XPlanet timeout:</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>Animation Delay</string>
+              <string>Animation delay:</string>
              </property>
             </widget>
            </item>
@@ -213,7 +213,7 @@
            <item row="1" column="0">
             <widget class="QCheckBox" name="kcfg_XplanetUseFIFO">
              <property name="toolTip">
-              <string>Use kstars's FOV?</string>
+              <string>Use KStars's FOV?</string>
              </property>
              <property name="whatsThis">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked, XPlanet will use a FIFO file in the /tmp directory to temporarily save the XPlanet image for KStars to load them and update the view.  If not checked, XPlanet will actually save the files to the XPlanet folder in the KStars data directory.  Using a FIFO file should save the hard disk from excessive reads/writes and may offer a performance enhancement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -459,7 +459,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="textLabelXplanetGlare">
              <property name="text">
-              <string>Glare of Sun:</string>
+              <string>Glare of sun:</string>
              </property>
             </widget>
            </item>
@@ -590,7 +590,7 @@
                 <item>
                  <widget class="QRadioButton" name="kcfg_XplanetLabelLocalTime">
                   <property name="text">
-                   <string>local time</string>
+                   <string>Local time</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>

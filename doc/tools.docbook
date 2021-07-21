@@ -1,5 +1,5 @@
 <chapter id="tools">
-<title>KStars Tools</title>
+<title>&kstars; Tools</title>
 <para>
 <indexterm><primary>Tools</primary></indexterm>
 &kstars; comes with a number of tools that allow you to explore
@@ -10,7 +10,7 @@ some more advanced aspects of astronomy and the night sky.
 <listitem><para><link linkend="tool-details">Object Details</link></para></listitem>
 <listitem><para><link linkend="tool-calculator">Astrocalculator</link></para></listitem>
 <listitem><para><link linkend="tool-altvstime">Altitude vs. Time Plotter</link></para></listitem>
-<listitem><para><link linkend="tool-whatsup">What's Up Tonight?</link></para></listitem>
+<listitem><para><link linkend="tool-whatsup">What's up Tonight?</link></para></listitem>
 <listitem><para><link linkend="tool-eyepieceview">Simulate Eyepiece View</link></para></listitem>
 <listitem><para><link linkend="tool-scriptbuilder">Script  Builder</link></para></listitem>
 <listitem><para><link linkend="tool-solarsys">Solar System Viewer</link></para></listitem>

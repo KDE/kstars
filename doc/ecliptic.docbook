@@ -42,7 +42,7 @@ differences in temperature we experience in Summer and Winter.
 <para>Exercises:</para>
 <para>
 Make sure your location is set to somewhere that is not very near the equator
-for these experiments.  Open the <guilabel>Configure &kstars;</guilabel> window, and
+for these experiments.  Open the <guilabel>Configure - &kstars;</guilabel> window, and
 switch to Horizontal coordinates, with the Opaque Ground shown.  Open the
 <guilabel>Set Time</guilabel> window
 (<keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>),and change the
@@ -51,7 +51,7 @@ the Main Window, point toward the Southern Horizon (press <keycap>S</keycap>).
 Note the height of the Sun above the Horizon at Noon in the Summer.  Now, change
 the Date to something in the middle of Winter (but keep the Time at 12:00 Noon).
 The Sun is now much lower in the Sky.  You will also notice that the day durations
-are different if you open the <guilabel>What's Up Tonight?</guilabel> tool for
+are different if you open the <guilabel>What's up Tonight?</guilabel> tool for
 each date.
 </para>
 </tip>

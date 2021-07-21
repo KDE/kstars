@@ -514,7 +514,7 @@ void Mosaic::accept()
 
 void Mosaic::saveJobsDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), ui->jobsDir->text());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "FITS Save Directory"), ui->jobsDir->text());
 
     if (!dir.isEmpty())
         ui->jobsDir->setText(dir);

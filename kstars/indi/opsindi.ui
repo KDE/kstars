@@ -65,7 +65,7 @@
            <string>Default INDI video port</string>
           </property>
           <property name="text">
-           <string>INDI Server:</string>
+           <string>INDI server:</string>
           </property>
          </widget>
         </item>
@@ -102,14 +102,14 @@
            <string>Default INDI video port</string>
           </property>
           <property name="text">
-           <string>INDI Drivers XML Directory:</string>
+           <string>INDI drivers XML directory:</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="kcfg_indiDriversDir">
           <property name="toolTip">
-           <string>path to the INDI drivers xml directory</string>
+           <string>Path to the INDI drivers XML directory</string>
           </property>
           <property name="text">
            <string notr="true">/usr/share/indi</string>
@@ -151,7 +151,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>INDIHub Agent</string>
+           <string>INDIHub agent:</string>
           </property>
          </widget>
         </item>
@@ -251,7 +251,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars is the master source for time and location settings. All INDI devices time and locations settings are synchronized to KStars settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>KStars Updates All Devices</string>
+               <string>KStars updates all devices</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -290,7 +290,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mount handset is the master source of time and location settings. KStars time and location settings are synchronized with controller settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Mount Updates KStars</string>
+               <string>Mount updates KStars</string>
               </property>
              </widget>
             </item>
@@ -300,7 +300,7 @@
                <string>Enable geographic location synchronization upon connection between KStars and INDI</string>
               </property>
               <property name="whatsThis">
-               <string>Synchronize KStars location settings from the update source</string>
+               <string>Synchronize KStars location settings from the update source.</string>
               </property>
               <property name="text">
                <string>Location</string>
@@ -316,7 +316,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GPS driver is the master source of time and location settings. KStars time and location settings are synchronized with GPS settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>GPS Updates KStars</string>
+               <string>GPS updates KStars</string>
               </property>
              </widget>
             </item>
@@ -367,21 +367,21 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Transfer Buffer (MB)</string>
+               <string>Transfer Buffer (MB):</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Port From:</string>
+               <string>Port from:</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>Port To:</string>
+               <string>Port to:</string>
               </property>
              </widget>
             </item>
@@ -510,14 +510,14 @@
         <item>
          <widget class="QCheckBox" name="kcfg_independentWindowINDI">
           <property name="text">
-           <string>Independent Window</string>
+           <string>Independent window</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_messageNotificationINDI">
           <property name="toolTip">
-           <string>Show INDI messages as desktop notifications instead of dialogs</string>
+           <string>Show INDI messages as desktop notifications instead of dialogs.</string>
           </property>
           <property name="text">
            <string>Message notifications</string>

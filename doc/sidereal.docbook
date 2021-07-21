@@ -68,8 +68,9 @@ the clocks for a while, you will notice that the Sidereal seconds really are
 slightly shorter than the LT and UT seconds.
 </para><para>
 Point to the <link linkend="ai-zenith">Zenith</link> (press <keycap>Z</keycap>
-or select <guimenuitem>Zenith</guimenuitem> from the <guimenu>Location</guimenu>
-menu).  The Zenith is the point on the sky where you are looking <quote>straight
+or select the <menuchoice><guimenu>Pointing</guimenu>
+<guimenuitem>Zenith</guimenuitem></menuchoice> menu item). The Zenith is the point
+on the sky where you are looking <quote>straight
 up</quote> from the ground, and it is a point on your <link
 linkend="ai-meridian">Local Meridian</link>.  Note the Right Ascension of the
 Zenith: it is exactly the same as your Local Sidereal Time.

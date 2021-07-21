@@ -4,10 +4,10 @@
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Focus</tertiary>
-    </indexterm>    
+    </indexterm>
     <sect3 id="focus-theory">
         <title>Theory Of Operation</title>
-        
+
         <screenshot>
             <screeninfo>
                 Ekos Focus
@@ -21,7 +21,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             In order to focus an image, Ekos needs to establish a numerical method for gauging how <emphasis>good</emphasis> your focus is. It's easy when you look at an image and can see it as <emphasis>unfocused</emphasis>, as the human is very good at detecting that, but <emphasis>how</emphasis> can Ekos possibly know that?
         </para>
@@ -44,10 +44,10 @@
             While Ekos Focus Module supports relative focusers, it is <emphasis role="bold">highly recommended</emphasis> to use absolute focusers.
         </para>
     </sect3>
-    
+
     <sect3 id="focus-focuser-group">
         <title>Focuser Group</title>
-        
+
         <screenshot>
             <screeninfo>
                 Focuser Settings
@@ -61,7 +61,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             Any INDI-compatible focuser is supported. It is recommended to use <emphasis role="bold">absolute</emphasis> focusers since their absolute position is known on power up. In INDI, the focuser <emphasis>zero</emphasis> position is when the drawtube is <emphasis role="bold">fully retracted</emphasis>. When focusing <emphasis>outwards</emphasis>, the focuser position increases, while it decreases when focusing <emphasis>inwards</emphasis>. The following focuser types are supported:
         </para>
@@ -83,16 +83,16 @@
             </listitem>
         </itemizedlist>
         <para>
-            For absolute focusers, you can set the ticks count. To view a continuous feed of the camera, click the <guibutton>Framing</guibutton> button. An image shall be captured repeatedly according to the CCD settings in the <guilabel>CCD and Filter Wheel</guilabel> group. You can focus in and out by pressing the respective buttons, and each shall move by the step size indicated in the focus settings. For absolute and relative focusers, the step size is in units of <emphasis>ticks</emphasis> and for simple DC focusers, the step size is in <emphasis>milliseconds</emphasis>
+            For absolute focusers, you can set the ticks count. To view a continuous feed of the camera, click the <guibutton>Framing</guibutton> button. An image shall be captured repeatedly according to the CCD settings in the <guilabel>CCD and Filter Wheel</guilabel> group. You can focus in and out by pressing the respective buttons, and each shall move by the step size indicated in the focus settings. For absolute and relative focusers, the step size is in units of <emphasis>ticks</emphasis> and for simple DC focusers, the step size is in <emphasis>milliseconds</emphasis>.
         </para>
         <para>
             To begin the autofocus process, simply click the <guibutton>Auto Focus</guibutton> button.
         </para>
     </sect3>
-    
+
     <sect3 id="focus-ccd-filter-wheel">
         <title>CCD &amp; Filter Wheel Group</title>
-        
+
         <screenshot>
             <screeninfo>
                 Focus CCD &amp; Filter Wheel Group
@@ -106,7 +106,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             You must specify the CCD and Filter Wheel (if any) to be used during the focusing process. You can <emphasis role="bold">lock</emphasis> a specific filter within the filter wheel to be utilized whenever the autofocus process is invoked. Usually, the user should select the Clear/Luminescence filter for this purpose so that Ekos always uses the same filter to perform the autofocus process. This locked filter is also used in the <link linkend="ekos-align">Alignment Module</link> whenever it performs any astrometry capture.
         </para>
@@ -114,10 +114,10 @@
             You may also select an <guilabel>Effect</guilabel> filter to enhance the image for preview purposes. It is highly advisable to turn off any effects during the focusing process as it may interfere with HFR calculations. For DSLRs cameras, you can change the ISO settings. You may reset the focusing subframe to full frame capture if you click the <guibutton>Reset</guibutton> button.
         </para>
     </sect3>
-    
+
     <sect3 id="focus-settings">
         <title>Settings</title>
-        
+
         <screenshot>
             <screeninfo>
                 Focus Settings
@@ -131,7 +131,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             You may need to adjust focus settings in order to achieve a successful and reliable autofocus process. The settings are retained between sessions.
         </para>
@@ -209,10 +209,10 @@
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="focus-v-curve">
         <title>V-Curve</title>
-        
+
         <screenshot>
             <screeninfo>
                 Focus V-Curve
@@ -226,7 +226,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             The V-shaped curve displays absolute position versus Half-Flux-Radius (HFR) values. The center of the V-curve is the optimal focus position. Once Ekos crosses from one side of the V-curve to the other, it backtracks and tries to find the optimal focus position. The final focus position is decided by which algorithm is selected.
         </para>
@@ -234,10 +234,10 @@
             When framing, the horizontal axis denotes the frame number. This is to aid you in the framing process as you can see how HFR changes between frames.
         </para>
     </sect3>
-    
+
     <sect3 id="focus-relative-profile">
         <title>Relative Profile</title>
-        
+
         <screenshot>
             <screeninfo>
                 Focus Relative Profile
@@ -251,7 +251,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             The relative profile is a graph that displays the relative HFR values plotted against each other. Lower HFR values correspond to narrower shapes and vice-versa. The solid red curve is the profile of the current HFR value, while the dotted green curve is for the previous HFR value. Finally, the magenta curve denotes the first measured HFR and is displayed when the autofocus process concludes. This enables you to judge how well the autofocus process improved the relative focus quality.
         </para>

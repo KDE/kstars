@@ -226,7 +226,7 @@ void OpsXplanet::slotSelectConfigFile()
 {
     QString xplanetConfig = XPlanetShareDirectory() + QDir::separator() + "config";
     QString file =
-        QFileDialog::getOpenFileName(KStars::Instance(), i18n("Select XPlanet Config File"), xplanetConfig);
+        QFileDialog::getOpenFileName(KStars::Instance(), i18nc("@title:window", "Select XPlanet Config File"), xplanetConfig);
 
     if (!file.isEmpty())
         kcfg_XplanetConfigFilePath->setText(QFileInfo(file).completeBaseName());
@@ -238,7 +238,7 @@ void OpsXplanet::slotSelectStarMapFile()
     QString xplanetStarMap = XPlanetShareDirectory() + QDir::separator() + "stars";
 
     QString file =
-        QFileDialog::getOpenFileName(KStars::Instance(), i18n("Select XPlanet Star Map File"), xplanetStarMap);
+        QFileDialog::getOpenFileName(KStars::Instance(), i18nc("@title:window", "Select XPlanet Star Map File"), xplanetStarMap);
 
     if (!file.isEmpty())
         kcfg_XplanetStarmapPath->setText(QFileInfo(file).completeBaseName());
@@ -251,7 +251,7 @@ void OpsXplanet::slotSelectArcFile()
     QString xplanetArc = XPlanetShareDirectory() + QDir::separator() + "arcs";
 
     QString file =
-        QFileDialog::getOpenFileName(KStars::Instance(), i18n("Select XPlanet Arc File"), xplanetArc);
+        QFileDialog::getOpenFileName(KStars::Instance(), i18nc("@title:window", "Select XPlanet Arc File"), xplanetArc);
 
     if (!file.isEmpty())
         kcfg_XplanetArcFilePath->setText(QFileInfo(file).completeBaseName());

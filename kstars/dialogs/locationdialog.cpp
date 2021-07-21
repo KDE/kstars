@@ -63,7 +63,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
 
     ld->MapView->setLocationDialog(this);
 
-    setWindowTitle(i18n("Set Geographic Location"));
+    setWindowTitle(i18nc("@title:window", "Set Geographic Location"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -111,7 +111,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     connect(ld->GetLocationButton, SIGNAL(clicked()), this, SLOT(requestUpdate()));
 #endif
 
-    ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST Rule:") + "</a>");
+    ld->DSTLabel->setText("<a href=\"showrules\">" + i18n("DST rule:") + "</a>");
     connect(ld->DSTLabel, SIGNAL(linkActivated(QString)), this, SLOT(showTZRules()));
 
     dataModified = false;

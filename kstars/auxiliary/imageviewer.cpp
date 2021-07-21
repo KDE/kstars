@@ -125,7 +125,7 @@ void ImageViewer::init(QString caption, QString capText)
 #ifndef KSTARS_LITE
     setAttribute(Qt::WA_DeleteOnClose, true);
     setModal(false);
-    setWindowTitle(i18n("KStars image viewer: %1", caption));
+    setWindowTitle(i18nc("@title:window", "KStars image viewer: %1", caption));
 
     // Create widget
     QFrame *page = new QFrame(this);
@@ -320,7 +320,7 @@ void ImageViewer::saveFileToDisc()
     QFileDialog dialog;
 
     QUrl newURL =
-        dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image"), lastURL); // save-dialog with default filename
+        dialog.getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save Image"), lastURL); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
         //QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).toLocalFile() + '/' +  newURL.fileName());

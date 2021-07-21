@@ -82,7 +82,7 @@ ObservingList::ObservingList()
     ui                      = new ObservingListUI(this);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
-    setWindowTitle(i18n("Observation Planner"));
+    setWindowTitle(i18nc("@title:window", "Observation Planner"));
 
     setLayout(mainLayout);
 
@@ -839,7 +839,7 @@ void ObservingList::saveCurrentUserLog()
 
 void ObservingList::slotOpenList()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Observing List"), QUrl(),
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Observing List"), QUrl(),
                    "KStars Observing List (*.obslist)");
     QFile f;
 
@@ -967,7 +967,7 @@ void ObservingList::slotSaveSessionAs(bool nativeSave)
     if (sessionList().isEmpty())
         return;
 
-    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(),
+    QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save Observing List"), QUrl(),
                    "KStars Observing List (*.obslist)");
     if (fileURL.isValid())
     {
@@ -1036,7 +1036,7 @@ void ObservingList::slotLoadWishList()
     QString line;
 
     QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
-    addingObjectsProgress->setWindowTitle(i18n("Observing List Wizard"));
+    addingObjectsProgress->setWindowTitle(i18nc("@title:window", "Observing List Wizard"));
     addingObjectsProgress->setLabelText(i18n("Please wait while loading objects..."));
     addingObjectsProgress->setMaximum(0);
     addingObjectsProgress->setMinimum(0);
@@ -1127,7 +1127,7 @@ void ObservingList::slotWizard()
     if (wizard->exec() == QDialog::Accepted)
     {
         QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
-        addingObjectsProgress->setWindowTitle(i18n("Observing List Wizard"));
+        addingObjectsProgress->setWindowTitle(i18nc("@title:window", "Observing List Wizard"));
         addingObjectsProgress->setLabelText(i18n("Please wait while adding objects..."));
         addingObjectsProgress->setMaximum(wizard->obsList().size());
         addingObjectsProgress->setMinimum(0);

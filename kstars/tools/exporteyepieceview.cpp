@@ -48,7 +48,7 @@ ExportEyepieceView::ExportEyepieceView(const SkyPoint *_sp, const KStarsDateTime
     if (renderImage != nullptr)
         m_renderImage.reset(new QPixmap(*renderImage));
 
-    setWindowTitle(i18n("Export eyepiece view"));
+    setWindowTitle(i18nc("@title:window", "Export eyepiece view"));
 
     QWidget *mainWidget     = new QWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -182,7 +182,7 @@ void ExportEyepieceView::render()
 void ExportEyepieceView::slotSaveImage()
 {
     // does nothing at the moment. TODO: Implement.
-    QString fileName = QFileDialog::getSaveFileName(this, i18n("Save image as"), QString(),
+    QString fileName = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Image as"), QString(),
                                                     i18n("Image files (*.png *.jpg *.xpm *.bmp *.gif)"));
     if (!fileName.isEmpty())
     {

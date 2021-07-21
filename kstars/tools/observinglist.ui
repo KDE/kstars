@@ -342,7 +342,7 @@
             <string>Open the WUT dialog</string>
            </property>
            <property name="whatsThis">
-            <string>Opens the What's up tonight dialog, from which objects can be added to the list</string>
+            <string>Opens the What's up Tonight dialog, from which objects can be added to the list</string>
            </property>
            <property name="text">
             <string>What's up Tonight tool</string>
@@ -535,7 +535,7 @@
            <item>
             <widget class="QLabel" name="quickInfoLabel">
              <property name="text">
-              <string>Select an object to view information here.</string>
+              <string>Select an Object to View Information here</string>
              </property>
             </widget>
            </item>

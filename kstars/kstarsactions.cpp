@@ -1133,7 +1133,7 @@ void KStars::syncOps()
 {
     opterrain->syncOptions();
     actionCollection()->action("toggle_terrain")
-    ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
+    ->setText(Options::showTerrain() ? i18n("Hide terrain") : i18n("Show terrain"));
 }
 
 void KStars::slotApplyConfigChanges()
@@ -1239,7 +1239,7 @@ void KStars::slotOpenFITS()
 
     static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), path,
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Image"), path,
                    "Images (*.fits *.fits.fz *.fit *.fts "
                    "*.jpg *.jpeg *.png *.gif *.bmp "
                    "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
@@ -1270,7 +1270,7 @@ void KStars::slotExportImage()
     //As of 2014-07-19
     //QUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
     QUrl fileURL =
-        QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Image"), QUrl(),
+        QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Export Image"), QUrl(),
                    "Images (*.png *.jpeg *.gif *.bmp *.svg)");
 
     //User cancelled file selection dialog - abort image export
@@ -1658,7 +1658,7 @@ void KStars::slotCoordSys()
         }
         actionCollection()
             ->action("coordsys")
-            ->setText(i18n("Switch to horizonal view (Horizontal &Coordinates)"));
+            ->setText(i18n("Switch to Horizonal View (Horizontal &Coordinates)"));
     }
     else
     {
@@ -1670,7 +1670,7 @@ void KStars::slotCoordSys()
         }
         actionCollection()
             ->action("coordsys")
-            ->setText(i18n("Switch to star globe view (Equatorial &Coordinates)"));
+            ->setText(i18n("Switch to Star Globe View (Equatorial &Coordinates)"));
     }
     map()->forceUpdate();
 }

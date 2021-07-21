@@ -54,7 +54,7 @@ PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClo
     mainLayout->addWidget(pw);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Solar System Viewer"));
+    setWindowTitle(i18nc("@title:window", "Solar System Viewer"));
     //setMainWidget( pw );
     //setButtons( QDialog::Close );
     setModal(false);

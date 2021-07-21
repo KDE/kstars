@@ -448,7 +448,7 @@ void GuideDriftGraph::exportGuideData()
     if (numPoints == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(this, i18n("Export Guide Data"), guideURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(this, i18nc("@title:window", "Export Guide Data"), guideURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;

@@ -68,7 +68,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     if (i18n("Sky") == "السماء")
         qApp->setLayoutDirection(Qt::RightToLeft);
 
-    setWindowTitle(i18n("KStars"));
+    setWindowTitle(i18nc("@title:window", "KStars"));
 
     // Set thread stack size to 32MB
 #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
@@ -351,8 +351,8 @@ void KStars::applyConfig(bool doApplyFocus)
 
     actionCollection()
     ->action("coordsys")
-    ->setText(Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
-              i18n("Switch to horizonal view (Horizontal &Coordinates)"));
+    ->setText(Options::useAltAz() ? i18n("Switch to Star Globe View (Equatorial &Coordinates)") :
+              i18n("Switch to Horizonal View (Horizontal &Coordinates)"));
 
     actionCollection()->action("show_time_box")->setChecked(Options::showTimeBox());
     actionCollection()->action("show_location_box")->setChecked(Options::showGeoBox());

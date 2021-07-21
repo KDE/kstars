@@ -157,7 +157,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_24">
              <property name="text">
-              <string>Scheduled Time:</string>
+              <string>Scheduled time:</string>
              </property>
             </widget>
            </item>
@@ -171,7 +171,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
-              <string>Right Ascension:</string>
+              <string>Right ascension:</string>
              </property>
             </widget>
            </item>
@@ -229,7 +229,7 @@
          <item>
           <widget class="KTitleWidget" name="ktitlewidget_4" native="true">
            <property name="text" stdset="0">
-            <string>Set observing notes for the object:</string>
+            <string>Set Observing Notes for the Object:</string>
            </property>
           </widget>
          </item>

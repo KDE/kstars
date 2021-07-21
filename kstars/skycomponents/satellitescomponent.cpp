@@ -164,7 +164,7 @@ void SatellitesComponent::updateTLEs()
             continue;
 
         progressDlg.setLabelText(i18n("Update %1 satellites", group->name()));
-        progressDlg.setWindowTitle(i18n("Satellite Orbital Elements Update"));
+        progressDlg.setWindowTitle(i18nc("@title:window", "Satellite Orbital Elements Update"));
 
         QNetworkAccessManager manager;
         QNetworkReply *response = manager.get(QNetworkRequest(group->tleUrl()));

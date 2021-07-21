@@ -47,7 +47,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Load Device Configuration:</string>
+            <string>Load device configuration:</string>
            </property>
           </widget>
          </item>
@@ -88,7 +88,7 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Icons Orientation:</string>
+         <string>Icons orientation:</string>
         </property>
        </widget>
       </item>
@@ -142,7 +142,7 @@
        <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
       </property>
       <property name="text">
-       <string>Independent Window</string>
+       <string>Independent window</string>
       </property>
      </widget>
     </item>
@@ -211,7 +211,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Lead Time:</string>
+          <string>Lead time:</string>
          </property>
         </widget>
        </item>
@@ -224,7 +224,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Pre-dawn</string>
+          <string>Pre-dawn:</string>
          </property>
         </widget>
        </item>
@@ -237,7 +237,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Pre-emptive shutdown</string>
+          <string>Pre-emptive shutdown:</string>
          </property>
         </widget>
        </item>
@@ -254,7 +254,7 @@
           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Setting Altitude Cutoff</string>
+          <string>Setting altitude cutoff:</string>
          </property>
         </widget>
        </item>
@@ -267,7 +267,7 @@
           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Dusk Offset</string>
+          <string>Dusk offset:</string>
          </property>
         </widget>
        </item>
@@ -290,7 +290,7 @@
           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Dawn Offset</string>
+          <string>Dawn offset:</string>
          </property>
         </widget>
        </item>
@@ -337,7 +337,7 @@
           <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
          </property>
          <property name="text">
-          <string>Stop Ekos After Shutdown</string>
+          <string>Stop Ekos after shutdown</string>
          </property>
         </widget>
        </item>
@@ -347,7 +347,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Shutdown Script Terminates INDI</string>
+          <string>Shutdown script terminates INDI</string>
          </property>
         </widget>
        </item>
@@ -381,7 +381,7 @@
           <string>High priority and altitude jobs are executed first</string>
          </property>
          <property name="text">
-          <string>Sort jobs by Altitude and Priority</string>
+          <string>Sort jobs by altitude and priority</string>
          </property>
         </widget>
        </item>
@@ -391,7 +391,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When processing a scheduled job, resume the sequence starting from the last image present in storage.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Remember Job Progress</string>
+          <string>Remember job progress</string>
          </property>
          <property name="checked">
           <bool>false</bool>
@@ -425,14 +425,14 @@
        <item>
         <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
          <property name="text">
-          <string>Reset Mount Model On Alignment Failure</string>
+          <string>Reset mount model on alignment failure</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
          <property name="text">
-          <string>Reset Mount Model Before Starting Each Job</string>
+          <string>Reset mount model before starting each job</string>
          </property>
         </widget>
        </item>
@@ -442,7 +442,7 @@
           <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
          </property>
          <property name="text">
-          <string>Force Re-alignment Before Starting Each Job</string>
+          <string>Force re-alignment before starting each job</string>
          </property>
         </widget>
        </item>
@@ -452,7 +452,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Restart Alignment on Guiding Calibration Failure</string>
+          <string>Restart alignment on guiding calibration failure</string>
          </property>
         </widget>
        </item>
@@ -505,7 +505,7 @@
          <item row="1" column="2">
           <widget class="QLabel" name="label_14">
            <property name="text">
-            <string>Seconds</string>
+            <string>seconds</string>
            </property>
           </widget>
          </item>
@@ -542,7 +542,7 @@
             <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
            </property>
            <property name="text">
-            <string>Temperature Threshold:</string>
+            <string>Temperature threshold:</string>
            </property>
           </widget>
          </item>
@@ -568,7 +568,7 @@
             <string>Wait this many seconds after guiding is resumed to stabilize the guiding performance before capture.</string>
            </property>
            <property name="text">
-            <string>Guiding Settle:</string>
+            <string>Guiding settle:</string>
            </property>
           </widget>
          </item>
@@ -578,7 +578,7 @@
             <string>Cover or uncover telescope dialog timeout in seconds</string>
            </property>
            <property name="text">
-            <string>Dialog Timeout:</string>
+            <string>Dialog timeout:</string>
            </property>
           </widget>
          </item>
@@ -598,7 +598,7 @@
          <item row="2" column="2">
           <widget class="QLabel" name="label_16">
            <property name="text">
-            <string>Seconds</string>
+            <string>seconds</string>
            </property>
           </widget>
          </item>
@@ -607,10 +607,10 @@
        <item>
         <widget class="QCheckBox" name="kcfg_AlwaysResetSequenceWhenStarting">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember Job Progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember job progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Always Reset Sequence When Starting</string>
+          <string>Always reset sequence when starting</string>
          </property>
          <property name="checked">
           <bool>false</bool>
@@ -620,7 +620,7 @@
        <item>
         <widget class="QCheckBox" name="kcfg_ResetMountModelAfterMeridian">
          <property name="text">
-          <string>Reset Mount Model After Meridian Flip</string>
+          <string>Reset mount model after meridian flip</string>
          </property>
         </widget>
        </item>
@@ -632,7 +632,7 @@
             <string>Display received FITS in the Summary screen preview window.</string>
            </property>
            <property name="text">
-            <string>Summary Screen Preview</string>
+            <string>Summary screen preview</string>
            </property>
           </widget>
          </item>
@@ -678,7 +678,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Force exposure times to align with DSLR exposure presets. This insures accurate exposure times for sub-second exposures.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Force DSLR Presets</string>
+          <string>Force DSLR presets</string>
          </property>
         </widget>
        </item>
@@ -688,7 +688,7 @@
           <string>Display received DSLR images in the Image Viewer</string>
          </property>
          <property name="text">
-          <string>DSLR Image Viewer</string>
+          <string>DSLR image viewer</string>
          </property>
         </widget>
        </item>
@@ -791,17 +791,17 @@
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set HFR Threshold percentage gain. When an autofocus operation is completed, the autofocus HFR value is increased by this threshold percentage value and stored within the capture module. If In-Sequence-Focus is engaged, the autofocus module only performs autofocusing procedure if current HFR value exceeds the capture module HFR threshold. Increase value to permit more relaxed changes in HFR values without requiring a full autofocus run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>HFR Threshold Modifier:</string>
+            <string>HFR threshold modifier:</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0" colspan="2">
           <widget class="QLabel" name="label_11">
            <property name="toolTip">
-            <string>Run In-Sequence HFR check after this many frames.</string>
+            <string>Run in-sequence HFR check after this many frames.</string>
            </property>
            <property name="text">
-            <string>In-Sequence HFR Check:</string>
+            <string>In-sequence HFR check:</string>
            </property>
           </widget>
          </item>
@@ -826,17 +826,17 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate median focus value after each autofocus operation is complete. If the autofocus results become progressively worse with time, the median value shall reflect this trend and prevent unnecessary autofocus operations when the seeing conditions deteriorate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Use Median Focus</string>
+          <string>Use median focus</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="kcfg_SaveHFRToFile">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In-Sequence HFR threshold value controls when the autofocus process is started. If the measured HFR value exceeds the HFR threshold, autofocus process is initiated. If the HFR threshold value is zero initially (default), then the autofocus process best HFR value is used to set the new HFR threshold, after applying the HFR threshold modifier percentage. This new HFR threshold is then used for subsequent In-Sequence focus checks. If this option is enabled, the HFR threshold value is constant and gets saved to the sequence file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In-sequence HFR threshold value controls when the autofocus process is started. If the measured HFR value exceeds the HFR threshold, autofocus process is initiated. If the HFR threshold value is zero initially (default), then the autofocus process best HFR value is used to set the new HFR threshold, after applying the HFR threshold modifier percentage. This new HFR threshold is then used for subsequent In-Sequence focus checks. If this option is enabled, the HFR threshold value is constant and gets saved to the sequence file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Save Sequence HFR Value to File</string>
+          <string>Save sequence HFR value to file</string>
          </property>
         </widget>
        </item>

@@ -85,7 +85,7 @@ FOVDialog::FOVDialog(QWidget *p) : QDialog(p)
         fovID = qRegisterMetaType<FOV *>("FOV*");
     fov = new FOVDialogUI(this);
 
-    setWindowTitle(i18n("Set FOV Indicator"));
+    setWindowTitle(i18nc("@title:window", "Set FOV Indicator"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(fov);
@@ -185,7 +185,7 @@ NewFOV::NewFOV(QWidget *parent, const FOV *fov) : QDialog(parent), f()
 {
     ui = new NewFOVUI(this);
 
-    setWindowTitle(i18n("New FOV Indicator"));
+    setWindowTitle(i18nc("@title:window", "New FOV Indicator"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -402,7 +402,7 @@ void NewFOV::slotDetectFromINDI()
 
 TelescopeFL::TelescopeFL(QWidget *parent) : QDialog(parent), aperture(nullptr), fNumber(nullptr), apertureUnit(nullptr)
 {
-    setWindowTitle(i18n("Telescope Focal Length Calculator"));
+    setWindowTitle(i18nc("@title:window", "Telescope Focal Length Calculator"));
 
     //QWidget *mainWidget = new QWidget( this );
     QGridLayout *mainLayout = new QGridLayout(this);

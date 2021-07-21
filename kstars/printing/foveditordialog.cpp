@@ -36,7 +36,7 @@ FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    setWindowTitle(i18n("Field of View Snapshot Browser"));
+    setWindowTitle(i18nc("@title:window", "Field of View Snapshot Browser"));
 }
 
 FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent)
@@ -127,7 +127,7 @@ void FovEditorDialog::slotSaveImage()
 
     //If the filename string contains no "/" separators, assume the
     //user wanted to place a file in their home directory.
-    QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), QUrl(QDir::homePath()),
+    QString url = QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save Image"), QUrl(QDir::homePath()),
                   "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp")
                   .url();
     QUrl fileUrl;

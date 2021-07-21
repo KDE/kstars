@@ -250,7 +250,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     /* Create GUI */
     createGUI("fitsviewerui.rc");
 
-    setWindowTitle(i18n("KStars FITS Viewer"));
+    setWindowTitle(i18nc("@title:window", "KStars FITS Viewer"));
 
     /* initially resize in accord with KDE rules */
     show();
@@ -639,7 +639,7 @@ void FITSViewer::starProfileButtonOff()
 
 void FITSViewer::openFile()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Image"), lastURL,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Open Image"), lastURL,
                    "Images (*.fits *.fits.fz *.fit *.fts "
                    "*.jpg *.jpeg *.png *.gif *.bmp "
                    "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");

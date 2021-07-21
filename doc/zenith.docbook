@@ -24,8 +24,8 @@ linkend="ai-meridian">Local Meridian</link>.
 <tip>
 <para>Exercise:</para>
 <para>
-You can point to the Zenith by pressing <keycap>Z</keycap> or by selecting
-<guimenuitem>Zenith</guimenuitem> from the <guimenu>Location</guimenu> menu.
+You can point to the Zenith by pressing <keycap>Z</keycap> or by selecting the
+<menuchoice><guimenu>Pointing</guimenu> <guimenuitem>Zenith</guimenuitem></menuchoice> menu item.
 </para>
 </tip>
 </sect1>

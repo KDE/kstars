@@ -380,7 +380,7 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent)
     mainLayout->addStretch();
     mainLayout->addWidget(buttonBox);
 
-    setWindowTitle(i18n("Port Selector"));
+    setWindowTitle(i18nc("@title:window", "Port Selector"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

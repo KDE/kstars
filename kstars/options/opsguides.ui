@@ -68,7 +68,7 @@
        <item>
         <widget class="QCheckBox" name="kcfg_ShowConstellationArt">
          <property name="text">
-          <string>Constellation Art</string>
+          <string>Constellation art</string>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">constellationButtonGroup</string>
@@ -220,7 +220,7 @@
         <string>If checked, the Milky Way contour will be shown filled.  Otherwise, only the outline will be drawn.</string>
        </property>
        <property name="text">
-        <string>Fill Milk&amp;y Way</string>
+        <string>Fill milk&amp;y way</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">constellationButtonGroup</string>
@@ -252,7 +252,7 @@
         <string>If checked, a contour representing the Milky Way will be drawn on the sky map</string>
        </property>
        <property name="text">
-        <string>Mil&amp;ky Way</string>
+        <string>Mil&amp;ky way</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">constellationButtonGroup</string>
@@ -358,7 +358,7 @@
      <item row="6" column="2">
       <widget class="QCheckBox" name="kcfg_ShowLocalMeridian">
        <property name="text">
-        <string>Local Meridian</string>
+        <string>Local meridian</string>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">constellationButtonGroup</string>

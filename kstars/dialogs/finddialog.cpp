@@ -79,7 +79,7 @@ FindDialog::FindDialog(QWidget *parent)
 #endif
     ui = new FindDialogUI(this);
 
-    setWindowTitle(i18n("Find Object"));
+    setWindowTitle(i18nc("@title:window", "Find Object"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);

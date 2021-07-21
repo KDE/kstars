@@ -60,7 +60,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     container->setFocusPolicy(Qt::StrongFocus);
 
-    this->setWindowTitle(i18n("View Star Profile"));
+    this->setWindowTitle(i18nc("@title:window", "View Star Profile"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     QHBoxLayout *topLayout = new QHBoxLayout();

@@ -14,7 +14,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_HIPSShowGrid">
      <property name="text">
-      <string>Show HiPS Grid</string>
+      <string>Show HiPS grid</string>
      </property>
     </widget>
    </item>
@@ -28,7 +28,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_HIPSBiLinearInterpolation">
      <property name="text">
-      <string>Linear Interpolation</string>
+      <string>Linear interpolation</string>
      </property>
     </widget>
    </item>

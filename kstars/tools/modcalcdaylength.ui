@@ -840,7 +840,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Specify dates for the calculation in the input file.</string>
+          <string>Specify Dates for the Calculation in the Input File</string>
          </property>
         </widget>
        </item>

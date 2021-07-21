@@ -106,21 +106,20 @@ field of view is the actual angle covered on the sky by the telescope.
 <para>
 &kstars; has a tool to find and display (on the virtual sky) a true field of view called the <guilabel>FOV
 Indicator</guilabel>. Launch it by heading under the <menuchoice><guimenu>Settings</guimenu>
-<guisubmenu>FOV Symbols</guisubmenu><guimenuitem>Edit FOV Symbols</guimenuitem></menuchoice>.
-Clicking <guibutton>New</guibutton> will open a dialog with four different
+<guisubmenu>FOV Symbols</guisubmenu> <guimenuitem>Edit FOV Symbols...</guimenuitem></menuchoice> menu item.
+Clicking <guibutton>New...</guibutton> will open a dialog with four different
 tabs: <guilabel>Eyepiece</guilabel>, <guilabel>Camera</guilabel>, <guilabel>Binocular</guilabel>
 and <guilabel>Radiotelescope</guilabel>. To compute the field of
 view, select the tab that applies and enter the specifications of the equipment. Finally,
 clicking <guibutton>Compute FOV</guibutton> will calculate and display the field of view immediately below. &kstars;
 can now also display this as a shape of that size on the virtual sky. To do so, enter a name for
-this particular field of view (such as <userinput>20mm eyepiece</userinput> or <userinput>DSLR with refractor</userinput>) and select a
-shape and color to be displayed. For <guilabel>Eyepiece</guilabel>, use <guilabel>Circle</guilabel> or <guilabel>Semitransparent circle</guilabel> as
-the shape since an eyepiece's field is round. For <guilabel>Camera</guilabel>, use <guilabel>Square</guilabel> (which is actually a
-rectangle) assuming the sensor or film is rectangular or square. When using multiple eyepieces
+this particular field of view (such as <userinput>20mm eyepiece</userinput> or <userinput>DSLR with refractor</userinput>)
+and select a shape and color to be displayed. For <guilabel>Eyepiece</guilabel>, use <guimenuitem>Circle</guimenuitem> or
+<guimenuitem>Semitransparent circle</guimenuitem> as the shape since an eyepiece's field is round. For <guilabel>Camera</guilabel>,
+use <guimenuitem>Square</guimenuitem> (which is actually a rectangle) assuming the sensor or film is rectangular or square. When using multiple eyepieces
 and/or telescopes, it is good to distinguish them with different colors. Click <guibutton>OK</guibutton> to close the
 dialog. To show the shape on the screen, go back under the <menuchoice><guimenu>Settings</guimenu>
-<guisubmenu>FOV Symbols</guisubmenu></menuchoice>
-menus then select the new menu item with the name of whatever it was given. To disable it
+<guisubmenu>FOV Symbols</guisubmenu></menuchoice> submenu, then select the new menu item with the name of whatever it was given. To disable it
 again, click the menu item again.
 </para>
 </tip>

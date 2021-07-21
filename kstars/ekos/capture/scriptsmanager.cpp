@@ -42,13 +42,13 @@ void ScriptsManager::handleSelectScripts()
 
     QString title;
     if (button == ui->preJobB)
-        title = i18n("Pre Job Script");
+        title = i18nc("@title:window", "Pre Job Script");
     else if (button == ui->postJobB)
-        title = i18n("Post Job Script");
+        title = i18nc("@title:window", "Post Job Script");
     else if (button == ui->postCaptureB)
-        title = i18n("Post Capture Script");
+        title = i18nc("@title:window", "Post Capture Script");
     else if (button == ui->preCaptureB)
-        title = i18n("Pre Capture Script");
+        title = i18nc("@title:window", "Pre Capture Script");
 
     QUrl url = QFileDialog::getOpenFileUrl(this, title);
     if (!url.isValid())

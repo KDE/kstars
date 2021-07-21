@@ -4,7 +4,7 @@
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Guide</tertiary>
-    </indexterm>    
+    </indexterm>
     <screenshot>
         <screeninfo>
             Ekos Guide Module
@@ -21,7 +21,7 @@
     <sect3 id="guide-Introduction">
         <title>Introduction</title>
         <para>
-            Ekos Guide Module enables autoguiding capability using either the powerful built-in guider, or at your option, external guiding via <ulink url="http://openphdguiding.org/">PHD2</ulink> or <ulink url="https://sourceforge.net/projects/linguider/">lin_guider</ulink>. Using the internal guiding, guider CCD frames are captured and sent to Ekos for analysis. Depending on the deviations of the guide star from its lock position, guiding pulses corrections are sent to your mount <guilabel>Via</guilabel> any device that supports ST4 ports. Alternatively, you may send the corrections to your mount <emphasis>directly</emphasis>, if supported by the mount driver. Most of the GUI options in the Guide Module are well documented so just hover your mouse over an item and a tooltip will popup with helpful information.
+            Ekos Guide Module enables autoguiding capability using either the powerful built-in guider, or at your option, external guiding via <ulink url="https://openphdguiding.org/">PHD2</ulink> or <ulink url="https://sourceforge.net/projects/linguider/">lin_guider</ulink>. Using the internal guiding, guider CCD frames are captured and sent to Ekos for analysis. Depending on the deviations of the guide star from its lock position, guiding pulses corrections are sent to your mount <guilabel>Via</guilabel> any device that supports ST4 ports. Alternatively, you may send the corrections to your mount <emphasis>directly</emphasis>, if supported by the mount driver. Most of the &GUI; options in the Guide Module are well documented so just hover your mouse over an item and a tooltip will popup with helpful information.
         </para>
         <para>
             To perform guiding, you need to select a Guider CCD in <link linkend="ekos-profile-wizard">Ekos Profile Setup</link>. The telescope aperture and focal length must be set in the telescope driver. If the Guider CCD is attached to a separate Guide Scope, you must also set the Guide Scope's <guilabel>Focal Length</guilabel> and <guilabel>Aperture</guilabel>. You can set these values under the <guilabel>Options</guilabel> tab of the <link linkend="indi-telescope-setup">telescope driver</link> or from the Mount module. Autoguiding is a two-step process: Calibration &amp; Guiding.
@@ -72,7 +72,7 @@
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="guide-dark-frames">
         <title>Dark Frames</title>
         <para>
@@ -95,10 +95,10 @@
             It is recommended to take dark frames covering several binning and exposure values so that they may be reused transparently by Ekos whenever needed.
         </para>
     </sect3>
-    
+
     <sect3 id="guide-calibration">
         <title>Calibration</title>
-        
+
         <screenshot>
             <screeninfo>
                 Calibration Settings
@@ -181,15 +181,15 @@
             </listitem>
             <listitem>
                 <para>
-                    Leave algorithm to the default value (<guimenuitem>Smart</guimenuitem>)
+                    Leave algorithm to the default value (<guimenuitem>Smart</guimenuitem>).
                 </para>
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="guide-guiding">
         <title>Guiding</title>
-        
+
         <screenshot>
             <screeninfo>
                 Guide Settings
@@ -252,24 +252,24 @@
             </mediaobject>
         </screenshot>
     </sect3>
-    
+
     <sect3 id="guide-direction-control">
         <title>Guiding Direction Control</title>
         <para>
             You can fine-tune the guiding performance in the Control Section. The autoguide process works like a <ulink url="https://en.wikipedia.org/wiki/PID_controller">PID controller</ulink> when sending correction commands to the mount. You can alter the Proportional and Integral gains to improve the guiding performance if necessary. By default, guiding corrective pulses are sent to both mount axis in all directions: positive and negative. You can fine-tune control by selecting which axis shall receive corrective guiding pulses and within each axis, you can indicate which direction <guilabel>(Positive) +</guilabel> or <guilabel>Negative (-)</guilabel> receives the guiding pulses. For example, for the Declination axis, the <guilabel>+</guilabel> direction is North and <guilabel>-</guilabel> is South.
         </para>
     </sect3>
-    
+
     <sect3 id="guide-guiding-rate">
         <title>Guiding Rate</title>
         <para>
             Each mount has a particular guiding rate in (x15"/sec) and usually ranges from 0.1x, to 1.0x with 0.5x being a common value used by many mounts. The default guiding rate is 0.5x sidereal, which is equivalent to a proportional gain of 133.33. Therefore, set the guiding rate value to whatever value used by your mount, and Ekos shall display the <emphasis>recommended</emphasis> proportional gain value that you may set in the proportional gain field under the <guilabel>Control Parameters</guilabel>. Setting this value <emphasis>does not</emphasis> change your mount guiding rate! You must change your mount guiding rate either via the <link linkend="indi-telescope-setup">INDI driver</link>, if supported, or via the hand controller.
         </para>
     </sect3>
-    
+
     <sect3 id="guide-drift-graphics">
         <title>Drift Graphics</title>
-        
+
         <screenshot>
             <screeninfo>
                 Drift Graphics
@@ -295,14 +295,14 @@
             The colors of each axis can be customized in <link linkend="colors">&kstars; Settings color scheme</link>.
         </para>
     </sect3>
-    
+
     <sect3 id="guide-drift-plot">
         <title>Drift Plot</title>
         <para>
             A bulls-eye scatter plot can be used to gauge the <emphasis>accuracy</emphasis> of the overall guiding performance. It is composed of three concentric rings of varying radii with the central green ring having a default radius of 2 arcsecs. The last RMS value is plotted as <inlinemediaobject><imageobject><imagedata fileref="add-circle.png" format="PNG"/></imageobject></inlinemediaobject> with its color reflecting which concentric ring it falls within. You can change the radius of the innermost green circle by adjusting the drift plot accuracy.
         </para>
     </sect3>
-    
+
     <sect3 id="guide-phd2-support">
         <title>PHD2 Support</title>
         <para>
@@ -321,7 +321,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             If PHD2 is selected, the <guibutton>Connect</guibutton> and <guibutton>Disconnect</guibutton> buttons are enabled to allow you to establish a connection with the PHD2 server. You can control PHD2 exposure and DEC guide settings. When clicking <guibutton>Guide</guibutton>, PHD2 should perform all the required actions to start the guiding process. PHD2 <emphasis role="bold">must</emphasis> be started and configured <emphasis>before</emphasis> Ekos.
         </para>

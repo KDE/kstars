@@ -51,7 +51,7 @@
              <string>Automatically display received images in the FITS Viewer</string>
             </property>
             <property name="text">
-             <string>Use FITS Viewer</string>
+             <string>Use FITS viewer</string>
             </property>
            </widget>
           </item>
@@ -67,7 +67,7 @@
              <string/>
             </property>
             <property name="text">
-             <string>Single Preview Tab</string>
+             <string>Single preview tab</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -83,7 +83,7 @@
              <string/>
             </property>
             <property name="text">
-             <string>Single Window Capture</string>
+             <string>Single window capture</string>
             </property>
             <property name="checked">
              <bool>false</bool>
@@ -99,7 +99,7 @@
              <string/>
             </property>
             <property name="text">
-             <string>Single Window Open</string>
+             <string>Single window open</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -122,7 +122,7 @@
              <string>Make FITS Viewer window independent from KStars</string>
             </property>
             <property name="text">
-             <string>Independent Window</string>
+             <string>Independent window</string>
             </property>
            </widget>
           </item>
@@ -156,7 +156,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically down sample images based on available resources.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Adaptive Sampling</string>
+             <string>Adaptive sampling</string>
             </property>
            </widget>
           </item>
@@ -166,7 +166,7 @@
              <string>Set the coarseness of the preview shown when sliding the fitsviewer's stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be coarse resolution and fast.</string>
             </property>
             <property name="text">
-             <string>Stretch Preview</string>
+             <string>Stretch preview:</string>
             </property>
            </widget>
           </item>
@@ -203,17 +203,17 @@
            <string>Always apply auto stretch to images in FITS Viewer</string>
           </property>
           <property name="text">
-           <string>Auto Stretch</string>
+           <string>Auto stretch</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_LimitedResourcesMode">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable limited resource mode to turn off any resource-intensive operations:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto Debayer&lt;/span&gt;: Bayered images will not be debayered. Only grayscale images are shown.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto WCS&lt;/span&gt;: World Coordinate System data will not be processed. WCS maps sky coordinates to image coordinates. Equatorial grid lines, object identification, and telescope slew within an image are disabled.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;3D Cube&lt;/span&gt;: RGB images will not be processed. Only grayscale images are shown.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable limited resource mode to turn off any resource-intensive operations:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto debayer&lt;/span&gt;: Bayered images will not be debayered. Only grayscale images are shown.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Auto WCS&lt;/span&gt;: World Coordinate System data will not be processed. WCS maps sky coordinates to image coordinates. Equatorial grid lines, object identification, and telescope slew within an image are disabled.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;3D Cube&lt;/span&gt;: RGB images will not be processed. Only grayscale images are shown.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Limited Resources Mode</string>
+           <string>Limited resources mode</string>
           </property>
          </widget>
         </item>
@@ -223,7 +223,7 @@
            <string>Automatically debayer captured image if it contains a bayer pattern</string>
           </property>
           <property name="text">
-           <string>Auto Debayer</string>
+           <string>Auto debayer</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -246,7 +246,7 @@
            <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>
           </property>
           <property name="text">
-           <string>3D Cube</string>
+           <string>3D cube</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -259,7 +259,7 @@
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display histogram for the stretched non-linear image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Non Linear Histogram</string>
+           <string>Non linear histogram</string>
           </property>
          </widget>
         </item>
@@ -269,7 +269,7 @@
            <string>Compute the HFR of images loaded into fitsviewer.</string>
           </property>
           <property name="text">
-           <string>Auto Compute HFR</string>
+           <string>Auto compute HFR</string>
           </property>
           <property name="checked">
            <bool>false</bool>
@@ -300,7 +300,7 @@
              <string>Set the StellarSolver SEP profile for Capture-image HFR calculations.</string>
             </property>
             <property name="text">
-             <string>HFR SEP Profile:</string>
+             <string>HFR SEP profile:</string>
             </property>
            </widget>
           </item>

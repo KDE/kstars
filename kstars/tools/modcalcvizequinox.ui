@@ -261,7 +261,7 @@
        <item>
         <widget class="QLabel" name="HelpLabel">
          <property name="text">
-          <string>Specify years for the calculation in the input file.</string>
+          <string>Specify Years for the Calculation in the Input File</string>
          </property>
         </widget>
        </item>

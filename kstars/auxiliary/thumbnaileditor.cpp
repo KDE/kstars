@@ -47,7 +47,7 @@ ThumbnailEditor::ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h) : Q
     h  = _h;
     ui->MessageLabel->setText(i18n("Crop region will be scaled to [ %1 * %2 ]", w, h));
 
-    setWindowTitle(i18n("Edit Thumbnail Image"));
+    setWindowTitle(i18nc("@title:window", "Edit Thumbnail Image"));
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);

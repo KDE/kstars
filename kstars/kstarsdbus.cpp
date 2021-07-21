@@ -974,7 +974,7 @@ void KStars::printImage(bool usePrintDialog, bool useChartColors)
         //        ok = printer.setup( this, i18n("Print Sky") );
         //QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
         QPrintDialog *dialog = new QPrintDialog(&printer, this);
-        dialog->setWindowTitle(i18n("Print Sky"));
+        dialog->setWindowTitle(i18nc("@title:window", "Print Sky"));
         if (dialog->exec() == QDialog::Accepted)
             ok = true;
         delete dialog;

@@ -175,7 +175,7 @@
            <item row="7" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>Focal Length:</string>
+              <string>Focal length:</string>
              </property>
             </widget>
            </item>
@@ -368,7 +368,7 @@
            <item row="4" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>Focal Length:</string>
+              <string>Focal length:</string>
              </property>
             </widget>
            </item>
@@ -503,7 +503,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Enter details of Barlow/Shapley lenses</string>
+            <string>Enter Details of Barlow/Shapley Lenses</string>
            </property>
           </widget>
          </item>
@@ -737,7 +737,7 @@
            <item row="8" column="0">
             <widget class="QLabel" name="label_21">
              <property name="text">
-              <string>Auto Focus:</string>
+              <string>Auto focus:</string>
              </property>
             </widget>
            </item>
@@ -751,7 +751,7 @@
            <item row="9" column="0">
             <widget class="QLabel" name="label_20">
              <property name="text">
-              <string>Locked Filter:</string>
+              <string>Locked filter:</string>
              </property>
             </widget>
            </item>
@@ -761,7 +761,7 @@
            <item row="7" column="0">
             <widget class="QLabel" name="label_22">
              <property name="text">
-              <string>Abs. Position:</string>
+              <string>Abs. position:</string>
              </property>
             </widget>
            </item>

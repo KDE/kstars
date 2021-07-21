@@ -73,7 +73,7 @@ void PWizPrintUI::printDocument(QPrinter *printer)
 void PWizPrintUI::slotExport()
 {
     QUrl url =
-        QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export"), QUrl(QDir::homePath()),
+        QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Export"), QUrl(QDir::homePath()),
                                     "application/pdf application/postscript application/vnd.oasis.opendocument.text");
     //User cancelled file selection dialog - abort image export
     if (url.isEmpty())

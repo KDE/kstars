@@ -21,7 +21,7 @@ bit longer than 365 days. In other words, in the time it takes the Earth to
 complete one orbital circuit, it completes 365.24219 spin rotations.  Do not be
 too surprised by this; there is no reason to expect the spin and orbital motions
 of the Earth to be synchronized in any way. However, it does make marking
-calendar time a bit awkward....
+calendar time a bit awkward...
 </para><para>
 What would happen if we simply ignored the extra 0.24219 rotation at the end of
 the year, and simply defined a calendar year to always be 365.0 days long?  The

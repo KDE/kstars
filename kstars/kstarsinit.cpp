@@ -225,11 +225,11 @@ void KStars::initActions()
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()));
     actionCollection()->addAction("time_step_forward", this, SLOT(slotStepForward()))
-            << i18n("Advance one step forward in time")
+            << i18n("Advance One Step Forward in Time")
             << QIcon::fromTheme("media-skip-forward")
             << QKeySequence(Qt::Key_Greater);
     actionCollection()->addAction("time_step_backward", this, SLOT(slotStepBackward()))
-            << i18n("Advance one step backward in time")
+            << i18n("Advance One Step Backward in Time")
             << QIcon::fromTheme("media-skip-backward")
             << QKeySequence(Qt::Key_Less);
 
@@ -271,8 +271,8 @@ void KStars::initActions()
     action->setIcon(QIcon::fromTheme("view-fullscreen"));
 
     actionCollection()->addAction("coordsys", this, SLOT(slotCoordSys()))
-            << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)") :
-                i18n("Switch to horizonal view (Horizontal &Coordinates)"))
+            << (Options::useAltAz() ? i18n("Switch to Star Globe View (Equatorial &Coordinates)") :
+                i18n("Switch to Horizonal View (Horizontal &Coordinates)"))
             << QKeySequence("Space");
 
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
@@ -410,13 +410,13 @@ void KStars::initActions()
 
     // Updates actions
     actionCollection()->addAction("update_comets", this, SLOT(slotUpdateComets()))
-            << i18n("Update comets orbital elements");
+            << i18n("Update Comets Orbital Elements");
     actionCollection()->addAction("update_asteroids", this, SLOT(slotUpdateAsteroids()))
-            << i18n("Update asteroids orbital elements");
+            << i18n("Update Asteroids Orbital Elements");
     actionCollection()->addAction("update_supernovae", this, SLOT(slotUpdateSupernovae()))
-            << i18n("Update Recent Supernovae data");
+            << i18n("Update Recent Supernovae Data");
     actionCollection()->addAction("update_satellites", this, SLOT(slotUpdateSatellites()))
-            << i18n("Update satellites orbital elements");
+            << i18n("Update Satellites Orbital Elements");
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT(slotCalculator()))
@@ -489,7 +489,7 @@ void KStars::initActions()
 
     // ==== observation menu - execute ================
     actionCollection()->addAction("execute", this, SLOT(slotExecute()))
-            << i18n("Execute the session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
+            << i18n("Execute the Session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
 
     // ==== observation menu - polaris hour angle ================
     actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))

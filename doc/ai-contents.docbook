@@ -12,7 +12,7 @@
   <listitem><para><link linkend="ai-greatcircle">Great Circles</link></para></listitem>
   <listitem><para><link linkend="ai-horizon">The Horizon</link></para></listitem>
   <listitem><para><link linkend="ai-hourangle">Hour Angle</link></para></listitem>
-  <listitem><para><link linkend="ai-meridian">Local Meridian</link></para></listitem> 
+  <listitem><para><link linkend="ai-meridian">Local Meridian</link></para></listitem>
   <listitem><para><link linkend="ai-precession">Precession</link></para></listitem>
   <listitem><para><link linkend="ai-zenith">The Zenith</link></para></listitem>
 </itemizedlist>
@@ -43,7 +43,7 @@
   <listitem><para><link linkend="ai-ellipgal">Elliptical Galaxies</link></para></listitem>
   <listitem><para><link linkend="ai-spiralgal">Spiral Galaxies</link></para></listitem>
   <listitem><para><link linkend="ai-magnitude">The Magnitude Scale</link></para></listitem>
-  <listitem><para><link linkend="ai-stars">Stars: An Introductory FAQ</link></para></listitem>
+  <listitem><para><link linkend="ai-stars">Stars: An Introductory &FAQ;</link></para></listitem>
   <listitem><para><link linkend="ai-colorandtemp">Star Colors and Temperatures</link></para></listitem>
   <listitem><para><link linkend="ai-cosmicdist">The Cosmic Distance Ladder</link></para></listitem>
 </itemizedlist>

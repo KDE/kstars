@@ -54,7 +54,7 @@ Execute::Execute()
     connect(execB, SIGNAL(clicked()), this, SLOT(slotEndSession()));
     connect(addObs, SIGNAL(clicked()), this, SLOT(slotObserverAdd()));
 
-    setWindowTitle(i18n("Execute Session"));
+    setWindowTitle(i18nc("@title:window", "Execute Session"));
 
     //initialize the global logObject
     logObject = KStarsData::Instance()->logObject();
@@ -315,7 +315,7 @@ void Execute::slotEndSession()
                                    KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(),
                                    ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text());
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(nullptr, i18n("Save Session"), QUrl(QDir::homePath()), "*.xml");
+        QUrl fileURL = QFileDialog::getSaveFileUrl(nullptr, i18nc("@title:window", "Save Session"), QUrl(QDir::homePath()), "*.xml");
 
         if (fileURL.isEmpty())
         {

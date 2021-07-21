@@ -194,7 +194,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 #endif
     setAttribute(Qt::WA_DeleteOnClose, true);
     setModal(false);
-    setWindowTitle(i18n("XPlanet Solar System Simulator: %1", obj));
+    setWindowTitle(i18nc("@title:window", "XPlanet Solar System Simulator: %1", obj));
 
     setXPlanetDate(KStarsData::Instance()->ut());
 
@@ -902,7 +902,7 @@ void XPlanetImageViewer::updateXPlanetObject(int objectIndex)
     m_CurrentObjectIndex = objectIndex;
     m_ObjectName = m_ObjectNames.at(objectIndex);
 
-    setWindowTitle(i18n("XPlanet Solar System Simulator: %1", m_ObjectName));
+    setWindowTitle(i18nc("@title:window", "XPlanet Solar System Simulator: %1", m_ObjectName));
     if(m_FreeRotate->isChecked())
         m_OriginSelector->setCurrentIndex(m_CurrentObjectIndex);
     if(m_CurrentObjectIndex == m_CurrentOriginIndex)
@@ -1229,7 +1229,7 @@ bool XPlanetImageViewer::showImage()
 void XPlanetImageViewer::saveFileToDisk()
 {
 #ifndef KSTARS_LITE
-    QFileDialog saveDialog(KStars::Instance(), i18n("Save Image"), m_LastFile);
+    QFileDialog saveDialog(KStars::Instance(), i18nc("@title:window", "Save Image"), m_LastFile);
     saveDialog.setDefaultSuffix("png");
     saveDialog.setAcceptMode(QFileDialog::AcceptSave);
     saveDialog.exec();

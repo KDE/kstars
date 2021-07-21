@@ -57,7 +57,7 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
 
     ui = new FlagManagerUI(this);
 
-    setWindowTitle(i18n("Flag Manager"));
+    setWindowTitle(i18nc("@title:window", "Flag Manager"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -139,7 +139,7 @@ void FlagManager::clearFields()
     ui->flagLabel->clear();
     ui->flagLabel->setFocus();
 
-    //disable "Save changes" button
+    //disable "Save Changes" button
     ui->saveButton->setEnabled(false);
 
     //unselect item from flagList

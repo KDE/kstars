@@ -38,7 +38,7 @@ AddLinkDialog::AddLinkDialog(QWidget *parent, const QString &oname) : QDialog(pa
 #endif
     ald = new AddLinkDialogUI(this);
 
-    setWindowTitle(i18n("Add Custom URL to %1", oname));
+    setWindowTitle(i18nc("@title:window", "Add Custom URL to %1", oname));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ald);

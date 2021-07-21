@@ -65,7 +65,7 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
 
     m_ImageExporter = ((imgExporter) ? imgExporter : new ImageExporter(this));
 
-    setWindowTitle(i18n("Export sky image"));
+    setWindowTitle(i18nc("@title:window", "Export sky image"));
 
     setupWidgets();
 }

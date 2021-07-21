@@ -33,7 +33,7 @@ ObserverAdd::ObserverAdd()
     mainLayout->addWidget(widget);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Manage Observers"));
+    setWindowTitle(i18nc("@title:window", "Manage Observers"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);

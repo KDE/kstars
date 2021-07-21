@@ -94,7 +94,7 @@ void OpsAstrometryCfg::slotLoadCFG()
 void OpsAstrometryCfg::slotAddAstrometryIndexFileLocation()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("Index File Directory"), QDir::homePath());
+        QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "Index File Directory"), QDir::homePath());
 
     if (dir.isEmpty())
         return;

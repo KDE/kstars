@@ -20,11 +20,11 @@ The Horizontal Coordinates calculator module
 </screenshot>
 
 <para>
-This module converts from <link linkend="equatorial">Equatorial 
-coordinates</link> to <link linkend="horizontal">Horizontal 
-coordinates</link>.  First, select the date, time, and 
-geographic coordinates for the calculation.  Then, fill in the 
-equatorial coordinates to be converted or use the <guilabel>Find Object</guilabel> dialog 
+This module converts from <link linkend="equatorial">Equatorial
+coordinates</link> to <link linkend="horizontal">Horizontal
+coordinates</link>.  First, select the date, time, and
+geographic coordinates for the calculation.  Then, fill in the
+equatorial coordinates to be converted or use the <guilabel>Find Object</guilabel> dialog
 in the <guilabel>Equatorial Coordinates</guilabel> section.
 The corresponding Horizontal coordinates will be presented in
 the <guilabel>Horizontal Coordinates</guilabel> section.

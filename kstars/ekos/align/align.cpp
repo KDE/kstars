@@ -1159,7 +1159,7 @@ void Align::updatePreviewAlignPoints()
 
 void Align::slotLoadAlignmentPoints()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(&mountModelDialog, i18n("Open Ekos Alignment List"), alignURLPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(&mountModelDialog, i18nc("@title:window", "Open Ekos Alignment List"), alignURLPath,
                    "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
         return;
@@ -1276,7 +1276,7 @@ void Align::slotSaveAlignmentPoints()
 
     if (alignURL.isEmpty())
     {
-        alignURL = QFileDialog::getSaveFileUrl(&mountModelDialog, i18n("Save Ekos Alignment List"), alignURLPath,
+        alignURL = QFileDialog::getSaveFileUrl(&mountModelDialog, i18nc("@title:window", "Save Ekos Alignment List"), alignURLPath,
                                                "Ekos Alignment List (*.eal)");
         // if user presses cancel
         if (alignURL.isEmpty())
@@ -1449,7 +1449,7 @@ void Align::exportSolutionPoints()
     if (solutionTable->rowCount() == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Export Solution Points"), alignURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Export Solution Points"), alignURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
@@ -2173,15 +2173,15 @@ bool Align::syncTelescopeInfo()
     {
         FOVScopeCombo->setItemData(
             ISD::CCD::TELESCOPE_PRIMARY,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+            i18nc("F-Number, Focal length, Aperture",
+                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
                   QString::number(primaryAperture, 'f', 2)),
             Qt::ToolTipRole);
         FOVScopeCombo->setItemData(
             ISD::CCD::TELESCOPE_GUIDE,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+            i18nc("F-Number, Focal length, Aperture",
+                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
                   QString::number(guideAperture, 'f', 2)),
             Qt::ToolTipRole);
@@ -4973,7 +4973,7 @@ bool Align::loadAndSlew(QString fileURL)
 #endif
 
     if (fileURL.isEmpty())
-        fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18n("Load Image"), dirPath,
+        fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Load Image"), dirPath,
                                                "Images (*.fits *.fits.fz *.fit *.fts "
                                                "*.jpg *.jpeg *.png *.gif *.bmp "
                                                "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
@@ -5360,7 +5360,7 @@ void Align::toggleAlignWidgetFullScreen()
     else
     {
         alignWidget->setParent(nullptr);
-        alignWidget->setWindowTitle(i18n("Align Frame"));
+        alignWidget->setWindowTitle(i18nc("@title:window", "Align Frame"));
         alignWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         alignWidget->showMaximized();
         alignWidget->show();

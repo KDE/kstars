@@ -3433,7 +3433,7 @@ void Focus::toggleFocusingWidgetFullScreen()
     else
     {
         focusingWidget->setParent(nullptr);
-        focusingWidget->setWindowTitle(i18n("Focus Frame"));
+        focusingWidget->setWindowTitle(i18nc("@title:window", "Focus Frame"));
         focusingWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         focusingWidget->showMaximized();
         focusingWidget->show();
@@ -4009,7 +4009,7 @@ void Focus::initPlots()
     profileDialog = new QDialog(this);
     profileDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
     QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
-    profileDialog->setWindowTitle(i18n("Relative Profile"));
+    profileDialog->setWindowTitle(i18nc("@title:window", "Relative Profile"));
     profilePlot = new FocusProfilePlot(profileDialog);
 
     profileLayout->addWidget(profilePlot);

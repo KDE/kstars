@@ -20,14 +20,14 @@ The Equatorial/Galactic Coordinates calculator module
 </screenshot>
 
 <para>
-This module converts from <link linkend="equatorial">Equatorial 
-coordinates</link> to <link linkend="galactic">Galactic 
-coordinates</link>, and vice versa.  Fill in the  
-coordinate values in either the <guilabel>Galactic 
+This module converts from <link linkend="equatorial">Equatorial
+coordinates</link> to <link linkend="galactic">Galactic
+coordinates</link>, and vice versa.  Fill in the
+coordinate values in either the <guilabel>Galactic
 coordinates</guilabel> or <guilabel>Equatorial coordinates</guilabel>
-section.  Alternatively set the equatorial coordinates by selecting an 
-object using the <guilabel>Find Object</guilabel> dialog. 
-Then the complementary coordinates will be filled in. 
+section.  Alternatively set the equatorial coordinates by selecting an
+object using the <guilabel>Find Object</guilabel> dialog.
+Then the complementary coordinates will be filled in.
 </para>
 
 <para>

@@ -101,7 +101,7 @@ void OpsTerrain::saveTerrainFilename()
 
     QUrl dirPath = QUrl::fromLocalFile(dir.path());
     QUrl fileUrl =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Terrain Image Filename"), dirPath, i18n("PNG Files (*.png)"));
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Terrain Image Filename"), dirPath, i18n("PNG Files (*.png)"));
 
     if (!fileUrl.isEmpty())
         kcfg_TerrainSource->setText(fileUrl.toLocalFile());

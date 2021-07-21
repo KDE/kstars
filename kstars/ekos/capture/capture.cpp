@@ -3885,7 +3885,7 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -3895,7 +3895,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18n("Open Ekos Sequence Queue"), dirPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"), dirPath,
                    "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
@@ -4272,7 +4272,7 @@ void Capture::saveSequenceQueue()
 
     if (m_SequenceURL.isEmpty())
     {
-        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18n("Save Ekos Sequence Queue"), dirPath,
+        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Save Ekos Sequence Queue"), dirPath,
                         "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (m_SequenceURL.isEmpty())
@@ -6543,7 +6543,7 @@ void Capture::showObserverDialog()
         observers << QString("%1 %2").arg(o->name(), o->surname());
 
     QDialog observersDialog(this);
-    observersDialog.setWindowTitle(i18n("Select Current Observer"));
+    observersDialog.setWindowTitle(i18nc("@title:window", "Select Current Observer"));
 
     QLabel label(i18n("Current Observer:"));
 
@@ -7486,7 +7486,7 @@ void Capture::showTemperatureRegulation()
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, dialog);
     connect(&buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
     connect(&buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
-    dialog->setWindowTitle(i18n("Set Temperature Regulation"));
+    dialog->setWindowTitle(i18nc("@title:window", "Set Temperature Regulation"));
     layout.addWidget(&buttonBox);
     dialog->setLayout(&layout);
     dialog->setMinimumWidth(300);

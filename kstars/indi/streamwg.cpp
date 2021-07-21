@@ -61,7 +61,7 @@ RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
 void RecordOptions::selectRecordDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(KStars::Instance(), i18n("SER Record Directory"), dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "SER Record Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -96,7 +96,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     options->recordFilenameEdit->setText(filename);
     options->recordDirectoryEdit->setText(directory);
 
-    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));
+    setWindowTitle(i18nc("@title:window", "%1 Live Video", ccd->getDeviceName()));
 
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);

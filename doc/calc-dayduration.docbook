@@ -20,9 +20,9 @@ The Day Duration calculator module
 </screenshot>
 
 <para>
-This module computes the length of day as well as sunrise, sun-transit 
-(noon), and sunset times for any calendar date, for any location on 
+This module computes the length of day as well as sunrise, sun-transit
+(noon), and sunset times for any calendar date, for any location on
 Earth.  First select the desired geographic coordinates and date, then
-the data is computed and displayed.  
+the data is computed and displayed.
 </para>
 </sect2>

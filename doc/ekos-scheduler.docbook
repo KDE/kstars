@@ -4,7 +4,7 @@
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Scheduler</tertiary>
-    </indexterm>    
+    </indexterm>
     <screenshot>
         <screeninfo>
             Ekos Scheduler Module
@@ -27,7 +27,7 @@
             With Ekos, the user can utilize the powerful sequence queue to image batches of images for a particular target. In simple setups, the user is expected to focus the CCD, align the mount, frame the target, and start guiding before initiating the capture process. For more complex observatory environments, there are usually predefined custom procedures to be executed to prepare the observatory for imaging, and another set of procedures on shutdown. The user may plan to image one or more targets during the night and expects data to be ready by morning. In &kstars;, tools such as the <link linkend="tool-obsplanner">Observation Planner</link> and <link linkend="tool-whatsup">What's up Tonight</link> help the user in selecting candidates for imaging. After selecting the desired candidates, the user can add them to the Ekos Scheduler list for evaluation. The user may also add the targets directly in Ekos scheduler or select a FITS file of a previous image.
         </para>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-settings">
         <title>Settings</title>
         <para>
@@ -117,7 +117,7 @@
             </listitem>
         </orderedlist>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-startup-procedure">
         <title>Startup Procedure</title>
         <para>
@@ -169,7 +169,7 @@
             Ekos Scheduler only initiates the startup procedure once the startup time for the first observation job is close (default <emphasis>lead</emphasis> time is 5 minutes before <emphasis>startup</emphasis> time). Once the startup procedure is completed successfully, the scheduler picks the observation job target and starts the sequence process. If a startup script is specified, it shall be executed first.
         </para>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-data-acquisition">
         <title>Data Acquisition</title>
         <para>
@@ -208,7 +208,7 @@
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-shutdown">
         <title>Shutdown</title>
         <para>
@@ -231,7 +231,7 @@
             </caption>
         </mediaobject>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-weather-monitoring">
         <title>Weather Monitoring</title>
         <para>
@@ -255,7 +255,7 @@
             </listitem>
         </orderedlist>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
         <title>Startup &amp; Shutdown Scripts</title>
         <para>
@@ -291,7 +291,7 @@ exit(0)
             The startup and shutdown scripts must be <emphasis>executable</emphasis> in order for Ekos to invoke them (&eg; use <userinput>chmod +x startup_script.py</userinput> to mark the script as executable). Ekos Scheduler enables truly simple robotic operation without the need of any human intervention in any step of the process. Without human presence, it becomes increasingly critical to gracefully recover from failures in any stage of the observation run. Using &plasma; notifications, the user can configure audible alarms and email notifications for the various events in the scheduler.
         </para>
     </sect3>
-    
+
     <sect3 id="ekos-scheduler-mosaic-wizard">
         <title>Mosaic Wizard</title>
         <screenshot>
@@ -308,7 +308,7 @@ exit(0)
             </mediaobject>
         </screenshot>
         <para>
-            Hubble-like super wide field images of <ulink url="http://billsnyderastrophotography.com/?page_id=3275">galaxies</ulink> and nebulae are truly awe-inspiring, and while it takes great skills to obtain such images and process them; many notable names in the field of astrophotography employ gear that is not <emphasis>vastly</emphasis> different from yours or mine. I emphasize <emphasis>vastly</emphasis> because some do indeed have impressive equipment and dedicated observatories worth tens of the thousands of dollars. Nevertheless, many amateurs can obtain stellar wide-field images by combining smaller images into a single grand mosaic.
+            Hubble-like super wide field images of <ulink url="http://darkskyart.com/?page_id=96">galaxies</ulink> and nebulae are truly awe-inspiring, and while it takes great skills to obtain such images and process them; many notable names in the field of astrophotography employ gear that is not <emphasis>vastly</emphasis> different from yours or mine. I emphasize <emphasis>vastly</emphasis> because some do indeed have impressive equipment and dedicated observatories worth tens of the thousands of dollars. Nevertheless, many amateurs can obtain stellar wide-field images by combining smaller images into a single grand mosaic.
         </para>
         <para>
             We are often limited by our camera+telescope Field of View (FOV). By increasing FOV by means of a focal reducer or a shorter tube, we gain a larger sky coverage at the expense of spatial resolution. At the same time, many attractive wide-field targets span multiple FOVs across the sky. Without any changes to your astrophotography gear, it is possible to create a super mosaic image <emphasis>stitched</emphasis> together from several smaller images. There are two major steps to accomplish a super mosaic image:
@@ -338,7 +338,7 @@ exit(0)
             On first use, you need to enter your equipment settings including your telescope focal length in addition to camera's width, height, and pixel dimensions. Finally, you need to enter the rotation of the camera with respect to north or the position angle. If you don't know this value, start Ekos and slew to your desired target then use the <link linkend="ekos-align">Align module</link> to solve the image and obtain the position angle.
         </para>
         <para>
-            Next, enter the desired overlap and number of horizontal and vertical panels (&eg; 2x2, 3x3, &etc;). The sky chart will update automatically after a short time, with target FOV calculated given the number of panels and your camera's FOV. By default, the percentage of the overlap among images is 5%, but you can change this value to your desired value. If you need to move the mosaic, close the tool and select a new target in the Scheduler. When satisfied, set the frequency of alignment and focus steps during the mosaic execution, choose an output folder and accept the dialog. Ekos shall create an observation job and a corresponding customized sequence file for each panel. All the jobs shall be saved to an Ekos Scheduler List (<filename role="extension">.esl</filename>) file that you can load on any suitable observing night and it will pick off where you left.
+            Next, enter the desired overlap and number of horizontal and vertical panels (&eg; 2x2, 3x3, &etc;). The sky chart will update automatically after a short time, with target FOV calculated given the number of panels and your camera's FOV. By default, the percentage of the overlap among images is 5%, but you can change this value to your desired value. If you need to move the mosaic, close the tool and select a new target in the Scheduler. When satisfied, set the frequency of alignment and focus steps during the mosaic execution, choose an output folder and accept the dialog. Ekos shall create an observation job and a corresponding customized sequence file for each panel. All the jobs shall be saved to an Ekos Scheduler List (<literal role="extension">.esl</literal>) file that you can load on any suitable observing night and it will pick off where you left.
         </para>
         <para>
             With Ekos Scheduler, multi-night imaging is greatly facilitated and creating super mosaics has never been so easy.

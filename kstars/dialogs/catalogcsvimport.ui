@@ -47,7 +47,7 @@
         <item row="1" column="8">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Lines</string>
+           <string>lines</string>
           </property>
          </widget>
         </item>
@@ -74,14 +74,14 @@
         <item row="1" column="6">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Skip First</string>
+           <string>Skip first:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="3">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Separator</string>
+           <string>Separator:</string>
           </property>
          </widget>
         </item>
@@ -148,14 +148,14 @@
         <item row="2" column="0">
          <widget class="QPushButton" name="file_select_button">
           <property name="text">
-           <string>Select/Read</string>
+           <string>Select/Read...</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Comment Prefix</string>
+           <string>Comment prefix:</string>
           </property>
          </widget>
         </item>
@@ -175,7 +175,7 @@
             <item>
              <widget class="QLabel" name="label_6">
               <property name="text">
-               <string>RA</string>
+               <string>RA:</string>
               </property>
              </widget>
             </item>
@@ -189,7 +189,7 @@
             <item>
              <widget class="QLabel" name="label_7">
               <property name="text">
-               <string>Dec</string>
+               <string>Dec:</string>
               </property>
              </widget>
             </item>

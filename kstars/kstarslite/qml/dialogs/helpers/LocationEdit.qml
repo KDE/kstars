@@ -338,7 +338,7 @@ KSPage {
 
                     RowLayout {
                         KSLabel {
-                            text: xi18n("DST Rule: ")
+                            text: xi18n("DST rule: ")
                         }
 
                         ComboBox {

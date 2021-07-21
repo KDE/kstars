@@ -170,7 +170,7 @@
            <string>Set the coarseness of the terrain image rendered. 1 is full resolution, but can be slow, 6 or more would be coarse resolution and fast.</string>
           </property>
           <property name="text">
-           <string>Terrain Downsampling</string>
+           <string>Terrain downsampling:</string>
           </property>
          </widget>
         </item>
@@ -211,7 +211,7 @@
       <item>
        <widget class="QCheckBox" name="kcfg_TerrainPanning">
         <property name="text">
-         <string>Show Terrain While Panning</string>
+         <string>Show terrain while panning</string>
         </property>
        </widget>
       </item>
@@ -221,7 +221,7 @@
          <string>Creates a smoother image at the cost of some extra computation.</string>
         </property>
         <property name="text">
-         <string>Smooth Pixels</string>
+         <string>Smooth pixels</string>
         </property>
        </widget>
       </item>
@@ -231,7 +231,7 @@
          <string>A speedup with minor image quality cost.</string>
         </property>
         <property name="text">
-         <string>Skip Pixels Speedup</string>
+         <string>Skip pixels speedup</string>
         </property>
        </widget>
       </item>
@@ -241,7 +241,7 @@
          <string>A speedup with minor image quality cost.</string>
         </property>
         <property name="text">
-         <string>Transparency Speedup</string>
+         <string>Transparency speedup</string>
         </property>
        </widget>
       </item>

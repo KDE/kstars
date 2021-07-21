@@ -4,7 +4,7 @@
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Analyze</tertiary>
-    </indexterm>    
+    </indexterm>
     <screenshot>
         <screeninfo>
             Ekos Analyze Module
@@ -21,10 +21,10 @@
     <sect3 id="analyze-Introduction">
         <title>Introduction</title>
         <para>
-            The Analyze Module records and displays what happened in an imaging session. That is, it does not control any if your imaging, but rather reviews what occurred. Sessions are stored in an <filename class="directory">analyze</filename> folder, a sister folder to the main logging folder. The <filename>.analyze</filename> files written there can be loaded into the <guilabel>Analyze</guilabel> tab to be viewed. <guilabel>Analyze</guilabel> also can display data from the current imaging session.
+            The Analyze Module records and displays what happened in an imaging session. That is, it does not control any if your imaging, but rather reviews what occurred. Sessions are stored in an <filename class="directory">analyze</filename> folder, a sister folder to the main logging folder. The <literal role="extension">.analyze</literal> files written there can be loaded into the <guilabel>Analyze</guilabel> tab to be viewed. <guilabel>Analyze</guilabel> also can display data from the current imaging session.
         </para>
         <para>
-            There are two main graphs, <guilabel>Timeline</guilabel> and <guilabel>Stats</guilabel>. They are coordinated&mdash;they always display the same time interval from the Ekos session, though the x-axis of the <guilabel>Timeline</guilabel> shows seconds elapsed from the start of the log, and <guilabel>Stats</guilabel> shows clock time. The x-axis can be zoomed in and out with the <guibutton>+/-</guibutton> button, mouse wheel, as well as with standard keyboard shortcuts (&eg; zoom-in == <keycombo>&Ctrl;<keycap>+</keycap></keycombo>) The x-axis can be panned with the scroll bar as well as with the left and right arrow keys. You can view your current imaging session, or review old sessions by loading <filename>.analyze</filename> files using the <guilabel>Input</guilabel> dropdown. Checking <guilabel>Full Width</guilabel> displays all the data, and <guilabel>Latest</guilabel> displays the most recent data (you can control the width by zooming).
+            There are two main graphs, <guilabel>Timeline</guilabel> and <guilabel>Stats</guilabel>. They are coordinated&mdash;they always display the same time interval from the Ekos session, though the x-axis of the <guilabel>Timeline</guilabel> shows seconds elapsed from the start of the log, and <guilabel>Stats</guilabel> shows clock time. The x-axis can be zoomed in and out with the <guibutton>+/-</guibutton> button, mouse <mousebutton>wheel</mousebutton>, as well as with standard keyboard shortcuts (&eg; zoom-in == <keycombo>&Ctrl;<keycap>+</keycap></keycombo>) The x-axis can be panned with the scroll bar as well as with the left and right arrow keys. You can view your current imaging session, or review old sessions by loading <literal role="extension">.analyze</literal> files using the <guilabel>Input</guilabel> dropdown. Checking <guilabel>Full Width</guilabel> displays all the data, and <guilabel>Latest</guilabel> displays the most recent data (you can control the width by zooming).
         </para>
     </sect3>
     <sect3 id="analyze-timeline">
@@ -38,13 +38,13 @@
             </para>
         </note>
         <para>
-            Clicking on a <guilabel>Focus</guilabel> segment shows focus session information and displays up the position vs HFR measurements from that session. Clicking on a <guilabel>Guider</guilabel> segment shows a drift plot from that session, (if it's guiding) and the session's RMS statistics. Other timelines show status information when clicked. 
+            Clicking on a <guilabel>Focus</guilabel> segment shows focus session information and displays up the position vs HFR measurements from that session. Clicking on a <guilabel>Guider</guilabel> segment shows a drift plot from that session, (if it's guiding) and the session's RMS statistics. Other timelines show status information when clicked.
         </para>
     </sect3>
     <sect3 id="analyze-statistics">
         <title>Statistics</title>
         <para>
-        A variety of statistics can be displayed on the <guilabel>Stats</guilabel> graph. There are too many for all to be shown in a readable way, so select among them with the checkboxes. A reasonable way to start might be to use <guilabel>rms</guilabel>, <guilabel>snr</guilabel> (using the internal guider with SEP Multistar), and <guilabel>hfr</guilabel> (if you have auto-compute HFR in the FITS options). Experiment with others. The axis shown (0-5) is appropriate only for ra/dec error, drift, rms, pulses, and hfr. These may be y-axis scaled (awkwardly) using the mouse wheel, but the other graphs cannot be scaled. To reset y-axis zooming, right-click on the Stats plot. Clicking on the graph fills in the values of the displayed statistics. This graph is zoomed and panned horizontally in coordination with the timeline. 
+        A variety of statistics can be displayed on the <guilabel>Stats</guilabel> graph. There are too many for all to be shown in a readable way, so select among them with the checkboxes. A reasonable way to start might be to use <guilabel>rms</guilabel>, <guilabel>snr</guilabel> (using the internal guider with SEP Multistar), and <guilabel>hfr</guilabel> (if you have auto-compute HFR in the FITS options). Experiment with others. The axis shown (0-5) is appropriate only for ra/dec error, drift, rms, pulses, and hfr. These may be y-axis scaled (awkwardly) using the mouse <mousebutton>wheel</mousebutton>, but the other graphs cannot be scaled. To reset y-axis zooming, right-click on the Stats plot. Clicking on the graph fills in the values of the displayed statistics. This graph is zoomed and panned horizontally in coordination with the timeline.
         </para>
     </sect3>
 </sect2>

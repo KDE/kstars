@@ -225,7 +225,7 @@ void EclipseModel::exportAsCsv()
     QFileDialog dialog;
     dialog.setNameFilter(i18n("CSV Files (*.csv)"));
     dialog.setDefaultSuffix("csv");
-    dialog.setWindowTitle(i18n("Export Eclipses"));
+    dialog.setWindowTitle(i18nc("@title:window", "Export Eclipses"));
 
     QString fname;
     if(dialog.exec())

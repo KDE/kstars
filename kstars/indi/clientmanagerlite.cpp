@@ -803,7 +803,7 @@ bool ClientManagerLite::saveDisplayImage()
     QFileInfo const file(QString("%1/%2.jpeg").arg(dir.path()).arg(fileEnding));
 
     QString const filename = QFileDialog::getSaveFileName(
-                QApplication::activeWindow(), i18n("Save Image"), file.filePath(),
+                QApplication::activeWindow(), i18nc("@title:window", "Save Image"), file.filePath(),
                 i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
 
     if (!filename.isEmpty())

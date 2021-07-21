@@ -67,7 +67,7 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 
     setWindowIcon(QIcon::fromTheme("kstars_indi"));
 
-    setWindowTitle(i18n("INDI Control Panel"));
+    setWindowTitle(i18nc("@title:window", "INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
 
     clearB = new QPushButton(i18n("Clear"));

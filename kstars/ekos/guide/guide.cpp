@@ -630,15 +630,15 @@ void Guide::updateGuideParams()
     {
         FOVScopeCombo->setItemData(
             ISD::CCD::TELESCOPE_PRIMARY,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+            i18nc("F-Number, Focal length, Aperture",
+                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
                   QString::number(primaryAperture, 'f', 2)),
             Qt::ToolTipRole);
         FOVScopeCombo->setItemData(
             ISD::CCD::TELESCOPE_GUIDE,
-            i18nc("F-Number, Focal Length, Aperture",
-                  "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+            i18nc("F-Number, Focal length, Aperture",
+                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
                   QString::number(guideAperture, 'f', 2)),
             Qt::ToolTipRole);

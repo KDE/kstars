@@ -18,14 +18,14 @@ Scientists are now quite comfortable with the idea that 90% of the
 mass in the universe is in a form of matter that cannot be seen.
 </para>
 
-<para> Despite comprehensive maps of the nearby universe that cover
+<para>Despite comprehensive maps of the nearby universe that cover
 the spectrum from radio to gamma rays, we are only able to account of
 10% of the mass that must be out there.  As Bruce H. Margon, an
 astronomer at the University of Washington, told the New York Times in
 2001: <quote>It's a fairly embarrassing situation to admit that we
 can't find 90 percent of the universe.</quote>  </para>
 
-<para> The term given this <quote>missing mass</quote> is
+<para>The term given this <quote>missing mass</quote> is
 <firstterm>Dark Matter</firstterm>, and those two words pretty well
 sum up everything we know about it at this point.  We know there is
 <quote>Matter</quote>, because we can see the effects of its
@@ -107,7 +107,7 @@ conclusively test one theory against the other.</para>
 <tip>
 <para>
 You can see the galaxy clusters that Professor Zwicky studied to
-discover Dark Matter.  Use the &kstars; Find Object Window
+discover Dark Matter.  Use the &kstars; <guilabel>Find Object</guilabel> window
 (<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>) to
 center on <quote>M 87</quote> to find the Virgo Cluster, and on
 <quote>NGC 4884</quote> to find the Coma Cluster.  You may have to

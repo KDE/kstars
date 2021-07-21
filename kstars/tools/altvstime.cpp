@@ -55,7 +55,7 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    setWindowTitle(i18n("Altitude vs. Time"));
+    setWindowTitle(i18nc("@title:window", "Altitude vs. Time"));
 
     setModal(false);
 
@@ -1391,7 +1391,7 @@ void AltVsTime::slotPrint()
     //QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     //QPointer<QPrintDialog> dialog( &printer, this );
     QPrintDialog dialog(&printer, this);
-    dialog.setWindowTitle(i18n("Print elevation vs time plot"));
+    dialog.setWindowTitle(i18nc("@title:window", "Print elevation vs time plot"));
     if (dialog.exec() == QDialog::Accepted)
     {
         // Change mouse cursor

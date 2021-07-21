@@ -5,7 +5,7 @@
 </indexterm>
 
 <para>
-KDE applications can be controlled externally from another program,
+&kde; applications can be controlled externally from another program,
 from a console prompt, or from a shell script using the Inter-process communication protocol (&DBus;).  &kstars; takes
 advantage of this feature to allow rather complex behaviors to be
 scripted and played back at any time.  This can be used, for example,

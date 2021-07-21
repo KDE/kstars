@@ -60,7 +60,7 @@ OptionsTreeView::OptionsTreeView(QWidget *p) : QDialog(p)
     mainLayout->addWidget(otvw.get());
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Options"));
+    setWindowTitle(i18nc("@title:window", "Options"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -134,7 +134,7 @@ ScriptNameDialog::ScriptNameDialog(QWidget *p) : QDialog(p)
     mainLayout->addWidget(snw);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Script Data"));
+    setWindowTitle(i18nc("@title:window", "Script Data"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
@@ -175,7 +175,7 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     mainLayout->addWidget(sb);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Script Builder"));
+    setWindowTitle(i18nc("@title:window", "Script Builder"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);

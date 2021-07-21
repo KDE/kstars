@@ -30,7 +30,7 @@ The window is divided into a number of Tabs.  In the
 <guilabel>General</guilabel> Tab, we present basic data about
 the current object.  This includes names and catalog designations,
 object type, and <link linkend="ai-magnitude">magnitude</link>
-(brightness).  On the <guilabel>Position</guilabel> tab 
+(brightness).  On the <guilabel>Position</guilabel> tab
 are the object's Equatorial and Horizontal
 coordinates, as well as its rise, set and transit times.
 </para>
@@ -46,9 +46,9 @@ appear in the popup menu when the object is
 links to the object with the <guibutton>Add Link...</guibutton>
 button.  This will open a window in which you fill in the &URL; and link
 text for the new link (you can also test the &URL; in the web browser
-from this window).  Every time you add a custom &URL; to a certain object, 
+from this window).  Every time you add a custom &URL; to a certain object,
 you are able to choose the resource type using the <guibutton>Resource Type</guibutton>
-radio button. It has two predefined values: <quote>Image</quote> or <quote>Information</quote>. 
+radio button. It has two predefined values: <quote>Image</quote> or <quote>Information</quote>.
 Keep in mind that the custom link can easily point
 to a file on your local disk, so you can use this feature to index
 your personal astronomical images or observing logs.
@@ -58,14 +58,14 @@ You can also modify or remove any link using the
 <guibutton>Edit Link...</guibutton> and
 <guibutton>Remove Link...</guibutton> buttons.
 </para>
-<!-- no Advanced tab for 
-an unnamed star or 
+<!-- no Advanced tab for
+an unnamed star or
 if advinterface file failed loading or
 for solar system objects -->
 <para>
 The <guilabel>Advanced</guilabel> Tab (not available for all objects) allows you to query professional
 astronomical databases on the internet for information regarding the
-current object.  To use these databases, double click on the 
+current object.  To use these databases, double click on the
 desired database in the list to see the results of your query in a web browser window.  The
 query is made using the primary name of the object you clicked on to
 open the Details Dialog.  The following databases are available for
@@ -115,8 +115,8 @@ from any of these surveys, centered on the selected object.
 <para>
 Finally, in the <guilabel>Log</guilabel> Tab, you can type in some text
 that will remain associated with this object's Details window.
-You could use this to attach personal observing notes, for example. Your notes 
-will be saved, such that you can easily read or use them next time when you will 
+You could use this to attach personal observing notes, for example. Your notes
+will be saved, such that you can easily read or use them next time when you will
 use &kstars;.
 </para>
 </sect1>

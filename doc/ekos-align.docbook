@@ -21,7 +21,7 @@
             </mediaobject>
         </screenshot>
         <para>
-            Ekos Alignment Module enables highly accurate GOTOs to within sub-arcseconds accuracy and can measure and correct polar alignment errors. This is possible thanks to the astrometry.net solver. Ekos begins by capturing an image of a star field, feeding that image to <ulink url="http://www.astrometry.net">astrometry.net</ulink> solver, and getting the central coordinates (RA, DEC) of the image. The solver essentially performs a pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known.
+            Ekos Alignment Module enables highly accurate GOTOs to within sub-arcseconds accuracy and can measure and correct polar alignment errors. This is possible thanks to the astrometry.net solver. Ekos begins by capturing an image of a star field, feeding that image to <ulink url="https://astrometry.net">astrometry.net</ulink> solver, and getting the central coordinates (RA, DEC) of the image. The solver essentially performs a pattern recognition against a catalog of millions of stars. Once the coordinates are determined, the true pointing of the telescope is known.
         </para>
         <para>
             Often, there is a discrepancy between where the telescope thinks it is looking at and where it is truly pointing. The magnitude of this discrepancy can range from a few arcminutes to a couple of degrees. Ekos can then correct the discrepancy by either syncing to the new coordinates, or by slewing the mount to the desired target originally requested.
@@ -45,7 +45,7 @@
             At a minimum, you need a CCD/Webcam and a telescope that supports Slew &amp; Sync commands. Most popular commercial telescope nowadays support such commands.
         </para>
         <para>
-            For the Ekos Alignment Module to work, you have an option of either utilizing the <emphasis>online</emphasis> astrometry.net solver, <emphasis>offline</emphasis>, or <emphasis>remote</emphasis> solver
+            For the Ekos Alignment Module to work, you have an option of either utilizing the <emphasis>online</emphasis> astrometry.net solver, <emphasis>offline</emphasis>, or <emphasis>remote</emphasis> solver:
         </para>
         <itemizedlist>
             <listitem>
@@ -65,10 +65,10 @@
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="ekos-align-get-astrometry">
         <title>Get astrometry.net</title>
-        
+
         <para>
             If you are planning to use <emphasis>Offline</emphasis> astrometry then you need to download astrometry.net application.
         </para>
@@ -95,7 +95,7 @@
                 <term>&Windows;</term>
                 <listitem>
                     <para>
-                        To use astrometry.net under Windows, you need to download and install the <ulink url="http://adgsoftware.com/ansvr/">ANSVR Local Astrometry.net solver</ulink>. The ANSVR mimics the astrometry.net online server on your local computer; thus the internet not required for any astrometry queries.
+                        To use astrometry.net under &Windows;, you need to download and install the <ulink url="https://adgsoftware.com/ansvr/">ANSVR Local Astrometry.net solver</ulink>. The ANSVR mimics the astrometry.net online server on your local computer; thus the internet not required for any astrometry queries.
                     </para>
                     <para>
                         After installing the ANSVR server and downloading the appropriate index files for your setup, make sure ANSVR server is up and running and then go to Ekos Alignment options where you can simply change the <guilabel>API URL</guilabel> to use the ANSVR server as illustrated below:
@@ -133,7 +133,7 @@
                 <term>&Linux;</term>
                 <listitem>
                     <para>
-                        Astrometry.net is already included with &kstars; bleeding version. But if astrometry is not installed, then you can install it by running the following command under Ubuntu:
+                        Astrometry.net is already included with &kstars; bleeding version. But if astrometry is not installed, then you can install it by running the following command under &ubuntu;:
                     </para>
                     <para>
                         <command>sudo apt-get install astrometry.net</command>
@@ -142,7 +142,7 @@
             </varlistentry>
         </variablelist>
     </sect3>
-    
+
     <sect3 id="ekos-align-download-index-files">
         <title>Download Index Files</title>
         <para>
@@ -193,7 +193,7 @@
         <sect4 id="ekos-align-manual-download">
                 <title>Manual Download</title>
                 <para>
-                    You need to <ulink url="http://data.astrometry.net">download</ulink> and install the necessary index files suitable for your telescope+CCD field of view (FOV). You need to install index files covering 100% to 10% of your FOV. For example, if your FOV is 60 arcminutes, you need to install index files covering skymarks from 6 arcminutes (10%) to 60 arcminutes (100%). There are many online tools to calculate FOVs, such as <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx">Starizona Field of View Calculator.</ulink>
+                    You need to <ulink url="http://data.astrometry.net">download</ulink> and install the necessary index files suitable for your telescope+CCD field of view (FOV). You need to install index files covering 100% to 10% of your FOV. For example, if your FOV is 60 arcminutes, you need to install index files covering skymarks from 6 arcminutes (10%) to 60 arcminutes (100%). There are many online tools to calculate FOVs, such as <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx">Starizona Field of View Calculator</ulink>.
                 </para>
                 <table frame="all">
                     <title>Index Files</title>
@@ -309,12 +309,12 @@
                 </para>
                 <note>
                     <para>
-                        It is recommended to use a download manager as such <ulink url="https://addons.mozilla.org/en-US/firefox/addon/downthemall/">DownThemAll!</ulink> for Firefox to download the Debian packages as browsers' built-in download manager may have problems with download large packages.
+                        It is recommended to use a download manager as such <ulink url="https://addons.mozilla.org/en-US/firefox/addon/downthemall/">DownThemAll!</ulink> for &firefox; to download the Debian packages as browsers' built-in download manager may have problems with download large packages.
                     </para>
                 </note>
             </sect4>
         </sect3>
-        
+
         <sect3 id="ekos-align-how-to-use">
             <title>How to Use?</title>
             <para>
@@ -348,7 +348,7 @@
                 </para>
             </warning>
         </sect3>
-        
+
         <sect3 id="ekos-align-alignment-settings">
             <title>Alignment Settings</title>
             <screenshot>
@@ -370,12 +370,12 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        <guilabel>CCD</guilabel>: Select CCD to capture from
+                        <guilabel>CCD</guilabel>: Select CCD to capture from.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Exposure</guilabel>: Exposure duration in seconds
+                        <guilabel>Exposure</guilabel>: Exposure duration in seconds.
                     </para>
                 </listitem>
                 <listitem>
@@ -385,12 +385,12 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Bin X</guilabel>: Set horizontal binning of the CCD
+                        <guilabel>Bin X</guilabel>: Set horizontal binning of the CCD.
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <guilabel>Bin Y</guilabel>: Set vertical binning of the CCD
+                        <guilabel>Bin Y</guilabel>: Set vertical binning of the CCD.
                     </para>
                 </listitem>
                 <listitem>
@@ -413,7 +413,7 @@
                 By default, the solver will search all over the sky to determine the coordinates of the captured image. This can <emphasis>take a lot of time</emphasis>; therefore, in order to speed up the solver, you can restrict it to only search within a specified area in the sky designated by the <guilabel>RA</guilabel>, <guilabel>DEC</guilabel>, and <guilabel>Radius</guilabel> options above.
             </para>
         </sect3>
-        
+
         <sect3 id="ekos-align-astrometry-net-settings">
             <title>Astrometry.net Options</title>
             <para>
@@ -458,7 +458,7 @@
                 </listitem>
             </itemizedlist>
         </sect3>
-        
+
         <sect3 id="ekos-align-solver-options">
             <title>Solver Options</title>
             <para>
@@ -478,7 +478,7 @@
                 </mediaobject>
             </screenshot>
         </sect3>
-        
+
         <sect3 id="ekos-align-capture-and-solve">
             <title>Capture &amp; Solve</title>
             <para>
@@ -487,7 +487,7 @@
             <orderedlist>
                 <listitem>
                     <para>
-                        Set your mount to its home position (usually the NCP for equatorial mounts)
+                        Set your mount to its home position (usually the NCP for equatorial mounts).
                     </para>
                 </listitem>
                 <listitem>
@@ -530,7 +530,7 @@
                 </listitem>
             </itemizedlist>
         </sect3>
-        
+
         <sect3 id="ekos-align-polaralignment">
             <title>Polar Alignment</title>
             <sect4 id="ekos-align-plar-alignment-assistant">
@@ -538,7 +538,7 @@
                 <para>
                     When setting up a German Equatorial Mount (GEM) for imaging, a critical aspect of capturing long-exposure images is to ensure proper polar alignment. A GEM mount has two axis: Right Ascension (RA) axis and Declination (DE) axis. Ideally, the RA axis should be aligned with the celestial sphere polar axis. A mount's job is to track the star's motion around the sky, from the moment they rise at the eastern horizon, all the way up across the median, and westward until they set.
                 </para>
-            
+
                 <mediaobject>
                     <videoobject>
                         <videodata contentdepth="595" contentwidth="800" fileref="https://www.stellarmate.com/images/videos/polar_align.webm"/>
@@ -549,7 +549,7 @@
                         </para>
                     </caption>
                 </mediaobject>
-                
+
                 <para>
                     In long exposure imaging, a camera is attached to the telescope where the image sensor captures incoming photons from a particular area in the sky. The incident photons have to strike the same photo-site over and over again if we are to gather a clear and crisp image. Of course, actual photons do not behave in this way: optics, atmosphere, seeing quality all scatter and refract photons in one way or another. Furthermore, photons do not arrive uniformly but follow a Poisson distribution. For point-like sources like stars, a point spread function describes how photons are spatially distributed across the pixels. Nevertheless, the <emphasis>overall</emphasis> idea we want to keep the source photons hitting the same pixels. Otherwise, we might end up with an image plagued with various trail artifacts.
                 </para>
@@ -595,7 +595,7 @@
                     After the first capture, you can rotate the mount by a specific amount (default 30 degrees) either West or East. After selecting the magnitude and direction, click <guibutton>Next</guibutton> to continue and the mount will be rotated. Once the rotation is complete you shall be asked to take another capture, unless you have checked <guilabel>Auto Mode</guilabel>. In Automated mode, the rest of the process will continue with the same settings and direction until a total of three images are captured.
                 </para>
                 <para>
-                    Since the mount's true RA/DE are resolved by astrometry, we can construct a unique circle from the three centers found in the astrometry solutions. The circle's center is where the mount rotates about (RA Axis) and ideally, this point should coincide with the celestial pole. However, if there is a misalignment, then Ekos draws a correction vector. This correction vector can be placed anywhere in the image. Next, <emphasis>refresh</emphasis> the camera feed and make corrections to the mount's Altitude and Azimuth knobs until the star is located in the designated cross-hair. To make it easy to make corrections, expand the view by clicking on the Fullscreen button <inlinemediaobject><imageobject><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject></inlinemediaobject>
+                    Since the mount's true RA/DE are resolved by astrometry, we can construct a unique circle from the three centers found in the astrometry solutions. The circle's center is where the mount rotates about (RA Axis) and ideally, this point should coincide with the celestial pole. However, if there is a misalignment, then Ekos draws a correction vector. This correction vector can be placed anywhere in the image. Next, <emphasis>refresh</emphasis> the camera feed and make corrections to the mount's Altitude and Azimuth knobs until the star is located in the designated cross-hair. To make it easy to make corrections, expand the view by clicking on the Fullscreen button <inlinemediaobject><imageobject><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject></inlinemediaobject>.
                 </para>
                 <screenshot>
                     <screeninfo>

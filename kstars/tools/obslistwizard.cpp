@@ -41,7 +41,7 @@ ObsListWizard::ObsListWizard(QWidget *ksparent) : QDialog(ksparent)
     mainLayout->addWidget(olw);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Observing List Wizard"));
+    setWindowTitle(i18nc("@title:window", "Observing List Wizard"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal);
     nextB                       = new QPushButton(i18n("&Next >"));

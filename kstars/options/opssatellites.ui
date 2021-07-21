@@ -16,7 +16,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>View options</string>
+        <string>View Options</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -76,7 +76,7 @@
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>List of satellites</string>
+        <string>List of Satellites</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>

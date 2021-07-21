@@ -216,7 +216,7 @@ void ConjunctionsTool::slotExport()
     QByteArray line;
 
     //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
-    QFile file(QFileDialog::getSaveFileName(nullptr, i18n("Save Conjunctions"), QDir::homePath(), "*|All files"));
+    QFile file(QFileDialog::getSaveFileName(nullptr, i18nc("@title:window", "Save Conjunctions"), QDir::homePath(), "*|All files"));
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
@@ -361,7 +361,7 @@ void ConjunctionsTool::slotCompute(void)
     {
         // Show a progress dialog while processing
         QProgressDialog progressDlg(i18n("Compute conjunction..."), i18n("Abort"), 0, objects.count(), this);
-        progressDlg.setWindowTitle(i18n("Conjunction"));
+        progressDlg.setWindowTitle(i18nc("@title:window", "Conjunction"));
         progressDlg.setWindowModality(Qt::WindowModal);
         progressDlg.setValue(0);
 

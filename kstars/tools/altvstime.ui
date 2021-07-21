@@ -234,7 +234,7 @@
          <item>
           <widget class="QLabel" name="timeLabel">
            <property name="text">
-            <string>Local Time:</string>
+            <string>Local time:</string>
            </property>
           </widget>
          </item>

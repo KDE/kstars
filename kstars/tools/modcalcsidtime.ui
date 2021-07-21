@@ -187,7 +187,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Input parameters</string>
+          <string>Input Parameters</string>
          </property>
          <layout class="QGridLayout">
           <item row="0" column="0">
@@ -268,7 +268,7 @@
        <item>
         <widget class="QLabel" name="HelpLabel">
          <property name="text">
-          <string>Specify local time in the input file.</string>
+          <string>Specify Local Time in the Input File</string>
          </property>
         </widget>
        </item>

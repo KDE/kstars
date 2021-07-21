@@ -47,9 +47,9 @@ TimeDialog::TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *pa
     setLayout(mainLayout);
 
     if (UTCNow)
-        setWindowTitle(i18nc("set clock to a new time", "Set UTC Time"));
+        setWindowTitle(i18nc("@title:window set clock to a new time", "Set UTC Time"));
     else
-        setWindowTitle(i18nc("set clock to a new time", "Set Time"));
+        setWindowTitle(i18nc("@title:window set clock to a new time", "Set Time"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);

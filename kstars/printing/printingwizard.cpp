@@ -411,7 +411,7 @@ void PrintingWizard::setupWidgets()
 #endif
     m_WizardStack = new QStackedWidget(this);
 
-    setWindowTitle(i18n("Printing Wizard"));
+    setWindowTitle(i18nc("@title:window", "Printing Wizard"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(m_WizardStack);

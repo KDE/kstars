@@ -436,7 +436,7 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
             addAction(i18n("Add Trail"), map, SLOT(slotAddPlanetTrail()));
     }
 
-    addAction(QIcon::fromTheme("redeyes"), i18n("Simulate eyepiece view"), map,
+    addAction(QIcon::fromTheme("redeyes"), i18n("Simulate Eyepiece View"), map,
               SLOT(slotEyepieceView()));
 
     addSeparator();
@@ -463,16 +463,16 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
     if (flags.isEmpty())
     {
         // There is no flag around clicked SkyObject
-        addAction(QIcon::fromTheme("flag"), i18n("Add flag..."), ks->map(),
+        addAction(QIcon::fromTheme("flag"), i18n("Add Flag..."), ks->map(),
                   SLOT(slotAddFlag()));
     }
 
     else if (flags.size() == 1)
     {
         // There is only one flag around clicked SkyObject
-        addAction(QIcon::fromTheme("document-edit"), i18n("Edit flag"), this,
+        addAction(QIcon::fromTheme("document-edit"), i18n("Edit Flag"), this,
                   SLOT(slotEditFlag()));
-        addAction(QIcon::fromTheme("delete"), i18n("Delete flag"), this,
+        addAction(QIcon::fromTheme("delete"), i18n("Delete Flag"), this,
                   SLOT(slotDeleteFlag()));
 
         m_CurrentFlagIdx = flags.first();
@@ -481,9 +481,9 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
     else
     {
         // There are more than one flags around clicked SkyObject - we need to create submenus
-        QMenu *editMenu = new QMenu(i18n("Edit flag..."), KStars::Instance());
+        QMenu *editMenu = new QMenu(i18n("Edit Flag..."), KStars::Instance());
         editMenu->setIcon(QIcon::fromTheme("document-edit"));
-        QMenu *deleteMenu = new QMenu(i18n("Delete flag..."), KStars::Instance());
+        QMenu *deleteMenu = new QMenu(i18n("Delete Flag..."), KStars::Instance());
         deleteMenu->setIcon(QIcon::fromTheme("delete"));
 
         connect(editMenu, SIGNAL(triggered(QAction *)), this,

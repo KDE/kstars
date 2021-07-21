@@ -27,7 +27,7 @@
     </listitem>
     <listitem>
         <para>
-            <ulink url="http://knro.blogspot.com/2013/10/demo-of-ekos-alignment-module.html">Extremely accurate GOTOs</ulink> using astrometry.net solver (both Online and Offline solvers supported).
+            <ulink url="https://knro.blogspot.com/2013/10/demo-of-ekos-alignment-module.html">Extremely accurate GOTOs</ulink> using astrometry.net solver (both Online and Offline solvers supported).
         </para>
     </listitem>
     <listitem>
@@ -87,12 +87,12 @@
     </listitem>
     <listitem>
         <para>
-            Export and import sequence queue sets as Ekos Sequence Queue (.esq) files.
+            Export and import sequence queue sets as Ekos Sequence Queue (<literal role="extension">.esq</literal>) files.
         </para>
     </listitem>
     <listitem>
         <para>
-            <ulink url="http://youtu.be/fg2HDFg_dCE">Center the telescope anywhere in a captured FITS image</ulink> or any FITS with World Coordinate System (WCS) header.
+            <ulink url="https://www.youtube.com/watch?v=fg2HDFg_dCE">Center the telescope anywhere in a captured FITS image</ulink> or any FITS with World Coordinate System (WCS) header.
         </para>
     </listitem>
     <listitem>
@@ -117,7 +117,7 @@
     </listitem>
     <listitem>
         <para>
-            Fully scriptable via <ulink url="http://www.freedesktop.org/wiki/Software/dbus/">DBus</ulink>.
+            Fully scriptable via <ulink url="https://freedesktop.org/wiki/Software/dbus/">&DBus;</ulink>.
         </para>
     </listitem>
     <listitem>

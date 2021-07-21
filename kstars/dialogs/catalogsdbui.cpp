@@ -178,7 +178,7 @@ void CatalogsDBUI::export_catalog()
     if (!cat.first)
         return;
 
-    QFileDialog dialog(this, i18n("Export Catalog"), m_last_dir,
+    QFileDialog dialog(this, i18nc("@title:window", "Export Catalog"), m_last_dir,
                        i18n("Catalog") +
                            QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
@@ -198,7 +198,7 @@ void CatalogsDBUI::export_catalog()
 
 void CatalogsDBUI::import_catalog(bool force)
 {
-    QFileDialog dialog(this, i18n("Import Catalog"), m_last_dir,
+    QFileDialog dialog(this, i18nc("@title:window", "Import Catalog"), m_last_dir,
                        i18n("Catalog") +
                            QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);

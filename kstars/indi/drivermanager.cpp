@@ -95,7 +95,7 @@ DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
     ui                      = new DriverManagerUI(this);
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
-    setWindowTitle(i18n("Device Manager"));
+    setWindowTitle(i18nc("@title:window", "Device Manager"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
@@ -428,7 +428,7 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
             QPointer<QMessageBox> msgBox = new QMessageBox();
             msgBox->setAttribute(Qt::WA_DeleteOnClose);
             msgBox->setStandardButtons(QMessageBox::Ok);
-            msgBox->setWindowTitle(i18n("Error"));
+            msgBox->setWindowTitle(i18nc("@title:window", "Error"));
             msgBox->setText(i18n("Connection to INDI server locally on port %1 failed.", port));
             msgBox->setModal(false);
             msgBox->setIcon(QMessageBox::Critical);
@@ -751,7 +751,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         QMessageBox *msgBox = new QMessageBox();
         msgBox->setAttribute(Qt::WA_DeleteOnClose);
         msgBox->setStandardButtons(QMessageBox::Ok);
-        msgBox->setWindowTitle(i18n("Error"));
+        msgBox->setWindowTitle(i18nc("@title:window", "Error"));
         msgBox->setText(
             i18n("Connection to INDI server at host %1 with port %2 failed.", dv->getHost(), dv->getPort()));
         KSNotification::event(QLatin1String("ConnectionFailed"), msgBox->text(), KSNotification::EVENT_ALERT);
@@ -957,7 +957,7 @@ bool DriverManager::readXMLDrivers()
 
     if (indiDir.cd(driversDir) == false)
     {
-        KSNotification::error(i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct "
+        KSNotification::error(i18n("Unable to find INDI drivers directory: %1\nPlease make sure to set the correct "
                                    "path in KStars configuration",
                                    driversDir));
         return false;
@@ -1374,7 +1374,7 @@ void DriverManager::addINDIHost()
     QDialog hostConfDialog;
     Ui::INDIHostConf hostConf;
     hostConf.setupUi(&hostConfDialog);
-    hostConfDialog.setWindowTitle(i18n("Add Host"));
+    hostConfDialog.setWindowTitle(i18nc("@title:window", "Add Host"));
     bool portOk = false;
 
     if (hostConfDialog.exec() == QDialog::Accepted)
@@ -1423,7 +1423,7 @@ void DriverManager::modifyINDIHost()
     QDialog hostConfDialog;
     Ui::INDIHostConf hostConf;
     hostConf.setupUi(&hostConfDialog);
-    hostConfDialog.setWindowTitle(i18n("Modify Host"));
+    hostConfDialog.setWindowTitle(i18nc("@title:window", "Modify Host"));
 
     QTreeWidgetItem *currentItem = ui->clientTreeWidget->currentItem();
 

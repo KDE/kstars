@@ -101,7 +101,7 @@
 <firstname>Jasem</firstname>
 <surname>Mutlaq</surname>
 <affiliation>
-<address><email>mutlaqja AT ikarustech DOT com</email></address>
+<address>&Jasem.Mutlaq.mail;</address>
 </affiliation>
 <contrib>Lead Developer &amp; Maintainer</contrib>
 </othercredit>
@@ -225,7 +225,7 @@
 
 It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.
 
-For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the &kstars; Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the "What's up Tonight" tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!
+For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the &kstars; Astrocalculator to predict conjunctions, and many common astronomical calculations. For the amateur astronomer, it provides an observation planner, a sky calendar tool, and an FOV editor to calculate field of view of equipment and display them. Find out interesting objects in the <quote>What's up Tonight</quote> tool, plot altitude vs. time graphs for any object, print high-quality sky charts, and gain access to lots of information and resources to help you explore the universe!
 
 HiPS all-sky progressive overlay provide stunning views from numerous surveys spanning the whole electromagnetic spectrum.
 
@@ -262,7 +262,7 @@ From an object's popup menu, you can open its <link linkend="tool-details">Detai
 Our <link linkend="tool-calculator">Astrocalculator</link> tool provides direct access to many of the algorithms the program uses behind the scenes, including coordinate converters and time calculators.
 </para>
 <para>
-You can plan an observing session using our <link linkend="tool-altvstime">Altitude vs. Time</link> tool, which will plot curves representing the Altitude as a function of time for any group of objects.  If that is too much detail, we also provide a <link linkend="tool-whatsup">What's Up Tonight?</link> tool that summarizes the objects that you will be able to see from your location on any given night. You can add your favorite objects to your
+You can plan an observing session using our <link linkend="tool-altvstime">Altitude vs. Time</link> tool, which will plot curves representing the Altitude as a function of time for any group of objects.  If that is too much detail, we also provide a <link linkend="tool-whatsup">What's up Tonight?</link> tool that summarizes the objects that you will be able to see from your location on any given night. You can add your favorite objects to your
 observing wish-list using the <link linkend="tool-obsplanner">Observation Planner</link> tool, which allows you to plan your observation sessions professionally. To see how object appears in the eyepiece under different telescopes and field of views, use the <link linkend="tool-eyepieceview">Simulate Eyepiece View</link> tool to render a simulated view of what you see.
 </para>
 <para>
@@ -272,8 +272,8 @@ linkend="tool-jmoons">Jupiter Moons Tool</link> which shows the positions of Jup
 <para>
 Our primary goal is to make &kstars; an interactive educational tool for learning about astronomy and the night sky.  To this end, the &kstars; Handbook includes the <link linkend="astroinfo">AstroInfo
 Project</link>, a series of short, hyperlinked articles on astronomical topics that can be explored with &kstars;.  In addition, &kstars;
-includes &DBus; functions that allow you to <link linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars; a powerful "demo engine" for classroom use or general illustration of
-astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="http://api.kde.org/4.x-api/kdeedu-apidocs/kstars/html/classkstars.html">&kstars; &DBus; API</ulink>
+includes &DBus; functions that allow you to <link linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars; a powerful <quote>demo engine</quote> for classroom use or general illustration of
+astronomical topics. Furthermore, any 3rd party tool or language with support of &DBus; can be used to write powerful scripts using <ulink url="https://api.kde.org/appscomplete-api/kstars-apidocs/kstars/html/classKStars.html">&kstars; &DBus; API</ulink>.
 </para>
 <para>
 Enable <link linkend="hips">HiPS all-sky progressive overlay</link> to fetch high-resolution images and display them directly in the sky map. You can select from numerous catalogs compiled from different earth and space based missions.
@@ -284,11 +284,11 @@ However, &kstars; is not just for students.  You can control telescopes and came
 telescopes including Meade's LX200 family and Celestron GPS.  Several popular CCD cameras, webcams, and computerized focusers are also supported.  Simple slew/track commands are integrated directly into the main window's
 popup menu, and the INDI Control Panel provides full access to all of your telescope's functions. INDI's Client/Server
 architecture allows for seamless control of any number of <link linkend="indi-kstars-setup">local</link> or <link linkend="indi-remote-control">remote</link> telescopes using a single
-&kstars; session.For advanced users, &kstars; provides Ekos, a complete astrophotography suite for Linux. <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus and auto-guide capabilities,
+&kstars; session. For advanced users, &kstars; provides Ekos, a complete astrophotography suite for Linux. <ulink url="https://indilib.org/about/ekos.html">Ekos</ulink> is based on a modular extensible framework to perform common astrophotography tasks. This includes highly accurate GOTOs using astrometry solver, ability to measure and correct polar alignment errors , auto-focus and auto-guide capabilities,
 and capture of single or stack of images with filter wheel support.
 </para>
 <para>
-We are very interested in your feedback; please report bugs or feature requests to the &kstars; development mailing list: <email>kstars-devel@kde.org</email>. You can also use the automated bug reporting tool, accessible from the Help menu.
+We are very interested in your feedback; please report bugs or feature requests to the &kstars; development mailing list: <email>kstars-devel AT kde.org</email>. You can also use the automated bug reporting tool, accessible from the Help menu.
 </para>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 

@@ -4,7 +4,7 @@
         <primary>Tools</primary>
         <secondary>Ekos</secondary>
         <tertiary>Capture</tertiary>
-    </indexterm>    
+    </indexterm>
     <screenshot>
         <screeninfo>
             Ekos Capture
@@ -142,7 +142,7 @@
 
     <sect3 id="capture-file-settings">
         <title>File Settings</title>
-        
+
         <screenshot>
             <screeninfo>
                 File Settings
@@ -229,10 +229,10 @@
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="capture-limit-settings">
         <title>Limit Settings</title>
-        
+
         <screenshot>
             <screeninfo>
                 Limit Settings
@@ -260,14 +260,14 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Meridian Flip</guilabel>: If supported by the mount, set the hour angle limit (in hours) before a <ulink url="http://astronomy.mdodd.com/gem_movement.html">meridian flip</ulink> is commanded. For example, if you set the meridian flip duration to 0.1 hours, Ekos shall wait until the mount passes the meridian by 0.1 hours (6 minutes), then it commands the mount to perform a meridian flip. After the meridian flip is complete, Ekos re-aligns using astrometry.net (if <link linkend="ekos-align">the alignment</link> was used) and resumes guiding (if it was started before) and then resumes the capture process automatically.</para>
+                    <guilabel>Meridian Flip</guilabel>: If supported by the mount, set the hour angle limit (in hours) before a <ulink url="https://astronomy.mdodd.com/gem_movement.html">meridian flip</ulink> is commanded. For example, if you set the meridian flip duration to 0.1 hours, Ekos shall wait until the mount passes the meridian by 0.1 hours (6 minutes), then it commands the mount to perform a meridian flip. After the meridian flip is complete, Ekos re-aligns using astrometry.net (if <link linkend="ekos-align">the alignment</link> was used) and resumes guiding (if it was started before) and then resumes the capture process automatically.</para>
             </listitem>
         </itemizedlist>
     </sect3>
-    
+
     <sect3 id="capture-sequence-queue">
         <title>Sequence Queue</title>
-        
+
         <para>
             Sequence Queue is the primary hub of the Ekos Capture Module. This is where you can plan and execute jobs using the sequence queue built-in powerful editor. To add a job, simply select all the parameters from the capture and file settings as indicated above. Once you selected your desired parameters, click on the add button <inlinemediaobject><imageobject><imagedata fileref="list-add.png" format="PNG"/></imageobject></inlinemediaobject> in the sequence queue to add it to the queue.
         </para>
@@ -288,7 +288,7 @@
             You can add as many jobs as desired. While it is not strictly necessary, it is preferable to add the dark and flat jobs after the light frames. Once you are done adding jobs, simply click <guilabel>Start Sequence</guilabel> <inlinemediaobject><imageobject><imagedata fileref="media-playback-start.png" format="PNG"/></imageobject></inlinemediaobject> to begin executing the jobs. A job state changes from <guilabel>Idle</guilabel> to <guilabel>In Progress</guilabel> and finally to <guilabel>Complete</guilabel> once it is done. The Sequence Queue automatically starts the next job. If a job is aborted, it may be resumed again. To pause a sequence, click the pause button <inlinemediaobject><imageobject><imagedata fileref="media-playback-pause.png" format="PNG"/></imageobject></inlinemediaobject> and the sequence will be stopped after the current capture is complete. To reset the status of all the jobs, simply click the reset button <inlinemediaobject><imageobject><imagedata fileref="view-refresh.png" format="PNG"/></imageobject></inlinemediaobject>. Please beware that all image progress counts are reset as well. To preview an image in &kstars; FITS Viewer, click the <guibutton>Preview</guibutton> button.
         </para>
         <para>
-            Sequence queues can be saved as an XML file with extension <filename role="extension">.esq</filename> (Ekos Sequence Queue). To load a sequence queue, click the open document button <inlinemediaobject><imageobject><imagedata fileref="document-open.png" format="PNG"/></imageobject></inlinemediaobject>. Please note that it will replace any current sequence queues in Ekos.
+            Sequence queues can be saved as an &XML; file with extension <literal role="extension">.esq</literal> (Ekos Sequence Queue). To load a sequence queue, click the open document button <inlinemediaobject><imageobject><imagedata fileref="document-open.png" format="PNG"/></imageobject></inlinemediaobject>. Please note that it will replace any current sequence queues in Ekos.
         </para>
 
         <important>
@@ -314,10 +314,10 @@
             </caption>
         </mediaobject>
     </sect3>
-    
+
     <sect3 id="capture-filter-settings">
         <title>Filter Settings</title>
-        
+
         <screenshot>
             <screeninfo>
                 Filter Queue
@@ -331,7 +331,7 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
             Click the filter icon <inlinemediaobject><imageobject><imagedata fileref="view-filter.png" format="PNG"/></imageobject></inlinemediaobject> next to the filter wheel selection box to open the filter settings dialog. If you are using filters that are not parafocal with each other and require a specific amount of focus offsets in order to get them into proper then set all the relative focus offsets in the dialog.
         </para>
@@ -341,7 +341,7 @@
         <orderedlist>
             <listitem>
                 <para>
-                    <guilabel>Filter</guilabel>: Filter Name
+                    <guilabel>Filter</guilabel>: Filter Name.
                 </para>
             </listitem>
             <listitem>
@@ -371,7 +371,7 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    Since Luminosity is specified as the locked filter and auto-focus is checked, the filter is changed to Luminosity
+                    Since Luminosity is specified as the locked filter and auto-focus is checked, the filter is changed to Luminosity.
                 </para>
             </listitem>
             <listitem>
@@ -404,7 +404,7 @@
 
     <sect3 id="capture-fits-viewer">
         <title>FITS Viewer</title>
-        
+
         <para>
             Captured images are displayed in &kstars; FITS Viewer tool, and also in the summary screen. Set options related to how the images are displayed in the viewer.
         </para>
@@ -424,7 +424,7 @@
 
     <sect3 id="capture-rotation-settings">
         <title>Rotator Settings</title>
-        
+
         <screenshot>
             <screeninfo>
                 Rotator Settings
@@ -438,14 +438,14 @@
                 </textobject>
             </mediaobject>
         </screenshot>
-        
+
         <para>
-            Field Rotators are supported in INDI &amp; Ekos. The rotator angle is the raw angle reported by the rotator and is not necessary the <ulink url="https://en.wikipedia.org/wiki/Position_angle">Position Angle</ulink>. A Position Angle of <emphasis>zero</emphasis> indicates that the frame top (indicated by small arrow) is pointing <emphasis>directly</emphasis> at the pole. The position angle is expressed as E of N (East of North), so 90 degrees PA indicates the frame <emphasis>top</emphasis> points 90 degrees away (counter-clockwise) from the pole. Check <ulink url="http://www.srl.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf">examples</ulink> for various PAs.
+            Field Rotators are supported in INDI &amp; Ekos. The rotator angle is the raw angle reported by the rotator and is not necessary the <ulink url="https://en.wikipedia.org/wiki/Position_angle">Position Angle</ulink>. A Position Angle of <emphasis>zero</emphasis> indicates that the frame top (indicated by small arrow) is pointing <emphasis>directly</emphasis> at the pole. The position angle is expressed as E of N (East of North), so 90 degrees PA indicates the frame <emphasis>top</emphasis> points 90 degrees away (counter-clockwise) from the pole. Check <ulink url="https://nustarsoc.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf">examples</ulink> for various PAs.
         </para>
         <para>
             To calibrate the Position Angle (PA), capture and solve an image in the <link linkend="ekos-align">Ekos Align module</link>. An <emphasis>offset</emphasis> and a <emphasis>multiplier</emphasis> are applied to the raw angle to produce the position angle. The Ekos Rotator dialog permits direct control of the raw angle and also the PA. The offset and multiplier can be changed manually to synchronize the rotator's raw angle with the actual PA. Check <guilabel>Sync FOV to PA</guilabel> to rotate the current Field of View (FOV) indicator on the Sky Map with the PA value as you change it in the dialog.
         </para>
-        
+
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/V_hRPMlPjmA"/>
@@ -456,15 +456,15 @@
                 </para>
             </caption>
         </mediaobject>
-        
+
         <para>
             Each capture job may be assigned different rotator angles, but be aware that this would cause guiding to abort as it would lose track of the guide star when rotating. Therefore, for most sequences, the rotator angle is kept the same for all capture jobs.
         </para>
     </sect3>
-    
+
     <sect3 id="capture-calibration-frames">
         <title>Calibration Frames</title>
-        
+
         <screenshot>
             <screeninfo>
                 Calibration settings
@@ -529,10 +529,10 @@
             Before the calibration capture process is started, you can request Ekos to park the mount and/or dome. Depending on your flat source selection above, Ekos will use the appropriate flat light source before starting flat frames capture. If ADU is specified, Ekos begins by capturing a couple of preview images to establish the curve required to achieve the desired ADU count. Once an appropriate value is calculated, another capture is taken and ADU is recounted until a satisfactory value is achieved.
         </para>
     </sect3>
-    
+
     <sect3 id="capture-video-tutorials">
         <title>Video Tutorials</title>
-        
+
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/Gz07j7VPnpc"/>
@@ -543,7 +543,7 @@
                 </para>
             </caption>
         </mediaobject>
-        
+
         <mediaobject>
             <videoobject>
                 <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/yfz9_UJIvLY"/>

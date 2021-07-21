@@ -22,7 +22,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_ShowStars">
           <property name="text">
-           <string>&amp;Star Catalogs</string>
+           <string>&amp;Star catalogs</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">catalogButtonGroup</string>
@@ -49,7 +49,7 @@
           <item row="0" column="1">
            <widget class="QLabel" name="LabelStarDensity">
             <property name="text">
-             <string>Star Density:</string>
+             <string>Star density:</string>
             </property>
            </widget>
           </item>
@@ -264,7 +264,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_ShowDeepSky">
           <property name="text">
-           <string>Deep-Sky Catalogs</string>
+           <string>Deep-sky catalogs</string>
           </property>
           <attribute name="buttonGroup">
            <string notr="true">catalogButtonGroup</string>
@@ -298,7 +298,7 @@
           <item>
            <widget class="QLabel" name="DSOMInZoomLabel">
             <property name="text">
-             <string>DSO Minimal Zoom:</string>
+             <string>DSO minimal zoom:</string>
             </property>
            </widget>
           </item>
@@ -363,7 +363,7 @@
           <item>
            <widget class="QLabel" name="DSOCacheLabel">
             <property name="text">
-             <string>DSO Cache Percentage</string>
+             <string>DSO cache percentage:</string>
             </property>
            </widget>
           </item>

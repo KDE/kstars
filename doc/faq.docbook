@@ -45,11 +45,11 @@ Why are there so many more U.S. cities than in other countries?
 </question>
 <answer>
 <para>
-When we started &kstars;, we were unable to find a longitude/latitude 
-database that covered the globe equitably.  However, the &kstars; 
-community is rapidly overcoming this problem!  We have already 
-received city lists from many users around the world.  If you can 
-contribute to this effort, please send us your list of cities and 
+When we started &kstars;, we were unable to find a longitude/latitude
+database that covered the globe equitably.  However, the &kstars;
+community is rapidly overcoming this problem!  We have already
+received city lists from many users around the world.  If you can
+contribute to this effort, please send us your list of cities and
 coordinates.
 </para>
 </answer>
@@ -65,9 +65,9 @@ How can I add a new custom location to &kstars;?
 <para>
 If you would like to use a location that is not on the list, enter the
 relevant information (longitude, latitude, city name, province name, and
-country name), then press <guibutton>Add to list</guibutton> button. 
+country name), then press <guibutton>Add City</guibutton> button.
 All fields must be filled, except the optional province field.
-You can also modify the values for an existing city, by simply changing 
+You can also modify the values for an existing city, by simply changing
 the values in the window, and adding it to the list.
 </para>
 </answer>
@@ -82,8 +82,8 @@ do I remove it from the program?
 </question>
 <answer>
 <para>
-You can easily remove a custom location from &kstars; by selecting it in the 
-cities list and pressing the <guibutton>Remove City</guibutton> button. 
+You can easily remove a custom location from &kstars; by selecting it in the
+cities list and pressing the <guibutton>Remove City</guibutton> button.
 Note that you can not remove a &kstars; default city.
 </para>
 </answer>
@@ -91,7 +91,7 @@ Note that you can not remove a &kstars; default city.
 
 <qandaentry>
 <question>
-<para>Why do some objects disappear when I am scrolling the 
+<para>Why do some objects disappear when I am scrolling the
 display?</para>
 </question>
 <answer>
@@ -103,7 +103,7 @@ with the arrow keys or by dragging with the mouse), the display may
 become slow and jerky, because the computer is having trouble keeping
 up.  By excluding many of the objects, the computational load is
 greatly reduced, which allows for smoother scrolling.  You can turn
-off this feature in the <guilabel>Configure &kstars;</guilabel> window,
+off this feature in the <guilabel>Configure - &kstars;</guilabel> window,
 and you can also configure which objects get hidden.
 </para>
 </answer>
@@ -121,20 +121,20 @@ Project</link>; a series of short, hyperlinked articles about
 astronomical topics that can be explored and illustrated with &kstars;.
 AstroInfo is a community effort, like GNUpedia or Everything2.  If
 you'd like to contribute to AstroInfo, please join our mailing list:
-<email>kstars-devel@kde.org</email>.
+<email>kstars-devel AT kde.org</email>.
 </para>
 </answer>
 </qandaentry>
 
 <qandaentry>
 <question>
-<para>I want &kstars; to start up with a time and date different from 
+<para>I want &kstars; to start up with a time and date different from
 my system CPU clock.  Is this possible?</para>
 </question>
 <answer>
 <para>
-Yes; to start &kstars; with a different time/date, use the 
-<quote>--date</quote> argument, followed by a date string like 
+Yes; to start &kstars; with a different time/date, use the
+<option>--date</option> argument, followed by a date string like
 <quote>4 July 1976 12:30:00</quote>
 </para>
 </answer>
@@ -147,8 +147,8 @@ Is this possible?</para>
 </question>
 <answer>
 <para>
-Yes; to start &kstars; with the clock paused, simply add the 
-<quote>--paused</quote> argument to the command line.
+Yes; to start &kstars; with the clock paused, simply add the
+<option>--paused</option> argument to the command line.
 </para>
 </answer>
 </qandaentry>
@@ -181,7 +181,7 @@ and the planet were both point masses.  As it is, the planets are
 constantly tugging on each other, perturbing the orbits slightly, and
 tidal effects also induce precessional wobbling.  In fact, recent
 analysis suggests that the planets' orbits may not even be stable in
-the long term (i.e., millions or billions of years).  As a rule of
+the long term (&ie;, millions or billions of years).  As a rule of
 thumb, you can expect the position of a planet to be accurate to a few
 arcseconds between the dates -2000 and 6000.
 </para><para>
@@ -215,8 +215,7 @@ object images?  Why not just include them as part of the &kstars; distribution?<
 </question>
 <answer>
 <para>
-The author of the downloadable NGC/IC catalog has released it with the restriction that it may not be used commercially.  For most &kstars; users, this is not a problem.  However, it is technically against the &kstars; license (the
-<acronym>GPL</acronym>) to restrict usage in this way.  We removed the Messier object images from the standard distribution for two reasons:  to simply reduce the size of &kstars;, and also because of similar licensing concerns with a couple of the images.  The inline images are significantly compressed to a very low quality from their original form, so I doubt there is a real copyright concern, but I did obtain explicit permission from the images' authors to use the few images for which there was any question about it (see <filename>README.images</filename>).  Still, just to be absolutely safe, I removed them from the standard distribution, and marked the download archive as being "free for non-commercial use".
+The author of the downloadable NGC/IC catalog has released it with the restriction that it may not be used commercially.  For most &kstars; users, this is not a problem.  However, it is technically against the &kstars; license (the <acronym>GPL</acronym>) to restrict usage in this way.  We removed the Messier object images from the standard distribution for two reasons:  to simply reduce the size of &kstars;, and also because of similar licensing concerns with a couple of the images.  The inline images are significantly compressed to a very low quality from their original form, so I doubt there is a real copyright concern, but I did obtain explicit permission from the images' authors to use the few images for which there was any question about it (see <filename>README.images</filename>).  Still, just to be absolutely safe, I removed them from the standard distribution, and marked the download archive as being <quote>free for non-commercial use</quote>.
 </para>
 </answer>
 </qandaentry>
@@ -239,13 +238,13 @@ It depends on the image, but many of the images restrict against commercial usag
 <answer>
 <para>
 Yes, definitely!  Introduce yourself on our mailing list:
-<email>kstars-devel@kde.org</email>.  If you want to
+<email>kstars-devel AT kde.org</email>.  If you want to
 help with the coding, download the latest <ulink
-url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars_KF5">&kstars; Git</ulink> version of the
-code and dive right in.  There are several README files in the
+url="https://invent.kde.org/education/kstars">&kstars; &git;</ulink> version of the
+code and dive right in.  There are several <filename>README</filename> files in the
 distribution that explain some of the code's subsystems.  If you
-need ideas of what to work on, see the TODO file.  You can submit
-patches to kstars-devel, and feel free to post any questions you
+need ideas of what to work on, see the <filename>TODO</filename> file.  You can submit
+patches to kstars-devel mailing list, and feel free to post any questions you
 have about the code there as well.
 </para><para>
 If you are not into coding, we can still use your help with i18n, docs,

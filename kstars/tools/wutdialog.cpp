@@ -47,7 +47,7 @@ WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo,
 
     mainLayout->addWidget(WUT);
 
-    setWindowTitle(i18n("What's up Tonight"));
+    setWindowTitle(i18nc("@title:window", "What's up Tonight"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
     mainLayout->addWidget(buttonBox);

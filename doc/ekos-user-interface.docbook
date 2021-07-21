@@ -14,44 +14,44 @@
                 Setup &amp; Summary Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Scheduler Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Capture Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Focus Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Alignment Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Guide Module
             </para>
         </listitem>
-        
+
         <listitem>
             <para>
                 Mount Module
             </para>
         </listitem>
     </itemizedlist>
-    
+
     <para>Each module has its own tab and icon in the graphical user interface as illustrated in the screenshot below:</para>
     <screenshot>
         <screeninfo>

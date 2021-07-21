@@ -41,7 +41,7 @@ void OpsASTAP::slotApply()
 
 void OpsASTAP::slotSelectExecutable()
 {
-    QUrl executable = QFileDialog::getOpenFileUrl(this, i18n("Select ASTAP executable"), QUrl(), "(astap astap.exe)");
+    QUrl executable = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Select ASTAP executable"), QUrl(), "(astap astap.exe)");
     if (executable.isEmpty())
         return;
 

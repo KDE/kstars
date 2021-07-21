@@ -43,7 +43,7 @@
         <string>Choose a new date</string>
        </property>
        <property name="whatsThis">
-        <string>Press this button to select a new date for the &quot;What's Up Tonight&quot; tool.  Note that the date of the main window is not changed.</string>
+        <string>Press this button to select a new date for the &quot;What's up Tonight&quot; tool.  Note that the date of the main window is not changed.</string>
        </property>
        <property name="text">
         <string>Change Date...</string>
@@ -86,7 +86,7 @@
         <string>Choose a new geographic location</string>
        </property>
        <property name="whatsThis">
-        <string>Press this button to select a new geographic location for the &quot;What's Up Tonight&quot; tool.  Note that the location of the main window is not changed.</string>
+        <string>Press this button to select a new geographic location for the &quot;What's up Tonight&quot; tool.  Note that the location of the main window is not changed.</string>
        </property>
        <property name="text">
         <string>Change Location...</string>
@@ -121,7 +121,7 @@
         <string>Choose time interval</string>
        </property>
        <property name="whatsThis">
-        <string>By default, the &quot;What's Up Tonight&quot; tool displays all objects which are above the horizon between sunset and midnight (i.e., &quot;in the evening&quot;).  You can also choose to show objects which are up between midnight and dawn (i.e., &quot;in the morning&quot;), or objects which are up at any time between sunset and sunrise (i.e., &quot;any time tonight&quot;)</string>
+        <string>By default, the &quot;What's up Tonight&quot; tool displays all objects which are above the horizon between sunset and midnight (i.e., &quot;in the evening&quot;).  You can also choose to show objects which are up between midnight and dawn (i.e., &quot;in the morning&quot;), or objects which are up at any time between sunset and sunrise (i.e., &quot;any time tonight&quot;)</string>
        </property>
        <item>
         <property name="text">

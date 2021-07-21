@@ -1089,12 +1089,12 @@
          <default>true</default>
       </entry>
       <entry name="XplanetTimeout" type="UInt">
-         <label>XPlanet Timeout</label>
+         <label>XPlanet timeout</label>
          <whatsthis>How long to wait for XPlanet before giving up in milliseconds</whatsthis>
          <default>1000</default>
       </entry>
       <entry name="XplanetAnimationDelay" type="UInt">
-         <label>XPlanet Animation Delay</label>
+         <label>XPlanet animation delay</label>
          <whatsthis>How long to pause between frames in the XPlanet Animation</whatsthis>
          <default>100</default>
       </entry>
@@ -1240,7 +1240,7 @@
          <default></default>
       </entry>
       <entry name="XplanetFOV" type="Bool">
-         <label>Use kstars's FOV</label>
+         <label>Use KStars's FOV</label>
          <whatsthis>If checked, use kstars's FOV.</whatsthis>
          <default>false</default>
       </entry>

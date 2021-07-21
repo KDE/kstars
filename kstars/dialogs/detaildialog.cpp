@@ -67,7 +67,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     //Create thumbnail image
     Thumbnail.reset(new QPixmap(200, 200));
 
-    setWindowTitle(i18n("Object Details"));
+    setWindowTitle(i18nc("@title:window", "Object Details"));
 
     // JM 2016-11-22: Do we really need a close button?
     //setStandardButtons(QDialogButtonBox::Close);
@@ -844,7 +844,7 @@ void DetailDialog::editLinkDialog()
         return;
 
     QDialog editDialog(this);
-    editDialog.setWindowTitle(i18n("Edit Link"));
+    editDialog.setWindowTitle(i18nc("@title:window", "Edit Link"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
 

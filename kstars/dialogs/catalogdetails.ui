@@ -36,7 +36,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>ID</string>
+             <string>ID:</string>
             </property>
            </widget>
           </item>
@@ -78,7 +78,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_7">
             <property name="text">
-             <string>Source</string>
+             <string>Source:</string>
             </property>
            </widget>
           </item>
@@ -146,7 +146,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Maintainer</string>
+             <string>Maintainer:</string>
             </property>
            </widget>
           </item>
@@ -189,7 +189,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Edit</string>
+             <string>Edit...</string>
             </property>
            </widget>
           </item>
@@ -225,7 +225,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Edit Catalog Meta</string>
+          <string>Edit Catalog Meta...</string>
          </property>
         </widget>
        </item>
@@ -235,7 +235,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Add Object</string>
+          <string>Add Object...</string>
          </property>
         </widget>
        </item>
@@ -245,7 +245,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Import CSV</string>
+          <string>Import CSV...</string>
          </property>
         </widget>
        </item>

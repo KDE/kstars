@@ -46,7 +46,7 @@ North and South <link linkend="ai-cpoles">Celestial Poles</link>.
 However, there is an important difference between the equatorial and
 geographic coordinate systems: the geographic system is fixed to the
 Earth; it rotates as the Earth does.  The Equatorial system is
-fixed to the stars<footnote id="fn-precess"><para>actually, the equatorial
+fixed to the stars<footnote id="fn-precess"><para>Actually, the equatorial
 coordinates are not quite fixed to the stars.  See <link
 linkend="ai-precession">precession</link>.  Also, if <link
 linkend="ai-hourangle">Hour Angle</link> is used in place of Right

@@ -12,7 +12,7 @@
 <indexterm><primary>Elliptical Galaxies</primary>
 </indexterm>
 
-<para> Elliptical galaxies are spheroidal concentrations of billions
+<para>Elliptical galaxies are spheroidal concentrations of billions
 of stars that resemble Globular Clusters on a grand scale.  They have
 very little internal structure; the density of stars declines smoothly
 from the concentrated center to the diffuse edge, and they can have a
@@ -24,7 +24,7 @@ galaxies, because he thought that they evolved to become Spiral
 Galaxies (which he called <quote>late-type</quote> galaxies).
 Astronomers actually now believe the opposite is the case (&ie;, that
 Spiral galaxies can turn into Elliptical galaxies), but Hubble's
-early- and late-type labels are still used.  </para>
+early- and late-type labels are still used.</para>
 
 <para>
 Once thought to be a simple galaxy type, ellipticals are now known to
@@ -65,7 +65,7 @@ compact ellipticals.</para></listitem>
 
 <varlistentry>
 <term>Dwarf elliptical galaxies (dE's)</term>
-<listitem><para> This class of
+<listitem><para>This class of
 galaxies is fundamentally different from normal ellipticals. Their
 diameters on the order of 1 to 10 kiloparsec with surface brightness
 that is much lower than normal ellipticals, giving them a much more
@@ -88,7 +88,7 @@ making it fainter than the average globular cluster in the Milky Way!
 <varlistentry>
 <term>Blue compact dwarf galaxies (BCD's)</term>
 <listitem>
-<para> Small galaxies that are unusually
+<para>Small galaxies that are unusually
 blue. Thehave photometric colors of B-V = 0.0 to 0.30 mag, which is
 typical for relatively young stars of <firstterm>spectral type</firstterm> A.
 This suggests that BCDs
@@ -100,8 +100,8 @@ abundant interstellar gas (unlike other Elliptical galaxies).
 
 <tip>
 <para>
-You can see examples of Elliptical galaxies in &kstars;, using the Find
-Object window
+You can see examples of Elliptical galaxies in &kstars;, using the
+<guilabel>Find Object</guilabel> window
 (<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>).
 Search for NGC 4881, which is the Giant cD galaxy in the Coma
 cluster of galaxies.  M 86 is a normal Elliptical galaxy in the Virgo

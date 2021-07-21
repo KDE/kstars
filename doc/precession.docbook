@@ -32,8 +32,8 @@ precessional motion.
 <para>
 Precession is easiest to see by observing the <link
 linkend="ai-cpoles">Celestial Pole</link>.  To find the pole, first switch to
-Equatorial Coordinates in the <guilabel>Configure &kstars;</guilabel> window, and
-then hold down the <keycap>Up arrow</keycap> key until the display stops
+Equatorial Coordinates in the <guilabel>Configure - &kstars;</guilabel> window, and
+then hold down the &Up; arrow key until the display stops
 scrolling.  The declination displayed in the center of the
 <guilabel>Info Panel</guilabel> should be +90 degrees, and the bright star
 Polaris should be nearly at the center of the screen.  Try slewing with the left

@@ -412,7 +412,7 @@ void Analyze::initInputSelection()
         else if (index == 1)
         {
             // Input from a file.
-            QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18n("Select input file"), dirPath,
+            QUrl inputURL = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Select input file"), dirPath,
                             i18n("Analyze Log (*.analyze);;All Files (*)"));
             if (inputURL.isEmpty())
                 return;

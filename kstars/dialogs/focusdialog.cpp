@@ -50,7 +50,7 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     mainLayout->addWidget(fd);
     setLayout(mainLayout);
 
-    setWindowTitle(i18n("Set Coordinates Manually"));
+    setWindowTitle(i18nc("@title:window", "Set Coordinates Manually"));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
