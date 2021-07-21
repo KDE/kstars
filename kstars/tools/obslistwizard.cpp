@@ -129,7 +129,7 @@ void ObsListWizard::initialize()
     olw->RAMax->setDegType(false);
 
     //Initialize object counts
-    ObjectCount   = 0;                                        //number of objects in observing list
+    ObjectCount   = 0; //number of objects in observing list
     StarCount     = data->skyComposite()->stars().size();     //total number of stars
     PlanetCount   = 10;                                       //Sun, Moon, 8 planets
     AsteroidCount = data->skyComposite()->asteroids().size(); //total number of asteroids
@@ -149,26 +149,28 @@ void ObsListWizard::initialize()
 
     for (const auto &element : stats.second.object_counts)
     {
+        auto cnt = element.second;
         switch (element.first)
         {
             case SkyObject::GALAXY:
-                ++GalaxyCount;
+                GalaxyCount += cnt;
                 break;
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
-                ++StarCount;
+                StarCount += cnt;
                 break;
             case SkyObject::OPEN_CLUSTER:
-                ++OpenClusterCount;
+                OpenClusterCount += cnt;
                 break;
             case SkyObject::GLOBULAR_CLUSTER:
-                ++GlobClusterCount;
+                GlobClusterCount += cnt;
+                break;
             case SkyObject::GASEOUS_NEBULA:
             case SkyObject::SUPERNOVA_REMNANT:
-                ++GasNebCount;
+                GasNebCount += cnt;
                 break;
             case SkyObject::PLANETARY_NEBULA:
-                ++PlanNebCount;
+                PlanNebCount += cnt;
                 break;
             default:
                 break;
