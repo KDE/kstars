@@ -31,7 +31,7 @@ There is a batch mode for this module.  To use it, simply
 generate an input file whose lines each contain values for
 the input parameter: <quote>sidereal time</quote> or <quote>standard time</quote>.
 You can choose to set the <guilabel>Date:</guilabel> and <guilabel>Location:</guilabel> in the
-current window, or you can tell &kstars; to read this values from the <guilabel>Input file:</guilabel>.
+current window, or you can tell &kstars; to read these values from the <guilabel>Input file:</guilabel>.
 Then specify the input and output filenames, and press the
 <guibutton>Compute</guibutton> button to generate the output
 file. The output file will contains values for the complementary parameter. For example,

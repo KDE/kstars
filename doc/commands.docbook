@@ -397,7 +397,7 @@ which provides full access to many of the mathematical functions used by
 <variablelist>
 <varlistentry>
 <term><menuchoice><guimenu>View</guimenu> <guisubmenu>Devices</guisubmenu></menuchoice></term>
-<listitem><para>A submenu for control suported devices.
+<listitem><para>A submenu for control supported devices.
 <variablelist>
 
   <varlistentry>
