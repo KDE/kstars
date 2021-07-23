@@ -330,41 +330,34 @@ menu item.
 The window is divided into several main categories: General, Device Updates, Display and Server Port:
 </para>
 
- <itemizedlist>
-   <listitem><para>General</para>
-      <itemizedlist>
-         <listitem><para><guilabel>INDI server:</guilabel> Specify the binary of installed INDI server
-in your system. By default, &kstars; uses <quote>/usr/bin/indiserver</quote> binary.
-	 </para></listitem>
-         <listitem><para><guilabel>INDI drivers directory:</guilabel> Specify the directory where INDI
-drivers are located in your system. By default, &kstars; uses <quote>/usr/share/indi</quote> directory.
-	 </para></listitem>
-         <listitem><para><guilabel>Default FITS directory:</guilabel> Specify the directory where all
-captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.
-	 </para></listitem>
-	 <!-- Telescope port & Video port:
-         <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, &kstars; will automatically fill the telescope's device port with the specified default port.</para></listitem>
-         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>	
-	 -->
-      </itemizedlist>
-   </listitem>
-   <listitem><para>Time &amp; Location Updates</para>
+<itemizedlist>
+  <listitem><para><guilabel>General</guilabel></para>
     <itemizedlist>
-       <listitem><para><guilabel>KStars updates all devices</guilabel>: KStars is the master source for time and location settings. All INDI devices time and locations settings are synchronized to KStars settings.</para></listitem>
-       <listitem><para><guilabel>Mount updates KStars</guilabel>: Mount handset is the master source of time and location settings. KStars time and location settings are synchronized with controller settings.</para></listitem>
-       <listitem><para><guilabel>GPS updates KStars</guilabel>: GPS driver is the master source of time and location settings. KStars time and location settings are synchronized with GPS settings.</para></listitem>
-       <listitem><para><guilabel>Time</guilabel>: Synchronize KStars date and time automatically from the update source.</para></listitem>
-       <listitem><para><guilabel>Location</guilabel>: Synchronize KStars location settings from the update source.</para></listitem>
+      <listitem><para><guilabel>INDI server:</guilabel> Specify the binary of installed INDI server in your system. By default, &kstars; uses <quote>/usr/bin/indiserver</quote> binary.</para></listitem>
+      <listitem><para><guilabel>INDI drivers XML directory:</guilabel> Specify the &XML; directory where INDI drivers are located in your system. By default, &kstars; uses <quote>/usr/share/indi</quote> directory.</para></listitem>
+      <listitem><para><guilabel>Default FITS directory:</guilabel> Specify the directory where all captured FITS images will be saved to. If no directory is specified, images will be stored in <varname>$HOME</varname>.</para></listitem>
+    <!-- Telescope port & Video port:
+      <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, &kstars; will automatically fill the telescope's device port with the specified default port.</para></listitem>
+      <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>	
+    -->
     </itemizedlist>
-   </listitem>
-   <listitem><para>Display</para>
+  </listitem>
+  <listitem><para><guilabel>Time &amp; Location Updates</guilabel></para>
     <itemizedlist>
-     <listitem><para><guilabel>Telescope crosshair</guilabel>: When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure - &kstars;</link> window. Select the <guilabel>Colors</guilabel> page, and then change the color of the <guimenuitem>Target Indicator</guimenuitem> item to the desired color.</para></listitem>
-     <listitem><para><guilabel>INDI messages in status bar</guilabel>: When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
-     <listitem><para><guilabel>Independent window</guilabel>: Make <guilabel>FITS Viewer</guilabel> window independent.</para></listitem>
-     <listitem><para><guilabel>Message notifications</guilabel>: Show INDI messages as desktop notifications instead of dialogs.</para></listitem>
+      <listitem><para><guilabel>KStars updates all devices</guilabel>: KStars is the master source for time and location settings. All INDI devices time and locations settings are synchronized to KStars settings.</para></listitem>
+      <listitem><para><guilabel>Mount updates KStars</guilabel>: Mount handset is the master source of time and location settings. KStars time and location settings are synchronized with controller settings.</para></listitem>
+      <listitem><para><guilabel>GPS updates KStars</guilabel>: GPS driver is the master source of time and location settings. KStars time and location settings are synchronized with GPS settings.</para></listitem>
+      <listitem><para><guilabel>Time</guilabel>: Synchronize KStars date and time automatically from the update source.</para></listitem>
+      <listitem><para><guilabel>Location</guilabel>: Synchronize KStars location settings from the update source.</para></listitem>
     </itemizedlist>
-   </listitem>
+  </listitem>
+  <listitem><para><guilabel>Display</guilabel></para>
+    <itemizedlist>
+      <listitem><para><guilabel>Telescope crosshair</guilabel>: When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure - &kstars;</link> window. Select the <guilabel>Colors</guilabel> page, and then change the color of the <guimenuitem>Target Indicator</guimenuitem> item to the desired color.</para></listitem>
+      <listitem><para><guilabel>Independent window</guilabel>: Make <guilabel>FITS Viewer</guilabel> window independent.</para></listitem>
+      <listitem><para><guilabel>Message notifications</guilabel>: Show INDI messages as desktop notifications instead of dialogs.</para></listitem>
+    </itemizedlist>
+  </listitem>
 <!--
   <listitem><para>Update Source: Synchronize &kstars; according to either the
     computer or device time and location settings.</para>
@@ -372,10 +365,12 @@ captured FITS images will be saved to. If no directory is specified, images will
   <listitem><para>Filter Wheel: Assign color codes to the filter wheel slots (&eg; Slot #0 Red, Slot #1 Blue, &etc;) You can assign color codes for up to 10 filter slots (0 to 9). To assign a color code, select a slot number from the drop down combo box, and then type the corresponding color code in the edit field. Repeat the process for all desired slots and then press OK.</para>
   </listitem>
 -->
-  <listitem><para>Server Port: Specify range of ports that INDI Server
-    will bind to when starting new drivers.</para>
+  <listitem><para><guilabel>Server Port</guilabel></para>
+    <itemizedlist>
+      <listitem><para>Specify range of ports that INDI Server will bind to when starting new drivers.</para></listitem>
+    </itemizedlist>
   </listitem>
-  </itemizedlist>
+</itemizedlist>
 
 </sect1>
 

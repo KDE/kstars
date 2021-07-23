@@ -39,17 +39,17 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            <guilabel>Equipment is attached to your PC</guilabel>: Select this option if Ekos is running on your StellarMate (via HDMI or VNC), PC (&Windows;/&Linux;) or &MacOS;.
+                            <guilabel>Equipment is attached to this device</guilabel>: Select this option if Ekos is running on your StellarMate (via HDMI or VNC), device (&Windows;/&Linux;) or &MacOS;.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <guilabel>Equipment is attached to a remote computer</guilabel>: Select this option if Ekos is running on your PC (&Windows;/&Linux;) or &MacOS;, and your equipment is connected to a remote computer.
+                            <guilabel>Equipment is attached to a remote device</guilabel>: Select this option if Ekos is running on your device (&Windows;/&Linux;) or &MacOS;, and your equipment is connected to a remote computer.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            <guilabel>Equipment is attached to StellarMate</guilabel>: Select this option if Ekos is running on your PC (&Windows;/&Linux;) or &MacOS;, and your equipment is connected to StellarMate.
+                            <guilabel>Equipment is attached to StellarMate</guilabel>: Select this option if Ekos is running on your device (&Windows;/&Linux;) or &MacOS;, and your equipment is connected to StellarMate.
                         </para>
                     </listitem>
                 </itemizedlist>
