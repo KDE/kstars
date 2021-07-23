@@ -8,8 +8,9 @@
 
 <para>The &kstars; FITS Viewer tool is automatically invoked when new images are received from the camera.
 It is primarily used to view and examine FITS data. It is not designed for editing of FITS Images.
-To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
-<guimenu>File</guimenu> menu, or press <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
+To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
+<guimenuitem>Open Image...</guimenuitem></menuchoice> menu item, or press 
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
 
 <screenshot>
   <screeninfo>The FITS Viewer Tool</screeninfo>
