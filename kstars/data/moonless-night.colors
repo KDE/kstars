@@ -1,8 +1,6 @@
 0:4:0
 #000000 :SkyColor
-#008f00 :MessColor
-#006666 :NGCColor
-#382a7d :ICColor
+#008f00 :DSOColor
 #930000 :HSTColor
 #577d7d :SNameColor
 #75759c :DSNameColor

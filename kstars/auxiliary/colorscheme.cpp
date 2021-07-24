@@ -38,7 +38,7 @@ ColorScheme::ColorScheme() : FileName()
     //Name and Default here.
 
     appendItem("SkyColor", i18n("Sky"), "#000000");
-    appendItem("DSOColor", i18n("Messier Object"), "#008f00");
+    appendItem("DSOColor", i18n("Deep-Sky Object"), "#008f00");
     appendItem("HSTColor", i18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
     appendItem("SNameColor", i18n("Star Name"), "#577d7d");
     appendItem("DSNameColor", i18n("Deep Sky Object Name"), "#75759c");

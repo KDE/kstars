@@ -1,8 +1,6 @@
 1:0:1
 #000000 :SkyColor
-#CC0099 :MessColor
-#CC0099 :NGCColor 
-#CC0099 :ICColor 
+#CC0099 :DSOColor
 #AA0000 :HSTColor 
 #AA0000 :SNameColor
 #950000 :DSNameColor

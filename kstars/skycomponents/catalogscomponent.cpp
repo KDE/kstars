@@ -141,14 +141,18 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (sizeCriterion)
             {
                 object.JITupdate();
-                auto &color = m_catalog_colors[object.catalogId()];
-                if (!color.isValid())
+                QColor color {default_color};
+                if (m_catalog_colors.count(object.catalogId()))
+                {
+                    color = m_catalog_colors[object.catalogId()];
+                }
+                else
                 {
                     const auto &catalog_color = object.getCatalog().color;
-                    if (catalog_color == "")
-                        color = default_color;
-                    else
-                        color = QColor(catalog_color);
+                    if (catalog_color != "")
+                    {
+                        m_catalog_colors[object.catalogId()] = color = QColor(catalog_color);
+                    }
                 }
 
                 skyp->setPen(color);
