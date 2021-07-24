@@ -480,7 +480,8 @@ std::list<CatalogObject> DBManager::fetch_objects(QSqlQuery &query) const
 }
 
 std::list<CatalogObject> DBManager::find_objects_by_name(const QString &name,
-                                                         const int limit)
+                                                         const int limit,
+                                                         const bool exactMatchOnly)
 {
     QMutexLocker _{ &m_mutex };
 
@@ -493,6 +494,10 @@ std::list<CatalogObject> DBManager::find_objects_by_name(const QString &name,
         if (objs.size() > 0)
         {
             return objs;
+        }
+        if (exactMatchOnly)
+        {
+            return std::list<CatalogObject>();
         }
     }
 
