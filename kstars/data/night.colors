@@ -1,7 +1,7 @@
 1:0:1
 #000000 :SkyColor
 #CC0099 :DSOColor
-#AA0000 :HSTColor 
+#AA0000 :HSTColor
 #AA0000 :SNameColor
 #950000 :DSNameColor
 #AA7777 :PNameColor
@@ -9,9 +9,9 @@
 #880000 :CLineColor
 #550000 :CBoundColor
 #660000 :CBoundHighColor
-#440000 :MWColor 
-#AA0000 :EqColor 
-#AA0000 :EclColor 
+#440000 :MWColor
+#AA0000 :EqColor
+#AA0000 :EclColor
 #993333 :HorzColor
 #800000 :LocalMeridianColor
 #AA7777 :CompassColor
