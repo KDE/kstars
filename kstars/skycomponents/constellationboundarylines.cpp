@@ -203,7 +203,7 @@ void ConstellationBoundaryLines::appendPoly(const std::shared_ptr<PolyList> &pol
         printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size());
 }
 
-PolyList *ConstellationBoundaryLines::ContainingPoly(SkyPoint *p)
+PolyList *ConstellationBoundaryLines::ContainingPoly(const SkyPoint *p) const
 {
     //printf("called ContainingPoly(p)\n");
 
@@ -274,7 +274,7 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(SkyPoint *p)
 // start here.  (Some of them may not be needed (or working)).
 //-------------------------------------------------------------------
 
-QString ConstellationBoundaryLines::constellationName(SkyPoint *p)
+QString ConstellationBoundaryLines::constellationName(const SkyPoint *p) const
 {
     PolyList *polyList = ContainingPoly(p);
     if (polyList)
