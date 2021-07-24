@@ -1828,6 +1828,21 @@ IPState Capture::setCaptureComplete()
     QString filename;
     if (m_ImageData)
     {
+        QVariant frameType;
+        if (Options::autoHFR() && m_ImageData && !m_ImageData->areStarsSearched() && m_ImageData->getRecordValue("FRAME", frameType)
+            && frameType.toString() == "Light")
+        {
+
+#ifdef HAVE_STELLARSOLVER
+            QVariantMap extractionSettings;
+            extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
+            extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
+            m_ImageData->setSourceExtractorSettings(extractionSettings);
+#endif
+
+            QFuture<bool> result = m_ImageData->findStars(ALGORITHM_SEP);
+            result.waitForFinished();
+        }
         hfr = m_ImageData->getHFR(HFR_AVERAGE);
         numStars = m_ImageData->getSkyBackground().starsDetected;
         median = m_ImageData->getMedian();
