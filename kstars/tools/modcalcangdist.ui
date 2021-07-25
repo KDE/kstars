@@ -328,7 +328,7 @@
            <item row="0" column="2">
             <widget class="QLabel" name="AngDistLabel_4">
              <property name="text">
-              <string>Degrees</string>
+              <string>degrees</string>
              </property>
             </widget>
            </item>
@@ -360,7 +360,7 @@
            <item row="1" column="2">
             <widget class="QLabel" name="AngDistLabel_3">
              <property name="text">
-              <string>Degrees E of N</string>
+              <string>degrees E of N</string>
              </property>
             </widget>
            </item>

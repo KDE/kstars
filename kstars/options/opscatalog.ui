@@ -590,7 +590,7 @@
           <item>
            <widget class="QPushButton" name="manageButton">
             <property name="text">
-             <string>Manage Deep Sky Catalogs</string>
+             <string>Manage Deep Sky Catalogs...</string>
             </property>
            </widget>
           </item>

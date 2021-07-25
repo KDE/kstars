@@ -323,7 +323,7 @@
            <item>
             <widget class="QPushButton" name="ViewButtonBatch">
              <property name="text">
-              <string>View output</string>
+              <string>View Output...</string>
              </property>
             </widget>
            </item>

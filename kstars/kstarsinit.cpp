@@ -179,7 +179,7 @@ void KStars::initActions()
             << QKeySequence(Qt::CTRL + Qt::Key_R);
 #endif
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
-            << i18nc("start Printing Wizard", "Printing &Wizard");
+            << i18nc("start Printing Wizard", "Printing &Wizard...");
     ka = actionCollection()->addAction(KStandardAction::Print, "print", this, SLOT(slotPrint()));
     ka->setIcon(QIcon::fromTheme("document-print"));
     //actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT(close) );
@@ -276,8 +276,8 @@ void KStars::initActions()
             << QKeySequence("Space");
 
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
-            << (Options::showTerrain() ? i18n("Hide terrain") :
-                i18n("Show terrain"))
+            << (Options::showTerrain() ? i18n("Hide Terrain") :
+                i18n("Show Terrain"))
             << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_T);
 
     actionCollection()->addAction("project_lambert", this, SLOT(slotMapProjection()))

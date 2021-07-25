@@ -30,7 +30,7 @@
         <string>List of adjustable options</string>
        </property>
        <property name="whatsThis" >
-        <string>Select an option from this list to set its value.  You may also select the option using an organized Tree List using the &quot;Browse Tree&quot; button.</string>
+        <string>Select an option from this list to set its value.  You may also select the option using an organized Tree List using the &quot;Browse Tree...&quot; button.</string>
        </property>
       </widget>
      </item>
@@ -66,7 +66,7 @@
         <string>Press this button to select a View Option from a Tree list, in which they are grouped by subject.  Also shown are a short description of each option, and the data type of the option's value (string, integer, float or boolean).</string>
        </property>
        <property name="text" >
-        <string>Browse Tree</string>
+        <string>Browse Tree...</string>
        </property>
       </widget>
      </item>
@@ -76,7 +76,7 @@
         <string>value for selected option</string>
        </property>
        <property name="whatsThis" >
-        <string>Set the value for the selected view option here.  Make sure the value you enter matches the data type expected by the option.  For example, the &quot;UseAltAz&quot; option expects a boolean value, so you should enter &quot;true&quot;, &quot;false&quot;, &quot;1&quot;, or &quot;0&quot;.  If you are unsure what data type is expected, examine the Tree View of options using the &quot;Browse Tree&quot; button.</string>
+        <string>Set the value for the selected view option here.  Make sure the value you enter matches the data type expected by the option.  For example, the &quot;UseAltAz&quot; option expects a boolean value, so you should enter &quot;true&quot;, &quot;false&quot;, &quot;1&quot;, or &quot;0&quot;.  If you are unsure what data type is expected, examine the Tree View of options using the &quot;Browse Tree...&quot; button.</string>
        </property>
       </widget>
      </item>

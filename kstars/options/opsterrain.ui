@@ -28,7 +28,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_ShowTerrain">
           <property name="text">
-           <string>Show Terrain</string>
+           <string>Show terrain</string>
           </property>
          </widget>
         </item>
@@ -101,7 +101,7 @@
              <string>Rotate terrain in azimuth degrees so north is actually north</string>
             </property>
             <property name="text">
-             <string>Terrain image azimuth correction degrees</string>
+             <string>Terrain image azimuth correction degrees:</string>
             </property>
            </widget>
           </item>

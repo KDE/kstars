@@ -98,7 +98,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Open Script</string>
+        <string>Open Script...</string>
        </property>
        <property name="whatsThis">
         <string>Opens an existing script.  Will prompt to save any unsaved changes in the current script.</string>

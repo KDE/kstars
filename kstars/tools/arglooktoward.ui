@@ -113,7 +113,7 @@
         <string>Opens the Find Object dialog, which allows you to select an object from the list of known objects.  When an object has been selected, its name will appear in the "dir" box at left.</string>
        </property>
        <property name="text" >
-        <string>Object</string>
+        <string>Object...</string>
        </property>
       </widget>
      </item>
