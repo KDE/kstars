@@ -9,43 +9,45 @@ The &kstars; Astrocalculator provides several modules that
 give you direct access to algorithms used by the program.
 The modules are organized by subject:
 
+<itemizedlist><title>Time Calculators</title>
+<listitem><para><link linkend="calc-julian">Julian Day</link></para></listitem>
+<listitem><para><link linkend="calc-sidereal">Sidereal Time</link></para></listitem>
+<listitem><para><link linkend="calc-dayduration">Almanac</link></para></listitem>
+<listitem><para><link linkend="calc-equinox">Equinoxes and Solstices</link></para></listitem>
+</itemizedlist>
+
 <itemizedlist><title>Coordinate Converters</title>
-<listitem><para><link linkend="calc-angdist">Angular Distance</link></para></listitem>
-<listitem><para><link linkend="calc-apcoords">Apparent Coordinates</link></para></listitem>
-<listitem><para><link linkend="calc-ecliptic">Ecliptic Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-eqgal">Equatorial/Galactic Coordinates</link></para></listitem>
+<listitem><para><link linkend="calc-apcoords">Apparent Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-horiz">Horizontal Coordinates</link></para></listitem>
+<listitem><para><link linkend="calc-ecliptic">Ecliptic Coordinates</link></para></listitem>
+<listitem><para><link linkend="calc-angdist">Angular Distance</link></para></listitem>
 <listitem><para><link linkend="calc-geodetic">Geodetic Coordinates</link></para></listitem>
 <!-- missing
-LSR Velocity
+<listitem><para><link linkend="calc-lsr-velocity">LSR Velocity</link></para></listitem>
  -->
 </itemizedlist>
 <itemizedlist><title>Solar System</title>
 <listitem><para><link linkend="calc-planetcoords">Planets Coordinates</link></para></listitem>
 <!-- missing
-Conjunctions
+<listitem><para><link linkend="calc-conjunctions">Conjunctions</link></para></listitem>
+<listitem><para><link linkend="calc-eclipses">Eclipses</link></para></listitem>
 Moon Phase Almanach
  -->
 </itemizedlist>
-<itemizedlist><title>Time Calculators</title>
-<listitem><para><link linkend="calc-dayduration">Almanac</link></para></listitem>
-<listitem><para><link linkend="calc-equinox">Equinoxes and Solstices</link></para></listitem>
-<listitem><para><link linkend="calc-julian">Julian Day</link></para></listitem>
-<listitem><para><link linkend="calc-sidereal">Sidereal Time</link></para></listitem>
-</itemizedlist>
 </para>
 
-&calc-angdist;
-&calc-apcoords;
-&calc-ecliptic;
-&calc-eqgal;
-&calc-horiz;
-&calc-geodetic;
-&calc-planetcoords;
-&calc-dayduration;
-&calc-equinox;
 &calc-julian;
 &calc-sidereal;
+&calc-dayduration;
+&calc-equinox;
+&calc-eqgal;
+&calc-apcoords;
+&calc-horiz;
+&calc-ecliptic;
+&calc-angdist;
+&calc-geodetic;
+&calc-planetcoords;
 
 </sect1>
 

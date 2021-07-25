@@ -35,8 +35,8 @@ Geographic coordinates (Longitude, Latitude and Elevation).
 
 <para>
 To use the module, first select which coordinates you will use as
-input in the <guilabel>Select Input Coordinates</guilabel> section: <quote>Cartesian</quote>
-or <quote>Geographic</quote>.
+input in the <guilabel>Select Input Coordinates</guilabel> section: <guilabel>Cartesian</guilabel>
+or <guilabel>Geographic</guilabel> radio buttons.
 Then select an ellipsoid model and fill
 in the input coordinates in either the <guilabel>Cartesian
 Coordinates</guilabel> section or the <guilabel>Geographic

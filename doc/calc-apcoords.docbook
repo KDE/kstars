@@ -36,7 +36,7 @@ catalog coordinates by selecting an object using the <guilabel>Find Object</guil
 dialog.  You can also specify the
 catalog's epoch here (usually 2000.0 for modern object
 catalogs).  Then the object's coordinates for the target date
-will be displayed in the <guilabel>Apparent Coordinates</guilabel>
+will be displayed in the <guilabel>Apparent coordinates:</guilabel>
 section.
 </para>
 </sect2>

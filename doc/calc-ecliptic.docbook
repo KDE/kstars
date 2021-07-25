@@ -22,7 +22,7 @@ The Ecliptic Coordinates calculator module
 <para>
 This module converts between <link linkend="equatorial">Equatorial
 coordinates</link> and <link linkend="ecliptic">Ecliptic
-coordinates</link>.  First, select <guilabel>Date &amp; time</guilabel>.
+coordinates</link>.  First, select <guilabel>Date and time:</guilabel>.
 Then, fill in the coordinate values in either the <guilabel>Ecliptic
 Coordinates</guilabel> or <guilabel>Equatorial Coordinates</guilabel>
 section.  Alternatively set the equatorial coordinates by selecting an
