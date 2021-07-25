@@ -366,7 +366,7 @@ object.</para></listitem>
 <guimenu>View</guimenu>
 <guisubmenu>HiPS All Sky Overlay</guisubmenu>
 </menuchoice></term>
-<listitem><para>Select and configure <link linkend="hips">HiPS</link> sky overlays.</para></listitem>
+<listitem><para>A submenu that lists the enabled surveys. Select the <guimenuitem>HiPS Settings...</guimenuitem> menu item for configure the <link linkend="hips">HiPS</link> sky overlays.</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -396,7 +396,7 @@ which provides full access to many of the mathematical functions used by
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu> <guisubmenu>Devices</guisubmenu></menuchoice></term>
+<term><menuchoice><guimenu>Tools</guimenu> <guisubmenu>Devices</guisubmenu></menuchoice></term>
 <listitem><para>A submenu for control supported devices.
 <variablelist>
 
@@ -417,7 +417,12 @@ which provides full access to many of the mathematical functions used by
   </varlistentry>
 
   <varlistentry>
-    <term><menuchoice><guimenuitem>INDI Control Panel...</guimenuitem></menuchoice></term>
+    <term><guimenuitem>Custom Drivers...</guimenuitem></term>
+    <listitem><para>A dialog to customize the drivers.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><guimenuitem>INDI Control Panel...</guimenuitem></term>
     <listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
   </varlistentry>
 </variablelist></para></listitem>
@@ -483,6 +488,21 @@ from your location on a given date.
 Opens the <guilabel>What's Interesting</guilabel> Tool, which allows you to be
 informed about the most interesting observations that can be made from your
 current location using the given equipment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>XPlanet Solar System Simulator</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>
+This menu item will appear only if you have installed the <application>XPlanet</application> optional package.
 </para>
 </listitem>
 </varlistentry>
@@ -574,35 +594,30 @@ color labels and icons to the given positions on the sky chart.
 <title>Data Menu</title>
 
 <variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
-</shortcut>
-<guimenu>Data</guimenu>
-<guimenuitem>Download New Data...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Open the <guilabel>Get Hot New Stuff</guilabel>
-dialog to download additional data for &kstars;.
-</para></listitem>
-</varlistentry>
+  <varlistentry>
+    <term><menuchoice><shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
+    <guimenu>Data</guimenu> <guimenuitem>Download New Data...</guimenuitem></menuchoice></term>
+    <listitem><para>Open the <guilabel>Get Hot New Stuff</guilabel> dialog to download additional data
+    for &kstars;.</para></listitem>
+  </varlistentry>
 
-<varlistentry>
-<term><menuchoice>
-<guimenu>Data</guimenu>
-<guisubmenu>Updates</guisubmenu>
-</menuchoice></term>
-<listitem><para>This submenu can be used to update various object data, namely
-asteroids, comets and satellites orbital elements as well as recent supernovae
-data from the Internet. The data will be downloaded for the current user account only.
-If you use &kstars; from different account you should download them for every
-account separately.
-</para>
-<para>&kstars; tries to download recent supernovae list automatically by default.
-You can switch the download off using <guilabel>Supernovae</guilabel> page
-of &kstars; Settings window.</para>
-</listitem>
-</varlistentry>
+  <varlistentry>
+    <term><menuchoice>
+    <guimenu>Data</guimenu> <guimenuitem>Manage DSO Catalogs</guimenuitem></menuchoice></term>
+    <listitem><para>Open the <guilabel>DSO Catalogs</guilabel> dialog for manage the catalog database
+    of &kstars;.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice><guimenu>Data</guimenu> <guisubmenu>Updates</guisubmenu></menuchoice></term>
+    <listitem><para>This submenu can be used to update various object data, namely asteroids, comets
+    and satellites orbital elements as well as recent supernovae data from the Internet. The data will
+    be downloaded for the current user account only. If you use &kstars; from different account you
+    should download them for every account separately.</para>
+
+    <para>&kstars; tries to download recent supernovae list automatically by default. You can switch
+    the download off using <guilabel>Supernovae</guilabel> page of &kstars; Settings window.</para></listitem>
+  </varlistentry>
 </variablelist>
 
 </sect2>
@@ -611,32 +626,32 @@ of &kstars; Settings window.</para>
 <title>Observation Menu</title>
 
 <variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
-</shortcut>
-<guimenu>Observation</guimenu>
-<guimenuitem>Observation Planner</guimenuitem>
-</menuchoice></term>
-<listitem><para>
-Open the <link linkend="tool-obsplanner">Observation Planner</link> tool.
-</para></listitem>
-</varlistentry>
+  <varlistentry>
+    <term><menuchoice>
+    <shortcut><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></shortcut>
+    <guimenu>Observation</guimenu>
+    <guimenuitem>Observation Planner</guimenuitem>
+    </menuchoice></term>
+    <listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> tool.</para></listitem>
+  </varlistentry>
 
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>
-</shortcut>
-<guimenu>Observation</guimenu>
-<guimenuitem>Execute the Session Plan...</guimenuitem>
-</menuchoice></term>
-<listitem><para>
-Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute
-the planned session.
-</para></listitem>
-</varlistentry>
+  <varlistentry>
+    <term><menuchoice>
+    <shortcut><keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo></shortcut>
+    <guimenu>Observation</guimenu>
+    <guimenuitem>Execute the Session Plan...</guimenuitem>
+    </menuchoice></term>
+    <listitem><para>Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute
+    the planned session.</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+    <guimenu>Observation</guimenu>
+    <guimenuitem>Polaris Hour Angle...</guimenuitem>
+    </menuchoice></term>
+    <listitem><para>Opens the <guilabel>Polaris Hour Angle</guilabel> tool.</para></listitem>
+  </varlistentry>
 </variablelist>
 </sect2>
 
@@ -656,9 +671,9 @@ the planned session.
       <term><guimenuitem>Show Info Boxes</guimenuitem></term>
       <listitem><para>Toggle display of all three Info Boxes:
         <itemizedlist>
-          <listitem><para>Time Box</para></listitem>
-          <listitem><para>Focus Box</para></listitem>
-          <listitem><para>Location Box</para></listitem>
+          <listitem><para><guiicon>Time Box</guiicon></para></listitem>
+          <listitem><para><guiicon>Focus Box</guiicon></para></listitem>
+          <listitem><para><guiicon>Location Box</guiicon></para></listitem>
         </itemizedlist>
       </para></listitem>
     </varlistentry>
@@ -730,13 +745,43 @@ the planned session.
       <listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains
       three shortcut icons:
         <itemizedlist>
-          <listitem><para>Toggle Ekos</para></listitem>
-          <listitem><para>Toggle INDI Control Panel</para></listitem>
-          <listitem><para>Toggle FITS Viewer</para></listitem>
+          <listitem><para><guiicon>Toggle Ekos</guiicon></para></listitem>
+          <listitem><para><guiicon>Toggle INDI Control Panel</guiicon></para></listitem>
+          <listitem><para><guiicon>Toggle FITS Viewer</guiicon></para></listitem>
         </itemizedlist>
       INDI Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
       <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
     </varlistentry>
+
+    <varlistentry>
+      <term><guimenuitem>Telescope Toolbar</guimenuitem></term>
+      <listitem><para>Toggle display of the Telescope Toolbar. By default, Telescope Toolbar contains
+      seven shortcut icons:
+        <itemizedlist>
+          <listitem><para><guiicon>Toggle Mount Control Panel</guiicon></para></listitem>
+          <listitem><para><guiicon>Toggle Telescope Tracking</guiicon></para></listitem>
+          <listitem><para><guiicon>Slew telescope to the focused object</guiicon></para></listitem>
+          <listitem><para><guiicon>Sync telescope to the focused object</guiicon></para></listitem>
+          <listitem><para><guiicon>Park telescope</guiicon></para></listitem>
+          <listitem><para><guiicon>Unpark telescope</guiicon></para></listitem>
+          <listitem><para><guiicon>Abort telescope motions</guiicon></para></listitem>
+        </itemizedlist>
+      Telescope Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
+      <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><guimenuitem>Dome Toolbar</guimenuitem></term>
+      <listitem><para>Toggle display of the Dome Toolbar. By default, Dome Toolbar contains
+      two shortcut icons:
+        <itemizedlist>
+          <listitem><para><guiicon>Park dome</guiicon></para></listitem>
+          <listitem><para><guiicon>Unpark dome</guiicon></para></listitem>
+        </itemizedlist>
+      Dome Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
+      <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
+    </varlistentry>
+
   </variablelist></para></listitem>
   </varlistentry>
 
@@ -773,6 +818,14 @@ the planned session.
   <varlistentry>
     <term><menuchoice>
     <guimenu>Settings</guimenu>
+    <guisubmenu>Themes</guisubmenu>
+    </menuchoice></term>
+    <listitem><para>--</para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term><menuchoice>
+    <guimenu>Settings</guimenu>
     <guisubmenu>Color Schemes</guisubmenu>
     </menuchoice></term>
     <listitem><para>This submenu contains all of the defined color schemes: Classic, Star Chart,
@@ -796,7 +849,7 @@ the planned session.
   <varlistentry>
     <term><menuchoice>
     <guimenu>Settings</guimenu>
-    <guisubmenu>Artificial Horizon</guisubmenu>
+    <guisubmenu>Artificial Horizon...</guisubmenu>
     </menuchoice></term>
     <listitem><para>If you select this submenu, then Artificial Horizon Manager will be opened. Artificial
     Horizon Manager is used to define on the skymap one or more regions that are blocked from view from your
@@ -1162,19 +1215,19 @@ key doubles the scrolling speed.
 </varlistentry>
 
 <varlistentry>
-<term>0&ndash;9</term>
+<term><keycap>0</keycap>&ndash;<keycap>9</keycap></term>
 <listitem><para>Center Display on a major Solar System body:
 <itemizedlist>
-<listitem><para>0: Sun</para></listitem>
-<listitem><para>1: Mercury</para></listitem>
-<listitem><para>2: Venus</para></listitem>
-<listitem><para>3: Moon</para></listitem>
-<listitem><para>4: Mars</para></listitem>
-<listitem><para>5: Jupiter</para></listitem>
-<listitem><para>6: Saturn</para></listitem>
-<listitem><para>7: Uranus</para></listitem>
-<listitem><para>8: Neptune</para></listitem>
-<listitem><para>9: Pluto</para></listitem>
+<listitem><para><keycap>0</keycap>: Sun</para></listitem>
+<listitem><para><keycap>1</keycap>: Mercury</para></listitem>
+<listitem><para><keycap>2</keycap>: Venus</para></listitem>
+<listitem><para><keycap>3</keycap>: Moon</para></listitem>
+<listitem><para><keycap>4</keycap>: Mars</para></listitem>
+<listitem><para><keycap>5</keycap>: Jupiter</para></listitem>
+<listitem><para><keycap>6</keycap>: Saturn</para></listitem>
+<listitem><para><keycap>7</keycap>: Uranus</para></listitem>
+<listitem><para><keycap>8</keycap>: Neptune</para></listitem>
+<listitem><para><keycap>9</keycap>: Pluto</para></listitem>
 </itemizedlist>
 </para></listitem>
 </varlistentry>
