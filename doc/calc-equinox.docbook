@@ -34,6 +34,6 @@ Then specify the input and output filenames, and press the
 <guibutton>Compute</guibutton> button to generate the output
 file.  Each line in the output file contains the input year and
 the date of each event. You can also read the output directly in &kstars;
-by pressing the <guibutton>View output</guibutton> button.
+by pressing the <guibutton>View output...</guibutton> button.
 </para>
 </sect2>

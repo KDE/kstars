@@ -25,7 +25,7 @@ coordinates</link> to <link linkend="horizontal">Horizontal
 coordinates</link>.  First, select the date, time, and
 geographic coordinates for the calculation.  Then, fill in the
 equatorial coordinates to be converted or use the <guilabel>Find Object</guilabel> dialog
-in the <guilabel>Equatorial Coordinates</guilabel> section.
+in the <guilabel>Equatorial Coordinates (J2000)</guilabel> section.
 The corresponding Horizontal coordinates will be presented in
 the <guilabel>Horizontal Coordinates</guilabel> section.
 </para>

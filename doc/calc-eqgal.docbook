@@ -24,7 +24,7 @@ This module converts from <link linkend="equatorial">Equatorial
 coordinates</link> to <link linkend="galactic">Galactic
 coordinates</link>, and vice versa.  Fill in the
 coordinate values in either the <guilabel>Galactic
-coordinates</guilabel> or <guilabel>Equatorial coordinates</guilabel>
+coordinates</guilabel> or <guilabel>Equatorial coordinates (J2000)</guilabel>
 section.  Alternatively set the equatorial coordinates by selecting an
 object using the <guilabel>Find Object</guilabel> dialog.
 Then the complementary coordinates will be filled in.

@@ -26,8 +26,8 @@ a specific object in the sky.  To access this tool,
 <guimenuitem>Details...</guimenuitem> item from the popup menu.
 </para>
 <para>
-The window is divided into a number of Tabs.  In the
-<guilabel>General</guilabel> Tab, we present basic data about
+The window is divided into a number of tabs.  In the
+<guilabel>General</guilabel> tab, we present basic data about
 the current object.  This includes names and catalog designations,
 object type, and <link linkend="ai-magnitude">magnitude</link>
 (brightness).  On the <guilabel>Position</guilabel> tab
@@ -48,8 +48,7 @@ button.  This will open a window in which you fill in the &URL; and link
 text for the new link (you can also test the &URL; in the web browser
 from this window).  Every time you add a custom &URL; to a certain object,
 you are able to choose the resource type using the <guibutton>Resource Type</guibutton>
-radio button. It has two predefined values: <quote>Image</quote> or <quote>Information</quote>.
-Keep in mind that the custom link can easily point
+button. Keep in mind that the custom link can easily point
 to a file on your local disk, so you can use this feature to index
 your personal astronomical images or observing logs.
 </para>
@@ -63,7 +62,7 @@ an unnamed star or
 if advinterface file failed loading or
 for solar system objects -->
 <para>
-The <guilabel>Advanced</guilabel> Tab (not available for all objects) allows you to query professional
+The <guilabel>Advanced</guilabel> tab (not available for all objects) allows you to query professional
 astronomical databases on the internet for information regarding the
 current object.  To use these databases, double click on the
 desired database in the list to see the results of your query in a web browser window.  The
@@ -72,17 +71,26 @@ open the Details Dialog.  The following databases are available for
 querying:
 
 <itemizedlist>
-<listitem><para>High Energy Astrophysical Archive (HEASARC).  Here you
+<listitem><para><guimenuitem>Set of Identifications, Measurements, and Bibliography
+for Astronomical Data (SIMBAD)</guimenuitem>: SIMBAD is similar to NED, except it
+provides data about all kinds of objects, not just galaxies.
+</para></listitem>
+<listitem><para><guimenuitem>SkyView</guimenuitem>: Provides images from All-Sky surveys that have
+been performed in dozens of different parts of the spectrum, from
+Gamma Rays to the Radio.  The &kstars; interface will retrieve an image
+from any of these surveys, centered on the selected object.
+</para></listitem>
+<listitem><para><guimenuitem>High Energy Astrophysical Archive (HEASARC)</guimenuitem>: Here you
 can retrieve data about the current object from a number of
 <quote>High-energy</quote> observatories, which covers the
 Ultraviolet, X-ray and Gamma Ray portions of the electromagnetic
 spectrum.</para></listitem>
-<listitem><para>Multimission Archive at Space Telescope (MAST).
-The Space Telescope Science Institute provides access to the entire
-collection of images and spectra taken with the Hubble Space
-Telescope, as well as several other space-based observatories.
+<listitem><para><guimenuitem>NASA/IPAC Extragalactic Database (NED)</guimenuitem>: NED provides
+encapsulated data and bibliographic links about
+extragalactic objects.  You should only use NED if your target is
+extragalactic; &ie; if it is itself a galaxy.
 </para></listitem>
-<listitem><para>NASA Astrophysical Data System (ADS).  This
+<listitem><para><guimenuitem>NASA Astrophysical Data System (ADS)</guimenuitem>: This
 incredible bibliographic database encompass the entire body of
 literature published in international peer-review Journals about
 astronomy and astrophysics.  The database is divided into four
@@ -95,26 +103,17 @@ search</quote> will return articles which included the object name in
 their Title, and the <quote>Title &amp; Keyword search</quote> uses
 both options together.
 </para></listitem>
-<listitem><para>NASA/IPAC Extragalactic Database (NED).  NED provides
-encapsulated data and bibliographic links about
-extragalactic objects.  You should only use NED if your target is
-extragalactic; &ie; if it is itself a galaxy.
-</para></listitem>
-<listitem><para>Set of Identifications, Measurements, and Bibliography
-for Astronomical Data (SIMBAD).  SIMBAD is similar to NED, except it
-provides data about all kinds of objects, not just galaxies.
-</para></listitem>
-<listitem><para>SkyView provides images from All-Sky surveys that have
-been performed in dozens of different parts of the spectrum, from
-Gamma Rays to the Radio.  The &kstars; interface will retrieve an image
-from any of these surveys, centered on the selected object.
+<listitem><para><guimenuitem>Multimission Archive at Space Telescope (MAST)</guimenuitem>:
+The <ulink url="https://www.stsci.edu/">Space Telescope Science Institute</ulink> provides access to the entire
+collection of images and spectra taken with the Hubble Space
+Telescope, as well as several other space-based observatories.
 </para></listitem>
 </itemizedlist>
 </para>
 
 <para>
-Finally, in the <guilabel>Log</guilabel> Tab, you can type in some text
-that will remain associated with this object's Details window.
+Finally, in the <guilabel>Log</guilabel> tab, you can type in some text
+that will remain associated with this object's <guilabel>Details</guilabel> window.
 You could use this to attach personal observing notes, for example. Your notes
 will be saved, such that you can easily read or use them next time when you will
 use &kstars;.

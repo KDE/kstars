@@ -20,9 +20,9 @@ The Julian Day calculator module
 </screenshot>
 
 <para>
-This module converts between the calendar <guilabel>Date and time</guilabel>, the <link
-linkend="ai-julianday">Julian Day</link>, and the
-<firstterm>Modified Julian Day</firstterm>.  The Modified Julian Day
+This module converts between the calendar <guilabel>Date and time:</guilabel>, the <link
+linkend="ai-julianday"><guilabel>Julian day:</guilabel></link>, and the
+<guilabel>Modified julian day:</guilabel>.  The Modified Julian Day
 is simply equal to the Julian Day - 2,400,000.5.
 </para><para>
 To use the module, enter one of the three dates and the corresponding values for
@@ -38,10 +38,10 @@ or <quote>Modified Julian day</quote>.
 Then specify the input and output filenames, and press the
 <guibutton>Compute</guibutton> button to generate the output
 file. The output file will contains values for the other two complementary parameters. For example,
-if your input file contains a set of <quote>Date and time</quote> values, then each line of
-the output file will contain values for <quote>Julian day</quote> and <quote>Modified Julian day</quote>.
+if your input file contains a set of <guilabel>Date and time:</guilabel> values, then each line of
+the output file will contain values for <guilabel>Julian day:</guilabel> and <guilabel>Modified julian day:</guilabel>.
 You can read the output directly in &kstars;
-by pressing the <guibutton>View output</guibutton> button.
+by pressing the <guibutton>View output...</guibutton> button.
 </para>
 
 <tip>
