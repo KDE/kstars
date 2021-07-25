@@ -932,7 +932,7 @@ OpenNGC catalog is shown in the below screenshot.
 <screeninfo>Solar System Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="solarsystem_tab.png" format="PNG"/>
+    <imagedata fileref="solarsystem_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Solar System Window</phrase>
@@ -960,7 +960,7 @@ sky color.
 <screeninfo>Satellites Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="satellites_tab.png" format="PNG"/>
+    <imagedata fileref="satellites_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Satellites Window</phrase>
@@ -1011,7 +1011,7 @@ For example: <userinput>Iridium;iridium.tle;https://celestrak.com/NORAD/elements
 <screeninfo>Supernovae Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="supernovae_tab.png" format="PNG"/>
+    <imagedata fileref="supernovae_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Supernovae Window</phrase>
@@ -1042,7 +1042,7 @@ The list of recent supernovae can be updated via the <menuchoice><guimenu>Data</
 <screeninfo>Guides Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="guides_tab.png" format="PNG"/>
+    <imagedata fileref="guides_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Guides Window</phrase>
@@ -1069,7 +1069,7 @@ constellation names using your local language.
 <screeninfo>Terrain Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="terrain_tab.png" format="PNG"/>
+    <imagedata fileref="terrain_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Terrain Window</phrase>
@@ -1106,7 +1106,7 @@ Moreover, some speedup options can be configured to achieve the best user experi
 <screeninfo>Colors Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="colors_tab.png" format="PNG"/>
+    <imagedata fileref="colors_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Colors Window</phrase>
@@ -1153,7 +1153,7 @@ simply highlight it in the list, and press the <guibutton>Remove</guibutton> but
 <screeninfo>FITS Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="fits_tab.png" format="PNG"/>
+    <imagedata fileref="fits_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>FITS Window</phrase>
@@ -1184,13 +1184,13 @@ processed; only grayscale images are shown). You can switch off some of these re
 </para>
 </sect1>
 
-<sect1 id="indi_tab">
+<sect1 id="indi_page">
 <title>INDI</title>
 <screenshot>
 <screeninfo>INDI Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="indi_tab.png" format="PNG"/>
+    <imagedata fileref="indi_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>INDI Window</phrase>
@@ -1208,7 +1208,7 @@ page see the <link linkend="indi-configure">Configure INDI</link> section.
 <screeninfo>Ekos Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="ekos_tab.png" format="PNG"/>
+    <imagedata fileref="ekos_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Ekos Window</phrase>
@@ -1231,7 +1231,7 @@ see the <link linkend="tool-ekos">Ekos section of this manual</link>.
 <screeninfo>Xplanet Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="xplanet_tab.png" format="PNG"/>
+    <imagedata fileref="xplanet_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Xplanet Window</phrase>
@@ -1251,7 +1251,7 @@ processing of <application>Xplanet</application> data in &kstars;.
 <screeninfo>Advanced Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="advanced_tab.png" format="PNG"/>
+    <imagedata fileref="advanced_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Advanced Window</phrase>
