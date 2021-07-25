@@ -103,7 +103,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
 
     // Init filter type combobox
     FilterTypeComboBox->clear();
-    FilterTypeComboBox->addItem(i18n("Single Object..."));
+    FilterTypeComboBox->addItem(i18n("Single Object"));
     FilterTypeComboBox->addItem(i18n("Any"));
     FilterTypeComboBox->addItem(i18n("Stars"));
     FilterTypeComboBox->addItem(i18n("Solar System"));

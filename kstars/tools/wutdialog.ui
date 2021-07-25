@@ -477,7 +477,7 @@
            <string>Open the Details window for the highlighted object.</string>
           </property>
           <property name="text">
-           <string>Object Details</string>
+           <string>Object Details...</string>
           </property>
          </widget>
         </item>

@@ -367,7 +367,7 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Transfer Buffer (MB):</string>
+               <string>Transfer buffer (MB):</string>
               </property>
              </widget>
             </item>
@@ -543,7 +543,7 @@
         <item>
          <widget class="QPushButton" name="showLogsB">
           <property name="text">
-           <string>Show INDI Logs</string>
+           <string>Show INDI Logs...</string>
           </property>
          </widget>
         </item>

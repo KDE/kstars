@@ -195,7 +195,7 @@
          <item>
           <widget class="QPushButton" name="ExportButton">
            <property name="text">
-            <string>Export</string>
+            <string>Export...</string>
            </property>
           </widget>
          </item>

@@ -253,7 +253,7 @@
           <item row="0" column="6">
            <widget class="QPushButton" name="showLogsB">
             <property name="text">
-             <string>Show Logs</string>
+             <string>Show Logs...</string>
             </property>
            </widget>
           </item>
@@ -593,7 +593,7 @@
                  <string>If checked, then fainter stars will be hidden when the map is in motion.</string>
                 </property>
                 <property name="text">
-                 <string>Stars fainter than</string>
+                 <string>Stars fainter than:</string>
                 </property>
                </widget>
               </item>

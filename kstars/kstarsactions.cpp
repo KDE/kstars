@@ -1133,7 +1133,7 @@ void KStars::syncOps()
 {
     opterrain->syncOptions();
     actionCollection()->action("toggle_terrain")
-    ->setText(Options::showTerrain() ? i18n("Hide terrain") : i18n("Show terrain"));
+    ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
 }
 
 void KStars::slotApplyConfigChanges()
@@ -1855,7 +1855,7 @@ void KStars::slotTerrain()
 {
     Options::setShowTerrain(!Options::showTerrain());
     actionCollection()->action("toggle_terrain")
-    ->setText(Options::showTerrain() ? i18n("Hide terrain") : i18n("Show terrain"));
+    ->setText(Options::showTerrain() ? i18n("Hide Terrain") : i18n("Show Terrain"));
     KStars::Instance()->map()->forceUpdate();
 }
 

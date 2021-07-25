@@ -53,7 +53,7 @@
             <string>Country name</string>
            </property>
            <property name="whatsThis" >
-            <string>Enter the Country name for the desired location.  It might be easier to use the &quot;Find City&quot; location to choose your location from the list of predefined cities.</string>
+            <string>Enter the Country name for the desired location.  It might be easier to use the &quot;Find City...&quot; button to choose your location from the list of predefined cities.</string>
            </property>
           </widget>
          </item>
@@ -77,7 +77,7 @@
             <string>City name</string>
            </property>
            <property name="whatsThis" >
-            <string>Enter the City name for the desired location.  It might be easier to use the &quot;Find City&quot; location to choose your location from the list of predefined cities.</string>
+            <string>Enter the City name for the desired location.  It might be easier to use the &quot;Find City...&quot; button to choose your location from the list of predefined cities.</string>
            </property>
           </widget>
          </item>
@@ -87,7 +87,7 @@
             <string>Province name</string>
            </property>
            <property name="whatsThis" >
-            <string>Enter the Province name for the desired location.  It might be easier to use the &quot;Find City&quot; location to choose your location from the list of predefined cities.</string>
+            <string>Enter the Province name for the desired location.  It might be easier to use the &quot;Find City...&quot; button to choose your location from the list of predefined cities.</string>
            </property>
           </widget>
          </item>
@@ -126,7 +126,7 @@
             <string>Press this button to open the Set Location dialog, which will allow you to choose a location from our list of over 2500 cities around the word.  Once a location has been selected, the City, Province and Country fields will be filled in.</string>
            </property>
            <property name="text" >
-            <string>Find City</string>
+            <string>Find City...</string>
            </property>
           </widget>
          </item>

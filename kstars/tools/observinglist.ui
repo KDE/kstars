@@ -149,7 +149,7 @@
          <item>
           <widget class="QPushButton" name="OALExport">
            <property name="text">
-            <string>Export to OAL</string>
+            <string>Export to OAL...</string>
            </property>
           </widget>
          </item>
@@ -239,7 +239,7 @@
          <item>
           <widget class="QLabel" name="refLabel">
            <property name="text">
-            <string>Reference Images:</string>
+            <string>Reference images:</string>
            </property>
           </widget>
          </item>
@@ -276,7 +276,7 @@
          <item>
           <widget class="QLabel" name="addLabel">
            <property name="text">
-            <string>Adding Objects:</string>
+            <string>Adding objects:</string>
            </property>
           </widget>
          </item>
@@ -307,7 +307,7 @@
             <string>The list wizard helps you construct observing lists based on filtering by object type, position on the sky, and magnitude.</string>
            </property>
            <property name="text">
-            <string>Wizard</string>
+            <string>Wizard...</string>
            </property>
           </widget>
          </item>
@@ -326,7 +326,7 @@
             <string>Open the Find Dialog for adding objects to the list</string>
            </property>
            <property name="text">
-            <string>Find Object</string>
+            <string>Find Object...</string>
            </property>
           </widget>
          </item>
@@ -345,7 +345,7 @@
             <string>Opens the What's up Tonight dialog, from which objects can be added to the list</string>
            </property>
            <property name="text">
-            <string>What's up Tonight tool</string>
+            <string>What's up Tonight...</string>
            </property>
           </widget>
          </item>
@@ -638,7 +638,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Replace from Internet</string>
+                    <string>Replace from Internet...</string>
                    </property>
                   </widget>
                  </item>
