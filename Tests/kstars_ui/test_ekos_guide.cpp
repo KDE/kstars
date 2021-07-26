@@ -52,6 +52,11 @@ void TestEkosGuide::initTestCase()
             profileIN->setText(testProfileName);
             QCOMPARE(profileIN->text(), testProfileName);
 
+            // Disable Port Selector
+            KTRY_PROFILEEDITOR_GADGET(QCheckBox, portSelectorCheck);
+            portSelectorCheck->setChecked(false);
+            QCOMPARE(portSelectorCheck->isChecked(), false);
+
             // Write PHD2 server specs
             KTRY_PROFILEEDITOR_GADGET(QLineEdit, externalGuideHost);
             externalGuideHost->setText(guider_host);
@@ -285,24 +290,26 @@ void TestEkosGuide::testPHD2Calibration()
     // We will need to wait a bit more than 30+20 times the default exposure, which is 1 second, plus processing, 2s
 
     uint const calibration_timeout = Options::guideCalibrationTimeout();
-    Options::setGuideCalibrationTimeout(50*3);
+    Options::setGuideCalibrationTimeout(50 * 3);
 
     uint const loststar_timeout = Options::guideLostStarTimeout();
     Options::setGuideLostStarTimeout(10);
 
     QWARN("As of 202103 it is not possible to use the CCD Simulator at NCP because of jitter - skipping");
-    if (false) {
-    // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail bcause of RA
-    // Two options: PHD2 either fails to see movement, or just switches to looping without doing anything
-    // KTRY_MOUNT_SYNC(90, false, -1);
-    QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
-    KTRY_GUIDE_CLICK(guideB);
+    if (false)
+    {
+        // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail bcause of RA
+        // Two options: PHD2 either fails to see movement, or just switches to looping without doing anything
+        // KTRY_MOUNT_SYNC(90, false, -1);
+        QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);
+        KTRY_GUIDE_CLICK(guideB);
 
-    // Wait for calibration to start");
-    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::On, 5000);
+        // Wait for calibration to start");
+        QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (preparingStateLed))->state() == KLed::On, 5000);
 
-    // Wait for the calibration to fail
-    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideCalibrationTimeout() * 1200);
+        // Wait for the calibration to fail
+        QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red,
+                                 Options::guideCalibrationTimeout() * 1200);
     }
 
     KTELL("Run a calibration with the telescope pointing after Meridian");
@@ -316,7 +323,8 @@ void TestEkosGuide::testPHD2Calibration()
     double const dec = dms(Ekos::Manager::Instance()->mountModule()->decOUT->text(), true).Degrees();
 
     KTELL("We need to wait a bit more than 50 times the default exposure, with a processing time of 3 seconds");
-    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green,
+                             Options::guideCalibrationTimeout() * 1200);
 
     KTELL("Wait a bit while guiding");
     QTest::qWait(5000);
@@ -346,7 +354,8 @@ void TestEkosGuide::testPHD2Calibration()
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::yellow, 10000);
 
     KTELL("Wait for guiding to abort");
-    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, Options::guideLostStarTimeout() * 1200);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red,
+                             Options::guideLostStarTimeout() * 1200);
     QVERIFY((dynamic_cast <KLed*> (preparingStateLed))->color() == Qt::red);
     QVERIFY((dynamic_cast <KLed*> (idlingStateLed))->color() == Qt::green);
 
@@ -362,13 +371,14 @@ void TestEkosGuide::testPHD2Calibration()
     QWARN("No feedback available on PHD2 calibration removal, so wait a bit.");
     QTest::qWait(1000);
     KTRY_GUIDE_CLICK(guideB);
-    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green, Options::guideCalibrationTimeout() * 1200);
+    QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::green,
+                             Options::guideCalibrationTimeout() * 1200);
 
     // It is apparently not possible to check the option "Stop guiding when mount moves" through the server connection
     // TODO: update options to enable this
 #if 0
     // Slew the telescope somewhere else, PHD2 will notify guiding abort
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(3.1,0));
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(3.1, 0));
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 10000);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, 10000);
 
