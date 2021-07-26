@@ -38,12 +38,13 @@ const QString mag_desc = "magnitude DESC NULLS LAST";
 
 /* constants */
 const QString catalog_prefix       = "cat_";
-constexpr int current_db_version   = 2;
+constexpr int current_db_version   = 3;
 constexpr int default_htmesh_level = 3;
 constexpr int user_catalog_id      = 0;
 const QString user_catalog_name    = "user";
 const QString master_catalog       = "master";
 const QString all_catalog_view     = "all_catalogs";
+const QString colors_table         = "catalog_colors";
 
 /* metadata */
 const QString create_meta_table =
@@ -51,9 +52,15 @@ const QString create_meta_table =
     "NULL, htmesh_level INTEGER NOT NULL, init INTEGER NOT NULL)";
 
 const QString update_version = "UPDATE meta SET version = :version";
-const QString get_meta = "SELECT version, htmesh_level, init FROM meta LIMIT 1";
-const QString set_meta = "INSERT INTO meta (version, htmesh_level, init) VALUES "
+const QString get_meta       = "SELECT version, htmesh_level, init FROM meta LIMIT 1";
+const QString set_meta       = "INSERT INTO meta (version, htmesh_level, init) VALUES "
                          "(:version, :htmesh_level, :init)";
+
+/* Colors */
+const QString create_colors_table =
+    QString("CREATE TABLE IF NOT EXISTS %1 (catalog INTEGER NOT "
+            "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL)")
+        .arg(colors_table);
 
 /* catalog queries */
 template <typename input_iterator>

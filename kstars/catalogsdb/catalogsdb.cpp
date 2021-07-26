@@ -67,11 +67,21 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
     if (version < 2)
     {
         QSqlQuery add_ts{ db };
+        const auto success = add_ts.exec(QString("ALTER TABLE %1catalogs ADD COLUMN "
+                                                 "timestamp DEFAULT NULL")
+                                             .arg(prefix));
+        if (!success)
+            return { false, add_ts.lastError().text() };
+    }
 
-        return { add_ts.exec(QString("ALTER TABLE %1catalogs ADD COLUMN "
-                                     "timestamp DEFAULT NULL")
-                                 .arg(prefix)),
-                 add_ts.lastError().text() };
+    // adding the color selector table; this only applies for the
+    // master database
+    if (version < 3 && prefix == "")
+    {
+        QSqlQuery add_colors{ db };
+        const auto success = add_colors.exec(SqlStatements::create_colors_table);
+        if (!success)
+            return { false, add_colors.lastError().text() };
     }
 
     return { true, "" };
@@ -189,6 +199,9 @@ bool DBManager::initialize_db()
                                  "m_htmesh_level have to be set.");
 
     if (!m_db.exec(SqlStatements::create_meta_table).isActive())
+        return false;
+
+    if (!m_db.exec(SqlStatements::create_colors_table).isActive())
         return false;
 
     QSqlQuery meta_query{ m_db };
