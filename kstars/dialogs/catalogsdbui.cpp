@@ -329,7 +329,8 @@ void CatalogsDBUI::show_color_editor()
 
     connect(this, &QDialog::finished, dialog, &QDialog::done);
     connect(dialog, &QDialog::finished, this, &CatalogsDBUI::refresh_db_table);
-    dialog->exec();
+    if (dialog->exec() != QDialog::Accepted)
+        return;
 
     const auto &insert_success =
         m_manager.insert_catalog_colors(success.second.id, dialog->colors());
