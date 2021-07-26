@@ -465,7 +465,11 @@ class DBManager
      */
     bool update_catalog_views();
 
-    /** \returns the catalog colors as a hash table of for `scheme: id: color */
+    /** \returns the catalog colors as a hash table of for `scheme:
+     *  id: color`.
+     *
+     *  The colors are loaded from the `Catalog::color` field and the
+     *  `SqlStatements::color_table` in that order. */
     const ColorMap get_catalog_colors();
 
   private:
