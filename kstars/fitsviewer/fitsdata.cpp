@@ -59,8 +59,11 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-const QString FITSData::m_TemporaryPath = QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
+QString getTemporaryPath() {
+    return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
         qAppName()).path();
+}
+
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
@@ -175,7 +178,7 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 
 bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension, bool silent)
 {
-    m_isTemporary = m_Filename.startsWith(m_TemporaryPath);
+    m_isTemporary = m_Filename.startsWith(getTemporaryPath());
 
     if (extension.contains("fit"))
         return loadFITSImage(buffer, extension, silent);
@@ -3682,7 +3685,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
         return false;
     }
 
-    output = QDir(m_TemporaryPath).filePath(filename + ".fits");
+    output = QDir(getTemporaryPath()).filePath(filename + ".fits");
 
     //This section sets up the FITS File
     fitsfile *fptr = nullptr;
