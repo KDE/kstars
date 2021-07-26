@@ -58,7 +58,7 @@ requires.
 </para><para>
 Along the top of the window, there is a row of buttons which operate
 on the script as a whole.  From left to right, they are:
-<guibutton>New Script</guibutton>, <guibutton>Open Script</guibutton>,
+<guibutton>New Script</guibutton>, <guibutton>Open Script...</guibutton>,
 <guibutton>Save Script</guibutton>, <guibutton>Save Script
 As...</guibutton>, and <guibutton>Test Script</guibutton>.  The
 function of these buttons should be obvious, except perhaps the last
@@ -98,9 +98,9 @@ will now contain a combobox labeled <quote>Dir</quote>, short for
 direction.  This is the direction in which the display should
 be pointed.  The combobox contains only the cardinal compass points,
 not the Moon or any other objects.  You can either enter
-<quote>Moon</quote> in the box manually, or press the
-<guibutton>Object</guibutton> button to use the <guilabel>Find
-Object</guilabel> window to select the Moon from the list of named
+<quote>Moon</quote> in the box manually, or press the <guibutton>Object...</guibutton>
+button to use the <guilabel>Find Object...</guilabel>
+window to select the Moon from the list of named
 objects.  Note that, as usual, centering on an object automatically
 engages object-tracking mode, so there is no need to add the
 <firstterm>setTracking</firstterm> function after lookToward.
@@ -137,7 +137,7 @@ options which can be adjusted by changeViewOption.  Since we know
 we want the UseAltAz option, we could simply select it from the
 combobox.  However, the list is quite long, and there is no
 explanation of what each item is for.  It therefore may be easier to
-press the <guibutton>Browse Tree</guibutton> button, which will open
+press the <guibutton>Browse Tree...</guibutton> button, which will open
 a window containing a tree view of the available options, organized by
 topic.  In addition, each item has a short explanation of what the
 option does, and the data type of the option's value.  We find
@@ -167,8 +167,8 @@ script file with any text editor.
 Now that we have a completed script, we can run it in a couple of ways.
 From a console prompt, you can simply execute the script as long as an
 instance of &kstars; is currently running.  Alternatively, you can execute
-the script from within &kstars; using the <guimenuitem>Run
-Script...</guimenuitem> item in the <guimenu>File</guimenu> menu.
+the script from within &kstars; using the <menuchoice><guimenu>File</guimenu>
+<guimenuitem>Run Script...</guimenuitem></menuchoice> menu item.
 </para>
 </sect2>
 </sect1>
