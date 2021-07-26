@@ -46,6 +46,8 @@ CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_fil
         }
     }
 
+    m_catalog_colors = m_db_manager.get_catalog_colors();
+
     qCInfo(KSTARS) << "Loaded DSO catalogs.";
 }
 
@@ -81,6 +83,8 @@ void CatalogsComponent::draw(SkyPainter *skyp)
     auto &labeler = *SkyLabeler::Instance();
     labeler.setPen(
         QColor(KStarsData::Instance()->colorScheme()->colorNamed("DSNameColor")));
+    const auto &color_scheme = KStarsData::Instance()->colorSchemeName();
+    auto &current_colors     = m_catalog_colors[color_scheme];
 
     auto &map       = *SkyMap::Instance();
     auto hideLabels = (map.isSlewing() && Options::hideOnSlew()) ||
@@ -133,7 +137,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (!magCriterion)
                 continue;
 
-            float size = object.a() * dms::PI * Options::zoomFactor() / 10800.0;
+            double size = object.a() * dms::PI * Options::zoomFactor() / 10800.0;
 
             bool sizeCriterion =
                 (size > 1.0 || size == 0 || Options::zoomFactor() > 2000.);
@@ -141,14 +145,15 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (sizeCriterion)
             {
                 object.JITupdate();
-                auto &color = m_catalog_colors[object.catalogId()];
+                auto &color = current_colors[object.catalogId()];
                 if (!color.isValid())
                 {
-                    const auto &catalog_color = object.getCatalog().color;
-                    if (catalog_color == "")
+                    color = m_catalog_colors["default"][object.catalogId()];
+
+                    if (!color.isValid())
+                    {
                         color = default_color;
-                    else
-                        color = QColor(catalog_color);
+                    }
                 }
 
                 skyp->setPen(color);

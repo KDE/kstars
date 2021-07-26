@@ -111,13 +111,12 @@ class CatalogsComponent : public SkyComponent
 
     /**
      * Clear the internal cache and effectively reload all objects
-     * from the database. All `static_objects` will be reloaded as
-     * well but already existing objects will be kept.
+     * from the database.
      */
     void dropCache()
     {
         m_cache.clear();
-        m_catalog_colors = {};
+        m_catalog_colors = m_db_manager.get_catalog_colors();
     };
 
     /**
@@ -172,7 +171,7 @@ class CatalogsComponent : public SkyComponent
     /**
      * A cache for catalog colors.
      */
-    std::unordered_map<int, QColor> m_catalog_colors;
+    CatalogsDB::ColorMap m_catalog_colors;
 
     //@{
     /** Helpers */

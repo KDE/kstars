@@ -1089,6 +1089,7 @@ CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard, const i
 
     return fetch_objects(query);
 };
+
 std::tuple<bool, const QString, DBManager::CatalogObjectList>
 CatalogsDB::DBManager::general_master_query(const QString &where, const QString &order_by,
                                             const int limit)
@@ -1105,4 +1106,55 @@ CatalogsDB::DBManager::general_master_query(const QString &where, const QString 
     query.bindValue(":limit", limit);
 
     return { false, "", fetch_objects(query) };
+};
+
+const std::map<QString, QColor> parse_color_string(const QString &str)
+{
+    std::map<QString, QColor> colors{};
+    if (str == "")
+        return colors;
+
+    const auto &parts = str.split(";");
+    auto it           = parts.constBegin();
+    colors["default"] = *it;
+    while (it != parts.constEnd())
+    {
+        const auto &scheme = *(++it);
+        if (it != parts.constEnd())
+        {
+            const auto &color = *(++it);
+            colors[scheme]    = QColor(color);
+        }
+    }
+
+    return colors;
+}
+
+const ColorMap CatalogsDB::DBManager::get_catalog_colors()
+{
+    // no mutex b.c. this is read only
+    QSqlQuery query{ m_db };
+
+    ColorMap colors{};
+
+    if (!query.exec(SqlStatements::get_colors))
+        return colors;
+
+    for (const auto &cat : DBManager::get_catalogs(true))
+    {
+        const auto &cat_colors = parse_color_string(cat.color);
+
+        for (const auto &item : cat_colors)
+            colors[item.first][cat.id] = item.second;
+    }
+
+    while (query.next())
+    {
+        const auto &catalog     = query.value("catalog").toInt();
+        const auto &scheme      = query.value("scheme").toString();
+        const auto &color       = query.value("color").toString();
+        colors[scheme][catalog] = QColor(color);
+    }
+
+    return colors;
 };

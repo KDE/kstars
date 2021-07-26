@@ -62,6 +62,9 @@ const QString create_colors_table =
             "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL)")
         .arg(colors_table);
 
+const QString get_colors =
+    QString("SELECT catalog, scheme, color FROM %1").arg(colors_table);
+
 /* catalog queries */
 template <typename input_iterator>
 QStringList from_it(input_iterator begin, input_iterator end)
