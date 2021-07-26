@@ -820,7 +820,7 @@ color labels and icons to the given positions on the sky chart.
     <guimenu>Settings</guimenu>
     <guisubmenu>Themes</guisubmenu>
     </menuchoice></term>
-    <listitem><para>--</para></listitem>
+    <listitem><para>Lists the available Theme items.</para></listitem>
   </varlistentry>
 
   <varlistentry>
