@@ -28,7 +28,7 @@ with a name label.  The display can be zoomed in and out with
 the <keycap>+</keycap> and <keycap>-</keycap> keys, and the
 display can be recentered with the arrow keys, or by
 double-clicking anywhere in the window with the mouse.  You can
-also center on a planet with the <keycap>0&ndash;9</keycap> keys
+also center on a planet with the <keycap>0</keycap>&ndash;<keycap>9</keycap> keys
 (<keycap>0</keycap> is the Sun; <keycap>9</keycap> is Pluto).
 If you center on a planet, it will be tracked as time passes in
 the tool.

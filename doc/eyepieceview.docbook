@@ -36,7 +36,7 @@ This tool simulates how an object looks through your eyepiece. In addition to re
 </itemizedlist>
 </para>
 
-<para>When the tool is first invoked, it will prompt a dialog to select the desired FOV to render the view. To compare the rendered view against a real sky image, click the <guibutton>Fetch DSS image</guibutton> button to download a DSS image. You can manually adjust the view to match your eyepiece using the rotation slider, the <guilabel>invert view</guilabel> and <guilabel>flip view</guilabel> check boxes. Alternatively, you can use a pre-calculated amount of rotation by using one of the <guilabel>Presets</guilabel> that is tailored for different optical systems.</para>
+<para>When the tool is first invoked, it will prompt a dialog to select the desired FOV to render the view. To compare the rendered view against a real sky image, click the <guibutton>Fetch DSS image</guibutton> button to download a DSS image. You can manually adjust the view to match your eyepiece using the rotation slider, the <guilabel>Invert view</guilabel> and <guilabel>Flip view</guilabel> check boxes. Alternatively, you can use a pre-calculated amount of rotation by using one item of the <guilabel>Preset:</guilabel> dropdown box that is tailored for different optical systems.</para>
 
 <screenshot>
 <screeninfo>

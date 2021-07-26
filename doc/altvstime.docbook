@@ -30,15 +30,15 @@ in this region are below the horizon.
 <para>
 There are a few ways to add curves to the plot.  The simplest way to
 add the curve of an existing object is to simply type its name in the
-<guilabel>Name</guilabel> input field, and press Enter, or the
+<guilabel>Name:</guilabel> input field, and press Enter, or the
 <guibutton>Plot</guibutton> button.  If the text you enter is found in
 the object database, the object's curve is added to the graph.  You
-can also press the <guibutton>Find Object</guibutton> button to open the
+can also press the <guibutton>Find Object...</guibutton> button to open the
 <link linkend="findobjects">Find Object Window</link> to select an
 object from the list of known objects.  If you want to add a point
 that does not exist in the object database, simply enter a name for
 the point, and then fill in the coordinates in the
-<guilabel>RA</guilabel> and <guilabel>Dec</guilabel> input fields.
+<guilabel>RA:</guilabel> and <guilabel>Dec:</guilabel> input fields.
 Then press the <guibutton>Plot</guibutton> button to add the curve for
 your custom object to the plot (note that you have to pick a name that
 does not already exist in the object database for this to work).
