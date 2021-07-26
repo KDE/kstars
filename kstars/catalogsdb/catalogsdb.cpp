@@ -1142,10 +1142,7 @@ const ColorMap CatalogsDB::DBManager::get_catalog_colors()
 
     for (const auto &cat : DBManager::get_catalogs(true))
     {
-        const auto &cat_colors = parse_color_string(cat.color);
-
-        for (const auto &item : cat_colors)
-            colors[item.first][cat.id] = item.second;
+        colors[cat.id] = parse_color_string(cat.color);
     }
 
     while (query.next())
@@ -1153,7 +1150,7 @@ const ColorMap CatalogsDB::DBManager::get_catalog_colors()
         const auto &catalog     = query.value("catalog").toInt();
         const auto &scheme      = query.value("scheme").toString();
         const auto &color       = query.value("color").toString();
-        colors[scheme][catalog] = QColor(color);
+        colors[catalog][scheme] = QColor(color);
     }
 
     return colors;

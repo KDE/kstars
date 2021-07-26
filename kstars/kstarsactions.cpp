@@ -1699,9 +1699,7 @@ void KStars::slotMapProjection()
 //Settings Menu:
 void KStars::slotColorScheme()
 {
-    //use mid(3) to exclude the leading "cs_" prefix from the action name
-    QString filename = QString(sender()->objectName()).mid(3) + ".colors";
-    loadColorScheme(filename);
+    loadColorScheme(sender()->objectName());
 }
 
 void KStars::slotTargetSymbol(bool flag)
@@ -1911,11 +1909,12 @@ void KStars::slotShowGUIItem(bool show)
             J2000RADecField.show();
     }
 }
-void KStars::addColorMenuItem(const QString &name, const QString &actionName)
+void KStars::addColorMenuItem(QString name, const QString &actionName)
 {
-    KToggleAction *kta = actionCollection()->add<KToggleAction>(actionName);
+    KToggleAction *kta     = actionCollection()->add<KToggleAction>(actionName);
+    const QString filename = QString(actionName).mid(3) + ".colors";
     kta->setText(name);
-    kta->setObjectName(actionName);
+    kta->setObjectName(filename);
     kta->setActionGroup(cschemeGroup);
 
     colorActionMenu->addAction(kta);
@@ -1927,6 +1926,8 @@ void KStars::addColorMenuItem(const QString &name, const QString &actionName)
         kta->setChecked(true);
     }
 
+    //use mid(3) to exclude the leading "cs_" prefix from the action name
+    data()->add_color_scheme(filename, name.replace("&", ""));
     connect(kta, SIGNAL(toggled(bool)), this, SLOT(slotColorScheme()));
 }
 

@@ -84,7 +84,6 @@ void CatalogsComponent::draw(SkyPainter *skyp)
     labeler.setPen(
         QColor(KStarsData::Instance()->colorScheme()->colorNamed("DSNameColor")));
     const auto &color_scheme = KStarsData::Instance()->colorSchemeName();
-    auto &current_colors     = m_catalog_colors[color_scheme];
 
     auto &map       = *SkyMap::Instance();
     auto hideLabels = (map.isSlewing() && Options::hideOnSlew()) ||
@@ -145,10 +144,10 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (sizeCriterion)
             {
                 object.JITupdate();
-                auto &color = current_colors[object.catalogId()];
+                auto &color = m_catalog_colors[object.catalogId()][color_scheme];
                 if (!color.isValid())
                 {
-                    color = m_catalog_colors["default"][object.catalogId()];
+                    color = m_catalog_colors[object.catalogId()]["default"];
 
                     if (!color.isValid())
                     {

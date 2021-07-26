@@ -129,7 +129,7 @@ constexpr int user_catalog_id   = 0;
 constexpr float default_maglim  = 99;
 const QString flux_unit         = "mag";
 const QString flux_frequency    = "400 nm";
-using ColorMap                  = std::map<QString, std::map<int, QColor>>;
+using ColorMap                  = std::map<int, std::map<QString, QColor>>;
 
 /**
  * Manages the catalog database and provides an interface to provide
@@ -465,8 +465,8 @@ class DBManager
      */
     bool update_catalog_views();
 
-    /** \returns the catalog colors as a hash table of for `scheme:
-     *  id: color`.
+    /** \returns the catalog colors as a hash table of for `catalog id:
+     *  scheme: color`.
      *
      *  The colors are loaded from the `Catalog::color` field and the
      *  `SqlStatements::color_table` in that order. */

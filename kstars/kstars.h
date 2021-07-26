@@ -176,7 +176,7 @@ class KStars : public KXmlGuiWindow
              * @param name The name to use in the menu
              * @param actionName The internal name for the action (derived from filename)
              */
-        void addColorMenuItem(const QString &name, const QString &actionName);
+        void addColorMenuItem(QString name, const QString &actionName);
 
         /** Remove an item from the color-scheme action manu
              * @param actionName The internal name of the action (derived from filename)

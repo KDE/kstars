@@ -184,17 +184,36 @@ class KStarsData : public QObject
             return &CScheme;
         }
 
-        /** @return name of current color scheme **/
-        Q_INVOKABLE QString colorSchemeName()
+        /** @return file name of current color scheme **/
+        Q_INVOKABLE QString colorSchemeFileName() { return CScheme.fileName(); }
+
+        /** @return file name of the color scheme with the name \p name **/
+        QString colorSchemeFileName(const QString &name)
         {
-            return CScheme.fileName();
+            return m_color_schemes.count(name) > 0 ? m_color_schemes.at(name) : "";
         }
 
-        /** @return pointer to the KSUserDB object */
-        KSUserDB *userdb()
+        /** @return file name of the current color scheme **/
+        Q_INVOKABLE QString colorSchemeName()
         {
-            return &m_ksuserdb;
+            return colorSchemeName(CScheme.fileName());
         }
+
+        /** @return the name of the color scheme with the name \p name **/
+        QString colorSchemeName(const QString &fileName)
+        {
+            return m_color_scheme_names.count(fileName) > 0 ? m_color_scheme_names.at(fileName) : "";
+        }
+
+        /** Register a color scheme with \p filename and \p name. */
+        void add_color_scheme(const QString &filename, const QString &name)
+        {
+            m_color_schemes[name] = filename;
+            m_color_scheme_names[filename] = name;
+        };
+
+        /** @return pointer to the KSUserDB object */
+        KSUserDB *userdb() { return &m_ksuserdb; }
 
         /** @return pointer to the simulation Clock object */
         Q_INVOKABLE SimClock *clock()
@@ -535,6 +554,9 @@ class KStarsData : public QObject
         KStarsDateTime LTime;
         KSUserDB m_ksuserdb;
         ColorScheme CScheme;
+        std::map<QString, QString> m_color_schemes; // name: filename
+        std::map<QString, QString> m_color_scheme_names; // filename: name
+
 #ifndef KSTARS_LITE
         ObservingList* m_ObservingList { nullptr };
         std::unique_ptr<OAL::Log> m_LogObject;
