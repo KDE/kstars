@@ -22,6 +22,7 @@
 #include "ui_catalogsdbui.h"
 #include "catalogeditform.h"
 #include "catalogdetails.h"
+#include "catalogcoloreditor.h"
 
 CatalogsDBUI::CatalogsDBUI(QWidget *parent, const QString &db_path)
     : QDialog(parent), ui{ new Ui::CatalogsDBUI }, m_manager{ db_path }, m_last_dir{
@@ -64,6 +65,9 @@ CatalogsDBUI::CatalogsDBUI(QWidget *parent, const QString &db_path)
 
     connect(ui->dublicateButton, &QPushButton::clicked, this,
             &CatalogsDBUI::dublicate_catalog);
+
+    connect(ui->colorButton, &QPushButton::clicked, this,
+            &CatalogsDBUI::show_color_editor);
 }
 
 CatalogsDBUI::~CatalogsDBUI()
@@ -131,6 +135,7 @@ void CatalogsDBUI::row_selected(int row, int)
     ui->removeButton->setEnabled(true);
     ui->exportButton->setEnabled(true);
     ui->dublicateButton->setEnabled(true);
+    ui->colorButton->setEnabled(true);
 }
 
 void CatalogsDBUI::disable_buttons()
@@ -294,8 +299,8 @@ void CatalogsDBUI::dublicate_catalog()
         if (!remove_success.first)
             QMessageBox::critical(
                 this, i18n("Critical error"),
-                i18n("Could not clean up and remove the new catalog.<br>%1")
-                    .arg(remove_success.second));
+                i18n("Could not clean up and remove the new catalog.<br>%1",
+                     remove_success.second));
     };
 }
 
@@ -311,4 +316,26 @@ void CatalogsDBUI::show_more_dialog()
     connect(dialog, &QDialog::finished, this, &CatalogsDBUI::refresh_db_table);
 
     dialog->show();
+}
+
+void CatalogsDBUI::show_color_editor()
+{
+    const auto &success = get_selected_catalog();
+    if (!success.first)
+        return;
+
+    auto *dialog =
+        new CatalogColorEditor(m_manager.get_catalog_colors(success.second.id), this);
+
+    connect(this, &QDialog::finished, dialog, &QDialog::done);
+    connect(dialog, &QDialog::finished, this, &CatalogsDBUI::refresh_db_table);
+    dialog->exec();
+
+    const auto &insert_success =
+        m_manager.insert_catalog_colors(success.second.id, dialog->colors());
+
+    if (!insert_success.first)
+        QMessageBox::critical(
+            this, i18n("Critical error"),
+            i18n("Could not insert new colors.<br>", insert_success.second));
 }

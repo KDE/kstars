@@ -212,6 +212,9 @@ class KStarsData : public QObject
             m_color_scheme_names[filename] = name;
         };
 
+        /** \return a map of color scheme names and filenames */
+        const std::map<QString, QString> color_schemes() { return m_color_schemes; };
+
         /** @return pointer to the KSUserDB object */
         KSUserDB *userdb() { return &m_ksuserdb; }
 

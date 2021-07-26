@@ -1130,7 +1130,7 @@ const std::map<QString, QColor> parse_color_string(const QString &str)
     return colors;
 }
 
-const ColorMap CatalogsDB::DBManager::get_catalog_colors()
+ColorMap CatalogsDB::DBManager::get_catalog_colors()
 {
     // no mutex b.c. this is read only
     QSqlQuery query{ m_db };
@@ -1154,4 +1154,35 @@ const ColorMap CatalogsDB::DBManager::get_catalog_colors()
     }
 
     return colors;
+};
+
+CatalogsDB::CatalogColorMap CatalogsDB::DBManager::get_catalog_colors(const int id)
+{
+    return get_catalog_colors()[id]; // good enough for now
+};
+
+std::pair<bool, QString>
+CatalogsDB::DBManager::insert_catalog_colors(const int id, const CatalogColorMap &colors)
+{
+    QMutexLocker _{ &m_mutex };
+
+    QSqlQuery query{ m_db };
+
+    if (!query.prepare(SqlStatements::insert_color))
+    {
+        qDebug() << "HI";
+        return { false, query.lastError().text() };
+    }
+
+    query.bindValue(":catalog", id);
+    for (const auto &item : colors)
+    {
+        query.bindValue(":scheme", item.first);
+        query.bindValue(":color", item.second);
+
+        if (!query.exec())
+            return { false, query.lastError().text() };
+    }
+
+    return { true, "" };
 };

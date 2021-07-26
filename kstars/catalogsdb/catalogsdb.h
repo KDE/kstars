@@ -129,7 +129,8 @@ constexpr int user_catalog_id   = 0;
 constexpr float default_maglim  = 99;
 const QString flux_unit         = "mag";
 const QString flux_frequency    = "400 nm";
-using ColorMap                  = std::map<int, std::map<QString, QColor>>;
+using CatalogColorMap           = std::map<QString, QColor>;
+using ColorMap                  = std::map<int, CatalogColorMap>;
 
 /**
  * Manages the catalog database and provides an interface to provide
@@ -465,12 +466,28 @@ class DBManager
      */
     bool update_catalog_views();
 
-    /** \returns the catalog colors as a hash table of for `catalog id:
+    /** \returns the catalog colors as a hash table of the form `catalog id:
      *  scheme: color`.
      *
      *  The colors are loaded from the `Catalog::color` field and the
-     *  `SqlStatements::color_table` in that order. */
-    const ColorMap get_catalog_colors();
+     *  `SqlStatements::color_table` in that order.
+     */
+    ColorMap get_catalog_colors();
+
+    /** \returns the catalog colors as a hash table of for the catalog
+     * with \p id in the form `scheme: color`.
+     *
+     *  The colors are loaded from the `Catalog::color` field and the
+     *  `SqlStatements::color_table` in that order.
+     */
+    CatalogColorMap get_catalog_colors(const int id);
+
+    /** Saves the configures colors of the catalog with id \p id in \p
+     * colors into the database.  \returns wether the insertion was
+     * possible and an error message if not.
+     */
+    std::pair<bool, QString> insert_catalog_colors(const int id,
+                                                   const CatalogColorMap &colors);
 
   private:
     /**

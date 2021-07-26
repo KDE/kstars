@@ -551,6 +551,7 @@ set(kstars_dialogs_SRCS
     dialogs/addcatalogobject.cpp
     dialogs/catalogsdbui.cpp
     dialogs/catalogeditform.cpp
+    dialogs/catalogcoloreditor.cpp
     dialogs/catalogdetails.cpp
     dialogs/catalogcsvimport.cpp
     dialogs/catalogobjectlistmodel.cpp
@@ -568,6 +569,7 @@ set(kstars_dialogsui_SRCS
     dialogs/addcatalogobject.ui
     dialogs/catalogsdbui.ui
     dialogs/catalogeditform.ui
+    dialogs/catalogcoloreditor.ui
     dialogs/catalogdetails.ui
     dialogs/catalogcsvimport.ui
     dialogs/addlinkdialog.ui

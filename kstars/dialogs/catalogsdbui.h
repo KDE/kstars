@@ -93,6 +93,12 @@ class CatalogsDBUI : public QDialog
     void show_more_dialog();
 
     /**
+     * Shows the `CatalogColorEditor` dialog for the currently selected
+     * catalog.
+     */
+    void show_color_editor();
+
+    /**
      * Dublicate the selected catalog, inserting it as a new catalog
      * and prompt for meta-data edit.
      */

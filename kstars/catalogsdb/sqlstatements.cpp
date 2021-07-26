@@ -59,11 +59,17 @@ const QString set_meta       = "INSERT INTO meta (version, htmesh_level, init) V
 /* Colors */
 const QString create_colors_table =
     QString("CREATE TABLE IF NOT EXISTS %1 (catalog INTEGER NOT "
-            "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL)")
+            "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL, UNIQUE(catalog, scheme, "
+            "color))")
         .arg(colors_table);
 
 const QString get_colors =
     QString("SELECT catalog, scheme, color FROM %1").arg(colors_table);
+
+const QString insert_color =
+    QString("INSERT INTO %1 (catalog, scheme, color) VALUES (:catalog, :scheme, :color) "
+            "ON CONFLICT(catalog, scheme, color) DO UPDATE SET color = :color")
+        .arg(colors_table);
 
 /* catalog queries */
 template <typename input_iterator>

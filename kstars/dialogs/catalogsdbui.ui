@@ -105,6 +105,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="colorButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Colors</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="moreButton">
          <property name="enabled">
           <bool>false</bool>
