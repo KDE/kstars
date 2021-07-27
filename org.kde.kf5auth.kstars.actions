@@ -2,7 +2,7 @@
 Name=Save Astrometry Index File to a write protected directory
 Name[ar]=حفظ ملفّ فهرسة فلكيّ في دليل محميّ ضدّ الكتابة
 Name[ca]=Desa el fitxer d'índex de l'astrometria en un directori protegit contra escriptura
-Name[ca@valencia]=Guarda el fitxer d'índex de l'astrometria en una carpeta protegida contra escriptura
+Name[ca@valencia]=Guarda el fitxer d'índex de l'astrometria en un directori protegit contra escriptura
 Name[en_GB]=Save Astrometry Index File to a write protected directory
 Name[es]=Guardar el archivo de índice de Astrometry en un directorio protegido contra escritura
 Name[et]=Astromeetria indeksifaili salvestamine kirjutuskaitstud kataloogi
@@ -24,7 +24,7 @@ Name[zh_CN]=保存 Astrometry 索引文件至带写保护的目录
 Description=KStars is attempting to save an Astrometry Index File to a directory owned by root
 Description[ar]=يحاول «نجوم‌ك» حفظ ملفّ فهرسة فلكيّ في دليل يملكه الجذر
 Description[ca]=El KStars està intentant desar un fitxer d'índex de l'astrometria en un directori propietat de l'administrador
-Description[ca@valencia]=El KStars està intentant guardar un fitxer d'índex de l'astrometria en una carpeta propietat de l'administrador
+Description[ca@valencia]=El KStars està intentant guardar un fitxer d'índex de l'astrometria en un directori propietat de l'administrador
 Description[en_GB]=KStars is attempting to save an Astrometry Index File to a directory owned by root
 Description[es]=KStars está intentando guardar un archivo de índice de Astrometry en un directorio propiedad del administrador
 Description[et]=KStars püüab salvestada astromeetria indeksifaili kataloogi, mille omanik on 'root'
