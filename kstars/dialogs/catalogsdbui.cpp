@@ -324,19 +324,8 @@ void CatalogsDBUI::show_color_editor()
     if (!success.first)
         return;
 
-    auto *dialog =
-        new CatalogColorEditor(m_manager.get_catalog_colors(success.second.id), this);
+    auto *dialog = new CatalogColorEditor(success.second.id, this);
 
-    connect(this, &QDialog::finished, dialog, &QDialog::done);
-    connect(dialog, &QDialog::finished, this, &CatalogsDBUI::refresh_db_table);
-    if (dialog->exec() != QDialog::Accepted)
-        return;
-
-    const auto &insert_success =
-        m_manager.insert_catalog_colors(success.second.id, dialog->colors());
-
-    if (!insert_success.first)
-        QMessageBox::critical(
-            this, i18n("Critical error"),
-            i18n("Could not insert new colors.<br>", insert_success.second));
+    connect(this, &QDialog::finished, dialog, &QDialog::reject);
+    dialog->show();
 }

@@ -32,7 +32,7 @@ class CatalogColorEditor : public QDialog
     using color_map = CatalogsDB::CatalogColorMap;
 
   public:
-    explicit CatalogColorEditor(color_map colors, QWidget *parent = nullptr);
+    explicit CatalogColorEditor(const int id, QWidget *parent = nullptr);
     ~CatalogColorEditor();
 
     color_map colors() { return m_colors; }
@@ -40,7 +40,9 @@ class CatalogColorEditor : public QDialog
   private:
     Ui::CatalogColorEditor *ui;
     color_map m_colors;
+    int m_id;
 
+    void writeColors();
     void make_color_button(const QString &name, const QColor &color);
 };
 

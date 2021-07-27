@@ -16,15 +16,28 @@
  ***************************************************************************/
 
 #include "catalogcoloreditor.h"
+#include "catalogsdb.h"
 #include "ui_catalogcoloreditor.h"
 #include "kstarsdata.h"
 #include <QPushButton>
 #include <qcolordialog.h>
 
-CatalogColorEditor::CatalogColorEditor(color_map colors, QWidget *parent)
-    : QDialog(parent), ui(new Ui::CatalogColorEditor), m_colors{ std::move(colors) }
+CatalogColorEditor::CatalogColorEditor(const int id, QWidget *parent)
+    : QDialog(parent), ui(new Ui::CatalogColorEditor), m_id{ id }
 {
     ui->setupUi(this);
+
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+    const auto &cat = manager.get_catalog(m_id);
+    if (!cat.first)
+    {
+        QMessageBox::critical(this, i18n("Critical error"),
+                              i18n("Catalog with id %1 not found.", m_id));
+        reject();
+        return;
+    }
+
+    m_colors = manager.get_catalog_colors(m_id);
 
     auto *data         = KStarsData::Instance();
     auto default_color = m_colors["default"];
@@ -52,6 +65,11 @@ CatalogColorEditor::CatalogColorEditor(color_map colors, QWidget *parent)
     {
         make_color_button(item.first, item.second);
     }
+
+    ui->catalogName->setText(cat.second.name);
+
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
+            &CatalogColorEditor::writeColors);
 }
 
 CatalogColorEditor::~CatalogColorEditor()
@@ -92,4 +110,21 @@ void CatalogColorEditor::make_color_button(const QString &name, const QColor &co
         m_colors[name] = picker.currentColor();
         setButtonStyle(button, picker.currentColor());
     });
+};
+
+void CatalogColorEditor::writeColors()
+{
+    CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+    const auto &insert_success = manager.insert_catalog_colors(m_id, m_colors);
+
+    if (!insert_success.first)
+    {
+        QMessageBox::critical(
+            this, i18n("Critical error"),
+            i18n("Could not insert new colors.<br>", insert_success.second));
+        reject();
+        return;
+    }
+
+    accept();
 };
