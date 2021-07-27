@@ -180,11 +180,11 @@ DBManager::DBManager(const QString &filename)
         }
     }
 
-    m_q_cat_by_id = make_query(m_db, SqlStatements::get_catalog_by_id, true);
-    m_q_obj_by_trixel            = make_query(m_db, SqlStatements::dso_by_trixel, false);
-    m_q_obj_by_name              = make_query(m_db, SqlStatements::dso_by_name, true);
+    m_q_cat_by_id         = make_query(m_db, SqlStatements::get_catalog_by_id, true);
+    m_q_obj_by_trixel     = make_query(m_db, SqlStatements::dso_by_trixel, false);
+    m_q_obj_by_name       = make_query(m_db, SqlStatements::dso_by_name, true);
     m_q_obj_by_name_exact = make_query(m_db, SqlStatements::dso_by_name_exact, true);
-    m_q_obj_by_maglim            = make_query(m_db, SqlStatements::dso_by_maglim, true);
+    m_q_obj_by_maglim     = make_query(m_db, SqlStatements::dso_by_maglim, true);
     m_q_obj_by_maglim_and_type =
         make_query(m_db, SqlStatements::dso_by_maglim_and_type, true);
     m_q_obj_by_oid = make_query(m_db, SqlStatements::dso_by_oid, true);
