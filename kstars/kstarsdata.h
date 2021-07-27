@@ -205,6 +205,12 @@ class KStarsData : public QObject
             return m_color_scheme_names.count(fileName) > 0 ? m_color_scheme_names.at(fileName) : "";
         }
 
+        /** @return if the color scheme with the name or filename \p scheme is loaded **/
+        bool hasColorScheme(const QString &scheme)
+        {
+            return m_color_scheme_names.count(scheme) || m_color_schemes.count(scheme);
+        }
+
         /** Register a color scheme with \p filename and \p name. */
         void add_color_scheme(const QString &filename, const QString &name)
         {

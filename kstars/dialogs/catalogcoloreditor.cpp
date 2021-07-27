@@ -26,13 +26,17 @@ CatalogColorEditor::CatalogColorEditor(color_map colors, QWidget *parent)
 {
     ui->setupUi(this);
 
+    auto *data         = KStarsData::Instance();
     auto default_color = m_colors["default"];
     if (!default_color.isValid())
-        default_color = KStarsData::Instance()->colorScheme()->colorNamed("DSOColor");
+        default_color = data->colorScheme()->colorNamed("DSOColor");
 
     for (const auto &item : KStarsData::Instance()->color_schemes())
     {
-        auto &color = m_colors[item.first];
+        if (item.second != "default" && !data->hasColorScheme(item.second))
+            continue;
+
+        auto &color = m_colors[item.second];
         if (!color.isValid())
         {
             color = m_colors["default"];
@@ -57,7 +61,9 @@ CatalogColorEditor::~CatalogColorEditor()
 
 void CatalogColorEditor::make_color_button(const QString &name, const QColor &color)
 {
-    auto *button = new QPushButton(name);
+    auto *button = new QPushButton(name == "default" ?
+                                       i18n("Default") :
+                                       KStarsData::Instance()->colorSchemeName(name));
 
     button->setStyleSheet(
         QString("background-color: %1; color: black").arg(color.name()));

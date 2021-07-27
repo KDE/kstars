@@ -83,7 +83,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
     auto &labeler = *SkyLabeler::Instance();
     labeler.setPen(
         QColor(KStarsData::Instance()->colorScheme()->colorNamed("DSNameColor")));
-    const auto &color_scheme = KStarsData::Instance()->colorSchemeName();
+    const auto &color_scheme = KStarsData::Instance()->colorSchemeFileName();
 
     auto &map       = *SkyMap::Instance();
     auto hideLabels = (map.isSlewing() && Options::hideOnSlew()) ||
