@@ -189,7 +189,7 @@ Milky Way contour).
 <variablelist>
   <varlistentry>
     <term></term><listitem><para><indexterm><primary>Sky culture</primary></indexterm>
-    It is possible to choose a <guilabel>Sky culture</guilabel> for the constellation lines and names on this page. The current version of &kstars; includes data for more than a dozen sky cultures.
+    It is possible to choose a <guilabel>Sky culture:</guilabel> for the constellation lines and names on this page. The current version of &kstars; includes data for more than a dozen sky cultures.
     </para></listitem>
   </varlistentry>
 </variablelist>
@@ -547,7 +547,7 @@ those are less flexible and offer no deduplication.
 <secondary>GUI</secondary></indexterm>
 <para>
 The catalog management &GUI; is reached via the <menuchoice><guimenu>Data</guimenu>
-<guimenuitem>Manage DSO Catalogs</guimenuitem></menuchoice> menu item and is displayed
+<guimenuitem>Manage DSO Catalogs...</guimenuitem></menuchoice> menu item and is displayed
 <link linkend="dso_manager">below</link>.
 
 <screenshot>
@@ -580,9 +580,7 @@ database.
 </para>
 <variablelist>
 <varlistentry id="import">
-<term><menuchoice>
-<guimenu>Import Catalog</guimenu>
-</menuchoice></term>
+<term><guibutton>Import Catalog...</guibutton></term>
 <listitem>
   <para>Import a catalog in the <literal role="extension">.kscat</literal> format
   from a file.</para>
@@ -598,9 +596,7 @@ selected catalog (the highlighted row on the left).
 
 <variablelist>
 <varlistentry>
-<term><menuchoice>
-<guimenu>Create Catalog</guimenu>
-</menuchoice></term>
+<term><guibutton>Create Catalog...</guibutton></term>
 <listitem>
   <para>Create a new catalog. See <xref linkend="create_catalog"/>.
   </para>
@@ -608,9 +604,7 @@ selected catalog (the highlighted row on the left).
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Enable/Disable</guimenu>
-</menuchoice></term>
+<term><guibutton>Enable / Disable</guibutton></term>
 <listitem>
   <para>Enable or disable a catalog.</para>
   <para>This is reflected in the skymap upon closing the
@@ -619,9 +613,7 @@ selected catalog (the highlighted row on the left).
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Remove</guimenu>
-</menuchoice></term>
+<term><guibutton>Remove</guibutton></term>
 <listitem>
   <para>Remove a catalog from the catalog database.</para>
   <para>This is reflected in the skymap upon closing the
@@ -630,21 +622,17 @@ selected catalog (the highlighted row on the left).
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Export</guimenu>
-</menuchoice></term>
+<term><guibutton>Export...</guibutton></term>
 <listitem>
   <para>Export a catalog into a <literal role="extension">.kscat</literal> file.</para>
-  <para>The resulting file can be imported.
-    with <link linkend="import">Import Catalog</link>.
+  <para>The resulting file can be imported with 
+  <link linkend="import"><guibutton>Import Catalog...</guibutton></link> button.
   </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Clone</guimenu>
-</menuchoice></term>
+<term><guibutton>Clone...</guibutton></term>
 <listitem>
   <para>Make an exact copy of the catalog and insert it into the database.</para>
   <para>This is useful if you wish to make modifications to an
@@ -662,9 +650,7 @@ selected catalog (the highlighted row on the left).
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>More</guimenu>
-</menuchoice></term>
+<term><guibutton>More...</guibutton></term>
 <listitem>
   <para>Open the catalog details dialog. (See <xref linkend="catalog_details"/>.)
   </para>
@@ -740,9 +726,7 @@ selected object.
 
 <variablelist>
 <varlistentry>
-<term><menuchoice>
-<guimenu>Edit</guimenu>
-</menuchoice></term>
+<term><guibutton>Edit...</guibutton></term>
 <listitem>
   <para>Edit the catalog object. (See <xref linkend="add_object"/>).
   </para>
@@ -750,9 +734,7 @@ selected object.
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice>
-<guimenu>Remove</guimenu>
-</menuchoice></term>
+<term><guibutton>Remove</guibutton></term>
 <listitem>
   <para>Removes the object from the catalog.
   </para>
@@ -762,13 +744,13 @@ selected object.
 </para>
 
 <para>
-  Below the <guilabel>Object</guilabel> menu, the general catalog
+  Below the <guilabel>Object</guilabel> section, the general catalog
   options are situated.
 
 <variablelist>
 <varlistentry>
     <term><menuchoice>
-        <guimenu>Edit Catalog Meta</guimenu>
+        <guimenu>Edit Catalog Meta...</guimenu>
     </menuchoice></term>
     <listitem>
       <para>Edit the catalog metadata displayed in the top left. This
@@ -778,9 +760,7 @@ selected object.
   </varlistentry>
 
   <varlistentry>
-    <term><menuchoice>
-        <guimenu>Add Object</guimenu>
-    </menuchoice></term>
+    <term><guibutton>Add Object...</guibutton></term>
     <listitem>
       <para>Add an object to the catalog. (See <xref linkend="add_object"/>.)
       </para>
@@ -788,9 +768,7 @@ selected object.
   </varlistentry>
 
   <varlistentry>
-    <term><menuchoice>
-        <guimenu>Import CSV</guimenu>
-    </menuchoice></term>
+    <term><guibutton>Import CSV...</guibutton></term>
     <listitem>
       <para>Import objects from a tabular text format (csv, tsv,
         &etc;) into the catalog. (See <xref linkend="csv_import"/>.)
@@ -954,7 +932,7 @@ OpenNGC catalog is shown in the below screenshot.
 <screeninfo>Solar System Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="solarsystem_tab.png" format="PNG"/>
+    <imagedata fileref="solarsystem_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Solar System Window</phrase>
@@ -982,7 +960,7 @@ sky color.
 <screeninfo>Satellites Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="satellites_tab.png" format="PNG"/>
+    <imagedata fileref="satellites_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Satellites Window</phrase>
@@ -994,10 +972,10 @@ sky color.
 <secondary>Satellites page</secondary></indexterm>
 The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. Firstly,
 you can see or hide the satellites on the skymap using <guilabel>Show satellites</guilabel> checkbox
-from the top <guilabel>View options</guilabel> section. By default, satellites are drawn as small
+from the top <guilabel>View Options</guilabel> section. By default, satellites are drawn as small
 light red filled circles with an optional dark red name label next to them. You can enable or disable
 these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located below
-the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View options</guilabel> section.
+the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View Options</guilabel> section.
 </para>
 <para>
 The colors of the dots representing satellites and their name labels can be easily customized using
@@ -1013,7 +991,7 @@ presented. To select all satellites from a group, you need to check the group ch
 only the satellites of interest in each group.
 The satellites orbital elements can be updated via the internet by pressing the <guibutton>Update TLEs</guibutton>
 button. Another way for updating the satellites orbital elements is to use the <menuchoice><guimenu>Data</guimenu>
-<guisubmenu>Updates</guisubmenu> <guimenuitem>Update satellites orbital elements</guimenuitem></menuchoice> menu
+<guisubmenu>Updates</guisubmenu> <guimenuitem>Update Satellites Orbital Elements</guimenuitem></menuchoice> menu
 item. If you know the name of a desired satellite then you can use the search satellites method that &kstars;
 provides. You need to enter the name of satellite in the <guilabel>Search satellites</guilabel> text box and the
 list will be reduced only to its best matches.
@@ -1033,7 +1011,7 @@ For example: <userinput>Iridium;iridium.tle;https://celestrak.com/NORAD/elements
 <screeninfo>Supernovae Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="supernovae_tab.png" format="PNG"/>
+    <imagedata fileref="supernovae_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Supernovae Window</phrase>
@@ -1048,18 +1026,13 @@ the <guilabel>Show supernovae</guilabel> checkbox. By default, supernovae are dr
 As for satellites, the color of supernovae can be easily customized using the <guilabel>Colors</guilabel> page.
 </para>
 <para>
-You can configure &kstars; to check for newly discovered supernovae on startup by checking the <guilabel>Check for
-Recent Supernovae on Startup</guilabel> checkbox. This way, &kstars; will be always up-to-date with the most recent
-supernovae. You can enable supernova alerts using the <guilabel>Enable Supernova alerts</guilabel> checkbox. Thus,
-&kstars; will automatically alert you every time it learns of a new supernova in the sky. You can set the magnitude
-limit for showing a supernova as well as magnitude limit for supernova alerts using the spin boxes control. The
-limiting magnitude is the faintest apparent magnitude of an skyobject that is visible with the naked-eye or a telescope.
+You can set the magnitude limit for showing a supernova as well as magnitude limit for supernova alerts using
+the spin boxes control. The limiting magnitude is the faintest apparent magnitude of an skyobject that is
+visible with the naked-eye or a telescope.
 </para>
 <para>
-The list of recent supernovae can be updated via the internet by pressing the <guibutton>Update List of Recent
-Supernovae</guibutton> button. Another way for updating the supernovae list is to use the
-<menuchoice><guimenu>Data</guimenu> <guisubmenu>Updates</guisubmenu> <guimenuitem>Update Recent Supernovae
-data</guimenuitem></menuchoice> menu item.
+The list of recent supernovae can be updated via the <menuchoice><guimenu>Data</guimenu> 
+<guisubmenu>Updates</guisubmenu> <guimenuitem>Update Recent Supernovae data</guimenuitem></menuchoice> menu item.
 </para>
 </sect1>
 
@@ -1069,7 +1042,7 @@ data</guimenuitem></menuchoice> menu item.
 <screeninfo>Guides Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="guides_tab.png" format="PNG"/>
+    <imagedata fileref="guides_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Guides Window</phrase>
@@ -1096,7 +1069,7 @@ constellation names using your local language.
 <screeninfo>Terrain Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="terrain_tab.png" format="PNG"/>
+    <imagedata fileref="terrain_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Terrain Window</phrase>
@@ -1122,7 +1095,7 @@ Moreover, some speedup options can be configured to achieve the best user experi
 </para>
 <tip>
     <para>
-        You can toggle the terrain overlay on and off using a keyboard shortcut <keycombo>&Ctrl;&Shift;<keycap>T</keycap></keycombo> and the <menuchoice><guimenu>View</guimenu><guimenuitem>Show terrain</guimenuitem></menuchoice> menu item.
+        You can toggle the terrain overlay on and off using a keyboard shortcut <keycombo>&Ctrl;&Shift;<keycap>T</keycap></keycombo> and the <menuchoice><guimenu>View</guimenu><guimenuitem>Show Terrain</guimenuitem></menuchoice> menu item.
     </para>
 </tip>
 </sect1>
@@ -1133,7 +1106,7 @@ Moreover, some speedup options can be configured to achieve the best user experi
 <screeninfo>Colors Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="colors_tab.png" format="PNG"/>
+    <imagedata fileref="colors_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Colors Window</phrase>
@@ -1151,13 +1124,13 @@ and to define custom color schemes.  The tab is split into two panels:
 <para>
 The left panel shows a list of all display items with adjustable
 colors.  Click on any item to bring up a color selection window to
-adjust its color.  Below the list is the <guilabel>Star Color
-Mode</guilabel> selection box.  By default, &kstars; draws stars with
+adjust its color.  Below the list is the <guilabel>Star color
+mode:</guilabel> dropdown box.  By default, &kstars; draws stars with
 a <link linkend="ai-colorandtemp">realistic color</link> tint according
 to the spectral type of the star.  However, you may also choose to draw
 the stars as solid white, black or red circles.  If you are using the
 realistic star colors, you can set the saturation level of the star
-colors with the <guilabel>Star Color Intensity</guilabel> spinbox.
+colors with the <guilabel>Star color intensity:</guilabel> spinbox.
 </para>
 <para>
 The right panel lists the defined color schemes.  There are four
@@ -1167,11 +1140,10 @@ background, <guilabel>Night Vision</guilabel>, which uses only shades
 of red in order to protect dark-adapted vision, and <guilabel>Moonless
 Night</guilabel>, a more realistic, dark theme.  Additionally,
 you can save the current color settings as a custom scheme by clicking
-the <guibutton>Save Current Colors</guibutton> button.  It will prompt
+the <guibutton>Save As...</guibutton> button.  It will prompt
 you for a name for the new scheme, and then your scheme will appear in
 the list in all future &kstars; sessions.  To remove a custom scheme,
-simply highlight it in the list, and press the <guibutton>Remove Color
-Scheme</guibutton> button.
+simply highlight it in the list, and press the <guibutton>Remove</guibutton> button.
 </para>
 </sect1>
 
@@ -1181,7 +1153,7 @@ Scheme</guibutton> button.
 <screeninfo>FITS Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="fits_tab.png" format="PNG"/>
+    <imagedata fileref="fits_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>FITS Window</phrase>
@@ -1212,13 +1184,13 @@ processed; only grayscale images are shown). You can switch off some of these re
 </para>
 </sect1>
 
-<sect1 id="indi_tab">
+<sect1 id="indi_page">
 <title>INDI</title>
 <screenshot>
 <screeninfo>INDI Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="indi_tab.png" format="PNG"/>
+    <imagedata fileref="indi_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>INDI Window</phrase>
@@ -1236,7 +1208,7 @@ page see the <link linkend="indi-configure">Configure INDI</link> section.
 <screeninfo>Ekos Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="ekos_tab.png" format="PNG"/>
+    <imagedata fileref="ekos_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Ekos Window</phrase>
@@ -1259,7 +1231,7 @@ see the <link linkend="tool-ekos">Ekos section of this manual</link>.
 <screeninfo>Xplanet Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="xplanet_tab.png" format="PNG"/>
+    <imagedata fileref="xplanet_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Xplanet Window</phrase>
@@ -1279,7 +1251,7 @@ processing of <application>Xplanet</application> data in &kstars;.
 <screeninfo>Advanced Window</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="advanced_tab.png" format="PNG"/>
+    <imagedata fileref="advanced_page.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase>Advanced Window</phrase>
@@ -1337,7 +1309,7 @@ situations, as long as the <guilabel>Hide objects while moving</guilabel>
 checkbox is selected.  The timestep threshold above which objects will be
 hidden is determined by the <guilabel>Also hide if time step larger
 than:</guilabel> timestep-spinbox.  You can specify the objects that should
-be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
+be hidden in the <guilabel>Configure Hidden Objects</guilabel> section.
 </para>
 </sect1>
 
@@ -1348,31 +1320,29 @@ be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 There are several ways to modify the display to your liking.</para>
 <itemizedlist>
 <listitem><para>
-<indexterm><primary>Color Schemes</primary><secondary>Selecting</secondary></indexterm>
-Select a different color scheme in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Color Schemes</guimenuitem></menuchoice>
-menu item.  There are four predefined color schemes, and you can define your own in the
-<link linkend="config"><guilabel>Configure - &kstars;</guilabel></link> window.
-</para></listitem>
-<listitem><para>
-<indexterm><primary>Toolbars</primary>
-<secondary>Customizing</secondary></indexterm>
-Toggle whether the Toolbars are drawn in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars Shown</guimenuitem></menuchoice>
-menu item.  Like most &kde; toolbars, they can also be dragged around and
-anchored on any window edge, or even detached from the window completely if they are unlocked.
-</para></listitem>
-<listitem><para>
 <indexterm><primary>Info Boxes</primary><secondary>Customizing</secondary></indexterm>
 <indexterm><primary>Info Boxes</primary><secondary>Shading</secondary></indexterm>
-Toggle whether the Info Boxes are drawn in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Info Boxes</guimenuitem></menuchoice>
-menu item.  In addition, you can manipulate the three Info Boxes with the
-mouse.  Each box has additional lines of data that are hidden by default.
-You can toggle whether these additional lines are visible by double-clicking
-a box to <quote>shade</quote> it.  Also, you can reposition a box by
+Toggle whether the Info Boxes are drawn in the <menuchoice><guimenu>Settings</guimenu>
+<guisubmenu>Info Boxes</guisubmenu></menuchoice> submenu.  In addition, you can
+manipulate the three Info Boxes with the mouse.  Each box has additional lines of data
+that are hidden by default. You can toggle whether these additional lines are visible
+by double-clicking a box to <quote>shade</quote> it.  Also, you can reposition a box by
 dragging it with the mouse.  When a box hits a window edge, it will
 <quote>stick</quote> to the edge when the window is resized.
+</para></listitem>
+<listitem><para>
+<indexterm><primary>Toolbars</primary><secondary>Customizing</secondary></indexterm>
+Toggle whether the Toolbars are drawn in the <menuchoice><guimenu>Settings</guimenu>
+<guisubmenu>Toolbars Shown</guisubmenu></menuchoice> submenu.  Like most &kde; toolbars,
+they can also be dragged around and anchored on any window edge, or even detached from
+the window completely if they are unlocked.
+</para></listitem>
+<listitem><para>
+<indexterm><primary>Color Schemes</primary><secondary>Selecting</secondary></indexterm>
+Select a different color scheme in the <menuchoice><guimenu>Settings</guimenu>
+<guisubmenu>Color Schemes</guisubmenu></menuchoice> submenu.  There are four predefined
+color schemes, and you can define your own in the
+<link linkend="config"><guilabel>Configure - &kstars;</guilabel></link> window.
 </para></listitem>
 <listitem>
 <para>

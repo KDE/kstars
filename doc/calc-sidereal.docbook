@@ -29,7 +29,8 @@ calculation. Then the corresponding value for the other Time will be displayed.
 <para>
 There is a batch mode for this module.  To use it, simply
 generate an input file whose lines each contain values for
-the input parameter: <quote>sidereal time</quote> or <quote>standard time</quote>.
+the input parameter: <guimenuitem>Compute sidereal time</guimenuitem> or 
+<guimenuitem>Compute standard time</guimenuitem> from to left dropdown box.
 You can choose to set the <guilabel>Date:</guilabel> and <guilabel>Location:</guilabel> in the
 current window, or you can tell &kstars; to read these values from the <guilabel>Input file:</guilabel>.
 Then specify the input and output filenames, and press the
@@ -38,7 +39,7 @@ file. The output file will contains values for the complementary parameter. For 
 if your input file contains a set of <quote>standard time</quote> values, then each line of
 the output file will contain values for <quote>sidereal time</quote>.
 You can read the output directly in &kstars;
-by pressing the <guibutton>View output</guibutton> button.
+by pressing the <guibutton>View output...</guibutton> button.
 </para>
 
 </sect2>

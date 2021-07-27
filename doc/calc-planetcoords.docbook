@@ -22,8 +22,8 @@ The Planet Coordinates calculator module
 <para>
 The Planet Coordinates module computes positional data for
 any major solar system body, for any time and date and any
-geographic location.  Simply select the <guilabel>Solar
-system body</guilabel> from the drop-down list, and specify
+geographic location.  Simply select from the <guilabel>Solar
+system body:</guilabel> drop-down list, and specify
 the desired date, time, and geographic coordinates (these
 values are preset to the current &kstars; settings).  Then
 the <link linkend="equatorial">Equatorial</link>, <link

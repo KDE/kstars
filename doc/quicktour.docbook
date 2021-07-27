@@ -54,8 +54,8 @@ at any time to exit the Setup Wizard.
 The second page of the Setup Wizard allows you to choose the starting
 geographic location, by selecting from the list of the 3400+ known
 locations on the right side of the window.  The list of locations can be
-filtered to match the text you enter in the <guilabel>City</guilabel>,
-<guilabel>Province</guilabel>, and <guilabel>Country</guilabel> edit
+filtered to match the text you enter in the <guilabel>City filter:</guilabel>,
+<guilabel>Province filter:</guilabel>, and <guilabel>Country filter:</guilabel> edit
 boxes.  If your desired location is not present in the list, you can
 select a nearby city instead for now.  Later on, you can add your
 precise location manually using the <link linkend="setgeo">Set Geographic
@@ -66,7 +66,7 @@ the <guilabel>Next</guilabel> button.
 <para>
 The last page of the Setup Wizard allows you to download extra data
 that are not included with the standard distribution of &kstars;.
-Simply press the <guilabel>Download Extra Data</guilabel> button to open
+Simply press the <guilabel>Download Extra Data...</guilabel> button to open
 the <guilabel>Get New Stuff</guilabel> tool.  When you are all done,
 press the <guilabel>OK</guilabel> button in the Setup Wizard to
 start exploring &kstars;.
@@ -232,8 +232,8 @@ about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
 object's popup menu. Use the <guimenuitem>Details</guimenuitem> item in
 the popup menu to open the <guilabel>Object Details</guilabel> dialog.
-On the <guilabel>Link</guilabel> tab use the <guimenuitem>Add Link...</guimenuitem>
-item.
+On the <guilabel>Links</guilabel> tab use the <guibutton>Add Link...</guibutton>
+button.
 </para>
 </sect2>
 
@@ -282,7 +282,7 @@ connection. Thus, if you want to find an object that &kstars; is not
 aware of, you can easily do this by querying several professional
 astronomical databases as: SIMBAD, NED or VizieR. This can be done by
 entering the object's name and then press the <guibutton>or search the
-internet for ObjectName</guibutton> button. After your object is found,
+internet for <replaceable>ObjectName</replaceable></guibutton> button. After your object is found,
 you can use it exactly as any object that is already loaded into &kstars;
 (&ie; adding it to the Observing WishList). If the object was not found
 in the online databases, then a warning dialogue will pop-up. Once you

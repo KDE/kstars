@@ -23,8 +23,8 @@ The <quote>What's up Tonight?</quote> (WUT) tool displays a list of
 objects that will be visible at night from any location, on any date.
 By default, the Date and Location are taken from the current settings
 in the main window, but you can change either value using the
-<guibutton>Change Date</guibutton> and <guibutton>Change
-Location</guibutton> buttons at the top of the WUT window.
+<guibutton>Change Date...</guibutton> and <guibutton>Change Location...</guibutton>
+buttons at the top of the WUT window.
 </para>
 <para>
 The WUT tool also displays a short almanac of data for the selected
@@ -34,19 +34,18 @@ the night, and the Moon's illumination fraction.
 <para>
 Below the almanac is where the object information is displayed.  The
 objects are organized into type categories.  Select an object type
-in the box labeled <guilabel>Select a Category</guilabel>, and all
+in the box labeled <guilabel>Select a category:</guilabel>, and all
 objects of that type which are above the horizon on the selected
 night will be displayed in the box labeled <guilabel>Matching
-Objects</guilabel>.  For example, in the screenshot, the
+objects:</guilabel>.  For example, in the screenshot, the
 <guilabel>Planets</guilabel> category has been selected, and three
 planets which are up on the selected night are displayed (Mars,
 Jupiter and Saturn).  When an object in the list is selected,
 its rise, set and transit times are displayed in the lower-right
 panel (&ie; Mars rises at 17:13, transits at 21:46 and sets at 02:16).
-In addition, you can press the <guibutton>Object
-Details...</guibutton> button to open the <link
-linkend="tool-details">Object Details window</link> for that
-object.
+In addition, you can press the <guibutton>Object Details...</guibutton>
+button to open the <link linkend="tool-details">Object Details window</link>
+for that object.
 </para>
 <para>
 By default, the WUT will display objects which are above the horizon
@@ -56,7 +55,7 @@ You can choose to show objects which are up between midnight and dawn
 time tonight</quote>) using the combobox near the top of the window.
 You can also choose to see only those objects that are brighter than a
 magnitude by setting a minimum magnitude using the <guilabel>Show objects
-brighter than magnitude</guilabel> spinbox. You may center the selected object
+brighter than magnitude:</guilabel> spinbox. You may center the selected object
 in the Sky Map or add it to Wish List by pressing the
 <guibutton>Center Object</guibutton> or <guibutton>Add to List</guibutton> button.
 </para>
