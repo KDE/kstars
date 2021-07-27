@@ -59,17 +59,30 @@ CatalogColorEditor::~CatalogColorEditor()
     delete ui;
 }
 
+QColor contrastingColor(QColor color)
+{
+    color.toHsl();
+    color.setHsv(0, 0, color.lightness() < 100 ? 255 : 0);
+
+    return color;
+}
+
+void setButtonStyle(QPushButton *button, const QColor &color)
+{
+    button->setStyleSheet(QString("background-color: %1; color: %2")
+                              .arg(color.name())
+                              .arg(contrastingColor(color).name()));
+}
+
 void CatalogColorEditor::make_color_button(const QString &name, const QColor &color)
 {
     auto *button = new QPushButton(name == "default" ?
                                        i18n("Default") :
                                        KStarsData::Instance()->colorSchemeName(name));
 
-    button->setStyleSheet(
-        QString("background-color: %1; color: black").arg(color.name()));
-
     auto *layout = ui->colorButtons;
     layout->addWidget(button);
+    setButtonStyle(button, color);
 
     connect(button, &QPushButton::clicked, this, [this, name, button] {
         QColorDialog picker{};
@@ -77,7 +90,6 @@ void CatalogColorEditor::make_color_button(const QString &name, const QColor &co
             return;
 
         m_colors[name] = picker.currentColor();
-        button->setStyleSheet(QString("background-color: %1; color: black")
-                                  .arg(picker.currentColor().name()));
+        setButtonStyle(button, picker.currentColor());
     });
 };
