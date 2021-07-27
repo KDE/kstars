@@ -161,6 +161,12 @@
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
     </method>
+    <method name="getObjectDataXML">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
+      <arg name="fallbackToInternet" type="b" direction="in"/>
+      <arg name="storeInternetResolved" type="b" direction="in"/>
+    </method>
     <method name="getObjectPositionInfo">
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>

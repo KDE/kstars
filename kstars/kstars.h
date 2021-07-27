@@ -442,9 +442,13 @@ class KStars : public KXmlGuiWindow
 
         /** DBUS interface function.  Return XML containing information about a sky object
              * @param objectName name of the object.
+             * @param fallbackToInternet Attempt to resolve the name using internet databases if not found
+             * @param storeInternetResolved If we fell back to the internet, save the result in DSO database for future offline access
              * @note If the object was not found, the XML is empty.
              */
-        Q_SCRIPTABLE QString getObjectDataXML(const QString &objectName);
+        Q_SCRIPTABLE QString getObjectDataXML(const QString &objectName,
+                                              bool fallbackToInternet = false,
+                                              bool storeInternetResolved = true);
 
         /** DBUS interface function.  Return XML containing position info about a sky object
              * @param objectName name of the object.
