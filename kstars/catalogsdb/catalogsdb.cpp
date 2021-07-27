@@ -949,8 +949,8 @@ int DBManager::find_suitable_catalog_id()
 
 QString CatalogsDB::dso_db_path()
 {
-    return KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
-           Options::dSOCatalogFilename();
+    return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+        .filePath(Options::dSOCatalogFilename());
 }
 
 std::pair<bool, Catalog> CatalogsDB::read_catalog_meta_from_file(const QString &path)
