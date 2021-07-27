@@ -83,7 +83,7 @@
      <item row="5" column="1">
       <widget class="QPushButton" name="color">
        <property name="text">
-        <string>_color</string>
+        <string>Edit</string>
        </property>
       </widget>
      </item>

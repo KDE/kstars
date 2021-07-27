@@ -100,7 +100,6 @@ void CatalogDetails::reload_catalog()
     ui->author->setText(m_catalog.author);
     ui->maintainer->setText(m_catalog.maintainer);
     ui->source->setText(m_catalog.source);
-    ui->color->setText(QString("<font color='%1'>%1</font>").arg(m_catalog.color));
     ui->description->setText(m_catalog.description);
     ui->version->setText(QString::number(m_catalog.version));
     ui->license->setText(m_catalog.license);

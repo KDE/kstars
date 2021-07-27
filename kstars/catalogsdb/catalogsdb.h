@@ -87,7 +87,8 @@ struct Catalog
     int version = -1;
 
     /**
-     * The catalog color.
+     * The catalog color in the form `[default color];[scheme file
+     * name];[color]...`.
      */
     QString color = "";
 
@@ -131,6 +132,21 @@ const QString flux_unit         = "mag";
 const QString flux_frequency    = "400 nm";
 using CatalogColorMap           = std::map<QString, QColor>;
 using ColorMap                  = std::map<int, CatalogColorMap>;
+
+/**
+ * \returns A hash table of the form `color scheme: color` by
+ * parsing a string of the form `[default color];[scheme file
+ * name];[color]...`.
+ */
+CatalogColorMap parse_color_string(const QString &str);
+
+/**
+ * \returns A color string of the form`[default color];[scheme file
+ * name];[color]...`.
+ *
+ * The inverse of `CatalogsDB::parse_color_string`.
+ */
+QString to_color_string(CatalogColorMap colors);
 
 /**
  * Manages the catalog database and provides an interface to provide

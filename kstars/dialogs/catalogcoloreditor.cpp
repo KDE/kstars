@@ -25,8 +25,6 @@
 CatalogColorEditor::CatalogColorEditor(const int id, QWidget *parent)
     : QDialog(parent), ui(new Ui::CatalogColorEditor), m_id{ id }
 {
-    ui->setupUi(this);
-
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
     const auto &cat = manager.get_catalog(m_id);
     if (!cat.first)
@@ -38,7 +36,36 @@ CatalogColorEditor::CatalogColorEditor(const int id, QWidget *parent)
     }
 
     m_colors = manager.get_catalog_colors(m_id);
+    init();
+    ui->catalogName->setText(cat.second.name);
 
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
+            &CatalogColorEditor::writeColors);
+}
+
+CatalogColorEditor::CatalogColorEditor(const QString &colors, QWidget *parent)
+    : QDialog(parent), ui(new Ui::CatalogColorEditor),
+      m_colors{ CatalogsDB::parse_color_string(colors) }, m_id{ -1 }
+{
+    init();
+    ui->catalogName->setText("");
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
+            &CatalogColorEditor::accept);
+};
+
+CatalogColorEditor::CatalogColorEditor(color_map colors, QWidget *parent)
+    : QDialog(parent),
+      ui(new Ui::CatalogColorEditor), m_colors{ std::move(colors) }, m_id{ -1 }
+{
+    init();
+    ui->catalogName->setText("");
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
+            &CatalogColorEditor::accept);
+};
+
+void CatalogColorEditor::init()
+{
+    ui->setupUi(this);
     auto *data         = KStarsData::Instance();
     auto default_color = m_colors["default"];
     if (!default_color.isValid())
@@ -65,12 +92,7 @@ CatalogColorEditor::CatalogColorEditor(const int id, QWidget *parent)
     {
         make_color_button(item.first, item.second);
     }
-
-    ui->catalogName->setText(cat.second.name);
-
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this,
-            &CatalogColorEditor::writeColors);
-}
+};
 
 CatalogColorEditor::~CatalogColorEditor()
 {
@@ -114,6 +136,9 @@ void CatalogColorEditor::make_color_button(const QString &name, const QColor &co
 
 void CatalogColorEditor::writeColors()
 {
+    if (m_id < 0)
+        return;
+
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
     const auto &insert_success = manager.insert_catalog_colors(m_id, m_colors);
 

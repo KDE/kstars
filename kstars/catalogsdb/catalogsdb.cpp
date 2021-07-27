@@ -1108,7 +1108,7 @@ CatalogsDB::DBManager::general_master_query(const QString &where, const QString 
     return { false, "", fetch_objects(query) };
 };
 
-const std::map<QString, QColor> parse_color_string(const QString &str)
+CatalogsDB::CatalogColorMap CatalogsDB::parse_color_string(const QString &str)
 {
     std::map<QString, QColor> colors{};
     if (str == "")
@@ -1128,6 +1128,29 @@ const std::map<QString, QColor> parse_color_string(const QString &str)
     }
 
     return colors;
+}
+
+QString get_name(const QColor &color)
+{
+    return color.isValid() ? color.name() : "";
+}
+
+QString CatalogsDB::to_color_string(CatalogColorMap colors)
+{
+    QStringList color_list;
+
+    color_list << colors["default"].name();
+    colors.erase("default");
+
+    for (const auto &item : colors)
+    {
+        if (item.second.isValid())
+        {
+            color_list << item.first << item.second.name();
+        }
+    }
+
+    return color_list.join(";");
 }
 
 ColorMap CatalogsDB::DBManager::get_catalog_colors()
