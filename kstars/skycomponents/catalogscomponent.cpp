@@ -215,7 +215,7 @@ CatalogObject &CatalogsComponent::insertStaticObject(const CatalogObject &obj)
 
 SkyObject *CatalogsComponent::findByName(const QString &name)
 {
-    auto objects = m_db_manager.find_objects_by_name(name, 1);
+    auto objects = m_db_manager.find_objects_by_name(name, 1, true);
 
     if (objects.size() == 0)
         return nullptr;
