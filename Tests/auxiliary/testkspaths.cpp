@@ -76,7 +76,8 @@ void TestKSPaths::testStandardPaths()
     QString const tested_writable_dir = KSPaths::writableLocation(TYPE);
 
     if (ISALTERED)
-        QEXPECT_FAIL("", qPrintable(QString("Location associated with QStandardPaths type %1 is altered by KSPaths.").arg(TYPE)), Continue);
+        QEXPECT_FAIL("", qPrintable(QString("Location associated with QStandardPaths type %1 is altered by KSPaths.").arg(TYPE)),
+                     Continue);
 
     QCOMPARE(tested_writable_dir, QStandardPaths::writableLocation(TYPE));
 
@@ -84,13 +85,15 @@ void TestKSPaths::testStandardPaths()
         QCOMPARE(tested_writable_dir, QDir(QStandardPaths::writableLocation(TYPE)).path() + QDir::separator());
 
     if (ISWRITABLE)
-        QVERIFY2(QDir(tested_writable_dir).mkpath("."), qPrintable(QString("Directory '%1' must be writable.").arg(KSPaths::writableLocation(TYPE))));
+        QVERIFY2(QDir(tested_writable_dir).mkpath("."),
+                 qPrintable(QString("Directory '%1' must be writable.").arg(KSPaths::writableLocation(TYPE))));
 
     QTemporaryFile test_file(tested_writable_dir + "/test_file.XXXXXX");
 
     if (ISALTERED)
         QEXPECT_FAIL("", "Path built with KSPaths::writableLocation contains no duplicate separator", Continue);
-    QVERIFY(!test_file.fileTemplate().contains(QString("%1%1").arg(QDir::separator())));
+    QVERIFY2(!test_file.fileTemplate().contains(QString("%1%1").arg(QDir::separator())),
+             qPrintable(QString("%1 contains duplicate separator").arg(test_file.fileTemplate())));
 
     if (ISWRITABLE)
     {
@@ -130,7 +133,7 @@ void TestKSPaths::testKStarsInstallation_data()
     fixtures << KPair(QStandardPaths::GenericDataLocation, "sounds/KDE-KStars-Alert.ogg");
     fixtures << KPair(QStandardPaths::AppDataLocation, "kstars.png");
 
-    for (auto pair: fixtures)
+    for (auto pair : fixtures)
         QTest::addRow("%s", qPrintable(pair.second)) << pair.first << pair.second;
 #endif
 }
