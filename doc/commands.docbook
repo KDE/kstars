@@ -743,7 +743,7 @@ color labels and icons to the given positions on the sky chart.
     <varlistentry>
       <term><guimenuitem>INDI Toolbar</guimenuitem></term>
       <listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains
-      five shortcut icons:
+              five shortcut icons:</para>
         <itemizedlist>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="kstars_ekos.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle Ekos</guiicon></para></listitem>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="kstars_indi.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle INDI Control Panel</guiicon></para></listitem>
@@ -751,14 +751,14 @@ color labels and icons to the given positions on the sky chart.
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="archive-extract.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle Sensor FOV</guiicon></para></listitem>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="center_telescope.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle Lock Telescope Center</guiicon></para></listitem>
         </itemizedlist>
-      INDI Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
+        <para>INDI Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
       <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
     </varlistentry>
 
     <varlistentry>
       <term><guimenuitem>Telescope Toolbar</guimenuitem></term>
       <listitem><para>Toggle display of the Telescope Toolbar. By default, Telescope Toolbar contains
-      seven shortcut icons:
+              seven shortcut icons:</para>
         <itemizedlist>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="draw-text.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle Mount Control Panel</guiicon></para></listitem>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="lock-open.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Toggle Telescope Tracking</guiicon></para></listitem>
@@ -768,19 +768,19 @@ color labels and icons to the given positions on the sky chart.
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="flag-green.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Unpark telescope</guiicon></para></listitem>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="process-stop.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Abort telescope motions</guiicon></para></listitem>
         </itemizedlist>
-      Telescope Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
+        <para>Telescope Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
       <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
     </varlistentry>
 
     <varlistentry>
       <term><guimenuitem>Dome Toolbar</guimenuitem></term>
       <listitem><para>Toggle display of the Dome Toolbar. By default, Dome Toolbar contains
-      two shortcut icons:
+              two shortcut icons:</para>
         <itemizedlist>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="dome-park.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Park dome</guiicon></para></listitem>
           <listitem><para><inlinemediaobject><imageobject><imagedata fileref="dome-unpark.png" format="PNG"/></imageobject></inlinemediaobject> <guiicon>Unpark dome</guiicon></para></listitem>
         </itemizedlist>
-      Dome Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
+        <para>Dome Toolbar can be configured using the <menuchoice><guimenu>Settings</guimenu>
       <guimenuitem>Configure Toolbars...</guimenuitem></menuchoice> menu item.</para></listitem>
     </varlistentry>
 
