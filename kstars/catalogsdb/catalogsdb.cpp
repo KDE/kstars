@@ -1110,7 +1110,7 @@ CatalogsDB::DBManager::general_master_query(const QString &where, const QString 
 
 CatalogsDB::CatalogColorMap CatalogsDB::parse_color_string(const QString &str)
 {
-    std::map<QString, QColor> colors{};
+    CatalogsDB::CatalogColorMap colors{};
     if (str == "")
         return colors;
 
@@ -1122,7 +1122,11 @@ CatalogsDB::CatalogColorMap CatalogsDB::parse_color_string(const QString &str)
         const auto &scheme = *(++it);
         if (it != parts.constEnd())
         {
-            const auto &color = *(++it);
+            const auto next = ++it;
+            if (next == parts.constEnd())
+                break;
+
+            const auto &color = *next;
             colors[scheme]    = QColor(color);
         }
     }

@@ -480,6 +480,50 @@ class TestCatalogsDB_DBManager : public QObject
         QVERIFY(stats.second.object_counts.at(SkyObject::STAR) >= 1);
         QVERIFY(stats.second.object_counts.at(SkyObject::SUPERNOVA_REMNANT) >= 1);
     }
+
+    void color_strings()
+    {
+        auto compare_color_maps = [](CatalogsDB::CatalogColorMap a,
+                                     CatalogsDB::CatalogColorMap b) -> void {
+            for (auto &item : a)
+            {
+                QCOMPARE(b[item.first].name(), item.second.name());
+            }
+
+            for (auto &item : b)
+            {
+                QCOMPARE(a[item.first].name(), item.second.name());
+            }
+        };
+
+        const std::vector<std::pair<QString, CatalogsDB::CatalogColorMap>> test_data{
+            { "#008000", { { "default", QColor("#008000") } } },
+            { "#008000;test.colors;#008001",
+              { { "default", QColor("#008000") },
+                { "test.colors", QColor("#008001") } } },
+            { "#008000;test.colors;#008001;best.colors;#008002",
+              { { "default", QColor("#008000") },
+                { "test.colors", QColor("#008001") },
+                { "best.colors", QColor("#008002") } } }
+        };
+
+        for (const auto &item : test_data)
+        {
+            QCOMPARE(CatalogsDB::parse_color_string(item.first), item.second);
+
+            QCOMPARE(
+                CatalogsDB::parse_color_string(CatalogsDB::to_color_string(item.second)),
+                item.second); // the other way around does not have to be invertible
+        }
+
+        // more than one theme changes the order in the string
+        const auto &simple = test_data.at(1);
+        QCOMPARE(CatalogsDB::to_color_string(simple.second), simple.first);
+
+        // Check the behavour when a color specification is missing
+        QCOMPARE((CatalogsDB::parse_color_string("#008000;test.colors")),
+                 (CatalogsDB::CatalogColorMap{ { "default", QColor("#008000") } }));
+    }
 };
 
 QTEST_GUILESS_MAIN(TestCatalogsDB_DBManager);
