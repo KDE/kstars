@@ -483,19 +483,6 @@ class TestCatalogsDB_DBManager : public QObject
 
     void color_strings()
     {
-        auto compare_color_maps = [](CatalogsDB::CatalogColorMap a,
-                                     CatalogsDB::CatalogColorMap b) -> void {
-            for (auto &item : a)
-            {
-                QCOMPARE(b[item.first].name(), item.second.name());
-            }
-
-            for (auto &item : b)
-            {
-                QCOMPARE(a[item.first].name(), item.second.name());
-            }
-        };
-
         const std::vector<std::pair<QString, CatalogsDB::CatalogColorMap>> test_data{
             { "#008000", { { "default", QColor("#008000") } } },
             { "#008000;test.colors;#008001",
