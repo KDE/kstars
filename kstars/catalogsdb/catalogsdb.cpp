@@ -1193,7 +1193,6 @@ CatalogsDB::DBManager::insert_catalog_colors(const int id, const CatalogColorMap
 
     if (!query.prepare(SqlStatements::insert_color))
     {
-        qDebug() << "HI";
         return { false, query.lastError().text() };
     }
 
