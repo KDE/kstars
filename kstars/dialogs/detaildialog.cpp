@@ -189,6 +189,23 @@ void DetailDialog::createGeneralTab()
                     i18nc("the star is a variable star", "variable"));
             }
 
+            // Add a label to indicate proper motion
+            double pmRA = s->pmRA(), pmDec = s->pmDec();
+            if (std::isfinite(pmRA) && std::isfinite(pmDec) && (pmRA != 0.0 || pmDec != 0.0))
+            {
+                // we have data : abuse the illumination label to show it!
+                Data->IllumLabel->setText(i18nc("Proper motion of a star", "Proper Motion:"));
+                Data->Illumination->setText(
+                    i18nc(
+                        "The first arg is proper motion in right ascension and the second in the declination. The unit stands for milliarcsecond per year",
+                        "%1 %2 mas/yr",
+                        QLocale().toString(pmRA, 'f', (pmRA >= 100.0 ? 1 :  2)),
+                        QLocale().toString(pmDec, 'f', (pmDec >= 100.0 ? 1 : 2))
+                        ));
+                Data->IllumLabel->setVisible(true);
+                Data->Illumination->setVisible(true);
+            }
+
             break; //end of stars case
         }
         case SkyObject::ASTEROID: //[fall through to planets]

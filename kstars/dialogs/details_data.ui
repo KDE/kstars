@@ -313,6 +313,12 @@
               <property name="font">
                <font>
                 <family>Monospace</family>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
                </font>
               </property>
               <property name="text">

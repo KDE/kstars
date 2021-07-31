@@ -747,6 +747,7 @@ class SkyPoint
         static double cpuTime_EqToHz;
         static long unsigned eqToHzCalls;
 #endif
+        static bool implementationIsLibnova;
 
     protected:
         /**

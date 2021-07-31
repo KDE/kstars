@@ -66,10 +66,12 @@ class TestSkyPoint : public QObject
 
         void testApparentCatalogue_data();
         void testApparentCatalogue();
+        void testApparentCatalogueInversion_data();
+        void testApparentCatalogueInversion();
 
         void compareSkyPointLibNova_data();
         void compareSkyPointLibNova();
-        
+
         void testUpdateCoords();
 
     private:

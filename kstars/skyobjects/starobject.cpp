@@ -323,14 +323,10 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
     //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
-    // Proper Motion Correction should be implemented as motion along a great
-    // circle passing through the given (ra0, dec0) in a direction of
-    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
-    // PM times the number of Julian millenia since J2000.0
 
     pmms = pmMagnitudeSquared();
 
-    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < 1.)
+    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < .01)
     {
         // Ignore corrections
         ra  = ra0();
@@ -338,11 +334,19 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
         return false;
     }
 
+    /*
+
+    // Proper Motion Correction should be implemented as motion along a great
+    // circle passing through the given (ra0, dec0) in a direction of
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
+    // PM times the number of Julian millenia since J2000.0
+
     double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
 
     double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
 
-    (pm < 0) && (pm = -pm);
+    if (pm < 0)
+        pm = -pm;
 
     double dst = (pm * M_PI / (180.0 * 3600.0));
     //    double phi = M_PI / 2.0 - dec0().radians();
@@ -364,8 +368,47 @@ bool StarObject::getIndexCoords(const KSNumbers *num, CachingDms &ra, CachingDms
     ra  = ra0() + dtheta; // Use operator + to avoid trigonometry
     dec = lat1;           // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
 
-    //    *ra = ra0().Degrees() + dra;
-    //    *dec = dec0().Degrees() + ddec;
+    */
+
+    // Use the formula given in Seidelmann (Explanatory Supplement to
+    // the Astronomical Almanac) instead. The formulas used here are
+    // the combination of (3.23-1), (3.23-3), (3.23-5). Not only does
+    // it reduce trigonometry use, it is more likely to be correct
+    // than the stuff we came up with on our own above
+
+    // Although it is not explained in the above reference, a formula
+    // that reduces to α' = α + μ_α * t must have μ_α be the rate of
+    // change of the angle at the center of the declination circle,
+    // and not the rate of change of arclength, i.e. μ_α must _not_
+    // include the cos(δ) factor. I have checked that the formulas
+    // used here do reduce to the above, and therefore expect μ_α =
+    // pmRa / cos(δ)
+
+    double cosDec, sinDec, cosRa, sinRa;
+    double scale = num->julianMillenia() * (M_PI / (180.0 * 3600.0));
+    dec0().SinCos(sinDec, cosDec);
+    ra0().SinCos(sinRa, cosRa);
+
+    // Note: Below assumes that pmRA is already pre-scaled by cos(delta), as it is for Hipparcos
+    double net_pmRA = pmRA() * scale, net_pmDec = pmDec() * scale;
+
+    double x0 = cosDec * cosRa, y0 = cosDec * sinRa, z0 = sinDec;
+    double dX = - net_pmRA * sinRa - net_pmDec * sinDec * cosRa;
+    double dY = net_pmRA * cosRa - net_pmDec * sinDec * sinRa;
+    double dZ = net_pmDec * cosDec;
+    double x = x0 + dX, y = y0 + dY, z = z0 + dZ;
+
+    ra.setUsing_atan2(y, x);
+
+    // Note: dec = asin(z) is a poor choice, because we aren't
+    // guaranteed that (x, y, z) lies on the unit sphere due to the
+    // first-order approximation. Therefore, we must "project" out any
+    // change in the length of the vector to get our best estimate,
+    // and this is achieved by using atan. In fact atan gives the
+    // least-squares estimate for an angle given both its sin and
+    // cosine components.
+    dec.setUsing_atan2(z, sqrt(x * x + y * y));
+
     return true;
 }
 
@@ -405,7 +448,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
 
     pmms = pmMagnitudeSquared();
 
-    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < 1.)
+    if (std::isnan(pmms) || pmms * num->julianMillenia() * num->julianMillenia() < .01)
     {
         // Ignore corrections
         *ra  = ra0().Degrees();
@@ -413,6 +456,7 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
         return false;
     }
 
+    /*
     double pm = pmMagnitude() * num->julianMillenia(); // Proper Motion in arcseconds
 
     double dir0 = ((pm > 0) ? atan2(pmRA(), pmDec()) : atan2(-pmRA(), -pmDec())); // Bearing, in radian
@@ -442,9 +486,46 @@ bool StarObject::getIndexCoords(const KSNumbers *num, double *ra, double *dec)
 
     *ra  = finalRA.Degrees();
     *dec = lat1.Degrees();
+    */
 
-    //    *ra = ra0().Degrees() + dra;
-    //    *dec = dec0().Degrees() + ddec;
+
+    // Although it is not explained in the above reference, a formula
+    // that reduces to α' = α + μ_α * t must have μ_α be the rate of
+    // change of the angle at the center of the declination circle,
+    // and not the rate of change of arclength, i.e. μ_α must _not_
+    // include the cos(δ) factor. I have checked that the formulas
+    // used in Seidelmann do reduce to the above, and therefore expect
+    // μ_α = pmRa / cos(δ). Therefore, I'm absorbing the factor in the
+    // implementation here.
+
+    double cosDec, sinDec, cosRa, sinRa;
+    double scale = num->julianMillenia() * (M_PI / (180.0 * 3600.0));
+    dec0().SinCos(sinDec, cosDec);
+    ra0().SinCos(sinRa, cosRa);
+
+    // Note: Below assumes that pmRA is already pre-scaled by cos(delta), as it is for Hipparcos
+    double net_pmRA = pmRA() * scale, net_pmDec = pmDec() * scale;
+
+    double x0 = cosDec * cosRa, y0 = cosDec * sinRa, z0 = sinDec;
+    double dX = - net_pmRA * sinRa - net_pmDec * sinDec * cosRa;
+    double dY = net_pmRA * cosRa - net_pmDec * sinDec * sinRa;
+    double dZ = net_pmDec * cosDec;
+    double x = x0 + dX, y = y0 + dY, z = z0 + dZ;
+
+    dms alpha, delta;
+    alpha.setRadians(atan2(y, x));
+
+    // Note: dec = asin(z) is a poor choice, because we aren't
+    // guaranteed that (x, y, z) lies on the unit sphere due to the
+    // first-order approximation. Therefore, we must "project" out any
+    // change in the length of the vector to get our best estimate,
+    // and this is achieved by using atan. In fact atan gives the
+    // least-squares estimate for an angle given both its sin and
+    // cosine components.
+    delta.setRadians(atan2(z, sqrt(x * x + y * y)));
+    *ra = alpha.reduce().Degrees();
+    *dec = delta.Degrees();
+
     return true;
 }
 

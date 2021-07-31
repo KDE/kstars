@@ -186,6 +186,10 @@ class StarObject : public SkyObject
      * @short Fills ra and dec with the coordinates of the star with the proper
      * motion correction but without precision and its friends.  It is used
      * in StarComponent to re-index all the stars.
+     * @note In the Hipparcos catalog, from which most of the proper
+     * motion data in KStars is obtained, the RA correction already
+     * has the cos(delta) factor incorporated into it. See
+     * https://heasarc.gsfc.nasa.gov/W3Browse/all/hipparcos.html
      *
      * @return true if we changed the coordinates, false otherwise
      * NOTE: ra and dec both in degrees.
@@ -199,23 +203,25 @@ class StarObject : public SkyObject
     /** @short returns the magnitude of the proper motion correction in milliarcsec/year */
     inline double pmMagnitude() const
     {
-        double cosDec = dec0().cos();
-        return sqrt(cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec());
+        return sqrt(pmRA() * pmRA() + pmDec() * pmDec());
     }
 
     /**
      * @short returns the square of the magnitude of the proper motion correction in (milliarcsec/year)^2
+     * @note In the Hipparcos catalog, from which most of the proper
+     * motion data in KStars is obtained, the RA correction already
+     * has the cos(delta) factor incorporated into it. See
+     * https://heasarc.gsfc.nasa.gov/W3Browse/all/hipparcos.html
      * @note This method is faster when the square root need not be taken
      */
     inline double pmMagnitudeSquared() const
     {
-        double metric_weighted_pmRA = dec0().cos() * pmRA();
-        return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
+        return (pmRA() * pmRA() + pmDec() * pmDec());
     }
 
     /**
      * @short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
-     * Note that the RA component is multiplied by cos(dec).
+     * Note that the RA component should already have been multiplied by cos(dec).
      * @param pmra the new RA proper motion
      * @param pmdec the new Dec proper motion
      */

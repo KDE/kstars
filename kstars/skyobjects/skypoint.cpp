@@ -36,9 +36,23 @@
 
 #include <cmath>
 
+
+
+// N.B. To use libnova depending on the availability of the package,
+// uncomment the following:
+/*
 #ifdef HAVE_LIBNOVA
-#include <libnova/libnova.h>
+#define SKYPOINT_USE_LIBNOVA 1
 #endif
+*/
+
+#ifdef SKYPOINT_USE_LIBNOVA
+#include <libnova/libnova.h>
+bool SkyPoint::implementationIsLibnova = true;
+#else
+bool SkyPoint::implementationIsLibnova = false;
+#endif
+
 #ifdef PROFILE_COORDINATE_CONVERSION
 #include <ctime> // For profiling, remove if not profiling.
 long unsigned SkyPoint::eqToHzCalls = 0;
@@ -189,12 +203,11 @@ void SkyPoint::findEcliptic(const CachingDms *Obliquity, dms &EcLong, dms &EcLat
     dec().SinCos(sinDec, cosDec);
     Obliquity->SinCos(sinOb, cosOb);
 
-    tanDec          = sinDec / cosDec; // FIXME: -jbb div by zero?
-    double y        = sinRA * cosOb + tanDec * sinOb;
-    double ELongRad = atan2(y, cosRA);
+    double ycosDec        = sinRA * cosOb * cosDec + sinDec * sinOb;
+    double ELongRad = atan2(ycosDec, cosDec * cosRA);
     EcLong.setRadians(ELongRad);
     EcLong.reduceToRange(dms::ZERO_TO_2PI);
-    EcLat.setRadians(asin(sinDec * cosOb - cosDec * sinOb * sinRA));
+    EcLat.setRadians(asin(sinDec * cosOb - cosDec * sinOb * sinRA)); // FIXME: Haversine
 }
 
 void SkyPoint::setFromEcliptic(const CachingDms *Obliquity, const dms &EcLong, const dms &EcLat)
@@ -204,13 +217,19 @@ void SkyPoint::setFromEcliptic(const CachingDms *Obliquity, const dms &EcLong, c
     EcLat.SinCos(sinLat, cosLat);
     Obliquity->SinCos(sinObliq, cosObliq);
 
-    double sinDec = sinLat * cosObliq + cosLat * sinObliq * sinLong;
+    // double sinDec = sinLat * cosObliq + cosLat * sinObliq * sinLong;
 
-    double y = sinLong * cosObliq - (sinLat / cosLat) * sinObliq;
+    double ycosLat = sinLong * cosObliq * cosLat - sinLat * sinObliq;
     //    double RARad =  atan2( y, cosLong );
-    RA.setUsing_atan2(y, cosLong);
+    RA.setUsing_atan2(ycosLat, cosLong * cosLat);
     RA.reduceToRange(dms::ZERO_TO_2PI);
-    Dec.setUsing_asin(sinDec);
+    // Dec.setUsing_asin(sinDec);
+
+    // Use Haversine to set declination
+    Dec.setRadians(dms::PI/2.0 - 2.0 * asin(sqrt(0.5 * (
+                                                     1.0 - sinLat * cosObliq
+                                                     - cosLat * sinObliq * sinLong
+                                                     ))));
 }
 
 void SkyPoint::precess(const KSNumbers *num)
@@ -267,55 +286,52 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
 
 void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
 {
-#ifdef HAVE_LIBNOVA
-    // code lifted from libnova ln_get_equ_nut
-    // with the option to add or remove nutation
-    struct ln_nutation nut;
-    ln_get_nutation (num->julianDay(), &nut);
-
-    double mean_ra, mean_dec, delta_ra, delta_dec;
-
-    mean_ra = RA.radians();
-    mean_dec = Dec.radians();
-
-    // Equ 22.1
-
-    double nut_ecliptic = ln_deg_to_rad(nut.ecliptic + nut.obliquity);
-    double sin_ecliptic = sin(nut_ecliptic);
-
-    double sin_ra = sin(mean_ra);
-    double cos_ra = cos(mean_ra);
-
-    double tan_dec = tan(mean_dec);
-
-    delta_ra = (cos (nut_ecliptic) + sin_ecliptic * sin_ra * tan_dec) * nut.longitude - cos_ra * tan_dec * nut.obliquity;
-    delta_dec = (sin_ecliptic * cos_ra) * nut.longitude + sin_ra * nut.obliquity;
-
-    // the sign changed to remove nutation
-    if (reverse)
-    {
-        delta_ra = -delta_ra;
-        delta_dec = -delta_dec;
-    }
-    RA.setD(RA.Degrees() + delta_ra);
-    Dec.setD(Dec.Degrees() + delta_dec);
-#else
-    double cosRA, sinRA, cosDec, sinDec, tanDec;
-    double cosOb, sinOb;
-
-    RA.SinCos(sinRA, cosRA);
-    Dec.SinCos(sinDec, cosDec);
-
-    num->obliquity()->SinCos(sinOb, cosOb);
-
     //Step 2: Nutation
     if (fabs(Dec.Degrees()) < 80.0) //approximate method
     {
+        double cosRA, sinRA, cosDec, sinDec, tanDec;
+        double cosOb, sinOb;
+        double dRA, dDec;
+
+        RA.SinCos(sinRA, cosRA);
+        Dec.SinCos(sinDec, cosDec);
+
         tanDec = sinDec / cosDec;
 
-        double dRA  = num->dEcLong() * (cosOb + sinOb * sinRA * tanDec) - num->dObliq() * cosRA * tanDec;
-        double dDec = num->dEcLong() * (sinOb * cosRA) + num->dObliq() * sinRA;
+        // Equ 23.1 in Jean Meeus' book
+        // nut_ecliptic / num->obliquity() is called epsilon in Meeus
+        // nut.longitude / num->dEcLong() is called delta psi in Meeus
+        // nut.obliquity / num->dObliq() is called delta epsilon in Meeus
+        // Meeus notes that these expressions are invalid if the star is
+        // close to one of the celestial poles
 
+        // N.B. These expressions are valid for FK5 coordinates
+        // (presumably also valid for ICRS by extension), but not for
+        // FK4. See the "Important Remark" on Page 152 of Jean Meeus'
+        // book.
+
+#ifdef SKYPOINT_USE_LIBNOVA
+        // code lifted from libnova ln_get_equ_nut, tailored to our needs
+        // with the option to add or remove nutation
+        struct ln_nutation nut;
+        ln_get_nutation (num->julianDay(), &nut); // FIXME: Is this cached, or is it a slow call? If it is slow, we should move it to KSNumbers
+
+        double nut_ecliptic = ln_deg_to_rad(nut.ecliptic + nut.obliquity);
+        sinOb = sin(nut_ecliptic);
+        cosOb = cos(nut_ecliptic);
+
+        dRA = nut.longitude * (cosOb + sinOb * sinRA * tanDec) - nut.obliquity * cosRA * tanDec;
+        dDec = nut.longitude * (sinOb * cosRA) + nut.obliquity * sinRA;
+#else
+        num->obliquity()->SinCos(sinOb, cosOb);
+
+        // N.B. num->dEcLong() and num->dObliq() methods return in
+        // degrees, whereby the corrections dRA and dDec are also in
+        // degrees.
+        dRA  = num->dEcLong() * (cosOb + sinOb * sinRA * tanDec) - num->dObliq() * cosRA * tanDec;
+        dDec = num->dEcLong() * (sinOb * cosRA) + num->dObliq() * sinRA;
+#endif
+        // the sign changed to remove nutation
         if (reverse)
         {
             dRA = -dRA;
@@ -326,24 +342,42 @@ void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
     }
     else //exact method
     {
+        // NOTE: Meeus declares that you must add Δψ to the ecliptic
+        // longitude of the body to get a more accurate precession
+        // result, but fails to emphasize that the NCP of the two
+        // coordinates systems is different. The (RA, Dec) without
+        // nutation computed, i.e. the mean place of the sky point is
+        // referenced to the un-nutated geocentric frame (without the
+        // obliquity correction), whereas the (RA, Dec) after nutation
+        // is applied is referenced to the nutated geocentric
+        // frame. This is more clearly explained in the "Explanatory
+        // Supplement to the Astronomical Almanac" by
+        // K. P. Seidelmann, which can be borrowed on the internet
+        // archive as of this writing, see page 114:
+        // https://archive.org/details/explanatorysuppl00pken
+        //
+        // The rotation matrix formulation in (3.222-3) and the figure
+        // 3.222.1 make this clear
+
         // TODO apply reverse test above 80 degrees
         dms EcLong, EcLat;
-        findEcliptic(num->obliquity(), EcLong, EcLat);
+        CachingDms obliquityWithoutNutation(*num->obliquity() - dms(num->dObliq()));
 
         if (reverse)
         {
             //Subtract dEcLong from the Ecliptic Longitude
+            findEcliptic(num->obliquity(), EcLong, EcLat);
             dms newLong(EcLong.Degrees() - num->dEcLong());
-            setFromEcliptic(num->obliquity(), newLong, EcLat);
+            setFromEcliptic(&obliquityWithoutNutation, newLong, EcLat); // FIXME: Check
         }
         else
         {
             //Add dEcLong to the Ecliptic Longitude
+            findEcliptic(&obliquityWithoutNutation, EcLong, EcLat);
             dms newLong(EcLong.Degrees() + num->dEcLong());
             setFromEcliptic(num->obliquity(), newLong, EcLat);
         }
     }
-#endif
 }
 
 SkyPoint SkyPoint::moveAway(const SkyPoint &from, double dist) const
@@ -431,7 +465,7 @@ bool SkyPoint::bendlight()
 
 void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
 {
-#ifdef HAVE_LIBNOVA
+#ifdef SKYPOINT_USE_LIBNOVA
     ln_equ_posn pos { RA.Degrees(), Dec.Degrees() };
     ln_equ_posn abPos { 0, 0 };
     ln_get_equ_aber(&pos, num->julianDay(), &abPos);
@@ -447,39 +481,112 @@ void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
     }
 
 #else
-    double cosRA, sinRA, cosDec, sinDec;
-    double cosOb, sinOb, cosL, sinL, cosP, sinP;
+    // N.B. These expressions are valid for FK5 coordinates
+    // (presumably also valid for ICRS by extension), but not for
+    // FK4. See the "Important Remark" on Page 152 of Jean Meeus'
+    // book.
+
+    // N.B. Even though Meeus does not say this explicitly, these
+    // equations must not apply near the pole. Therefore, we fall-back
+    // to the expressions provided by Meeus in ecliptic coordinates
+    // (Equ 23.2) when we are near the pole.
 
     double K = num->constAberr().Degrees(); //constant of aberration
-    double e = num->earthEccentricity();
+    double e = num->earthEccentricity(); // eccentricity of Earth's orbit
 
-    RA.SinCos(sinRA, cosRA);
-    Dec.SinCos(sinDec, cosDec);
-
-    num->obliquity()->SinCos(sinOb, cosOb);
-    // double tanOb = sinOb/cosOb;
-
-    num->sunTrueLongitude().SinCos(sinL, cosL);
-    num->earthPerihelionLongitude().SinCos(sinP, cosP);
-
-    //Step 3: Aberration
-    // double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
-    //               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
-
-    // double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
-    //                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
-
-    double dRA = K * (cosRA * cosOb / cosDec) * (e * cosP - cosL);
-    double dDec =
-        K * (sinRA * (sinOb * cosDec - cosOb * sinDec) * (e * cosP - cosL) + cosRA * sinDec * (e * sinP - sinL));
-
-    if (reverse)
+    if (fabs(Dec.Degrees()) < 80.0)
     {
-        dRA = -dRA;
-        dDec = -dDec;
+
+        double cosRA, sinRA, cosDec, sinDec;
+        double cosL, sinL, cosP, sinP;
+        double cosOb, sinOb;
+
+
+        RA.SinCos(sinRA, cosRA);
+        Dec.SinCos(sinDec, cosDec);
+
+        num->obliquity()->SinCos(sinOb, cosOb);
+        // double tanOb = sinOb/cosOb;
+
+        num->sunTrueLongitude().SinCos(sinL, cosL);
+        num->earthPerihelionLongitude().SinCos(sinP, cosP);
+
+        //Step 3: Aberration
+        // These are the expressions given in Jean Meeus, Equation (23.3)
+
+        // double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
+        //               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
+
+        // double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
+        //                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
+
+        // However, we have factorized the expressions below by pulling
+        // out common factors to make it more optimized, in case the
+        // compiler fails to spot these optimizations.
+
+        // N.B. I had failed to factor out the expressions correctly,
+        // making mistakes, in c5e709bd91, which should now be
+        // fixed. --asimha
+
+        // FIXME: Check if the unit tests have sufficient coverage to
+        // check this expression
+
+        double dRA = (K / cosDec) * (
+            cosRA * cosOb * (e * cosP - cosL)
+            + sinRA * (e * sinP - sinL)
+            );
+        double dDec = K * (
+            (sinOb * cosDec - cosOb * sinDec * sinRA) * (e * cosP - cosL)
+            + cosRA * sinDec * (e * sinP - sinL)
+            );
+
+        // N.B. Meeus points out that the result has the same units as
+        // K, so the corrections are in degrees.
+
+        if (reverse)
+        {
+            dRA = -dRA;
+            dDec = -dDec;
+        }
+        RA.setD(RA.Degrees() + dRA);
+        Dec.setD(Dec.Degrees() + dDec);
     }
-    RA.setD(RA.Degrees() + dRA);
-    Dec.setD(Dec.Degrees() + dDec);
+    else
+    {
+        dms EcLong, EcLat;
+        double sinEcLat, cosEcLat;
+        const auto &L = num->sunTrueLongitude();
+        const auto &P = num->earthPerihelionLongitude();
+
+        findEcliptic(num->obliquity(), EcLong, EcLat);
+        EcLat.SinCos(sinEcLat, cosEcLat);
+
+        double sin_L_minus_EcLong, cos_L_minus_EcLong;
+        double sin_P_minus_EcLong, cos_P_minus_EcLong;
+        (L - EcLong).SinCos(sin_L_minus_EcLong, cos_L_minus_EcLong);
+        (P - EcLong).SinCos(sin_P_minus_EcLong, cos_P_minus_EcLong);
+
+        // Equation (23.2) in Meeus
+        // N.B. dEcLong, dEcLat are in degrees, because K is expressed in degrees.
+        double dEcLong = (K / cosEcLat) * (e * cos_P_minus_EcLong - cos_L_minus_EcLong);
+        double dEcLat = K * sinEcLat * (e * sin_P_minus_EcLong - sin_L_minus_EcLong);
+
+        // Note: These are approximate corrections, so it is
+        // appropriate to change their sign to reverse them to first
+        // order in the corrections. As a result, the forward and
+        // reverse calculations will not be exact inverses, but only
+        // approximate inverses.
+        if (reverse)
+        {
+            dEcLong = -dEcLong;
+            dEcLat = -dEcLat;
+        }
+
+        // Update the ecliptic coordinates to their new values
+        EcLong.setD(EcLong.Degrees() + dEcLong);
+        EcLat.setD(EcLat.Degrees() + dEcLat);
+        setFromEcliptic(num->obliquity(), EcLong, EcLat);
+    }
 #endif
 }
 

@@ -16,6 +16,9 @@
 /* Define if you have libnova */
 #cmakedefine HAVE_LIBNOVA 1
 
+/* Define if you have liberfa */
+#cmakedefine HAVE_LIBERFA 1
+
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 

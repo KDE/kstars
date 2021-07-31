@@ -48,6 +48,7 @@ void KSHelpLabel::updateText()
              "blue"); // In night colors mode, use red links because blue links are black through a red filter.
     QLabel::setText("<a href=\"ai-" + m_anchor + "\" style=\"color: " + linkcolor + "\" >" + text() + "</a>");
     */
+    QLabel::setText("<a href=\"ai-" + m_anchor + "\">" + text() + "</a>");
 }
 
 void KSHelpLabel::slotShowDefinition(const QString &term)
