@@ -484,14 +484,13 @@ class TestCatalogsDB_DBManager : public QObject
     void color_strings()
     {
         const std::vector<std::pair<QString, CatalogsDB::CatalogColorMap>> test_data{
-            { "#008000", { { "default", QColor("#008000") } } },
+            { "#008000", { { "default", "#008000" } } },
             { "#008000;test.colors;#008001",
-              { { "default", QColor("#008000") },
-                { "test.colors", QColor("#008001") } } },
+              { { "default", "#008000" }, { "test.colors", "#008001" } } },
             { "#008000;test.colors;#008001;best.colors;#008002",
-              { { "default", QColor("#008000") },
-                { "test.colors", QColor("#008001") },
-                { "best.colors", QColor("#008002") } } }
+              { { "default", "#008000" },
+                { "test.colors", "#008001" },
+                { "best.colors", "#008002" } } }
         };
 
         for (const auto &item : test_data)
@@ -509,9 +508,75 @@ class TestCatalogsDB_DBManager : public QObject
 
         // Check the behavour when a color specification is missing
         QCOMPARE((CatalogsDB::parse_color_string("#008000;test.colors")),
-                 (CatalogsDB::CatalogColorMap{ { "default", QColor("#008000") } }));
+                 (CatalogsDB::CatalogColorMap{ { "default", "#008000" } }));
 
+        // no default
         QCOMPARE(CatalogsDB::parse_color_string(""), CatalogsDB::CatalogColorMap{});
+        QCOMPARE(CatalogsDB::parse_color_string(";test;#008000"),
+                 (CatalogsDB::CatalogColorMap{ { "test", "#008000" } }));
+    }
+
+    void color_database()
+    {
+        auto compare_catalog_color_maps = [](CatalogsDB::CatalogColorMap a,
+                                             CatalogsDB::CatalogColorMap b) -> void {
+            for (auto &item : a)
+            {
+                QCOMPARE(b[item.first].name(), item.second.name());
+            }
+
+            for (auto &item : b)
+            {
+                QCOMPARE(a[item.first].name(), item.second.name());
+            }
+        };
+
+        auto compare_color_maps =
+            [compare_catalog_color_maps](CatalogsDB::ColorMap a,
+                                         CatalogsDB::ColorMap b) -> void {
+            for (auto &item : a)
+            {
+                compare_catalog_color_maps(b[item.first], item.second);
+            }
+
+            for (auto &item : b)
+            {
+                compare_catalog_color_maps(a[item.first], item.second);
+            }
+        };
+
+        const auto &colors = m_manager.get_catalog_colors();
+        compare_color_maps((CatalogsDB::ColorMap{
+                               { 1,
+                                 {
+                                     { "default", "#001000" },
+                                     { "test.colors", "#008000" },
+                                     { "test1.colors", "#008001" }, // overridden
+                                     { "test2.colors", "#001002" }, // from catalog table
+                                 } },
+                               { 2,
+                                 {
+                                     { "test1.colors", "#008002" },
+                                 } } }),
+                           colors);
+
+        compare_catalog_color_maps(m_manager.get_catalog_colors(1), colors.at(1));
+
+        // overwrite default
+        auto new_colors            = colors.at(1);
+        new_colors["test2.colors"] = "#001003";
+
+        const auto &success = m_manager.insert_catalog_colors(1, new_colors);
+        QVERIFY(success.first);
+
+        QCOMPARE(m_manager.get_catalog_colors(1).at("test2.colors"), "#001003");
+
+        auto cat = m_manager.get_catalog(1);
+        QVERIFY(cat.first);
+        cat.second.color = "#001004";
+        QVERIFY(m_manager.update_catalog_meta(cat.second).first);
+        QCOMPARE(m_manager.get_catalog_colors(1).at("default"),
+                 "#001000"); // does not change
     }
 };
 
