@@ -650,6 +650,18 @@ selected catalog (the highlighted row on the left).
 </varlistentry>
 
 <varlistentry>
+<term><guibutton>Colors</guibutton></term>
+<listitem>
+  <para>Open the catalog color editor (See <xref linkend="catalog_colors"/>.).
+  </para>
+  <para>This will open a dialog which allows you to set the colors in
+  which objects from the selected catalog will be displayed for each
+  color scheme.
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
 <term><guibutton>More...</guibutton></term>
 <listitem>
   <para>Open the catalog details dialog. (See <xref linkend="catalog_details"/>.)
@@ -691,6 +703,33 @@ course, change these values at a later point.
   meta data entered into the dialog will be added to the database and
   can then be filled with
   objects. (See <xref linkend="catalog_details"/> and <xref linkend="csv_import"/>.)
+</para>
+</sect2>
+
+<sect2 id="catalog_colors">
+<title>Catalog Color Editor</title>
+<indexterm><primary>Deep-Sky Catalogs</primary>
+  <secondary>Catalog Color Editor</secondary></indexterm>
+
+<screenshot>
+<screeninfo>Catalog color editor</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="color_editor.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>The catalog color editor.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+This dialog reached through the catalog management &GUI; (see
+<xref linkend="catalog_gui"/>). Each button represents the color that
+objects will be drawn in for a specific color scheme. Clicking on a
+button will allow you to choose a color with a color picker. The
+button colors are initialized with the default colors from the catalog
+specification. The color "default" is the color which will be chosen
+for the catalog if there is no color set for a color scheme.
 </para>
 </sect2>
 
