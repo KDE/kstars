@@ -510,6 +510,8 @@ class TestCatalogsDB_DBManager : public QObject
         // Check the behavour when a color specification is missing
         QCOMPARE((CatalogsDB::parse_color_string("#008000;test.colors")),
                  (CatalogsDB::CatalogColorMap{ { "default", QColor("#008000") } }));
+
+        QCOMPARE(CatalogsDB::parse_color_string(""), CatalogsDB::CatalogColorMap{});
     }
 };
 

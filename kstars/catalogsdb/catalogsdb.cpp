@@ -1116,7 +1116,10 @@ CatalogsDB::CatalogColorMap CatalogsDB::parse_color_string(const QString &str)
 
     const auto &parts = str.split(";");
     auto it           = parts.constBegin();
-    colors["default"] = *it;
+
+    if (it->length() > 0) // playing it save
+        colors["default"] = *it;
+
     while (it != parts.constEnd())
     {
         const auto &scheme = *(++it);
