@@ -612,6 +612,15 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintAbove(double azim
     return entity;
 }
 
+double ArtificialHorizon::altitudeConstraint(double azimuthDegrees) const
+{
+    const ArtificialHorizonEntity *horizonBelow = getConstraintBelow(azimuthDegrees, 90.0, nullptr);
+    if (horizonBelow == nullptr)
+        return UNDEFINED_ALTITUDE;
+    bool ignore = false;
+    return horizonBelow->altitudeConstraint(azimuthDegrees, &ignore);
+}
+
 const ArtificialHorizonEntity *ArtificialHorizon::getConstraintBelow(double azimuthDegrees, double altitudeDegrees,
         const ArtificialHorizonEntity *ignore) const
 {

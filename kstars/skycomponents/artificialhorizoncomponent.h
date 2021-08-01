@@ -84,6 +84,10 @@ class ArtificialHorizon
         // Returns true if the azimuth/altitude point is not blocked by the artificial horzon entities.
         bool isVisible(double azimuthDegrees, double altitudeDegrees) const;
 
+        // returns the (highest) altitude constraint at the given azimuth.
+        // If there are no constraints, then it returns -90.
+        double altitudeConstraint(double azimuthDegrees) const;
+
         // Finds the nearest enabled constraint at the azimuth and above or below (not not exactly at)
         // the altitude given.
         const ArtificialHorizonEntity *getConstraintAbove(double azimuthDegrees, double altitudeDegrees,

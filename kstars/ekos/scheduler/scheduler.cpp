@@ -442,9 +442,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     qRegisterMetaType<Ekos::SchedulerState>("Ekos::SchedulerState");
     qDBusRegisterMetaType<Ekos::SchedulerState>();
 
-    new SchedulerAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this);
-
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     // Get current KStars time and set seconds to zero
@@ -458,7 +455,10 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     completionTimeEdit->setDateTime(currentDateTime);
 
     // Set up DBus interfaces
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this);
+    new SchedulerAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject("/KStars/Ekos/Scheduler");
+    if (!QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this))
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Scheduler failed to register with dbus");
     ekosInterface = new QDBusInterface("org.kde.kstars", ekosPathStr, ekosInterfaceStr,
                                        QDBusConnection::sessionBus(), this);
 
@@ -843,7 +843,8 @@ void Scheduler::addObject(SkyObject *object)
 
 void Scheduler::selectFITS()
 {
-    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS Image"), dirPath, "FITS (*.fits *.fit)");
+    fitsURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select FITS Image"), dirPath,
+                                          "FITS (*.fits *.fit)");
     if (fitsURL.isEmpty())
         return;
 
@@ -965,7 +966,8 @@ void Scheduler::setSequence(const QString &sequenceFileURL)
 
 void Scheduler::selectSequence()
 {
-    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Select Sequence Queue"), dirPath.toLocalFile(),
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Select Sequence Queue"),
+                   dirPath.toLocalFile(),
                    i18n("Ekos Sequence Queue (*.esq)"));
 
     setSequence(file);
@@ -973,7 +975,8 @@ void Scheduler::selectSequence()
 
 void Scheduler::selectStartupScript()
 {
-    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select Startup Script"), dirPath,
+    startupScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select Startup Script"),
+                       dirPath,
                        i18n("Script (*)"));
     if (startupScriptURL.isEmpty())
         return;
@@ -986,7 +989,8 @@ void Scheduler::selectStartupScript()
 
 void Scheduler::selectShutdownScript()
 {
-    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select Shutdown Script"), dirPath,
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Select Shutdown Script"),
+                        dirPath,
                         i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
@@ -1022,7 +1026,7 @@ void Scheduler::setupJob(
     SchedulerJob::CompletionCondition completion,
     const QDateTime &completionTime, int completionRepeats,
     double minimumAltitude, double minimumMoonSeparation,
-    bool enforceWeather, bool enforceTwilight,
+    bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon,
     bool track, bool focus, bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
@@ -1061,6 +1065,7 @@ void Scheduler::setupJob(
     job.setEnforceWeather(enforceWeather);
     // twilight constraints
     job.setEnforceTwilight(enforceTwilight);
+    job.setEnforceArtificialHorizon(enforceArtificialHorizon);
 
     job.setCompletionCondition(completion);
     if (completion == SchedulerJob::FINISH_AT)
@@ -1205,6 +1210,7 @@ void Scheduler::saveJob()
         moonConstraint,
         weatherCheck->isChecked(),
         twilightCheck->isChecked(),
+        artificialHorizonCheck->isChecked(),
 
         trackStepCheck->isChecked(),
         focusStepCheck->isChecked(),
@@ -1393,6 +1399,10 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     twilightCheck->blockSignals(true);
     twilightCheck->setChecked(job->getEnforceTwilight());
     twilightCheck->blockSignals(false);
+
+    artificialHorizonCheck->blockSignals(true);
+    artificialHorizonCheck->setChecked(job->getEnforceArtificialHorizon());
+    artificialHorizonCheck->blockSignals(false);
 
     switch (job->getCompletionCondition())
     {
@@ -3724,7 +3734,8 @@ void Scheduler::checkJobStage()
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
         /* FIXME: find a way to use altitude cutoff here, because the job can be scheduled when evaluating, then aborted when running */
-        if (p.alt().Degrees() < currentJob->getMinAltitude())
+        const double altitudeConstraint = currentJob->getMinAltitudeConstraint(p.az().Degrees());
+        if (p.alt().Degrees() < altitudeConstraint)
         {
             // Only terminate job due to altitude limitation if mount is NOT parked.
             if (isMountParked() == false)
@@ -3732,7 +3743,7 @@ void Scheduler::checkJobStage()
                 appendLogText(i18n("Job '%1' current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), "
                                    "marking idle.", currentJob->getName(),
                                    QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
-                                   QString("%L1").arg(currentJob->getMinAltitude(), 0, 'f', minAltitude->decimals())));
+                                   QString("%L1").arg(altitudeConstraint, 0, 'f', minAltitude->decimals())));
 
                 currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
@@ -4160,7 +4171,8 @@ void Scheduler::load(bool clearQueue, const QString &filename)
     QUrl fileURL;
 
     if (filename.isEmpty())
-        fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Scheduler List"), dirPath,
+        fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Scheduler List"),
+                                              dirPath,
                                               "Ekos Scheduler List (*.esl)");
     else fileURL.setUrl(filename);
 
@@ -4345,6 +4357,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
     twilightCheck->setChecked(false);
     twilightCheck->blockSignals(false);
 
+    artificialHorizonCheck->blockSignals(true);
+    artificialHorizonCheck->setChecked(false);
+    artificialHorizonCheck->blockSignals(false);
+
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
     rotationSpin->setValue(0);
@@ -4425,6 +4441,8 @@ bool Scheduler::processJobInfo(XMLEle *root)
                     weatherCheck->setChecked(true);
                 else if (!strcmp("EnforceTwilight", pcdataXMLEle(subEP)))
                     twilightCheck->setChecked(true);
+                else if (!strcmp("EnforceArtificialHorizon", pcdataXMLEle(subEP)))
+                    artificialHorizonCheck->setChecked(true);
             }
         }
         else if (!strcmp(tagXMLEle(ep), "CompletionCondition"))
@@ -4590,6 +4608,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Constraint>EnforceWeather</Constraint>" << endl;
         if (job->getEnforceTwilight())
             outstream << "<Constraint>EnforceTwilight</Constraint>" << endl;
+        if (job->getEnforceArtificialHorizon())
+            outstream << "<Constraint>EnforceArtificialHorizon</Constraint>" << endl;
         outstream << "</Constraints>" << endl;
 
         outstream << "<CompletionCondition>" << endl;

@@ -294,7 +294,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
             SchedulerJob::StartupCondition startup, const QDateTime &startupTime, int16_t startupOffset,
             SchedulerJob::CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
             double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
-            bool track, bool focus, bool align, bool guide);
+            bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide);
 
         /**
              * @brief evaluateJobs Computes estimated start and end times for the SchedulerJobs passed in. Returns a proposed schedule.

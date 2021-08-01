@@ -64,12 +64,17 @@ class TestEkosSchedulerOps : public QObject
         void testDawnShutdown();
         void testCulminationStartup();
         void testFixedDateStartup();
+        void testArtificialHorizonConstraints();
 
         // test data
         void testCulminationStartup_data();
 
     protected:
         void prepareTestData(QList<QString> locationList, QList<QString> targetList);
+        void runSimpleJob(const GeoLocation &geo, const SkyObject *targetObject, const QDateTime &startUTime,
+                          const QDateTime &wakeupTime, bool enforceArtificialHorizon);
+        void runDawnShutdown(const GeoLocation &geo, const SkyObject *targetObject,
+                             const QDateTime &startUTime, const QDateTime &preDawnUTime);
 
     private:
         bool iterateScheduler(const QString &label, int iterations, int *sleepMs,

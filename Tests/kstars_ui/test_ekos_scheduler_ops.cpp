@@ -16,9 +16,11 @@
 
 #if defined(HAVE_INDI)
 
+#include "artificialhorizoncomponent.h"
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
+#include "linelist.h"
 #include "mockmodules.h"
 #include "Options.h"
 
@@ -188,7 +190,8 @@ bool writeFile(const QString &filename, const QString &contents)
     return false;
 }
 
-QString getSchedulerFile(SkyObject *targetObject, StartupCondition startupCondition, bool enforceTwilight)
+QString getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition,
+                         bool enforceTwilight, bool enforceArtificialHorizon)
 {
     QString target = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SchedulerList version='1.4'><Profile>Default</Profile>"
                              "<Job><Name>%1</Name><Priority>10</Priority><Coordinates><J2000RA>%2</J2000RA>"
@@ -206,13 +209,14 @@ QString getSchedulerFile(SkyObject *targetObject, StartupCondition startupCondit
                                   startupCondition.atLocalDateTime.toString(Qt::ISODate));
 
     QString parameters = QString("<StartupCondition>%1</StartupCondition>"
-                                 "<Constraints><Constraint value='30'>MinimumAltitude</Constraint>%2"
+                                 "<Constraints><Constraint value='30'>MinimumAltitude</Constraint>%2%3"
                                  "</Constraints><CompletionCondition><Condition>Sequence</Condition></CompletionCondition>"
                                  "<Steps><Step>Track</Step><Step>Focus</Step><Step>Align</Step><Step>Guide</Step></Steps></Job>"
                                  "<ErrorHandlingStrategy value='1'><delay>0</delay></ErrorHandlingStrategy><StartupProcedure>"
                                  "<Procedure>UnparkMount</Procedure></StartupProcedure><ShutdownProcedure><Procedure>ParkMount</Procedure>"
                                  "</ShutdownProcedure></SchedulerList>")
-                         .arg(startupConditionStr).arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "");
+                         .arg(startupConditionStr).arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "")
+                         .arg(enforceArtificialHorizon ? "<Constraint>EnforceArtificialHorizon</Constraint>" : "");
 
     return (target + sequence + parameters);
 }
@@ -476,25 +480,14 @@ void TestEkosSchedulerOps::initJob(const KStarsDateTime &startUTime, const KStar
 // This tests a simple scheduler job.
 // The job initializes Ekos and Indi, slews, plate-solves, focuses, starts guiding, and
 // captures. Capture completes and the scheduler shuts down.
-void TestEkosSchedulerOps::testSimpleJob()
+void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject *targetObject, const QDateTime &startUTime,
+                                        const QDateTime &wakeupTime, bool enforceArtificialHorizon)
 {
-    // Setup a geo.
-    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
-    // Setup an initial time.
-    // Note that the start time is 3pm local (10pm UTC - 7 TZ).
-    // Altair, the target, should be at about -40 deg altitude at this time,.
-    // The dawn/dusk constraints are 4:03am and 10:12pm (lst=13:43)
-    // At 10:12pm it should have an altitude of about 14 degrees, still below the 30-degree constraint.
-    // It achieves 30-degrees altitude at about 23:35.
-    QDateTime startUTime(QDateTime(QDate(2021, 6, 13), QTime(22, 0, 0), Qt::UTC));
-
     KStarsDateTime testUTime;
     int sleepMs = 0;
 
-    const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(06, 35, 0), Qt::UTC);
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false),
+    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, enforceArtificialHorizon),
                esqContents1, wakeupTime, &testUTime, &sleepMs);
 
     QVERIFY(iterateScheduler("Wait for Capturing", 30, &sleepMs, &testUTime, [&]() -> bool
@@ -525,6 +518,22 @@ void TestEkosSchedulerOps::testSimpleJob()
     }));
 }
 
+void TestEkosSchedulerOps::testSimpleJob()
+{
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+
+    // Setup an initial time.
+    // Note that the start time is 3pm local (10pm UTC - 7 TZ).
+    // Altair, the target, should be at about -40 deg altitude at this time,.
+    // The dawn/dusk constraints are 4:03am and 10:12pm (lst=13:43)
+    // At 10:12pm it should have an altitude of about 14 degrees, still below the 30-degree constraint.
+    // It achieves 30-degrees altitude at about 23:35.
+    QDateTime startUTime(QDateTime(QDate(2021, 6, 13), QTime(22, 0, 0), Qt::UTC));
+    const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(06, 35, 0), Qt::UTC);
+    runSimpleJob(geo, targetObject, startUTime, wakeupTime, true);
+}
+
 // This test has the same start as testSimpleJob, except that it but runs in NYC
 // instead of silicon valley. This makes sure testing doesn't depend on timezone.
 void TestEkosSchedulerOps::testTimeZone()
@@ -541,33 +550,38 @@ void TestEkosSchedulerOps::testTimeZone()
     const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(03, 26, 0), Qt::UTC);
     SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false),
+    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true),
                esqContents1, wakeupTime, &testUTime, &sleepMs);
 }
 
-// This test runs a job until dawn, and makes sure the job is interrupted, and restarted
-// the next day.
-// NOTE: This isn't complete. Testing through the shutdown.
-// - it didn't park at the shutdown
-// - it doesn't wakeup and start executing the job at the expected time.
 void TestEkosSchedulerOps::testDawnShutdown()
 {
-    // Setup a geo.
-    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    // At this geo/date, Dawn is calculated = .1625 of a day = 3:53am local = 10:52 UTC
+    // If we started at 23:35 local time, as before, it's a little over 4 hours
+    // or over 4*3600 iterations. Too many? Instead we start at 3am local.
 
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QDateTime startUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC));
+
+    // The time should be the pre-dawn time, which is about 3:53am
+    QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), Qt::UTC));
+    // Consider pre-dawn security range
+    preDawnUTime = preDawnUTime.addSecs(-60.0 * abs(Options::preDawnTime()));
+
+    runDawnShutdown(geo, targetObject, startUTime, preDawnUTime);
+}
+
+void TestEkosSchedulerOps::runDawnShutdown(const GeoLocation &geo, const SkyObject *targetObject,
+        const QDateTime &startUTime, const QDateTime &preDawnUTime)
+{
     scheduler->setUpdateInterval(40000);
     KStarsDateTime testUTime;
     int sleepMs = 0;
 
-    // At this geo/date, Dawn is calculated = .1625 of a day = 3:53am local = 10:52 UTC
-    // If we started at 23:35 local time, as before, it's a little over 4 hours
-    // or over 4*3600 iterations. Too many? Instead we start at 3am local.
-    QDateTime startUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC));
-
     const QDateTime wakeupTime;  // Not valid--it starts up right away.
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, true),
+    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, true, true),
                esqContents1, wakeupTime, &testUTime, &sleepMs);
 
     QVERIFY(iterateScheduler("Wait for Job Startup", 10, &sleepMs, &testUTime, [&]() -> bool
@@ -584,10 +598,7 @@ void TestEkosSchedulerOps::testDawnShutdown()
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
-    // The time should be the pre-dawn time, which is about 3:53am
-    QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), Qt::UTC));
-    // Consider pre-dawn security range
-    preDawnUTime = preDawnUTime.addSecs(-60.0 * abs(Options::preDawnTime()));
+
     double delta = KStarsData::Instance()->ut().secsTo(preDawnUTime);
     QVERIFY2(std::abs(delta) < 60, QString("Unexpected difference to dawn: %1 secs").arg(delta).toLocal8Bit());
 
@@ -664,7 +675,7 @@ void TestEkosSchedulerOps::testCulminationStartup()
     KStarsDateTime const jobStartUTime = transitUT.addSecs(60 * offset);
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false), esqContents1);
+    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
 }
@@ -685,9 +696,76 @@ void TestEkosSchedulerOps::testFixedDateStartup()
 
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false), esqContents1);
+    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
+}
+
+void addHorizonConstraint(ArtificialHorizon *horizon, const QString &name, bool enabled,
+                          const QVector<double> &azimuths, const QVector<double> &altitudes)
+{
+    std::shared_ptr<LineList> pointList(new LineList);
+    for (int i = 0; i < azimuths.size(); ++i)
+    {
+        std::shared_ptr<SkyPoint> skyp1(new SkyPoint);
+        skyp1->setAlt(altitudes[i]);
+        skyp1->setAz(azimuths[i]);
+        pointList->append(skyp1);
+    }
+    horizon->addRegion(name, enabled, pointList, false);
+}
+
+void TestEkosSchedulerOps::testArtificialHorizonConstraints()
+{
+    // In testSimpleJob, above, the wakeup time for the job was 11:35pm local time, and it used a 30-degrees min altitude.
+    // Now let's add an artificial horizon constraint for 40-degrees at the azimuths where the object will be.
+    // It should now wakeup and start processing at about 00:27am
+
+    ArtificialHorizon horizon;
+    addHorizonConstraint(&horizon, "r1", true, QVector<double>({100, 120}), QVector<double>({40, 40}));
+    SchedulerJob::setHorizon(&horizon);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QDateTime startUTime(QDateTime(QDate(2021, 6, 13), QTime(22, 0, 0), Qt::UTC));
+
+    const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(07, 27, 0), Qt::UTC);
+    runSimpleJob(geo, targetObject, startUTime, wakeupTime, true);
+
+    // Uncheck enforce artificial horizon and the wakeup time should go back to it's original time,
+    // even though the artificial horizon is still there and enabled.
+    init(); // Reset the scheduler.
+    const QDateTime originalWakeupTime(QDate(2021, 6, 14), QTime(06, 35, 0), Qt::UTC);
+    runSimpleJob(geo, targetObject, startUTime, originalWakeupTime, /* enforce artificial horizon */false);
+
+    // Re-check enforce artificial horizon, but remove the constraint, and the wakeup time also goes back to it's original time.
+    init(); // Reset the scheduler.
+    ArtificialHorizon emptyHorizon;
+    SchedulerJob::setHorizon(&emptyHorizon);
+    runSimpleJob(geo, targetObject, startUTime, originalWakeupTime, /* enforce artificial horizon */ true);
+
+    // Testing that the artificial horizon constraint will end a job
+    // when the altitude of the running job is below the artificial horizon at the
+    // target's azimuth.
+    //
+    // This repeats testDawnShutdown() above, except that an artifical horizon
+    // constraint is added so that the job doesn't reach dawn but rather is interrupted
+    // at 3:19 local time. That's the time the azimuth reaches 175.
+
+    init(); // Reset the scheduler.
+    ArtificialHorizon shutdownHorizon;
+    // Note, just putting a constraint at 175->180 will fail this test because Altair will
+    // cross past 180 and the scheduler will want to restart it before dawn.
+    addHorizonConstraint(&shutdownHorizon, "h", true,
+                         QVector<double>({175, 200}), QVector<double>({70, 70}));
+    SchedulerJob::setHorizon(&shutdownHorizon);
+
+    startUTime = QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC);
+
+    // Set the stop interrupt time at 3:19am local.
+    QDateTime horizonStopUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 19, 0), Qt::UTC));
+
+    runDawnShutdown(geo, targetObject, startUTime, horizonStopUTime);
 }
 
 void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QString> targetList)

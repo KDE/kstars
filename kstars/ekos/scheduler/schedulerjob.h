@@ -16,11 +16,12 @@
 #include "ksmoon.h"
 #include "kstarsdatetime.h"
 
+class ArtificialHorizon;
 class QTableWidgetItem;
 class QLabel;
 class KSMoon;
 class TestSchedulerUnit;
-
+class TestEkosSchedulerOps;
 class dms;
 
 class SchedulerJob
@@ -252,6 +253,15 @@ class SchedulerJob
             return enforceTwilight;
         }
         void setEnforceTwilight(bool value);
+        /** @} */
+
+        /** @brief Whether to restrict job to night time. */
+        /** @{ */
+        bool getEnforceArtificialHorizon() const
+        {
+            return enforceArtificialHorizon;
+        }
+        void setEnforceArtificialHorizon(bool value);
         /** @} */
 
         /** @brief Current name of the scheduler job. */
@@ -618,10 +628,17 @@ class SchedulerJob
              */
         static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
 
+        /**
+             * @brief getMinAltitudeConstraint Find minimum allowed altitude for this job at the given azimuth.
+             * @param azimuth Azimuth
+             * @return Minimum allowed altitude of the target at the specific azimuth.
+             */
+        double getMinAltitudeConstraint(double azimuth) const;
     private:
         // Private constructor for unit testing.
         SchedulerJob(KSMoon *moonPtr);
         friend TestSchedulerUnit;
+        friend TestEkosSchedulerOps;
 
         /** @brief Setter used in the unit test to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
@@ -647,6 +664,20 @@ class SchedulerJob
         {
             return storedGeo != nullptr;
         }
+        /** @} */
+
+        /** @brief Setter used in testing to fix the artificial horizon. Otherwise getter gets from KStars instance. */
+        /** @{ */
+        static const ArtificialHorizon *getHorizon();
+        static void setHorizon(ArtificialHorizon *horizon)
+        {
+            storedHorizon = horizon;
+        }
+        static bool hasHorizon()
+        {
+            return storedHorizon != nullptr;
+        }
+
         /** @} */
 
         QString name;
@@ -682,6 +713,7 @@ class SchedulerJob
 
         bool enforceWeather { false };
         bool enforceTwilight { false };
+        bool enforceArtificialHorizon { false };
 
         QDateTime nextDawn;
         QDateTime nextDusk;
@@ -725,4 +757,5 @@ class SchedulerJob
         // These are used in testing, instead of KStars::Instance() resources
         static KStarsDateTime *storedLocalTime;
         static GeoLocation *storedGeo;
+        static ArtificialHorizon *storedHorizon;
 };

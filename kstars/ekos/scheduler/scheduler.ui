@@ -1695,6 +1695,28 @@ font-weight:bold;
             </attribute>
            </widget>
           </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="artificialHorizonCheck">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The artificial horizon restriction constrains the altitude of the target to be above the artificial horizon, if any are defined and enabled. See the artificial horizon item in the KStars Settings menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Use Artificial Horizon</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
           <item row="2" column="1">
            <widget class="QLabel" name="weatherLabel">
             <property name="text">

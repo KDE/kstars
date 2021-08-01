@@ -54,7 +54,7 @@ class TestSchedulerUnit : public QObject
                          const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
                          int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
                          double minAlt, double minMoonSep = 0, bool enforceWeather = false, bool enforceTwilight = true,
-                         bool track = true, bool focus = true, bool align = true, bool guide = true);
+                         bool enforceArtificialHorizon = true, bool track = true, bool focus = true, bool align = true, bool guide = true);
 };
 
 #include "testschedulerunit.moc"
@@ -130,7 +130,8 @@ bool compareTimes(const QDateTime &t1, const QDateTime &t2, int toleranceSecs = 
     int toleranceMsecs = toleranceSecs * 1000;
     if (std::abs(t1.msecsTo(t2)) >= toleranceMsecs)
     {
-        QWARN(qPrintable(QString("Comparison of %1 with %2 is out of %3s tolerance.").arg(t1.toString()).arg(t2.toString()).arg(toleranceSecs)));
+        QWARN(qPrintable(QString("Comparison of %1 with %2 is out of %3s tolerance.").arg(t1.toString()).arg(t2.toString()).arg(
+                             toleranceSecs)));
         return false;
     }
     else return true;
@@ -167,7 +168,7 @@ void TestSchedulerUnit::runSetupJob(
     const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
     int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
     double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
-    bool track, bool focus, bool align, bool guide)
+    bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     // Setup the time and geo.
     KStarsDateTime ut = geo->LTtoUT(*localTime);
@@ -180,7 +181,7 @@ void TestSchedulerUnit::runSetupJob(
                         sCond, sTime, sOffset,
                         eCond, eTime, eReps,
                         minAlt, minMoonSep,
-                        enforceWeather, enforceTwilight,
+                        enforceWeather, enforceTwilight, enforceArtificialHorizon,
                         track, focus, align, guide);
     QVERIFY(name == job.getName());
     QVERIFY(priority == job.getPriority());
@@ -193,6 +194,7 @@ void TestSchedulerUnit::runSetupJob(
     QVERIFY(minMoonSep == job.getMinMoonSeparation());
     QVERIFY(enforceWeather == job.getEnforceWeather());
     QVERIFY(enforceTwilight == job.getEnforceTwilight());
+    QVERIFY(enforceArtificialHorizon == job.getEnforceArtificialHorizon());
 
     QVERIFY(sCond == job.getStartupCondition());
     switch (sCond)
@@ -271,6 +273,7 @@ void TestSchedulerUnit::setupJobTest_data()
     QTest::addColumn<int>("REPEATS");
     QTest::addColumn<bool>("ENFORCE_WEATHER");
     QTest::addColumn<bool>("ENFORCE_TWILIGHT");
+    QTest::addColumn<bool>("ENFORCE_ARTIFICIAL_HORIZON");
     QTest::addColumn<bool>("TRACK");
     QTest::addColumn<bool>("FOCUS");
     QTest::addColumn<bool>("ALIGN");
@@ -281,6 +284,7 @@ void TestSchedulerUnit::setupJobTest_data()
             << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << true   // enforce twilight
+            << true   // enforce artificial horizon
             << false  // track
             << true   // focus
             << true   // align
@@ -295,6 +299,7 @@ void TestSchedulerUnit::setupJobTest_data()
             << 1
             << true   // enforce weather
             << false  // enforce twilight
+            << true   // enforce artificial horizon
             << true   // track
             << false  // focus
             << true   // align
@@ -305,6 +310,7 @@ void TestSchedulerUnit::setupJobTest_data()
             << SchedulerJob::FINISH_REPEAT << QDateTime() << 3 // end conditions
             << true   // enforce weather
             << true   // enforce twilight
+            << true   // enforce artificial horizon
             << true   // track
             << true   // focus
             << false  // align
@@ -315,6 +321,7 @@ void TestSchedulerUnit::setupJobTest_data()
             << SchedulerJob::FINISH_SEQUENCE << QDateTime() << 1 // end conditions
             << false  // enforce weather
             << false  // enforce twilight
+            << true   // enforce artificial horizon
             << true   // track
             << true   // focus
             << true   // align
@@ -331,6 +338,7 @@ void TestSchedulerUnit::setupJobTest()
     QFETCH(int, REPEATS);
     QFETCH(bool, ENFORCE_WEATHER);
     QFETCH(bool, ENFORCE_TWILIGHT);
+    QFETCH(bool, ENFORCE_ARTIFICIAL_HORIZON);
     QFETCH(bool, TRACK);
     QFETCH(bool, FOCUS);
     QFETCH(bool, ALIGN);
@@ -342,7 +350,7 @@ void TestSchedulerUnit::setupJobTest()
                 START_CONDITION, START_TIME, START_OFFSET,
                 END_CONDITION, END_TIME, REPEATS,
                 30.0, 5.0, ENFORCE_WEATHER, ENFORCE_TWILIGHT,
-                TRACK, FOCUS, ALIGN, GUIDE);
+                ENFORCE_ARTIFICIAL_HORIZON, TRACK, FOCUS, ALIGN, GUIDE);
 }
 
 namespace

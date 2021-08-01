@@ -25,6 +25,7 @@ MockFocus::MockFocus()
     qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
     qDBusRegisterMetaType<Ekos::FocusState>();
     new MockFocusAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
@@ -36,6 +37,7 @@ MockMount::MockMount()
     qRegisterMetaType<ISD::ParkStatus>("ISD::ParkStatus");
     qDBusRegisterMetaType<ISD::ParkStatus>();
     new MockMountAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
@@ -45,6 +47,7 @@ MockCapture::MockCapture()
     qRegisterMetaType<Ekos::CaptureState>("Ekos::CaptureState");
     qDBusRegisterMetaType<Ekos::CaptureState>();
     new MockCaptureAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
@@ -54,6 +57,7 @@ MockAlign::MockAlign()
     qRegisterMetaType<Ekos::AlignState>("Ekos::AlignState");
     qDBusRegisterMetaType<Ekos::AlignState>();
     new MockAlignAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
@@ -63,6 +67,7 @@ MockGuide::MockGuide()
     qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
     qDBusRegisterMetaType<Ekos::GuideState>();
     new MockGuideAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
@@ -73,6 +78,7 @@ MockEkos::MockEkos()
     qDBusRegisterMetaType<Ekos::CommunicationStatus>();
 
     new MockEkosAdaptor(this);
+    QDBusConnection::sessionBus().unregisterObject(mockPath);
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 

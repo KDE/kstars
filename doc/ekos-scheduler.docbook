@@ -71,7 +71,7 @@
             </listitem>
             <listitem>
                 <para>
-                    <guilabel>Constraints</guilabel>: Constraints are conditions that must be met <emphasis role="bold">at all times</emphasis> during the observation job execution process. These include minimum target altitude, minimum moon separation, twilight observation, and weather monitoring.
+                    <guilabel>Constraints</guilabel>: Constraints are conditions that must be met <emphasis role="bold">at all times</emphasis> during the observation job execution process. These include minimum target altitude, minimum moon separation, twilight observation, artificial horizon altitude constraints, and weather monitoring.
                 </para>
             </listitem>
             <listitem>
