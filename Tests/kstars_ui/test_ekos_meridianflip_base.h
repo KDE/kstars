@@ -46,16 +46,22 @@ int main(int argc, char *argv[]) { \
         else testargv.push_back(argv[i]); } \
     klass tc(guider); \
     if (showfunctions) return QTest::qExec(&tc, testargv.size(), testargv.data()); \
-    QApplication app(argc, argv); \
+    QApplication* app = new QApplication(argc, argv); \
+    KTEST_BEGIN(); \
     prepare_tests(); \
     int failure = 0; \
-    QTimer::singleShot(1000, &app, [&] { \
+    QTimer::singleShot(1000, app, [&] { \
         qDebug("Starting tests..."); \
         failure |= run_wizards(testargv.size(), testargv.data()); \
-        if (!failure) { failure |= QTest::qExec(&tc, testargv.size(), testargv.data()); } \
+        if (!failure) { \
+            KTELL_BEGIN(); \
+            failure |= QTest::qExec(&tc, app->arguments()); \
+            KTELL_END(); \
+        } \
         qDebug("Tests are done."); \
-        app.quit(); }); \
+        app->quit(); }); \
     execute_tests(); \
+    KTEST_END(); \
     return failure; }
 
 
@@ -143,6 +149,18 @@ protected:
     bool prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus, bool guideDeviation);
 
     /**
+     * @brief Prepare the scheduler with a single based upon the capture sequences filled
+     *        by @see prepareCaptureTestcase(int,bool,bool,bool)
+     * @param secsToMF seconds until the meridian will be crossed
+     * @param useGuiding use guiding for the scheduler job
+     * @param useFocus use focusing for the scheduler job
+     * @param completionCondition completion condition for the scheduler
+     * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
+     * @return true iff preparation was successful
+     */
+    bool prepareSchedulerTestcase(int secsToMF, bool useGuiding, bool useFocus, SchedulerJob::CompletionCondition completionCondition, int iterations);
+
+    /**
      * @brief Prepare test data iterating over all combination of parameters.
      * @param exptime exposure time of the test frames
      * @param locationList variants of locations
@@ -191,6 +209,16 @@ protected:
      * @brief Helper function to stop capturing
      */
     bool stopCapturing();
+
+    /**
+     * @brief Helper function for starting the scheduler
+     */
+    bool startScheduler();
+
+    /**
+     * @brief Helper function for stopping the scheduler
+     */
+    bool stopScheduler();
 
     /**
      * @brief Helper function for start focusing
@@ -248,13 +276,14 @@ protected:
     // Guider (PHD2 or Internal)
     QString m_Guider = "Internal";
 
+    // target position
+    SkyPoint *target;
+
     // PHD2 setup (host and port)
     QProcess *phd2 { nullptr };
     QString const phd2_guider_host = "localhost";
     QString const phd2_guider_port = "4400";
 
-    // current mount meridian flip status
-    Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
     // sequence of alignment states that are expected
     QQueue<Ekos::AlignState> expectedAlignStates;
     // sequence of capture states that are expected
@@ -263,8 +292,11 @@ protected:
     QQueue<Ekos::FocusState> expectedFocusStates;
     // sequence of guiding states that are expected
     QQueue<Ekos::GuideState> expectedGuidingStates;
+    QQueue<ISD::Telescope::Status> expectedMountStates;
     // sequence of meridian flip states that are expected
     QQueue<Ekos::Mount::MeridianFlipStatus> expectedMeridianFlipStates;
+    // sequence of scheduler states that are expected
+    QQueue<Ekos::SchedulerState> expectedSchedulerStates;
 
     // regular focusing on?
     bool refocus_checked = false;
@@ -310,6 +342,14 @@ protected slots:
 
 
 private:
+    // helper class
+    TestEkosCaptureHelper *m_CaptureHelper = nullptr;
+
+    // current mount status
+    ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
+
+    // current mount meridian flip status
+    Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
     // current alignment status
     Ekos::AlignState m_AlignStatus { Ekos::ALIGN_IDLE };
 
@@ -322,11 +362,20 @@ private:
     // current guiding status
     Ekos::GuideState m_GuideStatus { Ekos::GUIDE_IDLE };
 
+    // current scheduler status
+    Ekos::SchedulerState m_SchedulerStatus { Ekos::SCHEDULER_IDLE };
+
     /**
      * @brief Slot to track the align status of the mount
      * @param status new align state
      */
     void alignStatusChanged(Ekos::AlignState status);
+
+    /**
+     * @brief Slot to track the mount status
+     * @param status new mount status
+     */
+    void mountStatusChanged(ISD::Telescope::Status status);
 
     /**
      * @brief Slot to track the meridian flip stage of the mount
@@ -351,6 +400,12 @@ private:
      * @param status new capture status
      */
     void captureStatusChanged(Ekos::CaptureState status);
+
+    /**
+     * @brief Slot to track the scheduler status
+     * @param status new scheduler status
+     */
+    void schedulerStatusChanged(Ekos::SchedulerState status);
 
 };
 

@@ -787,6 +787,10 @@ void Capture::stop(CaptureState targetState)
     if (activeJob != nullptr || m_State == CAPTURE_SUSPENDED)
         emit newStatus(targetState);
 
+    // stop focusing if capture is aborted
+    if (m_State == CAPTURE_FOCUSING && targetState == CAPTURE_ABORTED)
+        emit abortFocus();
+
     calibrationStage = CAL_NONE;
     m_State            = targetState;
 
@@ -3638,8 +3642,11 @@ void Capture::setFocusStatus(FocusState state)
             appendLogText(i18n("Focus complete."));
             secondsLabel->setText(i18n("Focus complete."));
         }
-        else if (m_FocusState == FOCUS_FAILED || m_FocusState == FOCUS_ABORTED)
-        {
+        // Meridian flip will abort focusing. In this case, after the meridian flip has completed capture
+        // will restart the re-focus attempt. Therefore we only abort capture if meridian flip is not running.
+        else if ((m_FocusState == FOCUS_FAILED || m_FocusState == FOCUS_ABORTED) &&
+                 !(meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_SLEWING)
+)        {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText(i18n("Autofocus failed."));
             abort();
@@ -6211,6 +6218,13 @@ IPState Capture::checkFlatFramePendingTasks()
  */
 IPState Capture::processPreCaptureCalibrationStage()
 {
+    // in some rare cases it might happen that activeJob has been cleared by a concurrent thread
+    if (activeJob == nullptr)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Processing pre capture calibration without active job, state = " << getCaptureStatusString(m_State);
+        return IPS_ALERT;
+    }
+
     // If we are currently guide and the frame is NOT a light frame, then we shopld suspend.
     // N.B. The guide camera could be on its own scope unaffected but it doesn't hurt to stop
     // guiding since it is no longer used anyway.

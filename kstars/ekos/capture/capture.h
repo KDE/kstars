@@ -803,6 +803,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void checkFocus(double);
         void resetFocus();
+        void abortFocus();
         void suspendGuiding();
         void resumeGuiding();
         void newImage(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);

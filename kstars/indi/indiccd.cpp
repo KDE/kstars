@@ -1437,8 +1437,16 @@ bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
     return true;
 }
 
-void CCD::setupFITSViewerWindows()
+// Get or Create FITSViewer if we are using FITSViewer
+// or if capture mode is calibrate since for now we are forced to open the file in the viewer
+// this should be fixed in the future and should only use FITSData
+QPointer<FITSViewer> CCD::getFITSViewer()
 {
+    // if the FITS viewer exists, return it
+    if (m_FITSViewerWindow != nullptr && ! m_FITSViewerWindow.isNull())
+        return m_FITSViewerWindow;
+
+    // otherwise, create it
     normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
     m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
@@ -1456,6 +1464,8 @@ void CCD::setupFITSViewerWindows()
         else if (tabIndex == alignTabID)
             alignTabID = -1;
     });
+
+    return m_FITSViewerWindow;
 }
 
 void CCD::processBLOB(IBLOB *bp)
@@ -1674,15 +1684,6 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
 {
     FITSMode captureMode = targetChip->getCaptureMode();
 
-    // Get or Create FITSViewer if we are using FITSViewer
-    // or if capture mode is calibrate since for now we are forced to open the file in the viewer
-    // this should be fixed in the future and should only use FITSData
-    if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
-    {
-        if (m_FITSViewerWindow.isNull() && (captureMode == FITS_NORMAL || captureMode == FITS_CALIBRATE))
-            setupFITSViewerWindows();
-    }
-
     // Add metadata
     data->setProperty("device", getDeviceName());
     data->setProperty("blobVector", bp->bvp->name);
@@ -1694,11 +1695,13 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
         case FITS_NORMAL:
         case FITS_CALIBRATE:
         {
-            // No need to wait until the image is loaded in the view
-            emit BLOBUpdated(bp);
-            emit newImage(data);
             if (Options::useFITSViewer() || targetChip->isBatchMode() == false)
             {
+                // No need to wait until the image is loaded in the view, but emit AFTER checking
+                // batch mode, since newImage() may change it
+                emit BLOBUpdated(bp);
+                emit newImage(data);
+
                 bool success = false;
                 int tabIndex = -1;
                 int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
@@ -1721,10 +1724,10 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                             previewTitle = i18n("Preview");
                     }
 
-                    success = m_FITSViewerWindow->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
+                    success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
                 }
                 else
-                    success = m_FITSViewerWindow->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
+                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
 
                 if (!success)
                 {
@@ -1735,9 +1738,14 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                     return;
                 }
                 *tabID = tabIndex;
-                targetChip->setImageView(m_FITSViewerWindow->getView(tabIndex), captureMode);
+                targetChip->setImageView(getFITSViewer()->getView(tabIndex), captureMode);
                 if (Options::focusFITSOnNewImage())
-                    m_FITSViewerWindow->raise();
+                    getFITSViewer()->raise();
+            }
+            else
+            {
+                emit BLOBUpdated(bp);
+                emit newImage(data);
             }
         }
         break;
@@ -1774,7 +1782,7 @@ void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSDat
         // NORMAL is used for raw INDI drivers without Ekos.
         if ( (Options::useFITSViewer() || targetChip->isBatchMode() == false) &&
                 (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
-            m_FITSViewerWindow->show();
+            getFITSViewer()->show();
     }
 }
 

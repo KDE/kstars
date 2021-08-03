@@ -52,6 +52,29 @@ public:
      */
     bool stopCapturing();
 
+    /**
+     * @brief Fill the capture sequences in the Capture GUI
+     * @param target capturing target name
+     * @param sequence comma separated list of <filter>:<count>
+     * @param exptime exposure time
+     * @param fitsDirectory directory where the captures will be placed
+     * @return true if everything was successful
+     */
+    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory);
+
+    /**
+     * @brief Stop and clean up scheduler
+     */
+    void cleanupScheduler();
+
+    /**
+     * @brief calculateSignature Calculate the signature of a given filter
+     * @param filter filter name
+     * @return signature
+     */
+    QString calculateSignature(QString target, QString filter);
+
+    QDir *getImageLocation();
 
     // sequence of capture states that are expected
     QQueue<Ekos::CaptureState> expectedCaptureStates;
@@ -69,4 +92,12 @@ public:
      * @brief Retrieve the current capture status.
      */
     inline Ekos::CaptureState getCaptureStatus() {return m_CaptureStatus;}
+
+    // destination where images will be located
+    QTemporaryDir *destination;
+
+private:
+    QDir *imageLocation = nullptr;
+
+
 };

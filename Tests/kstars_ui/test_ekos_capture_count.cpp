@@ -56,14 +56,6 @@ void TestEkosCaptureCount::testCaptureWithCaptureFramesMap()
     QVERIFY(executeCapturing());
 }
 
-void TestEkosCaptureCount::cleanupScheduler()
-{
-    Ekos::Manager::Instance()->schedulerModule()->stop();
-    QTest::qWait(5000);
-    // remove jobs
-    Ekos::Manager::Instance()->schedulerModule()->removeAllJobs();
-}
-
 void TestEkosCaptureCount::testSchedulerCapture()
 {
     KTELL("Expect captures and an idle signal at the end");
@@ -147,11 +139,6 @@ void TestEkosCaptureCount::initTestCase()
     // start the profile
     QVERIFY(m_CaptureHelper->startEkosProfile());
     m_CaptureHelper->initTestCase();
-    QStandardPaths::setTestModeEnabled(true);
-    QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
-    destination = new QTemporaryDir(test_dir.absolutePath());
-    QVERIFY(destination->isValid());
-    QVERIFY(destination->autoRemove());
     // do not show images
     Options::setUseFITSViewer(false);
     // disable twilight warning
@@ -164,10 +151,6 @@ void TestEkosCaptureCount::cleanupTestCase()
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
-
-    // remove destination directory
-    destination->remove();
-    delete destination;
 }
 
 void TestEkosCaptureCount::init()
@@ -176,7 +159,7 @@ void TestEkosCaptureCount::init()
     connect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this, &TestEkosCaptureCount::schedulerStateChanged);
     QStandardPaths::setTestModeEnabled(true);
     // clear image directory
-    QVERIFY(getImageLocation()->removeRecursively());
+    QVERIFY(m_CaptureHelper->getImageLocation()->removeRecursively());
 }
 
 void TestEkosCaptureCount::cleanup()
@@ -193,7 +176,7 @@ void TestEkosCaptureCount::cleanup()
     m_expectedImages.clear();
 
     // cleanup scheduler
-    cleanupScheduler();
+    m_CaptureHelper->cleanupScheduler();
 }
 
 
@@ -256,14 +239,14 @@ bool TestEkosCaptureCount::prepareCapture()
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000));
 
     // add target to path to emulate the behavior of the scheduler
-    QString imagepath = getImageLocation()->path() + "/" + target;
+    QString imagepath = m_CaptureHelper->getImageLocation()->path() + "/" + target;
 
     // create the destination for images
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << imagepath;
 
     // create capture sequences
     for (int i = 0; i < iterations; i++)
-        KVERIFY_SUB(fillCaptureSequences(sequence, exptime, imagepath));
+        KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
 
     // fill the captured frames map that hold the numbers of already taken frames
     KVERIFY_SUB(fillCapturedFramesMap(capturedFramesMap));
@@ -289,12 +272,12 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000));
 
     // create the destination for images
-    qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << getImageLocation()->path();
+    qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << m_CaptureHelper->getImageLocation()->path();
 
     // step 1: create the frames due to the captured frames map
     if (capturedFramesMap != "")
     {
-        KVERIFY_SUB(fillCaptureSequences(capturedFramesMap, exptime, getImageLocation()->filePath(target)));
+        KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, capturedFramesMap, exptime, m_CaptureHelper->getImageLocation()->filePath(target)));
         KVERIFY_SUB(fillCapturedFramesMap(""));
         KVERIFY_SUB(setExpectedFrames(capturedFramesMap));
 
@@ -306,7 +289,7 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
     }
 
     // step 2: create the sequence for the test
-    KVERIFY_SUB(fillCaptureSequences(sequence, exptime, getImageLocation()->path()));
+    KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, m_CaptureHelper->getImageLocation()->path()));
     KVERIFY_SUB(fillCapturedFramesMap(""));
     if (rememberJobProgress)
         KVERIFY_SUB(setExpectedFrames(expectedFrames));
@@ -315,18 +298,19 @@ bool TestEkosCaptureCount::prepareScheduledCapture(SchedulerJob::CompletionCondi
             KVERIFY_SUB(setExpectedFrames(sequence));
 
     // save current capture sequence to Ekos sequence file
-    QString sequenceFile = destination->filePath("test.esq");
+    QString sequenceFile = m_CaptureHelper->destination->filePath("test.esq");
     qCInfo(KSTARS_EKOS_TEST) << "Sequence file" << sequenceFile << "created.";
     KVERIFY_SUB(Ekos::Manager::Instance()->captureModule()->saveSequenceQueue(sequenceFile));
 
     // setup scheduler
-    setupScheduler(sequenceFile, sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress);
+    setupScheduler(sequenceFile, sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress, exptime);
 
     // everything successfully completed
     return true;
 }
 
-bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress)
+bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition,
+                                          int iterations, bool rememberJobProgress, double exptime)
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
@@ -367,13 +351,14 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
     KTRY_CLICK_SUB(scheduler, addToQueueB);
 
     // verify the displayed capture counts
-    KVERIFY_SUB(verifySchedulerCounting(sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress));
+    KVERIFY_SUB(verifySchedulerCounting(sequence, capturedFramesMap, completionCondition, iterations, rememberJobProgress, exptime));
 
     // everything worked as expected
     return true;
 }
 
-bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition, int iterations, bool rememberJobProgress)
+bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString capturedFramesMap, SchedulerJob::CompletionCondition completionCondition,
+                                                   int iterations, bool rememberJobProgress, double exptime)
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     KTRY_GADGET_SUB(scheduler, QTableWidget, queueTable);
@@ -413,10 +398,11 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     // check estimated duration time (only relevant for repeats
     if (completionCondition == SchedulerJob::FINISH_REPEAT)
     {
-        QTime estimatedDuration = QTime::fromString(queueTable->item(0, 7)->text(), "HH:mm:ss");
-        int duration = estimatedDuration.second() + 60*estimatedDuration.hour();
-        KVERIFY2_SUB(duration == total_expected - captured_expected,
-                     QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg(total_expected - captured_expected).toStdString().c_str());
+        QString estimation = queueTable->item(0, 7)->text();
+        QTime estimatedDuration = QTime::fromString(estimation, "HH:mm:ss");
+        int duration = estimatedDuration.second() + 60*estimatedDuration.minute() + 3600*estimatedDuration.hour();
+        KVERIFY2_SUB(std::fabs((total_expected - captured_expected)*exptime - duration) <= 1,
+                     QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg((total_expected - captured_expected)*exptime).toStdString().c_str());
     }
     // everything worked as expected
     return true;
@@ -437,43 +423,6 @@ void TestEkosCaptureCount::prepareTestData(double exptime, QString sequence, QSt
                 << exptime << sequence << capturedFramesMap << expectedFrames << iterations << remember;
  }
 
-QDir *TestEkosCaptureCount::getImageLocation()
-{
-    if (imageLocation == nullptr || imageLocation->exists())
-        imageLocation = new QDir(destination->path() + "/images");
-
-    return imageLocation;
-}
-
-QString TestEkosCaptureCount::calculateSignature(QString filter)
-{
-    if (target == "")
-        return getImageLocation()->path() + "/Light/" + filter + "/Light";
-    else
-        return getImageLocation()->path() + "/" + target + "/Light/" + filter + "/" + target + "_Light";
-}
-
-bool TestEkosCaptureCount::fillCaptureSequences(QString sequence, double exptime, QString fitsDirectory)
-{
-    if (sequence == "")
-        return true;
-
-    for (QString value : sequence.split(","))
-    {
-        KVERIFY_SUB(value.indexOf(":") > -1);
-        QString filter = value.left(value.indexOf(":"));
-        int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
-        KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), fileTimestampS, true);
-        KTRY_SET_LINEEDIT_SUB(Ekos::Manager::Instance()->captureModule(), filePrefixT, target);
-        if (count > 0)
-            KWRAP_SUB(KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter, fitsDirectory));
-        // ensure that no old values are present
-        Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(filter), 0);
-    }
-
-    return true;
-}
-
 bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap)
 {
     if (capturedFramesMap != "")
@@ -483,7 +432,7 @@ bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap)
             KVERIFY_SUB(value.indexOf(":") > -1);
             QString filter = value.left(value.indexOf(":"));
             int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
-            Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(filter), count);
+            Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(m_CaptureHelper->calculateSignature(target, filter), count);
         }
     }
 

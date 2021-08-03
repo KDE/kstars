@@ -3309,9 +3309,14 @@ void Manager::connectModules()
         connect(captureProcess.get(), &Ekos::Capture::resetFocus, focusProcess.get(), &Ekos::Focus::resetFrame,
                 Qt::UniqueConnection);
 
+        // Abort Focus
+        connect(captureProcess.get(), &Ekos::Capture::abortFocus, focusProcess.get(), &Ekos::Focus::abort,
+                Qt::UniqueConnection);
+
         // New Focus Status
         connect(focusProcess.get(), &Ekos::Focus::newStatus, captureProcess.get(), &Ekos::Capture::setFocusStatus,
                 Qt::UniqueConnection);
+
         // New Focus HFR
         connect(focusProcess.get(), &Ekos::Focus::newHFR, captureProcess.get(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 

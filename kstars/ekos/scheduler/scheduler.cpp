@@ -5750,7 +5750,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
             totalImagingTime += timeHeuristics(schedJob);
         }
         dms const estimatedTime(totalImagingTime * 15.0 / 3600.0);
-        schedJob->setEstimatedTime(totalImagingTime);
+        schedJob->setEstimatedTime(std::ceil(totalImagingTime));
 
         qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' estimated to take %2 to complete.").arg(schedJob->getName(),
                                       estimatedTime.toHMSString());

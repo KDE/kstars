@@ -372,7 +372,7 @@ class CCD : public DeviceDecorator
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
         // Creates or finds the FITSViewer.
-        void setupFITSViewerWindows();
+        QPointer<FITSViewer> getFITSViewer();
         void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
         //QString filter;

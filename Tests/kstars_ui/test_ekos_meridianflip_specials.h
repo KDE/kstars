@@ -54,6 +54,20 @@ private slots:
     /** @brief Test data for @see testCaptureAlignGuidingPausedMF() */
     void testCaptureAlignGuidingPausedMF_data();
 
+    /** @brief Test if a meridian flip takes place while re-focusing and consequently
+     * leads to abort the refocusing and refocusing is restarted after a successful meridian flip */
+    void testAbortRefocusMF();
+
+    /** @brief Test data for @see testCaptureRefocusMF() */
+    void testAbortRefocusMF_data();
+
+    /** @brief Test if a meridian flip within a scheduler job takes place while re-focusing and consequently
+     * leads to abort the refocusing and the scheduler recovers afterwards */
+    void testAbortSchedulerRefocusMF();
+
+    /** @brief Test data for @see testAbortSchedulerRefocusMF() */
+    void testAbortSchedulerRefocusMF_data();
+
     /** @brief Test the situation where the mount does not change its pier side and the meridian flip is
      * repeated after 4 minutes.
      * */

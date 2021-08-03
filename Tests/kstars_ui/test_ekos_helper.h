@@ -318,6 +318,12 @@ do {\
     toolsWidget->setCurrentWidget(module); \
     QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), module, timeout);} while (false)
 
+#define SET_INDI_VALUE_DOUBLE(device, group, property, value) do {\
+    int result = QProcess::execute(QString("indi_setprop"), {QString("-n"), QString("%1.%2.%3=%4").arg(device).arg(group).arg(property).arg(value)});\
+    qCInfo(KSTARS_EKOS_TEST) << "Process result code: " << result;\
+    } while (false)
+
+
 class TestEkosHelper : public QObject
 {
     Q_OBJECT
