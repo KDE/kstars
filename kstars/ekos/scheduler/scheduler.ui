@@ -1707,7 +1707,7 @@ font-weight:bold;
              <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The artificial horizon restriction constrains the altitude of the target to be above the artificial horizon, if any are defined and enabled. See the artificial horizon item in the KStars Settings menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Use Artificial Horizon</string>
+             <string>Artificial Horizon</string>
             </property>
             <property name="checked">
              <bool>true</bool>
