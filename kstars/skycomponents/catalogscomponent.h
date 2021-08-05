@@ -177,10 +177,15 @@ class CatalogsComponent : public SkyComponent
     /** Helpers */
 
     void updateSkyMesh(SkyMap &map, MeshBufNum_t buf = DRAW_BUF);
-    size_t calculateCacheSize(const int percentage)
+    size_t calculateCacheSize(const unsigned int percentage)
     {
         return m_skyMesh->size() * percentage / 100;
     }
+
+    /**
+     * Try importing the old skycomponents database.
+     */
+    void tryImportSkyComponents();
 
     //@}
 };

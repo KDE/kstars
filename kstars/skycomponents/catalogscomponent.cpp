@@ -28,6 +28,7 @@
 #include "kstars.h"
 #include "skymapcomposite.h"
 #include "kspaths.h"
+#include "import_skycomp.h"
 
 CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_filename,
                                      bool load_default)
@@ -46,8 +47,8 @@ CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_fil
         }
     }
 
-    m_catalog_colors = m_db_manager.get_catalog_colors();
-
+    m_catalog_colors  = m_db_manager.get_catalog_colors();
+    tryImportSkyComponents();
     qCInfo(KSTARS) << "Loaded DSO catalogs.";
 }
 
@@ -304,3 +305,50 @@ SkyObject *CatalogsComponent::objectNearest(SkyPoint *p, double &maxrad)
 
     return &insertStaticObject(nearest);
 }
+
+void CatalogsComponent::tryImportSkyComponents()
+{
+    auto skycom_db = SkyComponentsImport::get_skycomp_db();
+    if (!skycom_db.first)
+        return;
+
+    const auto move_skycompdb = [&]()
+    {
+        const auto &path    = skycom_db.second.databaseName();
+        const auto new_path = path + ".backup";
+        const auto resp     = KMessageBox::questionYesNoCancel(
+            nullptr, i18n("Move the old database (%1) to %2?", path, new_path));
+
+        if (resp == KMessageBox::Yes)
+            QFile::rename(path, path + ".backup");
+    };
+
+    const auto resp = KMessageBox::questionYesNoCancel(
+        nullptr, i18n("Import custom and internet resolved objects "
+                      "form the old DSO database into the new one?"));
+
+    if (resp != KMessageBox::Yes)
+    {
+        move_skycompdb();
+        return;
+    }
+
+    const auto &success = SkyComponentsImport::get_objects(skycom_db.second);
+    if (!std::get<0>(success))
+        KMessageBox::detailedError(nullptr, i18n("Could not import the objects."),
+                                   std::get<1>(success));
+
+    const auto &add_success =
+        m_db_manager.add_objects(CatalogsDB::user_catalog_id, std::get<2>(success));
+
+    if (!add_success.first)
+        KMessageBox::detailedError(nullptr, i18n("Could not import the objects."),
+                                   add_success.second);
+    else
+    {
+        KMessageBox::information(
+            nullptr, i18n("Successfully added %1 objects to the user catalog.",
+                          std::get<2>(success).size()));
+        move_skycompdb();
+    }
+};

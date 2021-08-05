@@ -132,6 +132,8 @@ const QString flux_unit         = "mag";
 const QString flux_frequency    = "400 nm";
 using CatalogColorMap           = std::map<QString, QColor>;
 using ColorMap                  = std::map<int, CatalogColorMap>;
+using CatalogObjectList         = std::list<CatalogObject>;
+using CatalogObjectVector       = std::vector<CatalogObject>;
 
 /**
  * \returns A hash table of the form `color scheme: color` by
@@ -200,8 +202,6 @@ class DBManager
         m_db.close();
     }
 
-    using CatalogObjectList = std::list<CatalogObject>;
-
     /**
      * @return the filename of the database
      */
@@ -231,7 +231,7 @@ class DBManager
     /**
      * @return return a vector of objects in the trixel with \p id.
      */
-    std::vector<CatalogObject> get_objects_in_trixel(const int trixel);
+    CatalogObjectVector get_objects_in_trixel(const int trixel);
 
     /**
      * \brief Find an objects by name.
@@ -367,7 +367,7 @@ class DBManager
      * error message
      */
     std::pair<bool, QString> add_objects(const int catalog_id,
-                                         const std::vector<CatalogObject> &objects);
+                                         const CatalogObjectVector &objects);
 
     /**
      * Remove the catalog object with the \p `oid` from the catalog with the

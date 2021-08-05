@@ -443,7 +443,7 @@ CatalogObject DBManager::read_catalogobject(const QSqlQuery &query) const
              flux,       m_db_file };
 }
 
-std::vector<CatalogObject> DBManager::get_objects_in_trixel(const int trixel)
+CatalogObjectVector DBManager::get_objects_in_trixel(const int trixel)
 {
     QMutexLocker _{ &m_mutex }; // this costs ~ .1ms which is ok
     m_q_obj_by_trixel.bindValue(0, trixel);
@@ -454,7 +454,7 @@ std::vector<CatalogObject> DBManager::get_objects_in_trixel(const int trixel)
                 .arg(trixel),
             DatabaseError::ErrorType::UNKNOWN, m_q_obj_by_trixel.lastError());
 
-    std::vector<CatalogObject> objects;
+    CatalogObjectVector objects;
     size_t count =
         count_rows(m_q_obj_by_trixel); // this also moves the query head to the end
 
@@ -477,9 +477,9 @@ std::vector<CatalogObject> DBManager::get_objects_in_trixel(const int trixel)
     return objects;
 }
 
-std::list<CatalogObject> DBManager::fetch_objects(QSqlQuery &query) const
+CatalogObjectList DBManager::fetch_objects(QSqlQuery &query) const
 {
-    std::list<CatalogObject> objects;
+    CatalogObjectList objects;
     auto _ = gsl::finally([&]() { query.finish(); });
 
     query.exec();
@@ -492,9 +492,8 @@ std::list<CatalogObject> DBManager::fetch_objects(QSqlQuery &query) const
     return objects;
 }
 
-std::list<CatalogObject> DBManager::find_objects_by_name(const QString &name,
-                                                         const int limit,
-                                                         const bool exactMatchOnly)
+CatalogObjectList DBManager::find_objects_by_name(const QString &name, const int limit,
+                                                  const bool exactMatchOnly)
 {
     QMutexLocker _{ &m_mutex };
 
@@ -510,7 +509,7 @@ std::list<CatalogObject> DBManager::find_objects_by_name(const QString &name,
         }
         if (exactMatchOnly)
         {
-            return std::list<CatalogObject>();
+            return CatalogObjectList();
         }
     }
 
@@ -520,9 +519,8 @@ std::list<CatalogObject> DBManager::find_objects_by_name(const QString &name,
     return fetch_objects(m_q_obj_by_name);
 }
 
-std::list<CatalogObject> DBManager::find_objects_by_name(const int catalog_id,
-                                                         const QString &name,
-                                                         const int limit)
+CatalogObjectList DBManager::find_objects_by_name(const int catalog_id,
+                                                  const QString &name, const int limit)
 {
     QSqlQuery query{ m_db };
 
@@ -566,7 +564,7 @@ std::pair<bool, CatalogObject> DBManager::get_object(const CatalogObject::oid &o
     return read_first_object(query);
 };
 
-std::list<CatalogObject> DBManager::get_objects(float maglim, int limit)
+CatalogObjectList DBManager::get_objects(float maglim, int limit)
 {
     QMutexLocker _{ &m_mutex };
     m_q_obj_by_maglim.bindValue(":maglim", maglim);
@@ -575,8 +573,7 @@ std::list<CatalogObject> DBManager::get_objects(float maglim, int limit)
     return fetch_objects(m_q_obj_by_maglim);
 }
 
-std::list<CatalogObject> DBManager::get_objects(SkyObject::TYPE type, float maglim,
-                                                int limit)
+CatalogObjectList DBManager::get_objects(SkyObject::TYPE type, float maglim, int limit)
 {
     QMutexLocker _{ &m_mutex };
     m_q_obj_by_maglim_and_type.bindValue(":type", type);
@@ -586,9 +583,9 @@ std::list<CatalogObject> DBManager::get_objects(SkyObject::TYPE type, float magl
     return fetch_objects(m_q_obj_by_maglim_and_type);
 }
 
-std::list<CatalogObject> DBManager::get_objects_in_catalog(SkyObject::TYPE type,
-                                                           const int catalog_id,
-                                                           float maglim, int limit)
+CatalogObjectList DBManager::get_objects_in_catalog(SkyObject::TYPE type,
+                                                    const int catalog_id, float maglim,
+                                                    int limit)
 {
     QSqlQuery query{ m_db };
 
@@ -1040,7 +1037,7 @@ DBManager::get_catalog_statistics(const int catalog_id)
 
 std::pair<bool, QString>
 CatalogsDB::DBManager::add_objects(const int catalog_id,
-                                   const std::vector<CatalogObject> &objects)
+                                   const CatalogObjectVector &objects)
 {
     {
         const auto &success = get_catalog(catalog_id);
@@ -1074,8 +1071,8 @@ CatalogsDB::DBManager::add_objects(const int catalog_id,
              m_db.lastError().text() };
 };
 
-DBManager::CatalogObjectList
-CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard, const int limit)
+CatalogObjectList CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard,
+                                                                  const int limit)
 {
     QMutexLocker _{ &m_mutex };
 
@@ -1090,7 +1087,7 @@ CatalogsDB::DBManager::find_objects_by_wildcard(const QString &wildcard, const i
     return fetch_objects(query);
 };
 
-std::tuple<bool, const QString, DBManager::CatalogObjectList>
+std::tuple<bool, const QString, CatalogObjectList>
 CatalogsDB::DBManager::general_master_query(const QString &where, const QString &order_by,
                                             const int limit)
 {
