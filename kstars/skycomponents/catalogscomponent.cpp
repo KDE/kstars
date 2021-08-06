@@ -47,7 +47,7 @@ CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_fil
         }
     }
 
-    m_catalog_colors  = m_db_manager.get_catalog_colors();
+    m_catalog_colors = m_db_manager.get_catalog_colors();
     tryImportSkyComponents();
     qCInfo(KSTARS) << "Loaded DSO catalogs.";
 }
@@ -347,8 +347,9 @@ void CatalogsComponent::tryImportSkyComponents()
     else
     {
         KMessageBox::information(
-            nullptr, i18np("Successfully added %1 object to the user catalog.", "Successfully added %1 objects to the user catalog.",
-                          std::get<2>(success).size()));
+            nullptr, i18np("Successfully added %1 object to the user catalog.",
+                           "Successfully added %1 objects to the user catalog.",
+                           std::get<2>(success).size()));
         move_skycompdb();
     }
 };

@@ -19,7 +19,7 @@
 
 #include "catalogobject.h"
 #include "skyobjitem.h"
-
+#include "catalogsdb.h"
 #include <QList>
 #include <QObject>
 #include <unordered_map>
@@ -122,6 +122,6 @@ class ModelManager : public QObject
     QList<SkyObjItem *> favoriteNebulas;
     QList<SkyObjItem *> favoriteClusters;
     SkyObjListModel *tempModel{ nullptr };
-    std::unordered_map<int, std::list<CatalogObject>> m_CatalogMap;
+    std::unordered_map<int, CatalogsDB::CatalogObjectList> m_CatalogMap;
     std::unordered_map<int, std::list<SkyObjItem>> m_CatalogSkyObjItems;
 };

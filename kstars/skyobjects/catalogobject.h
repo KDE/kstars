@@ -21,7 +21,6 @@
 #include "skyobject.h"
 #include "nan.h"
 #include "texturemanager.h"
-
 #include <QString>
 #include <QByteArray>
 #include <QImage>
@@ -53,8 +52,7 @@ class CatalogObject : public SkyObject
     friend class AddCatalogObject;
 
   public:
-    using CatalogObjectList = std::list<CatalogObject>;
-    using oid               = QByteArray;
+    using oid = QByteArray;
 
     /**
      * @param id oid (hash) of the object

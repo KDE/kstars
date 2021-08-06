@@ -20,6 +20,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <exception>
+#include <list>
 #include <QString>
 #include <QList>
 #include <catalogsdb_debug.h>

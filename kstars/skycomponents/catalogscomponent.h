@@ -166,7 +166,7 @@ class CatalogsComponent : public SkyComponent
      * used when access to CatalogObjects is required. Call `dropCache` if
      * required.__
      */
-    std::unordered_map<Trixel, std::list<CatalogObject>> m_static_objects;
+    std::unordered_map<Trixel, CatalogsDB::CatalogObjectList> m_static_objects;
 
     /**
      * A cache for catalog colors.
