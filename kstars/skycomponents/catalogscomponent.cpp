@@ -325,7 +325,7 @@ void CatalogsComponent::tryImportSkyComponents()
 
     const auto resp = KMessageBox::questionYesNoCancel(
         nullptr, i18n("Import custom and internet resolved objects "
-                      "form the old DSO database into the new one?"));
+                      "from the old DSO database into the new one?"));
 
     if (resp != KMessageBox::Yes)
     {
@@ -347,7 +347,7 @@ void CatalogsComponent::tryImportSkyComponents()
     else
     {
         KMessageBox::information(
-            nullptr, i18n("Successfully added %1 objects to the user catalog.",
+            nullptr, i18np("Successfully added %1 object to the user catalog.", "Successfully added %1 objects to the user catalog.",
                           std::get<2>(success).size()));
         move_skycompdb();
     }
