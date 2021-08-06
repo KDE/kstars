@@ -139,5 +139,9 @@ class Media : public QObject
 
         // Binary Metadata Size
         static const uint16_t METADATA_PACKET = 512;
+
+        // HIPS Tile Width and Height
+        static const uint16_t HIPS_TILE_WIDTH = 512;
+        static const uint16_t HIPS_TILE_HEIGHT = 512;
 };
 }

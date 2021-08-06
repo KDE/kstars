@@ -188,6 +188,12 @@ enum COMMANDS
     // Filter Manager
     FM_GET_DATA,
     FM_SET_DATA,
+
+    // Astronomy Library
+    ASTRO_GET_ALMANC,
+    ASTRO_SEARCH_OBJECTS,
+    ASTRO_GET_OBJECTS_INFO,
+    ASTRO_GET_OBJECTS_IMAGE,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -345,7 +351,12 @@ static QMap<COMMANDS, QString> const commands =
     {DIALOG_GET_RESPONSE, "dialog_get_response"},
 
     {FM_GET_DATA, "fm_get_data"},
-    {FM_SET_DATA, "fm_set_data"}
+    {FM_SET_DATA, "fm_set_data"},
+
+    {ASTRO_GET_ALMANC, "astro_get_almanac"},
+    {ASTRO_SEARCH_OBJECTS, "astro_search_objects"},
+    {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
+    {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"}
 };
 
 }

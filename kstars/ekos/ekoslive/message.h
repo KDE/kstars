@@ -17,7 +17,7 @@
 
 #include "ekos/ekos.h"
 #include "ekos/manager.h"
-
+#include "catalogsdb.h"
 
 namespace EkosLive
 {
@@ -183,6 +183,10 @@ class Message : public QObject
         // Low-level Device commands
         void processDeviceCommands(const QString &command, const QJsonObject &payload);
 
+        // Process Astronomy Library command
+        void processAstronomyCommands(const QString &command, const QJsonObject &payload);
+        KStarsDateTime getNextDawn();
+
         QWebSocket m_WebSocket;
         QJsonObject m_AuthResponse;
         uint16_t m_ReconnectTries {0};
@@ -200,6 +204,17 @@ class Message : public QObject
         double m_CurrentZoom {100};
 
         QDateTime m_ThrottleTS;
+
+        CatalogsDB::DBManager m_DSOManager;
+
+        typedef enum
+        {
+            North,
+            East,
+            South,
+            West,
+            All
+        } Direction;
 
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;

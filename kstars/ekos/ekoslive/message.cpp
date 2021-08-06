@@ -19,6 +19,9 @@
 #include "kstarsdata.h"
 #include "ekos_debug.h"
 #include "fitsviewer/fitsview.h"
+#include "ksalmanac.h"
+#include "skymapcomposite.h"
+#include "catalogobject.h"
 
 #include <KActionCollection>
 #include <basedevice.h>
@@ -27,7 +30,7 @@
 namespace EkosLive
 {
 
-Message::Message(Ekos::Manager *manager): m_Manager(manager)
+Message::Message(Ekos::Manager *manager): m_Manager(manager), m_DSOManager(CatalogsDB::dso_db_path())
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Message::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &Message::onDisconnected);
@@ -177,6 +180,8 @@ void Message::onTextReceived(const QString &message)
         processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
         processProfileCommands(command, payload);
+    else if (command.startsWith("astro_"))
+        processAstronomyCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -1349,6 +1354,319 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
 
         m_PropertySubscriptions[device] = props;
     }
+}
+
+void Message::processAstronomyCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[ASTRO_GET_ALMANC])
+    {
+        // Today's date
+        const KStarsDateTime localTime  = KStarsData::Instance()->lt();
+        // Local Midnight
+        const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(), Qt::LocalTime);
+        // UTC Midnight
+        const KStarsDateTime utc  = KStarsData::Instance()->geo()->LTtoUT(midnight);
+
+        KSAlmanac almanac(utc, KStarsData::Instance()->geo());
+
+        QJsonObject response =
+        {
+            {"SunRise", almanac.getSunRise()},
+            {"SunSet", almanac.getSunSet()},
+            {"SunMaxAlt", almanac.getSunMaxAlt()},
+            {"SunMinAlt", almanac.getSunMinAlt()},
+            {"MoonRise", almanac.getMoonRise()},
+            {"MoonSet", almanac.getMoonSet()},
+            {"MoonPhase", almanac.getMoonPhase()},
+            {"MoonIllum", almanac.getMoonIllum()},
+            {"Dawn", almanac.getDawnAstronomicalTwilight()},
+            {"Dusk", almanac.getDuskAstronomicalTwilight()},
+
+        };
+
+        sendResponse(commands[ASTRO_GET_ALMANC], response);
+    }
+    // Get a list of object based on criteria
+    else if (command == commands[ASTRO_SEARCH_OBJECTS])
+    {
+        // Set time if required.
+        if (payload.contains("jd"))
+        {
+            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setUTC(jd);
+        }
+
+        // Search Criteria
+        // Object Type
+        SkyObject::TYPE objectType = static_cast<SkyObject::TYPE>(payload["type"].toInt(SkyObject::GALAXY));
+        // Azimuth restriction
+        Direction objectDirection = static_cast<Direction>(payload["direction"].toInt(All));
+        // Maximum Object Magnitude
+        double objectMaxMagnitude = payload["maxMagnitude"].toDouble(10);
+        // Minimum Object Altitude
+        double objectMinAlt = payload["minAlt"].toDouble(15);
+        // Minimum Duration that the object must be above the altitude (if any) seconds.
+        uint32_t objectMinDuration = payload["minDuration"].toDouble(3600);
+        // Minimum FOV in arcmins.
+        double objectMinFOV = payload["minFOV"].toDouble(0);
+        // Data instance
+        KStarsData *data = KStarsData::Instance();
+        // Geo Location
+        GeoLocation *geo = KStarsData::Instance()->geo();
+        // If we are before dawn, we check object altitude restrictions
+        // Otherwise, all objects are welcome
+        KStarsDateTime start = KStarsData::Instance()->lt();
+        KStarsDateTime end = getNextDawn();;
+        if (start > end)
+            // Add 1 day
+            end = end.addDays(1);
+
+        QVector<QPair<QString, const SkyObject *>> allObjects;
+        std::list<CatalogObject> dsoObjects;
+        bool isDSO = false;
+
+        switch (objectType)
+        {
+            // Stars
+            case SkyObject::STAR:
+            case SkyObject::CATALOG_STAR:
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
+                break;
+            // Planets & Moon
+            case SkyObject::PLANET:
+            case SkyObject::MOON:
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
+                break;
+            // Comets & Asteroids
+            case SkyObject::COMET:
+            case SkyObject::ASTEROID:
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
+                break;
+            // Clusters
+            case SkyObject::OPEN_CLUSTER:
+            case SkyObject::GLOBULAR_CLUSTER:
+                dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
+                dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
+                isDSO = true;
+                break;
+            // Nebuale
+            case SkyObject::GASEOUS_NEBULA:
+            case SkyObject::PLANETARY_NEBULA:
+                dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
+                dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::PLANETARY_NEBULA, objectMaxMagnitude));
+                isDSO = true;
+                break;
+            case SkyObject::GALAXY:
+                dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GALAXY, objectMaxMagnitude));
+                isDSO = true;
+                break;
+            case SkyObject::SUPERNOVA:
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::SUPERNOVA));
+                break;
+            case SkyObject::SATELLITE:
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::SATELLITE));
+                break;
+            default:
+                break;
+        }
+
+        QMutableVectorIterator<QPair<QString, const SkyObject *>> objectIterator(allObjects);
+
+        // Filter direction, if specified.
+        if (objectDirection != All)
+        {
+            QPair<int, int> Quardent1(270, 360), Quardent2(0, 90), Quardent3(90, 180), Quardent4(180, 270);
+            QPair<int, int> minAZ, maxAZ;
+            switch (objectDirection)
+            {
+                case North:
+                    minAZ = Quardent1;
+                    maxAZ = Quardent2;
+                    break;
+                case East:
+                    minAZ = Quardent2;
+                    maxAZ = Quardent3;
+                    break;
+                case South:
+                    minAZ = Quardent3;
+                    maxAZ = Quardent4;
+                    break;
+                case West:
+                    minAZ = Quardent4;
+                    maxAZ = Quardent1;
+                    break;
+                default:
+                    break;
+            }
+
+            if (isDSO)
+            {
+                std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+                while (dsoIterator != dsoObjects.end())
+                {
+                    // If there a more efficient way to do this?
+                    const double az = (*dsoIterator).recomputeHorizontalCoords(start, geo).az().Degrees();
+                    if (! ((minAZ.first <= az && az <= minAZ.second) || (maxAZ.first <= az && az <= maxAZ.second)))
+                        dsoIterator = dsoObjects.erase(dsoIterator);
+                    else
+                        ++dsoIterator;
+                }
+            }
+            else
+            {
+                while (objectIterator.hasNext())
+                {
+                    const double az = objectIterator.next().second->recomputeHorizontalCoords(start, geo).az().Degrees();
+                    if (! ((minAZ.first <= az && az <= minAZ.second) || (maxAZ.first <= az && az <= maxAZ.second)))
+                        objectIterator.remove();
+                }
+            }
+        }
+
+        // Maximum Magnitude
+        if (!isDSO)
+        {
+            objectIterator.toFront();
+            while (objectIterator.hasNext())
+            {
+                float magnitude = objectIterator.next().second->mag();
+                // Only filter for objects that have valid magnitude, otherwise, they're automatically included.
+                if (magnitude != NaN::f && magnitude > objectMaxMagnitude)
+                    objectIterator.remove();
+            }
+        }
+
+        // Altitude
+        if (isDSO)
+        {
+            std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+            while (dsoIterator != dsoObjects.end())
+            {
+                double duration = 0;
+                for (KStarsDateTime t = start; t < end; t = t.addSecs(3600.0))
+                {
+                    dms LST = geo->GSTtoLST(t.gst());
+                    (*dsoIterator).EquatorialToHorizontal(&LST, geo->lat());
+                    if ((*dsoIterator).alt().Degrees() >= objectMinAlt)
+                        duration += 3600;
+                }
+
+                if (duration < objectMinDuration)
+                    dsoIterator = dsoObjects.erase(dsoIterator);
+                else
+                    ++dsoIterator;
+            }
+        }
+        else
+        {
+            objectIterator.toFront();
+            while (objectIterator.hasNext())
+            {
+                const SkyObject *oneObject = objectIterator.next().second;
+                double duration = 0;
+
+                for (KStarsDateTime t = start; t < end; t = t.addSecs(3600.0))
+                {
+                    dms LST = geo->GSTtoLST(t.gst());
+                    //oneObject->EquatorialToHorizontal(&LST, geo->lat());
+                    if (oneObject->alt().Degrees() >= objectMinAlt)
+                        duration += 3600;
+                }
+
+                if (duration < objectMinDuration)
+                    objectIterator.remove();
+            }
+        }
+
+        // For DSOs, check minimum required FOV, if any.
+        if (isDSO && objectMinFOV > 0)
+        {
+            std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+            while (dsoIterator != dsoObjects.end())
+            {
+                if ((*dsoIterator).a() < objectMinFOV)
+                    dsoIterator = dsoObjects.erase(dsoIterator);
+                else
+                    ++dsoIterator;
+            }
+        }
+
+        QJsonArray response;
+        for (auto &oneObject : allObjects)
+            response.append(oneObject.second->name());
+        for (auto &oneObject : dsoObjects)
+            response.append(oneObject.name());
+
+        sendResponse(commands[ASTRO_SEARCH_OBJECTS], response);
+    }
+    // Get a list of object based on criteria
+    else if (command == commands[ASTRO_GET_OBJECTS_INFO])
+    {
+        // Set time if required.
+        if (payload.contains("jd"))
+        {
+            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setUTC(jd);
+        }
+
+        // Object Names
+        QVariantList objectNames = payload["names"].toArray().toVariantList();
+        QJsonArray objectsArray;
+
+        for (auto &oneName : objectNames)
+        {
+            const QString name = oneName.toString();
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name);
+            if (oneObject)
+            {
+                QJsonObject info =
+                {
+                    {"name", name},
+                    {"longName", oneObject->longname()},
+                    {"magnitude", oneObject->mag()},
+                    {"ra0", oneObject->ra0().Hours()},
+                    {"de0", oneObject->dec0().Degrees()},
+                    {"ra", oneObject->ra().Hours()},
+                    {"de", oneObject->dec().Degrees()},
+                };
+
+                // If DSO, add angular size.
+                CatalogObject *dsoObject = dynamic_cast<CatalogObject*>(oneObject);
+                if (dsoObject)
+                {
+                    info["a"] = dsoObject->a();
+                    info["b"] = dsoObject->b();
+                    info["pa"] = dsoObject->pa();
+                }
+
+                objectsArray.append(info);
+            }
+        }
+
+        sendResponse(commands[ASTRO_GET_OBJECTS_INFO], objectsArray);
+    }
+}
+
+KStarsDateTime Message::getNextDawn()
+{
+    // Today's date
+    const KStarsDateTime localTime  = KStarsData::Instance()->lt();
+    // Local Midnight
+    const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(), Qt::LocalTime);
+    // UTC Midnight
+    const KStarsDateTime utc  = KStarsData::Instance()->geo()->LTtoUT(midnight);
+    // Almanac
+    KSAlmanac almanac(utc, KStarsData::Instance()->geo());
+    // Next Dawn
+    KStarsDateTime nextDawn = midnight.addSecs(almanac.getDawnAstronomicalTwilight() * 24.0 * 3600.0);
+    // If dawn is earliar than now, add a day
+    if (nextDawn < localTime)
+        nextDawn.addDays(1);
+
+    return nextDawn;
 }
 
 void Message::requestDSLRInfo(const QString &cameraName)

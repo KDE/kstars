@@ -596,6 +596,7 @@ set(kstars_dialogsui_SRCS
 set(hips_SRCS
     hips/healpix.cpp
     hips/hipsrenderer.cpp
+    hips/hipsfinder.cpp
     hips/scanrender.cpp
     hips/pixcache.cpp
     hips/urlfiledownload.cpp

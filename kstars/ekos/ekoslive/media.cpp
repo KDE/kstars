@@ -13,9 +13,10 @@
 #include "media.h"
 #include "commands.h"
 #include "profileinfo.h"
-
+#include "skymapcomposite.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
+#include "hips/hipsfinder.h"
 
 #include "ekos_debug.h"
 
@@ -127,6 +128,51 @@ void Media::onTextReceived(const QString &message)
         extension = payload["ext"].toString();
     else if (command == commands[SET_BLOBS])
         m_sendBlobs = msgObj["payload"].toBool();
+    // Get a list of object based on criteria
+    else if (command == commands[ASTRO_GET_OBJECTS_IMAGE])
+    {
+        int level = payload["level"].toInt(5);
+        double zoom = payload["zoom"].toInt(20000);
+
+        // Object Names
+        QVariantList objectNames = payload["names"].toArray().toVariantList();
+
+        for (auto &oneName : objectNames)
+        {
+            const QString name = oneName.toString();
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name);
+            if (oneObject)
+            {
+                QImage centerImage(HIPS_TILE_WIDTH, HIPS_TILE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
+                if (HIPSFinder::Instance()->render(oneObject, level, zoom, &centerImage))
+                {
+                    QByteArray jpegData;
+                    QBuffer buffer(&jpegData);
+                    buffer.open(QIODevice::WriteOnly);
+
+                    // Send everything as strings
+                    QJsonObject metadata =
+                    {
+                        {"uuid", "hips"},
+                        {"name", name},
+                        {"resolution", QString("%1x%2").arg(HIPS_TILE_WIDTH).arg(HIPS_TILE_HEIGHT)},
+                        {"bin", "1x1"},
+                        {"ext", "jpg"}
+                    };
+
+                    // First METADATA_PACKET bytes of the binary data is always allocated
+                    // to the metadata, the rest to the image data.
+                    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+                    meta = meta.leftJustified(METADATA_PACKET, 0);
+                    buffer.write(meta);
+                    centerImage.save(&buffer, "jpg", 90);
+                    buffer.close();
+
+                    emit newImage(jpegData);
+                }
+            }
+        }
+    }
 }
 
 void Media::onBinaryReceived(const QByteArray &message)
