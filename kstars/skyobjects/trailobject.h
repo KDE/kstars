@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TRAILOBJECT_H_
-#define TRAILOBJECT_H_
+#pragma once
 
 #include <QSet>
 
@@ -32,54 +31,59 @@ class SkyPainter;
  */
 class TrailObject : public SkyObject
 {
-  public:
-    /** Constructor */
-    explicit TrailObject(int t = TYPE_UNKNOWN, dms r = dms(0.0), dms d = dms(0.0), float m = 0.0,
-                         const QString &n = QString());
+    public:
+        /** Constructor */
+        explicit TrailObject(int t = TYPE_UNKNOWN, dms r = dms(0.0), dms d = dms(0.0), float m = 0.0,
+                             const QString &n = QString());
 
-    /** Constructor */
-    TrailObject(int t, double r, double d, float m = 0.0, const QString &n = QString());
+        /** Constructor */
+        TrailObject(int t, double r, double d, float m = 0.0, const QString &n = QString());
 
-    ~TrailObject() override;
+        ~TrailObject() override;
 
-    TrailObject *clone() const override;
+        TrailObject *clone() const override;
 
-    /** @return whether the planet has a trail */
-    inline bool hasTrail() const { return (Trail.count() > 0); }
+        /** @return whether the planet has a trail */
+        inline bool hasTrail() const
+        {
+            return (Trail.count() > 0);
+        }
 
-    /** @return a reference to the planet's trail */
-    inline const QList<SkyPoint> &trail() const { return Trail; }
+        /** @return a reference to the planet's trail */
+        inline const QList<SkyPoint> &trail() const
+        {
+            return Trail;
+        }
 
-    /** @short adds a point to the planet's trail */
-    void addToTrail(const QString &label = QString());
+        /** @short adds a point to the planet's trail */
+        void addToTrail(const QString &label = QString());
 
-    /** @short removes the oldest point from the trail */
-    void clipTrail();
+        /** @short removes the oldest point from the trail */
+        void clipTrail();
 
-    /** @short clear the Trail */
-    void clearTrail();
+        /** @short clear the Trail */
+        void clearTrail();
 
-    /** @short update Horizontal coords of the trail */
-    void updateTrail(dms *LST, const dms *lat);
+        /** @short update Horizontal coords of the trail */
+        void updateTrail(dms *LST, const dms *lat);
 
-    /**Remove trail for all objects but one which is passed as
-         * parameter. It has SkyObject type for generality. */
-    static void clearTrailsExcept(SkyObject *o);
+        /**Remove trail for all objects but one which is passed as
+             * parameter. It has SkyObject type for generality. */
+        static void clearTrailsExcept(SkyObject *o);
 
-    void drawTrail(SkyPainter *skyp) const;
+        void drawTrail(SkyPainter *skyp) const;
 
-    /** Maximum trail size */
-    static const int MaxTrail = 400;
+        /** Maximum trail size */
+        static const int MaxTrail = 400;
 
-    void initPopupMenu(KSPopupMenu *pmenu) override;
+        void initPopupMenu(KSPopupMenu *pmenu) override;
 
-  protected:
-    QList<SkyPoint> Trail;
-    QList<QString> m_TrailLabels;
-    /// Store list of objects with trails.
-    static QSet<TrailObject *> trailObjects;
+    protected:
+        QList<SkyPoint> Trail;
+        QList<QString> m_TrailLabels;
+        /// Store list of objects with trails.
+        static QSet<TrailObject *> trailObjects;
 
-  private:
+    private:
 };
 
-#endif

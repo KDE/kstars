@@ -20,6 +20,8 @@
  * `_Manual_Additions` into the new DSO database.
  */
 
+#pragma once
+
 #include <utility>
 #include <QString>
 #include <QSqlDatabase>

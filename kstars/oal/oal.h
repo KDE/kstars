@@ -16,8 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef OAL_H_
-#define OAL_H_
+#pragma once
 
 #include <QString>
 #include <QLocale>
@@ -60,4 +59,3 @@ inline int warningOverwrite(QString message)
 #endif
 }
 }
-#endif

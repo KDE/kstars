@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#import "import_skycomp.h"
+#include "import_skycomp.h"
 
 QString db_path()
 {
     return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
-        .filePath("skycomponents.sqlite");
+           .filePath("skycomponents.sqlite");
 }
 
 std::pair<bool, QSqlDatabase> SkyComponentsImport::get_skycomp_db(const QString &path)
@@ -60,7 +60,7 @@ SkyComponentsImport::get_objects(QSqlDatabase db, const std::list<int> &ids)
                 "DSO.UID "
                 "= "
                 "ObjectDesignation.UID_DSO WHERE id_Catalog IN (%1)")
-            .arg(QStringList::fromVector(placeholders).join(", ")));
+        .arg(QStringList::fromVector(placeholders).join(", ")));
 
     for (auto const &i : ids)
         query.addBindValue(i);
