@@ -51,7 +51,7 @@ CatalogDetails::CatalogDetails(QWidget *parent, const QString &db_path,
     ui->object_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->object_table->adjustSize();
     ui->object_table->horizontalHeader()->setSectionResizeMode(
-        QHeaderView::ResizeMode::Stretch);
+        QHeaderView::ResizeMode::ResizeToContents);
 
     connect(ui->object_table, &QTableView::doubleClicked, this,
             &CatalogDetails::show_object_details);
