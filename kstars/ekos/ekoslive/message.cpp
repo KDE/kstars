@@ -1398,31 +1398,31 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         // Search Criteria
         // Object Type
-        SkyObject::TYPE objectType = static_cast<SkyObject::TYPE>(payload["type"].toInt(SkyObject::GALAXY));
+        auto objectType = static_cast<SkyObject::TYPE>(payload["type"].toInt(SkyObject::GALAXY));
         // Azimuth restriction
-        Direction objectDirection = static_cast<Direction>(payload["direction"].toInt(All));
+        auto objectDirection = static_cast<Direction>(payload["direction"].toInt(All));
         // Maximum Object Magnitude
-        double objectMaxMagnitude = payload["maxMagnitude"].toDouble(10);
+        auto objectMaxMagnitude = payload["maxMagnitude"].toDouble(10);
         // Minimum Object Altitude
-        double objectMinAlt = payload["minAlt"].toDouble(15);
+        auto objectMinAlt = payload["minAlt"].toDouble(15);
         // Minimum Duration that the object must be above the altitude (if any) seconds.
-        uint32_t objectMinDuration = payload["minDuration"].toDouble(3600);
+        auto objectMinDuration = payload["minDuration"].toInt(3600);
         // Minimum FOV in arcmins.
-        double objectMinFOV = payload["minFOV"].toDouble(0);
+        auto objectMinFOV = payload["minFOV"].toDouble(0);
         // Data instance
-        KStarsData *data = KStarsData::Instance();
+        auto *data = KStarsData::Instance();
         // Geo Location
-        GeoLocation *geo = KStarsData::Instance()->geo();
+        auto *geo = KStarsData::Instance()->geo();
         // If we are before dawn, we check object altitude restrictions
         // Otherwise, all objects are welcome
-        KStarsDateTime start = KStarsData::Instance()->lt();
-        KStarsDateTime end = getNextDawn();;
+        auto start = KStarsData::Instance()->lt();
+        auto end = getNextDawn();;
         if (start > end)
             // Add 1 day
             end = end.addDays(1);
 
         QVector<QPair<QString, const SkyObject *>> allObjects;
-        std::list<CatalogObject> dsoObjects;
+        CatalogsDB::CatalogObjectList dsoObjects;
         bool isDSO = false;
 
         switch (objectType)
@@ -1504,7 +1504,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
             if (isDSO)
             {
-                std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+                CatalogsDB::CatalogObjectList::iterator dsoIterator = dsoObjects.begin();
                 while (dsoIterator != dsoObjects.end())
                 {
                     // If there a more efficient way to do this?
@@ -1519,7 +1519,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             {
                 while (objectIterator.hasNext())
                 {
-                    const double az = objectIterator.next().second->recomputeHorizontalCoords(start, geo).az().Degrees();
+                    const auto az = objectIterator.next().second->recomputeHorizontalCoords(start, geo).az().Degrees();
                     if (! ((minAZ.first <= az && az <= minAZ.second) || (maxAZ.first <= az && az <= maxAZ.second)))
                         objectIterator.remove();
                 }
@@ -1532,7 +1532,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             objectIterator.toFront();
             while (objectIterator.hasNext())
             {
-                float magnitude = objectIterator.next().second->mag();
+                auto magnitude = objectIterator.next().second->mag();
                 // Only filter for objects that have valid magnitude, otherwise, they're automatically included.
                 if (magnitude != NaN::f && magnitude > objectMaxMagnitude)
                     objectIterator.remove();
@@ -1542,7 +1542,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         // Altitude
         if (isDSO)
         {
-            std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+            CatalogsDB::CatalogObjectList::iterator dsoIterator = dsoObjects.begin();
             while (dsoIterator != dsoObjects.end())
             {
                 double duration = 0;
@@ -1570,7 +1570,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
                 for (KStarsDateTime t = start; t < end; t = t.addSecs(3600.0))
                 {
-                    dms LST = geo->GSTtoLST(t.gst());
+                    auto LST = geo->GSTtoLST(t.gst());
                     //oneObject->EquatorialToHorizontal(&LST, geo->lat());
                     if (oneObject->alt().Degrees() >= objectMinAlt)
                         duration += 3600;
@@ -1584,7 +1584,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         // For DSOs, check minimum required FOV, if any.
         if (isDSO && objectMinFOV > 0)
         {
-            std::list<CatalogObject>::iterator dsoIterator = dsoObjects.begin();
+            CatalogsDB::CatalogObjectList::iterator dsoIterator = dsoObjects.begin();
             while (dsoIterator != dsoObjects.end())
             {
                 if ((*dsoIterator).a() < objectMinFOV)
