@@ -1159,7 +1159,8 @@ void Align::updatePreviewAlignPoints()
 
 void Align::slotLoadAlignmentPoints()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(&mountModelDialog, i18nc("@title:window", "Open Ekos Alignment List"), alignURLPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(&mountModelDialog, i18nc("@title:window", "Open Ekos Alignment List"),
+                   alignURLPath,
                    "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
         return;
@@ -1449,7 +1450,8 @@ void Align::exportSolutionPoints()
     if (solutionTable->rowCount() == 0)
         return;
 
-    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Export Solution Points"), alignURLPath,
+    QUrl exportFile = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Export Solution Points"),
+                      alignURLPath,
                       "CSV File (*.csv)");
     if (exportFile.isEmpty()) // if user presses cancel
         return;
@@ -5003,6 +5005,8 @@ bool Align::loadAndSlew(QString fileURL)
         appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
         setSolverMode(SOLVER_LOCAL);
     }
+
+    m_ImageData.clear();
 
     alignView->loadFile(fileURL, false);
     //m_FileToSolve = fileURL;
