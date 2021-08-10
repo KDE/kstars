@@ -431,6 +431,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void syncProperties();
 
+        /**
+         * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
+         * and cannot be relied on to know once a module interface is ready. Therefore, we explicitly check if the module interface
+         * is ready.
+         * @param iface interface to test for readiness.
+         */
+        void checkInterfaceReady(QDBusInterface *iface);
+
         void setAlignStatus(Ekos::AlignState status);
         void setGuideStatus(Ekos::GuideState status);
         void setCaptureStatus(Ekos::CaptureState status);

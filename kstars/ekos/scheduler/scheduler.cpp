@@ -7126,6 +7126,7 @@ void Scheduler::registerNewModule(const QString &name)
         connect(captureInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(captureInterface, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(setCaptureStatus(Ekos::CaptureState)),
                 Qt::UniqueConnection);
+        checkInterfaceReady(captureInterface);
     }
     else if (name == "Mount")
     {
@@ -7136,6 +7137,8 @@ void Scheduler::registerNewModule(const QString &name)
         connect(mountInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(mountInterface, SIGNAL(newStatus(ISD::Telescope::Status)), this, SLOT(setMountStatus(ISD::Telescope::Status)),
                 Qt::UniqueConnection);
+
+        checkInterfaceReady(mountInterface);
     }
     else if (name == "Align")
     {
@@ -7160,6 +7163,7 @@ void Scheduler::registerNewModule(const QString &name)
                                               QDBusConnection::sessionBus(), this);
 
         connect(domeInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
+        checkInterfaceReady(domeInterface);
     }
     else if (name == "Weather")
     {
@@ -7169,6 +7173,7 @@ void Scheduler::registerNewModule(const QString &name)
 
         connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
+        checkInterfaceReady(weatherInterface);
     }
     else if (name == "DustCap")
     {
@@ -7177,6 +7182,7 @@ void Scheduler::registerNewModule(const QString &name)
                                           QDBusConnection::sessionBus(), this);
 
         connect(capInterface, SIGNAL(ready()), this, SLOT(syncProperties()), Qt::UniqueConnection);
+        checkInterfaceReady(capInterface);
     }
 }
 
@@ -7257,6 +7263,66 @@ void Scheduler::syncProperties()
                    !hasCoolerControl.isValid() ? "invalid" : (hasCoolerControl.toBool() ? "T" : "F"));
         warmCCDCheck->setEnabled(hasCoolerControl.toBool());
         m_CaptureReady = true;
+    }
+}
+
+void Scheduler::checkInterfaceReady(QDBusInterface *iface)
+{
+    if (iface == mountInterface)
+    {
+        QVariant canMountPark = mountInterface->property("canPark");
+        if (canMountPark.isValid())
+        {
+            unparkMountCheck->setEnabled(canMountPark.toBool());
+            parkMountCheck->setEnabled(canMountPark.toBool());
+            m_MountReady = true;
+        }
+    }
+    else if (iface == capInterface)
+    {
+        QVariant canCapPark = capInterface->property("canPark");
+        if (canCapPark.isValid())
+        {
+            capCheck->setEnabled(canCapPark.toBool());
+            uncapCheck->setEnabled(canCapPark.toBool());
+            m_CapReady = true;
+        }
+        else
+        {
+            capCheck->setEnabled(false);
+            uncapCheck->setEnabled(false);
+        }
+    }
+    else if (iface == weatherInterface)
+    {
+        QVariant updatePeriod = weatherInterface->property("updatePeriod");
+        if (updatePeriod.isValid())
+        {
+            weatherCheck->setEnabled(true);
+            QVariant status = weatherInterface->property("status");
+            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
+        }
+        else
+            weatherCheck->setEnabled(true);
+    }
+    else if (iface == domeInterface)
+    {
+        QVariant canDomePark = domeInterface->property("canPark");
+        if (canDomePark.isValid())
+        {
+            unparkDomeCheck->setEnabled(canDomePark.toBool());
+            parkDomeCheck->setEnabled(canDomePark.toBool());
+            m_DomeReady = true;
+        }
+    }
+    else if (iface == captureInterface)
+    {
+        QVariant hasCoolerControl = captureInterface->property("coolerControl");
+        if (hasCoolerControl.isValid())
+        {
+            warmCCDCheck->setEnabled(hasCoolerControl.toBool());
+            m_CaptureReady = true;
+        }
     }
 }
 
