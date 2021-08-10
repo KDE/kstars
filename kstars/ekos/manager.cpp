@@ -2602,6 +2602,8 @@ void Manager::initObservatory(Weather *weather, Dome *dome)
         int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
         connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
+
+        emit newModule("Observatory");
     }
 
     Observatory *obs = observatoryProcess.get();
@@ -2609,8 +2611,6 @@ void Manager::initObservatory(Weather *weather, Dome *dome)
         obs->getWeatherModel()->initModel(weather);
     if (dome != nullptr)
         obs->getDomeModel()->initModel(dome);
-
-    emit newModule("Observatory");
 
 }
 
