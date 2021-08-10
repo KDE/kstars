@@ -2259,6 +2259,9 @@ void Manager::initCapture()
         return;
 
     captureProcess.reset(new Capture());
+    emit newModule("Capture");
+
+
     captureProcess->setEnabled(false);
     captureCountsWidget->shareCaptureProcess(captureProcess.get());
     int index = addModuleTab(EkosModule::Capture, captureProcess.get(), QIcon(":/icons/ekos_ccd.png"));
@@ -2300,8 +2303,6 @@ void Manager::initCapture()
     }
 
     connectModules();
-
-    emit newModule("Capture");
 }
 
 void Manager::initAlign()
@@ -2310,6 +2311,8 @@ void Manager::initAlign()
         return;
 
     alignProcess.reset(new Ekos::Align(currentProfile));
+
+    emit newModule("Align");
 
     double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
     getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
@@ -2341,8 +2344,6 @@ void Manager::initAlign()
     }
 
     connectModules();
-
-    emit newModule("Align");
 }
 
 void Manager::initFocus()
@@ -2351,6 +2352,9 @@ void Manager::initFocus()
         return;
 
     focusProcess.reset(new Ekos::Focus());
+
+    emit newModule("Focus");
+
     int index    = addModuleTab(EkosModule::Focus, focusProcess.get(), QIcon(":/icons/ekos_focus.png"));
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
@@ -2402,8 +2406,6 @@ void Manager::initFocus()
     }
 
     connectModules();
-
-    emit newModule("Focus");
 }
 
 void Manager::updateCurrentHFR(double newHFR, int position)
@@ -2434,6 +2436,9 @@ void Manager::initMount()
         return;
 
     mountProcess.reset(new Ekos::Mount());
+
+    emit newModule("Mount");
+
     int index    = addModuleTab(EkosModule::Mount, mountProcess.get(), QIcon(":/icons/ekos_mount.png"));
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
@@ -2491,8 +2496,6 @@ void Manager::initMount()
     mountGroup->setEnabled(true);
 
     connectModules();
-
-    emit newModule("Mount");
 }
 
 void Manager::initGuide()
@@ -2500,6 +2503,8 @@ void Manager::initGuide()
     if (guideProcess.get() == nullptr)
     {
         guideProcess.reset(new Ekos::Guide());
+
+        emit newModule("Guide");
 
         double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
         getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
@@ -2544,8 +2549,6 @@ void Manager::initGuide()
     }
 
     connectModules();
-
-    emit newModule("Guide");
 }
 
 void Manager::initDome()
@@ -2554,6 +2557,8 @@ void Manager::initDome()
         return;
 
     domeProcess.reset(new Ekos::Dome());
+
+    emit newModule("Dome");
 
     connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus)
     {
@@ -2577,8 +2582,6 @@ void Manager::initDome()
     });
 
     initObservatory(nullptr, domeProcess.get());
-    emit newModule("Dome");
-
     ekosLiveClient->message()->sendDomes();
 }
 
@@ -2588,9 +2591,9 @@ void Manager::initWeather()
         return;
 
     weatherProcess.reset(new Ekos::Weather());
-    initObservatory(weatherProcess.get(), nullptr);
-
     emit newModule("Weather");
+
+    initObservatory(weatherProcess.get(), nullptr);
 }
 
 void Manager::initObservatory(Weather *weather, Dome *dome)
@@ -2599,11 +2602,12 @@ void Manager::initObservatory(Weather *weather, Dome *dome)
     {
         // Initialize the Observatory Module
         observatoryProcess.reset(new Ekos::Observatory());
+
+        emit newModule("Observatory");
+
         int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
         connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
-
-        emit newModule("Observatory");
     }
 
     Observatory *obs = observatoryProcess.get();
@@ -2621,6 +2625,8 @@ void Manager::initDustCap()
 
     dustCapProcess.reset(new Ekos::DustCap());
 
+    emit newModule("DustCap");
+
     connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus)
     {
         QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus)} };
@@ -2636,8 +2642,6 @@ void Manager::initDustCap()
         QJsonObject status = { { "lightB", value} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
-
-    emit newModule("DustCap");
 
     ekosLiveClient->message()->sendCaps();
 }
