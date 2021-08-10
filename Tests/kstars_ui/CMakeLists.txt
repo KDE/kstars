@@ -112,7 +112,9 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockMount.xml
             ${CMAKE_CURRENT_BINARY_DIR})
 ADD_TEST(NAME TestEkosSchedulerOps COMMAND test_ekos_scheduler_ops)
-SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "stable;ui" TIMEOUT 120 )
+# JM 2021-08-06: Setting as unstable since DBus appears not to work correctly under the CI environment.
+# Warrants more investigation.
+SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "unstable;ui" TIMEOUT 120 )
 
 ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_horizon.cpp)
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
