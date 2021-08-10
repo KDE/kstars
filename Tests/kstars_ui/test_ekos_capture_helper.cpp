@@ -1,4 +1,4 @@
-/*
+﻿/*
     Helper class of KStars UI capture tests
 
     Copyright (C) 2020
@@ -19,9 +19,9 @@ TestEkosCaptureHelper::TestEkosCaptureHelper() : TestEkosHelper() {
     m_FocuserDevice = "Focuser Simulator";
 }
 
-void TestEkosCaptureHelper::initTestCase()
+void TestEkosCaptureHelper::init()
 {
-    TestEkosHelper::initTestCase();
+    TestEkosHelper::init();
     // connect to the capture process to receive capture status changes
     connect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosCaptureHelper::captureStatusChanged,
             Qt::UniqueConnection);
@@ -33,11 +33,11 @@ void TestEkosCaptureHelper::initTestCase()
     QVERIFY(destination->autoRemove());
 }
 
-void TestEkosCaptureHelper::cleanupTestCase()
+void TestEkosCaptureHelper::cleanup()
 {
     // disconnect to the capture process to receive capture status changes
     disconnect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosCaptureHelper::captureStatusChanged);
-    TestEkosHelper::cleanupTestCase();
+    TestEkosHelper::cleanup();
 
     // remove destination directory
     destination->remove();

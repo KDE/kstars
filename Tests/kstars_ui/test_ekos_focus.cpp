@@ -132,7 +132,7 @@ void TestEkosFocus::testCaptureStates()
     KTRY_FOCUS_GADGET(QPushButton, startLoopB);
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
 
-    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED, FAILED.");
+    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED, ABORTED.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_CLICK(startLoopB);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 1, 5000);
@@ -141,7 +141,7 @@ void TestEkosFocus::testCaptureStates()
     QCOMPARE((int)state_list[0], (int)Ekos::FocusState::FOCUS_FRAMING);
     QCOMPARE((int)state_list[1], (int)Ekos::FocusState::FOCUS_PROGRESS);
     QCOMPARE((int)state_list[2], (int)Ekos::FocusState::FOCUS_ABORTED);
-    QCOMPARE((int)state_list[3], (int)Ekos::FocusState::FOCUS_FAILED);
+    QCOMPARE((int)state_list[3], (int)Ekos::FocusState::FOCUS_ABORTED);
     state_list.clear();
 
     KTRY_FOCUS_GADGET(QCheckBox, useAutoStar);
@@ -421,7 +421,8 @@ void TestEkosFocus::testFocusWhenHFRChecking()
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
     KTRY_MOUNT_SYNC(60.0, true, -1);
-    KTRY_FOCUS_MOVETO(35000);
+    int initialFocusPosition = 35000;
+    KTRY_FOCUS_MOVETO(initialFocusPosition);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
     KTRY_FOCUS_EXPOSURE(3, 99);
 
@@ -458,14 +459,15 @@ void TestEkosFocus::testFocusWhenHFRChecking()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
     KTRY_FOCUS_CLICK(stopFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 10000);
-    autofocus.aborted = autofocus.complete = false;
-    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
 
     KTELL("Expect autofocus to start properly.\nChange settings so that the procedure fails now.\nExpect a failure.");
+    autofocus.aborted = autofocus.complete = false;
+    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.1, 0.1);
     KTRY_FOCUS_EXPOSURE(0.1, 1);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 90000);
+    KTRY_FOCUS_CHECK_POSITION_WITH_TIMEOUT(initialFocusPosition, 5000);
 
     KTELL("Run a fourth HFR check.\nExpect autofocus to complete.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);

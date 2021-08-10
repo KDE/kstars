@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for capture workflows (re-focus, dithering, guiding, ...)
 
     Copyright (C) 2021
@@ -103,7 +103,7 @@ void TestEkosCaptureWorkflow::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     // start the profile
     QVERIFY(m_CaptureHelper->startEkosProfile());
-    m_CaptureHelper->initTestCase();
+    m_CaptureHelper->init();
     QStandardPaths::setTestModeEnabled(true);
 
     QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
@@ -123,7 +123,7 @@ void TestEkosCaptureWorkflow::cleanupTestCase()
     disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
                &TestEkosCaptureWorkflow::telescopeStatusChanged);
 
-    m_CaptureHelper->cleanupTestCase();
+    m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();

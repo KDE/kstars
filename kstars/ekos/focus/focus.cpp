@@ -852,14 +852,14 @@ void Focus::start()
     if (currentFocuser == nullptr)
     {
         appendLogText(i18n("No Focuser connected."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
@@ -867,7 +867,7 @@ void Focus::start()
     {
         appendLogText(i18n("Starting pulse step is too low. Increase the step size to %1 or higher...",
                            MINIMUM_PULSE_TIMER * 5));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
@@ -997,7 +997,7 @@ void Focus::start()
         {
             if (!changeFocus(newPosition - position))
             {
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
             // Avoid the capture below.
             return;
@@ -1023,9 +1023,11 @@ int Focus::adjustLinearPosition(int position, int newPosition)
     return newPosition;
 }
 
-void Focus::checkStopFocus()
+void Focus::checkStopFocus(bool abort)
 {
-    resetFocusIteration = MAXIMUM_RESET_ITERATIONS + 1;
+    // if abort, avoid try to restart
+    if (abort)
+        resetFocusIteration = MAXIMUM_RESET_ITERATIONS + 1;
 
     if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
     {
@@ -1039,12 +1041,28 @@ void Focus::checkStopFocus()
     {
         stopFocusB->setEnabled(false);
         appendLogText(i18n("Detection in progress, please wait."));
-        QTimer::singleShot(1000, this, &Focus::checkStopFocus);
+        QTimer::singleShot(1000, this, [&, abort]() {checkStopFocus(abort);});
     }
     else
     {
-        completeFocusProcedure(false);
+        completeFocusProcedure(abort ? Ekos::FOCUS_ABORTED : Ekos::FOCUS_FAILED);
     }
+}
+
+void Focus::meridianFlipStarted()
+{
+    // if focusing is not running, do nothing
+    if (state == FOCUS_IDLE || state == FOCUS_COMPLETE || state == FOCUS_FAILED || state == FOCUS_ABORTED)
+        return;
+
+    // store current focus iteration counter since abort() sets it to the maximal value to avoid restarting
+    int old = resetFocusIteration;
+    // abort focusing
+    abort();
+    // try to shift the focuser back to its initial position
+    resetFocuser();
+    // restore iteration counter
+    resetFocusIteration = old;
 }
 
 void Focus::abort()
@@ -1053,11 +1071,11 @@ void Focus::abort()
     if (state <= FOCUS_ABORTED)
         return;
 
-    checkStopFocus();
+    checkStopFocus(true);
     appendLogText(i18n("Autofocus aborted."));
 }
 
-void Focus::stop(bool aborted)
+void Focus::stop(Ekos::FocusState completionState)
 {
     qCDebug(KSTARS_EKOS_FOCUS) << "Stopping Focus";
 
@@ -1103,9 +1121,9 @@ void Focus::stop(bool aborted)
         m_GuidingSuspended = false;
     }
 
-    if (aborted)
+    if (completionState == Ekos::FOCUS_ABORTED || completionState == Ekos::FOCUS_FAILED)
     {
-        state = Ekos::FOCUS_ABORTED;
+        state = completionState;
         qCDebug(KSTARS_EKOS_FOCUS) << "State:" << Ekos::getFocusStatusString(state);
         emit newStatus(state);
     }
@@ -1130,14 +1148,14 @@ void Focus::capture(double settleTime)
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("Error: No Camera detected."));
-        checkStopFocus();
+        checkStopFocus(true);
         return;
     }
 
     if (currentCCD->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Camera."));
-        checkStopFocus();
+        checkStopFocus(true);
         return;
     }
 
@@ -1158,13 +1176,13 @@ void Focus::capture(double settleTime)
         if (currentFilter == nullptr)
         {
             appendLogText(i18n("Error: No Filter Wheel detected."));
-            checkStopFocus();
+            checkStopFocus(true);
             return;
         }
         if (currentFilter->isConnected() == false)
         {
             appendLogText(i18n("Error: Lost connection to Filter Wheel."));
-            checkStopFocus();
+            checkStopFocus(true);
             return;
         }
 
@@ -1234,7 +1252,7 @@ void Focus::capture(double settleTime)
     }
     else if (inAutoFocus)
     {
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
 }
 
@@ -1297,14 +1315,14 @@ bool Focus::changeFocus(int amount)
     if (currentFocuser == nullptr)
     {
         appendLogText(i18n("Error: No Focuser detected."));
-        checkStopFocus();
+        checkStopFocus(true);
         return false;
     }
 
     if (currentFocuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
-        checkStopFocus();
+        checkStopFocus(true);
         return false;
     }
 
@@ -1352,7 +1370,7 @@ void Focus::handleFocusMotionTimeout()
     if (++m_FocusMotionTimerCounter > 3)
     {
         appendLogText(i18n("Focuser is not responding to commands. Aborting..."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
 
     const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
@@ -1565,20 +1583,17 @@ bool Focus::appendHFR(double newHFR)
     return HFRFrames.count() < focusFramesSpin->value();
 }
 
-void Focus::completeFocusProcedure(bool success)
+void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
 {
-    QString analysis_results = "";
-
-    if (inAutoFocus)
+    state = completionState;
+    if (completionState == Ekos::FOCUS_COMPLETE)
     {
-        if (success)
+        if (autoFocusUsed)
         {
-            emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
-            appendLogText(i18np("Focus procedure completed after %1 iteration.",
-                                "Focus procedure completed after %1 iterations.", hfr_position.count()));
-
             // Prepare the message for Analyze
             const int size = hfr_position.size();
+            QString analysis_results = "";
+
             for (int i = 0; i < size; ++i)
             {
                 analysis_results.append(QString("%1%2|%3")
@@ -1586,6 +1601,44 @@ void Focus::completeFocusProcedure(bool success)
                                         .arg(QString::number(hfr_position[i], 'f', 0))
                                         .arg(QString::number(hfr_value[i], 'f', 3)));
             }
+
+            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
+            emit autofocusComplete(filter(), analysis_results);
+        }
+    }
+    else
+    {
+        if (autoFocusUsed)
+        {
+            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
+                                  KSNotification::EVENT_ALERT);
+            emit autofocusAborted(filter(), "");
+        }
+    }
+
+    qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
+
+    // Delay state notification if we have a locked filter pending return to original filter
+    if (fallbackFilterPending)
+    {
+        filterManager->setFilterPosition(fallbackFilterPosition,
+                                         static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+    }
+    else
+        emit newStatus(state);
+
+    resetButtons();
+}
+
+void Focus::completeFocusProcedure(FocusState completionState)
+{
+    if (inAutoFocus)
+    {
+        if (completionState == Ekos::FOCUS_COMPLETE)
+        {
+            emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
+            appendLogText(i18np("Focus procedure completed after %1 iteration.",
+                                "Focus procedure completed after %1 iterations.", hfr_position.count()));
 
             setLastFocusTemperature();
 
@@ -1609,26 +1662,16 @@ void Focus::completeFocusProcedure(bool success)
         else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
         {
             // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
-            bool const retry_focusing = !resetFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
+            bool const retry_focusing = !restartFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
 
             // If retrying, before moving, reset focus frame in case the star in subframe was lost
             if (retry_focusing)
             {
-                resetFocus = true;
+                restartFocus = true;
                 resetFrame();
             }
 
-            // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
-            if (currentFocuser && currentFocuser->isConnected())
-            {
-                // HACK: If the focuser will not move, cheat a little to get the notification - see processNumber
-                if (currentPosition == initialFocuserAbsPosition)
-                    currentPosition--;
-
-                appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
-                currentFocuser->moveAbs(initialFocuserAbsPosition);
-                /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
-            }
+            resetFocuser();
 
             // Bypass the rest of the function if we retry - we will fail if we could not move the focuser
             if (retry_focusing)
@@ -1642,7 +1685,7 @@ void Focus::completeFocusProcedure(bool success)
     const bool autoFocusUsed = inAutoFocus;
 
     // Reset the autofocus flags
-    stop(!success);
+    stop(completionState);
 
     // Refresh display if needed
     if (focusAlgorithm == FOCUS_POLYNOMIAL)
@@ -1654,46 +1697,28 @@ void Focus::completeFocusProcedure(bool success)
     if (settleTime > 0)
         appendLogText(i18n("Settling for %1s...", settleTime));
 
-    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, success, autoFocusUsed, analysis_results]()
+    QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed]()
     {
+        settle(completionState, autoFocusUsed);
+
         if (settleTime > 0)
             appendLogText(i18n("Settling complete."));
-
-        if (success)
-        {
-            state = Ekos::FOCUS_COMPLETE;
-
-            if (autoFocusUsed)
-            {
-                KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
-                emit autofocusComplete(filter(), analysis_results);
-            }
-        }
-        else
-        {
-            state = Ekos::FOCUS_FAILED;
-
-            if (autoFocusUsed)
-            {
-                KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
-                                      KSNotification::EVENT_ALERT);
-                emit autofocusAborted(filter(), analysis_results);
-            }
-        }
-
-        qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state);
-
-        // Delay state notification if we have a locked filter pending return to original filter
-        if (fallbackFilterPending)
-        {
-            filterManager->setFilterPosition(fallbackFilterPosition,
-                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
-        }
-        else
-            emit newStatus(state);
-
-        resetButtons();
     });
+}
+
+void Focus::resetFocuser()
+{
+    // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
+    if (currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
+    {
+        // HACK: If the focuser will not move, cheat a little to get the notification - see processNumber
+        if (currentPosition == initialFocuserAbsPosition)
+            currentPosition--;
+
+        appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
+        currentFocuser->moveAbs(initialFocuserAbsPosition);
+        /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
+    }
 }
 
 void Focus::setCurrentHFR(double value)
@@ -1734,7 +1759,7 @@ void Focus::setCurrentHFR(double value)
         if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
         {
             polySolutionFound = 0;
-            completeFocusProcedure(true);
+            completeFocusProcedure(Ekos::FOCUS_COMPLETE);
             return;
         }
 
@@ -2025,7 +2050,7 @@ void Focus::setHFRComplete()
             else
             {
                 noStarCount = 0;
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
         }
         // If the detect current HFR is more than the minimum required HFR
@@ -2042,7 +2067,7 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
                                        ". Autofocus successful.";
-            completeFocusProcedure(true);
+            completeFocusProcedure(Ekos::FOCUS_COMPLETE);
         }
 
         // Nothing more for now
@@ -2114,7 +2139,7 @@ bool Focus::autoFocusChecks()
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return false;
     }
 
@@ -2136,7 +2161,7 @@ bool Focus::autoFocusChecks()
         else
         {
             appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
-            completeFocusProcedure(false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
             return false;
         }
     }
@@ -2196,13 +2221,13 @@ void Focus::autoFocusLinear()
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
         {
-            completeFocusProcedure(true);
+            completeFocusProcedure(Ekos::FOCUS_COMPLETE);
         }
         else
         {
             qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
             appendLogText("Linear autofocus algorithm aborted.");
-            completeFocusProcedure(false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
         }
         return;
     }
@@ -2211,7 +2236,7 @@ void Focus::autoFocusLinear()
         const int delta = nextPosition - currentPosition;
 
         if (!changeFocus(delta))
-            completeFocusProcedure(false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
         return;
     }
@@ -2284,7 +2309,7 @@ void Focus::autoFocusAbs()
             }
 
             if (!changeFocus(pulseDuration))
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
             break;
 
@@ -2300,16 +2325,16 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(
                         i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
-                    completeFocusProcedure(false);
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else if (noStarCount > 0)
                 {
                     appendLogText(i18n("Failed to detect focus star in frame. Capture and select a focus star."));
-                    completeFocusProcedure(false);
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else
                 {
-                    completeFocusProcedure(true);
+                    completeFocusProcedure(Ekos::FOCUS_COMPLETE);
                 }
                 break;
             }
@@ -2501,13 +2526,13 @@ void Focus::autoFocusAbs()
                 if (targetPosition == minHFRPos)
                 {
                     appendLogText("Stopping at minimum recorded HFR position.");
-                    completeFocusProcedure(true);
+                    completeFocusProcedure(Ekos::FOCUS_COMPLETE);
                 }
                 else
                 {
                     appendLogText("Focuser cannot move further, device limits reached. Autofocus aborted.");
                     qCDebug(KSTARS_EKOS_FOCUS) << "Focuser cannot move further, restricted by device limits at " << targetPosition;
-                    completeFocusProcedure(false);
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 return;
             }
@@ -2516,7 +2541,7 @@ void Focus::autoFocusAbs()
             if (focusOutLimit && focusOutLimit == focusInLimit)
             {
                 appendLogText(i18n("Deadlock reached. Please try again with different settings."));
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 return;
             }
 
@@ -2543,7 +2568,7 @@ void Focus::autoFocusAbs()
                                                << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
                     appendLogText("Maximum travel limit reached. Autofocus aborted.");
-                    completeFocusProcedure(false);
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED);
                     break;
                 }
             }
@@ -2563,7 +2588,7 @@ void Focus::autoFocusAbs()
 
             // Now cross your fingers and wait
             if (!changeFocus(delta))
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
             break;
     }
@@ -2589,7 +2614,7 @@ void Focus::autoFocusRel()
     if (pulseDuration <= MINIMUM_PULSE_TIMER)
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
@@ -2611,7 +2636,7 @@ void Focus::autoFocusRel()
         else
         {
             appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
-            completeFocusProcedure(false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
             return;
         }
     }
@@ -2630,7 +2655,7 @@ void Focus::autoFocusRel()
         case FOCUS_OUT:
             if (fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
-                completeFocusProcedure(true);
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE);
             }
             else if (currentHFR < lastHFR)
             {
@@ -2652,7 +2677,7 @@ void Focus::autoFocusRel()
                 pulseDuration *= 0.75;
 
                 if (!changeFocus(m_LastFocusDirection == FOCUS_IN ? pulseDuration : -pulseDuration))
-                    completeFocusProcedure(false);
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
             break;
     }
@@ -2705,7 +2730,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
             if (!focusIn(temp))
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
-                completeFocusProcedure(false);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
         }
         else
@@ -2718,7 +2743,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
     else if (state == IPS_ALERT)
     {
         appendLogText(i18n("Focuser error, check INDI panel."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
 }
 
@@ -2782,9 +2807,9 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 return;
             }
 
-            if (resetFocus)
+            if (restartFocus && status() != Ekos::FOCUS_ABORTED)
             {
-                resetFocus = false;
+                restartFocus = false;
                 inAutoFocus = false;
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
@@ -2823,9 +2848,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             return;
         }
 
-        if (resetFocus && nvp->s == IPS_OK)
+        // restart if focus movement has finished
+        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            resetFocus = false;
+            restartFocus = false;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
@@ -2864,9 +2890,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             return;
         }
 
-        if (resetFocus && nvp->s == IPS_OK)
+        // restart if focus movement has finished
+        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            resetFocus = false;
+            restartFocus = false;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
@@ -2888,9 +2915,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (!strcmp(nvp->name, "FOCUS_TIMER"))
     {
         m_FocusMotionTimer.stop();
-        if (resetFocus && nvp->s == IPS_OK)
+        // restart if focus movement has finished
+        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            resetFocus = false;
+            restartFocus = false;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
@@ -3308,7 +3336,7 @@ void Focus::checkAutoStarTimeout()
 
         initialFocuserAbsPosition = -1;
         appendLogText(i18n("No star was selected. Aborting..."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
     else if (state == FOCUS_WAITING)
     {
@@ -3323,14 +3351,14 @@ void Focus::setAbsoluteFocusTicks()
     if (currentFocuser == nullptr)
     {
         appendLogText(i18n("Error: No Focuser detected."));
-        checkStopFocus();
+        checkStopFocus(true);
         return;
     }
 
     if (currentFocuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
-        checkStopFocus();
+        checkStopFocus(true);
         return;
     }
 
@@ -3585,7 +3613,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     connect(filterManager.data(), &FilterManager::failed, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
            );
 
@@ -3693,7 +3721,7 @@ void Focus::processCaptureTimeout()
         captureTimeoutCounter = 0;
         captureTimeout.stop();
         appendLogText(i18n("Exposure timeout. Aborting..."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
     else
     {
@@ -3716,7 +3744,7 @@ void Focus::processCaptureTimeout()
         }
         else if (inAutoFocus)
         {
-            completeFocusProcedure(false);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
         }
     }
 }
@@ -3729,7 +3757,7 @@ void Focus::processCaptureFailure()
     {
         captureFailureCounter = 0;
         appendLogText(i18n("Exposure failure. Aborting..."));
-        completeFocusProcedure(false);
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
@@ -4051,7 +4079,7 @@ void Focus::initConnections()
 
     // Start/Stop focus
     connect(startFocusB, &QPushButton::clicked, this, &Ekos::Focus::start);
-    connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::checkStopFocus);
+    connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::abort);
 
     // Focus IN/OUT
     connect(focusOutB, &QPushButton::clicked, [&]()

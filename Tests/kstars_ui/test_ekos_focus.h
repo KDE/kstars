@@ -69,6 +69,12 @@
     combobox->activated(cbIndex); \
     QCOMPARE(combobox->currentText(), QString(text)); } while(false);
 
+#define KTRY_FOCUS_CHECK_POSITION_WITH_TIMEOUT(pos, timeout) do { \
+    KTRY_FOCUS_GADGET(QLineEdit, absTicksLabel); \
+    QTRY_VERIFY2_WITH_TIMEOUT(pos == absTicksLabel->text().toInt(), \
+                              QString("Focuser is at position %1 instead of last focus position %2") \
+                              .arg(absTicksLabel->text()).arg(pos).toLocal8Bit(), timeout);} while(false);
+
 /** @brief Helper for exposure.
  * @param exposure is the amount of seconds to expose for.
  * @param averaged is the number of frames the procedure should average before computation.

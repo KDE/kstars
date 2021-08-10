@@ -3325,7 +3325,7 @@ void Manager::connectModules()
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::abort,
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::meridianFlipStarted,
                 Qt::UniqueConnection);
     }
 

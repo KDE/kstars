@@ -16,6 +16,7 @@
 #include "test_ekos.h"
 
 #if defined(HAVE_INDI)
+#include "indicom.h"
 
 #include <QObject>
 #include <QPushButton>
@@ -90,7 +91,8 @@
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000); \
     Ekos::Manager::Instance()->mountModule()->setMeridianFlipValues(true, 0); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->unpark(), 5000); \
-    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(LST.Hours()+(ha_ofs), (alt))); \
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->sync(range24(LST.Hours()+(ha_ofs+0.002)), (alt))); \
+    QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(range24(LST.Hours()+(ha_ofs)), (alt))); \
     if (!track) \
         QTimer::singleShot(1000, [&]{ \
         QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \

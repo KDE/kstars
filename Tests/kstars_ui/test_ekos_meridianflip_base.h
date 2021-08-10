@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for meridian flip
 
     Copyright (C) 2020
@@ -142,23 +142,21 @@ protected:
      * @brief Helper function that reads capture sequence test data, creates entries in the capture module,
      *        executes upfront focusing if necessary and positions the mount close to the meridian.
      * @param secsToMF seconds until the meridian will be crossed
-     * @param calibrate execute initial guiding to calibrate the guider
      * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
      */
-    bool prepareCaptureTestcase(int secsToMF, bool calibrate, bool initialFocus, bool guideDeviation);
+    bool prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation);
 
     /**
      * @brief Prepare the scheduler with a single based upon the capture sequences filled
      *        by @see prepareCaptureTestcase(int,bool,bool,bool)
      * @param secsToMF seconds until the meridian will be crossed
-     * @param useGuiding use guiding for the scheduler job
      * @param useFocus use focusing for the scheduler job
      * @param completionCondition completion condition for the scheduler
      * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
      * @return true iff preparation was successful
      */
-    bool prepareSchedulerTestcase(int secsToMF, bool useGuiding, bool useFocus, SchedulerJob::CompletionCondition completionCondition, int iterations);
+    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, SchedulerJob::CompletionCondition completionCondition, int iterations);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.
@@ -168,10 +166,11 @@ protected:
      * @param filterList variants of filter parameter tests
      * @param focusList variants with/without focus tests
      * @param autofocusList variants with/without HFR autofocus tests
+     * @param guideList variants with/without guiding tests
      * @param ditherList variants with/without dithering tests
      */
     void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<QString> filterList,
-                         QList<bool> focusList, QList<bool> autofocusList, QList<bool> ditherList);
+                         QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList);
 
     /**
      * @brief Check if astrometry files exist.
@@ -278,6 +277,9 @@ protected:
 
     // target position
     SkyPoint *target;
+
+    // initial focuser position
+    int initialFocusPosition = -1;
 
     // PHD2 setup (host and port)
     QProcess *phd2 { nullptr };

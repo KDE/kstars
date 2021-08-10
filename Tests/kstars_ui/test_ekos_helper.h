@@ -15,6 +15,11 @@
 #include "test_ekos_debug.h"
 #include "test_ekos_simulator.h"
 
+#include "indi/indidevice.h"
+#include "indi/indigroup.h"
+#include "indi/indiproperty.h"
+#include "indi/indielement.h"
+
 #include "ekos/profileeditor.h"
 
 #include <QObject>
@@ -342,12 +347,12 @@ public:
     /**
      * @brief Initialization ahead of executing the test cases.
      */
-    void virtual initTestCase();
+    void virtual init();
 
     /**
      * @brief Cleanup after test cases have been executed.
      */
-    void virtual cleanupTestCase();
+    void virtual cleanup();
 
     /**
      * @brief Fill mount, guider, CCD and focuser of an EKOS profile

@@ -1,4 +1,4 @@
-/*
+﻿/*
     Helper class of KStars UI tests
 
     Copyright (C) 2021
@@ -232,8 +232,8 @@ bool TestEkosHelper::checkAstrometryFiles()
 }
 
 /** Currently nothing to do */
-void TestEkosHelper::initTestCase() {}
-void TestEkosHelper::cleanupTestCase() {}
+void TestEkosHelper::init() {}
+void TestEkosHelper::cleanup() {}
 
 /* *********************************************************************************
  *

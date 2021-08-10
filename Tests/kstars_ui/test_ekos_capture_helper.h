@@ -34,12 +34,12 @@ public:
     /**
      * @brief Initialization ahead of executing the test cases.
      */
-    void initTestCase() override;
+    void init() override;
 
     /**
      * @brief Cleanup after test cases have been executed.
      */
-    void cleanupTestCase() override;
+    void cleanup() override;
 
     /**
      * @brief Helper function for start of capturing

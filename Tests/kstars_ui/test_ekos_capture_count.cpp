@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for verifying correct counting of the capture module
 
     Copyright (C) 2020
@@ -138,7 +138,7 @@ void TestEkosCaptureCount::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     // start the profile
     QVERIFY(m_CaptureHelper->startEkosProfile());
-    m_CaptureHelper->initTestCase();
+    m_CaptureHelper->init();
     // do not show images
     Options::setUseFITSViewer(false);
     // disable twilight warning
@@ -147,7 +147,7 @@ void TestEkosCaptureCount::initTestCase()
 
 void TestEkosCaptureCount::cleanupTestCase()
 {
-    m_CaptureHelper->cleanupTestCase();
+    m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();

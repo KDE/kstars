@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for meridian flip - special cases.
 
     Copyright (C) 2020
@@ -28,7 +28,7 @@ TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QString guider, QObje
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, true, true));
+    QVERIFY(prepareCaptureTestcase(40, true, true));
 
     // start guiding
     QVERIFY(startGuiding(2.0));
@@ -53,12 +53,15 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     QVERIFY(checkMFExecuted(25));
 
     // set guards for post MF checks
-    // autofocus (= insequence focusing) and dithering happen after first capture
-    // otherwise it is sufficient to wait for start of capturing
-    if (autofocus_checked || dithering_checked)
+    // 1. dithering happen after first capture otherwise it is sufficient to wait for start of capturing
+    if (dithering_checked)
         expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
     else
         expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
+
+    // 2. ensure that focusing starts
+    if (autofocus_checked || refocus_checked)
+        expectedFocusStates.enqueue(Ekos::FOCUS_PROGRESS);
 
     // check if guiding is running
     if (use_guiding)
@@ -68,26 +71,20 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     }
 
     // check refocusing, that should happen immediately after the guiding calibration
-    // exception: in sequence focusing needs one capture, since the guiding deviation
-    // has interrupted the first capture
-    if (autofocus_checked == false)
-        QVERIFY(checkRefocusing());
+    // both for in sequence and time based re-focusing
+    QVERIFY(checkRefocusing());
 
     // check if capturing has been started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 60000);
 
     // After the first capture dithering should take place
     QVERIFY(checkDithering());
-
-    // in sequence focusing check
-    if (autofocus_checked == true)
-        QVERIFY(checkRefocusing());
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, true, true, false));
+    QVERIFY(prepareCaptureTestcase(15, true, false));
 
     // start guiding
     QVERIFY(startGuiding(2.0));
@@ -110,7 +107,7 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, true, false));
+    QVERIFY(prepareCaptureTestcase(40, true, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -150,7 +147,7 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
     // select suspend guiding
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(80, true, true, false));
+    QVERIFY(prepareCaptureTestcase(80, true, false));
 
     // start guiding
     QVERIFY(startGuiding(2.0));
@@ -175,14 +172,22 @@ void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
     // select suspend guiding
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(30, true, true, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(30, true, SchedulerJob::FINISH_LOOP, 1));
+    // update the initial focuser position
+    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
+    initialFocusPosition = absTicksLabel->text().toInt();
+    // start the scheduled procedure
     QVERIFY(startScheduler());
-
 
     // expect focusing starts and aborts within 90 secends
     expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
     expectedFocusStates.append(Ekos::FOCUS_ABORTED);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedFocusStates, 120000);
+    // check if the focuser moved back to the last known focus position
+    // moving back should be finished 5 secs after focusing aborted
+    QTRY_VERIFY2_WITH_TIMEOUT(initialFocusPosition == absTicksLabel->text().toInt(),
+                              QString("Focuser is at position %1 instead of initial focus position %2")
+                              .arg(absTicksLabel->text()).arg(initialFocusPosition).toLocal8Bit(), 5000);
 
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(120));
@@ -229,32 +234,32 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
 {
-    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true}, {true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF_data()
 {
-    prepareTestData(25.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {false});
+    prepareTestData(25.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF_data()
 {
-    prepareTestData(30.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {false});
+    prepareTestData(30.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {true, false}, {false});
 }
 
-void TestEkosMeridianFlipSpecials::testRepeatedMF_data()
+void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false}, {false});
 }
 
 

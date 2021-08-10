@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for meridian flip - special cases
 
     Copyright (C) 2020, 2021
@@ -73,8 +73,8 @@ private slots:
      * */
     void testSimpleRepeatedMF();
 
-    /** @brief Test data for @see testRepeatedMF() */
-    void testRepeatedMF_data();
+    /** @brief Test data for @see testSimpleRepeatedMF() */
+    void testSimpleRepeatedMF_data();
 };
 
 #endif // HAVE_INDI

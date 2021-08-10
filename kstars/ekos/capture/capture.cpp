@@ -1,4 +1,4 @@
-/*  Ekos
+﻿/*  Ekos
     Copyright (C) 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
@@ -1797,8 +1797,10 @@ IPState Capture::setCaptureComplete()
         inSequenceFocusCounter--;
     }
 
-    /* Decrease the dithering counter */
-    ditherCounter--;
+    /* Decrease the dithering counter except for directly after meridian flip                                           */
+    /* Hint: this happens only when a meridian flip happened during a paused sequence when pressing "Start" afterwards. */
+    if (meridianFlipStage < MF_FLIPPING)
+        ditherCounter--;
 
     // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
@@ -5637,7 +5639,7 @@ IPState Capture::checkLightFramePendingTasks()
     // step 9: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
-    if ((m_State == CAPTURE_FOCUSING  && m_FocusState != FOCUS_COMPLETE) || startFocusIfRequired())
+    if ((m_State == CAPTURE_FOCUSING  && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED) || startFocusIfRequired())
         return IPS_BUSY;
 
     // step 10: resume guiding if it was suspended

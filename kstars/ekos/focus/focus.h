@@ -274,9 +274,20 @@ class Focus : public QWidget, public Ui::Focus
         void startFraming();
 
         /**
+         * @brief Move the focuser to the initial focus position.
+         */
+        void resetFocuser();
+
+        /**
              * @brief checkStopFocus Perform checks before stopping the autofocus operation. Some checks are necessary for in-sequence focusing.
+             * @param abort true iff focusing should be aborted, false if it should only be stopped and marked as failed
              */
-        void checkStopFocus();
+        void checkStopFocus(bool abort);
+
+        /**
+         * @brief React when a meridian flip has been started
+         */
+        void meridianFlipStarted();
 
         /**
              * @brief Check CCD and make sure information is updated accordingly. This simply calls syncCCDInfo for the current CCD.
@@ -533,7 +544,7 @@ private slots:
          */
         bool isPositionBased() {return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR));}
         void resetButtons();
-        void stop(bool aborted = false);
+        void stop(FocusState completionState = FOCUS_ABORTED);
 
         void initView();
 
@@ -585,7 +596,14 @@ private slots:
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void completeFocusProcedure(bool success);
+        void completeFocusProcedure(FocusState completionState);
+
+        /**
+         * @brief activities to be executed after the configured settling time
+         * @param completionState state the focuser completed with
+         * @param autoFocusUsed is autofocus running?
+         */
+        void settle(const FocusState completionState, const bool autoFocusUsed);
 
         //        void initializeFocuserTemperature();
         void setLastFocusTemperature();
@@ -699,7 +717,7 @@ private slots:
         bool inAutoFocus { false };
         bool inFocusLoop { false };
         //bool inSequenceFocus { false };
-        bool resetFocus { false };
+        bool restartFocus { false };
         /// Did we reverse direction?
         bool reverseDir { false };
         /// Did the user or the auto selection process finish selecting our focus star?

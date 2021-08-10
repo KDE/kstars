@@ -16,10 +16,6 @@
 #include "test_ekos.h"
 #include "Options.h"
 #include "indi/guimanager.h"
-#include "indi/indidevice.h"
-#include "indi/indigroup.h"
-#include "indi/indiproperty.h"
-#include "indi/indielement.h"
 
 TestEkosAlign::TestEkosAlign(QObject *parent) : QObject(parent)
 {
@@ -84,7 +80,7 @@ void TestEkosAlign::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     // start the profile
     QVERIFY(m_test_ekos_helper->startEkosProfile());
-    m_test_ekos_helper->initTestCase();
+    m_test_ekos_helper->init();
     QStandardPaths::setTestModeEnabled(true);
 
     prepareTestCase();
@@ -105,7 +101,7 @@ void TestEkosAlign::cleanupTestCase()
     disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
                &TestEkosAlign::telescopeStatusChanged);
 
-    m_test_ekos_helper->cleanupTestCase();
+    m_test_ekos_helper->cleanup();
     QVERIFY(m_test_ekos_helper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();

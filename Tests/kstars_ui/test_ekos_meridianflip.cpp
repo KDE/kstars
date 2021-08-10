@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for meridian flip
 
     Copyright (C) 2020
@@ -114,7 +114,7 @@ void TestEkosMeridianFlip::testGuidingMF()
 void TestEkosMeridianFlip::testCaptureMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, true, false));
+    QVERIFY(prepareCaptureTestcase(10, true, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -138,7 +138,7 @@ void TestEkosMeridianFlip::testCaptureMF()
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -165,7 +165,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -196,7 +196,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 void TestEkosMeridianFlip::testCaptureGuidingMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, true, true, false));
+    QVERIFY(prepareCaptureTestcase(15, true, false));
 
     // start guiding
     QVERIFY(startGuiding(2.0));
@@ -222,7 +222,7 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(45, false, true, false));
+    QVERIFY(prepareCaptureTestcase(45, true, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -248,7 +248,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, true, false));
+    QVERIFY(prepareCaptureTestcase(40, true, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -280,7 +280,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
 void TestEkosMeridianFlip::testSimpleMF_data()
 {
-    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {"Luminance"}, {false}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testSimpleMFDelay_data()
@@ -290,18 +290,18 @@ void TestEkosMeridianFlip::testSimpleMFDelay_data()
 
 void TestEkosMeridianFlip::testGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {true}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting_data()
 {
     // no tests for focusing and dithering
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
@@ -311,7 +311,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
 
 void TestEkosMeridianFlip::testCaptureGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlip::testCaptureAlignMF_data()
