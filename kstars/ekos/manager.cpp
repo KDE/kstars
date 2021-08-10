@@ -2359,7 +2359,7 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
     connect(focusProcess.get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::updateFocusStatus);
     connect(focusProcess.get(), &Ekos::Focus::newStarPixmap, focusManager, &Ekos::FocusManager::updateFocusStarPixmap);
-    connect(focusProcess.get(), &Ekos::Focus::newHFR, focusManager, &Ekos::FocusManager::updateCurrentHFR);
+    connect(focusProcess.get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
 
     // connect HFR plot widget
     connect(focusProcess.get(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
