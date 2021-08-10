@@ -864,6 +864,10 @@ void Capture::stop(CaptureState targetState)
 
 bool Capture::setCamera(const QString &device)
 {
+    // Do not change camera while in capture
+    if (m_State == CAPTURE_CAPTURING)
+        return false;
+
     for (int i = 0; i < cameraS->count(); i++)
         if (device == cameraS->itemText(i))
         {
@@ -885,6 +889,10 @@ QString Capture::camera()
 
 void Capture::checkCCD(int ccdNum)
 {
+    // Do not update any camera settings while capture is in progress.
+    if (m_State == CAPTURE_CAPTURING)
+        return;
+
     if (ccdNum == -1)
     {
         ccdNum = cameraS->currentIndex();
@@ -1836,7 +1844,7 @@ IPState Capture::setCaptureComplete()
     {
         QVariant frameType;
         if (Options::autoHFR() && m_ImageData && !m_ImageData->areStarsSearched() && m_ImageData->getRecordValue("FRAME", frameType)
-            && frameType.toString() == "Light")
+                && frameType.toString() == "Light")
         {
 
 #ifdef HAVE_STELLARSOLVER
@@ -3648,7 +3656,8 @@ void Capture::setFocusStatus(FocusState state)
         // will restart the re-focus attempt. Therefore we only abort capture if meridian flip is not running.
         else if ((m_FocusState == FOCUS_FAILED || m_FocusState == FOCUS_ABORTED) &&
                  !(meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_SLEWING)
-)        {
+                )
+        {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText(i18n("Autofocus failed."));
             abort();
@@ -3909,7 +3918,8 @@ void Capture::syncTelescopeInfo()
 void Capture::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"), dirPath.toLocalFile());
+        QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "FITS Save Directory"),
+                                          dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -3919,7 +3929,8 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"), dirPath,
+    QUrl fileURL = QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"),
+                   dirPath,
                    "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
@@ -4296,7 +4307,8 @@ void Capture::saveSequenceQueue()
 
     if (m_SequenceURL.isEmpty())
     {
-        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Save Ekos Sequence Queue"), dirPath,
+        m_SequenceURL = QFileDialog::getSaveFileUrl(Ekos::Manager::Instance(), i18nc("@title:window", "Save Ekos Sequence Queue"),
+                        dirPath,
                         "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (m_SequenceURL.isEmpty())
@@ -6223,7 +6235,8 @@ IPState Capture::processPreCaptureCalibrationStage()
     // in some rare cases it might happen that activeJob has been cleared by a concurrent thread
     if (activeJob == nullptr)
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "Processing pre capture calibration without active job, state = " << getCaptureStatusString(m_State);
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Processing pre capture calibration without active job, state = " <<
+                                       getCaptureStatusString(m_State);
         return IPS_ALERT;
     }
 
