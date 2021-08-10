@@ -1162,22 +1162,28 @@ void DetailDialog::showThumbnail()
 
     //Try to load the object's image from disk
     //If no image found, load "no image" image
-    QFile file;
 
-    const auto &base = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    QDirIterator search(
-        base,
-        QStringList() << "thumb-" +
-                             selectedObject->name().toLower().remove(' ').remove('/') +
-                             ".png",
-        QDir::Files, QDirIterator::Subdirectories);
+    const auto &base = KSPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDirIterator search(base, QStringList() << "thumb*", QDir::Dirs);
 
-    if (search.hasNext())
+    bool found = false;
+    while (search.hasNext())
     {
-        file.close();
-        Thumbnail->load(search.next(), "PNG");
+        const auto &path =
+            QDir(search.next())
+                .absoluteFilePath(
+                    "thumb-" + selectedObject->name().toLower().remove(' ').remove('/') +
+                    ".png");
+
+        const QFile file{ path };
+        if (file.exists())
+        {
+            Thumbnail->load(path, "PNG");
+            found = true;
+        }
     }
-    else
+
+    if (!found)
         Thumbnail->load(":/images/noimage.png");
 
     *Thumbnail = Thumbnail->scaled(Data->Image->width(), Data->Image->height(),
