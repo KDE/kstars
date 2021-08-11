@@ -47,16 +47,25 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
 
 void OpsAlign::reloadOptionsProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("SavedAlignProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                            QStandardPaths::AppDataLocation)).filePath("SavedAlignProfiles.ini");
 
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         optionsList = getDefaultAlignOptionsProfiles();
+    int currentIndex = kcfg_SolveOptionsProfile->currentIndex();
     kcfg_SolveOptionsProfile->clear();
-    foreach(SSolver::Parameters param, optionsList)
+    for(auto &param : optionsList)
         kcfg_SolveOptionsProfile->addItem(param.listName);
-    kcfg_SolveOptionsProfile->setCurrentIndex(Options::solveOptionsProfile());
+
+    if (currentIndex >= 0)
+    {
+        kcfg_SolveOptionsProfile->setCurrentIndex(currentIndex);
+        Options::setSolveOptionsProfile(currentIndex);
+    }
+    else
+        kcfg_SolveOptionsProfile->setCurrentIndex(Options::solveOptionsProfile());
 }
 
 void OpsAlign::slotApply()
