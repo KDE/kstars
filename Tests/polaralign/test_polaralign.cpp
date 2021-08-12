@@ -78,14 +78,17 @@ TestPolarAlign::~TestPolarAlign()
 {
 }
 
-void TestPolarAlign::compare(double a, double e, QString msg, double tolerance)
+void TestPolarAlign::compare(double a, double e, QString msg, int line, double tolerance)
 {
     QVERIFY2(std::fabs(a - e) < tolerance,
-             qPrintable(QString("%1: actual %2, expected %3 error %4").arg(msg).arg(a).arg(e).arg(((a - e) * 3600.0), 6, 'f', 1)));
+             qPrintable(QString("Line %1: %2: actual %3, expected %4 error %5 arc-seconds")
+                        .arg(line).arg(msg).arg(a).arg(e)
+                        .arg(((a - e) * 3600.0), 3, 'f', 1)));
 }
-void TestPolarAlign::compare(const QPointF &point, double x, double y, double tolerance)
+
+bool TestPolarAlign::compare(const QPointF &point, double x, double y, double tolerance)
 {
-    QVERIFY((std::fabs(point.x() - x) < tolerance) &&
+    return ((std::fabs(point.x() - x) < tolerance) &&
             (std::fabs(point.y() - y) < tolerance));
 }
 
@@ -324,7 +327,7 @@ void TestPolarAlign::testRunPAA()
         { 22.79496, 89.83001, 71.18473, 1.32378, 2020, 12, 31, 19, 41, 16},
         { 11.65388, 89.81182, 89.34180, 1.32420, 2020, 12, 31, 19, 41, 54},
         { 1.02046, 89.80613, 106.01159, 1.32431, 2020, 12, 31, 19, 42, 26},
-        1821, 1614, 1821, 1614
+        1821, 1614, 1818, 1615
     });
 
     // Log from 1/5/20201
@@ -621,10 +624,10 @@ void TestPolarAlign::testAlt()
     // altitude knob was adjusted so that the telescope was pointing higher.
     // The second set of coordinates should indicate a significant change in altitude
     // with only a small change in azimuth.
-    compare(az1, 0.044873, "Azimuth1");
-    compare(az2, 0.052257, "Azimuth2");
-    compare(alt1, 37.491236, "Altitude1");
-    compare(alt2, 37.720851, "Altitude2");
+    compare(az1,  0.0452539, "Azimuth1", __LINE__);
+    compare(az2,  0.0523052, "Azimuth2", __LINE__);
+    compare(alt1, 37.491241, "Altitude1", __LINE__);
+    compare(alt2, 37.720853, "Altitude2", __LINE__);
 }
 
 void TestPolarAlign::testRotate_data()
@@ -714,7 +717,7 @@ void TestPolarAlign::testRotate()
     point = QPointF(az, alt);
     rot = QPointF(deltaAz, deltaAlt);
     QPointF result = Rotations::rotateRaAxis(point, rot);
-    compare(result, azRotated, altRotated, .001);
+    QVERIFY(compare(result, azRotated, altRotated, .001));
 }
 
 QTEST_GUILESS_MAIN(TestPolarAlign)

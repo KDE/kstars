@@ -39,8 +39,8 @@ class TestPolarAlign : public QObject
         void testRotate_data();
 
     private:
-        void compare(double a, double e, QString msg = "", double tolerance = 0.0003);
-        void compare(const QPointF &point, double x, double y, double tolerance = 0.0001);
+        void compare(double a, double e, QString msg, int line, double tolerance = 0.0003);
+        bool compare(const QPointF &point, double x, double y, double tolerance = 0.0001);
 
         void getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,
                       const QPointF &pixel, double ra, double dec, double orientation,
