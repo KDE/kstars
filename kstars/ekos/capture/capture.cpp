@@ -1733,6 +1733,9 @@ IPState Capture::setCaptureComplete()
 
     downloadProgressTimer.stop();
 
+    if (!activeJob)
+        return IPS_BUSY;
+
     // In case we're framing, let's start
     if (m_isLooping)
     {
@@ -1863,29 +1866,34 @@ IPState Capture::setCaptureComplete()
         eccentricity = m_ImageData->getEccentricity();
         filename = m_ImageData->filename();
     }
-    emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr,
-                         numStars, median, eccentricity);
 
     m_State = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
-    currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
-
-    // Check if we need to execute post capture script first
-    const QString postCaptureScript = activeJob->getScript(SCRIPT_POST_CAPTURE);
-    if (postCaptureScript.isEmpty() == false)
+    if (activeJob)
     {
-        m_CaptureScriptType = SCRIPT_POST_CAPTURE;
-        m_CaptureScript.start(postCaptureScript, generateScriptArguments());
-        appendLogText(i18n("Executing post capture script %1", postCaptureScript));
-        return IPS_OK;
-    }
+        emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr,
+                             numStars, median, eccentricity);
 
-    // if we're done
-    if (activeJob->getCount() <= activeJob->getCompleted())
-    {
-        processJobCompletionStage1();
-        return IPS_OK;
+        currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
+
+        // Check if we need to execute post capture script first
+
+        const QString postCaptureScript = activeJob->getScript(SCRIPT_POST_CAPTURE);
+        if (postCaptureScript.isEmpty() == false)
+        {
+            m_CaptureScriptType = SCRIPT_POST_CAPTURE;
+            m_CaptureScript.start(postCaptureScript, generateScriptArguments());
+            appendLogText(i18n("Executing post capture script %1", postCaptureScript));
+            return IPS_OK;
+        }
+
+        // if we're done
+        if (activeJob->getCount() <= activeJob->getCompleted())
+        {
+            processJobCompletionStage1();
+            return IPS_OK;
+        }
     }
 
     return resumeSequence();
@@ -5651,7 +5659,8 @@ IPState Capture::checkLightFramePendingTasks()
     // step 9: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
-    if ((m_State == CAPTURE_FOCUSING  && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED) || startFocusIfRequired())
+    if ((m_State == CAPTURE_FOCUSING  && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED)
+            || startFocusIfRequired())
         return IPS_BUSY;
 
     // step 10: resume guiding if it was suspended
