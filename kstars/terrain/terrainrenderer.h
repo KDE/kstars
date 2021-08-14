@@ -76,4 +76,5 @@ class TerrainRenderer : public QObject
         bool terrainSmoothPixels = false;
         bool terrainTransparencySpeedup = false;
         bool terrainSourceCorrectAz = 0;
+        bool terrainSourceCorrectAlt = 0;
 };

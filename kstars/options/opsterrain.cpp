@@ -40,48 +40,9 @@ OpsTerrain::OpsTerrain() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
-    //    kcfg_ShowTerrain->setChecked(Options::showTerrain());
-    //    connect(kcfg_ShowTerrain, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    //    {
-    //        Q_UNUSED(state);
-    //        Options::setShowTerrain(kcfg_ShowTerrain->isChecked());
-    //        isDirty = true;
-    //    });
-    //    kcfg_ShowTerrainPanning->setChecked(Options::terrainPanning());
-    //    connect(kcfg_ShowTerrainPanning, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    //    {
-    //        Q_UNUSED(state);
-    //        Options::setTerrainPanning(kcfg_ShowTerrainPanning->isChecked());
-    //        isDirty = true;
-    //    });
-    //    kcfg_TerrainSkipSpeedup->setChecked(Options::terrainSkipSpeedup());
-    //    connect(kcfg_TerrainSkipSpeedup, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    //    {
-    //        Q_UNUSED(state);
-    //        Options::setTerrainSkipSpeedup(kcfg_TerrainSkipSpeedup->isChecked());
-    //        isDirty = true;
-    //    });
-    //    kcfg_TerrainSmoothPixels->setChecked(Options::terrainSmoothPixels());
-    //    connect(kcfg_TerrainSmoothPixels, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state)
-    //    {
-    //        Q_UNUSED(state);
-    //        Options::setTerrainSmoothPixels(kcfg_TerrainSmoothPixels->isChecked());
-    //        isDirty = true;
-    //    });
-    //    kcfg_TerrainTransparencySpeedup->setChecked(Options::terrainTransparencySpeedup());
-    //    connect(kcfg_TerrainTransparencySpeedup, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged),
-    //            this, [&](int state)
-    //    {
-    //        Q_UNUSED(state);
-    //        Options::setTerrainTransparencySpeedup(kcfg_TerrainTransparencySpeedup->isChecked());
-    //        isDirty = true;
-    //    });
-
     selectTerrainFileB->setIcon(QIcon::fromTheme("document-open"));
     selectTerrainFileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(selectTerrainFileB, SIGNAL(clicked()), this, SLOT(saveTerrainFilename()));
-
-    //isDirty = false;
 }
 
 void OpsTerrain::syncOptions()
@@ -101,7 +62,8 @@ void OpsTerrain::saveTerrainFilename()
 
     QUrl dirPath = QUrl::fromLocalFile(dir.path());
     QUrl fileUrl =
-        QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Terrain Image Filename"), dirPath, i18n("PNG Files (*.png)"));
+        QFileDialog::getOpenFileUrl(KStars::Instance(), i18nc("@title:window", "Terrain Image Filename"), dirPath,
+                                    i18n("PNG Files (*.png)"));
 
     if (!fileUrl.isEmpty())
         kcfg_TerrainSource->setText(fileUrl.toLocalFile());
@@ -109,11 +71,6 @@ void OpsTerrain::saveTerrainFilename()
 
 void OpsTerrain::slotApply()
 {
-    //    if (isDirty == false)
-    //        return;
-
-    //    isDirty = false;
-
     KStarsData *data = KStarsData::Instance();
     SkyMap *map      = SkyMap::Instance();
 

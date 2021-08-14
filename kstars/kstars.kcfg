@@ -2729,6 +2729,11 @@
           <whatsthis>Terrain source azimuth correction.</whatsthis>
           <default>0</default>
     </entry>
+    <entry name="TerrainSourceCorrectAlt" type="Int">
+          <label>Terrain Altitude Correction.</label>
+          <whatsthis>Terrain source altitude correction.</whatsthis>
+          <default>0</default>
+    </entry>
     <entry name="TerrainDownsampling" type="Int">
           <label>Terrain Downsampling</label>
           <whatsthis>Speed quality tradeoff for rendering the terrain image.</whatsthis>

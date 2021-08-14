@@ -236,6 +236,9 @@ double rationalizeAlt(double degrees)
 QRgb TerrainRenderer::getPixel(double az, double alt) const
 {
     az = rationalizeAz(az + Options::terrainSourceCorrectAz());
+    // This may make alt > 90 (due to a negative sourceCorrectAlt).
+    // If so, it returns 0, which is a transparent pixel.
+    alt = alt - Options::terrainSourceCorrectAlt();
     if (az < 0 || az >= 360 || alt < -90 || alt > 90)
         return(0);
 
@@ -386,7 +389,8 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
             (terrainSmoothPixels != Options::terrainSmoothPixels()) ||
             (terrainSkipSpeedup != Options::terrainSkipSpeedup()) ||
             (terrainTransparencySpeedup != Options::terrainTransparencySpeedup()) ||
-            (terrainSourceCorrectAz = Options::terrainSourceCorrectAz()))
+            (terrainSourceCorrectAz != Options::terrainSourceCorrectAz()) ||
+            (terrainSourceCorrectAlt != Options::terrainSourceCorrectAlt()))
         dirty = true;
 
     terrainDownsampling = Options::terrainDownsampling();
@@ -394,6 +398,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
     terrainSkipSpeedup = Options::terrainSkipSpeedup();
     terrainTransparencySpeedup = Options::terrainTransparencySpeedup();
     terrainSourceCorrectAz = Options::terrainSourceCorrectAz();
+    terrainSourceCorrectAlt = Options::terrainSourceCorrectAlt();
 
     if (sameView(proj, dirty))
     {
