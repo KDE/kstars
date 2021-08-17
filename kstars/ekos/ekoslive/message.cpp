@@ -1648,6 +1648,137 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         sendResponse(commands[ASTRO_GET_OBJECTS_INFO], objectsArray);
     }
+    // Get a object observability alt/az/ha
+    else if (command == commands[ASTRO_GET_OBJECTS_OBSERVABILITY])
+    {
+        // Set time if required.
+        if (payload.contains("jd"))
+        {
+            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setUTC(jd);
+        }
+
+        // Object Names
+        QVariantList objectNames = payload["names"].toArray().toVariantList();
+        QJsonArray objectsArray;
+
+        // Data instance
+        auto *data = KStarsData::Instance();
+        // Geo Location
+        auto *geo = KStarsData::Instance()->geo();
+        // UT
+        auto ut = data->ut();
+
+        for (auto &oneName : objectNames)
+        {
+            const QString name = oneName.toString();
+            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            if (oneObject)
+            {
+                oneObject->EquatorialToHorizontal(data->lst(), geo->lat());
+                dms ha(data->lst()->Degrees() - oneObject->ra().Degrees());
+                QJsonObject info =
+                {
+                    {"name", name},
+                    {"az", oneObject->az().Degrees()},
+                    {"alt", oneObject->alt().Degrees()},
+                    {"ha",  ha.Hours()},
+                };
+
+                objectsArray.append(info);
+            }
+        }
+
+        sendResponse(commands[ASTRO_GET_OBJECTS_OBSERVABILITY], objectsArray);
+    }
+    else if (command == commands[ASTRO_GET_OBJECTS_RISESET])
+    {
+        // Set time if required.
+        if (payload.contains("jd"))
+        {
+            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setUTC(jd);
+        }
+
+        // Object Names
+        QVariantList objectNames = payload["names"].toArray().toVariantList();
+        QJsonArray objectsArray;
+
+        // Data instance
+        auto *data = KStarsData::Instance();
+        // Geo Location
+        auto *geo = KStarsData::Instance()->geo();
+        // UT
+        QDateTime midnight = QDateTime(data->lt().date(), QTime());
+        KStarsDateTime ut  = geo->LTtoUT(KStarsDateTime(midnight));
+
+        int DayOffset = 0;
+        if (data->lt().time().hour() > 12)
+            DayOffset = 1;
+
+        for (auto &oneName : objectNames)
+        {
+            const QString name = oneName.toString();
+            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            if (oneObject)
+            {
+                QJsonObject info;
+                //Prepare time/position variables
+                //true = use rise time
+                QTime riseTime = oneObject->riseSetTime(ut, geo, true);
+
+                //If transit time is before rise time, use transit time for tomorrow
+                QTime transitTime = oneObject->transitTime(ut, geo);
+                if (transitTime < riseTime)
+                    transitTime   = oneObject->transitTime(ut.addDays(1), geo);
+
+                //If set time is before rise time, use set time for tomorrow
+                //false = use set time
+                QTime setTime = oneObject->riseSetTime(ut, geo, false);
+                //false = use set time
+                if (setTime < riseTime)
+                    setTime  = oneObject->riseSetTime(ut.addDays(1), geo, false);
+
+                info["name"] = name;
+                if (riseTime.isValid())
+                {
+                    info["rise"] = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
+                    info["set"] = QString::asprintf("%02d:%02d", setTime.hour(), setTime.minute());
+                }
+                else
+                {
+                    if (oneObject->alt().Degrees() > 0.0)
+                    {
+                        info["rise"] = "Circumpolar";
+                        info["set"] = "Circumpolar";
+                    }
+                    else
+                    {
+                        info["rise"] = "Never rises";
+                        info["set"] = "Never rises";
+                    }
+                }
+
+                info["transit"] = QString::asprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
+
+                QJsonArray altitudes;
+                for (double h = -12.0; h <= 12.0; h += 0.5)
+                {
+                    double hour = h + (24.0 * DayOffset);
+                    KStarsDateTime offset = ut.addSecs(hour * 3600.0);
+                    CachingDms LST = geo->GSTtoLST(offset.gst());
+                    oneObject->EquatorialToHorizontal(&LST, geo->lat());
+                    altitudes.append(oneObject->alt().Degrees());
+                }
+
+                info["altitudes"] = altitudes;
+
+                objectsArray.append(info);
+            }
+        }
+
+        sendResponse(commands[ASTRO_GET_OBJECTS_RISESET], objectsArray);
+    }
 }
 
 KStarsDateTime Message::getNextDawn()

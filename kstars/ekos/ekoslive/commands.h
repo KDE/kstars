@@ -194,6 +194,8 @@ enum COMMANDS
     ASTRO_SEARCH_OBJECTS,
     ASTRO_GET_OBJECTS_INFO,
     ASTRO_GET_OBJECTS_IMAGE,
+    ASTRO_GET_OBJECTS_OBSERVABILITY,
+    ASTRO_GET_OBJECTS_RISESET,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -356,7 +358,9 @@ static QMap<COMMANDS, QString> const commands =
     {ASTRO_GET_ALMANC, "astro_get_almanac"},
     {ASTRO_SEARCH_OBJECTS, "astro_search_objects"},
     {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
-    {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"}
+    {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"},
+    {ASTRO_GET_OBJECTS_OBSERVABILITY, "astro_get_objects_observability"},
+    {ASTRO_GET_OBJECTS_RISESET, "astro_get_objects_riseset"}
 };
 
 }
