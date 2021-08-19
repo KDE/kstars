@@ -957,7 +957,7 @@ int fp_unpack (char *infits, char *outfits, fpstate fpvar)
 {
     fitsfile *infptr, *outfptr;
     int stat=0, hdutype, extnum, single = 0;
-    char *loc, *hduloc, hduname[SZ_STR] = { 0 };
+    char *loc, *hduloc = 0, hduname[SZ_STR] = { 0 };
 
     fits_open_file (&infptr, infits, READONLY, &stat);
     fits_create_file (&outfptr, outfits, &stat);

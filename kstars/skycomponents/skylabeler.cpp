@@ -419,7 +419,6 @@ void SkyLabeler::draw(QPainter &p)
 bool SkyLabeler::markText(const QPointF &p, const QString &text, qreal padding_factor)
 {
     static const auto ramp_zoom = log10(MINZOOM) + log10(MAXZOOM) * .3;
-    static const auto logmin{ log10(MINZOOM) };
 
     if (padding_factor != 1)
     {

@@ -48,6 +48,6 @@ class SkyBackground
         }
 
     private:
-        double varSky;
+        double varSky = 0;
 };
 

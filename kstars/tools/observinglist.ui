@@ -531,7 +531,7 @@
            </layout>
           </widget>
          </widget>
-         <widget class="QWidget" name="layoutWidget">
+         <widget class="QWidget" name="layoutWidget2">
           <layout class="QVBoxLayout" name="objectInfoLayout">
            <property name="spacing">
             <number>3</number>

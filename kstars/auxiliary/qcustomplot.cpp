@@ -5758,6 +5758,7 @@ QPointF QCPLabelPainterPrivate::getAnchorPos(const QPointF &tickPos)
         case asBottomRight: return tickPos+QPointF(-mPadding*M_SQRT1_2, -mPadding*M_SQRT1_2);
         case asBottomLeft:  return tickPos+QPointF(mPadding*M_SQRT1_2, -mPadding*M_SQRT1_2);
       }
+      break; // To appease the compiler. All possible values in above case.
     }
     case amSkewedUpright:
     case amSkewedRotated:

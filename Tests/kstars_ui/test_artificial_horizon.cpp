@@ -128,6 +128,7 @@ bool clickSelectPoint(QAbstractItemView *view, int region, int point)
     return clickView(view, index, 50);
 }
 
+#if 0
 // Debugging printout. Prints the list of az/alt points in a region.
 bool printAzAlt(QStandardItemModel *model, int region)
 {
@@ -148,6 +149,7 @@ bool printAzAlt(QStandardItemModel *model, int region)
     }
     return true;
 }
+#endif
 
 }  // namespace
 

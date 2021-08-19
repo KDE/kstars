@@ -198,7 +198,7 @@ void SkyPoint::HorizontalToEquatorial(const dms *LST, const dms *lat)
 
 void SkyPoint::findEcliptic(const CachingDms *Obliquity, dms &EcLong, dms &EcLat)
 {
-    double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
+    double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec;
     ra().SinCos(sinRA, cosRA);
     dec().SinCos(sinDec, cosDec);
     Obliquity->SinCos(sinOb, cosOb);

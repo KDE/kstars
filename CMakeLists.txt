@@ -367,6 +367,7 @@ IF (UNIX OR APPLE)
     # Omit problematic warnings
     IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         SET(COMP_FLAGS "${COMP_FLAGS} -Wno-unused-but-set-variable")
+        SET(COMP_FLAGS "${COMP_FLAGS} -Wno-stringop-truncation")
     ENDIF ()
     IF (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.9.9)
         SET(COMP_FLAGS "${COMP_FLAGS} -Wno-format-truncation")

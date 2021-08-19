@@ -505,9 +505,6 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
 
     preDraw(skyp);
 
-    // Not sure if I need this...
-    DrawID drawID = skyMesh()->drawID();
-
     QList<LineList> regions;
     horizon.drawPolygons(skyp, &regions);
 }

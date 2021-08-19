@@ -683,5 +683,6 @@ void WUTDialog::slotChangeMagnitude()
 
 void WUTDialog::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event);
     QTimer::singleShot(0, this, SLOT(init()));
 };

@@ -367,15 +367,15 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     QString displayedCounts = queueTable->item(0, 2)->text();
     KVERIFY2_SUB(displayedCounts.indexOf("/") > 0, "Scheduler job table does not display in style captured/total.");
 
-    int total = -1, captured = -1, total_expected;
+    int total = -1, captured = -1, total_repeat_expected = 0;
 
     // check display of expected frames
     if (completionCondition == SchedulerJob::FINISH_REPEAT)
     {
         total = displayedCounts.right(displayedCounts.length() - displayedCounts.indexOf("/") - 1).toInt();
-        total_expected = totalCount(sequence) * iterations;
-        KVERIFY2_SUB(total == total_expected,
-                     QString("Scheduler job table shows %1 expected frames instead of %2.").arg(total).arg(total_expected).toStdString().c_str());
+        total_repeat_expected = totalCount(sequence) * iterations;
+        KVERIFY2_SUB(total == total_repeat_expected,
+                     QString("Scheduler job table shows %1 expected frames instead of %2.").arg(total).arg(total_repeat_expected).toStdString().c_str());
     }
 
     // check display of already captured
@@ -401,8 +401,8 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
         QString estimation = queueTable->item(0, 7)->text();
         QTime estimatedDuration = QTime::fromString(estimation, "HH:mm:ss");
         int duration = estimatedDuration.second() + 60*estimatedDuration.minute() + 3600*estimatedDuration.hour();
-        KVERIFY2_SUB(std::fabs((total_expected - captured_expected)*exptime - duration) <= 1,
-                     QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg((total_expected - captured_expected)*exptime).toStdString().c_str());
+        KVERIFY2_SUB(std::fabs((total_repeat_expected - captured_expected)*exptime - duration) <= 1,
+                     QString("Scheduler job table shows %1 seconds expected instead of %2.").arg(duration).arg((total_repeat_expected - captured_expected)*exptime).toStdString().c_str());
     }
     // everything worked as expected
     return true;

@@ -91,7 +91,7 @@ class no_converter : public std::exception
      * @brief   Provides details about the exception
      * @returns an explanatory string
      */
-    virtual const char *what() const throw() { return "unsupported conversion datatype"; }
+    virtual const char *what() const throw() override { return "unsupported conversion datatype"; }
 };
 
 /**
