@@ -1902,17 +1902,24 @@ IPState Capture::setCaptureComplete()
 
 void Capture::processJobCompletionStage1()
 {
-    // JM 2020-12-06: Check if we need to execute post-job script first.
-    const QString postJobScript = activeJob->getScript(SCRIPT_POST_JOB);
-    if (!postJobScript.isEmpty())
+    if (activeJob == nullptr)
     {
-        m_CaptureScriptType = SCRIPT_POST_JOB;
-        m_CaptureScript.start(postJobScript, generateScriptArguments());
-        appendLogText(i18n("Executing post job script %1", postJobScript));
-        return;
+        qWarning(KSTARS_EKOS_CAPTURE) << "procesJobCompletionStage1 with null activeJob.";
     }
     else
-        processJobCompletionStage2();
+    {
+        // JM 2020-12-06: Check if we need to execute post-job script first.
+        const QString postJobScript = activeJob->getScript(SCRIPT_POST_JOB);
+        if (!postJobScript.isEmpty())
+        {
+            m_CaptureScriptType = SCRIPT_POST_JOB;
+            m_CaptureScript.start(postJobScript, generateScriptArguments());
+            appendLogText(i18n("Executing post job script %1", postJobScript));
+            return;
+        }
+    }
+
+    processJobCompletionStage2();
 }
 
 /**
@@ -1921,17 +1928,23 @@ void Capture::processJobCompletionStage1()
  */
 void Capture::processJobCompletionStage2()
 {
-    activeJob->done();
-
-    if (activeJob->isPreview() == false)
+    if (activeJob == nullptr)
     {
-        int index = jobs.indexOf(activeJob);
-        QJsonObject oneSequence = m_SequenceArray[index].toObject();
-        oneSequence["Status"] = "Complete";
-        m_SequenceArray.replace(index, oneSequence);
-        emit sequenceChanged(m_SequenceArray);
+        qWarning(KSTARS_EKOS_CAPTURE) << "procesJobCompletionStage2 with null activeJob.";
     }
+    else
+    {
+        activeJob->done();
 
+        if (activeJob->isPreview() == false)
+        {
+            int index = jobs.indexOf(activeJob);
+            QJsonObject oneSequence = m_SequenceArray[index].toObject();
+            oneSequence["Status"] = "Complete";
+            m_SequenceArray.replace(index, oneSequence);
+            emit sequenceChanged(m_SequenceArray);
+        }
+    }
     stop();
 
     // Check if there are more pending jobs and execute them
@@ -1983,7 +1996,7 @@ bool Capture::checkDithering()
             // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
             && (m_GuideState == GUIDE_GUIDING || Options::ditherNoGuiding())
             // Must be only done for light frames
-            && activeJob->getFrameType() == FRAME_LIGHT
+            && (activeJob != nullptr && activeJob->getFrameType() == FRAME_LIGHT)
             // Check dither counter
             && ditherCounter == 0)
     {
@@ -3226,19 +3239,24 @@ void Capture::prepareJob(SequenceJob * job)
 
 void Capture::prepareActiveJobStage1()
 {
-    // JM 2020-12-06: Check if we need to execute pre-job script first.
-    const QString preJobScript = activeJob->getScript(SCRIPT_PRE_JOB);
-    // Only run pre-job script for the first time and not after some images were captured but then stopped due to abort.
-    if (!preJobScript.isEmpty() && activeJob->getCompleted() == 0)
+    if (activeJob == nullptr)
     {
-        m_CaptureScriptType = SCRIPT_PRE_JOB;
-        m_CaptureScript.start(preJobScript, generateScriptArguments());
-        appendLogText(i18n("Executing pre job script %1", preJobScript));
-        return;
+        qWarning(KSTARS_EKOS_CAPTURE) << "prepareActiveJobStage1 with null activeJob.";
     }
     else
-        prepareActiveJobStage2();
-
+    {
+        // JM 2020-12-06: Check if we need to execute pre-job script first.
+        const QString preJobScript = activeJob->getScript(SCRIPT_PRE_JOB);
+        // Only run pre-job script for the first time and not after some images were captured but then stopped due to abort.
+        if (!preJobScript.isEmpty() && activeJob->getCompleted() == 0)
+        {
+            m_CaptureScriptType = SCRIPT_PRE_JOB;
+            m_CaptureScript.start(preJobScript, generateScriptArguments());
+            appendLogText(i18n("Executing pre job script %1", preJobScript));
+            return;
+        }
+    }
+    prepareActiveJobStage2();
 }
 /**
  * @brief Reset #calibrationStage and continue with preparePreCaptureActions().
@@ -3246,14 +3264,19 @@ void Capture::prepareActiveJobStage1()
 void Capture::prepareActiveJobStage2()
 {
     // Just notification of active job stating up
-    emit newImage(activeJob, m_ImageData);
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "prepareActiveJobStage2 with null activeJob.";
+    }
+    else
+        emit newImage(activeJob, m_ImageData);
 
     //connect(job, SIGNAL(checkFocus()), this, &Ekos::Capture::startPostFilterAutoFocus()));
 
     // Reset calibration stage
     if (calibrationStage == CAL_CAPTURING)
     {
-        if (activeJob->getFrameType() != FRAME_LIGHT)
+        if (activeJob != nullptr && activeJob->getFrameType() != FRAME_LIGHT)
             calibrationStage = CAL_PRECAPTURE_COMPLETE;
         else
             calibrationStage = CAL_NONE;
@@ -3270,16 +3293,18 @@ void Capture::prepareActiveJobStage2()
      */
 
     // JM 2020-12-06: Check if we need to execute pre-capture script first.
-    const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
-    if (!preCaptureScript.isEmpty())
+    if (activeJob != nullptr)
     {
-        m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
-        m_CaptureScript.start(preCaptureScript, generateScriptArguments());
-        appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
-        return;
+        const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+        if (!preCaptureScript.isEmpty())
+        {
+            m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+            m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+            appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+            return;
+        }
     }
-    else
-        preparePreCaptureActions();
+    preparePreCaptureActions();
 }
 
 /**
@@ -3300,6 +3325,13 @@ void Capture::prepareActiveJobStage2()
  */
 void Capture::preparePreCaptureActions()
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "preparePreCaptureActions with null activeJob.";
+        // Everything below depends on activeJob. Just return.
+        return;
+    }
+
     // Update position
     if (m_CurrentFilterPosition > 0)
         activeJob->setCurrentFilter(m_CurrentFilterPosition);
@@ -3342,6 +3374,13 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
     m_State = prepareState;
     emit newStatus(prepareState);
 
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "updatePrepareState with null activeJob.";
+        // Everything below depends on activeJob. Just return.
+        return;
+    }
+
     switch (prepareState)
     {
         case CAPTURE_SETTING_TEMPERATURE:
@@ -3369,7 +3408,10 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
  */
 void Capture::executeJob()
 {
-    activeJob->disconnect(this);
+    if (activeJob == nullptr)
+        qWarning(KSTARS_EKOS_CAPTURE) << "executeJob with null activeJob.";
+    else
+        activeJob->disconnect(this);
 
     QMap<QString, QString> FITSHeader;
     QString rawPrefix = activeJob->property("rawPrefix").toString();
@@ -3389,7 +3431,8 @@ void Capture::executeJob()
     // Update button status
     setBusy(true);
 
-    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
+    useGuideHead = (activeJob != nullptr &&
+                    activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     syncGUIToJob(activeJob);
 
@@ -4566,6 +4609,13 @@ void Capture::ignoreSequenceHistory()
 
 void Capture::syncGUIToJob(SequenceJob * job)
 {
+    if (job == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "syncGuiToJob with null job.";
+        // Everything below depends on job. Just return.
+        return;
+    }
+
     QString rawPrefix;
     bool filterEnabled, expEnabled, tsEnabled;
 
@@ -5305,6 +5355,13 @@ void Capture::checkFrameType(int index)
 
 double Capture::setCurrentADU(double value)
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "setCurrentADU with null activeJob.";
+        // Nothing good to do here. Just don't crash.
+        return value;
+    }
+
     double nextExposure = 0;
     double targetADU    = activeJob->getTargetADU();
     std::vector<double> coeff;
@@ -5682,6 +5739,14 @@ IPState Capture::checkLightFramePendingTasks()
 
 IPState Capture::checkLightFrameScopeCoverOpen()
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "checkLightFrameScopeCoverOpen with null activeJob.";
+        // Can't do anything. Don't worry about scope cover. Bigger problems.
+        abort();
+        return IPS_ALERT;
+    }
+
     switch (activeJob->getFlatFieldSource())
     {
         // All these are considered MANUAL when it comes to light frames
@@ -5783,6 +5848,13 @@ IPState Capture::checkLightFrameScopeCoverOpen()
 
 IPState Capture::checkDarkFramePendingTasks()
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "checkDarkFramePendingTasks with null activeJob.";
+        abort();
+        return IPS_ALERT;
+    }
+
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
     QString deviceName = currentCCD->getDeviceName();
@@ -5959,6 +6031,12 @@ IPState Capture::checkDarkFramePendingTasks()
 
 IPState Capture::checkFlatFramePendingTasks()
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "checkFlatFramePendingTasks with null activeJob.";
+        abort();
+        return IPS_ALERT;
+    }
     switch (activeJob->getFlatFieldSource())
     {
         case SOURCE_MANUAL:
@@ -6277,6 +6355,13 @@ IPState Capture::processPreCaptureCalibrationStage()
 
 bool Capture::processPostCaptureCalibrationStage()
 {
+    if (activeJob == nullptr)
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "processPostCaptureCalibrationStage with null activeJob.";
+        abort();
+        return false;
+    }
+
     // If there are no more images to capture, do not bother calculating next exposure
     if (calibrationStage == CAL_CALIBRATION_COMPLETE)
         if (activeJob && activeJob->getCount() <= activeJob->getCompleted())
@@ -6475,7 +6560,7 @@ void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
             appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
             // If we're done, proceed to completion.
-            if (activeJob->getCount() <= activeJob->getCompleted())
+            if (activeJob == nullptr || activeJob->getCount() <= activeJob->getCompleted())
             {
                 processJobCompletionStage1();
             }
