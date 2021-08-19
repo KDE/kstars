@@ -34,6 +34,7 @@ namespace Ekos
 {
 class OpsCalibration;
 class OpsGuide;
+class OpsDither;
 class OpsGPG;
 class InternalGuider;
 class PHD2;
@@ -183,12 +184,6 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithmIndex(int index);
 
         /** DBUS interface function.
-             * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-             * @param enable if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
-             */
-        //Q_SCRIPTABLE Q_NOREPLY void setGuideRapidEnabled(bool enable);
-
-        /** DBUS interface function.
              * Enable or disables dithering. Set dither range
              * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otherwise, dithering is disabled.
              * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
@@ -241,9 +236,6 @@ class Guide : public QWidget, public Ui::Guide
         {
             return boxSizeCombo->currentText().toInt();
         }
-
-        //void startRapidGuide();
-        //void stopRapidGuide();
 
         GuideInterface *getGuider()
         {
@@ -357,15 +349,6 @@ class Guide : public QWidget, public Ui::Guide
              */
         void setST4(int index);
 
-        /*
-             * @brief processRapidStarData is called by INDI framework when we receive new Rapid Guide data
-             * @param targetChip target Chip for which rapid guide is enabled
-             * @param dx Deviation in X
-             * @param dy Deviation in Y
-             * @param fit fitting score
-             */
-        //void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
-
         /**
              * @brief Set telescope and guide scope info. All measurements is in millimeters.
              * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
@@ -452,8 +435,6 @@ class Guide : public QWidget, public Ui::Guide
         void onEnableDirRA(bool enable);
         void onEnableDirDEC(bool enable);
         void syncSettings();
-
-        //void onRapidGuideChanged(bool enable);
 
         void setAxisDelta(double ra, double de);
         void setAxisSigma(double ra, double de);
@@ -591,9 +572,6 @@ class Guide : public QWidget, public Ui::Guide
         double pixScaleX { -1 };
         double pixScaleY { -1 };
 
-        // Rapid Guide
-        //bool rapidGuideReticleSet;
-
         // State
         GuideState state { GUIDE_IDLE };
         GuideStateWidget *guideStateWidget { nullptr };
@@ -621,6 +599,7 @@ class Guide : public QWidget, public Ui::Guide
         // Options
         OpsCalibration *opsCalibration { nullptr };
         OpsGuide *opsGuide { nullptr };
+        OpsDither *opsDither { nullptr };
         OpsGPG *opsGPG { nullptr };
 
         // Guide Frame
@@ -666,13 +645,13 @@ class Guide : public QWidget, public Ui::Guide
         static constexpr int defaultXZoomLevel = 3;
         int driftGraphZoomLevel {defaultXZoomLevel};
 
-        
-        // The accumulated non-guided dither offsets (in milliseconds) in the RA and DEC directions.   
+
+        // The accumulated non-guided dither offsets (in milliseconds) in the RA and DEC directions.
         int nonGuidedDitherRaOffsetMsec = 0, nonGuidedDitherDecOffsetMsec = 0;
 
         // Random generator for non guided dithering
         std::mt19937 nonGuidedPulseGenerator;
-        
+
         // Flag to check if random generator for non guided dithering is initialized.
         bool isNonGuidedDitherInitialized = false;
 

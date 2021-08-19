@@ -144,10 +144,6 @@ class cgmath : public QObject
         // Based on PHD2 algorithm
         QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
 
-        // Rapid Guide
-        void setRapidGuide(bool enable);
-        void setRapidStarData(double dx, double dy);
-
         // Operations
         void start();
         bool reset();
@@ -170,11 +166,6 @@ class cgmath : public QObject
         bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
                                       double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
                                       bool *swap_dec, int RATotalPulse, int DETotalPulse);
-
-        bool isImageGuideEnabled() const;
-        void setImageGuideEnabled(bool value);
-
-        void setRegionAxis(const uint32_t &value);
 
         const Calibration &getCalibration()
         {
@@ -250,19 +241,6 @@ class cgmath : public QObject
         // stat math...
         bool do_statistics { true };
         double sum { 0 };
-
-        // rapid guide
-        bool useRapidGuide { false };
-        double rapidDX { 0 };
-        double rapidDY { 0 };
-
-        // Image Guide
-        bool imageGuideEnabled { false };
-        // Partition guideView image into NxN square regions each of size axis*axis. The returned vector contains pointers to
-        // the newly allocated square images. It MUST be deleted later by delete[] or memory will leak.
-        QVector<float *> partitionImage() const;
-        uint32_t regionAxis { 64 };
-        QVector<float *> referenceRegions;
 
         QFile logFile;
         QTime logTime;

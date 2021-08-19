@@ -138,6 +138,7 @@ if (INDI_FOUND)
             ekos/guide/guidestatewidget.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
+            ekos/guide/opsdither.ui
             ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
             ekos/observatory/observatory.ui
@@ -233,6 +234,7 @@ if (INDI_FOUND)
             ekos/guide/guideinterface.cpp
             ekos/guide/opscalibration.cpp
             ekos/guide/opsguide.cpp
+            ekos/guide/opsdither.cpp
             ekos/guide/opsgpg.cpp
             ekos/guide/guidedriftgraph.cpp
             ekos/guide/guidetargetplot.cpp

@@ -16,6 +16,7 @@
 #include "kstarsdata.h"
 #include "opscalibration.h"
 #include "opsguide.h"
+#include "opsdither.h"
 #include "opsgpg.h"
 #include "Options.h"
 #include "auxiliary/QProgressIndicator.h"
@@ -45,9 +46,12 @@ namespace Ekos
 {
 Guide::Guide() : QWidget()
 {
-    // #1 Setup UI
-    setupUi(this);
+    // This needs to be very early. Many settings widgets are inside of opsGuide and references throughout this file.
+    opsGuide = new OpsGuide();
 
+    // #1 Setup UI
+
+    setupUi(this);
     // #2 Register DBus
     qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
     qDBusRegisterMetaType<Ekos::GuideState>();
@@ -121,7 +125,6 @@ Guide::Guide() : QWidget()
     opsCalibration        = new OpsCalibration(internalGuider);
     KPageWidgetItem *page = dialog->addPage(opsCalibration, i18n("Calibration"));
     page->setIcon(QIcon::fromTheme("tool-measure"));
-    opsGuide = new OpsGuide();
 
     connect(opsGuide, &OpsGuide::settingsUpdated, [this]()
     {
@@ -131,6 +134,10 @@ Guide::Guide() : QWidget()
 
     page = dialog->addPage(opsGuide, i18n("Guide"));
     page->setIcon(QIcon::fromTheme("kstars_guides"));
+
+    opsDither = new OpsDither();
+    page = dialog->addPage(opsDither, i18n("Dither"));
+    page->setIcon(QIcon::fromTheme("transform-move"));
 
     opsGPG = new OpsGPG(internalGuider);
     page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
@@ -1344,7 +1351,7 @@ void Guide::setCaptureStatus(CaptureState newState)
         case CAPTURE_ABORTED:
             // We need to reset the non guided dithering status every time a new capture task is started (and not for every single capture).
             // The non dithering logic is a bit convoluted and controlled by the Capture module,
-            // which calls Guide::setCaptureStatus(CAPTURE_DITHERING) when it wants guide to dither. 
+            // which calls Guide::setCaptureStatus(CAPTURE_DITHERING) when it wants guide to dither.
             // It actually calls newStatus(CAPTURE_DITHERING) in Capture::checkDithering(), but manager.cpp in Manager::connectModules() connects that to Guide::setCaptureStatus()).
             // So the only way to reset the non guided dithering prior to a new capture task is to put it here, when the Capture status moves to IDLE or ABORTED state.
             resetNonGuidedDither();
@@ -1824,7 +1831,6 @@ bool Guide::setGuiderType(int type)
             guider = internalGuider;
 
             internalGuider->setSquareAlgorithm(opsGuide->kcfg_GuideAlgorithm->currentIndex());
-            internalGuider->setRegionAxis(opsGuide->kcfg_GuideRegionAxis->currentText().toInt());
 
             clearCalibrationB->setEnabled(true);
             guideB->setEnabled(true);
@@ -1844,7 +1850,7 @@ bool Guide::setGuiderType(int type)
             externalConnectB->setEnabled(false);
             externalDisconnectB->setEnabled(false);
 
-            controlGroup->setEnabled(true);
+            opsGuide->controlGroup->setEnabled(true);
             infoGroup->setEnabled(true);
             label_6->setEnabled(true);
             FOVScopeCombo->setEnabled(true);
@@ -1891,7 +1897,7 @@ bool Guide::setGuiderType(int type)
             swapCheck->setEnabled(false);
 
 
-            controlGroup->setEnabled(false);
+            opsGuide->controlGroup->setEnabled(false);
             infoGroup->setEnabled(true);
             label_6->setEnabled(false);
             FOVScopeCombo->setEnabled(false);
@@ -1936,7 +1942,7 @@ bool Guide::setGuiderType(int type)
             guideB->setEnabled(true);
             externalConnectB->setEnabled(true);
 
-            controlGroup->setEnabled(false);
+            opsGuide->controlGroup->setEnabled(false);
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(false);
 
@@ -2051,28 +2057,28 @@ void Guide::syncSettings()
 
     if ((pSB = qobject_cast<QSpinBox *>(obj)))
     {
-        if (pSB == spinBox_MaxPulseRA)
+        if (pSB == opsGuide->spinBox_MaxPulseRA)
             Options::setRAMaximumPulse(pSB->value());
-        else if (pSB == spinBox_MaxPulseDEC)
+        else if (pSB == opsGuide->spinBox_MaxPulseDEC)
             Options::setDECMaximumPulse(pSB->value());
-        else if (pSB == spinBox_MinPulseRA)
+        else if (pSB == opsGuide->spinBox_MinPulseRA)
             Options::setRAMinimumPulse(pSB->value());
-        else if (pSB == spinBox_MinPulseDEC)
+        else if (pSB == opsGuide->spinBox_MinPulseDEC)
             Options::setDECMinimumPulse(pSB->value());
     }
     else if ((pDSB = qobject_cast<QDoubleSpinBox *>(obj)))
     {
-        if (pDSB == spinBox_PropGainRA)
+        if (pDSB == opsGuide->spinBox_PropGainRA)
             Options::setRAProportionalGain(pDSB->value());
-        else if (pDSB == spinBox_PropGainDEC)
+        else if (pDSB == opsGuide->spinBox_PropGainDEC)
             Options::setDECProportionalGain(pDSB->value());
-        else if (pDSB == spinBox_IntGainRA)
+        else if (pDSB == opsGuide->spinBox_IntGainRA)
             Options::setRAIntegralGain(pDSB->value());
-        else if (pDSB == spinBox_IntGainDEC)
+        else if (pDSB == opsGuide->spinBox_IntGainDEC)
             Options::setDECIntegralGain(pDSB->value());
-        else if (pDSB == spinBox_DerGainRA)
+        else if (pDSB == opsGuide->spinBox_DerGainRA)
             Options::setRADerivativeGain(pDSB->value());
-        else if (pDSB == spinBox_DerGainDEC)
+        else if (pDSB == opsGuide->spinBox_DerGainDEC)
             Options::setDECDerivativeGain(pDSB->value());
     }
     else if ((pCB = qobject_cast<QCheckBox*>(obj)))
@@ -2174,20 +2180,20 @@ void Guide::loadSettings()
     westControlCheck->setChecked(Options::westRAGuideEnabled());
     eastControlCheck->setChecked(Options::eastRAGuideEnabled());
     // PID Control - Proportional Gain
-    spinBox_PropGainRA->setValue(Options::rAProportionalGain());
-    spinBox_PropGainDEC->setValue(Options::dECProportionalGain());
+    opsGuide->spinBox_PropGainRA->setValue(Options::rAProportionalGain());
+    opsGuide->spinBox_PropGainDEC->setValue(Options::dECProportionalGain());
     // PID Control - Integral Gain
-    spinBox_IntGainRA->setValue(Options::rAIntegralGain());
-    spinBox_IntGainDEC->setValue(Options::dECIntegralGain());
+    opsGuide->spinBox_IntGainRA->setValue(Options::rAIntegralGain());
+    opsGuide->spinBox_IntGainDEC->setValue(Options::dECIntegralGain());
     // PID Control - Derivative Gain
-    spinBox_DerGainRA->setValue(Options::rADerivativeGain());
-    spinBox_DerGainDEC->setValue(Options::dECDerivativeGain());
+    opsGuide->spinBox_DerGainRA->setValue(Options::rADerivativeGain());
+    opsGuide->spinBox_DerGainDEC->setValue(Options::dECDerivativeGain());
     // Max Pulse Duration (ms)
-    spinBox_MaxPulseRA->setValue(Options::rAMaximumPulse());
-    spinBox_MaxPulseDEC->setValue(Options::dECMaximumPulse());
+    opsGuide->spinBox_MaxPulseRA->setValue(Options::rAMaximumPulse());
+    opsGuide->spinBox_MaxPulseDEC->setValue(Options::dECMaximumPulse());
     // Min Pulse Duration (ms)
-    spinBox_MinPulseRA->setValue(Options::rAMinimumPulse());
-    spinBox_MinPulseDEC->setValue(Options::dECMinimumPulse());
+    opsGuide->spinBox_MinPulseRA->setValue(Options::rAMinimumPulse());
+    opsGuide->spinBox_MinPulseDEC->setValue(Options::dECMinimumPulse());
     // Autostar
     autoStarCheck->setChecked(Options::guideAutoStarEnabled());
 }
@@ -2214,20 +2220,20 @@ void Guide::saveSettings()
     Options::setWestRAGuideEnabled(westControlCheck->isChecked());
     Options::setEastRAGuideEnabled(eastControlCheck->isChecked());
     // PID Control - Proportional Gain
-    Options::setRAProportionalGain(spinBox_PropGainRA->value());
-    Options::setDECProportionalGain(spinBox_PropGainDEC->value());
+    Options::setRAProportionalGain(opsGuide->spinBox_PropGainRA->value());
+    Options::setDECProportionalGain(opsGuide->spinBox_PropGainDEC->value());
     // PID Control - Integral Gain
-    Options::setRAIntegralGain(spinBox_IntGainRA->value());
-    Options::setDECIntegralGain(spinBox_IntGainDEC->value());
+    Options::setRAIntegralGain(opsGuide->spinBox_IntGainRA->value());
+    Options::setDECIntegralGain(opsGuide->spinBox_IntGainDEC->value());
     // PID Control - Derivative Gain
-    Options::setRADerivativeGain(spinBox_DerGainRA->value());
-    Options::setDECDerivativeGain(spinBox_DerGainDEC->value());
+    Options::setRADerivativeGain(opsGuide->spinBox_DerGainRA->value());
+    Options::setDECDerivativeGain(opsGuide->spinBox_DerGainDEC->value());
     // Max Pulse Duration (ms)
-    Options::setRAMaximumPulse(spinBox_MaxPulseRA->value());
-    Options::setDECMaximumPulse(spinBox_MaxPulseDEC->value());
+    Options::setRAMaximumPulse(opsGuide->spinBox_MaxPulseRA->value());
+    Options::setDECMaximumPulse(opsGuide->spinBox_MaxPulseDEC->value());
     // Min Pulse Duration (ms)
-    Options::setRAMinimumPulse(spinBox_MinPulseRA->value());
-    Options::setDECMinimumPulse(spinBox_MinPulseDEC->value());
+    Options::setRAMinimumPulse(opsGuide->spinBox_MinPulseRA->value());
+    Options::setDECMinimumPulse(opsGuide->spinBox_MinPulseDEC->value());
 }
 
 void Guide::setTrackingStar(int x, int y)
@@ -2439,7 +2445,6 @@ bool Guide::executeOperationStack()
             if (guiderType == GUIDE_INTERNAL)
             {
                 guider->setStarPosition(starCenter);
-                dynamic_cast<InternalGuider *>(guider)->setImageGuideEnabled(Options::imageGuidingEnabled());
 
                 // No need to calibrate
                 if (Options::imageGuidingEnabled())
@@ -2718,14 +2723,14 @@ void Guide::resetNonGuidedDither()
     nonGuidedDitherDecOffsetMsec = 0;
     qCDebug(KSTARS_EKOS_GUIDE) << "Reset non guiding dithering position";
 
-    // initialize random generator if not done before 
+    // initialize random generator if not done before
     if (!isNonGuidedDitherInitialized)
     {
         auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-        nonGuidedPulseGenerator.seed(seed); 
+        nonGuidedPulseGenerator.seed(seed);
         isNonGuidedDitherInitialized = true;
         qCDebug(KSTARS_EKOS_GUIDE) << "Initialize non guiding dithering random generator";
-    }   
+    }
 }
 
 void Guide::nonGuidedDither()
@@ -2733,23 +2738,23 @@ void Guide::nonGuidedDither()
     double ditherPulse = Options::ditherNoGuidingPulse();
 
     // Randomize dithering position up to +/-dithePulse distance from original
-    std::uniform_int_distribution<int> newPos(-ditherPulse, +ditherPulse);  
-    
+    std::uniform_int_distribution<int> newPos(-ditherPulse, +ditherPulse);
+
     // Calculate the pulse needed to move to the new position, then save the new position and apply the pulse
-    
+
     // for ra
     const int newRaOffsetMsec = newPos(nonGuidedPulseGenerator);
     const int raPulse = nonGuidedDitherRaOffsetMsec - newRaOffsetMsec;
     nonGuidedDitherRaOffsetMsec = newRaOffsetMsec;
     const int raMsec  = std::abs(raPulse);
-    const int raPolarity = (raPulse >= 0 ? 1: -1);
-    
+    const int raPolarity = (raPulse >= 0 ? 1 : -1);
+
     // and for dec
     const int newDecOffsetMsec = newPos(nonGuidedPulseGenerator);
     const int decPulse = nonGuidedDitherDecOffsetMsec - newDecOffsetMsec;
     nonGuidedDitherDecOffsetMsec = newDecOffsetMsec;
     const int decMsec  = std::abs(decPulse);
-    const int decPolarity = (decPulse >= 0 ? 1: -1);
+    const int decPolarity = (decPulse >= 0 ? 1 : -1);
 
     qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
     qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << raMsec << "ra_polarity:" << raPolarity << "de_msec:" << decMsec <<
@@ -2878,7 +2883,10 @@ void Guide::initDriftGraph()
             driftGraph->xAxis2, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::setRange));
     // update the second vertical axis properly if the graph gets zoomed.
     connect(driftGraph->yAxis, static_cast<void(QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
-            [this](){driftGraph->setCorrectionGraphScale(correctionSlider->value());});
+            [this]()
+    {
+        driftGraph->setCorrectionGraphScale(correctionSlider->value());
+    });
 
     connect(driftGraph, &QCustomPlot::mouseMove, driftGraph, &GuideDriftGraph::mouseOverLine);
     connect(driftGraph, &QCustomPlot::mousePress, driftGraph, &GuideDriftGraph::mouseClicked);
@@ -2940,12 +2948,14 @@ void Guide::initCalibrationPlot()
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2), QBrush(), 4));
+    calibrationPlot->graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2),
+            QBrush(), 4));
     calibrationPlot->graph(GuideGraph::G_DEC)->setName("RA in");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white, 2),
+    calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white,
+            2),
             QBrush(), 6));
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setName("Backlash");
 
@@ -2957,7 +2967,8 @@ void Guide::initCalibrationPlot()
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow, 2),
+    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow,
+            2),
             QBrush(), 4));
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setName("DEC in");
 
@@ -3050,24 +3061,24 @@ void Guide::initConnections()
     connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
 
     // PID Control - Proportional Gain
-    connect(spinBox_PropGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(spinBox_PropGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_PropGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_PropGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // PID Control - Integral Gain
-    connect(spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // PID Control - Derivative Gain
-    connect(spinBox_DerGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(spinBox_DerGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_DerGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_DerGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // Max Pulse Duration (ms)
-    connect(spinBox_MaxPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(spinBox_MaxPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MaxPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MaxPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // Min Pulse Duration (ms)
-    connect(spinBox_MinPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(spinBox_MinPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MinPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MinPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // Capture
     connect(captureB, &QPushButton::clicked, this, [this]()
@@ -3127,12 +3138,30 @@ void Guide::initConnections()
             &Ekos::Guide::buildTarget);
     connect(guideSlider, &QSlider::sliderMoved, this, &Ekos::Guide::guideHistory);
     connect(latestCheck, &QCheckBox::toggled, this, &Ekos::Guide::setLatestGuidePoint);
-    connect(showRAPlotCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_RA, isChecked);});
-    connect(showDECPlotCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_DEC, isChecked);});
-    connect(showRACorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_RA_PULSE, isChecked);});
-    connect(showDECorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_DEC_PULSE, isChecked);});
-    connect(showSNRPlotCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_SNR, isChecked);});
-    connect(showRMSPlotCheck, &QCheckBox::toggled, [this](bool isChecked) {driftGraph->toggleShowPlot(GuideGraph::G_RMS, isChecked);});
+    connect(showRAPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_RA, isChecked);
+    });
+    connect(showDECPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_DEC, isChecked);
+    });
+    connect(showRACorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_RA_PULSE, isChecked);
+    });
+    connect(showDECorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_DEC_PULSE, isChecked);
+    });
+    connect(showSNRPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_SNR, isChecked);
+    });
+    connect(showRMSPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    {
+        driftGraph->toggleShowPlot(GuideGraph::G_RMS, isChecked);
+    });
     connect(correctionSlider, &QSlider::sliderMoved, driftGraph, &GuideDriftGraph::setCorrectionGraphScale);
 
     connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()
@@ -3224,8 +3253,8 @@ QJsonObject Guide::getSettings() const
     settings.insert("south", southControlCheck->isChecked());
     settings.insert("scope", qMax(0, FOVScopeCombo->currentIndex()));
     settings.insert("swap", swapCheck->isChecked());
-    settings.insert("ra_gain", spinBox_PropGainRA->value());
-    settings.insert("de_gain", spinBox_PropGainDEC->value());
+    settings.insert("ra_gain", opsGuide->spinBox_PropGainRA->value());
+    settings.insert("de_gain", opsGuide->spinBox_PropGainDEC->value());
     settings.insert("dither_enabled", Options::ditherEnabled());
     settings.insert("dither_pixels", Options::ditherPixels());
     settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
@@ -3317,9 +3346,9 @@ void Guide::setSettings(const QJsonObject &settings)
     if (scope >= 0 && scope != FOVScopeCombo->currentIndex())
         FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
-    syncControl("ra_gain", spinBox_PropGainRA);
+    syncControl("ra_gain", opsGuide->spinBox_PropGainRA);
     // DE Gain
-    syncControl("de_gain", spinBox_PropGainDEC);
+    syncControl("de_gain", opsGuide->spinBox_PropGainDEC);
     // Options
     const bool ditherEnabled = settings["dither_enabled"].toBool(Options::ditherEnabled());
     Options::setDitherEnabled(ditherEnabled);

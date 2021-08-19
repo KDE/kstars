@@ -49,10 +49,7 @@ bool InternalGuider::guide()
 {
     if (state >= GUIDE_GUIDING)
     {
-        if (m_ImageGuideEnabled)
-            return processImageGuiding();
-        else
-            return processGuiding();
+        return processGuiding();
     }
 
     if (state == GUIDE_SUSPENDED)
@@ -1325,82 +1322,6 @@ bool InternalGuider::processGuiding()
         emit newSNR(pmath->getGuideStarSNR());
 
     return true;
-}
-
-bool InternalGuider::processImageGuiding()
-{
-    static int maxPulseCounter = 0;
-    const cproc_out_params *out;
-    uint32_t tick = 0;
-
-    // calc math. it tracks square
-    pmath->performProcessing(GUIDE_GUIDING);
-
-    if (pmath->isStarLost() && ++m_starLostCounter > 2)
-    {
-        emit newLog(i18n("Lost track of phase shift."));
-        abort();
-        return false;
-    }
-    else
-        m_starLostCounter = 0;
-
-    // do pulse
-    out = pmath->getOutputParameters();
-
-    // If within 90% of max pulse repeatedly, let's abort
-    if (out->pulse_length[GUIDE_RA] >= (0.9 * Options::rAMaximumPulse()) ||
-            out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
-        maxPulseCounter++;
-    else
-        maxPulseCounter = 0;
-
-    if (maxPulseCounter >= 3)
-    {
-        emit newLog(i18n("Lost track of phase shift. Aborting guiding..."));
-        abort();
-        maxPulseCounter = 0;
-        return false;
-    }
-
-    emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC],
-                  out->pulse_length[GUIDE_DEC]);
-
-    emit frameCaptureRequested();
-
-    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
-        return true;
-
-    tick = pmath->getTicks();
-
-    if (tick & 1)
-    {
-        // draw some params in window
-        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
-
-        emit newAxisPulse(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
-
-        emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
-    }
-
-    return true;
-}
-
-bool InternalGuider::isImageGuideEnabled() const
-{
-    return m_ImageGuideEnabled;
-}
-
-void InternalGuider::setImageGuideEnabled(bool value)
-{
-    m_ImageGuideEnabled = value;
-
-    pmath->setImageGuideEnabled(value);
-}
-
-void InternalGuider::setRegionAxis(uint32_t value)
-{
-    pmath->setRegionAxis(value);
 }
 
 QList<Edge *> InternalGuider::getGuideStars()

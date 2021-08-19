@@ -90,11 +90,6 @@ cgmath::~cgmath()
 {
     delete[] drift[GUIDE_RA];
     delete[] drift[GUIDE_DEC];
-
-    foreach (float *region, referenceRegions)
-        delete[] region;
-
-    referenceRegions.clear();
 }
 
 bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
@@ -279,18 +274,6 @@ void cgmath::start()
     if (calibration.getFocalLength() > 0 && aperture > 0)
         createGuideLog();
 
-    // Create reference Image
-    if (imageGuideEnabled)
-    {
-        foreach (float *region, referenceRegions)
-            delete[] region;
-
-        referenceRegions.clear();
-
-        referenceRegions = partitionImage();
-
-        reticle_pos = Vector(0, 0, 0);
-    }
     gpg->reset();
 }
 
@@ -412,129 +395,12 @@ float *cgmath::createFloatImage(const QSharedPointer<FITSData> &target) const
     return imgFloat;
 }
 
-QVector<float *> cgmath::partitionImage() const
-{
-    QVector<float *> regions;
-
-    float *imgFloat = createFloatImage(QSharedPointer<FITSData>());
-
-    if (imgFloat == nullptr)
-        return regions;
-
-    const uint16_t width  = m_ImageData->width();
-    const uint16_t height = m_ImageData->height();
-
-    uint8_t xRegions = floor(width / regionAxis);
-    uint8_t yRegions = floor(height / regionAxis);
-    // Find number of regions to divide the image
-    //uint8_t regions =  xRegions * yRegions;
-
-    float *regionPtr = imgFloat;
-
-    for (uint8_t i = 0; i < yRegions; i++)
-    {
-        for (uint8_t j = 0; j < xRegions; j++)
-        {
-            // Allocate space for one region
-            float *oneRegion = new float[regionAxis * regionAxis];
-            // Create points to region and current location of the source image in the desired region
-            float *oneRegionPtr = oneRegion, *imgFloatPtr = regionPtr + j * regionAxis;
-
-            // copy from image to region line by line
-            for (uint32_t line = 0; line < regionAxis; line++)
-            {
-                memcpy(oneRegionPtr, imgFloatPtr, regionAxis);
-                oneRegionPtr += regionAxis;
-                imgFloatPtr += width;
-            }
-
-            regions.append(oneRegion);
-        }
-
-        // Move regionPtr block by (width * regionAxis) elements
-        regionPtr += width * regionAxis;
-    }
-
-    // We're done with imgFloat
-    delete[] imgFloat;
-
-    return regions;
-}
-
-void cgmath::setRegionAxis(const uint32_t &value)
-{
-    regionAxis = value;
-}
-
 Vector cgmath::findLocalStarPosition(void)
 {
     if (square_alg_idx == SEP_MULTISTAR)
     {
         QRect trackingBox = guideView->getTrackingBox();
         return guideStars.findGuideStar(m_ImageData, trackingBox, guideView);
-    }
-
-    if (useRapidGuide)
-    {
-        return Vector(rapidDX, rapidDY, 0);
-    }
-
-    if (imageGuideEnabled)
-    {
-        float xshift = 0, yshift = 0;
-
-        QVector<Vector> shifts;
-        float xsum = 0, ysum = 0;
-
-        QVector<float *> imagePartition = partitionImage();
-
-        if (imagePartition.isEmpty())
-        {
-            qWarning() << "Failed to partition regions in image!";
-            return Vector(-1, -1, -1);
-        }
-
-        if (imagePartition.count() != referenceRegions.count())
-        {
-            qWarning() << "Mismatch between reference regions #" << referenceRegions.count()
-                       << "and image partition regions #" << imagePartition.count();
-            // Clear memory in case of mis-match
-            foreach (float *region, imagePartition)
-            {
-                delete[] region;
-            }
-
-            return Vector(-1, -1, -1);
-        }
-
-        for (uint8_t i = 0; i < imagePartition.count(); i++)
-        {
-            ImageAutoGuiding::ImageAutoGuiding1(referenceRegions[i], imagePartition[i], regionAxis, &xshift, &yshift);
-            Vector shift(xshift, yshift, -1);
-            qCDebug(KSTARS_EKOS_GUIDE) << "Region #" << i << ": X-Shift=" << xshift << "Y-Shift=" << yshift;
-
-            xsum += xshift;
-            ysum += yshift;
-            shifts.append(shift);
-        }
-
-        // Delete partitions
-        foreach (float *region, imagePartition)
-        {
-            delete[] region;
-        }
-        imagePartition.clear();
-
-        float average_x = xsum / referenceRegions.count();
-        float average_y = ysum / referenceRegions.count();
-
-        float median_x = shifts[referenceRegions.count() / 2 - 1].x;
-        float median_y = shifts[referenceRegions.count() / 2 - 1].y;
-
-        qCDebug(KSTARS_EKOS_GUIDE) << "Average : X-Shift=" << average_x << "Y-Shift=" << average_y;
-        qCDebug(KSTARS_EKOS_GUIDE) << "Median  : X-Shift=" << median_x << "Y-Shift=" << median_y;
-
-        return Vector(median_x, median_y, -1);
     }
 
     switch (m_ImageData->dataType())
@@ -1252,17 +1118,6 @@ void cgmath::calc_square_err(void)
     }
 }
 
-void cgmath::setRapidGuide(bool enable)
-{
-    useRapidGuide = enable;
-}
-
-void cgmath::setRapidStarData(double dx, double dy)
-{
-    rapidDX = dx;
-    rapidDY = dy;
-}
-
 const char *cgmath::get_direction_string(GuideDirection dir)
 {
     switch (dir)
@@ -1288,16 +1143,6 @@ const char *cgmath::get_direction_string(GuideDirection dir)
     }
 
     return "NO DIR";
-}
-
-bool cgmath::isImageGuideEnabled() const
-{
-    return imageGuideEnabled;
-}
-
-void cgmath::setImageGuideEnabled(bool value)
-{
-    imageGuideEnabled = value;
 }
 
 static void psf_conv(float *dst, const float *src, int width, int height)

@@ -112,33 +112,22 @@ class InternalGuider : public GuideInterface
         // Image Data
         void setImageData(const QSharedPointer<FITSData> &data);
 
-        // Region Axis
-        void setRegionAxis(uint32_t value);
-
         bool start();
 
         bool isGuiding(void) const;
         void setAO(bool enable);
         void setInterface(void);
-        bool isRapidGuide()
-        {
-            return m_UseRapidGuide;
-        }
 
         double getAOLimit();
         void setSubFramed(bool enable)
         {
             m_isSubFramed = enable;
         }
-        void setGuideOptions(const QString &algorithm, bool useSubFrame, bool useRapidGuide);
 
         QString getAlgorithm();
         bool useSubFrame();
-        bool useRapidGuide();
 
         const Calibration &getCalibration() const;
-        bool isImageGuideEnabled() const;
-        void setImageGuideEnabled(bool value);
 
         QList<Edge *> getGuideStars();
 
@@ -174,9 +163,6 @@ class InternalGuider : public GuideInterface
         // Guiding
         bool processGuiding();
 
-        // Image Guiding
-        bool processImageGuiding();
-
         bool abortDither();
 
         void reset();
@@ -190,8 +176,6 @@ class InternalGuider : public GuideInterface
         bool m_isStarted { false };
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };
-        bool m_UseRapidGuide { false };
-        bool m_ImageGuideEnabled { false };
         int m_starLostCounter { 0 };
 
         QFile logFile;
