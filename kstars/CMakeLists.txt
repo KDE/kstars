@@ -231,6 +231,8 @@ if (INDI_FOUND)
             ekos/guide/guidetargetplot.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
+            ekos/guide/internalguide/guidealgorithms.cpp
+            ekos/guide/internalguide/calibrationprocess.cpp
             ekos/guide/internalguide/internalguider.cpp
             #ekos/guide/internalguide/guider.cpp
             ekos/guide/internalguide/matr.cpp

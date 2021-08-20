@@ -34,12 +34,7 @@
 class FITSData;
 class Edge;
 
-typedef struct
-{
-    int size;
-    double square;
-} guide_square_t;
-
+// For now also copied in guidealgorithms.cpp
 #define SMART_THRESHOLD    0
 #define SEP_THRESHOLD      1
 #define CENTROID_THRESHOLD 2
@@ -47,25 +42,9 @@ typedef struct
 #define NO_THRESHOLD       4
 #define SEP_MULTISTAR      5
 
-typedef struct
-{
-    int idx;
-    const char name[32];
-} square_alg_t;
-
-// smart threshold algorithm param
-// width of outer frame for background calculation
-#define SMART_FRAME_WIDTH 4
-// cut-factor above average threshold
-#define SMART_CUT_FACTOR 0.1
-
 #define GUIDE_RA    0
 #define GUIDE_DEC   1
 #define CHANNEL_CNT 2
-
-#define MAX_ACCUM_CNT 50
-extern const guide_square_t guide_squares[];
-extern const square_alg_t guide_square_alg[];
 
 // input params
 class cproc_in_params
@@ -74,17 +53,14 @@ class cproc_in_params
         cproc_in_params();
         void reset(void);
 
-        int threshold_alg_idx;
         bool enabled[CHANNEL_CNT];
         bool enabled_axis1[CHANNEL_CNT];
         bool enabled_axis2[CHANNEL_CNT];
         bool average;
-        uint32_t accum_frame_cnt[CHANNEL_CNT];
         double proportional_gain[CHANNEL_CNT];
         double integral_gain[CHANNEL_CNT];
-        double derivative_gain[CHANNEL_CNT];
-        int max_pulse_length[CHANNEL_CNT];
-        int min_pulse_length[CHANNEL_CNT];
+        int max_pulse_arcsec[CHANNEL_CNT];
+        double min_pulse_arcsec[CHANNEL_CNT];
 };
 
 //output params
@@ -118,10 +94,13 @@ class cgmath : public QObject
         // functions
         bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
         bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
-        bool setReticleParameters(double x, double y);
-        bool getReticleParameters(double *x, double *y) const;
-        int getSquareAlgorithmIndex(void) const;
-        void setSquareAlgorithm(int alg_idx);
+
+        bool setTargetPosition(double x, double y);
+        bool getTargetPosition(double *x, double *y) const;
+
+        int getAlgorithmIndex(void) const;
+        void setAlgorithmIndex(int algorithmIndex);
+        bool usingSEPMultiStar() const;
 
         GPG &getGPG()
         {
@@ -131,18 +110,6 @@ class cgmath : public QObject
         {
             return &out_params;
         }
-        uint32_t getTicks(void) const;
-
-        void setImageData(const QSharedPointer<FITSData> &data)
-        {
-            m_ImageData = data;
-        }
-        void setGuideView(GuideView *view)
-        {
-            guideView = view;
-        }
-        // Based on PHD2 algorithm
-        QList<Edge *> PSFAutoFind(int extraEdgeAllowance = 0);
 
         // Operations
         void start();
@@ -154,18 +121,21 @@ class cgmath : public QObject
 
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
-        Vector findLocalStarPosition(void);
+        Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+                                     GuideView *guideView);
         bool isStarLost() const;
         void setLostStar(bool is_lost);
 
         // Main processing function
-        void performProcessing(Ekos::GuideState state, GuideLog *logger = nullptr);
+        void performProcessing(Ekos::GuideState state,
+                               QSharedPointer<FITSData> &imageData,
+                               GuideView *guideView,
+                               GuideLog *logger = nullptr);
 
-        // Math
-        bool calculateAndSetReticle1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
-        bool calculateAndSetReticle2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
-                                      double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-                                      bool *swap_dec, int RATotalPulse, int DETotalPulse);
+        bool calibrate1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
+        bool calibrate2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
+                         double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
+                         bool *swap_dec, int RATotalPulse, int DETotalPulse);
 
         const Calibration &getCalibration()
         {
@@ -175,7 +145,7 @@ class cgmath : public QObject
         {
             return &calibration;
         }
-        QVector3D selectGuideStar();
+        QVector3D selectGuideStar(const QSharedPointer<FITSData> &imageData);
         double getGuideStarSNR();
 
     signals:
@@ -191,14 +161,10 @@ class cgmath : public QObject
         template <typename T>
         Vector findLocalStarPosition(void) const;
 
-        // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
-        float *createFloatImage(const QSharedPointer<FITSData> &target) const;
-
-        void do_ticks(void);
+        void updateCircularBuffers(void);
         Vector point2arcsec(const Vector &p) const;
-        void process_axes(void);
-        void calc_square_err(void);
-        const char *get_direction_string(GuideDirection dir);
+        void calculatePulses(void);
+        void calculateRmsError(void);
 
         // Old-stye Logging--deprecate.
         void createGuideLog();
@@ -206,12 +172,8 @@ class cgmath : public QObject
         // For Analyze.
         void emitStats();
 
-        /// Global channel ticker
-        uint32_t ticks { 0 };
-        /// Pointer to image
-        QPointer<GuideView> guideView;
-        /// Pointer to data
-        QSharedPointer<FITSData> m_ImageData;
+        uint32_t iterationCounter { 0 };
+
         /// Video frame width
         int video_width { -1 };
         /// Video frame height
@@ -220,18 +182,22 @@ class cgmath : public QObject
         bool suspended { false };
         bool lost_star { false };
 
-        /// Index of threshold algorithm
-        int square_alg_idx { SMART_THRESHOLD };
+        /// Index of algorithm used
+        int algorithm { SMART_THRESHOLD };
 
-        // sky coord. system vars.
-        /// Star position on the screen
-        Vector scr_star_pos;
-        Vector reticle_pos;
+        // The latest guide star position (x,y on the image),
+        // and target position we're trying to keep it aligned to.
+        Vector starPosition;
+        Vector targetPosition;
 
         // processing
-        uint32_t channel_ticks[2];
-        uint32_t accum_ticks[2];
+        // Drift is a circular buffer of the arcsecond drift for the 2 channels.
+        // It will be initialized with a double array of size 50.
+        // driftUpto points to the index of the next value to be written.
+        static constexpr int CIRCULAR_BUFFER_SIZE = 50;
         double *drift[2];
+        uint32_t driftUpto[2];
+
         double drift_integral[2];
 
         // overlays...
@@ -240,7 +206,6 @@ class cgmath : public QObject
 
         // stat math...
         bool do_statistics { true };
-        double sum { 0 };
 
         QFile logFile;
         QTime logTime;

@@ -431,7 +431,6 @@ class Guide : public QWidget, public Ui::Guide
         //void onXscaleChanged( int i );
         //void onYscaleChanged( int i );
         void onThresholdChanged(int i);
-        void onInfoRateChanged(double val);
         void onEnableDirRA(bool enable);
         void onEnableDirDEC(bool enable);
         void syncSettings();
@@ -549,7 +548,6 @@ class Guide : public QWidget, public Ui::Guide
         QString lastPHD2CameraName; //This is for the configure PHD2 camera method.
         ISD::Telescope *currentTelescope { nullptr };
         ISD::ST4 *ST4Driver { nullptr };
-        ISD::ST4 *AODriver { nullptr };
         ISD::ST4 *GuideDriver { nullptr };
 
         // Device Containers

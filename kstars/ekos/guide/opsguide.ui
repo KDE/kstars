@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
+    <width>372</width>
     <height>604</height>
    </rect>
   </property>
@@ -27,470 +27,523 @@
     <number>3</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="l_19">
-        <property name="text">
-         <string>Algorithm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QDoubleSpinBox" name="kcfg_GuideMaxDeltaRMS">
-        <property name="minimum">
-         <double>0.500000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>30.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>10.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="2">
-       <widget class="QLabel" name="label_13">
-        <property name="toolTip">
-         <string>Maximum delta RMS permitted before stopping guide process and searching for new guide stars.</string>
-        </property>
-        <property name="text">
-         <string>Max Delta RMS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QLabel" name="label_21">
-        <property name="text">
-         <string>pixels</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QSpinBox" name="kcfg_GuideLostStarTimeout">
-        <property name="maximum">
-         <number>3600</number>
-        </property>
-        <property name="singleStep">
-         <number>10</number>
-        </property>
-        <property name="value">
-         <number>60</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label_11">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If star tracking is lost due to passing clouds or other reasons, wait this many seconds before giving up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Lost Star timeout</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="3">
-       <widget class="QComboBox" name="kcfg_GuideAlgorithm">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <item>
-         <property name="text">
-          <string>Smart</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>SEP</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fast</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Auto Threshold</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>No Threshold</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>SEP Multi Star (recommended)</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QSpinBox" name="kcfg_GuideCalibrationTimeout">
-        <property name="maximum">
-         <number>3600</number>
-        </property>
-        <property name="value">
-         <number>300</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QLabel" name="label_16">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[PHD2] If calibration takes more time than this many seconds, abort guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Calibration timeout</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QDoubleSpinBox" name="kcfg_GuideMaxHFR">
-        <property name="minimum">
-         <double>0.500000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>20.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>4.500000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0" colspan="4">
-       <widget class="QCheckBox" name="kcfg_SaveGuideLog">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked and the internal guider is run, a log file is saved in the default logging directory. This is not a debug log, it is meant for user's to improve logging and can be viewed with phd2logview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Save Internal Guider User Log</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>seconds</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="2">
-       <widget class="QLabel" name="label_20">
-        <property name="toolTip">
-         <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
-        </property>
-        <property name="text">
-         <string>Max MultiStar HFR</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>arcsecs</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_20">
-        <property name="text">
-         <string>SEP Profile</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="editGuideProfile">
-        <property name="maximumSize">
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-
-  
-   <item>
     <widget class="QGroupBox" name="controlGroup">
      <property name="title">
       <string>Control Parameters</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_1">
       <item>
-       <widget class="Line" name="line">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,0,0">
+          <property name="horizontalSpacing">
+           <number>1</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>5</number>
+          </property>
+          <item row="2" column="0">
+           <widget class="QLabel" name="l_12">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This adds a correction term based on the average of the past 50 guide deviations. For example, if the deviation is consistently negative, this will attempt to compensate. Best to start with 0.0 (no effect) and only use this if necessary.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Integral gain (0-1.0)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="spinBox_PropGainRA">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>2.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.750000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="l_11">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How aggressively the guider attempts to correct the guide deviations. 1.0 would attempt to fully correct the error. It's best to use an aggressiveness less than 1.0 to avoid oscillations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Aggressiveness (0-1.0)</string>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <property name="indent">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="spinBox_PropGainDEC">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>2.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.750000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="l_02">
+            <property name="text">
+             <string>DEC</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="l_01">
+            <property name="text">
+             <string>RA</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="l_14">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount in arc-second units. That is, the guider will not attempt to move the mount more than this many arc-seconds at any given time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Max response (arcsec)</string>
+            </property>
+            <property name="rightMargin" stdset="0">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QDoubleSpinBox" name="spinBox_MinPulseArcSecRA">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="spinBox_IntGainRA">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="l_15">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide deviation, in arc-seconds, for which a guide pulse would be sent to the mount. If the guide error is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Min error (arcsec)</string>
+            </property>
+            <property name="rightMargin" stdset="0">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QDoubleSpinBox" name="spinBox_IntGainDEC">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QSpinBox" name="spinBox_MaxPulseArcSecDEC">
+            <property name="maximum">
+             <number>3600</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="spinBox_MaxPulseArcSecRA">
+            <property name="maximum">
+             <number>3600</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QDoubleSpinBox" name="spinBox_MinPulseArcSecDEC">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="hSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-      <item>
-       <layout class="QGridLayout" name="gridLayout_3">
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>15</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Other Settings</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <property name="spacing">
-         <number>1</number>
+         <number>3</number>
         </property>
         <item row="0" column="0">
-         <widget class="QLabel" name="l_11">
+         <widget class="QLabel" name="l_19">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Proportional term accounts for present values of the error. For example, if the error is large and positive, the guider corrective pulse will also be large and positive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>The algorithm that tracks guide stars and determines the guide deviation.</string>
           </property>
           <property name="text">
-           <string>Proportional gain</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="spinBox_PropGainRA">
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QDoubleSpinBox" name="spinBox_PropGainDEC">
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="l_12">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Integral term accounts for past values of the error. For example, if the current pulse is not sufficiently strong, the integral of the error will accumulate over time, and the guider will respond by applying a stronger action.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Integral gain</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="spinBox_IntGainRA">
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QDoubleSpinBox" name="spinBox_IntGainDEC">
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="l_13">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Derivative term accounts for possible future trends of the error, based on its current rate of change.</string>
-          </property>
-          <property name="text">
-           <string>Derivative gain</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="spinBox_DerGainRA">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QDoubleSpinBox" name="spinBox_DerGainDEC">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>1000.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="l_14">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Maximum pulse</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="spinBox_MaxPulseRA">
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QSpinBox" name="spinBox_MaxPulseDEC">
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="l_15">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide pulse that is sent to the mount. If the generated pulse is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Minimum pulse</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="spinBox_MinPulseRA">
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QSpinBox" name="spinBox_MinPulseDEC">
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="l_23">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>AO Limits</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QDoubleSpinBox" name="spinBox_AOLimit">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Maximum deviation to correct for using Adaptive Optics unit. If the guiding deviation exceeds this value, Ekos will guide the mount mechanically</string>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <double>30.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-          <property name="value">
-           <double>2.000000000000000</double>
+           <string>Algorithm</string>
           </property>
          </widget>
         </item>
         <item row="5" column="2">
-         <widget class="QLabel" name="l_24">
-          <property name="enabled">
-           <bool>false</bool>
+         <widget class="QDoubleSpinBox" name="kcfg_GuideMaxDeltaRMS">
+          <property name="minimum">
+           <double>0.500000000000000</double>
           </property>
+          <property name="maximum">
+           <double>30.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>10.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QLabel" name="label_13">
+          <property name="toolTip">
+           <string>Maximum delta RMS permitted before stopping guide process and searching for new guide stars.</string>
+          </property>
+          <property name="text">
+           <string>Max Delta RMS</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>pixels</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QSpinBox" name="kcfg_GuideLostStarTimeout">
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+          <property name="singleStep">
+           <number>10</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLabel" name="label_11">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If star tracking is lost due to passing clouds or other reasons, wait this many seconds before giving up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Lost Star timeout</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="3">
+         <widget class="QComboBox" name="kcfg_GuideAlgorithm">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="currentIndex">
+           <number>5</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>Smart</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SEP</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fast</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Auto Threshold</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>No Threshold</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SEP Multi Star (recommended)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QSpinBox" name="kcfg_GuideCalibrationTimeout">
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+          <property name="value">
+           <number>300</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>seconds</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QLabel" name="label_16">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;[PHD2] If calibration takes more time than this many seconds, abort guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Calibration timeout</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QDoubleSpinBox" name="kcfg_GuideMaxHFR">
+          <property name="minimum">
+           <double>0.500000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>20.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>4.500000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="4">
+         <widget class="QCheckBox" name="kcfg_SaveGuideLog">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked and the internal guider is run, a log file is saved in the default logging directory. This is not a debug log, it is meant for user's to improve logging and can be viewed with phd2logview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Save Internal Guider User Log</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>seconds</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <widget class="QLabel" name="label_20">
+          <property name="toolTip">
+           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
+          </property>
+          <property name="text">
+           <string>Max MultiStar HFR</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QLabel" name="label_14">
           <property name="text">
            <string>arcsecs</string>
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="l_20">
+          <property name="toolTip">
+           <string>The StellarSolver profile to use when detecting stars--used with the SEP MultiStar and SEP algortihms.</string>
+          </property>
+          <property name="text">
+           <string>SEP Profile</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="editGuideProfile">
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
+      </widget>
+     </item>
+     <item>
+      <spacer name="hSpacer2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -507,6 +560,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>spinBox_PropGainRA</tabstop>
+  <tabstop>spinBox_PropGainDEC</tabstop>
+  <tabstop>spinBox_IntGainRA</tabstop>
+  <tabstop>spinBox_IntGainDEC</tabstop>
+  <tabstop>spinBox_MinPulseArcSecRA</tabstop>
+  <tabstop>spinBox_MinPulseArcSecDEC</tabstop>
+  <tabstop>spinBox_MaxPulseArcSecRA</tabstop>
+  <tabstop>spinBox_MaxPulseArcSecDEC</tabstop>
+  <tabstop>kcfg_GuideAlgorithm</tabstop>
+  <tabstop>kcfg_GuideOptionsProfile</tabstop>
+  <tabstop>editGuideProfile</tabstop>
+  <tabstop>kcfg_GuideLostStarTimeout</tabstop>
+  <tabstop>kcfg_GuideCalibrationTimeout</tabstop>
+  <tabstop>kcfg_GuideMaxDeltaRMS</tabstop>
+  <tabstop>kcfg_GuideMaxHFR</tabstop>
+  <tabstop>kcfg_SaveGuideLog</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

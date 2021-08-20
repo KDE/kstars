@@ -743,12 +743,6 @@ void Guide::setST4(int index)
     GuideDriver = ST4Driver;
 }
 
-void Guide::setAO(ISD::ST4 *newAO)
-{
-    AODriver = newAO;
-    //guider->setAO(true);
-}
-
 bool Guide::capture()
 {
     buildOperationStack(GUIDE_CAPTURE);
@@ -1155,6 +1149,7 @@ bool Guide::sendPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
     if (GuideDriver == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
+    // If we're calibrating and we send a pulse, then schedule a subsequent capture.
     if (state == GUIDE_CALIBRATING)
         pulseTimer.start((ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100);
 
@@ -1880,9 +1875,6 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(true);
             label_6->setEnabled(true);
             FOVScopeCombo->setEnabled(true);
-            l_3->setEnabled(true);
-            spinBox_GuideRate->setEnabled(true);
-            l_RecommendedGain->setEnabled(true);
             l_5->setEnabled(true);
             l_6->setEnabled(true);
             l_7->setEnabled(true);
@@ -1927,9 +1919,6 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(true);
             label_6->setEnabled(false);
             FOVScopeCombo->setEnabled(false);
-            l_3->setEnabled(false);
-            spinBox_GuideRate->setEnabled(false);
-            l_RecommendedGain->setEnabled(false);
             l_5->setEnabled(false);
             l_6->setEnabled(false);
             l_7->setEnabled(false);
@@ -2047,18 +2036,6 @@ void Guide::onThresholdChanged(int index)
     }
 }
 
-void Guide::onInfoRateChanged(double val)
-{
-    Options::setGuidingRate(val);
-
-    double gain = 0;
-
-    if (val > 0.01)
-        gain = 1000.0 / (val * 15.0);
-
-    l_RecommendedGain->setText(i18n("P: %1", QString().setNum(gain, 'f', 2)));
-}
-
 void Guide::onEnableDirRA(bool enable)
 {
     // If RA guiding is enable or disabled, the GPG should be reset.
@@ -2083,14 +2060,10 @@ void Guide::syncSettings()
 
     if ((pSB = qobject_cast<QSpinBox *>(obj)))
     {
-        if (pSB == opsGuide->spinBox_MaxPulseRA)
-            Options::setRAMaximumPulse(pSB->value());
-        else if (pSB == opsGuide->spinBox_MaxPulseDEC)
-            Options::setDECMaximumPulse(pSB->value());
-        else if (pSB == opsGuide->spinBox_MinPulseRA)
-            Options::setRAMinimumPulse(pSB->value());
-        else if (pSB == opsGuide->spinBox_MinPulseDEC)
-            Options::setDECMinimumPulse(pSB->value());
+        if (pSB == opsGuide->spinBox_MaxPulseArcSecRA)
+            Options::setRAMaximumPulseArcSec(pSB->value());
+        else if (pSB == opsGuide->spinBox_MaxPulseArcSecDEC)
+            Options::setDECMaximumPulseArcSec(pSB->value());
     }
     else if ((pDSB = qobject_cast<QDoubleSpinBox *>(obj)))
     {
@@ -2102,10 +2075,10 @@ void Guide::syncSettings()
             Options::setRAIntegralGain(pDSB->value());
         else if (pDSB == opsGuide->spinBox_IntGainDEC)
             Options::setDECIntegralGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_DerGainRA)
-            Options::setRADerivativeGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_DerGainDEC)
-            Options::setDECDerivativeGain(pDSB->value());
+        else if (pDSB == opsGuide->spinBox_MinPulseArcSecRA)
+            Options::setRAMinimumPulseArcSec(pDSB->value());
+        else if (pDSB == opsGuide->spinBox_MinPulseArcSecDEC)
+            Options::setDECMinimumPulseArcSec(pDSB->value());
     }
     else if ((pCB = qobject_cast<QCheckBox*>(obj)))
     {
@@ -2198,8 +2171,6 @@ void Guide::loadSettings()
     darkFrameCheck->setChecked(Options::guideDarkFrameEnabled());
     // Subframed?
     subFrameCheck->setChecked(Options::guideSubframeEnabled());
-    // Guiding Rate
-    spinBox_GuideRate->setValue(Options::guidingRate());
     // RA/DEC enabled?
     checkBox_DirRA->setChecked(Options::rAGuideEnabled());
     checkBox_DirDEC->setChecked(Options::dECGuideEnabled());
@@ -2209,21 +2180,34 @@ void Guide::loadSettings()
     // W/E enabled?
     westControlCheck->setChecked(Options::westRAGuideEnabled());
     eastControlCheck->setChecked(Options::eastRAGuideEnabled());
+
+    // Transition code: if old values are stored in the proportional gains,
+    // change them to a default value.
+    if (Options::rAProportionalGain() > 1.0)
+        Options::setRAProportionalGain(0.75);
+    if (Options::dECProportionalGain() > 1.0)
+        Options::setDECProportionalGain(0.75);
+
     // PID Control - Proportional Gain
     opsGuide->spinBox_PropGainRA->setValue(Options::rAProportionalGain());
     opsGuide->spinBox_PropGainDEC->setValue(Options::dECProportionalGain());
+
+    // Transition code: if old values are stored in the integral gains,
+    // change them to a default value.
+    if (Options::rAIntegralGain() > 1.0)
+        Options::setRAIntegralGain(0.75);
+    if (Options::dECIntegralGain() > 1.0)
+        Options::setDECIntegralGain(0.75);
+
     // PID Control - Integral Gain
     opsGuide->spinBox_IntGainRA->setValue(Options::rAIntegralGain());
     opsGuide->spinBox_IntGainDEC->setValue(Options::dECIntegralGain());
-    // PID Control - Derivative Gain
-    opsGuide->spinBox_DerGainRA->setValue(Options::rADerivativeGain());
-    opsGuide->spinBox_DerGainDEC->setValue(Options::dECDerivativeGain());
-    // Max Pulse Duration (ms)
-    opsGuide->spinBox_MaxPulseRA->setValue(Options::rAMaximumPulse());
-    opsGuide->spinBox_MaxPulseDEC->setValue(Options::dECMaximumPulse());
-    // Min Pulse Duration (ms)
-    opsGuide->spinBox_MinPulseRA->setValue(Options::rAMinimumPulse());
-    opsGuide->spinBox_MinPulseDEC->setValue(Options::dECMinimumPulse());
+    // Max Pulse Duration (arcsec)
+    opsGuide->spinBox_MaxPulseArcSecRA->setValue(Options::rAMaximumPulseArcSec());
+    opsGuide->spinBox_MaxPulseArcSecDEC->setValue(Options::dECMaximumPulseArcSec());
+    // Min Pulse Duration (arcsec)
+    opsGuide->spinBox_MinPulseArcSecRA->setValue(Options::rAMinimumPulseArcSec());
+    opsGuide->spinBox_MinPulseArcSecDEC->setValue(Options::dECMinimumPulseArcSec());
     // Autostar
     autoStarCheck->setChecked(Options::guideAutoStarEnabled());
 }
@@ -2242,8 +2226,6 @@ void Guide::saveSettings()
     Options::setGuideDarkFrameEnabled(darkFrameCheck->isChecked());
     // Subframed?
     Options::setGuideSubframeEnabled(subFrameCheck->isChecked());
-    // Guiding Rate?
-    Options::setGuidingRate(spinBox_GuideRate->value());
     // RA/DEC enabled?
     Options::setRAGuideEnabled(checkBox_DirRA->isChecked());
     Options::setDECGuideEnabled(checkBox_DirDEC->isChecked());
@@ -2259,15 +2241,12 @@ void Guide::saveSettings()
     // PID Control - Integral Gain
     Options::setRAIntegralGain(opsGuide->spinBox_IntGainRA->value());
     Options::setDECIntegralGain(opsGuide->spinBox_IntGainDEC->value());
-    // PID Control - Derivative Gain
-    Options::setRADerivativeGain(opsGuide->spinBox_DerGainRA->value());
-    Options::setDECDerivativeGain(opsGuide->spinBox_DerGainDEC->value());
-    // Max Pulse Duration (ms)
-    Options::setRAMaximumPulse(opsGuide->spinBox_MaxPulseRA->value());
-    Options::setDECMaximumPulse(opsGuide->spinBox_MaxPulseDEC->value());
-    // Min Pulse Duration (ms)
-    Options::setRAMinimumPulse(opsGuide->spinBox_MinPulseRA->value());
-    Options::setDECMinimumPulse(opsGuide->spinBox_MinPulseDEC->value());
+    // Max Pulse Duration (arcsec)
+    Options::setRAMaximumPulseArcSec(opsGuide->spinBox_MaxPulseArcSecRA->value());
+    Options::setDECMaximumPulseArcSec(opsGuide->spinBox_MaxPulseArcSecDEC->value());
+    // Min Pulse Duration (arcsec)
+    Options::setRAMinimumPulseArcSec(opsGuide->spinBox_MinPulseArcSecRA->value());
+    Options::setDECMinimumPulseArcSec(opsGuide->spinBox_MinPulseArcSecDEC->value());
 }
 
 void Guide::setTrackingStar(int x, int y)
@@ -2408,12 +2387,9 @@ void Guide::buildOperationStack(GuideState operation)
                     if (subFramed == false && Options::guideSubframeEnabled())
                         operationStack.push(GUIDE_CAPTURE);
 
-                    // Do not subframe and auto-select star on Image Guiding mode
-                    if (Options::imageGuidingEnabled() == false)
-                    {
-                        operationStack.push(GUIDE_SUBFRAME);
-                        operationStack.push(GUIDE_STAR_SELECT);
-                    }
+                    operationStack.push(GUIDE_SUBFRAME);
+                    operationStack.push(GUIDE_STAR_SELECT);
+
 
                     operationStack.push(GUIDE_CAPTURE);
 
@@ -2424,17 +2400,12 @@ void Guide::buildOperationStack(GuideState operation)
                 // Manual Star Selection Path
                 else
                 {
-                    // In Image Guiding, we never need to subframe
-                    if (Options::imageGuidingEnabled() == false)
-                    {
-                        // Final capture before we start calibrating
-                        if (subFramed == false && Options::guideSubframeEnabled())
-                            operationStack.push(GUIDE_CAPTURE);
+                    // Final capture before we start calibrating
+                    if (subFramed == false && Options::guideSubframeEnabled())
+                        operationStack.push(GUIDE_CAPTURE);
 
-                        // Subframe if required
-                        operationStack.push(GUIDE_SUBFRAME);
-
-                    }
+                    // Subframe if required
+                    operationStack.push(GUIDE_SUBFRAME);
 
                     // First capture an image
                     operationStack.push(GUIDE_CAPTURE);
@@ -2479,13 +2450,6 @@ bool Guide::executeOperationStack()
             if (guiderType == GUIDE_INTERNAL)
             {
                 guider->setStarPosition(starCenter);
-
-                // No need to calibrate
-                if (Options::imageGuidingEnabled())
-                {
-                    setStatus(GUIDE_CALIBRATION_SUCESS);
-                    break;
-                }
 
                 // Tracking must be engaged
                 if (currentTelescope && currentTelescope->canControlTrack() && currentTelescope->isTracking() == false)
@@ -3102,17 +3066,13 @@ void Guide::initConnections()
     connect(opsGuide->spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
     connect(opsGuide->spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
-    // PID Control - Derivative Gain
-    connect(opsGuide->spinBox_DerGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_DerGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-
     // Max Pulse Duration (ms)
-    connect(opsGuide->spinBox_MaxPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_MaxPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MaxPulseArcSecRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MaxPulseArcSecDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // Min Pulse Duration (ms)
-    connect(opsGuide->spinBox_MinPulseRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_MinPulseDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MinPulseArcSecRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+    connect(opsGuide->spinBox_MinPulseArcSecDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // Capture
     connect(captureB, &QPushButton::clicked, this, [this]()
@@ -3198,19 +3158,7 @@ void Guide::initConnections()
     });
     connect(correctionSlider, &QSlider::sliderMoved, driftGraph, &GuideDriftGraph::setCorrectionGraphScale);
 
-    connect(showGuideRateToolTipB, &QPushButton::clicked, [this]()
-    {
-        QToolTip::showText(showGuideRateToolTipB->mapToGlobal(QPoint(10, 10)),
-                           showGuideRateToolTipB->toolTip(),
-                           showGuideRateToolTipB);
-    });
-
     connect(manualDitherB, &QPushButton::clicked, this, &Guide::handleManualDither);
-
-    // Guiding Rate - Advisory only
-    onInfoRateChanged(spinBox_GuideRate->value());
-    connect(spinBox_GuideRate, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Guide::onInfoRateChanged);
 
     connect(this, &Ekos::Guide::newStatus, guideStateWidget, &Ekos::GuideStateWidget::updateGuideStatus);
 }
@@ -3252,9 +3200,6 @@ void Guide::removeDevice(ISD::GDInterface *device)
     if (st4 != ST4List.end())
     {
         ST4List.removeOne(*st4);
-
-        if (AODriver && (device->getDeviceName() == AODriver->getDeviceName()))
-            AODriver = nullptr;
 
         ST4Combo->removeItem(ST4Combo->findText(device->getDeviceName()));
         if (ST4List.empty())

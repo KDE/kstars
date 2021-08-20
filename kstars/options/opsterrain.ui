@@ -324,6 +324,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_ShowTerrain</tabstop>
+  <tabstop>kcfg_TerrainSource</tabstop>
+  <tabstop>selectTerrainFileB</tabstop>
+  <tabstop>kcfg_TerrainSourceCorrectAz</tabstop>
+  <tabstop>kcfg_TerrainSourceCorrectAlt</tabstop>
+  <tabstop>kcfg_TerrainDownsampling</tabstop>
+  <tabstop>kcfg_TerrainPanning</tabstop>
+  <tabstop>kcfg_TerrainSmoothPixels</tabstop>
+  <tabstop>kcfg_TerrainSkipSpeedup</tabstop>
+  <tabstop>kcfg_TerrainTransparencySpeedup</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

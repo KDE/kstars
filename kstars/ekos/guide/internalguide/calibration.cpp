@@ -25,17 +25,6 @@ void Calibration::setAngle(double rotationAngle)
     ROT_Z = Ekos::RotateZ(-M_PI * angle / 180.0);
 }
 
-void Calibration::logCalibration() const
-{
-    qCDebug(KSTARS_EKOS_GUIDE) <<
-                               QString("Calibration. pulse: ms/pix ra: %1 dec %2  a-s/px x: %3 y: %4 Angle %5 foc %6 pw %7 ph %8 bin %9x%10")
-                               .arg(raPulseMsPerPixel).arg(decPulseMsPerPixel)
-                               .arg(xArcsecondsPerPixel()).arg(yArcsecondsPerPixel())
-                               .arg(angle)
-                               .arg(focalMm).arg(ccd_pixel_width).arg(ccd_pixel_height)
-                               .arg(subBinX).arg(subBinY);
-}
-
 void Calibration::setParameters(double ccd_pix_width, double ccd_pix_height,
                                 double focalLengthMm,
                                 int binX, int binY,
@@ -179,9 +168,23 @@ double Calibration::calculateRotation(double x, double y)
     return phi;
 }
 
+bool Calibration::calculate1D(double start_x, double start_y,
+                              double end_x, double end_y, int RATotalPulse)
+{
+    return calculate1D(end_x - start_x, end_y - start_y, RATotalPulse);
+}
 
 bool Calibration::calculate1D(double x, double y, int RATotalPulse)
 {
+    const double length = std::hypot(x, y);
+    if (length < .1 || RATotalPulse <= 0)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("Bad input to calculate1D: ra %1 %2 total pulse %3")
+                .arg(x).arg(y).arg(RATotalPulse);
+        return false;
+    }
+
     double phi = calculateRotation(x, y);
     if (phi < 0)
         return false;
@@ -193,16 +196,42 @@ bool Calibration::calculate1D(double x, double y, int RATotalPulse)
     decSwap = calibrationDecSwap = false;
 
     if (RATotalPulse > 0)
-        setRaPulseMsPerPixel(RATotalPulse / std::hypot(x, y));
+        setRaPulseMsPerPixel(RATotalPulse / length);
+
+    if (raPulseMillisecondsPerPixel() > 10000)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << "Calibration computed unreasonable pulse-milliseconds-per-pixel: "
+                << raPulseMillisecondsPerPixel() << " & " << decPulseMillisecondsPerPixel();
+    }
 
     initialized = true;
     return true;
+}
+bool Calibration::calculate2D(
+    double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
+    double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
+    bool *swap_dec, int RATotalPulse, int DETotalPulse)
+{
+    return calculate2D(end_ra_x - start_ra_x, end_ra_y - start_ra_y,
+                       end_dec_x - start_dec_x, end_dec_y - start_dec_y,
+                       swap_dec, RATotalPulse, DETotalPulse);
 }
 
 bool Calibration::calculate2D(
     double ra_x, double ra_y, double dec_x, double dec_y,
     bool *swap_dec, int RATotalPulse, int DETotalPulse)
 {
+    const double raLength = std::hypot(ra_x, ra_y);
+    const double decLength = std::hypot(dec_x, dec_y);
+    if (raLength < .1 || decLength < .1 || RATotalPulse <= 0 || DETotalPulse <= 0)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("Bad input to calculate2D: ra %1 %2 dec %3 %4 total pulses %5 %6")
+                .arg(ra_x).arg(ra_y).arg(dec_x).arg(dec_y).arg(RATotalPulse).arg(DETotalPulse);
+        return false;
+    }
+
     double phi_ra  = 0; // angle calculated by GUIDE_RA drift
     double phi_dec = 0; // angle calculated by GUIDE_DEC drift
     double phi     = 0;
@@ -265,10 +294,19 @@ bool Calibration::calculate2D(
     calibrationDecSwap = decSwap;
 
     if (RATotalPulse > 0)
-        setRaPulseMsPerPixel(RATotalPulse / std::hypot(ra_x, ra_y));
+        setRaPulseMsPerPixel(RATotalPulse / raLength);
 
     if (DETotalPulse > 0)
-        setDecPulseMsPerPixel(DETotalPulse / std::hypot(dec_x, dec_y));
+        setDecPulseMsPerPixel(DETotalPulse / decLength);
+
+    // Check for unreasonable values.
+    if (raPulseMillisecondsPerPixel() > 10000 || decPulseMillisecondsPerPixel() > 10000)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << "Calibration computed unreasonable pulse-milliseconds-per-pixel: "
+                << raPulseMillisecondsPerPixel() << " & " << decPulseMillisecondsPerPixel();
+        return false;
+    }
 
     qCDebug(KSTARS_EKOS_GUIDE) << QString("Set RA ms/px = %1ms / %2px = %3. DEC: %4ms / %5px = %6.")
                                .arg(RATotalPulse).arg(std::hypot(ra_x, ra_y)).arg(raPulseMsPerPixel)

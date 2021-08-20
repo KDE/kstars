@@ -2241,6 +2241,10 @@
          <label>Guide binning size index (0 to 3) corresponding to binning (1x1 to 4x4).</label>
          <default>0</default>
       </entry>
+      <entry name="CalibrationMaxMove" type="UInt">
+         <label>Maximum number of pixels the calibration should move (approximate).</label>
+         <default>15</default>
+      </entry>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>2</default>
@@ -2248,14 +2252,6 @@
       <entry name="GuideFilterFITSIndex" type="UInt">
          <label>Effect FITS filter index corresponding to the available image enhancing filters.</label>
          <default>0</default>
-      </entry>
-      <entry name="ImageGuidingEnabled" type="Bool">
-         <label>Use Image Guiding algorithms instead of classical centroid guiding.</label>
-         <default>false</default>
-      </entry>
-      <entry name="GuideRegionAxis" type="UInt">
-         <label>Region Axis Index (0 to 4) corresponding to NxN partition size used Image Guiding (64 to 1024).</label>
-         <default>1</default>
       </entry>
       <entry name="GuideAutoStarEnabled" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
@@ -2288,10 +2284,6 @@
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
          <default>true</default>
-      </entry>
-      <entry name="RapidGuideEnabled" type="Bool">
-         <label>Use driver side Rapid Guide to perform guiding.</label>
-         <default>false</default>
       </entry>
       <entry name="SaveGuideLog" type="Bool">
          <label>Automatically save internal guider user logs.</label>
@@ -2345,10 +2337,6 @@
          <label>Perform dithering even when not guiding.</label>
          <default>false</default>
       </entry>
-      <entry name="AOLimit" type="Double">
-         <label>The Adaptive Optics unit is utilized if the guiding deviation is less than this limit in arcseconds. Once exceeded, mechanical guiding is utilized.</label>
-         <default>2</default>
-      </entry>
       <entry name="RAGuideEnabled" type="Bool">
          <label>Enable autoguiding in the RA axis.</label>
          <default>true</default>
@@ -2385,23 +2373,17 @@
       <entry name="DECIntegralGain" type="Double">
          <default>0</default>
       </entry>
-      <entry name="RADerivativeGain" type="Double">
-         <default>0</default>
+      <entry name="RAMinimumPulseArcSec" type="Double">
+         <default>0.2</default>
       </entry>
-      <entry name="DECDerivativeGain" type="Double">
-         <default>0</default>
+      <entry name="DECMinimumPulseArcSec" type="Double">
+         <default>0.2</default>
       </entry>
-      <entry name="RAMaximumPulse" type="UInt">
-         <default>5000</default>
+      <entry name="RAMaximumPulseArcSec" type="UInt">
+         <default>25</default>
       </entry>
-      <entry name="DECMaximumPulse" type="UInt">
-         <default>5000</default>
-      </entry>
-      <entry name="RAMinimumPulse" type="UInt">
-         <default>100</default>
-      </entry>
-      <entry name="DECMinimumPulse" type="UInt">
-         <default>100</default>
+      <entry name="DECMaximumPulseArcSec" type="UInt">
+         <default>25</default>
       </entry>
       <entry name="GPGEnabled" type="Bool">
          <default>false</default>
@@ -2447,9 +2429,6 @@
       </entry>
       <entry name="GPGEstimatePeriod" type="Bool">
          <default>true</default>
-      </entry>
-      <entry name="GuidingRate" type="Double">
-         <default>0.5</default>
       </entry>
       <entry name="GuiderAccuracyThreshold" type="UInt">
          <label>Accuracy threshold for the Guide Graphs.</label>

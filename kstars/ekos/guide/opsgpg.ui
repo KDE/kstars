@@ -220,29 +220,6 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_GPGcWeight">
-          <property name="toolTip">
-           <string>The fraction of the guide-star drift the GPG uses to move the mount.</string>
-          </property>
-          <property name="minimum">
-           <double>0.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>1.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.100000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_gpgs3c">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_gpgs4a">
           <property name="toolTip">
@@ -253,26 +230,17 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QDoubleSpinBox" name="kcfg_GPGMinMove">
-          <property name="toolTip">
-           <string>The min-move parameter the GPG uses to move the mount when it uses its backoff proportional guider.</string>
-          </property>
-          <property name="minimum">
-           <double>0.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>10.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.100000000000000</double>
+        <item row="3" column="1" colspan="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Uses RA &quot;Aggressiveness&quot; from Guide controls</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="label_gpgs4c">
+        <item row="4" column="1" colspan="2">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>arc-seconds</string>
+           <string>Uses RA &quot;Min error&quot; from Guide controls</string>
           </property>
          </widget>
         </item>

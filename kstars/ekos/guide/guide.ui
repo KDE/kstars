@@ -542,87 +542,6 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="l_3">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Guiding rate</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="showGuideRateToolTipB">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Mount guiding rate. Find out the guiding rate used by your mount and update the value here to get the &lt;b&gt;recommended&lt;/b&gt; value of proportional gain suitable for your mount. Setting this value &lt;b&gt;does not&lt;/b&gt; change your mount guiding rate.</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="help-about">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="spinBox_GuideRate">
-            <property name="toolTip">
-             <string>Mount guiding rate (x15&quot;/sec)</string>
-            </property>
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="minimum">
-             <double>0.100000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>2.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.100000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="l_RecommendedGain">
-            <property name="toolTip">
-             <string>&lt;b&gt;Recommended&lt;/b&gt; proportional rate given the selected guiding rate.</string>
-            </property>
-            <property name="text">
-             <string notr="true">P=xxx</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
          <widget class="Line" name="line_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -1620,7 +1539,6 @@
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
   <tabstop>FOVScopeCombo</tabstop>
-  <tabstop>spinBox_GuideRate</tabstop>
   <tabstop>showRAPlotCheck</tabstop>
   <tabstop>showDECPlotCheck</tabstop>
   <tabstop>showRACorrectionsCheck</tabstop>

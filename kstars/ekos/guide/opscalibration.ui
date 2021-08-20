@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>427</width>
-    <height>351</height>
+    <height>383</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -53,6 +53,9 @@
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="1">
            <widget class="QLabel" name="l_29">
+            <property name="toolTip">
+             <string>Initial pulse size for calibration.</string>
+            </property>
             <property name="text">
              <string>Pulse:</string>
             </property>
@@ -60,6 +63,9 @@
           </item>
           <item row="1" column="2">
            <widget class="QSpinBox" name="kcfg_AutoModeIterations">
+            <property name="toolTip">
+             <string>Maximum number of iterations calibration should use per phase.</string>
+            </property>
             <property name="minimum">
              <number>3</number>
             </property>
@@ -73,6 +79,9 @@
           </item>
           <item row="0" column="2">
            <widget class="QSpinBox" name="kcfg_CalibrationPulseDuration">
+            <property name="toolTip">
+             <string>Initial pulse size for calibration.</string>
+            </property>
             <property name="minimum">
              <number>100</number>
             </property>
@@ -89,8 +98,40 @@
           </item>
           <item row="1" column="1">
            <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>Maximum number of iterations calibration should use per phase. It may use fewer (if max move is reached).</string>
+            </property>
             <property name="text">
-             <string>Iterations:</string>
+             <string>Max Iterations:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>Maximum number of pixels the calibration should move. Once it exceeds this amount, it will finish the calibraton phase.  It may move less if  max iterations is reached.</string>
+            </property>
+            <property name="text">
+             <string>Max move (px):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QSpinBox" name="kcfg_CalibrationMaxMove">
+            <property name="toolTip">
+             <string>Maximum number of pixels the calibration should move (approximate).</string>
+            </property>
+            <property name="minimum">
+             <number>5</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="singleStep">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>15</number>
             </property>
            </widget>
           </item>
@@ -130,6 +171,9 @@
        <layout class="QFormLayout" name="formLayout_2">
         <item row="0" column="0">
          <widget class="QLabel" name="l_26">
+          <property name="toolTip">
+           <string>X position of the guide star</string>
+          </property>
           <property name="text">
            <string>X:</string>
           </property>
@@ -144,6 +188,9 @@
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="l_27">
+          <property name="toolTip">
+           <string>Y position of the guide star.</string>
+          </property>
           <property name="text">
            <string>Y:</string>
           </property>
@@ -316,7 +363,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_GuideCalibrationBacklash">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove DEC backlash when calibrating guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the effect of DEC backlash when calibrating guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string/>
@@ -329,7 +376,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When guiding is started, always clear calibration. Turning off this option can lead to unpredictable guiding failures.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked,  always re-calibrate when guiding is started. This is often not necessary when a good quality calibration has previously been done and the guide camera has not been rotated or re-installed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string/>
@@ -342,7 +389,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_ReuseGuideCalibration">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Store and attempt to reuse calibrations. This only works on opposite sides of the meridian if the pier-side can be determined. Option above, reset-on-slew, must be unchecked for this to be attempted.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Store and attempt to reuse calibrations. This only works on opposite sides of the meridian if the pier-side can be automatically determined from your mount. The &quot;Reset Guide on Slew&quot; option above must be unchecked for this to be attempted.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string/>
@@ -355,7 +402,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_ReverseDecOnPierSideChange">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When re-using a calibration, reverse the DEC angle if the current pier side differs from the one at calibration.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When re-using a calibration, reverse the DEC angle if the current pier side differs from the one at calibration. This only applies when re-using calibrations. The value you need is a property of your mount that should be researched. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string/>
@@ -380,6 +427,19 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_CalibrationPulseDuration</tabstop>
+  <tabstop>kcfg_AutoModeIterations</tabstop>
+  <tabstop>kcfg_CalibrationMaxMove</tabstop>
+  <tabstop>kcfg_TwoAxisEnabled</tabstop>
+  <tabstop>kcfg_GuideAutoSquareSizeEnabled</tabstop>
+  <tabstop>kcfg_GuideCalibrationBacklash</tabstop>
+  <tabstop>kcfg_ResetGuideCalibration</tabstop>
+  <tabstop>kcfg_ReuseGuideCalibration</tabstop>
+  <tabstop>kcfg_ReverseDecOnPierSideChange</tabstop>
+  <tabstop>spinBox_ReticleX</tabstop>
+  <tabstop>spinBox_ReticleY</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

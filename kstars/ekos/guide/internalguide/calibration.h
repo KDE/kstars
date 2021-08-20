@@ -30,8 +30,15 @@ class Calibration
 
         // Generate new calibrations according to the input parameters.
         bool calculate1D(double x, double y, int RATotalPulse);
+        bool calculate1D(double start_x, double start_y,
+                         double end_x, double end_y, int RATotalPulse);
+
         bool calculate2D(double ra_x, double ra_y, double dec_x, double dec_y,
                          bool *swap_dec, int RATotalPulse, int DETotalPulse);
+        bool calculate2D(
+            double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
+            double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
+            bool *swap_dec, int RATotalPulse, int DETotalPulse);
 
         // Computes the drift from the detection relative to the reference position.
         // If inputs are in pixels, then drift outputs are in pixels.

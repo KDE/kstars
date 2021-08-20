@@ -29,9 +29,13 @@ constexpr int MAX_SKIPPED_SAMPLES = 4;
 // Fills parameters from the KStars options.
 void getGPGParameters(GaussianProcessGuider::guide_parameters *parameters)
 {
-    parameters->control_gain_                      = Options::gPGcWeight();
+    // Parameters from standard options.
+    parameters->control_gain_                      = Options::rAProportionalGain();
+    // We need a calibration to determine min move. This is re-set in computePulse() below.
+    parameters->min_move_                          = 0.25;
+
+    // Parameters from GPG-specific options.
     parameters->min_periods_for_inference_         = Options::gPGMinPeriodsForInference();
-    parameters->min_move_                          = Options::gPGMinMove();
     parameters->SE0KLengthScale_                   = Options::gPGSE0KLengthScale();
     parameters->SE0KSignalVariance_                = Options::gPGSE0KSignalVariance();
     parameters->PKLengthScale_                     = Options::gPGPKLengthScale();
@@ -214,6 +218,10 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
         reset();
         return false;
     }
+
+    // GPG uses proportional gain and min-move from standard controls. Make sure they're using up-to-date values.
+    gpg->SetControlGain(Options::rAProportionalGain());
+    gpg->SetMinMove(Options::rAMinimumPulseArcSec());
 
     // GPG input is in RA arcseconds.
     QTime gpgTimer;

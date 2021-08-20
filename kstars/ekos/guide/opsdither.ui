@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string></string>
+      <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -271,6 +271,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_DitherEnabled</tabstop>
+  <tabstop>kcfg_DitherPixels</tabstop>
+  <tabstop>kcfg_DitherFrames</tabstop>
+  <tabstop>kcfg_DitherThreshold</tabstop>
+  <tabstop>kcfg_DitherSettle</tabstop>
+  <tabstop>kcfg_DitherTimeout</tabstop>
+  <tabstop>kcfg_DitherMaxIterations</tabstop>
+  <tabstop>kcfg_DitherFailAbortsAutoGuide</tabstop>
+  <tabstop>kcfg_DitherNoGuiding</tabstop>
+  <tabstop>kcfg_DitherNoGuidingPulse</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
