@@ -54,6 +54,7 @@ class StellarSolverProfileEditor;
 class OpsPrograms;
 class OpsASTAP;
 class OpsAstrometryIndexFiles;
+class MountModel;
 
 /**
  *@class Align
@@ -228,18 +229,6 @@ class Align : public QWidget, public Ui::Align
         }
 
         /** DBUS interface function.
-             * Sets the arguments that gets passed to the astrometry.net offline solver.
-             * @param value space-separated arguments.
-             */
-        //Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
-
-        /** DBUS interface function.
-             * Get existing solver options.
-             * @return String containing all arguments.
-             */
-        //Q_SCRIPTABLE QString solverArguments();
-
-        /** DBUS interface function.
              * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
              * @param index 0 for PRIMARY telescope, 1 for GUIDE telescope
              */
@@ -352,14 +341,31 @@ class Align : public QWidget, public Ui::Align
 
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
-        // Ekos Live Client helper functions
-        //int getActiveSolver() const;
+        /**
+             * @brief Sync the telescope to the solved alignment coordinate.
+             */
+        void Sync();
+
+        /**
+             * @brief Slew the telescope to the solved alignment coordinate.
+             */
+        void Slew();
+
+        /**
+             * @brief Sync the telescope to the solved alignment coordinate, and then slew to the target coordinate.
+             */
+        void SlewToTarget();
 
         /**
          * @brief getStellarSolverProfiles
          * @return list of StellarSolver profile names
          */
         QStringList getStellarSolverProfiles();
+
+        GotoMode currentGOTOMode() const
+        {
+            return m_CurrentGotoMode;
+        }
 
         /**
              * @brief generateOptions Generate astrometry.net option given the supplied map
@@ -370,7 +376,10 @@ class Align : public QWidget, public Ui::Align
         static void generateFOVBounds(double fov_h, QString &fov_low, QString &fov_high, double tolerance = 0.05);
 
         // access to the mount model UI, required for testing
-        Ui_mountModel * getMountModelUI() { return &mountModel; }
+        MountModel * mountModel() const
+        {
+            return m_MountModel;
+        }
 
     public slots:
 
@@ -433,30 +442,24 @@ class Align : public QWidget, public Ui::Align
         /** DBUS interface function.
              * Aborts the solving operation, handle outside of the align module.
              */
-        Q_SCRIPTABLE Q_NOREPLY void abort() {stop(ALIGN_ABORTED);}
+        Q_SCRIPTABLE Q_NOREPLY void abort()
+        {
+            stop(ALIGN_ABORTED);
+        }
 
         /**
          * @brief Suspend aligning, recovery handled by the align module itself.
          */
-        void suspend() {stop(ALIGN_SUSPENDED);}
+        void suspend()
+        {
+            stop(ALIGN_SUSPENDED);
+        }
 
         /** DBUS interface function.
              * Select the solver mode
              * @param type Set solver type. 0 LOCAL, 1 REMOTE (requires remote astrometry driver to be activated)
              */
         Q_SCRIPTABLE Q_NOREPLY void setSolverMode(int mode);
-
-        /** DBUS interface function.
-             * Select the solver type
-             * @param type Set solver type. 0 ASTAP, 1 astrometry.net
-             */
-        //Q_SCRIPTABLE Q_NOREPLY void setSolverBackend(int type);
-
-        /** DBUS interface function.
-             * Select the astrometry solver type
-             * @param type Set solver type. 0 online, 1 offline, 2 remote
-             */
-        //Q_SCRIPTABLE Q_NOREPLY void setAstrometrySolverType(int type);
 
         /** DBUS interface function.
              * Capture and solve an image using the astrometry.net engine
@@ -622,27 +625,6 @@ class Align : public QWidget, public Ui::Align
         void slotClearAllSolutionPoints();
         void slotRemoveSolutionPoint();
         void slotMountModel();
-
-        //Mount Model Slots
-
-        void slotWizardAlignmentPoints();
-        void slotStarSelected(const QString selectedStar);
-        void slotLoadAlignmentPoints();
-        void slotSaveAsAlignmentPoints();
-        void slotSaveAlignmentPoints();
-        void slotClearAllAlignPoints();
-        void slotRemoveAlignPoint();
-        void slotAddAlignPoint();
-        void slotFindAlignObject();
-        void resetAlignmentProcedure();
-        void startStopAlignmentProcedure();
-        void startAlignmentPoint();
-        void finishAlignmentPoint(bool solverSucceeded);
-        void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
-        void exportSolutionPoints();
-        void alignTypeChanged(int alignType);
-        void togglePreviewAlignPoints();
-        void slotSortAlignmentPoints();
         void slotAutoScaleGraph();
 
         // Settings
@@ -683,9 +665,6 @@ class Align : public QWidget, public Ui::Align
         void settingsUpdated(const QJsonObject &settings);
 
     private:
-        bool m_SolveBlindly = false;
-        KPageWidgetItem *indexFilesPage;
-        QString savedOptionsProfiles;
         /**
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
@@ -705,6 +684,8 @@ class Align : public QWidget, public Ui::Align
         bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
         int refreshIteration { 0 };
         StarCorrespondence starCorrespondencePAH;
+
+        void exportSolutionPoints();
 
         /**
             * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
@@ -726,21 +707,6 @@ class Align : public QWidget, public Ui::Align
              * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
              */
         void executePolarAlign();
-
-        /**
-             * @brief Sync the telescope to the solved alignment coordinate.
-             */
-        void Sync();
-
-        /**
-             * @brief Slew the telescope to the solved alignment coordinate.
-             */
-        void Slew();
-
-        /**
-             * @brief Sync the telescope to the solved alignment coordinate, and then slew to the target coordinate.
-             */
-        void SlewToTarget();
 
         /**
              * @brief Calculate polar alignment error magnitude and direction.
@@ -797,21 +763,8 @@ class Align : public QWidget, public Ui::Align
 
         void resizeEvent(QResizeEvent *event) override;
 
-        bool alignmentPointsAreBad();
-        bool loadAlignmentPoints(const QString &fileURL);
-        bool saveAlignmentPoints(const QString &path);
-
-        void generateAlignStarList();
-        bool isVisible(const SkyObject *so);
-        double getAltitude(const SkyObject *so);
-        const SkyObject *getWizardAlignObject(double ra, double de);
-        void calculateAngleForRALine(double &raIncrement, double &initRA, double initDEC, double lat, double raPoints,
-                                     double minAlt);
-        void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
-        void updatePreviewAlignPoints();
-        int findNextAlignmentPointAfter(int currentSpot);
-        int findClosestAlignmentPointToTelescope();
-        void swapAlignPoints(int firstPt, int secondPt);
+        KPageWidgetItem *m_IndexFilesPage;
+        QString savedOptionsProfiles;
 
         /**
          * @brief React when a mount motion has been detected
@@ -950,16 +903,12 @@ class Align : public QWidget, public Ui::Align
         // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
 
-        GotoMode currentGotoMode;
+        GotoMode m_CurrentGotoMode;
 
         QString dirPath;
 
         // Timer
         QTimer m_AlignTimer;
-
-        // BLOB Type
-        //        ISD::CCD::BlobType blobType;
-        //        QString blobFileName;
 
         // Align Frame
         AlignView *alignView { nullptr };
@@ -971,6 +920,9 @@ class Align : public QWidget, public Ui::Align
         PAHStage m_PAHStage { PAH_IDLE };
         SkyPoint targetPAH;
         bool isPAHReady { false };
+
+        QUrl alignURL;
+        QUrl alignURLPath;
 
         // Polar alignment will retry capture & solve a few times if solve fails.
         int m_PAHRetrySolveCounter { 0 };
@@ -986,42 +938,33 @@ class Align : public QWidget, public Ui::Align
         // correctionAltTo is where the use should move that star to only fix altitude.
         QPointF correctionFrom, correctionTo, correctionAltTo;
 
-        // CCDs using Guide Scope for parameters
-        //QStringList guideScopeCCDs;
-
         // Which hemisphere are we located on?
         HemisphereType hemisphere;
 
         // Differential Slewing
         bool differentialSlewingActivated { false };
+        bool targetAccuracyNotMet { false };
 
         // Astrometry Options
         OpsAstrometry *opsAstrometry { nullptr };
         OpsAlign *opsAlign { nullptr };
         OpsPrograms *opsPrograms { nullptr };
-        //OpsAstrometryCfg *opsAstrometryCfg { nullptr };
         OpsAstrometryIndexFiles *opsAstrometryIndexFiles { nullptr };
         OpsASTAP *opsASTAP { nullptr };
         StellarSolverProfileEditor *optionsProfileEditor { nullptr };
+
+        // Drawing
         QCPCurve *centralTarget { nullptr };
         QCPCurve *yellowTarget { nullptr };
         QCPCurve *redTarget { nullptr };
         QCPCurve *concentricRings { nullptr };
-        QDialog mountModelDialog;
-        Ui_mountModel mountModel;
-        int currentAlignmentPoint { 0 };
-        bool mountModelRunning { false };
-        bool mountModelReset { false };
-        bool targetAccuracyNotMet { false };
-        bool previewShowing { false };
+
+        // Manual Rotator
         QDialog manualRotatorDialog;
         Ui_manualRotator manualRotator;
-        QUrl alignURL;
-        QUrl alignURLPath;
-        QVector<const StarObject *> alignStars;
 
+        // Telescope Settings
         ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
-
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
@@ -1058,5 +1001,8 @@ class Align : public QWidget, public Ui::Align
 
         // Class used to estimate alignment error.
         PolarAlign polarAlign;
+
+        // Mount Model
+        MountModel *m_MountModel {nullptr};
 };
 }

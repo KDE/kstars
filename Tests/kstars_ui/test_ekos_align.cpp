@@ -14,6 +14,7 @@
 
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
+#include "mountmodel.h"
 #include "Options.h"
 #include "indi/guimanager.h"
 
@@ -186,7 +187,8 @@ void TestEkosAlign::prepareTestCase()
             Qt::UniqueConnection);
 }
 
-void TestEkosAlign::init() {
+void TestEkosAlign::init()
+{
     // reset counters
     solver_count = 0;
     image_count  = 0;
@@ -202,12 +204,14 @@ bool TestEkosAlign::prepareMountModel(int points)
 
     // wait until the mount model is instantiated
     QTest::qWait(1000);
-    Ui_mountModel * mountModel = Ekos::Manager::Instance()->alignModule()->getMountModelUI();
+    Ekos::MountModel * mountModel = Ekos::Manager::Instance()->alignModule()->mountModel();
     KVERIFY_SUB(mountModel != nullptr);
 
     // clear alignment points
-    if (mountModel->alignTable->rowCount() > 0) {
-        QTimer::singleShot(2000, [&]() {
+    if (mountModel->alignTable->rowCount() > 0)
+    {
+        QTimer::singleShot(2000, [&]()
+        {
             QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget());
             if (dialog != nullptr)
                 QTest::mouseClick(dialog->findChild<QDialogButtonBox*>()->button(QDialogButtonBox::Yes), Qt::LeftButton);
@@ -231,7 +235,7 @@ bool TestEkosAlign::prepareMountModel(int points)
 
 bool TestEkosAlign::runMountModelTool(int points, bool moveMount)
 {
-    Ui_mountModel * mountModel = Ekos::Manager::Instance()->alignModule()->getMountModelUI();
+    Ekos::MountModel * mountModel = Ekos::Manager::Instance()->alignModule()->mountModel();
 
     // start model creation
     KVERIFY_SUB(mountModel->startAlignB->isEnabled());
