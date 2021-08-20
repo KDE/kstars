@@ -1599,11 +1599,14 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             }
         }
 
-        QJsonArray response;
+        QStringList searchObjects;
         for (auto &oneObject : allObjects)
-            response.append(oneObject.second->name());
+            searchObjects.append(oneObject.second->name());
         for (auto &oneObject : dsoObjects)
-            response.append(oneObject.name());
+            searchObjects.append(oneObject.name());
+
+        searchObjects.removeDuplicates();
+        QJsonArray response = QJsonArray::fromStringList(searchObjects);
 
         sendResponse(commands[ASTRO_SEARCH_OBJECTS], response);
     }
