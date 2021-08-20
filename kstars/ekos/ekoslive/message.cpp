@@ -1441,21 +1441,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 break;
             // Comets & Asteroids
             case SkyObject::COMET:
-            case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
+                break;
+            case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
             // Clusters
             case SkyObject::OPEN_CLUSTER:
-            case SkyObject::GLOBULAR_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
+                isDSO = true;
+                break;
+            case SkyObject::GLOBULAR_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
             // Nebuale
             case SkyObject::GASEOUS_NEBULA:
-            case SkyObject::PLANETARY_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
+                isDSO = true;
+                break;
+            case SkyObject::PLANETARY_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::PLANETARY_NEBULA, objectMaxMagnitude));
                 isDSO = true;
                 break;
