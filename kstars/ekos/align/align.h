@@ -215,7 +215,7 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE int getLoadAndSlewStatus()
         {
-            return solveFromFile;
+            return m_SolveFromFile;
         }
 
         /** DBUS interface function.
@@ -793,8 +793,8 @@ class Align : public QWidget, public Ui::Align
         bool useGuideHead { false };
         /// Can the mount sync its coordinates to those set by Ekos?
         bool canSync { false };
-        // solveFromFile is true we load an image and solve it, no capture is done.
-        bool solveFromFile { false };
+        // m_SolveFromFile is true we load an image and solve it, no capture is done.
+        bool m_SolveFromFile { false };
         // Target Position Angle of solver Load&Slew image to be used for rotator if necessary
         double loadSlewTargetPA { std::numeric_limits<double>::quiet_NaN() };
         double currentRotatorPA { -1 };
