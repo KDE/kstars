@@ -152,8 +152,9 @@ CatalogColorMap parse_color_string(const QString &str);
 QString to_color_string(CatalogColorMap colors);
 
 /**
- * Manages the catalog database and provides an interface to provide
- * an interface to query and modify the database.
+ * Manages the catalog database and provides an interface to provide an
+ * interface to query and modify the database. For more information on
+ * how the catalog database system works see the KStars Handbook.
  *
  * The class manages a database connection which is assumed to be
  * working (invariant). If the database can't be accessed a
@@ -163,6 +164,23 @@ QString to_color_string(CatalogColorMap colors);
  * members, only if they are performance critical.
  *
  * Most methods in this class are thread safe.
+ *
+ * The intention is that you access a/the catalogs database directly
+ * locally in the code where objects from the database are required and
+ * not through layers of references and pointers.
+ *
+ * The main DSO database can be accessed as follows:
+ * ```cpp
+ * CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+ * for(auto& o : manager.get_objects(10)) {
+ *     // do something
+ * }
+ * ```
+ *
+ * To query the database, first check if the required query is already
+ * hardcoded into the `DBManager`. If this is not the case you can either
+ * add it (if it is performance critical and executed frequently) or use
+ * `DBManager::general_master_query` to construct a custom `SQL` query.
  */
 class DBManager
 {
