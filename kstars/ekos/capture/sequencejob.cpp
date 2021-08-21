@@ -46,6 +46,9 @@ SequenceJob::SequenceJob(XMLEle *root):
     XMLEle *ep    = nullptr;
     XMLEle *subEP = nullptr;
 
+    // We expect all data read from the XML to be in the C locale - QLocale::c().
+    QLocale cLocale = QLocale::c();
+
     const QMap<QString, CCDFrameType> frameTypes =
     {
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
@@ -119,6 +122,75 @@ SequenceJob::SequenceJob(XMLEle *root):
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
             setUploadMode(static_cast<ISD::CCD::UploadMode>(atoi(pcdataXMLEle(ep))));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Calibration"))
+        {
+            subEP = findXMLEle(ep, "FlatSource");
+            if (subEP)
+            {
+                XMLEle * typeEP = findXMLEle(subEP, "Type");
+                if (typeEP)
+                {
+                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
+                        setFlatFieldSource(SOURCE_MANUAL);
+                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
+                        setFlatFieldSource(SOURCE_FLATCAP);
+                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
+                        setFlatFieldSource(SOURCE_DARKCAP);
+                    else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
+                    {
+                        XMLEle * azEP  = findXMLEle(subEP, "Az");
+                        XMLEle * altEP = findXMLEle(subEP, "Alt");
+
+                        if (azEP && altEP)
+                        {
+                            setFlatFieldSource(SOURCE_WALL);
+                            SkyPoint wallCoord;
+                            wallCoord.setAz(dms::fromString(pcdataXMLEle(azEP), true));
+                            wallCoord.setAlt(dms::fromString(pcdataXMLEle(altEP), true));
+                            setWallCoord(wallCoord);
+                        }
+                    }
+                    else
+                        setFlatFieldSource(SOURCE_DAWN_DUSK);
+                }
+            }
+
+            subEP = findXMLEle(ep, "FlatDuration");
+            if (subEP)
+            {
+                XMLEle * typeEP = findXMLEle(subEP, "Type");
+                if (typeEP)
+                {
+                    if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
+                        setFlatFieldDuration(DURATION_MANUAL);
+                }
+
+                XMLEle * aduEP = findXMLEle(subEP, "Value");
+                if (aduEP)
+                {
+                    setFlatFieldDuration(DURATION_ADU);
+                    setTargetADU(cLocale.toDouble(pcdataXMLEle(aduEP)));
+                }
+
+                aduEP = findXMLEle(subEP, "Tolerance");
+                if (aduEP)
+                {
+                    setTargetADUTolerance(cLocale.toDouble(pcdataXMLEle(aduEP)));
+                }
+            }
+
+            subEP = findXMLEle(ep, "PreMountPark");
+            if (subEP)
+            {
+                setPreMountPark(!strcmp(pcdataXMLEle(subEP), "True"));
+            }
+
+            subEP = findXMLEle(ep, "PreDomePark");
+            if (subEP)
+            {
+                setPreDomePark(!strcmp(pcdataXMLEle(subEP), "True"));
+            }
         }
     }
 }
