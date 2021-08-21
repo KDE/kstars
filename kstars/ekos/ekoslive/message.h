@@ -16,6 +16,7 @@
 #include <memory>
 
 #include "ekos/ekos.h"
+#include "ekos/align/polaralignmentassistant.h"
 #include "ekos/manager.h"
 #include "catalogsdb.h"
 
@@ -93,7 +94,7 @@ class Message : public QObject
         void sendFocusSettings(const QJsonObject &settings);
 
         // Polar
-        void setPAHStage(Ekos::Align::PAHStage stage);
+        void setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage);
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setPAHEnabled(bool enabled);
