@@ -947,23 +947,27 @@ void Message::setAlignSolution(const QVariantMap &solution)
 void Message::processPolarCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Align *align = m_Manager->alignModule();
+    Ekos::PolarAlignmentAssistant *paa = align->polarAlignmentAssistant();
+
+    if (!paa)
+        return;
 
     if (command == commands[PAH_START])
     {
-        align->startPAHProcess();
+        paa->startPAHProcess();
     }
     if (command == commands[PAH_STOP])
     {
-        align->stopPAHProcess();
+        paa->stopPAHProcess();
     }
     if (command == commands[PAH_SET_SETTINGS])
     {
-        align->setPAHSettings(payload);
+        paa->setPAHSettings(payload);
     }
     else if (command == commands[PAH_REFRESH])
     {
-        align->setPAHRefreshDuration(payload["value"].toDouble(1));
-        align->startPAHRefreshProcess();
+        paa->setPAHRefreshDuration(payload["value"].toDouble(1));
+        paa->startPAHRefreshProcess();
     }
     else if (command == commands[PAH_RESET_VIEW])
     {
@@ -989,19 +993,19 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 
         }
 
-        align->setPAHCorrectionOffsetPercentage(x, y);
+        paa->setPAHCorrectionOffsetPercentage(x, y);
     }
     else if (command == commands[PAH_SELECT_STAR_DONE])
     {
-        align->setPAHCorrectionSelectionComplete();
+        paa->setPAHCorrectionSelectionComplete();
     }
     else if (command == commands[PAH_REFRESHING_DONE])
     {
-        align->setPAHRefreshComplete();
+        paa->setPAHRefreshComplete();
     }
     else if (command == commands[PAH_SLEW_DONE])
     {
-        align->setPAHSlewDone();
+        paa->setPAHSlewDone();
     }
     else if (command == commands[PAH_PAH_SET_ZOOM])
     {
@@ -1011,7 +1015,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 
 }
 
-void Message::setPAHStage(Ekos::Align::PAHStage stage)
+void Message::setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -1019,14 +1023,19 @@ void Message::setPAHStage(Ekos::Align::PAHStage stage)
     Q_UNUSED(stage)
     Ekos::Align *align = m_Manager->alignModule();
 
+    Ekos::PolarAlignmentAssistant *paa = align->polarAlignmentAssistant();
+
+    if (!paa)
+        return;
+
     QJsonObject polarState =
     {
-        {"stage", align->getPAHStageString()}
+        {"stage", paa->getPAHStageString()}
     };
 
 
     // Increase size when select star
-    if (stage == Ekos::Align::PAH_STAR_SELECT)
+    if (stage == Ekos::PolarAlignmentAssistant::PAH_STAR_SELECT)
         align->zoomAlignView();
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
@@ -1950,19 +1959,24 @@ void Message::sendStates()
         // Align settings
         sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
 
-        // Polar State
-        QTextDocument doc;
-        doc.setHtml(m_Manager->alignModule()->getPAHMessage());
-        QJsonObject polarState =
+        Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
+        if (paa)
         {
-            {"stage", m_Manager->alignModule()->getPAHStageString()},
-            {"enabled", m_Manager->alignModule()->isPAHEnabled()},
-            {"message", doc.toPlainText()},
-        };
-        sendResponse(commands[NEW_POLAR_STATE], polarState);
+            // Polar State
+            QTextDocument doc;
+            doc.setHtml(paa->getPAHMessage());
+            QJsonObject polarState =
+            {
+                {"stage", paa->getPAHStageString()},
+                {"enabled", paa->isEnabled()},
+                {"message", doc.toPlainText()},
+            };
+            sendResponse(commands[NEW_POLAR_STATE], polarState);
 
-        // Polar settings
-        sendResponse(commands[PAH_SET_SETTINGS], m_Manager->alignModule()->getPAHSettings());
+
+            // Polar settings
+            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
+        }
     }
 }
 
@@ -2118,19 +2132,23 @@ void Message::sendModuleState(const QString &name)
         // Align settings
         sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
 
-        // Polar State
-        QTextDocument doc;
-        doc.setHtml(m_Manager->alignModule()->getPAHMessage());
-        QJsonObject polarState =
+        Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
+        if (paa)
         {
-            {"stage", m_Manager->alignModule()->getPAHStageString()},
-            {"enabled", m_Manager->alignModule()->isPAHEnabled()},
-            {"message", doc.toPlainText()},
-        };
-        sendResponse(commands[NEW_POLAR_STATE], polarState);
+            // Polar State
+            QTextDocument doc;
+            doc.setHtml(paa->getPAHMessage());
+            QJsonObject polarState =
+            {
+                {"stage", paa->getPAHStageString()},
+                {"enabled", paa->isEnabled()},
+                {"message", doc.toPlainText()},
+            };
+            sendResponse(commands[NEW_POLAR_STATE], polarState);
 
-        // Polar settings
-        sendResponse(commands[PAH_SET_SETTINGS], m_Manager->alignModule()->getPAHSettings());
+            // Polar settings
+            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
+        }
     }
 }
 

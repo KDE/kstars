@@ -1,5 +1,7 @@
-/*  Ekos Polar Alignment Tool
-    Copyright (C) 2013 Jasem Mutlaq <mutlaqja@ikarustech.com>
+/*  Ekos Alignment Tool
+    Copyright (C) 2013-2021 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2018-2020 Robert Lancaster <rlancaste@gmail.com>
+    Copyright (C) 2019-2021 Hy Murveit
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -9,9 +11,7 @@
 
 #pragma once
 
-
 #include "ui_align.h"
-#include "ui_mountmodel.h"
 #include "ui_manualrotator.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
@@ -20,8 +20,6 @@
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
-#include "ekos/guide/internalguide/starcorrespondence.h"
-#include "polaralign.h"
 
 #include <QTime>
 #include <QTimer>
@@ -55,18 +53,23 @@ class OpsPrograms;
 class OpsASTAP;
 class OpsAstrometryIndexFiles;
 class MountModel;
+class PolarAlignmentAssistant;
 
 /**
  *@class Align
  *@short Align class handles plate-solving and polar alignment measurement and correction using astrometry.net
- * The align class can capture images from the CCD and use either online or offline astrometry.net engine to solve the plate constants and find the center RA/DEC coordinates. The user selects the action
- * to perform when the solver completes successfully.
+ * The align class employs StellarSolver library for local solvers and supports remote INDI-based solver.
+ * StellarSolver supports internal and external solvers (Astrometry.net, ASTAP, Online Astrometry).
+ * If an image is solved successfully, the image central J2000 RA & DE coordinates along with pixel scale, rotation, and partiy are
+ * reported back.
+ * Index files management is supported with ability to download astrometry.net files. The user may select and edit different solver
+ * profiles that provide settings to control both extraction and solving profiles in detail. Manual and automatic field rotation
+ * is supported in order to align the solved images to a particular orientation in the sky. The manual rotation assistant is an interactive
+ * tool that helps the user to arrive at the desired framing.
  * Align module provide Polar Align Helper tool which enables easy-to-follow polar alignment procedure given wide FOVs (> 1.5 degrees)
- * For small FOVs, the Legacy polar alignment measurement should be used.
- * LEGACY: Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
- * the error in the mount's azimuth and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
+ * Legacy polar aligment is deprecated.
  *@author Jasem Mutlaq
- *@version 1.4
+ *@version 1.5
  */
 class Align : public QWidget, public Ui::Align
 {
@@ -87,63 +90,9 @@ class Align : public QWidget, public Ui::Align
         explicit Align(ProfileInfo *activeProfile);
         virtual ~Align() override;
 
-        typedef enum
-        {
-            AZ_INIT,
-            AZ_FIRST_TARGET,
-            AZ_SYNCING,
-            AZ_SLEWING,
-            AZ_SECOND_TARGET,
-            AZ_CORRECTING,
-            AZ_FINISHED
-        } AZStage;
-        typedef enum
-        {
-            ALT_INIT,
-            ALT_FIRST_TARGET,
-            ALT_SYNCING,
-            ALT_SLEWING,
-            ALT_SECOND_TARGET,
-            ALT_CORRECTING,
-            ALT_FINISHED
-        } ALTStage;
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
-        //typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE } AstrometrySolverType;
-        //typedef enum { SOLVER_ASTAP, SOLVER_ASTROMETRYNET } SolverBackend;
         typedef enum { SOLVER_LOCAL, SOLVER_REMOTE } SolverMode;
-        typedef enum
-        {
-            PAH_IDLE,
-            PAH_FIRST_CAPTURE,
-            PAH_FIND_CP,
-            PAH_FIRST_ROTATE,
-            PAH_SECOND_CAPTURE,
-            PAH_SECOND_ROTATE,
-            PAH_THIRD_CAPTURE,
-            PAH_STAR_SELECT,
-            PAH_PRE_REFRESH,
-            PAH_REFRESH,
-            PAH_ERROR
-        } PAHStage;
         typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
-
-        enum CircleSolution
-        {
-            NO_CIRCLE_SOLUTION,
-            ONE_CIRCLE_SOLUTION,
-            TWO_CIRCLE_SOLUTION,
-            INFINITE_CIRCLE_SOLUTION
-        };
-
-        enum ModelObjectType
-        {
-            OBJECT_ANY_STAR,
-            OBJECT_NAMED_STAR,
-            OBJECT_ANY_OBJECT,
-            OBJECT_FIXED_DEC,
-            OBJECT_FIXED_GRID
-        };
-
         typedef enum
         {
             ALIGN_RESULT_SUCCESS,
@@ -280,11 +229,12 @@ class Align : public QWidget, public Ui::Align
 
         void removeDevice(ISD::GDInterface *device);
 
-        /* @brief Set telescope and guide scope info. All measurements is in millimeters.
-        * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
-        * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
-        * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
-        * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
+        /**
+             * @brief Set telescope and guide scope info. All measurements is in millimeters.
+             * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
+             * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
+             * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
+             * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
         */
         void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
 
@@ -379,6 +329,11 @@ class Align : public QWidget, public Ui::Align
         MountModel * mountModel() const
         {
             return m_MountModel;
+        }
+
+        PolarAlignmentAssistant *polarAlignmentAssistant() const
+        {
+            return m_PolarAlignmentAssistant;
         }
 
     public slots:
@@ -537,58 +492,14 @@ class Align : public QWidget, public Ui::Align
         void setMountCoords(const QString &ra, const QString &dec, const QString &az,
                             const QString &alt, int pierSide, const QString &ha);
 
-        // PAH Ekos Live
-        QString getPAHStageString() const
-        {
-            return PAHStages[m_PAHStage];
-        }
-        PAHStage getPAHStage() const
-        {
-            return m_PAHStage;
-        }
-        bool isPAHEnabled() const
-        {
-            return isPAHReady;
-        }
-        QString getPAHMessage() const;
-
-        void startPAHProcess();
-        void stopPAHProcess();
-        void setPAHCorrectionOffsetPercentage(double dx, double dy);
-        void setPAHMountDirection(int index)
-        {
-            PAHDirectionCombo->setCurrentIndex(index);
-        }
-        void setPAHMountRotation(int value)
-        {
-            PAHRotationSpin->setValue(value);
-        }
-        void setPAHRefreshDuration(double value)
-        {
-            PAHExposure->setValue(value);
-        }
-        void startPAHRefreshProcess();
-        void setPAHRefreshComplete();
-        void setPAHSlewDone();
-        void setPAHCorrectionSelectionComplete();
-        void zoomAlignView();
-        void setAlignZoom(double scale);
-
         // Align Settings
         QJsonObject getSettings() const;
         void setSettings(const QJsonObject &settings);
 
-        // PAH Settings. PAH should be in separate class
-        QJsonObject getPAHSettings() const;
-        void setPAHSettings(const QJsonObject &settings);
+        void zoomAlignView();
+        void setAlignZoom(double scale);
 
     private slots:
-
-        /* Polar Alignment */
-        void measureAltError();
-        void measureAzError();
-        void correctAzError();
-        void correctAltError();
 
         void setDefaultCCD(QString ccd);
 
@@ -610,10 +521,6 @@ class Align : public QWidget, public Ui::Align
          */
         void prepareCapture(ISD::CCDChip *targetChip);
 
-        // Polar Alignment Helper slots
-
-        void rotatePAH();
-        void setPAHCorrectionOffset(int x, int y);
         void setWCSToggled(bool result);
 
         //Solutions Display slots
@@ -624,8 +531,9 @@ class Align : public QWidget, public Ui::Align
         void selectSolutionTableRow(int row, int column);
         void slotClearAllSolutionPoints();
         void slotRemoveSolutionPoint();
-        void slotMountModel();
         void slotAutoScaleGraph();
+
+        void slotMountModel();
 
         // Settings
         void syncSettings();
@@ -650,26 +558,16 @@ class Align : public QWidget, public Ui::Align
         void newImage(FITSView *view);
         // This is sent when the pixmap is updated within the view
         void newFrame(FITSView *view);
+        // Send new solver results
+        void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
         void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
         void newCorrectionVector(QLineF correctionVector);
-        void newSolverResults(double orientation, double ra, double dec, double pixscale);
-
-        // Polar Assistant Tool
-        void newPAHStage(PAHStage stage);
-        void newPAHMessage(const QString &message);
-        void newFOVTelescopeType(int index);
-        void PAHEnabled(bool);
 
         // Settings
         void settingsUpdated(const QJsonObject &settings);
 
     private:
-        /**
-            * @brief Warns the user if the polar alignment might cross the meridian.
-            */
-        bool checkPAHForMeridianCrossing();
-
         /**
          * @brief Retrieve the align status indicator
          */
@@ -679,11 +577,6 @@ class Align : public QWidget, public Ui::Align
          * @brief Stop the progress animation in the solution table
          */
         void stopProgressAnimation();
-
-        void processPAHRefresh();
-        bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
-        int refreshIteration { 0 };
-        StarCorrespondence starCorrespondencePAH;
 
         void exportSolutionPoints();
 
@@ -704,22 +597,6 @@ class Align : public QWidget, public Ui::Align
         void calculateAlignTargetDiff();
 
         /**
-             * @brief After a solver process is completed successfully, measure Azimuth or Altitude error as requested by the user.
-             */
-        void executePolarAlign();
-
-        /**
-             * @brief Calculate polar alignment error magnitude and direction.
-             * The calculation is performed by first capturing and solving a frame, then slewing 30 arcminutes and solving another frame to find the exact coordinates, then computing the error.
-             * @param initRA RA of first frame.
-             * @param initDEC DEC of first frame
-             * @param finalRA RA of second frame
-             * @param finalDEC DEC of second frame
-             * @param initAz Azimuth of first frame
-             */
-        void calculatePolarError(double initRA, double initDEC, double finalRA, double finalDEC, double initAz);
-
-        /**
              * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
              * @param ra Right ascension
              * @param dec Declination
@@ -728,14 +605,6 @@ class Align : public QWidget, public Ui::Align
              */
         void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
-        /**
-             * @brief getSolverOptionsFromFITS Generates a set of solver options given the supplied FITS image. The function reads FITS keyword headers and build the argument list accordingly. In case of a missing header keyword, it falls back to
-             * the Alignment module existing values.
-             * @param filename FITS path
-             * @return List of Solver options
-             */
-        // QStringList getSolverOptionsFromFITS(const QString &filename);
-
         uint8_t getSolverDownsample(uint16_t binnedW);
 
         /**
@@ -743,23 +612,6 @@ class Align : public QWidget, public Ui::Align
              * @param enable true to enable WCS, false to disable.
              */
         void setWCSEnabled(bool enable);
-
-        /**
-             * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
-             */
-        void calculatePAHError();
-
-        /**
-         * @brief syncCorrectionVector Flip correction vector based on user settings.
-         */
-        void syncCorrectionVector();
-
-        void setupCorrectionGraphics(const QPointF &pixel);
-
-        /**
-             * @brief processPAHStage After solver is complete, handle PAH Stage processing
-             */
-        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         void resizeEvent(QResizeEvent *event) override;
 
@@ -775,6 +627,14 @@ class Align : public QWidget, public Ui::Align
          * @brief Continue aligning according to the current mount status
          */
         void handleMountStatus();
+
+        /**
+         * @brief initPolarAlignmentAssistant Initialize Polar Alignment Asssistant Tool
+         */
+        void initPolarAlignmentAssistant();
+
+        bool matchPAHStage(uint32_t stage);
+
 
         // Effective FOV
 
@@ -835,15 +695,6 @@ class Align : public QWidget, public Ui::Align
 
         /// Keep track of how long the solver is running
         QElapsedTimer solverTimer;
-
-        // Polar Alignment
-        AZStage azStage;
-        ALTStage altStage;
-        double azDeviation { 0 };
-        double altDeviation { 0 };
-        double decDeviation { 0 };
-        static const double RAMotion;
-        static const double SIDRATE;
 
         // StellarSolver Profiles
         std::unique_ptr<StellarSolver> m_StellarSolver;
@@ -916,27 +767,16 @@ class Align : public QWidget, public Ui::Align
         // FITS Viewer in case user want to display in it instead of internal view
         QPointer<FITSViewer> fv;
 
-        // Polar Alignment Helper
-        PAHStage m_PAHStage { PAH_IDLE };
-        SkyPoint targetPAH;
-        bool isPAHReady { false };
 
         QUrl alignURL;
         QUrl alignURLPath;
 
-        // Polar alignment will retry capture & solve a few times if solve fails.
-        int m_PAHRetrySolveCounter { 0 };
 
         // keep track of autoWSC
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
         //bool rememberMeridianFlip { false };
 
-        // Points on the image to correct mount's ra axis.
-        // correctionFrom is the star the user selected (or center of the image at start).
-        // correctionTo is where theuser should move that star.
-        // correctionAltTo is where the use should move that star to only fix altitude.
-        QPointF correctionFrom, correctionTo, correctionAltTo;
 
         // Which hemisphere are we located on?
         HemisphereType hemisphere;
@@ -990,19 +830,14 @@ class Align : public QWidget, public Ui::Align
         // Active Profile
         ProfileInfo *m_ActiveProfile { nullptr };
 
-        // PAH Stage Map
-        static const QMap<PAHStage, QString> PAHStages;
-
         // Threshold to notify settle time is 3 seconds
         static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };
 
-        // Threshold to stop PAH rotation in degrees
-        static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };
-
-        // Class used to estimate alignment error.
-        PolarAlign polarAlign;
-
         // Mount Model
+        // N.B. We do not need to use "smart pointer" here as the object memroy
+        // is taken care of by the Qt framework.
         MountModel *m_MountModel {nullptr};
+        PolarAlignmentAssistant *m_PolarAlignmentAssistant {nullptr};
+
 };
 }
