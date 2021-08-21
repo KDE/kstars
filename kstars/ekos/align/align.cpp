@@ -391,6 +391,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
         m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
+
+    initPolarAlignmentAssistant();
 }
 
 Align::~Align()
@@ -3955,9 +3957,6 @@ void Align::exportSolutionPoints()
 
 void Align::initPolarAlignmentAssistant()
 {
-    if (m_PolarAlignmentAssistant)
-        return;
-
     // Create PAA instance
     m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, alignView);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newCorrectionVector, this,
