@@ -121,32 +121,20 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     }
     else
         solver->setParameters(SSolver::Parameters()); // This is default
-    //connect(solver, &StellarSolver::logOutput, Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::appendLogText);
-    //    if(Options::focusLogging())
-    //        solver->setSSLogLevel(SSolver::LOG_NORMAL);
-    //    else
-    //        solver->setSSLogLevel(SSolver::LOG_OFF);
 
     // Wait synchronously
 
     QEventLoop loop;
     connect(solver, &StellarSolver::finished, &loop, &QEventLoop::quit);
     QList<FITSImage::Star> stars;
-    //    if (!boundary.isNull())
-    //    {
-
     const bool runHFR = group != Ekos::AlignProfiles;
-    solver->extract(runHFR, boundary);
+
+    if (boundary.isValid())
+        solver->extract(runHFR, boundary);
+    else
+        solver->extract(runHFR);
     loop.exec(QEventLoop::ExcludeUserInputEvents);
     stars = solver->getStarList();
-    //    }
-
-    //    if (stars.empty())
-    //    {
-    //        solver->extract(true);
-    //        loop.exec();
-    //        stars = solver->getStarList();
-    //    }
 
     if (stars.empty())
         return false;
