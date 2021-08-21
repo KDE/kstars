@@ -3432,11 +3432,14 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
         connect(alignProcess.get(), &Ekos::Align::newSolution, ekosLiveClient.get()->message(),
                 &EkosLive::Message::setAlignSolution, Qt::UniqueConnection);
-        connect(alignProcess.get(), &Ekos::Align::newPAHStage, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage,
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::newPAHStage,
+                ekosLiveClient.get()->message(), &EkosLive::Message::setPAHStage,
                 Qt::UniqueConnection);
-        connect(alignProcess.get(), &Ekos::Align::newPAHMessage, ekosLiveClient.get()->message(),
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::newPAHMessage,
+                ekosLiveClient.get()->message(),
                 &EkosLive::Message::setPAHMessage, Qt::UniqueConnection);
-        connect(alignProcess.get(), &Ekos::Align::PAHEnabled, ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled,
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::PAHEnabled,
+                ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled,
                 Qt::UniqueConnection);
 
         connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
