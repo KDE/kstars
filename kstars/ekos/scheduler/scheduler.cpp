@@ -1,4 +1,4 @@
-/*  Ekos Scheduler Module
+﻿/*  Ekos Scheduler Module
     Copyright (C) 2015 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     DBus calls from GSoC 2015 Ekos Scheduler project by Daniel Leu <daniel_mihai.leu@cti.pub.ro>
@@ -4568,13 +4568,15 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
     outstream << "<SchedulerList version='1.4'>" << endl;
-    outstream << "<Profile>" << schedulerProfileCombo->currentText() << "</Profile>" << endl;
+    // ensure to escape special XML characters
+    outstream << "<Profile>" << QString(entityXML(strdup(schedulerProfileCombo->currentText().toStdString().c_str()))) << "</Profile>" << endl;
 
     foreach (SchedulerJob *job, jobs)
     {
         outstream << "<Job>" << endl;
 
-        outstream << "<Name>" << job->getName() << "</Name>" << endl;
+        // ensure to escape special XML characters
+        outstream << "<Name>" << QString(entityXML(strdup(job->getName().toStdString().c_str()))) << "</Name>" << endl;
         outstream << "<Priority>" << job->getPriority() << "</Priority>" << endl;
         outstream << "<Coordinates>" << endl;
         outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << endl;
