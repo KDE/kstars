@@ -406,6 +406,11 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
                 {
                     PAHWidgets->setCurrentWidget(PAHFirstSettlePage);
                     emit newLog(i18n("Settling..."));
+                    QTimer::singleShot(settleDuration, [this]()
+                    {
+                        PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+                        emit newPAHMessage(secondCaptureText->text());
+                    });
                 }
 
                 emit settleStarted(settleDuration);
@@ -443,6 +448,11 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
                 {
                     PAHWidgets->setCurrentWidget(PAHSecondSettlePage);
                     emit newLog(i18n("Settling..."));
+                    QTimer::singleShot(settleDuration, [this]()
+                    {
+                        PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+                        emit newPAHMessage(thirdCaptureText->text());
+                    });
                 }
 
                 emit settleStarted(settleDuration);
@@ -712,7 +722,7 @@ bool PolarAlignmentAssistant::calculatePAHError()
 
     connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector,
             Qt::UniqueConnection);
-    emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
+    syncCorrectionVector();
     emit newFrame(alignView);
 
     return true;
@@ -728,10 +738,7 @@ void PolarAlignmentAssistant::setPAHCorrectionOffsetPercentage(double dx, double
 {
     double x = dx * alignView->zoomedWidth();
     double y = dy * alignView->zoomedHeight();
-
-
     setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
-
 }
 
 void PolarAlignmentAssistant::setPAHCorrectionOffset(int x, int y)
@@ -865,6 +872,10 @@ void PolarAlignmentAssistant::setPAHSettings(const QJsonObject &settings)
 
 void PolarAlignmentAssistant::setWCSToggled(bool result)
 {
+    emit newLog(i18n("WCS data processing is complete."));
+
+    disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled);
+
     if (m_PAHStage == PAH_FIRST_CAPTURE)
     {
         // We need WCS to be synced first
