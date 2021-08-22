@@ -23,6 +23,7 @@ class QProgressIndicator;
 namespace Ekos
 {
 
+// TODO add more documentation
 class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssistant
 {
         Q_OBJECT
@@ -61,15 +62,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
 
         void setEnabled(bool enabled);
 
-        void syncStage();
-
-        PAHStage getPAHStage() const
-        {
-            return m_PAHStage;
-        }
-
-        void setPAHStage(PAHStage stage);
-
         double getPAHExposureDuration() const
         {
             return PAHExposure->value();
@@ -85,6 +77,10 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
              * @brief processPAHStage After solver is complete, handle PAH Stage processing
              */
         void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
+        PAHStage getPAHStage() const {return m_PAHStage;}
+        void syncStage();
+        void setPAHStage(PAHStage stage);
+
 
         void startPAHProcess();
         void stopPAHProcess();
@@ -118,27 +114,16 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void setImageData(const QSharedPointer<FITSData> &image) { m_ImageData = image; }
 
     protected:        
-
-
-
-
-
         // Polar Alignment Helper slots
         void rotatePAH();
         void setPAHCorrectionOffset(int x, int y);
-
 
     private:
 
         /**
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
-        bool checkPAHForMeridianCrossing();
-
-
-        bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
-        int refreshIteration { 0 };
-        StarCorrespondence starCorrespondencePAH;
+        bool checkPAHForMeridianCrossing();        
 
         /**
              * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
@@ -151,14 +136,40 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
          */
         void syncCorrectionVector();
 
-        void setupCorrectionGraphics(const QPointF &pixel);
+        /**
+         * @brief setupCorrectionGraphics Update align view correction graphics.
+         * @param pixel
+         */
+        void setupCorrectionGraphics(const QPointF &pixel);        
 
-private:
+    signals:
+        // Report new log
+        void newLog(const QString &);
+        // Request new capture and solve
+        void captureAndSolve();
+        // Report new PAA results
+        void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
+        // Report new correction vector
+        void newCorrectionVector(QLineF correctionVector);
+        // Request capture with settle period
+        void settleStarted(double duration);
+        // Report new PAH stage
+        void newPAHStage(PAHStage stage);
+        // Report new PAH message
+        void newPAHMessage(const QString &message);
+        // Report whether the tool is enabled or not
+        void PAHEnabled(bool);
+        // Request to set alignment table result
+        void newAlignTableResult(Align::AlignResult result);
+        // Report that the align view was updated.
+        void newFrame(FITSView *view);
+
+    private:
 
         // Polar Alignment Helper
         PAHStage m_PAHStage { PAH_IDLE };
+
         SkyPoint targetPAH;
-        bool isPAHReady { false };
 
         // Which hemisphere are we located on?
         HemisphereType hemisphere;
@@ -172,39 +183,29 @@ private:
         // correctionAltTo is where the use should move that star to only fix altitude.
         QPointF correctionFrom, correctionTo, correctionAltTo;
 
+        bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
+        int refreshIteration { 0 };
+        StarCorrespondence starCorrespondencePAH;
+
+        // Class used to estimate alignment error.
+        PolarAlign polarAlign;
+
+        // Pointer to image data
+        QSharedPointer<FITSData> m_ImageData;
+
+        // Reference to parent
+        Align *m_AlignInstance {nullptr};
+
+        // Reference to current active telescope
+        ISD::Telescope *m_CurrentTelescope { nullptr };
+
+        // Reference to align view
+        AlignView *alignView { nullptr };
+
         // PAH Stage Map
         static const QMap<PAHStage, QString> PAHStages;
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };
-
-        // Class used to estimate alignment error.
-        PolarAlign polarAlign;
-
-    signals:
-        void newLog(const QString &);
-        void captureAndSolve();
-        void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
-        void newCorrectionVector(QLineF correctionVector);
-        void settleStarted(double duration);
-
-        // Polar Assistant Tool
-        void newPAHStage(PAHStage stage);
-        void newPAHMessage(const QString &message);
-        void PAHEnabled(bool);
-
-        void newAlignTableResult(Align::AlignResult result);
-
-        // This is sent when the pixmap is updated within the view
-        void newFrame(FITSView *view);
-
-
-
-    private:
-
-        QSharedPointer<FITSData> m_ImageData;
-        Align *m_AlignInstance {nullptr};
-        ISD::Telescope *m_CurrentTelescope { nullptr };
-        AlignView *alignView { nullptr };
 };
 }
