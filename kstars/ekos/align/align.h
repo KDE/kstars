@@ -525,8 +525,6 @@ class Align : public QWidget, public Ui::Align
          */
         void prepareCapture(ISD::CCDChip *targetChip);
 
-        void setWCSToggled(bool result);
-
         //Solutions Display slots
         void buildTarget();
         void handlePointTooltip(QMouseEvent *event);
@@ -566,9 +564,6 @@ class Align : public QWidget, public Ui::Align
         void newFrame(FITSView *view);
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
-
-        void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
-        void newCorrectionVector(QLineF correctionVector);
 
         // Settings
         void settingsUpdated(const QJsonObject &settings);

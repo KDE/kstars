@@ -3441,27 +3441,25 @@ void Manager::connectModules()
         connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::PAHEnabled,
                 ekosLiveClient.get()->message(), &EkosLive::Message::setPAHEnabled,
                 Qt::UniqueConnection);
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::polarResultUpdated,
+                ekosLiveClient.get()->message(),
+                &EkosLive::Message::setPolarResults, Qt::UniqueConnection);
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::newCorrectionVector,
+                ekosLiveClient.get()->media(),
+                &EkosLive::Media::setCorrectionVector, Qt::UniqueConnection);
 
         connect(alignProcess.get(), &Ekos::Align::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
         connect(alignProcess.get(), &Ekos::Align::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendUpdatedFrame,
                 Qt::UniqueConnection);
 
-        connect(alignProcess.get(), &Ekos::Align::polarResultUpdated, ekosLiveClient.get()->message(),
-                &EkosLive::Message::setPolarResults, Qt::UniqueConnection);
         connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendAlignSettings, Qt::UniqueConnection);
-
-        connect(alignProcess.get(), &Ekos::Align::newCorrectionVector, ekosLiveClient.get()->media(),
-                &EkosLive::Media::setCorrectionVector, Qt::UniqueConnection);
     }
 
     // Focus <--> EkosLive Connections
     if (focusProcess.get() && ekosLiveClient.get())
     {
-        //        focusProcess.get()->disconnect(ekosLiveClient.get()->message());
-        //        focusProcess.get()->disconnect(ekosLiveClient.get()->media());
-
         connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendFocusSettings, Qt::UniqueConnection);
         connect(focusProcess.get(), &Ekos::Focus::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
@@ -3471,9 +3469,6 @@ void Manager::connectModules()
     // Guide <--> EkosLive Connections
     if (guideProcess.get() && ekosLiveClient.get())
     {
-        //        guideProcess.get()->disconnect(ekosLiveClient.get()->message());
-        //        guideProcess.get()->disconnect(ekosLiveClient.get()->media());
-
         connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendGuideSettings, Qt::UniqueConnection);
         connect(guideProcess.get(), &Ekos::Guide::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,

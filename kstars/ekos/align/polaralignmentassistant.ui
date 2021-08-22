@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PolarAlignmentAssistant</class>
- <widget class="QWidget" name="polarAlignmentHelperGroup">
+ <widget class="QWidget" name="PolarAlignmentAssistant">
   <property name="enabled">
    <bool>true</bool>
   </property>
