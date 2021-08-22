@@ -3978,7 +3978,9 @@ void Align::processPAHStage(int stage)
                 targetChip->abortExposure();
                 appendLogText(i18n("Refresh is complete."));
             }
-            //            stopB->click();
+
+            solveB->setEnabled(true);
+            loadSlewB->setEnabled(true);
             state = ALIGN_IDLE;
             emit newStatus(state);
         }

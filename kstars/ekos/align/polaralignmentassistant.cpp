@@ -546,9 +546,7 @@ void PolarAlignmentAssistant::startPAHProcess()
             executePAH();
         });
 
-        KSMessageBox::Instance()->warningContinueCancel(
-            i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."),
-            i18n("Polar Alignment"), 15);
+        emit newLog(i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."));
     }
     else
         executePAH();
@@ -664,7 +662,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
     return;
 }
 
-void PolarAlignmentAssistant::calculatePAHError()
+bool PolarAlignmentAssistant::calculatePAHError()
 {
     // Hold on to the imageData so we can use it during the refresh phase.
     alignView->holdOnToImage();
@@ -673,7 +671,7 @@ void PolarAlignmentAssistant::calculatePAHError()
     {
         emit newLog(i18n("PAA: Failed to find RA Axis center."));
         stopPAHProcess();
-        return;
+        return false;
     }
 
     double azimuthError, altitudeError;
@@ -716,6 +714,8 @@ void PolarAlignmentAssistant::calculatePAHError()
             Qt::UniqueConnection);
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     emit newFrame(alignView);
+
+    return true;
 }
 
 void PolarAlignmentAssistant::syncCorrectionVector()
@@ -935,13 +935,13 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
 
         // We have 3 points which uniquely defines a circle with its center representing the RA Axis
         // We have celestial pole location. So correction vector is just the vector between these two points
-        calculatePAHError();
-
-        m_PAHStage = PAH_STAR_SELECT;
-        emit newPAHStage(m_PAHStage);
-
-        PAHWidgets->setCurrentWidget(PAHCorrectionPage);
-        emit newPAHMessage(correctionText->text());
+        if (calculatePAHError())
+        {
+            m_PAHStage = PAH_STAR_SELECT;
+            emit newPAHStage(m_PAHStage);
+            PAHWidgets->setCurrentWidget(PAHCorrectionPage);
+            emit newPAHMessage(correctionText->text());
+        }
     }
 }
 
