@@ -142,8 +142,9 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
 
         /**
              * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
+             * @return True if calculation is successsful, false otherwise.
              */
-        void calculatePAHError();
+        bool calculatePAHError();
 
         /**
          * @brief syncCorrectionVector Flip correction vector based on user settings.
