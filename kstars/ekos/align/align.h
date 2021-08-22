@@ -99,6 +99,13 @@ class Align : public QWidget, public Ui::Align
             ALIGN_RESULT_FAILED
         } AlignResult;
 
+        typedef enum
+        {
+            BLIND_IDLE,
+            BLIND_ENGAGNED,
+            BLIND_USED
+        } BlindState;
+
         /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
              * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
             */
@@ -664,6 +671,10 @@ class Align : public QWidget, public Ui::Align
         double currentRotatorPA { -1 };
         /// Solver iterations count
         uint8_t solverIterations { 0 };
+        /// Was solving with scale off used?
+        BlindState useBlindScale {BLIND_IDLE};
+        /// Was solving with position off used?
+        BlindState useBlindPosition {BLIND_IDLE};
 
         // FOV
         double ccd_hor_pixel { -1 };
@@ -771,10 +782,8 @@ class Align : public QWidget, public Ui::Align
         // FITS Viewer in case user want to display in it instead of internal view
         QPointer<FITSViewer> fv;
 
-
         QUrl alignURL;
         QUrl alignURLPath;
-
 
         // keep track of autoWSC
         bool rememberAutoWCS { false };
@@ -805,10 +814,6 @@ class Align : public QWidget, public Ui::Align
         double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
-
-        // Current mount pointing state.
-        //        dms mountRa, mountDec, mountAz, mountAlt, mountHa;
-        //        ISD::Telescope::PierSide mountPierSide { ISD::Telescope::PierSide::PIER_UNKNOWN };
 
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
