@@ -340,8 +340,6 @@ class Align : public QWidget, public Ui::Align
             return m_wcsSynced;
         }
 
-    public slots:
-
         /**
              * @brief Process updated device properties
              * @param nvp pointer to updated property.
@@ -396,7 +394,7 @@ class Align : public QWidget, public Ui::Align
          * @brief Stop aligning
          * @param mode stop mode (abort or suspend)
          */
-        void stop(AlignState mode);
+        void stop(Ekos::AlignState mode);
 
         /** DBUS interface function.
              * Aborts the solving operation, handle outside of the align module.

@@ -2429,7 +2429,7 @@ void Align::solverFailed()
     setAlignTableResult(ALIGN_RESULT_FAILED);
 }
 
-void Align::stop(AlignState mode)
+void Align::stop(Ekos::AlignState mode)
 {
     m_CaptureTimer.stop();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
