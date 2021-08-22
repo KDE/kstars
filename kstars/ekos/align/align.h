@@ -12,7 +12,6 @@
 #pragma once
 
 #include "ui_align.h"
-#include "ui_manualrotator.h"
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
@@ -54,6 +53,7 @@ class OpsASTAP;
 class OpsAstrometryIndexFiles;
 class MountModel;
 class PolarAlignmentAssistant;
+class ManualRotator;
 
 /**
  *@class Align
@@ -92,7 +92,6 @@ class Align : public QWidget, public Ui::Align
 
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
         typedef enum { SOLVER_LOCAL, SOLVER_REMOTE } SolverMode;
-        typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
         typedef enum
         {
             ALIGN_RESULT_SUCCESS,
@@ -336,6 +335,11 @@ class Align : public QWidget, public Ui::Align
             return m_PolarAlignmentAssistant;
         }
 
+        bool wcsSynced() const
+        {
+            return m_wcsSynced;
+        }
+
     public slots:
 
         /**
@@ -489,8 +493,8 @@ class Align : public QWidget, public Ui::Align
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
-        void setMountCoords(const QString &ra, const QString &dec, const QString &az,
-                            const QString &alt, int pierSide, const QString &ha);
+        //        void setMountCoords(const QString &ra, const QString &dec, const QString &az,
+        //                            const QString &alt, int pierSide, const QString &ha);
 
         // Align Settings
         QJsonObject getSettings() const;
@@ -548,6 +552,8 @@ class Align : public QWidget, public Ui::Align
          * @brief refreshAlignOptions is called when settings are updated in OpsAlign.
          */
         void refreshAlignOptions();
+
+        void processPAHStage(int stage);
 
     signals:
         void newLog(const QString &text);
@@ -632,6 +638,11 @@ class Align : public QWidget, public Ui::Align
          * @brief initPolarAlignmentAssistant Initialize Polar Alignment Asssistant Tool
          */
         void initPolarAlignmentAssistant();
+
+        /**
+         * @brief initManualRotator Initialize Manual Rotator Tool
+         */
+        void initManualRotator();
 
         bool matchPAHStage(uint32_t stage);
 
@@ -777,10 +788,6 @@ class Align : public QWidget, public Ui::Align
         bool rememberSolverWCS { false };
         //bool rememberMeridianFlip { false };
 
-
-        // Which hemisphere are we located on?
-        HemisphereType hemisphere;
-
         // Differential Slewing
         bool differentialSlewingActivated { false };
         bool targetAccuracyNotMet { false };
@@ -799,10 +806,6 @@ class Align : public QWidget, public Ui::Align
         QCPCurve *redTarget { nullptr };
         QCPCurve *concentricRings { nullptr };
 
-        // Manual Rotator
-        QDialog manualRotatorDialog;
-        Ui_manualRotator manualRotator;
-
         // Telescope Settings
         ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
@@ -811,8 +814,8 @@ class Align : public QWidget, public Ui::Align
         bool domeReady = true;
 
         // Current mount pointing state.
-        dms mountRa, mountDec, mountAz, mountAlt, mountHa;
-        ISD::Telescope::PierSide mountPierSide { ISD::Telescope::PierSide::PIER_UNKNOWN };
+        //        dms mountRa, mountDec, mountAz, mountAlt, mountHa;
+        //        ISD::Telescope::PierSide mountPierSide { ISD::Telescope::PierSide::PIER_UNKNOWN };
 
         // CCD Exposure Looping
         bool rememberCCDExposureLooping = { false };
@@ -838,6 +841,7 @@ class Align : public QWidget, public Ui::Align
         // is taken care of by the Qt framework.
         MountModel *m_MountModel {nullptr};
         PolarAlignmentAssistant *m_PolarAlignmentAssistant {nullptr};
+        ManualRotator *m_ManualRotator {nullptr};
 
 };
 }

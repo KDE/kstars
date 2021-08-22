@@ -15,14 +15,13 @@
 #include "ekos/guide/internalguide/starcorrespondence.h"
 #include "polaralign.h"
 #include "alignview.h"
+#include "align.h"
 #include "indi/inditelescope.h"
 
 class QProgressIndicator;
 
 namespace Ekos
 {
-
-class Align;
 
 class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssistant
 {
@@ -54,6 +53,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             TWO_CIRCLE_SOLUTION,
             INFINITE_CIRCLE_SOLUTION
         };
+        typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
 
         void setCurrentTelescope(ISD::Telescope *scope) { m_CurrentTelescope = scope; }
@@ -89,7 +89,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void startPAHProcess();
         void stopPAHProcess();
 
-        void setWCSToggled(bool result, bool wcsSynced);
+        void setWCSToggled(bool result);
 
         void setMountStatus(ISD::Telescope::Status newState);
 
@@ -159,6 +159,9 @@ private:
         SkyPoint targetPAH;
         bool isPAHReady { false };
 
+        // Which hemisphere are we located on?
+        HemisphereType hemisphere;
+
         // Polar alignment will retry capture & solve a few times if solve fails.
         int m_PAHRetrySolveCounter { 0 };
 
@@ -188,6 +191,13 @@ private:
         void newPAHStage(PAHStage stage);
         void newPAHMessage(const QString &message);
         void PAHEnabled(bool);
+
+        void newAlignTableResult(Align::AlignResult result);
+
+        // This is sent when the pixmap is updated within the view
+        void newFrame(FITSView *view);
+
+
 
     private:
 

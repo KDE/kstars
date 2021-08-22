@@ -189,7 +189,7 @@ void Telescope::registerProperty(INDI::Property prop)
         if (svp)
         {
             m_slewRates.clear();
-            for (const auto &it: *svp)
+            for (const auto &it : *svp)
                 m_slewRates << it.getLabel();
         }
     }
@@ -1493,6 +1493,12 @@ bool Telescope::sendParkingOptionCommand(ParkOptionCommand command)
     clientManager->sendNewSwitch(parkOptionsSP);
 
     return true;
+}
+
+const dms Telescope::hourAngle() const
+{
+    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    return dms(lst.Degrees() - currentCoord.ra().Degrees());
 }
 
 }
