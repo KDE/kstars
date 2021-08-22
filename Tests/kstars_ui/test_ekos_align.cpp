@@ -223,8 +223,8 @@ bool TestEkosAlign::prepareMountModel(int points)
     mountModel->alignPtNum->setValue(points);
     KVERIFY_SUB(mountModel->alignPtNum->value() == points);
     // use named stars for alignment (this hopefully improves plate soving speed)
-    mountModel->alignTypeBox->setCurrentIndex(Ekos::Align::OBJECT_NAMED_STAR);
-    KVERIFY_SUB(mountModel->alignTypeBox->currentIndex() == Ekos::Align::OBJECT_NAMED_STAR);
+    mountModel->alignTypeBox->setCurrentIndex(Ekos::MountModel::OBJECT_NAMED_STAR);
+    KVERIFY_SUB(mountModel->alignTypeBox->currentIndex() == Ekos::MountModel::OBJECT_NAMED_STAR);
     // create the alignment points
     KVERIFY_SUB(mountModel->wizardAlignB->isEnabled());
     mountModel->wizardAlignB->click();

@@ -15,6 +15,7 @@
 #include "kstarsdata.h"
 #include "ksnotification.h"
 #include "ksmessagebox.h"
+#include "ekos/auxiliary/stellarsolverprofile.h"
 
 // Options
 #include "Options.h"
@@ -84,6 +85,8 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view)
     connect(PAHDoneB, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::setPAHRefreshComplete);
     // done button for manual slewing during polar alignment:
     connect(PAHManualDone, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::setPAHSlewDone);
+
+    hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
 
 }
 
@@ -229,8 +232,8 @@ void PolarAlignmentAssistant::processPAHRefresh()
                           .arg(refreshIteration).arg(correctionFrom.x()).arg(correctionFrom.y());
             qCDebug(KSTARS_EKOS_ALIGN) << debugString;
 
-            setAlignTableResult(ALIGN_RESULT_FAILED);
-            captureAndSolve();
+            emit newAlignTableResult(Align::ALIGN_RESULT_FAILED);
+            emit captureAndSolve();
             return;
         }
 
@@ -348,7 +351,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
         }
     }
     // Finally start the next capture
-    captureAndSolve();
+    emit captureAndSolve();
 }
 
 bool PolarAlignmentAssistant::processSolverFailure()
@@ -390,7 +393,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remaining degrees:" << deltaAngle;
             if (deltaAngle <= PAH_ROTATION_THRESHOLD)
             {
-                m_m_CurrentTelescope->StopWE();
+                m_CurrentTelescope->StopWE();
                 emit newLog(i18n("Mount first rotation is complete."));
 
                 m_PAHStage = PAH_SECOND_CAPTURE;
@@ -410,7 +413,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             // If for some reason we didn't stop, let's stop if we get too far
             else if (deltaAngle > PAHRotationSpin->value() * 1.25)
             {
-                m_m_CurrentTelescope->Abort();
+                m_CurrentTelescope->Abort();
                 emit newLog(i18n("Mount aborted. Please restart the process and reduce the speed."));
                 stopPAHProcess();
             }
@@ -426,7 +429,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remaining degrees:" << deltaAngle;
             if (deltaAngle <= PAH_ROTATION_THRESHOLD)
             {
-                m_m_CurrentTelescope->StopWE();
+                m_CurrentTelescope->StopWE();
                 emit newLog(i18n("Mount second rotation is complete."));
 
                 m_PAHStage = PAH_THIRD_CAPTURE;
@@ -447,7 +450,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             // If for some reason we didn't stop, let's stop if we get too far
             else if (deltaAngle > PAHRotationSpin->value() * 1.25)
             {
-                m_m_CurrentTelescope->Abort();
+                m_CurrentTelescope->Abort();
                 emit newLog(i18n("Mount aborted. Please restart the process and reduce the speed."));
                 stopPAHProcess();
             }
@@ -459,12 +462,13 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
 bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
 {
     // Make sure using -180 to 180 for hourAngle and DEC. (Yes dec should be between -90 and 90).
-    double hourAngle = mountHa.Degrees();
+    double hourAngle = m_CurrentTelescope->hourAngle().Degrees();
     while (hourAngle < -180)
         hourAngle += 360;
     while (hourAngle > 180)
         hourAngle -= 360;
-    double dec = mountDec.Degrees();
+    double ra = 0, dec = 0;
+    m_CurrentTelescope->getEqCoords(&ra, &dec);
     while (dec < -180)
         dec += 360;
     while (dec > 180)
@@ -483,9 +487,9 @@ bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
     // or on the west side (pointing east) and will slew east, and is within 2 slews of HA=0
     // then warn and give the user a chance to cancel.
     bool wouldCrossMeridian =
-        ((mountPierSide == ISD::Telescope::PIER_EAST && !goingWest && closeToMeridian) ||
-         (mountPierSide == ISD::Telescope::PIER_WEST && goingWest && closeToMeridian) ||
-         (mountPierSide == ISD::Telescope::PIER_UNKNOWN && closeToMeridian));
+        ((m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_EAST && !goingWest && closeToMeridian) ||
+         (m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_WEST && goingWest && closeToMeridian) ||
+         (m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_UNKNOWN && closeToMeridian));
 
     return wouldCrossMeridian;
 }
@@ -498,18 +502,6 @@ void PolarAlignmentAssistant::startPAHProcess()
     {
         m_PAHStage = PAH_FIRST_CAPTURE;
         emit newPAHStage(m_PAHStage);
-
-        nothingR->setChecked(true);
-        m_CurrentGotoMode = GOTO_NOTHING;
-        loadSlewB->setEnabled(false);
-
-        rememberSolverWCS = Options::astrometrySolverWCS();
-        rememberAutoWCS   = Options::autoWCS();
-        //rememberMeridianFlip = Options::executeMeridianFlip();
-
-        Options::setAutoWCS(false);
-        Options::setAstrometrySolverWCS(true);
-        //Options::setExecuteMeridianFlip(false);
 
         if (Options::limitedResourcesMode())
             emit newLog(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
@@ -541,7 +533,7 @@ void PolarAlignmentAssistant::startPAHProcess()
         emit newPAHMessage(firstCaptureText->text());
 
         m_PAHRetrySolveCounter = 0;
-        captureAndSolve();
+        emit captureAndSolve();
     };
 
     // Right off the bat, check if this alignment might cause a pier crash.
@@ -576,11 +568,6 @@ void PolarAlignmentAssistant::stopPAHProcess()
             "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
-    Options::setAstrometrySolverWCS(rememberSolverWCS);
-    Options::setAutoWCS(rememberAutoWCS);
-    //Options::setExecuteMeridianFlip(rememberMeridianFlip);
-
-    stopB->click();
     if (m_CurrentTelescope && m_CurrentTelescope->isInMotion())
         m_CurrentTelescope->Abort();
 
@@ -605,9 +592,6 @@ void PolarAlignmentAssistant::stopPAHProcess()
         m_CurrentTelescope->Park();
         emit newLog(i18n("Parking the mount..."));
     }
-
-    state = ALIGN_IDLE;
-    emit newStatus(state);
 }
 
 void PolarAlignmentAssistant::rotatePAH()
@@ -629,6 +613,8 @@ void PolarAlignmentAssistant::rotatePAH()
     {
         return;
     }
+
+    const SkyPoint telescopeCoord = m_CurrentTelescope->currentCoordinates();
 
     // TargetDiffRA is in degrees
     dms newTelescopeRA = (telescopeCoord.ra() + dms(TargetDiffRA)).reduce();
@@ -766,14 +752,6 @@ void PolarAlignmentAssistant::setPAHCorrectionSelectionComplete()
 {
     m_PAHStage = PAH_PRE_REFRESH;
     emit newPAHStage(m_PAHStage);
-
-    // If user stops here, we restore the settings, if not we
-    // disable again in the refresh process
-    // and restore when refresh is complete
-    Options::setAstrometrySolverWCS(rememberSolverWCS);
-    Options::setAutoWCS(rememberAutoWCS);
-    //Options::setExecuteMeridianFlip(rememberMeridianFlip);
-
     PAHWidgets->setCurrentWidget(PAHRefreshPage);
     emit newPAHMessage(refreshText->text());
 }
@@ -798,9 +776,6 @@ void PolarAlignmentAssistant::setPAHSlewDone()
         default :
             return; // no other stage should be able to trigger this event
     }
-    if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
-        emit newLog(i18n("Settling..."));
-    m_CaptureTimer.start(delaySpin->value());
 }
 
 
@@ -826,18 +801,12 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
     Options::setAutoWCS(false);
 
     // We for refresh, just capture really
-    captureAndSolve();
+    emit captureAndSolve();
 }
 
 void PolarAlignmentAssistant::setPAHRefreshComplete()
 {
-    abort();
     refreshIteration = 0;
-
-    Options::setAstrometrySolverWCS(rememberSolverWCS);
-    Options::setAutoWCS(rememberAutoWCS);
-    //Options::setExecuteMeridianFlip(rememberMeridianFlip);
-
     stopPAHProcess();
 }
 
@@ -846,7 +815,6 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
 {
     if (m_PAHStage == PAH_FIND_CP)
     {
-        setSolverAction(GOTO_NOTHING);
         emit newLog(
             i18n("Mount is synced to celestial pole. You can now continue Polar Alignment Assistant procedure."));
         m_PAHStage = PAH_FIRST_CAPTURE;
@@ -874,7 +842,7 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
 
 QJsonObject PolarAlignmentAssistant::getPAHSettings() const
 {
-    QJsonObject settings = getSettings();
+    QJsonObject settings;
 
     settings.insert("mountDirection", PAHDirectionCombo->currentIndex());
     settings.insert("mountSpeed", PAHSlewRateCombo->currentIndex());
@@ -895,15 +863,15 @@ void PolarAlignmentAssistant::setPAHSettings(const QJsonObject &settings)
     PAHManual->setChecked(settings["manualslew"].toBool(false));
 }
 
-void PolarAlignmentAssistant::setWCSToggled(bool result, bool wcsSynced)
+void PolarAlignmentAssistant::setWCSToggled(bool result)
 {
     if (m_PAHStage == PAH_FIRST_CAPTURE)
     {
         // We need WCS to be synced first
-        if (result == false && wcsSynced == true)
+        if (result == false && m_AlignInstance->wcsSynced() == true)
         {
             emit newLog(i18n("WCS info is now valid. Capturing next frame..."));
-            captureAndSolve();
+            emit captureAndSolve();
             return;
         }
 

@@ -183,14 +183,21 @@ class Telescope : public DeviceDecorator
          *
          * This function needs a Two-Line-Element and a time window in the form of an initial point and a
          * number of minutes on which the trajectory should start. The function was developed wiht the lx200
-         * in mind. If the trajectory has already started, the current time and a window of 1min are sufficient. 
+         * in mind. If the trajectory has already started, the current time and a window of 1min are sufficient.
          *
          * @param tle Two-line-element.
          * @param satPassStart Start time of the trajectory calculation
          * @param satPassEnd End time of the trajectory calculation
          */
         bool setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassStart, const KStarsDateTime satPassEnd);
-        
+
+        const dms hourAngle() const;
+
+        const SkyPoint &currentCoordinates() const
+        {
+            return currentCoord;
+        }
+
 
     protected:
         bool sendCoords(SkyPoint *ScopeTarget);
