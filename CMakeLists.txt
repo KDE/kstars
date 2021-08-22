@@ -5,6 +5,9 @@ set (KStars_VERSION_REVISION 5)
 set (KSTARS_BUILD_RELEASE "Beta")
 set (CMAKE_CXX_STANDARD 14)
 
+set(QT_MIN_VERSION 5.9.0)
+set(KF5_MIN_VERSION 5.44.0)
+
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 
@@ -18,7 +21,7 @@ option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
 
 # minimal requirements
-cmake_minimum_required (VERSION 3.4.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.10.0 FATAL_ERROR)
 
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
@@ -38,12 +41,6 @@ endif()
 if (FETCH_TRANSLATIONS)
 SET(KDE_L10N_AUTO_TRANSLATIONS ON)
 SET(KDE_L10N_BRANCH "trunk")
-endif()
-
-if(BUILD_KSTARS_LITE)
-    set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
-else()
-    set (QT_MIN_VERSION "5.4.0")
 endif()
 
 # Find includes in corresponding build directories
@@ -70,7 +67,7 @@ if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
     include(${CMAKE_BINARY_DIR}/kf5/kde/install/share/ECM/cmake/ECMConfig.cmake)
 endif()
 
-find_package(ECM 1.7.0 REQUIRED NO_MODULE)
+find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
@@ -104,11 +101,11 @@ if(BUILD_KSTARS_LITE)
         else()
             list(APPEND QT_EXTRA_COMPONENTS PrintSupport)
         endif()
-        find_package(Qt5 5.7 REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets ${QT_EXTRA_COMPONENTS})
+        find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets ${QT_EXTRA_COMPONENTS})
     endif()
 else()
     #find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Positioning Concurrent)
-    find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Concurrent WebSockets)
+    find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Concurrent WebSockets)
 endif()
 include(ExternalProject)
 include(ECMInstallIcons)
@@ -130,17 +127,17 @@ if(BUILD_KSTARS_LITE)
         include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Plotting/KF5PlottingConfig.cmake)
     else()
         # Find Optional package NotifyConfig for desktop notifications
-        find_package(KF5 COMPONENTS NotifyConfig)
+        find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
         MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
-        find_package(KF5 REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
+        find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
     endif()
 else(BUILD_KSTARS_LITE)
     # Find Optional package NotifyConfig for desktop notifications
-    find_package(KF5 COMPONENTS NotifyConfig)
+    find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
     MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
-    find_package(KF5 REQUIRED COMPONENTS
+    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
       Auth
       Config
       Crash
@@ -285,12 +282,6 @@ MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
 ## OpenGL
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "https://www.opengl.org/" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
-
-if (${KF5_VERSION} VERSION_GREATER 5.17.0)
-SET(HAVE_KF5WIT 1)
-else()
-SET(HAVE_KF5WIT 0)
-endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)

@@ -7,9 +7,6 @@
 /* Define if you have wcslibt */
 #cmakedefine HAVE_WCSLIB 1
 
-/* Define if we have KF5 >= 5.18.0 */
-#cmakedefine HAVE_KF5WIT 1
-
 /* Define if you have libraw */
 #cmakedefine HAVE_LIBRAW 1
 
