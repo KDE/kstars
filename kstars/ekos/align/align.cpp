@@ -1160,7 +1160,7 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
             primaryEffectiveFL = new_focal_length;
         else
             guideEffectiveFL = new_focal_length;
-        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", focal_length));
+        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", new_focal_length));
     }
 }
 
@@ -1965,19 +1965,35 @@ void Align::startSolving()
             m_StellarSolver->setProperty("AstrometryAPIURL", Options::astrometryAPIURL());
         }
 
+        bool useImageScale = Options::astrometryUseImageScale();
+        if (useBlindScale == BLIND_ENGAGNED)
+        {
+            useImageScale = false;
+            useBlindScale = BLIND_USED;
+            appendLogText(i18n("Solving with blind image scale..."));
+        }
+
+        bool useImagePostion = Options::astrometryUsePosition();
+        if (useBlindPosition == BLIND_ENGAGNED)
+        {
+            useImagePostion = false;
+            useBlindPosition = BLIND_USED;
+            appendLogText(i18n("Solving with blind image position..."));
+        }
+
         if (m_SolveFromFile)
         {
             FITSImage::Solution solution;
             m_ImageData->parseSolution(solution);
 
-            if (Options::astrometryUseImageScale() && solution.pixscale > 0)
+            if (useImageScale && solution.pixscale > 0)
                 m_StellarSolver->setSearchScale(solution.pixscale * 0.8,
                                                 solution.pixscale * 1.2,
                                                 SSolver::ARCSEC_PER_PIX);
             else
                 m_StellarSolver->setProperty("UseScale", false);
 
-            if (Options::astrometryUsePosition() && solution.ra > 0)
+            if (useImagePostion && solution.ra > 0)
                 m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
             else
                 m_StellarSolver->setProperty("UsePostion", false);
@@ -1985,7 +2001,7 @@ void Align::startSolving()
         else
         {
             //Setting the initial search scale settings
-            if (Options::astrometryUseImageScale())
+            if (useImageScale)
             {
                 SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
                 // Extend search scale from 80% to 120%
@@ -1996,7 +2012,7 @@ void Align::startSolving()
             else
                 m_StellarSolver->setProperty("UseScale", false);
             //Setting the initial search location settings
-            if(Options::astrometryUsePosition())
+            if(useImagePostion)
                 m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
             else
                 m_StellarSolver->setProperty("UsePostion", false);
@@ -2395,13 +2411,35 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
 void Align::solverFailed()
 {
-    appendLogText(i18n("Solver Failed."));
-    if(!Options::alignmentLogging())
-        appendLogText(
-            i18n("Please check you have sufficient stars in the image. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
+    if (state != ALIGN_ABORTED)
+    {
+        // Try to solve with scale turned off, if not turned off already
+        if (Options::astrometryUseImageScale() && useBlindScale == BLIND_IDLE)
+        {
+            useBlindScale = BLIND_ENGAGNED;
+            setAlignTableResult(ALIGN_RESULT_FAILED);
+            captureAndSolve();
+            return;
+        }
 
-    KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
-                          KSNotification::EVENT_ALERT);
+        // Try to solve with the position turned off, if not turned off already
+        if (Options::astrometryUsePosition() && useBlindPosition == BLIND_IDLE)
+        {
+            useBlindPosition = BLIND_ENGAGNED;
+            setAlignTableResult(ALIGN_RESULT_FAILED);
+            captureAndSolve();
+            return;
+        }
+
+
+        appendLogText(i18n("Solver Failed."));
+        if(!Options::alignmentLogging())
+            appendLogText(
+                i18n("Please check you have sufficient stars in the image. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
+
+        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
+                              KSNotification::EVENT_ALERT);
+    }
 
     pi->stopAnimation();
     stopB->setEnabled(false);
