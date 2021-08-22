@@ -1871,7 +1871,7 @@ void Align::setSolverAction(int mode)
 
 void Align::startSolving()
 {
-    RUN_PAH(syncStage());
+    //RUN_PAH(syncStage());
 
     // This is needed because they might have directories stored in the config file.
     // So we can't just use the options folder list.
@@ -3347,17 +3347,6 @@ void Align::toggleAlignWidgetFullScreen()
     }
 }
 
-
-void Align::setWCSToggled(bool result)
-{
-    appendLogText(i18n("WCS data processing is complete."));
-
-    //alignView->disconnect(this);
-    disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled);
-
-    RUN_PAH(setWCSToggled(result));
-}
-
 void Align::updateTelescopeType(int index)
 {
     if (currentCCD == nullptr)
@@ -3375,8 +3364,6 @@ void Align::updateTelescopeType(int index)
 
     syncTelescopeInfo();
 }
-
-
 
 //void Align::setMountCoords(const QString &raStr, const QString &decStr, const QString &azStr,
 //                           const QString &altStr, int pierSide, const QString &haStr)
@@ -3940,10 +3927,6 @@ void Align::initPolarAlignmentAssistant()
 {
     // Create PAA instance
     m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, alignView);
-    connect(m_PolarAlignmentAssistant, &Ekos::PAA::newCorrectionVector, this,
-            &Ekos::Align::newCorrectionVector);
-    connect(m_PolarAlignmentAssistant, &Ekos::PAA::polarResultUpdated, this,
-            &Ekos::Align::polarResultUpdated);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::captureAndSolve, this, &Ekos::Align::captureAndSolve);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::settleStarted, [this](double duration)
     {
