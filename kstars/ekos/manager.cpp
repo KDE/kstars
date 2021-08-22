@@ -3411,8 +3411,8 @@ void Manager::connectModules()
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus,
                 Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newCoords, alignProcess.get(), &Ekos::Align::setMountCoords,
-                Qt::UniqueConnection);
+        //        connect(mountProcess.get(), &Ekos::Mount::newCoords, alignProcess.get(), &Ekos::Align::setMountCoords,
+        //                Qt::UniqueConnection);
     }
 
     // Mount <---> Guide connections

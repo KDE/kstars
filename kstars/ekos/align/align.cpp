@@ -26,6 +26,7 @@
 #include "polaralignmentassistant.h"
 #include "remoteastrometryparser.h"
 #include "polaralign.h"
+#include "manualrotator.h"
 
 // FITS
 #include "fitsviewer/fitsdata.h"
@@ -293,8 +294,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Align::setBinningIndex);
 
-    hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
-
     double accuracyRadius = accuracySpin->value();
 
     alignPlot->setBackground(QBrush(Qt::black));
@@ -366,19 +365,12 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best"));
     autoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    manualRotator.setupUi(&manualRotatorDialog);
-    manualRotatorDialog.setWindowTitle("Manual Rotator");
-    manualRotatorDialog.setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-
     connect(clearAllSolutionsB, &QPushButton::clicked, this, &Ekos::Align::slotClearAllSolutionPoints);
     connect(removeSolutionB, &QPushButton::clicked, this, &Ekos::Align::slotRemoveSolutionPoint);
     connect(exportSolutionsCSV, &QPushButton::clicked, this, &Ekos::Align::exportSolutionPoints);
     connect(autoScaleGraphB, &QPushButton::clicked, this, &Ekos::Align::slotAutoScaleGraph);
     connect(mountModelB, &QPushButton::clicked, this, &Ekos::Align::slotMountModel);
     connect(solutionTable, &QTableWidget::cellClicked, this, &Ekos::Align::selectSolutionTableRow);
-
-    connect(manualRotator.takeImageB, &QPushButton::clicked, this, &Ekos::Align::executeGOTO);
-    connect(manualRotator.cancelB, &QPushButton::clicked, this, &Ekos::Align::solverFailed);
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -393,6 +385,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
 
     initPolarAlignmentAssistant();
+    initManualRotator();
 }
 
 Align::~Align()
@@ -1246,14 +1239,10 @@ void Align::calculateFOV()
 
     FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
 
-    if (((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV && CHECK_PAH(isEnabled()) == false)
-    {
-        m_PolarAlignmentAssistant->setEnabled(true);
-    }
-    else if (CHECK_PAH(isEnabled()))
-    {
-        m_PolarAlignmentAssistant->setEnabled(false);
-    }
+    // Enable or Disable PAA depending on current FOV
+    const bool fovOK = ((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV;
+    if (fovOK != (CHECK_PAH(isEnabled())))
+        m_PolarAlignmentAssistant->setEnabled(fovOK);
 
     if (opsAstrometry->kcfg_AstrometryUseImageScale->isChecked())
     {
@@ -1776,14 +1765,14 @@ void Align::processData(const QSharedPointer<FITSData> &data)
 
     RUN_PAH(setImageData(m_ImageData));
 
-    appendLogText(i18n("Image received."));
-
     // If it's Refresh, we're done
     if (matchPAHStage(PAA::PAH_REFRESH))
     {
         setCaptureComplete();
         return;
     }
+    else
+        appendLogText(i18n("Image received."));
 
     // If Local solver, then set capture complete or perform calibration first.
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
@@ -2075,7 +2064,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
-    manualRotatorDialog.hide();
 
     sOrientation = orientation;
     sRA          = ra;
@@ -2284,27 +2272,22 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 target = targetFlipped;
             }
 
-            double threshold = Options::astrometryRotatorThreshold();
+            double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
             appendLogText(i18n("Current Rotation is %1; Target Rotation is %2; diff: %3", current, target, diff));
 
+            m_ManualRotator->setRotatorDiff(current, target, diff);
             if (fabs(diff) > threshold)
             {
-                QString icon = "object-rotate-right";
-                if (diff > 0.0)
-                {
-                    icon = "object-rotate-left";
-                }
-
-                manualRotator.icon->setPixmap(QIcon::fromTheme(icon).pixmap(350, 350));
-                manualRotator.diff->setText(i18n("%1°", int(round(fabs(diff)))));
-
-                manualRotator.targetRotation->setText(i18n("%1°", int(round(target))));
-                manualRotator.currentRotation->setText(i18n("%1°", int(round(current))));
-
                 targetAccuracyNotMet = true;
-                manualRotatorDialog.show();
+                m_ManualRotator->show();
+                m_ManualRotator->raise();
                 return;
+            }
+            else
+            {
+                loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+                targetAccuracyNotMet = false;
             }
         }
     }
@@ -2401,7 +2384,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     solverFOV->setProperty("visible", true);
 
-    if (matchPAHStage(PAA::PAH_IDLE))
+    if (!matchPAHStage(PAA::PAH_IDLE))
         m_PolarAlignmentAssistant->processPAHStage(orientation, ra, dec, pixscale, eastToTheRight);
     else
     {
@@ -2424,7 +2407,6 @@ void Align::solverFailed()
     stopB->setEnabled(false);
     solveB->setEnabled(true);
     loadSlewB->setEnabled(true);
-    manualRotatorDialog.hide();
 
     m_AlignTimer.stop();
 
@@ -3368,7 +3350,7 @@ void Align::setWCSToggled(bool result)
     //alignView->disconnect(this);
     disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::Align::setWCSToggled);
 
-    RUN_PAH(setWCSToggled(result, m_wcsSynced));
+    RUN_PAH(setWCSToggled(result));
 }
 
 void Align::updateTelescopeType(int index)
@@ -3391,16 +3373,16 @@ void Align::updateTelescopeType(int index)
 
 
 
-void Align::setMountCoords(const QString &raStr, const QString &decStr, const QString &azStr,
-                           const QString &altStr, int pierSide, const QString &haStr)
-{
-    mountRa = dms(raStr, false);
-    mountDec = dms(decStr, true);
-    mountHa = dms(haStr, false);
-    mountAz = dms(azStr, true);
-    mountAlt = dms(altStr, true);
-    mountPierSide = static_cast<ISD::Telescope::PierSide>(pierSide);
-}
+//void Align::setMountCoords(const QString &raStr, const QString &decStr, const QString &azStr,
+//                           const QString &altStr, int pierSide, const QString &haStr)
+//{
+//    mountRa = dms(raStr, false);
+//    mountDec = dms(decStr, true);
+//    mountHa = dms(haStr, false);
+//    mountAz = dms(azStr, true);
+//    mountAlt = dms(altStr, true);
+//    mountPierSide = static_cast<ISD::Telescope::PierSide>(pierSide);
+//}
 
 void Align::setMountStatus(ISD::Telescope::Status newState)
 {
@@ -3571,12 +3553,6 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     calculateFOV();
 
 }
-
-//int Align::getActiveSolver() const
-//{
-//    return Options::solverMode();
-//}
-
 
 void Align::zoomAlignView()
 {
@@ -3968,6 +3944,73 @@ void Align::initPolarAlignmentAssistant()
     {
         m_CaptureTimer.start(duration);
     });
+    connect(m_PolarAlignmentAssistant, &Ekos::PAA::newAlignTableResult, this, &Ekos::Align::setAlignTableResult);
+    connect(m_PolarAlignmentAssistant, &Ekos::PAA::newFrame, this, &Ekos::Align::newFrame);
+    connect(m_PolarAlignmentAssistant, &Ekos::PAA::newPAHStage, this, &Ekos::Align::processPAHStage);
+    connect(m_PolarAlignmentAssistant, &Ekos::PAA::newLog, this, &Ekos::Align::appendLogText);
+
+    tabWidget->addTab(m_PolarAlignmentAssistant, i18n("Polar Alignment"));
+}
+
+void Align::initManualRotator()
+{
+    if (m_ManualRotator)
+        return;
+
+    m_ManualRotator = new ManualRotator(this);
+    connect(m_ManualRotator, &Ekos::ManualRotator::captureAndSolve, this, &Ekos::Align::captureAndSolve);
+}
+
+void Align::processPAHStage(int stage)
+{
+    switch (stage)
+    {
+        case PAA::PAH_IDLE:
+        {
+            Options::setAstrometrySolverWCS(rememberSolverWCS);
+            Options::setAutoWCS(rememberAutoWCS);
+
+            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+            // If capture is still in progress, let's stop that.
+            if (targetChip->isCapturing())
+            {
+                targetChip->abortExposure();
+                appendLogText(i18n("Refresh is complete."));
+            }
+            //            stopB->click();
+            state = ALIGN_IDLE;
+            emit newStatus(state);
+        }
+        break;
+        case PAA::PAH_PRE_REFRESH:
+            // If user stops here, we restore the settings, if not we
+            // disable again in the refresh process
+            // and restore when refresh is complete
+            Options::setAstrometrySolverWCS(rememberSolverWCS);
+            Options::setAutoWCS(rememberAutoWCS);
+            break;
+        case PAA::PAH_FIRST_CAPTURE:
+            nothingR->setChecked(true);
+            m_CurrentGotoMode = GOTO_NOTHING;
+            loadSlewB->setEnabled(false);
+
+            rememberSolverWCS = Options::astrometrySolverWCS();
+            rememberAutoWCS   = Options::autoWCS();
+
+            Options::setAutoWCS(false);
+            Options::setAstrometrySolverWCS(true);
+            break;
+        case PAA::PAH_SECOND_CAPTURE:
+        case PAA::PAH_THIRD_CAPTURE:
+            if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                emit newLog(i18n("Settling..."));
+            m_CaptureTimer.start(delaySpin->value());
+            break;
+
+        default:
+            break;
+    }
 }
 
 bool Align::matchPAHStage(uint32_t stage)

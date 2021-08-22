@@ -225,6 +225,8 @@ if (INDI_FOUND)
             ekos/align/rotations.cpp
             ekos/align/mountmodel.cpp
             ekos/align/polaralignmentassistant.cpp
+            ekos/align/manualrotator.cpp
+
 
             # Guide
             ekos/guide/guide.cpp
