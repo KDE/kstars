@@ -23,7 +23,25 @@ class QProgressIndicator;
 namespace Ekos
 {
 
-// TODO add more documentation
+/**
+ * @brief The PolarAlignmentAssistant class
+ *
+ * Captures three images rotated by a set number of degrees decided by the user (default 30).
+ * Each image is plate solver to find the center RA,DE coordinates. The three points are then
+ * used to generate a unique circle with its center as the RA axis. As the mount rotated around
+ * these point, we can identify the RA rotational axis. From there, we compare the distance from RA axis
+ * to the celestial pole axis. For a perfectly aligned mount, the two points would overlap exactly.
+ * In reality, there is also some differences due to the mount mechanical limitations and measurements
+ * errors.
+ *
+ * The user is then presented with a triangle that couples the corrections required in Altitude and Azimuth
+ * knobs to move the RA axis to the celestial pole. An optional feature is available the calculates the error
+ * in real time as the user move the mount around during refresh, but this feature is computationally intensive
+ * as we need to extract stars from each frame.
+ *
+ * @author Jasem Mutlaq
+ * @author Hy Murveit
+ */
 class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssistant
 {
         Q_OBJECT
@@ -44,6 +62,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             PAH_STAR_SELECT,
             PAH_PRE_REFRESH,
             PAH_REFRESH,
+            PAH_POST_REFRESH,
             PAH_ERROR
         } PAHStage;
 
@@ -56,64 +75,80 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         };
         typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
-
-        void setCurrentTelescope(ISD::Telescope *scope) { m_CurrentTelescope = scope; }
-        void setMountSpeed();
-
+        // Set the mount used in Align class.
+        void setCurrentTelescope(ISD::Telescope *scope)
+        {
+            m_CurrentTelescope = scope;
+        }
+        // Sync mount slew speed and available rates from the telescope object
+        void syncMountSpeed();
+        // Enable PAA if the FOV is sufficient
         void setEnabled(bool enabled);
-
+        // Return the exposure used in the refresh phase.
         double getPAHExposureDuration() const
         {
             return PAHExposure->value();
         }
-
+        // Handle updates during the refresh phase such as error estimation.
         void processPAHRefresh();
-
+        // Handle solver failure and retry to capture until a preset number of retries is met.
         bool processSolverFailure();
-
+        // Handle both automated and manual mount rotations.
         void processMountRotation(const dms &ra, double settleDuration);
-
-        /**
-             * @brief processPAHStage After solver is complete, handle PAH Stage processing
-             */
+        // After solver is complete, handle PAH Stage processing
         void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
-        PAHStage getPAHStage() const {return m_PAHStage;}
+        // Return current PAH stage
+        PAHStage getPAHStage() const
+        {
+            return m_PAHStage;
+        }
+        // Sync the GUI to the current PAH Stage.
         void syncStage();
+        // Set active stage.
         void setPAHStage(PAHStage stage);
-
-
+        // Start the polar alignment process.
         void startPAHProcess();
+        // Stops the polar alignment process.
         void stopPAHProcess();
-
+        // Process the results of WCS from the solving process. If the results are good, we continue to the next phase.
+        // Otherwise, we abort the operation.
         void setWCSToggled(bool result);
-
+        // Update GUI to reflect mount status.
         void setMountStatus(ISD::Telescope::Status newState);
-
+        // Update the correction offset by this percentage in order to move the triangle around when clicking on
+        // for example.
         void setPAHCorrectionOffsetPercentage(double dx, double dy);
+        // Update the PAH refresh duration
         void setPAHRefreshDuration(double value)
         {
             PAHExposure->setValue(value);
         }
+        // Start the refresh process.
         void startPAHRefreshProcess();
+        // Finish the refresh process.
         void setPAHRefreshComplete();
+        // This should be called when manual slewing is complete.
         void setPAHSlewDone();
+        // Called when the user completes selection of the correction triangle.
         void setPAHCorrectionSelectionComplete();
-
         // PAH Settings. PAH should be in separate class
         QJsonObject getPAHSettings() const;
+        // Update the setting
         void setPAHSettings(const QJsonObject &settings);
-
-        // PAH Ekos Live
+        // Return current active stage label
         QString getPAHStageString() const
         {
             return PAHStages[m_PAHStage];
         }
-
+        // Return last message
         QString getPAHMessage() const;
+        // Set image data from align class
+        void setImageData(const QSharedPointer<FITSData> &image)
+        {
+            m_ImageData = image;
+        }
 
-        void setImageData(const QSharedPointer<FITSData> &image) { m_ImageData = image; }
-
-    protected:        
+    protected:
         // Polar Alignment Helper slots
         void rotatePAH();
         void setPAHCorrectionOffset(int x, int y);
@@ -123,7 +158,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         /**
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
-        bool checkPAHForMeridianCrossing();        
+        bool checkPAHForMeridianCrossing();
 
         /**
              * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
@@ -140,7 +175,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
          * @brief setupCorrectionGraphics Update align view correction graphics.
          * @param pixel
          */
-        void setupCorrectionGraphics(const QPointF &pixel);        
+        void setupCorrectionGraphics(const QPointF &pixel);
 
     signals:
         // Report new log

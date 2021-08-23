@@ -851,7 +851,7 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 
     if (m_isRateSynced == false)
     {
-        RUN_PAH(setMountSpeed());
+        RUN_PAH(syncMountSpeed());
         m_isRateSynced = !currentTelescope->slewRates().empty();
     }
 
@@ -2501,7 +2501,7 @@ void Align::stop(Ekos::AlignState mode)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
-    if (matchPAHStage(PAA::PAH_REFRESH))
+    if (matchPAHStage(PAA::PAH_POST_REFRESH))
     {
         if (targetChip->isCapturing())
             targetChip->abortExposure();
@@ -3986,24 +3986,11 @@ void Align::processPAHStage(int stage)
 {
     switch (stage)
     {
-        case PAA::PAH_IDLE:
+        case PAA::PAH_POST_REFRESH:
         {
             Options::setAstrometrySolverWCS(rememberSolverWCS);
             Options::setAutoWCS(rememberAutoWCS);
-
-            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-            // If capture is still in progress, let's stop that.
-            if (targetChip->isCapturing())
-            {
-                targetChip->abortExposure();
-                appendLogText(i18n("Refresh is complete."));
-            }
-
-            solveB->setEnabled(true);
-            loadSlewB->setEnabled(true);
-            state = ALIGN_IDLE;
-            emit newStatus(state);
+            stop(ALIGN_IDLE);
         }
         break;
         case PAA::PAH_PRE_REFRESH:
