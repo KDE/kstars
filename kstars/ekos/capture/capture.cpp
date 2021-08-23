@@ -1536,16 +1536,13 @@ void Capture::syncFilterInfo()
             {
                 if (currentFilter && (activeFilter->getText() != currentFilter->getDeviceName()))
                 {
-                    m_FilterOverride = true;
-                    activeFilter->setAux(&m_FilterOverride);
+                    Options::setDefaultFocusFilterWheel(currentFilter->getDeviceName());
                     activeFilter->setText(currentFilter->getDeviceName().toLatin1().constData());
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
                 else if (!currentFilter && strlen(activeFilter->getText()) > 0)
                 {
-                    m_FilterOverride = true;
-                    activeFilter->setAux(&m_FilterOverride);
                     activeFilter->setText("");
                     currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
@@ -2276,15 +2273,11 @@ void Capture::captureImage()
 
     SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
 
-    /*
-    if (filterSlot != nullptr)
-    {
-        currentFilterPosition = (int)filterSlot->np[0].value;
-        activeJob->setCurrentFilter(currentFilterPosition);
-    }*/
-
     if (currentFilter != nullptr)
     {
+        // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
+        // so that it may snoop on the active filter
+        syncFilterInfo();
         m_CurrentFilterPosition = filterManager->getFilterPosition();
         activeJob->setCurrentFilter(m_CurrentFilterPosition);
     }
