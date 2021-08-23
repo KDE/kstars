@@ -1072,31 +1072,31 @@
   <tabstop>FOVOut</tabstop>
   <tabstop>FOVScopeCombo</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>CCDCaptureCombo</tabstop>
-  <tabstop>exposureIN</tabstop>
-  <tabstop>binningCombo</tabstop>
-  <tabstop>FilterDevicesCombo</tabstop>
+  <tabstop>FocalLengthOut</tabstop>
+  <tabstop>FocalRatioOut</tabstop>
   <tabstop>solutionTable</tabstop>
+  <tabstop>CCDCaptureCombo</tabstop>
+  <tabstop>showFITSViewerB</tabstop>
+  <tabstop>exposureIN</tabstop>
+  <tabstop>toggleFullScreenB</tabstop>
+  <tabstop>binningCombo</tabstop>
+  <tabstop>GainSpin</tabstop>
+  <tabstop>ISOCombo</tabstop>
+  <tabstop>alignDarkFrameCheck</tabstop>
+  <tabstop>FilterDevicesCombo</tabstop>
+  <tabstop>FilterPosCombo</tabstop>
+  <tabstop>localSolverR</tabstop>
+  <tabstop>remoteSolverR</tabstop>
   <tabstop>clearAllSolutionsB</tabstop>
   <tabstop>removeSolutionB</tabstop>
   <tabstop>exportSolutionsCSV</tabstop>
   <tabstop>autoScaleGraphB</tabstop>
   <tabstop>mountModelB</tabstop>
-  <tabstop>correctAltB</tabstop>
-  <tabstop>altError</tabstop>
-  <tabstop>azError</tabstop>
-  <tabstop>correctAzB</tabstop>
-  <tabstop>measureAzB</tabstop>
-  <tabstop>measureAltB</tabstop>
-  <tabstop>PAHCorrectionsNextB</tabstop>
-  <tabstop>PAHRefreshB</tabstop>
-  <tabstop>PAHExposure</tabstop>
-  <tabstop>PAHDoneB</tabstop>
  </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverModeButtonGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>
