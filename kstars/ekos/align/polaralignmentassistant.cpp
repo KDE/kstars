@@ -42,6 +42,7 @@ const QMap<PolarAlignmentAssistant::PAHStage, QString> PolarAlignmentAssistant::
     {PAH_STAR_SELECT, I18N_NOOP("Select Star"}),
     {PAH_PRE_REFRESH, I18N_NOOP("Select Refresh"}),
     {PAH_REFRESH, I18N_NOOP("Refreshing"}),
+    {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete"}),
     {PAH_ERROR, I18N_NOOP("Error")},
 };
 
@@ -95,7 +96,7 @@ PolarAlignmentAssistant::~PolarAlignmentAssistant()
 
 }
 
-void PolarAlignmentAssistant::setMountSpeed()
+void PolarAlignmentAssistant::syncMountSpeed()
 {
     PAHSlewRateCombo->blockSignals(true);
     PAHSlewRateCombo->clear();
@@ -814,6 +815,8 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 void PolarAlignmentAssistant::setPAHRefreshComplete()
 {
     refreshIteration = 0;
+    m_PAHStage = PAH_POST_REFRESH;
+    emit newPAHStage(m_PAHStage);
     stopPAHProcess();
 }
 
@@ -993,6 +996,7 @@ QString PolarAlignmentAssistant::getPAHMessage() const
         case PAH_STAR_SELECT:
             return correctionText->text();
         case PAH_PRE_REFRESH:
+        case PAH_POST_REFRESH:
         case PAH_REFRESH:
             return refreshText->text();
         case PAH_ERROR:
