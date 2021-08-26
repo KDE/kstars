@@ -757,25 +757,37 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>1.9</version>
+            <version>2.0</version>
+        </device>
+        <device label="ZWO Camera 1" manufacturer="ZWO">
+            <driver name="ZWO Camera">indi_asi_single_ccd</driver>
+            <version>2.0</version>
+        </device>
+        <device label="ZWO Camera 2" manufacturer="ZWO">
+            <driver name="ZWO Camera">indi_asi_single_ccd</driver>
+            <version>2.0</version>
+        </device>
+        <device label="ZWO Camera 3" manufacturer="ZWO">
+            <driver name="ZWO Camera">indi_asi_single_ccd</driver>
+            <version>2.0</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true" manufacturer="ZWO">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>1.9</version>
+            <version>2.0</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF" manufacturer="ZWO">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>1.9</version>
+            <version>2.0</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4" manufacturer="ZWO">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>1.9</version>
+            <version>2.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -829,7 +841,7 @@
     <devGroup group="Telescopes">
         <device label="BRESSER Messier EXOS-2 EQ GoTo" manufacturer="BRESSER">
             <driver name="BRESSER Messier Exos-2 EQ GoTo">indi_bresserexos2</driver>
-            <version>0.822</version>
+            <version>0.901</version>
         </device>
     </devGroup>
 </driversList>
@@ -1075,11 +1087,11 @@
     <devGroup group="CCDs">
         <device label="MI CCD (USB)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_usb</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
         <device label="MI CCD (ETH)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_eth</driver>
-            <version>1.7</version>
+            <version>1.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -1096,6 +1108,14 @@
         <device label="Nightscape 8300 CCD" mdpd="true" manufacturer="Celestron">
             <driver name="Nightscape CCD">indi_nightscape_ccd</driver>
             <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Orion StarShoot G3/G4" mdpd="true" manufacturer="Orion">
+            <driver name="Orion SSG3">indi_orion_ssg3_ccd</driver>
+            <version>0.1</version>
         </device>
     </devGroup>
 </driversList>
@@ -1239,27 +1259,27 @@
     <devGroup group="CCDs">
         <device label="ToupCam" mdpd="true" manufacturer="Toupcam">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Omegon Pro" mdpd="true" manufacturer="Omegon">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Altair" mdpd="true" manufacturer="Altair">
             <driver name="Altair">indi_altair_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="StartshootG" mdpd="true" manufacturer="Orion">
             <driver name="StartshootG">indi_starshootg_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Levenhuk" mdpd="true" manufacturer="Levenhuk">
             <driver name="Levenhuk">indi_nncam_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
         <device label="Mallincam" mdpd="true" manufacturer="Mallincam">
             <driver name="Mallincam">indi_mallincam_ccd</driver>
-            <version>0.5</version>
+            <version>0.6</version>
         </device>
     </devGroup>
 </driversList>
