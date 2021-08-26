@@ -26,25 +26,25 @@ class TestCatalogsDB_DBManager : public QObject
 {
     Q_OBJECT
   public:
-    TestCatalogsDB_DBManager() : m_manager{ db_file } {}
+    TestCatalogsDB_DBManager() : m_manager{ getTestSqliteFile() } {}
 
   private:
-    const QString db_file = QCoreApplication::applicationDirPath() +
-                            "/../Tests/datahandlers/data/test.sqlite";
-    const QString db_file_og = QCoreApplication::applicationDirPath() +
-                               "/../Tests/datahandlers/data/test_orig.sqlite";
+    const QString db_file_og = QFINDTESTDATA("data/test.sqlite");
     DBManager m_manager;
     CatalogObject some_object() { return m_manager.get_objects(99, 1).front(); }
+    QString getTestSqliteFile()
+    {
+        const QString db_file = "test.sqlite";
+        QFile::remove(db_file);
+        QFile::copy(db_file_og, db_file);
+        return db_file;
+    }
 
   private slots:
     void init()
     {
-        // A fresh db for each test
-        QFile::remove(db_file);
-        QFile::copy(db_file_og, db_file);
-
         // A fresh manager for each test.
-        m_manager = DBManager{ db_file };
+        m_manager = DBManager{ getTestSqliteFile() };
     };
 
     void user_catalog_created()
