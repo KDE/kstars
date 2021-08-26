@@ -113,7 +113,7 @@ void CatalogObject::initPopupMenu(KSPopupMenu *pmenu)
 
 const CatalogsDB::Catalog CatalogObject::getCatalog() const
 {
-    if (m_database_path.length() == 0)
+    if (m_database_path.get().length() == 0)
         return {};
 
     CatalogsDB::DBManager db{ m_database_path };

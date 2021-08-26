@@ -30,6 +30,7 @@
 #include "sqlstatements.cpp"
 
 using namespace CatalogsDB;
+QSet<QString> DBManager::m_db_paths{};
 
 /**
  * Get an increasing index for new connections.
@@ -90,7 +91,8 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
 DBManager::DBManager(const QString &filename)
     : m_db{ QSqlDatabase::addDatabase(
           "QSQLITE", QString("cat_%1_%2").arg(filename).arg(get_connection_index())) },
-      m_db_file{ filename }
+      m_db_file{ *m_db_paths.insert(filename) }
+
 {
     m_db.setDatabaseName(m_db_file);
 

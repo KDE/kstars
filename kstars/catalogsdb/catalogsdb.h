@@ -26,6 +26,8 @@
 #include <catalogsdb_debug.h>
 #include <QSqlQuery>
 #include <QMutex>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include "catalogobject.h"
 #include "nan.h"
@@ -532,8 +534,10 @@ class DBManager
 
     /**
      * The filename of the database.
+     *
+     * Will be a reference to a member of `m_db_paths`.
      */
-    QString m_db_file;
+    std::reference_wrapper<const QString> m_db_file;
 
     //@{
     /**
@@ -633,9 +637,17 @@ class DBManager
     CatalogObjectList fetch_objects(QSqlQuery &query) const;
 
     /**
-     * Internal implementation to forcably remove a catalog (even the user catalog, use with caution!)
+     * Internal implementation to forcably remove a catalog (even the
+     * user catalog, use with caution!)
      */
     std::pair<bool, QString> remove_catalog_force(const int id);
+
+    /**
+     * A list of database paths. The index gets stored in the
+     * `CatalogObject` and can be used to retrieve the path to the
+     * database.
+     */
+    static QSet<QString> m_db_paths;
     //@}
 };
 
