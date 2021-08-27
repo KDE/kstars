@@ -135,8 +135,7 @@ void TestEkosFilterWheel::testFilterWheelSync()
     KTRY_CAPTURE_GADGET(QPushButton, startB);
     QCOMPARE(startB->icon().name(), QString("media-playback-start"));
     KTRY_CAPTURE_CLICK(startB);
-    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-stop"), 500);
-    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 2000);
+    QTRY_COMPARE_WITH_TIMEOUT(startB->icon().name(), QString("media-playback-start"), 10000);
 
     QFileInfoList list = searchFITS(QDir(destination.path()));
     QVERIFY(!list.isEmpty());
