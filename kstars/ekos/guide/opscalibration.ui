@@ -109,7 +109,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="label">
             <property name="toolTip">
-             <string>Maximum number of pixels the calibration should move. Once it exceeds this amount, it will finish the calibraton phase.  It may move less if  max iterations is reached.</string>
+             <string>Maximum number of pixels the calibration should move. Once it exceeds this amount, it will finish the calibration phase.  It may move less if  max iterations is reached.</string>
             </property>
             <property name="text">
              <string>Max move (px):</string>
@@ -189,7 +189,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="l_27">
           <property name="toolTip">
-           <string>Y position of the guide star.</string>
+           <string>Y position of the guide star</string>
           </property>
           <property name="text">
            <string>Y:</string>

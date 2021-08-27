@@ -494,7 +494,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="l_20">
           <property name="toolTip">
-           <string>The StellarSolver profile to use when detecting stars--used with the SEP MultiStar and SEP algortihms.</string>
+           <string>The StellarSolver profile to use when detecting stars--used with the SEP MultiStar and SEP algorithms.</string>
           </property>
           <property name="text">
            <string>SEP Profile</string>
