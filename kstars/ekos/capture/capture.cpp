@@ -2365,6 +2365,17 @@ void Capture::captureImage()
     {
         case SequenceJob::CAPTURE_OK:
         {
+            //Jamie - this is the actual start of capture - pre-capture script needs to be executed here
+            // trigger the pre_capture script right before actual capture
+            const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+            if (!preCaptureScript.isEmpty())
+            {
+                m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+                m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+                appendLogText(i18n("Executing Pre-Caputre script in Fire and Forget mode - no check on status : %1", preCaptureScript));
+        
+            }
+
             emit captureStarting(activeJob->getExposure(), activeJob->getFilterName());
             appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
                                activeJob->getFilterName()));
@@ -3286,17 +3297,18 @@ void Capture::prepareActiveJobStage2()
      */
 
     // JM 2020-12-06: Check if we need to execute pre-capture script first.
-    if (activeJob != nullptr)
-    {
-        const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
-        if (!preCaptureScript.isEmpty())
-        {
-            m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
-            m_CaptureScript.start(preCaptureScript, generateScriptArguments());
-            appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
-            return;
-        }
-    }
+    //Jamie 2021-08-27:  This trigger is in the wrong location and only executes at job start - moved to correct location in SequenceJob::CAPTURE_OK
+    //if (activeJob != nullptr)
+    //{
+    //    const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+    //    if (!preCaptureScript.isEmpty())
+    //    {
+    //        m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+    //        m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+    //        appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+    //        return;
+    //    }
+    //}
     preparePreCaptureActions();
 }
 
@@ -6550,7 +6562,8 @@ void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
     {
         case SCRIPT_PRE_CAPTURE:
             appendLogText(i18n("Pre capture script finished with code %1.", exitCode));
-            preparePreCaptureActions();
+            // with move of script firing this function is no longer needed in this location
+           // preparePreCaptureActions();
             break;
 
         case SCRIPT_POST_CAPTURE:
