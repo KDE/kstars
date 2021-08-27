@@ -104,13 +104,6 @@
       <string>Local Astrometry.net or Local ANSVR</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="5">
-       <widget class="QLabel" name="pythonLabel">
-        <property name="text">
-         <string>python:</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="3">
        <widget class="QLineEdit" name="kcfg_AstrometrySolverBinary">
         <property name="toolTip">
@@ -120,39 +113,6 @@
          <string/>
         </property>
        </widget>
-      </item>
-      <item row="1" column="6">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="SetupPython">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Script to setup homebrew python3 and required packages for astrometry.net</string>
-          </property>
-          <property name="text">
-           <string>Setup</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="kcfg_PythonExecPath">
-          <property name="toolTip">
-           <string>Path to Python3 bin folder</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="kcfg_AstrometryConfFile">
@@ -185,16 +145,6 @@
        <widget class="QCheckBox" name="kcfg_AstrometryConfFileIsInternal">
         <property name="toolTip">
          <string>Astrometry config file is internal to the application bundle</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QCheckBox" name="kcfg_UseDefaultPython">
-        <property name="toolTip">
-         <string>Use the Default python in homebrew</string>
         </property>
         <property name="text">
          <string/>

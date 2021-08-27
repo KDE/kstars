@@ -1515,19 +1515,6 @@ bool Align::captureAndSolve()
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
-#ifdef Q_OS_OSX
-    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
-            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
-    {
-        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
-        {
-            KSNotification::error(
-                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
-            return false;
-        }
-    }
-#endif
-
     if (currentCCD == nullptr)
     {
         appendLogText(i18n("Error: No camera detected."));
@@ -2975,19 +2962,6 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 
 bool Align::loadAndSlew(QString fileURL)
 {
-#ifdef Q_OS_OSX
-    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
-            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
-    {
-        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
-        {
-            KSNotification::error(
-                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
-            return false;
-        }
-    }
-#endif
-
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Load Image"), dirPath,
                                                "Images (*.fits *.fits.fz *.fit *.fts "
@@ -3032,19 +3006,6 @@ bool Align::loadAndSlew(QString fileURL)
 
 bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 {
-#ifdef Q_OS_OSX
-    if(Options::solverType() == SSolver::SOLVER_LOCALASTROMETRY
-            && Options::solveSextractorType() == SSolver::EXTRACTOR_BUILTIN)
-    {
-        if( !opsPrograms->astropyInstalled() || !opsPrograms->pythonInstalled() )
-        {
-            KSNotification::error(
-                i18n("Astrometry.net uses python3 and the astropy package for plate solving images offline when using the built in Sextractor. These were not detected on your system.  Please install Python and the Astropy package or select a different Sextractor for solving."));
-            return false;
-        }
-    }
-#endif
-
     differentialSlewingActivated = false;
     m_SolveFromFile = true;
     RUN_PAH(stopPAHProcess());

@@ -27,20 +27,15 @@ class OpsPrograms : public QWidget, public Ui::OpsPrograms
   public:
     explicit OpsPrograms(Align *parent);
     virtual ~OpsPrograms() override = default;
-    bool brewInstalled();
-    bool pythonInstalled();
-    bool astropyInstalled();
 
   protected:
   private slots:
     void loadDefaultPaths(int option);
     void toggleSolverInternal();
-    void setupPython();
     void toggleConfigInternal();
     void toggleWCSInternal();
     void toggleSextractorInternal();
     void slotApply();
-    void togglePythonDefault();
 
   signals:
     void settingsUpdated();

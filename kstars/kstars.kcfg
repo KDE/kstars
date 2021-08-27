@@ -2140,20 +2140,7 @@
          <label>Internal or External Astrometry.net Conf File?</label>
          <default>true</default>
       </entry>
-      <entry name="UseDefaultPython" type="Bool">
-         <label>Use the Default System Python Path</label>
-         <default>true</default>
-      </entry>
-      <entry name="PythonExecPath" type="String">
-         <label></label>
-         <whatsthis>Folder in which the desired python executable or link to be used for astrometry.net resides.</whatsthis>
-         <default>/usr/local/opt/python/libexec/bin</default>
-      </entry>
 
-      <entry name="UseSextractor" type="Bool">
-         <label>Use Sextractor to extract an xylist for plate solving with astrometry.net instead of python</label>
-         <default>false</default>
-      </entry>
       <entry name="SextractorIsInternal" type="Bool">
          <label>Internal or External sextractor?</label>
          <default>false</default>
