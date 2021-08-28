@@ -59,9 +59,10 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-QString getTemporaryPath() {
+QString getTemporaryPath()
+{
     return QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" +
-        qAppName()).path();
+                qAppName()).path();
 }
 
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
@@ -2413,14 +2414,7 @@ bool FITSData::loadWCS(bool extras)
         return false;
     }
 
-    SkyPoint startPoint;
-    SkyPoint endPoint;
-
-    pixelToWCS(QPointF(0, 0), startPoint);
-    pixelToWCS(QPointF(width() - 1, height() - 1), endPoint);
-
-    findObjectsInImage(startPoint, endPoint);
-
+    m_ObjectsSearched = false;
     m_WCSState = Success;
     FullWCS = extras;
     HasWCS = true;
@@ -2503,6 +2497,21 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #endif
 }
 
+bool FITSData::searchObjects()
+{
+    if (m_ObjectsSearched)
+        return true;
+
+    m_ObjectsSearched = true;
+
+    SkyPoint startPoint;
+    SkyPoint endPoint;
+
+    pixelToWCS(QPointF(0, 0), startPoint);
+    pixelToWCS(QPointF(width() - 1, height() - 1), endPoint);
+
+    return findObjectsInImage(startPoint, endPoint);
+}
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 bool FITSData::findWCSBounds(double &minRA, double &maxRA, double &minDec, double &maxDec)
@@ -2571,10 +2580,10 @@ bool FITSData::findWCSBounds(double &minRA, double &maxRA, double &minDec, doubl
 #endif
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
+bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
 {
     if (KStarsData::Instance() == nullptr)
-        return;
+        return false;
 
     int w = width();
     int h = height();
@@ -2630,6 +2639,7 @@ void FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
     }
 
     delete (num);
+    return true;
 }
 #endif
 

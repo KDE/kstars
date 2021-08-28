@@ -531,7 +531,8 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
-        void findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
+        bool searchObjects();
+        bool findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
         bool findWCSBounds(double &minRA, double &maxRA, double &minDec, double &maxDec);
 #endif
 #endif
@@ -715,6 +716,7 @@ class FITSData : public QObject
         QFuture<bool> m_StarFindFuture;
 
         QList<FITSSkyObject *> m_SkyObjects;
+        bool m_ObjectsSearched {false};
 
         QString m_LastError;
 

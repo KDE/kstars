@@ -1323,7 +1323,7 @@ bool FITSView::imageHasWCS()
 void FITSView::drawObjectNames(QPainter * painter, double scale)
 {
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
-    foreach (FITSSkyObject * listObject, m_ImageData->getSkyObjects())
+    for (const auto &listObject : m_ImageData->getSkyObjects())
     {
         painter->drawRect(listObject->x() * scale - 5, listObject->y() * scale - 5, 10, 10);
         painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
@@ -1695,7 +1695,10 @@ void FITSView::toggleObjects()
     }
 
     if (m_ImageFrame)
+    {
+        m_ImageData->searchObjects();
         updateFrame();
+    }
 }
 
 void FITSView::toggleStars()
@@ -2042,6 +2045,9 @@ void FITSView::syncWCSState()
 {
     bool hasWCS    = m_ImageData->hasWCS();
     bool wcsLoaded = m_ImageData->getWCSState() == FITSData::Success;
+
+    if (showObjects)
+        m_ImageData->searchObjects();
 
     if (hasWCS && wcsLoaded)
         this->updateFrame();
