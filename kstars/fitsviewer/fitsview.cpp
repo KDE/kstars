@@ -1696,7 +1696,9 @@ void FITSView::toggleObjects()
 
     if (m_ImageFrame)
     {
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
         m_ImageData->searchObjects();
+#endif
         updateFrame();
     }
 }
@@ -2046,8 +2048,10 @@ void FITSView::syncWCSState()
     bool hasWCS    = m_ImageData->hasWCS();
     bool wcsLoaded = m_ImageData->getWCSState() == FITSData::Success;
 
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
     if (showObjects)
         m_ImageData->searchObjects();
+#endif
 
     if (hasWCS && wcsLoaded)
         this->updateFrame();

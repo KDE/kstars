@@ -2497,6 +2497,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #endif
 }
 
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 bool FITSData::searchObjects()
 {
     if (m_ObjectsSearched)
@@ -2513,7 +2514,6 @@ bool FITSData::searchObjects()
     return findObjectsInImage(startPoint, endPoint);
 }
 
-#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 bool FITSData::findWCSBounds(double &minRA, double &maxRA, double &minDec, double &maxDec)
 {
     if (m_WCSHandle == nullptr)
