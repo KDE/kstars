@@ -1372,11 +1372,9 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         // Today's date
         const KStarsDateTime localTime  = KStarsData::Instance()->lt();
         // Local Midnight
-        const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(), Qt::LocalTime);
-        // UTC Midnight
-        const KStarsDateTime utc  = KStarsData::Instance()->geo()->LTtoUT(midnight);
+        const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(0, 0), Qt::LocalTime);
 
-        KSAlmanac almanac(utc, KStarsData::Instance()->geo());
+        KSAlmanac almanac(midnight, KStarsData::Instance()->geo());
 
         QJsonObject response =
         {
@@ -1803,11 +1801,9 @@ KStarsDateTime Message::getNextDawn()
     // Today's date
     const KStarsDateTime localTime  = KStarsData::Instance()->lt();
     // Local Midnight
-    const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(), Qt::LocalTime);
-    // UTC Midnight
-    const KStarsDateTime utc  = KStarsData::Instance()->geo()->LTtoUT(midnight);
+    const KStarsDateTime midnight  = KStarsDateTime(localTime.date(), QTime(0, 0), Qt::LocalTime);
     // Almanac
-    KSAlmanac almanac(utc, KStarsData::Instance()->geo());
+    KSAlmanac almanac(midnight, KStarsData::Instance()->geo());
     // Next Dawn
     KStarsDateTime nextDawn = midnight.addSecs(almanac.getDawnAstronomicalTwilight() * 24.0 * 3600.0);
     // If dawn is earliar than now, add a day
