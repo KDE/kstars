@@ -70,6 +70,9 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="childrenCollapsible">
+      <bool>false</bool>
+     </property>
      <widget class="QTabWidget" name="toolsWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -1071,12 +1074,6 @@
    <class>CaptureCountsWidget</class>
    <extends>QWidget</extends>
    <header>ekos/capture/capturecountswidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QProgressIndicator</class>
-   <extends>QWidget</extends>
-   <header>auxiliary/QProgressIndicator.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
