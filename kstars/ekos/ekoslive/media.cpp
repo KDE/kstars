@@ -181,12 +181,6 @@ void Media::onTextReceived(const QString &message)
 void Media::onBinaryReceived(const QByteArray &message)
 {
     // Sometimes this is triggered even though it's a text message
-    if (message[0] == '{')
-    {
-        onTextReceived(message);
-        return;
-    }
-
     Ekos::Align * align = m_Manager->alignModule();
     if (align)
     {
