@@ -1423,7 +1423,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         // If we are before dawn, we check object altitude restrictions
         // Otherwise, all objects are welcome
         auto start = KStarsData::Instance()->lt();
-        auto end = getNextDawn();;
+        auto end = getNextDawn();
         if (start > end)
             // Add 1 day
             end = end.addDays(1);

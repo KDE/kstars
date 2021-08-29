@@ -34,15 +34,17 @@ class HIPSFinder
         static HIPSFinder *Instance();
 
         /**
-         * @brief render Renders an image at the specified center with the specific level, width, and height.
+         * @brief render Renders an image at the specified center with the specific level and zoom.
          * @param center Sky point of image center.
          * @param level HiPS level. Minimum 2 and Maximum 20
          * @param zoom Projector zoom factor
          * @param destinationImage Pointer to an already initialized QImage
+         * @param fov_w output image horizontal field of view in arcminutes.
+         * @param fov_h output image vertical field of view in arcminutes.
          * @param projector projection system to be used to map image --> screen projection transformation.
          * @return True if successful, false otherwise.
          */
-        bool render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage);
+        bool render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage, double &fov_w, double &fov_h);
         void renderRec(uint8_t level, int pix, QImage *destinationImage);
         bool renderPix(int level, int pix, QImage *destinationImage);
 

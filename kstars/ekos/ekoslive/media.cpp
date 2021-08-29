@@ -144,7 +144,8 @@ void Media::onTextReceived(const QString &message)
             if (oneObject)
             {
                 QImage centerImage(HIPS_TILE_WIDTH, HIPS_TILE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
-                if (HIPSFinder::Instance()->render(oneObject, level, zoom, &centerImage))
+                double fov_w = 0, fov_h = 0;
+                if (HIPSFinder::Instance()->render(oneObject, level, zoom, &centerImage, fov_w, fov_h))
                 {
                     QByteArray jpegData;
                     QBuffer buffer(&jpegData);
@@ -157,6 +158,8 @@ void Media::onTextReceived(const QString &message)
                         {"name", name},
                         {"resolution", QString("%1x%2").arg(HIPS_TILE_WIDTH).arg(HIPS_TILE_HEIGHT)},
                         {"bin", "1x1"},
+                        {"fov_w", QString::number(fov_w)},
+                        {"fov_h", QString::number(fov_h)},
                         {"ext", "jpg"}
                     };
 
@@ -177,6 +180,13 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
+    // Sometimes this is triggered even though it's a text message
+    if (message[0] == '{')
+    {
+        onTextReceived(message);
+        return;
+    }
+
     Ekos::Align * align = m_Manager->alignModule();
     if (align)
     {

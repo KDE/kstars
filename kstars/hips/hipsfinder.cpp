@@ -59,7 +59,7 @@ HIPSFinder::HIPSFinder()
 ///////////////////////////////////////////////////////////////////////////////////////////
 /// Static
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage)
+bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *destinationImage, double &fov_w, double &fov_h)
 {
     double ra = center->ra0().radians();
     double de = center->dec0().radians();
@@ -95,6 +95,9 @@ bool HIPSFinder::render(SkyPoint *center, uint8_t level, double zoom, QImage *de
 
     // Get corners for this face
     m_HEALpix->getCornerPoints(level, centerPix, cornerSkyCoords);
+
+    fov_w = cornerSkyCoords[0].angularDistanceTo(&cornerSkyCoords[1]).Degrees();
+    fov_h = cornerSkyCoords[1].angularDistanceTo(&cornerSkyCoords[2]).Degrees();
 
     // Map the tile lines to the corners
     for (int i = 0; i < 2; i++)
