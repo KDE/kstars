@@ -1280,9 +1280,51 @@ else ()
 endif ()
 
 if(APPLE)
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
+        include(FetchContent)
+        FetchContent_Declare(macfiles
+          GIT_REPOSITORY https://github.com/rlancaste/kstars-mac-files.git
+          GIT_TAG main
+          CONFIGURE_COMMAND ""
+          BUILD_COMMAND ""
+          SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/macfiles
+        )
+        FetchContent_MakeAvailable(macfiles)
+    endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
+    set(KSTARS_APP "${CMAKE_BINARY_DIR}/bin/KStars.app")
     file(COPY
-        ${CMAKE_CURRENT_SOURCE_DIR}/data/
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/KStars.app/Contents/Resources/kstars)
+        "${CMAKE_CURRENT_SOURCE_DIR}/data/"
+        DESTINATION "${KSTARS_APP}/Contents/Resources/kstars")
+    file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/icons"
+        DESTINATION "${KSTARS_APP}/Contents/Resources/")
+    file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/dbus"
+        DESTINATION "${KSTARS_APP}/Contents/Plugins/")
+    find_program(DBUS_SEND dbus-send PATHS ${PATHS})
+    file(COPY
+            "${DBUS_SEND}"
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    find_program(DBUS_DAEMON dbus-daemon PATHS ${PATHS})
+    file(COPY
+            "${DBUS_DAEMON}"
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/vlc.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/xplanet-maps.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/MacOS/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/sounds.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
+    set(KSTARS_VERSION "${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_REVISION}")
+    execute_process(COMMAND date "+%Y" OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE THIS-YEAR)
+    set_target_properties(kstars PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/macosbundle.plist.in"
+    )
 endif(APPLE)
 
 if (BUILD_PYKSTARS)
