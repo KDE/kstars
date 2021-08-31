@@ -2090,7 +2090,19 @@ IPState Capture::resumeSequence()
         // otherwise we loop starting the next exposure until all pending
         // jobs are completed
         else
-            checkNextExposure();
+        {
+            const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+            // JM 2020-12-06: Check if we need to execute pre-capture script first.
+            if (!preCaptureScript.isEmpty())
+            {
+                m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+                m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+                appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+                return IPS_BUSY;
+            }
+            else
+                checkNextExposure();
+        }
     }
 
     return IPS_OK;
@@ -3284,11 +3296,10 @@ void Capture::prepareActiveJobStage2()
      * But in the end, it's not entirely clear what the intent was. Note there is still a warning that a preliminary autofocus
      * procedure is important to avoid any surprise that could make the whole schedule ineffective.
      */
-
-    // JM 2020-12-06: Check if we need to execute pre-capture script first.
     if (activeJob != nullptr)
     {
         const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+        // JM 2020-12-06: Check if we need to execute pre-capture script first.
         if (!preCaptureScript.isEmpty())
         {
             m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
@@ -3297,6 +3308,7 @@ void Capture::prepareActiveJobStage2()
             return;
         }
     }
+
     preparePreCaptureActions();
 }
 
@@ -6550,7 +6562,10 @@ void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
     {
         case SCRIPT_PRE_CAPTURE:
             appendLogText(i18n("Pre capture script finished with code %1.", exitCode));
-            preparePreCaptureActions();
+            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_IDLE)
+                preparePreCaptureActions();
+            else
+                checkNextExposure();
             break;
 
         case SCRIPT_POST_CAPTURE:

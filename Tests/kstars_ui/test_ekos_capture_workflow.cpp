@@ -72,6 +72,67 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedFocusStates, 10000);
 }
 
+void TestEkosCaptureWorkflow::testPreCaptureScriptExecution()
+{
+    // static test with three exposures
+    int count = 3;
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // add target to path to emulate the behavior of the scheduler
+    QString imagepath = getImageLocation()->path() + "/test";
+    KTRY_CAPTURE_CONFIGURE_LIGHT(2.0, 3, 0.0, "Luminance", imagepath);
+
+    // create pre-capture script
+    KTELL("Destination path : " + destination->path());
+    QString precapture_script = destination->path() + "/precapture.sh";
+    QString precapture_log    = destination->path() + "/precapture.log";
+    // create a script that reads the number from its log file, increases it by 1 and outputs it to the logfile
+    // with this script we can count how often it has been executed
+    QStringList script_content({"#!/bin/sh",
+                                QString("nr=`head -1 %1|| echo 0` 2> /dev/null").arg(precapture_log),
+                                QString("nr=$(($nr+1))\necho $nr > %1").arg(precapture_log)});
+    // create executable pre-capture script
+    QVERIFY2(m_CaptureHelper->writeFile(precapture_script, script_content,
+                                        QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner),
+             "Creating precapture script failed!");
+
+    QMap<Ekos::ScriptTypes, QString> scripts;
+    scripts.insert(Ekos::SCRIPT_PRE_CAPTURE, precapture_script);
+
+    // setup scripts - starts as thread since clicking on capture blocks
+    bool success = false;
+    QTimer::singleShot(1000, capture, [&] {success = m_CaptureHelper->fillScriptManagerDialog(scripts);});
+    // open script manager
+    KTRY_CLICK(capture, scriptManagerB);
+    // verify if script configuration succeeded
+    QVERIFY2(success, "Scripts set up failed!");
+
+    // create capture sequence
+    KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
+    KTRY_CAPTURE_CLICK(addToQueueB);
+    // check if row has been added
+    QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == 1, 1000);
+    // setup the expected number of frames
+    for (int i = 0; i < count; i++)
+        expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    // start capture
+    KTRY_CLICK(capture, startB);
+    // wait that all frames have been taken
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(expectedCaptureStates, 30000);
+
+    // check the log file if it holds the expected number
+    QFile logfile(precapture_log);
+    logfile.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&logfile);
+    QString countstr = in.readLine();
+    logfile.close();
+    QVERIFY2(countstr.toInt() == count,
+             QString("Pre-capture script not executed as often as expected: %1 expected, %2 detected.")
+             .arg(count).arg(countstr).toLocal8Bit());
+}
+
 
 /* *********************************************************************************
  *
@@ -190,7 +251,11 @@ void TestEkosCaptureWorkflow::init() {
 
 void TestEkosCaptureWorkflow::cleanup() {
     Ekos::Manager::Instance()->focusModule()->abort();
-    Ekos::Manager::Instance()->captureModule()->abort();
+
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    capture->abort();
+    capture->clearSequenceQueue();
+    KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
 }
 
 

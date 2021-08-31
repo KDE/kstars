@@ -1,4 +1,4 @@
-/*
+﻿/*
     Helper class of KStars UI capture tests
 
     Copyright (C) 2020
@@ -61,6 +61,12 @@ public:
      * @return true if everything was successful
      */
     bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory);
+
+    /**
+     * @brief Fill the fields of the script manager in the capture module
+     * @param scripts Pre-... and post-... scripts
+     */
+    bool fillScriptManagerDialog(const QMap<Ekos::ScriptTypes, QString> &scripts);
 
     /**
      * @brief Stop and clean up scheduler

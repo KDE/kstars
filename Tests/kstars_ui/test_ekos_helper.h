@@ -1,4 +1,4 @@
-/*
+﻿/*
     Helper class of KStars UI tests
 
     Copyright (C) 2021
@@ -411,4 +411,12 @@ public:
      * @param lookup target value
      */
     void setTreeviewCombo(QComboBox *combo, const QString lookup);
+
+    /**
+     * @brief Simple write-string-to-file utility.
+     * @param filename name of the file to be created
+     * @param lines file content
+     */
+    bool writeFile(const QString &filename, const QStringList &lines, QFileDevice::Permissions permissions = QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
 };

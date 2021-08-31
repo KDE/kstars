@@ -1,4 +1,4 @@
-/*
+﻿/*
     KStars UI tests for alignment
 
     Copyright (C) 2021
@@ -126,9 +126,11 @@ private slots:
     /** @brief Test if re-focusing is aborted if capture is aborted. */
     void testCaptureRefocusAbort();
 
+    /** @brief Test data for @see testCaptureRefocusAbort() */
     void testCaptureRefocusAbort_data();
 
-
+    /** @brief Test whether a pre-capture script is executed before a capture is executed */
+    void testPreCaptureScriptExecution();
 };
 
 #endif // HAVE_INDI

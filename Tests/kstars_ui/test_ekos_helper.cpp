@@ -261,3 +261,20 @@ void TestEkosHelper::setTreeviewCombo(QComboBox *combo, QString lookup)
     QCOMPARE(combo->currentText(), lookup);
 }
 
+
+// Simple write-string-to-file utility.
+bool TestEkosHelper::writeFile(const QString &filename, const QStringList &lines, QFileDevice::Permissions permissions)
+{
+    QFile qFile(filename);
+    if (qFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream out(&qFile);
+        for (QStringList::const_iterator it = lines.begin(); it != lines.end(); it++)
+            out << *it + QChar::LineFeed;
+        qFile.close();
+        qFile.setPermissions(filename, permissions);
+        return true;
+    }
+    return false;
+}
+

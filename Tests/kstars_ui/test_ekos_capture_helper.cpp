@@ -13,6 +13,7 @@
 #include "test_ekos_capture_helper.h"
 
 #include "test_ekos.h"
+#include "ekos/capture/scriptsmanager.h"
 
 TestEkosCaptureHelper::TestEkosCaptureHelper() : TestEkosHelper() {
     m_GuiderDevice  = "Guide Simulator";
@@ -121,6 +122,16 @@ bool TestEkosCaptureHelper::fillCaptureSequences(QString target, QString sequenc
         Ekos::Manager::Instance()->captureModule()->setCapturedFramesMap(calculateSignature(target, filter), 0);
     }
 
+    return true;
+}
+
+bool TestEkosCaptureHelper::fillScriptManagerDialog(const QMap<Ekos::ScriptTypes, QString> &scripts)
+{
+    Ekos::ScriptsManager *manager = Ekos::Manager::Instance()->findChild<Ekos::ScriptsManager*>();
+    // fail if manager not found
+    KVERIFY2_SUB(manager != nullptr, "Cannot find script manager!");
+    manager->setScripts(scripts);
+    manager->done(QDialog::Accepted);
     return true;
 }
 
