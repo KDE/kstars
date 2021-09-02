@@ -72,6 +72,7 @@ void setupData(const PaaData &data, int sampleNum, QSharedPointer<FITSData> &ima
 
 TestPolarAlign::TestPolarAlign() : QObject()
 {
+    Options::setUseRelativistic(false);
 }
 
 TestPolarAlign::~TestPolarAlign()
