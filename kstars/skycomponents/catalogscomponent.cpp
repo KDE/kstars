@@ -314,13 +314,11 @@ void CatalogsComponent::tryImportSkyComponents()
 
     const auto move_skycompdb = [&]()
     {
-        const auto &path    = skycom_db.second.databaseName();
-        const auto new_path = path + ".backup";
-        const auto resp     = KMessageBox::questionYesNoCancel(
-            nullptr, i18n("Move the old database (%1) to %2?", path, new_path));
+        const auto &path = skycom_db.second.databaseName();
+        const auto &new_path =
+            QString("%1.%2.backup").arg(path).arg(QDateTime::currentMSecsSinceEpoch());
 
-        if (resp == KMessageBox::Yes)
-            QFile::rename(path, path + ".backup");
+        QFile::rename(path, new_path);
     };
 
     const auto resp = KMessageBox::questionYesNoCancel(
