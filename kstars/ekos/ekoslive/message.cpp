@@ -1104,6 +1104,8 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
             m_Manager->stop();
 
         m_Manager->setProfile(payload["name"].toString());
+        // Always Sync time before we start
+        KStarsData::Instance()->changeDateTime(KStarsDateTime::currentDateTimeUtc());
         m_Manager->start();
     }
     else if (command == commands[STOP_PROFILE])
