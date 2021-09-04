@@ -1642,7 +1642,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 QJsonObject info =
                 {
                     {"name", name},
-                    {"longName", oneObject->longname()},
+                    {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
                     {"magnitude", oneObject->mag()},
                     {"ra0", oneObject->ra0().Hours()},
                     {"de0", oneObject->dec0().Degrees()},
