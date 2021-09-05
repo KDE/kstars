@@ -50,29 +50,31 @@
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
-INDI_D::INDI_D(INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog()
+INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QWidget(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
-
     m_BaseDevice = in_dv;
     m_ClientManager = in_cm;
 
     m_Name = m_BaseDevice->getDeviceName();
 
-    deviceVBox = new QSplitter();
-    deviceVBox->setOrientation(Qt::Vertical);
+    QHBoxLayout *layout = new QHBoxLayout(this);
 
-    groupContainer = new QTabWidget();
+    deviceVBox = new QSplitter(Qt::Vertical, this);
 
-    msgST_w = new QTextEdit();
+    groupContainer = new QTabWidget(this);
+
+    msgST_w = new QTextEdit(this);
     msgST_w->setReadOnly(true);
+    msgST_w->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
 
     deviceVBox->addWidget(groupContainer);
     deviceVBox->addWidget(msgST_w);
+    deviceVBox->setStretchFactor(0, 2);
 
-    //parent->mainTabWidget->addTab(deviceVBox, label);
+    layout->addWidget(deviceVBox);
 }
 
 bool INDI_D::buildProperty(INDI::Property prop)
@@ -91,7 +93,7 @@ bool INDI_D::buildProperty(INDI::Property prop)
     {
         pg = new INDI_G(this, groupName);
         groupsList.append(pg);
-        groupContainer->addTab(pg->getScrollArea(), i18nc(libindi_strings_context, groupName.toUtf8()));
+        groupContainer->addTab(pg, i18nc(libindi_strings_context, groupName.toUtf8()));
     }
 
     return pg->addProperty(prop);
@@ -335,13 +337,13 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
     qCInfo(KSTARS_INDI) << idv->getDeviceName() << ": " << message.mid(21);
 }
 
-INDI_D::~INDI_D()
-{
-    while (!groupsList.isEmpty())
-        delete groupsList.takeFirst();
-}
+//INDI_D::~INDI_D()
+//{
+//    while (!groupsList.isEmpty())
+//        delete groupsList.takeFirst();
+//}
 
-INDI_G *INDI_D::getGroup(const QString &groupName)
+INDI_G *INDI_D::getGroup(const QString &groupName) const
 {
     for (const auto &pg : groupsList)
     {

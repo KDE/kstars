@@ -31,12 +31,12 @@
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *idv, const QString &inName)
+INDI_G::INDI_G(INDI_D *idv, const QString &inName) : QScrollArea(idv)
 {
     dp   = idv;
     name = (inName.isEmpty()) ? i18n("Unknown") : inName;
 
-    m_PropertiesContainer = new QFrame(idv);
+    m_PropertiesContainer = new QFrame(this);
     m_PropertiesLayout    = new QVBoxLayout;
     m_PropertiesLayout->setContentsMargins(20, 20, 20, 20);
     m_VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -44,17 +44,7 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
     m_PropertiesLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     m_PropertiesContainer->setLayout(m_PropertiesLayout);
 
-    m_ScrollArea = new QScrollArea;
-    m_ScrollArea->setWidget(m_PropertiesContainer);
-    m_ScrollArea->setMinimumSize(idv->size());
-}
-
-INDI_G::~INDI_G()
-{
-    while (!m_PropertiesList.isEmpty())
-        delete m_PropertiesList.takeFirst();
-    delete (m_PropertiesContainer);
-    delete (m_ScrollArea);
+    setWidget(m_PropertiesContainer);
 }
 
 bool INDI_G::addProperty(INDI::Property newProperty)
@@ -68,17 +58,11 @@ bool INDI_G::addProperty(INDI::Property newProperty)
     if (getProperty(name))
         return false;
 
-    //    if (m_Dirty)
-    //    {
-    //        m_Dirty = false;
-    //        resetLayout();
-    //    }
-
     INDI_P *property = new INDI_P(this, newProperty);
     m_PropertiesList.append(property);
 
     m_PropertiesLayout->removeItem(m_VerticalSpacer);
-    m_PropertiesLayout->addLayout(property->getContainer());
+    m_PropertiesLayout->addWidget(property);
     m_PropertiesLayout->addItem(m_VerticalSpacer);
     m_PropertiesLayout->invalidate();
 
@@ -97,46 +81,6 @@ bool INDI_G::removeProperty(const QString &name)
     }
 
     return false;
-}
-
-/////////////////////////////////////////////////////////////////////
-/// Reset the layout and remove ALL properties then re-add them
-/// This is a brute-force way of fixing a long standing bug with Qt
-/// If a property is removed, and then another property is added, it makes
-/// the tab completely inaccessible to mouse clicks. Users can only navigate the controls
-/// through use of tab key.
-/////////////////////////////////////////////////////////////////////
-void INDI_G::resetLayout()
-{
-    QList<INDI::Property> existingProps;
-
-    // Get all existing properties
-    for (auto &oneProp : m_PropertiesList)
-        existingProps.append(oneProp->getProperty());
-
-    // Remove all properties
-    qDeleteAll(m_PropertiesList);
-    m_PropertiesList.clear();
-
-    // Remove all containers
-    delete (m_PropertiesLayout);
-
-    // Init all containers again
-    // N.B. m_VerticalSpacer and m_PropertiesContainer would be automatically deleted by Qt.
-    m_PropertiesContainer = new QFrame(dp);
-    m_PropertiesLayout    = new QVBoxLayout;
-    m_PropertiesLayout->setContentsMargins(20, 20, 20, 20);
-    m_VerticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    m_PropertiesLayout->addItem(m_VerticalSpacer);
-    m_PropertiesLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    m_PropertiesContainer->setLayout(m_PropertiesLayout);
-    m_ScrollArea->setWidget(m_PropertiesContainer);
-    m_ScrollArea->setMinimumSize(dp->size());
-
-    // Re-add all properties
-    for (const auto &oneINDIProp : existingProps)
-        addProperty(oneINDIProp);
-
 }
 
 INDI_P *INDI_G::getProperty(const QString &name) const

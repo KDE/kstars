@@ -14,7 +14,7 @@
 #include "indicommon.h"
 #include <libindi/indiproperty.h>
 
-#include <QObject>
+#include <QWidget>
 
 #include <memory>
 
@@ -45,12 +45,11 @@ class KSqueezedTextLabel;
  *
  * @author Jasem Mutlaq
  */
-class INDI_P : public QObject
+class INDI_P : public QWidget
 {
         Q_OBJECT
     public:
         INDI_P(INDI_G *ipg, INDI::Property prop);
-        ~INDI_P();
 
         /* Draw state LED */
         void updateStateLED();
@@ -59,12 +58,6 @@ class INDI_P : public QObject
         void updateMenuGUI();
 
         void initGUI();
-
-        /* First step in adding a new GUI element */
-        //void addGUI(XMLEle *root);
-
-        /* Set Property's parent group */
-        //void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
 
         void buildSwitchGUI();
         void buildMenuGUI();
@@ -89,11 +82,6 @@ class INDI_P : public QObject
         INDI_G *getGroup() const
         {
             return pg;
-        }
-
-        QHBoxLayout *getContainer() const
-        {
-            return PHBox.get();
         }
 
         const QString &getName() const
@@ -135,23 +123,23 @@ class INDI_P : public QObject
         INDI::Property dataProp;
         QCheckBox *enableBLOBC { nullptr };
         /// Label widget
-        std::unique_ptr<KSqueezedTextLabel> labelW;
+        KSqueezedTextLabel* labelW { nullptr };
         /// Set button
-        std::unique_ptr<QPushButton> setB;
+        QPushButton* setB { nullptr };
         /// Status LED
-        std::unique_ptr<KLed> ledStatus;
+        KLed* ledStatus { nullptr };
         /// GUI type
         PGui guiType;
         /// Horizontal spacer
         QSpacerItem *horSpacer { nullptr };
         /// Horizontal container
-        std::unique_ptr<QHBoxLayout> PHBox;
+        QHBoxLayout *PHBox { nullptr };
         /// Vertical container
         QVBoxLayout *PVBox { nullptr };
         /// Group button for radio and check boxes (Elements)
-        std::unique_ptr<QButtonGroup> groupB;
+        QButtonGroup *groupB { nullptr };
         /// Combo box for menu
-        std::unique_ptr<QComboBox> menuC;
+        QComboBox* menuC { nullptr };
         QString name;
         /// List of elements
         QList<INDI_E *> elementList;

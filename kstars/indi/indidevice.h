@@ -34,31 +34,26 @@ class INDI_G;
  *
  * @author Jasem Mutlaq
  */
-class INDI_D : public QDialog
+class INDI_D : public QWidget
 {
         Q_OBJECT
     public:
-        INDI_D(INDI::BaseDevice *in_idv, ClientManager *in_cm);
-        ~INDI_D();
+        INDI_D(QWidget *parent, INDI::BaseDevice *in_idv, ClientManager *in_cm);
 
-        QSplitter *getDeviceBox()
-        {
-            return deviceVBox;
-        }
 
-        ClientManager *getClientManager()
+        ClientManager *getClientManager() const
         {
             return m_ClientManager;
         }
 
-        INDI_G *getGroup(const QString &groupName);
+        INDI_G *getGroup(const QString &groupName) const;
 
-        INDI::BaseDevice *getBaseDevice()
+        INDI::BaseDevice *getBaseDevice() const
         {
             return m_BaseDevice;
         }
 
-        QList<INDI_G *> getGroups()
+        QList<INDI_G *> getGroups() const
         {
             return groupsList;
         }
