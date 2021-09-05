@@ -1451,7 +1451,8 @@ QPointer<FITSViewer> CCD::getFITSViewer()
 
     m_FITSViewerWindow = KStars::Instance()->createFITSViewer();
 
-    connect(m_FITSViewerWindow, &FITSViewer::closed, [&](int tabIndex)
+    // Check if ONE tab of the viewer was closed.
+    connect(m_FITSViewerWindow, &FITSViewer::closed, this, [this](int tabIndex)
     {
         if (tabIndex == normalTabID)
             normalTabID = -1;
@@ -1463,6 +1464,17 @@ QPointer<FITSViewer> CCD::getFITSViewer()
             guideTabID = -1;
         else if (tabIndex == alignTabID)
             alignTabID = -1;
+    });
+
+    // If FITS viewer was completed closed. Reset everything
+    connect(m_FITSViewerWindow, &FITSViewer::destroyed, this, [this]()
+    {
+        normalTabID = -1;
+        calibrationTabID = -1;
+        focusTabID = -1;
+        guideTabID = -1;
+        alignTabID = -1;
+        m_FITSViewerWindow.clear();
     });
 
     return m_FITSViewerWindow;
