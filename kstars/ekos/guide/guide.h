@@ -562,7 +562,7 @@ class Guide : public QWidget, public Ui::Guide
         QVector3D starCenter;
 
         // Guide Params
-        int guideBinIndex { 0 };
+        //int guideBinIndex { 0 };
         int guideFilterIndex { 0 };
         double ccdPixelSizeX { -1 };
         double ccdPixelSizeY { -1 };

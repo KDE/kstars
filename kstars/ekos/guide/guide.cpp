@@ -608,14 +608,15 @@ void Guide::updateGuideParams()
 
         if (useGuideHead)
             binningCombo->setCurrentIndex(subBinX - 1);
-        else if (guideBinIndex + 1 <= maxBinX)
+        else if (static_cast<int>(Options::guideBinSizeIndex() + 1) <= maxBinX)
         {
-            subBinX = subBinY = guideBinIndex + 1;
-            binningCombo->setCurrentIndex(guideBinIndex);
+            subBinX = subBinY = Options::guideBinSizeIndex() + 1;
+            binningCombo->setCurrentIndex(Options::guideBinSizeIndex());
         }
         binningCombo->blockSignals(false);
     }
 
+    // If frame setting does not exist, create a new one.
     if (frameSettings.contains(targetChip) == false)
     {
         int x, y, w, h;
@@ -638,6 +639,14 @@ void Guide::updateGuideParams()
                 frameSettings[targetChip] = settings;
             }
         }
+    }
+    // Otherwise update existing map
+    else
+    {
+        QVariantMap settings = frameSettings[targetChip];
+        settings["binx"] = subBinX;
+        settings["biny"] = subBinY;
+        frameSettings[targetChip] = settings;
     }
 
     if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && aperture != -1 && focal_length != -1)
@@ -776,11 +785,13 @@ bool Guide::captureOneFrame()
     guideView->setBaseSize(guideWidget->size());
     setBusy(true);
 
+    // Check if we have a valid frame setting
     if (frameSettings.contains(targetChip))
     {
         QVariantMap settings = frameSettings[targetChip];
         targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(),
                              settings["h"].toInt());
+        targetChip->setBinning(settings["binx"].toInt(), settings["biny"].toInt());
     }
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Guide::processData, Qt::UniqueConnection);
@@ -1680,6 +1691,8 @@ void Guide::updateCCDBin(int index)
 
     guider->setFrameParams(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt(),
                            settings["binx"].toInt(), settings["biny"].toInt());
+
+    saveSettings();
 }
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
@@ -2162,7 +2175,7 @@ void Guide::loadSettings()
     // Exposure
     exposureIN->setValue(Options::guideExposure());
     // Bin Size
-    guideBinIndex = Options::guideBinSizeIndex();
+    binningCombo->setCurrentIndex(Options::guideBinSizeIndex());
     // Box Size
     boxSizeCombo->setCurrentIndex(Options::guideSquareSizeIndex());
     // Effect filter
@@ -2564,8 +2577,8 @@ bool Guide::executeOneOperation(GuideState operation)
                 settings["y"]             = y;
                 settings["w"]             = w;
                 settings["h"]             = h;
-                settings["binx"]          = 1;
-                settings["biny"]          = 1;
+                settings["binx"]          = subBinX;
+                settings["biny"]          = subBinY;
                 frameSettings[targetChip] = settings;
 
                 subFramed = false;
