@@ -344,20 +344,21 @@ void cgmath::calculatePulses(void)
             {
                 pulseDirection = NO_DIR;
                 pulseLength = 0;
-                continue;
-            }
-
-            // Check the min pulse value, and assign the direction.
-            const double pulseArcSec = pulseConverter > 0 ? pulseLength / pulseConverter : 0;
-            if (pulseArcSec >= in_params.min_pulse_arcsec[k])
-            {
-                if (k == GUIDE_RA)
-                    pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
-                else
-                    pulseDirection = arcsecDrift > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
             }
             else
-                pulseDirection = NO_DIR;
+            {
+                // Check the min pulse value, and assign the direction.
+                const double pulseArcSec = pulseConverter > 0 ? pulseLength / pulseConverter : 0;
+                if (pulseArcSec >= in_params.min_pulse_arcsec[k])
+                {
+                    if (k == GUIDE_RA)
+                        pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
+                    else
+                        pulseDirection = arcsecDrift > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
+                }
+                else
+                    pulseDirection = NO_DIR;
+            }
 
         }
         qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length[" << axisStr(k) << "] = " << pulseLength
