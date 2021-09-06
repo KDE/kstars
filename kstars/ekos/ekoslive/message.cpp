@@ -22,6 +22,8 @@
 #include "ksalmanac.h"
 #include "skymapcomposite.h"
 #include "catalogobject.h"
+#include "skymap.h"
+#include "Options.h"
 
 #include <KActionCollection>
 #include <basedevice.h>
@@ -1478,14 +1480,36 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 isDSO = true;
                 break;
             case SkyObject::SUPERNOVA:
+            {
+                if (!Options::showSupernovae())
+                {
+                    Options::setShowSupernovae(true);
+                    data->setFullTimeUpdate();
+                    KStars::Instance()->map()->forceUpdate();
+                }
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::SUPERNOVA));
-                break;
+            }
+            break;
             case SkyObject::SATELLITE:
+            {
+                if (!Options::showSatellites())
+                {
+                    Options::setShowSatellites(true);
+                    data->setFullTimeUpdate();
+                    KStars::Instance()->map()->forceUpdate();
+                }
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::SATELLITE));
-                break;
+            }
+            break;
             default:
                 break;
         }
+
+        // Sort by magnitude
+        std::sort(allObjects.begin(), allObjects.end(), [](const auto & a, const auto & b)
+        {
+            return a.second->mag() < b.second->mag();
+        });
 
         QMutableVectorIterator<QPair<QString, const SkyObject *>> objectIterator(allObjects);
 
