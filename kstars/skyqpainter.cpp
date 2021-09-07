@@ -1033,7 +1033,7 @@ void SkyQPainter::drawFlags()
 
 void SkyQPainter::drawHorizon(bool filled, SkyPoint *labelPoint, bool *drawLabel)
 {
-    QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
+    QVector<Eigen::Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
     if (ground.size())
     {
         QPolygonF groundPoly(ground.size());

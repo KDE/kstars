@@ -43,8 +43,6 @@
 #include <cstddef>
 #include <cmath>
 
-using namespace Eigen;
-
 class KStarsData;
 
 /** This is just a container that holds information needed to do projections. */
@@ -129,7 +127,7 @@ class Projector
          *
          * While this seems ugly, it is less ugly than duplicating 150 loc to change 5.
          *
-         * @return Vector2f containing screen pixel x, y coordinates of SkyPoint.
+         * @return Eigen::Vector2f containing screen pixel x, y coordinates of SkyPoint.
          * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
          * @param oRefract true = use Options::useRefraction() value.
          *   false = do not use refraction.  This argument is only needed
@@ -137,7 +135,8 @@ class Projector
          * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
          *   on the visible part of the Celestial Sphere.
          */
-        virtual Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = nullptr) const;
+        virtual Eigen::Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true,
+                                            bool *onVisibleHemisphere = nullptr) const;
 
         /**
          * This is exactly the same as toScreenVec but it returns a QPointF.
@@ -163,14 +162,14 @@ class Projector
         QPointF clipLine(SkyPoint *p1, SkyPoint *p2) const;
 
         /**
-         * ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
+         * ASSUMES *p1 did not clip but *p2 did.  Returns the Eigen::Vector2f on the line
          * between *p1 and *p2 that just clips.
          */
-        Vector2f clipLineVec(SkyPoint *p1, SkyPoint *p2) const;
+        Eigen::Vector2f clipLineVec(SkyPoint *p1, SkyPoint *p2) const;
 
         /** Check whether the projected point is on-screen */
         bool onScreen(const QPointF &p) const;
-        bool onScreen(const Vector2f &p) const;
+        bool onScreen(const Eigen::Vector2f &p) const;
 
         /**
          * @short Determine if the skypoint p is likely to be visible in the display window.
@@ -228,7 +227,7 @@ class Projector
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecting the object to its test point.
          */
-    double findNorthPA(const SkyPoint *o, float x, float y) const;
+        double findNorthPA(const SkyPoint *o, float x, float y) const;
 
         /**
          * Determine the on-screen position angle of a SkyObject.  This is the sum
@@ -238,7 +237,7 @@ class Projector
          * a slightly increased Dec as the object, and calculating the angle w.r.t. the
          * Y-axis of the line connecting the object to its test point.
          */
-    double findPA(const SkyObject *o, float x, float y) const;
+        double findPA(const SkyObject *o, float x, float y) const;
 
         /**
          * Get the ground polygon
@@ -246,7 +245,7 @@ class Projector
          * @param drawLabel this tells whether to draw a label.
          * @return the ground polygon
          */
-        virtual QVector<Vector2f> groundPoly(SkyPoint *labelpoint = nullptr, bool *drawLabel = nullptr) const;
+        virtual QVector<Eigen::Vector2f> groundPoly(SkyPoint *labelpoint = nullptr, bool *drawLabel = nullptr) const;
 
         /**
          * @brief updateClipPoly calculate the clipping polygen given the current FOV.

@@ -22,7 +22,7 @@ void HorizonNode::update()
     m_polygonNode->setColor(color);
     m_polygonNode->setLineWidth(2);
 
-    QVector<Vector2f> ground = SkyMapLite::Instance()->projector()->groundPoly();
+    QVector<Eigen::Vector2f> ground = SkyMapLite::Instance()->projector()->groundPoly();
 
     if (ground.size())
     {
