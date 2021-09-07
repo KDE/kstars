@@ -477,7 +477,10 @@ void Guide::checkCCD(int ccdNum)
             return;
         }
 
-        //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, &Ekos::Guide::viewerClosed()), Qt::UniqueConnection);
+        // Make sure to disconnect all CCDs first from slots of Ekos::Guide
+        for (const auto &oneCamera : CCDs)
+            oneCamera->disconnect(this);
+
         connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
@@ -1711,7 +1714,8 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
 
 void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState)
 {
-    if (guiderType != GUIDE_INTERNAL)
+    // Ignore if not using internal guider, or chip belongs to a different camera.
+    if (guiderType != GUIDE_INTERNAL || targetChip->getCCD() != currentCCD)
         return;
 
     INDI_UNUSED(exposure);
