@@ -2289,10 +2289,7 @@ void Guide::setAxisDelta(double ra, double de)
     // if(guiderType == GUIDE_PHD2 && state != GUIDE_GUIDING)
     //     setStatus(GUIDE_GUIDING);
 
-    // 2021-09-06 Hy: Not sure where this line came from, but guide plot winds up with error and correction
-    // in the same direction. It's possible that this is OK and the RA pulse should also be negated.
-    // Doesn't affect performance, only plotting.
-    // ra = -ra;  //The ra is backwards in sign from how it should be displayed on the graph.
+    ra = -ra;  //The ra is backwards in sign from how it should be displayed on the graph.
 
     int currentNumPoints = driftGraph->graph(GuideGraph::G_RA)->dataCount();
     guideSlider->setMaximum(currentNumPoints);

@@ -348,7 +348,7 @@ void GuideDriftGraph::zoomOutX()
 void GuideDriftGraph::setCorrectionGraphScale(int value)
 {
     yAxis2->setRange(yAxis->range().lower * value,
-                                 yAxis->range().upper * value);
+                     yAxis->range().upper * value);
     replot();
 }
 
@@ -371,43 +371,44 @@ void GuideDriftGraph::clear()
 
 void GuideDriftGraph::toggleShowPlot(GuideGraph::DRIFT_GRAPH_INDICES plot, bool isChecked)
 {
-    switch (plot) {
-    case GuideGraph::G_RA:
-        Options::setRADisplayedOnGuideGraph(isChecked);
-        graph(GuideGraph::G_RA)->setVisible(isChecked);
-        graph(GuideGraph::G_RA_HIGHLIGHT)->setVisible(isChecked);
-        setRMSVisibility();
-        replot();
-        break;
-    case GuideGraph::G_DEC:
-        Options::setDEDisplayedOnGuideGraph(isChecked);
-        graph(GuideGraph::G_DEC)->setVisible(isChecked);
-        graph(GuideGraph::G_DEC_HIGHLIGHT)->setVisible(isChecked);
-        setRMSVisibility();
-        replot();
-        break;
-    case GuideGraph::G_RA_PULSE:
-        Options::setRACorrDisplayedOnGuideGraph(isChecked);
-        graph(GuideGraph::G_RA_PULSE)->setVisible(isChecked);
-        updateCorrectionsScaleVisibility();
-        break;
-    case GuideGraph::G_DEC_PULSE:
-        Options::setDECorrDisplayedOnGuideGraph(isChecked);
-        graph(GuideGraph::G_DEC_PULSE)->setVisible(isChecked);
-        updateCorrectionsScaleVisibility();
-        break;
-    case GuideGraph::G_SNR:
-        Options::setSNRDisplayedOnGuideGraph(isChecked);
-        graph(GuideGraph::G_SNR)->setVisible(isChecked);
-        replot();
-        break;
-    case GuideGraph::G_RMS:
-        Options::setRMSDisplayedOnGuideGraph(isChecked);
-        setRMSVisibility();
-        replot();
-        break;
-    default:
-        break;
+    switch (plot)
+    {
+        case GuideGraph::G_RA:
+            Options::setRADisplayedOnGuideGraph(isChecked);
+            graph(GuideGraph::G_RA)->setVisible(isChecked);
+            graph(GuideGraph::G_RA_HIGHLIGHT)->setVisible(isChecked);
+            setRMSVisibility();
+            replot();
+            break;
+        case GuideGraph::G_DEC:
+            Options::setDEDisplayedOnGuideGraph(isChecked);
+            graph(GuideGraph::G_DEC)->setVisible(isChecked);
+            graph(GuideGraph::G_DEC_HIGHLIGHT)->setVisible(isChecked);
+            setRMSVisibility();
+            replot();
+            break;
+        case GuideGraph::G_RA_PULSE:
+            Options::setRACorrDisplayedOnGuideGraph(isChecked);
+            graph(GuideGraph::G_RA_PULSE)->setVisible(isChecked);
+            updateCorrectionsScaleVisibility();
+            break;
+        case GuideGraph::G_DEC_PULSE:
+            Options::setDECorrDisplayedOnGuideGraph(isChecked);
+            graph(GuideGraph::G_DEC_PULSE)->setVisible(isChecked);
+            updateCorrectionsScaleVisibility();
+            break;
+        case GuideGraph::G_SNR:
+            Options::setSNRDisplayedOnGuideGraph(isChecked);
+            graph(GuideGraph::G_SNR)->setVisible(isChecked);
+            replot();
+            break;
+        case GuideGraph::G_RMS:
+            Options::setRMSDisplayedOnGuideGraph(isChecked);
+            setRMSVisibility();
+            replot();
+            break;
+        default:
+            break;
     }
 }
 
@@ -526,6 +527,9 @@ void GuideDriftGraph::setAxisDelta(double ra, double de)
 {
     // Time since timer started.
     double key = guideTimer.elapsed() / 1000.0;
+
+    // similar to same operation in Guide::setAxisDelta
+    ra = -ra;
 
     graph(GuideGraph::G_RA)->addData(key, ra);
     graph(GuideGraph::G_DEC)->addData(key, de);
