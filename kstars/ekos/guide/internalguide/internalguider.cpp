@@ -41,7 +41,7 @@ InternalGuider::InternalGuider()
     // Do this so that stored calibration will be visible on the
     // guide options menu. Calibration will get restored again when needed.
     pmath->getMutableCalibration()->restore(
-        pierSide, Options::reverseDecOnPierSideChange(), nullptr);
+        pierSide, Options::reverseDecOnPierSideChange(), subBinX, subBinY, nullptr);
 
     state = GUIDE_IDLE;
 }
@@ -579,7 +579,8 @@ bool InternalGuider::restoreCalibration()
 {
     bool success = Options::reuseGuideCalibration() &&
                    pmath->getMutableCalibration()->restore(
-                       pierSide, Options::reverseDecOnPierSideChange(), &mountDEC);
+                       pierSide, Options::reverseDecOnPierSideChange(),
+                       subBinX, subBinY, &mountDEC);
     if (success)
         emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
     return success;

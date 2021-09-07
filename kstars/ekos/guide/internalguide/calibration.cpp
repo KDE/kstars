@@ -38,7 +38,15 @@ void Calibration::setParameters(double ccd_pix_width, double ccd_pix_height,
     calibrationDEC      = mountDec;
     subBinX             = binX;
     subBinY             = binY;
+    subBinXused         = subBinX;
+    subBinYused         = subBinY;
     calibrationPierSide = currentPierSide;
+}
+
+void Calibration::setBinningUsed(int x, int y)
+{
+    subBinXused         = x;
+    subBinYused         = y;
 }
 
 void Calibration::setRaPulseMsPerPixel(double rate)
@@ -93,30 +101,40 @@ void Calibration::rotateToRaDec(double dx, double dy,
     *dec = out.y;
 }
 
+double Calibration::binFactor() const
+{
+    return static_cast<double>(subBinXused) / static_cast<double>(subBinX);
+}
+
+double Calibration::inverseBinFactor() const
+{
+    return 1.0 / binFactor();
+}
+
 double Calibration::xArcsecondsPerPixel() const
 {
     // arcs = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
-    return (206264.806 * ccd_pixel_width * subBinX) / focalMm;
+    return binFactor() * (206264.806 * ccd_pixel_width * subBinX) / focalMm;
 }
 
 double Calibration::yArcsecondsPerPixel() const
 {
-    return (206264.806 * ccd_pixel_height * subBinY) / focalMm;
+    return binFactor() * (206264.806 * ccd_pixel_height * subBinY) / focalMm;
 }
 
 double Calibration::xPixelsPerArcsecond() const
 {
-    return (focalMm / (206264.806 * ccd_pixel_width * subBinX));
+    return inverseBinFactor() * (focalMm / (206264.806 * ccd_pixel_width * subBinX));
 }
 
 double Calibration::yPixelsPerArcsecond() const
 {
-    return (focalMm / (206264.806 * ccd_pixel_height * subBinY));
+    return inverseBinFactor() * (focalMm / (206264.806 * ccd_pixel_height * subBinY));
 }
 
 double Calibration::raPulseMillisecondsPerPixel() const
 {
-    return raPulseMsPerPixel;
+    return binFactor() * raPulseMsPerPixel;
 }
 
 double Calibration::raPulseMillisecondsPerArcsecond() const
@@ -125,12 +143,12 @@ double Calibration::raPulseMillisecondsPerArcsecond() const
     // same along the RA or DEC axes if the pixel weren't square.
     // For now assume square as before.
     // Would need to combine the X and Y values according to the RA/DEC rotation angle.
-    return raPulseMsPerPixel * xPixelsPerArcsecond();
+    return raPulseMillisecondsPerPixel() * xPixelsPerArcsecond();
 }
 
 double Calibration::decPulseMillisecondsPerPixel() const
 {
-    return decPulseMsPerPixel;
+    return binFactor() * decPulseMsPerPixel;
 }
 
 double Calibration::decPulseMillisecondsPerArcsecond() const
@@ -139,7 +157,7 @@ double Calibration::decPulseMillisecondsPerArcsecond() const
     // same along the RA or DEC axes if the pixel weren't square.
     // For now assume square as before.
     // Would need to combine the X and Y values according to the RA/DEC rotation angle.
-    return decPulseMsPerPixel * xPixelsPerArcsecond();
+    return decPulseMillisecondsPerPixel() * yPixelsPerArcsecond();
 }
 
 double Calibration::calculateRotation(double x, double y)
@@ -420,10 +438,11 @@ void Calibration::save() const
 }
 
 bool Calibration::restore(ISD::Telescope::PierSide currentPierSide,
-                          bool reverseDecOnPierChange, const dms *declination)
+                          bool reverseDecOnPierChange, int currentBinX, int currentBinY,
+                          const dms *declination)
 {
     return restore(Options::serializedCalibration(), currentPierSide,
-                   reverseDecOnPierChange, declination);
+                   reverseDecOnPierChange, currentBinX, currentBinY, declination);
 }
 
 double Calibration::correctRA(double raMsPerPixel, const dms &calibrationDec, const dms &currentDec)
@@ -456,7 +475,8 @@ double Calibration::correctRA(double raMsPerPixel, const dms &calibrationDec, co
 }
 
 bool Calibration::restore(const QString &encoding, ISD::Telescope::PierSide currentPierSide,
-                          bool reverseDecOnPierChange, const dms *currentDeclination)
+                          bool reverseDecOnPierChange, int currentBinX, int currentBinY,
+                          const dms *currentDeclination)
 {
     // Fail if we couldn't read the calibration.
     if (!restore(encoding))
@@ -475,6 +495,9 @@ bool Calibration::restore(const QString &encoding, ISD::Telescope::PierSide curr
 
     if (currentDeclination != nullptr)
         raPulseMsPerPixel = correctRA(raPulseMsPerPixel, calibrationDEC, *currentDeclination);
+
+    subBinXused = currentBinX;
+    subBinYused = currentBinY;
 
     // Succeed if the calibration was on the same side of the pier as we're currently using.
     if (currentPierSide == calibrationPierSide)

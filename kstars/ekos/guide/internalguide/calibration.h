@@ -28,6 +28,9 @@ class Calibration
                            int binX, int binY, ISD::Telescope::PierSide pierSide,
                            const dms &mountRA, const dms &mountDec);
 
+        // Set the current binning, which may be different from what was used during calibration.
+        void setBinningUsed(int x, int y);
+
         // Generate new calibrations according to the input parameters.
         bool calculate1D(double x, double y, int RATotalPulse);
         bool calculate1D(double start_x, double start_y,
@@ -105,10 +108,13 @@ class Calibration
         void save() const;
         // Restore the saved calibration. If the pier side is different than
         // when was calibrated, adjust the angle accordingly.
-        bool restore(ISD::Telescope::PierSide currentPierSide, bool reverseDecOnPierChange, const dms *declination = nullptr);
+        bool restore(ISD::Telescope::PierSide currentPierSide, bool reverseDecOnPierChange,
+                     int currentBinX, int currentBinY,
+                     const dms *declination = nullptr);
         // As above, but for testing.
         bool restore(const QString &encoding, ISD::Telescope::PierSide currentPierSide,
-                     bool reverseDecOnPierChange, const dms *declination = nullptr);
+                     bool reverseDecOnPierChange, int currentBinX, int currentBinY,
+                     const dms *declination = nullptr);
 
         bool declinationSwapEnabled() const
         {
@@ -145,9 +151,20 @@ class Calibration
         void setRaPulseMsPerPixel(double rate);
         void setDecPulseMsPerPixel(double rate);
 
+        // computes the ratio of the binning currently used to the binning in use while calibrating.
+        double binFactor() const;
+        // Inverse of above.
+        double inverseBinFactor() const;
+
         // Sub-binning in X and Y.
         int subBinX { 1 };
         int subBinY { 1 };
+
+        // It is possible that this calibration was done with one binning, but is now
+        // being used with another binning. This is the current binning (as opposed to the above
+        // which is the binning that was in-place during calibration.
+        int subBinXused { 1 };
+        int subBinYused { 1 };
 
         // Pixel width mm, for each pixel,
         // Binning does not affect this.

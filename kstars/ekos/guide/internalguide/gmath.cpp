@@ -72,6 +72,7 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht, int binX, int binY)
     video_width  = vid_wd / binX;
     video_height = vid_ht / binY;
 
+    calibration.setBinningUsed(binX, binY);
     guideStars.setCalibration(calibration);
 
     return true;
