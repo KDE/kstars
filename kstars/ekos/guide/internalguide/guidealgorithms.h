@@ -25,17 +25,17 @@ class GuideAlgorithms : public QObject
         static QList<Edge*> detectStars(const QSharedPointer<FITSData> &imageData,
                                         const QRect &trackingBox);
 
-        static Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                                            const int algorithmIndex,
-                                            const int videoWidth,
-                                            const int videoHeight,
-                                            const QRect &trackingBox);
+        static GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+                const int algorithmIndex,
+                const int videoWidth,
+                const int videoHeight,
+                const QRect &trackingBox);
     private:
         template <typename T>
-        static Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                                            const int algorithmIndex,
-                                            const int videoWidth,
-                                            const int videoHeight,
-                                            const QRect &trackingBox);
+        static GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+                const int algorithmIndex,
+                const int videoWidth,
+                const int videoHeight,
+                const QRect &trackingBox);
 };
 

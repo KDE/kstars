@@ -43,7 +43,7 @@ class Calibration
         // Computes the drift from the detection relative to the reference position.
         // If inputs are in pixels, then drift outputs are in pixels.
         // If inputs are in arcsecond coordinates then drifts are in arcseconds.
-        void computeDrift(const Vector &detection, const Vector &reference,
+        void computeDrift(const GuiderUtils::Vector &detection, const GuiderUtils::Vector &reference,
                           double *raDrift, double *decDrift) const;
 
         double getFocalLength() const
@@ -65,18 +65,18 @@ class Calibration
 
         // Converts the input x & y coordinates from pixels to arc-seconds.
         // Does not rotate the input into RA/DEC.
-        Vector convertToArcseconds(const Vector &input) const;
+        GuiderUtils::Vector convertToArcseconds(const GuiderUtils::Vector &input) const;
 
         // Converts the input x & y coordinates from arc-seconds to pixels.
         // Does not rotate the input into RA/DEC.
-        Vector convertToPixels(const Vector &input) const;
+        GuiderUtils::Vector convertToPixels(const GuiderUtils::Vector &input) const;
         void convertToPixels(double xArcseconds, double yArcseconds,
                              double *xPixel, double *yPixel) const;
 
         // Given offsets, convert to RA and DEC coordinates
         // by rotating according to the calibration.
         // Also inverts the y-axis. Does not convert to arc-seconds.
-        Vector rotateToRaDec(const Vector &input) const;
+        GuiderUtils::Vector rotateToRaDec(const GuiderUtils::Vector &input) const;
         void rotateToRaDec(double dx, double dy, double *ra, double *dec) const;
 
         // Returns the number of milliseconds that should be pulsed to move
@@ -163,7 +163,7 @@ class Calibration
 
         // The rotation matrix that converts between pixel coordinates and RA/DEC.
         // This is derived from angle in setAngle().
-        Ekos::Matrix ROT_Z;
+        GuiderUtils::Matrix ROT_Z;
 
         // The angles associated with the calibration that was computerd or
         // restored. They won't change as we change pier sides.

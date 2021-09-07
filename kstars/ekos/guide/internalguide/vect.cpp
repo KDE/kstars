@@ -9,13 +9,13 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-//---------------------------------------------------------------------------
 #include "vect.h"
 
 #include <cmath>
 #include <cstdlib>
 
-//---------------------------------------------------------------------------
+namespace GuiderUtils
+{
 
 Vector operator^(const Vector &u, const Vector &v)
 {
@@ -45,3 +45,4 @@ Vector &Clip(Vector &v)
 
     return v;
 }
+}  // namespace GuiderUtils

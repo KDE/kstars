@@ -16,13 +16,13 @@
 
 Calibration::Calibration()
 {
-    ROT_Z            = Ekos::Matrix(0);
+    ROT_Z = GuiderUtils::Matrix(0);
 }
 
 void Calibration::setAngle(double rotationAngle)
 {
     angle = rotationAngle;
-    ROT_Z = Ekos::RotateZ(-M_PI * angle / 180.0);
+    ROT_Z = GuiderUtils::RotateZ(-M_PI * angle / 180.0);
 }
 
 void Calibration::setParameters(double ccd_pix_width, double ccd_pix_height,
@@ -51,17 +51,17 @@ void Calibration::setDecPulseMsPerPixel(double rate)
     decPulseMsPerPixel = rate;
 }
 
-Vector Calibration::convertToArcseconds(const Vector &input) const
+GuiderUtils::Vector Calibration::convertToArcseconds(const GuiderUtils::Vector &input) const
 {
-    Vector arcseconds;
+    GuiderUtils::Vector arcseconds;
     arcseconds.x = input.x * xArcsecondsPerPixel();
     arcseconds.y = input.y * yArcsecondsPerPixel();
     return arcseconds;
 }
 
-Vector Calibration::convertToPixels(const Vector &input) const
+GuiderUtils::Vector Calibration::convertToPixels(const GuiderUtils::Vector &input) const
 {
-    Vector arcseconds;
+    GuiderUtils::Vector arcseconds;
     arcseconds.x = input.x / xArcsecondsPerPixel();
     arcseconds.y = input.y / yArcsecondsPerPixel();
     return arcseconds;
@@ -74,9 +74,9 @@ void Calibration::convertToPixels(double xArcseconds, double yArcseconds,
     *yPixel = yArcseconds / yArcsecondsPerPixel();
 }
 
-Vector Calibration::rotateToRaDec(const Vector &input) const
+GuiderUtils::Vector Calibration::rotateToRaDec(const GuiderUtils::Vector &input) const
 {
-    Vector in;
+    GuiderUtils::Vector in;
     in.x = input.x;
     in.y = -input.y;
     return (in * ROT_Z);
@@ -85,10 +85,10 @@ Vector Calibration::rotateToRaDec(const Vector &input) const
 void Calibration::rotateToRaDec(double dx, double dy,
                                 double *ra, double *dec) const
 {
-    Vector input;
+    GuiderUtils::Vector input;
     input.x = dx;
     input.y = dy;
-    Vector out = rotateToRaDec(input);
+    GuiderUtils::Vector out = rotateToRaDec(input);
     *ra = out.x;
     *dec = out.y;
 }
@@ -148,9 +148,9 @@ double Calibration::calculateRotation(double x, double y)
 
     y = -y;
 
-    //if( (!Vector(delta_x, delta_y, 0)) < 2.5 )
+    //if( (!GuiderUtils::Vector(delta_x, delta_y, 0)) < 2.5 )
     // JM 2015-12-10: Lower threshold to 1 pixel
-    if ((!Vector(x, y, 0)) < 1)
+    if ((!GuiderUtils::Vector(x, y, 0)) < 1)
         return -1;
 
     // 90 or 270 degrees
@@ -236,11 +236,11 @@ bool Calibration::calculate2D(
     double phi_dec = 0; // angle calculated by GUIDE_DEC drift
     double phi     = 0;
 
-    Vector ra_vect  = Normalize(Vector(ra_x, -ra_y, 0));
-    Vector dec_vect = Normalize(Vector(dec_x, -dec_y, 0));
+    GuiderUtils::Vector ra_vect  = GuiderUtils::Normalize(GuiderUtils::Vector(ra_x, -ra_y, 0));
+    GuiderUtils::Vector dec_vect = GuiderUtils::Normalize(GuiderUtils::Vector(dec_x, -dec_y, 0));
 
-    Vector try_increase = dec_vect * Ekos::RotateZ(M_PI / 2);
-    Vector try_decrease = dec_vect * Ekos::RotateZ(-M_PI / 2);
+    GuiderUtils::Vector try_increase = dec_vect * GuiderUtils::RotateZ(M_PI / 2);
+    GuiderUtils::Vector try_decrease = dec_vect * GuiderUtils::RotateZ(-M_PI / 2);
 
     double cos_increase = try_increase & ra_vect;
     double cos_decrease = try_decrease & ra_vect;
@@ -315,10 +315,10 @@ bool Calibration::calculate2D(
     return true;
 }
 
-void Calibration::computeDrift(const Vector &detection, const Vector &reference,
+void Calibration::computeDrift(const GuiderUtils::Vector &detection, const GuiderUtils::Vector &reference,
                                double *raDrift, double *decDrift) const
 {
-    Vector drift = detection - reference;
+    GuiderUtils::Vector drift = detection - reference;
     drift = rotateToRaDec(drift);
     *raDrift   = drift.x;
     *decDrift = drift.y;

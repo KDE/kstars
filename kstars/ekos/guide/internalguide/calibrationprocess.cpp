@@ -281,7 +281,7 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
                                << last_pulse << " ms.";
 
     double driftRA, driftDEC;
-    tempCalibration.computeDrift(Vector(cur_x, cur_y, 0), Vector(start_x1, start_y1, 0),
+    tempCalibration.computeDrift(GuiderUtils::Vector(cur_x, cur_y, 0), GuiderUtils::Vector(start_x1, start_y1, 0),
                                  &driftRA, &driftDEC);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Star x pos is " << driftRA << " from original point.";
@@ -388,8 +388,8 @@ void CalibrationProcess::decBacklashState(double cur_x, double cur_y)
 {
     double driftRA, driftDEC;
     tempCalibration.computeDrift(
-        Vector(cur_x, cur_y, 0),
-        Vector(start_backlash_x, start_backlash_y, 0),
+        GuiderUtils::Vector(cur_x, cur_y, 0),
+        GuiderUtils::Vector(start_backlash_x, start_backlash_y, 0),
         &driftRA, &driftDEC);
 
     // Exit the backlash phase either after 5 pulses, or after we've moved sufficiently in the
@@ -515,8 +515,8 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
     // This will help the dec find its way home. Could convert to a full RA/DEC calibration.
     double driftRA, driftDEC;
     tempCalibration.computeDrift(
-        Vector(cur_x, cur_y, 0),
-        Vector(start_x1, start_y1, 0),
+        GuiderUtils::Vector(cur_x, cur_y, 0),
+        GuiderUtils::Vector(start_x1, start_y1, 0),
         &driftRA, &driftDEC);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Currently " << driftRA << driftDEC << " from original point.";

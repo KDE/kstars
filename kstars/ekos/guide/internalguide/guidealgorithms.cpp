@@ -485,7 +485,7 @@ repeat:
 
 
 template <typename T>
-Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
         const int algorithmIndex,
         const int videoWidth,
         const int videoHeight,
@@ -494,7 +494,7 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
     static const double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074,
                         P8 = -0.094;
 
-    Vector ret;
+    GuiderUtils::Vector ret;
     int i, j;
     double resx, resy, mass, threshold, pval;
     T const *psrc    = nullptr;
@@ -502,12 +502,12 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
     T const *pptr;
 
     if (trackingBox.isValid() == false)
-        return Vector(-1, -1, -1);
+        return GuiderUtils::Vector(-1, -1, -1);
 
     if (imageData.isNull())
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "Cannot process a nullptr image.";
-        return Vector(-1, -1, -1);
+        return GuiderUtils::Vector(-1, -1, -1);
     }
 
     if (algorithmIndex == SEP_THRESHOLD)
@@ -523,12 +523,12 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
             imageData->getHFR(HFR_MEDIAN);
             Edge *star = imageData->getSelectedHFRStar();
             if (star)
-                ret = Vector(star->x, star->y, 0);
+                ret = GuiderUtils::Vector(star->x, star->y, 0);
             else
-                ret = Vector(-1, -1, -1);
+                ret = GuiderUtils::Vector(-1, -1, -1);
         }
         else
-            ret = Vector(-1, -1, -1);
+            ret = GuiderUtils::Vector(-1, -1, -1);
 
         return ret;
     }
@@ -685,12 +685,12 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
                 }
                 if (total > 0)
                 {
-                    ret = (Vector(trackingBox.x(), trackingBox.y(), 0) + Vector(sumX / total, sumY / total, 0));
+                    ret = (GuiderUtils::Vector(trackingBox.x(), trackingBox.y(), 0) + GuiderUtils::Vector(sumX / total, sumY / total, 0));
                     return ret;
                 }
             }
 
-            return Vector(-1, -1, -1);
+            return GuiderUtils::Vector(-1, -1, -1);
         }
         break;
         // Alexander's Stepanenko smart threshold algorithm
@@ -843,12 +843,12 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
     resx /= mass;
     resy /= mass;
 
-    ret = Vector(trackingBox.x(), trackingBox.y(), 0) + Vector(resx, resy, 0);
+    ret = GuiderUtils::Vector(trackingBox.x(), trackingBox.y(), 0) + GuiderUtils::Vector(resx, resy, 0);
 
     return ret;
 }
 
-Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
         const int algorithmIndex,
         const int videoWidth,
         const int videoHeight,
@@ -884,5 +884,5 @@ Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageDat
             break;
     }
 
-    return Vector(-1, -1, -1);
+    return GuiderUtils::Vector(-1, -1, -1);
 }

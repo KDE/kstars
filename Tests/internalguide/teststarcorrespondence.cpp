@@ -66,7 +66,7 @@ void runTest(int guideStar)
     QVector<int> output;
 
     // Identity test.
-    Vector position = c.find(stars, maxDistanceToStar, &output, false);
+    GuiderUtils::Vector position = c.find(stars, maxDistanceToStar, &output, false);
     QVERIFY2(position.x == stars[guideStar].x, "Identity");
     QVERIFY2(position.y == stars[guideStar].y, "Identity");
     for (int i = 0; i < stars.size(); ++i)

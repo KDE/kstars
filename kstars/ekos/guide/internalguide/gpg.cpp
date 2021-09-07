@@ -133,8 +133,8 @@ void GPG::ditheringSettled(bool success)
         qCDebug(KSTARS_EKOS_GUIDE) << "GPG Dither done (failed)";
 }
 
-void GPG::suspended(const Vector &guideStarPosition,
-                    const Vector &reticlePosition,
+void GPG::suspended(const GuiderUtils::Vector &guideStarPosition,
+                    const GuiderUtils::Vector &reticlePosition,
                     GuideStars *guideStars,
                     const Calibration &cal)
 {
@@ -148,9 +148,9 @@ void GPG::suspended(const Vector &guideStarPosition,
         return;
     }
 
-    const Vector arc_star = cal.convertToArcseconds(guideStarPosition);
-    const Vector arc_reticle = cal.convertToArcseconds(reticlePosition);
-    const Vector star_drift =  cal.rotateToRaDec(arc_star - arc_reticle);
+    const GuiderUtils::Vector arc_star = cal.convertToArcseconds(guideStarPosition);
+    const GuiderUtils::Vector arc_reticle = cal.convertToArcseconds(reticlePosition);
+    const GuiderUtils::Vector star_drift =  cal.rotateToRaDec(arc_star - arc_reticle);
 
     double gpgInput = star_drift.x;
     if (guideStars != nullptr)

@@ -42,8 +42,8 @@ class GPG
         // Should be called while suspended, at the point when
         // guiding would normally occur. GPG gets updated but does not
         // emit a pulse.
-        void suspended(const Vector &guideStarPosition,
-                       const Vector &reticlePosition,
+        void suspended(const GuiderUtils::Vector &guideStarPosition,
+                       const GuiderUtils::Vector &reticlePosition,
                        GuideStars *guideStars,
                        const Calibration &cal);
 
@@ -52,8 +52,8 @@ class GPG
         bool computePulse(double raArcsecError, GuideStars *guideStars,
                           int *pulseLength, GuideDirection *pulseDir,
                           const Calibration &cal);
-        
-  private:
+
+    private:
         std::unique_ptr<GaussianProcessGuider> gpg;
         int gpgSamples = 0;
         int gpgSkippedSamples = 0;

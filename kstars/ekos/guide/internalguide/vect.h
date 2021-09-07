@@ -9,64 +9,85 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-//---------------------------------------------------------------------------
-
 #pragma once
 
 #include <cmath>
 
+namespace GuiderUtils
+{
 class Vector
 {
-  public:
-    double x, y, z;
-    Vector() { x = y = z = 0.0; };
-    explicit Vector(double v) { x = y = z = v; };
-    Vector(const Vector &v)
-    {
-        x = v.x;
-        y = v.y;
-        z = v.z;
-    };
-    Vector(double vx, double vy, double vz)
-    {
-        x = vx;
-        y = vy;
-        z = vz;
-    };
-    ~Vector() = default;
+    public:
+        double x, y, z;
+        Vector()
+        {
+            x = y = z = 0.0;
+        };
+        explicit Vector(double v)
+        {
+            x = y = z = v;
+        };
+        Vector(const Vector &v)
+        {
+            x = v.x;
+            y = v.y;
+            z = v.z;
+        };
+        Vector(double vx, double vy, double vz)
+        {
+            x = vx;
+            y = vy;
+            z = vz;
+        };
+        ~Vector() = default;
 
-    Vector &operator=(const Vector &v)
-    {
-        x = v.x;
-        y = v.y;
-        z = v.z;
-        return *this;
-    };
-    Vector &operator=(double f)
-    {
-        x = y = z = f;
-        return *this;
-    };
-    Vector operator-() const;
-    Vector &operator+=(const Vector &);
-    Vector &operator-=(const Vector &);
-    Vector &operator*=(const Vector &);
-    Vector &operator*=(double);
-    Vector &operator/=(double);
+        Vector &operator=(const Vector &v)
+        {
+            x = v.x;
+            y = v.y;
+            z = v.z;
+            return *this;
+        };
+        Vector &operator=(double f)
+        {
+            x = y = z = f;
+            return *this;
+        };
+        Vector operator-() const;
+        Vector &operator+=(const Vector &);
+        Vector &operator-=(const Vector &);
+        Vector &operator*=(const Vector &);
+        Vector &operator*=(double);
+        Vector &operator/=(double);
 
-    friend Vector operator+(const Vector &, const Vector &);
-    friend Vector operator-(const Vector &, const Vector &);
-    friend Vector operator*(const Vector &, const Vector &);
-    friend Vector operator*(double, const Vector &);
-    friend Vector operator*(const Vector &, double);
-    friend Vector operator/(const Vector &, double);
-    friend Vector operator/(const Vector &, const Vector &);
-    friend double operator&(const Vector &u, const Vector &v) { return u.x * v.x + u.y * v.y + u.z * v.z; };
-    friend Vector operator^(const Vector &, const Vector &);
-    double operator!() const { return (double)sqrt(x * x + y * y + z * z); };
-    double &operator[](int n) { return *(&x + n); };
-    int operator<(double v) { return x < v && y < v && z < v; };
-    int operator>(double v) { return x > v && y > v && z > v; };
+        friend Vector operator+(const Vector &, const Vector &);
+        friend Vector operator-(const Vector &, const Vector &);
+        friend Vector operator*(const Vector &, const Vector &);
+        friend Vector operator*(double, const Vector &);
+        friend Vector operator*(const Vector &, double);
+        friend Vector operator/(const Vector &, double);
+        friend Vector operator/(const Vector &, const Vector &);
+        friend double operator&(const Vector &u, const Vector &v)
+        {
+            return u.x * v.x + u.y * v.y + u.z * v.z;
+        };
+        friend Vector operator^(const Vector &, const Vector &);
+        double operator!() const
+        {
+            return (double)sqrt(x * x + y * y + z * z);
+        };
+        double &operator[](int n)
+        {
+            return *(&x + n);
+        };
+        int operator<(double v)
+        {
+            return x < v && y < v && z < v;
+        };
+        int operator>(double v)
+        {
+            return x > v && y > v && z > v;
+        };
 };
 
 inline Vector Vector ::operator-() const
@@ -149,11 +170,11 @@ inline Vector &Vector ::operator/=(double v)
     return *this;
 }
 
-////////
 inline Vector Normalize(const Vector &v)
 {
     return v / !v;
 };
 Vector RndVector();
 Vector &Clip(Vector &);
-//---------------------------------------------------------------------------
+
+}  // namespace GuiderUtils

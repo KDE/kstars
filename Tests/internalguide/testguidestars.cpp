@@ -77,8 +77,8 @@ void TestGuideStars::basicTest()
     double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
 
     double x1 = 10, y1 = 50;
-    Vector p(x1, y1, 0);
-    Vector as = cal.convertToArcseconds(p);
+    GuiderUtils::Vector p(x1, y1, 0);
+    GuiderUtils::Vector as = cal.convertToArcseconds(p);
     CompareFloat(as.x, constant * x1);
     CompareFloat(as.y, constant * y1);
 
@@ -274,9 +274,9 @@ void TestGuideStars::calibrationTest()
 
     for (int i = -10; i <= 10; ++i)
     {
-        Vector input(i, 2 * i, 0);
-        Vector as = cal.convertToArcseconds(input);
-        Vector px = cal.convertToPixels(input);
+        GuiderUtils::Vector input(i, 2 * i, 0);
+        GuiderUtils::Vector as = cal.convertToArcseconds(input);
+        GuiderUtils::Vector px = cal.convertToPixels(input);
         CompareFloat(as.x, i * constant);
         CompareFloat(as.y, 2 * i * constant);
         CompareFloat(px.x, i / constant);
@@ -302,9 +302,9 @@ void TestGuideStars::calibrationTest()
     CompareFloat(decRate, cal.decPulseMillisecondsPerPixel());
     CompareFloat(decRate / constant, cal.decPulseMillisecondsPerArcsecond());
 
-    Vector px(1.0, 0.0, 0.0);
+    GuiderUtils::Vector px(1.0, 0.0, 0.0);
     cal.setAngle(0);
-    Vector raDec = cal.rotateToRaDec(px);
+    GuiderUtils::Vector raDec = cal.rotateToRaDec(px);
     CompareFloat(px.x, raDec.x);
     CompareFloat(px.y, raDec.y);
     double rdx, rdy;

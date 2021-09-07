@@ -153,17 +153,17 @@ class InternalGuider : public GuideInterface
         QFile logFile;
         uint32_t guideBoxSize { 32 };
 
-        Vector m_DitherTargetPosition;
+        GuiderUtils::Vector m_DitherTargetPosition;
         uint8_t m_DitherRetries {0};
 
         QElapsedTimer reacquireTimer;
         int m_highRMSCounter {0};
 
-        Ekos::Matrix ROT_Z;
+        GuiderUtils::Matrix ROT_Z;
         Ekos::GuideState rememberState { GUIDE_IDLE };
 
         // Progressive Manual Dither
-        QQueue<Vector> m_ProgressiveDither;
+        QQueue<GuiderUtils::Vector> m_ProgressiveDither;
 
         // How many high RMS pulses before we stop
         static const uint8_t MAX_RMS_THRESHOLD = 10;

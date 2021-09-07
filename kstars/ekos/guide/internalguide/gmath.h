@@ -11,7 +11,6 @@
 
 #pragma once
 
-#include "matr.h"
 #include "vect.h"
 #include "indi/indicommon.h"
 
@@ -121,8 +120,8 @@ class cgmath : public QObject
 
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
-        Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                                     GuideView *guideView);
+        GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+                GuideView *guideView);
         bool isStarLost() const;
         void setLostStar(bool is_lost);
 
@@ -159,10 +158,10 @@ class cgmath : public QObject
     private:
         // Templated functions
         template <typename T>
-        Vector findLocalStarPosition(void) const;
+        GuiderUtils::Vector findLocalStarPosition(void) const;
 
         void updateCircularBuffers(void);
-        Vector point2arcsec(const Vector &p) const;
+        GuiderUtils::Vector point2arcsec(const GuiderUtils::Vector &p) const;
         void calculatePulses(void);
         void calculateRmsError(void);
 
@@ -187,8 +186,8 @@ class cgmath : public QObject
 
         // The latest guide star position (x,y on the image),
         // and target position we're trying to keep it aligned to.
-        Vector starPosition;
-        Vector targetPosition;
+        GuiderUtils::Vector starPosition;
+        GuiderUtils::Vector targetPosition;
 
         // processing
         // Drift is a circular buffer of the arcsecond drift for the 2 channels.

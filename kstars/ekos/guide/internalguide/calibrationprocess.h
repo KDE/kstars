@@ -11,7 +11,6 @@
 
 #pragma once
 
-#include "matr.h"
 #include "fitsviewer/fitsdata.h"
 #include "indi/indicommon.h"
 #include "../guideinterface.h"
