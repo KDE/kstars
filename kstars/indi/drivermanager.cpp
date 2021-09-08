@@ -390,7 +390,8 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         for (DriverInfo *dv : qdv)
             clientManager->appendManagedDriver(dv);
 
-        connect(clientManager, &ClientManager::connectionFailure, this, &DriverManager::processClientTermination);
+        connect(clientManager, &ClientManager::connectionFailure, this, &DriverManager::processClientTermination,
+                Qt::BlockingQueuedConnection);
 
         clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), port);
 
@@ -633,8 +634,9 @@ void DriverManager::processClientTermination(ClientManager *client)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::error(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(),
-                               client->getPort()));
+    KSNotification::event(QLatin1String("IndiServerMessage"),
+                          i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(),
+                               client->getPort()), KSNotification::EVENT_ALERT);
 
     clients.removeOne(client);
     client->deleteLater();
@@ -716,7 +718,8 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
     clientManager->appendManagedDriver(dv);
 
-    connect(clientManager, &ClientManager::connectionFailure, this, &DriverManager::processClientTermination);
+    connect(clientManager, &ClientManager::connectionFailure, this, &DriverManager::processClientTermination,
+            Qt::BlockingQueuedConnection);
 
     clientManager->setServer(dv->getHost().toLatin1().constData(), static_cast<uint>(dv->getPort().toInt()));
 
