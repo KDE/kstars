@@ -374,6 +374,8 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
         calibration->save();
         calibrationStage = CAL_IDLE;
         addStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        if (guideLog)
+            guideLog->endCalibration(1000.0 / calibration->raPulseMillisecondsPerPixel(), 0);
     }
     else
     {
@@ -381,6 +383,8 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
         calibrationStage = CAL_ERROR;
         addStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Failed: drift too short."));
+        if (guideLog)
+            guideLog->endCalibration(0, 0);
     }
 }
 
