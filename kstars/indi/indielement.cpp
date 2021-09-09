@@ -182,6 +182,9 @@ void INDI_E::setupElementLabel()
 
 void INDI_E::syncSwitch()
 {
+    if (sp == nullptr)
+        return;
+
     QFont buttonFont;
 
     switch (guiProp->getGUIType())
