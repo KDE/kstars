@@ -79,7 +79,7 @@ void INDI_E::buildSwitch(QButtonGroup *groupB, ISwitch *sw)
 
             push_w->show();
 
-            if (sw->svp->p == IP_RO)
+            if (dataProp.getPermission() == IP_RO)
                 push_w->setEnabled(sw->s == ISS_ON);
 
             break;
@@ -94,7 +94,7 @@ void INDI_E::buildSwitch(QButtonGroup *groupB, ISwitch *sw)
 
             check_w->show();
 
-            if (sw->svp->p == IP_RO)
+            if (dataProp.getPermission() == IP_RO)
                 check_w->setEnabled(sw->s == ISS_ON);
 
             break;
@@ -195,7 +195,7 @@ void INDI_E::syncSwitch()
                 buttonFont.setBold(true);
                 push_w->setFont(buttonFont);
 
-                if (sp->svp->p == IP_RO)
+                if (dataProp.getPermission() == IP_RO)
                     push_w->setEnabled(true);
             }
             else
@@ -206,7 +206,7 @@ void INDI_E::syncSwitch()
                 buttonFont.setBold(false);
                 push_w->setFont(buttonFont);
 
-                if (sp->svp->p == IP_RO)
+                if (dataProp.getPermission() == IP_RO)
                     push_w->setEnabled(false);
             }
             break;
@@ -215,13 +215,13 @@ void INDI_E::syncSwitch()
             if (sp->s == ISS_ON)
             {
                 check_w->setChecked(true);
-                if (sp->svp->p == IP_RO)
+                if (dataProp.getPermission() == IP_RO)
                     check_w->setEnabled(true);
             }
             else
             {
                 check_w->setChecked(false);
-                if (sp->svp->p == IP_RO)
+                if (dataProp.getPermission() == IP_RO)
                     check_w->setEnabled(false);
             }
             break;
@@ -236,7 +236,7 @@ void INDI_E::syncText()
     if (tp == nullptr)
         return;
 
-    if (tp->tvp->p != IP_WO)
+    if (dataProp.getPermission() != IP_WO)
     {
         if (tp->text[0])
             read_w->setText(i18nc(libindi_strings_context, tp->text));
