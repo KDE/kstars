@@ -700,22 +700,6 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Weather">
-        <device label="AAG Cloud Watcher">
-            <driver name="AAG Cloud Watcher">indi_aagcloudwatcher</driver>
-            <version>1.4</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Detectors">
-        <device label="AHP XC Correlator" mdpd="true">
-            <driver name="AHP XC correlator">indi_ahp_correlator</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
     <devGroup group="Spectrographs">
         <device label="AHP XC Correlator" mdpd="true">
             <driver name="AHP XC Correlator">indi_ahp_xc</driver>
@@ -749,7 +733,7 @@
     <devGroup group="Auxiliary">
         <device label="ASI Power">
             <driver name="ASI Power">indi_asi_power</driver>
-            <version>0.8</version>
+            <version>0.95</version>
         </device>
     </devGroup>
 </driversList>
@@ -846,18 +830,26 @@
     </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="CCDs">
+        <device label="Cam90 CCD" mdpd="true">
+            <driver name="Cam90 CCD">indi_cam90_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="Telescopes">
         <device label="Celestron AUX" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.9</version>
+            <version>0.10</version>
         </device>
         <device label="Celestron WiFi" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.9</version>
+            <version>0.10</version>
         </device>
         <device label="Nexstar Evolution" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
-            <version>0.9</version>
+            <version>0.10</version>
         </device>
     </devGroup>
 </driversList>
@@ -1123,7 +1115,15 @@
     <devGroup group="CCDs">
         <device label="Pentax DSLR Native" mdpd="true" manufacturer="DSLRs">
             <driver name="Pentax DSLR">indi_pentax</driver>
-            <version>1.0</version>
+            <version>1.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
+            <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
+            <version>0.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1151,7 +1151,15 @@
     <devGroup group="CCDs">
         <device label="RPI Camera">
             <driver name="RPI Camera">indi_rpicam</driver>
-            <version>1.0</version>
+            <version>1.3</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Auxiliary">
+        <device label="RPi GPIO">
+            <driver name="RPi GPIO">indi_rpi_gpio</driver>
+            <version>0.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -1262,6 +1270,10 @@
             <version>0.6</version>
         </device>
         <device label="Omegon Pro" mdpd="true" manufacturer="Omegon">
+            <driver name="ToupCam">indi_toupcam_ccd</driver>
+            <version>0.6</version>
+        </device>
+        <device label="Meade ToupCam" mdpd="true" manufacturer="Meade">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
             <version>0.6</version>
         </device>
