@@ -79,7 +79,7 @@ INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice *in_dv, ClientManager *in_cm) :
 
 bool INDI_D::buildProperty(INDI::Property prop)
 {
-    if (!prop.getRegistered())
+    if (!prop.isValid())
         return false;
 
     QString groupName(prop.getGroupName());
