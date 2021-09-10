@@ -114,7 +114,7 @@ bool DustCap::isParked()
     if (!parkSP)
         return false;
 
-    return (parkSP->getState() == IPS_OK && parkSP->at(0)->getState() == ISS_ON);
+    return ((parkSP->getState() == IPS_OK || parkSP->getState() == IPS_IDLE) && parkSP->at(0)->getState() == ISS_ON);
 }
 
 bool DustCap::isUnParked()
@@ -123,7 +123,7 @@ bool DustCap::isUnParked()
     if (!parkSP)
         return false;
 
-    return (parkSP->getState() == IPS_OK && parkSP->at(1)->getState() == ISS_ON);
+    return ( (parkSP->getState() == IPS_OK || parkSP->getState() == IPS_IDLE) && parkSP->at(1)->getState() == ISS_ON);
 }
 
 bool DustCap::Park()
