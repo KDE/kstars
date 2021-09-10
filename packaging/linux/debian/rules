@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+export DEB_BUILD_MAINT_OPTIONS = optimize=-lto
+
 l10npkgs_firstversion_ok := 4:17.03.90-0~
 
 include /usr/share/pkg-kde-tools/qt-kde-team/2/debian-qt-kde.mk
