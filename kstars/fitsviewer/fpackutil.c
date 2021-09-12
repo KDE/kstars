@@ -123,7 +123,7 @@ int _fp_tmpnam(char *suffix, char *rootname, char *tmpnam)
     int maxtry = 30, ii;
 
     if (strlen(suffix) + strlen(rootname) > SZ_STR-5) {
-        fp_msg ("Error: filename is too long to create tempory file\n"); exit (-1);
+        fp_msg ("Error: filename is too long to create temporary file\n"); exit (-1);
     }
 
     strcpy (tmpnam, rootname);  /* start with rootname */
