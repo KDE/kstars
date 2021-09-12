@@ -2427,7 +2427,7 @@ void Align::solverFailed()
         appendLogText(i18n("Solver Failed."));
         if(!Options::alignmentLogging())
             appendLogText(
-                i18n("Please check you have sufficient stars in the image. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
+                i18n("Please check you have sufficient stars in the image, the indicated FOV is correct, and the necessary index files are installed. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
 
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
                               KSNotification::EVENT_ALERT);
