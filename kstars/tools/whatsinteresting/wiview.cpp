@@ -72,7 +72,7 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
     m_Ctxt->setContextProperty(
         "soListModel",
         m_ModManager
-            ->getTempModel()); // This is to avoid an error saying it doesn't exist.
+        ->getTempModel()); // This is to avoid an error saying it doesn't exist.
 
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
@@ -273,9 +273,9 @@ void WIView::onCategorySelected(QString model)
         favoriteIconObj->setProperty("state", "unchecked");
 
     if ((QStringList() << "ngc"
-                       << "ic"
-                       << "messier"
-                       << "sharpless")
+            << "ic"
+            << "messier"
+            << "sharpless")
             .contains(model))
     {
         QtConcurrent::run(m_ModManager.get(), &ModelManager::loadCatalog, model);
@@ -297,9 +297,12 @@ void WIView::onNextObjClicked()
     if (!m_CurrentObjectListName.isEmpty())
     {
         int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
-        SkyObjItem *nextItem =
-            m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex + 1) % modelSize);
-        loadDetailsView(nextItem, (m_CurIndex + 1) % modelSize);
+        if (modelSize > 0)
+        {
+            SkyObjItem *nextItem =
+                m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex + 1) % modelSize);
+            loadDetailsView(nextItem, (m_CurIndex + 1) % modelSize);
+        }
     }
 }
 
@@ -308,9 +311,12 @@ void WIView::onPrevObjClicked()
     if (!m_CurrentObjectListName.isEmpty())
     {
         int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
-        SkyObjItem *prevItem =
-            m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex - 1 + modelSize) % modelSize);
-        loadDetailsView(prevItem, (m_CurIndex - 1 + modelSize) % modelSize);
+        if (modelSize > 0)
+        {
+            SkyObjItem *prevItem =
+                m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex - 1 + modelSize) % modelSize);
+            loadDetailsView(prevItem, (m_CurIndex - 1 + modelSize) % modelSize);
+        }
     }
 }
 
