@@ -6977,6 +6977,8 @@ void Capture::setPresetSettings(const QJsonObject &settings)
         setForceTemperature(true);
         setTargetTemperature(temperature);
     }
+    else
+        setForceTemperature(false);
 
     double gain = settings["gain"].toDouble(GainSpinSpecialValue);
     if (currentCCD && currentCCD->hasGain())
