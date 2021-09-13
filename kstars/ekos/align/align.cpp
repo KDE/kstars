@@ -1079,27 +1079,16 @@ void Align::syncCCDInfo()
         for (int i = 0; i < binx; i++)
             binningCombo->addItem(QString("%1x%2").arg(i + 1).arg(i + 1));
 
-        // By default, set to maximum binning since the solver behaves better this way
-        // solverBinningIndex is set by default to 4, but as soon as the user changes the binning, it changes
-        // to whatever value the user selected.
-        if (Options::solverBinningIndex() == 4 && binningCombo->count() <= 4)
-        {
-            binningCombo->setCurrentIndex(binningCombo->count() - 1);
-            Options::setSolverBinningIndex(binningCombo->count() - 1);
-        }
-        else
-            binningCombo->setCurrentIndex(Options::solverBinningIndex());
-
+        binningCombo->setCurrentIndex(Options::solverBinningIndex());
         binningCombo->blockSignals(false);
     }
 
-    if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
+    if (ccd_hor_pixel <= 0 || ccd_ver_pixel <= 0)
         return;
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    if (ccd_hor_pixel > 0 && ccd_ver_pixel > 0 && focal_length > 0 && aperture > 0)
     {
         calculateFOV();
-        //generateArgs();
     }
 }
 

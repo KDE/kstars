@@ -1994,7 +1994,7 @@
       <entry name="SolverBinningIndex" type="UInt">
          <label>Default CCD binning index while in alignment mode</label>
          <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
-         <default>4</default>
+         <default>1</default>
       </entry>
       <entry name="SolverCameraGain" type="Double">
          <label>Default camera gain while in alignment mode</label>
