@@ -180,13 +180,6 @@ void Media::onTextReceived(const QString &message)
 
 void Media::onBinaryReceived(const QByteArray &message)
 {
-    // Still need to add in this hack for some OSes.
-    if (message.length() < 10000)
-    {
-        onTextReceived(message);
-        return;
-    }
-
     // Sometimes this is triggered even though it's a text message
     Ekos::Align * align = m_Manager->alignModule();
     if (align)
