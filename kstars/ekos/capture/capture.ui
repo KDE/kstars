@@ -144,7 +144,7 @@
         <item row="5" column="2">
          <widget class="QLabel" name="textLabel1_21">
           <property name="toolTip">
-           <string>Delay in seconds between consecutive images</string>
+           <string>Camera Gain</string>
           </property>
           <property name="whatsThis">
            <string/>
@@ -1169,7 +1169,7 @@ font-weight:bold;
         <item row="6" column="2">
          <widget class="QLabel" name="textLabel1_20">
           <property name="toolTip">
-           <string>Delay in seconds between consecutive images</string>
+           <string>Camera Offset</string>
           </property>
           <property name="whatsThis">
            <string/>
