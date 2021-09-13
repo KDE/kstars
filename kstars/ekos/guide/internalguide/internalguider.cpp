@@ -744,7 +744,13 @@ bool InternalGuider::processGuiding()
     if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
         return true;
 
-    emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
+    // Hy 9/13/21: Check above just looks for GUIDE_DITHERING or GUIDE_MANUAL_DITHERING
+    // but not the other dithering possibilities (error, success, settle).
+    // Not sure if they should be included above, so conservatively not changing the
+    // code, but don't think they should broadcast the newAxisDelta which might
+    // interrup a capture.
+    if (state < GUIDE_DITHERING)
+        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
 
     double raPulse = out->pulse_length[GUIDE_RA];
     double dePulse = out->pulse_length[GUIDE_DEC];

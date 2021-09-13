@@ -668,7 +668,7 @@ void Capture::start()
     }
 
     m_DeviationDetected = false;
-    m_SpikeDetected     = false;
+    m_SpikesDetected = 0;
 
     m_State = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
@@ -3564,23 +3564,24 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // And we accounted for the spike
     if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
-        if (deviation_rms > limitGuideDeviationN->value())
+        if (deviation_rms <= limitGuideDeviationN->value())
+            m_SpikesDetected = 0;
+        else
         {
-            // Ignore spikes ONCE
-            if (m_SpikeDetected == false)
-            {
-                m_SpikeDetected = true;
+            // Require several consecutive spikes to fail.
+            constexpr int CONSECUTIVE_SPIKES_TO_FAIL = 3;
+            if (++m_SpikesDetected < CONSECUTIVE_SPIKES_TO_FAIL)
                 return;
-            }
 
-            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, "
+            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive samples, "
                                "suspending exposure and waiting for guider up to %3 seconds.",
                                deviationText, limitGuideDeviationN->value(),
-                               QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3)));
+                               QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3),
+                               CONSECUTIVE_SPIKES_TO_FAIL));
 
             suspend();
 
-            m_SpikeDetected     = false;
+            m_SpikesDetected    = 0;
             m_DeviationDetected = true;
 
             // Check if we need to start meridian flip. If yes, we need to start capturing
