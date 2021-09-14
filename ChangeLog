@@ -4,6 +4,240 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.5 (Bella):
+
+e16274917 2021-09-14 Jasem Mutlaq         KStars 3.5.5 stable
+a9b1d5a22 2021-09-14 Jasem Mutlaq         Fix transit and set times for several types of objects. Only remaining problematic object is comets. Lunar, Solar, Planetary, and Stellar objects ri..
+4ddf3bc17 2021-09-13 Hy Murveit           Tightened up the code related to capture suspending on bad guide deviations
+9d5e16721 2021-09-14 Jasem Mutlaq         When no temperature is supplied, turn off force
+4d0f5845e 2021-09-13 Jasem Mutlaq         No need for hack root cause fixed
+c276f5ffa 2021-09-13 Jasem Mutlaq         Fix crash division by zero. BUGS:402941
+31eaa16ab 2021-09-13 Hy Murveit           quiet frequent log message
+d40b42685 2021-09-13 Jasem Mutlaq         Fix tooltips. Fixes #424699
+3e727fab8 2021-09-13 Jasem Mutlaq         Reset default binning for solver to 2x2 since some cameras can be terrible at 4x4 leading to even more issues. Fix compiler warnings
+3ad663d8c 2021-09-12 Pino Toscano         typo fix
+32b28ed03 2021-09-12 Jasem Mutlaq         Change the infamous alignment failure message to suggest more items to check than just insufficient stars
+7c1946093 2021-09-11 Jasem Mutlaq         Restore special check for onBinaryReceive
+2f0cf7ec2 2021-09-10 Anthony Hinsinger    Disabled LTO
+268caf693 2021-09-11 Valentin Boettcher   fix the pykstars python package
+fd64fa993 2021-09-10 Jasem Mutlaq         Idle is acceptable state for parking and unparking for dust caps
+9c3fb25ec 2021-09-10 Jasem Mutlaq         Better use the new isValid then isRegistered
+2e36eb832 2021-09-10 Jasem Mutlaq         Check for nullptr in syncing switch and return
+06be887e8 2021-09-10 Jasem Mutlaq         Use dataProp.getPermission instead of accessing parent direclty
+53dd2001f 2021-09-08 Hy Murveit           bug fix: end calibration section in guidelog when calibrating 1D
+ab575d260 2021-09-09 Jasem Mutlaq         INDI drivers sync
+fa2f0fac1 2021-09-08 Jasem Mutlaq         Check for alignment in constructor since it is already registered before class is created
+37d7b6f82 2021-09-08 Jasem Mutlaq         On abnormal disconnect, try to clear devices first by using BlockingQueuedConnection connection type with serverFailure signal
+a100fa166 2021-09-08 Jasem Mutlaq         Use modern connect
+eb137327f 2021-09-07 Hy Murveit           Fix issue where calibration wasn't updated if guider binning was changed
+56d3372e8 2021-09-08 Jasem Mutlaq         Add new city in German. Fixes #130
+f86983c5d 2021-09-07 Hy Murveit           move vect.h and matr.h to namespace GuiderUtils
+69ea81e02 2021-09-07 Jasem Mutlaq         Partial fix for #442082 regarding building on newer Eigen version.
+ffffe23e8 2021-09-07 Jasem Mutlaq         Add extra checks to prevent mix up of camera signals to guide slots
+f757267f9 2021-09-06 Hy Murveit           fix guide driftplot for RA
+25058a519 2021-09-06 Hy Murveit           Guider fixes: ra error plotting reversed, disabling axes bug
+df269e340 2021-09-06 Jasem Mutlaq         Sort by magnitude and activate supernovae when searching for them
+4d4e5a55b 2021-09-06 Jasem Mutlaq         When searching for exact dso object, use lower to provide case-insensitive search
+c45ca58ee 2021-09-06 Jasem Mutlaq         Save guide bin index properly for future sessions
+5840eb553 2021-09-05 Jasem Mutlaq         Fix the elusive FITSViewer window popping up without image. tabID was never reset to -1 when a FITSViewer is closed mid-sequence so instead of calli..
+678c5e360 2021-09-05 Jasem Mutlaq         + Fix crash on crash when INDI server is still running. + INDI Control Panel was using a very convoluted layout system that results in few bugs when..
+f5d92a964 2021-09-04 Jasem Mutlaq         Use array for designations
+d7864b5a6 2021-09-03 Valentin Boettcher   skycomponent db import: do not ask and move to unique name...
+fadc315a5 2021-09-03 Jasem Mutlaq         Sync startup time to system when starting a profile in EkosLive
+9e14dbfb4 2021-09-02 Hy Murveit           fix crash in test_polaralign
+4ebe78ad6 2021-09-01 Jürgen Terpe         Resize manager: change the size of the log view
+acf1c21c3 2021-08-31 Jasem Mutlaq         Fix pre-capture script not executing before each capture as intended
+126879e3a 2021-08-29 Jasem Mutlaq         Remove message hack
+e014ceb04 2021-08-29 Robert Lancaster     Moving some kstars-mac building commands to cmakelists from the craft script to make it easier for potential coders
+9b00fd163 2021-08-29 Jasem Mutlaq         Add fov_w and fov_h to hipsfinder
+34f93cde2 2021-08-28 Jasem Mutlaq         Enclose searchObjects by the required ifdefs
+575263f04 2021-08-28 Jasem Mutlaq         Do not search objects in FITS after loading WCS unless it is explicitly needed.
+0af86470c 2021-08-28 Jasem Mutlaq         Use local time directly and let almanac do the conversion to UT.
+baf962fbf 2021-08-27 Jasem Mutlaq         Increase timeout
+a85a38c02 2021-08-27 Robert Lancaster     Eliminating formerly required Python options for local astrometry.net on MacOS
+aeebedcae 2021-08-27 Jasem Mutlaq         Possible fix for CI test failure
+4a03f493b 2021-08-27 Yuri Chornoivan      Fix minor typos
+a57f2889a 2021-08-26 Jasem Mutlaq         INDI drivers sync
+e7de78d1d 2021-08-19 Hy Murveit           Refactor guider, adjust UI, convert to 0-1.0 control parameter, use calibration, add calibration test.
+3a76f6907 2021-08-25 Edgar Scholz         Update skyculture sternenkarten simplifying some constellation lines adding new constelllation lines for the southern hemisphere
+2354ea736 2021-08-26 Valentin Boettcher   store a reference to the database file instead of a string
+1d87ec995 2021-08-26 Jasem Mutlaq         Add missing header
+2dd49c1af 2021-08-26 Alexander Lohnau     Use QFINDTESTDATA to make search for test data more robust
+2e37228d4 2021-08-23 Jasem Mutlaq         Add filter wheel sync test to demonstrate MR \!397
+a8ec089f7 2021-08-23 Jasem Mutlaq         Ensure that filter info is synchronized before capture. This sets the active filter wheel in camera ACTIVE_DEVICES so that the filter value can be p..
+99add6c0d 2021-08-23 Jasem Mutlaq         Add post refresh phase in order to shutdown properly when done. Update documentation
+0679c0ae3 2021-08-23 Jasem Mutlaq         Fix tab order
+d629cb0ac 2021-08-23 Jasem Mutlaq         Fallback to scale and then later position in case of align solver failure
+a7767c195 2021-08-22 Jasem Mutlaq         Some early documentation. Needs a lot more still
+e84986d41 2021-08-22 Jasem Mutlaq         Fix minor warnings
+4f98b9c6c 2021-08-22 Jasem Mutlaq         More fixes to issue in the migration process
+33d93a265 2021-08-22 Jasem Mutlaq         More minor fixes due the migration process
+0a444b30e 2021-08-22 Jasem Mutlaq         Separating manual rotator in its own class
+e6f8f4b9e 2021-08-22 Jasem Mutlaq         Init polar alignment in constructor
+e756f059d 2021-08-22 Jasem Mutlaq         Removing legacy polar alignment. Separating polar alignment in its own class. Still does not compile need more work
+faa288335 2021-08-21 Jasem Mutlaq         Solve an odd condition whereas duration is selected in capture sequenence, but ADU target is selected so that the final duration is determined by Ek..
+78782f5d5 2021-08-21 Jasem Mutlaq         Check that rectangle is valid for sending off to stellarsolver
+4c00c51bd 2021-08-21 Jasem Mutlaq         Respect scale and position options when using load and slew
+4f5204a9a 2021-08-21 Jasem Mutlaq         Separate mount model into its own class
+d1b829e41 2021-08-25 Jasem Mutlaq         solverCam --> solverCamera
+1a156e37f 2021-07-21 Antonio Escriban     Save Binning, Fits filter settings (guider), Camera gain (solver) and configure SEPMultistarOptions correctly
+90c8dfc28 2021-08-24 Valentin Boettcher   update paths to the test db to accomodate !395
+9b050ebb0 2021-08-23 Jasem Mutlaq         Disable TestEkosSchedulerOps test since it cannot apparently run in a CI environment with DBus server
+cb9fe8013 2021-08-19 Hy Murveit           Fix compiler warnings
+9e7f243d3 2021-08-22 Alexander Lohnau     Define CMake, Qt and KF requirements to versions that are shipped with Ubuntu 18.04
+837c12fcb 2021-08-21 Wolfgang Reissenberger Bug fix for profiles and target names containing special XML characters
+62f217c25 2021-08-21 Valentin Boettcher   add more information to the catalogsdb docstring
+3dbd0200b 2021-08-20 Jasem Mutlaq         Do not return duplicate search objects
+37b0d9584 2021-08-20 Jasem Mutlaq         Search each object type separately
+edbaf78e0 2021-08-18 Hy Murveit           Revamp guider UI, remove dead code
+2e297137a 2021-08-19 Hy Murveit           Defensive checks in capture.cpp
+8a3ca1233 2021-08-18 Jasem Mutlaq         Add observability and riseset support to EkosLive
+f048f70ac 2021-08-14 Jasem Mutlaq         Use 1280 as default for media in EkosLive
+01bb34a6c 2021-08-13 Hy Murveit           crash-fix: check for activeJob in setCaptureComplete
+60e54952e 2021-08-14 Hy Murveit           Add altitude adjustment for terrain image. Fix bug.
+8a7193d24 2021-08-12 Hy Murveit           Adjust golden values in polar-align test to match changes in bf86d2e3
+950a987ff 2021-08-11 Jasem Mutlaq         Set solver profile when it changes in options otherwise it will not be picked up by Ekos in the current session
+3001752d9 2021-08-11 Jasem Mutlaq         Reset image data before loading a new image in align view so that the new image is assigned after loading is done. This fixes an issue with loadands..
+4cce79ae2 2021-08-11 Jasem Mutlaq         Since actual devices in an observatory can take a while to startup unlike simulators, their ready signal could have been already emitted before the ..
+adbbb7e5d 2021-08-10 Jasem Mutlaq         Emit newModule() as early as possible to help against a race condition in scheduler whereas it is waiting for ready signal to be emitted by the modu..
+0bc9ee02a 2021-08-10 Jasem Mutlaq         Only register observatory module once
+89a437dc3 2021-08-10 Valentin Boettcher   fix performance for loading thumbnails
+5d0c6e1b9 2021-08-10 Jasem Mutlaq         Do not change camera while it is capturing
+218953bef 2021-08-10 Jasem Mutlaq         Fix connection, supposed to go to manager updateCurrentHFR
+c2fc4976e 2021-08-10 Jasem Mutlaq         Mark test as unstable
+1474aa3c5 2021-08-10 Wolfgang Reissenberger Move focuser back to initial position when interrupted by a meridian flip
+24efced5f 2021-08-06 Jasem Mutlaq         Fix build on Windows. Migrate to use more #pragma once for header files
+4038931f6 2021-08-06 Valentin Boettcher   increase search radius for right click
+f74b03f24 2021-08-06 Valentin Boettcher   resize catalog table headers to fit contents
+102f7a5cd 2021-08-06 Jasem Mutlaq         Minor code readability improvements
+2c71e7c0b 2021-08-06 Valentin Boettcher   use type aliases for the dso db return types
+6494258cd 2021-08-06 Yuri Chornoivan      i18n fixes
+a8638e0c7 2021-08-06 Jasem Mutlaq         HiPS finder to generate images for offline storage
+cb31b5082 2021-08-05 Valentin Boettcher   Skycomp import
+4834e3cc5 2021-08-04 Jasem Mutlaq         No need to say USE in checkbox
+c8dd0be67 2021-08-04 Jasem Mutlaq         INDI driver sync
+be7624ae2 2021-08-03 Wolfgang Reissenberger Tests for capture workflow
+c30ce7d73 2021-08-01 Yuri Chornoivan      Give a meaningful title to the color editor dialog
+ca5028200 2021-08-01 Hy Murveit           Add horizon altitude constraints to the scheduler. Add testing.  Improve dbus...
+6c2e034b0 2021-07-31 Valentin Boettcher   Add catalog color to the docs
+566e2d802 2021-07-31 Valentin Boettcher   add color database tests
+f1e2df5d5 2021-07-31 Valentin Boettcher   correct empty default
+9df332bef 2021-07-29 Valentin Boettcher   remove gruft from tests
+a161d52c1 2021-07-29 Valentin Boettcher   test and fix color string parsing and dumping
+ab6621fd3 2021-07-29 Valentin Boettcher   remove a stray qdebug
+8af6d816e 2021-07-27 Valentin Boettcher   implement color selection for catalog edit form
+877959efe 2021-07-27 Valentin Boettcher   move more functionality into the color editor
+6a6c41ffc 2021-07-27 Valentin Boettcher   better contrast
+c837e36f3 2021-07-27 Valentin Boettcher   identify color scheme by filename
+8b41724c2 2021-07-26 Valentin Boettcher   accept cancellation
+2a48f640f 2021-07-26 Valentin Boettcher   add ui for color selection
+dbb0cc3f1 2021-07-26 Valentin Boettcher   record color scheme names and files globally
+635944f64 2021-07-26 Valentin Boettcher   improve the docstring
+f657e5509 2021-07-26 Valentin Boettcher   basic color support
+2e5557e56 2021-07-27 Valentin Boettcher   fix dso_db_path to give the correct path with a slash
+036ddb348 2021-07-26 Valentin Boettcher   implement basic colors table
+bf86d2e37 2021-07-31 Akarsh Simha         Fix core computations in SkyPoint and StarObject, and a few other improvements.
+8cda1153a 2021-07-28 Jasem Mutlaq         Disable RunTimeLocation test as it keeps failing on OpenSUSE and FreeBSD. Fixes #124
+5e603e92b 2021-07-28 Yuri Chornoivan      Better sectionning for translation
+7d353e717 2021-07-28 Jasem Mutlaq         Add more information on why this particular test keeps failing
+d7f39cd83 2021-07-28 Akarsh Simha         "Batch add" option in the Observation Planner
+d6dc1f193 2021-07-27 Valentin Boettcher   fix dso_db_path to give the correct path with a slash
+d53eab53d 2021-07-27 Akarsh Simha         Expose the internet-based name resolver via DBus
+9e0ea7d34 2021-07-27 Jasem Mutlaq         Merge branch 'bellaperez/kstars-bellaperez/Documentation'
+8db2bdc19 2021-07-26 Antoni Bella Pérez   Merge branch 'bellaperez/Documentation' of invent.kde.org:bellaperez/kstars into bellaperez/Documentation
+7991d68f6 2021-07-26 Antoni Bella Pérez   Lastest changes
+5e04da0d1 2021-07-25 Antoni Bella Pérez   More revision with items reordered
+a3f149e7b 2021-07-25 Antoni Bella Pérez   Make it more visual adding some GUI icons
+01c3799a1 2021-07-25 Antoni Bella Pérez   Rename other screenshot
+a9caf514f 2021-07-25 Antoni Bella Pérez   Suitable screenshots rename
+2ad58f678 2021-07-26 Antoni Bella Pérez   squash 85566b790 Suitable screenshots rename squash e3db55aad Rename other screenshot squash 93b8cf57c Make it more visual adding some GUI icons squ..
+777aa42d0 2021-07-25 Antoni Bella Pérez   Add menu items and suitable tags
+f7f0b1e31 2021-07-23 Antoni Bella Pérez   Renew screenshots
+cd784a2e0 2021-07-23 Antoni Bella Pérez   Documentation updates  * Review all items
+dacce8c08 2021-07-26 Antoni Bella Pérez   Lastest changes
+182a80854 2021-07-26 Valentin Boettcher   qAppName is not known until runtime
+2c995dc3e 2021-07-26 Jasem Mutlaq         Disable port selector for the guide test
+496360a48 2021-07-25 Antoni Bella Pérez   l10n: Punctuation and capitalize
+6beac9288 2021-07-25 Antoni Bella Pérez   More revision with items reordered
+93b8cf57c 2021-07-25 Antoni Bella Pérez   Make it more visual adding some GUI icons
+e3db55aad 2021-07-25 Antoni Bella Pérez   Rename other screenshot
+85566b790 2021-07-25 Antoni Bella Pérez   Suitable screenshots rename
+ed9b97671 2021-07-25 Antoni Bella Pérez   Merge branch 'bellaperez/Documentation' of invent.kde.org:bellaperez/kstars into bellaperez/Documentation
+8737aa63c 2021-07-25 Antoni Bella Pérez   Merge branch 'master' of invent.kde.org:education/kstars into bellaperez/Documentation
+449fe8727 2021-07-25 Antoni Bella Pérez   Add menu items and suitable tags
+438eb08b2 2021-07-23 Antoni Bella Pérez   Renew screenshots
+1b4d80d2c 2021-07-23 Antoni Bella Pérez   Documentation updates  * Review all items
+5b1914466 2021-07-24 Hy Murveit           Restore the HFR etc statistics.
+55c620a70 2021-07-23 Antoni Bella Pérez   Renew screenshots
+d213c3a62 2021-07-23 Antoni Bella Pérez   Documentation updates  * Review all items
+6123fa93e 2021-07-22 Yuri Chornoivan      Fix minor typos
+0884643e5 2021-07-21 Jasem Mutlaq         Label KSPath test as unstable since it fails on CI
+c3d580cc4 2021-07-21 Hy Murveit           Refactor scheduler, use just one timer, add unit testing.
+d101568ac 2021-07-21 Valentin Boettcher   fix the object counts in the observation wizard
+a3c2303b5 2021-07-20 Wolfgang Reissenberger Bugfix for guiding target plot showing mirrored plots
+aaaa1feb1 2021-07-21 Antoni Bella Pérez   GUI l10n fixes
+13834ad30 2021-07-19 Wolfgang Reissenberger Bugfix shared pointers in capture count widget
+fae50b500 2021-07-19 Jasem Mutlaq         Use timer based approach to show the port selector
+8ba923311 2021-07-19 Jasem Mutlaq         Toggle profile port selector
+b9f35b78e 2021-07-17 Wolfgang Reissenberger Fixed compiler warnings
+48e46ce61 2021-07-18 Jasem Mutlaq         Bring back auto dark in capture module
+d4da61ef8 2021-07-18 Jasem Mutlaq         Sort by master dark capture date
+fb73702b1 2021-07-17 Jasem Mutlaq         Do not call WCS dependent functions without WCSLIB
+9ccf1f5bd 2021-07-17 Jasem Mutlaq         Remove unnecessary reset in sequence job that was only used to reset batch mode
+9c5028c10 2021-07-17 Jasem Mutlaq         Do not allow histogram width to be zero
+adaf4ec88 2021-07-10 Jarno Paananen       Remove precalculated pixel-to-WCS lookup table which takes huge amounts of memory (two floats per pixel) and slows down image loading in favor of ca..
+08b13460a 2021-07-14 Valentin Boettcher   update bundled openngc
+0386e1a21 2021-07-14 Valentin Boettcher   hack to make sorting work
+4f10d59fc 2021-07-14 Valentin Boettcher   find objects by wildcard to avoid wrong objects showing up
+0771fd970 2021-07-10 Valentin Boettcher   move the prefix definition where it belongs
+e476d439b 2021-07-10 Valentin Boettcher   remove accidental double pasting
+5f7848af1 2021-07-10 Valentin Boettcher   restore catalog exploration to what's interesting
+35a7e0f72 2021-07-09 Valentin Boettcher   clean up indentation in wiview.qml
+ddd9f67a3 2021-07-14 Wolfgang Reissenberger Manager refactoring | re-usable widgets extracted
+0be6e85a8 2021-07-14 Jasem Mutlaq         Use a smarter method to show the port selector dialog
+45c9695b8 2021-07-14 Yuri Chornoivan      Fix minor typos
+679497898 2021-07-14 Yuri Chornoivan      Fix typo, optimize docbook parsing for translation
+e262e2688 2021-07-14 Jasem Mutlaq         New Profile Port Selector
+93c6f30f7 2021-07-13 Nicolás Alvarez      Don't auto-retry GitLab CI jobs
+53e62ce5b 2021-07-13 Valentin Boettcher   fix doc issues discovered by checkxml5
+a38047c8d 2021-07-13 Valentin Boettcher   Dso docs
+8908f69b0 2021-07-13 Jasem Mutlaq         When Ekos resets, release dark library
+cae45d2eb 2021-07-12 Valentin Boettcher   generic data location to app data location
+01b134b3c 2021-07-11 Valentin Boettcher   change usage of writableLocation in texturemanager
+7d4ed9361 2021-07-11 Jasem Mutlaq         In capture and solve if image data is missing, assign from view
+e768088e7 2021-07-10 Jarno Paananen       Remove templating from rescale function as the template type is not used for anything (anymore?). Also fix a typo in "hasDebyaer".
+249350d35 2021-07-09 Valentin Boettcher   pre populate the search dialog with the brightest objects
+b661673a8 2021-07-09 Jasem Mutlaq         Many functions still depend on FITSView loading the image fully when when the FITSData is emitted. Such functions should be gradually moved to separ..
+772298d80 2021-07-08 Jasem Mutlaq         Remove underscore from target name when setting FITS_OBJECT
+74c9563e5 2021-07-07 Simone Tisa          Improve randomness of non guiding dithering
+1da63e84b 2021-07-07 Alexis Lopez Zubieta Fix/appimage
+563c5f336 2021-07-07 Eric Dejouhanet      Hotfix for the twilight restriction
+68cd35cad 2021-07-07 Dušan Poizl          Stable alphabetical INDI device order
+d71333ad1 2021-07-07 Eric Dejouhanet      Rewrite KSPaths::writableLocation to give test their own environment.
+a320f01e5 2021-07-07 Jasem Mutlaq         Mount QML changes caused crash on raspberry pi perhaps due to language issue in variable subsutiion. Have a workaround now for this to work
+addb57755 2021-07-06 Siyu Zhang           Control Mount with arrow keys
+c2b40918d 2021-07-02 Jasem Mutlaq         Move away from FITSView and try to use FITSData directly in order to decouple the data processing from GUI
+d130fa950 2021-06-26 Nate Graham          Add shortcuts for increasing and decreasing the time scale
+4c1ebb5f4 2021-07-06 Jasem Mutlaq         kdoctools-dev --> libkf5doctools-dev starting from Ubuntu 21.04
+e48bd5e95 2021-07-06 Jasem Mutlaq         Starting 3.5.5 development cycle
+fcedf7bb6 2021-07-06 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+5a05e1009 2021-07-06 Jasem Mutlaq         Update XML types for more direct access to variables by external programs
+4283b82ef 2021-07-06 Jasem Mutlaq         Use fully qualified name for CommunicationStatus so that external programs do not cause QMetaType errors
+50c6a3242 2021-07-05 Valentin Boettcher   the download dialog should belong to kstars
+94ad6adce 2021-07-05 Valentin Boettcher   fix the date conversion in pykstars and add catalog meta update
+5149471e2 2021-07-04 Valentin Boettcher   nicer backup filename
+5f9e33bda 2021-07-04 Valentin Boettcher   backup dso db
+86ac115a8 2021-07-02 Valentin Boettcher   only lesser versions are a problem
+d7d5a5c6f 2021-07-02 Valentin Boettcher   test reading timestamps
+78ed73fe1 2021-07-02 Valentin Boettcher   fix i18n typo
+6fc38b301 2021-07-02 Valentin Boettcher   implement migration for reading meta
+571324d0c 2021-07-02 Valentin Boettcher   add migration to import
+65cfd5699 2021-07-02 Valentin Boettcher   add timestamp support to pykstars
+bba1e308c 2021-07-02 Valentin Boettcher   update test db
+e3959205a 2021-07-02 Valentin Boettcher   add timestamp field to catalog and a migration to update the db
+56f732cb8 2021-07-03 Jasem Mutlaq         Prepare for 3.5.4 stable release
+3fe7f5941 2021-07-03 Valentin Boettcher   show notice about the knewstuff bug
+
 3.5.4 (Gera):
 
 7498a113d 2021-07-03 Valentin Boettcher   clear texture cache before reloading the deeps sky, cache not found
