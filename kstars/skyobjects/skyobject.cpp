@@ -162,10 +162,10 @@ QTime SkyObject::riseSetTimeUT(const KStarsDateTime &dt, const GeoLocation *geo,
     {
         dt0 = dt0.addDays(-1);
     }
-    //    else if (!riseT && dt0 < dt)
-    //    {
-    //        dt0 = dt0.addDays(1);
-    //    }
+    else if (!riseT && dt0 < dt)
+    {
+        dt0 = dt0.addDays(1);
+    }
 
     SkyPoint sp = recomputeCoords(dt0, geo);
     UT          = auxRiseSetTimeUT(dt0, geo, &sp.ra(), &sp.dec(), riseT);
