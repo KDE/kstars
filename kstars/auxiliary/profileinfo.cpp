@@ -119,6 +119,7 @@ QJsonObject ProfileInfo::toJson() const
     {
         {"name", name},
         {"auto_connect", autoConnect},
+        {"port_selector", portSelector},
         {"mode", host.isEmpty() ? "local" : "remote"},
         {"remote_host", host},
         {"remote_port", port},
