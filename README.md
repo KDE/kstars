@@ -218,6 +218,9 @@ Rebasing is updating your version of KStars and your particular changes to make 
 e.g. reflect changes to the codebase made after you cloned or updated your own KStars copy. This is a significant topic
 you can Google, but the following instructions work most of the time.
 
+Note that this is done before you create your merge request, when you are the only one seeing your code changes. 
+Once you have started your merge request, your code is "public" and instead of rebasing, you should follow the merge procedure below.
+
 ```
 cd ~/Projects/kstars
 git checkout master
@@ -229,6 +232,28 @@ git push origin YOUR_BRANCH_NAME -f
 ```
 
 If there are complications with the rebase, git will make suggestions on how to correct the issues.
+
+**Merging others' changes.** Once you submit a merge request, your code can be seen (and edited) by
+others. At this point, though you still may need to update to the latest KStars version, rebasing destroys
+change information and can overwrite what others are doing. Instead it is best to 'merge' in the current 
+version of KStars into your code.
+
+```
+cd ~/Projects/kstars
+git checkout master
+git pull upstream master  # Get the master from the main KStars repo onto your local clone
+git push origin master    # Then push your updated local clone into your forked repo
+git checkout YOUR_BRANCH_NAME
+git merge master
+git push origin YOUR_BRANCH_NAME 
+```
+
+The differences from the rebase section are the last 2 commands: 'git merge master' is used instead of 'git rebase master'.
+Also the 'git push' doesn't use the -f option. The first time you run the 'git push',
+you may be asked by git to add 'set-upstream origin' to the command. In that case, follow those instructions.
+
+If you follow this procedure, you will find a new 'merge commit' added to your branch's git log.
+
 
 **Your next change**. Once your Merge Request is complete (and possibly integrated into KStars), you may wish to move on and develop again.
 The next change will use another (new) feature branch, and the first feature branch could be deleted.
