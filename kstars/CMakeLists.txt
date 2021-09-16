@@ -1302,13 +1302,21 @@ if(APPLE)
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/dbus"
         DESTINATION "${KSTARS_APP}/Contents/Plugins/")
     find_program(DBUS_SEND dbus-send PATHS ${PATHS})
-    file(COPY
+    if(NOT DBUS_SEND)
+        message(WARNING "DBUS Send program not found in Path, DBUS, KStars Scripting, and the Scheduler won't work without it.")
+    else(NOT DBUS_SEND)
+    	file(COPY
             "${DBUS_SEND}"
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    endif(NOT DBUS_SEND)
     find_program(DBUS_DAEMON dbus-daemon PATHS ${PATHS})
-    file(COPY
+    if(NOT DBUS_DAEMON)
+        message(WARNING "DBUS Daemon program not found in Path, DBUS, KStars Scripting, and the Scheduler won't work without it.")
+    else(NOT DBUS_DAEMON)
+    	file(COPY
             "${DBUS_DAEMON}"
-            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")    
+    endif(NOT DBUS_DAEMON)
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
