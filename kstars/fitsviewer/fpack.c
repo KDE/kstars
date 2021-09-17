@@ -1,8 +1,11 @@
-/* FPACK
- * R. Seaman, NOAO, with a few enhancements by W. Pence, HEASARC
- *
- * Calls fits_img_compress in the CFITSIO library by W. Pence, HEASARC
- */
+/*
+    SPDX-FileCopyrightText: William D. Pence <https://heasarc.gsfc.nasa.gov/fitsio/>
+    SPDX-FileCopyrightText: R. Seaman
+
+    SPDX-License-Identifier: LicenseRef-NASA-FV-License-Agreement
+
+    Calls fits_img_compress in the CFITSIO library by W. Pence, HEASARC
+*/
 
 #include <ctype.h>
 /* #include <signal.h> */

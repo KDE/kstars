@@ -1,5 +1,8 @@
 /* FPACK utility routines
-   R. Seaman, NOAO & W. Pence, NASA/GSFC
+    SPDX-FileCopyrightText: William D. Pence <https://heasarc.gsfc.nasa.gov/fitsio/>
+    SPDX-FileCopyrightText: R. Seaman
+
+    SPDX-License-Identifier: LicenseRef-NASA-FV-License-Agreement
 */
 
 #include <time.h>

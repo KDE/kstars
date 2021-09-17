@@ -1,19 +1,8 @@
-/***************************************************************************
-                          ksdssimage.h  -  K Desktop Planetarium
-                             -------------------
-    begin                : Tue 05 Jan 2016 00:24:07 CST
-    copyright            : (c) 2016 by Akarsh Simha
-    email                : akarsh@kde.org
-***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Akarsh Simha <akarsh@kde.org>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #pragma once
 

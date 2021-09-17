@@ -1,19 +1,8 @@
-/***************************************************************************
-                 skymapdrawabstract.cpp  -  K Desktop Planetarium
-                             -------------------
-    begin                : Sun Mar 2 2003
-    copyright            : (C) 2001 by Jason Harris
-    email                : jharris@30doradus.org
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2001 Jason Harris <jharris@30doradus.org>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 // This file implements the class SkyMapDrawAbstract, and is almost
 // identical to the older skymapdraw.cpp file, written by Jason

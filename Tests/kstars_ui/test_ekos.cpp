@@ -1,14 +1,10 @@
 /*  KStars UI tests
-    Copyright (C) 2018, 2020
-    Csaba Kertesz <csaba.kertesz@gmail.com>
-    Jasem Mutlaq <knro@ikarustech.com>
-    Eric Dejouhanet <eric.dejouhanet@gmail.com>
+    SPDX-FileCopyrightText: 2018, 2020 Csaba Kertesz <csaba.kertesz@gmail.com>
+    SPDX-FileCopyrightText: Jasem Mutlaq <knro@ikarustech.com>
+    SPDX-FileCopyrightText: Eric Dejouhanet <eric.dejouhanet@gmail.com>
 
-    This application is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
- */
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "test_ekos.h"
 

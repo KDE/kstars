@@ -10,32 +10,13 @@
 #  INDI_CLIENT_LIBRARIES - Link to these to build INDI clients
 #  INDI_CLIENT_QT_LIBRARIES - Link to these to build INDI clients with Qt5 backend
 #  INDI_CLIENT_ANDROID_LIBRARIES - Link to these to build INDI clients with Qt5 backend on Android
-# Copyright (c) 2012-2017, Jasem Mutlaq <mutlaqja@ikarustech.com>
-# Copyright (c) 2012, Pino Toscano <pino@kde.org>
-# Based on FindLibfacile by Carsten Niehaus, <cniehaus@gmx.de>
+# SPDX-FileCopyrightText: 2012-2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
+# SPDX-FileCopyrightText: 2012 Pino Toscano <pino@kde.org>
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Based on FindLibfacile:
+# SPDX-FileCopyrightText: Carsten Niehaus, <cniehaus@gmx.de>
 #
-# 1. Redistributions of source code must retain the copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-# 3. The name of the author may not be used to endorse or promote products
-#    derived from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
-# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# SPDX-License-Identifier: BSD-3-Clause
 
 macro(_INDI_check_version)
     file(READ "${INDI_INCLUDE_DIR}/indiapi.h" _INDI_version_header)

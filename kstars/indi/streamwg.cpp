@@ -1,13 +1,10 @@
-/*  Stream Widget
-    Copyright (C) 2003 Jasem Mutlaq (mutlaqja@ikarustech.com)
+/*
+    SPDX-FileCopyrightText: 2003 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-    This application is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+    SPDX-License-Identifier: GPL-2.0-or-later
 
     2004-03-16: A class to handle video streaming.
- */
+*/
 
 #include "streamwg.h"
 

@@ -1,11 +1,11 @@
 /*
-  File: SkipList.C
-  Author: Bruno Grossniklaus, 13.11.97
-  Mod:    Gyorgy Fekete, Oct-09-2002
-  Version: 1.0
-  History:
-  Nov-13-1997; Gro; Version 1.0
-  Oct-09-2002; JHU; Version 1.1
+    File: SkipList.C
+    Author: Bruno Grossniklaus, 13.11.97
+    Mod:    Gyorgy Fekete, Oct-09-2002
+    Version: 1.0
+    History:
+    Nov-13-1997; Gro; Version 1.0
+    Oct-09-2002; JHU; Version 1.1
 
 */
 

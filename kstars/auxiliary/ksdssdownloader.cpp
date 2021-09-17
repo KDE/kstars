@@ -1,19 +1,8 @@
-/***************************************************************************
-                 ksdssdownloader.cpp  -  K Desktop Planetarium
-                             -------------------
-    begin                : Tue 05 Jan 2016 03:39:18 CST
-    copyright            : (c) 2016 by Akarsh Simha
-    email                : akarsh.simha@kdemail.net
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2016 Akarsh Simha <akarsh.simha@kdemail.net>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "ksdssdownloader.h"
 

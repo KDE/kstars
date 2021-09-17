@@ -1,9 +1,9 @@
 /*
-  File: SkipListElement.C
-  Author: Bruno Grossniklaus, 13.11.97
-  Version: 1.0
-  History:
-  13.11.97; Gro; Version 1.0
+    File: SkipListElement.C
+    Author: Bruno Grossniklaus, 13.11.97
+    Version: 1.0
+    History:
+    13.11.97; Gro; Version 1.0
 */
 
 #include <iostream> // cout

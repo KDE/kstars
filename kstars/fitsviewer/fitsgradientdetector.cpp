@@ -1,21 +1,13 @@
-/***************************************************************************
-                          fitsgradientdetector.cpp  -  FITS Image
-                             -------------------
-    begin                : Sat March 28 2020
-    copyright            : (C) 2004 by Jasem Mutlaq, (C) 2020 by Eric Dejouhanet
-    email                : eric.dejouhanet@gmail.com
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2004 Jasem Mutlaq
+    SPDX-FileCopyrightText: 2020 Eric Dejouhanet <eric.dejouhanet@gmail.com>
+    SPDX-FileCopyrightText: 2015 Gonzalo Exequiel Pedone <hipersayan.x@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Some code fragments were adapted from Peter Kirchgessner's FITS plugin*
- *   See http://members.aol.com/pkirchg for more details.                  *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later AND GPL-3.0-or-later
+
+    Some code fragments were adapted from Peter Kirchgessner's FITS plugin
+    SPDX-FileCopyrightText: Peter Kirchgessner <http://members.aol.com/pkirchg>
+*/
 
 #include <math.h>
 #include <cmath>
@@ -290,22 +282,6 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
 }
 
 /* CannyDetector, Implementation of Canny edge detector in Qt/C++.
- * Copyright (C) 2015  Gonzalo Exequiel Pedone
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- * Email   : hipersayan DOT x AT gmail DOT com
  * Web-Site: https://github.com/hipersayanX/CannyDetector
  */
 

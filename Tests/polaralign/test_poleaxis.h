@@ -1,19 +1,8 @@
-/***************************************************************************
-                     test_poleaxis.h  -  KStars Planetarium
-                             -------------------
-    begin                : Tue 27 Sep 2016 20:51:21 CDT
-    copyright            : (c) 2020 by Chris Rowland
-    email                :
-***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2020 Chris Rowland <chris.rowland@cherryfield.me.uk>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef TEST_POLEAXIS_H
 #define TEST_POLEAXIS_H

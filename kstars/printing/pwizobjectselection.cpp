@@ -1,19 +1,8 @@
-/***************************************************************************
-                          pwizobjectselection.cpp  -  K Desktop Planetarium
-                             -------------------
-    begin                : Wed Aug 3 2011
-    copyright            : (C) 2011 by Rafał Kułaga
-    email                : rl.kulaga@gmail.com
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2011 Rafał Kułaga <rl.kulaga@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #include "pwizobjectselection.h"
 #include "printingwizard.h"

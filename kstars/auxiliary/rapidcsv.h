@@ -1,15 +1,7 @@
 /*
- * rapidcsv.h
- *
- * URL:      https://github.com/d99kris/rapidcsv
- * Version:  8.51
- *
- * Copyright (C) 2017-2021 Kristofer Berggren
- * All rights reserved.
- *
- * rapidcsv is distributed under the BSD 3-Clause license, see LICENSE for details.
- *
- */
+    SPDX-FileCopyrightText: 2017-2021 Kristofer Berggren <https://github.com/d99kris/rapidcsv>
+    SPDX-License-Identifier: BSD-3-Clause
+*/
 
 #pragma once
 

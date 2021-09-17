@@ -415,8 +415,7 @@ Jasem Mutlaq <mutlaqja@ikarustech.com>
  http://adc.gsfc.nasa.gov/
 
  NGC/IC data is compiled by Christian Dersch from OpenNGC database.
- https://github.com/mattiaverga/OpenNGC
- Check LICENSE_OpenNGC for license details (CC-BY-SA-4.0)
+ https://github.com/mattiaverga/OpenNGC (CC-BY-SA-4.0 license)
 
  Supernovae data is from the Open Supernova Catalog project at https://sne.space
  Please refer to the published paper here: http://adsabs.harvard.edu/abs/2016arXiv160501054G

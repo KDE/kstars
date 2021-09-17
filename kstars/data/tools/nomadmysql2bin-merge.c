@@ -1,19 +1,8 @@
-/***************************************************************************
-   nomadmysql2bin-merge.c - Compile a single binary file from trixel dumps
-                             -------------------
-    begin                : Mon May 26 2008
-    copyright            : (C) 2008 by Akarsh Simha
-    email                : akarshsimha@gmail.com
-***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2008 Akarsh Simha <akarshsimha@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 // Use the nomadmysql2bin-split program / the shell script to create binary
 // dumps of star data by trixel. Thereafter use this program to merge the

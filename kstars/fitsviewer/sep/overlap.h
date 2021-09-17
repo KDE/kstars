@@ -1,9 +1,9 @@
 /* Licensed under a 3-clause BSD style license.
- *
- * Functions for calculating exact overlap between shapes.
- *
- * Original cython version by Thomas Robitaille. Converted to C by Kyle
- * Barbary. */
+
+    Functions for calculating exact overlap between shapes.
+
+    Original cython version by Thomas Robitaille. Converted to C by Kyle
+    Barbary.*/
 
 #pragma once
 

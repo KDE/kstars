@@ -4,7 +4,7 @@
 //#
 //#		Date:		Mar 1997
 //#
-//#		Copyright (C) 2000  Peter Z. Kunszt, Alex S. Szalay, Aniruddha R. Thakar
+//#	    SPDX-FileCopyrightText: 2000 Peter Z. Kunszt Alex S. Szalay, Aniruddha R. Thakar
 //#                     The Johns Hopkins University
 //#
 //#		Modification history:

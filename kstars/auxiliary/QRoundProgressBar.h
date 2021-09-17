@@ -1,20 +1,20 @@
 /*
- * QRoundProgressBar - a circular progress bar Qt widget.
- *
- * Sintegrial Technologies (c) 2015-now
- *
- * The software is freeware and is distributed "as is" with the complete source codes.
- * Anybody is free to use it in any software projects, either commercial or non-commercial.
- * Please do not remove this copyright message and remain the name of the author unchanged.
- *
- * It is very appreciated if you produce some feedback to us case you are going to use
- * the software.
- *
- * Please send your questions, suggestions, and information about found issues to the
- *
- * sintegrial@gmail.com
- *
- */
+    QRoundProgressBar - a circular progress bar Qt widget.
+
+    Sintegrial Technologies (c) 2015-now
+
+    The software is freeware and is distributed "as is" with the complete source codes.
+    Anybody is free to use it in any software projects, either commercial or non-commercial.
+    Please do not remove this copyright message and remain the name of the author unchanged.
+
+    It is very appreciated if you produce some feedback to us case you are going to use
+    the software.
+
+    Please send your questions, suggestions, and information about found issues to the
+
+    sintegrial@gmail.com
+
+*/
 
 #ifndef QROUNDPROGRESSBAR_H
 #define QROUNDPROGRESSBAR_H

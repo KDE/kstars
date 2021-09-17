@@ -1,6 +1,6 @@
 //# Filename: RangeConvex.cpp # # The RangeConvex # classes are
 //defined here.  # # Author: Peter Z. Kunszt based on A. Szalay's code
-//# # Date: October 23, 1998 # # Copyright (C) 2000 Peter Z. Kunszt,
+//# # Date: October 23, 1998 # # SPDX-FileCopyrightText: 2000 Peter Z. Kunszt
 //Alex S. Szalay, Aniruddha R. Thakar # The Johns Hopkins University #
 //# Modification History: # # Oct 18, 2001 : Dennis C. Dinge --
 //Replaced ValVec with std::vector

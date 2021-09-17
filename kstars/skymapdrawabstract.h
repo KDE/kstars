@@ -1,19 +1,8 @@
-/***************************************************************************
-                 skymapdrawabstract.h  -  K Desktop Planetarium
-                             -------------------
-    begin                : Mon Dec 20 2010 05:04 AM UTC-6
-    copyright            : (C) 2010 Akarsh Simha
-    email                : akarsh.simha@kdemail.net
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2010 Akarsh Simha <akarsh.simha@kdemail.net>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #ifndef SKYMAPDRAWABSTRACT_H_
 #define SKYMAPDRAWABSTRACT_H_

@@ -1,19 +1,8 @@
-/***************************************************************************
-                          constellationsart.h  -  K Desktop Planetarium
-                             -------------------
-    begin                : 2015-05-27
-    copyright            : (C) 2015 by M.S.Adityan
-    email                : msadityan@gmail.com
- ***************************************************************************/
+/*
+    SPDX-FileCopyrightText: 2015 M.S.Adityan <msadityan@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
 
 #pragma once
 

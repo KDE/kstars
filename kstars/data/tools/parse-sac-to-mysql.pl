@@ -4,8 +4,8 @@
 #
 # CAUTION: Will truncate the table supplied!
 #
-# Copyright (c) 2009 James Bowlin <bowlin@mindspring.com> and Akarsh Simha <akarsh.simha@kdemail.net>
-# Licensed under the GNU General Public License.
+# SPDX-FileCopyrightText: 2009 James Bowlin <bowlin@mindspring.com> and Akarsh Simha <akarsh.simha@kdemail.net>
+# SPDX-License-Identifier: GPL-2.0-or-later
 
 use strict;
 use DBI;

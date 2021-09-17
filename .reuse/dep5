@@ -1,0 +1,16 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: kstars
+Upstream-Contact: Jasem Mutlaq <mutlaqja@ikarustech.com>
+Source: https://invent.kde.org/education/kstars
+
+Files: kstars/libtess/*
+Copyright: 1991-2000 Silicon Graphics, Inc. All Rights Reserved.
+License: SGI-B-2.0
+
+Files: kstars/htmesh/*
+Copyright: 2000 Peter Z. Kunszt Alex S. Szalay, Aniruddha R. Thakar, The Johns Hopkins University
+License: BSD-3-Clause
+
+Files: kstars/kstarslite/res/dso/*ngc*
+Copyright: Mattia Verga <https://github.com/mattiaverga/OpenNGC>
+License: CC-BY-SA-4.0

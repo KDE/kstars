@@ -1,11 +1,8 @@
 /*  Ekos Polar Alignment Assistant Tool
-    Copyright (C) 2018-2021 by Jasem Mutlaq
-    Copyright (C) 2020-2021 by Hy Murveit
+    SPDX-FileCopyrightText: 2018-2021 Jasem Mutlaq
+    SPDX-FileCopyrightText: 2020-2021 Hy Murveit
 
-    This application is free software; you can redistribute it and/or
-    modify it under the terms of the GNU General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+    SPDX-License-Identifier: GPL-2.0-or-later
  */
 
 #pragma once
