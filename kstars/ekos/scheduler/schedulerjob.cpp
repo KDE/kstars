@@ -28,6 +28,68 @@ GeoLocation *SchedulerJob::storedGeo = nullptr;
 KStarsDateTime *SchedulerJob::storedLocalTime = nullptr;
 ArtificialHorizon *SchedulerJob::storedHorizon = nullptr;
 
+QString SchedulerJob::jobStatusString(JOBStatus state)
+{
+    switch(state)
+    {
+        case SchedulerJob::JOB_IDLE:
+            return "JOB_IDLE";
+        case SchedulerJob::JOB_EVALUATION:
+            return "JOB_EVALUATION";
+        case SchedulerJob::JOB_SCHEDULED:
+            return "JOB_SCHEDULED";
+        case SchedulerJob::JOB_BUSY:
+            return "JOB_BUSY";
+        case SchedulerJob::JOB_ERROR:
+            return "JOB_ERROR";
+        case SchedulerJob::JOB_ABORTED:
+            return "JOB_ABORTED";
+        case SchedulerJob::JOB_INVALID:
+            return "JOB_INVALID";
+        case SchedulerJob::JOB_COMPLETE:
+            return "JOB_COMPLETE";
+    }
+    return QString("????");
+}
+
+QString SchedulerJob::jobStageString(JOBStage state)
+{
+    switch(state)
+    {
+        case SchedulerJob::STAGE_IDLE:
+            return "STAGE_IDLE";
+        case SchedulerJob::STAGE_SLEWING:
+            return "STAGE_SLEWING";
+        case SchedulerJob::STAGE_SLEW_COMPLETE:
+            return "STAGE_SLEW_COMPLETE";
+        case SchedulerJob::STAGE_FOCUSING:
+            return "STAGE_FOCUSING";
+        case SchedulerJob::STAGE_FOCUS_COMPLETE:
+            return "STAGE_FOCUS_COMPLETE";
+        case SchedulerJob::STAGE_ALIGNING:
+            return "STAGE_ALIGNING";
+        case SchedulerJob::STAGE_ALIGN_COMPLETE:
+            return "STAGE_ALIGN_COMPLETE";
+        case SchedulerJob::STAGE_RESLEWING:
+            return "STAGE_RESLEWING";
+        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
+            return "STAGE_RESLEWING_COMPLETE";
+        case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
+            return "STAGE_POSTALIGN_FOCUSING";
+        case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
+            return "STAGE_POSTALIGN_FOCUSING_COMPLETE";
+        case SchedulerJob::STAGE_GUIDING:
+            return "STAGE_GUIDING";
+        case SchedulerJob::STAGE_GUIDING_COMPLETE:
+            return "STAGE_GUIDING_COMPLETE";
+        case SchedulerJob::STAGE_CAPTURING:
+            return "STAGE_CAPTURING";
+        case SchedulerJob::STAGE_COMPLETE:
+            return "STAGE_COMPLETE";
+    }
+    return QString("????");
+}
+
 SchedulerJob::SchedulerJob()
 {
     moon = dynamic_cast<KSMoon *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Moon")));

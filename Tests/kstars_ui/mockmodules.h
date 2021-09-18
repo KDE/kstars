@@ -118,10 +118,12 @@ class MockMount : public QObject
         {
             return m_ParkStatus;
         }
-        Q_INVOKABLE Q_SCRIPTABLE bool slew(double RA, double DEC)
+        Q_INVOKABLE Q_SCRIPTABLE bool slew(double RaHours, double DecDegrees)
         {
-            fprintf(stderr, "%d @@@MockMount::slew(%f,%f)\n", __LINE__, RA, DEC);
+            fprintf(stderr, "%d @@@MockMount::slew(%f,%f)\n", __LINE__, RaHours, DecDegrees);
             setStatus(ISD::Telescope::MOUNT_SLEWING);
+            lastRaHoursSlew = RaHours;
+            lastDecDegreesSlew = DecDegrees;
             return true;
         }
         Q_INVOKABLE Q_SCRIPTABLE bool abort()
@@ -166,6 +168,8 @@ class MockMount : public QObject
             emit newParkStatus(parkStatus);
         }
 
+        double lastRaHoursSlew = 0;
+        double lastDecDegreesSlew = 0;
         static const QString mockPath;
 
     signals:

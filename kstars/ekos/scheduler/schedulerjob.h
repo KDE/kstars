@@ -631,6 +631,11 @@ class SchedulerJob
              * @return Minimum allowed altitude of the target at the specific azimuth.
              */
         double getMinAltitudeConstraint(double azimuth) const;
+
+        // Convenience debugging methods.
+        static QString jobStatusString(JOBStatus status);
+        static QString jobStageString(JOBStage stage);
+
     private:
         // Private constructor for unit testing.
         SchedulerJob(KSMoon *moonPtr);

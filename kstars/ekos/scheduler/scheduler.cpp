@@ -70,68 +70,6 @@ QString timerStr(Scheduler::SchedulerTimerState state)
     return QString("????");
 }
 
-QString jobStateString(SchedulerJob::JOBStatus state)
-{
-    switch(state)
-    {
-        case SchedulerJob::JOB_IDLE:
-            return "JOB_IDLE";
-        case SchedulerJob::JOB_EVALUATION:
-            return "JOB_EVALUATION";
-        case SchedulerJob::JOB_SCHEDULED:
-            return "JOB_SCHEDULED";
-        case SchedulerJob::JOB_BUSY:
-            return "JOB_BUSY";
-        case SchedulerJob::JOB_ERROR:
-            return "JOB_ERROR";
-        case SchedulerJob::JOB_ABORTED:
-            return "JOB_ABORTED";
-        case SchedulerJob::JOB_INVALID:
-            return "JOB_INVALID";
-        case SchedulerJob::JOB_COMPLETE:
-            return "JOB_COMPLETE";
-    }
-    return QString("????");
-}
-
-QString jobStageString(SchedulerJob::JOBStage state)
-{
-    switch(state)
-    {
-        case SchedulerJob::STAGE_IDLE:
-            return "STAGE_IDLE";
-        case SchedulerJob::STAGE_SLEWING:
-            return "STAGE_SLEWING";
-        case SchedulerJob::STAGE_SLEW_COMPLETE:
-            return "STAGE_SLEW_COMPLETE";
-        case SchedulerJob::STAGE_FOCUSING:
-            return "STAGE_FOCUSING";
-        case SchedulerJob::STAGE_FOCUS_COMPLETE:
-            return "STAGE_FOCUS_COMPLETE";
-        case SchedulerJob::STAGE_ALIGNING:
-            return "STAGE_ALIGNING";
-        case SchedulerJob::STAGE_ALIGN_COMPLETE:
-            return "STAGE_ALIGN_COMPLETE";
-        case SchedulerJob::STAGE_RESLEWING:
-            return "STAGE_RESLEWING";
-        case SchedulerJob::STAGE_RESLEWING_COMPLETE:
-            return "STAGE_RESLEWING_COMPLETE";
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
-            return "STAGE_POSTALIGN_FOCUSING";
-        case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
-            return "STAGE_POSTALIGN_FOCUSING_COMPLETE";
-        case SchedulerJob::STAGE_GUIDING:
-            return "STAGE_GUIDING";
-        case SchedulerJob::STAGE_GUIDING_COMPLETE:
-            return "STAGE_GUIDING_COMPLETE";
-        case SchedulerJob::STAGE_CAPTURING:
-            return "STAGE_CAPTURING";
-        case SchedulerJob::STAGE_COMPLETE:
-            return "STAGE_COMPLETE";
-    }
-    return QString("????");
-}
-
 QString ekosStateString(Scheduler::EkosState state)
 {
     switch(state)
@@ -294,8 +232,8 @@ void Scheduler::printStates(const QString &label)
                .arg(timerStr(timerState))
                .arg(schedulerStateString(state))
                .arg((timerState == Scheduler::RUN_JOBCHECK && currentJob != nullptr) ?
-                    QString("(%1 %2)").arg(jobStateString(currentJob->getState()))
-                    .arg(jobStageString(currentJob->getStage())) : "")
+                    QString("(%1 %2)").arg(SchedulerJob::jobStatusString(currentJob->getState()))
+                    .arg(SchedulerJob::jobStageString(currentJob->getStage())) : "")
                .arg(ekosStateString(ekosState))
                .arg(indiStateString(indiState))
                .arg(startupStateString(startupState))
@@ -4567,7 +4505,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
     outstream << "<SchedulerList version='1.4'>" << endl;
     // ensure to escape special XML characters
-    outstream << "<Profile>" << QString(entityXML(strdup(schedulerProfileCombo->currentText().toStdString().c_str()))) << "</Profile>" << endl;
+    outstream << "<Profile>" << QString(entityXML(strdup(schedulerProfileCombo->currentText().toStdString().c_str()))) <<
+              "</Profile>" << endl;
 
     foreach (SchedulerJob *job, jobs)
     {

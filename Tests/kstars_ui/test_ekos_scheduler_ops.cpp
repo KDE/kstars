@@ -8,6 +8,7 @@
 
 #include "test_ekos_scheduler_ops.h"
 #include "ekos/scheduler/scheduler.h"
+#include "ekos/scheduler/schedulerjob.h"
 #include "skymapcomposite.h"
 
 #if defined(HAVE_INDI)
@@ -115,6 +116,17 @@ void TestEkosSchedulerOps::disableSkyMap()
     Options::setShowSatellites(false);
     Options::setShowHIPS(false);
     Options::setShowTerrain(false);
+}
+
+// When checking that something happens near a certain time, the tolerance of the
+// check is affected by how often the scheduler iterates. E.g. if the scheduler only
+// runs once a minute (to speed up simulation), it is unreasonable to check for 1 second
+// tolerances. This function returns the max of the tolerance passed in and 3 times
+// the scheduler's iteration period to compensate for that.
+int TestEkosSchedulerOps::timeTolerance(int seconds)
+{
+    const int tolerance = std::max(seconds, 3 * (scheduler->m_UpdatePeriodMs / 1000));
+    return tolerance;
 }
 
 // Thos tests an empty scheduler job and makes sure dbus communications
@@ -245,12 +257,12 @@ bool writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile
 }  // namespace
 
 // Runs the scheduler for a number of iterations between 1 and the arg "iterations".
-// Each iteration it  increments the simulated clock (testUTime, which is in Universal
+// Each iteration it  increments the simulated clock (currentUTime, which is in Universal
 // Time) by *sleepMs, then runs the scheduler, then calls fcn().
 // If fcn() returns true, it stops iterating and returns true.
 // It returns false if it completes all the with fnc() returning false.
 bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations,
-        int *sleepMs, KStarsDateTime* testUTime, std::function<bool ()> fcn)
+        int *sleepMs, KStarsDateTime* currentUTime, std::function<bool ()> fcn)
 {
     fprintf(stderr, "\n----------------------------------------\n");
     fprintf(stderr, "Starting iterateScheduler(%s)\n",  label.toLatin1().data());
@@ -263,8 +275,8 @@ bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations
         // I didn't reduce it, because the basic test fails to call a dbus function
         // with less than 10ms wait time.
 
-        *testUTime = testUTime->addSecs(*sleepMs / 1000.0);
-        KStarsData::Instance()->changeDateTime(*testUTime); // <-- 175ms
+        *currentUTime = currentUTime->addSecs(*sleepMs / 1000.0);
+        KStarsData::Instance()->changeDateTime(*currentUTime); // <-- 175ms
         *sleepMs = scheduler->runSchedulerIteration();
         fprintf(stderr, "current time LT %s UT %s\n",
                 KStarsData::Instance()->lt().toString().toLatin1().data(),
@@ -285,16 +297,17 @@ bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations
     return false;
 }
 
+// Sets up the scheduler in a particular location (geo) and a UTC start time.
 void TestEkosSchedulerOps::initScheduler(const GeoLocation &geo, const QDateTime &startUTime, QTemporaryDir *dir,
-        const QString &eslContents, const QString &esqContents)
+        const QVector<QString> &esls, const QVector<QString> &esqs)
 {
     KStarsData::Instance()->geo()->setLat(*(geo.lat()));
     KStarsData::Instance()->geo()->setLong(*(geo.lng()));
     // Note, the actual TZ would be -7 as there is a DST correction for these dates.
     KStarsData::Instance()->geo()->setTZ0(geo.TZ0());
 
-    KStarsDateTime testUTime(startUTime);
-    KStarsData::Instance()->changeDateTime(testUTime);
+    KStarsDateTime currentUTime(startUTime);
+    KStarsData::Instance()->changeDateTime(currentUTime);
     KStarsData::Instance()->clock()->setManualMode(true);
 
     fprintf(stderr, "Starting up with geo %.3f %.3f, local time: %s\n",
@@ -304,32 +317,47 @@ void TestEkosSchedulerOps::initScheduler(const GeoLocation &geo, const QDateTime
 
     QVERIFY(dir->isValid());
     QVERIFY(dir->autoRemove());
-    const QString eslFile = dir->filePath("test.esl");
-    const QString esqFile = dir->filePath("test.esq");
 
-    QVERIFY(writeSimpleSequenceFiles(eslContents, eslFile, esqContents, esqFile));
-    scheduler->load(true, QString("file://%1").arg(eslFile));
-    QVERIFY(scheduler->jobs.size() == 1);
-    scheduler->jobs[0]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
-    fprintf(stderr, "seq file: %s \"%s\"\n", esqFile.toLatin1().data(), QString("file://%1").arg(esqFile).toLatin1().data());
+    for (int i = 0; i < esls.size(); ++i)
+    {
+        const QString eslFile = dir->filePath(QString("test%1.esl").arg(i));
+        const QString esqFile = dir->filePath(QString("test%1.esq").arg(i));
+
+        QVERIFY(writeSimpleSequenceFiles(esls[i], eslFile, esqs[i], esqFile));
+        scheduler->load(i == 0, QString("file://%1").arg(eslFile));
+        QVERIFY(scheduler->jobs.size() == (i + 1));
+        scheduler->jobs[i]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
+        fprintf(stderr, "seq file: %s \"%s\"\n", esqFile.toLatin1().data(), QString("file://%1").arg(esqFile).toLatin1().data());
+    }
+
     scheduler->evaluateJobs(false);
-
     scheduler->init();
     QVERIFY(scheduler->timerState == Scheduler::RUN_WAKEUP);
 }
 
 void TestEkosSchedulerOps::startupJob(
     const GeoLocation &geo, const QDateTime &startUTime,
-    QTemporaryDir *dir, const QString &eslContents, const QString &esqContents,
-    const QDateTime &wakeupTime, KStarsDateTime* endTestUTime, int *endSleepMs)
+    QTemporaryDir *dir, const QString &esl, const QString &esq,
+    const QDateTime &wakeupTime, KStarsDateTime &endUTime, int &endSleepMs)
 {
-    initScheduler(geo, startUTime, dir, eslContents, esqContents);
-    KStarsDateTime testUTime(startUTime);
+    QVector<QString> esls, esqs;
+    esls.push_back(esl);
+    esqs.push_back(esq);
+    startupJobs(geo, startUTime, dir, esls, esqs, wakeupTime, endUTime, endSleepMs);
+}
+
+void TestEkosSchedulerOps::startupJobs(
+    const GeoLocation &geo, const QDateTime &startUTime,
+    QTemporaryDir *dir, const QVector<QString> &esls, const QVector<QString> &esqs,
+    const QDateTime &wakeupTime, KStarsDateTime &endUTime, int &endSleepMs)
+{
+    initScheduler(geo, startUTime, dir, esls, esqs);
+    KStarsDateTime currentUTime(startUTime);
 
     int sleepMs = 0;
 
     QVERIFY(scheduler->timerState == Scheduler::RUN_WAKEUP);
-    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
@@ -338,23 +366,24 @@ void TestEkosSchedulerOps::startupJob(
     {
         // This is the sequence when it goes to sleep, then wakes up later to start.
 
-        QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &testUTime, [&]() -> bool
+        QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &currentUTime, [&]() -> bool
         {
             return (scheduler->timerState == Scheduler::RUN_WAKEUP);
         }));
 
         // Verify that it's near the original start time.
         const qint64 delta_t = KStarsData::Instance()->ut().secsTo(startUTime);
-        QVERIFY2(std::abs(delta_t) < 60, QString("Delta to original time %1 >= 60, failing.").arg(delta_t).toLatin1());
+        QVERIFY2(std::abs(delta_t) < timeTolerance(60),
+                 QString("Delta to original time %1 too large, failing.").arg(delta_t).toLatin1());
 
-        QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &testUTime, [&]() -> bool
+        QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
         {
             return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
         }));
 
         // Verify that it wakes up at the right time, after the twilight constraint
         // and the stars rises above 30 degrees. See the time comment above.
-        QVERIFY(std::abs(KStarsData::Instance()->ut().secsTo(wakeupTime)) < 60);
+        QVERIFY(std::abs(KStarsData::Instance()->ut().secsTo(wakeupTime)) < timeTolerance(60));
     }
     else
     {
@@ -362,9 +391,10 @@ void TestEkosSchedulerOps::startupJob(
 
         // Verify that it's near the original start time.
         const qint64 delta_t = KStarsData::Instance()->ut().secsTo(startUTime);
-        QVERIFY2(std::abs(delta_t) < 60, QString("Delta to original time %1 >= 60, failing.").arg(delta_t).toLatin1());
+        QVERIFY2(std::abs(delta_t) < timeTolerance(60),
+                 QString("Delta to original time %1 too large, failing.").arg(delta_t).toLatin1());
 
-        QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &testUTime, [&]() -> bool
+        QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
         {
             return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
         }));
@@ -373,7 +403,7 @@ void TestEkosSchedulerOps::startupJob(
     // which sets Indi --> Ekos::Success,
     // and then it sends start() to Ekos which sets Ekos --> Ekos::Success
     bool sentOnce = false, readyOnce = false;
-    QVERIFY(iterateScheduler("Wait for Indi and Ekos", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Indi and Ekos", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         if ((scheduler->indiState == Scheduler::INDI_READY) &&
                 (scheduler->ekosState == Scheduler::EKOS_READY))
@@ -404,7 +434,13 @@ void TestEkosSchedulerOps::startupJob(
         return false;
     }));
 
-    QVERIFY(iterateScheduler("Wait for MountTracking", 30, &sleepMs, &testUTime, [&]() -> bool
+    endUTime = currentUTime;
+    endSleepMs = sleepMs;
+}
+
+void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleepMs)
+{
+    QVERIFY(iterateScheduler("Wait for MountTracking", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         if (mount->status() == ISD::Telescope::MOUNT_SLEWING)
             mount->setStatus(ISD::Telescope::MOUNT_TRACKING);
@@ -413,7 +449,7 @@ void TestEkosSchedulerOps::startupJob(
         return false;
     }));
 
-    QVERIFY(iterateScheduler("Wait for Focus", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Focus", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         if (focuser->status() == Ekos::FOCUS_PROGRESS)
             focuser->setStatus(Ekos::FOCUS_COMPLETE);
@@ -422,7 +458,7 @@ void TestEkosSchedulerOps::startupJob(
         return false;
     }));
 
-    QVERIFY(iterateScheduler("Wait for Align", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Align", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         if (align->status() == Ekos::ALIGN_PROGRESS)
             align->setStatus(Ekos::ALIGN_COMPLETE);
@@ -431,36 +467,59 @@ void TestEkosSchedulerOps::startupJob(
         return false;
     }));
 
-    QVERIFY(iterateScheduler("Wait for Guide", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Guide", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (guider->status() == Ekos::GUIDE_GUIDING);
     }));
     QVERIFY(guider->connected);
-    //QVERIFY(guider.calAutoStar);  // No idea why this fails, dbus msg not received?
+}
 
-    *endTestUTime = testUTime;
-    *endSleepMs = sleepMs;
+// Roughly compare the slew coordinates sent to the mount to Deneb's.
+// Rough comparison because these will have been converted to JNow.
+// Should be called after simulated slew has been completed.
+bool TestEkosSchedulerOps::checkLastSlew(const SkyObject* targetObject)
+{
+    constexpr double halfDegreeInHours = 1 / (15 * 2.0);
+    bool success = (fabs(mount->lastRaHoursSlew - targetObject->ra().Hours()) < halfDegreeInHours) &&
+                   (fabs(mount->lastDecDegreesSlew - targetObject->dec().Degrees()) < 0.5);
+    if (!success)
+        fprintf(stderr, "Expected slew RA: %f DEC: %F but got %f %f\n",
+                targetObject->ra().Hours(), targetObject->dec().Degrees(),
+                mount->lastRaHoursSlew, mount->lastDecDegreesSlew);
+    return success;
+}
+
+// Utility to print the state of the current scheduler job list.
+void TestEkosSchedulerOps::printJobs(const QString &label)
+{
+    fprintf(stderr, "%-30s: ", label.toLatin1().data());
+    for (int i = 0; i < scheduler->jobs.size(); ++i)
+    {
+        fprintf(stderr, "(%d) %s %-15s ", i, scheduler->jobs[i]->getName().toLatin1().data(),
+                SchedulerJob::jobStatusString(scheduler->jobs[i]->getState()).toLatin1().data());
+    }
+    fprintf(stderr, "\n");
 }
 
 void TestEkosSchedulerOps::initJob(const KStarsDateTime &startUTime, const KStarsDateTime &jobStartUTime)
 {
-    KStarsDateTime testUTime(startUTime);
+    KStarsDateTime currentUTime(startUTime);
     int sleepMs = 0;
 
     // wait for the scheduler select the configured job for execution
-    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
 
     // wait until the scheduler turns to the wakeup mode sleeping until the startup condition is met
-    QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for RUN_WAKEUP", 10, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_WAKEUP);
     }));
 
     // wait until the scheduler starts the job
-    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
@@ -479,14 +538,17 @@ void TestEkosSchedulerOps::initJob(const KStarsDateTime &startUTime, const KStar
 void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject *targetObject, const QDateTime &startUTime,
                                         const QDateTime &wakeupTime, bool enforceArtificialHorizon)
 {
-    KStarsDateTime testUTime;
+    KStarsDateTime currentUTime;
     int sleepMs = 0;
 
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, enforceArtificialHorizon),
-               esqContents1, wakeupTime, &testUTime, &sleepMs);
 
-    QVERIFY(iterateScheduler("Wait for Capturing", 30, &sleepMs, &testUTime, [&]() -> bool
+    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, enforceArtificialHorizon),
+               esqContents1, wakeupTime, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+    QVERIFY(checkLastSlew(targetObject));
+
+    QVERIFY(iterateScheduler("Wait for Capturing", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->currentJob != nullptr &&
                 scheduler->currentJob->getStage() == SchedulerJob::STAGE_CAPTURING);
@@ -495,11 +557,11 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
     // Tell the scheduler that capture is done.
     capture->setStatus(Ekos::CAPTURE_COMPLETE);
 
-    QVERIFY(iterateScheduler("Wait for Abort Guider", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Abort Guider", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (guider->status() == Ekos::GUIDE_ABORTED);
     }));
-    QVERIFY(iterateScheduler("Wait for Shutdown", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Shutdown", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->shutdownState == Scheduler::SHUTDOWN_COMPLETE);
     }));
@@ -508,7 +570,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
     // which will cause indi --> IDLE,
     // and then calls stop() which will cause ekos --> IDLE
     // This will cause the scheduler to shutdown.
-    QVERIFY(iterateScheduler("Wait for Scheduler Complete", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Scheduler Complete", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_NOTHING);
     }));
@@ -538,7 +600,7 @@ void TestEkosSchedulerOps::testTimeZone()
     KStarsDateTime startUTime(QDateTime(QDate(2021, 6, 13), QTime(22, 0, 0), Qt::UTC));
 
     scheduler->setUpdateInterval(5000);
-    KStarsDateTime testUTime;
+    KStarsDateTime currentUTime;
     int sleepMs = 0;
 
     // It crosses 30-degrees altitude around the same time locally, but that's
@@ -546,86 +608,124 @@ void TestEkosSchedulerOps::testTimeZone()
     const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(03, 26, 0), Qt::UTC);
     SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true),
-               esqContents1, wakeupTime, &testUTime, &sleepMs);
+    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1, wakeupTime,
+               currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+    QVERIFY(checkLastSlew(targetObject));
 }
 
 void TestEkosSchedulerOps::testDawnShutdown()
 {
+    // This test will iterate the scheduler every 40 simulated seconds (to save testing time).
+    scheduler->setUpdateInterval(40000);
+
     // At this geo/date, Dawn is calculated = .1625 of a day = 3:53am local = 10:52 UTC
     // If we started at 23:35 local time, as before, it's a little over 4 hours
     // or over 4*3600 iterations. Too many? Instead we start at 3am local.
 
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
-    QDateTime startUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC));
+    QVector<SkyObject*> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
 
-    // The time should be the pre-dawn time, which is about 3:53am
+    // We'll start the scheduler at 3am local time.
+    QDateTime startUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC));
+    // The job should start at 3:12am local time.
+    QDateTime startJobUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 12, 0), Qt::UTC));
+    // The job should be interrupted at the pre-dawn time, which is about 3:53am
     QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), Qt::UTC));
     // Consider pre-dawn security range
     preDawnUTime = preDawnUTime.addSecs(-60.0 * abs(Options::preDawnTime()));
 
-    runDawnShutdown(geo, targetObject, startUTime, preDawnUTime);
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    runUntilFirstShutdown(geo, targetObjects, startUTime, startJobUTime, preDawnUTime, currentUTime, sleepMs, dir);
+    parkAndSleep(currentUTime, sleepMs);
+
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), Qt::UTC);
+    wakeupAndRestart(restartTime, currentUTime, sleepMs);
 }
 
-void TestEkosSchedulerOps::runDawnShutdown(const GeoLocation &geo, const SkyObject *targetObject,
-        const QDateTime &startUTime, const QDateTime &preDawnUTime)
+// Set up the target objects to run in the scheduler (in the order they're given)
+// Scheduler running at location geo.
+// Start the scheduler at startSchedulerUTime.
+// Expect the first job to be interrupted at interruptUTime.
+// Expect the first job to start running at startJobUTime.
+// currentUTime and sleepMs can be set up as: KStarsDateTime currentUTime; int sleepMs = 0; and
+// their latest values are returned, if you want to continue the simulation after this call.
+// Similarly, dir is passed in so the temporary directory continues to exist for continued simulation.
+void TestEkosSchedulerOps::runUntilFirstShutdown(const GeoLocation &geo, const QVector<SkyObject*> targetObjects,
+        const QDateTime &startSchedulerUTime, const QDateTime &startJobUTime, const QDateTime &interruptUTime,
+        KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir)
 {
-    scheduler->setUpdateInterval(40000);
-    KStarsDateTime testUTime;
-    int sleepMs = 0;
-
     const QDateTime wakeupTime;  // Not valid--it starts up right away.
-    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, true, true),
-               esqContents1, wakeupTime, &testUTime, &sleepMs);
+    QVector<QString> esls, esqs;
+    for (int i = 0; i < targetObjects.size(); ++i)
+    {
+        esls.push_back(getSchedulerFile(targetObjects[i], m_startupCondition, true, true));
+        esqs.push_back(esqContents1);
+    }
+    startupJobs(geo, startSchedulerUTime, &dir, esls, esqs, wakeupTime, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+    QVERIFY(checkLastSlew(targetObjects[0]));
 
-    QVERIFY(iterateScheduler("Wait for Job Startup", 10, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Job Startup", 10, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_JOBCHECK);
     }));
 
+    double delta = KStarsData::Instance()->ut().secsTo(startJobUTime);
+    QVERIFY2(std::abs(delta) < timeTolerance(60),
+             QString("Unexpected difference to job statup time: %1 secs").arg(delta).toLocal8Bit());
+
     // We should be unparked at this point.
     QVERIFY(mount->parkStatus() == ISD::PARK_UNPARKED);
 
-    // Wait for the JOBCHECK to transition to RUN_SCHEDULER, which should
-    // happen at pre-dawn.
-    QVERIFY(iterateScheduler("Wait for Job Interruption", 700, &sleepMs, &testUTime, [&]() -> bool
+    // Wait until the job stops processing,
+    // hen scheduler state JOBCHECK changes to RUN_SCHEDULER.
+    QVERIFY(iterateScheduler("Wait for Job Interruption", 700, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
 
-    double delta = KStarsData::Instance()->ut().secsTo(preDawnUTime);
-    QVERIFY2(std::abs(delta) < 60, QString("Unexpected difference to dawn: %1 secs").arg(delta).toLocal8Bit());
+    delta = KStarsData::Instance()->ut().secsTo(interruptUTime);
+    QVERIFY2(std::abs(delta) < timeTolerance(60),
+             QString("Unexpected difference to interrupt time: %1 secs").arg(delta).toLocal8Bit());
 
     // It should start to shutdown now.
-    QVERIFY(iterateScheduler("Wait for Guide Abort", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Guide Abort", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (guider->status() == Ekos::GUIDE_ABORTED);
     }));
+}
 
-    QVERIFY(iterateScheduler("Wait for Parked", 30, &sleepMs, &testUTime, [&]() -> bool
+void TestEkosSchedulerOps::parkAndSleep(KStarsDateTime &currentUTime, int &sleepMs)
+{
+    QVERIFY(iterateScheduler("Wait for Parked", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (mount->parkStatus() == ISD::PARK_PARKED);
     }));
 
-    QVERIFY(iterateScheduler("Wait for Sleep State", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Sleep State", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_WAKEUP);
     }));
+}
 
+void TestEkosSchedulerOps::wakeupAndRestart(const QDateTime &restartTime, KStarsDateTime &currentUTime, int &sleepMs)
+{
     // Make sure it wakes up at the proper time.
-    QVERIFY(iterateScheduler("Wait for Wakeup Tomorrow", 30, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Wakeup Tomorrow", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
     }));
 
-    const QDateTime duskTime(QDate(2021, 6, 15), QTime(06, 31, 0), Qt::UTC);
-    QVERIFY(std::abs(KStarsData::Instance()->ut().secsTo(duskTime)) < 60);
+    QVERIFY(std::abs(KStarsData::Instance()->ut().secsTo(restartTime)) < timeTolerance(60));
 
     // Verify the job starts up again, and the mount is once-again unparked.
     bool readyOnce = false;
-    QVERIFY(iterateScheduler("Wait for Job Startup & Unparked", 50, &sleepMs, &testUTime, [&]() -> bool
+    QVERIFY(iterateScheduler("Wait for Job Startup & Unparked", 50, &sleepMs, &currentUTime, [&]() -> bool
     {
         if (scheduler->mountInterface != nullptr &&
                 scheduler->captureInterface != nullptr && !readyOnce)
@@ -638,7 +738,6 @@ void TestEkosSchedulerOps::runDawnShutdown(const GeoLocation &geo, const SkyObje
         return (scheduler->timerState == Scheduler::RUN_JOBCHECK &&
                 mount->parkStatus() == ISD::PARK_UNPARKED);
     }));
-
 }
 
 void TestEkosSchedulerOps::testCulminationStartup()
@@ -671,7 +770,11 @@ void TestEkosSchedulerOps::testCulminationStartup()
     KStarsDateTime const jobStartUTime = transitUT.addSecs(60 * offset);
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1);
+    QVector<QString> esqVector;
+    esqVector.push_back(esqContents1);
+    QVector<QString> eslVector;
+    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, false, true));
+    initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
 }
@@ -692,7 +795,11 @@ void TestEkosSchedulerOps::testFixedDateStartup()
 
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    initScheduler(*geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1);
+    QVector<QString> esqVector;
+    esqVector.push_back(esqContents1);
+    QVector<QString> eslVector;
+    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, false, true));
+    initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
 }
@@ -722,23 +829,24 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
     SchedulerJob::setHorizon(&horizon);
 
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
-    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
+    QVector<SkyObject*> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
     QDateTime startUTime(QDateTime(QDate(2021, 6, 13), QTime(22, 0, 0), Qt::UTC));
 
     const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(07, 27, 0), Qt::UTC);
-    runSimpleJob(geo, targetObject, startUTime, wakeupTime, true);
+    runSimpleJob(geo, targetObjects[0], startUTime, wakeupTime, true);
 
     // Uncheck enforce artificial horizon and the wakeup time should go back to it's original time,
     // even though the artificial horizon is still there and enabled.
     init(); // Reset the scheduler.
     const QDateTime originalWakeupTime(QDate(2021, 6, 14), QTime(06, 35, 0), Qt::UTC);
-    runSimpleJob(geo, targetObject, startUTime, originalWakeupTime, /* enforce artificial horizon */false);
+    runSimpleJob(geo, targetObjects[0], startUTime, originalWakeupTime, /* enforce artificial horizon */false);
 
     // Re-check enforce artificial horizon, but remove the constraint, and the wakeup time also goes back to it's original time.
     init(); // Reset the scheduler.
     ArtificialHorizon emptyHorizon;
     SchedulerJob::setHorizon(&emptyHorizon);
-    runSimpleJob(geo, targetObject, startUTime, originalWakeupTime, /* enforce artificial horizon */ true);
+    runSimpleJob(geo, targetObjects[0], startUTime, originalWakeupTime, /* enforce artificial horizon */ true);
 
     // Testing that the artificial horizon constraint will end a job
     // when the altitude of the running job is below the artificial horizon at the
@@ -749,6 +857,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
     // at 3:19 local time. That's the time the azimuth reaches 175.
 
     init(); // Reset the scheduler.
+    scheduler->setUpdateInterval(40000);
     ArtificialHorizon shutdownHorizon;
     // Note, just putting a constraint at 175->180 will fail this test because Altair will
     // cross past 180 and the scheduler will want to restart it before dawn.
@@ -756,12 +865,105 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
                          QVector<double>({175, 200}), QVector<double>({70, 70}));
     SchedulerJob::setHorizon(&shutdownHorizon);
 
+    // We'll start the scheduler at 3am local time.
     startUTime = QDateTime(QDate(2021, 6, 14), QTime(10, 0, 0), Qt::UTC);
+    // The job should start at 3:12am local time.
+    QDateTime startJobUTime(QDate(2021, 6, 14), QTime(10, 12, 0), Qt::UTC);
+    // The job should be interrupted by the horizon limit, which is reached about 3:19am local.
+    QDateTime horizonStopUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 19, 0), Qt::UTC));
 
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+    runUntilFirstShutdown(geo, targetObjects, startUTime, startJobUTime, horizonStopUTime, currentUTime, sleepMs, dir);
+    parkAndSleep(currentUTime, sleepMs);
+
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), Qt::UTC);
+    wakeupAndRestart(restartTime, currentUTime, sleepMs);
+}
+
+// Similar to the above testArtificialHorizonConstraints test,
+// Schedule Altair and give it an artificial horizon constraint that will stop it at 3:19am.
+// However, here we also have a second job, Deneb, and test to see that the 2nd job will
+// start up after Altair stops and run until dawn.
+void TestEkosSchedulerOps::test2ndJobRunsAfter1stHitsAltitudeConstraint()
+{
+#ifdef TWO_JOB_TEST
+    // This test will iterate the scheduler every 40 simulated seconds (to save testing time).
+    scheduler->setUpdateInterval(40000);
+
+    // Make sure that Altair is the first job, and Deneb the 2nd.
+    // If we allowed sorting, Deneb would go first.
+    Options::setSortSchedulerJobs(false);
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    QVector<SkyObject*> targetObjects;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Deneb"));
+
+    ArtificialHorizon shutdownHorizon;
+    addHorizonConstraint(&shutdownHorizon, "h", true,
+                         QVector<double>({175, 200}), QVector<double>({70, 70}));
+    SchedulerJob::setHorizon(&shutdownHorizon);
+
+    // Start the scheduler in the afternoon, about 3pm local.
+    const QDateTime startUTime = QDateTime(QDate(2021, 6, 13), QTime(20, 0, 0), Qt::UTC);
+    // The first job should actually start at 11:45pm local.
+    QDateTime startJobUTime(QDateTime(QDate(2021, 6, 14), QTime(6, 45, 0), Qt::UTC));
     // Set the stop interrupt time at 3:19am local.
     QDateTime horizonStopUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 19, 0), Qt::UTC));
 
-    runDawnShutdown(geo, targetObject, startUTime, horizonStopUTime);
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    runUntilFirstShutdown(geo, targetObjects, startUTime, startJobUTime, horizonStopUTime, currentUTime, sleepMs, dir);
+
+    // Now we should see the Deneb job startup.
+
+    QVERIFY(iterateScheduler("Wait for MountSlewing", 30, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        if (mount->status() == ISD::Telescope::MOUNT_SLEWING)
+            return true;
+        return false;
+    }));
+    mount->setStatus(ISD::Telescope::MOUNT_TRACKING);
+
+    // All the modules should be active.
+    startModules(currentUTime, sleepMs);
+
+    // Make sure the 2nd slew was to Deneb.
+    QVERIFY(checkLastSlew(targetObjects[1]));
+
+    // Wait for the Deneb job to run.
+    QVERIFY(iterateScheduler("Wait for Job Startup", 10, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (scheduler->timerState == Scheduler::RUN_JOBCHECK);
+    }));
+
+    // This should run through dawn.
+    // The time should be the pre-dawn time, which is about 3:53am
+    QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), Qt::UTC));
+    // Consider pre-dawn security range
+    preDawnUTime = preDawnUTime.addSecs(-60.0 * abs(Options::preDawnTime()));
+
+    QVERIFY(iterateScheduler("Wait for Guide Abort", 1000, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        return (guider->status() == Ekos::GUIDE_ABORTED);
+    }));
+
+    double delta = KStarsData::Instance()->ut().secsTo(preDawnUTime);
+    QVERIFY2(std::abs(delta) < timeTolerance(60), QString("Unexpected difference to dawn: %1 secs").arg(delta).toLocal8Bit());
+
+    parkAndSleep(currentUTime, sleepMs);
+
+    // Wake up tomorrow, and the first job should be scheduled and running again.
+    const QDateTime restartTime(QDate(2021, 6, 15), QTime(06, 31, 0), Qt::UTC);
+    wakeupAndRestart(restartTime, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVERIFY(checkLastSlew(targetObjects[0]));
+#endif
 }
 
 void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QString> targetList)
