@@ -12,6 +12,7 @@
 #include "fitsviewer/fitscommon.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsviewer.h"
+#include "ekos/capture/placeholderpath.h"
 
 #include <QStringList>
 #include <QPointer>
@@ -231,14 +232,13 @@ class CCD : public DeviceDecorator
         {
             seqPrefix = preFix;
         }
+        void setPlaceholderPath(Ekos::PlaceholderPath php) {
+            placeholderPath = php;
+        }
         void setNextSequenceID(int count)
         {
             nextSequenceID = count;
         }
-        //        void setFilter(const QString &newFilter)
-        //        {
-        //            filter = newFilter;
-        //        }
 
         // Gain controls
         bool hasGain()
@@ -314,10 +314,6 @@ class CCD : public DeviceDecorator
         bool setFITSHeader(const QMap<QString, QString> &values);
 
         CCDChip *getChip(CCDChip::ChipType cType);
-        void setFITSDir(const QString &dir)
-        {
-            fitsDir = dir;
-        }
 
         TransferFormat getTargetTransferFormat() const;
         void setTargetTransferFormat(const TransferFormat &value);
@@ -365,14 +361,13 @@ class CCD : public DeviceDecorator
     private:
         void processStream(IBLOB *bp);
         void loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data);
-        bool generateFilename(const QString &format, bool batch_mode, QString *filename);
+        bool generateFilename(bool batch_mode, QString *filename);
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
         // Creates or finds the FITSViewer.
         QPointer<FITSViewer> getFITSViewer();
         void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
-        //QString filter;
         bool ISOMode { true };
         bool HasGuideHead { false };
         bool HasCooler { false };
@@ -381,7 +376,8 @@ class CCD : public DeviceDecorator
         bool HasVideoStream { false };
         bool IsLooping { false };
         QString seqPrefix;
-        QString fitsDir;
+        Ekos::PlaceholderPath placeholderPath;
+
         int nextSequenceID { 0 };
         std::unique_ptr<StreamWG> streamWindow;
         int streamW { 0 };

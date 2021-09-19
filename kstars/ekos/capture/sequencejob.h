@@ -145,13 +145,13 @@ class SequenceJob : public QObject
         int getCurrentFilter() const;
         void setCurrentFilter(int value);
 
-        const QString &getFilterName()
+        const QString &getFilterName() const
         {
             return filter;
         }
 
         void setFrameType(CCDFrameType type);
-        CCDFrameType getFrameType()
+        CCDFrameType getFrameType() const
         {
             return frameType;
         }
@@ -243,17 +243,26 @@ class SequenceJob : public QObject
         void setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
         void getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
 
-        bool isFilterPrefixEnabled()
+        bool isFilterPrefixEnabled() const
         {
             return filterPrefixEnabled;
         }
-        bool isExposurePrefixEnabled()
+        bool isExposurePrefixEnabled() const
         {
             return expPrefixEnabled;
         }
-        bool isTimestampPrefixEnabled()
+        bool isTimestampPrefixEnabled() const
         {
             return timeStampPrefixEnabled;
+        }
+
+        void setTargetName(QString name)
+        {
+            targetName = name;
+        }
+        QString getTargetName() const
+        {
+            return targetName;
         }
 
         double getCurrentTemperature() const;
@@ -418,6 +427,7 @@ class SequenceJob : public QObject
         bool expPrefixEnabled { false };
         bool timeStampPrefixEnabled { false };
         QString m_RawPrefix;
+        QString targetName;
 
         QString m_filename;
 

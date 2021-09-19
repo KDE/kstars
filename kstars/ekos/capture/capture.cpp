@@ -810,8 +810,6 @@ void Capture::stop(CaptureState targetState)
     //    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
-    currentCCD->setFITSDir(QString());
-
     // In case of exposure looping, let's abort
     if (currentCCD->isLooping())
         targetChip->abortExposure();
@@ -1859,6 +1857,13 @@ IPState Capture::setCaptureComplete()
         median = m_ImageData->getMedian();
         eccentricity = m_ImageData->getEccentricity();
         filename = m_ImageData->filename();
+        appendLogText(i18n("Captured %1", filename));
+        auto remainingPlaceholders = PlaceholderPath::remainingPlaceholders(filename);
+        if (remainingPlaceholders.size() > 0) {
+            appendLogText(
+                i18n("WARNING: remaining and potentially unknown placeholders %1 in %2",
+                    remainingPlaceholders.join(", "), filename));
+        }
     }
 
     m_State = CAPTURE_IMAGE_RECEIVED;
@@ -6461,10 +6466,14 @@ bool Capture::processPostCaptureCalibrationStage()
                     captureExposureN->setValue(activeJob->getExposure());
                     QString imagePrefix = activeJob->property("rawPrefix").toString();
                     auto placeholderPath = Ekos::PlaceholderPath();
+                    placeholderPath.setGenerateFilenameSettings(*activeJob);
                     placeholderPath.constructPrefix(activeJob, imagePrefix);
                     activeJob->setFullPrefix(imagePrefix);
                     seqPrefix = imagePrefix;
                     currentCCD->setSeqPrefix(imagePrefix);
+
+                    currentCCD->setISOMode(activeJob->isTimestampPrefixEnabled());
+                    currentCCD->setPlaceholderPath(placeholderPath);
 
                     currentCCD->updateUploadSettings(activeJob->getRemoteDir() + activeJob->getDirectoryPostfix());
 

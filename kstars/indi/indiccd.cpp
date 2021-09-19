@@ -26,6 +26,7 @@
 #include <KNotifications/KNotification>
 #include "ksnotification.h"
 #include <QImageReader>
+#include <QFileInfo>
 #include <QStatusBar>
 #include <QtConcurrent>
 
@@ -1355,31 +1356,15 @@ void CCD::processStream(IBLOB *bp)
     streamWindow->newFrame(bp);
 }
 
-bool CCD::generateFilename(const QString &format, bool batch_mode, QString *filename)
+bool CCD::generateFilename(bool batch_mode, QString *filename)
 {
-    QDir currentDir;
-    if (batch_mode)
-        currentDir.setPath(fitsDir.isEmpty() ? Options::fitsDir() : fitsDir);
-    else
-        currentDir.setPath(KSPaths::writableLocation(QStandardPaths::TempLocation) + "/" + qAppName());
 
-    currentDir.mkpath(".");
+    placeholderPath.generateFilename("%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3", ISOMode,
+            batch_mode, nextSequenceID, filename);
 
-    // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
-    // The timestamp is no longer ISO8601 but it should solve interoperality issues
-    // between different OS hosts
-    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-
-    if (seqPrefix.contains("_ISO8601"))
-    {
-        QString finalPrefix = seqPrefix;
-        finalPrefix.replace("ISO8601", ts);
-        *filename = currentDir.filePath(finalPrefix +
-                                        QString("_%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
-    }
-    else
-        *filename = currentDir.filePath(seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +
-                                        QString("%1%2").arg(QString::asprintf("%03d", nextSequenceID), format));
+    QDir currentDir = QFileInfo(*filename).dir();
+    if (currentDir.exists() == false)
+        QDir().mkpath(currentDir.path());
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
@@ -1545,7 +1530,7 @@ void CCD::processBLOB(IBLOB *bp)
     {
         // If either generating file name or writing the image file fails
         // then return
-        if (!generateFilename(format, targetChip->isBatchMode(), &filename) ||
+        if (!generateFilename(targetChip->isBatchMode(), &filename) ||
                 !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
             emit BLOBUpdated(nullptr);

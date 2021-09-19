@@ -363,12 +363,13 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
 {
     activeChip->setBatchMode(!preview);
 
-    if (localDirectory.isEmpty() == false)
-        activeCCD->setFITSDir(localDirectory + directoryPostfix);
-
     activeCCD->setISOMode(timeStampPrefixEnabled);
 
     activeCCD->setSeqPrefix(fullPrefix);
+
+    auto placeholderPath = Ekos::PlaceholderPath(localDirectory + "/sequence.esq");
+    placeholderPath.setGenerateFilenameSettings(*this);
+    activeCCD->setPlaceholderPath(placeholderPath);
 
     activeCCD->setUploadMode(uploadMode);
 

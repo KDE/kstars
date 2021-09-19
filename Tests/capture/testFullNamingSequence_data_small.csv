@@ -1,0 +1,1301 @@
+Exposure,Filter,Type,Prefix,RawPrefix,FilterEnabled,ExpEnabled,TimeStampEnabled,FITSDirectory,targetName,batch_mode,nextSequenceID,result
+0.00001,,,prefix,,,1,,,,1,1,^/.*/_0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,,,1,1000,^/.*/_0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,,,1,1,^/.*/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,,,1,1000,^/.*/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,,1,1,^/.*/001\.fits$
+0.1,,,prefix,,,1,,,,1,1,^/.*/_0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,,,1,1000,^/.*/_0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,,,1,1,^/.*/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,,,1,1000,^/.*/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,,,1,1,^/.*/_0_secs_001\.fits$
+,,,prefix,,,1,,,,1,1000,^/.*/_0_secs_1000\.fits$
+,,,prefix,,,1,1,,,1,1,^/.*/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,,,1,1000,^/.*/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,,1,1000,^/.*/1000\.fits$
+1.00,,,prefix,,,1,,,,1,1,^/.*/_1_secs_001\.fits$
+1.00,,,prefix,,,1,,,,1,1000,^/.*/_1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,,,1,1,^/.*/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,,,1,1000,^/.*/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,,,1,1,^/.*/Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,,,1,1000,^/.*/Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,,,1,1,^/.*/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,,,1,1000,^/.*/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,,1,1,^/.*/Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,,,1,1,^/.*/Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,,,1,1000,^/.*/Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,,,1,1,^/.*/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,,,1,1000,^/.*/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,,,1,1,^/.*/Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,,,1,1000,^/.*/Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,,,1,1,^/.*/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,,,1,1000,^/.*/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,,1,1000,^/.*/Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,,,1,1,^/.*/Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,,,1,1000,^/.*/Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,,,1,1,^/.*/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,,,1,1000,^/.*/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,,,1,1,^/.*/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,,,1,1000,^/.*/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,,,1,1,^/.*/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,,,1,1000,^/.*/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,,,1,1,^/.*/Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,,,1,1000,^/.*/Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,,,1,1,^/.*/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,,,1,1000,^/.*/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,,1,1,^/.*/Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,,,1,1,^/.*/Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,,,1,1000,^/.*/Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,,,1,1,^/.*/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,,,1,1000,^/.*/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,,,1,1,^/.*/Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,,,1,1000,^/.*/Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,,,1,1,^/.*/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,,,1,1000,^/.*/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,,1,1000,^/.*/Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,,,1,1,^/.*/Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,,,1,1000,^/.*/Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,,,1,1,^/.*/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,,,1,1000,^/.*/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,,,1,1,^/.*/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,,,1,1000,^/.*/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,,,1,1,^/.*/Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,,,1,1000,^/.*/Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,,,1,1,^/.*/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,,,1,1000,^/.*/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,,1,1,^/.*/Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,,,1,1,^/.*/Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,,,1,1000,^/.*/Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,,,1,1,^/.*/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,,,1,1000,^/.*/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,,,1,1,^/.*/Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,,,1,1000,^/.*/Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,,,1,1,^/.*/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,,,1,1000,^/.*/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,,1,1000,^/.*/Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,,,1,1,^/.*/Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,,,1,1000,^/.*/Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,,,1,1,^/.*/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,,,1,1000,^/.*/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,,,1,1,^/.*/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,,,1,1000,^/.*/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,,1,1,^/.*/Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,,1,1000,^/.*/Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,,1,1,^/.*/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,,1,1000,^/.*/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,,1,1,^/.*/Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,,1,1,^/.*/Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,,1,1000,^/.*/Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,,1,1,^/.*/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,,1,1000,^/.*/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,,,1,1,^/.*/Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,,,1,1000,^/.*/Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,,,1,1,^/.*/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,,,1,1000,^/.*/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,,1,1000,^/.*/Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,,1,1,^/.*/Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,,1,1000,^/.*/Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,,1,1,^/.*/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,,1,1000,^/.*/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,,,1,1,^/.*/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,,,1,1000,^/.*/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,,,1,1,^/.*/Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,,,1,1000,^/.*/Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,,,1,1,^/.*/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,,,1,1000,^/.*/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,,1,1,^/.*/Light_001\.fits$
+0.1,,Light,prefix,,,1,,,,1,1,^/.*/Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,,,1,1000,^/.*/Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,,,1,1,^/.*/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,,,1,1000,^/.*/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,,,1,1,^/.*/Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,,,1,1000,^/.*/Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,,,1,1,^/.*/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,,,1,1000,^/.*/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,,1,1000,^/.*/Light_1000\.fits$
+1.00,,Light,prefix,,,1,,,,1,1,^/.*/Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,,,1,1000,^/.*/Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,,,1,1,^/.*/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,,,1,1000,^/.*/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,,,1,1,^/.*/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,,,1,1000,^/.*/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,,1,1,^/.*/Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,,1,1000,^/.*/Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,,1,1,^/.*/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,,1,1000,^/.*/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,,1,1,^/.*/Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,,1,1,^/.*/Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,,1,1000,^/.*/Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,,1,1,^/.*/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,,1,1000,^/.*/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,,,1,1,^/.*/Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,,,1,1000,^/.*/Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,,,1,1,^/.*/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,,,1,1000,^/.*/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,,1,1000,^/.*/Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,,,1,1,^/.*/Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,,,1,1000,^/.*/Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,,1,1,^/.*/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,,1,1000,^/.*/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,,,1,1,^/.*/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,,,1,1000,^/.*/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,,,1,1,^/.*/_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,,,1,1000,^/.*/_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,,,1,1,^/.*/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,,,1,1000,^/.*/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,,1,1,^/.*/_sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,,,1,1,^/.*/_sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,,,1,1000,^/.*/_sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,,,1,1,^/.*/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,,,1,1000,^/.*/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,,,1,1,^/.*/_sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,,,1,1000,^/.*/_sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,,,1,1,^/.*/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,,,1,1000,^/.*/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,,1,1000,^/.*/_sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,,,1,1,^/.*/_sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,,,1,1000,^/.*/_sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,,,1,1,^/.*/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,,,1,1000,^/.*/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,,,1,1,^/.*/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,,,1,1000,^/.*/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__001\.fits$
+0.1,,,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0_secs_001\.fits$
+,,,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0_secs_1000\.fits$
+,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__1000\.fits$
+1.00,,,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,,,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_001\.fits$
+0.1,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_1000\.fits$
+1.00,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,,t a/r(g):e*~t_,1,1,^/.*/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,,t a/r(g):e*~t_,1,1000,^/.*/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/001\.fits$
+0.1,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0_secs_001\.fits$
+,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0_secs_1000\.fits$
+,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/1000\.fits$
+1.00,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_1_secs_001\.fits$
+1.00,,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_001\.fits$
+0.1,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0_secs_001\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0_secs_1000\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_1000\.fits$
+1.00,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Bias/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_001\.fits$
+0.1,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0_secs_001\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0_secs_1000\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_1000\.fits$
+1.00,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Dark/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_001\.fits$
+0.1,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0_secs_001\.fits$
+,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0_secs_1000\.fits$
+,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_1000\.fits$
+1.00,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/sobel/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_001\.fits$
+0.1,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Flat/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_001\.fits$
+0.1,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_1000\.fits$
+1.00,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_001\.fits$
+0.1,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0_secs_001\.fits$
+,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0_secs_1000\.fits$
+,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_1000\.fits$
+1.00,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_1000\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/sobel/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_001\.fits$
+0.1,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_1000\.fits$
+1.00,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,,Light,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/Light/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,,,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/001\.fits$
+0.1,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0_secs_001\.fits$
+,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0_secs_1000\.fits$
+,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,,,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/1000\.fits$
+1.00,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_1_secs_001\.fits$
+1.00,sobel,,prefix,,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_1_secs_1000\.fits$
+1.00,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0_secs_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0_secs_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__1000\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0_secs_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0_secs_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_1000\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,1,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,t_a_r_g_e_t,1,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,t_a_r_g_e_t,1,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635//sobel/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__001\.fits$
+0.1,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0_secs_001\.fits$
+,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0_secs_1000\.fits$
+,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,t_a_r_g_e_t,,,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__1000\.fits$
+1.00,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,,,prefix,t_a_r_g_e_t,,1,,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,t_a_r_g_e_t,,1,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Bias/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,t_a_r_g_e_t,,,1,/home/user/Images/NGC7635,,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Dark/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_001\.fits$
+0.1,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/sobel/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Flat/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_001\.fits$
+0.1,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_1000\.fits$
+1.00,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/sobel/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_001\.fits$
+0.1,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_1000\.fits$
+1.00,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/Light/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__001\.fits$
+0.1,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0_secs_001\.fits$
+,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0_secs_1000\.fits$
+,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__1000\.fits$
+1.00,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,sobel,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t//sobel/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__001\.fits$
+0.1,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0_secs_001\.fits$
+,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0_secs_1000\.fits$
+,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__1000\.fits$
+1.00,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,,,prefix,,,1,,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,/home/user/Images/NGC7635,t a/r(g):e*~t_,1,1000,^/home/user/Images/NGC7635/t_a_r_g_e_t/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,,,1,,,,0,1,^/tmp/kstars/_0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,,,0,1000,^/tmp/kstars/_0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,,,0,1,^/tmp/kstars/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,,,0,1000,^/tmp/kstars/_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,,0,1,^/tmp/kstars/001\.fits$
+0.1,,,prefix,,,1,,,,0,1,^/tmp/kstars/_0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,,,0,1000,^/tmp/kstars/_0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,,,0,1,^/tmp/kstars/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,,,0,1000,^/tmp/kstars/_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,,,0,1,^/tmp/kstars/_0_secs_001\.fits$
+,,,prefix,,,1,,,,0,1000,^/tmp/kstars/_0_secs_1000\.fits$
+,,,prefix,,,1,1,,,0,1,^/tmp/kstars/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,,,0,1000,^/tmp/kstars/_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,,0,1000,^/tmp/kstars/1000\.fits$
+1.00,,,prefix,,,1,,,,0,1,^/tmp/kstars/_1_secs_001\.fits$
+1.00,,,prefix,,,1,,,,0,1000,^/tmp/kstars/_1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,,,0,1,^/tmp/kstars/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,,,0,1000,^/tmp/kstars/_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,,,0,1,^/tmp/kstars/Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,,,0,1000,^/tmp/kstars/Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,,,0,1,^/tmp/kstars/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,,,0,1000,^/tmp/kstars/Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,,0,1,^/tmp/kstars/Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,,,0,1,^/tmp/kstars/Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,,,0,1000,^/tmp/kstars/Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,,,0,1,^/tmp/kstars/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,,,0,1000,^/tmp/kstars/Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,,,0,1,^/tmp/kstars/Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,,,0,1000,^/tmp/kstars/Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,,,0,1,^/tmp/kstars/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,,,0,1000,^/tmp/kstars/Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,,0,1000,^/tmp/kstars/Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,,,0,1,^/tmp/kstars/Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,,,0,1000,^/tmp/kstars/Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,,,0,1,^/tmp/kstars/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,,,0,1000,^/tmp/kstars/Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,,,0,1,^/tmp/kstars/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,,,0,1000,^/tmp/kstars/Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,,,0,1,^/tmp/kstars/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,,,0,1000,^/tmp/kstars/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,,,0,1,^/tmp/kstars/Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,,,0,1000,^/tmp/kstars/Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,,,0,1,^/tmp/kstars/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,,,0,1000,^/tmp/kstars/Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,,0,1,^/tmp/kstars/Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,,,0,1,^/tmp/kstars/Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,,,0,1000,^/tmp/kstars/Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,,,0,1,^/tmp/kstars/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,,,0,1000,^/tmp/kstars/Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,,,0,1,^/tmp/kstars/Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,,,0,1000,^/tmp/kstars/Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,,,0,1,^/tmp/kstars/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,,,0,1000,^/tmp/kstars/Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,,0,1000,^/tmp/kstars/Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,,,0,1,^/tmp/kstars/Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,,,0,1000,^/tmp/kstars/Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,,,0,1,^/tmp/kstars/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,,,0,1000,^/tmp/kstars/Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,,,0,1,^/tmp/kstars/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,,,0,1000,^/tmp/kstars/Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,,,0,1,^/tmp/kstars/Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,,,0,1000,^/tmp/kstars/Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,,,0,1,^/tmp/kstars/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,,,0,1000,^/tmp/kstars/Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,,0,1,^/tmp/kstars/Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,,,0,1,^/tmp/kstars/Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,,,0,1000,^/tmp/kstars/Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,,,0,1,^/tmp/kstars/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,,,0,1000,^/tmp/kstars/Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,,,0,1,^/tmp/kstars/Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,,,0,1000,^/tmp/kstars/Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,,,0,1,^/tmp/kstars/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,,,0,1000,^/tmp/kstars/Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,,0,1000,^/tmp/kstars/Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,,,0,1,^/tmp/kstars/Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,,,0,1000,^/tmp/kstars/Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,,,0,1,^/tmp/kstars/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,,,0,1000,^/tmp/kstars/Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,,,0,1,^/tmp/kstars/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,,,0,1000,^/tmp/kstars/Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,,0,1,^/tmp/kstars/Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,,0,1000,^/tmp/kstars/Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,,0,1,^/tmp/kstars/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,,0,1,^/tmp/kstars/Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,,0,1,^/tmp/kstars/Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,,0,1000,^/tmp/kstars/Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,,0,1,^/tmp/kstars/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,,,0,1,^/tmp/kstars/Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,,,0,1000,^/tmp/kstars/Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,,,0,1,^/tmp/kstars/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,,0,1000,^/tmp/kstars/Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,,0,1,^/tmp/kstars/Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,,0,1000,^/tmp/kstars/Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,,0,1,^/tmp/kstars/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,,,0,1,^/tmp/kstars/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,,,0,1000,^/tmp/kstars/Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,,,0,1,^/tmp/kstars/Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,,,0,1000,^/tmp/kstars/Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,,,0,1,^/tmp/kstars/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,,,0,1000,^/tmp/kstars/Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,,0,1,^/tmp/kstars/Light_001\.fits$
+0.1,,Light,prefix,,,1,,,,0,1,^/tmp/kstars/Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,,,0,1000,^/tmp/kstars/Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,,,0,1,^/tmp/kstars/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,,,0,1000,^/tmp/kstars/Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,,,0,1,^/tmp/kstars/Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,,,0,1000,^/tmp/kstars/Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,,,0,1,^/tmp/kstars/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,,,0,1000,^/tmp/kstars/Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,,0,1000,^/tmp/kstars/Light_1000\.fits$
+1.00,,Light,prefix,,,1,,,,0,1,^/tmp/kstars/Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,,,0,1000,^/tmp/kstars/Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,,,0,1,^/tmp/kstars/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,,,0,1000,^/tmp/kstars/Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,,,0,1,^/tmp/kstars/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,,,0,1000,^/tmp/kstars/Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,,0,1,^/tmp/kstars/Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,,0,1000,^/tmp/kstars/Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,,0,1,^/tmp/kstars/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,,0,1,^/tmp/kstars/Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,,0,1,^/tmp/kstars/Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,,0,1000,^/tmp/kstars/Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,,0,1,^/tmp/kstars/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,,,0,1,^/tmp/kstars/Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,,,0,1000,^/tmp/kstars/Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,,,0,1,^/tmp/kstars/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,,0,1000,^/tmp/kstars/Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,,,0,1,^/tmp/kstars/Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,,,0,1000,^/tmp/kstars/Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,,0,1,^/tmp/kstars/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,,0,1000,^/tmp/kstars/Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,,,0,1,^/tmp/kstars/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,,,0,1000,^/tmp/kstars/Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,,,0,1,^/tmp/kstars/_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,,,0,1000,^/tmp/kstars/_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,,,0,1,^/tmp/kstars/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,,,0,1000,^/tmp/kstars/_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,,0,1,^/tmp/kstars/_sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,,,0,1,^/tmp/kstars/_sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,,,0,1000,^/tmp/kstars/_sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,,,0,1,^/tmp/kstars/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,,,0,1000,^/tmp/kstars/_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,,,0,1,^/tmp/kstars/_sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,,,0,1000,^/tmp/kstars/_sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,,,0,1,^/tmp/kstars/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,,,0,1000,^/tmp/kstars/_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,,0,1000,^/tmp/kstars/_sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,,,0,1,^/tmp/kstars/_sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,,,0,1000,^/tmp/kstars/_sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,,,0,1,^/tmp/kstars/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,,,0,1000,^/tmp/kstars/_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,,,0,1,^/tmp/kstars/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,,,0,1000,^/tmp/kstars/_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0.000010_secs_001\.fits$
+0.00001,,,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0.000010_secs_1000\.fits$
+0.00001,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__001\.fits$
+0.1,,,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0.100_secs_001\.fits$
+0.1,,,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0.100_secs_1000\.fits$
+0.1,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0_secs_001\.fits$
+,,,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0_secs_1000\.fits$
+,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,,,,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__1000\.fits$
+1.00,,,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__1_secs_001\.fits$
+1.00,,,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__1_secs_1000\.fits$
+1.00,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0.000010_secs_001\.fits$
+0.00001,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0.000010_secs_1000\.fits$
+0.00001,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_001\.fits$
+0.1,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0.100_secs_001\.fits$
+0.1,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0.100_secs_1000\.fits$
+0.1,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0_secs_001\.fits$
+,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0_secs_1000\.fits$
+,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,,,,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_1000\.fits$
+1.00,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_1_secs_001\.fits$
+1.00,,Bias,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_1_secs_1000\.fits$
+1.00,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Bias,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Bias,prefix,,,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Bias,prefix,,,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Bias_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,,prefix,,,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,,prefix,,,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0.000010_secs_001\.fits$
+0.00001,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0.000010_secs_1000\.fits$
+0.00001,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_001\.fits$
+0.1,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0.100_secs_001\.fits$
+0.1,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0.100_secs_1000\.fits$
+0.1,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0_secs_001\.fits$
+,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0_secs_1000\.fits$
+,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,,,,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_1000\.fits$
+1.00,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_1_secs_001\.fits$
+1.00,,Dark,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_1_secs_1000\.fits$
+1.00,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Dark,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Dark,prefix,,,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Dark,prefix,,,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Dark_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0.000010_secs_001\.fits$
+0.00001,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0.000010_secs_1000\.fits$
+0.00001,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_001\.fits$
+0.1,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0.100_secs_001\.fits$
+0.1,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0.100_secs_1000\.fits$
+0.1,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0_secs_001\.fits$
+,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0_secs_1000\.fits$
+,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,,,,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_1000\.fits$
+1.00,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_1_secs_001\.fits$
+1.00,,Flat,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_1_secs_1000\.fits$
+1.00,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Flat,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Flat,prefix,,,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Flat,prefix,,,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.100_secs_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0_secs_001\.fits$
+,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0_secs_1000\.fits$
+,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_1_secs_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_1_secs_1000\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Flat,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Flat,prefix,,1,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Flat,prefix,,1,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Flat_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0.000010_secs_001\.fits$
+0.00001,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0.000010_secs_1000\.fits$
+0.00001,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_001\.fits$
+0.1,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0.100_secs_001\.fits$
+0.1,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0.100_secs_1000\.fits$
+0.1,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0_secs_001\.fits$
+,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0_secs_1000\.fits$
+,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,,,,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_1000\.fits$
+1.00,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_1_secs_001\.fits$
+1.00,,Light,prefix,,,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_1_secs_1000\.fits$
+1.00,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,,Light,prefix,,,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,,Light,prefix,,,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,,Light,prefix,,,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.000010_secs_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.100_secs_001\.fits$
+0.1,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.100_secs_1000\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0_secs_001\.fits$
+,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0_secs_1000\.fits$
+,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_1_secs_001\.fits$
+1.00,sobel,Light,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_1_secs_1000\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,Light,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,Light,prefix,,1,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,Light,prefix,,1,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t_Light_sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+0.00001,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0.000010_secs_001\.fits$
+0.00001,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0.000010_secs_1000\.fits$
+0.00001,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.00001,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0.000010_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_001\.fits$
+0.1,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0.100_secs_001\.fits$
+0.1,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0.100_secs_1000\.fits$
+0.1,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+0.1,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0.100_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0_secs_001\.fits$
+,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0_secs_1000\.fits$
+,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_0_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_1000\.fits$
+1.00,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_1_secs_001\.fits$
+1.00,sobel,,prefix,,1,1,,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_1_secs_1000\.fits$
+1.00,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+1.00,sobel,,prefix,,1,1,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_1_secs_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
+,sobel,,prefix,,1,,1,,t a/r(g):e*~t_,0,1,^/tmp/kstars/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_001\.fits$
+,sobel,,prefix,,1,,1,,t a/r(g):e*~t_,0,1000,^/tmp/kstars/t_a_r_g_e_t__sobel_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}_1000\.fits$
