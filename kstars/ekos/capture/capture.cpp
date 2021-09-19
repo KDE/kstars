@@ -5800,16 +5800,19 @@ IPState Capture::checkLightFrameScopeCoverOpen()
             break;
         case SOURCE_FLATCAP:
         case SOURCE_DARKCAP:
+            // Account for light box only (no dust cap)
+            if (currentLightBox && currentLightBox->isLightOn())
+            {
+                dustCapLightEnabled = false;
+                currentLightBox->SetLightEnabled(false);
+                return IPS_OK;
+            }
+
             if (currentDustCap == nullptr)
             {
                 qCWarning(KSTARS_EKOS_CAPTURE) << "Skipping flat/dark cap since it is not connected.";
                 break;
             }
-
-            //            {
-            //                appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
-            //                return IPS_ALERT;
-            //            }
 
             // If dust cap HAS light and light is ON, then turn it off.
             if (currentDustCap->hasLight() && currentDustCap->isLightOn() == true)
@@ -5944,19 +5947,19 @@ IPState Capture::checkDarkFramePendingTasks()
             break;
         case SOURCE_FLATCAP:
         case SOURCE_DARKCAP:
+            // Account for light box only (no dust cap)
+            if (currentLightBox && currentLightBox->isLightOn())
+            {
+                dustCapLightEnabled = false;
+                currentLightBox->SetLightEnabled(false);
+                return IPS_OK;
+            }
+
             if (currentDustCap == nullptr)
             {
                 qCWarning(KSTARS_EKOS_CAPTURE) << "Skipping flat/dark cap since it is not connected.";
                 break;
             }
-            // When using a cap, we need to park, if not already parked.
-            // Need to turn off light, if light exists and was on.
-            //            if (!currentDustCap)
-            //            {
-            //                appendLogText(i18n("Cap device is missing but the job requires flat or dark cap device."));
-            //                abort();
-            //                return IPS_ALERT;
-            //            }
 
             // If cap is not park, park it
             if (calibrationStage < CAL_DUSTCAP_PARKING && currentDustCap->isParked() == false)
@@ -6084,18 +6087,18 @@ IPState Capture::checkFlatFramePendingTasks()
         case SOURCE_DAWN_DUSK:
             break;
         case SOURCE_FLATCAP:
+            if (currentLightBox && currentLightBox->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                currentLightBox->SetLightEnabled(true);
+                return IPS_OK;
+            }
+
             if (currentDustCap == nullptr)
             {
                 qCWarning(KSTARS_EKOS_CAPTURE) << "Skipping flat/dark cap since it is not connected.";
                 break;
             }
-
-            //            if (!currentDustCap)
-            //            {
-            //                appendLogText(i18n("Cap device is missing but the job requires flat cap device."));
-            //                abort();
-            //                return IPS_ALERT;
-            //            }
 
             // If cap is not park, park it
             if (calibrationStage < CAL_DUSTCAP_PARKING && currentDustCap->isParked() == false)
@@ -6180,18 +6183,19 @@ IPState Capture::checkFlatFramePendingTasks()
 
 
         case SOURCE_DARKCAP:
+            if (currentLightBox && currentLightBox->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                currentLightBox->SetLightEnabled(true);
+                return IPS_OK;
+            }
+
             if (currentDustCap == nullptr)
             {
                 qCWarning(KSTARS_EKOS_CAPTURE) << "Skipping flat/dark cap since it is not connected.";
                 break;
             }
 
-            //            if (!currentDustCap)
-            //            {
-            //                appendLogText(i18n("Cap device is missing but the job requires dark cap device."));
-            //                abort();
-            //                return IPS_ALERT;
-            //            }
             // If cap is parked, unpark it since dark cap uses external light source.
             if (calibrationStage < CAL_DUSTCAP_UNPARKING && currentDustCap->isParked() == true)
             {
