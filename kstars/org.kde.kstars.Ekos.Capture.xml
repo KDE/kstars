@@ -71,6 +71,10 @@
       <arg type="s" direction="out"/>
       <arg name="id" type="i" direction="in"/>
     </method>
+    <method name="getJobFilterName">
+      <arg type="s" direction="out"/>
+      <arg name="id" type="i" direction="in"/>
+    </method>
     <method name="getJobImageProgress">
       <arg type="i" direction="out"/>
       <arg name="id" type="i" direction="in"/>
@@ -85,6 +89,10 @@
     </method>
     <method name="getJobExposureDuration">
       <arg type="d" direction="out"/>
+      <arg name="id" type="i" direction="in"/>
+    </method>
+    <method name="getJobFrameType">
+      <arg type="i" direction="out"/>
       <arg name="id" type="i" direction="in"/>
     </method>
     <method name="getProgressPercentage">

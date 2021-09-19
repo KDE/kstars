@@ -105,7 +105,9 @@ if (INDI_FOUND)
             # Capture
             ekos/capture/capture.ui
             ekos/capture/calibrationoptions.ui
+            ekos/capture/capturepreviewwidget.ui
             ekos/capture/capturecountswidget.ui
+            ekos/capture/captureprocessoverlay.ui
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
@@ -176,7 +178,9 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
+            ekos/capture/captureprocessoverlay.cpp
             ekos/capture/sequencejob.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
@@ -310,6 +314,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitshistogramview.cpp
         fitsviewer/fitshistogramcommand.cpp
         fitsviewer/fitsview.cpp
+        fitsviewer/summaryfitsview.cpp
         fitsviewer/fitsdata.cpp
         fitsviewer/fitsstardetector.cpp
         fitsviewer/fitsthresholddetector.cpp

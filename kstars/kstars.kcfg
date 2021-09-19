@@ -1539,6 +1539,12 @@
       <label>List of cameras that prefer defect map noise removal method.</label>
    </entry>
    </group>
+   <group name="Manager">
+   <entry name="UseGraphicalCountsDisplay" type="Bool">
+      <label>Use the graphical version for capture/sequence/total counting using round progress bars.</label>
+      <default>true</default>
+   </entry>
+   </group>
    <group name="Mount">
       <entry name="MinimumAltLimit" type="Double">
          <label>Default minimum mount altitude limit</label>

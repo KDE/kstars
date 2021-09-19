@@ -311,6 +311,8 @@ class FITSView : public QScrollArea
 
         double getScale();
 
+        /// Floating toolbar
+        QToolBar *floatingToolBar { nullptr };
         /// WCS Future Watcher
         QFutureWatcher<bool> wcsWatcher;
         /// FITS Future Watcher
@@ -412,8 +414,6 @@ class FITSView : public QScrollArea
         // Magenta Scope Pixmap
         QPixmap magentaScopePixmap;
 
-        // Floating toolbar
-        QToolBar *floatingToolBar { nullptr };
         QAction *centerTelescopeAction { nullptr };
         QAction *toggleEQGridAction { nullptr };
         QAction *toggleObjectsAction { nullptr };

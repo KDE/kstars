@@ -244,6 +244,12 @@ class Capture : public QWidget, public Ui::Capture
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
+             * @return Returns the job filter name.
+             */
+        Q_SCRIPTABLE QString getJobFilterName(int id);
+
+        /** DBUS interface function.
+             * @param id job number. Job IDs start from 0 to N-1.
              * @return Returns The number of images completed capture in the job.
              */
         Q_SCRIPTABLE int getJobImageProgress(int id);
@@ -265,6 +271,12 @@ class Capture : public QWidget, public Ui::Capture
              * @return Returns the total requested exposure duration in the job.
              */
         Q_SCRIPTABLE double getJobExposureDuration(int id);
+
+        /** DBUS interface function.
+             * @param id job number. Job IDs start from 0 to N-1.
+             * @return Returns the frame type (light, dark, ...) of the job.
+             */
+        Q_SCRIPTABLE CCDFrameType getJobFrameType(int id);
 
         /** DBUS interface function.
              * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.

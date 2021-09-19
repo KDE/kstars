@@ -17,6 +17,7 @@
 #include "ekos.h"
 #include "manager/focusmanager.h"
 #include "manager/guidemanager.h"
+#include "fitsviewer/summaryfitsview.h"
 #include "align/align.h"
 #include "auxiliary/dome.h"
 #include "auxiliary/weather.h"
@@ -570,7 +571,7 @@ class Manager : public QDialog, public Ui::Manager
         QTimer countdownTimer;
         QTimer settleTimer;
         // Preview Frame
-        std::unique_ptr<FITSView> summaryPreview;
+        std::unique_ptr<SummaryFITSView> summaryPreview;
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };

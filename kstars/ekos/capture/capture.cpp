@@ -4847,6 +4847,17 @@ QString Capture::getJobState(int id)
     return QString();
 }
 
+QString Capture::getJobFilterName(int id)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob * job = jobs.at(id);
+        return job->getFilterName();
+    }
+
+    return QString();
+}
+
 int Capture::getJobImageProgress(int id)
 {
     if (id < jobs.count())
@@ -4889,6 +4900,17 @@ double Capture::getJobExposureDuration(int id)
     }
 
     return -1;
+}
+
+CCDFrameType Capture::getJobFrameType(int id)
+{
+    if (id < jobs.count())
+    {
+        SequenceJob * job = jobs.at(id);
+        return job->getFrameType();
+    }
+
+    return FRAME_NONE;
 }
 
 int Capture::getJobRemainingTime(SequenceJob * job)

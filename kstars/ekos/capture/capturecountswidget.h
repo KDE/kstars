@@ -20,27 +20,66 @@ class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
 {
     Q_OBJECT
 public:
+    friend class CapturePreviewWidget;
+
     explicit CaptureCountsWidget(QWidget *parent = nullptr);
 
-    void shareCaptureProcess(Ekos::Capture *process);
-    void shareSchedulerProcess(Ekos::Scheduler *process) {schedulerProcess = process;}
-
-    void updateCaptureCountDown(int delta);
-
-    void reset();
-
 public slots:
-    void updateCaptureStatus(Ekos::CaptureState status);
-    void updateDownloadProgress(double timeLeft);
+
+    /**
+     * @brief display the progress of the current exposure (remaining time etc.)
+     * @param job currently active job
+     */
     void updateExposureProgress(Ekos::SequenceJob *job);
-    void updateCaptureProgress(Ekos::SequenceJob *job);
-    void setEnabled(bool enabled);
+
+    /**
+     * @brief display the download progress
+     * @param timeLeft time left until the download is finished
+     */
+    void updateDownloadProgress(double timeLeft);
+
 
 private:
+    void shareCaptureProcess(Ekos::Capture *process) {captureProcess = process;}
+    void shareSchedulerProcess(Ekos::Scheduler *process) {schedulerProcess = process;}
+
+    /**
+     * @brief update the count down value of the current exposure
+     * @param delta time difference
+     */
+    void updateCaptureCountDown(int delta);
+
+    /**
+     * @brief update display when the capture status changes
+     * @param status current capture status
+     */
+    void updateCaptureStatus(Ekos::CaptureState status);
+
+    /**
+     * @brief display information about the currently running job
+     * @param currently active job
+     */
+    void updateJobProgress(Ekos::SequenceJob *job);
+
+    /**
+     * @brief enable / disable display widgets
+     */
+    void setEnabled(bool enabled);
+
+    /**
+     * @brief reset display values
+     */
+    void reset();
+
+    // informations about the current frame
+    void setFrameInfo(const QString frametype, const QString filter = "", const double exptime = -1, const int xBin = -1, const int yBin = -1, const double gain = -1);
+
+
     Ekos::Scheduler *schedulerProcess = nullptr;
     Ekos::Capture *captureProcess = nullptr;
 
     QTime imageCountDown;
     QTime sequenceCountDown;
+    QTime jobCountDown;
     QTime overallCountDown;
 };

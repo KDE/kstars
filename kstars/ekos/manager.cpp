@@ -306,7 +306,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     schedulerProcess.reset(new Scheduler());
     int index = addModuleTab(EkosModule::Scheduler, schedulerProcess.get(), QIcon(":/icons/ekos_scheduler.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
-    captureCountsWidget->shareSchedulerProcess(schedulerProcess.get());
+    capturePreview->shareSchedulerProcess(schedulerProcess.get());
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
@@ -328,16 +328,14 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // FIXME
     //resize(1000,750);
 
-    summaryPreview.reset(new FITSView(previewWidget, FITS_NORMAL));
-    previewWidget->setContentsMargins(0, 0, 0, 0);
+    summaryPreview.reset(new SummaryFITSView(capturePreview->previewWidget));
     summaryPreview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    summaryPreview->setBaseSize(previewWidget->size());
+    // sterne-jaeger 2021-08-08: Do not set base size here, otherwise the zoom will be incorrect
+    // summaryPreview->setBaseSize(capturePreview->previewWidget->size());
     summaryPreview->createFloatingToolBar();
     summaryPreview->setCursorMode(FITSView::dragCursor);
-    QVBoxLayout * vlayout = new QVBoxLayout();
-    vlayout->setContentsMargins(0, 0, 0, 0);
-    vlayout->addWidget(summaryPreview.get());
-    previewWidget->setLayout(vlayout);
+    summaryPreview->showProcessInfo(false);
+    capturePreview->setSummaryFITSView(summaryPreview.get());
 
     // JM 2019-01-19: Why cloud images depend on summary preview?
     //    connect(summaryPreview.get(), &FITSView::loaded, [&]()
@@ -564,13 +562,13 @@ void Manager::reset()
     processINDIB->setEnabled(true);
 
     mountGroup->setEnabled(false);
-    captureGroup->setEnabled(false);
-    captureCountsWidget->reset();
+    capturePreview->setEnabled(false);
+    capturePreview->reset();
     mountStatus->setText(i18n("Idle"));
     mountStatus->setStyleSheet(QString());
-    captureStatus->setText(i18n("Idle"));
-    if (capturePI)
-        capturePI->stopAnimation();
+    capturePreview->captureStatus->setText(i18n("Idle"));
+    if (capturePreview->capturePI)
+        capturePreview->capturePI->stopAnimation();
     if (mountPI)
         mountPI->stopAnimation();
     focusManager->reset();
@@ -1342,7 +1340,7 @@ void Manager::deviceConnected()
         if (captureProcess.get() != nullptr)
         {
             captureProcess->setEnabled(true);
-            captureCountsWidget->setEnabled(true);
+            capturePreview->setEnabled(true);
         }
         if (focusProcess.get() != nullptr)
             focusProcess->setEnabled(true);
@@ -1483,7 +1481,7 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
     initCapture();
 
     captureProcess->setEnabled(true);
-    captureCountsWidget->setEnabled(true);
+    capturePreview->setEnabled(true);
     captureProcess->addCCD(ccdDevice);
 
     QString primaryCCD, guiderCCD;
@@ -2260,7 +2258,7 @@ void Manager::initCapture()
 
 
     captureProcess->setEnabled(false);
-    captureCountsWidget->shareCaptureProcess(captureProcess.get());
+    capturePreview->shareCaptureProcess(captureProcess.get());
     int index = addModuleTab(EkosModule::Capture, captureProcess.get(), QIcon(":/icons/ekos_ccd.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     if (Options::ekosLeftIcons())
@@ -2277,8 +2275,7 @@ void Manager::initCapture()
     connect(captureProcess.get(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureProcess.get(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
     connect(captureProcess.get(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
-    captureGroup->setEnabled(true);
-    captureCountsWidget->setEnabled(true);
+    capturePreview->setEnabled(true);
 
     captureProcess->setFilterManager(filterManager);
 
@@ -2491,6 +2488,7 @@ void Manager::initMount()
     }
 
     mountGroup->setEnabled(true);
+    capturePreview->shareMountProcess(mountProcess.get());
 
     connectModules();
 }
@@ -2976,8 +2974,7 @@ void Manager::updateMountCoords(const QString &ra, const QString &dec, const QSt
 
 void Manager::updateCaptureStatus(Ekos::CaptureState status)
 {
-    captureStatus->setText(Ekos::getCaptureStatusString(status));
-    captureCountsWidget->updateCaptureStatus(status);
+    capturePreview->updateCaptureStatus(status);
 
     switch (status)
     {
@@ -2986,9 +2983,9 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
         case Ekos::CAPTURE_ABORTED:
         /* Fall through */
         case Ekos::CAPTURE_COMPLETE:
-            if (capturePI->isAnimated())
+            if (capturePreview->capturePI->isAnimated())
             {
-                capturePI->stopAnimation();
+                capturePreview->capturePI->stopAnimation();
                 countdownTimer.stop();
 
                 if (getFocusStatusText() == "Complete")
@@ -2997,12 +2994,12 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
             break;
         default:
             if (status == Ekos::CAPTURE_CAPTURING)
-                capturePI->setColor(Qt::darkGreen);
+                capturePreview->capturePI->setColor(Qt::darkGreen);
             else
-                capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (capturePI->isAnimated() == false)
+                capturePreview->capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
+            if (capturePreview->capturePI->isAnimated() == false)
             {
-                capturePI->startAnimation();
+                capturePreview->capturePI->startAnimation();
                 countdownTimer.start();
             }
             break;
@@ -3010,9 +3007,9 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     QJsonObject cStatus =
     {
-        {"status", captureStatus->text()},
-        {"seqt", captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovt", captureCountsWidget->overallRemainingTime->text()}
+        {"status", capturePreview->captureStatus->text()},
+        {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
@@ -3020,13 +3017,13 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
 void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data)
 {
-    captureCountsWidget->updateCaptureProgress(job);
+    capturePreview->updateJobProgress(job, data);
 
     QJsonObject status =
     {
         {"seqv", job->getCompleted()},
         {"seqr", job->getCount()},
-        {"seql", captureCountsWidget->sequenceLabel->text()}
+        {"seql", capturePreview->captureCountsWidget->sequenceRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);
@@ -3039,10 +3036,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
         uuid = uuid.remove(QRegularExpression("[-{}]"));
 
         if (Options::useSummaryPreview())
-        {
-            summaryPreview->loadData(data);
             ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
-        }
         else
             ekosLiveClient.get()->media()->sendPreviewImage(data, uuid);
 
@@ -3065,12 +3059,12 @@ void Manager::updateExposureProgress(Ekos::SequenceJob * job)
 
 void Manager::updateCaptureCountDown()
 {
-    captureCountsWidget->updateCaptureCountDown(-1);
+    capturePreview->updateCaptureCountDown(-1);
 
     QJsonObject status =
     {
-        {"seqt", captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovt", captureCountsWidget->overallRemainingTime->text()}
+        {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
+        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);

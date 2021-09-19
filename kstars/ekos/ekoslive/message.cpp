@@ -1940,7 +1940,7 @@ void Message::sendStates()
     if (m_isConnected == false)
         return;
 
-    QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
+    QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatus->text()}};
     sendResponse(commands[NEW_CAPTURE_STATE], captureState);
 
     // Send capture sequence if one exists
@@ -2113,7 +2113,7 @@ void Message::sendModuleState(const QString &name)
 
     if (name == "Capture")
     {
-        QJsonObject captureState = {{ "status", m_Manager->captureStatus->text()}};
+        QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatus->text()}};
         sendResponse(commands[NEW_CAPTURE_STATE], captureState);
         sendCaptureSequence(m_Manager->captureModule()->getSequence());
     }

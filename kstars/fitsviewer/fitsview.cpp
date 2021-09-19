@@ -1819,8 +1819,6 @@ void FITSView::viewStarProfile()
 #endif
 }
 
-
-
 void FITSView::togglePixelGrid()
 {
     showPixelGrid = !showPixelGrid;
