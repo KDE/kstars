@@ -1859,10 +1859,11 @@ IPState Capture::setCaptureComplete()
         filename = m_ImageData->filename();
         appendLogText(i18n("Captured %1", filename));
         auto remainingPlaceholders = PlaceholderPath::remainingPlaceholders(filename);
-        if (remainingPlaceholders.size() > 0) {
+        if (remainingPlaceholders.size() > 0)
+        {
             appendLogText(
                 i18n("WARNING: remaining and potentially unknown placeholders %1 in %2",
-                    remainingPlaceholders.join(", "), filename));
+                     remainingPlaceholders.join(", "), filename));
         }
     }
 
@@ -4730,7 +4731,7 @@ QJsonObject Capture::getPresetSettings()
     settings.insert("camera", cameraS->currentText());
     settings.insert("fw", filterWheelS->currentText());
     settings.insert("filter", captureFilterS->currentText());
-    settings.insert("darl", darkB->isChecked());
+    settings.insert("dark", darkB->isChecked());
     settings.insert("exp", captureExposureN->value());
     settings.insert("bin", captureBinHN->value());
     settings.insert("iso", iso);
