@@ -229,10 +229,7 @@ if(BUILD_TESTING)
     # Find liberfa, which we check our computation against
     find_package(ERFA)
     MACRO_BOOL_TO_01(ERFA_FOUND HAVE_LIBERFA)
-    set_package_properties(ERFA PROPERTIES DESCRIPTION "Essential Routines for Fundamental Astronomy" URL "https://github.com/liberfa/erfa" TYPE OPTIONAL PURPOSE "BSD-compatible version of SOFA, used to test core computations of KStars (only needed by tests)")
-    if (ERFA_FOUND)
-    include_directories(${ERFA_INCLUDE_DIR})
-    endif()
+    set_package_properties(ERFA PROPERTIES TYPE OPTIONAL PURPOSE "BSD-compatible version of SOFA, used to test core computations of KStars (only needed by tests)")
 endif ()
 
 ## Libraw
