@@ -426,8 +426,16 @@ bool Guide::setCamera(const QString &device)
         {
             guiderCombo->setCurrentIndex(i);
             checkCCD(i);
+            // Set requested binning in INDIDRiver of the camera selected for guiding
+            updateCCDBin(guideBinIndex);
             return true;
         }
+    // If we choose new profile with a new guider camera it will not be found because the default
+    // camera in 'kstarscfg' is still the old one and will be updated only if we select the new one
+    // in the 'Guider'pulldown menu. So we cannnot set binning in INDIDriver. As the default binning
+    // of the new camera is mostly 1x1 binning is set to 1x1 to prevent false error report of
+    // binning support in 'processCCDNumber'.
+    guideBinIndex = 0;
 
     return false;
 }
@@ -632,17 +640,10 @@ void Guide::updateGuideParams()
         binningCombo->blockSignals(true);
 
         binningCombo->clear();
-
         for (int i = 1; i <= maxBinX; i++)
             binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+        binningCombo->setCurrentIndex(subBinX - 1);
 
-        if (useGuideHead)
-            binningCombo->setCurrentIndex(subBinX - 1);
-        else if (static_cast<int>(Options::guideBinSizeIndex() + 1) <= maxBinX)
-        {
-            subBinX = subBinY = Options::guideBinSizeIndex() + 1;
-            binningCombo->setCurrentIndex(Options::guideBinSizeIndex());
-        }
         binningCombo->blockSignals(false);
     }
 
@@ -1712,6 +1713,7 @@ void Guide::updateCCDBin(int index)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setBinning(index + 1, index + 1);
+    guideBinIndex = index;
 
     QVariantMap settings      = frameSettings[targetChip];
     settings["binx"]          = index + 1;
@@ -1721,7 +1723,7 @@ void Guide::updateCCDBin(int index)
     guider->setFrameParams(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt(),
                            settings["binx"].toInt(), settings["biny"].toInt());
 
-    saveSettings();
+    // saveSettings(); too early! Check first supported binning (see "processCCDNumber")
 }
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
@@ -1733,8 +1735,14 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
             (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead))
     {
         binningCombo->disconnect();
-        binningCombo->setCurrentIndex(nvp->np[0].value - 1);
+        if (guideBinIndex > (nvp->np[0].value - 1)) // INDI driver reports not supported binning
+        {
+             appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
+             guideBinIndex = nvp->np[0].value - 1;
+        }
+        binningCombo->setCurrentIndex(guideBinIndex);
         connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Guide::updateCCDBin);
+        saveSettings(); // Save binning (and more) immediately
     }
 }
 
@@ -2205,7 +2213,7 @@ void Guide::loadSettings()
     // Exposure
     exposureIN->setValue(Options::guideExposure());
     // Bin Size
-    binningCombo->setCurrentIndex(Options::guideBinSizeIndex());
+    guideBinIndex = Options::guideBinSizeIndex();
     // Box Size
     boxSizeCombo->setCurrentIndex(Options::guideSquareSizeIndex());
     // Effect filter

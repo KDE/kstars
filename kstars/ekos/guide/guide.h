@@ -558,8 +558,8 @@ class Guide : public QWidget, public Ui::Guide
         QVector3D starCenter;
 
         // Guide Params
-        //int guideBinIndex { 0 };
-        int guideFilterIndex { 0 };
+        int guideBinIndex { 0 };    // Selected or saved binning for guiding
+        int guideFilterIndex { 0 }; // Selected or saved filter for post-treatment
         double ccdPixelSizeX { -1 };
         double ccdPixelSizeY { -1 };
         double aperture { -1 };
