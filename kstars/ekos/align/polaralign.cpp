@@ -71,7 +71,7 @@ bool PolarAlign::prepareAzAlt(const QSharedPointer<FITSData> &image, const QPoin
 {
     // WCS must be set up for this image.
     SkyPoint coords;
-    if (image->pixelToWCS(pixel, coords))
+    if (image && image->pixelToWCS(pixel, coords))
     {
         coords.apparentCoord(static_cast<long double>(J2000), image->getDateTime().djd());
         *point = SkyPoint::timeTransformed(&coords, image->getDateTime(), geoLocation, 0);
