@@ -551,6 +551,11 @@ bool FITSViewer::updateFITSCommon(FITSTab *tab, const QUrl &imageName)
     if (tab->isVisible())
         led.setColor(Qt::green);
 
+    if (tab->shouldComputeHFR())
+        updateStatusBar(HFRStatusString(tab->getView()->imageData()), FITS_HFR);
+    else
+        updateStatusBar("", FITS_HFR);
+
     return true;
 }
 

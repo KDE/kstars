@@ -722,4 +722,9 @@ class FITSData : public QObject
         uint16_t m_HistogramBinCount { 0 };
         double m_JMIndex { 1 };
         bool m_HistogramConstructed { false };
+
+        // Cached values for hfr and eccentricity computations
+        double cacheHFR { -1 };
+        HFRType cacheHFRType { HFR_AVERAGE };
+        double cacheEccentricity { -1 };
 };

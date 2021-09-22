@@ -170,6 +170,8 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension, bool silent)
 {
     m_isTemporary = m_Filename.startsWith(getTemporaryPath());
+    cacheHFR = -1;
+    cacheEccentricity = -1;
 
     if (extension.contains("fit"))
         return loadFITSImage(buffer, extension, silent);
@@ -1697,13 +1699,11 @@ int FITSData::filterStars(const float innerRadius, const float outerRadius)
 
 double FITSData::getHFR(HFRType type)
 {
-    // This method is less susceptible to noise
-    // Get HFR for the brightest star only, instead of averaging all stars
-    // It is more consistent.
-    // TODO: Try to test this under using a real CCD.
-
     if (starCenters.empty())
         return -1;
+
+    if (cacheHFR >= 0 && cacheHFRType == type)
+        return cacheHFR;
 
     m_SelectedHFRStar = nullptr;
 
@@ -1722,7 +1722,9 @@ double FITSData::getHFR(HFRType type)
         }
 
         m_SelectedHFRStar = starCenters[maxIndex];
-        return starCenters[maxIndex]->HFR;
+        cacheHFR = starCenters[maxIndex]->HFR;
+        cacheHFRType = type;
+        return cacheHFR;
     }
     else if (type == HFR_HIGH)
     {
@@ -1740,13 +1742,18 @@ double FITSData::getHFR(HFRType type)
             return -1;
 
         m_SelectedHFRStar = starCenters[static_cast<int>(starCenters.size() * 0.05)];
-        return m_SelectedHFRStar->HFR;
+        cacheHFR = m_SelectedHFRStar->HFR;
+        cacheHFRType = type;
+        return cacheHFR;
     }
     else if (type == HFR_MEDIAN)
     {
         std::nth_element(starCenters.begin(), starCenters.begin() + starCenters.size() / 2, starCenters.end());
         m_SelectedHFRStar = starCenters[starCenters.size() / 2];
-        return m_SelectedHFRStar->HFR;
+
+        cacheHFR = m_SelectedHFRStar->HFR;
+        cacheHFRType = type;
+        return cacheHFR;
     }
 
     // We may remove saturated stars from the HFR calculation, if we have enough stars.
@@ -1798,7 +1805,9 @@ double FITSData::getHFR(HFRType type)
         if (num_remaining > 0) m = sum / num_remaining;
     }
 
-    return m;
+    cacheHFR = m;
+    cacheHFRType = HFR_AVERAGE;
+    return cacheHFR;
 }
 
 double FITSData::getHFR(int x, int y)
@@ -1823,6 +1832,8 @@ double FITSData::getEccentricity()
 {
     if (starCenters.empty())
         return -1;
+    if (cacheEccentricity >= 0)
+        return cacheEccentricity;
     std::vector<float> eccs;
     for (const auto &s : starCenters)
         eccs.push_back(s->ellipticity);
@@ -1835,6 +1846,7 @@ double FITSData::getEccentricity()
     // e = sqrt(ellipticity * (2 - ellipticity))
     // https://en.wikipedia.org/wiki/Eccentricity_(mathematics)#Ellipses
     const float eccentricity = sqrt(medianEllipticity * (2 - medianEllipticity));
+    cacheEccentricity = eccentricity;
     return eccentricity;
 }
 
