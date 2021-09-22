@@ -2926,7 +2926,7 @@ void Capture::removeJob(int index)
         return;
     }
 
-    if (index < 0)
+    if (index < 0 || index >= jobs.count())
         return;
 
 
