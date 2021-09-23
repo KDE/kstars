@@ -169,7 +169,7 @@ bool fitsOpenError(int status, const QString &message, bool silent)
 
 bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension, bool silent)
 {
-    m_isTemporary = m_Filename.startsWith(getTemporaryPath());
+    m_isTemporary = m_Filename.startsWith(KSPaths::writableLocation(QStandardPaths::TempLocation));
     cacheHFR = -1;
     cacheEccentricity = -1;
 
@@ -722,40 +722,40 @@ bool FITSData::saveImage(const QString &newFilename)
     long nelements;
     fitsfile * new_fptr;
 
-    if (HasDebayer && m_Filename.isEmpty() == false)
-    {
-        fits_flush_file(fptr, &status);
-        /* close current file */
-        if (fits_close_file(fptr, &status))
-        {
-            recordLastError(status);
-            return status;
-        }
+    //    if (HasDebayer && m_Filename.isEmpty() == false)
+    //    {
+    //        fits_flush_file(fptr, &status);
+    //        /* close current file */
+    //        if (fits_close_file(fptr, &status))
+    //        {
+    //            recordLastError(status);
+    //            return status;
+    //        }
 
-        // Skip "!" in the beginning of the new file name
-        QString finalFileName(newFilename);
+    //        // Skip "!" in the beginning of the new file name
+    //        QString finalFileName(newFilename);
 
-        finalFileName.remove('!');
+    //        finalFileName.remove('!');
 
-        // Remove first otherwise copy will fail below if file exists
-        QFile::remove(finalFileName);
+    //        // Remove first otherwise copy will fail below if file exists
+    //        QFile::remove(finalFileName);
 
-        if (!QFile::copy(m_Filename, finalFileName))
-        {
-            qCCritical(KSTARS_FITS()) << "FITS: Failed to copy " << m_Filename << " to " << finalFileName;
-            fptr = nullptr;
-            return false;
-        }
+    //        if (!QFile::copy(m_Filename, finalFileName))
+    //        {
+    //            qCCritical(KSTARS_FITS()) << "FITS: Failed to copy " << m_Filename << " to " << finalFileName;
+    //            fptr = nullptr;
+    //            return false;
+    //        }
 
-        m_Filename = finalFileName;
+    //        m_Filename = finalFileName;
 
-        // Use open diskfile as it does not use extended file names which has problems opening
-        // files with [ ] or ( ) in their names.
-        fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status);
-        fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
+    //        // Use open diskfile as it does not use extended file names which has problems opening
+    //        // files with [ ] or ( ) in their names.
+    //        fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status);
+    //        fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status);
 
-        return true;
-    }
+    //        return true;
+    //    }
 
     // Read the image back into buffer in case we debyayed
     nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
