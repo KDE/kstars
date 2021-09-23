@@ -39,8 +39,8 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
     //    kcfg_MagLimitDrawStar->setMinimum( Options::magLimitDrawStarZoomOut() );
     //    kcfg_MagLimitDrawStarZoomOut->setMaximum( 12.0 );
 
-    kcfg_MagLimitDrawDeepSky->setMaximum(16.0);
-    kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(16.0);
+    kcfg_MagLimitDrawDeepSky->setMaximum(30.0);
+    kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(30.0);
 
     kcfg_DSOCachePercentage->setValue(Options::dSOCachePercentage());
     connect(kcfg_DSOCachePercentage, &QSlider::valueChanged, this,
