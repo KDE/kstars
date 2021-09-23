@@ -2030,6 +2030,18 @@ font-weight:bold;
          </item>
          <item>
           <widget class="QPushButton" name="loopB">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="toolTip">
             <string>Start framing (looping)</string>
            </property>
