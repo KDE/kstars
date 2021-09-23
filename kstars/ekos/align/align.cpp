@@ -2290,6 +2290,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     emit newSolverResults(orientation, ra, dec, pixscale);
     QJsonObject solution =
     {
+        {"camera", currentCCD->getDeviceName()},
         {"ra", SolverRAOut->text()},
         {"de", SolverDecOut->text()},
         {"dRA", m_TargetDiffRA},
