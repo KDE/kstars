@@ -1060,7 +1060,6 @@ class Capture : public QWidget, public Ui::Capture
         bool lightBoxLightEnabled { false };
         bool m_TelescopeCoveredDarkExposure { false };
         bool m_TelescopeCoveredFlatExposure { false };
-        ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
         QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;

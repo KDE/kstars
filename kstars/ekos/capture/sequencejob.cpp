@@ -371,7 +371,13 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
     placeholderPath.setGenerateFilenameSettings(*this);
     activeCCD->setPlaceholderPath(placeholderPath);
 
-    activeCCD->setUploadMode(uploadMode);
+    if (preview)
+    {
+        if (activeCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            activeCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
+    else
+        activeCCD->setUploadMode(uploadMode);
 
     QMapIterator<QString, QMap<QString, double>> i(customProperties);
     while (i.hasNext())

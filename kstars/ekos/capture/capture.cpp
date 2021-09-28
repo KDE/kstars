@@ -763,12 +763,12 @@ void Capture::stop(CaptureState targetState)
         {
             activeJob->disconnect(this);
             activeJob->setPreview(false);
-            currentCCD->setUploadMode(rememberUploadMode);
+            currentCCD->setUploadMode(activeJob->getUploadMode());
         }
         // or regular preview job
         else
         {
-            currentCCD->setUploadMode(rememberUploadMode);
+            currentCCD->setUploadMode(activeJob->getUploadMode());
             jobs.removeOne(activeJob);
             // Delete preview job
             delete (activeJob);
@@ -1771,7 +1771,7 @@ IPState Capture::setCaptureComplete()
         emit newImage(activeJob, m_ImageData);
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
-        currentCCD->setUploadMode(rememberUploadMode);
+        currentCCD->setUploadMode(activeJob->getUploadMode());
         //delete (activeJob);
         activeJob->deleteLater();
         // Reset active job pointer
@@ -2333,11 +2333,17 @@ void Capture::captureImage()
         }
     }
 
-    // Temporary change upload mode to client when requesting previews
+    // If preview, always set to UPLOAD_CLIENT if not already set.
     if (activeJob->isPreview())
     {
-        rememberUploadMode = activeJob->getUploadMode();
-        activeJob->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
+    // If batch mode, ensure upload mode mathces the active job target.
+    else
+    {
+        if (currentCCD->getUploadMode() != activeJob->getUploadMode())
+            currentCCD->setUploadMode(activeJob->getUploadMode());
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
@@ -6471,8 +6477,10 @@ bool Capture::processPostCaptureCalibrationStage()
                 calibrationStage = CAL_CALIBRATION;
                 activeJob->setExposure(nextExposure);
                 activeJob->setPreview(true);
-                rememberUploadMode = activeJob->getUploadMode();
-                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+                if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+                {
+                    currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+                }
                 startNextExposure();
                 return false;
             }
@@ -6487,7 +6495,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     appendLogText(
                         i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
-                    currentCCD->setUploadMode(rememberUploadMode);
+                    currentCCD->setUploadMode(activeJob->getUploadMode());
 
                     // Get raw prefix
                     captureExposureN->setValue(activeJob->getExposure());
@@ -6539,8 +6547,10 @@ bool Capture::processPostCaptureCalibrationStage()
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
             activeJob->setPreview(true);
-            rememberUploadMode = activeJob->getUploadMode();
-            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            {
+                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+            }
 
             startNextExposure();
             return false;
@@ -6552,7 +6562,7 @@ bool Capture::processPostCaptureCalibrationStage()
                 return;
             }*/
         }
-        else
+        else if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_CLIENT)
         {
             appendLogText(i18n("An empty image is received, aborting..."));
             abort();
