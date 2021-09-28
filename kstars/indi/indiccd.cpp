@@ -24,6 +24,7 @@
 #endif
 
 #include <KNotifications/KNotification>
+#include "auxiliary/ksmessagebox.h"
 #include "ksnotification.h"
 #include <QImageReader>
 #include <QFileInfo>
@@ -49,18 +50,36 @@ bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t 
     {
         qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open write file: " <<
                                 filename;
+        KSMessageBox::Instance()->warningContinueCancel(
+            i18n("Failed writing image to %1\nPlease check folder, filename & permissions.", filename),
+            "Image Write Failed", 60, true, "Close", "");
         return false;
     }
-    size_t n = 0;
+    int n = 0;
     QDataStream out(&file);
+    bool ok = true;
     for (size_t nr = 0; nr < size; nr += n)
+    {
         n = out.writeRawData(buffer + nr, size - nr);
-    file.flush();
+        if (n < 0)
+        {
+            ok = false;
+            break;
+        }
+    }
+    ok = file.flush() && ok;
     file.close();
     file.setPermissions(QFileDevice::ReadUser |
                         QFileDevice::WriteUser |
                         QFileDevice::ReadGroup |
                         QFileDevice::ReadOther);
+    if (!ok)
+    {
+        KSMessageBox::Instance()->warningContinueCancel(
+            i18n("Failed writing image to %1. Please check folder, filename & permissions.", filename),
+            "Image Write Failed", 60, true, "Close", "");
+        return false;
+    }
     return true;
 }
 }
@@ -1360,7 +1379,7 @@ bool CCD::generateFilename(bool batch_mode, QString *filename)
 {
 
     placeholderPath.generateFilename("%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3", ISOMode,
-            batch_mode, nextSequenceID, filename);
+                                     batch_mode, nextSequenceID, filename);
 
     QDir currentDir = QFileInfo(*filename).dir();
     if (currentDir.exists() == false)
@@ -1370,6 +1389,9 @@ bool CCD::generateFilename(bool batch_mode, QString *filename)
     if (!test_file.open(QIODevice::WriteOnly))
     {
         qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << test_file.fileName();
+        KSMessageBox::Instance()->warningContinueCancel(
+            i18n("Failed writing image to %1\nPlease check folder, filename & permissions.", *filename),
+            "Image Write Failed", 60, true, "Close", "");
         return false;
     }
     test_file.flush();
