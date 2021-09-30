@@ -201,8 +201,8 @@ class Message : public QObject
         double m_CurrentZoom {100};
 
         QDateTime m_ThrottleTS;
-
         CatalogsDB::DBManager m_DSOManager;
+        QCache<QString, QJsonObject> m_PropertyCache;
 
         typedef enum
         {

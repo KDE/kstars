@@ -77,7 +77,7 @@ void Message::onConnected()
     m_isConnected = true;
     m_ReconnectTries = 0;
 
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived);
+    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived, Qt::UniqueConnection);
 
     sendConnection();
     sendProfiles();
@@ -90,6 +90,7 @@ void Message::onDisconnected()
     qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server.";
     m_isConnected = false;
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived);
+    m_PropertyCache.clear();
 
     emit disconnected();
 }
@@ -101,7 +102,7 @@ void Message::onError(QAbstractSocket::SocketError error)
             error == QAbstractSocket::ConnectionRefusedError)
     {
         if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
-            QTimer::singleShot(RECONNECT_INTERVAL, this, SLOT(connectServer()));
+            QTimer::singleShot(RECONNECT_INTERVAL, this, &Message::connectServer);
     }
 }
 
@@ -1113,6 +1114,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
 
         // Close all FITS Viewers
         KStars::Instance()->clearAllViewers();
+
+        m_PropertySubscriptions.clear();
+        m_PropertyCache.clear();
     }
     else if (command == commands[ADD_PROFILE])
     {
@@ -1245,6 +1249,7 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     if (device.isEmpty() && command == commands[DEVICE_PROPERTY_UNSUBSCRIBE])
     {
         m_PropertySubscriptions.clear();
+        m_PropertyCache.clear();
         return;
     }
 
@@ -2053,10 +2058,18 @@ void Message::processNewNumber(INumberVectorProperty * nvp)
         QSet<QString> subProps = m_PropertySubscriptions[nvp->device];
         if (subProps.contains(nvp->name))
         {
-            QJsonObject propObject;
-            ISD::propertyToJson(nvp, propObject);
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonObject * propObject = new QJsonObject();
+            ISD::propertyToJson(nvp, *propObject);
+
+            if (m_PropertyCache.contains(nvp->name) && *m_PropertyCache[nvp->name] == *propObject)
+            {
+                delete (propObject);
+                return;
+            }
+
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", *propObject}}).toJson(
                 QJsonDocument::Compact));
+            m_PropertyCache.insert(nvp->name, propObject);
         }
     }
 }
@@ -2068,10 +2081,18 @@ void Message::processNewText(ITextVectorProperty * tvp)
         QSet<QString> subProps = m_PropertySubscriptions[tvp->device];
         if (subProps.contains(tvp->name))
         {
-            QJsonObject propObject;
-            ISD::propertyToJson(tvp, propObject);
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonObject * propObject = new QJsonObject();
+            ISD::propertyToJson(tvp, *propObject);
+
+            if (m_PropertyCache.contains(tvp->name) && *m_PropertyCache[tvp->name] == *propObject)
+            {
+                delete (propObject);
+                return;
+            }
+
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", *propObject}}).toJson(
                 QJsonDocument::Compact));
+            m_PropertyCache.insert(tvp->name, propObject);
         }
     }
 }
@@ -2083,10 +2104,18 @@ void Message::processNewSwitch(ISwitchVectorProperty * svp)
         QSet<QString> subProps = m_PropertySubscriptions[svp->device];
         if (subProps.contains(svp->name))
         {
-            QJsonObject propObject;
-            ISD::propertyToJson(svp, propObject);
-            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", propObject}}).toJson(
+            QJsonObject * propObject = new QJsonObject();
+            ISD::propertyToJson(svp, *propObject);
+
+            if (m_PropertyCache.contains(svp->name) && *m_PropertyCache[svp->name] == *propObject)
+            {
+                delete (propObject);
+                return;
+            }
+
+            m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DEVICE_PROPERTY_GET]}, {"payload", *propObject}}).toJson(
                 QJsonDocument::Compact));
+            m_PropertyCache.insert(svp->name, propObject);
         }
     }
 }

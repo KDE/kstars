@@ -68,8 +68,8 @@ void Media::onConnected()
 {
     qCInfo(KSTARS_EKOS) << "Connected to media Websocket server at" << m_URL.toDisplayString();
 
-    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
-    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived);
+    connect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived, Qt::UniqueConnection);
+    connect(&m_WebSocket, &QWebSocket::binaryMessageReceived, this, &Media::onBinaryReceived, Qt::UniqueConnection);
 
     m_isConnected = true;
     m_ReconnectTries = 0;
