@@ -5834,7 +5834,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
             {
                 dustCapLightEnabled = false;
                 currentLightBox->SetLightEnabled(false);
-                return IPS_OK;
+                break;
             }
 
             if (currentDustCap == nullptr)
@@ -5981,7 +5981,7 @@ IPState Capture::checkDarkFramePendingTasks()
             {
                 dustCapLightEnabled = false;
                 currentLightBox->SetLightEnabled(false);
-                return IPS_OK;
+                break;
             }
 
             if (currentDustCap == nullptr)
@@ -6120,7 +6120,7 @@ IPState Capture::checkFlatFramePendingTasks()
             {
                 dustCapLightEnabled = true;
                 currentLightBox->SetLightEnabled(true);
-                return IPS_OK;
+                break;
             }
 
             if (currentDustCap == nullptr)
@@ -6216,7 +6216,7 @@ IPState Capture::checkFlatFramePendingTasks()
             {
                 dustCapLightEnabled = true;
                 currentLightBox->SetLightEnabled(true);
-                return IPS_OK;
+                break;
             }
 
             if (currentDustCap == nullptr)
