@@ -915,7 +915,7 @@ void Manager::start()
                 p.start("pkill indiserver");
                 p.waitForFinished();
 
-                QTimer::singleShot(500, executeStartINDIServices);
+                QTimer::singleShot(1000, executeStartINDIServices);
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this, executeStartINDIServices]()
             {
