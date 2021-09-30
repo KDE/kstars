@@ -1233,7 +1233,7 @@ void Align::calculateFOV()
 
     // Enable or Disable PAA depending on current FOV
     const bool fovOK = ((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV;
-    if (fovOK != (CHECK_PAH(isEnabled())))
+    if (m_PolarAlignmentAssistant != nullptr)
         m_PolarAlignmentAssistant->setEnabled(fovOK);
 
     if (opsAstrometry->kcfg_AstrometryUseImageScale->isChecked())
