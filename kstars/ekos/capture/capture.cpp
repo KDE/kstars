@@ -5832,7 +5832,7 @@ IPState Capture::checkLightFrameScopeCoverOpen()
             // Account for light box only (no dust cap)
             if (currentLightBox && currentLightBox->isLightOn())
             {
-                dustCapLightEnabled = false;
+                lightBoxLightEnabled = false;
                 currentLightBox->SetLightEnabled(false);
                 break;
             }
@@ -5979,7 +5979,7 @@ IPState Capture::checkDarkFramePendingTasks()
             // Account for light box only (no dust cap)
             if (currentLightBox && currentLightBox->isLightOn())
             {
-                dustCapLightEnabled = false;
+                lightBoxLightEnabled = false;
                 currentLightBox->SetLightEnabled(false);
                 break;
             }
@@ -6118,7 +6118,7 @@ IPState Capture::checkFlatFramePendingTasks()
         case SOURCE_FLATCAP:
             if (currentLightBox && currentLightBox->isLightOn() == false)
             {
-                dustCapLightEnabled = true;
+                lightBoxLightEnabled = true;
                 currentLightBox->SetLightEnabled(true);
                 break;
             }
@@ -6214,7 +6214,7 @@ IPState Capture::checkFlatFramePendingTasks()
         case SOURCE_DARKCAP:
             if (currentLightBox && currentLightBox->isLightOn() == false)
             {
-                dustCapLightEnabled = true;
+                lightBoxLightEnabled = true;
                 currentLightBox->SetLightEnabled(true);
                 break;
             }
