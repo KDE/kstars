@@ -96,7 +96,8 @@ Focus::Focus()
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
-    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("focuslogs/autofocus-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
+    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("focuslogs/autofocus-" +
+                         QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
     editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
@@ -133,7 +134,8 @@ Focus::Focus()
 
 void Focus::loadStellarSolverProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("SavedFocusProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                            QStandardPaths::AppDataLocation)).filePath("SavedFocusProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
@@ -1038,7 +1040,10 @@ void Focus::checkStopFocus(bool abort)
     {
         stopFocusB->setEnabled(false);
         appendLogText(i18n("Detection in progress, please wait."));
-        QTimer::singleShot(1000, this, [&, abort]() {checkStopFocus(abort);});
+        QTimer::singleShot(1000, this, [ &, abort]()
+        {
+            checkStopFocus(abort);
+        });
     }
     else
     {
@@ -1302,8 +1307,11 @@ bool Focus::focusOut(int ms)
 // If amount > 0 we focus out, otherwise in.
 bool Focus::changeFocus(int amount)
 {
+    const int absAmount = abs(amount);
+
     // Retry capture if we stay at the same position
-    if (inAutoFocus && amount == 0)
+    // Allow 1 step of tolerance--Have seen stalls with amount==1.
+    if (inAutoFocus && absAmount <= 1)
     {
         capture(FocusSettleTime->value());
         return true;
@@ -1323,7 +1331,6 @@ bool Focus::changeFocus(int amount)
         return false;
     }
 
-    const int absAmount = abs(amount);
     const bool focusingOut = amount > 0;
     const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
     m_LastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
@@ -2076,7 +2083,8 @@ void Focus::setHFRComplete()
     {
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
-        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("autofocus/" + now.toString("yyyy-MM-dd"));
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("autofocus/" +
+                       now.toString("yyyy-MM-dd"));
         dir.mkpath(path);
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
@@ -4042,7 +4050,10 @@ void Focus::initPlots()
     profileDialog->resize(400, 300);
 
     connect(relativeProfileB, &QPushButton::clicked, profileDialog, &QDialog::show);
-    connect(this, &Ekos::Focus::newHFR, [this](double currentHFR, int pos) {Q_UNUSED(pos) profilePlot->drawProfilePlot(currentHFR);});
+    connect(this, &Ekos::Focus::newHFR, [this](double currentHFR, int pos)
+    {
+        Q_UNUSED(pos) profilePlot->drawProfilePlot(currentHFR);
+    });
 }
 
 void Focus::initConnections()

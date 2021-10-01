@@ -137,6 +137,10 @@ void TestFocus::basicTest()
     QCOMPARE(position, currentPosition - params.initialStepSize / 2);
     currentPosition = position;
 
+    // Save the state from here for testing the retry logic below.
+    std::unique_ptr<FocusAlgorithmInterface> focuserRetry(focuser->Copy());
+    int retryPosition = currentPosition;
+
     position = focuser->newMeasurement(currentPosition, 1.3);
     QCOMPARE(position, currentPosition - params.initialStepSize / 2);
     currentPosition = position;
@@ -149,9 +153,10 @@ void TestFocus::basicTest()
     QCOMPARE(position, currentPosition - params.initialStepSize / 2);
     currentPosition = position;
 
-    // Making a copy of the focuser state at this point, for later testing.
-    std::unique_ptr<FocusAlgorithmInterface> focuser2(focuser->Copy());
-    int currentPosition2 = currentPosition;
+    // Making a copy of the focuser state at this point, for testing a scenario below
+    // where the system does not get close enough to the desired HFR.
+    std::unique_ptr<FocusAlgorithmInterface> focuserMissTolerance(focuser->Copy());
+    int missTolerancePosition = currentPosition;
 
     // 1.04 is within tolerance of 1.0
     // It should complete.
@@ -160,15 +165,67 @@ void TestFocus::basicTest()
     QVERIFY(focuser->isDone());
     QCOMPARE(focuser->solution(), currentPosition);
 
-    // Alternative reality.
-    focuser.swap(focuser2);
+    // Test the focuser retry logic. When the focuser gets within its tolerance of the solution
+    // in its 2nd pass, but hasn't yet reached the 1st pass' minimum, it will continue to iterate
+    // and move its position inward as the HFRs it measures continue to improve.
+    // However, if the HFR sample got worse, it will resample at the same position a few times,
+    // in case there was noise in the sample.
 
-    // If we would HFR=1.06 instead, that should not be within tolerance.
-    position = focuser->newMeasurement(currentPosition2, 1.06);
-    QCOMPARE(position, currentPosition2 - params.initialStepSize / 2);
+    focuser.swap(focuserRetry);
+    position = focuser->newMeasurement(retryPosition, 1.04);
+    QCOMPARE(position, retryPosition - params.initialStepSize / 2);
     currentPosition = position;
 
-    // We're goint to get worse (the min on this v-curve missed the threshold).
+    position = focuser->newMeasurement(currentPosition, 1.05);
+    // HFR got worse, we're within tolderance of the solution. It should retry the same position.
+    QCOMPARE(position, currentPosition);
+
+    position = focuser->newMeasurement(currentPosition, 1.10);
+    QCOMPARE(position, currentPosition);
+
+    position = focuser->newMeasurement(currentPosition, 1.10);
+    QCOMPARE(position, currentPosition);
+
+    // Making a copy of the focuser state at this point, for later testing.
+    std::unique_ptr<FocusAlgorithmInterface> focuserRetry2(focuser->Copy());
+    int retry2Position = currentPosition;
+
+    // Try 2 scenarious from this position.
+
+    // 1. HFR is worse again compared to the best value above (1.04), give up.
+    position = focuser->newMeasurement(retry2Position, 1.05);
+    QCOMPARE(position, -1);
+    QVERIFY(focuser->isDone());
+    QCOMPARE(focuser->solution(), currentPosition);
+
+    // 2. HFR gets better. Continue moving toward the pass1 solution.
+    focuser.swap(focuserRetry2);
+    position = focuser->newMeasurement(retry2Position, 1.03);
+    QCOMPARE(position, currentPosition - params.initialStepSize / 2);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1.02);
+    QCOMPARE(position, currentPosition - params.initialStepSize / 2);
+    currentPosition = position;
+
+    // Finally we're close enough to the 1st pass best to finish.
+    position = focuser->newMeasurement(currentPosition, 1.01);
+    QCOMPARE(position, -1);
+    QVERIFY(focuser->isDone());
+    QCOMPARE(focuser->solution(), currentPosition);
+
+    // Retry testing is done.
+
+    // We pick up from above just before the system reached the desired tolerance.
+    // In this case, it misses the desired HFR value, and continues processing.
+    focuser.swap(focuserMissTolerance);
+
+    // Sample HFR=1.06 instead of the 1.04 above--not within tolerance.
+    position = focuser->newMeasurement(missTolerancePosition, 1.06);
+    QCOMPARE(position, missTolerancePosition - params.initialStepSize / 2);
+    currentPosition = position;
+
+    // HFRs continue to get worse (the min on this v-curve missed the threshold).
     position = focuser->newMeasurement(currentPosition, 1.1);
     QCOMPARE(position, currentPosition - params.initialStepSize / 2);
     currentPosition = position;
@@ -177,8 +234,8 @@ void TestFocus::basicTest()
     QCOMPARE(position, currentPosition - params.initialStepSize / 2);
     currentPosition = position;
 
-    // At this point, it should realize it missed the minimum and reset.
-    // Again, the value it goes back to is a polynomial fit, and just hardcoded here.
+    // At this point, the focuser realizes it missed the minimum and resets.
+    // The value it goes back to is a polynomial fit, and hardcoded here.
     int returnPosition = 10038;
     position = focuser->newMeasurement(currentPosition, 2.0);
     QCOMPARE(position, returnPosition);
@@ -193,8 +250,8 @@ void TestFocus::basicTest()
     currentPosition = position;
 
     // Making a copy of the focuser state at this point, for later testing.
-    focuser2.reset(focuser->Copy());
-    currentPosition2 = currentPosition;
+    std::unique_ptr<FocusAlgorithmInterface> focuser2(focuser->Copy());
+    int currentPosition2 = currentPosition;
 
     // This time we get within tolerance and succeed.
     position = focuser->newMeasurement(currentPosition, 1.03);

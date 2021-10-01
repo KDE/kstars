@@ -111,6 +111,9 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         bool inFirstPass;
         // True if the 2nd pass has found a solution, and it's now optimizing the solution.
         bool solutionPending;
+        // When we're near done, but the HFR just got worse, we may retry the current position
+        // in case the HFR value was noisy.
+        int retryNumber = 0;
 };
 
 // Copies the object. Used in testing to examine alternate possible inputs given
@@ -144,6 +147,7 @@ void LinearFocusAlgorithm::computeInitialPosition()
     stepSize = params.initialStepSize;
     inFirstPass = true;
     solutionPending = false;
+    retryNumber = 0;
     firstPassBestValue = -1;
     firstPassBestPosition = 0;
     numPolySolutionsFound = 0;
@@ -196,7 +200,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value)
     {
         if (setupPendingSolution(position, thisStepSize))
             // We can continue to look a little further.
-            return completeIteration(thisStepSize);
+            return completeIteration(retryNumber > 0 ? 0 : thisStepSize);
         else
             // Finish now
             return setupSolution(position, value);
@@ -383,23 +387,44 @@ int LinearFocusAlgorithm::completeIteration(int step)
 // - the current value is an improvement on the previous 2nd-pass value (or if this is the 1st 2nd-pass value),
 // - the current position is greater than the min of the v-curve computed by the 1st pass,
 // - the number of steps taken so far is not close the max number of allowable steps.
+// If it passes the other considerations, but the HFR got worse, we retry the current position a few times.
 bool LinearFocusAlgorithm::setupPendingSolution(int position, int step)
 {
+    constexpr int MAX_NUM_RETRIES = 3;
     const int length = values.size();
     const int secondPassIndex = length - secondPassStartIndex;
-    // This is either the first sample in the 2nd pass, or an improvement over the previous sample.
-    bool notGettingWorse = (secondPassIndex <= 1) || (values[length - 1] < values[length - 2]);
-    if (notGettingWorse &&
-            position - step > firstPassBestPosition &&
-            numSteps < params.maxIterations - 2 &&
-            position - step > minPositionLimit
-       )
+    const double thisValue = values[length - 1];
+    double referenceValue = (secondPassIndex <= 1) ? 1e6 : values[length - 2];
+    if (retryNumber > 0 && length - (2 + retryNumber) >= 0)
+        referenceValue = values[length - (2 + retryNumber)];
+    // This is either the first sample in the 2nd pass, or not worse than the previous (non-repeat) sample.
+    const bool notGettingWorse = (secondPassIndex <= 1) || (thisValue <= referenceValue);
+    const bool couldGoFather =
+        position - step > firstPassBestPosition &&
+        numSteps < params.maxIterations - 2 &&
+        position - step > minPositionLimit;
+    if (notGettingWorse && couldGoFather)
     {
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: Position(%1) & HFR(%2) good, but searching further")
-                                   .arg(position).arg(values[length - 1]);
+        qCDebug(KSTARS_EKOS_FOCUS) <<
+                                   QString("Linear: %1: Position(%2) & HFR(%3) -- Pass1: %4 %5, solution pending, searching further")
+                                   .arg(length).arg(position).arg(thisValue, 0, 'f', 3).arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 3);
         solutionPending = true;
+        retryNumber = 0;
         return true;
     }
+    else if (solutionPending && couldGoFather && retryNumber < MAX_NUM_RETRIES &&
+             (secondPassIndex > 1) && (thisValue >= referenceValue))
+    {
+        qCDebug(KSTARS_EKOS_FOCUS) <<
+                                   QString("Linear: %1: Position(%2) & HFR(%3) -- Pass1: %4 %5, solution pending, got worse, retrying")
+                                   .arg(length).arg(position).arg(thisValue, 0, 'f', 3).arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 3);
+        // Try this poisition again.
+        retryNumber++;
+        return true;
+    }
+    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: %1: Position(%2) & HFR(%3) -- Pass1: %4 %5, finishing, can't go further")
+                               .arg(length).arg(position).arg(thisValue, 0, 'f', 3).arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 3);
+    retryNumber = 0;
     return false;
 }
 
