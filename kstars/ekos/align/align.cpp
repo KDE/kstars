@@ -3652,7 +3652,10 @@ void Align::setSettings(const QJsonObject &settings)
 
     int solverAction = settings["solverAction"].toInt(gotoModeButtonGroup->checkedId());
     if (solverAction != gotoModeButtonGroup->checkedId())
+    {
         gotoModeButtonGroup->button(solverAction)->setChecked(true);
+        m_CurrentGotoMode = static_cast<GotoMode>(solverAction);
+    }
 
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
