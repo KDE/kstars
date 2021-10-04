@@ -232,7 +232,8 @@ class CCD : public DeviceDecorator
         {
             seqPrefix = preFix;
         }
-        void setPlaceholderPath(Ekos::PlaceholderPath php) {
+        void setPlaceholderPath(Ekos::PlaceholderPath php)
+        {
             placeholderPath = php;
         }
         void setNextSequenceID(int count)
@@ -361,7 +362,7 @@ class CCD : public DeviceDecorator
     private:
         void processStream(IBLOB *bp);
         void loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data);
-        bool generateFilename(bool batch_mode, QString *filename);
+        bool generateFilename(bool batch_mode, const QString &extension, QString *filename);
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
         // Creates or finds the FITSViewer.

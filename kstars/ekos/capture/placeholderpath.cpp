@@ -20,14 +20,15 @@ namespace Ekos
 {
 
 PlaceholderPath::PlaceholderPath(QString seqFilename):
-    m_frameTypes({
-            {FRAME_LIGHT, "Light"},
-            {FRAME_DARK, "Dark"},
-            {FRAME_BIAS, "Bias"},
-            {FRAME_FLAT, "Flat"},
-            {FRAME_NONE, ""},
-    }),
-    m_seqFilename(seqFilename)
+    m_frameTypes(
+{
+    {FRAME_LIGHT, "Light"},
+    {FRAME_DARK, "Dark"},
+    {FRAME_BIAS, "Bias"},
+    {FRAME_FLAT, "Flat"},
+    {FRAME_NONE, ""},
+}),
+m_seqFilename(seqFilename)
 {
 }
 
@@ -208,9 +209,9 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
 }
 
 void PlaceholderPath::generateFilenameOld(
-        const QString &format, bool batch_mode, QString *filename,
-        QString fitsDir, QString seqPrefix, int nextSequenceID
-        )
+    const QString &format, bool batch_mode, QString *filename,
+    QString fitsDir, QString seqPrefix, int nextSequenceID
+)
 {
     QString currentDir;
     if (batch_mode)
@@ -244,41 +245,45 @@ void PlaceholderPath::generateFilenameOld(
 }
 
 void PlaceholderPath::generateFilename(
-        QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, QString *filename) const
+    QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, const QString &extension,
+    QString *filename) const
 {
     QString rawFilePrefix;
     bool filterEnabled, exposureEnabled, tsEnabled;
     job.getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
 
     generateFilename(format, rawFilePrefix, filterEnabled, exposureEnabled,
-            tsEnabled, job.getFilterName(), job.getFrameType(), job.getExposure(),
-            targetName, batch_mode, nextSequenceID, filename);
+                     tsEnabled, job.getFilterName(), job.getFrameType(), job.getExposure(),
+                     targetName, batch_mode, nextSequenceID, extension, filename);
 }
 
 void PlaceholderPath::generateFilename(QString format, bool tsEnabled, bool batch_mode,
-        int nextSequenceID, QString *filename) const
+                                       int nextSequenceID, const QString &extension, QString *filename) const
 {
     generateFilename(format, m_RawPrefix, m_filterPrefixEnabled, m_expPrefixEnabled,
-            tsEnabled, m_filter, m_frameType, m_exposure, m_targetName, batch_mode,
-            nextSequenceID, filename);
+                     tsEnabled, m_filter, m_frameType, m_exposure, m_targetName, batch_mode,
+                     nextSequenceID, extension, filename);
 }
 
 void PlaceholderPath::generateFilename(
-        QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
-        bool tsEnabled, QString filter, CCDFrameType frameType, double exposure, QString targetName,
-        bool batch_mode, int nextSequenceID, QString *filename) const
+    QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
+    bool tsEnabled, QString filter, CCDFrameType frameType, double exposure, QString targetName,
+    bool batch_mode, int nextSequenceID,  const QString &extension, QString *filename) const
 {
     targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
-        // Remove any two or more __
-        .replace( QRegularExpression("_{2,}"), "_")
-        // Remove any _ at the end
-        .replace( QRegularExpression("_$"), "");
+                 // Remove any two or more __
+                 .replace( QRegularExpression("_{2,}"), "_")
+                 // Remove any _ at the end
+                 .replace( QRegularExpression("_$"), "");
     int i = 0;
 
     QString currentDir;
-    if (batch_mode) {
+    if (batch_mode)
+    {
         currentDir = m_seqFilename.path().isEmpty() ? Options::fitsDir() : currentDir;
-    } else {
+    }
+    else
+    {
         currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation) + "/kstars";
     }
 
@@ -290,88 +295,131 @@ void PlaceholderPath::generateFilename(
 
     QRegularExpressionMatch match;
     QRegularExpression re("(?<replace>\\%(?<name>[f,D,T,e,F,t,d,p,s])(?<level>\\d+)?)(?<sep>[_/])?");
-    while ((i = format.indexOf(re, i, &match)) != -1) {
+    while ((i = format.indexOf(re, i, &match)) != -1)
+    {
         QString replacement = "";
-        if (match.captured("name") == "f") {
+        if (match.captured("name") == "f")
+        {
             replacement = m_seqFilename.baseName();
-        } else if (match.captured("name") == "D") {
-            if (tsEnabled) {
+        }
+        else if (match.captured("name") == "D")
+        {
+            if (tsEnabled)
+            {
                 replacement = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
             }
-        } else if (match.captured("name") == "T") {
+        }
+        else if (match.captured("name") == "T")
+        {
             replacement = getFrameType(frameType);
-        } else if (match.captured("name") == "e") {
-            if (exposureEnabled) {
+        }
+        else if (match.captured("name") == "e")
+        {
+            if (exposureEnabled)
+            {
                 double fractpart, intpart;
                 fractpart = std::modf(exposure, &intpart);
-                if (fractpart == 0) {
+                if (fractpart == 0)
+                {
                     replacement = QString::number(exposure, 'd', 0) + QString("_secs");
-                } else if (exposure >= 1e-3) {
+                }
+                else if (exposure >= 1e-3)
+                {
                     replacement = QString::number(exposure, 'f', 3) + QString("_secs");
-                } else {
+                }
+                else
+                {
                     replacement = QString::number(exposure, 'f', 6) + QString("_secs");
                 }
             }
-        } else if (match.captured("name") == "F") {
-            if (format.indexOf("/", match.capturedStart()) == -1) {
+        }
+        else if (match.captured("name") == "F")
+        {
+            if (format.indexOf("/", match.capturedStart()) == -1)
+            {
                 // in the basename part of the path
                 if (filterEnabled && filter.isEmpty() == false
                         && (frameType == FRAME_LIGHT
                             || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE)) {
+                            || frameType == FRAME_NONE))
+                {
                     replacement = filter;
                 }
-            } else {
+            }
+            else
+            {
                 // in the directory part of the path
                 if (filter.isEmpty() == false
                         && (frameType == FRAME_LIGHT
                             || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE)) {
+                            || frameType == FRAME_NONE))
+                {
                     replacement = filter;
                 }
             }
-        } else if (match.captured("name") == "t") {
-            if (format.indexOf("/", match.capturedStart()) != -1) {
+        }
+        else if (match.captured("name") == "t")
+        {
+            if (format.indexOf("/", match.capturedStart()) != -1)
+            {
                 // in the directory part of the path
                 replacement = targetName;
-            } else {
+            }
+            else
+            {
                 // in the basename part of the path
                 replacement = rawFilePrefix;
-                if (replacement.isEmpty() && !targetName.isEmpty()) {
+                if (replacement.isEmpty() && !targetName.isEmpty())
+                {
                     replacement = targetName;
                 }
             }
-        } else if (match.captured("name") == "d" || match.captured("name") == "p") {
+        }
+        else if (match.captured("name") == "d" || match.captured("name") == "p")
+        {
             int level = 0;
-            if (!match.captured("level").isEmpty()) {
+            if (!match.captured("level").isEmpty())
+            {
                 level = match.captured("level").toInt() - 1;
             }
             QFileInfo dir = m_seqFilename;
-            for (int j = 0; j < level; ++j) {
+            for (int j = 0; j < level; ++j)
+            {
                 dir = QFileInfo(dir.dir().path());
             }
-            if (match.captured("name") == "d") {
+            if (match.captured("name") == "d")
+            {
                 replacement = dir.dir().dirName();
-            } else if (match.captured("name") == "p") {
+            }
+            else if (match.captured("name") == "p")
+            {
                 replacement = dir.path();
             }
-        } else if (match.captured("name") == "s") {
+        }
+        else if (match.captured("name") == "s")
+        {
             int level = 1;
-            if (!match.captured("level").isEmpty()) {
+            if (!match.captured("level").isEmpty())
+            {
                 level = match.captured("level").toInt();
             }
             replacement = QString("%1").arg(nextSequenceID, level, 10, QChar('0'));
-        } else {
+        }
+        else
+        {
             qWarning() << "Unknown replacement string: " << match.captured("replace");
         }
-        if (replacement.isEmpty()) {
+        if (replacement.isEmpty())
+        {
             format = format.replace(match.capturedStart(), match.capturedLength(), replacement);
-        } else {
+        }
+        else
+        {
             format = format.replace(match.capturedStart("replace"), match.capturedLength("replace"), replacement);
         }
         i += replacement.length();
     }
-    *filename = format + ".fits";
+    *filename = format + extension;
 }
 
 void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
@@ -391,8 +439,10 @@ QStringList PlaceholderPath::remainingPlaceholders(QString filename)
     QRegularExpressionMatch match;
     QRegularExpression re("(?<replace>\\%(?<name>[a-z])(?<level>\\d+)?)(?<sep>[_/])?");
     int i = 0;
-    while ((i = filename.indexOf(re, i, &match)) != -1) {
-        if (match.hasMatch()) {
+    while ((i = filename.indexOf(re, i, &match)) != -1)
+    {
+        if (match.hasMatch())
+        {
             placeholders.push_back(match.captured("replace"));
         }
         i += match.capturedLength("replace");

@@ -1375,11 +1375,11 @@ void CCD::processStream(IBLOB *bp)
     streamWindow->newFrame(bp);
 }
 
-bool CCD::generateFilename(bool batch_mode, QString *filename)
+bool CCD::generateFilename(bool batch_mode, const QString &extension, QString *filename)
 {
 
     placeholderPath.generateFilename("%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3", ISOMode,
-                                     batch_mode, nextSequenceID, filename);
+                                     batch_mode, nextSequenceID, extension, filename);
 
     QDir currentDir = QFileInfo(*filename).dir();
     if (currentDir.exists() == false)
@@ -1552,7 +1552,7 @@ void CCD::processBLOB(IBLOB *bp)
     {
         // If either generating file name or writing the image file fails
         // then return
-        if (!generateFilename(targetChip->isBatchMode(), &filename) ||
+        if (!generateFilename(targetChip->isBatchMode(), format, &filename) ||
                 !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
             emit BLOBUpdated(nullptr);
