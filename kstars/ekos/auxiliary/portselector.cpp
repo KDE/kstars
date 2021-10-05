@@ -215,6 +215,7 @@ void Device::syncGUI()
 
     if (connectionMode.findOnSwitchIndex() == CONNECTION_SERIAL)
     {
+        m_ActiveConnectionMode = CONNECTION_SERIAL;
         m_SerialB->setStyleSheet(ACTIVE_STYLESHEET);
         m_NetworkB->setStyleSheet(QString());
 
@@ -232,6 +233,7 @@ void Device::syncGUI()
     }
     else
     {
+        m_ActiveConnectionMode = CONNECTION_NETWORK;
         m_SerialB->setStyleSheet(QString());
         m_NetworkB->setStyleSheet(ACTIVE_STYLESHEET);
 
@@ -278,6 +280,8 @@ uint8_t Device::systemPortCount() const
 //////////////////////////////////////////////////////////////////////////////////////////
 void Device::setConnectionMode(ConnectionMode mode)
 {
+    m_ActiveConnectionMode = mode;
+
     if (mode == CONNECTION_SERIAL)
     {
         if (m_HostName)
@@ -414,8 +418,24 @@ bool Dialog::shouldShow() const
     if (m_Devices.empty())
         return false;
 
-    // If we only have one device with single port, then no need to show dialog
-    if (m_Devices.size() == 1 && m_Devices[0]->systemPortCount() == 1)
+    uint32_t systemPortCount = 0;
+    uint32_t serialDevices = 0;
+    uint32_t networkDevices = 0;
+
+    for (const auto &oneDevice : m_Devices)
+    {
+        if (oneDevice->systemPortCount() > 0)
+            systemPortCount = oneDevice->systemPortCount();
+
+        if (oneDevice->activeConnectionMode() == CONNECTION_SERIAL)
+            serialDevices++;
+        else if (oneDevice->activeConnectionMode() == CONNECTION_NETWORK)
+            networkDevices++;
+    }
+
+    // If we just have a single serial device with single port, no need to toggle port selector.
+    // If have have one or more network devices, we must show the dialog for the first time.
+    if (networkDevices == 0 && serialDevices <= 1 && systemPortCount <= 1)
         return false;
 
     // Otherwise, show dialog

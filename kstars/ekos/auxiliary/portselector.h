@@ -47,6 +47,11 @@ class Device : public QObject
 
         uint8_t systemPortCount() const;
 
+        ConnectionMode activeConnectionMode()
+        {
+            return m_ActiveConnectionMode;
+        }
+
         // Create GUI
         bool initGUI();
         // Sync GUI to data
@@ -84,6 +89,7 @@ class Device : public QObject
         ISD::GDInterface *m_Device {nullptr};
         QGridLayout *m_Grid{nullptr};
         uint8_t m_Row {0};
+        ConnectionMode m_ActiveConnectionMode {CONNECTION_NONE};
 
         static const QStringList BAUD_RATES;
         static const QString ACTIVE_STYLESHEET;
