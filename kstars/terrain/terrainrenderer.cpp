@@ -11,6 +11,7 @@
 #include "skymap.h"
 #include "skyqpainter.h"
 #include "projections/projector.h"
+#include "projections/equirectangularprojector.h"
 #include "skypoint.h"
 #include "kstars.h"
 
@@ -212,9 +213,10 @@ double rationalizeAz(double degrees)
 // Checks that degrees in the range of -90 -> 90.
 double rationalizeAlt(double degrees)
 {
-    if (degrees < -90.0 || degrees > 90.0)
-        return 0.0;
-
+    if (degrees > 90.0)
+        return 90.0;
+    if (degrees < -90)
+        return -90;
     return degrees;
 }
 
@@ -409,7 +411,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
 
     const double setupTime = setupTimer.elapsed() / 1000.0; ///////////////////
 
-    // Another speedup. If true, out calculations are downsampled by 2 in each dimension.
+    // Another speedup. If true, our calculations are downsampled by 2 in each dimension.
     const bool skip = Options::terrainSkipSpeedup() || SkyMap::IsSlewing();
     int increment = skip ? 2 : 1;
 
@@ -433,7 +435,10 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
             }
 
             const QPointF imgPoint(i, j);
-            if (!proj->unusablePoint(imgPoint))
+            bool equiRectangular = (proj->type() == Projector::Equirectangular);
+            bool usable = equiRectangular ? !dynamic_cast<const EquirectangularProjector*>(proj)->unusablePoint(imgPoint)
+                          : !proj->unusablePoint(imgPoint);
+            if (usable)
             {
                 float az, alt;
                 interp.get(i, j, &az, &alt);
@@ -494,9 +499,14 @@ void TerrainRenderer::setupLookup(uint16_t w, uint16_t h, int sampling, const Pr
         for (int i = 0, is = 0; i < w; i += sampling, is++)
         {
             const QPointF imgPoint(i, j);
-            if (!proj->unusablePoint(imgPoint))
+            bool equiRectangular = (proj->type() == Projector::Equirectangular);
+            bool usable = equiRectangular ? !dynamic_cast<const EquirectangularProjector*>(proj)->unusablePoint(imgPoint)
+                          : !proj->unusablePoint(imgPoint);
+            if (usable)
             {
-                SkyPoint point = proj->fromScreen(imgPoint, lst, lat, true);
+                SkyPoint point = equiRectangular ?
+                                 dynamic_cast<const EquirectangularProjector*>(proj)->fromScreen(imgPoint, lst, lat, true)
+                                 : proj->fromScreen(imgPoint, lst, lat, true);
                 const double az = rationalizeAz(point.az().Degrees());
                 const double alt = rationalizeAlt(point.alt().Degrees());
                 azLookup->set(is, js, az);
