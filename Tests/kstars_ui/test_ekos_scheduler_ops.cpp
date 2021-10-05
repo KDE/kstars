@@ -804,6 +804,54 @@ void TestEkosSchedulerOps::testFixedDateStartup()
     initJob(startUTime, jobStartUTime);
 }
 
+void TestEkosSchedulerOps::testTwilightStartup_data()
+{
+    QTest::addColumn<QString>("city");
+    QTest::addColumn<QString>("state");
+    QTest::addColumn<QString>("target");
+    QTest::addColumn<QString>("startTimeUTC");
+    QTest::addColumn<QString>("jobStartTimeUTC");
+
+    QTest::newRow("SF")
+            << "San Francisco" << "California" << "Rasalhague"
+            << "Sun Jun 13 20:00:00 2021 GMT" <<  "Mon Jun 14 05:23:00 2021 GMT";
+
+    // Not sure about this dusk time (last time).
+    QTest::newRow("Melbourne")
+            << "Melbourne" << "Victoria" << "Rasalhague"
+            << "Sun Jun 13 02:00:00 2021 GMT" <<  "Mon Jun 13 08:35:00 2021 GMT";
+}
+
+void TestEkosSchedulerOps::testTwilightStartup()
+{
+    QFETCH(QString, city);
+    QFETCH(QString, state);
+    QFETCH(QString, target);
+    QFETCH(QString, startTimeUTC);
+    QFETCH(QString, jobStartTimeUTC);
+
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName(target);
+    GeoLocation * const geoPtr = KStars::Instance()->data()->locationNamed(city, state, "");
+    GeoLocation &geo = *geoPtr;
+
+    const KStarsDateTime startUTime(QDateTime::fromString(startTimeUTC));
+    const KStarsDateTime jobStartUTime(QDateTime::fromString(jobStartTimeUTC));
+
+    // move forward in 20s steps
+    scheduler->setUpdateInterval(20000);
+    // define culmination offset of 1h as startup condition
+    m_startupCondition.type = SchedulerJob::START_ASAP;
+
+    // initialize the the scheduler
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+    QVector<QString> esqVector;
+    esqVector.push_back(esqContents1);
+    QVector<QString> eslVector;
+    // 3rd arg is the true for twilight enforced.
+    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, true, true));
+    initScheduler(geo, startUTime, &dir, eslVector, esqVector);
+    initJob(startUTime, jobStartUTime);
+}
 void addHorizonConstraint(ArtificialHorizon *horizon, const QString &name, bool enabled,
                           const QVector<double> &azimuths, const QVector<double> &altitudes)
 {
