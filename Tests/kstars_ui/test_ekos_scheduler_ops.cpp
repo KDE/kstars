@@ -199,7 +199,7 @@ bool writeFile(const QString &filename, const QString &contents)
 }
 
 QString getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition,
-                         bool enforceTwilight, bool enforceArtificialHorizon)
+                         bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30)
 {
     QString target = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SchedulerList version='1.4'><Profile>Default</Profile>"
                              "<Job><Name>%1</Name><Priority>10</Priority><Coordinates><J2000RA>%2</J2000RA>"
@@ -217,14 +217,15 @@ QString getSchedulerFile(const SkyObject *targetObject, StartupCondition startup
                                   startupCondition.atLocalDateTime.toString(Qt::ISODate));
 
     QString parameters = QString("<StartupCondition>%1</StartupCondition>"
-                                 "<Constraints><Constraint value='30'>MinimumAltitude</Constraint>%2%3"
+                                 "<Constraints><Constraint value='%4'>MinimumAltitude</Constraint>%2%3"
                                  "</Constraints><CompletionCondition><Condition>Sequence</Condition></CompletionCondition>"
                                  "<Steps><Step>Track</Step><Step>Focus</Step><Step>Align</Step><Step>Guide</Step></Steps></Job>"
                                  "<ErrorHandlingStrategy value='1'><delay>0</delay></ErrorHandlingStrategy><StartupProcedure>"
                                  "<Procedure>UnparkMount</Procedure></StartupProcedure><ShutdownProcedure><Procedure>ParkMount</Procedure>"
                                  "</ShutdownProcedure></SchedulerList>")
                          .arg(startupConditionStr).arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "")
-                         .arg(enforceArtificialHorizon ? "<Constraint>EnforceArtificialHorizon</Constraint>" : "");
+                         .arg(enforceArtificialHorizon ? "<Constraint>EnforceArtificialHorizon</Constraint>" : "")
+                         .arg(minAltitude);
 
     return (target + sequence + parameters);
 }
@@ -814,12 +815,11 @@ void TestEkosSchedulerOps::testTwilightStartup_data()
 
     QTest::newRow("SF")
             << "San Francisco" << "California" << "Rasalhague"
-            << "Sun Jun 13 20:00:00 2021 GMT" <<  "Mon Jun 14 05:23:00 2021 GMT";
+            << "Sun Jun 13 20:00:00 2021 GMT" <<  "Mon Jun 14 05:28:00 2021 GMT";
 
-    // Not sure about this dusk time (last time).
     QTest::newRow("Melbourne")
             << "Melbourne" << "Victoria" << "Rasalhague"
-            << "Sun Jun 13 02:00:00 2021 GMT" <<  "Mon Jun 13 08:35:00 2021 GMT";
+            << "Sun Jun 13 02:00:00 2021 GMT" <<  "Mon Jun 13 08:42:00 2021 GMT";
 }
 
 void TestEkosSchedulerOps::testTwilightStartup()
@@ -847,8 +847,8 @@ void TestEkosSchedulerOps::testTwilightStartup()
     QVector<QString> esqVector;
     esqVector.push_back(esqContents1);
     QVector<QString> eslVector;
-    // 3rd arg is the true for twilight enforced.
-    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, true, true));
+    // 3rd arg is the true for twilight enforced. -40 is minAltitude.
+    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, true, false, -40));
     initScheduler(geo, startUTime, &dir, eslVector, esqVector);
     initJob(startUTime, jobStartUTime);
 }
