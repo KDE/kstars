@@ -57,7 +57,7 @@ class KStarsDateTime : public QDateTime
              */
         /** @{ */
         KStarsDateTime(const KStarsDateTime &kdt);
-        KStarsDateTime& operator=(const KStarsDateTime &kdt) noexcept;
+        KStarsDateTime &operator=(const KStarsDateTime &kdt) noexcept;
         /** @} */
 
         /**
@@ -109,7 +109,9 @@ class KStarsDateTime : public QDateTime
              */
         inline KStarsDateTime addDays(int nd) const
         {
-            return KStarsDateTime(djd() + static_cast<long double>(nd));
+            KStarsDateTime kdt(djd() + static_cast<long double>(nd));
+            kdt.setTimeSpec(timeSpec());
+            return kdt;
         }
 
         inline bool operator==(const KStarsDateTime &d) const

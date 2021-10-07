@@ -1209,9 +1209,6 @@ void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn,
     // Loop dawn and dusk calculation until the events found are the next events
     for ( ; dawn <= startup || dusk <= startup ; midnight = midnight.addDays(1))
     {
-        // Forcefully set midnight to local time, as addDays returns to UTC
-        midnight.setTimeSpec(Qt::LocalTime);
-
         // KSAlmanac computes the closest dawn and dusk events from the local sidereal time corresponding to the midnight argument
         KSAlmanac const ksal(midnight, getGeo());
 
