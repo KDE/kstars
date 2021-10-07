@@ -113,6 +113,10 @@ TestSchedulerUnit::TestSchedulerUnit() : QObject()
     // There's some slight complexity when setting near the altitude constraint.
     // This is not tested yet.
     Options::setSettingAltitudeCutoff(0);
+
+    // Setting this true winds up calling KStarsData::Instance() in the scheduler via SkyPoint::apparentCoord().
+    // Unit tests don't instantiate KStarsData::Instance() and will crash.
+    Options::setUseRelativistic(false);
 }
 
 // Tests that the doubles are within tolerance.
