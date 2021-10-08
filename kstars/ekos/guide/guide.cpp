@@ -43,12 +43,38 @@ namespace Ekos
 {
 Guide::Guide() : QWidget()
 {
-    // This needs to be very early. Many settings widgets are inside of opsGuide and references throughout this file.
-    opsGuide = new OpsGuide();
+    // #0 Prelude
+    internalGuider = new InternalGuider(); // Init Internal Guider always
+
+    KConfigDialog *dialog = new KConfigDialog(this, "guidesettings", Options::self());
+
+    opsGuide = new OpsGuide();  // Initialize sub dialog AFTER main dialog
+    KPageWidgetItem *page = dialog->addPage(opsGuide, i18n("Guide"));
+    page->setIcon(QIcon::fromTheme("kstars_guides"));
+    connect(opsGuide, &OpsGuide::settingsUpdated, [this]()
+    {
+        onThresholdChanged(Options::guideAlgorithm());
+        configurePHD2Camera();
+        configSEPMultistarOptions(); // due to changes in 'Guide Setting: Algorithm'
+    });
+
+    opsCalibration = new OpsCalibration(internalGuider);
+    page = dialog->addPage(opsCalibration, i18n("Calibration"));
+    page->setIcon(QIcon::fromTheme("tool-measure"));
+
+    opsDither = new OpsDither();
+    page = dialog->addPage(opsDither, i18n("Dither"));
+    page->setIcon(QIcon::fromTheme("transform-move"));
+
+    opsGPG = new OpsGPG(internalGuider);
+    page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
+    page->setIcon(QIcon::fromTheme("pathshape"));
+
+    internalGuider->setGuideView(guideView);
 
     // #1 Setup UI
-
     setupUi(this);
+
     // #2 Register DBus
     qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
     qDBusRegisterMetaType<Ekos::GuideState>();
@@ -116,33 +142,6 @@ Guide::Guide() : QWidget()
                    << 10 << 15 << 30;
     exposureIN->setRecommendedValues(exposureValues);
     connect(exposureIN, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
-
-    // Init Internal Guider always
-    internalGuider        = new InternalGuider();
-    KConfigDialog *dialog = new KConfigDialog(this, "guidesettings", Options::self());
-    opsCalibration        = new OpsCalibration(internalGuider);
-    KPageWidgetItem *page = dialog->addPage(opsCalibration, i18n("Calibration"));
-    page->setIcon(QIcon::fromTheme("tool-measure"));
-
-    connect(opsGuide, &OpsGuide::settingsUpdated, [this]()
-    {
-        onThresholdChanged(Options::guideAlgorithm());
-        configurePHD2Camera();
-        configSEPMultistarOptions(); // due to changes in 'Guide Setting: Algorithm'
-    });
-
-    page = dialog->addPage(opsGuide, i18n("Guide"));
-    page->setIcon(QIcon::fromTheme("kstars_guides"));
-
-    opsDither = new OpsDither();
-    page = dialog->addPage(opsDither, i18n("Dither"));
-    page->setIcon(QIcon::fromTheme("transform-move"));
-
-    opsGPG = new OpsGPG(internalGuider);
-    page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
-    page->setIcon(QIcon::fromTheme("pathshape"));
-
-    internalGuider->setGuideView(guideView);
 
     // Set current guide type
     setGuiderType(-1);
