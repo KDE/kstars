@@ -19,7 +19,7 @@
 CatalogObject *CatalogObject::clone() const
 {
     Q_ASSERT(typeid(this) == typeid(static_cast<const CatalogObject *>(
-                                 this))); // Ensure we are not slicing a derived class
+                                        this))); // Ensure we are not slicing a derived class
     return new CatalogObject(*this);      // NOLINT, (b.c. returning raw memory is bad!)
 }
 
@@ -59,7 +59,7 @@ QString CatalogObject::labelString() const
             oName = translatedName();
     }
 
-    if (Options::showDeepSkyMagnitudes())
+    if (Options::showDeepSkyMagnitudes() && !std::isnan(mag()))
     {
         if (Options::showDeepSkyNames())
             oName += ' ';
@@ -120,8 +120,8 @@ const CatalogObject::oid CatalogObject::getId() const
 }
 
 const CatalogObject::oid CatalogObject::getId(const SkyObject::TYPE type, const double ra,
-                                              const double dec, const QString &name,
-                                              const QString &catalog_identifier)
+        const double dec, const QString &name,
+        const QString &catalog_identifier)
 {
     QString data;
     data += QString::number(type);
