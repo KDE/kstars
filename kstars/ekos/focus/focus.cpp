@@ -3497,15 +3497,11 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Focus::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
-                           int pierSide, const QString &ha)
+void Focus::setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha)
 {
-    Q_UNUSED(ra);
-    Q_UNUSED(dec);
-    Q_UNUSED(az);
     Q_UNUSED(pierSide);
     Q_UNUSED(ha);
-    mountAlt = dms(alt, true).Degrees();
+    mountAlt = position.alt().Degrees();
 }
 
 void Focus::removeDevice(ISD::GDInterface *deviceRemoved)

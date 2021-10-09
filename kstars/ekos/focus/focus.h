@@ -377,8 +377,7 @@ class Focus : public QWidget, public Ui::Focus
         void setMountStatus(ISD::Telescope::Status newState);
 
         // Update Altitude From Mount
-        void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
-                            const QString &ha);
+        void setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
 
         /**
          * @brief toggleVideo Turn on and off video streaming if supported by the camera.

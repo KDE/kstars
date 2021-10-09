@@ -308,7 +308,6 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     capturePreview->shareSchedulerProcess(schedulerProcess.get());
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
-    //connect(schedulerProcess.get(), SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
     {
         mountTarget->setText(target);
@@ -2439,10 +2438,10 @@ void Manager::initMount()
     connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
     connect(mountProcess.get(), &Ekos::Mount::newCoords, this, &Ekos::Manager::updateMountCoords);
     connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
-    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](const QString & target)
+    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](SkyObject currentObject)
     {
-        mountTarget->setText(target);
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
+        mountTarget->setText(currentObject.name());
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", currentObject.name()}}));
     });
     connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, [&](ISD::Telescope::PierSide side)
     {
@@ -2951,22 +2950,21 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
 }
 
-void Manager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt,
-                                int pierSide, const QString &ha)
+void Manager::updateMountCoords(const SkyPoint position, ISD::Telescope::PierSide pierSide, const dms &ha)
 {
     Q_UNUSED(pierSide);
-    raOUT->setText(ra);
-    decOUT->setText(dec);
-    azOUT->setText(az);
-    altOUT->setText(alt);
+    raOUT->setText(position.ra().toHMSString());
+    decOUT->setText(position.dec().toDMSString());
+    azOUT->setText(position.az().toDMSString());
+    altOUT->setText(position.alt().toDMSString());
 
     QJsonObject cStatus =
     {
-        {"ra", dms::fromString(ra, false).Degrees()},
-        {"de", dms::fromString(dec, true).Degrees()},
-        {"az", dms::fromString(az, true).Degrees()},
-        {"at", dms::fromString(alt, true).Degrees()},
-        {"ha", dms::fromString(ha, false).Degrees()},
+        {"ra", dms::fromString(raOUT->text(), false).Degrees()},
+        {"de", dms::fromString(decOUT->text(), true).Degrees()},
+        {"az", dms::fromString(azOUT->text(), true).Degrees()},
+        {"at", dms::fromString(altOUT->text(), true).Degrees()},
+        {"ha", ha.Degrees()},
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
@@ -3390,20 +3388,11 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
     }
 
-    // Focus <---> Observatory connections
-    //    if (focusProcess.get() && observatoryProcess.get())
-    //    {
-    //        connect(observatoryProcess.get(), &Ekos::Observatory::newWeatherData, focusProcess.get(), &Ekos::Focus::setWeatherData,
-    //                Qt::UniqueConnection);
-    //    }
-
     // Mount <---> Align connections
     if (mountProcess.get() && alignProcess.get())
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus,
                 Qt::UniqueConnection);
-        //        connect(mountProcess.get(), &Ekos::Mount::newCoords, alignProcess.get(), &Ekos::Align::setMountCoords,
-        //                Qt::UniqueConnection);
     }
 
     // Mount <---> Guide connections
@@ -3513,14 +3502,10 @@ void Manager::connectModules()
     }
     if (mountProcess.get())
     {
-        // void newStatus(ISD::Telescope::Status status);
         connect(mountProcess.get(), &Ekos::Mount::newStatus,
                 analyzeProcess.get(), &Ekos::Analyze::mountState, Qt::UniqueConnection);
-        //void newCoords(const QString &ra, const QString &dec,
-        //               const QString &az, const QString &alt, int pierSide);
         connect(mountProcess.get(), &Ekos::Mount::newCoords,
                 analyzeProcess.get(), &Ekos::Analyze::mountCoords, Qt::UniqueConnection);
-        // void newMeridianFlipStatus(MeridianFlipStatus status);
         connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus,
                 analyzeProcess.get(), &Ekos::Analyze::mountFlipStatus, Qt::UniqueConnection);
     }

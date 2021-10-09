@@ -137,6 +137,8 @@ class Telescope : public DeviceDecorator
         {
             return m_ParkStatus;
         }
+
+        Status status(INumberVectorProperty *nvp);
         Status status();
         const QString getStatusString(Status status);
 
@@ -188,18 +190,22 @@ class Telescope : public DeviceDecorator
          */
         bool setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassStart, const KStarsDateTime satPassEnd);
 
+        /**
+         * @brief Hour angle of the current coordinates
+         */
         const dms hourAngle() const;
 
         const SkyPoint &currentCoordinates() const
         {
-            return currentCoord;
+            return currentCoords;
         }
 
 
     protected:
         bool sendCoords(SkyPoint *ScopeTarget);
+        void updateJ2000Coordinates();
 
-    public slots:
+public slots:
         virtual bool runCommand(int command, void *ptr = nullptr) override;
         bool Abort();
         bool Park();
@@ -210,14 +216,32 @@ class Telescope : public DeviceDecorator
         bool setTrackMode(uint8_t index);
 
     signals:
-        void newTarget(const QString &);
+        /**
+         * @brief The mount has finished the slew to a new target.
+         * @param currentObject object close to the position the mount is pointing to
+         * @param currentCoords exact position where the mount is positioned
+         */
+        void newTarget(SkyObject &currentObject, SkyPoint &currentCoords);
+        /**
+         * @brief Change in the mount status.
+         */
+        void newStatus(ISD::Telescope::Status status);
+        /**
+         * @brief Update event with the current telescope position
+         * @param position mount position. Independent from the mount type,
+         * the EQ coordinates(both JNow and J2000) as well as the alt/az values are filled.
+         * @param pierside for GEMs report the pier side the scope is currently (PierSide::PIER_WEST means
+         * the mount is on the western side of the pier pointing east of the meridian).
+         * @param ha current hour angle
+         */
+        void newCoords(const SkyPoint &position, const PierSide pierside, const dms &ha);
         void newParkStatus(ISD::ParkStatus status);
         void slewRateChanged(int rate);
         void pierSideChanged(PierSide side);
         void ready();
 
     private:
-        SkyPoint currentCoord;
+        SkyPoint currentCoords;
         double minAlt = 0, maxAlt = 90;
         ParkStatus m_ParkStatus = PARK_UNKNOWN;
         IPState EqCoordPreviousState;

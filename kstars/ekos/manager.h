@@ -427,8 +427,7 @@ class Manager : public QDialog, public Ui::Manager
         void wizardProfile();
 
         // Mount Summary
-        void updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
-                               const QString &ha);
+        void updateMountCoords(const SkyPoint position, ISD::Telescope::PierSide pierSide, const dms &ha);
         void updateMountStatus(ISD::Telescope::Status status);
         void setTarget(SkyObject *o);
 

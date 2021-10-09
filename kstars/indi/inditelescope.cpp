@@ -209,6 +209,14 @@ void Telescope::registerProperty(INDI::Property prop)
     DeviceDecorator::registerProperty(prop);
 }
 
+void Telescope::updateJ2000Coordinates()
+{
+    SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
+    J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+    currentCoords.setRA0(J2000Coord.ra());
+    currentCoords.setDec0(J2000Coord.dec());
+}
+
 void Telescope::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
@@ -219,34 +227,44 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         if (RA == nullptr || DEC == nullptr)
             return;
 
-        currentCoord.setRA(RA->value);
-        currentCoord.setDec(DEC->value);
-
-        // If J2000, convert it to JNow
-        if (!strcmp(nvp->name, "EQUATORIAL_COORD"))
+        // set both JNow and J2000 coordinates
+        if (isJ2000())
         {
-            currentCoord.setRA0(RA->value);
-            currentCoord.setDec0(DEC->value);
-            currentCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+            currentCoords.setRA0(RA->value);
+            currentCoords.setDec0(DEC->value);
+            currentCoords.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        }
+        else
+        {
+            currentCoords.setRA(RA->value);
+            currentCoords.setDec(DEC->value);
+            // calculate J2000 coordinates
+            updateJ2000Coordinates();
         }
 
-        currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(),
+        // calculate horizontal coordinates
+        currentCoords.EquatorialToHorizontal(KStars::Instance()->data()->lst(),
                                             KStars::Instance()->data()->geo()->lat());
+        emit newCoords(currentCoords, pierSide(), hourAngle());
+
+        ISD::Telescope::Status currentStatus = status(nvp);
 
         if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
-            if (status() != MOUNT_PARKING)
+            if (currentStatus == MOUNT_SLEWING)
                 KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"));
+            emit newStatus(currentStatus);
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
         {
             KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"));
+            emit newStatus(currentStatus);
 
             double maxrad = 1000.0 / Options::zoomFactor();
 
-            currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoord, maxrad);
+            currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
             if (currentObject != nullptr)
-                emit newTarget(currentObject->name());
+                emit newTarget(*currentObject, currentCoords);
         }
 
         EqCoordPreviousState = nvp->s;
@@ -261,11 +279,14 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         if (Az == nullptr || Alt == nullptr)
             return;
 
-        currentCoord.setAz(Az->value);
-        currentCoord.setAlt(Alt->value);
-        currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
+        currentCoords.setAz(Az->value);
+        currentCoords.setAlt(Alt->value);
+        currentCoords.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
                                             KStars::Instance()->data()->geo()->lat());
+        // calculate J2000 coordinates
+        updateJ2000Coordinates();
 
+        emit newCoords(currentCoords, pierSide(), hourAngle());
         KStars::Instance()->map()->update();
     }
 
@@ -337,7 +358,8 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 if (unParkAction)
                     unParkAction->setEnabled(true);
 
-                emit newTarget(QString());
+                SkyObject emptySky = SkyObject();
+                emit newTarget(emptySky, currentCoords);
             }
             else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
             {
@@ -609,14 +631,14 @@ bool Telescope::runCommand(int command, void *ptr)
 
         case INDI_FIND_TELESCOPE:
         {
-            SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
+            SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
             J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-            currentCoord.setRA0(J2000Coord.ra());
-            currentCoord.setDec0(J2000Coord.dec());
+            currentCoords.setRA0(J2000Coord.ra());
+            currentCoords.setDec0(J2000Coord.dec());
             double maxrad = 1000.0 / Options::zoomFactor();
-            SkyObject *currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoord, maxrad);
+            SkyObject *currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
             KStars::Instance()->map()->setFocusObject(currentObject);
-            KStars::Instance()->map()->setDestination(currentCoord);
+            KStars::Instance()->map()->setDestination(currentCoords);
         }
         break;
 
@@ -624,16 +646,16 @@ bool Telescope::runCommand(int command, void *ptr)
         {
             //if (currentObject == nullptr || KStars::Instance()->map()->focusObject() != currentObject)
             if (Options::isTracking() == false ||
-                    currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
+                    currentCoords.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
             {
-                SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
+                SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
                 J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-                currentCoord.setRA0(J2000Coord.ra());
-                currentCoord.setDec0(J2000Coord.dec());
+                currentCoords.setRA0(J2000Coord.ra());
+                currentCoords.setDec0(J2000Coord.dec());
                 //KStars::Instance()->map()->setClickedPoint(&currentCoord);
                 //KStars::Instance()->map()->slotCenter();
-                KStars::Instance()->map()->setDestination(currentCoord);
-                KStars::Instance()->map()->setFocusPoint(&currentCoord);
+                KStars::Instance()->map()->setDestination(currentCoords);
+                KStars::Instance()->map()->setFocusPoint(&currentCoords);
                 //KStars::Instance()->map()->setFocusObject(currentObject);
                 KStars::Instance()->map()->setFocusObject(nullptr);
                 Options::setIsTracking(true);
@@ -814,7 +836,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
                 }
 
-                emit newTarget(currentObject->name());
+                emit newTarget(*currentObject, currentCoords);
 
                 sendToClient();
             };
@@ -1293,47 +1315,7 @@ Telescope::Status Telescope::status()
             return MOUNT_ERROR;
     }
 
-    switch (EqProp->s)
-    {
-        case IPS_IDLE:
-            if (inManualMotion)
-                return MOUNT_MOVING;
-            else if (isParked())
-                return MOUNT_PARKED;
-            else
-                return MOUNT_IDLE;
-
-        case IPS_OK:
-            if (inManualMotion)
-                return MOUNT_MOVING;
-            else if (inCustomParking)
-            {
-                inCustomParking = false;
-                // set CURRENT position as the desired parking position
-                sendParkingOptionCommand(PARK_OPTION_CURRENT);
-                // Write data to disk
-                sendParkingOptionCommand(PARK_OPTION_WRITE_DATA);
-
-                return MOUNT_TRACKING;
-            }
-            else
-                return MOUNT_TRACKING;
-
-        case IPS_BUSY:
-        {
-            auto parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
-            if (parkSP && parkSP->getState() == IPS_BUSY)
-                return MOUNT_PARKING;
-            else
-                return MOUNT_SLEWING;
-        }
-
-        case IPS_ALERT:
-            inCustomParking = false;
-            return MOUNT_ERROR;
-    }
-
-    return MOUNT_ERROR;
+    return status(EqProp);
 }
 
 const QString Telescope::getStatusString(Telescope::Status status)
@@ -1495,10 +1477,55 @@ bool Telescope::sendParkingOptionCommand(ParkOptionCommand command)
     return true;
 }
 
+Telescope::Status Telescope::status(INumberVectorProperty *nvp)
+{
+    switch (nvp->s)
+    {
+        case IPS_IDLE:
+            if (inManualMotion)
+                return MOUNT_MOVING;
+            else if (isParked())
+                return MOUNT_PARKED;
+            else
+                return MOUNT_IDLE;
+
+        case IPS_OK:
+            if (inManualMotion)
+                return MOUNT_MOVING;
+            else if (inCustomParking)
+            {
+                inCustomParking = false;
+                // set CURRENT position as the desired parking position
+                sendParkingOptionCommand(PARK_OPTION_CURRENT);
+                // Write data to disk
+                sendParkingOptionCommand(PARK_OPTION_WRITE_DATA);
+
+                return MOUNT_TRACKING;
+            }
+            else
+                return MOUNT_TRACKING;
+
+        case IPS_BUSY:
+        {
+            auto parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+            if (parkSP && parkSP->getState() == IPS_BUSY)
+                return MOUNT_PARKING;
+            else
+                return MOUNT_SLEWING;
+        }
+
+        case IPS_ALERT:
+            inCustomParking = false;
+            return MOUNT_ERROR;
+    }
+
+    return MOUNT_ERROR;
+}
+
 const dms Telescope::hourAngle() const
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    return dms(lst.Degrees() - currentCoord.ra().Degrees());
+    return dms(lst.Degrees() - currentCoords.ra().Degrees());
 }
 
 }

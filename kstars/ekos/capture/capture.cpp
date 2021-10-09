@@ -3942,11 +3942,11 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
 
     currentTelescope->disconnect(this);
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber);
-    connect(currentTelescope, &ISD::Telescope::newTarget, [&](const QString & target)
+    connect(currentTelescope, &ISD::Telescope::newTarget, [&](SkyObject currentObject)
     {
         if (m_State == CAPTURE_IDLE || m_State == CAPTURE_COMPLETE)
         {
-            QString sanitized = target;
+            QString sanitized = currentObject.name();
             // Remove illegal characters that can be problematic
             sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
                         // Remove any two or more __

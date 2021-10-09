@@ -44,7 +44,9 @@ void CapturePreviewWidget::shareSchedulerProcess(Ekos::Scheduler *process)
 void CapturePreviewWidget::shareMountProcess(Ekos::Mount *process)
 {
     mountProcess = process;
-    connect(mountProcess, &Ekos::Mount::newTarget, [&](const QString & target){m_mountTarget = target;});
+    connect(mountProcess, &Ekos::Mount::newTarget, [&](SkyObject currentObject){
+        m_mountTarget = currentObject.name();
+    });
 }
 
 void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data)

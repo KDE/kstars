@@ -2643,22 +2643,14 @@ void Analyze::resetMountState()
     lastMountState = ISD::Telescope::Status::MOUNT_IDLE;
 }
 
-// This message comes from the mount module,
-// ra: telescopeCoord.ra().toHMSString()
-// dec: telescopeCoord.dec().toDMSString()
-// az: telescopeCoord.az().toDMSString()
-// alt: telescopeCoord.alt().toDMSString()
-// pierSide: currentTelescope->pierSide()
-//   which is PIER_UNKNOWN = -1, PIER_WEST = 0, PIER_EAST = 1
-void Analyze::mountCoords(const QString &raStr, const QString &decStr,
-                          const QString &azStr, const QString &altStr, int pierSide,
-                          const QString &haStr)
+// This message comes from the mount module
+void Analyze::mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &haValue)
 {
-    double ra = dms(raStr, false).Degrees();
-    double dec = dms(decStr, true).Degrees();
-    double ha = dms(haStr, false).Degrees();
-    double az = dms(azStr, true).Degrees();
-    double alt = dms(altStr, true).Degrees();
+    double ra = position.ra().Degrees();
+    double dec = position.dec().Degrees();
+    double ha = haValue.Degrees();
+    double az = position.az().Degrees();
+    double alt = position.alt().Degrees();
 
     // Only process the message if something's changed by 1/4 degree or more.
     constexpr double MIN_DEGREES_CHANGE = 0.25;

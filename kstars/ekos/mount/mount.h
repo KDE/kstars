@@ -413,10 +413,14 @@ class Mount : public QWidget, public Ui::Mount
         void updateLog(int messageID);
 
         /**
-             * @brief updateTelescopeCoords runs every UPDATE_DELAY milliseconds to update the displayed coordinates of the mount and to ensure mount is
-             * within altitude limits if the altitude limits are enabled.
+             * @brief updateTelescopeCoords is triggered by the ISD::Telescope::newCoord() event and updates the displayed
+             * coordinates of the mount and to ensure mount is within altitude limits if the altitude limits are enabled.
+             * The frequency of this update depends on the REFRESH parameter of the INDI mount device.
+             * @param position latest coordinates the mount reports it is pointing to
+             * @param pierSide pierSide
+             * @param ha hour angle of the latest coordinates
              */
-        void updateTelescopeCoords();
+        void updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
 
         /**
              * @brief move Issues motion command to the mount to move in a particular direction based the request NS and WE values
@@ -506,9 +510,24 @@ class Mount : public QWidget, public Ui::Mount
 
     signals:
         void newLog(const QString &text);
-        void newCoords(const QString &ra, const QString &dec, const QString &az,
-                       const QString &alt, int pierSide, const QString &ha);
-        void newTarget(const QString &name);
+        /**
+         * @brief Update event with the current telescope position
+         * @param position mount position. Independent from the mount type,
+         * the EQ coordinates(both JNow and J2000) as well as the alt/az values are filled.
+         * @param pierside for GEMs report the pier side the scope is currently (PierSide::PIER_WEST means
+         * the mount is on the western side of the pier pointing east of the meridian).
+         * @param ha current hour angle
+         */
+        void newCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
+        /**
+         * @brief The mount has finished the slew to a new target.
+         * @param currentObject object close to the position the mount is pointing to
+         * @param currentCoords exact position where the mount is positioned
+         */
+        void newTarget(SkyObject &currentObject, SkyPoint &currentCoord);
+        /**
+         * @brief Change in the mount status.
+         */
         void newStatus(ISD::Telescope::Status status);
         void newParkStatus(ISD::ParkStatus status);
         void pierSideChanged(ISD::Telescope::PierSide side);
@@ -519,6 +538,7 @@ class Mount : public QWidget, public Ui::Mount
 
     private:
         void syncGPS();
+        void setScopeStatus(ISD::Telescope::Status status);
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
         void setMeridianFlipStatus(MeridianFlipStatus status);
         void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
@@ -542,7 +562,6 @@ class Mount : public QWidget, public Ui::Mount
         QString lastNotificationMessage;
 
         // Auto Park
-        QTimer updateTimer;
         QTimer autoParkTimer;
 
         // Limits

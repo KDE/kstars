@@ -58,7 +58,7 @@ class GuideInterface : public QObject
 
         virtual void setStarPosition(QVector3D &starCenter);
 
-        virtual void setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int side);
+        virtual void setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide side);
         virtual void setPierSide(ISD::Telescope::PierSide newSide);
         virtual void resetGPG() {};
 

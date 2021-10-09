@@ -1453,11 +1453,10 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Guide::setMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt, int pierSide,
-                           const QString &ha)
+void Guide::setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha)
 {
     Q_UNUSED(ha);
-    guider->setMountCoords(ra, dec, az, alt, pierSide);
+    guider->setMountCoords(position, pierSide);
 }
 
 void Guide::setExposure(double value)

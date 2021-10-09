@@ -167,8 +167,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // From Mount
         void mountState(ISD::Telescope::Status status);
-        void mountCoords(const QString &ra, const QString &dec, const QString &az,
-                         const QString &alt, int pierSide, const QString &ha);
+        void mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &haValue);
         void mountFlipStatus(Ekos::Mount::MeridianFlipStatus status);
 
     private slots:
