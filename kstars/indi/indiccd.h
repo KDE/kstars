@@ -182,6 +182,13 @@ class CCD : public DeviceDecorator
             BLOB_OTHER
         } BType;
         typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE, TELESCOPE_UNKNOWN } TelescopeType;
+        typedef enum
+        {
+            ERROR_CAPTURE,              /** INDI Camera error */
+            ERROR_SAVE,                 /** Saving to disk error */
+            ERROR_LOAD,                 /** Loading image buffer error */
+            ERROR_VIEWER                /** Loading in FITS Viewer Error */
+        } ErrorType;
 
         void registerProperty(INDI::Property prop) override;
         void removeProperty(const QString &name) override;
@@ -356,7 +363,7 @@ class CCD : public DeviceDecorator
         void newVideoFrame(const QSharedPointer<QImage> &frame);
         void coolerToggled(bool enabled);
         void ready();
-        void captureFailed();
+        void error(ErrorType type);
         void newImage(const QSharedPointer<FITSData> &data);
 
     private:
@@ -365,6 +372,7 @@ class CCD : public DeviceDecorator
         bool generateFilename(bool batch_mode, const QString &extension, QString *filename);
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);
+        bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
         QPointer<FITSViewer> getFITSViewer();
         void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);

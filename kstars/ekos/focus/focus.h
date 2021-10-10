@@ -404,10 +404,10 @@ class Focus : public QWidget, public Ui::Focus
 
 
 
-protected:
+    protected:
         void addPlotPosition(int pos, double hfr);
 
-private slots:
+    private slots:
         /**
              * @brief toggleSubframe Process enabling and disabling subfrag.
              * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
@@ -422,7 +422,7 @@ private slots:
 
         void processCaptureTimeout();
 
-        void processCaptureFailure();
+        void processCaptureError(ISD::CCD::ErrorType type);
 
         void setCaptureComplete();
 
@@ -538,7 +538,10 @@ private slots:
         /** @brief Helper function determining whether the focuser behaves like a position
          *         based one (vs. a timer based)
          */
-        bool isPositionBased() {return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR));}
+        bool isPositionBased()
+        {
+            return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR));
+        }
         void resetButtons();
         void stop(FocusState completionState = FOCUS_ABORTED);
 

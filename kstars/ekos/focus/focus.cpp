@@ -1099,7 +1099,7 @@ void Focus::stop(Ekos::FocusState completionState)
     if (currentCCD)
     {
         disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-        disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
+        disconnect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
 
         if (rememberUploadMode != currentCCD->getUploadMode())
             currentCCD->setUploadMode(rememberUploadMode);
@@ -1220,7 +1220,7 @@ void Focus::capture(double settleTime)
     prepareCapture(targetChip);
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-    connect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
+    connect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
 
     if (frameSettings.contains(targetChip))
     {
@@ -1413,7 +1413,7 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-    disconnect(currentCCD, &ISD::CCD::captureFailed, this, &Ekos::Focus::processCaptureFailure);
+    disconnect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
 
     if (m_ImageData && darkFrameCheck->isChecked())
     {
@@ -3750,8 +3750,15 @@ void Focus::processCaptureTimeout()
     }
 }
 
-void Focus::processCaptureFailure()
+void Focus::processCaptureError(ISD::CCD::ErrorType type)
 {
+    if (type == ISD::CCD::ERROR_SAVE)
+    {
+        appendLogText(i18n("Failed to save image. Aborting..."));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
+        return;
+    }
+
     captureFailureCounter++;
 
     if (captureFailureCounter >= 3)

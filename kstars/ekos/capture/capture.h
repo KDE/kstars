@@ -950,6 +950,12 @@ class Capture : public QWidget, public Ui::Capture
          */
         int getTotalFramesCount(QString signature);
 
+        /**
+         * @brief processCaptureError Handle when image capture fails
+         * @param type error type
+         */
+        void processCaptureError(ISD::CCD::ErrorType type);
+
         double seqExpose { 0 };
         int seqTotalCount;
         int seqCurrentCount { 0 };

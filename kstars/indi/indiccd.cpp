@@ -40,50 +40,6 @@ const QString &getFITSModeStringString(FITSMode mode)
     return FITSModes[mode];
 }
 
-namespace
-{
-// Internal function to write an image blob to disk.
-bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
-{
-    QFile file(filename);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open write file: " <<
-                                filename;
-        KSMessageBox::Instance()->warningContinueCancel(
-            i18n("Failed writing image to %1\nPlease check folder, filename & permissions.", filename),
-            "Image Write Failed", 60, true, "Close", "");
-        return false;
-    }
-    int n = 0;
-    QDataStream out(&file);
-    bool ok = true;
-    for (size_t nr = 0; nr < size; nr += n)
-    {
-        n = out.writeRawData(buffer + nr, size - nr);
-        if (n < 0)
-        {
-            ok = false;
-            break;
-        }
-    }
-    ok = file.flush() && ok;
-    file.close();
-    file.setPermissions(QFileDevice::ReadUser |
-                        QFileDevice::WriteUser |
-                        QFileDevice::ReadGroup |
-                        QFileDevice::ReadOther);
-    if (!ok)
-    {
-        KSMessageBox::Instance()->warningContinueCancel(
-            i18n("Failed writing image to %1. Please check folder, filename & permissions.", filename),
-            "Image Write Failed", 60, true, "Close", "");
-        return false;
-    }
-    return true;
-}
-}
-
 namespace ISD
 {
 CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
@@ -444,7 +400,7 @@ bool CCDChip::capture(double exposure)
             {
                 double diff = 1e6;
                 double closestMatch = exposure;
-                for (auto oneValue : exposurePresets.values())
+                for (const auto &oneValue : exposurePresets.values())
                 {
                     double newDiff = std::fabs(exposure - oneValue);
                     if (newDiff < diff)
@@ -1119,7 +1075,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         if (np)
             emit newExposureValue(primaryChip.get(), np->value, nvp->s);
         if (nvp->s == IPS_ALERT)
-            emit captureFailed();
+            emit error(ERROR_CAPTURE);
     }
     else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {
@@ -1360,8 +1316,8 @@ void CCD::processStream(IBLOB *bp)
     }
     else
     {
-        int x, y, w, h;
-        int binx, biny;
+        int x = 0, y = 0, w = 0, h = 0;
+        int binx = 1, biny = 1;
 
         primaryChip->getFrame(&x, &y, &w, &h);
         primaryChip->getBinning(&binx, &biny);
@@ -1387,13 +1343,7 @@ bool CCD::generateFilename(bool batch_mode, const QString &extension, QString *f
 
     QFile test_file(*filename);
     if (!test_file.open(QIODevice::WriteOnly))
-    {
-        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open " << test_file.fileName();
-        KSMessageBox::Instance()->warningContinueCancel(
-            i18n("Failed writing image to %1\nPlease check folder, filename & permissions.", *filename),
-            "Image Write Failed", 60, true, "Close", "");
         return false;
-    }
     test_file.flush();
     test_file.close();
     return true;
@@ -1430,8 +1380,7 @@ bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
         memcpy(fileWriteBuffer, bp->blob, bp->size);
-        fileWriteThread = QtConcurrent::run(WriteImageFileInternal, fileWriteFilename, fileWriteBuffer, bp->size);
-        //filter = "";
+        fileWriteThread = QtConcurrent::run(this, &ISD::CCD::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer, bp->size);
     }
     else
     {
@@ -1555,18 +1504,21 @@ void CCD::processBLOB(IBLOB *bp)
         if (!generateFilename(targetChip->isBatchMode(), format, &filename) ||
                 !writeImageFile(filename, bp, BType == BLOB_FITS))
         {
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+            {
+                KSMessageBox::Instance()->disconnect(this);
+                emit error(ERROR_SAVE);
+            });
+            KSMessageBox::Instance()->error(i18n("Failed writing image to %1\nPlease check folder, filename & permissions.",
+                                                 filename),
+                                            i18n("Image Write Failed"), 30);
+
             emit BLOBUpdated(nullptr);
             return;
         }
     }
     else
         filename = QDir::tempPath() + QDir::separator() + "image" + format;
-
-    // store file name
-    //    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
-    //    bp->aux0 = targetChip;
-    //    bp->aux1 = &BType;
-    //    bp->aux2 = BLOBFilename;
 
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
     {
@@ -1687,7 +1639,7 @@ void CCD::processBLOB(IBLOB *bp)
         // If reading the blob fails, we treat it the same as exposure failure
         // and recapture again if possible
         qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
-        emit newExposureValue(targetChip, 0, IPS_ALERT);
+        emit error(ERROR_LOAD);
         return;
     }
 
@@ -1750,7 +1702,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                     // If opening file fails, we treat it the same as exposure failure
                     // and recapture again if possible
                     qCCritical(KSTARS_INDI) << "error adding/updating FITS";
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    emit error(ERROR_VIEWER);
                     return;
                 }
                 *tabID = tabIndex;
@@ -1788,7 +1740,7 @@ void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSDat
         //if (!view->loadFITSFromData(data, filename))
         if (!view->loadData(data))
         {
-            emit newExposureValue(targetChip, 0, IPS_ALERT);
+            emit error(ERROR_LOAD);
             return;
 
         }
@@ -2630,5 +2582,36 @@ bool CCD::setTemperatureRegulation(double ramp, double threshold)
     regulation.getNumber()->at(1)->setValue(threshold);
     clientManager->sendNewNumber(regulation->getNumber());
     return true;
+}
+
+// Internal function to write an image blob to disk.
+bool CCD::WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qCCritical(KSTARS_INDI) << "ISD:CCD Error: Unable to open write file: " <<
+                                filename;
+        return false;
+    }
+    int n = 0;
+    QDataStream out(&file);
+    bool ok = true;
+    for (size_t nr = 0; nr < size; nr += n)
+    {
+        n = out.writeRawData(buffer + nr, size - nr);
+        if (n < 0)
+        {
+            ok = false;
+            break;
+        }
+    }
+    ok = file.flush() && ok;
+    file.close();
+    file.setPermissions(QFileDevice::ReadUser |
+                        QFileDevice::WriteUser |
+                        QFileDevice::ReadGroup |
+                        QFileDevice::ReadOther);
+    return ok;
 }
 }

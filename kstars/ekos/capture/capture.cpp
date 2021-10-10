@@ -928,6 +928,7 @@ void Capture::checkCCD(int ccdNum)
             disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
             disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
             disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
+            disconnect(ccd, &ISD::CCD::error, this, &Ekos::Capture::processCaptureError);
         }
 
         if (currentCCD->hasCoolerControl())
@@ -1138,6 +1139,7 @@ void Capture::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
         connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
         connect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
+        connect(currentCCD, &ISD::CCD::error, this, &Ekos::Capture::processCaptureError);
 
         DarkLibrary::Instance()->checkCamera();
     }
@@ -1151,6 +1153,9 @@ void Capture::setGuideChip(ISD::CCDChip * chip)
     // 2. If we have two CCDs running from ONE driver (Multiple-Devices-Per-Driver mpdp is true). Same issue as above, only one download
     // at a time.
     // After primary CCD download is complete, we resume guiding.
+    if (!currentCCD)
+        return;
+
     suspendGuideOnDownload =
         (currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip) ||
         (guideChip->getCCD() == currentCCD && currentCCD->getDriverInfo()->getAuxInfo().value("mdpd", false).toBool());
@@ -2566,8 +2571,6 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         return;
     }
 
-    //qDebug() << "Exposure with value " << value << "state" << pstateStr(state);
-
     if (activeJob != nullptr && state == IPS_OK)
     {
         activeJob->setCaptureRetires(0);
@@ -2603,6 +2606,38 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         secondsLabel->setText(i18n("second left"));
     else
         secondsLabel->setText(i18n("seconds left"));
+}
+
+void Capture::processCaptureError(ISD::CCD::ErrorType type)
+{
+    if (!activeJob)
+        return;
+
+    if (type == ISD::CCD::ERROR_CAPTURE)
+    {
+        int retries = activeJob->getCaptureRetires() + 1;
+
+        activeJob->setCaptureRetires(retries);
+
+        appendLogText(i18n("Capture failed. Check INDI Control Panel for details."));
+
+        if (retries == 3)
+        {
+            abort();
+            return;
+        }
+
+        appendLogText(i18n("Restarting capture attempt #%1", retries));
+
+        nextSequenceID = 1;
+
+        captureImage();
+        return;
+    }
+    else
+    {
+        abort();
+    }
 }
 
 void Capture::updateCCDTemperature(double value)

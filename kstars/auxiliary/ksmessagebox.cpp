@@ -57,7 +57,7 @@ KSMessageBox::KSMessageBox() : QMessageBox()
     });
 }
 
-void KSMessageBox::error(const QString &message, const QString &title)
+void KSMessageBox::error(const QString &message, const QString &title, quint32 timeout)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(title);
@@ -70,13 +70,15 @@ void KSMessageBox::error(const QString &message, const QString &title)
     setIcon(QMessageBox::Critical);
     setText(message);
     setWindowTitle(title);
+
+    setupTimeout(timeout);
     open();
 
     emit newMessage(createMessageObject());
 #endif
 }
 
-void KSMessageBox::sorry(const QString &message, const QString &title)
+void KSMessageBox::sorry(const QString &message, const QString &title, quint32 timeout)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(title);
@@ -89,13 +91,15 @@ void KSMessageBox::sorry(const QString &message, const QString &title)
     setIcon(QMessageBox::Warning);
     setText(message);
     setWindowTitle(title);
+
+    setupTimeout(timeout);
     open();
 
     emit newMessage(createMessageObject());
 #endif
 }
 
-void KSMessageBox::info(const QString &message, const QString &title)
+void KSMessageBox::info(const QString &message, const QString &title, quint32 timeout)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(title);
@@ -108,6 +112,8 @@ void KSMessageBox::info(const QString &message, const QString &title)
     setIcon(QMessageBox::Information);
     setText(message);
     setWindowTitle(title);
+
+    setupTimeout(timeout);
     open();
 
     emit newMessage(createMessageObject());
@@ -116,8 +122,9 @@ void KSMessageBox::info(const QString &message, const QString &title)
 #endif
 }
 
-void KSMessageBox::setupTimeout()
+void KSMessageBox::setupTimeout(quint32 timeout)
 {
+    m_Timeout = timeout;
     if (m_Timeout == 0)
         return;
 
@@ -151,7 +158,7 @@ void KSMessageBox::setupTimeout()
 void KSMessageBox::reset()
 {
     m_ProgressTimer.stop();
-    m_Timeout = 0;
+    resetTimeout();
 
     QList<QPushButton *> allButtons = findChildren<QPushButton*>();
     qDeleteAll(allButtons);
@@ -189,9 +196,7 @@ void KSMessageBox::questionYesNo(const QString &message, const QString &title, q
     yesButton->setDefault(defaultToYes);
     noButton->setDefault(!defaultToYes);
 
-    m_Timeout = timeout;
-
-    setupTimeout();
+    setupTimeout(timeout);
 
     open();
 
@@ -221,9 +226,7 @@ void KSMessageBox::warningContinueCancel(const QString &message, const QString &
     continueButton->setDefault(defaultToContinue);
     cancelButton->setDefault(!defaultToContinue);
 
-    m_Timeout = timeout;
-
-    setupTimeout();
+    setupTimeout(timeout);
 
     open();
 
