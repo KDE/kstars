@@ -747,6 +747,26 @@ void Align::setDefaultCCD(QString ccd)
 
 void Align::checkCCD(int ccdNum)
 {
+    // Do NOT perform checks if align is in progress as this may result
+    // in signals/slots getting disconnected.
+    switch (state)
+    {
+        // Idle, camera change is OK.
+        case ALIGN_IDLE:
+        case ALIGN_COMPLETE:
+        case ALIGN_FAILED:
+        case ALIGN_ABORTED:
+            break;
+
+        // Busy, camera change is not OK.
+        case ALIGN_PROGRESS:
+        case ALIGN_SYNCING:
+        case ALIGN_SLEWING:
+        case ALIGN_SUSPENDED:
+            return;
+    }
+
+
     if (ccdNum == -1 || ccdNum >= CCDs.count())
     {
         ccdNum = CCDCaptureCombo->currentIndex();

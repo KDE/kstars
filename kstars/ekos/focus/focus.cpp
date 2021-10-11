@@ -222,6 +222,25 @@ QString Focus::camera()
 
 void Focus::checkCCD(int ccdNum)
 {
+    // Do NOT perform checks when the camera is capturing or busy as this may result
+    // in signals/slots getting disconnected.
+    switch (state)
+    {
+        // Idle, can change camera.
+        case FOCUS_IDLE:
+        case FOCUS_COMPLETE:
+        case FOCUS_FAILED:
+        case FOCUS_ABORTED:
+            break;
+
+        // Busy, cannot change camera.
+        case FOCUS_WAITING:
+        case FOCUS_PROGRESS:
+        case FOCUS_FRAMING:
+        case FOCUS_CHANGING_FILTER:
+            return;
+    }
+
     if (ccdNum == -1)
     {
         ccdNum = CCDCaptureCombo->currentIndex();

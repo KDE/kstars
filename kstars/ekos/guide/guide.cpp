@@ -443,8 +443,39 @@ QString Guide::camera()
 
 void Guide::checkCCD(int ccdNum)
 {
+    // Do NOT perform checks when the camera is capturing as this may result
+    // in signals/slots getting disconnected.
     if (guiderType != GUIDE_INTERNAL)
         return;
+
+    switch (state)
+    {
+        // Not busy, camera change is OK
+        case GUIDE_IDLE:
+        case GUIDE_ABORTED:
+        case GUIDE_CONNECTED:
+        case GUIDE_DISCONNECTED:
+        case GUIDE_CALIBRATION_ERROR:
+            break;
+
+        // Busy, camera change is not OK
+        case GUIDE_CAPTURE:
+        case GUIDE_LOOPING:
+        case GUIDE_DARK:
+        case GUIDE_SUBFRAME:
+        case GUIDE_STAR_SELECT:
+        case GUIDE_CALIBRATING:
+        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_GUIDING:
+        case GUIDE_SUSPENDED:
+        case GUIDE_REACQUIRE:
+        case GUIDE_DITHERING:
+        case GUIDE_MANUAL_DITHERING:
+        case GUIDE_DITHERING_ERROR:
+        case GUIDE_DITHERING_SUCCESS:
+        case GUIDE_DITHERING_SETTLE:
+            return;
+    }
 
     if (ccdNum == -1)
     {
