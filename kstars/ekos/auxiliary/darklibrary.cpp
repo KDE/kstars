@@ -775,11 +775,16 @@ void DarkLibrary::processNewBLOB(IBLOB *bp)
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
     if (!m_CurrentDarkFrame->loadFromBuffer(buffer, "fits"))
     {
-        m_FileLabel->setText(i18n("Failed to process data."));
+        m_FileLabel->setText(i18n("Failed to process dark data."));
+        emit darkFrameCompleted(false);
         return;
     }
 
-    m_DarkView->loadData(m_CurrentDarkFrame);
+    if (!m_DarkView->loadData(m_CurrentDarkFrame))
+    {
+        m_FileLabel->setText(i18n("Failed to load dark data."));
+        emit darkFrameCompleted(false);
+    }
 
     uint32_t totalElements = m_CurrentDarkFrame->channels() * m_CurrentDarkFrame->samplesPerChannel();
     if (totalElements != m_DarkMasterBuffer.size())
