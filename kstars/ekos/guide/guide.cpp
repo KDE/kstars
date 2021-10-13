@@ -2132,35 +2132,11 @@ void Guide::onEnableDirDEC(bool enable)
 
 void Guide::syncSettings()
 {
-    QSpinBox *pSB = nullptr;
-    QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
 
     QObject *obj = sender();
 
-    if ((pSB = qobject_cast<QSpinBox *>(obj)))
-    {
-        if (pSB == opsGuide->spinBox_MaxPulseArcSecRA)
-            Options::setRAMaximumPulseArcSec(pSB->value());
-        else if (pSB == opsGuide->spinBox_MaxPulseArcSecDEC)
-            Options::setDECMaximumPulseArcSec(pSB->value());
-    }
-    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(obj)))
-    {
-        if (pDSB == opsGuide->spinBox_PropGainRA)
-            Options::setRAProportionalGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_PropGainDEC)
-            Options::setDECProportionalGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_IntGainRA)
-            Options::setRAIntegralGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_IntGainDEC)
-            Options::setDECIntegralGain(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_MinPulseArcSecRA)
-            Options::setRAMinimumPulseArcSec(pDSB->value());
-        else if (pDSB == opsGuide->spinBox_MinPulseArcSecDEC)
-            Options::setDECMinimumPulseArcSec(pDSB->value());
-    }
-    else if ((pCB = qobject_cast<QCheckBox*>(obj)))
+    if ((pCB = qobject_cast<QCheckBox*>(obj)))
     {
         if (pCB == autoStarCheck)
             Options::setGuideAutoStarEnabled(pCB->isChecked());
@@ -2239,6 +2215,7 @@ void Guide::updateDirectionsFromPHD2(const QString &mode)
 
 void Guide::loadSettings()
 {
+    // Settings in main dialog
     // Exposure
     exposureIN->setValue(Options::guideExposure());
     // Bin Size
@@ -2260,40 +2237,32 @@ void Guide::loadSettings()
     // W/E enabled?
     westControlCheck->setChecked(Options::westRAGuideEnabled());
     eastControlCheck->setChecked(Options::eastRAGuideEnabled());
+    // Autostar
+    autoStarCheck->setChecked(Options::guideAutoStarEnabled());
 
+    /* Settings in sub dialog are controlled by KConfigDialog ("kcfg"-variables)
+     * PID Control - Proportional Gain
+     * PID Control - Integral Gain
+     * Max Pulse Duration (arcsec)
+     * Min Pulse Duration (arcsec)
+     */
     // Transition code: if old values are stored in the proportional gains,
     // change them to a default value.
     if (Options::rAProportionalGain() > 1.0)
         Options::setRAProportionalGain(0.75);
     if (Options::dECProportionalGain() > 1.0)
         Options::setDECProportionalGain(0.75);
-
-    // PID Control - Proportional Gain
-    opsGuide->spinBox_PropGainRA->setValue(Options::rAProportionalGain());
-    opsGuide->spinBox_PropGainDEC->setValue(Options::dECProportionalGain());
-
-    // Transition code: if old values are stored in the integral gains,
-    // change them to a default value.
     if (Options::rAIntegralGain() > 1.0)
         Options::setRAIntegralGain(0.75);
     if (Options::dECIntegralGain() > 1.0)
         Options::setDECIntegralGain(0.75);
 
-    // PID Control - Integral Gain
-    opsGuide->spinBox_IntGainRA->setValue(Options::rAIntegralGain());
-    opsGuide->spinBox_IntGainDEC->setValue(Options::dECIntegralGain());
-    // Max Pulse Duration (arcsec)
-    opsGuide->spinBox_MaxPulseArcSecRA->setValue(Options::rAMaximumPulseArcSec());
-    opsGuide->spinBox_MaxPulseArcSecDEC->setValue(Options::dECMaximumPulseArcSec());
-    // Min Pulse Duration (arcsec)
-    opsGuide->spinBox_MinPulseArcSecRA->setValue(Options::rAMinimumPulseArcSec());
-    opsGuide->spinBox_MinPulseArcSecDEC->setValue(Options::dECMinimumPulseArcSec());
-    // Autostar
-    autoStarCheck->setChecked(Options::guideAutoStarEnabled());
+
 }
 
 void Guide::saveSettings()
 {
+    // Settings in main dialog
     // Exposure
     Options::setGuideExposure(exposureIN->value());
     // Bin Size
@@ -2315,18 +2284,12 @@ void Guide::saveSettings()
     // W/E enabled?
     Options::setWestRAGuideEnabled(westControlCheck->isChecked());
     Options::setEastRAGuideEnabled(eastControlCheck->isChecked());
-    // PID Control - Proportional Gain
-    Options::setRAProportionalGain(opsGuide->spinBox_PropGainRA->value());
-    Options::setDECProportionalGain(opsGuide->spinBox_PropGainDEC->value());
-    // PID Control - Integral Gain
-    Options::setRAIntegralGain(opsGuide->spinBox_IntGainRA->value());
-    Options::setDECIntegralGain(opsGuide->spinBox_IntGainDEC->value());
-    // Max Pulse Duration (arcsec)
-    Options::setRAMaximumPulseArcSec(opsGuide->spinBox_MaxPulseArcSecRA->value());
-    Options::setDECMaximumPulseArcSec(opsGuide->spinBox_MaxPulseArcSecDEC->value());
-    // Min Pulse Duration (arcsec)
-    Options::setRAMinimumPulseArcSec(opsGuide->spinBox_MinPulseArcSecRA->value());
-    Options::setDECMinimumPulseArcSec(opsGuide->spinBox_MinPulseArcSecDEC->value());
+    /* Settings in sub dialog are controlled by KConfigDialog ("kcfg"-variables)
+     * PID Control - Proportional Gain
+     * PID Control - Integral Gain
+     * Max Pulse Duration (arcsec)
+     * Min Pulse Duration (arcsec)
+     */
 }
 
 void Guide::setTrackingStar(int x, int y)
@@ -3124,22 +3087,6 @@ void Guide::initConnections()
     // Declination Swap
     connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
 
-    // PID Control - Proportional Gain
-    connect(opsGuide->spinBox_PropGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_PropGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-
-    // PID Control - Integral Gain
-    connect(opsGuide->spinBox_IntGainRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_IntGainDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-
-    // Max Pulse Duration (ms)
-    connect(opsGuide->spinBox_MaxPulseArcSecRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_MaxPulseArcSecDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-
-    // Min Pulse Duration (ms)
-    connect(opsGuide->spinBox_MinPulseArcSecRA, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-    connect(opsGuide->spinBox_MinPulseArcSecDEC, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
-
     // Capture
     connect(captureB, &QPushButton::clicked, this, [this]()
     {
@@ -3298,8 +3245,8 @@ QJsonObject Guide::getSettings() const
     settings.insert("south", southControlCheck->isChecked());
     settings.insert("scope", qMax(0, FOVScopeCombo->currentIndex()));
     settings.insert("swap", swapCheck->isChecked());
-    settings.insert("ra_gain", opsGuide->spinBox_PropGainRA->value());
-    settings.insert("de_gain", opsGuide->spinBox_PropGainDEC->value());
+    settings.insert("ra_gain", Options::rAProportionalGain());
+    settings.insert("de_gain", Options::dECProportionalGain());
     settings.insert("dither_enabled", Options::ditherEnabled());
     settings.insert("dither_pixels", Options::ditherPixels());
     settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
@@ -3391,9 +3338,9 @@ void Guide::setSettings(const QJsonObject &settings)
     if (scope >= 0 && scope != FOVScopeCombo->currentIndex())
         FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
-    syncControl("ra_gain", opsGuide->spinBox_PropGainRA);
+    syncControl("ra_gain", opsGuide->kcfg_RAProportionalGain);
     // DE Gain
-    syncControl("de_gain", opsGuide->spinBox_PropGainDEC);
+    syncControl("de_gain", opsGuide->kcfg_DECProportionalGain);
     // Options
     const bool ditherEnabled = settings["dither_enabled"].toBool(Options::ditherEnabled());
     Options::setDitherEnabled(ditherEnabled);

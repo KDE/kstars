@@ -75,12 +75,12 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="spinBox_PropGainRA">
+           <widget class="QDoubleSpinBox" name="kcfg_RAProportionalGain">
             <property name="decimals">
              <number>2</number>
             </property>
             <property name="maximum">
-             <double>2.000000000000000</double>
+             <double>1.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.050000000000000</double>
@@ -107,12 +107,12 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QDoubleSpinBox" name="spinBox_PropGainDEC">
+           <widget class="QDoubleSpinBox" name="kcfg_DECProportionalGain">
             <property name="decimals">
              <number>2</number>
             </property>
             <property name="maximum">
-             <double>2.000000000000000</double>
+             <double>1.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.050000000000000</double>
@@ -156,7 +156,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QDoubleSpinBox" name="spinBox_MinPulseArcSecRA">
+           <widget class="QDoubleSpinBox" name="kcfg_RAMinimumPulseArcSec">
             <property name="decimals">
              <number>2</number>
             </property>
@@ -169,7 +169,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="spinBox_IntGainRA">
+           <widget class="QDoubleSpinBox" name="kcfg_RAIntegralGain">
             <property name="decimals">
              <number>2</number>
             </property>
@@ -195,7 +195,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QDoubleSpinBox" name="spinBox_IntGainDEC">
+           <widget class="QDoubleSpinBox" name="kcfg_DECIntegralGain">
             <property name="decimals">
              <number>2</number>
             </property>
@@ -208,7 +208,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="QSpinBox" name="spinBox_MaxPulseArcSecDEC">
+           <widget class="QSpinBox" name="kcfg_DECMaximumPulseArcSec">
             <property name="maximum">
              <number>3600</number>
             </property>
@@ -218,7 +218,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QSpinBox" name="spinBox_MaxPulseArcSecRA">
+           <widget class="QSpinBox" name="kcfg_RAMaximumPulseArcSec">
             <property name="maximum">
              <number>3600</number>
             </property>
@@ -228,7 +228,7 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="QDoubleSpinBox" name="spinBox_MinPulseArcSecDEC">
+           <widget class="QDoubleSpinBox" name="kcfg_DECMinimumPulseArcSec">
             <property name="decimals">
              <number>2</number>
             </property>
@@ -561,14 +561,14 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>spinBox_PropGainRA</tabstop>
-  <tabstop>spinBox_PropGainDEC</tabstop>
-  <tabstop>spinBox_IntGainRA</tabstop>
-  <tabstop>spinBox_IntGainDEC</tabstop>
-  <tabstop>spinBox_MinPulseArcSecRA</tabstop>
-  <tabstop>spinBox_MinPulseArcSecDEC</tabstop>
-  <tabstop>spinBox_MaxPulseArcSecRA</tabstop>
-  <tabstop>spinBox_MaxPulseArcSecDEC</tabstop>
+  <tabstop>kcfg_RAProportionalGain</tabstop>
+  <tabstop>kcfg_DECProportionalGain</tabstop>
+  <tabstop>kcfg_RAIntegralGain</tabstop>
+  <tabstop>kcfg_DECIntegralGain</tabstop>
+  <tabstop>kcfg_RAMinimumPulseArcSec</tabstop>
+  <tabstop>kcfg_DECMinimumPulseArcSec</tabstop>
+  <tabstop>kcfg_RAMaximumPulseArcSec</tabstop>
+  <tabstop>kcfg_DECMaximumPulseArcSec</tabstop>
   <tabstop>kcfg_GuideAlgorithm</tabstop>
   <tabstop>kcfg_GuideOptionsProfile</tabstop>
   <tabstop>editGuideProfile</tabstop>
