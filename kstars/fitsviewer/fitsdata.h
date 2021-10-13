@@ -454,7 +454,7 @@ class FITSData : public QObject
         const QVector<uint32_t> &getCumulativeFrequency(uint8_t channel = 0) const
         {
             return m_CumulativeFrequency[channel];
-        };
+        }
         const QVector<double> &getHistogramIntensity(uint8_t channel = 0) const
         {
             return m_HistogramIntensity[channel];
@@ -471,7 +471,7 @@ class FITSData : public QObject
         double getJMIndex() const
         {
             return m_JMIndex;
-        };
+        }
 
         bool isHistogramConstructed()
         {
@@ -588,6 +588,7 @@ class FITSData : public QObject
 
         // Record last FITS error
         void recordLastError(int errorCode);
+        void logOOMError(uint32_t requiredMemory = 0);
 
         // FITS Record
         bool parseHeader();

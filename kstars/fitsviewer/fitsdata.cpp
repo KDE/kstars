@@ -3374,7 +3374,8 @@ bool FITSData::debayer_8bit()
     }
     catch (const std::bad_alloc &e)
     {
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        logOOMError(rgb_size);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
         return false;
     }
 
@@ -3383,7 +3384,8 @@ bool FITSData::debayer_8bit()
 
     if (bayer_destination_buffer == nullptr)
     {
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+        logOOMError(rgb_size);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"), 10);
         return false;
     }
 
@@ -3403,7 +3405,7 @@ bool FITSData::debayer_8bit()
 
     if (error_code != DC1394_SUCCESS)
     {
-        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
+        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"), 10);
         m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
@@ -3419,7 +3421,8 @@ bool FITSData::debayer_8bit()
         catch (const std::bad_alloc &e)
         {
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+            logOOMError(rgb_size);
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
             return false;
         }
 
@@ -3460,7 +3463,8 @@ bool FITSData::debayer_16bit()
     }
     catch (const std::bad_alloc &e)
     {
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+        logOOMError(rgb_size);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
         return false;
     }
 
@@ -3469,7 +3473,8 @@ bool FITSData::debayer_16bit()
 
     if (bayer_destination_buffer == nullptr)
     {
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
+        logOOMError(rgb_size);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"), 10);
         return false;
     }
 
@@ -3504,8 +3509,9 @@ bool FITSData::debayer_16bit()
         }
         catch (const std::bad_alloc &e)
         {
+            logOOMError(rgb_size);
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"));
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
             return false;
         }
 
@@ -3532,6 +3538,12 @@ bool FITSData::debayer_16bit()
     m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
     return true;
+}
+
+void FITSData::logOOMError(uint32_t requiredMemory)
+{
+    qCCritical(KSTARS_FITS) << "Debayed memory allocation failure. Required Memory:" << KFormat().formatByteSize(requiredMemory)
+                            << "Available system memory:" << KSUtils::getAvailableRAM();
 }
 
 double FITSData::getADU() const
