@@ -70,8 +70,6 @@ Guide::Guide() : QWidget()
     page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
     page->setIcon(QIcon::fromTheme("pathshape"));
 
-    internalGuider->setGuideView(guideView);
-
     // #1 Setup UI
     setupUi(this);
 
@@ -86,6 +84,7 @@ Guide::Guide() : QWidget()
 
     // #4 Init View
     initView();
+    internalGuider->setGuideView(guideView);
 
     // #5 Load all settings
     loadSettings();
@@ -1737,8 +1736,8 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
         binningCombo->disconnect();
         if (guideBinIndex > (nvp->np[0].value - 1)) // INDI driver reports not supported binning
         {
-             appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
-             guideBinIndex = nvp->np[0].value - 1;
+            appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
+            guideBinIndex = nvp->np[0].value - 1;
         }
         binningCombo->setCurrentIndex(guideBinIndex);
         connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Guide::updateCCDBin);
