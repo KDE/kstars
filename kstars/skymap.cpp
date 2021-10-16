@@ -310,9 +310,10 @@ void SkyMap::slotTransientLabel()
 
         if (so && !isObjectLabeled(so))
         {
-            QToolTip::showText(QCursor::pos(),
-                               i18n("%1: %2<sup>m</sup>", so->translatedLongName(), QString::number(so->mag(), 'f', 1)),
-                               this);
+            QString name = so->translatedLongName();
+            if (!std::isnan(so->mag()))
+                name += QString(": %1<sup>m</sup>").arg(QString::number(so->mag(), 'f', 1));
+            QToolTip::showText(QCursor::pos(), name, this);
         }
     }
 }
