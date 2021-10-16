@@ -447,6 +447,12 @@ class Align : public QWidget, public Ui::Align
              */
         Q_SCRIPTABLE Q_NOREPLY void setTargetCoords(double ra, double de);
 
+        /**
+         * @brief getTargetCoords QList of target coordinates.
+         * @return First value is J2000 RA in hours. Second value is J2000 DE in degrees.
+         */
+        Q_SCRIPTABLE QList<double> getTargetCoords();
+
         Q_SCRIPTABLE Q_NOREPLY void setTargetRotation(double rotation);
 
         /** DBUS interface function.

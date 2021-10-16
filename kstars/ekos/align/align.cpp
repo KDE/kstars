@@ -3752,6 +3752,13 @@ void Align::setTargetCoords(double ra, double de)
                                << "DE:" << targetCoord.dec().toDMSString();
 }
 
+QList<double> Align::getTargetCoords()
+{
+    QList<double> coord;
+    coord << targetCoord.ra0().Hours() << targetCoord.dec0().Degrees();
+    return coord;
+}
+
 void Align::setTargetRotation(double rotation)
 {
     loadSlewTargetPA = rotation;

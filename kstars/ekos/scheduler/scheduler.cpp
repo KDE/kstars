@@ -7292,6 +7292,17 @@ void Scheduler::setAlignStatus(Ekos::AlignState status)
             alignFailureCount = 0;
 
             currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
+
+            // If we solved a FITS file, let's use its center coords as our target.
+            if (currentJob->getFITSFile().isEmpty() == false)
+            {
+                QDBusReply<QList<double>> solutionReply = alignInterface->call("getTargetCoords");
+                if (solutionReply.isValid())
+                {
+                    QList<double> const values = solutionReply.value();
+                    currentJob->setTargetCoords(dms(values[0] * 15.0), dms(values[1]), KStarsData::Instance()->ut().djd());
+                }
+            }
             getNextAction();
         }
         else if (status == Ekos::ALIGN_FAILED || status == Ekos::ALIGN_ABORTED)
@@ -7423,7 +7434,19 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
 
     if (currentJob->getStage() == SchedulerJob::STAGE_CAPTURING)
     {
-        if (status == Ekos::CAPTURE_ABORTED)
+        if (status == Ekos::CAPTURE_PROGRESS && (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN))
+        {
+            // JM 2021.09.20
+            // Re-set target coords in align module
+            // When capture starts, alignment module automatically rests target coords to mount coords.
+            // However, we want to keep align module target synced with the scheduler target and not
+            // the mount coord
+            const SkyPoint targetCoords = currentJob->getTargetCoords();
+            QList<QVariant> targetArgs;
+            targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
+            alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords", targetArgs);
+        }
+        else if (status == Ekos::CAPTURE_ABORTED)
         {
             appendLogText(i18n("Warning: job '%1' failed to capture target.", currentJob->getName()));
 
@@ -7474,7 +7497,7 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
             {
                 updateCompletedJobsCount(true);
 
-                for (SchedulerJob * job : jobs)
+                for (const auto &job : jobs)
                     estimateJobTime(job, m_CapturedFramesCount, this);
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
