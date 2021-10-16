@@ -125,14 +125,15 @@ ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_hor
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestArtificialHorizon COMMAND test_artificial_horizon)
 
-ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)
-TARGET_LINK_LIBRARIES(test_ekos_guide ${KSTARS_UI_EKOS_LIBS})
-ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators.PHDGuidingV2
-            ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2)
-ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
-SET_TESTS_PROPERTIES( TestEkosGuide PROPERTIES LABELS "stable;ui" TIMEOUT 600 )
+# JM 2021-10.16 PHD2 test often fails in CI so it is excluded now until it is fixed.
+#ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)
+#TARGET_LINK_LIBRARIES(test_ekos_guide ${KSTARS_UI_EKOS_LIBS})
+#ADD_CUSTOM_COMMAND( TARGET test_ekos_guide POST_BUILD
+    #COMMAND ${CMAKE_COMMAND} -E copy
+            #${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators.PHDGuidingV2
+            #${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2)
+#ADD_TEST(NAME TestEkosGuide COMMAND test_ekos_guide)
+#SET_TESTS_PROPERTIES( TestEkosGuide PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )
 
 ADD_EXECUTABLE(test_ekos_mount ${KSTARS_UI_EKOS_SRC} test_ekos_mount.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_mount ${KSTARS_UI_EKOS_LIBS})
