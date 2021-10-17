@@ -2363,6 +2363,7 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
+    connect(focusProcess.get(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
     connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
 
 

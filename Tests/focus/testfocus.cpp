@@ -159,8 +159,18 @@ void TestFocus::basicTest()
     int missTolerancePosition = currentPosition;
 
     // 1.04 is within tolerance of 1.0
-    // It should complete.
+    // It would complete, but we now cross the 1st-pass-best position (10014)
+    // and use even smaller steps.
     position = focuser->newMeasurement(currentPosition, 1.04);
+    QCOMPARE(position, currentPosition - params.initialStepSize / 4);
+    QVERIFY(!focuser->isDone());
+    currentPosition = position;
+
+    // Now let it finally complete.
+    position = focuser->newMeasurement(currentPosition, 1.3);
+    QCOMPARE(position, currentPosition);
+    position = focuser->newMeasurement(currentPosition, 1.3);
+    // Since the focuser is past the 1st pass min, it only retries once then finishes.
     QCOMPARE(position, -1);
     QVERIFY(focuser->isDone());
     QCOMPARE(focuser->solution(), currentPosition);
@@ -209,7 +219,16 @@ void TestFocus::basicTest()
     currentPosition = position;
 
     // Finally we're close enough to the 1st pass best to finish.
+    // Since we crossed the 1st pass best position, we use a smaller step size.
     position = focuser->newMeasurement(currentPosition, 1.01);
+    QCOMPARE(position, currentPosition - params.initialStepSize / 4);
+    currentPosition = position;
+
+    // Fail a few times trying to get better
+    position = focuser->newMeasurement(currentPosition, 1.05);
+    QCOMPARE(position, currentPosition);
+    position = focuser->newMeasurement(currentPosition, 1.05);
+    // Since the focuser is past the 1st pass min, it only retries once then finishes.
     QCOMPARE(position, -1);
     QVERIFY(focuser->isDone());
     QCOMPARE(focuser->solution(), currentPosition);
@@ -253,8 +272,17 @@ void TestFocus::basicTest()
     std::unique_ptr<FocusAlgorithmInterface> focuser2(focuser->Copy());
     int currentPosition2 = currentPosition;
 
-    // This time we get within tolerance and succeed.
+    // This time we get within tolerance,
+    // and we've crossed the 1st-pass min so smaller step size.
     position = focuser->newMeasurement(currentPosition, 1.03);
+    QCOMPARE(position, currentPosition - params.initialStepSize / 4);
+    currentPosition = position;
+
+    // Start getting worse and eventually finish.
+    position = focuser->newMeasurement(currentPosition, 1.10);
+    QCOMPARE(position, currentPosition);
+    position = focuser->newMeasurement(currentPosition, 1.10);
+    // Since the focuser is past the 1st pass min, it only retries once then finishes.
     QCOMPARE(position, -1);
     QVERIFY(focuser->isDone());
     QCOMPARE(focuser->solution(), currentPosition);
@@ -297,7 +325,6 @@ void TestFocus::basicTest()
     int returnPosition3 = 10038;
     position = focuser->newMeasurement(currentPosition, 1.4);
     QCOMPARE(position, returnPosition3);
-    currentPosition = position;
 
     // Now we're within 3 of the max number of iterations.
     // It resets again, trying to place us near the best position seen.

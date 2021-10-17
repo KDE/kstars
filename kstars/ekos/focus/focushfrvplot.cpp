@@ -103,7 +103,7 @@ void FocusHFRVPlot::drawHFRIndices()
         textLabel->position->setType(QCPItemPosition::ptPlotCoords);
         textLabel->position->setCoords(hfr_position[i], hfr_value[i]);
         textLabel->setText(QString::number(i + 1));
-        textLabel->setFont(QFont(font().family(), (int) std::round(1.2*basicFontSize())));
+        textLabel->setFont(QFont(font().family(), (int) std::round(1.2 * basicFontSize())));
         textLabel->setPen(Qt::NoPen);
         textLabel->setColor(Qt::red);
     }
@@ -117,7 +117,7 @@ void FocusHFRVPlot::init(bool showPosition)
     polynomialGraph->data()->clear();
     focusPoint->data().clear();
     // the next step seems necessary (QCP bug?)
-    focusPoint->setData(QVector<double>{}, QVector<double>{});
+    focusPoint->setData(QVector<double> {}, QVector<double> {});
     m_polynomialGraphIsVisible = false;
     m_isVShape = false;
     maxHFR = -1;
@@ -155,16 +155,39 @@ void FocusHFRVPlot::drawHFRPlot(double currentHFR, int pulseDuration)
         xAxis->setRange(1, hfr_value.count() + 1);
     }
 
-    yAxis->setRange(0.9 * minHFRVal, 1.1 * maxHFR);
+    if (hfr_value.size() == 1)
+        // 1 point gets placed in the middle vertically.
+        yAxis->setRange(0, 2 * maxHFR);
+    else
+    {
+        // Allow about 20% of the plot space below the curve, so user can see the min points.
+        const double upper = 1.1 * maxHFR;
+        yAxis->setRange(std::max(0.0, minHFRVal - (0.25 * (upper - minHFRVal))), upper);
+    }
     replot();
 }
 
-void FocusHFRVPlot::addPosition(double pos, double newHFR, int pulseDuration)
+void FocusHFRVPlot::addPosition(double pos, double newHFR, int pulseDuration, bool plot)
 {
     hfr_position.append(pos);
     hfr_value.append(newHFR);
+    if (plot)
+        drawHFRPlot(newHFR, pulseDuration);
+}
 
-    drawHFRPlot(newHFR, pulseDuration);
+void FocusHFRVPlot::setTitle(const QString &title, bool plot)
+{
+    plotTitle = new QCPItemText(this);
+    plotTitle->setColor(QColor(255, 255, 255));
+    plotTitle->setPositionAlignment(Qt::AlignTop | Qt::AlignHCenter);
+    plotTitle->position->setType(QCPItemPosition::ptAxisRectRatio);
+    plotTitle->position->setCoords(0.5, 0);
+    plotTitle->setText("");
+    plotTitle->setFont(QFont(font().family(), 11));
+    plotTitle->setVisible(true);
+
+    plotTitle->setText(title);
+    if (plot) replot();
 }
 
 void FocusHFRVPlot::setSolutionVShape(bool isVShape)
@@ -188,13 +211,14 @@ void FocusHFRVPlot::setSolutionVShape(bool isVShape)
     polynomialGraph->setPen(pen);
 }
 
-void FocusHFRVPlot::drawMinimum(double solutionPosition, double solutionValue)
+void FocusHFRVPlot::drawMinimum(double solutionPosition, double solutionValue, bool plot)
 {
+    focusPoint->data()->clear();
+
     // do nothing for invalid positions
     if (solutionPosition < 0)
         return;
 
-    focusPoint->data()->clear();
     focusPoint->addData(solutionPosition, solutionValue);
     QCPItemText *textLabel = new QCPItemText(this);
     textLabel->setPositionAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
@@ -202,14 +226,14 @@ void FocusHFRVPlot::drawMinimum(double solutionPosition, double solutionValue)
     textLabel->setPadding(QMargins(0, 0, 0, 0));
     textLabel->setBrush(Qt::white);
     textLabel->setPen(Qt::NoPen);
-    textLabel->setFont(QFont(font().family(), (int) std::round(0.8*basicFontSize())));
+    textLabel->setFont(QFont(font().family(), (int) std::round(0.8 * basicFontSize())));
     textLabel->position->setType(QCPItemPosition::ptPlotCoords);
-    textLabel->position->setCoords(solutionPosition, (maxHFR + 2*solutionValue) / 3);
+    textLabel->position->setCoords(solutionPosition, (maxHFR + 2 * solutionValue) / 3);
     textLabel->setText(QString::number(solutionPosition, 'f', 0));
-    replot();
+    if (plot) replot();
 }
 
-void FocusHFRVPlot::drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, bool makeVisible)
+void FocusHFRVPlot::drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, bool makeVisible, bool plot)
 {
     if (polyFit == nullptr)
         return;
@@ -232,7 +256,7 @@ void FocusHFRVPlot::drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, 
             double y = polyFit->f(x);
             polynomialGraph->addData(x, y);
         }
-        replot();
+        if (plot) replot();
     }
 }
 
@@ -251,7 +275,7 @@ void FocusHFRVPlot::setBasicFontSize(int basicFontSize)
 
     // Axis Labels Settings
     yAxis->setLabelFont(QFont(font().family(), basicFontSize));
-    xAxis->setTickLabelFont(QFont(font().family(), (int) std::round(0.9*basicFontSize)));
-    yAxis->setTickLabelFont(QFont(font().family(), (int) std::round(0.9*basicFontSize)));
+    xAxis->setTickLabelFont(QFont(font().family(), (int) std::round(0.9 * basicFontSize)));
+    yAxis->setTickLabelFont(QFont(font().family(), (int) std::round(0.9 * basicFontSize)));
 }
 

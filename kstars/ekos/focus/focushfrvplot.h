@@ -15,92 +15,104 @@
 
 class FocusHFRVPlot : public QCustomPlot
 {
-public:
-    FocusHFRVPlot(QWidget *parent = nullptr);
+    public:
+        FocusHFRVPlot(QWidget *parent = nullptr);
 
-    /**
-     * @brief add a single focus position result
-     * @param pos focuser position or iteration number
-     * @param newHFR HFR value for the given position
-     * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
-     *        or the number of ticks in a relative or absolute focuser
-     */
-    void addPosition(double pos, double newHFR, int pulseDuration);
+        /**
+         * @brief add a single focus position result
+         * @param pos focuser position or iteration number
+         * @param newHFR HFR value for the given position
+         * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
+         *        or the number of ticks in a relative or absolute focuser
+         */
+        void addPosition(double pos, double newHFR, int pulseDuration, bool plot = true);
 
-    /**
-     * @brief Annotate's the plot's solution graph with the solution position.
-     * @param solutionPosition focuser position of the focal point
-     * @param solutionValue HFR value on the focal point
-     */
-    void drawMinimum(double solutionPosition, double solutionValue);
+        /**
+         * @brief sets the plot title
+         * @param title the new plot title
+         */
+        void setTitle(const QString &title, bool plot = true);
 
-    /**
-     * @brief Draws the polynomial on the plot's graph.
-     * @param polyFit pointer to the polynomial approximation
-     * @param isVShape is the polynomial of a V shape (true) or U shape (false)?
-     * @param makeVisible make the polynomial graph visible (true) or use the last state (false)?
-     */
-    void drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, bool makeVisible);
+        /**
+         * @brief Annotate's the plot's solution graph with the solution position.
+         * @param solutionPosition focuser position of the focal point
+         * @param solutionValue HFR value on the focal point
+         */
+        void drawMinimum(double solutionPosition, double solutionValue, bool plot = true);
 
-    /**
-     * @brief Refresh the entire graph
-     * @param polyFit pointer to the polynomial approximation
-     * @param solutionPosition focuser position of the focal point
-     * @param solutionValue HFR value on the focal point
-     */
-    void redraw(Ekos::PolynomialFit *polyFit, double solutionPosition, double solutionValue);
+        /**
+         * @brief Draws the polynomial on the plot's graph.
+         * @param polyFit pointer to the polynomial approximation
+         * @param isVShape is the polynomial of a V shape (true) or U shape (false)?
+         * @param makeVisible make the polynomial graph visible (true) or use the last state (false)?
+         */
+        void drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, bool makeVisible, bool plot = true);
 
-    /**
-     * @brief Initialize and reset the entire HFR V-plot
-     * @param showPosition show focuser position (true) or show focusing iteration number (false)
-     */
-    void init(bool showPosition);
+        /**
+         * @brief Refresh the entire graph
+         * @param polyFit pointer to the polynomial approximation
+         * @param solutionPosition focuser position of the focal point
+         * @param solutionValue HFR value on the focal point
+         */
+        void redraw(Ekos::PolynomialFit *polyFit, double solutionPosition, double solutionValue);
 
-    /// basic font size from which all others are derived
-    int basicFontSize() const { return m_basicFontSize; }
-    void setBasicFontSize(int basicFontSize);
+        /**
+         * @brief Initialize and reset the entire HFR V-plot
+         * @param showPosition show focuser position (true) or show focusing iteration number (false)
+         */
+        void init(bool showPosition);
 
-private:
-    /**
-     * @brief Draw the HFR plot for all recent focuser positions
-     * @param currentHFR current HFR value
-     * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
-     *        or the number of ticks in a relative or absolute focuser
-     */
-    void drawHFRPlot(double currentHFR, int pulseDuration);
+        /// basic font size from which all others are derived
+        int basicFontSize() const
+        {
+            return m_basicFontSize;
+        }
+        void setBasicFontSize(int basicFontSize);
 
-    /**
-     * @brief Draw all positions and values of the current focusing run.
-     */
-    void drawHFRIndices();
+    private:
+        /**
+         * @brief Draw the HFR plot for all recent focuser positions
+         * @param currentHFR current HFR value
+         * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
+         *        or the number of ticks in a relative or absolute focuser
+         */
+        void drawHFRPlot(double currentHFR, int pulseDuration);
 
-    /**
-     * @brief Initialize and reset the HFR plot
-     * @param showPosition show the focuser positions (true) or the focus iteration number (false)
-     */
+        /**
+         * @brief Draw all positions and values of the current focusing run.
+         */
+        void drawHFRIndices();
 
-    /**
-     * @brief Set pen color depending upon the solution is sound (V-Shape) or unsound (U-Shape)
-     * @param isSound
-     */
-    void setSolutionVShape(bool isVShape);
+        /**
+         * @brief Initialize and reset the HFR plot
+         * @param showPosition show the focuser positions (true) or the focus iteration number (false)
+         */
 
-    QCPGraph *polynomialGraph = nullptr;
-    QVector<double> hfr_position, hfr_value;
+        /**
+         * @brief Set pen color depending upon the solution is sound (V-Shape) or unsound (U-Shape)
+         * @param isSound
+         */
+        void setSolutionVShape(bool isVShape);
 
-    /// Maximum HFR recorded
-    double maxHFR { -1 };
-    /// List of V curve plot points
-    /// V-Curve graph
-    QCPGraph *v_graph { nullptr };
-    /// focus point
-    QCPGraph *focusPoint { nullptr };
-    /// show focus position (true) or use focus step number?
-    bool m_showPositions = true;
-    /// is there a current polynomial solution
-    bool m_isVShape = false;
-    /// basic font size from which all others are derived
-    int m_basicFontSize = 10;
+        QCPGraph *polynomialGraph = nullptr;
+        QVector<double> hfr_position, hfr_value;
 
-    bool m_polynomialGraphIsVisible = false;
+        // Title text for the focus plot
+        QCPItemText *plotTitle  { nullptr };
+
+        /// Maximum HFR recorded
+        double maxHFR { -1 };
+        /// List of V curve plot points
+        /// V-Curve graph
+        QCPGraph *v_graph { nullptr };
+        /// focus point
+        QCPGraph *focusPoint { nullptr };
+        /// show focus position (true) or use focus step number?
+        bool m_showPositions = true;
+        /// is there a current polynomial solution
+        bool m_isVShape = false;
+        /// basic font size from which all others are derived
+        int m_basicFontSize = 10;
+
+        bool m_polynomialGraphIsVisible = false;
 };

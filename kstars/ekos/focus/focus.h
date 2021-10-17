@@ -405,7 +405,7 @@ class Focus : public QWidget, public Ui::Focus
 
 
     protected:
-        void addPlotPosition(int pos, double hfr);
+        void addPlotPosition(int pos, double hfr, bool plot = true);
 
     private slots:
         /**
@@ -471,7 +471,7 @@ class Focus : public QWidget, public Ui::Focus
           * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
           *        or the number of ticks in a relative or absolute focuser
           * */
-        void newHFRPlotPosition(double pos, double hfr, int pulseDuration);
+        void newHFRPlotPosition(double pos, double hfr, int pulseDuration, bool plot = true);
 
         /**
          * @brief draw the approximating polynomial into the HFR V-graph
@@ -479,14 +479,14 @@ class Focus : public QWidget, public Ui::Focus
          * @param isVShape has the solution a V shape?
          * @param activate make the graph visible?
          */
-        void drawPolynomial(PolynomialFit *poly, bool isVShape, bool activate);
+        void drawPolynomial(PolynomialFit *poly, bool isVShape, bool activate, bool plot = true);
 
         /**
          * @brief Focus solution with minimal HFR found
          * @param solutionPosition focuser position
          * @param solutionValue HFR value
          */
-        void minimumFound(double solutionPosition, double solutionValue);
+        void minimumFound(double solutionPosition, double solutionValue, bool plot = true);
 
         /**
          * @brief redraw the entire HFR plot
@@ -496,6 +496,11 @@ class Focus : public QWidget, public Ui::Focus
          */
         void redrawHFRPlot(PolynomialFit *poly, double solutionPosition, double solutionValue);
 
+        /**
+         * @brief draw a title on the focus plot
+         * @param title the title
+         */
+        void setTitle(const QString &title, bool plot = true);
 
     private:
 
@@ -534,6 +539,9 @@ class Focus : public QWidget, public Ui::Focus
         void autoFocusAbs();
         void autoFocusLinear();
         void autoFocusRel();
+
+        // Linear does plotting differently from the rest.
+        void plotLinearFocus();
 
         /** @brief Helper function determining whether the focuser behaves like a position
          *         based one (vs. a timer based)
@@ -595,7 +603,7 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void completeFocusProcedure(FocusState completionState);
+        void completeFocusProcedure(FocusState completionState, bool plot = true);
 
         /**
          * @brief activities to be executed after the configured settling time

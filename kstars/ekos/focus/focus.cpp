@@ -129,6 +129,7 @@ Focus::Focus()
     connect(this, &Ekos::Focus::redrawHFRPlot, HFRPlot, &FocusHFRVPlot::redraw);
     connect(this, &Ekos::Focus::newHFRPlotPosition, HFRPlot, &FocusHFRVPlot::addPosition);
     connect(this, &Ekos::Focus::drawPolynomial, HFRPlot, &FocusHFRVPlot::drawPolynomial);
+    connect(this, &Ekos::Focus::setTitle, HFRPlot, &FocusHFRVPlot::setTitle);
     connect(this, &Ekos::Focus::minimumFound, HFRPlot, &FocusHFRVPlot::drawMinimum);
 }
 
@@ -1653,13 +1654,14 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
     resetButtons();
 }
 
-void Focus::completeFocusProcedure(FocusState completionState)
+void Focus::completeFocusProcedure(FocusState completionState, bool plot)
 {
     if (inAutoFocus)
     {
         if (completionState == Ekos::FOCUS_COMPLETE)
         {
-            emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
+            if (plot)
+                emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
             appendLogText(i18np("Focus procedure completed after %1 iteration.",
                                 "Focus procedure completed after %1 iterations.", hfr_position.count()));
 
@@ -1711,7 +1713,7 @@ void Focus::completeFocusProcedure(FocusState completionState)
     stop(completionState);
 
     // Refresh display if needed
-    if (focusAlgorithm == FOCUS_POLYNOMIAL)
+    if (focusAlgorithm == FOCUS_POLYNOMIAL && plot)
         emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
 
     // Enforce settling duration
@@ -1770,6 +1772,7 @@ void Focus::setCurrentHFR(double value)
     QString HFRText = QString("%1").arg(currentHFR, 0, 'f', 2);
     HFROut->setText(HFRText);
     starsOut->setText(QString("%1").arg(m_ImageData->getDetectedStars()));
+    iterOut->setText(QString("%1").arg(absIterations + 1));
 
     // Display message in case _last_ HFR was negative
     if (lastHFR == FocusAlgorithmInterface::IGNORED_HFR)
@@ -2195,6 +2198,85 @@ bool Focus::autoFocusChecks()
     return true;
 }
 
+void Focus::plotLinearFocus()
+{
+    // I was hoping to avoid intermediate plotting, just set everything up then plot,
+    // but this isn't working. For now, with plt=true, plot on every intermediate update.
+    bool plt = true;
+
+    // Get the data to plot.
+    QVector<double> HFRs;
+    QVector<int> positions;
+    linearFocuser->getMeasurements(&positions, &HFRs);
+    const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
+
+    // As an optimization for slower machines, e.g. RPi4s, if the points are the same except for
+    // the last point, just emit the last point instead of redrawing everything.
+    static QVector<double> lastHFRs;
+    static QVector<int> lastPositions;
+    bool incrementalChange = false;
+    if (positions.size() > 1 && positions.size() == lastPositions.size() + 1)
+    {
+        bool ok = true;
+        for (int i = 0; i < positions.size() - 1; ++i)
+            if (positions[i] != lastPositions[i] || HFRs[i] != lastHFRs[i])
+            {
+                ok = false;
+                break;
+            }
+        incrementalChange = ok;
+    }
+    lastPositions = positions;
+    lastHFRs = HFRs;
+
+    if (incrementalChange)
+        emit newHFRPlotPosition(static_cast<double>(positions.last()), HFRs.last(), params.initialStepSize, plt);
+    else
+    {
+        emit initHFRPlot(true);
+        for (int i = 0; i < positions.size(); ++i)
+            emit newHFRPlotPosition(static_cast<double>(positions[i]), HFRs[i], params.initialStepSize, plt);
+    }
+
+    // Plot the polynomial, if there are enough points.
+    if (HFRs.size() > 3)
+    {
+        // The polynomial should only reflect 1st-pass samples.
+        QVector<double> pass1HFRs;
+        QVector<int> pass1Positions;
+        linearFocuser->getPass1Measurements(&pass1Positions, &pass1HFRs);
+        polynomialFit.reset(new PolynomialFit(2, pass1Positions, pass1HFRs));
+
+        double minPosition, minValue;
+        double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
+        double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
+        if (polynomialFit->findMinimum(params.startPosition, searchMin, searchMax, &minPosition, &minValue))
+        {
+            emit drawPolynomial(polynomialFit.get(), true, true, plt);
+
+            // Only plot the first pass' min position if we're not done.
+            // Once we have a result, we don't want to display an intermediate minimum.
+            if (linearFocuser->isDone())
+                emit minimumFound(-1, -1, plt);
+            else
+                emit minimumFound(minPosition, minValue, plt);
+        }
+        else
+        {
+            // Didn't get a good polynomial fit.
+            emit drawPolynomial(polynomialFit.get(), false, false, plt);
+            emit minimumFound(-1, -1, plt);
+        }
+    }
+
+    // Linear focuser might change the latest hfr with its relativeHFR scheme.
+    HFROut->setText(QString("%1").arg(linearFocuser->latestHFR(), 0, 'f', 2));
+
+    emit setTitle(linearFocuser->getTextStatus());
+
+    if (!plt) HFRPlot->replot();
+}
+
 void Focus::autoFocusLinear()
 {
     if (!autoFocusChecks())
@@ -2213,45 +2295,27 @@ void Focus::autoFocusLinear()
         }
     }
 
-    addPlotPosition(currentPosition, currentHFR);
+    addPlotPosition(currentPosition, currentHFR, false);
 
-    if (hfr_position.size() > 3)
-    {
-        polynomialFit.reset(new PolynomialFit(2, hfr_position, hfr_value));
-        double min_position, min_value;
-        const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
-        double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
-        double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
-        if (polynomialFit->findMinimum(linearFocuser->getParams().startPosition,
-                                       searchMin, searchMax, &min_position, &min_value))
-        {
-            isVShapeSolution = true;
-            emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
-            emit minimumFound(min_position, min_value);
-        }
-        else
-        {
-            // During development of this algorithm, we show the polynomial graph in red if
-            // no minimum was found. That happens when the order-2 polynomial is an inverted U
-            // instead of a U shape (i.e. it has a maximum, but no minimum).
-            isVShapeSolution = false;
-            emit drawPolynomial(polynomialFit.get(), isVShapeSolution, false);
-        }
-    }
+    // Only use the relativeHFR algorithm if full field is enabled with one capture/measurement.
+    bool useFocusStarsHFR = Options::focusUseFullField() && focusFramesSpin->value() == 1;
+    auto focusStars = useFocusStarsHFR ? &(m_ImageData->getStarCenters()) : nullptr;
 
-    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR);
+    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR, focusStars);
+    plotLinearFocus();
+
     const int nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition);
     if (linearRequestedPosition == -1)
     {
         if (linearFocuser->isDone() && linearFocuser->solution() != -1)
         {
-            completeFocusProcedure(Ekos::FOCUS_COMPLETE);
+            completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
         }
         else
         {
             qCDebug(KSTARS_EKOS_FOCUS) << linearFocuser->doneReason();
             appendLogText("Linear autofocus algorithm aborted.");
-            completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, false);
         }
         return;
     }
@@ -2260,7 +2324,7 @@ void Focus::autoFocusLinear()
         const int delta = nextPosition - currentPosition;
 
         if (!changeFocus(delta))
-            completeFocusProcedure(Ekos::FOCUS_ABORTED);
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, false);
 
         return;
     }
@@ -2618,11 +2682,12 @@ void Focus::autoFocusAbs()
     }
 }
 
-void Focus::addPlotPosition(int pos, double hfr)
+void Focus::addPlotPosition(int pos, double hfr, bool plot)
 {
     hfr_position.append(pos);
     hfr_value.append(hfr);
-    emit newHFRPlotPosition(pos, hfr, pulseDuration);
+    if (plot)
+        emit newHFRPlotPosition(pos, hfr, pulseDuration);
 }
 
 void Focus::autoFocusRel()

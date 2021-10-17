@@ -1899,7 +1899,7 @@
       </entry>
       <entry name="FocusAlgorithm" type="UInt">
          <label>Focus process algorithm</label>
-         <default>0</default>
+         <default>2</default>
       </entry>
       <entry name="FocusFramesCount" type="UInt">
          <label>Number of focus frames to average for HFR calculations.</label>
