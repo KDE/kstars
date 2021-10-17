@@ -209,6 +209,17 @@ bool Device::initGUI()
 //////////////////////////////////////////////////////////////////////////////////////////
 void Device::syncGUI()
 {
+    // Check if initGUI failed before?
+    if (m_LED == nullptr)
+    {
+        // Try to initiGUI again
+        initGUI();
+
+        // If it failed again, return.
+        if (m_LED == nullptr)
+            return;
+    }
+
     m_LED->setColor(ColorCode.value(m_Device->getState("CONNECTION")));
 
     INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice()->getSwitch("CONNECTION_MODE"));

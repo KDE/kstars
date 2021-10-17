@@ -76,24 +76,23 @@ INDIListener *INDIListener::Instance()
     {
         _INDIListener = new INDIListener(KStars::Instance());
 
-        connect(_INDIListener, &INDIListener::newTelescope, [&]()
+        connect(_INDIListener, &INDIListener::newTelescope,
+                [&]()
         {
             KStars::Instance()->slotSetTelescopeEnabled(true);
         });
 
-        connect(_INDIListener, &INDIListener::newDome, [&]()
+        connect(_INDIListener, &INDIListener::newDome,
+                [&]()
         {
             KStars::Instance()->slotSetDomeEnabled(true);
         });
-
     }
 
     return _INDIListener;
 }
 
-INDIListener::INDIListener(QObject *parent) : QObject(parent)
-{
-}
+INDIListener::INDIListener(QObject *parent) : QObject(parent) {}
 
 INDIListener::~INDIListener()
 {
@@ -123,16 +122,15 @@ ISD::GDInterface *INDIListener::getDevice(const QString &name)
 
 void INDIListener::addClient(ClientManager *cm)
 {
-    qCDebug(KSTARS_INDI) << "INDIListener: Adding a new client manager to INDI listener..";
+    qCDebug(KSTARS_INDI)
+            << "INDIListener: Adding a new client manager to INDI listener..";
 
     clients.append(cm);
 
-    connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice, Qt::BlockingQueuedConnection);
-    //connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice);
+    connect(cm, &ClientManager::newINDIDevice, this, &INDIListener::processDevice);
     connect(cm, &ClientManager::newINDIProperty, this, &INDIListener::registerProperty);
 
     connect(cm, &ClientManager::removeINDIDevice, this, &INDIListener::removeDevice);
-    //connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty, Qt::BlockingQueuedConnection);
     connect(cm, &ClientManager::removeINDIProperty, this, &INDIListener::removeProperty);
 
     connect(cm, &ClientManager::newINDISwitch, this, &INDIListener::processSwitch);
@@ -140,12 +138,14 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, &ClientManager::newINDINumber, this, &INDIListener::processNumber);
     connect(cm, &ClientManager::newINDILight, this, &INDIListener::processLight);
     connect(cm, &ClientManager::newINDIBLOB, this, &INDIListener::processBLOB);
-    connect(cm, &ClientManager::newINDIUniversalMessage, this, &INDIListener::processUniversalMessage);
+    connect(cm, &ClientManager::newINDIUniversalMessage, this,
+            &INDIListener::processUniversalMessage);
 }
 
 void INDIListener::removeClient(ClientManager *cm)
 {
-    qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server" << cm->getHost() << "@" << cm->getPort();
+    qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server"
+                         << cm->getHost() << "@" << cm->getPort();
 
     QList<ISD::GDInterface *>::iterator it = devices.begin();
     clients.removeOne(cm);
@@ -153,7 +153,8 @@ void INDIListener::removeClient(ClientManager *cm)
     while (it != devices.end())
     {
         DriverInfo *dv  = (*it)->getDriverInfo();
-        bool hostSource = (dv->getDriverSource() == HOST_SOURCE) || (dv->getDriverSource() == GENERATED_SOURCE);
+        bool hostSource = (dv->getDriverSource() == HOST_SOURCE) ||
+                          (dv->getDriverSource() == GENERATED_SOURCE);
 
         if (cm->isDriverManaged(dv))
         {
@@ -191,8 +192,11 @@ void INDIListener::processDevice(DeviceInfo *dv)
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
     ISD::GDInterface *gd = new ISD::GenericDevice(*dv, cm);
-
     devices.append(gd);
+
+    // Register all existing properties
+    for (const auto &oneProperty : dv->getBaseDevice()->getProperties())
+        gd->registerProperty(oneProperty);
 
     emit newDevice(gd);
 }
@@ -234,7 +238,8 @@ void INDIListener::registerProperty(INDI::Property prop)
     if (!prop.getRegistered())
         return;
 
-    qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName() << ">";
+    qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
+                         << ">";
 
     for (auto oneDevice : devices)
     {
@@ -295,8 +300,7 @@ void INDIListener::registerProperty(INDI::Property prop)
                 emit newFocuser(oneDevice);
             }
 
-            else if (prop.isNameMatch("DOME_SHUTTER") ||
-                     prop.isNameMatch("DOME_MOTION"))
+            else if (prop.isNameMatch("DOME_SHUTTER") || prop.isNameMatch("DOME_MOTION"))
             {
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
@@ -334,7 +338,8 @@ void INDIListener::registerProperty(INDI::Property prop)
                 // If light box part of dust cap
                 if (oneDevice->getType() == KSTARS_UNKNOWN)
                 {
-                    if (oneDevice->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+                    if (oneDevice->getBaseDevice()->getDriverInterface() &
+                            INDI::BaseDevice::DUSTCAP_INTERFACE)
                     {
                         devices.removeOne(oneDevice);
                         oneDevice = new ISD::DustCap(oneDevice);
@@ -356,9 +361,16 @@ void INDIListener::registerProperty(INDI::Property prop)
 
             if (prop.isNameMatch("TELESCOPE_TIMED_GUIDE_WE"))
             {
-                ISD::ST4 *st4Driver = new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
-                st4Devices.append(st4Driver);
-                emit newST4(st4Driver);
+                ISD::ST4 *st4Driver =  new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
+                if (st4Driver == nullptr)
+                {
+                    qCCritical(KSTARS_INDI) << "Failed to allocate ST4 driver";
+                }
+                else
+                {
+                    st4Devices.append(st4Driver);
+                    emit newST4(st4Driver);
+                }
             }
 
             oneDevice->registerProperty(prop);
@@ -468,7 +480,8 @@ void INDIListener::processUniversalMessage(const QString &message)
 
     if (Options::messageNotificationINDI())
     {
-        KSNotification::event(QLatin1String("IndiServerMessage"), displayMessage, KSNotification::EVENT_WARN);
+        KSNotification::event(QLatin1String("IndiServerMessage"), displayMessage,
+                              KSNotification::EVENT_WARN);
     }
     else
     {

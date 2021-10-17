@@ -31,7 +31,8 @@ GUIManager *GUIManager::_GUIManager = nullptr;
 GUIManager *GUIManager::Instance()
 {
     if (_GUIManager == nullptr)
-        _GUIManager = new GUIManager(Options::independentWindowINDI() ? nullptr : KStars::Instance());
+        _GUIManager = new GUIManager(
+            Options::independentWindowINDI() ? nullptr : KStars::Instance());
 
     return _GUIManager;
 }
@@ -49,7 +50,8 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     else
     {
         setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
-        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this,
+        connect(QApplication::instance(),
+                SIGNAL(applicationStateChanged(Qt::ApplicationState)), this,
                 SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
     }
 #endif
@@ -107,7 +109,8 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
 
     if (ks)
     {
-        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
+        QAction *showINDIPanel =
+            KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setChecked(false);
     }
 
@@ -139,11 +142,13 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
 *********************************************************************/
 void GUIManager::updateStatus(bool toggle_behavior)
 {
-    QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
+    QAction *showINDIPanel =
+        KStars::Instance()->actionCollection()->action("show_control_panel");
 
     if (guidevices.count() == 0)
     {
-        KSNotification::error(i18n("No INDI devices currently running. To run devices, please select devices from the "
+        KSNotification::error(i18n("No INDI devices currently running. To run devices, "
+                                   "please select devices from the "
                                    "Device Manager in the devices menu."));
         showINDIPanel->setChecked(false);
         showINDIPanel->setEnabled(false);
@@ -177,7 +182,8 @@ INDI_D *GUIManager::findGUIDevice(const QString &deviceName)
 
 void GUIManager::clearLog()
 {
-    INDI_D *dev = findGUIDevice(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
+    INDI_D *dev = findGUIDevice(
+                      mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
 
     if (dev)
         dev->clearMessageLog();
@@ -186,15 +192,15 @@ void GUIManager::clearLog()
 void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
-    connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice, Qt::BlockingQueuedConnection);
-    connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice, Qt::BlockingQueuedConnection);
+    connect(cm, &ClientManager::newINDIDevice, this, &GUIManager::buildDevice);
+    connect(cm, &ClientManager::removeINDIDevice, this, &GUIManager::removeDevice);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
 {
     clients.removeOne(cm);
 
-    QMutableListIterator<INDI_D*> it(guidevices);
+    QMutableListIterator<INDI_D *> it(guidevices);
     while (it.hasNext())
     {
         INDI_D *gdv = it.next();
@@ -249,7 +255,8 @@ void GUIManager::removeDevice(const QString &name)
 
     if (guidevices.isEmpty())
     {
-        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action("show_control_panel");
+        QAction *showINDIPanel =
+            KStars::Instance()->actionCollection()->action("show_control_panel");
         showINDIPanel->setEnabled(false);
     }
 }
@@ -260,6 +267,10 @@ void GUIManager::buildDevice(DeviceInfo *di)
     Q_ASSERT_X(cm, __FUNCTION__, "Client manager is not valid.");
 
     INDI_D *gdm = new INDI_D(mainTabWidget, di->getBaseDevice(), cm);
+
+    // Build existing properties.
+    for (const auto &oneProperty : di->getBaseDevice()->getProperties())
+        gdm->buildProperty(oneProperty);
 
     connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
@@ -272,10 +283,10 @@ void GUIManager::buildDevice(DeviceInfo *di)
     connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
 
     QString deviceName = di->getDeviceName();
-    int index = mainTabWidget->count();
-    for(int i = 0; i < mainTabWidget->count(); i++)
+    int index          = mainTabWidget->count();
+    for (int i = 0; i < mainTabWidget->count(); i++)
     {
-        if(mainTabWidget->tabText(i) > deviceName)
+        if (mainTabWidget->tabText(i) > deviceName)
         {
             index = i;
             break;
