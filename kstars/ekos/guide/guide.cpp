@@ -924,9 +924,9 @@ void Guide::setBusy(bool enable)
         {
             captureB->setEnabled(true);
             loopB->setEnabled(true);
-            autoStarCheck->setEnabled(true);
+            autoStarCheck->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
             if(currentCCD)
-                subFrameCheck->setEnabled(true);
+                subFrameCheck->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
         }
         if (guiderType == GUIDE_INTERNAL)
             darkFrameCheck->setEnabled(true);
