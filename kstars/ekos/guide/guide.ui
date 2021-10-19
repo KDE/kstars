@@ -60,7 +60,7 @@
           <item row="2" column="1">
            <widget class="QCheckBox" name="autoStarCheck">
             <property name="toolTip">
-             <string>Automatically select the calibration star.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically select the calibration star. &lt;br/&gt;Please note: 'SEP Multi Star' does  &lt;span style=&quot; font-weight:600;&quot;&gt;always&lt;/span&gt; use 'auto star' detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Auto Star</string>
@@ -215,7 +215,7 @@
           <item row="1" column="1">
            <widget class="QCheckBox" name="subFrameCheck">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star.  Or for PHD2, receive the Guide Star Image instead of the full image frame.  For the Internal Guider, before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Or for PHD2, receive the Guide Star Image instead of the full image frame. For the Internal Guider, before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again. &lt;br/&gt;Please note: 'SEP Multi Star' &lt;span style=&quot; font-weight:600;&quot;&gt;cannot&lt;/span&gt; use subframe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Subframe</string>
