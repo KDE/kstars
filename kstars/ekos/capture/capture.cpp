@@ -7287,18 +7287,7 @@ void Capture::setCoolerToggled(bool enabled)
 
 void Capture::processCaptureTimeout()
 {
-    auto restartExposure = [&]()
-    {
-        appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-        targetChip->abortExposure();
-        targetChip->capture(captureExposureN->value());
-        captureTimeout.start(static_cast<int>(captureExposureN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
-    };
-
     m_CaptureTimeoutCounter++;
-
 
     if (m_DeviceRestartCounter >= 3)
     {
@@ -7314,14 +7303,31 @@ void Capture::processCaptureTimeout()
         QString camera = currentCCD->getDeviceName();
         QString fw = currentFilter ? currentFilter->getDeviceName() : "";
         emit driverTimedout(camera);
-        QTimer::singleShot(5000, [ &, camera, fw]()
+        QTimer::singleShot(5000, this, [ &, camera, fw]()
         {
             m_DeviceRestartCounter++;
             reconnectDriver(camera, fw);
         });
         return;
     }
-    else restartExposure();
+    else
+    {
+        // Double check that currentCCD is valid in case it was reset due to driver restart.
+        if (currentCCD)
+        {
+            appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+            currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            targetChip->abortExposure();
+            targetChip->capture(captureExposureN->value());
+            captureTimeout.start(static_cast<int>(captureExposureN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
+        }
+        else
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Unable to restart exposure as camera is missing, trying again in 5 seconds...";
+            QTimer::singleShot(5000, this, &Capture::processCaptureTimeout);
+        }
+    }
 }
 
 //void Capture::setGeneratedPreviewFITS(const QString &previewFITS)
