@@ -204,50 +204,50 @@ QString constGenetiveToAbbrev(const QString &genetive_);
 */
 class Logging
 {
-  public:
-    /**
-             * Store all logs into the specified file
+    public:
+        /**
+                 * Store all logs into the specified file
+                 */
+        static void UseFile();
+
+        /**
+                 * Output logs to stdout
+                 */
+        static void UseStdout();
+
+        /**
+                 * Output logs to stderr
+                 */
+        static void UseStderr();
+
+        /**
+                 * Use the default logging mechanism
+                 */
+        static void UseDefault();
+
+        /**
+                 * Disable logging
+                 */
+        static void Disable();
+
+        /**
+             * @brief SyncFilterRules Sync QtLogging filter rules from Options
              */
-    static void UseFile();
+        static void SyncFilterRules();
 
-    /**
-             * Output logs to stdout
-             */
-    static void UseStdout();
+    private:
+        static QString _filename;
 
-    /**
-             * Output logs to stderr
-             */
-    static void UseStderr();
-
-    /**
-             * Use the default logging mechanism
-             */
-    static void UseDefault();
-
-    /**
-             * Disable logging
-             */
-    static void Disable();
-
-    /**
-         * @brief SyncFilterRules Sync QtLogging filter rules from Options
-         */
-    static void SyncFilterRules();
-
-  private:
-    static QString _filename;
-
-    static void Disabled(QtMsgType type, const QMessageLogContext &context,
+        static void Disabled(QtMsgType type, const QMessageLogContext &context,
+                             const QString &msg);
+        static void File(QtMsgType type, const QMessageLogContext &context,
                          const QString &msg);
-    static void File(QtMsgType type, const QMessageLogContext &context,
-                     const QString &msg);
-    static void Stdout(QtMsgType type, const QMessageLogContext &context,
-                       const QString &msg);
-    static void Stderr(QtMsgType type, const QMessageLogContext &context,
-                       const QString &msg);
-    static void Write(QTextStream &stream, QtMsgType type,
-                      const QMessageLogContext &context, const QString &msg);
+        static void Stdout(QtMsgType type, const QMessageLogContext &context,
+                           const QString &msg);
+        static void Stderr(QtMsgType type, const QMessageLogContext &context,
+                           const QString &msg);
+        static void Write(QTextStream &stream, QtMsgType type,
+                          const QMessageLogContext &context, const QString &msg);
 };
 
 QString getDefaultPath(const QString &option);
@@ -280,23 +280,25 @@ struct JPLFilter
 
 class JPLParser
 {
-  public:
-    JPLParser(const QString &path);
+    public:
+        JPLParser(const QString &path);
 
-    template <typename Lambda>
-    void for_each(const Lambda &fct)
-    {
-        for (const auto &item : m_data)
+        template <typename Lambda>
+        void for_each(const Lambda &fct)
         {
-            fct([&, this](const QString &key)
-                { return item.toArray()[m_field_map.at(key)]; });
-        }
-    };
+            for (const auto &item : m_data)
+            {
+                fct([ &, this](const QString & key)
+                {
+                    return item.toArray().at(m_field_map.at(key));
+                });
+            }
+        };
 
-  private:
-    QJsonDocument m_doc;
-    QJsonArray m_data;
-    std::unordered_map<QString, int> m_field_map;
+    private:
+        QJsonDocument m_doc;
+        QJsonArray m_data;
+        std::unordered_map<QString, int> m_field_map;
 };
 // TODO: Implement Datatypes//Maps for kind, datafields, filters...
 
