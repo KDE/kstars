@@ -43,7 +43,6 @@
 
 namespace KSUtils
 {
-
 bool isHardwareLimited()
 {
 #ifdef __arm__
@@ -112,7 +111,8 @@ QString getDSSURL(const SkyPoint *const p)
     return getDSSURL(p->ra0(), p->dec0(), width, height);
 }
 
-QString getDSSURL(const dms &ra, const dms &dec, float width, float height, const QString &type)
+QString getDSSURL(const dms &ra, const dms &dec, float width, float height,
+                  const QString &type)
 {
     const QString URLprefix("https://archive.stsci.edu/cgi-bin/dss_search?");
     QString URLsuffix             = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
@@ -136,8 +136,8 @@ QString getDSSURL(const dms &ra, const dms &dec, float width, float height, cons
         width = 75.0;
 
     QString RAString, DecString, SizeString;
-    DecString  = QString::asprintf("&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds);
-    RAString   = QString::asprintf("r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second());
+    DecString = QString::asprintf("&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds);
+    RAString = QString::asprintf("r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second());
     SizeString = QString::asprintf("&h=%02.1f&w=%02.1f", height, width);
 
     return (URLprefix + RAString + DecString + SizeString + URLsuffix);
@@ -151,33 +151,36 @@ QString toDirectionString(dms angle)
     // languages that have special names for the intercardinal points)
     // -- asimha
 
-    static const char *directions[] = { I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "N"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ENE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "E"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ESE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSE"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "S"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSW"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SW"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WSW"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "W"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WNW"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NW"),
-                                        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNW"),
-                                        I18N_NOOP2("Unknown cardinal / intercardinal direction", "???")
-                                      };
+    static const char *directions[] = {
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "N"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ENE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "E"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ESE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSE"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "S"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSW"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SW"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WSW"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "W"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WNW"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NW"),
+        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNW"),
+        I18N_NOOP2("Unknown cardinal / intercardinal direction", "???")
+    };
 
-    int index = (int)((angle.reduce().Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive) is expected
+    int index = (int)((angle.reduce().Degrees() + 11.25) /
+                      22.5); // A number between 0 and 16 (inclusive) is expected
 
     if (index < 0 || index > 16)
         index = 16; // Something went wrong.
     else
         index = (index == 16 ? 0 : index);
 
-    return i18nc("Abbreviated cardinal / intercardinal etc. direction", directions[index]);
+    return i18nc("Abbreviated cardinal / intercardinal etc. direction",
+                 directions[index]);
 }
 
 QList<SkyObject *> *castStarObjListToSkyObjList(QList<StarObject *> *starObjList)
@@ -924,11 +927,13 @@ void Logging::UseFile()
     if (_filename.isEmpty())
     {
         QDir dir;
-        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("logs/" +
-                       QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+        QString path =
+            QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+                .filePath("logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         dir.mkpath(path);
-        QString name = "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
-        _filename    = path + QStringLiteral("/") + name;
+        QString name =
+            "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
+        _filename = path + QStringLiteral("/") + name;
 
         // Clear file contents
         QFile file(_filename);
@@ -936,7 +941,10 @@ void Logging::UseFile()
         file.close();
     }
 
-    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} %{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] %{if-category}[%{category}]%{endif} - %{message}");
+    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} "
+                       "%{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{"
+                       "endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] "
+                       "%{if-category}[%{category}]%{endif} - %{message}");
     qInstallMessageHandler(File);
 }
 
@@ -952,11 +960,15 @@ void Logging::File(QtMsgType type, const QMessageLogContext &context, const QStr
 
 void Logging::UseStdout()
 {
-    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} %{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] %{if-category}[%{category}]%{endif} - %{message}");
+    qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} "
+                       "%{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{"
+                       "endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] "
+                       "%{if-category}[%{category}]%{endif} - %{message}");
     qInstallMessageHandler(Stdout);
 }
 
-void Logging::Stdout(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logging::Stdout(QtMsgType type, const QMessageLogContext &context,
+                     const QString &msg)
 {
     QTextStream stream(stdout, QIODevice::WriteOnly);
     Write(stream, type, context, msg);
@@ -967,15 +979,16 @@ void Logging::UseStderr()
     qInstallMessageHandler(Stderr);
 }
 
-void Logging::Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logging::Stderr(QtMsgType type, const QMessageLogContext &context,
+                     const QString &msg)
 {
     QTextStream stream(stderr, QIODevice::WriteOnly);
-    Write(stream, type, context,  msg);
+    Write(stream, type, context, msg);
 }
 
-void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logging::Write(QTextStream &stream, QtMsgType type,
+                    const QMessageLogContext &context, const QString &msg)
 {
-
     stream << QDateTime::currentDateTime().toString("[yyyy-MM-ddThh:mm:ss.zzz t ");
 
     switch (type)
@@ -999,8 +1012,8 @@ void Logging::Write(QTextStream &stream, QtMsgType type, const QMessageLogContex
             stream << "UNKN ]";
     }
 
-
-    stream << "[" << qSetFieldWidth(30) << context.category << qSetFieldWidth(0) << "] - ";
+    stream << "[" << qSetFieldWidth(30) << context.category << qSetFieldWidth(0)
+           << "] - ";
     stream << msg << '\n';
     stream.flush();
     //stream << qFormatLogMessage(type, context, msg) << endl;
@@ -1016,9 +1029,7 @@ void Logging::Disable()
     qInstallMessageHandler(Disabled);
 }
 
-void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
-{
-}
+void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &) {}
 
 void Logging::SyncFilterRules()
 {
@@ -1047,16 +1058,24 @@ void Logging::SyncFilterRules()
 
     QStringList rules;
 
-    rules << "org.kde.kstars.ekos.debug" << (Options::verboseLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.debug"
+          << (Options::verboseLogging() ? "true" : "false");
     rules << "org.kde.kstars.indi.debug" << (Options::iNDILogging() ? "true" : "false");
     rules << "org.kde.kstars.fits.debug" << (Options::fITSLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.capture.debug" << (Options::captureLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.focus.debug" << (Options::focusLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.guide.debug" << (Options::guideLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.align.debug" << (Options::alignmentLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.mount.debug" << (Options::mountLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.scheduler.debug" << (Options::schedulerLogging() ? "true" : "false");
-    rules << "org.kde.kstars.ekos.observatory.debug" << (Options::observatoryLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.capture.debug"
+          << (Options::captureLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.focus.debug"
+          << (Options::focusLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.guide.debug"
+          << (Options::guideLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.align.debug"
+          << (Options::alignmentLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.mount.debug"
+          << (Options::mountLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.scheduler.debug"
+          << (Options::schedulerLogging() ? "true" : "false");
+    rules << "org.kde.kstars.ekos.observatory.debug"
+          << (Options::observatoryLogging() ? "true" : "false");
     rules << "org.kde.kstars.debug" << (Options::verboseLogging() ? "true" : "false");
 
     QString formattedRules;
@@ -1078,8 +1097,8 @@ QString getDefaultPath(const QString &option)
     // We support running within Snaps, Flatpaks, and AppImage
     // The path should accomodate the differences between the different
     // packaging solutions
-    QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
-    QString flat = QProcessEnvironment::systemEnvironment().value("FLATPAK_DEST");
+    QString snap   = QProcessEnvironment::systemEnvironment().value("SNAP");
+    QString flat   = QProcessEnvironment::systemEnvironment().value("FLATPAK_DEST");
     QString appimg = QProcessEnvironment::systemEnvironment().value("APPDIR");
 
     // User prefix is the primary mounting point
@@ -1088,7 +1107,7 @@ QString getDefaultPath(const QString &option)
     QString prefix = userPrefix;
     // Detect if we are within an App Image
     if (QProcessEnvironment::systemEnvironment().value("APPIMAGE").isEmpty() == false &&
-            appimg.isEmpty() == false)
+        appimg.isEmpty() == false)
         prefix = appimg + userPrefix;
     else if (flat.isEmpty() == false)
         // Detect if we are within a Flatpak
@@ -1096,7 +1115,6 @@ QString getDefaultPath(const QString &option)
     // Detect if we are within a snap
     else if (snap.isEmpty() == false)
         prefix = snap + userPrefix;
-
 
     if (option == "fitsDir")
     {
@@ -1129,7 +1147,8 @@ QString getDefaultPath(const QString &option)
 #elif defined(Q_OS_LINUX)
         return prefix + "/share/indi";
 #else
-        return QStandardPaths::locate(QStandardPaths::AppDataLocation, "indi", QStandardPaths::LocateDirectory);
+        return QStandardPaths::locate(QStandardPaths::AppDataLocation, "indi",
+                                      QStandardPaths::LocateDirectory);
 #endif
     }
     else if (option == "AstrometrySolverBinary")
@@ -1139,7 +1158,8 @@ QString getDefaultPath(const QString &option)
 #elif defined(Q_OS_OSX)
         return "/usr/local/bin/solve-field";
 #elif defined(Q_OS_WIN)
-        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/solve-field.exe";
+        return QDir::homePath() +
+               "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/solve-field.exe";
 #endif
         return prefix + "/bin/solve-field";
     }
@@ -1159,7 +1179,8 @@ QString getDefaultPath(const QString &option)
 #elif defined(Q_OS_OSX)
         return "/usr/local/bin/wcsinfo";
 #elif defined(Q_OS_WIN)
-        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/wcsinfo.exe";
+        return QDir::homePath() +
+               "/AppData/Local/cygwin_ansvr/lib/astrometry/bin/wcsinfo.exe";
 #endif
         return prefix + "/bin/wcsinfo";
     }
@@ -1170,7 +1191,8 @@ QString getDefaultPath(const QString &option)
 #elif defined(Q_OS_OSX)
         return "/usr/local/etc/astrometry.cfg";
 #elif defined(Q_OS_WIN)
-        return QDir::homePath() + "/AppData/Local/cygwin_ansvr/etc/astrometry/backend.cfg";
+        return QDir::homePath() +
+               "/AppData/Local/cygwin_ansvr/etc/astrometry/backend.cfg";
 #endif
         // We move /usr
         prefix.remove(userPrefix);
@@ -1181,7 +1203,8 @@ QString getDefaultPath(const QString &option)
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/share/astrometry");
 #elif defined(Q_OS_OSX)
-        return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("Astrometry/");
+        return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation))
+            .filePath("Astrometry/");
 #endif
         return prefix + "/share/astrometry/";
     }
@@ -1214,7 +1237,9 @@ QString getDefaultPath(const QString &option)
 QStringList getAstrometryDefaultIndexFolderPaths()
 {
     QStringList folderPaths;
-    const QString confDir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(QLatin1String("astrometry"));
+    const QString confDir =
+        QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+            .filePath(QLatin1String("astrometry"));
     folderPaths << confDir;
     // Check if directory already exists, if it doesn't create one
     QDir writableDir(confDir);
@@ -1237,16 +1262,22 @@ QStringList getAstrometryDefaultIndexFolderPaths()
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
 void copyResourcesFolderFromAppBundle(QString folder)
 {
-    QString folderLocation = QStandardPaths::locate(QStandardPaths::GenericDataLocation, folder,
-                             QStandardPaths::LocateDirectory);
+    QString folderLocation = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
-    if(folder == "kstars")
-        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath();
+    if (folder == "kstars")
+        folderSourceDir =
+            QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars")
+                .absolutePath();
     else
-        folderSourceDir = QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder).absolutePath();
+        folderSourceDir =
+            QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder)
+                .absolutePath();
     if (folderSourceDir.exists())
     {
-        folderLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + '/' + folder;
+        folderLocation =
+            QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + '/' +
+            folder;
         QDir writableDir;
         writableDir.mkdir(folderLocation);
         copyRecursively(folderSourceDir.absolutePath(), folderLocation);
@@ -1263,7 +1294,7 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
     //This will copy the KStars data directory
     copyResourcesFolderFromAppBundle("kstars");
 
-    if(Options::kStarsFirstRun())
+    if (Options::kStarsFirstRun())
     {
         //This sets some important OS X options.
         Options::setIndiServerIsInternal(true);
@@ -1282,14 +1313,13 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
         Options::setXplanetPath("*Internal XPlanet*");
     }
 
-    QString dataLocation =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    QString dataLocation = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty()) //If there is no kstars user data directory
         return false;
 
     return true;
 }
-
 
 //Can this and the linux method be merged somehow? See KSUtils::createLocalAstrometryConf
 bool configureAstrometry()
@@ -1298,22 +1328,27 @@ bool configureAstrometry()
     if (astrometryDataDirs.count() == 0)
         return false;
     QString defaultAstrometryDataDir = getDefaultPath("AstrometryIndexFileLocation");
-    if(astrometryDataDirs.contains("IndexFileLocationNotYetSet"))
+    if (astrometryDataDirs.contains("IndexFileLocationNotYetSet"))
         replaceIndexFileNotYetSet();
     if (QDir(defaultAstrometryDataDir).exists() == false)
     {
         if (KMessageBox::warningYesNo(
-                    nullptr, i18n("The selected Astrometry Index File Location:\n %1 \n does not exist.  Do you want to make the directory?",
-                                  defaultAstrometryDataDir),
-                    i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
+                nullptr,
+                i18n("The selected Astrometry Index File Location:\n %1 \n does not "
+                     "exist.  Do you want to make the directory?",
+                     defaultAstrometryDataDir),
+                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
-            if(QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
+            if (QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
             {
-                KSNotification::info(i18n("The Default Astrometry Index File Location was created."));
+                KSNotification::info(
+                    i18n("The Default Astrometry Index File Location was created."));
             }
             else
             {
-                KSNotification::sorry(i18n("The Default Astrometry Index File Directory does not exist and was not able to be created."));
+                KSNotification::sorry(
+                    i18n("The Default Astrometry Index File Directory does not exist and "
+                         "was not able to be created."));
             }
         }
         else
@@ -1333,7 +1368,7 @@ bool replaceIndexFileNotYetSet()
     QString contents;
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KSNotification::error( i18n("Astrometry Configuration File Read Error."));
+        KSNotification::error(i18n("Astrometry Configuration File Read Error."));
         return false;
     }
     else
@@ -1341,11 +1376,13 @@ bool replaceIndexFileNotYetSet()
         QByteArray fileContent = confFile.readAll();
         confFile.close();
         QString contents = QString::fromLatin1(fileContent);
-        contents.replace("IndexFileLocationNotYetSet", getDefaultPath("AstrometryIndexFileLocation"));
+        contents.replace("IndexFileLocationNotYetSet",
+                         getDefaultPath("AstrometryIndexFileLocation"));
 
         if (confFile.open(QIODevice::WriteOnly) == false)
         {
-            KSNotification::error( i18n("Internal Astrometry Configuration File Write Error."));
+            KSNotification::error(
+                i18n("Internal Astrometry Configuration File Write Error."));
             return false;
         }
         else
@@ -1396,7 +1433,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 //One is createLocalAstrometryConf and the other is configureAstrometry
 bool configureLocalAstrometryConfIfNecessary()
 {
-#if defined(Q_OS_LINUX) || defined (Q_OS_WIN32)
+#if defined(Q_OS_LINUX) || defined(Q_OS_WIN32)
     QString confPath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("astrometry") +
                        QLatin1String("/astrometry.cfg");
     if (QFileInfo(confPath).exists() == false)
@@ -1490,8 +1527,8 @@ QString getAstrometryConfFilePath()
 {
 #if defined(Q_OS_LINUX)
     if (Options::astrometryConfFileIsInternal())
-        return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(QLatin1String("astrometry") +
-               QLatin1String("/astrometry.cfg"));
+        return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+            .filePath(QLatin1String("astrometry") + QLatin1String("/astrometry.cfg"));
 #elif defined(Q_OS_OSX)
     if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
@@ -1507,14 +1544,14 @@ QStringList getAstrometryDataDirs()
     bool updated = false;
 
     // Cleaning up the list of directories in options.
-    for(int dir = 0; dir < optionsDataDirs.count(); dir++)
+    for (int dir = 0; dir < optionsDataDirs.count(); dir++)
     {
         QString optionsDataDirName = optionsDataDirs.at(dir);
         QDir optionsDataDir(optionsDataDirName);
-        if(optionsDataDir.exists())
+        if (optionsDataDir.exists())
         {
             //This will replace directory names that aren't the absolute path
-            if(optionsDataDir.absolutePath() != optionsDataDirName)
+            if (optionsDataDir.absolutePath() != optionsDataDirName)
             {
                 optionsDataDirs.replace(dir, optionsDataDir.absolutePath());
                 updated = true;
@@ -1553,14 +1590,14 @@ QStringList getAstrometryDataDirs()
 
         //This will search through the paths and compare them to the index folder list
         //It will add them if they aren't in there.
-        for(QString astrometryDataDirName : confDataDirs)
+        for (QString astrometryDataDirName : confDataDirs)
         {
             QDir astrometryDataDir(astrometryDataDirName);
             //This rejects any that do not exist
-            if(!astrometryDataDir.exists())
+            if (!astrometryDataDir.exists())
                 continue;
             QString astrometryDataDirPath = astrometryDataDir.absolutePath();
-            if( !optionsDataDirs.contains(astrometryDataDirPath ))
+            if (!optionsDataDirs.contains(astrometryDataDirPath))
             {
                 optionsDataDirs.append(astrometryDataDirPath);
                 updated = true;
@@ -1569,11 +1606,11 @@ QStringList getAstrometryDataDirs()
     }
 
     //This will remove any duplicate entries.
-    if(optionsDataDirs.removeDuplicates() != 0)
+    if (optionsDataDirs.removeDuplicates() != 0)
         updated = true;
 
     //This updates the list in Options if it changed.
-    if(updated)
+    if (updated)
         Options::setAstrometryIndexFolderList(optionsDataDirs);
 
     return optionsDataDirs;
@@ -1585,14 +1622,14 @@ bool addAstrometryDataDir(const QString &dataDir)
     //if(Options::astrometryIndexFileLocation() != dataDir)
     //    Options::setAstrometryIndexFileLocation(dataDir);
 
-    QString confPath = KSUtils::getAstrometryConfFilePath();
+    QString confPath               = KSUtils::getAstrometryConfFilePath();
     QStringList astrometryDataDirs = getAstrometryDataDirs();
 
     QFile confFile(confPath);
     QString contents;
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KSNotification::error( i18n("Astrometry Configuration File Read Error."));
+        KSNotification::error(i18n("Astrometry Configuration File Read Error."));
         return false;
     }
     else
@@ -1609,7 +1646,7 @@ bool addAstrometryDataDir(const QString &dataDir)
                 if (!foundSpot)
                 {
                     foundSpot = true;
-                    for(QString astrometryDataDir : astrometryDataDirs)
+                    for (QString astrometryDataDir : astrometryDataDirs)
                         contents += "add_path " + astrometryDataDir + '\n';
                     contents += "add_path " + dataDir + '\n';
                 }
@@ -1623,9 +1660,9 @@ bool addAstrometryDataDir(const QString &dataDir)
                 contents += line + '\n';
             }
         }
-        if(!foundSpot)
+        if (!foundSpot)
         {
-            for(QString astrometryDataDir : astrometryDataDirs)
+            for (QString astrometryDataDir : astrometryDataDirs)
                 contents += "add_path " + astrometryDataDir + '\n';
             contents += "add_path " + dataDir + '\n';
         }
@@ -1634,7 +1671,8 @@ bool addAstrometryDataDir(const QString &dataDir)
 
         if (confFile.open(QIODevice::WriteOnly) == false)
         {
-            KSNotification::error( i18n("Internal Astrometry Configuration File Write Error."));
+            KSNotification::error(
+                i18n("Internal Astrometry Configuration File Write Error."));
             return false;
         }
         else
@@ -1649,14 +1687,14 @@ bool addAstrometryDataDir(const QString &dataDir)
 
 bool removeAstrometryDataDir(const QString &dataDir)
 {
-    QString confPath = KSUtils::getAstrometryConfFilePath();
+    QString confPath               = KSUtils::getAstrometryConfFilePath();
     QStringList astrometryDataDirs = getAstrometryDataDirs();
 
     QFile confFile(confPath);
     QString contents;
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
-        KSNotification::error( i18n("Astrometry Configuration File Read Error."));
+        KSNotification::error(i18n("Astrometry Configuration File Read Error."));
         return false;
     }
     else
@@ -1670,13 +1708,13 @@ bool removeAstrometryDataDir(const QString &dataDir)
             {
                 contents += line + '\n';
             }
-
         }
         confFile.close();
 
         if (confFile.open(QIODevice::WriteOnly) == false)
         {
-            KSNotification::error( i18n("Internal Astrometry Configuration File Write Error."));
+            KSNotification::error(
+                i18n("Internal Astrometry Configuration File Write Error."));
             return false;
         }
         else
@@ -1688,26 +1726,33 @@ bool removeAstrometryDataDir(const QString &dataDir)
     }
     return true;
 }
-QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters)
+
+QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields,
+                             const QVector<JPLFilter> &filters)
 {
-    QByteArray query("obj_group=all&obj_kind=" + kind + "&obj_numbered=all&OBJ_field=0&ORB_field=0");
+    /* For example:
+      https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,neo,H,G,diameter,extent,albedo,rot_per,orbit_id,epoch.mjd,e,a,q,i,om,w,ma,per.y,moid,class&full-prec=false&sb-cdata=%7B%22AND%22:%5B%22H%7CLT%7C10%22%5D%7D&sb-kind=a&sb-ns=n&www=1
+    */
+
+    QByteArray query("sb-kind=" + kind + "&full-prec=true");
 
     // Apply filters:
-    for (int i = 0; i < filters.length(); i++)
+    if (filters.size() > 0)
     {
-        QByteArray f = QByteArray::number(i + 1);
-        query += "&c" + f + "_group=OBJ&c1_item=" + filters[i].item + "&c" + f + "_op=" + filters[i].op + "&c" + f +
-                 "_value=" + filters[i].value;
+        QByteArray filter_string("{\"AND\":[");
+        for (const auto &item : filters)
+        {
+            filter_string += "\"" + item.item + "|" + item.op + "|" + item.value + "\",";
+        }
+
+        filter_string.chop(1);
+        filter_string += "]}";
+
+        query += "&sb-cdata=" + filter_string;
     }
 
     // Apply query data fields...
-    query += "&c_fields=" + dataFields;
-
-    query += "&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&."
-             "cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifie"
-             "lds=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields="
-             "ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifiel"
-             "ds=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class";
+    query += "&fields=" + dataFields;
 
     return query;
 }
@@ -1715,7 +1760,8 @@ QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataField
 bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMessage)
 {
 #ifndef HAVE_LIBRAW
-    errorMessage = i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG.");
+    errorMessage = i18n("Unable to find dcraw and cjpeg. Please install the required "
+                        "tools to convert CR2/NEF to JPEG.");
     return false;
 #else
     int ret = 0;
@@ -1738,10 +1784,11 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
         return false;
     }
     else
-        // We have successfully unpacked the thumbnail, now let us write it to a file
+    // We have successfully unpacked the thumbnail, now let us write it to a file
     {
         //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
-        if (LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
+        if (LIBRAW_SUCCESS !=
+            (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
         {
             errorMessage = i18n("Cannot write %s %1: %2", output, libraw_strerror(ret));
             RawProcessor.recycle();
@@ -1755,17 +1802,18 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
 double getAvailableRAM()
 {
 #if defined(Q_OS_OSX)
-    int mib [] = { CTL_HW, HW_MEMSIZE };
+    int mib[] = { CTL_HW, HW_MEMSIZE };
     size_t length;
     length = sizeof(int64_t);
     int64_t RAMcheck;
-    if(sysctl(mib, 2, &RAMcheck, &length, NULL, 0))
+    if (sysctl(mib, 2, &RAMcheck, &length, NULL, 0))
         return false; // On Error
     //Until I can figure out how to get free RAM on Mac
     return RAMcheck;
 #elif defined(Q_OS_LINUX)
     QProcess p;
-    p.start("awk", QStringList() << "/MemAvailable/ { print $2 }" << "/proc/meminfo");
+    p.start("awk", QStringList() << "/MemAvailable/ { print $2 }"
+                                 << "/proc/meminfo");
     p.waitForFinished();
     QString memory = p.readAllStandardOutput();
     p.close();
@@ -1787,4 +1835,24 @@ double getAvailableRAM()
     return 0;
 }
 
+JPLParser::JPLParser(const QString &path)
+{
+    QFile jpl_file(path);
+    if (!jpl_file.open(QIODevice::ReadOnly))
+    {
+        throw std::runtime_error("Could not open file.");
+    }
+
+    const auto &ast_json = QJsonDocument::fromJson(jpl_file.readAll());
+    const auto &fields   = ast_json["fields"].toArray();
+    m_data               = ast_json["data"].toArray();
+
+    {
+        int i = 0;
+        for (const auto &field : fields)
+        {
+            m_field_map[field.toString()] = i++;
+        }
+    }
 }
+} // namespace KSUtils

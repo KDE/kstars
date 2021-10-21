@@ -20,7 +20,11 @@
 
 #include <QPointF>
 #include <QSharedPointer>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <unordered_map>
 #include "config-kstars.h"
+#include "kstars_debug.h"
 
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
@@ -45,7 +49,6 @@ class StarObject;
 
 namespace KSUtils
 {
-
 // Quick checks whether hardware is limited or not
 // right now the only check is architecture. arm processors are limited while x86 are sufficient
 bool isHardwareLimited();
@@ -131,7 +134,8 @@ QString getDSSURL(const SkyPoint *const p);
  *@param type The image type, either gif or fits.
  *@note This method resets height and width to fall within the range accepted by DSS
  */
-QString getDSSURL(const dms &ra, const dms &dec, float width = 0, float height = 0, const QString &type = "gif");
+QString getDSSURL(const dms &ra, const dms &dec, float width = 0, float height = 0,
+                  const QString &type = "gif");
 
 /**
  *@short Return a string corresponding to an angle specifying direction
@@ -200,45 +204,50 @@ QString constGenetiveToAbbrev(const QString &genetive_);
 */
 class Logging
 {
-    public:
-        /**
+  public:
+    /**
              * Store all logs into the specified file
              */
-        static void UseFile();
+    static void UseFile();
 
-        /**
+    /**
              * Output logs to stdout
              */
-        static void UseStdout();
+    static void UseStdout();
 
-        /**
+    /**
              * Output logs to stderr
              */
-        static void UseStderr();
+    static void UseStderr();
 
-        /**
+    /**
              * Use the default logging mechanism
              */
-        static void UseDefault();
+    static void UseDefault();
 
-        /**
+    /**
              * Disable logging
              */
-        static void Disable();
+    static void Disable();
 
-        /**
+    /**
          * @brief SyncFilterRules Sync QtLogging filter rules from Options
          */
-        static void SyncFilterRules();
+    static void SyncFilterRules();
 
-    private:
-        static QString _filename;
+  private:
+    static QString _filename;
 
-        static void Disabled(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-        static void File(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-        static void Stdout(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-        static void Stderr(QtMsgType type, const QMessageLogContext &context, const QString &msg);
-        static void Write(QTextStream &stream, QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void Disabled(QtMsgType type, const QMessageLogContext &context,
+                         const QString &msg);
+    static void File(QtMsgType type, const QMessageLogContext &context,
+                     const QString &msg);
+    static void Stdout(QtMsgType type, const QMessageLogContext &context,
+                       const QString &msg);
+    static void Stderr(QtMsgType type, const QMessageLogContext &context,
+                       const QString &msg);
+    static void Write(QTextStream &stream, QtMsgType type,
+                      const QMessageLogContext &context, const QString &msg);
 };
 
 QString getDefaultPath(const QString &option);
@@ -269,6 +278,26 @@ struct JPLFilter
     QByteArray value;
 };
 
+class JPLParser
+{
+  public:
+    JPLParser(const QString &path);
+
+    template <typename Lambda>
+    void for_each(const Lambda &fct)
+    {
+        for (const auto &item : m_data)
+        {
+            fct([&, this](const QString &key)
+                { return item.toArray()[m_field_map.at(key)]; });
+        }
+    };
+
+  private:
+    QJsonDocument m_doc;
+    QJsonArray m_data;
+    std::unordered_map<QString, int> m_field_map;
+};
 // TODO: Implement Datatypes//Maps for kind, datafields, filters...
 
 /**
@@ -278,7 +307,8 @@ struct JPLFilter
  *@param filters Filters for the Data.
  *@return The query string.
  */
-QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters);
+QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields,
+                             const QVector<JPLFilter> &filters);
 
 /**
  * @brief RAWToJPEG Convert raw image (e.g. CR2) using libraw to a JPEG image
@@ -295,4 +325,4 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
  */
 double getAvailableRAM();
 
-}
+} // namespace KSUtils

@@ -29,7 +29,6 @@
 #include "projections/projector.h"
 #include "skyobjects/kscomet.h"
 
-#include <QDebug>
 #include <QFile>
 #include <QHttpMultiPart>
 #include <QPen>
@@ -37,7 +36,8 @@
 
 #include <cmath>
 
-CometsComponent::CometsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
+CometsComponent::CometsComponent(SolarSystemComposite *parent)
+    : SolarSystemListComponent(parent)
 {
     loadData();
 }
@@ -81,6 +81,7 @@ void CometsComponent::loadData()
     QString name, orbit_id, orbit_class, dimensions;
 
     emitProgressText(i18n("Loading comets"));
+    qCInfo(KSTARS) << "Loading comets";
 
     qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
@@ -88,87 +89,77 @@ void CometsComponent::loadData()
     objectNames(SkyObject::COMET).clear();
     objectLists(SkyObject::COMET).clear();
 
-    QList<QPair<QString, KSParser::DataTypes>> sequence;
-    sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
-    sequence.append(qMakePair(QString("q"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("e"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("i"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("w"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("om"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("tp_calc"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("orbit_id"), KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("neo"), KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("M1"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("M2"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("diameter"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("extent"), KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("albedo"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("rot_period"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
-
-    QString file_name = KSPaths::locate(QStandardPaths::AppDataLocation, QString("comets.dat"));
-    KSParser cometParser(file_name, '#', sequence);
+    QString file_name =
+        KSPaths::locate(QStandardPaths::AppDataLocation, QString("comets.dat"));
 
     QHash<QString, QVariant> row_content;
-    while (cometParser.HasNextRow())
+
+    try
     {
-        KSComet *com = nullptr;
-        row_content  = cometParser.ReadNextRow();
-        name         = row_content["full name"].toString();
-        name         = name.trimmed();
-        bool neo;
-        double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
-        float M1, M2, K1, K2, diameter, albedo, rot_period, period;
-        q            = row_content["q"].toDouble();
-        e            = row_content["e"].toDouble();
-        dble_i       = row_content["i"].toDouble();
-        dble_w       = row_content["w"].toDouble();
-        dble_N       = row_content["om"].toDouble();
-        Tp           = row_content["tp_calc"].toDouble();
-        orbit_id     = row_content["orbit_id"].toString();
-        neo          = row_content["neo"] == "Y";
+        KSUtils::JPLParser com_parser(file_name);
+        com_parser.for_each(
+            [&](const auto &get)
+            {
+                KSComet *com = nullptr;
+                name         = get("full_name").toString();
+                name         = name.trimmed();
+                bool neo;
+                double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
+                float M1, M2, K1, K2, diameter, albedo, rot_period, period;
+                q        = get("q").toString().toDouble();
+                e        = get("e").toString().toDouble();
+                dble_i   = get("i").toString().toDouble();
+                dble_w   = get("w").toString().toDouble();
+                dble_N   = get("om").toString().toDouble();
+                Tp       = get("tp").toString().toDouble();
+                orbit_id = get("orbit_id").toString();
+                neo      = get("neo").toString() == "Y";
 
-        if (row_content["M1"].toFloat() == 0.0)
-            M1 = 101.0;
-        else
-            M1 = row_content["M1"].toFloat();
+                if (get("M1").toString().toFloat() == 0.0)
+                    M1 = 101.0;
+                else
+                    M1 = get("M1").toString().toFloat();
 
-        if (row_content["M2"].toFloat() == 0.0)
-            M2 = 101.0;
-        else
-            M2 = row_content["M2"].toFloat();
+                if (get("M2").toString().toFloat() == 0.0)
+                    M2 = 101.0;
+                else
+                    M2 = get("M2").toString().toFloat();
 
-        diameter    = row_content["diameter"].toFloat();
-        dimensions  = row_content["extent"].toString();
-        albedo      = row_content["albedo"].toFloat();
-        rot_period  = row_content["rot_period"].toFloat();
-        period      = row_content["per_y"].toFloat();
-        earth_moid  = row_content["moid"].toDouble();
-        orbit_class = row_content["class"].toString();
-        K1          = row_content["H"].toFloat();
-        K2          = row_content["G"].toFloat();
+                diameter    = get("diameter").toString().toFloat();
+                dimensions  = get("extent").toString();
+                albedo      = get("albedo").toString().toFloat();
+                rot_period  = get("rot_per").toString().toFloat();
+                period      = get("per.y").toDouble();
+                earth_moid  = get("moid").toString().toDouble();
+                orbit_class = get("class").toString();
+                K1          = get("H").toString().toFloat();
+                K2          = get("G").toString().toFloat();
 
-        com = new KSComet(name, QString(), q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, M1, M2, K1, K2);
-        com->setOrbitID(orbit_id);
-        com->setNEO(neo);
-        com->setDiameter(diameter);
-        com->setDimensions(dimensions);
-        com->setAlbedo(albedo);
-        com->setRotationPeriod(rot_period);
-        com->setPeriod(period);
-        com->setEarthMOID(earth_moid);
-        com->setOrbitClass(orbit_class);
-        com->setAngularSize(0.005);
-        appendListObject(com);
+                com = new KSComet(name, QString(), q, e, dms(dble_i), dms(dble_w),
+                                  dms(dble_N), Tp, M1, M2, K1, K2);
+                com->setOrbitID(orbit_id);
+                com->setNEO(neo);
+                com->setDiameter(diameter);
+                com->setDimensions(dimensions);
+                com->setAlbedo(albedo);
+                com->setRotationPeriod(rot_period);
+                com->setPeriod(period);
+                com->setEarthMOID(earth_moid);
+                com->setOrbitClass(orbit_class);
+                com->setAngularSize(0.005);
+                appendListObject(com);
 
-        // Add *short* name to the list of object names
-        objectNames(SkyObject::COMET).append(com->name());
-        objectLists(SkyObject::COMET).append(QPair<QString, const SkyObject *>(com->name(), com));
+                // Add *short* name to the list of object names
+                objectNames(SkyObject::COMET).append(com->name());
+                objectLists(SkyObject::COMET)
+                    .append(QPair<QString, const SkyObject *>(com->name(), com));
+            });
+    }
+    catch (const std::runtime_error &e)
+    {
+        qCInfo(KSTARS) << "Loading comets failed.";
+        qCInfo(KSTARS) << " -> was trying to read " + file_name;
+        return;
     }
 }
 
@@ -206,11 +197,10 @@ void CometsComponent::updateDataFile(bool isAutoUpdate)
     downloadJob = new FileDownloader();
 
     if (isAutoUpdate == false)
-        downloadJob->setProgressDialogEnabled(true, i18n("Comets Update"), i18n("Downloading comets updates..."));
-    downloadJob->registerDataVerification([&](const QByteArray & data)
-    {
-        return data.startsWith("full_name");
-    });
+        downloadJob->setProgressDialogEnabled(true, i18n("Comets Update"),
+                                              i18n("Downloading comets updates..."));
+    downloadJob->registerDataVerification([&](const QByteArray &data)
+                                          { return data.startsWith("{\"signature\""); });
 
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
 
@@ -218,9 +208,13 @@ void CometsComponent::updateDataFile(bool isAutoUpdate)
     if (isAutoUpdate == false)
         connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    QUrl url             = QUrl("https://ssd.jpl.nasa.gov/sbdb_query.cgi");
-    QByteArray post_data = KSUtils::getJPLQueryString("com", "AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn",
-    QVector<KSUtils::JPLFilter> { { "Af", "!=", "D" } });
+    QUrl url             = QUrl("https://ssd-api.jpl.nasa.gov/sbdb_query.api");
+    QByteArray post_data = KSUtils::getJPLQueryString(
+        "c",
+        "full_name,epoch.mjd,q,e,i,w,om,tp,orbit_id,neo,"
+        "M1,M2,diameter,extent,albedo,rot_per,per.y,moid,H,G,class",
+        QVector<KSUtils::JPLFilter>{});
+    // FIXME: find out what { "Af", "!=", "D" } used to mean
 
     downloadJob->post(url, post_data);
 }
@@ -229,16 +223,17 @@ void CometsComponent::downloadReady()
 {
     // Comment the first line
     QByteArray data = downloadJob->downloadedData();
-    data.insert(0, '#');
 
     // Write data to comets.dat
-    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("comets.dat"));
+    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+                   .filePath("comets.dat"));
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
     {
         file.write(data);
         file.close();
     }
-    else qCWarning(KSTARS) << "Failed writing comet data to" << file.fileName();
+    else
+        qCWarning(KSTARS) << "Failed writing comet data to" << file.fileName();
 
     QString focusedComet;
 
@@ -264,10 +259,12 @@ void CometsComponent::downloadReady()
 #ifdef KSTARS_LITE
     KStarsLite::Instance()->data()->setFullTimeUpdate();
     if (!focusedComet.isEmpty())
-        KStarsLite::Instance()->map()->setFocusObject(KStarsLite::Instance()->data()->objectNamed(focusedComet));
+        KStarsLite::Instance()->map()->setFocusObject(
+            KStarsLite::Instance()->data()->objectNamed(focusedComet));
 #else
     if (!focusedComet.isEmpty())
-        KStars::Instance()->map()->setFocusObject(KStars::Instance()->data()->objectNamed(focusedComet));
+        KStars::Instance()->map()->setFocusObject(
+            KStars::Instance()->data()->objectNamed(focusedComet));
     KStars::Instance()->data()->setFullTimeUpdate();
 #endif
 

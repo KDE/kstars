@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+#include <QtGlobal>
 #pragma once
 #if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
 #include <QHash>
