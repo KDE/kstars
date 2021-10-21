@@ -15,7 +15,10 @@
 #include <catalogsdb_debug.h>
 #include <QSqlQuery>
 #include <QMutex>
+
+#include "polyfills/qstring_hash.h"
 #include <unordered_map>
+
 #include <unordered_set>
 #include <utility>
 #include "catalogobject.h"

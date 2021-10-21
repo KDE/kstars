@@ -22,6 +22,7 @@
 #include <QSharedPointer>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include "polyfills/qstring_hash.h"
 #include <unordered_map>
 #include "config-kstars.h"
 #include "kstars_debug.h"

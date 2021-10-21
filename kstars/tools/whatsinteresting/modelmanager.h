@@ -11,6 +11,8 @@
 #include "catalogsdb.h"
 #include <QList>
 #include <QObject>
+
+#include "polyfills/qstring_hash.h"
 #include <unordered_map>
 
 class ObsConditions;

@@ -11,12 +11,12 @@
 #include <QString>
 #include <QComboBox>
 #include <QFile>
+#include "polyfills/qstring_hash.h"
 #include <unordered_map>
 #include <rapidcsv.h>
 #include "catalogobject.h"
 #include "skyobject.h"
 #include "catalogobjectlistmodel.h"
-#include "qstring_hash.h"
 
 namespace Ui
 {

@@ -13,6 +13,8 @@
 #include "skymesh.h"
 #include "trixelcache.h"
 #include "Options.h"
+
+#include "polyfills/qstring_hash.h"
 #include <unordered_map>
 
 class SkyMesh;
