@@ -982,7 +982,11 @@ void Focus::start()
     else if (!inAutoFocus)
         appendLogText(i18n("Please wait until image capture is complete..."));
 
-    if (suspendGuideCheck->isChecked())
+    // Only suspend when we have Off-Axis Guider
+    // If the guide camera is operating on a different OTA
+    // then no need to suspend.
+    const bool isOAG = currentCCD->getTelescopeType() == Options::guideScopeType();
+    if (isOAG && m_GuidingSuspended == false && suspendGuideCheck->isChecked())
     {
         m_GuidingSuspended = true;
         emit suspendGuiding();
@@ -3707,6 +3711,34 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         if (FilterPosCombo->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
         {
             filterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
+        }
+    });
+
+    // Resume guiding if suspended after focus position is adjusted.
+    connect(this, &Focus::focusPositionAdjusted, this, [this]()
+    {
+        if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
+        {
+            QTimer::singleShot(FocusSettleTime->value() * 1000, this, [this]()
+            {
+                m_GuidingSuspended = false;
+                emit resumeGuiding();
+            });
+        }
+    });
+
+    // Suspend guiding if filter offset is change with OAG
+    connect(filterManager.data(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
+    {
+        // If we are changing filter offset while idle, then check if we need to suspend guiding.
+        const bool isOAG = currentCCD->getTelescopeType() == Options::guideScopeType();
+        if (isOAG && filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
+        {
+            if (m_GuidingSuspended == false && suspendGuideCheck->isChecked())
+            {
+                m_GuidingSuspended = true;
+                emit suspendGuiding();
+            }
         }
     });
 
