@@ -781,15 +781,9 @@ bool FITSData::saveImage(const QString &newFilename)
     // Create image
     long naxis = m_Statistics.channels == 1 ? 2 : 3;
     long naxes[3] = {m_Statistics.width, m_Statistics.height, naxis};
+
     // JM 2020-12-28: Here we to use bitpix values
     if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
-    {
-        recordLastError(status);
-        return false;
-    }
-
-    // Here we need to use the actual data type
-    if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
         recordLastError(status);
         return false;
@@ -923,6 +917,13 @@ bool FITSData::saveImage(const QString &newFilename)
         rotWCSFITS(rot, mirror);
 
     rotCounter = flipHCounter = flipVCounter = 0;
+
+    // Here we need to use the actual data type
+    if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
+    {
+        recordLastError(status);
+        return false;
+    }
 
     m_Filename = newFilename;
 
