@@ -19,7 +19,7 @@
         </device>
         <device label="LX200 OnStep" manufacturer="OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.10</version>
+            <version>1.12</version>
         </device>
         <device label="LX200 TeenAstro" manufacturer="TeenAstro">
             <driver name="LX200 TeenAstro">indi_lx200_TeenAstro</driver>
@@ -477,6 +477,38 @@
             <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
             <version>1.0</version>
         </device>
+        <device label="SVBONY SV105" manufacturer="SVBONY">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="SVBONY SV205" manufacturer="SVBONY">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Skyris 132C" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Skyris 132M" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Skyris 236C" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Skyris 236M" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="NexImage 5" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
+        <device label="NexImage 10" manufacturer="Celestron">
+            <driver name="V4L2 CCD">indi_v4l2_ccd</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Spectrographs">
         <device label="Spectrograph Simulator" mdpd="true" manufacturer="Others">
@@ -737,7 +769,7 @@
     <devGroup group="Auxiliary">
         <device label="ASI Power">
             <driver name="ASI Power">indi_asi_power</driver>
-            <version>0.95</version>
+            <version>0.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -929,7 +961,7 @@
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
             <version>1.2</version>
         </device>
-        <device label="AZ-GTi" manufacturer="SkyWatcher">
+        <device label="AZ-GTi Equatorial WiFi" manufacturer="SkyWatcher">
             <driver name="AZ-GTi">indi_azgti_telescope</driver>
             <version>1.2</version>
         </device>
@@ -1127,7 +1159,7 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1155,15 +1187,7 @@
     <devGroup group="CCDs">
         <device label="RPI Camera">
             <driver name="RPI Camera">indi_rpicam</driver>
-            <version>1.3</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Auxiliary">
-        <device label="RPi GPIO">
-            <driver name="RPi GPIO">indi_rpi_gpio</driver>
-            <version>0.4</version>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1271,31 +1295,31 @@
     <devGroup group="CCDs">
         <device label="ToupCam" mdpd="true" manufacturer="Toupcam">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="Omegon Pro" mdpd="true" manufacturer="Omegon">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="Meade ToupCam" mdpd="true" manufacturer="Meade">
             <driver name="ToupCam">indi_toupcam_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="Altair" mdpd="true" manufacturer="Altair">
             <driver name="Altair">indi_altair_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="StartshootG" mdpd="true" manufacturer="Orion">
             <driver name="StartshootG">indi_starshootg_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="Levenhuk" mdpd="true" manufacturer="Levenhuk">
             <driver name="Levenhuk">indi_nncam_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
         <device label="Mallincam" mdpd="true" manufacturer="Mallincam">
             <driver name="Mallincam">indi_mallincam_ccd</driver>
-            <version>0.6</version>
+            <version>0.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -1303,7 +1327,7 @@
     <devGroup group="Weather">
         <device label="Weather Radio" manufacturer="DIY">
             <driver name="Weather Radio">indi_weatherradio</driver>
-            <version>1.14</version>
+            <version>1.16</version>
         </device>
     </devGroup>
 </driversList>
