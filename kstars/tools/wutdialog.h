@@ -117,6 +117,7 @@ class WUTDialog : public QDialog
 
   private:
     QSet<const SkyObject *> &visibleObjects(const QString &category);
+    const SkyObject * findVisibleObject(const QString &name);
     bool isCategoryInitialized(const QString &category);
     /** @short Initialize all SIGNAL/SLOT connections, used in constructor */
     void makeConnections();

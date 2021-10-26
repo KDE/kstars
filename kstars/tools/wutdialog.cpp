@@ -254,13 +254,27 @@ QSet<const SkyObject *> &WUTDialog::visibleObjects(const QString &category)
     return m_VisibleList[category];
 }
 
+const SkyObject * WUTDialog::findVisibleObject(const QString &name)
+{
+    for (const auto &oneList : m_VisibleList)
+    {
+        for (const auto &oneObject : oneList)
+        {
+            if (oneObject->name() == name)
+                return oneObject;
+        }
+    }
+
+    return nullptr;
+}
+
 bool WUTDialog::isCategoryInitialized(const QString &category)
 {
     return m_CategoryInitialized[category];
 }
 
-QVector<QPair<QString, const SkyObject *>>
-WUTDialog::load_dso(const QString &category, const std::vector<SkyObject::TYPE> &types)
+QVector<QPair<QString, const SkyObject *>> WUTDialog::load_dso(const QString &category,
+                                        const std::vector<SkyObject::TYPE> &types)
 {
     CatalogsDB::DBManager db{ CatalogsDB::dso_db_path() };
     QVector<QPair<QString, const SkyObject *>> objects;
@@ -290,6 +304,8 @@ void WUTDialog::slotLoadList(const QString &c)
 
     WUT->ObjectListWidget->clear();
     setCursor(QCursor(Qt::WaitCursor));
+
+    const bool isDSO = c == m_Categories[2] || c == m_Categories[3] || c == m_Categories[4];
 
     if (!isCategoryInitialized(c))
     {
@@ -340,8 +356,8 @@ void WUTDialog::slotLoadList(const QString &c)
         {
             foreach (SkyObject *o, data->skyComposite()->asteroids())
                 if (o->mag() <= m_Mag &&
-                    o->name() != i18nc("Asteroid name (optional)", "Pluto") &&
-                    checkVisibility(o))
+                        o->name() != i18nc("Asteroid name (optional)", "Pluto") &&
+                        checkVisibility(o))
                     visibleObjects(c).insert(o);
 
             m_CategoryInitialized[c] = true;
@@ -359,10 +375,12 @@ void WUTDialog::slotLoadList(const QString &c)
         else //all deep-sky objects, need to split clusters, nebulae and galaxies
         {
             auto dsos{ load_dso(c,
-                                { SkyObject::OPEN_CLUSTER, SkyObject::GLOBULAR_CLUSTER,
-                                  SkyObject::GASEOUS_NEBULA, SkyObject::PLANETARY_NEBULA,
-                                  SkyObject::SUPERNOVA_REMNANT, SkyObject::SUPERNOVA,
-                                  SkyObject::GALAXY }) };
+                {
+                    SkyObject::OPEN_CLUSTER, SkyObject::GLOBULAR_CLUSTER,
+                    SkyObject::GASEOUS_NEBULA, SkyObject::PLANETARY_NEBULA,
+                    SkyObject::SUPERNOVA_REMNANT, SkyObject::SUPERNOVA,
+                    SkyObject::GALAXY
+                }) };
 
             for (auto &dso : dsos)
             {
@@ -395,9 +413,16 @@ void WUTDialog::slotLoadList(const QString &c)
     }
 
     //Now the category has been initialized, we can populate the list widget
-    foreach (const SkyObject *o, visibleObjects(c))
-        //WUT->ObjectListWidget->addItem(o->name());
-        WUT->ObjectListWidget->addItem(o->longname());
+    if (isDSO)
+    {
+        for (const auto &oneObject : visibleObjects(c))
+            WUT->ObjectListWidget->addItem(oneObject->name());
+    }
+    else
+    {
+        for (const auto &oneObject : visibleObjects(c))
+            WUT->ObjectListWidget->addItem(oneObject->longname());
+    }
 
     setCursor(QCursor(Qt::ArrowCursor));
 
@@ -502,21 +527,13 @@ void WUTDialog::slotDisplayObject(const QString &name)
         {
             tRise = o->riseSetTime(T0, geo, true);
             tSet  = o->riseSetTime(T0, geo, false);
-            //          if ( tSet < tRise )
-            //              tSet = o->riseSetTime( JDTomorrow, geo, false );
 
-            sRise.clear();
-            sRise.asprintf("%02d:%02d", tRise.hour(), tRise.minute());
-            sSet.clear();
-            sSet.asprintf("%02d:%02d", tSet.hour(), tSet.minute());
+            sRise = QString("%1:%2").arg(tRise.hour(), 2, 10, QChar('0')).arg(tRise.minute(), 2, 10, QChar('0'));
+            sSet  = QString("%1:%2").arg(tSet.hour(), 2, 10, QChar('0')).arg(tSet.minute(), 2, 10, QChar('0'));
         }
 
         tTransit = o->transitTime(T0, geo);
-        //      if ( tTransit < tRise )
-        //          tTransit = o->transitTime( JDTomorrow, geo );
-
-        sTransit.clear();
-        sTransit.sprintf("%02d:%02d", tTransit.hour(), tTransit.minute());
+        sTransit = QString("%1:%2").arg(tTransit.hour(), 2, 10, QChar('0')).arg(tTransit.minute(), 2, 10, QChar('0'));
 
         WUT->DetailButton->setEnabled(true);
     }
@@ -567,7 +584,7 @@ void WUTDialog::slotObslist()
     if (WUT->ObjectListWidget->currentItem() != nullptr)
     {
         o = KStarsData::Instance()->objectNamed(
-            WUT->ObjectListWidget->currentItem()->text());
+                WUT->ObjectListWidget->currentItem()->text());
     }
     if (o != nullptr)
     {
@@ -608,7 +625,7 @@ void WUTDialog::slotChangeDate()
         EveningUT = geo->LTtoUT(Evening);
 
         WUT->DateLabel->setText(i18n(
-            "The night of %1", QLocale().toString(Evening.date(), QLocale::LongFormat)));
+                                    "The night of %1", QLocale().toString(Evening.date(), QLocale::LongFormat)));
 
         init();
         slotLoadList(WUT->CategoryListWidget->currentItem()->text());
