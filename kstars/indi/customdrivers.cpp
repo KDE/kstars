@@ -15,7 +15,8 @@
 #include "ksnotification.h"
 
 
-CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList) : QDialog(parent), m_DriversList(driversList)
+CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &driversList) : QDialog(parent),
+    m_DriversList(driversList)
 {
     setupUi(this);
 
@@ -34,11 +35,13 @@ CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &drivers
 
     familyCombo->addItems(DeviceFamilyLabels.values());
 
-    for (const DriverInfo *oneDriver : driversList)
+    for (const auto &oneDriver : driversList)
     {
         // MDPD drivers CANNOT have aliases.
-        if (oneDriver->getAuxInfo().value("mdpd", false).toBool() == true)
-            continue;
+        // JM 2021.10.31 While usually MDPD drivers cannot have aliases
+        // We should add the ability to do so in case only a single device is connected.
+        //        if (oneDriver->getAuxInfo().value("mdpd", false).toBool() == true)
+        //            continue;
 
         QString label = oneDriver->getLabel();
         if (label.isEmpty())
@@ -52,11 +55,13 @@ CustomDrivers::CustomDrivers(QWidget *parent, const QList<DriverInfo *> &drivers
     connect(driverCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
             this, &CustomDrivers::syncDriver);
 
-    connect(labelIN, &QLineEdit::textChanged, [&]() {
+    connect(labelIN, &QLineEdit::textChanged, [&]()
+    {
         addDriverB->setEnabled(labelIN->text().isEmpty() == false);
     });
 
-    connect(driversView, &QTableView::pressed, [&]() {
+    connect(driversView, &QTableView::pressed, [&]()
+    {
         removeDriverB->setEnabled(true);
     });
 
