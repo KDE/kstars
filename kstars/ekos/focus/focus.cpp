@@ -471,6 +471,8 @@ void Focus::checkTemperatureSource(int index)
     if (findTemperatureElement(currentSource))
     {
         m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
+        absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
+        deltaTemperatureLabel->setText(QString("%1 °C").arg(0.0, 0, 'f', 2));
     }
     else
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
@@ -773,23 +775,38 @@ void Focus::getAbsFocusPosition()
 
 void Focus::processTemperatureSource(INumberVectorProperty *nvp)
 {
+    double delta = 0;
     if (currentTemperatureSourceElement && currentTemperatureSourceElement->nvp == nvp)
     {
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
-            emit newFocusTemperatureDelta(abs(currentTemperatureSourceElement->value - m_LastSourceAutofocusTemperature),
-                                          currentTemperatureSourceElement->value);
+            delta = currentTemperatureSourceElement->value - m_LastSourceAutofocusTemperature;
+            emit newFocusTemperatureDelta(abs(delta), currentTemperatureSourceElement->value);
         }
         else
         {
             emit newFocusTemperatureDelta(0, currentTemperatureSourceElement->value);
         }
+
+        absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
+        deltaTemperatureLabel->setText(QString("%1%2 °C").arg((delta > 0.0 ? "+" : "")).arg(delta, 0, 'f', 2));
+        if (delta == 0)
+            deltaTemperatureLabel->setStyleSheet("color: lightgreen");
+        else if (delta > 0)
+            deltaTemperatureLabel->setStyleSheet("color: lightcoral");
+        else
+            deltaTemperatureLabel->setStyleSheet("color: lightblue");
     }
 }
 
 void Focus::setLastFocusTemperature()
 {
     m_LastSourceAutofocusTemperature = currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE;
+
+    // Reset delta to zero now that we're just done with autofocus
+    deltaTemperatureLabel->setText(QString("0 °C"));
+    deltaTemperatureLabel->setStyleSheet("color: lightgreen");
+
     emit newFocusTemperatureDelta(0, -1e6);
 }
 
