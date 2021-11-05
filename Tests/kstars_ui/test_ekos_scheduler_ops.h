@@ -9,6 +9,7 @@
 
 #include "config-kstars.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "test_ekos_scheduler_helper.h"
 
 #if defined(HAVE_INDI)
 
@@ -32,13 +33,6 @@ class MockEkos;
 }
 class KStarsDateTime;
 class GeoLocation;
-
-struct StartupCondition
-{
-    SchedulerJob::StartupCondition type;
-    int culminationOffset;
-    QDateTime atLocalDateTime;  // This is in local time, not universal time.
-};
 
 class TestEkosSchedulerOps : public QObject
 {
@@ -113,7 +107,7 @@ class TestEkosSchedulerOps : public QObject
         QSharedPointer<Ekos::MockGuide> guider;
         QSharedPointer<Ekos::MockEkos> ekos;
 
-        StartupCondition m_startupCondition;
+        TestEkosSchedulerHelper::StartupCondition m_startupCondition;
         QElapsedTimer testTimer;
 };
 

@@ -181,82 +181,6 @@ void TestEkosSchedulerOps::testBasics()
     QVERIFY(scheduler->timerState == Scheduler::RUN_NOTHING);
 }
 
-namespace
-{
-
-// Simple write-string-to-file utility.
-bool writeFile(const QString &filename, const QString &contents)
-{
-    QFile qFile(filename);
-    if (qFile.open(QIODevice::WriteOnly | QIODevice::Text))
-    {
-        QTextStream out(&qFile);
-        out << contents;
-        qFile.close();
-        return true;
-    }
-    return false;
-}
-
-QString getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition,
-                         bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30)
-{
-    QString target = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SchedulerList version='1.4'><Profile>Default</Profile>"
-                             "<Job><Name>%1</Name><Priority>10</Priority><Coordinates><J2000RA>%2</J2000RA>"
-                             "<J2000DE>%3</J2000DE></Coordinates><Rotation>0</Rotation>")
-                     .arg(targetObject->name()).arg(targetObject->ra0().Hours()).arg(targetObject->dec0().Degrees());
-    QString sequence = QString("<Sequence>%1</Sequence>");
-
-    QString startupConditionStr;
-    if (startupCondition.type == SchedulerJob::START_ASAP)
-        startupConditionStr = QString("<Condition>ASAP</Condition>");
-    else if (startupCondition.type == SchedulerJob::START_CULMINATION)
-        startupConditionStr = QString("<Condition value='%1'>Culmination</Condition>").arg(startupCondition.culminationOffset);
-    else if (startupCondition.type == SchedulerJob::START_AT)
-        startupConditionStr = QString("<Condition value='%1'>At</Condition>").arg(
-                                  startupCondition.atLocalDateTime.toString(Qt::ISODate));
-
-    QString parameters = QString("<StartupCondition>%1</StartupCondition>"
-                                 "<Constraints><Constraint value='%4'>MinimumAltitude</Constraint>%2%3"
-                                 "</Constraints><CompletionCondition><Condition>Sequence</Condition></CompletionCondition>"
-                                 "<Steps><Step>Track</Step><Step>Focus</Step><Step>Align</Step><Step>Guide</Step></Steps></Job>"
-                                 "<ErrorHandlingStrategy value='1'><delay>0</delay></ErrorHandlingStrategy><StartupProcedure>"
-                                 "<Procedure>UnparkMount</Procedure></StartupProcedure><ShutdownProcedure><Procedure>ParkMount</Procedure>"
-                                 "</ShutdownProcedure></SchedulerList>")
-                         .arg(startupConditionStr).arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "")
-                         .arg(enforceArtificialHorizon ? "<Constraint>EnforceArtificialHorizon</Constraint>" : "")
-                         .arg(minAltitude);
-
-    return (target + sequence + parameters);
-}
-
-// TODO: make a method that creates the below strings depending of a few
-// scheduler paramters we want to vary.
-
-// This is a capture sequence file needed to start up the scheduler. Most fields are ignored by the scheduler,
-// and by the Mock capture module as well.
-QString esqContents1 =
-    QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SequenceQueue version='2.1'><CCD>CCD Simulator</CCD>"
-            "<FilterWheel>CCD Simulator</FilterWheel><GuideDeviation enabled='false'>2</GuideDeviation>"
-            "<GuideStartDeviation enabled='false'>2</GuideStartDeviation><Autofocus enabled='false'>0</Autofocus>"
-            "<RefocusOnTemperatureDelta enabled='false'>1</RefocusOnTemperatureDelta>"
-            "<RefocusEveryN enabled='false'>60</RefocusEveryN><Job><Exposure>200</Exposure><Binning><X>1</X><Y>1</Y>"
-            "</Binning><Frame><X>0</X><Y>0</Y><W>1280</W><H>1024</H></Frame><Temperature force='false'>0</Temperature>"
-            "<Filter>Red</Filter><Type>Light</Type><Prefix><RawPrefix></RawPrefix><FilterEnabled>0</FilterEnabled>"
-            "<ExpEnabled>0</ExpEnabled><TimeStampEnabled>0</TimeStampEnabled></Prefix>"
-            "<Count>300</Count><Delay>0</Delay><FITSDirectory>.</FITSDirectory><UploadMode>0</UploadMode>"
-            "<FormatIndex>0</FormatIndex><Properties></Properties><Calibration><FlatSource><Type>Manual</Type>"
-            "</FlatSource><FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>"
-            "<PreMountPark>False</PreMountPark><PreDomePark>False</PreDomePark></Calibration></Job></SequenceQueue>");
-
-// This writes the the scheduler and capture files into the locations given.
-bool writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile, const QString &esqContents,
-                              const QString &esqFile)
-{
-    return writeFile(eslFile, eslContents.arg(QString("file:%1").arg(esqFile))) && writeFile(esqFile, esqContents);
-}
-}  // namespace
-
 // Runs the scheduler for a number of iterations between 1 and the arg "iterations".
 // Each iteration it  increments the simulated clock (currentUTime, which is in Universal
 // Time) by *sleepMs, then runs the scheduler, then calls fcn().
@@ -324,7 +248,7 @@ void TestEkosSchedulerOps::initScheduler(const GeoLocation &geo, const QDateTime
         const QString eslFile = dir->filePath(QString("test%1.esl").arg(i));
         const QString esqFile = dir->filePath(QString("test%1.esq").arg(i));
 
-        QVERIFY(writeSimpleSequenceFiles(esls[i], eslFile, esqs[i], esqFile));
+        QVERIFY(TestEkosSchedulerHelper::writeSimpleSequenceFiles(esls[i], eslFile, esqs[i], esqFile));
         scheduler->load(i == 0, QString("file://%1").arg(eslFile));
         QVERIFY(scheduler->jobs.size() == (i + 1));
         scheduler->jobs[i]->setSequenceFile(QUrl(QString("file://%1").arg(esqFile)));
@@ -544,8 +468,9 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
 
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, enforceArtificialHorizon),
-               esqContents1, wakeupTime, currentUTime, sleepMs);
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true},
+                                                                                false, enforceArtificialHorizon),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), wakeupTime, currentUTime, sleepMs);
     startModules(currentUTime, sleepMs);
     QVERIFY(checkLastSlew(targetObject));
 
@@ -609,8 +534,8 @@ void TestEkosSchedulerOps::testTimeZone()
     const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(03, 26, 0), Qt::UTC);
     SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, getSchedulerFile(targetObject, m_startupCondition, false, true), esqContents1, wakeupTime,
-               currentUTime, sleepMs);
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true),
+               TestEkosSchedulerHelper::getDefaultEsqContent(), wakeupTime, currentUTime, sleepMs);
     startModules(currentUTime, sleepMs);
     QVERIFY(checkLastSlew(targetObject));
 }
@@ -664,8 +589,8 @@ void TestEkosSchedulerOps::runUntilFirstShutdown(const GeoLocation &geo, const Q
     QVector<QString> esls, esqs;
     for (int i = 0; i < targetObjects.size(); ++i)
     {
-        esls.push_back(getSchedulerFile(targetObjects[i], m_startupCondition, true, true));
-        esqs.push_back(esqContents1);
+        esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObjects[i], m_startupCondition, {true, true, true, true}, true, true));
+        esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     }
     startupJobs(geo, startSchedulerUTime, &dir, esls, esqs, wakeupTime, currentUTime, sleepMs);
     startModules(currentUTime, sleepMs);
@@ -772,9 +697,9 @@ void TestEkosSchedulerOps::testCulminationStartup()
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
-    esqVector.push_back(esqContents1);
+    esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
-    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, false, true));
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true));
     initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
@@ -797,9 +722,9 @@ void TestEkosSchedulerOps::testFixedDateStartup()
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
-    esqVector.push_back(esqContents1);
+    esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
-    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, false, true));
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true));
     initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
@@ -845,10 +770,10 @@ void TestEkosSchedulerOps::testTwilightStartup()
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
-    esqVector.push_back(esqContents1);
+    esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
-    // 3rd arg is the true for twilight enforced. -40 is minAltitude.
-    eslVector.push_back(getSchedulerFile(targetObject, m_startupCondition, true, false, -40));
+    // 3rd arg is the true for twilight enforced. 0 is minAltitude.
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, true, false, 0));
     initScheduler(geo, startUTime, &dir, eslVector, esqVector);
     initJob(startUTime, jobStartUTime);
 }

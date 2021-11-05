@@ -1075,7 +1075,7 @@ void MountModel::startAlignmentPoint()
         QTableWidgetItem *raCell = alignTable->item(currentAlignmentPoint, 0);
         QString raString         = raCell->text();
         dms raDMS                = dms::fromString(raString, false);
-        double ra                = raDMS.Hours();
+        double raDeg             = raDMS.Degrees();
 
         QTableWidgetItem *decCell = alignTable->item(currentAlignmentPoint, 1);
         QString decString         = decCell->text();
@@ -1086,7 +1086,8 @@ void MountModel::startAlignmentPoint()
         alignTable->setCellWidget(currentAlignmentPoint, 3, alignIndicator);
         alignIndicator->startAnimation();
 
-        m_AlignInstance->setTargetCoords(ra, dec);
+        const SkyObject *target = getWizardAlignObject(raDeg, dec);
+        m_AlignInstance->setTarget(*target, *target);
         m_AlignInstance->Slew();
     }
 }

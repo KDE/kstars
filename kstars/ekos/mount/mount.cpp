@@ -1098,6 +1098,11 @@ bool Mount::slew(double RA, double DEC)
 
     delete currentTargetPosition;
     currentTargetPosition = new SkyPoint(RA, DEC);
+    SkyPoint J2000Coord(currentTargetPosition->ra(), currentTargetPosition->dec());
+    J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+    currentTargetPosition->setRA0(J2000Coord.ra());
+    currentTargetPosition->setDec0(J2000Coord.dec());
+
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                currentTargetPosition->ra().toHMSString() <<

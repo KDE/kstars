@@ -898,7 +898,7 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 
     if (command == commands[ALIGN_SOLVE])
     {
-        align->syncTargetToMount();
+        align->updateTargetCoords();
         align->captureAndSolve();
     }
     else if (command == commands[ALIGN_SET_SETTINGS])

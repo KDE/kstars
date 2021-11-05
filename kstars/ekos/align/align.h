@@ -442,16 +442,36 @@ class Align : public QWidget, public Ui::Align
              * solve operation is started. In case of SYNC, only the error between the the solution and target
              * coordinates is calculated. When Slew to Target is selected, the mount would be slewed afterwards to
              * this target coordinate.
-             * @param ra J2000 Right Ascension in hours.
-             * @param de J2000 Declination in degrees.
+             * @param ra0 J2000 Right Ascension in hours.
+             * @param de0 J2000 Declination in degrees.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setTargetCoords(double ra, double de);
+        Q_SCRIPTABLE Q_NOREPLY void setTargetCoords(double ra0, double de0);
 
         /**
          * @brief getTargetCoords QList of target coordinates.
          * @return First value is J2000 RA in hours. Second value is J2000 DE in degrees.
          */
         Q_SCRIPTABLE QList<double> getTargetCoords();
+
+
+        /**
+          * @brief Set the alignment target where the mount is expected to point at.
+          * @param targetObject object close to the target position
+          * @param targetCoord exact coordinates of the target position (could slightly differ to targetObject)
+          */
+        void setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord);
+
+        /**
+         * @brief Clear the target, make it invalid.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void clearTarget() {m_targetCoordValid = false;}
+
+        /**
+         * @brief Set the coordinates that the mount reports as its position
+         * @param position current mount position
+         */
+        void setTelescopeCoordinates(const SkyPoint &position) { telescopeCoord = position; }
+
 
         Q_SCRIPTABLE Q_NOREPLY void setTargetRotation(double rotation);
 
@@ -476,9 +496,10 @@ class Align : public QWidget, public Ui::Align
         void solverComplete();
 
         /**
-         * @brief syncTargetToScope set Target Coordinates as the current mount coordinates.
+         * @brief If the target is valid (see m_targetCoordValid), simply return. If the target is not valid,
+         * use thecurrent mount coordinates as target coordinates.
          */
-        void syncTargetToMount();
+        void updateTargetCoords();
 
         /**
              * @brief Process solver failure.
@@ -699,8 +720,10 @@ class Align : public QWidget, public Ui::Align
         /// Solver alignment coordinates
         SkyPoint alignCoord;
         /// Target coordinates we need to slew to
-        SkyPoint targetCoord;
-        /// Actual current telescope coordinates
+        SkyPoint m_targetCoord;
+        /// do we have valid target coordinates?
+        bool m_targetCoordValid = false;
+        /// Current telescope coordinates
         SkyPoint telescopeCoord;
         /// Coord from Load & Slew
         SkyPoint loadSlewCoord;

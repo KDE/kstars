@@ -209,12 +209,12 @@ void Telescope::registerProperty(INDI::Property prop)
     DeviceDecorator::registerProperty(prop);
 }
 
-void Telescope::updateJ2000Coordinates()
+void Telescope::updateJ2000Coordinates(SkyPoint *coords)
 {
-    SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
+    SkyPoint J2000Coord(coords->ra(), coords->dec());
     J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-    currentCoords.setRA0(J2000Coord.ra());
-    currentCoords.setDec0(J2000Coord.dec());
+    coords->setRA0(J2000Coord.ra());
+    coords->setDec0(J2000Coord.dec());
 }
 
 void Telescope::processNumber(INumberVectorProperty *nvp)
@@ -239,7 +239,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
             currentCoords.setRA(RA->value);
             currentCoords.setDec(DEC->value);
             // calculate J2000 coordinates
-            updateJ2000Coordinates();
+            updateJ2000Coordinates(&currentCoords);
         }
 
         // calculate horizontal coordinates
@@ -259,12 +259,9 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         {
             KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"));
             emit newStatus(currentStatus);
-
-            double maxrad = 1000.0 / Options::zoomFactor();
-
-            currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
-            if (currentObject != nullptr)
-                emit newTarget(*currentObject, currentCoords);
+            // Hint: we intentionally do not communicate the target here, since it has been communicated
+            // at the beginning of the slew AND we cannot be sure that the position the INDI mount reports
+            // when starting to track is exactly that one where the slew went to.
         }
 
         EqCoordPreviousState = nvp->s;
@@ -284,7 +281,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoords.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
                                             KStars::Instance()->data()->geo()->lat());
         // calculate J2000 coordinates
-        updateJ2000Coordinates();
+        updateJ2000Coordinates(&currentCoords);
 
         emit newCoords(currentCoords, pierSide(), hourAngle());
         KStars::Instance()->map()->update();
@@ -631,10 +628,7 @@ bool Telescope::runCommand(int command, void *ptr)
 
         case INDI_FIND_TELESCOPE:
         {
-            SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
-            J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-            currentCoords.setRA0(J2000Coord.ra());
-            currentCoords.setDec0(J2000Coord.dec());
+            updateJ2000Coordinates(&currentCoords);
             double maxrad = 1000.0 / Options::zoomFactor();
             SkyObject *currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoords, maxrad);
             KStars::Instance()->map()->setFocusObject(currentObject);
@@ -648,10 +642,7 @@ bool Telescope::runCommand(int command, void *ptr)
             if (Options::isTracking() == false ||
                     currentCoords.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
             {
-                SkyPoint J2000Coord(currentCoords.ra(), currentCoords.dec());
-                J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-                currentCoords.setRA0(J2000Coord.ra());
-                currentCoords.setDec0(J2000Coord.dec());
+                updateJ2000Coordinates(&currentCoords);
                 //KStars::Instance()->map()->setClickedPoint(&currentCoord);
                 //KStars::Instance()->map()->slotCenter();
                 KStars::Instance()->map()->setDestination(currentCoords);
@@ -754,8 +745,21 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         }
     }
 
-    auto sendToClient = [ = ]()
+    // Function for sending the coordinates to the INDI mount device
+    // via the ClientManager. This helper function translates EKOS objects into INDI commands.
+    auto sendToMountDevice = [ = ]()
     {
+        // communicate the new target only if a slew will be executed for the given coordinates
+        if (this->slewDefined())
+        {
+            if (currentObject == nullptr)
+            {
+                SkyObject emptySky = SkyObject();
+                emit newTarget(emptySky, *ScopeTarget);
+            }
+            else
+                emit newTarget(*currentObject, *ScopeTarget);
+        }
         if (EqProp)
         {
             dms ra, de;
@@ -806,7 +810,11 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
 
     };
 
-    auto checkObject = [ = ]()
+    // Helper function that first checks for the selected target object whether the
+    // tracking modes have to be adapted (special cases moon and sun), explicitely warns before
+    // slewing to the sun and finally (independant whether there exists a target object
+    // for the target coordinates) calls sendToMountDevice
+    auto checkObjectAndSend = [ = ]()
     {
         double maxrad = 1000.0 / Options::zoomFactor();
         currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
@@ -835,10 +843,6 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                         setTrackMode(TRACK_SIDEREAL);
 
                 }
-
-                emit newTarget(*currentObject, currentCoords);
-
-                sendToClient();
             };
 
             // Sun Warning, but don't ask if tracking is already solar.
@@ -848,6 +852,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 {
                     KSMessageBox::Instance()->disconnect(this);
                     checkTrackModes();
+                    sendToMountDevice();
                 });
                 connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
                 {
@@ -859,10 +864,13 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                     i18n("Sun Warning"));
             }
             else
+            {
                 checkTrackModes();
+                sendToMountDevice();
+            }
         }
         else
-            sendToClient();
+            sendToMountDevice();
     };
 
     if (targetAlt < 0)
@@ -870,7 +878,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
             KSMessageBox::Instance()->disconnect(this);
-            checkObject();
+            checkObjectAndSend();
         });
         connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
         {
@@ -891,10 +899,31 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                                                 i18n("Telescope Motion"), 15, false);
     }
     else
-        checkObject();
+        checkObjectAndSend();
 
     return true;
 }
+
+bool Telescope::slewDefined()
+{
+    if (baseDevice == nullptr)
+        return false;
+
+    auto motionSP = baseDevice->getSwitch("ON_COORD_SET");
+
+    if (motionSP == nullptr)
+        return false;
+
+    // take either the TRACK of the SLEW widget
+    auto slewSW = motionSP->findWidgetByName("TRACK");
+
+    if (slewSW == nullptr)
+        slewSW = motionSP->findWidgetByName("SLEW");
+
+    // a slew is planned if the selected widget is on
+    return (slewSW != nullptr && slewSW->getState() == ISState::ISS_ON);
+}
+
 
 bool Telescope::Slew(double ra, double dec)
 {

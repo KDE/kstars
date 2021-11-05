@@ -202,8 +202,26 @@ class Telescope : public DeviceDecorator
 
 
     protected:
+        /**
+         * @brief Send the coordinates to the mount's INDI driver. Due to the INDI implementation, this
+         * function is shared for syncing, slewing and other (partly scope specific) functions like the
+         * setting parking position. The interpretation of the coordinates depends in the setting of other
+         * INDI switches for slewing, synching, tracking etc.
+         * @param ScopeTarget target coordinates
+         * @return true if sending the coordinates succeeded
+         */
         bool sendCoords(SkyPoint *ScopeTarget);
-        void updateJ2000Coordinates();
+
+        /**
+         * @brief Check whether sending new coordinates will result into a slew
+         */
+        bool slewDefined();
+
+        /**
+         * @brief Helper function to update the J2000 coordinates of a sky point from its JNow coordinates
+         * @param coords sky point with correct JNow values in RA and DEC
+         */
+        void updateJ2000Coordinates(SkyPoint *coords);
 
 public slots:
         virtual bool runCommand(int command, void *ptr = nullptr) override;

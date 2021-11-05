@@ -3394,6 +3394,10 @@ void Manager::connectModules()
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus,
                 Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newTarget,  alignProcess.get(), &Ekos::Align::setTarget,
+                Qt::UniqueConnection);
+        connect(mountProcess.get(), &Ekos::Mount::newCoords,  alignProcess.get(), &Ekos::Align::setTelescopeCoordinates,
+                Qt::UniqueConnection);
     }
 
     // Mount <---> Guide connections

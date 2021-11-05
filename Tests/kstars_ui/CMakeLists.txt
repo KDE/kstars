@@ -69,8 +69,12 @@ ADD_TEST(NAME TestEkosCaptureCount COMMAND test_ekos_capture_count)
 ADD_EXECUTABLE(test_ekos_capture_workflow ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture_workflow.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture_workflow ${KSTARS_UI_EKOS_LIBS})
 
-ADD_EXECUTABLE(test_ekos_align ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_align.cpp)
+ADD_EXECUTABLE(test_ekos_align ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_scheduler_helper.cpp test_ekos_align.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_align ${KSTARS_UI_EKOS_LIBS})
+ADD_CUSTOM_COMMAND( TARGET test_ekos_align POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/Kocab.fits
+            ${CMAKE_CURRENT_BINARY_DIR}/Kocab.fits)
 
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosAlign COMMAND test_ekos_align)
@@ -105,7 +109,7 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler POST_BUILD
 ADD_TEST(NAME TestEkosScheduler COMMAND test_ekos_scheduler)
 SET_TESTS_PROPERTIES( TestEkosScheduler PROPERTIES LABELS "stable;ui" TIMEOUT 120 )
 
-ADD_EXECUTABLE(test_ekos_scheduler_ops ${KSTARS_UI_EKOS_SRC} ${KSTARS_UI_MOCK_SRC} test_ekos_scheduler_ops.cpp)
+ADD_EXECUTABLE(test_ekos_scheduler_ops ${KSTARS_UI_EKOS_SRC} ${KSTARS_UI_MOCK_SRC} test_ekos_scheduler_helper.cpp test_ekos_scheduler_ops.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_scheduler_ops ${KSTARS_UI_EKOS_LIBS})
 ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
