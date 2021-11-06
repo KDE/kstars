@@ -117,11 +117,13 @@ void FocusHFRVPlot::init(bool showPosition)
     polynomialGraph->data()->clear();
     focusPoint->data().clear();
     // the next step seems necessary (QCP bug?)
+    v_graph->setData(QVector<double> {}, QVector<double> {});
     focusPoint->setData(QVector<double> {}, QVector<double> {});
     m_polynomialGraphIsVisible = false;
     m_isVShape = false;
     maxHFR = -1;
     clearItems();
+    replot();
 }
 
 void FocusHFRVPlot::drawHFRPlot(double currentHFR, int pulseDuration)
