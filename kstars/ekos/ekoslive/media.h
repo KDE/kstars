@@ -118,7 +118,9 @@ class Media : public QObject
         bool m_sendBlobs { true};
 
         // Image width for high-bandwidth setting
-        static const uint16_t HB_WIDTH = 1280;
+        static const uint16_t HB_IMAGE_WIDTH = 1920;
+        // Video width for high-bandwidth setting
+        static const uint16_t HB_VIDEO_WIDTH = 1280;
         // Image high bandwidth image quality (jpg)
         static const uint8_t HB_IMAGE_QUALITY = 90;
         // Video high bandwidth video quality (jpg)

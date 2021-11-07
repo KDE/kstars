@@ -301,23 +301,22 @@ void Media::upload(FITSView * view)
     // For low bandwidth images
     if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
     {
-        QPixmap scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        QPixmap scaledImage = view->getDisplayPixmap().width() > HB_IMAGE_WIDTH / 2 ?
+                              view->getDisplayPixmap().scaledToWidth(HB_IMAGE_WIDTH / 2, Qt::FastTransformation) :
+                              view->getDisplayPixmap();
         scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
-        //ext = "jpg";
     }
     // For high bandwidth images
     else
     {
-        QImage scaledImage = view->getDisplayImage().scaledToWidth(HB_WIDTH, Qt::SmoothTransformation);
+        QImage scaledImage =  view->getDisplayImage().width() > HB_IMAGE_WIDTH ?
+                              view->getDisplayImage().scaledToWidth(HB_IMAGE_WIDTH, Qt::SmoothTransformation) :
+                              view->getDisplayImage();
         scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
-        //ext = "png";
     }
     buffer.close();
 
     emit newImage(jpegData);
-
-    //m_WebSocket.sendTextMessage(QJsonDocument(metadata).toJson(QJsonDocument::Compact));
-    //m_WebSocket.sendBinaryMessage(jpegData);
 
     if (view == previewImage.get())
         previewImage.reset();
@@ -406,7 +405,9 @@ void Media::sendUpdatedFrame(FITSView *view)
     }
     else
     {
-        scaledImage = view->getDisplayPixmap().scaledToWidth(HB_WIDTH / 2, Qt::FastTransformation);
+        scaledImage = view->getDisplayPixmap().width() > HB_IMAGE_WIDTH / 2 ?
+                      view->getDisplayPixmap().scaledToWidth(HB_IMAGE_WIDTH / 2, Qt::FastTransformation) :
+                      view->getDisplayPixmap();
         emit newBoundingRect(QRect(), QSize(), 100);
     }
 
@@ -420,7 +421,7 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false || !frame)
         return;
 
-    int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_WIDTH : HB_WIDTH / 2;
+    int32_t width = m_Options[OPTION_SET_HIGH_BANDWIDTH] ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
     QByteArray image;
     QBuffer buffer(&image);
     buffer.open(QIODevice::WriteOnly);
