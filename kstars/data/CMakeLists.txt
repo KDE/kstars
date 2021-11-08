@@ -1,3 +1,4 @@
+
 ########### install files ###############
 
 install(FILES
@@ -20,7 +21,7 @@ install(FILES
     moonB.dat moonLR.dat
     mercury.orbit venus.orbit earth.orbit mars.orbit jupiter.orbit
     saturn.orbit uranus.orbit neptune.orbit pluto.orbit
-    asteroids.dat comets.dat wzserialportassistant.png
+    asteroids.dat comets.dat cometels.json.gz wzserialportassistant.png
     wzstars.png wzgeo.png wzscope.png wzdownload.png wzekos.png ekoslive.png
     chart.colors classic.colors moonless-night.colors night.colors
     tips TZrules.dat Interesting.dat PlanetFacts.dat indidrivers.xml

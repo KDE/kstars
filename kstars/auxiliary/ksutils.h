@@ -22,6 +22,7 @@
 #include <QSharedPointer>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QJsonObject>
 #include "polyfills/qstring_hash.h"
 #include <unordered_map>
 #include "config-kstars.h"
@@ -302,6 +303,28 @@ class JPLParser
         std::unordered_map<QString, int> m_field_map;
 };
 // TODO: Implement Datatypes//Maps for kind, datafields, filters...
+
+class MPCParser
+{
+    public:
+        MPCParser(const QString &path);
+
+        template <typename Lambda>
+        void for_each(const Lambda &fct)
+        {
+            for (const auto &item : m_data)
+            {
+                fct([ &, this](const QString & key)
+                {
+                    return item.toObject().value(key);
+                });
+            }
+        };
+
+    private:
+        QJsonDocument m_doc;
+        QJsonArray m_data;
+};
 
 /**
  *@short Generate a query string for downloading comet/asteroid data from JPL.

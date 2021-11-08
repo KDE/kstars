@@ -19,6 +19,7 @@
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
+#include <zlib.h>
 #endif
 
 #ifdef HAVE_LIBRAW
@@ -151,7 +152,8 @@ QString toDirectionString(dms angle)
     // languages that have special names for the intercardinal points)
     // -- asimha
 
-    static const char *directions[] = {
+    static const char *directions[] =
+    {
         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "N"),
         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNE"),
         I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NE"),
@@ -929,7 +931,7 @@ void Logging::UseFile()
         QDir dir;
         QString path =
             QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
-                .filePath("logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+            .filePath("logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         dir.mkpath(path);
         QString name =
             "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
@@ -1107,7 +1109,7 @@ QString getDefaultPath(const QString &option)
     QString prefix = userPrefix;
     // Detect if we are within an App Image
     if (QProcessEnvironment::systemEnvironment().value("APPIMAGE").isEmpty() == false &&
-        appimg.isEmpty() == false)
+            appimg.isEmpty() == false)
         prefix = appimg + userPrefix;
     else if (flat.isEmpty() == false)
         // Detect if we are within a Flatpak
@@ -1204,7 +1206,7 @@ QString getDefaultPath(const QString &option)
         return QString(ASTROMETRY_PREFIX "/share/astrometry");
 #elif defined(Q_OS_OSX)
         return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation))
-            .filePath("Astrometry/");
+               .filePath("Astrometry/");
 #endif
         return prefix + "/share/astrometry/";
     }
@@ -1239,7 +1241,7 @@ QStringList getAstrometryDefaultIndexFolderPaths()
     QStringList folderPaths;
     const QString confDir =
         QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
-            .filePath(QLatin1String("astrometry"));
+        .filePath(QLatin1String("astrometry"));
     folderPaths << confDir;
     // Check if directory already exists, if it doesn't create one
     QDir writableDir(confDir);
@@ -1263,16 +1265,16 @@ QStringList getAstrometryDefaultIndexFolderPaths()
 void copyResourcesFolderFromAppBundle(QString folder)
 {
     QString folderLocation = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
+                                 QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
     QDir folderSourceDir;
     if (folder == "kstars")
         folderSourceDir =
             QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars")
-                .absolutePath();
+            .absolutePath();
     else
         folderSourceDir =
             QDir(QCoreApplication::applicationDirPath() + "/../Resources/" + folder)
-                .absolutePath();
+            .absolutePath();
     if (folderSourceDir.exists())
     {
         folderLocation =
@@ -1314,7 +1316,7 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
     }
 
     QString dataLocation = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+                               QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty()) //If there is no kstars user data directory
         return false;
 
@@ -1333,11 +1335,11 @@ bool configureAstrometry()
     if (QDir(defaultAstrometryDataDir).exists() == false)
     {
         if (KMessageBox::warningYesNo(
-                nullptr,
-                i18n("The selected Astrometry Index File Location:\n %1 \n does not "
-                     "exist.  Do you want to make the directory?",
-                     defaultAstrometryDataDir),
-                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
+                    nullptr,
+                    i18n("The selected Astrometry Index File Location:\n %1 \n does not "
+                         "exist.  Do you want to make the directory?",
+                         defaultAstrometryDataDir),
+                    i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
         {
             if (QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
             {
@@ -1528,7 +1530,7 @@ QString getAstrometryConfFilePath()
 #if defined(Q_OS_LINUX)
     if (Options::astrometryConfFileIsInternal())
         return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
-            .filePath(QLatin1String("astrometry") + QLatin1String("/astrometry.cfg"));
+               .filePath(QLatin1String("astrometry") + QLatin1String("/astrometry.cfg"));
 #elif defined(Q_OS_OSX)
     if (Options::astrometryConfFileIsInternal())
         return QCoreApplication::applicationDirPath() + "/astrometry/bin/astrometry.cfg";
@@ -1784,11 +1786,11 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
         return false;
     }
     else
-    // We have successfully unpacked the thumbnail, now let us write it to a file
+        // We have successfully unpacked the thumbnail, now let us write it to a file
     {
         //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
         if (LIBRAW_SUCCESS !=
-            (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
+                (ret = RawProcessor.dcraw_thumb_writer(output.toLatin1().data())))
         {
             errorMessage = i18n("Cannot write %s %1: %2", output, libraw_strerror(ret));
             RawProcessor.recycle();
@@ -1813,7 +1815,7 @@ double getAvailableRAM()
 #elif defined(Q_OS_LINUX)
     QProcess p;
     p.start("awk", QStringList() << "/MemAvailable/ { print $2 }"
-                                 << "/proc/meminfo");
+            << "/proc/meminfo");
     p.waitForFinished();
     QString memory = p.readAllStandardOutput();
     p.close();
@@ -1855,4 +1857,38 @@ JPLParser::JPLParser(const QString &path)
         }
     }
 }
+
+MPCParser::MPCParser(const QString &path)
+{
+    QFile mpc_file(path);
+    if (!mpc_file.open(QIODevice::ReadOnly))
+    {
+        throw std::runtime_error("Could not open file.");
+    }
+
+    gzFile file = gzopen(path.toLatin1().constData(), "r");
+    if (file)
+    {
+
+        QByteArray data;
+        const uint32_t len = 32768;
+
+        while (!gzeof(file))
+        {
+            char buffer[len] = {0};
+            int bytes_read = gzread(file, buffer, len - 1);
+            if (bytes_read < 0)
+                break;
+            buffer[bytes_read] = 0;
+            data.append(buffer);
+        }
+
+        gzclose(file);
+        const auto &ast_json = QJsonDocument::fromJson(data);
+        m_data               = ast_json.array();
+    }
+    else
+        qCritical(KSTARS) << "Failed to read MPC comets data file" << path;
+}
+
 } // namespace KSUtils

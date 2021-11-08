@@ -782,7 +782,7 @@ set(kstars_extra_SRCS
     kstarsdata.cpp
     texturemanager.cpp
     #to minimize number of indef KSTARS_LITE
-    skypainter.cpp
+    skypainter.cpp    
     )
 
 SET(kstars_extra_kstars_SRCS

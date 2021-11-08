@@ -4,7 +4,6 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <zlib.h>
 #include <indicom.h>
 #include <base64.h>
 #include <basedevice.h>
