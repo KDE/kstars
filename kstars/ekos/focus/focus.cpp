@@ -3207,6 +3207,19 @@ void Focus::updateBoxSize(int value)
     focusView->setTrackingBox(trackBox);
 }
 
+void Focus::selectFocusStarFraction(double x, double y)
+{
+    if (m_ImageData.isNull())
+        return;
+
+    focusStarSelected(x * m_ImageData->width(), y * m_ImageData->height());
+    // Focus view timer takes 50ms second to update, so let's emit afterwards.
+    QTimer::singleShot(250, this, [this]()
+    {
+        emit newImage(focusView);
+    });
+}
+
 void Focus::focusStarSelected(int x, int y)
 {
     if (state == Ekos::FOCUS_PROGRESS)

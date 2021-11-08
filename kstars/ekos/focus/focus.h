@@ -331,6 +331,14 @@ class Focus : public QWidget, public Ui::Focus
         void focusStarSelected(int x, int y);
 
         /**
+         * @brief selectFocusStarFraction Select the focus star based by fraction of the overall size.
+         * It calls focusStarSelected after multiplying the fractions (0.0 to 1.0) with the focus view width and height.
+         * @param x final x = x * focusview_width
+         * @param y final y = y * focusview_height
+         */
+        void selectFocusStarFraction(double x, double y);
+
+        /**
              * @brief newFITS A new FITS blob is received by the CCD driver.
              * @param bp pointer to blob data
              */

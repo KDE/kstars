@@ -742,6 +742,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->startFraming();
     else if (command == commands[FOCUS_SET_SETTINGS])
         focus->setSettings(payload);
+    else if (command == commands[FOCUS_SET_CROSSHAIR])
+    {
+        double x = payload["x"].toDouble();
+        double y = payload["y"].toDouble();
+        focus->selectFocusStarFraction(x, y);
+    }
     else if (command == commands[FOCUS_SET_PRIMARY_SETTINGS])
         focus->setPrimarySettings(payload);
     else if (command == commands[FOCUS_SET_PROCESS_SETTINGS])
