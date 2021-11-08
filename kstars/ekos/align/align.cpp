@@ -33,7 +33,6 @@
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
-#include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "dialogs/finddialog.h"
 #include "ksnotification.h"
@@ -384,6 +383,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     initPolarAlignmentAssistant();
     initManualRotator();
+    initDarkProcessor();
 }
 
 Align::~Align()
@@ -1787,21 +1787,7 @@ void Align::processData(const QSharedPointer<FITSData> &data)
             uint16_t offsetX = x / binx;
             uint16_t offsetY = y / biny;
 
-            connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-            {
-                DarkLibrary::Instance()->disconnect(this);
-                alignDarkFrameCheck->setChecked(completed);
-                if (completed)
-                {
-                    alignView->rescale(ZOOM_KEEP_LEVEL);
-                    alignView->updateFrame();
-                }
-
-                setCaptureComplete();
-            });
-            connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Align::appendLogText);
-            DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
-                                             offsetX, offsetY);
+            m_DarkProcessor->denoise(targetChip, m_ImageData, exposureIN->value(), offsetX, offsetY);
             return;
         }
 
@@ -1841,8 +1827,6 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);
-
     if (matchPAHStage(PAA::PAH_REFRESH))
     {
         emit newFrame(alignView);
@@ -3959,6 +3943,26 @@ void Align::initManualRotator()
 
     m_ManualRotator = new ManualRotator(this);
     connect(m_ManualRotator, &Ekos::ManualRotator::captureAndSolve, this, &Ekos::Align::captureAndSolve);
+}
+
+void Align::initDarkProcessor()
+{
+    if (m_DarkProcessor)
+        return;
+
+    m_DarkProcessor = new DarkProcessor(this);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Align::appendLogText);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
+    {
+        alignDarkFrameCheck->setChecked(completed);
+        if (completed)
+        {
+            alignView->rescale(ZOOM_KEEP_LEVEL);
+            alignView->updateFrame();
+        }
+
+        setCaptureComplete();
+    });
 }
 
 void Align::processPAHStage(int stage)

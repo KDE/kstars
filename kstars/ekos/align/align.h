@@ -17,6 +17,7 @@
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
 #include <QTimer>
@@ -669,6 +670,11 @@ class Align : public QWidget, public Ui::Align
          */
         void initManualRotator();
 
+        /**
+         * @brief initDarkProcessor Initialize Dark Processor
+         */
+        void initDarkProcessor();
+
         bool matchPAHStage(uint32_t stage);
 
 
@@ -867,6 +873,9 @@ class Align : public QWidget, public Ui::Align
         MountModel *m_MountModel {nullptr};
         PolarAlignmentAssistant *m_PolarAlignmentAssistant {nullptr};
         ManualRotator *m_ManualRotator {nullptr};
+
+        // Dark Processor
+        QPointer<DarkProcessor> m_DarkProcessor;
 
 };
 }

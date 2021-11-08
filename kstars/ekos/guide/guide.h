@@ -12,6 +12,7 @@
 #include "ekos/ekos.h"
 #include "indi/indiccd.h"
 #include "indi/inditelescope.h"
+#include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
 #include <QTimer>
@@ -625,6 +626,9 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<LinGuider> linGuider;
         QPointer<FITSViewer> fv;
         QSharedPointer<FITSData> m_ImageData;
+
+        // Dark Processor
+        QPointer<DarkProcessor> m_DarkProcessor;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };

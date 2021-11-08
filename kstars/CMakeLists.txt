@@ -166,6 +166,7 @@ if (INDI_FOUND)
             ekos/auxiliary/weather.cpp
             ekos/auxiliary/dustcap.cpp
             ekos/auxiliary/darklibrary.cpp
+            ekos/auxiliary/darkprocessor.cpp
             ekos/auxiliary/darkview.cpp
             ekos/auxiliary/defectmap.cpp
             ekos/auxiliary/filtermanager.cpp

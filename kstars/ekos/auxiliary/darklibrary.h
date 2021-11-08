@@ -28,8 +28,22 @@ class SequenceJob;
 
 /**
  * @class DarkLibrary
- * @short Handles acquisition & loading of dark frames for cameras. If a suitable dark frame exists,
+ * @short Handles acquisition & loading of dark frames and defect map for cameras. If a suitable dark frame exists,
  * it is loaded from disk, otherwise it gets captured and saved for later use.
+ *
+ * Dark Frames:
+ *
+ * The user can generate dark frames from an average combination of the camera dark frames. By default, 5 dark frames
+ * are captured to merged into a single master frame. Frame duration, binning, and temperature are all configurable.
+ * If the user select "Dark" in any of the Ekos module, Dark Library can be queried if a suitable dark frame exists given
+ * the current camera settings (binning, temperature..etc). If a suitable frame exists, it is loaded up and send to /class DarkProcessor
+ * class along with the light frame to perform subtraction or defect map corrections.
+ *
+ * Defect Maps:
+ *
+ * Some CMOS cameras exhibit hot pixels that are better treated with a defect map. A defect map is a collection of "bad" pixels that
+ * are above or below certain threshold controlled by the user. This should isolate the cold and hotpixels in frames so that they are
+ * removed from the light frames once the defect map is applied against it. This is done using 3x3 median filter over the bad pixels.
  *
  * @author Jasem Mutlaq
  * @version 1.0
@@ -42,11 +56,34 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         static DarkLibrary *Instance();
         static void Release();
 
+        /**
+         * @brief findDarkFrame Search for a dark frame that matches the passed paramters.
+         * @param targetChip Camera chip pointer to lookup for relevant information (binning, ROI..etc).
+         * @param duration Duration is second to match it against the database.
+         * @param darkData If a frame is found, load it from disk and store it in a shared FITSData pointer.
+         * @return True if a suitable frame was found the loaded successfully, false otherwise.
+         */
         bool findDarkFrame(ISD::CCDChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
+
+        /**
+         * @brief findDefectMap Search for a defect map that matches the passed paramters.
+         * @param targetChip Camera chip pointer to lookup for relevant information (binning, ROI..etc).
+         * @param duration Duration is second to match it against the database.
+         * @param defectMap If a frame is found, load it from disk and store it in a shared DefectMap pointer.
+         * @return True if a suitable frame was found the loaded successfully, false otherwise.
+         */
         bool findDefectMap(ISD::CCDChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
-        // Return false if canceled. True if dark capture proceeds
-        void denoise(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
-                     FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+
+        /**
+         * @brief cameraHasDefectMaps Check if camera has any defect maps available.
+         * @param name Camera name
+         * @return True if at least one defect maps exists for this camera, false otherwise.
+         */
+        bool cameraHasDefectMaps(const QString &name) const
+        {
+            return m_DefectCameras.contains(name);
+        }
+
         void refreshFromDB();
         void addCamera(ISD::GDInterface * newCCD);
         void removeCamera(ISD::GDInterface * newCCD);
@@ -58,7 +95,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         virtual void closeEvent(QCloseEvent *ev) override;
 
     signals:
-        void darkFrameCompleted(bool);
         void newLog(const QString &message);
 
     public slots:
@@ -76,7 +112,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
 
     private:
         explicit DarkLibrary(QWidget *parent);
-        ~DarkLibrary();
+        ~DarkLibrary() override;
 
         static DarkLibrary *_DarkLibrary;
 
@@ -135,29 +171,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         template <typename T> void aggregateInternal(const QSharedPointer<FITSData> &data);
 
         /**
-         * @brief subtractHelper Calls tempelated subtract function
-         * @param darkData passes dark frame data to templerated subtract function.
-         * @param lightData passes list frame data to templerated subtract function.
-         * @param filter passes filter to templerated subtract function.
-         * @param offsetX passes offsetX to templerated subtract function.
-         * @param offsetY passes offsetY to templerated subtract function.
-         */
-        void subtractDarkData(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
-                              uint16_t offsetX, uint16_t offsetY);
-
-        /**
-         * @brief subtract Subtracts dark pixels from light pixels given the supplied parameters
-         * @param darkData Dark frame data.
-         * @param lightData Light frame data. The light frame data is modified in this process.
-         * @param filter Any filters to apply to light frame data post-subtraction.
-         * @param offsetX Only apply subtraction beyond offsetX in X-axis.
-         * @param offsetY Only apply subtraction beyond offsetY in Y-axis.
-         */
-        template <typename T>
-        void subtractInternal(const QSharedPointer<FITSData> &darkData, const QSharedPointer<FITSData> &lightData, FITSScale filter,
-                              uint16_t offsetX, uint16_t offsetY);
-
-        /**
          * @brief cacheDarkFrameFromFile Load dark frame from disk and saves it in the local dark frames cache
          * @param filename path of dark frame to load
          * @return True if file is successfully loaded, false otherwise.
@@ -187,26 +200,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @return True if file is successfully loaded, false otherwise.
          */
         bool cacheDefectMapFromFile(const QString &key, const QString &filename);
-
-        /**
-         * @brief normalizeDefects Remove defects from LIGHT image by replacing bad pixels with a 3x3 median filter around
-         * them.
-         * @param defectMap Defect Map containing a list of hot and cold pixels.
-         * @param lightData Target light data to remove noise from.
-         * @param filter Filter used for light data
-         * @param offsetX Only apply filtering beyond offsetX in X-axis.
-         * @param offsetY Only apply filtering beyond offsetX in Y-axis.
-         */
-        void normalizeDefects(const QSharedPointer<DefectMap> &defectMap, const QSharedPointer<FITSData> &lightData,
-                              FITSScale filter, uint16_t offsetX, uint16_t offsetY);
-
-        template <typename T>
-        void normalizeDefectsInternal(const QSharedPointer<DefectMap> &defectMap, const QSharedPointer<FITSData> &lightData,
-                                      FITSScale filter, uint16_t offsetX, uint16_t offsetY);
-
-        template <typename T>
-        T median3x3Filter(uint16_t x, uint16_t y, uint32_t width, T *buffer);
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Member Variables

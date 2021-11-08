@@ -348,7 +348,7 @@ Capture::Capture()
     connect(&m_CaptureScript, &QProcess::errorOccurred,
             [this](QProcess::ProcessError error)
     {
-        Q_UNUSED(error);
+        Q_UNUSED(error)
         appendLogText(m_CaptureScript.errorString());
         scriptFinished(-1, QProcess::NormalExit);
     });
@@ -434,6 +434,9 @@ Capture::Capture()
     connect(&downloadProgressTimer, &QTimer::timeout, this, &Ekos::Capture::setDownloadProgress);
 
     DarkLibrary::Instance()->setCaptureModule(this);
+    m_DarkProcessor = new DarkProcessor(this);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Capture::appendLogText);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
 }
 
 Capture::~Capture()
@@ -1700,9 +1703,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         // If dark is selected, perform dark substraction.
         if (data && darkB->isChecked() && activeJob->isPreview() && useGuideHead == false)
         {
-            // Dark subtract the frame if possible.
-            DarkLibrary::Instance()->denoise(targetChip, m_ImageData, activeJob->getExposure(),
-                                             targetChip->getCaptureFilter(), activeJob->getSubX(), activeJob->getSubY());
+            m_DarkProcessor->denoise(targetChip, m_ImageData, activeJob->getExposure(), activeJob->getSubX(), activeJob->getSubY());
+            return;
         }
     }
 

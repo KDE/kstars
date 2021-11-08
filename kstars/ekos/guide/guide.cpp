@@ -159,6 +159,20 @@ Guide::Guide() : QWidget()
         button->setAutoDefault(false);
 
     connect(KStars::Instance(), &KStars::colorSchemeChanged, driftGraph, &GuideDriftGraph::refreshColorScheme);
+
+    m_DarkProcessor = new DarkProcessor(this);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Guide::appendLogText);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
+    {
+        if (completed != darkFrameCheck->isChecked())
+            setDarkFrameEnabled(completed);
+        if (completed)
+        {
+            guideView->rescale(ZOOM_KEEP_LEVEL);
+            guideView->updateFrame();
+        }
+        setCaptureComplete();
+    });
 }
 
 Guide::~Guide()
@@ -2647,23 +2661,9 @@ bool Guide::executeOneOperation(GuideState operation)
                     offsetY = settings["y"].toInt() / settings["biny"].toInt();
                 }
 
-                connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-                {
-                    DarkLibrary::Instance()->disconnect(this);
-                    if (completed != darkFrameCheck->isChecked())
-                        setDarkFrameEnabled(completed);
-                    if (completed)
-                    {
-                        guideView->rescale(ZOOM_KEEP_LEVEL);
-                        guideView->updateFrame();
-                    }
-                    setCaptureComplete();
-                });
-                connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Guide::appendLogText);
                 actionRequired = true;
                 targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
-                DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), targetChip->getCaptureFilter(),
-                                                 offsetX, offsetY);
+                m_DarkProcessor->denoise(targetChip, m_ImageData, exposureIN->value(), offsetX, offsetY);
             }
         }
         break;

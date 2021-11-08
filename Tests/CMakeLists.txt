@@ -44,6 +44,7 @@ IF (CFITSIO_FOUND)
     add_subdirectory(fitsviewer)
 IF (INDI_FOUND)
 include_directories(
+    ${INDI_INCLUDE_DIR}
     ${kstars_SOURCE_DIR}/kstars/ekos/align
     ${kstars_SOURCE_DIR}/kstars/internalguide
     ${kstars_SOURCE_DIR}/kstars/focus
@@ -52,6 +53,7 @@ include_directories(
 add_subdirectory(scheduler)
 add_subdirectory(focus)
 add_subdirectory(polaralign)
+add_subdirectory(ekos)
 # FIXME
 # Disable this test for Windows since it fails for now
 if (NOT WIN32)

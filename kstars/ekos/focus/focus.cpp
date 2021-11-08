@@ -131,6 +131,20 @@ Focus::Focus()
     connect(this, &Ekos::Focus::drawPolynomial, HFRPlot, &FocusHFRVPlot::drawPolynomial);
     connect(this, &Ekos::Focus::setTitle, HFRPlot, &FocusHFRVPlot::setTitle);
     connect(this, &Ekos::Focus::minimumFound, HFRPlot, &FocusHFRVPlot::drawMinimum);
+
+    m_DarkProcessor = new DarkProcessor(this);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Focus::appendLogText);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
+    {
+        darkFrameCheck->setChecked(completed);
+        if (completed)
+        {
+            focusView->rescale(ZOOM_KEEP_LEVEL);
+            focusView->updateFrame();
+        }
+        setCaptureComplete();
+        resetButtons();
+    });
 }
 
 void Focus::loadStellarSolverProfiles()
@@ -1462,22 +1476,8 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
         uint16_t offsetX     = settings["x"].toInt() / settings["binx"].toInt();
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
-        connect(DarkLibrary::Instance(), &DarkLibrary::darkFrameCompleted, this, [&](bool completed)
-        {
-            DarkLibrary::Instance()->disconnect(this);
-            darkFrameCheck->setChecked(completed);
-            if (completed)
-            {
-                focusView->rescale(ZOOM_KEEP_LEVEL);
-                focusView->updateFrame();
-            }
-            setCaptureComplete();
-            resetButtons();
-        });
-        connect(DarkLibrary::Instance(), &DarkLibrary::newLog, this, &Ekos::Focus::appendLogText);
-
         //targetChip->setCaptureFilter(defaultScale);
-        DarkLibrary::Instance()->denoise(targetChip, m_ImageData, exposureIN->value(), defaultScale, offsetX, offsetY);
+        m_DarkProcessor->denoise(targetChip, m_ImageData, exposureIN->value(), offsetX, offsetY);
         return;
     }
 

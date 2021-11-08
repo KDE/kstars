@@ -18,6 +18,7 @@
 #include "indi/inditelescope.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
+#include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
 
 #include <QTimer>
@@ -1120,6 +1121,9 @@ class Capture : public QWidget, public Ui::Capture
         // Controls
         double GainSpinSpecialValue { INVALID_VALUE };
         double OffsetSpinSpecialValue { INVALID_VALUE };
+
+        // Dark Processor
+        QPointer<DarkProcessor> m_DarkProcessor;
 
         QList<double> downloadTimes;
         QElapsedTimer downloadTimer;

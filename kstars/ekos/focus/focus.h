@@ -11,6 +11,7 @@
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include "ekos/auxiliary/darkprocessor.h"
 #include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
 #include "indi/indiccd.h"
@@ -843,5 +844,8 @@ class Focus : public QWidget, public Ui::Focus
 
         // Mount altitude value for logging
         double mountAlt { INVALID_VALUE };
+
+        // Dark Processor
+        QPointer<DarkProcessor> m_DarkProcessor;
 };
 }
