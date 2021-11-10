@@ -2315,7 +2315,7 @@ void Capture::captureImage()
     {
         int remaining = activeJob->getCount() - activeJob->getCompleted();
         if (remaining > 1)
-            currentCCD->setExposureLoopCount(static_cast<uint>(remaining));
+            currentCCD->setFastCount(static_cast<uint>(remaining));
     }
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData, Qt::UniqueConnection);

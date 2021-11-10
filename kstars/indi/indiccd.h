@@ -331,7 +331,7 @@ class CCD : public DeviceDecorator
         {
             return m_FastExposureEnabled;
         }
-        bool setExposureLoopCount(uint32_t count);
+        bool setFastCount(uint32_t count);
 
         const QMap<QString, double> &getExposurePresets() const
         {

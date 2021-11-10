@@ -986,17 +986,13 @@ void CCD::registerProperty(INDI::Property prop)
             }
         }
     }
-    else if (prop->isNameMatch("CCD_EXPOSURE_LOOP"))
+    else if (prop->isNameMatch("CCD_FAST_TOGGLE"))
     {
         auto sp = prop->getSwitch();
         if (sp)
-        {
-            auto looping = sp->findWidgetByName("LOOP_ON");
-            if (looping && looping->getState() == ISS_ON)
-                m_FastExposureEnabled = true;
-            else
-                m_FastExposureEnabled = false;
-        }
+            m_FastExposureEnabled = sp->findOnSwitchIndex() == 0;
+        else
+            m_FastExposureEnabled = false;
     }
     else if (prop->isNameMatch("TELESCOPE_TYPE"))
     {
@@ -1242,13 +1238,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         else
             telescopeType = TELESCOPE_GUIDE;
     }
-    else if (!strcmp(svp->name, "CCD_EXPOSURE_LOOP"))
+    else if (!strcmp(svp->name, "CCD_FAST_TOGGLE"))
     {
-        ISwitch *looping = IUFindSwitch(svp, "LOOP_ON");
-        if (looping && looping->s == ISS_ON)
-            m_FastExposureEnabled = true;
-        else
-            m_FastExposureEnabled = false;
+        m_FastExposureEnabled = IUFindOnSwitchIndex(svp) == 0;
     }
     else if (streamWindow && !strcmp(svp->name, "CONNECTION"))
     {
@@ -2499,7 +2491,7 @@ bool CCD::setFastExposureEnabled(bool enable)
     // Set value immediately
     m_FastExposureEnabled = enable;
 
-    auto svp = baseDevice->getSwitch("CCD_EXPOSURE_LOOP");
+    auto svp = baseDevice->getSwitch("CCD_FAST_TOGGLE");
 
     if (!svp)
         return false;
@@ -2511,9 +2503,9 @@ bool CCD::setFastExposureEnabled(bool enable)
     return true;
 }
 
-bool CCD::setExposureLoopCount(uint32_t count)
+bool CCD::setFastCount(uint32_t count)
 {
-    auto nvp = baseDevice->getNumber("CCD_EXPOSURE_LOOP_COUNT");
+    auto nvp = baseDevice->getNumber("CCD_FAST_COUNT");
 
     if (!nvp)
         return false;
