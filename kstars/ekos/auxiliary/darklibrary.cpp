@@ -576,9 +576,17 @@ void DarkLibrary::Release()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::closeEvent(QCloseEvent *ev)
 {
-    Q_UNUSED(ev);
+    Q_UNUSED(ev)
     Options::setUseFITSViewer(m_RememberFITSViewer);
     Options::setUseFITSViewer(m_RememberSummaryView);
+    if (!m_RememberFITSDirectory.isEmpty())
+        m_CaptureModule->fileDirectoryT->setText(m_RememberFITSDirectory);
+    if (m_JobsGenerated)
+    {
+        m_JobsGenerated = false;
+        m_CaptureModule->clearSequenceQueue();
+        m_CaptureModule->setPresetSettings(m_PresetSettings);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -591,6 +599,14 @@ void DarkLibrary::setCompleted()
 
     Options::setUseFITSViewer(m_RememberFITSViewer);
     Options::setUseFITSViewer(m_RememberSummaryView);
+    if (!m_RememberFITSDirectory.isEmpty())
+        m_CaptureModule->fileDirectoryT->setText(m_RememberFITSDirectory);
+    if (m_JobsGenerated)
+    {
+        m_JobsGenerated = false;
+        m_CaptureModule->clearSequenceQueue();
+        m_CaptureModule->setPresetSettings(m_PresetSettings);
+    }
 
     m_CurrentCamera->disconnect(this);
     m_CaptureModule->disconnect(this);
@@ -1077,6 +1093,12 @@ void DarkLibrary::generateDarkJobs()
     // Always clear sequence queue before starting
     m_CaptureModule->clearSequenceQueue();
 
+    if (m_JobsGenerated == false)
+    {
+        m_JobsGenerated = true;
+        m_PresetSettings = m_CaptureModule->getPresetSettings();
+    }
+
     QList<double> temperatures;
     if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
     {
@@ -1340,6 +1362,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 void DarkLibrary::setCaptureModule(Capture *instance)
 {
     m_CaptureModule = instance;
+    m_RememberFITSDirectory = m_CaptureModule->fileDirectoryT->text();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

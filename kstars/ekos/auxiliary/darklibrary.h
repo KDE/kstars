@@ -222,6 +222,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};
+        QString m_RememberFITSDirectory;
+        bool m_JobsGenerated {false};
+        QJsonObject m_PresetSettings;
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QStringList m_DarkCameras, m_DefectCameras;
         QPointer<DarkView> m_DarkView;
