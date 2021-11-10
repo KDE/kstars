@@ -766,19 +766,8 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
 
-        KNotification::beep();
-        QMessageBox *msgBox = new QMessageBox();
-        msgBox->setAttribute(Qt::WA_DeleteOnClose);
-        msgBox->setStandardButtons(QMessageBox::Ok);
-        msgBox->setWindowTitle(i18nc("@title:window", "Error"));
-        msgBox->setText(i18n("Connection to INDI server at host %1 with port %2 failed.",
-                             dv->getHost(), dv->getPort()));
-        KSNotification::event(QLatin1String("ConnectionFailed"), msgBox->text(),
-                              KSNotification::EVENT_ALERT);
-        msgBox->setModal(false);
-        msgBox->setIcon(QMessageBox::Critical);
-        msgBox->show();
-
+        KSNotification::error(i18n("Connection to INDI server at host %1 with port %2 failed.",
+                                   dv->getHost(), dv->getPort()), i18nc("@title:window", "Error"), 30);
         processDeviceStatus(dv);
         return false;
     }
