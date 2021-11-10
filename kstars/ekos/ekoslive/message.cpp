@@ -182,6 +182,8 @@ void Message::onTextReceived(const QString &message)
         processProfileCommands(command, payload);
     else if (command.startsWith("astro_"))
         processAstronomyCommands(command, payload);
+    else if (command == commands[DIALOG_GET_RESPONSE])
+        processDialogResponse(payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -207,8 +209,6 @@ void Message::onTextReceived(const QString &message)
         sendStellarSolverProfiles();
     else if (command == commands[GET_DEVICES])
         sendDevices();
-    else if (command == commands[DIALOG_GET_RESPONSE])
-        processDialogResponse(payload);
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
     else if (command.startsWith("mount_"))
