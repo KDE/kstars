@@ -1735,16 +1735,21 @@ IPState Capture::setCaptureComplete()
     if (!activeJob)
         return IPS_BUSY;
 
-    // In case we're framing, let's start
+    // In case we're framing, let's return quick to continue the process.
     if (m_isFraming)
     {
-        //sendNewImage(blobFilename, blobChip);
-        secondsLabel->setText(i18n("Framing..."));
         emit newImage(activeJob, m_ImageData);
-        activeJob->capture(m_AutoFocusReady);
+        // If fast exposure is on, do not capture again, it will be captured by the driver.
+        if (currentCCD->isFastExposureEnabled() == false)
+        {
+            secondsLabel->setText(i18n("Framing..."));
+            activeJob->capture(m_AutoFocusReady);
+        }
         return IPS_OK;
     }
 
+    // If fast exposure is off, disconnect exposure progress
+    // otherwise, keep it going since it fires off from driver continuous capture process.
     if (currentCCD->isFastExposureEnabled() == false)
     {
         disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress);
@@ -2313,7 +2318,7 @@ void Capture::captureImage()
 
     if (currentCCD->isFastExposureEnabled())
     {
-        int remaining = activeJob->getCount() - activeJob->getCompleted();
+        int remaining = m_isFraming ? 100000 : (activeJob->getCount() - activeJob->getCompleted());
         if (remaining > 1)
             currentCCD->setFastCount(static_cast<uint>(remaining));
     }
