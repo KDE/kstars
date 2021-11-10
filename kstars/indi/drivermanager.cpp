@@ -759,7 +759,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
         KSNotification::event(QLatin1String("ConnectionSuccessful"),
                               i18n("Connected to INDI server"),
-                              KSNotification::EVENT_ALERT);
+                              KSNotification::EVENT_INFO);
     }
     else
     {
