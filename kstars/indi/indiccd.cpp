@@ -993,9 +993,9 @@ void CCD::registerProperty(INDI::Property prop)
         {
             auto looping = sp->findWidgetByName("LOOP_ON");
             if (looping && looping->getState() == ISS_ON)
-                IsLooping = true;
+                m_FastExposureEnabled = true;
             else
-                IsLooping = false;
+                m_FastExposureEnabled = false;
         }
     }
     else if (prop->isNameMatch("TELESCOPE_TYPE"))
@@ -1246,9 +1246,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         ISwitch *looping = IUFindSwitch(svp, "LOOP_ON");
         if (looping && looping->s == ISS_ON)
-            IsLooping = true;
+            m_FastExposureEnabled = true;
         else
-            IsLooping = false;
+            m_FastExposureEnabled = false;
     }
     else if (streamWindow && !strcmp(svp->name, "CONNECTION"))
     {
@@ -2494,10 +2494,10 @@ bool CCD::setBLOBEnabled(bool enable, const QString &prop)
     return true;
 }
 
-bool CCD::setExposureLoopingEnabled(bool enable)
+bool CCD::setFastExposureEnabled(bool enable)
 {
     // Set value immediately
-    IsLooping = enable;
+    m_FastExposureEnabled = enable;
 
     auto svp = baseDevice->getSwitch("CCD_EXPOSURE_LOOP");
 

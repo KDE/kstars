@@ -326,10 +326,10 @@ class CCD : public DeviceDecorator
         TransferFormat getTargetTransferFormat() const;
         void setTargetTransferFormat(const TransferFormat &value);
 
-        bool setExposureLoopingEnabled(bool enable);
-        bool isLooping() const
+        bool setFastExposureEnabled(bool enable);
+        bool isFastExposureEnabled() const
         {
-            return IsLooping;
+            return m_FastExposureEnabled;
         }
         bool setExposureLoopCount(uint32_t count);
 
@@ -383,7 +383,7 @@ class CCD : public DeviceDecorator
         bool CanCool { false };
         bool HasCoolerControl { false };
         bool HasVideoStream { false };
-        bool IsLooping { false };
+        bool m_FastExposureEnabled { false };
         QString seqPrefix;
         Ekos::PlaceholderPath placeholderPath;
 

@@ -465,13 +465,19 @@ class Align : public QWidget, public Ui::Align
         /**
          * @brief Clear the target, make it invalid.
          */
-        Q_SCRIPTABLE Q_NOREPLY void clearTarget() {m_targetCoordValid = false;}
+        Q_SCRIPTABLE Q_NOREPLY void clearTarget()
+        {
+            m_targetCoordValid = false;
+        }
 
         /**
          * @brief Set the coordinates that the mount reports as its position
          * @param position current mount position
          */
-        void setTelescopeCoordinates(const SkyPoint &position) { telescopeCoord = position; }
+        void setTelescopeCoordinates(const SkyPoint &position)
+        {
+            telescopeCoord = position;
+        }
 
 
         Q_SCRIPTABLE Q_NOREPLY void setTargetRotation(double rotation);
@@ -849,7 +855,7 @@ class Align : public QWidget, public Ui::Align
         bool domeReady = true;
 
         // CCD Exposure Looping
-        bool rememberCCDExposureLooping = { false };
+        bool m_RememberCameraFastExposure = { false };
 
         // Controls
         double GainSpinSpecialValue {INVALID_VALUE};

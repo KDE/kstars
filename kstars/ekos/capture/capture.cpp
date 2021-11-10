@@ -814,7 +814,7 @@ void Capture::stop(CaptureState targetState)
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     // In case of exposure looping, let's abort
-    if (currentCCD->isLooping())
+    if (currentCCD->isFastExposureEnabled())
         targetChip->abortExposure();
 
     imgProgress->reset();
@@ -823,7 +823,7 @@ void Capture::stop(CaptureState targetState)
     fullImgCountOUT->setText(QString());
     currentImgCountOUT->setText(QString());
     exposeOUT->setText(QString());
-    m_isLooping = false;
+    m_isFraming = false;
 
     setBusy(false);
 
@@ -1736,7 +1736,7 @@ IPState Capture::setCaptureComplete()
         return IPS_BUSY;
 
     // In case we're framing, let's start
-    if (m_isLooping)
+    if (m_isFraming)
     {
         //sendNewImage(blobFilename, blobChip);
         secondsLabel->setText(i18n("Framing..."));
@@ -1745,7 +1745,7 @@ IPState Capture::setCaptureComplete()
         return IPS_OK;
     }
 
-    if (currentCCD->isLooping() == false)
+    if (currentCCD->isFastExposureEnabled() == false)
     {
         disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
@@ -1999,7 +1999,7 @@ bool Capture::checkDithering()
             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
             && meridianFlipStage != MF_GUIDING
             // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
-            && (currentCCD->isLooping() == false || guideChip == nullptr)
+            && (currentCCD->isFastExposureEnabled() == false || guideChip == nullptr)
             // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
             && (m_GuideState == GUIDE_GUIDING || Options::ditherNoGuiding())
             // Must be only done for light frames
@@ -2014,7 +2014,7 @@ bool Capture::checkDithering()
         qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
         appendLogText(i18n("Dithering..."));
 
-        if (currentCCD->isLooping())
+        if (currentCCD->isFastExposureEnabled())
             targetChip->abortExposure();
 
         m_State = CAPTURE_DITHERING;
@@ -2089,7 +2089,7 @@ IPState Capture::resumeSequence()
         }
 
         // If looping, we just increment the file system image count
-        if (currentCCD->isLooping())
+        if (currentCCD->isFastExposureEnabled())
         {
             if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             {
@@ -2164,7 +2164,7 @@ bool Capture::startFocusIfRequired()
     {
         secondsLabel->setText(i18n("Focusing..."));
 
-        if (currentCCD->isLooping())
+        if (currentCCD->isFastExposureEnabled())
             targetChip->abortExposure();
 
         // If we are over 30 mins since last autofocus, we'll reset frame.
@@ -2198,7 +2198,7 @@ bool Capture::startFocusIfRequired()
 
         secondsLabel->setText(i18n("Focusing..."));
 
-        if (currentCCD->isLooping())
+        if (currentCCD->isFastExposureEnabled())
             targetChip->abortExposure();
 
         setFocusStatus(FOCUS_PROGRESS);
@@ -2236,9 +2236,9 @@ void Capture::startFraming()
     {
         appendLogText(i18n("Cannot start framing while focus module is busy."));
     }
-    else if (!m_isLooping)
+    else if (!m_isFraming)
     {
-        m_isLooping = true;
+        m_isFraming = true;
         appendLogText(i18n("Starting framing..."));
         captureOne();
     }
@@ -2311,7 +2311,7 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
-    if (currentCCD->isLooping())
+    if (currentCCD->isFastExposureEnabled())
     {
         int remaining = activeJob->getCount() - activeJob->getCompleted();
         if (remaining > 1)
@@ -3111,7 +3111,7 @@ void Capture::prepareJob(SequenceJob * job)
 {
     activeJob = job;
 
-    if (m_isLooping == false)
+    if (m_isFraming == false)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
     int index = jobs.indexOf(job);

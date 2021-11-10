@@ -967,7 +967,7 @@ class Capture : public QWidget, public Ui::Capture
         int nextSequenceID { 0 };
         int seqFileCount { 0 };
         bool isBusy { false };
-        bool m_isLooping { false };
+        bool m_isFraming { false };
 
         // Capture timeout timer
         QTimer captureTimeout;
