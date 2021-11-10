@@ -251,6 +251,14 @@ bool DarkProcessor::denoiseInternal()
     QSharedPointer<FITSData> darkData;
     if (DarkLibrary::Instance()->findDarkFrame(info.targetChip, info.duration, darkData))
     {
+        // Make sure it's the same dimension
+        if (info.targetData->width() != darkData->width() || info.targetData->height() != darkData->height())
+        {
+            darkData.clear();
+            emit newLog(i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module."));
+            return false;
+        }
+
         subtractDarkData(darkData, info.targetData, info.offsetX, info.offsetY);
         qCDebug(KSTARS_EKOS) << "Dark frame subtraction applied";
         return true;
