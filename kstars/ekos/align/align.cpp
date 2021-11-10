@@ -1803,9 +1803,11 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
-    m_RememberCameraFastExposure = currentCCD->isFastExposureEnabled();
-    if (m_RememberCameraFastExposure)
+    if (currentCCD->isFastExposureEnabled())
+    {
+        m_RememberCameraFastExposure = true;
         currentCCD->setFastExposureEnabled(false);
+    }
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
     targetChip->resetFrame();
@@ -2194,8 +2196,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
+    // Remember to reset fast exposure
     if (m_RememberCameraFastExposure)
+    {
+        m_RememberCameraFastExposure = false;
         currentCCD->setFastExposureEnabled(true);
+    }
 
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
     std::unique_ptr<QTableWidgetItem> statusReport(new QTableWidgetItem());
@@ -2479,8 +2485,12 @@ void Align::stop(Ekos::AlignState mode)
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
+    // Remember to reset fast exposure
     if (m_RememberCameraFastExposure)
+    {
+        m_RememberCameraFastExposure = false;
         currentCCD->setFastExposureEnabled(true);
+    }
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 

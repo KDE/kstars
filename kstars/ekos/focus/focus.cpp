@@ -1159,8 +1159,12 @@ void Focus::stop(Ekos::FocusState completionState)
         if (rememberUploadMode != currentCCD->getUploadMode())
             currentCCD->setUploadMode(rememberUploadMode);
 
+        // Remember to reset fast exposure if it was enabled before.
         if (m_RememberCameraFastExposure)
+        {
+            m_RememberCameraFastExposure = false;
             currentCCD->setFastExposureEnabled(true);
+        }
 
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
@@ -1321,9 +1325,12 @@ void Focus::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
-    m_RememberCameraFastExposure = currentCCD->isFastExposureEnabled();
-    if (m_RememberCameraFastExposure)
+    // We cannot use fast exposure in focus.
+    if (currentCCD->isFastExposureEnabled())
+    {
+        m_RememberCameraFastExposure = true;
         currentCCD->setFastExposureEnabled(false);
+    }
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
     targetChip->setBatchMode(false);
@@ -1882,8 +1889,11 @@ void Focus::setCaptureComplete()
     if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
         currentCCD->setUploadMode(rememberUploadMode);
 
-    if (m_RememberCameraFastExposure)
+    if (m_RememberCameraFastExposure && inFocusLoop == false && inAutoFocus == false)
+    {
+        m_RememberCameraFastExposure = false;
         currentCCD->setFastExposureEnabled(true);
+    }
 
     captureInProgress = false;
 
