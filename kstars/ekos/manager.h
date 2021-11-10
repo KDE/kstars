@@ -567,7 +567,7 @@ class Manager : public QDialog, public Ui::Manager
         QPointer<QProcess> indiHubAgent;
 
         // Capture Summary
-        QTimer countdownTimer;
+        QTimer m_CountdownTimer;
         QTimer settleTimer;
         // Preview Frame
         std::unique_ptr<SummaryFITSView> summaryPreview;

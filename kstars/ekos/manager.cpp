@@ -104,8 +104,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                                             << "host"
                                             << "port");
 
-    countdownTimer.setInterval(1000);
-    connect(&countdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
+    m_CountdownTimer.setInterval(1000);
+    connect(&m_CountdownTimer, &QTimer::timeout, this, &Ekos::Manager::updateCaptureCountDown);
 
     toolsWidget->setIconSize(QSize(48, 48));
     connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange, Qt::UniqueConnection);
@@ -592,6 +592,7 @@ void Manager::stop()
     cleanDevices();
     m_PortSelector.reset();
     m_PortSelectorTimer.stop();
+    m_CountdownTimer.stop();
     portSelectorB->setEnabled(false);
 
     if (indiHubAgent)
@@ -2985,11 +2986,11 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
             if (capturePreview->capturePI->isAnimated())
             {
                 capturePreview->capturePI->stopAnimation();
-                countdownTimer.stop();
 
                 if (getFocusStatusText() == "Complete")
                     focusManager->stopAnimation();
             }
+            m_CountdownTimer.stop();
             break;
         default:
             if (status == Ekos::CAPTURE_CAPTURING)
@@ -2999,7 +3000,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
             if (capturePreview->capturePI->isAnimated() == false)
             {
                 capturePreview->capturePI->startAnimation();
-                countdownTimer.start();
+                m_CountdownTimer.start();
             }
             break;
     }
