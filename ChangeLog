@@ -4,6 +4,97 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.6 (MPC):
+
+8fa7a982e 2021-11-10 Jasem Mutlaq         In case of framing, do not capture again in fast exposure as that it already done for us at the driver level
+5d14f61ae 2021-11-10 Jasem Mutlaq         Move response handling even before Ekos is connected
+6dc096f79 2021-11-10 Jasem Mutlaq         Make the INDI server connection error uses KStars notification system
+f79aa5e7d 2021-11-10 Jasem Mutlaq         Connection to INDI server should be INFO not ALERT
+0a583df80 2021-11-10 Jasem Mutlaq         Refactor name to standard INDI
+6bf9fb7f5 2021-11-10 Jasem Mutlaq         Extra check to stop countdown timer when not required
+0a42c0180 2021-11-10 Jasem Mutlaq         Improve fast exposure behavior in focus and align
+6d4fea42f 2021-11-10 Jasem Mutlaq         Add extra check to prevent crash in case frame dimensions are different
+89dbf27a6 2021-11-10 Jasem Mutlaq         Refactor name from exposure looping to fast exposure since the latter is more intuitive
+e076f16e4 2021-11-10 Jasem Mutlaq         Clean up capture module after dark library is done
+c5897aa63 2021-11-08 Jasem Mutlaq         Separate dark processor in its own class. Problem was in using a singleton to...
+190831806 2021-11-08 Jasem Mutlaq         MPC base comets
+41121c62a 2021-11-08 Jasem Mutlaq         Add support for selecting star by fraction of image size
+9b64e0777 2021-11-07 Jasem Mutlaq         Use 1920 for high bandwidth images
+e483a90a1 2021-11-06 Jasem Mutlaq         Fix clear data button not causing the graph not refresh
+9c606673c 2021-11-05 Wolfgang Reissenberger Align event based target
+b0b920de6 2021-11-01 Jasem Mutlaq         Add a row to display focus source temperature and the delta so that it is not ambigous
+e494f5d03 2021-10-30 Jasem Mutlaq         Accept MDPD drivers to have possible aliases. Though this only works when a single device is detected
+177743f0f 2021-10-26 Jasem Mutlaq         INDI Drivers sync
+3ea37b529 2021-10-24 Jasem Mutlaq         Suspend on filter focus offset change. Also only suspend if OAG is in use
+baa1fd701 2021-10-26 Jasem Mutlaq         What's up tonight DSO fix
+623aa9e9f 2021-10-19 Antonio Escriban     tooltip about fixed options for 'SEP Multi Star'-algorithm
+75144f58c 2021-10-25 Jasem Mutlaq         Move fits_write_img to last operation before closing to avoid possible HDU issues.
+db0809bf4 2021-10-23 Jasem Mutlaq         Indiana reverted to using DST
+05c79cd93 2021-10-22 Jasem Mutlaq         Fix polyfill issues on vanilla 20.04 with Qt 5.12
+895c27852 2021-10-21 Jasem Mutlaq         Use Tp as the JD of perihelion. Still the results are not very accurate compared to JPL
+2cb7f88d3 2021-10-21 Valentin Boettcher   basic fix for asteroids
+022665db8 2021-10-20 Jasem Mutlaq         Fix crash due to missing camera possibly after driver restart due to a timeout.
+21981dd2f 2021-10-17 Antonio Escriban     configSEPMultiStarOptions - small addendum
+0b9530f9f 2021-10-17 Jasem Mutlaq         No Queued Blocking signals and slots
+cb0f9a03a 2021-10-17 Hy Murveit           Add relative HFR calculation to Linear focus algorithm. Improve plotting. Tweak algorithm.
+d650674d7 2021-10-16 Jasem Mutlaq         After capture sequence is started, resync scheduler target position in alignment module
+6b79f840b 2021-10-16 Jasem Mutlaq         Disable PHD2 test until it passes properly in the CI
+8ba4c33d9 2021-10-16 Jasem Mutlaq         Do not show nan magnitudes in the tooltip
+08aaca20b 2021-10-14 Hy Murveit           emergency crash fix--guideview was nullptr
+4282a74ad 2021-10-13 Jasem Mutlaq         Add logging when there is out of memory error in FITSData. Would be better to know application own memory use as well
+724095c73 2021-10-13 Jasem Mutlaq         Make ksnotification use KStars own KSMessageBox
+319d4e9e1 2021-09-21 Antonio Escriban     improve guider binning setting/saving and check supported binning of guider camera to inform user in the log window of EKOS
+b1e26f562 2021-10-08 Antonio Escriban     rearranged initialization (#0 Prelude) of dialogs in "Guide" to ensure updating of settings
+842a71026 2021-10-11 Jasem Mutlaq         Do not run checkCCD if the module is busy as this might end up disconnecting...
+102d25637 2021-10-11 Jasem Mutlaq         Check if dark frame can be loaded before proceeding
+a7470e854 2021-10-03 Jasem Mutlaq         Use FWHM 1 as it appears to be much more reliable than 2 or above at detecting stars
+a1a81a46a 2021-10-10 Jasem Mutlaq         Better handling for INDI::CCD errors since they can happen to a number of...
+c697d6206 2021-10-06 Hy Murveit           switch fix to kstarsdatetime::addDays
+38cc4a20d 2021-10-06 Hy Murveit           add fix to calculateDawnDusk and update test
+0e680a7fb 2021-10-05 Hy Murveit           add test for dusk startup
+17ea2674f 2021-10-09 Valentin Boettcher   fix the issue where dso magnitudes are not drawn
+bb7cffeae 2021-10-09 Wolfgang Reissenberger Event based coordinate update
+e5b4efda0 2021-10-07 Hy Murveit           fix testschedulerunit, which was crashing
+1a33741f8 2021-10-08 Jasem Mutlaq         Do not show magnitude if nan
+88cfea4b8 2021-10-01 Hy Murveit           Retry focus position when solution is pending, is before pass1 minimum, and HFR got worse
+65dc13122 2021-10-04 Jasem Mutlaq         Consider file extension in the generated file placeholder. Unless @kchoi has another solution, this should probably be merged since DSLR images cann..
+c4a2438be 2021-10-05 Hy Murveit           fix terrain for equirectangular projection
+503e73e81 2021-10-05 Jasem Mutlaq         Improve port selector shouldShow algorithm so that it does not show singular device with singular serial port
+46bfd741b 2021-10-05 Jasem Mutlaq         Add manufacturers to auxiliary
+158947dc9 2021-10-05 Jasem Mutlaq         INDI driver sync
+655795bb9 2021-10-05 Jasem Mutlaq         INDI drivers sync
+f2d87ed4f 2021-10-03 Laurent Montel       GIT_SILENT: remove .arcconfig
+0b1fba8ab 2021-10-02 Jasem Mutlaq         Also set current goto mode when setting solver action
+69db0ba07 2021-10-01 Jasem Mutlaq         Quick fix dustCapLightEnabled -> lightBoxLightEnabled when checking currentLightBox
+0fe1e1102 2021-09-30 Jasem Mutlaq         Make the websocket connections unique and introduce cache to reduce unnecessary property update messaging
+3f3ad7887 2021-09-30 Jasem Mutlaq         Give more time for INDI to properly shutdown in case an existing server is detected
+7c490745c 2021-09-30 Jasem Mutlaq         Break instead of return so that calibration state is set correctly
+d9039d6ff 2021-09-29 Hy Murveit           Fix issue where PAA is falsely disabled due to FOV
+4e890c352 2021-09-28 Hy Murveit           Add popup if image write fails
+41a7d320c 2021-09-28 Jasem Mutlaq         Fix issue where saving flats to remote storage failed due to wrong camera...
+b920b785f 2021-09-21 Heiko Becker         Add FindERFA cmake module
+35fc49645 2021-09-23 Jasem Mutlaq         Since captured images are saved in a buffer, we do not persist bayer frames after debayering so we cannot save the file by copying. Bayer images wou..
+d806e5c3c 2021-09-23 Jasem Mutlaq         Also include camera name
+0c2b197c3 2021-09-23 Jasem Mutlaq         Restrict to 32x32 to be consistent with other icons
+a41561c29 2021-09-22 Akarsh Simha         Increase the maximum value of the deep-sky magnitude limits to 30.
+2bc3b2b18 2021-09-22 Hy Murveit           fix bug where hfr and eccentricity were not updating in fitsviewer
+f6622f0c6 2021-09-22 Jasem Mutlaq         Check image for nullptr
+aef8b3d31 2021-09-22 Jasem Mutlaq         Check if job index is within bounds
+8c26cf623 2021-09-21 Jasem Mutlaq         Fix typo
+23219a3a5 2021-09-20 Yuri Chornoivan      Remove extra translation string
+c1cfa5484 2021-09-19 Wolfgang Reissenberger Manager GUI refactoring | Image preview with data overlay + capture counting streamlined
+035ceb153 2021-09-19 Jasem Mutlaq         Check for lightbox before dust cap
+038f89092 2021-09-19 Kwon-Young Choi      New flexible method to name filenames using `PlaceholderPath::generateFilename`
+1d97ced0a 2021-09-18 Hy Murveit           Restructure test_ekos_scheduler_ops to allow for multiple job testing
+2d417b636 2021-09-17 Alexander Lohnau     Convert HEALPix copyright statements to SPDX
+a26205ae9 2021-09-17 Alexander Lohnau     Convert GPL-2.0-or-later copyright statements to SPDX
+05b50d987 2021-09-17 Jasem Mutlaq         KStars v3.5.6 Beta
+9d36d8272 2021-09-17 Alexander Lohnau     work/spdx
+584462311 2021-09-16 Hy Murveit           Add git merge instructions to README.md
+c4579a001 2021-09-16 Robert Lancaster     Fixing build on MacOS if the developer doesn't have dbus in the path, making it a warning instead of a failure
+f316ca22d 2021-09-15 Jasem Mutlaq         Add port_selector to json settings
+7b8d9a153 2021-09-14 Jasem Mutlaq         Restore check for set times
+
 3.5.5 (Bella):
 
 e16274917 2021-09-14 Jasem Mutlaq         KStars 3.5.5 stable
