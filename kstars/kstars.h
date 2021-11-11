@@ -10,6 +10,7 @@
 #include <KXmlGuiWindow>
 #include <KLocalizedString>
 #include <QLabel>
+#include <KNS3/Entry>
 
 #include <QDockWidget>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
@@ -602,7 +603,7 @@ class KStars : public KXmlGuiWindow
         void slotFind();
 
         /** action slot: open KNewStuff window to download extra data. */
-        void slotDownload();
+        void slotDownload(const QList<KNS3::Entry> &changedEntries);
 
         /** action slot: open KStars calculator to compute astronomical ephemeris */
         void slotCalculator();

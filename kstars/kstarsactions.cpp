@@ -433,7 +433,7 @@ void KStars::updateLocationFromWizard(const GeoLocation &geo)
     updateTime();
 }
 
-void KStars::slotDownload()
+void KStars::slotDownload(const QList<KNS3::Entry> &changedEntries)
 {
     KSNotification::event(
         QLatin1String("KnownIssue"),
@@ -441,19 +441,8 @@ void KStars::slotDownload()
              "updating already downloaded items is currently not possible. <br> "
              "Please uninstall and reinstall them to update."));
 
-    // 2017-07-04: Explicitly load kstars.knsrc from resources file
-    auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", this);
-
-    if (!dlg)
-        return;
-
-    dlg->exec();
-
-    // Get the list of all the installed entries.
-    const auto changed_entries = dlg->changedEntries();
-
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
-    for (const KNS3::Entry &entry : changed_entries)
+    for (const KNS3::Entry &entry : changedEntries)
     {
         if (entry.category() != "dso")
             continue;

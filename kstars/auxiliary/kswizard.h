@@ -103,8 +103,6 @@ class KSWizard : public QDialog
          */
         void slotFilterCities();
 
-        void slotDownload();
-
         void slotInstallGSC();
 
         void slotExtractGSC();

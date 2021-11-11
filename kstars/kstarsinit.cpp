@@ -33,6 +33,7 @@
 #include <KTipDialog>
 #include <KToggleAction>
 #include <KToolBar>
+#include <KNS3/Action>
 
 #include <QMenu>
 #include <QStatusBar>
@@ -140,16 +141,15 @@ void KStars::initActions()
     if (!QIcon::hasThemeIcon(QLatin1String("kstars_flag")))
         KSTheme::Manager::instance()->setIconTheme(KSTheme::Manager::BREEZE_DARK_THEME);
 
-    QAction *ka;
 
     // ==== File menu ================
-    ka = new QAction(QIcon::fromTheme("favorites"), i18n("Download New Data..."), this);
-    connect(ka, &QAction::triggered, this, &KStars::slotDownload);
-    ka->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
-    ka->setWhatsThis(i18n("Downloads new data"));
-    ka->setToolTip(ka->whatsThis());
-    ka->setStatusTip(ka->whatsThis());
-    actionCollection()->addAction(QStringLiteral("get_data"), ka);
+    KNS3::Action *knsa = new KNS3::Action(i18n("Download New Data..."), QStringLiteral(":/kconfig/kstars.knsrc"), this);
+    connect(knsa, &KNS3::Action::dialogFinished, this, &KStars::slotDownload);
+    knsa->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
+    knsa->setWhatsThis(i18n("Downloads new data"));
+    knsa->setToolTip(knsa->whatsThis());
+    knsa->setStatusTip(knsa->whatsThis());
+    actionCollection()->addAction(QStringLiteral("get_data"), knsa);
 
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
@@ -167,6 +167,8 @@ void KStars::initActions()
             << i18n("&Run Script...") << QIcon::fromTheme("system-run")
             << QKeySequence(Qt::CTRL + Qt::Key_R);
 #endif
+    QAction *ka;
+
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
             << i18nc("start Printing Wizard", "Printing &Wizard...");
     ka = actionCollection()->addAction(KStandardAction::Print, "print", this, SLOT(slotPrint()));
