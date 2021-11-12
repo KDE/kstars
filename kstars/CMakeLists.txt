@@ -8,6 +8,7 @@ endif ()
 
 if (NOT ANDROID)
     find_package(ZLIB REQUIRED)
+    include_directories(${ZLIB_INCLUDE_DIR})
     find_package(Threads REQUIRED)
 endif ()
 
