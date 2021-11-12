@@ -7,6 +7,8 @@
 #include "darkprocessor.h"
 #include "darklibrary.h"
 
+#include <array>
+
 #include "ekos_debug.h"
 
 namespace Ekos
