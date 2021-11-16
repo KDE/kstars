@@ -84,14 +84,14 @@ run under one INDI server, and hence one port. Select multiple drivers then pres
 
 <para>Most telescopes are equipped with <hardware>RS232</hardware> interface
 for remote control. Connect the RS232 jack in your telescope to your
-computer's <hardware>Serial/&USB;</hardware> port. Traditionally, the RS232
+computer's <hardware>Serial/USB</hardware> port. Traditionally, the RS232
 connects to the serial port of your computer, but since many new laptops
-abandoned the serial port in favor of <hardware>&USB;/FireWire</hardware>
-ports, you might need to obtain a Serial to &USB; adaptor to use with new
+abandoned the serial port in favor of <hardware>USB/FireWire</hardware>
+ports, you might need to obtain a Serial to USB adaptor to use with new
 laptops.
 </para>
 
-<para>After connecting your telescope to the Serial/&USB; port, turn your
+<para>After connecting your telescope to the Serial/USB port, turn your
 telescope on. It is <emphasis>highly</emphasis> recommended that you
 download and install the latest firmware for your telescope
 controller.
@@ -706,7 +706,7 @@ the sky map. This procedure is described in detail in the
 <question>
 <para>
 When I try to <guibutton>Connect</guibutton>, &kstars; reports that the
-telescope is not connected to the serial/&USB; port. What can I do?
+telescope is not connected to the serial/USB port. What can I do?
 </para>
 </question>
 <answer>
