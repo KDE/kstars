@@ -25,8 +25,6 @@
 #include <QStackedWidget>
 #include <QStandardPaths>
 
-#include <KAuthorized>
-
 namespace
 {
 bool hasPrefix(QString str, QString prefix)
@@ -89,12 +87,14 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     data       = new WizDataUI(wizardStack);
 #endif
     location                = new WizLocationUI(wizardStack);
+    WizDownloadUI *download = new WizDownloadUI(wizardStack);
 
     wizardStack->addWidget(welcome);
 #ifdef Q_OS_OSX
     wizardStack->addWidget(data);
 #endif
     wizardStack->addWidget(location);
+    wizardStack->addWidget(download);
     wizardStack->setCurrentWidget(welcome);
 
     //Load images into banner frames.
@@ -108,17 +108,11 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
         location->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() + "/wzgeo.png"))
         location->Banner->setPixmap(im);
-
-    if (KAuthorized::authorize(QStringLiteral("ghns"))) {
-        WizDownloadUI *download = new WizDownloadUI(wizardStack);
-        wizardStack->addWidget(download);
-        if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzdownload.png")))
-            download->Banner->setPixmap(im);
-        else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
-                         "/wzdownload.png"))
-            download->Banner->setPixmap(im);
-        download->DownloadButton->setConfigFile(QStringLiteral("kstars.knsrc"));
-    }
+    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzdownload.png")))
+        download->Banner->setPixmap(im);
+    else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
+                     "/wzdownload.png"))
+        download->Banner->setPixmap(im);
 
 #ifdef Q_OS_OSX
     if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzdownload.png")))
@@ -157,6 +151,7 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     connect(location->CityFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
     connect(location->ProvinceFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
     connect(location->CountryFilter, SIGNAL(textChanged(QString)), this, SLOT(slotFilterCities()));
+    connect(download->DownloadButton, SIGNAL(clicked()), this, SLOT(slotDownload()));
 
     //Initialize Geographic Location page
     if (KStars::Instance())
@@ -252,6 +247,12 @@ void KSWizard::slotFilterCities()
 
     if (location->CityListBox->count() > 0) // set first item in list as selected
         location->CityListBox->setCurrentItem(location->CityListBox->item(0));
+}
+
+void KSWizard::slotDownload()
+{
+    KNS3::DownloadDialog dlg;
+    dlg.exec();
 }
 
 void KSWizard::slotOpenOrCopyKStarsDataDirectory()
