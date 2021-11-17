@@ -1846,8 +1846,13 @@ JPLParser::JPLParser(const QString &path)
     }
 
     const auto &ast_json = QJsonDocument::fromJson(jpl_file.readAll());
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     const auto &fields   = ast_json["fields"].toArray();
     m_data               = ast_json["data"].toArray();
+#else
+    const auto &fields   = ast_json.object().value("fields").toArray();
+    m_data               = ast_json.object().value("data").toArray();
+#endif
 
     {
         int i = 0;
