@@ -962,7 +962,13 @@ class Capture : public QWidget, public Ui::Capture
         int seqCurrentCount { 0 };
         int seqDelay { 0 };
         int retries { 0 };
-        QTimer *seqTimer { nullptr };
+        // Timer for starting the next capture sequence with delay
+        // @see startNextExposure()
+        QTimer *seqDelayTimer { nullptr };
+        // Timer to start the entire capturing with the delay configured
+        // for the first capture job that is ready to be executed.
+        // @see start().
+        QTimer *captureDelayTimer { nullptr };
         QString seqPrefix;
         int nextSequenceID { 0 };
         int seqFileCount { 0 };

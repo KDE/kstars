@@ -70,11 +70,11 @@
  */
 #define KTRY_CAPTURE_CONFIGURE_LIGHT(exposure, count, delay, filter, destination) do { \
     KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN); \
-    captureExposureN->setValue((double)(exposure)); \
+    captureExposureN->setValue(static_cast<double>(exposure)); \
     KTRY_CAPTURE_GADGET(QSpinBox, captureCountN); \
-    captureCountN->setValue((int)(count)); \
+    captureCountN->setValue(static_cast<int>(count)); \
     KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN); \
-    captureDelayN->setValue((int)(delay)); \
+    captureDelayN->setValue(static_cast<int>(delay)); \
     KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
     KTRY_CAPTURE_COMBO_SET(captureTypeS, "Light"); \
     KTRY_CAPTURE_GADGET(QComboBox, captureFormatS); \

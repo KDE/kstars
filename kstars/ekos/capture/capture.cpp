@@ -85,8 +85,10 @@ Capture::Capture()
 
     seqFileCount = 0;
     //seqWatcher		= new KDirWatch();
-    seqTimer = new QTimer(this);
-    connect(seqTimer, &QTimer::timeout, this, &Ekos::Capture::captureImage);
+    seqDelayTimer = new QTimer(this);
+    connect(seqDelayTimer, &QTimer::timeout, this, &Ekos::Capture::captureImage);
+    captureDelayTimer = new QTimer(this);
+    connect(captureDelayTimer, &QTimer::timeout, this, &Ekos::Capture::start);
 
     connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
@@ -719,6 +721,7 @@ void Capture::stop(CaptureState targetState)
     //seqCurrentCount = 0;
 
     captureTimeout.stop();
+    captureDelayTimer->stop();
 
     ADURaw.clear();
     ExpRaw.clear();
@@ -838,7 +841,7 @@ void Capture::stop(CaptureState targetState)
     //foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
     //button->setEnabled(true);
 
-    seqTimer->stop();
+    seqDelayTimer->stop();
 
     activeJob = nullptr;
     // meridian flip may take place if requested
@@ -1598,7 +1601,7 @@ IPState Capture::startNextExposure()
         m_State = CAPTURE_WAITING;
         emit newStatus(Ekos::CAPTURE_WAITING);
     }
-    seqTimer->start(seqDelay);
+    seqDelayTimer->start(seqDelay);
 
     return IPS_OK;
 }
@@ -2296,7 +2299,8 @@ void Capture::captureImage()
     }
 
     captureTimeout.stop();
-    seqTimer->stop();
+    seqDelayTimer->stop();
+    captureDelayTimer->stop();
 
     SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
 
@@ -3662,20 +3666,31 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         {
             guideDeviationTimer.stop();
 
-            if (seqDelay == 0)
-                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-                                   "resuming exposure.",
-                                   deviationText, limitGuideDeviationN->value()));
-            else
-                appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-                                   "resuming exposure in %3 seconds.",
-                                   deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
+            // Start with delay if start hasn't been triggered before
+            if (! captureDelayTimer->isActive())
+            {
+                if (seqDelay == 0)
+                    appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                       "resuming exposure.",
+                                       deviationText, limitGuideDeviationN->value()));
+                else
+                    appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                       "resuming exposure in %3 seconds.",
+                                       deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
 
-            QTimer::singleShot(seqDelay, this, &Ekos::Capture::start);
+                captureDelayTimer->start(seqDelay);
+            }
             return;
         }
-        else appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
+        else
+        {
+            // stop the delayed capture start if necessary
+            if (captureDelayTimer->isActive())
+                captureDelayTimer->stop();
+
+            appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
                                     deviationText, limitGuideDeviationN->value()));
+        }
     }
 }
 

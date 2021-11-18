@@ -27,27 +27,16 @@ TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QObject *parent) : TestEkosMe
 
 TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QString guider, QObject *parent) : QObject(parent)
 {
-    m_Guider = guider;
-    m_CaptureHelper = new TestEkosCaptureHelper();
+    m_CaptureHelper = new TestEkosCaptureHelper(guider);
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
 }
 
 bool TestEkosMeridianFlipBase::startEkosProfile()
 {
+    // use the helper to start the profile
+    m_CaptureHelper->startEkosProfile();
+
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
-
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->setupTab, 1000));
-
-    if (m_Guider == "PHD2")
-    {
-        // setup the EKOS profile
-        KWRAP_SUB(QVERIFY(setupEkosProfile("Simulators (PHD2)", true)));
-    }
-    else
-        KWRAP_SUB(QVERIFY(setupEkosProfile("Simulators", false)));
-    // start the profile
-    KWRAP_SUB(KTRY_EKOS_CLICK(processINDIB));
-    // wait for the devices to come up
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
 
     // set mount defaults
     KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000));
@@ -84,7 +73,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     // switch to alignment module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->alignModule(), 1000));
     // set the CCD
-    KTRY_SET_COMBO_SUB(ekos->alignModule(), CCDCaptureCombo, m_CCDDevice);
+    KTRY_SET_COMBO_SUB(ekos->alignModule(), CCDCaptureCombo, m_CaptureHelper->m_CCDDevice);
     // select the Luminance filter
     KTRY_SET_COMBO_SUB(ekos->alignModule(), FilterPosCombo, "Luminance");
     // select local solver
@@ -105,18 +94,16 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     Options::setResetGuideCalibration(false);
     Options::setReuseGuideCalibration(true);
 
-    if (m_Guider == "PHD2")
+    if (m_CaptureHelper->m_Guider == "PHD2")
     {
         KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, externalConnectB);
         // ensure that PHD2 is connected
         if (externalConnectB->isEnabled())
         {
-            // as soon as PHD2 is connected, it reports the idle state
-            expectedGuidingStates.enqueue(Ekos::GUIDE_IDLE);
             // click "Connect"
             KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), externalConnectB);
             // wait max 60 sec that PHD2 is connected (sometimes INDI connections hang)
-            KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 60000);
+            KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->guideModule()->status() == Ekos::GUIDE_CONNECTED, 60000);
             qCInfo(KSTARS_EKOS_TEST) << "PHD2 connected successfully.";
         }
     }
@@ -129,136 +116,62 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
         // set the guide star box to size 64
         KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "64");
         // Set the guiding and ST4 device
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_GuiderDevice);
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_GuiderDevice);
+        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_GuiderDevice);
+        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_GuiderDevice);
         // select primary scope (higher focal length seems better for the guiding simulator)
         KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::CCD::TELESCOPE_PRIMARY);
     }
 
-    // connect to the alignment process to receive align status changes
-    connect(ekos->alignModule(), &Ekos::Align::newStatus, this, &TestEkosMeridianFlipBase::alignStatusChanged,
-            Qt::UniqueConnection);
-
-    // connect to the mount process to rmount status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
-            &TestEkosMeridianFlipBase::mountStatusChanged, Qt::UniqueConnection);
-
-    // connect to the mount process to receive meridian flip status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
-            &TestEkosMeridianFlipBase::meridianFlipStatusChanged, Qt::UniqueConnection);
-
-    // connect to the guiding process to receive guiding status changes
-    connect(ekos->guideModule(), &Ekos::Guide::newStatus, this, &TestEkosMeridianFlipBase::guidingStatusChanged,
-            Qt::UniqueConnection);
-
-    // connect to the capture process to receive capture status changes
-    connect(ekos->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosMeridianFlipBase::captureStatusChanged,
-            Qt::UniqueConnection);
-
-    // connect to the scheduler process to receive scheduler status changes
-    connect(ekos->schedulerModule(), &Ekos::Scheduler::newStatus, this, &TestEkosMeridianFlipBase::schedulerStatusChanged,
-            Qt::UniqueConnection);
-
-    // connect to the focus process to receive focus status changes
-    connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosMeridianFlipBase::focusStatusChanged,
-            Qt::UniqueConnection);
     // Everything completed successfully
     return true;
 }
 
 void TestEkosMeridianFlipBase::initTestCase()
 {
-    // ensure EKOS iis running
+    // ensure EKOS is running
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
-    if (m_Guider == "PHD2")
-    {
-        // Start a parallel PHD2 instance
-        preparePHD2();
-        startPHD2();
-    }
+    // Prepare PHD2 usage
+    if (m_CaptureHelper->m_Guider == "PHD2")
+        m_CaptureHelper->preparePHD2();
+
     // disable twilight warning
     KMessageBox::saveDontShowAgainYesNo("astronomical_twilight_warning", KMessageBox::ButtonCode::No);
 }
 
-bool TestEkosMeridianFlipBase::shutdownEkosProfile(QString guider)
+bool TestEkosMeridianFlipBase::shutdownEkosProfile()
 {
-    // disconnect to the focus process to receive focus status changes
-    disconnect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this,
-               &TestEkosMeridianFlipBase::focusStatusChanged);
-    // disconnect the guiding process to receive the current guiding status
-    disconnect(Ekos::Manager::Instance()->guideModule(), &Ekos::Guide::newStatus, this,
-               &TestEkosMeridianFlipBase::guidingStatusChanged);
-    // disconnect the mount process to receive mount status changes
-    disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
-               &TestEkosMeridianFlipBase::mountStatusChanged);
-    // disconnect the mount process to receive meridian flip status changes
-    disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
-               &TestEkosMeridianFlipBase::meridianFlipStatusChanged);
-    // disconnect to the scheduler process to receive scheduler status changes
-    disconnect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this,
-               &TestEkosMeridianFlipBase::schedulerStatusChanged);
-    // disconnect to the capture process to receive capture status changes
-    disconnect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::newStatus, this,
-               &TestEkosMeridianFlipBase::captureStatusChanged);
-    // disconnect to the alignment process to receive align status changes
-    disconnect(Ekos::Manager::Instance()->alignModule(), &Ekos::Align::newStatus, this,
-               &TestEkosMeridianFlipBase::alignStatusChanged);
-
     // cleanup the capture helper
     m_CaptureHelper->cleanup();
-
-    if (guider == "PHD2")
-    {
-        KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, externalDisconnectB);
-        // ensure that PHD2 is connected
-        if (externalDisconnectB->isEnabled())
-        {
-            // click "Disconnect"
-            KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), externalDisconnectB);
-            // Stop PHD2
-            stopPHD2();
-        }
-    }
-
-    qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ...";
-    KWRAP_SUB(KTRY_EKOS_STOP_SIMULATORS());
-    qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ... (done)";
-    // Everything completed successfully
-    return true;
+    // shutdown the profile
+    return m_CaptureHelper->shutdownEkosProfile();
 }
 
 void TestEkosMeridianFlipBase::cleanupTestCase()
 {
-    if (m_Guider == "PHD2")
-        cleanupPHD2();
+    if (m_CaptureHelper->m_Guider == "PHD2")
+        m_CaptureHelper->cleanupPHD2();
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
 
 void TestEkosMeridianFlipBase::init()
 {
-    // initialize the recorded states
-    m_AlignStatus   = Ekos::ALIGN_IDLE;
-    m_CaptureStatus = Ekos::CAPTURE_IDLE;
-    m_FocusStatus   = Ekos::FOCUS_IDLE;
-    m_GuideStatus   = Ekos::GUIDE_IDLE;
-    m_MFStatus      = Ekos::Mount::FLIP_NONE;
+    m_CaptureHelper->init();
 
     // disable by default
     refocus_checked   = false;
     autofocus_checked = false;
-    use_guiding       = false;
     use_aligning      = false;
     dithering_checked = false;
 
     // clear the queues
-    expectedAlignStates.clear();
-    expectedCaptureStates.clear();
-    expectedFocusStates.clear();
-    expectedGuidingStates.clear();
-    expectedMeridianFlipStates.clear();
+    m_CaptureHelper->expectedAlignStates.clear();
+    m_CaptureHelper->expectedCaptureStates.clear();
+    m_CaptureHelper->expectedFocusStates.clear();
+    m_CaptureHelper->expectedGuidingStates.clear();
+    m_CaptureHelper->expectedMeridianFlipStates.clear();
 
     // reset initial focuser position
     initialFocusPosition = -1;
@@ -294,8 +207,8 @@ void TestEkosMeridianFlipBase::init()
     QVERIFY(enableMeridianFlip(0.0));
 
     // expected beginning of the meridian flip
-    expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_PLANNED);
-    expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_RUNNING);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_PLANNED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_RUNNING);
 }
 
 void TestEkosMeridianFlipBase::cleanup()
@@ -305,18 +218,18 @@ void TestEkosMeridianFlipBase::cleanup()
     QVERIFY(stopFocusing());
     QVERIFY(stopAligning());
     QVERIFY(stopCapturing());
-    QVERIFY(stopGuiding());
+    QVERIFY(m_CaptureHelper->stopGuiding());
 
     // clean up capture module
     Ekos::Manager::Instance()->captureModule()->clearSequenceQueue();
     KTRY_GADGET(Ekos::Manager::Instance()->captureModule(), QTableWidget, queueTable);
     QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == 0, 2000);
 
-    // cleanup scheduler
+    // cleanup the scheduler
     m_CaptureHelper->cleanupScheduler();
 
     // shutdown profile and local INDI server
-    QVERIFY(shutdownEkosProfile(m_Guider));
+    QVERIFY(shutdownEkosProfile());
 }
 
 
@@ -368,7 +281,7 @@ void TestEkosMeridianFlipBase::prepareTestData(double exptime, QList<QString> lo
                                 if ((focus == false || autofocus == false) && (guide == true || dither == false))
                                     QTest::newRow(QString("%7: culm=%8, %1x%2, foc=%3, af=%4, di=%5, guider=%6").arg(count).arg(filter)
                                                   .arg(focus ? "yes" : "no").arg(autofocus ? "yes" : "no").arg(dither ? "yes" : "no")
-                                                  .arg(guide ? m_Guider : "none").arg(location).arg(culmination ? "up" : "low").toLocal8Bit())
+                                                  .arg(guide ? m_CaptureHelper->m_Guider : "none").arg(location).arg(culmination ? "up" : "low").toLocal8Bit())
                                             << location << culmination << count << exptime << filter << focus << autofocus << guide << dither;
                             }
 #endif
@@ -479,8 +392,8 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initial
         KWRAP_SUB(QVERIFY(positionMountForMF(600, true)));
         qCInfo(KSTARS_EKOS_TEST) << "Slewed roughly to the position to calibrate first.";
         // calibrate guiding
-        if (! startGuiding(2.0)) return false;
-        if (! stopGuiding()) return false;
+        if (! m_CaptureHelper->startGuiding(2.0)) return false;
+        if (! m_CaptureHelper->stopGuiding()) return false;
     }
 
     // focus upfront if necessary to have a reliable delay
@@ -580,8 +493,8 @@ bool TestEkosMeridianFlipBase::checkDithering()
         return true;
 
     // check if dithering took place
-    expectedGuidingStates.enqueue(Ekos::GUIDE_DITHERING_SUCCESS);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 60000);
+    m_CaptureHelper->expectedGuidingStates.enqueue(Ekos::GUIDE_DITHERING_SUCCESS);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedGuidingStates, 60000);
     // all checks succeeded
     return true;
 }
@@ -590,14 +503,14 @@ bool TestEkosMeridianFlipBase::checkDithering()
 bool TestEkosMeridianFlipBase::checkRefocusing()
 {
     // wait until additional steps are reached
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedFocusStates, 30000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 30000);
     // check if focus completion is reached (successful or not)
     if (refocus_checked || autofocus_checked)
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_COMPLETE || getFocusStatus() == Ekos::FOCUS_FAILED ||
-                                     getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
+                                     m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
     // focusing might have suspended guiding
-    if (use_guiding)
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_GUIDING, 20000);
+    if (m_CaptureHelper->use_guiding)
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_GUIDING, 20000);
     // all checks succeeded
     return true;
 }
@@ -618,7 +531,7 @@ bool TestEkosMeridianFlipBase::startAligning(double expTime)
     // ensure that the guiding button is enabled (after MF it may take a while)
     KTRY_VERIFY_WITH_TIMEOUT_SUB(solveB->isEnabled(), 10000);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->alignModule(), solveB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getAlignStatus() == Ekos::ALIGN_COMPLETE, 60000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE, 60000);
     // all checks succeeded
     return true;
 }
@@ -626,8 +539,8 @@ bool TestEkosMeridianFlipBase::startAligning(double expTime)
 bool TestEkosMeridianFlipBase::stopAligning()
 {
     // check whether alignment is already stopped
-    if (getAlignStatus() == Ekos::ALIGN_IDLE || getAlignStatus() == Ekos::ALIGN_ABORTED ||
-            getAlignStatus() == Ekos::ALIGN_FAILED || getAlignStatus() == Ekos::ALIGN_COMPLETE)
+    if (m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_IDLE || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_ABORTED ||
+            m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_FAILED || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE)
         return true;
 
     // switch to guiding module
@@ -636,8 +549,8 @@ bool TestEkosMeridianFlipBase::stopAligning()
     // stop alignment
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->alignModule(), QPushButton, stopB);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->alignModule(), stopB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getAlignStatus() == Ekos::ALIGN_IDLE || getAlignStatus() == Ekos::ALIGN_ABORTED ||
-                                 getAlignStatus() == Ekos::ALIGN_FAILED || getAlignStatus() == Ekos::ALIGN_COMPLETE, 5000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_IDLE || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_ABORTED ||
+                                 m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_FAILED || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE, 5000);
     // all checks succeeded
     return true;
 }
@@ -663,16 +576,16 @@ bool TestEkosMeridianFlipBase::startCapturing()
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
 
     // check if capture is in a stopped state
-    KWRAP_SUB(QVERIFY(getCaptureStatus() == Ekos::CAPTURE_IDLE || getCaptureStatus() == Ekos::CAPTURE_ABORTED
-                      || getCaptureStatus() == Ekos::CAPTURE_SUSPENDED|| getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
+    KWRAP_SUB(QVERIFY(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED
+                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_SUSPENDED|| m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
 
     // press start
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->captureModule(), QPushButton, startB);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->captureModule(), startB);
 
     // check if capturing has started
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 5000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 5000);
 #endif
     // all checks succeeded
     return true;
@@ -681,20 +594,20 @@ bool TestEkosMeridianFlipBase::startCapturing()
 bool TestEkosMeridianFlipBase::stopCapturing()
 {
     // check if capture is in a stopped state
-    if (getCaptureStatus() == Ekos::CAPTURE_IDLE || getCaptureStatus() == Ekos::CAPTURE_ABORTED ||
-            getCaptureStatus() == Ekos::CAPTURE_COMPLETE)
+    if (m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED ||
+            m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE)
         return true;
 
     // switch to the capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
 
     // else press stop
-    expectedCaptureStates.enqueue(Ekos::CAPTURE_ABORTED);
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_ABORTED);
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->captureModule(), QPushButton, startB);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->captureModule(), startB);
 
     // check if capturing has stopped
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 5000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 5000);
     // all checks succeeded
     return true;
 }
@@ -703,23 +616,23 @@ bool TestEkosMeridianFlipBase::startScheduler()
 {
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     // set expected states
-    expectedMountStates.append(ISD::Telescope::MOUNT_SLEWING);
-    expectedMountStates.append(ISD::Telescope::MOUNT_TRACKING);
-    if (use_guiding == true)
-        expectedGuidingStates.append(Ekos::GUIDE_GUIDING);
-    expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    m_CaptureHelper->expectedMountStates.append(ISD::Telescope::MOUNT_SLEWING);
+    m_CaptureHelper->expectedMountStates.append(ISD::Telescope::MOUNT_TRACKING);
+    if (m_CaptureHelper->use_guiding == true)
+        m_CaptureHelper->expectedGuidingStates.append(Ekos::GUIDE_GUIDING);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
 
     // switch to the scheduler module and start
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
-    KVERIFY_SUB(m_SchedulerStatus == Ekos::SCHEDULER_IDLE || m_SchedulerStatus == Ekos::SCHEDULER_ABORTED);
+    KVERIFY_SUB(m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_IDLE || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_ABORTED);
     KTRY_CLICK_SUB(scheduler, startB);
 
     // check mount slew and tracking
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedMountStates, 30000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedMountStates, 30000);
     // check guiding
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 30000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedGuidingStates, 30000);
     // check capturing
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 30000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 30000);
 
     // all checks succeeded
     return true;
@@ -730,7 +643,7 @@ bool TestEkosMeridianFlipBase::stopScheduler()
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     // switch to the capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
-    if (m_SchedulerStatus == Ekos::SCHEDULER_RUNNING || m_SchedulerStatus == Ekos::SCHEDULER_PAUSED)
+    if (m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_RUNNING || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_PAUSED)
         KTRY_CLICK_SUB(scheduler, startB);
     // all checks succeeded
     return true;
@@ -739,8 +652,8 @@ bool TestEkosMeridianFlipBase::stopScheduler()
 bool TestEkosMeridianFlipBase::startFocusing()
 {
     // check whether focusing is already running
-    if (! (getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE
-            || getFocusStatus() == Ekos::FOCUS_ABORTED))
+    if (! (m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
+            || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED))
         return true;
 
     // switch to focus module
@@ -765,10 +678,10 @@ bool TestEkosMeridianFlipBase::startFocusing()
     // wait one second for settling
     QTest::qWait(3000);
     // start focusing
-    expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
+    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startFocusB);
     // wait for successful completion
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedFocusStates, 180000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 180000);
     qCInfo(KSTARS_EKOS_TEST) << "Focusing finished.";
     // all checks succeeded
     return true;
@@ -777,8 +690,8 @@ bool TestEkosMeridianFlipBase::startFocusing()
 bool TestEkosMeridianFlipBase::stopFocusing()
 {
     // check whether focusing is already stopped
-    if (getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE
-            || getFocusStatus() == Ekos::FOCUS_ABORTED)
+    if (m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
+            || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED)
         return true;
 
     // switch to focus module
@@ -787,58 +700,9 @@ bool TestEkosMeridianFlipBase::stopFocusing()
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QPushButton, stopFocusB);
     if (stopFocusB->isEnabled())
         KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), stopFocusB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE ||
-                                 getFocusStatus() == Ekos::FOCUS_ABORTED || getFocusStatus() == Ekos::FOCUS_FAILED, 15000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE ||
+                                 m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED, 15000);
 
-    // all checks succeeded
-    return true;
-}
-
-bool TestEkosMeridianFlipBase::startGuiding(double expTime)
-{
-    if (getGuidingStatus() == Ekos::GUIDE_GUIDING)
-    {
-        QWARN("Start guiding ignored, guiding already running!");
-        return false;
-    }
-
-    // switch to guiding module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
-    //set the exposure time
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->guideModule(), exposureIN, expTime);
-
-    // start guiding
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, guideB);
-    // ensure that the guiding button is enabled (after MF it may take a while)
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(guideB->isEnabled(), 10000);
-    expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), guideB);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 120000);
-    qCInfo(KSTARS_EKOS_TEST) << "Guiding started.";
-    qCInfo(KSTARS_EKOS_TEST) << "Waiting 2sec for settle guiding ...";
-    QTest::qWait(2000);
-    // all checks succeeded, remember that guiding is running
-    use_guiding = true;
-
-    return true;
-}
-
-bool TestEkosMeridianFlipBase::stopGuiding()
-{
-    // check whether guiding is not running or already stopped
-    if (use_guiding == false || getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED)
-        return true;
-
-    // switch to guiding module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
-
-    // stop guiding
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, stopB);
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), stopB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED, 15000);
-    qCInfo(KSTARS_EKOS_TEST) << "Guiding stopped.";
-    qCInfo(KSTARS_EKOS_TEST) << "Waiting 2sec for settle guiding stop..."; // Avoid overlapping with focus pausing
-    QTest::qWait(2000);
     // all checks succeeded
     return true;
 }
@@ -858,13 +722,13 @@ bool TestEkosMeridianFlipBase::enableMeridianFlip(double delay)
 bool TestEkosMeridianFlipBase::checkMFExecuted(int startDelay)
 {
     // check if the meridian flip starts running
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedMeridianFlipStates, startDelay * 1000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedMeridianFlipStates, startDelay * 1000);
     // if dithering test required, set the dithering frequency to 1
     if (dithering_checked)
         Options::setDitherFrames(1);
     // check if the meridian flip is completed latest after one minute
-    expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_COMPLETED);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedMeridianFlipStates, 60000);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_COMPLETED);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedMeridianFlipStates, 60000);
     // all checks succeeded
     return true;
 }
@@ -874,15 +738,15 @@ bool TestEkosMeridianFlipBase::checkPostMFBehavior()
     // check if alignment succeeded
     if (use_aligning)
     {
-        expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
-        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedAlignStates, 120000);
+        m_CaptureHelper->expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedAlignStates, 120000);
     }
 
     // check if guiding is running
-    if (use_guiding)
+    if (m_CaptureHelper->use_guiding)
     {
-        expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
-        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 30000);
+        m_CaptureHelper->expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedGuidingStates, 30000);
     }
 
     // check refocusing, that should happen immediately after the guiding calibration
@@ -893,11 +757,11 @@ bool TestEkosMeridianFlipBase::checkPostMFBehavior()
     // otherwise it is sufficient to wait for start of capturing
     if (dithering_checked)
     {
-        expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
-        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedCaptureStates, 60000);
+        m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 60000);
     }
     else
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 60000);
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 60000);
 
     // After the first capture dithering should take place
     KWRAP_SUB(QVERIFY(checkDithering()));
@@ -925,276 +789,6 @@ int TestEkosMeridianFlipBase::secondsToMF()
 
     // unknown time
     return -1;
-}
-
-void TestEkosMeridianFlipBase::fillProfile(bool *isDone)
-{
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: starting...";
-    ProfileEditor* profileEditor = Ekos::Manager::Instance()->findChild<ProfileEditor*>("profileEditorDialog");
-
-    // Select the mount device
-    KTRY_PROFILEEDITOR_GADGET(QComboBox, mountCombo);
-    setTreeviewCombo(mountCombo, m_MountDevice);
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Mount selected.";
-
-    // Selet the CCD device
-    KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
-    setTreeviewCombo(ccdCombo, m_CCDDevice);
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: CCD selected.";
-
-    // Select the focuser device
-    KTRY_PROFILEEDITOR_GADGET(QComboBox, focuserCombo);
-    setTreeviewCombo(focuserCombo, m_FocuserDevice);
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Focuser selected.";
-
-    // Select the guider device
-    KTRY_PROFILEEDITOR_GADGET(QComboBox, guiderCombo);
-    setTreeviewCombo(guiderCombo, m_GuiderDevice);
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Guider selected.";
-
-    // wait a short time to make the setup visible
-    QTest::qWait(1000);
-    // Save the profile using the "Save" button
-    QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
-    QVERIFY(nullptr != buttons);
-    QTest::mouseClick(buttons->button(QDialogButtonBox::Save), Qt::LeftButton);
-
-    qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Selections saved.";
-
-    *isDone = true;
-}
-
-void TestEkosMeridianFlipBase::createEkosProfile(QString name, bool isPHD2, bool *isDone)
-{
-    ProfileEditor* profileEditor = Ekos::Manager::Instance()->findChild<ProfileEditor*>("profileEditorDialog");
-
-    // Set the profile name
-    KTRY_SET_LINEEDIT(profileEditor, profileIN, name);
-    // select the guider type
-    KTRY_SET_COMBO(profileEditor, guideTypeCombo, isPHD2 ? "PHD2" : "Internal");
-    if (isPHD2)
-    {
-        // Write PHD2 server specs
-        KTRY_SET_LINEEDIT(profileEditor, externalGuideHost, "localhost");
-        KTRY_SET_LINEEDIT(profileEditor, externalGuidePort, "4400");
-    }
-
-    qCInfo(KSTARS_EKOS_TEST) << "Ekos profile " << name << " created.";
-    // and now continue with filling the profile
-    fillProfile(isDone);
-}
-
-bool TestEkosMeridianFlipBase::setupEkosProfile(QString name, bool isPHD2)
-{
-    qCInfo(KSTARS_EKOS_TEST) << "Setting up Ekos profile...";
-    bool isDone = false;
-    Ekos::Manager * const ekos = Ekos::Manager::Instance();
-    // check if the profile with the given name exists
-    KTRY_GADGET_SUB(ekos, QComboBox, profileCombo);
-    if (profileCombo->findText(name) >= 0)
-    {
-        KTRY_GADGET_SUB(ekos, QPushButton, editProfileB);
-
-        // edit Simulators profile
-        KWRAP_SUB(KTRY_EKOS_SELECT_PROFILE(name));
-
-        // edit only editable profiles
-        if (editProfileB->isEnabled())
-        {
-            // start with a delay of 1 sec a new thread that edits the profile
-            QTimer::singleShot(1000, ekos, [&] {fillProfile(&isDone);});
-            KTRY_CLICK_SUB(ekos, editProfileB);
-        }
-        else
-        {
-            qCInfo(KSTARS_EKOS_TEST) << "Profile " << name << " not editable, setup finished.";
-            isDone = true;
-            return true;
-        }
-    }
-    else
-    {
-        // start with a delay of 1 sec a new thread that edits the profile
-        qCInfo(KSTARS_EKOS_TEST) << "Creating new profile " << name << " ...";
-        QTimer::singleShot(1000, ekos, [&] {createEkosProfile(name, isPHD2, &isDone);});
-        // create new profile addProfileB
-        KTRY_CLICK_SUB(ekos, addProfileB);
-    }
-
-
-    // Cancel the profile editor if test did not close the editor dialog within 10 sec
-    QTimer * closeDialog = new QTimer(this);
-    closeDialog->setSingleShot(true);
-    closeDialog->setInterval(10000);
-    ekos->connect(closeDialog, &QTimer::timeout, [&]
-    {
-        ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
-        if (profileEditor != nullptr)
-        {
-            profileEditor->reject();
-            qWarning(KSTARS_EKOS_TEST) << "Editing profile aborted.";
-        }
-    });
-
-
-    // Click handler returned, stop the timer closing the dialog on failure
-    closeDialog->stop();
-    delete closeDialog;
-
-    // Verification of the first test step
-    return isDone;
-
-}
-
-
-void TestEkosMeridianFlipBase::setTreeviewCombo(QComboBox *combo, QString lookup)
-{
-    // Match the text recursively in the model, this results in a model index with a parent
-    QModelIndexList const list = combo->model()->match(combo->model()->index(0, 0), Qt::DisplayRole,
-                                 QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
-    QVERIFY(0 < list.count());
-    QModelIndex const &index = list.first();
-    QCOMPARE(list.value(0).data().toString(), lookup);
-    QVERIFY(!index.parent().parent().isValid());
-    // Now set the combobox model root to the match's parent
-    combo->setRootModelIndex(index.parent());
-    combo->setModelColumn(index.column());
-    combo->setCurrentIndex(index.row());
-
-    // Now reset
-    combo->setRootModelIndex(QModelIndex());
-    combo->view()->setCurrentIndex(index);
-
-    // Check, if everything went well
-    QCOMPARE(combo->currentText(), lookup);
-}
-
-void TestEkosMeridianFlipBase::preparePHD2()
-{
-    QString const phd2_config = ".PHDGuidingV2";
-    QString const phd2_config_bak = ".PHDGuidingV2.bak";
-    QString const phd2_config_orig = ".PHDGuidingV2_mf";
-    QStandardPaths::enableTestMode(false);
-    QFileInfo phd2_config_home(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config);
-    QFileInfo phd2_config_home_bak(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config_bak);
-    QStandardPaths::enableTestMode(true);
-    QWARN(QString("Writing PHD configuration file to '%1'").arg(phd2_config_home.filePath()).toStdString().c_str());
-    if (phd2_config_home.exists())
-    {
-        // remove existing backup file
-        if (phd2_config_home_bak.exists())
-            QVERIFY(QFile::remove(phd2_config_home_bak.filePath()));
-        // rename existing file to backup file
-        QVERIFY(QFile::rename(phd2_config_home.filePath(), phd2_config_home_bak.filePath()));
-    }
-    QVERIFY(QFile::copy(phd2_config_orig, phd2_config_home.filePath()));
-}
-
-void TestEkosMeridianFlipBase::startPHD2()
-{
-    phd2 = new QProcess(this);
-
-    // Start PHD2 with the proper configuration
-    phd2->start(QString("phd2"));
-    QVERIFY(phd2->waitForStarted(3000));
-    QTest::qWait(2000);
-    QTRY_VERIFY_WITH_TIMEOUT(phd2->state() == QProcess::Running, 1000);
-
-    // Try to connect to the PHD2 server
-    QTcpSocket phd2_server(this);
-    phd2_server.connectToHost(phd2_guider_host, phd2_guider_port.toUInt(), QIODevice::ReadOnly, QAbstractSocket::IPv4Protocol);
-    if(!phd2_server.waitForConnected(5000))
-    {
-        QWARN(QString("Cannot continue, PHD2 server is unavailable (%1)").arg(phd2_server.errorString()).toStdString().c_str());
-        return;
-    }
-    phd2_server.disconnectFromHost();
-    if (phd2_server.state() == QTcpSocket::ConnectedState)
-        QVERIFY(phd2_server.waitForDisconnected(1000));
-}
-
-void TestEkosMeridianFlipBase::cleanupPHD2()
-{
-    QString const phd2_config = ".PHDGuidingV2";
-    QString const phd2_config_bak = ".PHDGuidingV2.bak";
-    QStandardPaths::enableTestMode(false);
-    QFileInfo phd2_config_home(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config);
-    QFileInfo phd2_config_home_bak(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config_bak);
-    // remove PHD2 test config
-    if (phd2_config_home.exists())
-        QVERIFY(QFile::remove(phd2_config_home.filePath()));
-    // restore the backup
-    if (phd2_config_home_bak.exists())
-        QVERIFY(QFile::rename(phd2_config_home_bak.filePath(), phd2_config_home.filePath()));
-}
-
-void TestEkosMeridianFlipBase::stopPHD2()
-{
-    phd2->terminate();
-    QVERIFY(phd2->waitForFinished(5000));
-}
-
-
-/* *********************************************************************************
- *
- * Slots for catching state changes
- *
- * ********************************************************************************* */
-
-void TestEkosMeridianFlipBase::alignStatusChanged(Ekos::AlignState status)
-{
-    m_AlignStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedAlignStates.isEmpty() && expectedAlignStates.head() == status)
-        expectedAlignStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::mountStatusChanged(ISD::Telescope::Status status)
-{
-    m_MountStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedMountStates.isEmpty() && expectedMountStates.head() == status)
-        expectedMountStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::meridianFlipStatusChanged(Ekos::Mount::MeridianFlipStatus status)
-{
-    m_MFStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedMeridianFlipStates.isEmpty() && expectedMeridianFlipStates.head() == status)
-        expectedMeridianFlipStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::focusStatusChanged(Ekos::FocusState status)
-{
-    m_FocusStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedFocusStates.isEmpty() && expectedFocusStates.head() == status)
-        expectedFocusStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::guidingStatusChanged(Ekos::GuideState status)
-{
-    m_GuideStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedGuidingStates.isEmpty() && expectedGuidingStates.head() == status)
-        expectedGuidingStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::captureStatusChanged(Ekos::CaptureState status)
-{
-    m_CaptureStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedCaptureStates.isEmpty() && expectedCaptureStates.head() == status)
-        expectedCaptureStates.dequeue();
-}
-
-void TestEkosMeridianFlipBase::schedulerStatusChanged(Ekos::SchedulerState status)
-{
-    m_SchedulerStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedSchedulerStates.isEmpty() && expectedSchedulerStates.head() == status)
-        expectedSchedulerStates.dequeue();
 }
 
 #endif // HAVE_INDI

@@ -1,4 +1,4 @@
-﻿/*
+/*
     Helper class of KStars UI tests
 
     SPDX-FileCopyrightText: 2021 Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
@@ -329,16 +329,40 @@ class TestEkosHelper : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestEkosHelper();
+    explicit TestEkosHelper(QString guider = nullptr);
 
     // Mount device
-    QString m_MountDevice;
+    QString m_MountDevice = nullptr;
     // CCD device
-    QString m_CCDDevice;
+    QString m_CCDDevice = nullptr;
     // Guiding device
-    QString m_GuiderDevice;
+    QString m_GuiderDevice = nullptr;
     // Focusing device
-    QString m_FocuserDevice;
+    QString m_FocuserDevice = nullptr;
+    // Guider (PHD2 or Internal)
+    QString m_Guider = "Internal";
+
+    // PHD2 setup (host and port)
+    QProcess *phd2 { nullptr };
+    QString const phd2_guider_host = "localhost";
+    QString const phd2_guider_port = "4400";
+
+    // guiding used?
+    bool use_guiding = false;
+
+    // sequence of alignment states that are expected
+    QQueue<Ekos::AlignState> expectedAlignStates;
+    // sequence of capture states that are expected
+    QQueue<Ekos::CaptureState> expectedCaptureStates;
+    // sequence of focus states that are expected
+    QQueue<Ekos::FocusState> expectedFocusStates;
+    // sequence of guiding states that are expected
+    QQueue<Ekos::GuideState> expectedGuidingStates;
+    QQueue<ISD::Telescope::Status> expectedMountStates;
+    // sequence of meridian flip states that are expected
+    QQueue<Ekos::Mount::MeridianFlipStatus> expectedMeridianFlipStates;
+    // sequence of scheduler states that are expected
+    QQueue<Ekos::SchedulerState> expectedSchedulerStates;
 
     /**
      * @brief Initialization ahead of executing the test cases.
@@ -381,11 +405,43 @@ public:
      */
     bool shutdownEkosProfile();
 
+
+    /**
+     * @brief Helper function starting PHD2
+     */
+    void startPHD2();
+
+    /**
+     * @brief Helper function stopping PHD2
+     */
+    void stopPHD2();
+
+    /**
+     * @brief Helper function for preparing the PHD2 test configuration
+     */
+    void preparePHD2();
+
+    /**
+     * @brief Helper function for cleaning up PHD2 test configuration
+     */
+    void cleanupPHD2();
+
     /**
      * @brief Slew to a given position
      * @param fast set to true if slewing should be fast using sync first close to the position
      */
     bool slewTo(double RA, double DEC, bool fast);
+
+    /**
+     * @brief Helper function for start of guiding
+     * @param guiding exposure time
+     */
+    bool startGuiding(double expTime);
+
+    /**
+     * @brief Helper function to stop guiding
+     */
+    bool stopGuiding();
 
     /**
      * @brief Start alignment process
@@ -414,5 +470,94 @@ public:
      * @param lines file content
      */
     bool writeFile(const QString &filename, const QStringList &lines, QFileDevice::Permissions permissions = QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+    /**
+     * @brief Retrieve the current alignment status.
+     */
+    inline Ekos::AlignState getAlignStatus() {return m_AlignStatus;}
+    /**
+     * @brief Retrieve the current capture status.
+     */
+    inline Ekos::CaptureState getCaptureStatus() {return m_CaptureStatus;}
+    /**
+     * @brief Retrieve the current focus status.
+     */
+    inline Ekos::FocusState getFocusStatus() {return m_FocusStatus;}
+    /**
+     * @brief Retrieve the current guiding status.
+     */
+    Ekos::GuideState getGuidingStatus() { return m_GuideStatus;}
+    /**
+     * @brief Retrieve the current mount meridian flip status.
+     */
+    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;}
+    /**
+     * @brief Retrieve the current scheduler status.
+     */
+    Ekos::SchedulerState getSchedulerStatus() {return m_SchedulerStatus;}
+
+private:
+    // current mount status
+    ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
+
+    // current mount meridian flip status
+    Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
+
+    // current alignment status
+    Ekos::AlignState m_AlignStatus { Ekos::ALIGN_IDLE };
+
+    // current capture status
+    Ekos::CaptureState m_CaptureStatus { Ekos::CAPTURE_IDLE };
+
+    // current focus status
+    Ekos::FocusState m_FocusStatus { Ekos::FOCUS_IDLE };
+
+    // current guiding status
+    Ekos::GuideState m_GuideStatus { Ekos::GUIDE_IDLE };
+
+    // current scheduler status
+    Ekos::SchedulerState m_SchedulerStatus { Ekos::SCHEDULER_IDLE };
+
+    /**
+     * @brief Slot to track the align status of the mount
+     * @param status new align state
+     */
+    void alignStatusChanged(Ekos::AlignState status);
+
+    /**
+     * @brief Slot to track the mount status
+     * @param status new mount status
+     */
+    void mountStatusChanged(ISD::Telescope::Status status);
+
+    /**
+     * @brief Slot to track the meridian flip stage of the mount
+     * @param status new meridian flip state
+     */
+    void meridianFlipStatusChanged(Ekos::Mount::MeridianFlipStatus status);
+
+    /**
+     * @brief Slot to track the focus status
+     * @param status new focus status
+     */
+    void focusStatusChanged(Ekos::FocusState status);
+
+    /**
+     * @brief Slot to track the guiding status
+     * @param status new guiding status
+     */
+    void guidingStatusChanged(Ekos::GuideState status);
+
+    /**
+     * @brief Slot to track the capture status
+     * @param status new capture status
+     */
+    void captureStatusChanged(Ekos::CaptureState status);
+
+    /**
+     * @brief Slot to track the scheduler status
+     * @param status new scheduler status
+     */
+    void schedulerStatusChanged(Ekos::SchedulerState status);
 
 };

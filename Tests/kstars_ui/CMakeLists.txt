@@ -92,6 +92,10 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_meridianflip POST_BUILD
 
 ADD_EXECUTABLE(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_meridianflip_base.cpp test_ekos_meridianflip_specials.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_meridianflip_specials ${KSTARS_UI_EKOS_LIBS})
+ADD_CUSTOM_COMMAND( TARGET test_ekos_meridianflip_specials POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/phd2_Simulators_mf.PHDGuidingV2
+            ${CMAKE_CURRENT_BINARY_DIR}/.PHDGuidingV2_mf)
 # excluded to avoid CI timelimit failure
 # ADD_TEST(NAME TestEkosMeridianFlipSpecials COMMAND test_ekos_meridianflip_specials)
 # SET_TESTS_PROPERTIES( TestEkosMeridianFlipSpecials PROPERTIES LABELS "unstable;ui" TIMEOUT 600 )

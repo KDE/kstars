@@ -11,10 +11,7 @@
 #include "test_ekos.h"
 #include "ekos/capture/scriptsmanager.h"
 
-TestEkosCaptureHelper::TestEkosCaptureHelper() : TestEkosHelper() {
-    m_GuiderDevice  = "Guide Simulator";
-    m_FocuserDevice = "Focuser Simulator";
-}
+TestEkosCaptureHelper::TestEkosCaptureHelper(QString guider) : TestEkosHelper(guider) {}
 
 void TestEkosCaptureHelper::init()
 {

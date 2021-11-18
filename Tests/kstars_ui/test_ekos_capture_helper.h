@@ -1,4 +1,4 @@
-﻿/*
+/*
     Helper class of KStars UI capture tests
 
     SPDX-FileCopyrightText: 2020 Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
@@ -25,7 +25,7 @@ class TestEkosCaptureHelper : public TestEkosHelper
 
 public:
 
-    explicit TestEkosCaptureHelper();
+    explicit TestEkosCaptureHelper(QString guider = nullptr);
 
     /**
      * @brief Initialization ahead of executing the test cases.

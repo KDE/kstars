@@ -1,4 +1,4 @@
-﻿/*
+/*
     KStars UI tests for alignment
 
     SPDX-FileCopyrightText: 2021 Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
@@ -21,17 +21,9 @@ class TestEkosCaptureWorkflow : public QObject
     Q_OBJECT
 public:
     explicit TestEkosCaptureWorkflow(QObject *parent = nullptr);
+    explicit TestEkosCaptureWorkflow(QString guider, QObject *parent = nullptr);
 
 protected:
-    // sequence of alignment states that are expected
-    QQueue<Ekos::AlignState> expectedAlignStates;
-    // sequence of telescope states that are expected
-    QQueue<ISD::Telescope::Status> expectedTelescopeStates;
-    // sequence of capture states that are expected
-    QQueue<Ekos::CaptureState> expectedCaptureStates;
-    // sequence of focus states that are expected
-    QQueue<Ekos::FocusState> expectedFocusStates;
-
     // destination where images will be located
     QTemporaryDir *destination;
     QDir *imageLocation = nullptr;
@@ -50,42 +42,6 @@ private:
     TestEkosCaptureHelper *m_CaptureHelper = nullptr;
 
     QString target = "test";
-
-    // CCD device
-    QString m_CCDDevice = "CCD Simulator";
-
-    // current scope status
-    ISD::Telescope::Status m_TelescopeStatus { ISD::Telescope::MOUNT_IDLE };
-
-    // current capture status
-    Ekos::CaptureState m_CaptureStatus { Ekos::CAPTURE_IDLE };
-
-    // current focus status
-    Ekos::FocusState m_FocusStatus { Ekos::FOCUS_IDLE };
-
-    /**
-     * @brief Slot to track the mount status
-     * @param status new mount state
-     */
-    void telescopeStatusChanged(ISD::Telescope::Status status);
-
-    /**
-     * @brief Slot to track the capture status
-     * @param status new capture status
-     */
-    void captureStatusChanged(Ekos::CaptureState status);
-
-    /**
-     * @brief Slot to track the focus status
-     * @param status new focus status
-     */
-    void focusStatusChanged(Ekos::FocusState status);
-
-    /**
-     * @brief slot to track captured images from the align process
-     * @param view
-     */
-    void imageReceived(FITSView *view);
 
     /**
      * @brief Setup capturing
@@ -127,6 +83,12 @@ private slots:
 
     /** @brief Test whether a pre-capture script is executed before a capture is executed */
     void testPreCaptureScriptExecution();
+
+    /**
+     * @brief Test if after capture continues where it had been suspended by a
+     * guiding deviation as soon as guiding is back below the deviation threshold
+     */
+    void testGuidingDeviationSuspendingCapture();
 };
 
 #endif // HAVE_INDI
