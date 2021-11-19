@@ -86,14 +86,14 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_RA)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
     graph(GuideGraph::G_RA)->setName("RA");
-    graph(GuideGraph::G_RA)->setLineStyle(QCPGraph::lsStepLeft);
+    graph(GuideGraph::G_RA)->setLineStyle(QCPGraph::lsLine);
 
     // DE Curve
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
     graph(GuideGraph::G_DEC)->setName("DE");
-    graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsStepLeft);
-
+    graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsLine);
+    
     // RA highlighted Point
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
@@ -130,25 +130,25 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     addGraph(xAxis, snrAxis);
     graph(GuideGraph::G_SNR)->setPen(QPen(Qt::yellow));
     graph(GuideGraph::G_SNR)->setName("SNR");
-    graph(GuideGraph::G_SNR)->setLineStyle(QCPGraph::lsStepLeft);
+    graph(GuideGraph::G_SNR)->setLineStyle(QCPGraph::lsLine);
 
     // RA RMS
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_RA_RMS)->setPen(QPen(Qt::red));
     graph(GuideGraph::G_RA_RMS)->setName("RA RMS");
-    graph(GuideGraph::G_RA_RMS)->setLineStyle(QCPGraph::lsStepLeft);
+    graph(GuideGraph::G_RA_RMS)->setLineStyle(QCPGraph::lsLine);
 
     // DEC RMS
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_DEC_RMS)->setPen(QPen(Qt::red));
     graph(GuideGraph::G_DEC_RMS)->setName("DEC RMS");
-    graph(GuideGraph::G_DEC_RMS)->setLineStyle(QCPGraph::lsStepLeft);
+    graph(GuideGraph::G_DEC_RMS)->setLineStyle(QCPGraph::lsLine);
 
     // Total RMS
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_RMS)->setPen(QPen(Qt::red));
     graph(GuideGraph::G_RMS)->setName("RMS");
-    graph(GuideGraph::G_RMS)->setLineStyle(QCPGraph::lsStepLeft);
+    graph(GuideGraph::G_RMS)->setLineStyle(QCPGraph::lsLine);
 
     //This will prevent the highlighted points and Pulses from showing up in the legend.
     legend->removeItem(GuideGraph::G_DEC_RMS);
