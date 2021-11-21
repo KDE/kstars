@@ -37,7 +37,9 @@
 #include <QImageReader>
 #include <QGestureEvent>
 
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 #define BASE_OFFSET    50
 #define ZOOM_DEFAULT   100.0f
