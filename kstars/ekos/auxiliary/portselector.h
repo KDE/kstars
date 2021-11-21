@@ -42,7 +42,7 @@ class Device : public QObject
 
         const QString name() const
         {
-            return m_Device->getDeviceName();
+            return m_Name;
         }
 
         uint8_t systemPortCount() const;
@@ -86,6 +86,7 @@ class Device : public QObject
         ConnectionMode m_ConnectionMode { CONNECTION_NONE };
 
 
+        QString m_Name;
         ISD::GDInterface *m_Device {nullptr};
         QGridLayout *m_Grid{nullptr};
         uint8_t m_Row {0};
@@ -102,6 +103,7 @@ class Dialog : public QDialog
 
         // Initialize device
         void addDevice(ISD::GDInterface * devices);
+        void removeDevice(const QString &name);
 
         bool shouldShow() const;
 

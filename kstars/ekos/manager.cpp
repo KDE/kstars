@@ -1698,6 +1698,8 @@ void Manager::removeDevice(ISD::GDInterface * devInterface)
     {
         dustCapProcess->removeDevice(devInterface);
     }
+    if (m_PortSelector)
+        m_PortSelector->removeDevice(devInterface->getDeviceName());
 
     if (devInterface->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
         DarkLibrary::Instance()->removeCamera(devInterface);

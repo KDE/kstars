@@ -33,6 +33,8 @@ Device::Device(ISD::GDInterface *device, QGridLayout *grid, uint8_t row) :  m_De
     ColorCode[IPS_BUSY] = Qt::yellow;
     ColorCode[IPS_ALERT] = Qt::red;
 
+    m_Name = device->getDeviceName();
+
     connect(m_Device, &ISD::GDInterface::switchUpdated, this, &Device::processSwitch);
     connect(m_Device, &ISD::GDInterface::textUpdated, this, &Device::processText);
     connect(m_Device, &ISD::GDInterface::Connected, this, &Device::setConnected);
@@ -58,7 +60,7 @@ bool Device::initGUI()
     m_Grid->addWidget(m_LED, m_Row, 0, Qt::AlignVCenter);
 
     m_Label = new QLabel;
-    m_Label->setText(m_Device->getDeviceName());
+    m_Label->setText(m_Name);
     m_Label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored);
     m_Grid->addWidget(m_Label, m_Row, 1, Qt::AlignLeft);
 
@@ -417,6 +419,17 @@ void Dialog::addDevice(ISD::GDInterface *device)
         (*pos)->syncGUI();
     }
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+///
+//////////////////////////////////////////////////////////////////////////////////////////
+void Dialog::removeDevice(const QString &name)
+{
+    m_Devices.erase(std::remove_if(m_Devices.begin(), m_Devices.end(), [name](const auto & oneDevice)
+    {
+        return oneDevice->name() == name;
+    }), m_Devices.end());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
