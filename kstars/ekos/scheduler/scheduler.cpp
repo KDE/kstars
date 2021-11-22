@@ -5319,6 +5319,82 @@ void Scheduler::setDirty()
     mosaicB->setEnabled(addingOK);
 }
 
+void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob*> &seqjobs, const SchedulerJob::CapturedFramesMap &framesCount)
+{
+
+    bool lightFramesRequired = false;
+    QMap<QString, uint16_t> expected;
+    switch (oneJob->getCompletionCondition())
+    {
+        case SchedulerJob::FINISH_SEQUENCE:
+        case SchedulerJob::FINISH_REPEAT:
+            // Step 1: determine expected frames
+            calculateExpectedCapturesMap(seqjobs, expected);
+            // Step 2: compare with already captured frames
+            for (SequenceJob *oneSeqJob : seqjobs)
+            {
+                QString const signature = oneSeqJob->getSignature();
+                /* If frame is LIGHT, how many do we have left? */
+                if (oneSeqJob->getFrameType() == FRAME_LIGHT && expected[signature] * oneJob->getRepeatsRequired() > framesCount[signature])
+                {
+                    lightFramesRequired = true;
+                    // exit the loop, one found is sufficient
+                    break;
+                }
+            }
+            break;
+        default:
+            // in all other cases it does not depend on the number of captured frames
+            lightFramesRequired = true;
+    }
+    oneJob->setLightFramesRequired(lightFramesRequired);
+}
+
+uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected)
+{
+    uint16_t capturesPerRepeat = 0;
+    foreach (SequenceJob *seqJob, seqJobs)
+    {
+        capturesPerRepeat += seqJob->getCount();
+        QString const signature = seqJob->getSignature();
+        expected[signature] = static_cast<uint16_t>(seqJob->getCount()) + (expected.contains(signature) ? expected[signature] : 0);
+    }
+    return capturesPerRepeat;
+}
+
+uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const SchedulerJob::CapturedFramesMap &capturedFramesCount,
+                                          SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map)
+{
+    uint16_t totalCompletedCount = 0;
+
+    for (QString key : expected.keys())
+    {
+        if (Options::rememberJobProgress())
+        {
+            int diff = expected[key] * schedJob.getRepeatsRequired() - capturedFramesCount[key];
+            // captured more than required?
+            if (diff <= 0)
+                capture_map[key] = expected[key];
+            // need more frames than one cycle could capture?
+            else if (diff >= expected[key])
+                capture_map[key] = 0;
+            // else we know that 0 < diff < expected[key]
+            else
+                capture_map[key] = expected[key] - diff;
+        }
+        else
+            capture_map[key] = 0;
+
+        // collect all captured frames counts
+        if (schedJob.getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+            totalCompletedCount += capturedFramesCount[key];
+        else
+            totalCompletedCount += std::min(capturedFramesCount[key],
+                                            static_cast<uint16_t>(expected[key] * schedJob.getRepeatsRequired()));
+    }
+    return totalCompletedCount;
+}
+
 void Scheduler::updateCompletedJobsCount(bool forced)
 {
     /* Use a temporary map in order to limit the number of file searches */
@@ -5381,27 +5457,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         }
 
         // determine whether we need to continue capturing, depending on captured frames
-        bool lightFramesRequired = false;
-        switch (oneJob->getCompletionCondition())
-        {
-            case SchedulerJob::FINISH_SEQUENCE:
-            case SchedulerJob::FINISH_REPEAT:
-                for (SequenceJob *oneSeqJob : seqjobs)
-                {
-                    QString const signature = oneSeqJob->getSignature();
-                    /* If frame is LIGHT, how hany do we have left? */
-                    if (oneSeqJob->getFrameType() == FRAME_LIGHT
-                            && oneSeqJob->getCount()*oneJob->getRepeatsRequired() > newFramesCount[signature])
-                        lightFramesRequired = true;
-                }
-                break;
-            default:
-                // in all other cases it does not depend on the number of captured frames
-                lightFramesRequired = true;
-        }
-
-
-        oneJob->setLightFramesRequired(lightFramesRequired);
+        updateLightFramesRequired(oneJob, seqjobs, newFramesCount);
     }
 
     m_CapturedFramesCount = newFramesCount;
@@ -5453,45 +5509,14 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
     SchedulerJob::CapturedFramesMap capture_map;
     bool const rememberJobProgress = Options::rememberJobProgress();
 
-    int totalCompletedCount = 0;
     double totalImagingTime  = 0;
 
     // Determine number of captures in the scheduler job
-    int capturesPerRepeat = 0;
     QMap<QString, uint16_t> expected;
-    foreach (SequenceJob *seqJob, seqJobs)
-    {
-        capturesPerRepeat += seqJob->getCount();
-        QString const signature = seqJob->getSignature();
-        expected[signature] = seqJob->getCount() + (expected.contains(signature) ? expected[signature] : 0);
-    }
+    uint16_t capturesPerRepeat = calculateExpectedCapturesMap(seqJobs, expected);
 
     // fill the captured frames map
-    for (QString key : expected.keys())
-    {
-        if (rememberJobProgress)
-        {
-            int diff = expected[key] * schedJob->getRepeatsRequired() - capturedFramesCount[key];
-            // captured more than required?
-            if (diff <= 0)
-                capture_map[key] = expected[key];
-            // need more frames than one cycle could capture?
-            else if (diff >= expected[key])
-                capture_map[key] = 0;
-            // else we know that 0 < diff < expected[key]
-            else
-                capture_map[key] = expected[key] - diff;
-        }
-        else
-            capture_map[key] = 0;
-
-        // collect all captured frames counts
-        if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-            totalCompletedCount += capturedFramesCount[key];
-        else
-            totalCompletedCount += std::min(capturedFramesCount[key],
-                                            static_cast<uint16_t>(expected[key] * schedJob->getRepeatsRequired()));
-    }
+    uint16_t totalCompletedCount = fillCapturedFramesMap(expected, capturedFramesCount, *schedJob, capture_map);
 
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
     foreach (SequenceJob *seqJob, seqJobs)

@@ -312,17 +312,28 @@ void TestEkosSchedulerOps::startupJobs(
     }
     else
     {
-        // This is the sequence when it can start-up right away.
-
-        // Verify that it's near the original start time.
-        const qint64 delta_t = KStarsData::Instance()->ut().secsTo(startUTime);
-        QVERIFY2(std::abs(delta_t) < timeTolerance(60),
-                 QString("Delta to original time %1 too large, failing.").arg(delta_t).toLatin1());
-
-        QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
+        // check if there is a job scheduled
+        bool scheduled_job = false;
+        foreach (SchedulerJob *sched_job, scheduler->jobs)
+            if (sched_job->state == SchedulerJob::JOB_SCHEDULED)
+                scheduled_job = true;
+        if (scheduled_job)
         {
-            return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
-        }));
+            // This is the sequence when it can start-up right away.
+
+            // Verify that it's near the original start time.
+            const qint64 delta_t = KStarsData::Instance()->ut().secsTo(startUTime);
+            QVERIFY2(std::abs(delta_t) < timeTolerance(60),
+                     QString("Delta to original time %1 too large, failing.").arg(delta_t).toLatin1());
+
+            QVERIFY(iterateScheduler("Wait for RUN_SCHEDULER", 2, &sleepMs, &currentUTime, [&]() -> bool
+            {
+                return (scheduler->timerState == Scheduler::RUN_SCHEDULER);
+            }));
+        }
+        else
+            // if there is no job scheduled, we're done
+            return;
     }
     // When the scheduler starts up, it sends connectDevices to Ekos
     // which sets Indi --> Ekos::Success,
@@ -450,7 +461,7 @@ void TestEkosSchedulerOps::initJob(const KStarsDateTime &startUTime, const KStar
     }));
 
     // check the distance from the expected start time
-    int delta = KStars::Instance()->data()->ut().secsTo(jobStartUTime);
+    qint64 delta = KStars::Instance()->data()->ut().secsTo(jobStartUTime);
     // real offset should be maximally 5 min off the configured offset
     QVERIFY2(std::abs(delta) < 300,
              QString("wrong startup time: %1 secs distance to planned %2.").arg(delta).arg(jobStartUTime.toString(
@@ -468,7 +479,7 @@ void TestEkosSchedulerOps::runSimpleJob(const GeoLocation &geo, const SkyObject 
 
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
-    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true},
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, 1, {true, true, true, true},
                                                                                 false, enforceArtificialHorizon),
                TestEkosSchedulerHelper::getDefaultEsqContent(), wakeupTime, currentUTime, sleepMs);
     startModules(currentUTime, sleepMs);
@@ -534,7 +545,7 @@ void TestEkosSchedulerOps::testTimeZone()
     const QDateTime wakeupTime(QDate(2021, 6, 14), QTime(03, 26, 0), Qt::UTC);
     SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Altair");
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
-    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true),
+    startupJob(geo, startUTime, &dir, TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, 1, {true, true, true, true}, false, true),
                TestEkosSchedulerHelper::getDefaultEsqContent(), wakeupTime, currentUTime, sleepMs);
     startModules(currentUTime, sleepMs);
     QVERIFY(checkLastSlew(targetObject));
@@ -589,7 +600,7 @@ void TestEkosSchedulerOps::runUntilFirstShutdown(const GeoLocation &geo, const Q
     QVector<QString> esls, esqs;
     for (int i = 0; i < targetObjects.size(); ++i)
     {
-        esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObjects[i], m_startupCondition, {true, true, true, true}, true, true));
+        esls.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObjects[i], m_startupCondition, 1, {true, true, true, true}, true, true));
         esqs.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     }
     startupJobs(geo, startSchedulerUTime, &dir, esls, esqs, wakeupTime, currentUTime, sleepMs);
@@ -602,7 +613,7 @@ void TestEkosSchedulerOps::runUntilFirstShutdown(const GeoLocation &geo, const Q
     }));
 
     double delta = KStarsData::Instance()->ut().secsTo(startJobUTime);
-    QVERIFY2(std::abs(delta) < timeTolerance(60),
+    QVERIFY2(std::abs(delta) < timeTolerance(360),
              QString("Unexpected difference to job statup time: %1 secs").arg(delta).toLocal8Bit());
 
     // We should be unparked at this point.
@@ -699,7 +710,7 @@ void TestEkosSchedulerOps::testCulminationStartup()
     QVector<QString> esqVector;
     esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
-    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true));
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, 1, {true, true, true, true}, false, true));
     initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
@@ -724,7 +735,7 @@ void TestEkosSchedulerOps::testFixedDateStartup()
     QVector<QString> esqVector;
     esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
-    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, false, true));
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, 1, {true, true, true, true}, false, true));
     initScheduler(*geo, startUTime, &dir, eslVector, esqVector);
     // verify if the job starts at the expected time
     initJob(startUTime, jobStartUTime);
@@ -743,7 +754,7 @@ void TestEkosSchedulerOps::testTwilightStartup_data()
             << "Sun Jun 13 20:00:00 2021 GMT" <<  "Mon Jun 14 05:28:00 2021 GMT";
 
     QTest::newRow("Melbourne")
-            << "Melbourne" << "Victoria" << "Rasalhague"
+            << "Melbourne" << "Victoria" << "Arcturus"
             << "Sun Jun 13 02:00:00 2021 GMT" <<  "Mon Jun 13 08:42:00 2021 GMT";
 }
 
@@ -766,14 +777,13 @@ void TestEkosSchedulerOps::testTwilightStartup()
     scheduler->setUpdateInterval(20000);
     // define culmination offset of 1h as startup condition
     m_startupCondition.type = SchedulerJob::START_ASAP;
-
     // initialize the the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
     esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());
     QVector<QString> eslVector;
     // 3rd arg is the true for twilight enforced. 0 is minAltitude.
-    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, {true, true, true, true}, true, false, 0));
+    eslVector.push_back(TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, 1, {true, true, true, true}, true, false, 0));
     initScheduler(geo, startUTime, &dir, eslVector, esqVector);
     initJob(startUTime, jobStartUTime);
 }
@@ -939,6 +949,79 @@ void TestEkosSchedulerOps::test2ndJobRunsAfter1stHitsAltitudeConstraint()
 #endif
 }
 
+// Check if already existing captures are recognized properly and schedules are
+// recognized are started properly or as completed.
+void TestEkosSchedulerOps::testRememberJobProgress()
+{
+    // turn on remember job progress
+    Options::setRememberJobProgress(true);
+    QVERIFY(Options::rememberJobProgress());
+
+    // a well known place and target :)
+    GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
+    SkyObject *targetObject = KStars::Instance()->data()->skyComposite()->findByName("Kocab");
+
+    // Take 20:00 GMT (incl. +1h DST) and invalid wakeup time since the scheduler will start immediately
+    QDateTime startUTime(QDateTime(QDate(2021, 10, 30), QTime(18, 0, 0), Qt::UTC));
+    const QDateTime wakeupTime;
+    KStarsDateTime currentUTime;
+    int sleepMs = 0;
+
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+    QDir fits_dir(dir.path() + "/images");
+
+    QVector<TestEkosSchedulerHelper::CaptureJob> capture_jobs = QVector<TestEkosSchedulerHelper::CaptureJob>();
+
+    // parse test data to create the capture jobs
+    QFETCH(QString, jobs);
+    if (jobs != "")
+    {
+        for (QString value : jobs.split(","))
+        {
+            QVERIFY(value.indexOf(":") > -1);
+            QString filter = value.left(value.indexOf(":")).trimmed();
+            int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
+            capture_jobs.append({1000, count, filter, fits_dir.absolutePath()});
+        }
+    }
+
+    // parse test data to create the existing frame files
+    QFETCH(QString, frames);
+    if (frames != "")
+    {
+        for (QString value : frames.split(","))
+        {
+            QVERIFY(value.indexOf(":") > -1);
+            QString filter = value.left(value.indexOf(":")).trimmed();
+            int count      = value.right(value.length()-value.indexOf(":")-1).toInt();
+            QDir img_dir(fits_dir);
+            img_dir.mkpath("Kocab/Light/" + filter);
+
+            // create files
+            for (int i = 0; i < count; i++)
+            {
+                QFile frame;
+                frame.setFileName(QString(img_dir.absolutePath() + "/Kocab/Light/" + filter + "/Kocab_Light_%1.fits").arg(i));
+                frame.open(QIODevice::WriteOnly|QIODevice::Text);
+                frame.close();
+            }
+        }
+    }
+
+    // start up the scheduler job
+    QFETCH(int, iterations);
+    startupJob(geo, startUTime, &dir,
+               TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, iterations, {true, true, true, true},
+                                                         false, false, sleepMs, nullptr, {false, false, false, false}),
+               TestEkosSchedulerHelper::getEsqContent(capture_jobs), wakeupTime, currentUTime, sleepMs);
+
+    // fetch the expected result from the test data
+    QFETCH(bool, scheduled);
+
+    // verify if the job is scheduled as expected
+    QVERIFY(scheduler->jobs[0]->getState() == (scheduled ? SchedulerJob::JOB_SCHEDULED : SchedulerJob::JOB_COMPLETE));
+}
+
 void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QString> targetList)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
@@ -962,6 +1045,27 @@ void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QS
 void TestEkosSchedulerOps::testCulminationStartup_data()
 {
     prepareTestData({"Heidelberg", "New York"}, {"Rasalhague"});
+}
+
+void TestEkosSchedulerOps::testRememberJobProgress_data()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+    QSKIP("Bypassing fixture test on old Qt");
+#else
+    QTest::addColumn<QString>("jobs"); /*!< Capture sequences */
+    QTest::addColumn<QString>("frames"); /*!< Existing frames */
+    QTest::addColumn<int>("iterations"); /*!< Existing frames */
+    QTest::addColumn<bool>("scheduled"); /*!< Expected result: scheduled (true) or completed (false) */
+
+    QTest::newRow("{Red:2}, scheduled=true") << "Red:2" << "Red:1" << 1 << true;
+    QTest::newRow("{Red:2}, scheduled=false") << "Red:2" << "Red:2" << 1 << false;
+    QTest::newRow("{Red:2, Red:1}, scheduled=true") << "Red:2, Red:1" << "Red:2" << 1 << true;
+    QTest::newRow("{Red:2, Green:1, Red:1}, scheduled=true") << "Red:2, Green:1, Red:1" << "Red:4" << 1 << true;
+    QTest::newRow("{Red:3, Green:1, Red:2}, 3x, scheduled=true") << "Red:3, Green:1, Red:2" << "Red:14, Green:3" << 3 << true;
+    QTest::newRow("{Red:3, Green:1, Red:2}, 3x, scheduled=false") << "Red:3, Green:1, Red:2" << "Red:15, Green:3" << 3 << false;
+
+#endif
+
 }
 
 

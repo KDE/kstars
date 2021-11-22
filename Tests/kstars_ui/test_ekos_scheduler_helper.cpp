@@ -23,8 +23,9 @@ bool TestEkosSchedulerHelper::writeFile(const QString &filename, const QString &
     return false;
 }
 
-QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition, ScheduleSteps steps,
-                                                  bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude, QString fitsFile)
+QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition, int iterations,
+                                                  ScheduleSteps steps, bool enforceTwilight, bool enforceArtificialHorizon,
+                                                  int minAltitude, QString fitsFile, ShutdownProcedure shutdownProcedure)
 {
     QString target = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SchedulerList version='1.4'><Profile>Default</Profile>"
                              "<Job><Name>%1</Name><Priority>10</Priority><Coordinates><J2000RA>%2</J2000RA>"
@@ -47,17 +48,52 @@ QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject,
 
     QString parameters = QString("<StartupCondition>%1</StartupCondition>"
                                  "<Constraints><Constraint value='%4'>MinimumAltitude</Constraint>%2%3"
-                                 "</Constraints><CompletionCondition><Condition>Sequence</Condition></CompletionCondition>"
+                                 "</Constraints><CompletionCondition><Condition value='%9'>Repeat</Condition></CompletionCondition>"
                                  "%5%6%7%8</Steps></Job>"
                                  "<ErrorHandlingStrategy value='1'><delay>0</delay></ErrorHandlingStrategy><StartupProcedure>"
-                                 "<Procedure>UnparkMount</Procedure></StartupProcedure><ShutdownProcedure><Procedure>ParkMount</Procedure>"
-                                 "</ShutdownProcedure></SchedulerList>")
-            .arg(startupConditionStr).arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "")
+                                 "<Procedure>UnparkMount</Procedure></StartupProcedure>")
+            .arg(startupConditionStr)
+            .arg(enforceTwilight ? "<Constraint>EnforceTwilight</Constraint>" : "")
             .arg(enforceArtificialHorizon ? "<Constraint>EnforceArtificialHorizon</Constraint>" : "")
-            .arg(minAltitude).arg(steps.track ? "<Steps><Step>Track</Step>" : "").arg(steps.focus ? "<Step>Focus</Step>" : "")
-            .arg(steps.align ? "<Step>Align</Step>" : "").arg(steps.guide ? "<Step>Guide</Step>" : "");
+            .arg(minAltitude)
+            .arg(steps.track ? "<Steps><Step>Track</Step>" : "")
+            .arg(steps.focus ? "<Step>Focus</Step>" : "")
+            .arg(steps.align ? "<Step>Align</Step>" : "")
+            .arg(steps.guide ? "<Step>Guide</Step>" : "")
+            .arg(iterations);
 
-    return (target + sequence + parameters);
+    QString shutdown = QString("<ShutdownProcedure>%1%2%3%4</ShutdownProcedure></SchedulerList>")
+            .arg(shutdownProcedure.warm_ccd ? "<Procedure>WarmCCD</Procedure>" : "")
+            .arg(shutdownProcedure.close_cap ? "<Procedure>ParkCap</Procedure>" : "")
+            .arg(shutdownProcedure.park_mount ? "<Procedure>ParkMount</Procedure>" : "")
+            .arg(shutdownProcedure.park_dome ? "<Procedure>ParkDome</Procedure>" : "");
+
+    return (target + sequence + parameters + shutdown);
+}
+
+QString TestEkosSchedulerHelper::getEsqContent(QVector<TestEkosSchedulerHelper::CaptureJob> jobs)
+{
+    QString result = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SequenceQueue version='2.1'><CCD>CCD Simulator</CCD>"
+                             "<FilterWheel>CCD Simulator</FilterWheel><GuideDeviation enabled='false'>2</GuideDeviation>"
+                             "<GuideStartDeviation enabled='false'>2</GuideStartDeviation><Autofocus enabled='false'>0</Autofocus>"
+                             "<RefocusOnTemperatureDelta enabled='false'>1</RefocusOnTemperatureDelta>"
+                             "<RefocusEveryN enabled='false'>60</RefocusEveryN>");
+
+    for (QVector<CaptureJob>::iterator job_iter = jobs.begin(); job_iter !=  jobs.end(); job_iter++)
+    {
+        result += QString("<Job><Exposure>%1</Exposure><Binning><X>1</X><Y>1</Y>"
+                          "</Binning><Frame><X>0</X><Y>0</Y><W>1280</W><H>1024</H></Frame><Temperature force='false'>0</Temperature>"
+                          "<Filter>%3</Filter><Type>Light</Type><Prefix><RawPrefix></RawPrefix><FilterEnabled>0</FilterEnabled>"
+                          "<ExpEnabled>0</ExpEnabled><TimeStampEnabled>0</TimeStampEnabled></Prefix>"
+                          "<Count>%2</Count><Delay>0</Delay><FITSDirectory>%4</FITSDirectory><UploadMode>0</UploadMode>"
+                          "<FormatIndex>0</FormatIndex><Properties></Properties><Calibration><FlatSource><Type>Manual</Type>"
+                          "</FlatSource><FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>"
+                          "<PreMountPark>False</PreMountPark><PreDomePark>False</PreDomePark></Calibration></Job>")
+                .arg(job_iter->exposureTimeMS).arg(job_iter->count).arg(job_iter->filterName).arg(job_iter->fitsDirectory);
+    }
+
+    result += "</SequenceQueue>";
+    return result;
 }
 
 // TODO: make a method that creates the below strings depending of a few

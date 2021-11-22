@@ -58,9 +58,11 @@ class TestEkosSchedulerOps : public QObject
         void testFixedDateStartup();
         void testArtificialHorizonConstraints();
         void test2ndJobRunsAfter1stHitsAltitudeConstraint();
+        void testRememberJobProgress();
 
         // test data
         void testCulminationStartup_data();
+        void testRememberJobProgress_data();
 
     protected:
         void prepareTestData(QList<QString> locationList, QList<QString> targetList);

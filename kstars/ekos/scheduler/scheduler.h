@@ -655,7 +655,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
 
-    private:
+private:
         /**
              * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
@@ -817,6 +817,37 @@ class Scheduler : public QWidget, public Ui::Scheduler
             * @param forced forces recounting captures unconditionally if true, else only IDLE, EVALUATION or new jobs are examined.
             */
         void updateCompletedJobsCount(bool forced = false);
+
+        /**
+         * @brief Update the flag for the given job whether light frames are required
+         * @param oneJob scheduler job where the flag should be updated
+         * @param seqjobs list of capture sequences of the job
+         * @param framesCount map capture signature -> frame count
+         * @return true iff the job need to capture light frames
+         */
+        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs, const SchedulerJob::CapturedFramesMap &framesCount);
+
+        /**
+         * @brief Calculate the map signature -> expected number of captures from the given list of capture sequence jobs,
+         *        i.e. the expected number of captures from a single scheduler job run.
+         * @param seqJobs list of capture sequence jobs
+         * @param expected map to be filled
+         * @return total expected number of captured frames of a single run of all jobs
+         */
+        static uint16_t calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected);
+
+        /**
+         * @brief Fill the map signature -> frame count so that a single iteration of the scheduled job creates as many frames as possible
+         *        in addition to the already captured ones, but does not the expected amount.
+         * @param expected map signature -> expected frames count
+         * @param capturedFramesCount map signature -> already captured frames count
+         * @param schedJob scheduler job for which these calculations are done
+         * @param capture_map map signature -> frame count that will be handed over to the capture module to control that a single iteration
+         *        of the scheduler job creates as many frames as possible, but does not exceed the expected ones.
+         * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
+         */
+        static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const SchedulerJob::CapturedFramesMap &capturedFramesCount,
+                                              SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
 
         int getCompletedFiles(const QString &path, const QString &seqPrefix);
 
