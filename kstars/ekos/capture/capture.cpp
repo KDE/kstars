@@ -1772,7 +1772,6 @@ IPState Capture::setCaptureComplete()
         appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
     }
 
-
     secondsLabel->setText(i18n("Complete."));
     // Do not display notifications for very short captures
     if (activeJob->getExposure() >= 1)
@@ -2223,6 +2222,21 @@ bool Capture::startFocusIfRequired()
 
 void Capture::captureOne()
 {
+    if (Options::useFITSViewer() == false && Options::useSummaryPreview() == false)
+    {
+        // ask if FITS viewer usage should be enabled
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            Options::setUseFITSViewer(true);
+            // restart
+            captureOne();
+        });
+        KSMessageBox::Instance()->questionYesNo(i18n("No view available for previews. Enable FITS viewer?"), i18n("Display preview"), 30);
+        // do nothing because currently none of the previews is active.
+        return;
+    }
+
     if (m_FocusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
@@ -6473,15 +6487,6 @@ bool Capture::processPostCaptureCalibrationStage()
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU &&
             activeJob->getTargetADU() > 0)
     {
-        if (Options::useFITSViewer() == false)
-        {
-            Options::setUseFITSViewer(true);
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Enabling FITS Viewer...";
-        }
-
-        //        QSharedPointer<FITSData> image_data;
-        //        FITSView * currentImage = targetChip->getImageView(FITS_NORMAL);
-
         if (!m_ImageData.isNull())
         {
             //image_data        = currentImage->imageData();

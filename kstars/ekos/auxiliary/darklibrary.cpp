@@ -598,7 +598,7 @@ void DarkLibrary::setCompleted()
     stopB->setEnabled(false);
 
     Options::setUseFITSViewer(m_RememberFITSViewer);
-    Options::setUseFITSViewer(m_RememberSummaryView);
+    Options::setUseSummaryPreview(m_RememberSummaryView);
     if (!m_RememberFITSDirectory.isEmpty())
         m_CaptureModule->fileDirectoryT->setText(m_RememberFITSDirectory);
     if (m_JobsGenerated)
