@@ -292,10 +292,10 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     return true;
 }
 
-//T-mag =  M1 + 5*log10(delta) + k1*log10(r)
+// m = M1 + 2.5 * K1 * log10(rsun) + 5 * log10(rearth)
 void KSComet::findMagnitude(const KSNumbers *)
 {
-    setMag(M1 + 5.0 * log10(rearth()) + K1 * log10(rsun()));
+    setMag(M1 + 2.5 * K1 * log10(rsun()) +  5 * log10(rearth()));
 }
 
 void KSComet::setEarthMOID(double earth_moid)

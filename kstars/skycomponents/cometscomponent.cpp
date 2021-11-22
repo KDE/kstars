@@ -333,7 +333,7 @@ void CometsComponent::downloadReady()
     // Write data to cometels.json.gz
     QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
                .filePath("cometels.json.gz"));
-    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+    if (file.open(QIODevice::WriteOnly))
     {
         file.write(data);
         file.close();
