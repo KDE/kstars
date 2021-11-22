@@ -30,7 +30,7 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     setupUi(this);
 
     QPixmap im;
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzserialportassistant.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzserialportassistant.png")))
         wizardPix->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzserialportassistant.png"))

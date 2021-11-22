@@ -47,7 +47,7 @@ void TestEkosWizard::testProfileWizard()
     QVERIFY(QDir(Options::indiDriversDir()).exists());
 
     // Locate INDI drivers - the XML list of drivers is the generic data path
-    QFile drivers(KSPaths::locate(QStandardPaths::AppDataLocation, "indidrivers.xml"));
+    QFile drivers(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "indidrivers.xml"));
     if (drivers.exists())
         Options::setIndiDriversDir(QFileInfo(drivers).dir().path());
     QVERIFY(QDir(Options::indiDriversDir()).exists());

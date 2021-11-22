@@ -47,7 +47,7 @@
 #ifndef KSTARS_LITE
 static const char description[] = I18N_NOOP("Desktop Planetarium");
 static const char notice[]      = I18N_NOOP(
-    "Some images in KStars are for non-commercial use only. See README.images.");
+                                      "Some images in KStars are for non-commercial use only. See README.images.");
 #endif
 
 #if defined(Q_OS_ANDROID)
@@ -105,13 +105,13 @@ int main(int argc, char *argv[])
     KAboutData aboutData(
         "kstars", i18n("KStars"), versionString, i18n(description), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
-            i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
-                 "2014-2017 Max Planck Society"),
+        i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
+             "2014-2017 Max Planck Society"),
         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3",
               KSTARS_BUILD_TS,
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
-                  "Pre-release beta snapshot. Do not use in production." :
-                  "Stable release.",
+              "Pre-release beta snapshot. Do not use in production." :
+              "Stable release.",
               i18n(notice)),
         "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
@@ -284,14 +284,14 @@ int main(int argc, char *argv[])
             else //assume Text format for date string
             {
                 kdt = dat->geo()->LTtoUT(
-                    KStarsDateTime(QDateTime::fromString(datestring, Qt::TextDate)));
+                          KStarsDateTime(QDateTime::fromString(datestring, Qt::TextDate)));
             }
 
             if (!kdt.isValid())
             {
                 qCWarning(KSTARS) << i18n(
-                    "Supplied date string is invalid: %1. Using CPU date/time instead.",
-                    datestring);
+                                      "Supplied date string is invalid: %1. Using CPU date/time instead.",
+                                      datestring);
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
@@ -356,7 +356,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Create writable data dir if it does not exist
-    QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath(".");
+    QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).mkpath(".");
     QDir(KSPaths::writableLocation(QStandardPaths::AppConfigLocation)).mkpath(".");
     QDir(KSPaths::writableLocation(QStandardPaths::CacheLocation)).mkpath(".");
     QDir(KSPaths::writableLocation(QStandardPaths::TempLocation)).mkpath(qAppName());

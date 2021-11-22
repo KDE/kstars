@@ -148,8 +148,8 @@ template<class T, typename Component>
 template<class T, typename Component>
  BinaryListComponent<T, Component>::BinaryListComponent(Component *parent, QString basename, QString txtExt, QString binExt) : parent { parent }
 {
-     filepath_bin = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(basename + '.' + binExt);
-     filepath_txt = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(basename + '.' + txtExt);
+     filepath_bin = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(basename + '.' + binExt);
+     filepath_txt = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(basename + '.' + txtExt);
 }
 
 template<class T, typename Component>

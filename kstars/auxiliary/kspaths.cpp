@@ -13,23 +13,26 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
     QString findings = QStandardPaths::locate(location, fileName, options);
 
     // If there was no result and we are running a test, if the location contains the app name, retry with installed name
-    if (findings.isEmpty() && QStandardPaths::isTestModeEnabled()) switch(location)
+    if (findings.isEmpty() && QStandardPaths::isTestModeEnabled())
     {
-    case QStandardPaths::DataLocation:
-    case QStandardPaths::AppDataLocation:
-    //case QStandardPaths::AppLocalDataLocation:
-        findings = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
-        break;
+        switch(location)
+        {
+            case QStandardPaths::DataLocation:
+            case QStandardPaths::AppDataLocation:
+                findings = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    case QStandardPaths::CacheLocation:
-        findings = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QDir("kstars").filePath(fileName), options);
-        break;
+            case QStandardPaths::CacheLocation:
+                findings = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    case QStandardPaths::AppConfigLocation:
-        findings = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QDir("kstars").filePath(fileName), options);
-        break;
+            case QStandardPaths::AppConfigLocation:
+                findings = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    default: break;
+            default:
+                break;
+        }
     }
 
 #ifdef ANDROID
@@ -51,23 +54,26 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     QStringList findings = QStandardPaths::locateAll(location, fileName, options);
 
     // If there was no result and we are running a test, if the location contains the app name, retry with installed name
-    if (findings.isEmpty() && QStandardPaths::isTestModeEnabled()) switch(location)
+    if (findings.isEmpty() && QStandardPaths::isTestModeEnabled())
     {
-    case QStandardPaths::DataLocation:
-    case QStandardPaths::AppDataLocation:
-    //case QStandardPaths::AppLocalDataLocation:
-        findings = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
-        break;
+        switch(location)
+        {
+            case QStandardPaths::DataLocation:
+            case QStandardPaths::AppDataLocation:
+                findings = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    case QStandardPaths::CacheLocation:
-        findings = QStandardPaths::locateAll(QStandardPaths::GenericCacheLocation, QDir("kstars").filePath(fileName), options);
-        break;
+            case QStandardPaths::CacheLocation:
+                findings = QStandardPaths::locateAll(QStandardPaths::GenericCacheLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    case QStandardPaths::AppConfigLocation:
-        findings = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QDir("kstars").filePath(fileName), options);
-        break;
+            case QStandardPaths::AppConfigLocation:
+                findings = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QDir("kstars").filePath(fileName), options);
+                break;
 
-    default: break;
+            default:
+                break;
+        }
     }
 
 #ifdef ANDROID
@@ -87,13 +93,14 @@ QString KSPaths::writableLocation(QStandardPaths::StandardLocation type)
 {
     switch (type)
     {
-    case QStandardPaths::GenericDataLocation:
-    case QStandardPaths::GenericCacheLocation:
-    case QStandardPaths::GenericConfigLocation:
-        qWarning("Call to writableLocation without an application-based location.");
-        break;
+        case QStandardPaths::GenericDataLocation:
+        case QStandardPaths::GenericCacheLocation:
+        case QStandardPaths::GenericConfigLocation:
+            qWarning("Call to writableLocation without an application-based location.");
+            break;
 
-    default: break;
+        default:
+            break;
     }
 
     //Q_ASSERT_X(type != QStandardPaths::GenericDataLocation, __FUNCTION__, "GenericDataLocation is not writable.");

@@ -58,7 +58,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     histogramView->setProperty("axesLabelEnabled", false);
     //histogramView->setProperty("linear", true);
 
-    QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
+    QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     writableDir.mkpath("darks");
     writableDir.mkpath("defectmaps");
 
@@ -747,7 +747,7 @@ void DarkLibrary::clearRow()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::openDarksFolder()
 {
-    QString darkFilesPath = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("darks");
+    QString darkFilesPath = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks");
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(darkFilesPath));
 }
@@ -1331,7 +1331,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("darks/darkframe_" + ts + ".fits");
+    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks/darkframe_" + ts + ".fits");
 
     data->calculateStats(true);
     if (!data->saveImage(path))
@@ -1398,7 +1398,7 @@ void DarkLibrary::saveDefectMap()
     if (filename.isEmpty())
     {
         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-        filename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("defectmaps/defectmap_" + ts +
+        filename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("defectmaps/defectmap_" + ts +
                    ".json");
         newFile = true;
     }

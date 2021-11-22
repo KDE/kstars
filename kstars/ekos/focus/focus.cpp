@@ -96,7 +96,7 @@ Focus::Focus()
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
-    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("focuslogs/autofocus-" +
+    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("focuslogs/autofocus-" +
                          QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
     m_FocusLogFile.setFileName(m_FocusLogFileName);
 
@@ -150,7 +150,7 @@ Focus::Focus()
 void Focus::loadStellarSolverProfiles()
 {
     QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
-                                            QStandardPaths::AppDataLocation)).filePath("SavedFocusProfiles.ini");
+                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedFocusProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
@@ -2136,7 +2136,7 @@ void Focus::setHFRComplete()
     {
         QDir dir;
         QDateTime now = KStarsData::Instance()->lt();
-        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("autofocus/" +
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("autofocus/" +
                        now.toString("yyyy-MM-dd"));
         dir.mkpath(path);
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
@@ -3088,7 +3088,7 @@ void Focus::appendFocusLogText(const QString &lines)
         if (!m_FocusLogFile.exists())
         {
             // Create focus-specific log file and write the header record
-            QDir dir(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
+            QDir dir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
             dir.mkpath("focuslogs");
             m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
             if (m_FocusLogEnabled)

@@ -21,7 +21,7 @@
     if (!QStandardPaths::isTestModeEnabled()) \
         qFatal("Helper KTEST_CLEAN_TEST only works in test mode."); \
     QList<QStandardPaths::StandardLocation> const locs = { \
-        QStandardPaths::AppDataLocation, \
+        QStandardPaths::AppLocalDataLocation, \
         QStandardPaths::AppConfigLocation, \
         QStandardPaths::CacheLocation }; \
     for (auto loc: locs) { \

@@ -145,7 +145,7 @@ bool HIPSFinder::renderPix(int level, int pix, QImage *destinationImage)
     if (isVisible)
     {
         int dir = (pix / 10000) * 10000;
-        QString path = KSPaths::locate(QStandardPaths::AppDataLocation,
+        QString path = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
                                        QString("/HIPS/Norder%1/Dir%2/Npix%3.jpg").arg(level).arg(dir).arg(pix));
         QImage sourceImage(path);
 

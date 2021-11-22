@@ -70,8 +70,8 @@ void SatelliteGroup::updateSatellitesPos()
 QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    //return QUrl( "file:" + (QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(m_tle_file));
-    return QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(m_tle_file));
+    //return QUrl( "file:" + (QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(m_tle_file));
+    return QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(m_tle_file));
 }
 
 QUrl SatelliteGroup::tleUrl()

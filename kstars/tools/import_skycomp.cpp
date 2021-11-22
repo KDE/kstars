@@ -8,7 +8,7 @@
 
 QString db_path()
 {
-    return QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+    return QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
            .filePath("skycomponents.sqlite");
 }
 

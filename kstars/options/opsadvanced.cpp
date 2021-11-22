@@ -94,7 +94,7 @@ void OpsAdvanced::slotToggleOutputOptions()
 
 void OpsAdvanced::slotShowLogFiles()
 {
-    QUrl path = QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("logs"));
+    QUrl path = QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("logs"));
 
     QDesktopServices::openUrl(path);
 }
@@ -109,7 +109,7 @@ void OpsAdvanced::slotPurge()
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
         KSMessageBox::Instance()->disconnect(this);
-        QString dbFile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite");
+        QString dbFile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite");
         QFile::remove(dbFile);
         QString configFile = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)).filePath("kstarsrc");
         QFile::remove(configFile);

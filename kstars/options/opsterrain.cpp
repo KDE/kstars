@@ -45,7 +45,7 @@ void OpsTerrain::syncOptions()
 
 void OpsTerrain::saveTerrainFilename()
 {
-    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/terrain");
+    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/terrain");
     dir.mkpath(".");
 
     QUrl dirPath = QUrl::fromLocalFile(dir.path());

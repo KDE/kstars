@@ -1153,7 +1153,7 @@ void DetailDialog::showThumbnail()
     //Try to load the object's image from disk
     //If no image found, load "no image" image
 
-    const auto &base = KSPaths::writableLocation(QStandardPaths::AppDataLocation);
+    const auto &base = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     QDirIterator search(base, QStringList() << "thumb*", QDir::Dirs);
 
     bool found = false;
@@ -1188,10 +1188,10 @@ void DetailDialog::updateThumbnail()
 
     if (tp->exec() == QDialog::Accepted)
     {
-        QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath("thumbnails");
+        QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).mkpath("thumbnails");
 
         QString const fname =
-            QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+            QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
             .filePath("thumb-" + selectedObject->name().toLower().remove(' ').remove('/') + ".png");
 
         Data->Image->setPixmap(*(tp->image()));

@@ -52,7 +52,7 @@ cgmath::cgmath() : QObject()
     memset(drift[GUIDE_DEC], 0, sizeof(double) * CIRCULAR_BUFFER_SIZE);
     drift_integral[GUIDE_RA] = drift_integral[GUIDE_DEC] = 0;
 
-    logFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("guide_log.txt"));
+    logFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("guide_log.txt"));
     gpg.reset(new GPG());
 }
 

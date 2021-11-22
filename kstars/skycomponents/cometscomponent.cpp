@@ -89,7 +89,7 @@ void CometsComponent::loadData()
     objectNames(SkyObject::COMET).clear();
     objectLists(SkyObject::COMET).clear();
 
-    QString file_name = KSPaths::locate(QStandardPaths::AppDataLocation, QString("cometels.json.gz"));
+    QString file_name = KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString("cometels.json.gz"));
 
     try
     {
@@ -178,7 +178,7 @@ void CometsComponent::loadData()
 //    objectLists(SkyObject::COMET).clear();
 
 //    QString file_name =
-//        KSPaths::locate(QStandardPaths::AppDataLocation, QString("comets.dat"));
+//        KSPaths::locate(QStandardPaths::AppLocalDataLocation, QString("comets.dat"));
 
 //    try
 //    {
@@ -331,7 +331,7 @@ void CometsComponent::downloadReady()
     QByteArray data = downloadJob->downloadedData();
 
     // Write data to cometels.json.gz
-    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
                .filePath("cometels.json.gz"));
     if (file.open(QIODevice::WriteOnly))
     {
@@ -384,7 +384,7 @@ void CometsComponent::downloadReady()
 //    QByteArray data = downloadJob->downloadedData();
 
 //    // Write data to comets.dat
-//    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+//    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
 //                   .filePath("comets.dat"));
 //    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
 //    {

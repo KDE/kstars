@@ -266,7 +266,7 @@ void AsteroidsComponent::downloadReady()
     QByteArray data = downloadJob->downloadedData();
 
     // Write data to asteroids.dat
-    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation))
+    QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
                    .filePath("asteroids.dat"));
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
     {

@@ -135,7 +135,7 @@ bool KStarsData::initialize()
     emit progressText(
         i18n("Upgrade existing user city db to support geographic elevation."));
 
-    QString dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("mycitydb.sqlite");
+    QString dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("mycitydb.sqlite");
 
     /// This code to add Height column to table city in mycitydb.sqlite is a transitional measure to support a meaningful
     /// geographic elevation.
@@ -430,7 +430,7 @@ SkyObject *KStarsData::objectNamed(const QString &name)
 bool KStarsData::readCityData()
 {
     QSqlDatabase citydb = QSqlDatabase::addDatabase("QSQLITE", "citydb");
-    QString dbfile      = KSPaths::locate(QStandardPaths::AppDataLocation, "citydb.sqlite");
+    QString dbfile      = KSPaths::locate(QStandardPaths::AppLocalDataLocation, "citydb.sqlite");
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
@@ -468,7 +468,7 @@ bool KStarsData::readCityData()
 
     // Reading local database
     QSqlDatabase mycitydb = QSqlDatabase::addDatabase("QSQLITE", "mycitydb");
-    dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("mycitydb.sqlite");
+    dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("mycitydb.sqlite");
 
     if (QFile::exists(dbfile))
     {
@@ -553,7 +553,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
     else
     {
         // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-        file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(urlfile));
+        file.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(urlfile));
         if (file.open(QIODevice::ReadOnly))
         {
             //local file found.  Now, if global file has newer timestamp, then merge the two files.
@@ -650,7 +650,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 if (QLocale().language() != QLocale::English)
                     qDebug() << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
-                localeFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(urlfile));
+                localeFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(urlfile));
                 if (localeFile.open(QIODevice::WriteOnly))
                 {
                     QTextStream readStream(&file);
@@ -1484,7 +1484,7 @@ KStarsData::addToUserData(const QString &name, const SkyObjectUserdata::LinkData
     //Also, update the user's custom image links database
     //check for user's image-links database.  If it doesn't exist, create it.
     file.setFileName(
-        KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
+        KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
         (isImage ?
              "image_url.dat" :
              "info_url.dat")); //determine filename in local user KDE directory tree.
@@ -1530,7 +1530,7 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
         case SkyObjectUserdata::Type::website:
             // Get name for our local info_url file
             URLFile.setFileName(
-                KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
+                KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
                 "info_url.dat");
             break;
 
@@ -1538,7 +1538,7 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
         case SkyObjectUserdata::Type::image:
             // Get name for our local info_url file
             URLFile.setFileName(
-                KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
+                KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
                 "image_url.dat");
             break;
     }
@@ -1650,7 +1650,7 @@ std::pair<bool, QString> KStarsData::updateUserLog(const QString &name,
     QString KSLabel = "[KSLABEL:" + name + ']';
 
     file.setFileName(
-        KSPaths::writableLocation(QStandardPaths::AppDataLocation) +
+        KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
         "userlog.dat"); //determine filename in local user KDE directory tree.
 
     if (file.open(QIODevice::ReadOnly))

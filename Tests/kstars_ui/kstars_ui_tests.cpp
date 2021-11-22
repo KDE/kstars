@@ -88,7 +88,7 @@ void prepare_tests()
 
     // Prepare our KStars configuration
     srand((unsigned int)time(nullptr));
-    KSPaths::writableLocation(QStandardPaths::AppDataLocation);
+    KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     KSPaths::writableLocation(QStandardPaths::AppConfigLocation);
     KSPaths::writableLocation(QStandardPaths::CacheLocation);
     KCrash::initialize();

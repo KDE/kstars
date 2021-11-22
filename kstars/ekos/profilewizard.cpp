@@ -25,7 +25,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 #endif
 
     QPixmap im;
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzekos.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzekos.png")))
         wizardPix->setPixmap(im);
 
     remoteEquipmentSVG->load(QString(":/icons/pi.svg"));

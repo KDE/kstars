@@ -342,7 +342,7 @@ void KStars::initActions()
 
     //Add any user-defined color schemes:
     //determine filename in local user KDE directory tree.
-    QFile file(KSPaths::locate(QStandardPaths::AppDataLocation, "colors.dat"));
+    QFile file(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "colors.dat"));
     if (file.exists() && file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);

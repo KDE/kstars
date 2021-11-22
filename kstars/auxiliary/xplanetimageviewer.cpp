@@ -800,7 +800,7 @@ bool XPlanetImageViewer::setupOutputFile()
 #endif
 
     //If the user is using windows or has not selected to use FIFO, it uses files in the KStars data directory.
-    QDir xPlanetDirPath(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/" + "xplanet");
+    QDir xPlanetDirPath(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/" + "xplanet");
     xPlanetDirPath.mkpath(".");
     m_File.setFileName(xPlanetDirPath.filePath(m_ObjectName + ".png"));
     return true;

@@ -31,8 +31,8 @@ KSUserDB::~KSUserDB()
     m_UserDB.close();
 
     // Backup
-    QString current_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite");
-    QString backup_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite.backup");
+    QString current_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite");
+    QString backup_dbfile = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite.backup");
     QFile::remove(backup_dbfile);
     QFile::copy(current_dbfile, backup_dbfile);
 }
@@ -55,8 +55,8 @@ bool KSUserDB::Initialize()
     // If the database file exists and has no data and the backup file exists, use it.
     // If the database file exists and has no data and no backup file exists, start fresh.
 
-    QFileInfo dbfile(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite"));
-    QFileInfo backup_file(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("userdb.sqlite.backup"));
+    QFileInfo dbfile(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite"));
+    QFileInfo backup_file(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("userdb.sqlite.backup"));
 
     bool const first_run = !dbfile.exists() && !backup_file.exists();
 
@@ -1327,7 +1327,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
 #if 0
 bool KSUserDB::ImportFlags()
 {
-    QString flagfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("flags.dat");
+    QString flagfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("flags.dat");
     QFile flagsfile(flagfilename);
     if (!flagsfile.exists())
     {
@@ -1361,7 +1361,7 @@ bool KSUserDB::ImportFlags()
 
 bool KSUserDB::ImportUsers()
 {
-    QString usersfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("observerlist.xml");
+    QString usersfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("observerlist.xml");
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists())
@@ -1436,7 +1436,7 @@ bool KSUserDB::ImportUsers()
 
 bool KSUserDB::ImportEquipment()
 {
-    QString equipfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("equipmentlist.xml");
+    QString equipfilename = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("equipmentlist.xml");
     QFile equipfile(equipfilename);
 
     if (!equipfile.exists())

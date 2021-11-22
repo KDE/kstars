@@ -383,7 +383,7 @@ void Analyze::keepCurrent(int state)
 void Analyze::initInputSelection()
 {
     // Setup the input combo box.
-    dirPath = QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("analyze"));
+    dirPath = QUrl::fromLocalFile(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("analyze"));
 
     inputCombo->addItem(i18n("Current Session"));
     inputCombo->addItem(i18n("Read from File"));
@@ -1984,7 +1984,7 @@ void Analyze::startLog()
         displayStartTime = analyzeStartTime;
     if (logInitialized)
         return;
-    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation) + "/analyze");
+    QDir dir = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/analyze");
     dir.mkpath(".");
 
     logFilename = dir.filePath("ekos-" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".analyze");

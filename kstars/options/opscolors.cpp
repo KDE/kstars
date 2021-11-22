@@ -67,7 +67,7 @@ OpsColors::OpsColors() : QFrame(KStars::Instance())
 
     QFile file;
     QString line, schemeName, filename;
-    file.setFileName(KSPaths::locate(QStandardPaths::AppDataLocation, "colors.dat"));
+    file.setFileName(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "colors.dat"));
     if (file.exists() && file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
@@ -162,7 +162,7 @@ bool OpsColors::setColors(const QString &filename)
     //check if colorscheme is removable...
     QFile test;
     //try filename in local user KDE directory tree.
-    test.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(filename));
+    test.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(filename));
     if (test.exists())
     {
         RemovePreset->setEnabled(true);
@@ -243,7 +243,7 @@ void OpsColors::slotRemovePreset()
     QString filename = PresetFileList[PresetBox->currentRow()];
     QFile cdatFile;
     //determine filename in local user KDE directory tree.
-    cdatFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("colors.dat"));
+    cdatFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("colors.dat"));
 
     //Remove action from color-schemes menu
     KStars::Instance()->removeColorMenuItem(QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8());
@@ -281,7 +281,7 @@ void OpsColors::slotRemovePreset()
         {
             QFile colorFile;
             //determine filename in local user KDE directory tree.
-            colorFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(filename));
+            colorFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(filename));
             if (!colorFile.remove())
             {
                 QString message = i18n("Could not delete the file: %1", colorFile.fileName());

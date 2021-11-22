@@ -83,7 +83,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
             break;
     }
 
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath(filename);
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(filename);
     QList<SSolver::Parameters> optionsList;
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);

@@ -131,12 +131,12 @@ void TestKSPaths::testKStarsInstallation_data()
     typedef QPair <QStandardPaths::StandardLocation, QString> KPair;
     QList <KPair> fixtures;
 
-    fixtures << KPair(QStandardPaths::AppDataLocation, "TZrules.dat");
-    fixtures << KPair(QStandardPaths::AppDataLocation, "themes/whitebalance.colors");
-    fixtures << KPair(QStandardPaths::AppDataLocation, "textures/moon00.png");
+    fixtures << KPair(QStandardPaths::AppLocalDataLocation, "TZrules.dat");
+    fixtures << KPair(QStandardPaths::AppLocalDataLocation, "themes/whitebalance.colors");
+    fixtures << KPair(QStandardPaths::AppLocalDataLocation, "textures/moon00.png");
     //fixtures << KPair(QStandardPaths::GenericDataLocation, "skycomponent.sqlite");
     fixtures << KPair(QStandardPaths::GenericDataLocation, "sounds/KDE-KStars-Alert.ogg");
-    fixtures << KPair(QStandardPaths::AppDataLocation, "kstars.png");
+    fixtures << KPair(QStandardPaths::AppLocalDataLocation, "kstars.png");
 
     for (auto pair : fixtures)
         QTest::addRow("%s", qPrintable(pair.second)) << pair.first << pair.second;

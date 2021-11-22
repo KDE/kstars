@@ -99,23 +99,23 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
 
     //Load images into banner frames.
     QPixmap im;
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzstars.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzstars.png")))
         welcome->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzstars.png"))
         welcome->Banner->setPixmap(im);
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzgeo.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzgeo.png")))
         location->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() + "/wzgeo.png"))
         location->Banner->setPixmap(im);
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzdownload.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzdownload.png")))
         download->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
         download->Banner->setPixmap(im);
 
 #ifdef Q_OS_OSX
-    if (im.load(KSPaths::locate(QStandardPaths::AppDataLocation, "wzdownload.png")))
+    if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzdownload.png")))
         data->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
                      "/wzdownload.png"))
@@ -268,7 +268,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
             KSNotification::sorry(i18n("There was no default data directory found in the app bundle."));
             return;
         }
-        QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation));
+        QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
         writableDir.mkpath(".");
         dataLocation =
             QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);

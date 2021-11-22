@@ -62,7 +62,7 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
     ui->hintLabel->setText(i18n("To add custom icons, just add images in %1. File names must begin with flag. "
                                 "For example, the file <i>flagSmall_red_cross.png</i> will be shown as <b>Small red "
                                 "cross</b> in the combo box.",
-                                KSPaths::writableLocation(QStandardPaths::AppDataLocation)));
+                                KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)));
     //Set up the Table Views
     m_Model = new QStandardItemModel(0, 5, this);
     m_Model->setHorizontalHeaderLabels(QStringList() << i18nc("Right Ascension", "RA") << i18nc("Declination", "Dec")

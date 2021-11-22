@@ -36,12 +36,12 @@ void TestKSUserDB::testInitializeDB()
     QVERIFY(nullptr != testDB);
 
     // If the KStars folder does not exist, database cannot be initialised
-    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).removeRecursively());
+    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).removeRecursively());
     QVERIFY(!testDB->Initialize());
     QVERIFY(!QFile(testDB->GetDatabase().databaseName()).exists());
 
     // If the KStars folder has just been created, database can be initialised
-    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath("."));
+    QVERIFY(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).mkpath("."));
     QVERIFY(testDB->Initialize());
     QVERIFY(QFile(testDB->GetDatabase().databaseName()).exists());
 

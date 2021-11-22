@@ -56,7 +56,7 @@ void BinFileHelper::clearFields()
 
 bool BinFileHelper::testFileExists(const QString &fileName)
 {
-    QString FilePath     = KSPaths::locate(QStandardPaths::AppDataLocation, fileName);
+    QString FilePath     = KSPaths::locate(QStandardPaths::AppLocalDataLocation, fileName);
     QByteArray b         = FilePath.toLatin1();
     const char *filepath = b.data();
     FILE *f              = fopen(filepath, "rb");
@@ -71,7 +71,7 @@ bool BinFileHelper::testFileExists(const QString &fileName)
 
 FILE *BinFileHelper::openFile(const QString &fileName)
 {
-    QString FilePath = KSPaths::locate(QStandardPaths::AppDataLocation, fileName);
+    QString FilePath = KSPaths::locate(QStandardPaths::AppLocalDataLocation, fileName);
     init();
     QByteArray b         = FilePath.toLatin1();
     const char *filepath = b.data();
@@ -227,8 +227,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
         if (prev_offset != 0 && prev_nrecs != (offset - prev_offset) / recordSize)
         {
             errorMessage = QString::asprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
-                                 (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs,
-                                 j - 1);
+                                             (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs,
+                                             j - 1);
             return ERR_INDEX_BADOFFSET;
         }
 
