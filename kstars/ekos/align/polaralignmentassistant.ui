@@ -555,10 +555,10 @@
             <string>Exposure duration in seconds during refresh phase</string>
            </property>
            <property name="decimals">
-            <number>4</number>
+            <number>1</number>
            </property>
            <property name="minimum">
-            <double>0.000100000000000</double>
+            <double>0.000000000000000</double>
            </property>
            <property name="maximum">
             <double>30.000000000000000</double>
@@ -570,6 +570,54 @@
          </item>
          <item>
           <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="iteratonLabel">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Image#:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="PAHIteration">
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Refresh iteration number.</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7c">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>

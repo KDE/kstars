@@ -216,7 +216,11 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         QPointF correctionFrom, correctionTo, correctionAltTo;
 
         bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
+
+        // Incremented every time sufficient # of stars are detected.
         int refreshIteration { 0 };
+        // Incremented on every image received.
+        int imageNumber { 0 };
         StarCorrespondence starCorrespondencePAH;
 
         // Class used to estimate alignment error.

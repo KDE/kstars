@@ -207,9 +207,13 @@ void PolarAlignmentAssistant::processPAHRefresh()
 {
     alignView->setStarCircle();
     PAHUpdatedErrorTotal->clear();
+    PAHIteration->clear();
     PAHUpdatedErrorAlt->clear();
     PAHUpdatedErrorAz->clear();
     QString debugString;
+    imageNumber++;
+    PAHIteration->setText(QString("%1").arg(imageNumber));
+
     // Always run on the initial iteration to setup the user's star,
     // so that if it is enabled later the star could be tracked.
     // Flaw here is that if enough stars are not detected, iteration is not incremented,
@@ -790,6 +794,7 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
     qCInfo(KSTARS_EKOS_ALIGN) << "Starting Polar Alignment Assistant refreshing...";
 
     refreshIteration = 0;
+    imageNumber = 0;
 
     m_PAHStage = PAH_REFRESH;
     emit newPAHStage(m_PAHStage);
@@ -812,6 +817,7 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 void PolarAlignmentAssistant::setPAHRefreshComplete()
 {
     refreshIteration = 0;
+    imageNumber = 0;
     m_PAHStage = PAH_POST_REFRESH;
     emit newPAHStage(m_PAHStage);
     stopPAHProcess();
