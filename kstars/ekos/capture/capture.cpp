@@ -1746,7 +1746,7 @@ IPState Capture::setCaptureComplete()
         if (currentCCD->isFastExposureEnabled() == false)
         {
             secondsLabel->setText(i18n("Framing..."));
-            activeJob->capture(m_AutoFocusReady);
+            activeJob->capture(m_AutoFocusReady, FITS_NORMAL);
         }
         return IPS_OK;
     }
@@ -1765,11 +1765,15 @@ IPState Capture::setCaptureComplete()
     {
         //This determines the time since the image started downloading
         //Then it gets the estimated time left and displays it in the log.
-        double currentDownloadTime = downloadTimer.elapsed() / 1000.0;
-        downloadTimes << currentDownloadTime;
-        QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
-        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
-        appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+        double currentDownloadTime = m_DownloadTimer.elapsed() / 1000.0;
+        // No need to spam logs for very short exposures.
+        if (currentDownloadTime > 1)
+        {
+            downloadTimes << currentDownloadTime;
+            QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
+            QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+            appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
+        }
     }
 
     secondsLabel->setText(i18n("Complete."));
@@ -1779,7 +1783,7 @@ IPState Capture::setCaptureComplete()
                               KSNotification::EVENT_INFO);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
-    if (activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
+    if (activeJob->isPreview())
     {
         //sendNewImage(blobFilename, blobChip);
         emit newImage(activeJob, m_ImageData);
@@ -1806,7 +1810,7 @@ IPState Capture::setCaptureComplete()
         return IPS_BUSY;
     }
 
-    if (! activeJob->isPreview())
+    if (! activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
     {
         /* Increase the sequence's current capture count */
         activeJob->setCompleted(activeJob->getCompleted() + 1);
@@ -2222,21 +2226,6 @@ bool Capture::startFocusIfRequired()
 
 void Capture::captureOne()
 {
-    if (Options::useFITSViewer() == false && Options::useSummaryPreview() == false)
-    {
-        // ask if FITS viewer usage should be enabled
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [&]()
-        {
-            KSMessageBox::Instance()->disconnect(this);
-            Options::setUseFITSViewer(true);
-            // restart
-            captureOne();
-        });
-        KSMessageBox::Instance()->questionYesNo(i18n("No view available for previews. Enable FITS viewer?"), i18n("Display preview"), 30);
-        // do nothing because currently none of the previews is active.
-        return;
-    }
-
     if (m_FocusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
@@ -2359,7 +2348,7 @@ void Capture::captureImage()
 
             calibrationStage = CAL_CALIBRATION;
             // We need to be in preview mode and in client mode for this to work
-            activeJob->setPreview(true);
+            //activeJob->setPreview(true);
         }
     }
 
@@ -2406,7 +2395,7 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
-    rc = activeJob->capture(m_AutoFocusReady);
+    rc = activeJob->capture(m_AutoFocusReady, calibrationStage == CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
     if (rc != SequenceJob::CAPTURE_OK)
     {
@@ -2551,7 +2540,7 @@ void Capture::setDownloadProgress()
 {
     if (activeJob)
     {
-        double downloadTimeLeft = getEstimatedDownloadTime() - downloadTimer.elapsed() / 1000.0;
+        double downloadTimeLeft = getEstimatedDownloadTime() - m_DownloadTimer.elapsed() / 1000.0;
         if(downloadTimeLeft > 0)
         {
             exposeOUT->setText(QString("%L1").arg(downloadTimeLeft, 0, 'd', 2));
@@ -2620,7 +2609,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         secondsLabel->setText(i18n("Downloading..."));
 
         //This will start the clock to see how long the download takes.
-        downloadTimer.start();
+        m_DownloadTimer.start();
         downloadProgressTimer.start();
 
 
@@ -3134,6 +3123,29 @@ void Capture::prepareJob(SequenceJob * job)
 {
     activeJob = job;
 
+    // If job is Preview and NO view is available, ask to enable it.
+    // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
+    if (job->isPreview() && Options::useFITSViewer() == false && Options::useSummaryPreview() == false)
+    {
+        // ask if FITS viewer usage should be enabled
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            Options::setUseFITSViewer(true);
+            // restart
+            prepareJob(job);
+        });
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [&]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            abort();
+        });
+        KSMessageBox::Instance()->questionYesNo(i18n("No view available for previews. Enable FITS viewer?"),
+                                                i18n("Display preview"), 15);
+        // do nothing because currently none of the previews is active.
+        return;
+    }
+
     if (m_isFraming == false)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
@@ -3167,11 +3179,8 @@ void Capture::prepareJob(SequenceJob * job)
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
             updateSequencePrefix(activeJob->getFullPrefix(), QFileInfo(activeJob->getSignature()).path());
-    }
 
-    // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
-    if (activeJob->isPreview() == false)
-    {
+        // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
         // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
         // If the Scheduler is requesting the Capture tab to process a sequence job, a target name will be inserted after the sequence file storage field (e.g. /path/to/storage/target/Light/...)
         // If the end-user is requesting the Capture tab to process a sequence job, the sequence file storage will be used as is (e.g. /path/to/storage/Light/...)
@@ -3689,7 +3698,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 captureDelayTimer->stop();
 
             appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
-                                    deviationText, limitGuideDeviationN->value()));
+                               deviationText, limitGuideDeviationN->value()));
         }
     }
 }
@@ -6524,7 +6533,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
                 calibrationStage = CAL_CALIBRATION;
                 activeJob->setExposure(nextExposure);
-                activeJob->setPreview(true);
+                //activeJob->setPreview(true);
                 if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
                 {
                     currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
@@ -6542,7 +6551,7 @@ bool Capture::processPostCaptureCalibrationStage()
                 {
                     appendLogText(
                         i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
-                    activeJob->setPreview(false);
+                    //activeJob->setPreview(false);
                     currentCCD->setUploadMode(activeJob->getUploadMode());
 
                     // Get raw prefix
@@ -6594,7 +6603,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
-            activeJob->setPreview(true);
+            //activeJob->setPreview(true);
             if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
             {
                 currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
@@ -6609,12 +6618,6 @@ bool Capture::processPostCaptureCalibrationStage()
                 startNextExposure();
                 return;
             }*/
-        }
-        else if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_CLIENT)
-        {
-            appendLogText(i18n("An empty image is received, aborting..."));
-            abort();
-            return false;
         }
     }
 

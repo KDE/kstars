@@ -54,7 +54,7 @@ class SequenceJob : public QObject
         SequenceJob(XMLEle *root); //, SchedulerJob *schedJob);
         ~SequenceJob() = default;
 
-        CAPTUREResult capture(bool autofocusReady);
+        CAPTUREResult capture(bool autofocusReady, FITSMode mode);
         void abort();
         void done();
         void prepareCapture();

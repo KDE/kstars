@@ -359,7 +359,7 @@ bool SequenceJob::areActionsReady()
     return true;
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 {
     activeChip->setBatchMode(!preview);
 
@@ -465,12 +465,16 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady)
     }
 
     activeChip->setFrameType(frameType);
-    activeChip->setCaptureMode(FITS_NORMAL);
-    activeChip->setCaptureFilter(FITS_NONE);
 
-    // If filter is different that CCD, send the filter info
-    //    if (activeFilter && activeFilter != activeCCD)
-    //        activeCCD->setFilter(filter);
+
+    // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
+    // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
+    // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
+    // But in case of automatically calculated flat frames, we need FITSData.
+    // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
+    activeChip->setCaptureMode(mode);
+
+    activeChip->setCaptureFilter(FITS_NONE);
 
     //status = JOB_BUSY;
     setStatus(getStatus());

@@ -1489,7 +1489,7 @@ void CCD::processBLOB(IBLOB *bp)
     }
 #endif
     // Create file name for sequences.
-    if (targetChip->isBatchMode())
+    if (targetChip->isBatchMode() && targetChip->getCaptureMode() != FITS_CALIBRATE)
     {
         // If either generating file name or writing the image file fails
         // then return
@@ -1613,7 +1613,7 @@ void CCD::processBLOB(IBLOB *bp)
     // 2. FITS Viewer is disabled; and
     // 3. Batch mode is enabled.
     // 4. Summary view is false.
-    if ((targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE) &&
+    if (targetChip->getCaptureMode() == FITS_NORMAL &&
             Options::useFITSViewer() == false &&
             Options::useSummaryPreview() == false &&
             targetChip->isBatchMode())
@@ -1664,7 +1664,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
 
                 bool success = false;
                 int tabIndex = -1;
-                int *tabID = (captureMode == FITS_NORMAL) ? &normalTabID : &calibrationTabID;
+                int *tabID = &normalTabID;
                 QUrl fileURL = QUrl::fromLocalFile(filename);
                 FITSScale captureFilter = targetChip->getCaptureFilter();
                 if (*tabID == -1 || Options::singlePreviewFITS() == false)

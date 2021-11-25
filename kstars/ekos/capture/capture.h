@@ -1132,7 +1132,7 @@ class Capture : public QWidget, public Ui::Capture
         QPointer<DarkProcessor> m_DarkProcessor;
 
         QList<double> downloadTimes;
-        QElapsedTimer downloadTimer;
+        QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
         void processGuidingFailed();
 };
