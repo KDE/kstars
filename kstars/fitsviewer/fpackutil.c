@@ -1444,7 +1444,6 @@ int fp_unpack_file_to_fits (char *infits, fitsfile **outfits, fpstate fpvar)
         fp_abort_output(infptr, outfptr, stat);
     }
 
-    //fits_close_file (outfptr, &stat);
     fits_close_file (infptr, &stat);
     *outfits = outfptr;
 
@@ -1594,7 +1593,6 @@ int fp_unpack_data_to_fits (const char *inputBuffer, size_t inputBufferSize, fit
         fp_abort_output(infptr, outfptr, stat);
     }
 
-    //fits_close_file (outfptr, &stat);
     fits_close_file (infptr, &stat);
 
     *outfits = outfptr;
