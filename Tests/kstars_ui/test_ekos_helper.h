@@ -488,6 +488,10 @@ public:
      */
     Ekos::GuideState getGuidingStatus() { return m_GuideStatus;}
     /**
+     * @brief Retrieve the current guide deviation
+     */
+    double getGuideDeviation() {return m_GuideDeviation;}
+    /**
      * @brief Retrieve the current mount meridian flip status.
      */
     Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;}
@@ -514,6 +518,9 @@ private:
 
     // current guiding status
     Ekos::GuideState m_GuideStatus { Ekos::GUIDE_IDLE };
+
+    // current guiding deviation
+    double m_GuideDeviation { -1 };
 
     // current scheduler status
     Ekos::SchedulerState m_SchedulerStatus { Ekos::SCHEDULER_IDLE };
@@ -547,6 +554,14 @@ private:
      * @param status new guiding status
      */
     void guidingStatusChanged(Ekos::GuideState status);
+
+    /**
+     * @brief Slot to track guiding deviation events
+     * @param delta_ra RA deviation
+     * @param delta_dec DEC deviation
+     */
+    void guideDeviationChanged(double delta_ra, double delta_dec);
+
 
     /**
      * @brief Slot to track the capture status

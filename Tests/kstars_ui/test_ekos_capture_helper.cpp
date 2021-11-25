@@ -16,10 +16,6 @@ TestEkosCaptureHelper::TestEkosCaptureHelper(QString guider) : TestEkosHelper(gu
 void TestEkosCaptureHelper::init()
 {
     TestEkosHelper::init();
-    // connect to the capture process to receive capture status changes
-    connect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosCaptureHelper::captureStatusChanged,
-            Qt::UniqueConnection);
-
     QStandardPaths::setTestModeEnabled(true);
     QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
     destination = new QTemporaryDir(test_dir.absolutePath());
@@ -29,10 +25,6 @@ void TestEkosCaptureHelper::init()
 
 void TestEkosCaptureHelper::cleanup()
 {
-    // disconnect to the capture process to receive capture status changes
-    disconnect(Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosCaptureHelper::captureStatusChanged);
-    TestEkosHelper::cleanup();
-
     // remove destination directory
     destination->remove();
     delete destination;
@@ -135,17 +127,3 @@ void TestEkosCaptureHelper::cleanupScheduler()
     // remove jobs
     Ekos::Manager::Instance()->schedulerModule()->removeAllJobs();
 }
-
-/* *********************************************************************************
- *
- * Slots for catching state changes
- *
- * ********************************************************************************* */
-
-void TestEkosCaptureHelper::captureStatusChanged(Ekos::CaptureState status) {
-    m_CaptureStatus = status;
-    // check if the new state is the next one expected, then remove it from the stack
-    if (!expectedCaptureStates.isEmpty() && expectedCaptureStates.head() == status)
-        expectedCaptureStates.dequeue();
-}
-

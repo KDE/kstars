@@ -89,6 +89,12 @@ private slots:
      * guiding deviation as soon as guiding is back below the deviation threshold
      */
     void testGuidingDeviationSuspendingCapture();
+
+    /**
+     * @brief Test if aborting a job suspended due to a guiding deviation
+     * remains aborted when the guiding deviation is below the configured threshold.
+     */
+    void testGuidingDeviationAbortCapture();
 };
 
 #endif // HAVE_INDI

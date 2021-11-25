@@ -3581,24 +3581,6 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
  */
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    //    if (activeJob == nullptr)
-    //    {
-    //        if (deviationDetected == false)
-    //            return;
-
-    //        // Try to find first job that was aborted due to deviation
-    //        for(SequenceJob *job : jobs)
-    //        {
-    //            if (job->getStatus() == SequenceJob::JOB_ABORTED)
-    //            {
-    //                activeJob = job;
-    //                break;
-    //            }
-    //        }
-
-    //        if (activeJob == nullptr)
-    //            return;
-    //    }
     const double deviation_rms = std::hypot(delta_ra, delta_dec);
     if (activeJob)
         activeJob->setCurrentGuiderDrift(deviation_rms);
@@ -3683,16 +3665,20 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             // Start with delay if start hasn't been triggered before
             if (! captureDelayTimer->isActive())
             {
-                if (seqDelay == 0)
-                    appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-                                       "resuming exposure.",
-                                       deviationText, limitGuideDeviationN->value()));
-                else
-                    appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
-                                       "resuming exposure in %3 seconds.",
-                                       deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
+                // if capturing has been suspended, restart it
+                if (m_State == CAPTURE_SUSPENDED)
+                {
+                    if (seqDelay == 0)
+                        appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                           "resuming exposure.",
+                                           deviationText, limitGuideDeviationN->value()));
+                    else
+                        appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
+                                           "resuming exposure in %3 seconds.",
+                                           deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
 
-                captureDelayTimer->start(seqDelay);
+                    captureDelayTimer->start(seqDelay);
+                }
             }
             return;
         }

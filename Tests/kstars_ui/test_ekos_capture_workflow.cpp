@@ -135,9 +135,13 @@ void TestEkosCaptureWorkflow::testPreCaptureScriptExecution()
 
 void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
 {
+    const double deviation_limit = 2.0;
     // switch to capture module
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    // set guide deviation guard to < 2"
+    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, true);
+    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, deviation_limit);
 
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
@@ -147,7 +151,7 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Green", imagepath);
     KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Blue", imagepath);
 
-    // set Kocab as target and slew there
+    // set Dubhe as target and slew there
     SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
     m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
 
@@ -157,7 +161,7 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     // start capture
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
     KTRY_CLICK(capture, startB);
-    // wait until capturing stars
+    // wait until capturing starts
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
     // wait for settling
     QTest::qWait(2000);
@@ -173,6 +177,55 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PROGRESS);
     QTest::qWait(20000);
     QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0, "Multiple capture starts.");
+}
+
+void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
+{
+    const double deviation_limit = 2.0;
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    // set guide deviation guard to < 2"
+    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, true);
+    KTRY_SET_DOUBLESPINBOX(capture, limitGuideDeviationN, deviation_limit);
+
+    // add target to path to emulate the behavior of the scheduler
+    QString imagepath = getImageLocation()->path() + "/test";
+    // build a simple 5xL sequence
+    KTRY_CAPTURE_ADD_LIGHT(30.0, 5, 5.0, "Luminance", imagepath);
+    // set Dubhe as target and slew there
+    SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
+    m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
+
+    // start guiding
+    m_CaptureHelper->startGuiding(1.0);
+
+    // start capture
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    // wait until capturing starts
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+    // wait for settling
+    QTest::qWait(2000);
+    // create a guide drift
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_SUSPENDED);
+    Ekos::Manager::Instance()->mountModule()->doPulse(RA_INC_DIR, 2000, DEC_INC_DIR, 2000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA+DEC guiding pulses.";
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    // wait that capturing gets suspended
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+    // abort capturing
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(capture, startB);
+    // check that it has been aborted
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+    // wait that the guiding deviation is below the limit and
+    // verify that capture does not start
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_PROGRESS);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() < deviation_limit, 20000);
+
+    QTest::qWait(20000);
+    QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0, "Capture has been restarted although aborted.");
 }
 
 

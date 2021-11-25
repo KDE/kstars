@@ -184,6 +184,10 @@ bool TestEkosHelper::startEkosProfile()
     connect(ekos->guideModule(), &Ekos::Guide::newStatus, this, &TestEkosHelper::guidingStatusChanged,
             Qt::UniqueConnection);
 
+    connect(ekos->guideModule(), &Ekos::Guide::newAxisDelta, this, &TestEkosHelper::guideDeviationChanged,
+            Qt::UniqueConnection);
+
+
     // connect to the capture process to receive capture status changes
     connect(ekos->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosHelper::captureStatusChanged,
             Qt::UniqueConnection);
@@ -522,6 +526,11 @@ void TestEkosHelper::guidingStatusChanged(Ekos::GuideState status)
     // check if the new state is the next one expected, then remove it from the stack
     if (!expectedGuidingStates.isEmpty() && expectedGuidingStates.head() == status)
         expectedGuidingStates.dequeue();
+}
+
+void TestEkosHelper::guideDeviationChanged(double delta_ra, double delta_dec)
+{
+    m_GuideDeviation = std::hypot(delta_ra, delta_dec);
 }
 
 void TestEkosHelper::captureStatusChanged(Ekos::CaptureState status)

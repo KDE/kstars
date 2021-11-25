@@ -78,23 +78,6 @@ public:
 
     QDir *getImageLocation();
 
-    // sequence of capture states that are expected
-    QQueue<Ekos::CaptureState> expectedCaptureStates;
-
-    /**
-     * @brief Slot to track the capture status
-     * @param status new capture status
-     */
-    void captureStatusChanged(Ekos::CaptureState status);
-
-    // current capture status
-    Ekos::CaptureState m_CaptureStatus;
-
-    /**
-     * @brief Retrieve the current capture status.
-     */
-    inline Ekos::CaptureState getCaptureStatus() {return m_CaptureStatus;}
-
     // destination where images will be located
     QTemporaryDir *destination;
 
