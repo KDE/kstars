@@ -114,6 +114,7 @@ FITSData::~FITSData()
     {
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
+        free(m_PackBuffer);
         fptr = nullptr;
     }
 }
@@ -128,6 +129,7 @@ void FITSData::loadCommon(const QString &inFilename)
     {
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
+        free(m_PackBuffer);
         fptr = nullptr;
     }
 
@@ -191,17 +193,51 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     m_HistogramConstructed = false;
 
-    if (buffer.isEmpty() && extension.contains(".fz"))
+    if (extension.contains(".fz"))
     {
-        // Store so we don't lose.
-        m_compressedFilename = m_Filename;
-
-        QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
-                                       QRegularExpression("[-{}]")));
         fpstate fpvar;
         fp_init (&fpvar);
-        if (fp_unpack(m_Filename.toLocal8Bit().data(), uncompressedFile.toLocal8Bit().data(), fpvar) < 0)
+        bool rc = false;
+
+        if (buffer.isEmpty())
         {
+            // Store so we don't lose.
+            m_compressedFilename = m_Filename;
+
+            QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
+                                           QRegularExpression("[-{}]")));
+
+            rc = fp_unpack_file_to_fits(m_Filename.toLocal8Bit().data(), &fptr, fpvar) < 0;
+            if (rc)
+            {
+                m_Filename = uncompressedFile;
+            }
+        }
+        else
+        {
+            size_t m_PackBufferSize = 100000;
+            free(m_PackBuffer);
+            m_PackBuffer = (uint8_t *)malloc(m_PackBufferSize);
+            rc = fp_unpack_data_to_data(buffer.data(), buffer.size(), &m_PackBuffer, &m_PackBufferSize, fpvar) == 0;
+
+            if (rc)
+            {
+                void *data = reinterpret_cast<void *>(m_PackBuffer);
+                if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY, &data, &m_PackBufferSize, 0,
+                                      nullptr, &status))
+                {
+                    recordLastError(status);
+                    return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
+                }
+
+                m_Statistics.size = m_PackBufferSize;
+            }
+            //rc = fp_unpack_data_to_fits(buffer.data(), buffer.size(), &fptr, fpvar) == 0;
+        }
+
+        if (rc == false)
+        {
+            free(m_PackBuffer);
             errMessage = i18n("Failed to unpack compressed fits");
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
@@ -209,12 +245,12 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             return false;
         }
 
-        m_Filename = uncompressedFile;
         m_isTemporary = true;
         m_isCompressed = true;
-    }
+        m_Statistics.size = fptr->Fptr->logfilesize;
 
-    if (buffer.isEmpty())
+    }
+    else if (buffer.isEmpty())
     {
         // Use open diskfile as it does not use extended file names which has problems opening
         // files with [ ] or ( ) in their names.
@@ -244,12 +280,14 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
     {
         recordLastError(status);
+        free(m_PackBuffer);
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
     }
 
     if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
     {
         recordLastError(status);
+        free(m_PackBuffer);
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
     }
 
@@ -259,6 +297,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         if (!silent)
             KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
+        free(m_PackBuffer);
         return false;
     }
 
@@ -317,6 +356,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         if (!silent)
             KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
+        free(m_PackBuffer);
         return false;
     }
 
@@ -340,6 +380,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         qCWarning(KSTARS_FITS) << "FITSData: Not enough memory for image_buffer channel. Requested: "
                                << m_ImageBufferSize << " bytes.";
         clearImageBuffers();
+        free(m_PackBuffer);
         return false;
     }
 
@@ -351,6 +392,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (fits_read_img(fptr, m_Statistics.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
     {
         recordLastError(status);
+        free(m_PackBuffer);
         return fitsOpenError(status, i18n("Error reading image."), silent);
     }
 
@@ -3376,7 +3418,8 @@ bool FITSData::debayer_8bit()
     catch (const std::bad_alloc &e)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
+                              10);
         return false;
     }
 
@@ -3423,7 +3466,8 @@ bool FITSData::debayer_8bit()
         {
             delete[] destinationBuffer;
             logOOMError(rgb_size);
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
+                                  10);
             return false;
         }
 
@@ -3465,7 +3509,8 @@ bool FITSData::debayer_16bit()
     catch (const std::bad_alloc &e)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
+                              10);
         return false;
     }
 
@@ -3512,7 +3557,8 @@ bool FITSData::debayer_16bit()
         {
             logOOMError(rgb_size);
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"), 10);
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
+                                  10);
             return false;
         }
 

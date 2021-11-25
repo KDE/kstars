@@ -656,6 +656,8 @@ class FITSData : public QObject
         bool FullWCS { false };
         /// Is the image debayarable?
         bool HasDebayer { false };
+        /// Buffer to hold fpack uncompressed data
+        uint8_t *m_PackBuffer {nullptr};
 
         /// Our very own file name
         QString m_Filename, m_compressedFilename;
