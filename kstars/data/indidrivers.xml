@@ -49,16 +49,12 @@
             <driver name="EQ500X">indi_eq500x_telescope</driver>
             <version>1.0</version>
         </device>
-        <device label="AstroPhysics Experimental" manufacturer="Astrophysics">
-            <driver name="AstroPhysics Experimental">indi_lx200ap_experimental</driver>
+        <device label="AstroPhysics" manufacturer="Astrophysics">
+            <driver name="AstroPhysics">indi_lx200ap</driver>
             <version>1.0</version>
         </device>
         <device label="AstroPhysics GTOCP2" manufacturer="Astrophysics">
             <driver name="AstroPhysics GTOCP2">indi_lx200ap_gtocp2</driver>
-            <version>1.0</version>
-        </device>
-        <device label="AstroPhysics" manufacturer="Astrophysics">
-            <driver name="AstroPhysics">indi_lx200ap</driver>
             <version>1.0</version>
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
@@ -289,7 +285,7 @@
         </device>
         <device label="Shoestring Astronomy FCUSB" manufacturer="Shoestring">
             <driver name="FCUSB">indi_fcusb_focus</driver>
-            <version>0.2</version>
+            <version>0.3</version>
         </device>
         <device label="Celestron SCT" manufacturer="Celestron">
             <driver name="Celestron SCT">indi_celestron_sct_focus</driver>
@@ -701,7 +697,7 @@
         </device>
         <device label="OpenWeatherMap" manufacturer="Others">
             <driver name="OpenWeatherMap">indi_openweathermap_weather</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="MBox" manufacturer="Astromi">
             <driver name="MBox">indi_mbox_weather</driver>
