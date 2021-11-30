@@ -101,12 +101,12 @@ yum install cfitsio-devel eigen3-devel stellarsolver-devel cmake extra-cmake-mod
 
 Open a console and run in the following commands:
 ```
-mkdir -p ~/Projects
+mkdir -p ~/Projects/build/kstars
+cd ~/Projects
 git clone https://invent.kde.org/education/kstars.git
-mkdir -p kstars-build
-cd kstars-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo ../kstars
-make -j8
+cd build/kstars
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo ~/Projects/kstars
+make -j16
 sudo make install
 ```
 
