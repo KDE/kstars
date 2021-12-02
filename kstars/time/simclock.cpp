@@ -15,40 +15,40 @@
 
 int SimClock::TimerInterval = 100; //msec
 
-SimClock::SimClock(QObject *parent, const KStarsDateTime &when) : QObject(parent), tmr(this)
+SimClock::SimClock(QObject *parent, const KStarsDateTime &when) : QObject(parent), m_InternalTimer(this)
 {
 #ifndef KSTARS_LITE
     new SimClockAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/SimClock", this);
 #endif
     if (!when.isValid())
-        tmr.stop();
+        m_InternalTimer.stop();
     setUTC(when);
-    julianmark = UTC.djd();
+    m_JulianMark = m_UTC.djd();
 
-    QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+    QObject::connect(&m_InternalTimer, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
 void SimClock::tick()
 {
-    if (!ManualMode) //only tick if ManualMode is false
+    if (!m_ManualMode) //only tick if ManualMode is false
     {
-        long mselapsed = sysmark.elapsed();
-        if (mselapsed < lastelapsed)
+        long mselapsed = m_SystemMark.elapsed();
+        if (mselapsed < m_LastElapsed)
         {
             // The sysmark timer has wrapped after 24 hours back to 0 ms.
             // Reset sysmark and julianmark
-            julianmark = UTC.djd();
-            sysmark.start();
-            lastelapsed = 0;
+            m_JulianMark = m_UTC.djd();
+            m_SystemMark.start();
+            m_LastElapsed = 0;
         }
         else
         {
-            lastelapsed = mselapsed;
+            m_LastElapsed = mselapsed;
         }
 
-        long double scaledsec = static_cast<long double>(mselapsed) * static_cast<long double>(Scale) / 1000.0;
-        UTC.setDJD(julianmark + scaledsec / (24. * 3600.));
+        long double scaledsec = static_cast<long double>(mselapsed) * static_cast<long double>(m_Scale) / 1000.0;
+        m_UTC.setDJD(m_JulianMark + scaledsec / (24. * 3600.));
 
         // 		qDebug() << "tick() : JD = " << QLocale().toString( UTC.djd(), 7 ) <<
         // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
@@ -63,79 +63,79 @@ void SimClock::setManualMode(bool on)
     if (on)
     {
         //Turn on manual ticking.
-        ManualActive = tmr.isActive();
-        tmr.stop();
+        m_ManualActive = m_InternalTimer.isActive();
+        m_InternalTimer.stop();
     }
     else
     {
         //Turn off manual ticking.  If the Manual clock was active, start the timer.
         if (isActive())
         {
-            sysmark.start();
-            julianmark  = UTC.djd();
-            lastelapsed = 0;
-            tmr.start(TimerInterval);
+            m_SystemMark.start();
+            m_JulianMark  = m_UTC.djd();
+            m_LastElapsed = 0;
+            m_InternalTimer.start(TimerInterval);
         }
     }
-    ManualMode = on;
+    m_ManualMode = on;
 }
 
 void SimClock::manualTick(bool force, bool backward)
 {
-    if (force || (ManualMode && ManualActive))
+    if (force || (m_ManualMode && m_ManualActive))
     {
         //The single shot timer is needed because otherwise the animation is happening so frequently
         //that the kstars interface becomes too unresponsive.
         //QTimer::singleShot(1, [this,backward] { setUTC(UTC.addSecs(static_cast<long double>Scale * (backward ? -1 : 1))); });
-        setUTC(UTC.addSecs(static_cast<long double>(Scale) * (backward ? -1 : 1)));
+        setUTC(m_UTC.addSecs(static_cast<long double>(m_Scale) * (backward ? -1 : 1)));
     }
-    else if (!ManualMode)
+    else if (!m_ManualMode)
         tick();
 }
 
 bool SimClock::isActive()
 {
-    if (ManualMode)
-        return ManualActive;
+    if (m_ManualMode)
+        return m_ManualActive;
     else
-        return tmr.isActive();
+        return m_InternalTimer.isActive();
 }
 
 void SimClock::stop()
 {
-    if (ManualMode && ManualActive)
+    if (m_ManualMode && m_ManualActive)
     {
-        ManualActive = false;
+        m_ManualActive = false;
         emit clockToggled(true);
     }
 
-    if (!ManualMode && tmr.isActive())
+    if (!m_ManualMode && m_InternalTimer.isActive())
     {
         qCDebug(KSTARS) << "Stopping the timer";
-        tmr.stop();
+        m_InternalTimer.stop();
         emit clockToggled(true);
     }
 }
 
 void SimClock::start()
 {
-    if (ManualMode && !ManualActive)
+    if (m_ManualMode && !m_ManualActive)
     {
-        ManualActive = true;
-        sysmark.start();
-        julianmark  = UTC.djd();
-        lastelapsed = 0;
+        m_ManualActive = true;
+        m_SystemMark.start();
+        m_JulianMark  = m_UTC.djd();
+        m_LastElapsed = 0;
         emit clockToggled(false);
         //emit timeChanged() in order to restart calls to updateTime()
         emit timeChanged();
     }
-    else if (!ManualMode && !tmr.isActive())
+    else if (!m_ManualMode && !m_InternalTimer.isActive())
     {
         qCDebug(KSTARS) << "Starting the timer";
-        sysmark.start();
-        julianmark  = UTC.djd();
-        lastelapsed = 0;
-        tmr.start(TimerInterval);
+        m_SystemMark.start();
+        m_JulianMark  = m_UTC.djd();
+        m_LastElapsed = 0;
+        m_InternalTimer.start(TimerInterval);
         emit clockToggled(false);
     }
 }
@@ -148,12 +148,12 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
 
     if (newtime.isValid())
     {
-        UTC = newtime;
-        if (tmr.isActive())
+        m_UTC = newtime;
+        if (m_InternalTimer.isActive())
         {
-            julianmark = UTC.djd();
-            sysmark.start();
-            lastelapsed = 0;
+            m_JulianMark = m_UTC.djd();
+            m_SystemMark.start();
+            m_LastElapsed = 0;
         }
 
         // N.B. Too much log spam when in manual mode
@@ -166,18 +166,18 @@ void SimClock::setUTC(const KStarsDateTime &newtime)
     }
 }
 
-void SimClock::setClockScale(float s)
+void SimClock::setClockScale(double scale)
 {
-    if (Scale != s)
+    if (m_Scale != scale)
     {
-        qCInfo(KSTARS) << "New clock scale: " << s << " sec";
-        emit scaleChanged(s);
-        Scale = s;
-        if (tmr.isActive())
+        qCInfo(KSTARS) << "New clock scale: " << scale << " sec";
+        emit scaleChanged(scale);
+        m_Scale = scale;
+        if (m_InternalTimer.isActive())
         {
-            julianmark = UTC.djd();
-            sysmark.start();
-            lastelapsed = 0;
+            m_JulianMark = m_UTC.djd();
+            m_SystemMark.start();
+            m_LastElapsed = 0;
         }
     }
 }
