@@ -468,7 +468,7 @@ void Guide::checkCCD(int ccdNum)
     if (guiderType != GUIDE_INTERNAL)
         return;
 
-    switch (state)
+    switch (m_State)
     {
         // Not busy, camera change is OK
         case GUIDE_IDLE:
@@ -514,9 +514,14 @@ void Guide::checkCCD(int ccdNum)
         else
             useGuideHead = false;
 
-        ISD::CCDChip *targetChip =
-            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-        if (targetChip && targetChip->isCapturing())
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        if (!targetChip)
+        {
+            qCCritical(KSTARS_EKOS_GUIDE) << "Failed to retrieve active guide chip in camera";
+            return;
+        }
+
+        if (targetChip->isCapturing())
             return;
 
         if (guiderType != GUIDE_INTERNAL)
@@ -885,7 +890,7 @@ bool Guide::abort()
 
     setBusy(false);
 
-    switch (state)
+    switch (m_State)
     {
         case GUIDE_IDLE:
         case GUIDE_CONNECTED:
@@ -977,11 +982,11 @@ void Guide::processCaptureTimeout()
     {
         m_CaptureTimeoutCounter = 0;
         m_DeviceRestartCounter = 0;
-        if (state == GUIDE_GUIDING)
+        if (m_State == GUIDE_GUIDING)
             appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
-        else if (state == GUIDE_DITHERING)
+        else if (m_State == GUIDE_DITHERING)
             appendLogText(i18n("Exposure timeout. Aborting Dithering."));
-        else if (state == GUIDE_CALIBRATING)
+        else if (m_State == GUIDE_CALIBRATING)
             appendLogText(i18n("Exposure timeout. Aborting Calibration."));
 
         captureTimeout.stop();
@@ -993,11 +998,13 @@ void Guide::processCaptureTimeout()
     {
         QString camera = currentCCD->getDeviceName();
         QString via = ST4Driver ? ST4Driver->getDeviceName() : "";
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        QVariantMap settings = frameSettings[targetChip];
         emit driverTimedout(camera);
-        QTimer::singleShot(5000, [ &, camera, via]()
+        QTimer::singleShot(5000, [ &, camera, via, settings]()
         {
             m_DeviceRestartCounter++;
-            reconnectDriver(camera, via);
+            reconnectDriver(camera, via, settings);
         });
         return;
     }
@@ -1006,7 +1013,7 @@ void Guide::processCaptureTimeout()
         restartExposure();
 }
 
-void Guide::reconnectDriver(const QString &camera, const QString &via)
+void Guide::reconnectDriver(const QString &camera, const QString &via, const QVariantMap &settings)
 {
     for (auto &oneCamera : CCDs)
     {
@@ -1015,10 +1022,19 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
             // Set camera again to the one we restarted
             guiderCombo->setCurrentIndex(guiderCombo->findText(camera));
             ST4Combo->setCurrentIndex(ST4Combo->findText(via));
+
+            // Set state to IDLE so that checkCCD is processed since it will not process GUIDE_GUIDING state.
+            Ekos::GuideState currentState = m_State;
+            m_State = GUIDE_IDLE;
             checkCCD();
+            // Restore state to last state.
+            m_State = currentState;
 
             if (guiderType == GUIDE_INTERNAL)
             {
+                // Reset the frame settings to the restarted camera once again before capture.
+                ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+                frameSettings[targetChip] = settings;
                 // restart capture
                 m_CaptureTimeoutCounter = 0;
                 captureOneFrame();
@@ -1028,9 +1044,9 @@ void Guide::reconnectDriver(const QString &camera, const QString &via)
         }
     }
 
-    QTimer::singleShot(5000, this, [ &, camera, via]()
+    QTimer::singleShot(5000, this, [ &, camera, via, settings]()
     {
-        reconnectDriver(camera, via);
+        reconnectDriver(camera, via, settings);
     });
 }
 
@@ -1109,7 +1125,7 @@ void Guide::setCaptureComplete()
         return;
     }
 
-    switch (state)
+    switch (m_State)
     {
         case GUIDE_IDLE:
         case GUIDE_ABORTED:
@@ -1122,8 +1138,8 @@ void Guide::setCaptureComplete()
             break;
 
         case GUIDE_CAPTURE:
-            state = GUIDE_IDLE;
-            emit newStatus(state);
+            m_State = GUIDE_IDLE;
+            emit newStatus(m_State);
             setBusy(false);
             break;
 
@@ -1205,7 +1221,7 @@ bool Guide::sendPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_di
         return false;
 
     // If we're calibrating and we send a pulse, then schedule a subsequent capture.
-    if (state == GUIDE_CALIBRATING)
+    if (m_State == GUIDE_CALIBRATING)
         pulseTimer.start((ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100);
 
     return GuideDriver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
@@ -1216,7 +1232,7 @@ bool Guide::sendPulse(GuideDirection dir, int msecs)
     if (GuideDriver == nullptr || dir == NO_DIR)
         return false;
 
-    if (state == GUIDE_CALIBRATING)
+    if (m_State == GUIDE_CALIBRATING)
         pulseTimer.start(msecs + 100);
 
     return GuideDriver->doPulse(dir, msecs);
@@ -1236,8 +1252,8 @@ QStringList Guide::getST4Devices()
 bool Guide::calibrate()
 {
     // Set status to idle and let the operations change it as they get executed
-    state = GUIDE_IDLE;
-    emit newStatus(state);
+    m_State = GUIDE_IDLE;
+    emit newStatus(m_State);
 
     if (guiderType == GUIDE_INTERNAL)
     {
@@ -1343,13 +1359,13 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
-    if (Options::ditherNoGuiding() && state == GUIDE_IDLE)
+    if (Options::ditherNoGuiding() && m_State == GUIDE_IDLE)
     {
         nonGuidedDither();
         return true;
     }
 
-    if (state == GUIDE_DITHERING || state == GUIDE_DITHERING_SETTLE)
+    if (m_State == GUIDE_DITHERING || m_State == GUIDE_DITHERING_SETTLE)
         return true;
 
     //This adds a dither text item to the graph where dithering occurred.
@@ -1366,7 +1382,7 @@ bool Guide::dither()
 
     if (guiderType == GUIDE_INTERNAL)
     {
-        if (state != GUIDE_GUIDING)
+        if (m_State != GUIDE_GUIDING)
             capture();
 
         setStatus(GUIDE_DITHERING);
@@ -1379,9 +1395,9 @@ bool Guide::dither()
 
 bool Guide::suspend()
 {
-    if (state == GUIDE_SUSPENDED)
+    if (m_State == GUIDE_SUSPENDED)
         return true;
-    else if (state >= GUIDE_CAPTURE)
+    else if (m_State >= GUIDE_CAPTURE)
         return guider->suspend();
     else
         return false;
@@ -1389,9 +1405,9 @@ bool Guide::suspend()
 
 bool Guide::resume()
 {
-    if (state == GUIDE_GUIDING)
+    if (m_State == GUIDE_GUIDING)
         return true;
-    else if (state == GUIDE_SUSPENDED)
+    else if (m_State == GUIDE_SUSPENDED)
         return guider->resume();
     else
         return false;
@@ -1426,8 +1442,8 @@ void Guide::setPierSide(ISD::Telescope::PierSide newSide)
     // and calibration was already done
     // then let's swap
     if (guiderType == GUIDE_INTERNAL &&
-            state != GUIDE_GUIDING &&
-            state != GUIDE_CALIBRATING &&
+            m_State != GUIDE_GUIDING &&
+            m_State != GUIDE_CALIBRATING &&
             calibrationComplete)
     {
         // Couldn't restore an old calibration if we call clearCalibration().
@@ -1463,7 +1479,7 @@ void Guide::setMountStatus(ISD::Telescope::Status newState)
             guider->resetGPG();
 
         // If we're guiding, and the mount either slews or parks, then we abort.
-        if (state == GUIDE_GUIDING || state == GUIDE_DITHERING)
+        if (m_State == GUIDE_GUIDING || m_State == GUIDE_DITHERING)
         {
             if (newState == ISD::Telescope::MOUNT_PARKING)
                 appendLogText(i18n("Mount is parking. Aborting guide..."));
@@ -1576,20 +1592,20 @@ void Guide::clearCalibration()
 
 void Guide::setStatus(Ekos::GuideState newState)
 {
-    if (newState == state)
+    if (newState == m_State)
     {
         // pass through the aborted state
         if (newState == GUIDE_ABORTED)
-            emit newStatus(state);
+            emit newStatus(m_State);
         return;
     }
 
-    GuideState previousState = state;
+    GuideState previousState = m_State;
 
-    state = newState;
-    emit newStatus(state);
+    m_State = newState;
+    emit newStatus(m_State);
 
-    switch (state)
+    switch (m_State)
     {
         case GUIDE_CONNECTED:
             appendLogText(i18n("External guider connected."));
@@ -1697,7 +1713,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             if (guiderType != GUIDE_LINGUIDER)
             {
                 //state = GUIDE_IDLE;
-                state = GUIDE_ABORTED;
+                m_State = GUIDE_ABORTED;
                 setBusy(false);
             }
             break;
@@ -1768,7 +1784,7 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
     INDI_UNUSED(exposure);
 
     if (expState == IPS_ALERT &&
-            ((state == GUIDE_GUIDING) || (state == GUIDE_DITHERING) || (state == GUIDE_CALIBRATING)))
+            ((m_State == GUIDE_GUIDING) || (m_State == GUIDE_DITHERING) || (m_State == GUIDE_CALIBRATING)))
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
@@ -1885,7 +1901,7 @@ bool Guide::setGuiderType(int type)
     else if (type == guiderType)
         return true;
 
-    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
+    if (m_State == GUIDE_CALIBRATING || m_State == GUIDE_GUIDING || m_State == GUIDE_DITHERING)
     {
         appendLogText(i18n("Cannot change guider type while active."));
         return false;
@@ -2530,7 +2546,7 @@ bool Guide::executeOperationStack()
             else
             {
                 emit newStatus(GUIDE_CALIBRATION_ERROR);
-                state = GUIDE_IDLE;
+                m_State = GUIDE_IDLE;
                 appendLogText(i18n("Calibration failed to start."));
                 setBusy(false);
             }
@@ -2616,7 +2632,7 @@ bool Guide::executeOneOperation(GuideState operation)
             // to reaquire a star
             else if (subFramed &&
                      (Options::guideSubframeEnabled() == false ||
-                      state == GUIDE_REACQUIRE))
+                      m_State == GUIDE_REACQUIRE))
             {
                 targetChip->resetFrame();
 
@@ -2670,8 +2686,8 @@ bool Guide::executeOneOperation(GuideState operation)
 
         case GUIDE_STAR_SELECT:
         {
-            state = GUIDE_STAR_SELECT;
-            emit newStatus(state);
+            m_State = GUIDE_STAR_SELECT;
+            emit newStatus(m_State);
 
             if (Options::guideAutoStarEnabled() ||
                     // SEP MultiStar always uses an automated guide star.
@@ -2687,8 +2703,8 @@ bool Guide::executeOneOperation(GuideState operation)
                 {
                     appendLogText(i18n("Failed to select an auto star."));
                     actionRequired = true;
-                    state = GUIDE_CALIBRATION_ERROR;
-                    emit newStatus(state);
+                    m_State = GUIDE_CALIBRATION_ERROR;
+                    emit newStatus(m_State);
                     setBusy(false);
                 }
             }
@@ -2817,14 +2833,14 @@ void Guide::nonGuidedDither()
         QTimer::singleShot( (raMsec > decMsec ? raMsec : decMsec) + Options::ditherSettle() * 1000 + 100, [this]()
         {
             emit newStatus(GUIDE_DITHERING_SUCCESS);
-            state = GUIDE_IDLE;
+            m_State = GUIDE_IDLE;
         });
     }
     else
     {
         qCWarning(KSTARS_EKOS_GUIDE) << "Non-guiding dither failed.";
         emit newStatus(GUIDE_DITHERING_ERROR);
-        state = GUIDE_IDLE;
+        m_State = GUIDE_IDLE;
     }
 }
 
@@ -3127,8 +3143,8 @@ void Guide::initConnections()
     // Capture
     connect(captureB, &QPushButton::clicked, this, [this]()
     {
-        state = GUIDE_CAPTURE;
-        emit newStatus(state);
+        m_State = GUIDE_CAPTURE;
+        emit newStatus(m_State);
 
         if(guiderType == GUIDE_PHD2)
         {
@@ -3393,8 +3409,8 @@ void Guide::setSettings(const QJsonObject &settings)
 
 void Guide::loop()
 {
-    state = GUIDE_LOOPING;
-    emit newStatus(state);
+    m_State = GUIDE_LOOPING;
+    emit newStatus(m_State);
 
     if(guiderType == GUIDE_PHD2)
     {

@@ -120,7 +120,7 @@ class Guide : public QWidget, public Ui::Guide
              */
         Q_SCRIPTABLE Ekos::GuideState status()
         {
-            return state;
+            return m_State;
         }
 
         /** DBUS interface function.
@@ -535,7 +535,7 @@ class Guide : public QWidget, public Ui::Guide
         bool captureOneFrame();
 
         // Driver
-        void reconnectDriver(const QString &camera, const QString &via);
+        void reconnectDriver(const QString &camera, const QString &via, const QVariantMap &settings);
 
         // Operation Stack
         QStack<GuideState> operationStack;
@@ -571,7 +571,7 @@ class Guide : public QWidget, public Ui::Guide
         double pixScaleY { -1 };
 
         // State
-        GuideState state { GUIDE_IDLE };
+        GuideState m_State { GUIDE_IDLE };
         GuideStateWidget *guideStateWidget { nullptr };
 
         // Guide timer
