@@ -3631,6 +3631,7 @@ bool Manager::checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * s
 
 void Manager::restartDriver(const QString &deviceName)
 {
+    qCInfo(KSTARS_EKOS) << "Restarting driver" << deviceName;
     if (m_LocalMode)
     {
         for (auto &device : managedDevices)
