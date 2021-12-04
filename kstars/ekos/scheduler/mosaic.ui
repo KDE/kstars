@@ -1030,7 +1030,8 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="dialog-information"/>
+            <iconset theme="dialog-information">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="autoDefault">
             <bool>false</bool>
@@ -1127,10 +1128,10 @@
           </brush>
          </property>
          <property name="interactive">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
-         <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform</set>
+         <property name="dragMode">
+          <enum>QGraphicsView::ScrollHandDrag</enum>
          </property>
         </widget>
        </item>

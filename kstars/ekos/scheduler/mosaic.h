@@ -22,7 +22,8 @@ class mosaicDialog;
 namespace Ekos
 {
 class Scheduler;
-class MosaicTile;
+class MosaicTilesManager;
+class MosaicTilesScene;
 
 class Mosaic : public QDialog
 {
@@ -54,7 +55,7 @@ class Mosaic : public QDialog
 
     protected:
         virtual void showEvent(QShowEvent *) override;
-        virtual void resizeEvent(QResizeEvent *) override;
+        virtual void resizeEvent(QResizeEvent *) override;        
 
         /// @brief Camera information validity checker.
         bool isScopeInfoValid() const;
@@ -87,22 +88,22 @@ class Mosaic : public QDialog
         virtual void accept() override;
 
     private:
-        SkyPoint center;
+        SkyPoint m_CenterPoint;
         QImage *m_skyChart { nullptr };
 
         QPixmap targetPix;
-        QGraphicsPixmapItem *skyMapItem { nullptr };
+        QGraphicsPixmapItem *m_SkyPixmapItem { nullptr };
 
-        MosaicTile *mosaicTileItem { nullptr };
+        MosaicTilesManager *m_MosaicTilesManager { nullptr };
 
         double pixelsPerArcminRA { 0 }, pixelsPerArcminDE { 0 };
         double renderedWFOV { 0 }, renderedHFOV { 0 };
         double premosaicZoomFactor { 0 };
 
         QPointF screenPoint;
-        QGraphicsScene scene;
+        QGraphicsScene m_TilesScene;
 
-        bool rememberAltAzOption;
+        bool m_RememberAltAzOption {false}, m_RememberShowGround {false};
 
         QTimer *updateTimer { nullptr };
 };
