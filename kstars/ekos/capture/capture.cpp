@@ -566,9 +566,9 @@ void Capture::toggleSequence()
 
 void Capture::registerNewModule(const QString &name)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
     if (name == "Mount" && mountInterface == nullptr)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Registering new Module (" << name << ")";
         mountInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Mount",
                                             "org.kde.kstars.Ekos.Mount", QDBusConnection::sessionBus(), this);
 
@@ -4008,11 +4008,18 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
 
     currentTelescope->disconnect(this);
     connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber);
-    connect(currentTelescope, &ISD::Telescope::newTarget, [&](SkyObject currentObject)
+    connect(currentTelescope, &ISD::Telescope::newTarget, this, &Ekos::Capture::processNewTarget);
+    syncTelescopeInfo();
+}
+
+void Capture::processNewTarget(const SkyObject &newTarget, const SkyPoint &newCoords)
+{
+    Q_UNUSED(newCoords)
+    if (m_State == CAPTURE_IDLE || m_State == CAPTURE_COMPLETE)
     {
-        if (m_State == CAPTURE_IDLE || m_State == CAPTURE_COMPLETE)
+        QString sanitized = newTarget.name();
+        if (sanitized != i18n("unnamed"))
         {
-            QString sanitized = currentObject.name();
             // Remove illegal characters that can be problematic
             sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
                         // Remove any two or more __
@@ -4021,9 +4028,7 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
                         .replace( QRegularExpression("_$"), "");
             filePrefixT->setText(sanitized);
         }
-    });
-
-    syncTelescopeInfo();
+    }
 }
 
 void Capture::syncTelescopeInfo()
@@ -7539,7 +7544,10 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
             // Set camera again to the one we restarted
             cameraS->setCurrentIndex(cameraS->findText(camera));
             filterWheelS->setCurrentIndex(filterWheelS->findText(filterWheel));
+            Ekos::CaptureState rememberState = m_State;
+            m_State = CAPTURE_IDLE;
             checkCCD();
+            m_State = rememberState;
 
             // restart capture
             m_CaptureTimeoutCounter = 0;

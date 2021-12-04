@@ -597,6 +597,12 @@ class Capture : public QWidget, public Ui::Capture
         void processTelescopeNumber(INumberVectorProperty *nvp);
 
         /**
+         * @brief processNewTarget If mount slews to a new object, process it as it can be used for prefix
+         * @param newTarget new sky object under tracking.
+         */
+        void processNewTarget(const SkyObject &newTarget, const SkyPoint &newCoords);
+
+        /**
              * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
              * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
              * @return True if job is added successfully, false otherwise.
