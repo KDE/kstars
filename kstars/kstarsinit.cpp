@@ -778,21 +778,23 @@ void KStars::initStatusBar()
 void KStars::datainitFinished()
 {
     //Time-related connections
-    connect(data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(updateTime()));
-    connect(data()->clock(), SIGNAL(timeChanged()), this, SLOT(updateTime()));
+    connect(data()->clock(), &SimClock::timeAdvanced, this, [this]()
+    {
+        updateTime();
+    });
+    connect(data()->clock(), &SimClock::timeChanged, this, [this]()
+    {
+        updateTime();
+    });
 
     //Add GUI elements to main window
     buildGUI();
 
-    connect(data()->clock(), SIGNAL(scaleChanged(float)), map(), SLOT(slotClockSlewing()));
+    connect(data()->clock(), &SimClock::scaleChanged, map(), &SkyMap::slotClockSlewing);
 
-    connect(data(), SIGNAL(skyUpdate(bool)), map(), SLOT(forceUpdateNow()));
-    connect(m_TimeStepBox, SIGNAL(scaleChanged(float)), data(), SLOT(setTimeDirection(float)));
-    connect(m_TimeStepBox, SIGNAL(scaleChanged(float)), data()->clock(), SLOT(setClockScale(float)));
-    connect(m_TimeStepBox, SIGNAL(scaleChanged(float)), map(), SLOT(setFocus()));
-
-    //m_equipmentWriter = new EquipmentWriter();
-    //m_observerAdd = new ObserverAdd;
+    connect(data(), &KStarsData::skyUpdate, map(), &SkyMap::forceUpdateNow);
+    connect(m_TimeStepBox, &TimeStepBox::scaleChanged, data(), &KStarsData::setTimeDirection);
+    connect(m_TimeStepBox, &TimeStepBox::scaleChanged, data()->clock(), &SimClock::setClockScale);
 
     //Do not start the clock if "--paused" specified on the cmd line
     if (StartClockRunning)
