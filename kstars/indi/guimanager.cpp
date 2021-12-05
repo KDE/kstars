@@ -268,10 +268,6 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     INDI_D *gdm = new INDI_D(mainTabWidget, di->getBaseDevice(), cm);
 
-    // Build existing properties.
-    for (const auto &oneProperty : di->getBaseDevice()->getProperties())
-        gdm->buildProperty(oneProperty);
-
     connect(cm, &ClientManager::newINDIProperty, gdm, &INDI_D::buildProperty);
     connect(cm, &ClientManager::removeINDIProperty, gdm, &INDI_D::removeProperty);
     connect(cm, &ClientManager::newINDISwitch, gdm, &INDI_D::updateSwitchGUI);
@@ -279,8 +275,11 @@ void GUIManager::buildDevice(DeviceInfo *di)
     connect(cm, &ClientManager::newINDINumber, gdm, &INDI_D::updateNumberGUI);
     connect(cm, &ClientManager::newINDILight, gdm, &INDI_D::updateLightGUI);
     connect(cm, &ClientManager::newINDIBLOB, gdm, &INDI_D::updateBLOBGUI);
-
     connect(cm, &ClientManager::newINDIMessage, gdm, &INDI_D::updateMessageLog);
+
+    // Build existing properties.
+    for (const auto &oneProperty : di->getBaseDevice()->getProperties())
+        gdm->buildProperty(oneProperty);
 
     QString deviceName = di->getDeviceName();
     int index          = mainTabWidget->count();
