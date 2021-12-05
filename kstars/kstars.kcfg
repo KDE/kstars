@@ -845,7 +845,7 @@
       <entry name="MaxRadCometName" type="Double">
          <label>Maximum distance from Sun for labeling comets, in AU</label>
          <whatsthis>The maximum solar distance for drawing comets.</whatsthis>
-         <default>3.0</default>
+         <default>1.0</default>
       </entry>
       <entry name="UseGL" type="Bool">
          <label>Switch to OpenGL backend</label>

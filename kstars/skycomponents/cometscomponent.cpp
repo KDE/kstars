@@ -253,7 +253,7 @@ void CometsComponent::draw(SkyPainter *skyp)
 {
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
-    if (!selected() || Options::zoomFactor() < 10 * MINZOOM)
+    if (!selected() || Options::zoomFactor() < 1 * MINZOOM)
         return;
 
     bool hideLabels       = !Options::showCometNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels());
