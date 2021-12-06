@@ -192,10 +192,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
         data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
     */
 
-    // Initialize clock. If --paused is not in the command line, look in options
-    if (clockrun)
-        StartClockRunning = Options::runClock();
-    // If we are starting paused, we need to change datetime in data
+    // If we are starting paused (--paused is not in the command line) change datetime in data
     if (StartClockRunning == false)
     {
         qCInfo(KSTARS) << "KStars is started in paused state.";
