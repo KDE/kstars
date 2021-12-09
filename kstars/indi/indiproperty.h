@@ -9,7 +9,7 @@
 #pragma once
 
 #include "indicommon.h"
-#include <libindi/indiproperty.h>
+#include <indiproperty.h>
 
 #include <QWidget>
 

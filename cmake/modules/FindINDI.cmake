@@ -53,7 +53,7 @@ if(NOT INDI_FOUND)
 
     find_path(INDI_INCLUDE_DIR indidevapi.h
         PATH_SUFFIXES libindi
-        ${PC_INDI_INCLUDE_DIRS}
+        PATHS ${PC_INDI_INCLUDE_DIRS}
         ${_obIncDir}
         ${GNUWIN32_DIR}/include
     )
