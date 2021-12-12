@@ -31,8 +31,6 @@ qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockAlign.xml mo
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockGuide.xml mockmodules.h Ekos::MockGuide)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.xml mockmodules.h Ekos::MockEkos)
 
-ADD_TEST(ui_xterm xterm)
-
 # FIXME: this particular test crashes when done on the EGLFS platform
 # Disabling until we find the reason, other tests do cover this scenario
 
