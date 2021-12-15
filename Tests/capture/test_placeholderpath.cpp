@@ -29,7 +29,8 @@ void parseCSV(const QString filename, const QList<const char*> columns)
 
     if (!testDataFile.open(QIODevice::ReadOnly))
     {
-        qDebug() << testDataFile.errorString();
+        QDir cwd(".");
+        qDebug() << cwd.absolutePath() << ":" << testDataFile.errorString();
         QFAIL("error");
     }
 
@@ -157,7 +158,7 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo_data()
     {
         QTest::addColumn<QString>(column);
     }
-    parseCSV(":/testSchedulerProcessJobInfo_data.csv", columns);
+    parseCSV("testSchedulerProcessJobInfo_data.csv", columns);
 
 #endif
 }
@@ -227,7 +228,7 @@ void TestPlaceholderPath::testCaptureAddJob_data()
     {
         QTest::addColumn<QString>(column);
     }
-    parseCSV(":/testSchedulerProcessJobInfo_data.csv", columns);
+    parseCSV("testSchedulerProcessJobInfo_data.csv", columns);
 #endif
 }
 
@@ -482,7 +483,7 @@ void TestPlaceholderPath::testFullNamingSequence_data()
     {
         QTest::addColumn<QString>(column);
     }
-    parseCSV(":/testFullNamingSequence_data.csv", columns);
+    parseCSV("testFullNamingSequence_data_small.csv", columns);
 #endif
 }
 
@@ -619,7 +620,7 @@ void TestPlaceholderPath::testFlexibleNaming_data()
     QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" <<
                               "^/tmp/kstars/%a_\\.fits$";
 
-    parseCSV(":/testFlexibleNaming_data.csv", columns);
+    parseCSV("testFlexibleNaming_data_small.csv", columns);
 #endif
 }
 
@@ -698,7 +699,7 @@ void TestPlaceholderPath::testFlexibleNamingChangeBehavior_data()
     {
         QTest::addColumn<QString>(column);
     }
-    parseCSV(":/testFlexibleNamingChangeBehavior_data.csv", columns);
+    parseCSV("testFlexibleNamingChangeBehavior_data_small.csv", columns);
 #endif
 }
 

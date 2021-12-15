@@ -6949,7 +6949,7 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
-        scheduler->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
+        if (scheduler != nullptr) scheduler->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
         return false;
     }
 
