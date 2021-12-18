@@ -8,7 +8,7 @@ stages:
   - test
   - test-unstable
 
-image: tallfurryman/kstars-ci:0.8
+image: tallfurryman/kstars-ci:0.9
 
 variables:
   CCACHE_BASEDIR: "$CI_PROJECT_DIR"
@@ -65,6 +65,7 @@ build-and-test-stable:
     - *build_recipe
   script:
     - rm -rf Testing
+    - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
     - xvfb-run ctest -T test -L stable --output-on-failure
   after_script:
     - pwd
@@ -88,6 +89,7 @@ build-and-test-unstable:
     - *build_recipe
   script:
     - rm -rf Testing
+    - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
     - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
   after_script:
     - pwd
