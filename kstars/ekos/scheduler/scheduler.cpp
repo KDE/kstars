@@ -265,8 +265,8 @@ void Scheduler::init()
     setupNextIteration(RUN_WAKEUP, 10);
 }
 
-// Setup the main loop and run.
-void Scheduler::run()
+// Setup the main loop and start.
+void Scheduler::start()
 {
     init();
     iterate();
@@ -1692,7 +1692,7 @@ void Scheduler::toggleScheduler()
         stop();
     }
     else
-        run();
+        execute();
 }
 
 void Scheduler::stop()
@@ -1817,7 +1817,7 @@ void Scheduler::stop()
     evaluateOnlyB->setEnabled(true);
 }
 
-void Scheduler::start()
+void Scheduler::execute()
 {
     switch (state)
     {
@@ -2679,7 +2679,7 @@ void Scheduler::wakeUpScheduler()
     {
         disablePreemptiveShutdown();
         appendLogText(i18n("Scheduler is awake."));
-        start();
+        execute();
     }
     else
     {
@@ -5319,7 +5319,8 @@ void Scheduler::setDirty()
     mosaicB->setEnabled(addingOK);
 }
 
-void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob*> &seqjobs, const SchedulerJob::CapturedFramesMap &framesCount)
+void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob*> &seqjobs,
+        const SchedulerJob::CapturedFramesMap &framesCount)
 {
 
     bool lightFramesRequired = false;
@@ -5362,8 +5363,9 @@ uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seq
     return capturesPerRepeat;
 }
 
-uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const SchedulerJob::CapturedFramesMap &capturedFramesCount,
-                                          SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map)
+uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
+        const SchedulerJob::CapturedFramesMap &capturedFramesCount,
+        SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map)
 {
     uint16_t totalCompletedCount = 0;
 

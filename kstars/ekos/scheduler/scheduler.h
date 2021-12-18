@@ -1078,8 +1078,8 @@ private:
 
         // Methods & variables that control the scheduler's iterations.
 
-        // Initializes the scheduler, then calls iterate().
-        void run();
+        // Executes the scheduler
+        void execute();
         // Repeatedly runs a scheduler iteration and then sleeps timerInterval millisconds
         // and run the next iteration. This continues until the sleep time is negative.
         void iterate();
