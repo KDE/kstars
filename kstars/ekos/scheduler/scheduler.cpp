@@ -1692,7 +1692,7 @@ void Scheduler::toggleScheduler()
         stop();
     }
     else
-        execute();
+        start();
 }
 
 void Scheduler::stop()
