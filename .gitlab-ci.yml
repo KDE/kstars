@@ -67,6 +67,10 @@ build-and-test-stable:
     - rm -rf Testing
     - mkdir -p /var/run/dbus
     - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+    - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+    - apt install dbus-x11
+    - export $(dbus-launch)
+    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames 
     - xvfb-run ctest -T test -L stable --output-on-failure
   after_script:
     - pwd
@@ -92,6 +96,10 @@ build-and-test-unstable:
     - rm -rf Testing
     - mkdir -p /var/run/dbus
     - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+    - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+    - apt install dbus-x11
+    - export $(dbus-launch)
+    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
     - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
   after_script:
     - pwd
