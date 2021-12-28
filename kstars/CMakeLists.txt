@@ -1302,9 +1302,6 @@ if(APPLE)
     endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
     set(KSTARS_APP "${CMAKE_BINARY_DIR}/bin/KStars.app")
     file(COPY
-        "${CMAKE_CURRENT_SOURCE_DIR}/data/"
-        DESTINATION "${KSTARS_APP}/Contents/Resources/kstars")
-    file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/icons"
         DESTINATION "${KSTARS_APP}/Contents/Resources/")
     file(COPY

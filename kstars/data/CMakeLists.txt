@@ -1,5 +1,10 @@
 
 ########### install files ###############
+if(APPLE)
+	set(KSTARS_DATADIR "${CMAKE_BINARY_DIR}/bin/KStars.app/Contents/Resources")
+else(APPLE)
+	set(KSTARS_DATADIR "${KDE_INSTALL_DATADIR}")
+endif(APPLE)
 
 install(FILES
     kstars.png
@@ -27,19 +32,19 @@ install(FILES
     tips TZrules.dat Interesting.dat PlanetFacts.dat indidrivers.xml
     advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif
     OpenNGC.kscat
-    DESTINATION ${KDE_INSTALL_DATADIR}/kstars
+    DESTINATION ${KSTARS_DATADIR}/kstars
 )
 
 file(GLOB vsop87_files vsop87/*)
-install( FILES ${vsop87_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars)
+install( FILES ${vsop87_files} DESTINATION ${KSTARS_DATADIR}/kstars)
 
 # N.B. On Windows & Mac, the sound files do not exist at all.
 # On Linux, it will overwrite the Oxygen-* files.
 file(GLOB sound_files sounds/*)
-install( FILES ${sound_files} DESTINATION ${KDE_INSTALL_DATADIR}/sounds )
+install( FILES ${sound_files} DESTINATION ${KSTARS_DATADIR}/sounds )
 
 file(GLOB scheme_files themes/*)
-install( FILES ${scheme_files} DESTINATION ${KDE_INSTALL_DATADIR}/kstars/themes )
+install( FILES ${scheme_files} DESTINATION ${KSTARS_DATADIR}/kstars/themes )
 
 install(FILES
     textures/star.png
@@ -96,12 +101,12 @@ install(FILES
     textures/moon34.png
     textures/moon35.png
     textures/defaultflag.png
-    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/textures
+    DESTINATION ${KSTARS_DATADIR}/kstars/textures
 )
 
 #install(FILES
 #    scripts/supernova_updates_parser.py
-#    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/scripts
+#    DESTINATION ${KSTARS_DATADIR}/kstars/scripts
 #)
 
 install(FILES
@@ -190,7 +195,7 @@ install(FILES
     skycultures/western/virgo.png
     skycultures/western/volans.png
     skycultures/western/vulpecula.png
-    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/western
+    DESTINATION ${KSTARS_DATADIR}/kstars/skycultures/western
 )
 
 install(FILES
@@ -205,6 +210,6 @@ install(FILES
     skycultures/inuit/two-in-front.png
     skycultures/inuit/two-placed-far-apart.png
     skycultures/inuit/two-sunbeams.png
-    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/skycultures/inuit
+    DESTINATION ${KSTARS_DATADIR}/kstars/skycultures/inuit
 )
 
