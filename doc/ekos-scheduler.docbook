@@ -335,17 +335,69 @@ exit(0)
             When your target and conditions are ready, start the Mosaic Job Creator by clicking on the icon next to the <guibutton>Find</guibutton> button in Ekos Module. A new window will open with a left-side form and your target centered in a sky chart. For convenience, maximize that window. There is a help icon on the top left part of the sky chart. Move your mouse over it to display the latest documentation of the tool. Each gadget also has its own tooltip.
         </para>
         <para>
-            On first use, you need to enter your equipment settings including your telescope focal length in addition to camera's width, height, and pixel dimensions. You also need to enter the rotation of the camera with respect to the celestial pole your mount is pointing to. If Ekos is already started, you may retrieve optical information by clicking the <guibutton>Fetch</guibutton> to fill those fields automatically. However, if the camera rotation angle is unknown at that step, you will first need to use the <link linkend="ekos-align">Align module</link> to solve a field, preferentially close to the celestial equator, in order to determine it precisely.
+            On first use, you need to enter your equipment settings including your telescope focal length in addition to camera's width, height, and pixel dimensions. You also need to enter the rotation of the camera with respect to the celestial pole your mount is pointing to. If Ekos is already started, you may retrieve optical information by clicking the <guibutton>Fetch</guibutton> to fill those fields automatically. However, if the camera rotation angle is unknown at that step, you will first need to use the <link linkend="ekos-align">Align module</link> to solve a field, preferentially close to the celestial equator, in order to determine it precisely. The rotation angle is an important parameter of your mosaic, as the Tool will create a grid using this orientation.
         </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler Mosaic Tool
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos-scheduler-mosaic-std.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler Mosaic Tool</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para>
             Next, enter the desired <guilabel>overlap</guilabel> and number of horizontal and vertical <guilabel>mosaic grid</guilabel> panels (&eg; 2x2, 3x3, &etc;). The sky chart will update automatically after a short time, with target FOV calculated given the number of grid panes and your camera's FOV. By default, the percentage of the overlap among images is 5%, but you can change this value to your desired value. Changing the <guilabel>overlap</guilabel> will adjust the <guilabel>mosaic grid</guilabel> to cover the same area, while changing the <guilabel>mosaic grid</guilabel> will extend or shrink the mosaic area. To reset the extents of the mosaic field of view to the area expectedly covered by the grid, click <guibutton>Cover FOV</guibutton>.
         </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler Mosaic Tool - Field of view
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos-scheduler-mosaic-std.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler Mosaic Tool - Field of view</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para>
             A large overlap will make frame stitching easier during post-processing, but will more panes to cover the desired extent. However, if you already know the minimal amount of sub-frames your rejection algorithm will use during post-processing, you may want to increase the overlap to attain that amount on the areas covered by multiple panes. For instance, a 4x4 mosaic grid with 75% overlap has 16 sub-frames covering the central intersection, which is enough for Windsorized Sigma rejection. Although the resulting stack does not have the same height on all parts of the final frame, this method gives you control on signal-to-noise ratio and allows you to provide context to your target while exposing a relatively low number of captures.
         </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler Mosaic Tool - 75% overlap
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos-scheduler-mosaic-threequarteroverlap.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler Mosaic Tool - 75% overlap</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para>
-            The large number drawn in the corner of each grid pane represents the order in which panes will be captured. The default S-shaped choice, that is, west-east then alternating high-low/low-high moves, ensures minimal movement of the mount during observation. Uncheck <guilabel>Minimum mount move</guilabel> to revert to west-east/high-low movement only. The coordinates of each pane are rendered in their center as degrees, minutes and seconds. Finally, the angle each pane rotates from the center of the mosaic is displayed at their bottom. If your mosaic is located close to a celestial pole, you may observe that rendered panes start rotating visibly due to the raising declination. Use the <guilabel>overlap</guilabel> to ensure panes cover the desired frame extents properly.
+            The large number drawn in the corner of each grid pane represents the order in which panes will be captured. The default S-shaped choice, that is, west-east then alternating high-low/low-high moves, ensures minimal movement of the mount during observation. Uncheck <guilabel>Minimum mount move</guilabel> to revert to west-east/high-low movement only. The coordinates of each pane are rendered in their center as degrees, minutes and seconds. Finally, the angle each pane rotates from the center of the mosaic is displayed at their bottom. If your field of view is large, or if your mosaic is located close to a celestial pole, you may observe that rendered panes start rotating visibly due their horizontal position or raising declination. Use the <guilabel>overlap</guilabel> to ensure panes cover the desired frame extents properly.
         </para>
+        <screenshot>
+            <screeninfo>
+                Scheduler Mosaic Tool - Large rotation
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos-scheduler-mosaic-atpole.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Scheduler Mosaic Tool - Large rotation</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
         <para>
             If you need to adjust the position of the mosaic, click on the view and drag the chart to recenter your target. When satisfied, set the frequency of alignment and focus steps during the mosaic execution, choose an output folder and accept the dialog. Ekos shall create an observation job and a corresponding customized sequence file for each panel. Save the plan to an Ekos Scheduler List (<literal role="extension">.esl</literal>) file with the <guibutton>Save as...</guibutton> button, so that you may load it on any suitable observing night and, with the <guilabel>Remeber Job Progress</guilabel> option, it will pick off where you left.
         </para>
