@@ -713,10 +713,7 @@ void Mount::setMeridianFlipValues(bool activate, double hours)
     else
         meridianFlipTimeBox->setValue(hours);
 
-    Options::setExecuteMeridianFlip(meridianFlipCheckBox->isChecked());
-
-    // It is always saved in hours
-    Options::setMeridianFlipOffset(hours);
+    meridianFlipSetupChanged();
 }
 
 void Mount::meridianFlipSetupChanged()
