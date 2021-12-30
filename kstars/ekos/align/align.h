@@ -593,6 +593,7 @@ class Align : public QWidget, public Ui::Align
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::AlignState state);
+        void PAAToggled(bool toggled);
         void newSolution(const QVariantMap &solution);
 
         // This is sent when we load an image in the view
@@ -827,7 +828,6 @@ class Align : public QWidget, public Ui::Align
         // keep track of autoWSC
         bool rememberAutoWCS { false };
         bool rememberSolverWCS { false };
-        //bool rememberMeridianFlip { false };
 
         // Differential Slewing
         bool differentialSlewingActivated { false };

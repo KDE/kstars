@@ -3979,6 +3979,9 @@ void Align::processPAHStage(int stage)
 {
     switch (stage)
     {
+        case PAA::PAH_IDLE:
+            emit PAAToggled(false);
+            break;
         case PAA::PAH_POST_REFRESH:
         {
             Options::setAstrometrySolverWCS(rememberSolverWCS);
@@ -3994,6 +3997,7 @@ void Align::processPAHStage(int stage)
             Options::setAutoWCS(rememberAutoWCS);
             break;
         case PAA::PAH_FIRST_CAPTURE:
+            emit PAAToggled(true);
             nothingR->setChecked(true);
             m_CurrentGotoMode = GOTO_NOTHING;
             loadSlewB->setEnabled(false);
