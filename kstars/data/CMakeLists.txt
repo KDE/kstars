@@ -1,7 +1,7 @@
 
 ########### install files ###############
 if(APPLE)
-	set(KSTARS_DATADIR "${CMAKE_BINARY_DIR}/bin/KStars.app/Contents/Resources")
+        set(KSTARS_DATADIR "${BUNDLED_DATA_LOCATION}")
 else(APPLE)
 	set(KSTARS_DATADIR "${KDE_INSTALL_DATADIR}")
 endif(APPLE)

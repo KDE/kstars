@@ -1301,8 +1301,12 @@ if(APPLE)
         FetchContent_MakeAvailable(macfiles)
     endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
     set(KSTARS_APP "${CMAKE_BINARY_DIR}/bin/KStars.app")
-    execute_process(COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR}/data)
-    execute_process(COMMAND ${CMAKE_COMMAND} --build . --target install)
+    execute_process(COMMAND ${CMAKE_COMMAND}
+                    -DBUNDLED_DATA_LOCATION=${CMAKE_BINARY_DIR}/bin/KStars.app/Contents/Resources
+                    ${CMAKE_CURRENT_SOURCE_DIR}/data
+                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
+    execute_process(COMMAND ${CMAKE_COMMAND} --build . --target install
+                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/icons"
         DESTINATION "${KSTARS_APP}/Contents/Resources/")
