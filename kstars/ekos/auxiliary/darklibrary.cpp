@@ -503,7 +503,7 @@ bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
 void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data)
 {
     Q_UNUSED(data)
-    if (job->getStatus() == SequenceJob::JOB_IDLE)
+    if (job->getStatus() == JOB_IDLE)
         return;
 
     if (job->getCompleted() == job->getCount())
@@ -518,8 +518,10 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
         };
 
         // Record temperature
-        if (m_CurrentCamera->hasCooler())
-            metadata["temperature"] = job->getCurrentTemperature();
+        double temp;
+        bool success = m_CurrentCamera->getTemperature(&temp);
+        if (success)
+            metadata["temperature"] = temp;
 
         metadata["count"] = job->getCount();
         generateMasterFrame(m_CurrentDarkFrame, metadata);

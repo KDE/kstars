@@ -609,7 +609,7 @@ void Capture::start()
 
     for (auto &job : jobs)
     {
-        if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
+        if (job->getStatus() == JOB_IDLE || job->getStatus() == JOB_ABORTED)
         {
             first_job = job;
             break;
@@ -623,7 +623,7 @@ void Capture::start()
         // If we have at least one job that are in error, bail out, even if ignoring job progress
         for (auto &job : jobs)
         {
-            if (job->getStatus() != SequenceJob::JOB_DONE)
+            if (job->getStatus() != JOB_DONE)
             {
                 appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
                 return;
@@ -728,7 +728,7 @@ void Capture::stop(CaptureState targetState)
 
     if (activeJob)
     {
-        if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        if (activeJob->getStatus() == JOB_BUSY)
         {
             QString stopText;
             switch (targetState)
@@ -777,8 +777,9 @@ void Capture::stop(CaptureState targetState)
             currentCCD->setUploadMode(activeJob->getUploadMode());
             jobs.removeOne(activeJob);
             // Delete preview job
-            delete (activeJob);
-            activeJob = nullptr;
+            activeJob->deleteLater();
+            // Clear active job
+            setActiveJob(nullptr);
 
             emit newStatus(targetState);
         }
@@ -843,7 +844,7 @@ void Capture::stop(CaptureState targetState)
 
     seqDelayTimer->stop();
 
-    activeJob = nullptr;
+    setActiveJob(nullptr);
     // meridian flip may take place if requested
     setMeridianFlipStage(MF_READY);
 }
@@ -1526,7 +1527,7 @@ void Capture::checkFilter(int filterNum)
 
 
     /*if (activeJob &&
-        (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+        (activeJob->getStatus() == JOB_ABORTED || activeJob->getStatus() == JOB_IDLE))
         activeJob->setCurrentFilter(currentFilterPosition);*/
 }
 
@@ -1790,10 +1791,8 @@ IPState Capture::setCaptureComplete()
         jobs.removeOne(activeJob);
         // Reset upload mode if it was changed by preview
         currentCCD->setUploadMode(activeJob->getUploadMode());
-        //delete (activeJob);
-        activeJob->deleteLater();
         // Reset active job pointer
-        activeJob = nullptr;
+        setActiveJob(nullptr);
         abort();
         if (m_GuideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
@@ -2057,7 +2056,7 @@ IPState Capture::resumeSequence()
 
         foreach (SequenceJob * job, jobs)
         {
-            if (job->getStatus() == SequenceJob::JOB_IDLE || job->getStatus() == SequenceJob::JOB_ABORTED)
+            if (job->getStatus() == JOB_IDLE || job->getStatus() == JOB_ABORTED)
             {
                 next_job = job;
                 break;
@@ -2305,7 +2304,7 @@ void Capture::captureImage()
     seqDelayTimer->stop();
     captureDelayTimer->stop();
 
-    SequenceJob::CAPTUREResult rc = SequenceJob::CAPTURE_OK;
+    CAPTUREResult rc = CAPTURE_OK;
 
     if (currentFilter != nullptr)
     {
@@ -2314,13 +2313,6 @@ void Capture::captureImage()
         syncFilterInfo();
         m_CurrentFilterPosition = filterManager->getFilterPosition();
         activeJob->setCurrentFilter(m_CurrentFilterPosition);
-    }
-
-    if (currentCCD->hasCooler())
-    {
-        double temperature = 0;
-        currentCCD->getTemperature(&temperature);
-        activeJob->setCurrentTemperature(temperature);
     }
 
     if (currentCCD->isFastExposureEnabled())
@@ -2377,7 +2369,7 @@ void Capture::captureImage()
     // NOTE: Why we didn't emit this before for preview?
     emit newStatus(Ekos::CAPTURE_CAPTURING);
 
-    if (frameSettings.contains(activeJob->getActiveChip()))
+    if (frameSettings.contains(activeJob->commandProcessor.activeChip))
     {
         QVariantMap settings;
         settings["x"]    = activeJob->getSubX();
@@ -2387,7 +2379,7 @@ void Capture::captureImage()
         settings["binx"] = activeJob->getXBin();
         settings["biny"] = activeJob->getYBin();
 
-        frameSettings[activeJob->getActiveChip()] = settings;
+        frameSettings[activeJob->commandProcessor.activeChip] = settings;
     }
 
     // If using DSLR, make sure it is set to correct transfer format
@@ -2397,13 +2389,13 @@ void Capture::captureImage()
 
     rc = activeJob->capture(m_AutoFocusReady, calibrationStage == CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
-    if (rc != SequenceJob::CAPTURE_OK)
+    if (rc != CAPTURE_OK)
     {
         disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress);
     }
     switch (rc)
     {
-        case SequenceJob::CAPTURE_OK:
+        case CAPTURE_OK:
         {
             emit captureStarting(activeJob->getExposure(), activeJob->getFilterName());
             appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
@@ -2420,30 +2412,30 @@ void Capture::captureImage()
         }
         break;
 
-        case SequenceJob::CAPTURE_FRAME_ERROR:
+        case CAPTURE_FRAME_ERROR:
             appendLogText(i18n("Failed to set sub frame."));
             abort();
             break;
 
-        case SequenceJob::CAPTURE_BIN_ERROR:
+        case CAPTURE_BIN_ERROR:
             appendLogText(i18n("Failed to set binning."));
             abort();
             break;
 
-        case SequenceJob::CAPTURE_FILTER_BUSY:
+        case CAPTURE_FILTER_BUSY:
             // Try again in 1 second if filter is busy
             secondsLabel->setText(i18n("Changing filter..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
-        case SequenceJob::CAPTURE_GUIDER_DRIFT_WAIT:
+        case CAPTURE_GUIDER_DRIFT_WAIT:
             // Try again in 1 second if filter is busy
             secondsLabel->setText(i18n("Guider settling..."));
             qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
-        case SequenceJob::CAPTURE_FOCUS_ERROR:
+        case CAPTURE_FOCUS_ERROR:
             appendLogText(i18n("Cannot capture while focus module is busy."));
             abort();
             break;
@@ -2592,7 +2584,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
 
         if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
-            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+            if (activeJob && activeJob->getStatus() == JOB_BUSY)
             {
                 processData(nullptr);
                 return;
@@ -2654,6 +2646,37 @@ void Capture::processCaptureError(ISD::CCD::ErrorType type)
     }
 }
 
+void Capture::setActiveJob(SequenceJob *value)
+{
+    // do nothing if active job is not changed
+    if (activeJob == value)
+        return;
+
+    // clear existing job connections
+    if (activeJob != nullptr)
+    {
+        disconnect(this, nullptr, activeJob, nullptr);
+        disconnect(activeJob, nullptr, this, nullptr);
+    }
+
+    // set the new value
+    activeJob = value;
+
+    // create job connections
+    if (activeJob != nullptr)
+    {
+        // translate capture preparation
+        connect(this, &Capture::prepareCapture, activeJob, &SequenceJob::startPrepareCapture);
+        // forward signals to the sequence job
+        connect(this, &Capture::newGuiderDrift, activeJob, &SequenceJob::updateGuiderDrift);
+        connect(this, &Capture::newRotatorAngle, activeJob, &SequenceJob::updateRotatorAngle);
+        connect(this, &Capture::newTemperatureValue, activeJob, &SequenceJob::updateCCDTemperature);
+        // react upon sequence job signals
+        connect(activeJob, &SequenceJob::prepareState, this, &Capture::updatePrepareState);
+        connect(activeJob, &SequenceJob::prepareComplete, this, &Capture::executeJob);
+    }
+}
+
 void Capture::updateCCDTemperature(double value)
 {
     if (cameraTemperatureS->isEnabled() == false)
@@ -2666,10 +2689,8 @@ void Capture::updateCCDTemperature(double value)
 
     if (cameraTemperatureN->cleanText().isEmpty())
         cameraTemperatureN->setValue(value);
-
-    //if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
-    if (activeJob)
-        activeJob->setCurrentTemperature(value);
+    // publish it
+    emit newTemperatureValue(value);
 }
 
 void Capture::updateRotatorNumber(INumberVectorProperty * nvp)
@@ -2678,10 +2699,8 @@ void Capture::updateRotatorNumber(INumberVectorProperty * nvp)
     {
         // Update widget rotator position
         rotatorSettings->setCurrentAngle(nvp->np[0].value);
-
-        //if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
-        if (activeJob)
-            activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
+        // communicate the new rotator position
+        emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
     }
 }
 
@@ -2766,8 +2785,7 @@ bool Capture::addJob(bool preview)
                            fileTimestampS->isChecked());
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
 
-    job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT &&
-                                    startGuiderDriftS->isChecked());
+    job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT && startGuiderDriftS->isChecked());
     job->setTargetStartGuiderDrift(startGuiderDriftN->value());
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
@@ -2782,18 +2800,17 @@ bool Capture::addJob(bool preview)
 
     job->setDelay(captureDelayN->value() * 1000); /* in ms */
 
-    job->setActiveChip(targetChip);
-    job->setActiveCCD(currentCCD);
-    job->setActiveFilter(currentFilter);
+    job->commandProcessor.activeChip = targetChip;
+    job->commandProcessor.activeCCD = currentCCD;
+    job->commandProcessor.activeFilterWheel = currentFilter;
 
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
 
     if (currentRotator && rotatorSettings->isRotationEnforced())
     {
-        job->setActiveRotator(currentRotator);
+        job->commandProcessor.activeRotator = currentRotator;
         job->setTargetRotation(rotatorSettings->getTargetRotationPA());
-        job->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
     }
 
     job->setFrame(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(), captureFrameHN->value());
@@ -2996,7 +3013,7 @@ void Capture::removeJob(int index)
     SequenceJob * job = jobs.at(index);
     jobs.removeOne(job);
     if (job == activeJob)
-        activeJob = nullptr;
+        setActiveJob(nullptr);
 
     delete job;
 
@@ -3121,7 +3138,7 @@ void Capture::setBusy(bool enable)
  */
 void Capture::prepareJob(SequenceJob * job)
 {
-    activeJob = job;
+    setActiveJob(job);
 
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
@@ -3153,9 +3170,9 @@ void Capture::prepareJob(SequenceJob * job)
     if (index >= 0)
         queueTable->selectRow(index);
 
-    if (activeJob->getActiveCCD() != currentCCD)
+    if (activeJob->commandProcessor.activeCCD != currentCCD)
     {
-        setCamera(activeJob->getActiveCCD()->getDeviceName());
+        setCamera(activeJob->commandProcessor.activeCCD->getDeviceName());
     }
 
     /*if (activeJob->isPreview())
@@ -3429,10 +3446,6 @@ void Capture::preparePreCaptureActions()
 
     activeJob->resetCurrentGuiderDrift();
 
-    // update rotator angle
-    if (currentRotator != nullptr && activeJob->getTargetRotation() != Ekos::INVALID_VALUE)
-        activeJob->setCurrentRotation(rotatorSettings->getCurrentRotationPA());
-
     setBusy(true);
 
     if (activeJob->isPreview())
@@ -3442,10 +3455,8 @@ void Capture::preparePreCaptureActions()
         startB->setToolTip(i18n("Stop"));
     }
 
-    connect(activeJob, &SequenceJob::prepareState, this, &Ekos::Capture::updatePrepareState);
-    connect(activeJob, &SequenceJob::prepareComplete, this, &Ekos::Capture::executeJob);
-
-    activeJob->prepareCapture();
+    // signal that capture preparation steps should be executed
+    emit prepareCapture();
 }
 
 /**
@@ -3515,7 +3526,7 @@ void Capture::executeJob()
     setBusy(true);
 
     useGuideHead = (activeJob != nullptr &&
-                    activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
+                    activeJob->commandProcessor.activeChip->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     syncGUIToJob(activeJob);
 
@@ -3591,8 +3602,8 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     const double deviation_rms = std::hypot(delta_ra, delta_dec);
-    if (activeJob)
-        activeJob->setCurrentGuiderDrift(deviation_rms);
+    // communicate the new guiding deviation
+    emit newGuiderDrift(deviation_rms);
 
     // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
     if (activeJob == nullptr && checkMeridianFlipReady())
@@ -3622,7 +3633,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     // If we have an active busy job, let's abort it if guiding deviation is exceeded.
     // And we accounted for the spike
-    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
+    if (activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
         if (deviation_rms <= limitGuideDeviationN->value())
             m_SpikesDetected = 0;
@@ -3658,7 +3669,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     SequenceJob * abortedJob = nullptr;
     for(SequenceJob * job : jobs)
     {
-        if (job->getStatus() == SequenceJob::JOB_ABORTED)
+        if (job->getStatus() == JOB_ABORTED)
         {
             abortedJob = job;
             break;
@@ -3761,7 +3772,7 @@ void Capture::setFocusStatus(FocusState state)
         restartRefocusEveryNTimer();
     }
 
-    if ((isRefocus || isInSequenceFocus) && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    if ((isRefocus || isInSequenceFocus) && activeJob && activeJob->getStatus() == JOB_BUSY)
     {
         // if the focusing has been started during the post-calibration, return to the calibration
         if (calibrationStage < CAL_PRECAPTURE_COMPLETE && m_State == CAPTURE_FOCUSING)
@@ -4431,6 +4442,31 @@ bool Capture::processJobInfo(XMLEle * root)
     return true;
 }
 
+void Capture::readCurrentState(CaptureState state)
+{
+    switch(state)
+    {
+    case CAPTURE_SETTING_TEMPERATURE:
+        if (currentCCD != nullptr)
+        {
+            double currentTemperature;
+            currentCCD->getTemperature(&currentTemperature);
+            if (activeJob != nullptr) activeJob->setCurrentTemperature(currentTemperature);
+        }
+        break;
+    case CAPTURE_SETTING_ROTATOR:
+        if (currentRotator != nullptr)
+            emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
+        break;
+    case CAPTURE_GUIDER_DRIFT:
+        // intentionally left empty since the guider regularly updates the drift
+        break;
+    default:
+        // this should not happen!
+        qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
+    }
+}
+
 void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = m_SequenceURL;
@@ -4907,7 +4943,7 @@ int Capture::getPendingJobCount()
 
     foreach (SequenceJob * job, jobs)
     {
-        if (job->getStatus() == SequenceJob::JOB_DONE)
+        if (job->getStatus() == JOB_DONE)
             completedJobs++;
     }
 
@@ -4991,28 +5027,13 @@ CCDFrameType Capture::getJobFrameType(int id)
     return FRAME_NONE;
 }
 
-int Capture::getJobRemainingTime(SequenceJob * job)
-{
-    int remaining = static_cast<int>((job->getExposure() + getEstimatedDownloadTime() + job->getDelay() / 1000) *
-                                     (job->getCount() - job->getCompleted()));
-
-    if (job->getStatus() == SequenceJob::JOB_BUSY)
-    {
-        if (job->getExposeLeft())
-            remaining -= job->getExposure() - job->getExposeLeft();
-        else
-            remaining += job->getExposeLeft() + getEstimatedDownloadTime();
-    }
-
-    return remaining;
-}
-
 int Capture::getOverallRemainingTime()
 {
     int remaining = 0;
+    double estimatedDownloadTime = getEstimatedDownloadTime();
 
     foreach (SequenceJob * job, jobs)
-        remaining += getJobRemainingTime(job);
+        remaining += job->getJobRemainingTime(estimatedDownloadTime);
 
     return remaining;
 }
@@ -5022,7 +5043,7 @@ int Capture::getActiveJobRemainingTime()
     if (activeJob == nullptr)
         return -1;
 
-    return getJobRemainingTime(activeJob);
+    return activeJob->getJobRemainingTime(getEstimatedDownloadTime());
 }
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
@@ -5046,7 +5067,7 @@ void Capture::setTargetTemperature(double temperature)
 
 void Capture::clearSequenceQueue()
 {
-    activeJob = nullptr;
+    setActiveJob(nullptr);
     //m_TargetName.clear();
     //stop();
     while (queueTable->rowCount() > 0)
@@ -5069,19 +5090,19 @@ QString Capture::getSequenceQueueStatus()
     {
         switch (job->getStatus())
         {
-            case SequenceJob::JOB_ABORTED:
+            case JOB_ABORTED:
                 aborted++;
                 break;
-            case SequenceJob::JOB_BUSY:
+            case JOB_BUSY:
                 running++;
                 break;
-            case SequenceJob::JOB_DONE:
+            case JOB_DONE:
                 complete++;
                 break;
-            case SequenceJob::JOB_ERROR:
+            case JOB_ERROR:
                 error++;
                 break;
-            case SequenceJob::JOB_IDLE:
+            case JOB_IDLE:
                 idle++;
                 break;
         }
@@ -5277,7 +5298,7 @@ bool Capture::checkMeridianFlipReady()
 
 void Capture::checkGuideDeviationTimeout()
 {
-    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_ABORTED && m_DeviationDetected)
+    if (activeJob && activeJob->getStatus() == JOB_ABORTED && m_DeviationDetected)
     {
         appendLogText(i18n("Guide module timed out."));
         m_DeviationDetected = false;
@@ -5436,7 +5457,7 @@ void Capture::processGuidingFailed()
     }
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
     else if (isGuidingOn() && meridianFlipStage == MF_NONE &&
-             ((activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY) ||
+             ((activeJob && activeJob->getStatus() == JOB_BUSY) ||
               this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
@@ -6662,7 +6683,7 @@ void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
     {
         case SCRIPT_PRE_CAPTURE:
             appendLogText(i18n("Pre capture script finished with code %1.", exitCode));
-            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_IDLE)
+            if (activeJob && activeJob->getStatus() == JOB_IDLE)
                 preparePreCaptureActions();
             else
                 checkNextExposure();
@@ -7554,9 +7575,9 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
 
             if (activeJob)
             {
-                activeJob->setActiveChip(targetChip);
-                activeJob->setActiveCCD(currentCCD);
-                activeJob->setActiveFilter(currentFilter);
+                activeJob->commandProcessor.activeChip = targetChip;
+                activeJob->commandProcessor.activeCCD = currentCCD;
+                activeJob->commandProcessor.activeFilterWheel = currentFilter;
                 captureImage();
             }
 

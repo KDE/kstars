@@ -3032,7 +3032,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
 
     //const QString filename = ;
     //if (!filename.isEmpty() && job->getStatus() == SequenceJob::JOB_BUSY)
-    if (data && job->getStatus() == SequenceJob::JOB_BUSY)
+    if (data && job->getStatus() == JOB_BUSY)
     {
         QString uuid = QUuid::createUuid().toString();
         uuid = uuid.remove(QRegularExpression("[-{}]"));

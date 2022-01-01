@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "sequencejobstatemachine.h"
+#include "capturecommandprocessor.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
 #include "ekos/auxiliary/filtermanager.h"
@@ -30,24 +32,6 @@ class SequenceJob : public QObject
         Q_PROPERTY(QString rawPrefix MEMBER m_RawPrefix)
 
     public:
-        typedef enum { JOB_IDLE, JOB_BUSY, JOB_ERROR, JOB_ABORTED, JOB_DONE } JOBStatus;
-        typedef enum
-        {
-            CAPTURE_OK,
-            CAPTURE_FRAME_ERROR,
-            CAPTURE_BIN_ERROR,
-            CAPTURE_FILTER_BUSY,
-            CAPTURE_FOCUS_ERROR,
-            CAPTURE_GUIDER_DRIFT_WAIT
-        } CAPTUREResult;
-        typedef enum
-        {
-            ACTION_FILTER,
-            ACTION_TEMPERATURE,
-            ACTION_ROTATOR,
-            ACTION_GUIDER_DRIFT
-        } PrepareActions;
-
         static QString const &ISOMarker;
 
         SequenceJob();
@@ -57,19 +41,10 @@ class SequenceJob : public QObject
         CAPTUREResult capture(bool autofocusReady, FITSMode mode);
         void abort();
         void done();
-        void prepareCapture();
 
-        JOBStatus getStatus()
-        {
-            return status;
-        }
         const QString &getStatusString()
         {
-            return statusStrings[status];
-        }
-        bool isPreview()
-        {
-            return preview;
+            return statusStrings[getStatus()];
         }
         int getDelay()
         {
@@ -83,45 +58,15 @@ class SequenceJob : public QObject
         {
             return completed;
         }
+
+        /**
+         * @brief Remaining execution time in seconds (including download times).
+         */
+        int getJobRemainingTime(double estimatedDownloadTime);
+
         double getExposure() const
         {
             return exposure;
-        }
-
-        void setActiveCCD(ISD::CCD * ccd)
-        {
-            activeCCD = ccd;
-        }
-        ISD::CCD * getActiveCCD()
-        {
-            return activeCCD;
-        }
-
-        void setActiveFilter(ISD::GDInterface * filter)
-        {
-            activeFilter = filter;
-        }
-        ISD::GDInterface * getActiveFilter()
-        {
-            return activeFilter;
-        }
-
-        void setActiveRotator(ISD::GDInterface * rotator)
-        {
-            activeRotator = rotator;
-        }
-        ISD::GDInterface * getActiveRotator()
-        {
-            return activeRotator;
-        }
-
-        void setActiveChip(ISD::CCDChip * chip)
-        {
-            activeChip = chip;
-        }
-        ISD::CCDChip * getActiveChip()
-        {
-            return activeChip;
         }
 
         void setLocalDir(const QString &dir)
@@ -138,22 +83,12 @@ class SequenceJob : public QObject
         }
 
         void setTargetFilter(int pos, const QString &name);
-        int getTargetFilter()
-        {
-            return targetFilter;
-        }
         int getCurrentFilter() const;
         void setCurrentFilter(int value);
 
         const QString &getFilterName() const
         {
             return filter;
-        }
-
-        void setFrameType(CCDFrameType type);
-        CCDFrameType getFrameType() const
-        {
-            return frameType;
         }
 
         void setFilterManager(const QSharedPointer<FilterManager> &manager)
@@ -170,10 +105,6 @@ class SequenceJob : public QObject
             return captureFilter;
         }
 
-        void setPreview(bool enable)
-        {
-            preview = enable;
-        }
         void setFullPrefix(const QString &cprefix)
         {
             fullPrefix = cprefix;
@@ -265,18 +196,9 @@ class SequenceJob : public QObject
             return targetName;
         }
 
-        double getCurrentTemperature() const;
         void setCurrentTemperature(double value);
 
-        double getTargetTemperature() const;
-        void setTargetTemperature(double value);
-
-        double getCurrentGuiderDrift() const;
-        void setCurrentGuiderDrift(double value);
         void resetCurrentGuiderDrift();
-
-        double getTargetStartGuiderDrift() const;
-        void setTargetStartGuiderDrift(double value);
 
         double getTargetADU() const;
         void setTargetADU(double value);
@@ -302,9 +224,6 @@ class SequenceJob : public QObject
         bool isPreDomePark() const;
         void setPreDomePark(bool value);
 
-        bool getEnforceTemperature() const;
-        void setEnforceTemperature(bool value);
-
         const QMap<ScriptTypes, QString> &getScripts() const
         {
             return m_Scripts;
@@ -320,12 +239,6 @@ class SequenceJob : public QObject
         void setScript(ScriptTypes type, const QString &value)
         {
             m_Scripts[type] = value;
-        }
-        bool getEnforceStartGuiderDrift() const;
-        void setEnforceStartGuiderDrift(bool value);
-        void setGuiderActive(bool value)
-        {
-            guiderActive = value;
         }
 
         ISD::CCD::UploadMode getUploadMode() const;
@@ -343,11 +256,6 @@ class SequenceJob : public QObject
         double getOffset() const;
         void setOffset(double value);
 
-        double getTargetRotation() const;
-        void setTargetRotation(double value);
-
-        void setCurrentRotation(double value);
-
         QMap<QString, QMap<QString, double> > getCustomProperties() const;
         void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
 
@@ -357,27 +265,79 @@ class SequenceJob : public QObject
         bool getJobProgressIgnored() const;
         void setJobProgressIgnored(bool JobProgressIgnored);
 
-    signals:
+        // Command processor implementing actions to be triggered by the state machine
+        CaptureCommandProcessor commandProcessor;
+
+        // ////////////////////////////////////////////////////////////////////
+        // capture preparation relevant flags
+        // ////////////////////////////////////////////////////////////////////
+        // capture frame type (light, flat, dark, bias)
+        CCDFrameType m_frameType { FRAME_LIGHT };
+        CCDFrameType getFrameType() const { return m_frameType; }
+        void setFrameType(CCDFrameType value) { m_frameType = value; }
+
+        // is the sequence a preview or will the captures be stored?
+        bool m_preview { false };
+        bool isPreview() const { return m_preview; }
+        void setPreview(bool value) { m_preview = value; }
+
+        // should a certain temperature should be enforced?
+        bool m_enforceTemperature { false };
+        bool getEnforceTemperature() const { return m_enforceTemperature; }
+        void setEnforceTemperature(bool value) { m_enforceTemperature = value; }
+
+        // Ensure that guiding deviation is below a configured thresholdß
+        bool m_enforceStartGuiderDrift { false };
+        // Is the guider active?
+        bool m_guiderActive { false };
+        bool getEnforceStartGuiderDrift() const { return m_enforceStartGuiderDrift; }
+        void setEnforceStartGuiderDrift(bool value) { m_enforceStartGuiderDrift= value; }
+        bool isGuiderActive() const { return m_guiderActive; }
+        void setGuiderActive(bool value) { m_guiderActive = value; }
+
+        // ////////////////////////////////////////////////////////////////////////////
+        // Facade to state machine
+        // ////////////////////////////////////////////////////////////////////////////
+        /**
+         * @brief Retrieve the current status of the capture sequence job from the state machine
+         */
+        JOBStatus getStatus() { return stateMachine.getStatus(); }
+
+        int getTargetFilter() { return stateMachine.targetFilterID; }
+
+        double getTargetTemperature() { return stateMachine.targetTemperature; }
+        void setTargetTemperature(double value) { stateMachine.targetTemperature = value; }
+
+        double getTargetStartGuiderDrift() const { return stateMachine.targetStartGuiderDrift; }
+        void setTargetStartGuiderDrift(double value) { stateMachine.targetStartGuiderDrift = value; }
+
+        double getTargetRotation() const { return stateMachine.targetRotation; }
+        void setTargetRotation(double value) { stateMachine.targetRotation = value; }
+
+        void startPrepareCapture() { emit prepareCapture(getFrameType(), getEnforceTemperature(),
+                                                         isGuiderActive() && getEnforceStartGuiderDrift(), isPreview()); }
+
+
+signals:
         void prepareComplete();
         void prepareState(Ekos::CaptureState state);
         void checkFocus();
+        // signals to be forwarded to the state machine
+        void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
+        // update the current CCD temperature
+        void updateCCDTemperature(double value);
+        // update the current guiding deviation
+        void updateGuiderDrift(double deviation_rms);
+        // update the current camera rotator position
+        void updateRotatorAngle(double value);
 
-    private:
-        bool areActionsReady();
-        void setAllActionsReady();
+
+private:
         void setStatus(JOBStatus const);
-        bool guiderDriftOK() const;
 
         QStringList statusStrings;
-        ISD::CCDChip * activeChip { nullptr };
-        ISD::CCD * activeCCD { nullptr };
-        ISD::GDInterface * activeFilter { nullptr };
-        ISD::GDInterface * activeRotator { nullptr };
 
         double exposure { -1 };
-        CCDFrameType frameType { FRAME_LIGHT };
-        int targetFilter { -1 };
-        int currentFilter { 0 };
 
         QString filter;
         int binX { 0 };
@@ -389,25 +349,13 @@ class SequenceJob : public QObject
         QString fullPrefix;
         int count { -1 };
         int delay { -1 };
-        bool preview { false };
-        bool prepareReady { true };
-        bool enforceTemperature { false };
-        bool enforceStartGuiderDrift { false };
-        bool guiderActive { false };
         bool m_JobProgressIgnored { false };
         int isoIndex { -1 };
         int captureRetires { 0 };
         unsigned int completed { 0 };
         double exposeLeft { 0 };
-        double currentTemperature { 0 };
-        double targetTemperature { 0 };
-        double currentGuiderDrift { 1e8 };
-        double targetStartGuiderDrift { 0 };
         double gain { -1 };
         double offset { -1 };
-        // Rotation in absolute ticks, NOT angle
-        double targetRotation { 0 };
-        double currentRotation { 0 };
         FITSScale captureFilter { FITS_NONE };
         QTableWidgetItem * statusCell { nullptr };
         QTableWidgetItem * countCell { nullptr };
@@ -431,8 +379,6 @@ class SequenceJob : public QObject
 
         QString m_filename;
 
-        JOBStatus status { JOB_IDLE };
-
         // Flat field variables
         struct
         {
@@ -446,11 +392,12 @@ class SequenceJob : public QObject
 
         } calibrationSettings;
 
-        QMap<PrepareActions, bool> prepareActions;
-
         QMap<QString, QMap<QString, double>> customProperties;
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
+
+        // State machine encapsulating the state of this capture sequence job
+        SequenceJobStateMachine stateMachine;
 };
 }

@@ -25,3 +25,8 @@ SET_TESTS_PROPERTIES( TestPlaceholderPath PROPERTIES LABELS "stable" )
 endif()
 
 ENDIF ()
+
+ADD_EXECUTABLE( test_schedulerjobstatemachine test_schedulerjobstatemachine.cpp)
+TARGET_LINK_LIBRARIES( test_schedulerjobstatemachine ${TEST_LIBRARIES})
+ADD_TEST( NAME TestSchedulerJobStateMachine COMMAND test_schedulerjobstatemachine )
+SET_TESTS_PROPERTIES( TestSchedulerJobStateMachine PROPERTIES LABELS "stable" )

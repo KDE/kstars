@@ -713,7 +713,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
-    private slots:
+private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
@@ -817,6 +817,15 @@ class Capture : public QWidget, public Ui::Capture
 
         void ready();
 
+        // signals to the sequence job
+        void prepareCapture();
+
+        // device status
+        void newGuiderDrift(double deviation_rms);
+        void newRotatorAngle(double value);
+        void newTemperatureValue(double value);
+
+        // communication with other modules
         void checkFocus(double);
         void resetFocus();
         void abortFocus();
@@ -839,6 +848,12 @@ class Capture : public QWidget, public Ui::Capture
         void captureAborted(double exposureSeconds);
 
     private:
+        /**
+         * @brief Set the currently active sequence job. Use this function to ensure
+         *        that everything is cleaned up properly.
+         */
+        void setActiveJob(SequenceJob *value);
+
         void setBusy(bool enable);
         IPState resumeSequence();
         IPState startNextExposure();
@@ -855,6 +870,12 @@ class Capture : public QWidget, public Ui::Capture
         void prepareJob(SequenceJob *job);
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
+
+        /**
+         * @brief Slot that reads the requested device state and publishes the corresponding event
+         * @param state device state that needs to be read directly
+         */
+        void readCurrentState(Ekos::CaptureState state);
 
         /**
          * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
@@ -911,9 +932,6 @@ class Capture : public QWidget, public Ui::Capture
          * @return true iff dithering has been triggered
          */
         bool checkDithering();
-
-        // Remaining Time in seconds
-        int getJobRemainingTime(SequenceJob *job);
 
         void resetFrameToZero();
 
@@ -992,6 +1010,8 @@ class Capture : public QWidget, public Ui::Capture
         QString m_TargetName;
         QString m_ObserverName;
 
+        // Currently active sequence job.
+        // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
 
         QList<ISD::CCD *> CCDs;

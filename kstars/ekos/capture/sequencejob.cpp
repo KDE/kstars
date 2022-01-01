@@ -27,14 +27,18 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted")
                     << i18n("Complete");
-    currentTemperature = targetTemperature = Ekos::INVALID_VALUE;
-    currentGuiderDrift = targetStartGuiderDrift = Ekos::INVALID_VALUE;
-    targetRotation = currentRotation = Ekos::INVALID_VALUE;
 
-    prepareActions[ACTION_FILTER] = true;
-    prepareActions[ACTION_TEMPERATURE] = true;
-    prepareActions[ACTION_ROTATOR] = true;
-    prepareActions[ACTION_GUIDER_DRIFT] = true;
+    // signal forwarding between this and the state machine
+    connect(this, &SequenceJob::prepareCapture, &stateMachine, &SequenceJobStateMachine::prepareCapture);
+    connect(this, &SequenceJob::updateCCDTemperature, &stateMachine, &SequenceJobStateMachine::setCurrentCCDTemperature);
+    connect(this, &SequenceJob::updateRotatorAngle, &stateMachine, &SequenceJobStateMachine::setCurrentRotatorAngle);
+    connect(this, &SequenceJob::updateGuiderDrift, &stateMachine, &SequenceJobStateMachine::setCurrentGuiderDrift);
+    connect(&stateMachine, &SequenceJobStateMachine::prepareState, this, &SequenceJob::prepareState);
+    connect(&stateMachine, &SequenceJobStateMachine::prepareComplete, this, &SequenceJob::prepareComplete);
+    // connect state machine with command processor
+    connect(&stateMachine, &SequenceJobStateMachine::setRotatorAngle, &commandProcessor, &CaptureCommandProcessor::setRotatorAngle);
+    connect(&stateMachine, &SequenceJobStateMachine::setCCDTemperature, &commandProcessor, &CaptureCommandProcessor::setCCDTemperature);
+    connect(&stateMachine, &SequenceJobStateMachine::setCCDBatchMode, &commandProcessor, &CaptureCommandProcessor::enableCCDBatchMode);
 }
 
 SequenceJob::SequenceJob(XMLEle *root):
@@ -51,7 +55,7 @@ SequenceJob::SequenceJob(XMLEle *root):
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
     };
 
-    frameType = FRAME_NONE;
+    setFrameType(FRAME_NONE);
     exposure = 0;
     /* Reset light frame presence flag before enumerating */
     // JM 2018-09-14: If last sequence job is not LIGHT
@@ -76,7 +80,7 @@ SequenceJob::SequenceJob(XMLEle *root):
             QString frameTypeStr = QString(pcdataXMLEle(ep));
             if (frameTypes.contains(frameTypeStr))
             {
-                frameType = frameTypes[frameTypeStr];
+                setFrameType(frameTypes[frameTypeStr]);
             }
             //if (FRAME_LIGHT == frameType && nullptr != schedJob)
             //schedJob->setLightFramesRequired(true);
@@ -204,9 +208,9 @@ void SequenceJob::resetStatus()
 void SequenceJob::abort()
 {
     setStatus(JOB_ABORTED);
-    if (activeChip->canAbort())
-        activeChip->abortExposure();
-    activeChip->setBatchMode(false);
+    if (commandProcessor.activeChip->canAbort())
+        commandProcessor.activeChip->abortExposure();
+    commandProcessor.activeChip->setBatchMode(false);
 }
 
 void SequenceJob::done()
@@ -214,71 +218,26 @@ void SequenceJob::done()
     setStatus(JOB_DONE);
 }
 
-void SequenceJob::prepareCapture()
+int SequenceJob::getJobRemainingTime(double estimatedDownloadTime)
 {
-    status = JOB_BUSY;
+    double remaining = (getExposure() + estimatedDownloadTime + getDelay() / 1000) *
+                                     (getCount() - getCompleted());
 
-    prepareReady = false;
-
-    // Reset all prepare actions
-    setAllActionsReady();
-
-    activeChip->setBatchMode(!preview);
-
-    // Filter changes are actually done in capture();
-    prepareActions[ACTION_FILTER] = true;
-    if (targetFilter != -1 && activeFilter != nullptr &&
-            frameType == FRAME_LIGHT && targetFilter != currentFilter)
-        emit prepareState(CAPTURE_CHANGING_FILTER);
-
-    // Check if we need to update temperature
-    if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
+    if (getStatus() == JOB_BUSY)
     {
-        prepareActions[ACTION_TEMPERATURE] = false;
-        emit prepareState(CAPTURE_SETTING_TEMPERATURE);
-        activeCCD->setTemperature(targetTemperature);
+        if (getExposeLeft() > 0.0)
+            remaining -= getExposure() - getExposeLeft();
+        else
+            remaining += getExposeLeft() + estimatedDownloadTime;
     }
 
-    // Check if we need to wait for the guider to settle.
-    if (!guiderDriftOK())
-    {
-        prepareActions[ACTION_GUIDER_DRIFT] = false;
-        emit prepareState(CAPTURE_GUIDER_DRIFT);
-    }
-
-    // Check if we need to update rotator
-    if (targetRotation != Ekos::INVALID_VALUE
-            && fabs(currentRotation - targetRotation) * 60 > Options::astrometryRotatorThreshold())
-    {
-        // PA = RawAngle * Multiplier + Offset
-        double rawAngle = (targetRotation - Options::pAOffset()) / Options::pAMultiplier();
-        prepareActions[ACTION_ROTATOR] = false;
-        emit prepareState(CAPTURE_SETTING_ROTATOR);
-        activeRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &rawAngle);
-    }
-
-    if (prepareReady == false && areActionsReady())
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
-}
-
-void SequenceJob::setAllActionsReady()
-{
-    QMutableMapIterator<PrepareActions, bool> i(prepareActions);
-
-    while (i.hasNext())
-    {
-        i.next();
-        i.setValue(true);
-    }
+    return static_cast<int>(std::round(remaining));
 }
 
 void SequenceJob::setStatus(JOBStatus const in_status)
 {
-    status = in_status;
-    if( !preview && nullptr != statusCell)
+    stateMachine.reset(in_status);
+    if( !isPreview() && nullptr != statusCell)
         statusCell->setText(statusStrings[in_status]);
 }
 
@@ -296,14 +255,14 @@ void SequenceJob::setStatusCell(QTableWidgetItem* cell)
 void SequenceJob::setCount(int in_count)
 {
     count = in_count;
-    if( !preview && nullptr != countCell)
+    if( !isPreview() && nullptr != countCell)
         countCell->setText(QString("%L1/%L2").arg(completed).arg(in_count));
 }
 
 void SequenceJob::setCompleted(int in_completed)
 {
     completed = in_completed;
-    if( !preview && nullptr != countCell)
+    if( !isPreview() && nullptr != countCell)
         countCell->setText(QString("%L1/%L2").arg(in_completed).arg(count));
 }
 
@@ -348,42 +307,31 @@ void SequenceJob::setCustomProperties(const QMap<QString, QMap<QString, double> 
     customProperties = value;
 }
 
-bool SequenceJob::areActionsReady()
+CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 {
-    for (bool &ready : prepareActions.values())
-    {
-        if (ready == false)
-            return false;
-    }
+    commandProcessor.activeChip->setBatchMode(!isPreview());
 
-    return true;
-}
+    commandProcessor.activeCCD->setISOMode(timeStampPrefixEnabled);
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
-{
-    activeChip->setBatchMode(!preview);
-
-    activeCCD->setISOMode(timeStampPrefixEnabled);
-
-    activeCCD->setSeqPrefix(fullPrefix);
+    commandProcessor.activeCCD->setSeqPrefix(fullPrefix);
 
     auto placeholderPath = Ekos::PlaceholderPath(localDirectory + "/sequence.esq");
     placeholderPath.setGenerateFilenameSettings(*this);
-    activeCCD->setPlaceholderPath(placeholderPath);
+    commandProcessor.activeCCD->setPlaceholderPath(placeholderPath);
 
-    if (preview)
+    if (isPreview())
     {
-        if (activeCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
-            activeCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        if (commandProcessor.activeCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            commandProcessor.activeCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
     else
-        activeCCD->setUploadMode(uploadMode);
+        commandProcessor.activeCCD->setUploadMode(uploadMode);
 
     QMapIterator<QString, QMap<QString, double>> i(customProperties);
     while (i.hasNext())
     {
         i.next();
-        INDI::Property *customProp = activeCCD->getProperty(i.key());
+        INDI::Property *customProp = commandProcessor.activeCCD->getProperty(i.key());
         if (customProp)
         {
             QMap<QString, double> numbers = i.value();
@@ -397,74 +345,74 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mo
                     oneNumber->setValue(j.value());
             }
 
-            activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+            commandProcessor.activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
         }
     }
 
-    if (activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
-        activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
+    if (commandProcessor.activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
+        commandProcessor.activeCCD->updateUploadSettings(remoteDirectory + directoryPostfix);
 
     if (isoIndex != -1)
     {
-        if (isoIndex != activeChip->getISOIndex())
-            activeChip->setISOIndex(isoIndex);
+        if (isoIndex != commandProcessor.activeChip->getISOIndex())
+            commandProcessor.activeChip->setISOIndex(isoIndex);
     }
 
     if (gain != -1)
     {
-        activeCCD->setGain(gain);
+        commandProcessor.activeCCD->setGain(gain);
     }
 
     if (offset != -1)
     {
-        activeCCD->setOffset(offset);
+        commandProcessor.activeCCD->setOffset(offset);
     }
 
-    if (targetFilter != -1 && activeFilter != nullptr)
+    if (stateMachine.targetFilterID != -1 && commandProcessor.activeFilterWheel != nullptr)
     {
-        if (targetFilter != currentFilter)
+        if (stateMachine.targetFilterID != stateMachine.currentFilterID)
         {
             emit prepareState(CAPTURE_CHANGING_FILTER);
 
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
             // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
-            if (isPreview() || frameType != FRAME_LIGHT || autofocusReady == false)
+            if (isPreview() || getFrameType() != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
-            filterManager->setFilterPosition(targetFilter, policy);
+            filterManager->setFilterPosition(stateMachine.targetFilterID, policy);
             return CAPTURE_FILTER_BUSY;
         }
     }
 
-    if (!guiderDriftOK())
+    if (!stateMachine.guiderDriftOkForStarting())
     {
         emit prepareState(CAPTURE_GUIDER_DRIFT);
         return CAPTURE_GUIDER_DRIFT_WAIT;
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
+    if (commandProcessor.activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
     {
         int currentBinX = 1, currentBinY = 1;
-        activeChip->getBinning(&currentBinX, &currentBinY);
+        commandProcessor.activeChip->getBinning(&currentBinX, &currentBinY);
 
         // N.B. Always set binning _before_ setting frame because if the subframed image
         // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
         // So setting binning first always ensures this will work.
-        if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
+        if (commandProcessor.activeChip->canBin() && commandProcessor.activeChip->setBinning(binX, binY) == false)
         {
             setStatus(JOB_ERROR);
             return CAPTURE_BIN_ERROR;
         }
 
-        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h, currentBinX != binX) == false)
+        if ((w > 0 && h > 0) && commandProcessor.activeChip->canSubframe() && commandProcessor.activeChip->setFrame(x, y, w, h, currentBinX != binX) == false)
         {
             setStatus(JOB_ERROR);
             return CAPTURE_FRAME_ERROR;
         }
     }
 
-    activeChip->setFrameType(frameType);
+    commandProcessor.activeChip->setFrameType(getFrameType());
 
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
@@ -472,29 +420,24 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mo
     // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
     // But in case of automatically calculated flat frames, we need FITSData.
     // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
-    activeChip->setCaptureMode(mode);
+    commandProcessor.activeChip->setCaptureMode(mode);
 
-    activeChip->setCaptureFilter(FITS_NONE);
+    commandProcessor.activeChip->setCaptureFilter(FITS_NONE);
 
     //status = JOB_BUSY;
     setStatus(getStatus());
 
     exposeLeft = exposure;
 
-    activeChip->capture(exposure);
+    commandProcessor.activeChip->capture(exposure);
 
     return CAPTURE_OK;
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
 {
-    targetFilter = pos;
+    stateMachine.targetFilterID = pos;
     filter       = name;
-}
-
-void SequenceJob::setFrameType(CCDFrameType type)
-{
-    frameType = type;
 }
 
 double SequenceJob::getExposeLeft() const
@@ -524,43 +467,10 @@ void SequenceJob::getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled,
     tsEnabled       = timeStampPrefixEnabled;
 }
 
-double SequenceJob::getCurrentTemperature() const
-{
-    return currentTemperature;
-}
-
 void SequenceJob::setCurrentTemperature(double value)
 {
-    currentTemperature = value;
-
-    if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
-        prepareActions[ACTION_TEMPERATURE] = true;
-
-    if (prepareReady == false && areActionsReady())
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
-}
-
-double SequenceJob::getTargetTemperature() const
-{
-    return targetTemperature;
-}
-
-void SequenceJob::setTargetTemperature(double value)
-{
-    targetTemperature = value;
-}
-
-void SequenceJob::setTargetStartGuiderDrift(double value)
-{
-    targetStartGuiderDrift = value;
-}
-
-double SequenceJob::getTargetStartGuiderDrift() const
-{
-    return targetStartGuiderDrift;
+    // forward it to the state machine
+    stateMachine.setCurrentCCDTemperature(value);
 }
 
 double SequenceJob::getTargetADU() const
@@ -643,26 +553,6 @@ void SequenceJob::setPreDomePark(bool value)
     calibrationSettings.preDomePark = value;
 }
 
-bool SequenceJob::getEnforceTemperature() const
-{
-    return enforceTemperature;
-}
-
-void SequenceJob::setEnforceTemperature(bool value)
-{
-    enforceTemperature = value;
-}
-
-bool SequenceJob::getEnforceStartGuiderDrift() const
-{
-    return enforceStartGuiderDrift;
-}
-
-void SequenceJob::setEnforceStartGuiderDrift(bool value)
-{
-    enforceStartGuiderDrift = value;
-}
-
 ISD::CCD::UploadMode SequenceJob::getUploadMode() const
 {
     return uploadMode;
@@ -715,16 +605,6 @@ void SequenceJob::setOffset(double value)
     offset = value;
 }
 
-double SequenceJob::getTargetRotation() const
-{
-    return targetRotation;
-}
-
-void SequenceJob::setTargetRotation(double value)
-{
-    targetRotation = value;
-}
-
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;
@@ -737,66 +617,18 @@ void SequenceJob::setISOIndex(int value)
 
 int SequenceJob::getCurrentFilter() const
 {
-    return currentFilter;
+    return stateMachine.currentFilterID;
 }
 
 void SequenceJob::setCurrentFilter(int value)
 {
-    currentFilter = value;
-
-    if (currentFilter == targetFilter)
-        prepareActions[ACTION_FILTER] = true;
-
-    if (prepareReady == false && areActionsReady())
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
-}
-
-void SequenceJob::setCurrentRotation(double value)
-{
-    currentRotation = value;
-
-    if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold())
-        prepareActions[ACTION_ROTATOR] = true;
-
-    if (prepareReady == false && areActionsReady())
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
-
-}
-
-double SequenceJob::getCurrentGuiderDrift() const
-{
-    return currentGuiderDrift;
+    // forward it to the state machine
+    stateMachine.setCurrentFilterID(value);
 }
 
 void SequenceJob::resetCurrentGuiderDrift()
 {
-    setCurrentGuiderDrift(1e8);
-}
-
-bool SequenceJob::guiderDriftOK() const
-{
-    return (!guiderActive ||
-            !enforceStartGuiderDrift ||
-            frameType != FRAME_LIGHT ||
-            currentGuiderDrift <= targetStartGuiderDrift);
-}
-
-void SequenceJob::setCurrentGuiderDrift(double value)
-{
-    currentGuiderDrift = value;
-    prepareActions[ACTION_GUIDER_DRIFT] = guiderDriftOK();
-
-    if (prepareReady == false && areActionsReady())
-    {
-        prepareReady = true;
-        emit prepareComplete();
-    }
+    stateMachine.setCurrentGuiderDrift(1e8);
 }
 
 }

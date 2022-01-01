@@ -180,10 +180,12 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturecommandprocessor.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
             ekos/capture/sequencejob.cpp
+            ekos/capture/sequencejobstatemachine.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp
