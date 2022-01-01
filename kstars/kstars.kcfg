@@ -2124,32 +2124,15 @@
          <whatsthis>Path to astrometry.net solver location.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("AstrometrySolverBinary")</default>
       </entry>
-      <entry name="AstrometrySolverIsInternal" type="Bool">
-         <label>Internal or External Astrometry Solver?</label>
-         <default>false</default>
-      </entry>
       <entry name="AstrometryWCSInfo" type="String">
          <label>astrometry.net wcsinfo binary</label>
          <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("AstrometryWCSInfo")</default>
       </entry>
-      <entry name="AstrometryWCSIsInternal" type="Bool">
-         <label>Internal or External wcsinfo?</label>
-         <default>false</default>
-      </entry>
       <entry name="AstrometryConfFile" type="String">
          <label>astrometry.net configuration file</label>
          <whatsthis>Path to astrometry.net file location.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("AstrometryConfFile")</default>
-      </entry>
-      <entry name="AstrometryConfFileIsInternal" type="Bool">
-         <label>Internal or External Astrometry.net Conf File?</label>
-         <default>true</default>
-      </entry>
-
-      <entry name="SextractorIsInternal" type="Bool">
-         <label>Internal or External sextractor?</label>
-         <default>false</default>
       </entry>
       <entry name="SextractorBinary" type="String">
          <label></label>

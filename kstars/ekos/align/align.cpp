@@ -1915,25 +1915,10 @@ void Align::startSolving()
                                    QRegularExpression("[-{}]")));
             alignView->saveImage(filename);
             m_StellarSolver->setProperty("FileToProcess", filename);
-
-            if(Options::sextractorIsInternal())
-                m_StellarSolver->setProperty("SextractorBinaryPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
-                                             .arg("astrometry/bin/sex"));
-            else
-                m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
-
-            if (Options::astrometrySolverIsInternal())
-                m_StellarSolver->setProperty("SolverPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
-                                             .arg("astrometry/bin/solve-field"));
-            else
-                m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
-
+            m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
+            m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
             m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
-            if (Options::astrometryWCSIsInternal())
-                m_StellarSolver->setProperty("WCSPath", QString("%1/%2").arg(QCoreApplication::applicationDirPath())
-                                             .arg("astrometry/bin/wcsinfo"));
-            else
-                m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
+            m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
 
             //No need for a conf file this way.
             m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);

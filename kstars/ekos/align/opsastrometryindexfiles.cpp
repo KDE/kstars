@@ -173,9 +173,6 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     QStringList nameFilter("*.fits");
 
-    //    if (Options::astrometrySolverIsInternal())
-    //        KSUtils::configureLocalAstrometryConfIfNecessary();
-
     QStringList astrometryDataDirs = Options::astrometryIndexFolderList();
 
     bool allDirsSelected = (indexLocations->currentIndex() == 0 && astrometryDataDirs.count() > 1);

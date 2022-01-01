@@ -28,10 +28,6 @@ class OpsPrograms : public QWidget, public Ui::OpsPrograms
   protected:
   private slots:
     void loadDefaultPaths(int option);
-    void toggleSolverInternal();
-    void toggleConfigInternal();
-    void toggleWCSInternal();
-    void toggleSextractorInternal();
     void slotApply();
 
   signals:
