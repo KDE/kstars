@@ -185,7 +185,7 @@ if (INDI_FOUND)
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
             ekos/capture/sequencejob.cpp
-            ekos/capture/sequencejobstatemachine.cpp
+            ekos/capture/sequencejobstate.cpp
             ekos/capture/dslrinfodialog.cpp
             ekos/capture/rotatorsettings.cpp
             ekos/capture/customproperties.cpp

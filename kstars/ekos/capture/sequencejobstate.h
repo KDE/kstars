@@ -35,14 +35,14 @@ typedef enum
     CAPTURE_GUIDER_DRIFT_WAIT /* Waiting until guide drift is below the threshold, capture not started yet. */
 } CAPTUREResult;
 
-class SequenceJobStateMachine: public QObject
+class SequenceJobState: public QObject
 {
     Q_OBJECT
 
     friend class SequenceJob;
 
 public:
-    SequenceJobStateMachine();
+    SequenceJobState();
 
     /* Action types to be executed before capturing may start. */
     typedef enum

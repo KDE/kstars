@@ -8,16 +8,16 @@
 
 #pragma once
 
-#include "ekos/capture/sequencejobstatemachine.h"
+#include "ekos/capture/sequencejobstate.h"
 #include <QtTest/QtTest>
 
 class TestAdapter;
 
-class TestSchedulerJobStateMachine : public QObject
+class TestSequenceJobState : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestSchedulerJobStateMachine();
+    explicit TestSequenceJobState();
 
 protected slots:
     /**
@@ -67,7 +67,7 @@ private slots:
 
 private:
     // The state machine
-    Ekos::SequenceJobStateMachine *m_stateMachine;
+    Ekos::SequenceJobState *m_stateMachine;
     // the test adapter simulating the EKOS environment
     TestAdapter *m_adapter;
 
@@ -82,6 +82,11 @@ class TestAdapter : public QObject
     Q_OBJECT
 public:
     explicit TestAdapter() {};
+
+    double m_ccdtemperature, m_guiderdrift, m_rotatorangle;
+
+    // initialize the values
+    void init(double temp, double drift, double angle);;
 
     /**
      * @brief Trigger all peparation actions before a capture may be started.
@@ -98,16 +103,25 @@ public:
     // set CCD to preview mode
     void setCCDBatchMode(bool m_preview);
     // set the current CCD temperature
-    void setCCDTemperature(double value) { emit newCCDTemperature(value); }
+    void setCCDTemperature(double value);
     // set the current guiding deviation
-    void setGuiderDrift(double value) { emit newGuiderDrift(value); }
+    void setGuiderDrift(double value);
     // set the current camera rotator position
-    void setRotatorAngle(double value) { emit newRotatorAngle(value); }
+    void setRotatorAngle(double value);
 
     // flag if capture preparation is completed
     bool isCapturePreparationComplete = false;
 
 public slots:
+    /**
+     * @brief Slot that reads the requested device state and publishes the corresponding event
+     * @param state device state that needs to be read directly
+     */
+    void readCurrentState(Ekos::CaptureState state);
+
+    /**
+     * @brief Slot that marks the capture preparation as completed.
+     */
     void setCapturePreparationComplete() { isCapturePreparationComplete = true; }
 
 signals:

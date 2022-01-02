@@ -2672,6 +2672,7 @@ void Capture::setActiveJob(SequenceJob *value)
         connect(this, &Capture::newRotatorAngle, activeJob, &SequenceJob::updateRotatorAngle);
         connect(this, &Capture::newTemperatureValue, activeJob, &SequenceJob::updateCCDTemperature);
         // react upon sequence job signals
+        connect(activeJob, &SequenceJob::readCurrentState, this, &Capture::readCurrentState);
         connect(activeJob, &SequenceJob::prepareState, this, &Capture::updatePrepareState);
         connect(activeJob, &SequenceJob::prepareComplete, this, &Capture::executeJob);
     }
@@ -4451,7 +4452,7 @@ void Capture::readCurrentState(CaptureState state)
         {
             double currentTemperature;
             currentCCD->getTemperature(&currentTemperature);
-            if (activeJob != nullptr) activeJob->setCurrentTemperature(currentTemperature);
+            emit newTemperatureValue(currentTemperature);
         }
         break;
     case CAPTURE_SETTING_ROTATOR:

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "sequencejobstatemachine.h"
+#include "sequencejobstate.h"
 #include "capturecommandprocessor.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
@@ -320,8 +320,10 @@ class SequenceJob : public QObject
 
 signals:
         void prepareComplete();
-        void prepareState(Ekos::CaptureState state);
+        void prepareState(CaptureState state);
         void checkFocus();
+        // ask for the current device state
+        void readCurrentState(CaptureState state);
         // signals to be forwarded to the state machine
         void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
         // update the current CCD temperature
@@ -398,6 +400,6 @@ private:
         QSharedPointer<FilterManager> filterManager;
 
         // State machine encapsulating the state of this capture sequence job
-        SequenceJobStateMachine stateMachine;
+        SequenceJobState stateMachine;
 };
 }

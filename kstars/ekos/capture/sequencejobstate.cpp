@@ -5,11 +5,11 @@
 */
 
 #include "Options.h"
-#include "sequencejobstatemachine.h"
+#include "sequencejobstate.h"
 
 namespace Ekos
 {
-SequenceJobStateMachine::SequenceJobStateMachine() {
+SequenceJobState::SequenceJobState() {
     // reset the initialization state
     QMutableMapIterator<PrepareActions, bool> it(isInitialized);
 
@@ -20,7 +20,7 @@ SequenceJobStateMachine::SequenceJobStateMachine() {
     }
 }
 
-void SequenceJobStateMachine::prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview)
+void SequenceJobState::prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview)
 {
     // precondition: do not start while already being busy and conditions haven't changed
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceStartGuiderDrift == m_enforceStartGuiderDrift)
@@ -88,14 +88,14 @@ void SequenceJobStateMachine::prepareCapture(CCDFrameType frameType, bool enforc
     checkAllActionsReady();
 }
 
-bool SequenceJobStateMachine::guiderDriftOkForStarting()
+bool SequenceJobState::guiderDriftOkForStarting()
 {
     return (!m_enforceStartGuiderDrift ||
             m_frameType != FRAME_LIGHT ||
             (currentGuiderDrift <= targetStartGuiderDrift && isInitialized[ACTION_GUIDER_DRIFT] == true));
 }
 
-bool SequenceJobStateMachine::areActionsReady()
+bool SequenceJobState::areActionsReady()
 {
     for (bool &ready : prepareActions.values())
     {
@@ -106,7 +106,7 @@ bool SequenceJobStateMachine::areActionsReady()
     return true;
 }
 
-void SequenceJobStateMachine::checkAllActionsReady()
+void SequenceJobState::checkAllActionsReady()
 {
     if (prepareReady == false && areActionsReady())
     {
@@ -115,7 +115,7 @@ void SequenceJobStateMachine::checkAllActionsReady()
     }
 }
 
-void SequenceJobStateMachine::setAllActionsReady()
+void SequenceJobState::setAllActionsReady()
 {
     QMutableMapIterator<PrepareActions, bool> it(prepareActions);
 
@@ -126,40 +126,40 @@ void SequenceJobStateMachine::setAllActionsReady()
     }
 }
 
-void SequenceJobStateMachine::setCurrentFilterID(int value)
+void SequenceJobState::setCurrentFilterID(int value)
 {
     currentFilterID = value;
     isInitialized[ACTION_FILTER] = true;
 
     if (currentFilterID == targetFilterID)
-        prepareActions[SequenceJobStateMachine::ACTION_FILTER] = true;
+        prepareActions[SequenceJobState::ACTION_FILTER] = true;
 
     checkAllActionsReady();
 }
 
-void SequenceJobStateMachine::setCurrentCCDTemperature(double value)
+void SequenceJobState::setCurrentCCDTemperature(double value)
 {
     currentTemperature = value;
     isInitialized[ACTION_TEMPERATURE] = true;
 
     if (m_enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
-        prepareActions[SequenceJobStateMachine::ACTION_TEMPERATURE] = true;
+        prepareActions[SequenceJobState::ACTION_TEMPERATURE] = true;
 
     checkAllActionsReady();
 }
 
-void SequenceJobStateMachine::setCurrentRotatorAngle(double value)
+void SequenceJobState::setCurrentRotatorAngle(double value)
 {
     currentRotation = value;
     isInitialized[ACTION_ROTATOR] = true;
 
     if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold())
-        prepareActions[SequenceJobStateMachine::ACTION_ROTATOR] = true;
+        prepareActions[SequenceJobState::ACTION_ROTATOR] = true;
 
     checkAllActionsReady();
 }
 
-void SequenceJobStateMachine::setCurrentGuiderDrift(double value)
+void SequenceJobState::setCurrentGuiderDrift(double value)
 {
     currentGuiderDrift = value;
     isInitialized[ACTION_GUIDER_DRIFT] = true;

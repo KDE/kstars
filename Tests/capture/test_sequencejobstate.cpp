@@ -6,14 +6,14 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "test_schedulerjobstatemachine.h"
+#include "test_sequencejobstate.h"
 
 #include "Options.h"
 
-TestSchedulerJobStateMachine::TestSchedulerJobStateMachine() : QObject(){}
+TestSequenceJobState::TestSequenceJobState() : QObject(){}
 
 
-void TestSchedulerJobStateMachine::testFullParameterSet()
+void TestSequenceJobState::testFullParameterSet()
 {
     QFETCH(bool, isPreview);
     QFETCH(bool, enforce_guiding);
@@ -55,16 +55,21 @@ void TestSchedulerJobStateMachine::testFullParameterSet()
     QVERIFY(m_adapter->isCapturePreparationComplete == true);
 }
 
-void TestSchedulerJobStateMachine::testLazyInitialisation()
+void TestSequenceJobState::testLazyInitialisation()
 {
     QFETCH(bool, isPreview);
     QFETCH(bool, enforce_guiding);
     QFETCH(bool, enforce_rotate);
     QFETCH(bool, enforce_temperature);
 
-    double current_temp = 10.0, target_temp = -10.0;
-    double current_drift = 10.0, target_drift = 2;
-    double current_angle = 10.0, target_angle = 50;
+    // we set current = target so that it is not necessary to update the device values
+    // but the state machine needs to ask for the current values
+    double current_temp = 10.0, target_temp = current_temp;
+    double current_drift = 10.0, target_drift = current_drift;
+    double current_angle = 10.0, target_angle = current_angle;
+
+    // initialize the test processor, but do not inform the state machine
+    m_adapter->init(current_temp, current_drift, current_angle);
 
     // set target values
     if (enforce_temperature)
@@ -77,25 +82,12 @@ void TestSchedulerJobStateMachine::testLazyInitialisation()
     // start the capture preparation
     m_adapter->startCapturePreparation(FRAME_LIGHT, enforce_temperature, enforce_guiding, isPreview);
 
-    // set current values
-    m_adapter->setCCDTemperature(current_temp);
-    m_adapter->setGuiderDrift(current_drift);
-    m_adapter->setRotatorAngle(current_angle);
-
-    // now step by step set the values to the target value
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding | enforce_rotate));
-    if (enforce_temperature)
-        m_adapter->setCCDTemperature(target_temp + 0.5*Options::maxTemperatureDiff());
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_guiding | enforce_rotate));
-    if (enforce_guiding)
-        m_adapter->setGuiderDrift(1.5);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_rotate);
-    if (enforce_rotate)
-        m_adapter->setRotatorAngle(target_angle + 0.5*Options::astrometryRotatorThreshold()/60);
-    QVERIFY(m_adapter->isCapturePreparationComplete == true);
+    // Since the state machine does not know the current values, it needs to request them.
+    // If this happens, the preparation is already done, since we have current = target
+    QTRY_VERIFY_WITH_TIMEOUT(m_adapter->isCapturePreparationComplete, 5000);
 }
 
-void TestSchedulerJobStateMachine::testWithProcessor()
+void TestSequenceJobState::testWithProcessor()
 {
     TestProcessor *processor = new TestProcessor();
 
@@ -115,11 +107,11 @@ void TestSchedulerJobStateMachine::testWithProcessor()
     m_stateMachine->setTargetRotatorAngle(target_angle);
 
     // connect the processor
-    connect(m_stateMachine, &Ekos::SequenceJobStateMachine::setRotatorAngle, processor, &TestProcessor::setRotatorAngle);
-    connect(m_stateMachine, &Ekos::SequenceJobStateMachine::setCCDTemperature, processor, &TestProcessor::setCCDTemperature);
-    connect(m_stateMachine, &Ekos::SequenceJobStateMachine::setCCDBatchMode, processor, &TestProcessor::setCCDBatchMode);
-    connect(processor, &TestProcessor::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobStateMachine::setCurrentRotatorAngle);
-    connect(processor, &TestProcessor::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobStateMachine::setCurrentCCDTemperature);
+    connect(m_stateMachine, &Ekos::SequenceJobState::setRotatorAngle, processor, &TestProcessor::setRotatorAngle);
+    connect(m_stateMachine, &Ekos::SequenceJobState::setCCDTemperature, processor, &TestProcessor::setCCDTemperature);
+    connect(m_stateMachine, &Ekos::SequenceJobState::setCCDBatchMode, processor, &TestProcessor::setCCDBatchMode);
+    connect(processor, &TestProcessor::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobState::setCurrentRotatorAngle);
+    connect(processor, &TestProcessor::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
 
     // start the capture preparation
     m_adapter->startCapturePreparation(FRAME_LIGHT, true, true, isPreview);
@@ -139,7 +131,7 @@ void TestSchedulerJobStateMachine::testWithProcessor()
  * Test data
  * ********************************************************************************* */
 
-void TestSchedulerJobStateMachine::testFullParameterSet_data()
+void TestSequenceJobState::testFullParameterSet_data()
 {
     QTest::addColumn<bool>("isPreview");           /*!< preview capture? */
     QTest::addColumn<bool>("enforce_guiding");     /*!< enforce guiding? */
@@ -155,7 +147,7 @@ void TestSchedulerJobStateMachine::testFullParameterSet_data()
                             << preview << guide << rotate << temperature;
 }
 
-void TestSchedulerJobStateMachine::testLazyInitialisation_data()
+void TestSequenceJobState::testLazyInitialisation_data()
 {
     testFullParameterSet_data();
 }
@@ -163,33 +155,34 @@ void TestSchedulerJobStateMachine::testLazyInitialisation_data()
 /* *********************************************************************************
  * Test infrastructure
  * ********************************************************************************* */
-void TestSchedulerJobStateMachine::initTestCase()
+void TestSequenceJobState::initTestCase()
 {
     qDebug() << "initTestCase() started.";
 }
 
-void TestSchedulerJobStateMachine::cleanupTestCase()
+void TestSequenceJobState::cleanupTestCase()
 {
     qDebug() << "cleanupTestCase() started.";
 }
 
-void TestSchedulerJobStateMachine::init()
+void TestSequenceJobState::init()
 {
-    m_stateMachine = new Ekos::SequenceJobStateMachine();
+    m_stateMachine = new Ekos::SequenceJobState();
     QVERIFY(m_stateMachine->getStatus() == Ekos::JOB_IDLE);
     m_adapter = new TestAdapter();
     QVERIFY(m_adapter->isCapturePreparationComplete == false);
     // forward signals to the sequence job
-    connect(m_adapter, &TestAdapter::prepareCapture, m_stateMachine, &Ekos::SequenceJobStateMachine::prepareCapture);
-    connect(m_adapter, &TestAdapter::newGuiderDrift, m_stateMachine, &Ekos::SequenceJobStateMachine::setCurrentGuiderDrift);
-    connect(m_adapter, &TestAdapter::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobStateMachine::setCurrentRotatorAngle);
-    connect(m_adapter, &TestAdapter::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobStateMachine::setCurrentCCDTemperature);
+    connect(m_adapter, &TestAdapter::prepareCapture, m_stateMachine, &Ekos::SequenceJobState::prepareCapture);
+    connect(m_adapter, &TestAdapter::newGuiderDrift, m_stateMachine, &Ekos::SequenceJobState::setCurrentGuiderDrift);
+    connect(m_adapter, &TestAdapter::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobState::setCurrentRotatorAngle);
+    connect(m_adapter, &TestAdapter::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
     // react upon sequence job signals
-    connect(m_stateMachine, &Ekos::SequenceJobStateMachine::prepareComplete, m_adapter, &TestAdapter::setCapturePreparationComplete);
+    connect(m_stateMachine, &Ekos::SequenceJobState::prepareComplete, m_adapter, &TestAdapter::setCapturePreparationComplete);
+    connect(m_stateMachine, &Ekos::SequenceJobState::readCurrentState, m_adapter, &TestAdapter::readCurrentState);
 
 }
 
-void TestSchedulerJobStateMachine::cleanup()
+void TestSequenceJobState::cleanup()
 {
     disconnect(m_adapter, nullptr, m_stateMachine, nullptr);
     disconnect(m_stateMachine, nullptr,m_adapter , nullptr);
@@ -199,4 +192,57 @@ void TestSchedulerJobStateMachine::cleanup()
     m_stateMachine = nullptr;
 }
 
-QTEST_GUILESS_MAIN(TestSchedulerJobStateMachine)
+
+
+void TestAdapter::init(double temp, double drift, double angle)
+{
+    m_ccdtemperature = temp;
+    m_guiderdrift = drift;
+    m_rotatorangle = angle;
+}
+
+void TestAdapter::setCCDTemperature(double value)
+{
+    // emit only a new value if it is not too close to the last one
+    if (std::abs(m_ccdtemperature - value) > Options::maxTemperatureDiff() / 10)
+        emit newCCDTemperature(value);
+    // remember it
+    m_ccdtemperature = value;
+}
+
+void TestAdapter::setGuiderDrift(double value) {
+    // emit only a new value if it is not too close to the last one
+    if (std::abs(m_guiderdrift - value) > 0.001)
+        emit newGuiderDrift(value);
+    // remember it
+    m_guiderdrift = value;
+}
+
+void TestAdapter::setRotatorAngle(double value) {
+    // emit only a new value if it is not too close to the last one
+    if (std::abs(m_rotatorangle - value) > Options::maxTemperatureDiff() / 10)
+        emit newRotatorAngle(value);
+    // remember it
+    m_rotatorangle = value;
+}
+
+void TestAdapter::readCurrentState(Ekos::CaptureState state)
+{
+    // signal the current device value
+    switch (state) {
+    case Ekos::CAPTURE_SETTING_TEMPERATURE:
+        emit newCCDTemperature(m_ccdtemperature);
+        break;
+    case Ekos::CAPTURE_SETTING_ROTATOR:
+        emit newRotatorAngle(m_rotatorangle);
+        break;
+    case Ekos::CAPTURE_GUIDER_DRIFT:
+        emit newGuiderDrift(m_guiderdrift);
+        break;
+    default:
+        // do nothing
+        break;
+    }
+}
+
+QTEST_GUILESS_MAIN(TestSequenceJobState)

@@ -29,16 +29,17 @@ SequenceJob::SequenceJob()
                     << i18n("Complete");
 
     // signal forwarding between this and the state machine
-    connect(this, &SequenceJob::prepareCapture, &stateMachine, &SequenceJobStateMachine::prepareCapture);
-    connect(this, &SequenceJob::updateCCDTemperature, &stateMachine, &SequenceJobStateMachine::setCurrentCCDTemperature);
-    connect(this, &SequenceJob::updateRotatorAngle, &stateMachine, &SequenceJobStateMachine::setCurrentRotatorAngle);
-    connect(this, &SequenceJob::updateGuiderDrift, &stateMachine, &SequenceJobStateMachine::setCurrentGuiderDrift);
-    connect(&stateMachine, &SequenceJobStateMachine::prepareState, this, &SequenceJob::prepareState);
-    connect(&stateMachine, &SequenceJobStateMachine::prepareComplete, this, &SequenceJob::prepareComplete);
+    connect(this, &SequenceJob::prepareCapture, &stateMachine, &SequenceJobState::prepareCapture);
+    connect(this, &SequenceJob::updateCCDTemperature, &stateMachine, &SequenceJobState::setCurrentCCDTemperature);
+    connect(this, &SequenceJob::updateRotatorAngle, &stateMachine, &SequenceJobState::setCurrentRotatorAngle);
+    connect(this, &SequenceJob::updateGuiderDrift, &stateMachine, &SequenceJobState::setCurrentGuiderDrift);
+    connect(&stateMachine, &SequenceJobState::readCurrentState, this, &SequenceJob::readCurrentState);
+    connect(&stateMachine, &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
+    connect(&stateMachine, &SequenceJobState::prepareComplete, this, &SequenceJob::prepareComplete);
     // connect state machine with command processor
-    connect(&stateMachine, &SequenceJobStateMachine::setRotatorAngle, &commandProcessor, &CaptureCommandProcessor::setRotatorAngle);
-    connect(&stateMachine, &SequenceJobStateMachine::setCCDTemperature, &commandProcessor, &CaptureCommandProcessor::setCCDTemperature);
-    connect(&stateMachine, &SequenceJobStateMachine::setCCDBatchMode, &commandProcessor, &CaptureCommandProcessor::enableCCDBatchMode);
+    connect(&stateMachine, &SequenceJobState::setRotatorAngle, &commandProcessor, &CaptureCommandProcessor::setRotatorAngle);
+    connect(&stateMachine, &SequenceJobState::setCCDTemperature, &commandProcessor, &CaptureCommandProcessor::setCCDTemperature);
+    connect(&stateMachine, &SequenceJobState::setCCDBatchMode, &commandProcessor, &CaptureCommandProcessor::enableCCDBatchMode);
 }
 
 SequenceJob::SequenceJob(XMLEle *root):
