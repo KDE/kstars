@@ -1334,14 +1334,22 @@ if(APPLE)
             "${DBUS_DAEMON}"
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")    
     endif(NOT DBUS_DAEMON)
+    find_program(XPLANET xplanet PATHS ${PATHS})
+    if(NOT XPLANET)
+        message(WARNING "X Planet program not found in Path, the XPlanet Solar System Simulator won't work without it.")
+    else(NOT XPLANET)
+        file(COPY
+            "${XPLANET}"
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    endif(NOT XPLANET)
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/vlc.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/xplanet-maps.zip"
-        WORKING_DIRECTORY "${KSTARS_APP}/Contents/MacOS/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/xplanet-data.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/kstars/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/sounds.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
     set(KSTARS_VERSION "${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_REVISION}")
