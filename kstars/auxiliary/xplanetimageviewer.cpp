@@ -533,7 +533,7 @@ void XPlanetImageViewer::startXplanet()
     QString xPlanetLocation = Options::xplanetPath();
 #ifdef Q_OS_OSX
     if (Options::xplanetIsInternal())
-        xPlanetLocation   = QCoreApplication::applicationDirPath() + "/xplanet/bin/xplanet";
+        xPlanetLocation   = QCoreApplication::applicationDirPath() + QDir::separator() + "xplanet";
 #endif
 
     // If Options::xplanetPath() is empty, return
@@ -709,11 +709,8 @@ void XPlanetImageViewer::startXplanet()
     }
 
 #ifdef Q_OS_OSX
-    if (Options::xplanetIsInternal())
-    {
-        QString searchDir = QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet/";
-        args << "-searchdir" << searchDir;
-    }
+    QString searchDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet";
+    args << "-searchdir" << searchDir;
 #endif
 
 #ifdef Q_OS_WIN

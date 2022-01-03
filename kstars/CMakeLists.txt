@@ -1310,6 +1310,9 @@ if(APPLE)
     execute_process(COMMAND ${CMAKE_COMMAND} --build . --target install
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
     file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/data/qml"
+        DESTINATION "${KSTARS_APP}/Contents/Resources/kstars/")
+    file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/icons"
         DESTINATION "${KSTARS_APP}/Contents/Resources/")
     file(COPY

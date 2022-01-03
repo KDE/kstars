@@ -124,7 +124,7 @@ QString OpsXplanet::XPlanetShareDirectory()
     #endif
 
     if (Options::xplanetIsInternal())
-        return QCoreApplication::applicationDirPath() + "/xplanet/share/xplanet";
+        return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet" + QDir::separator() + "images";
     else
         return Options::xplanetPath() + "../share/xplanet";
 }

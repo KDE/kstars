@@ -1295,6 +1295,7 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
 
     //This will copy the KStars data directory
     copyResourcesFolderFromAppBundle("kstars");
+    copyResourcesFolderFromAppBundle("kstars/xplanet");
 
     if (Options::kStarsFirstRun())
     {

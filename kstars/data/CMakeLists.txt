@@ -1,7 +1,7 @@
 
 ########### install files ###############
 if(APPLE)
-        set(KSTARS_DATADIR "${BUNDLED_DATA_LOCATION}")
+    set(KSTARS_DATADIR "${BUNDLED_DATA_LOCATION}")
 else(APPLE)
 	set(KSTARS_DATADIR "${KDE_INSTALL_DATADIR}")
 endif(APPLE)
