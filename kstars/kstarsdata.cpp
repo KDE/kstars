@@ -754,8 +754,7 @@ bool KStarsData::readURLData(const QString &urlfile, SkyObjectUserdata::Type typ
 bool KStarsData::readUserLog()
 {
     QFile file;
-    QString buffer;
-    QString sub, name, data;
+    QString fullContents;
 
     if (!KSUtils::openDataFile(file, "userlog.dat"))
         return false;
@@ -763,27 +762,75 @@ bool KStarsData::readUserLog()
     QTextStream stream(&file);
 
     if (!stream.atEnd())
+        fullContents = stream.readAll();
 
-        buffer = stream.readAll();
     QMutexLocker _{ &m_user_data_mutex };
 
+    QStringRef buffer(&fullContents);
+    const QLatin1String logStart("[KSLABEL:"), logEnd("[KSLogEnd]");
+    std::size_t currentEntryIndex = 0;
     while (!buffer.isEmpty())
     {
         int startIndex, endIndex;
+        QStringRef sub, name, data;
 
-        startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
-        sub        = buffer.mid(
-            startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
-        endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
+        startIndex = buffer.indexOf(logStart) + logStart.size();
+        if (startIndex < 0)
+            break;
+        currentEntryIndex += startIndex;
+        endIndex   = buffer.indexOf(logEnd, startIndex);
+
+        auto malformatError = [&]()
+        {
+            int res = KMessageBox::warningContinueCancel(
+                          nullptr,
+                          i18n("The user notes log file %1 is malformatted in the opening of the entry starting at %2. "
+                               "KStars can still run without fully reading this file. "
+                               "Press Continue to run KStars with whatever partial reading was successful. "
+                               "The file may get truncated if KStars writes to the file later. Press Cancel to instead abort now and manually fix the problem. ",
+                               file.fileName(), QString::number(currentEntryIndex)),
+                          i18n( "Malformed file %1", file.fileName() )
+                      );
+            if( res != KMessageBox::Continue )
+                qApp->exit(1); // FIXME: Why does this not work?
+        };
+
+        if (endIndex < 0)
+        {
+            malformatError();
+            break;
+        }
 
         // Read name after KSLABEL identifier
-        name = sub.mid(startIndex + 9, sub.indexOf(']') - (startIndex + 9));
-        // Read data and skip new line
-        data   = sub.mid(sub.indexOf(']') + 2, endIndex - (sub.indexOf(']') + 2));
-        buffer = buffer.mid(endIndex + 11);
+        // Because some object names have [] within them, we have to be careful
+        // [...] names are used by SIMBAD and NED to specify paper authors
+        // Unbalanced [,] are not allowed in the object name, but are allowed in the notes
+        int nameEndIndex = startIndex, openBracketCount = 1;
+        while (openBracketCount > 0 && nameEndIndex < endIndex)
+        {
+            if (buffer[nameEndIndex] == ']')
+                --openBracketCount;
+            else if (buffer[nameEndIndex] == '[')
+                ++openBracketCount;
+            ++nameEndIndex;
+        }
+        if (openBracketCount > 0)
+        {
+            malformatError();
+            break;
+        }
+        name = buffer.mid(startIndex, (nameEndIndex - 1) - startIndex);
 
-        auto &data_element   = m_user_data[name];
-        data_element.userLog = data;
+        // Read data and skip new line
+        if (buffer[nameEndIndex] == '\n')
+            ++nameEndIndex;
+        data   = buffer.mid(nameEndIndex, endIndex - nameEndIndex);
+        buffer = buffer.mid(endIndex + logEnd.size() + 1);
+        currentEntryIndex += (endIndex + logEnd.size() + 1 - startIndex);
+
+        qWarning() << "Read log for " << name.toString();
+        auto &data_element   = m_user_data[name.toString()];
+        data_element.userLog = data.toString();
 
     } // end while
     file.close();
@@ -1650,8 +1697,8 @@ std::pair<bool, QString> KStarsData::updateUserLog(const QString &name,
     QString KSLabel = "[KSLABEL:" + name + ']';
 
     file.setFileName(
-        KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
-        "userlog.dat"); //determine filename in local user KDE directory tree.
+        QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(
+            "userlog.dat")); //determine filename in local user KDE directory tree.
 
     if (file.open(QIODevice::ReadOnly))
     {
