@@ -828,7 +828,6 @@ bool KStarsData::readUserLog()
         buffer = buffer.mid(endIndex + logEnd.size() + 1);
         currentEntryIndex += (endIndex + logEnd.size() + 1 - startIndex);
 
-        qWarning() << "Read log for " << name.toString();
         auto &data_element   = m_user_data[name.toString()];
         data_element.userLog = data.toString();
 
