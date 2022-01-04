@@ -41,6 +41,13 @@ void SequenceJobState::prepareCapture(CCDFrameType frameType, bool enforceCCDTem
     // turn on enforcing guiding drift check if the guider is active
     m_enforceStartGuiderDrift = enforceStartGuiderDrift;
 
+       // Filter changes are actually done in capture(), therefore prepareActions are always true
+       prepareActions[ACTION_FILTER] = true;
+       // nevertheless, emit an event so that Capture changes m_state
+       if (targetFilterID != -1 && frameType == FRAME_LIGHT && targetFilterID != currentFilterID)
+           emit prepareState(CAPTURE_CHANGING_FILTER);
+
+
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     if (m_enforceTemperature && (fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff() ||
                                isInitialized[ACTION_TEMPERATURE] == false))
