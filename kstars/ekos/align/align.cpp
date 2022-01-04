@@ -3965,7 +3965,6 @@ void Align::processPAHStage(int stage)
     switch (stage)
     {
         case PAA::PAH_IDLE:
-            emit PAAToggled(false);
             break;
         case PAA::PAH_POST_REFRESH:
         {
@@ -3982,7 +3981,6 @@ void Align::processPAHStage(int stage)
             Options::setAutoWCS(rememberAutoWCS);
             break;
         case PAA::PAH_FIRST_CAPTURE:
-            emit PAAToggled(true);
             nothingR->setChecked(true);
             m_CurrentGotoMode = GOTO_NOTHING;
             loadSlewB->setEnabled(false);
@@ -4003,6 +4001,8 @@ void Align::processPAHStage(int stage)
         default:
             break;
     }
+
+    emit newPAAStage(stage);
 }
 
 bool Align::matchPAHStage(uint32_t stage)

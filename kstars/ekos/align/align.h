@@ -593,7 +593,7 @@ class Align : public QWidget, public Ui::Align
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::AlignState state);
-        void PAAToggled(bool toggled);
+        void newPAAStage(int stage);
         void newSolution(const QVariantMap &solution);
 
         // This is sent when we load an image in the view
