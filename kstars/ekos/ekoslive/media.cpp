@@ -13,6 +13,8 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "hips/hipsfinder.h"
+#include "kspaths.h"
+#include "Options.h"
 
 #include "ekos_debug.h"
 
@@ -141,12 +143,24 @@ void Media::onTextReceived(const QString &message)
             {
                 QImage centerImage(HIPS_TILE_WIDTH, HIPS_TILE_HEIGHT, QImage::Format_ARGB32_Premultiplied);
                 double fov_w = 0, fov_h = 0;
-                if (HIPSFinder::Instance()->render(oneObject, level, zoom, &centerImage, fov_w, fov_h))
-                {
-                    QByteArray jpegData;
-                    QBuffer buffer(&jpegData);
-                    buffer.open(QIODevice::WriteOnly);
 
+                if (oneObject->type() == SkyObject::MOON || oneObject->type() == SkyObject::PLANET)
+                {
+                    QProcess xplanetProcess;
+                    const QString output = KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + "xplanet.jpg";
+                    xplanetProcess.start(Options::xplanetPath(), QStringList()
+                                         << "--num_times" << "1"
+                                         << "--geometry" << QString("%1x%2").arg(HIPS_TILE_WIDTH).arg(HIPS_TILE_HEIGHT)
+                                         << "--body" << name.toLower()
+                                         << "--output" << output);
+                    xplanetProcess.waitForFinished(5000);
+                    centerImage.load(output);
+                }
+                else
+                    HIPSFinder::Instance()->render(oneObject, level, zoom, &centerImage, fov_w, fov_h);
+
+                if (!centerImage.isNull())
+                {
                     // Send everything as strings
                     QJsonObject metadata =
                     {
@@ -158,6 +172,10 @@ void Media::onTextReceived(const QString &message)
                         {"fov_h", QString::number(fov_h)},
                         {"ext", "jpg"}
                     };
+
+                    QByteArray jpegData;
+                    QBuffer buffer(&jpegData);
+                    buffer.open(QIODevice::WriteOnly);
 
                     // First METADATA_PACKET bytes of the binary data is always allocated
                     // to the metadata, the rest to the image data.
