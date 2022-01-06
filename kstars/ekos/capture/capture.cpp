@@ -40,7 +40,7 @@
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.1
+#define SQ_FORMAT_VERSION 2.2
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
@@ -4339,20 +4339,28 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "Properties"))
         {
-            QMap<QString, QMap<QString, double>> propertyMap;
+            QMap<QString, QMap<QString, QVariant>> propertyMap;
 
             for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
             {
-                QMap<QString, double> numbers;
-                XMLEle * oneNumber = nullptr;
-                for (oneNumber = nextXMLEle(subEP, 1); oneNumber != nullptr; oneNumber = nextXMLEle(subEP, 0))
+                QMap<QString, QVariant> elements;
+                XMLEle * oneElement = nullptr;
+                for (oneElement = nextXMLEle(subEP, 1); oneElement != nullptr; oneElement = nextXMLEle(subEP, 0))
                 {
-                    const char * name = findXMLAttValu(oneNumber, "name");
-                    numbers[name] = cLocale.toDouble(pcdataXMLEle(oneNumber));
+                    const char * name = findXMLAttValu(oneElement, "name");
+                    bool ok = false;
+                    // String
+                    auto xmlValue = pcdataXMLEle(oneElement);
+                    // Try to load it as double
+                    auto value = cLocale.toDouble(xmlValue, &ok);
+                    if (ok)
+                        elements[name] = value;
+                    else
+                        elements[name] = xmlValue;
                 }
 
                 const char * name = findXMLAttValu(subEP, "name");
-                propertyMap[name] = numbers;
+                propertyMap[name] = elements;
             }
 
             customPropertiesDialog->setCustomProperties(propertyMap);
@@ -4447,24 +4455,24 @@ void Capture::readCurrentState(CaptureState state)
 {
     switch(state)
     {
-    case CAPTURE_SETTING_TEMPERATURE:
-        if (currentCCD != nullptr)
-        {
-            double currentTemperature;
-            currentCCD->getTemperature(&currentTemperature);
-            emit newTemperatureValue(currentTemperature);
-        }
-        break;
-    case CAPTURE_SETTING_ROTATOR:
-        if (currentRotator != nullptr)
-            emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
-        break;
-    case CAPTURE_GUIDER_DRIFT:
-        // intentionally left empty since the guider regularly updates the drift
-        break;
-    default:
-        // this should not happen!
-        qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
+        case CAPTURE_SETTING_TEMPERATURE:
+            if (currentCCD != nullptr)
+            {
+                double currentTemperature;
+                currentCCD->getTemperature(&currentTemperature);
+                emit newTemperatureValue(currentTemperature);
+            }
+            break;
+        case CAPTURE_SETTING_ROTATOR:
+            if (currentRotator != nullptr)
+                emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
+            break;
+        case CAPTURE_GUIDER_DRIFT:
+            // intentionally left empty since the guider regularly updates the drift
+            break;
+        default:
+            // this should not happen!
+            qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
     }
 }
 
@@ -4627,21 +4635,29 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
         if (job->getTargetRotation() != Ekos::INVALID_VALUE)
             outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
-        QMapIterator<QString, QMap<QString, double>> customIter(job->getCustomProperties());
+        QMapIterator<QString, QMap<QString, QVariant>> customIter(job->getCustomProperties());
         outstream << "<Properties>" << endl;
         while (customIter.hasNext())
         {
             customIter.next();
-            outstream << "<NumberVector name='" << customIter.key() << "'>" << endl;
-            QMap<QString, double> numbers = customIter.value();
-            QMapIterator<QString, double> numberIter(numbers);
-            while (numberIter.hasNext())
+            outstream << "<PropertyVector name='" << customIter.key() << "'>" << endl;
+            QMap<QString, QVariant> elements = customIter.value();
+            QMapIterator<QString, QVariant> iter(elements);
+            while (iter.hasNext())
             {
-                numberIter.next();
-                outstream << "<OneNumber name='" << numberIter.key()
-                          << "'>" << cLocale.toString(numberIter.value()) << "</OneNumber>" << endl;
+                iter.next();
+                if (iter.value().type() == QVariant::String)
+                {
+                    outstream << "<OneElement name='" << iter.key()
+                              << "'>" << iter.value().toString() << "</OneElement>" << endl;
+                }
+                else
+                {
+                    outstream << "<OneElement name='" << iter.key()
+                              << "'>" << iter.value().toDouble() << "</OneElement>" << endl;
+                }
             }
-            outstream << "</NumberVector>" << endl;
+            outstream << "</PropertyVector>" << endl;
         }
         outstream << "</Properties>" << endl;
 
@@ -7460,7 +7476,7 @@ void Capture::removeDevice(ISD::GDInterface *device)
 
 void Capture::setGain(double value)
 {
-    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
     // Property CCD_GAIN and
@@ -7468,13 +7484,13 @@ void Capture::setGain(double value)
     // Therefore, we have to find what the currently camera supports first.
     if (currentCCD->getProperty("CCD_GAIN"))
     {
-        QMap<QString, double> ccdGain;
+        QMap<QString, QVariant> ccdGain;
         ccdGain["GAIN"] = value;
         customProps["CCD_GAIN"] = ccdGain;
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, double> ccdGain = customProps["CCD_CONTROLS"];
+        QMap<QString, QVariant> ccdGain = customProps["CCD_CONTROLS"];
         ccdGain["Gain"] = value;
         customProps["CCD_CONTROLS"] = ccdGain;
     }
@@ -7484,7 +7500,7 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
-    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
     // Property CCD_GAIN and
@@ -7492,11 +7508,11 @@ double Capture::getGain()
     // Therefore, we have to find what the currently camera supports first.
     if (currentCCD->getProperty("CCD_GAIN"))
     {
-        return customProps["CCD_GAIN"].value("GAIN", -1);
+        return customProps["CCD_GAIN"].value("GAIN", -1).toDouble();
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        return customProps["CCD_CONTROLS"].value("Gain", -1);
+        return customProps["CCD_CONTROLS"].value("Gain", -1).toDouble();
     }
 
     return -1;
@@ -7504,7 +7520,7 @@ double Capture::getGain()
 
 void Capture::setOffset(double value)
 {
-    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Offset is manifested in two forms
     // Property CCD_OFFSET and
@@ -7512,13 +7528,13 @@ void Capture::setOffset(double value)
     // Therefore, we have to find what the currently camera supports first.
     if (currentCCD->getProperty("CCD_OFFSET"))
     {
-        QMap<QString, double> ccdOffset;
+        QMap<QString, QVariant> ccdOffset;
         ccdOffset["OFFSET"] = value;
         customProps["CCD_OFFSET"] = ccdOffset;
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        QMap<QString, double> ccdOffset = customProps["CCD_CONTROLS"];
+        QMap<QString, QVariant> ccdOffset = customProps["CCD_CONTROLS"];
         ccdOffset["Offset"] = value;
         customProps["CCD_CONTROLS"] = ccdOffset;
     }
@@ -7528,7 +7544,7 @@ void Capture::setOffset(double value)
 
 double Capture::getOffset()
 {
-    QMap<QString, QMap<QString, double> > customProps = customPropertiesDialog->getCustomProperties();
+    QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
     // Property CCD_GAIN and
@@ -7536,11 +7552,11 @@ double Capture::getOffset()
     // Therefore, we have to find what the currently camera supports first.
     if (currentCCD->getProperty("CCD_OFFSET"))
     {
-        return customProps["CCD_OFFSET"].value("OFFSET", -1);
+        return customProps["CCD_OFFSET"].value("OFFSET", -1).toDouble();
     }
     else if (currentCCD->getProperty("CCD_CONTROLS"))
     {
-        return customProps["CCD_CONTROLS"].value("Offset", -1);
+        return customProps["CCD_CONTROLS"].value("Offset", -1).toDouble();
     }
 
     return -1;

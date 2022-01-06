@@ -14,29 +14,29 @@
 
 class CustomProperties : public QDialog, public Ui::CustomProperties
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    CustomProperties();
+    public:
+        CustomProperties();
 
-    void setCCD(ISD::CCD *ccd);
+        void setCCD(ISD::CCD *ccd);
 
-    QMap<QString, QMap<QString, double> > getCustomProperties() const;
-    void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
+        QMap<QString, QMap<QString, QVariant> > getCustomProperties() const;
+        void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value);
 
-signals:
-    void valueChanged();
+    signals:
+        void valueChanged();
 
-private slots:
-    void slotAdd();
-    void slotRemove();
-    void slotClear();
-    void slotApply();
+    private slots:
+        void slotAdd();
+        void slotRemove();
+        void slotClear();
+        void slotApply();
 
-private:
+    private:
 
-    void syncProperties();
+        void syncProperties();
 
-    ISD::CCD *currentCCD = { nullptr };
-    QMap<QString, QMap<QString,double>> customProperties;
+        ISD::CCD *currentCCD = { nullptr };
+        QMap<QString, QMap<QString, QVariant>> customProperties;
 };

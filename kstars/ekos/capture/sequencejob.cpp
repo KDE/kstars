@@ -222,7 +222,7 @@ void SequenceJob::done()
 int SequenceJob::getJobRemainingTime(double estimatedDownloadTime)
 {
     double remaining = (getExposure() + estimatedDownloadTime + getDelay() / 1000) *
-                                     (getCount() - getCompleted());
+                       (getCount() - getCompleted());
 
     if (getStatus() == JOB_BUSY)
     {
@@ -298,12 +298,12 @@ void SequenceJob::setDirectoryPostfix(const QString &value)
     directoryPostfix = value;
 }
 
-QMap<QString, QMap<QString, double> > SequenceJob::getCustomProperties() const
+QMap<QString, QMap<QString, QVariant> > SequenceJob::getCustomProperties() const
 {
     return customProperties;
 }
 
-void SequenceJob::setCustomProperties(const QMap<QString, QMap<QString, double> > &value)
+void SequenceJob::setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value)
 {
     customProperties = value;
 }
@@ -328,25 +328,60 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     else
         commandProcessor.activeCCD->setUploadMode(uploadMode);
 
-    QMapIterator<QString, QMap<QString, double>> i(customProperties);
+    QMapIterator<QString, QMap<QString, QVariant>> i(customProperties);
     while (i.hasNext())
     {
         i.next();
         INDI::Property *customProp = commandProcessor.activeCCD->getProperty(i.key());
         if (customProp)
         {
-            QMap<QString, double> numbers = i.value();
-            QMapIterator<QString, double> j(numbers);
-            auto np = customProp->getNumber();
-            while (j.hasNext())
-            {
-                j.next();
-                auto oneNumber = np->findWidgetByName(j.key().toLatin1().data());
-                if (oneNumber)
-                    oneNumber->setValue(j.value());
-            }
+            QMap<QString, QVariant> elements = i.value();
+            QMapIterator<QString, QVariant> j(elements);
 
-            commandProcessor.activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+            switch (customProp->getType())
+            {
+                case INDI_SWITCH:
+                {
+                    auto sp = customProp->getSwitch();
+                    while (j.hasNext())
+                    {
+                        j.next();
+                        auto oneSwitch = sp->findWidgetByName(j.key().toLatin1().data());
+                        if (oneSwitch)
+                            oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
+                    }
+                    commandProcessor.activeCCD->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
+                }
+                break;
+                case INDI_TEXT:
+                {
+                    auto tp = customProp->getText();
+                    while (j.hasNext())
+                    {
+                        j.next();
+                        auto oneText = tp->findWidgetByName(j.key().toLatin1().data());
+                        if (oneText)
+                            oneText->setText(j.value().toString().toLatin1().constData());
+                    }
+                    commandProcessor.activeCCD->getDriverInfo()->getClientManager()->sendNewText(tp);
+                }
+                break;
+                case INDI_NUMBER:
+                {
+                    auto np = customProp->getNumber();
+                    while (j.hasNext())
+                    {
+                        j.next();
+                        auto oneNumber = np->findWidgetByName(j.key().toLatin1().data());
+                        if (oneNumber)
+                            oneNumber->setValue(j.value().toDouble());
+                    }
+                    commandProcessor.activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+                }
+                break;
+                default:
+                    continue;
+            }
         }
     }
 

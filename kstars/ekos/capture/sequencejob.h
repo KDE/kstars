@@ -256,8 +256,8 @@ class SequenceJob : public QObject
         double getOffset() const;
         void setOffset(double value);
 
-        QMap<QString, QMap<QString, double> > getCustomProperties() const;
-        void setCustomProperties(const QMap<QString, QMap<QString, double> > &value);
+        QMap<QString, QMap<QString, QVariant> > getCustomProperties() const;
+        void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value);
 
         QString getDirectoryPostfix() const;
         void setDirectoryPostfix(const QString &value);
@@ -273,27 +273,57 @@ class SequenceJob : public QObject
         // ////////////////////////////////////////////////////////////////////
         // capture frame type (light, flat, dark, bias)
         CCDFrameType m_frameType { FRAME_LIGHT };
-        CCDFrameType getFrameType() const { return m_frameType; }
-        void setFrameType(CCDFrameType value) { m_frameType = value; }
+        CCDFrameType getFrameType() const
+        {
+            return m_frameType;
+        }
+        void setFrameType(CCDFrameType value)
+        {
+            m_frameType = value;
+        }
 
         // is the sequence a preview or will the captures be stored?
         bool m_preview { false };
-        bool isPreview() const { return m_preview; }
-        void setPreview(bool value) { m_preview = value; }
+        bool isPreview() const
+        {
+            return m_preview;
+        }
+        void setPreview(bool value)
+        {
+            m_preview = value;
+        }
 
         // should a certain temperature should be enforced?
         bool m_enforceTemperature { false };
-        bool getEnforceTemperature() const { return m_enforceTemperature; }
-        void setEnforceTemperature(bool value) { m_enforceTemperature = value; }
+        bool getEnforceTemperature() const
+        {
+            return m_enforceTemperature;
+        }
+        void setEnforceTemperature(bool value)
+        {
+            m_enforceTemperature = value;
+        }
 
         // Ensure that guiding deviation is below a configured thresholdß
         bool m_enforceStartGuiderDrift { false };
         // Is the guider active?
         bool m_guiderActive { false };
-        bool getEnforceStartGuiderDrift() const { return m_enforceStartGuiderDrift; }
-        void setEnforceStartGuiderDrift(bool value) { m_enforceStartGuiderDrift= value; }
-        bool isGuiderActive() const { return m_guiderActive; }
-        void setGuiderActive(bool value) { m_guiderActive = value; }
+        bool getEnforceStartGuiderDrift() const
+        {
+            return m_enforceStartGuiderDrift;
+        }
+        void setEnforceStartGuiderDrift(bool value)
+        {
+            m_enforceStartGuiderDrift = value;
+        }
+        bool isGuiderActive() const
+        {
+            return m_guiderActive;
+        }
+        void setGuiderActive(bool value)
+        {
+            m_guiderActive = value;
+        }
 
         // ////////////////////////////////////////////////////////////////////////////
         // Facade to state machine
@@ -301,24 +331,51 @@ class SequenceJob : public QObject
         /**
          * @brief Retrieve the current status of the capture sequence job from the state machine
          */
-        JOBStatus getStatus() { return stateMachine.getStatus(); }
+        JOBStatus getStatus()
+        {
+            return stateMachine.getStatus();
+        }
 
-        int getTargetFilter() { return stateMachine.targetFilterID; }
+        int getTargetFilter()
+        {
+            return stateMachine.targetFilterID;
+        }
 
-        double getTargetTemperature() { return stateMachine.targetTemperature; }
-        void setTargetTemperature(double value) { stateMachine.targetTemperature = value; }
+        double getTargetTemperature()
+        {
+            return stateMachine.targetTemperature;
+        }
+        void setTargetTemperature(double value)
+        {
+            stateMachine.targetTemperature = value;
+        }
 
-        double getTargetStartGuiderDrift() const { return stateMachine.targetStartGuiderDrift; }
-        void setTargetStartGuiderDrift(double value) { stateMachine.targetStartGuiderDrift = value; }
+        double getTargetStartGuiderDrift() const
+        {
+            return stateMachine.targetStartGuiderDrift;
+        }
+        void setTargetStartGuiderDrift(double value)
+        {
+            stateMachine.targetStartGuiderDrift = value;
+        }
 
-        double getTargetRotation() const { return stateMachine.targetRotation; }
-        void setTargetRotation(double value) { stateMachine.targetRotation = value; }
+        double getTargetRotation() const
+        {
+            return stateMachine.targetRotation;
+        }
+        void setTargetRotation(double value)
+        {
+            stateMachine.targetRotation = value;
+        }
 
-        void startPrepareCapture() { emit prepareCapture(getFrameType(), getEnforceTemperature(),
-                                                         isGuiderActive() && getEnforceStartGuiderDrift(), isPreview()); }
+        void startPrepareCapture()
+        {
+            emit prepareCapture(getFrameType(), getEnforceTemperature(),
+                                isGuiderActive() && getEnforceStartGuiderDrift(), isPreview());
+        }
 
 
-signals:
+    signals:
         void prepareComplete();
         void prepareState(CaptureState state);
         void checkFocus();
@@ -334,7 +391,7 @@ signals:
         void updateRotatorAngle(double value);
 
 
-private:
+    private:
         void setStatus(JOBStatus const);
 
         QStringList statusStrings;
@@ -394,7 +451,7 @@ private:
 
         } calibrationSettings;
 
-        QMap<QString, QMap<QString, double>> customProperties;
+        QMap<QString, QMap<QString, QVariant>> customProperties;
 
         // Filter Manager
         QSharedPointer<FilterManager> filterManager;
