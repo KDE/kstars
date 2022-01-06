@@ -245,8 +245,8 @@ bool InternalGuider::dither(double pixels)
 
         m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
 
-        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering process started.. Reticle Target Pos X " << m_DitherTargetPosition.x << " Y " <<
-                                   m_DitherTargetPosition.y;
+        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering by " << pixels << " started. Current (" << ret_x << ret_y << ") + (" << diff_x <<
+                                   diff_y << ") --> Target " << m_DitherTargetPosition.x << m_DitherTargetPosition.y;
         guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
         pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
@@ -274,7 +274,7 @@ bool InternalGuider::dither(double pixels)
                                m_DitherTargetPosition.x <<
                                m_DitherTargetPosition.y << "Diff star X:" << driftRA << "Y:" << driftDEC;
 
-    if (fabs(driftRA) < 1 && fabs(driftDEC) < 1)
+    if (Options::ditherWithOnePulse() || (fabs(driftRA) < 1 && fabs(driftDEC) < 1))
     {
         pmath->setTargetPosition(star_position.x, star_position.y);
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither complete.";
@@ -971,8 +971,8 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
     info->xangle = pmath->getCalibration().getRAAngle();
     info->yangle = pmath->getCalibration().getDECAngle();
     // Calibration values in ms/pixel, xrate is in pixels/second.
-    info->xrate = 1000.0 / pmath->getCalibration().raPulseMillisecondsPerPixel();
-    info->yrate = 1000.0 / pmath->getCalibration().decPulseMillisecondsPerPixel();
+    info->xrate = 1000.0 / pmath->getCalibration().raPulseMillisecondsPerArcsecond();
+    info->yrate = 1000.0 / pmath->getCalibration().decPulseMillisecondsPerArcsecond();
 }
 
 void InternalGuider::updateGPGParameters()

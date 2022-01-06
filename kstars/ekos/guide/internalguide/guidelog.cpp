@@ -175,7 +175,7 @@ void GuideLog::startGuiding(const GuideInfo &info)
 
 // Prints a line that looks something like this:
 //   55,467.914,"Mount",-1.347,-2.160,2.319,-1.451,1.404,-0.987,303,W,218,N,,,2173,26.91,0
-// See page 56-57 in https://openphdguiding.org/PHD2_User_Guide.pdf for definitions of the fields.
+// See the log analysis section in https://openphdguiding.org/PHD2_User_Guide.pdf for definitions of the fields.
 void GuideLog::addGuideData(const GuideData &data)
 {
     QString mountString = data.type == GuideData::MOUNT ? "\"Mount\"" : "\"DROP\"";

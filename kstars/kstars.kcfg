@@ -2305,6 +2305,10 @@
          <label>If dithering fails then abort autoguide.</label>
          <default>false</default>
       </entry>
+      <entry name="DitherWithOnePulse" type="Bool">
+         <label>Dithering amount is randomly generated, pulses are sent, but the resultant pixel dithering amount is not enforced, so only the one dither pulse is sent. This is quicker, and recommended as dither amount is random anyway. It is necessary when 2-D dither is required but guiding is only done in one axis.</label>
+         <default>false</default>
+      </entry>
       <entry name="DitherEnabled" type="Bool">
          <label>Use Auto Dithering when guiding.</label>
          <default>false</default>

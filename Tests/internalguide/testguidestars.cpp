@@ -71,13 +71,13 @@ void TestGuideStars::basicTest()
 
     // arcseconds = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
     // Then needs to be rotated by the angle. Start with angle = 0;
-    double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
+    double arcsecondsPerPixel = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
 
     double x1 = 10, y1 = 50;
     GuiderUtils::Vector p(x1, y1, 0);
     GuiderUtils::Vector as = cal.convertToArcseconds(p);
-    CompareFloat(as.x, constant * x1);
-    CompareFloat(as.y, constant * y1);
+    CompareFloat(as.x, arcsecondsPerPixel * x1);
+    CompareFloat(as.y, arcsecondsPerPixel * y1);
 
     // Test computeStarDrift(), computing the distance between two stars in arcseconds.
     double dx = 2.5, dy = -0.7;
@@ -86,31 +86,31 @@ void TestGuideStars::basicTest()
     double dRa, dDec;
     g.computeStarDrift(star, refStar, &dRa, &dDec);
     // Since the angle is 0, x differences should be reflected in RA, and y in DEC.
-    CompareFloat(dRa, dx * constant);
+    CompareFloat(dRa, dx * arcsecondsPerPixel);
     // Y is inverted, because y=0 is at the top.
-    CompareFloat(dDec, -dy * constant);
+    CompareFloat(dDec, -dy * arcsecondsPerPixel);
 
     // Change the angle to 90, 180 and -90 degrees
     angle = 90.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
-    CompareFloat(-dDec, dx * constant);
-    CompareFloat(dRa, -dy * constant);
+    CompareFloat(-dDec, dx * arcsecondsPerPixel);
+    CompareFloat(dRa, -dy * arcsecondsPerPixel);
 
     angle = 180.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
-    CompareFloat(-dRa, dx * constant);
-    CompareFloat(-dDec, -dy * constant);
+    CompareFloat(-dRa, dx * arcsecondsPerPixel);
+    CompareFloat(-dDec, -dy * arcsecondsPerPixel);
 
     angle = -90.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
-    CompareFloat(dDec, dx * constant);
-    CompareFloat(-dRa, -dy * constant);
+    CompareFloat(dDec, dx * arcsecondsPerPixel);
+    CompareFloat(-dRa, -dy * arcsecondsPerPixel);
 
     // Use angle -90 so changes in x are changes in RA, and y --> -DEC.
     angle = 0.0;
@@ -175,18 +175,18 @@ void TestGuideStars::basicTest()
     CompareFloat(dRa, 0);
     CompareFloat(dDec, 0);
 
-    // Move the reticle 1 pixel in x, should result in a drift of "constant" in RA
+    // Move the reticle 1 pixel in x, should result in a drift of "arcsecondsPerPixel" in RA
     // and 0 in DEC.
     success = g.getDrift(1, 99, 70, &dRa, &dDec);
     QVERIFY(success);
-    CompareFloat(dRa, constant);
+    CompareFloat(dRa, arcsecondsPerPixel);
     CompareFloat(dDec, 0);
 
     // Similarly 2 pixels upward in y would affect DEC.
     success = g.getDrift(1, 100, 68, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, 0);
-    CompareFloat(dDec, -2 * constant);
+    CompareFloat(dDec, -2 * arcsecondsPerPixel);
 
     // Finally, since the drift is the median drift of the guide stars,
     // we move half up and half down and the middle will control the drift.
@@ -205,8 +205,8 @@ void TestGuideStars::basicTest()
     g.setDetectedStars(stars);
     success = g.getDrift(1, 100, 70, &dRa, &dDec);
     QVERIFY(success);
-    CompareFloat(dRa, 0.5 * constant);
-    CompareFloat(dDec, -0.75 * constant);
+    CompareFloat(dRa, 0.5 * arcsecondsPerPixel);
+    CompareFloat(dDec, -0.75 * arcsecondsPerPixel);
 
     // We don't accept multi-star drifts where the reference stars are too far (> 2 a-s)
     // from the guide-star drift. Here we move the guide star so it's different than
@@ -216,8 +216,8 @@ void TestGuideStars::basicTest()
     g.setDetectedStars(stars);
     success = g.getDrift(1, 100, 70, &dRa, &dDec);
     QVERIFY(success);
-    CompareFloat(dRa, 5 * constant);
-    CompareFloat(dDec, -6 * constant);
+    CompareFloat(dRa, 5 * arcsecondsPerPixel);
+    CompareFloat(dDec, -6 * arcsecondsPerPixel);
 
     // This should fail if either there aren't enough reference stars (< 2)
 
@@ -264,7 +264,7 @@ void TestGuideStars::calibrationTest()
 
     // arcseconds = 3600*180/pi * (pix*ccd_pix_sz) / focal_len
     // Then needs to be rotated by the angle. Start with angle = 0;
-    double constant = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
+    double arcsecondsPerPixel = (3600.0 * 180.0 / M_PI) * binning * pixel_size / focal_length;
 
     CompareFloat(angle, cal.getAngle());
     CompareFloat(focal_length, cal.getFocalLength());
@@ -274,30 +274,34 @@ void TestGuideStars::calibrationTest()
         GuiderUtils::Vector input(i, 2 * i, 0);
         GuiderUtils::Vector as = cal.convertToArcseconds(input);
         GuiderUtils::Vector px = cal.convertToPixels(input);
-        CompareFloat(as.x, i * constant);
-        CompareFloat(as.y, 2 * i * constant);
-        CompareFloat(px.x, i / constant);
-        CompareFloat(px.y, 2 * i / constant);
+        CompareFloat(as.x, i * arcsecondsPerPixel);
+        CompareFloat(as.y, 2 * i * arcsecondsPerPixel);
+        CompareFloat(px.x, i / arcsecondsPerPixel);
+        CompareFloat(px.y, 2 * i / arcsecondsPerPixel);
         double x, y;
         cal.convertToPixels(input.x, input.y, &x, &y);
-        CompareFloat(x, i / constant);
-        CompareFloat(y, 2 * i / constant);
+        CompareFloat(x, i / arcsecondsPerPixel);
+        CompareFloat(y, 2 * i / arcsecondsPerPixel);
     }
 
-    CompareFloat(constant, cal.xArcsecondsPerPixel());
-    CompareFloat(constant, cal.yArcsecondsPerPixel());
-    CompareFloat(1.0 / constant, cal.xPixelsPerArcsecond());
-    CompareFloat(1.0 / constant, cal.yPixelsPerArcsecond());
+    CompareFloat(arcsecondsPerPixel, cal.xArcsecondsPerPixel());
+    CompareFloat(arcsecondsPerPixel, cal.yArcsecondsPerPixel());
+    CompareFloat(1.0 / arcsecondsPerPixel, cal.xPixelsPerArcsecond());
+    CompareFloat(1.0 / arcsecondsPerPixel, cal.yPixelsPerArcsecond());
+
 
     // These are not yet estimated iniside Calibrate() so for now, just set them.
-    double raRate = 5.5, decRate = 3.3;
-    cal.setRaPulseMsPerPixel(raRate);
-    cal.setDecPulseMsPerPixel(decRate);
+    //double raRate = 5.5, decRate = 3.3;
+    double raMillisecondsPerPixel = 5.5;
+    double raMillisecondsPerArcsecond = raMillisecondsPerPixel / arcsecondsPerPixel;
+    double decMillisecondsPerPixel = 5.5;
+    double decMillisecondsPerArcsecond = decMillisecondsPerPixel / arcsecondsPerPixel;
 
-    CompareFloat(raRate, cal.raPulseMillisecondsPerPixel());
-    CompareFloat(raRate / constant, cal.raPulseMillisecondsPerArcsecond());
-    CompareFloat(decRate, cal.decPulseMillisecondsPerPixel());
-    CompareFloat(decRate / constant, cal.decPulseMillisecondsPerArcsecond());
+    cal.setRaPulseMsPerArcsecond(raMillisecondsPerArcsecond);
+    cal.setDecPulseMsPerArcsecond(decMillisecondsPerArcsecond);
+
+    CompareFloat(raMillisecondsPerArcsecond, cal.raPulseMillisecondsPerArcsecond());
+    CompareFloat(decMillisecondsPerArcsecond, cal.decPulseMillisecondsPerArcsecond());
 
     /////////////////////////////////////////////////////////////////////
     // Check that conversions are right if binning is changed on the fly.
@@ -312,25 +316,23 @@ void TestGuideStars::calibrationTest()
         GuiderUtils::Vector input(i, 2 * i, 0);
         GuiderUtils::Vector as = cal.convertToArcseconds(input);
         GuiderUtils::Vector px = cal.convertToPixels(input);
-        CompareFloat(as.x, bFactor * i * constant);
-        CompareFloat(as.y, bFactor * 2 * i * constant);
-        CompareFloat(px.x, i / (bFactor * constant));
-        CompareFloat(px.y, 2 * i / (bFactor * constant));
+        CompareFloat(as.x, bFactor * i * arcsecondsPerPixel);
+        CompareFloat(as.y, bFactor * 2 * i * arcsecondsPerPixel);
+        CompareFloat(px.x, i / (bFactor * arcsecondsPerPixel));
+        CompareFloat(px.y, 2 * i / (bFactor * arcsecondsPerPixel));
         double x, y;
         cal.convertToPixels(input.x, input.y, &x, &y);
-        CompareFloat(x, i / (bFactor * constant));
-        CompareFloat(y, 2 * i / (bFactor * constant));
+        CompareFloat(x, i / (bFactor * arcsecondsPerPixel));
+        CompareFloat(y, 2 * i / (bFactor * arcsecondsPerPixel));
     }
-    // per-pixel rates should change, but not per-arc-second rates.
-    CompareFloat(raRate * bFactor, cal.raPulseMillisecondsPerPixel());
-    CompareFloat(raRate / constant, cal.raPulseMillisecondsPerArcsecond());
-    CompareFloat(decRate * bFactor, cal.decPulseMillisecondsPerPixel());
-    CompareFloat(decRate / constant, cal.decPulseMillisecondsPerArcsecond());
 
-    CompareFloat(constant * bFactor, cal.xArcsecondsPerPixel());
-    CompareFloat(constant * bFactor, cal.yArcsecondsPerPixel());
-    CompareFloat(1.0 / (bFactor * constant), cal.xPixelsPerArcsecond());
-    CompareFloat(1.0 / (bFactor * constant), cal.yPixelsPerArcsecond());
+    CompareFloat(raMillisecondsPerArcsecond, cal.raPulseMillisecondsPerArcsecond());
+    CompareFloat(decMillisecondsPerArcsecond, cal.decPulseMillisecondsPerArcsecond());
+
+    CompareFloat(arcsecondsPerPixel * bFactor, cal.xArcsecondsPerPixel());
+    CompareFloat(arcsecondsPerPixel * bFactor, cal.yArcsecondsPerPixel());
+    CompareFloat(1.0 / (bFactor * arcsecondsPerPixel), cal.xPixelsPerArcsecond());
+    CompareFloat(1.0 / (bFactor * arcsecondsPerPixel), cal.yPixelsPerArcsecond());
     cal.setBinningUsed(binning, binning);
     /////////////////////////////////////////////////////////////////////
 
@@ -371,10 +373,10 @@ void TestGuideStars::calibrationTest()
     // Test saving and restoring the calibration.
 
     // This should set the angle to 270 and keep raRate.
-    cal.calculate1D(0, 10, raRate * 10);
+    cal.calculate1D(0, 10, raMillisecondsPerPixel * 10);
     angle = 270;
-    const int binX = 2, binY = 3;
-    const double pixSzW = .005, pixSzH = .006;
+    int binX = 2, binY = 3;
+    double pixSzW = .005, pixSzH = .006;
     cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
     QString encodedCal = cal.serialize();
     Calibration cal2;
@@ -384,8 +386,8 @@ void TestGuideStars::calibrationTest()
     QVERIFY(cal2.getAngle() != angle);
     QVERIFY(cal2.subBinX != binX);
     QVERIFY(cal2.subBinY != binY);
-    QVERIFY(cal2.raPulseMillisecondsPerPixel() != raRate);
-    QVERIFY(cal2.decPulseMillisecondsPerPixel() != decRate);
+    QVERIFY(cal2.raPulseMillisecondsPerArcsecond() != raMillisecondsPerArcsecond);
+    QVERIFY(cal2.decPulseMillisecondsPerArcsecond() != decMillisecondsPerArcsecond);
     QVERIFY(cal2.calibrationPierSide != side);
     QVERIFY(!(cal2.calibrationRA == ra));
     QVERIFY(!(cal2.calibrationDEC == dec));
@@ -401,8 +403,8 @@ void TestGuideStars::calibrationTest()
     QCOMPARE(cal2.getAngle(), angle);
     QCOMPARE(cal2.subBinX, binX);
     QCOMPARE(cal2.subBinY, binY);
-    QCOMPARE(cal2.raPulseMillisecondsPerPixel(), raRate);
-    QCOMPARE(cal2.decPulseMillisecondsPerPixel(), decRate);
+    CompareFloat(cal2.raPulseMillisecondsPerArcsecond(), raMillisecondsPerArcsecond);
+    CompareFloat(cal2.decPulseMillisecondsPerArcsecond(), decMillisecondsPerArcsecond);
     QCOMPARE(cal2.calibrationPierSide, side);
     QVERIFY(cal2.calibrationRA == ra);
     QVERIFY(cal2.calibrationDEC == dec);
@@ -475,13 +477,20 @@ void TestGuideStars::calibrationTest()
     // Similar to above, a 1-D calibration.
     // Distance was 5.0 pixels, took 10 seconds of pulse
 
+    // Set the pixels square for the below tests, since angles are in arc-seconds
+    // and not pixel coordinates (this way both are equivalent).
+    binX = 1.0;
+    binY = 1.0;
+    pixSzH = .005;
+    pixSzW = .005;
+
     x = 3.0, y = -4.0;
     int pulseLength = 10000;
     side = ISD::Telescope::PIER_WEST;
     cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
     cal.calculate1D(x, y, pulseLength);
-    QCOMPARE(cal.getAngle(), toDegrees(atan2(-y, x)));
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), pulseLength / std::hypot(x, y));
+    CompareFloat(cal.getAngle(), toDegrees(atan2(-y, x)));
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), pulseLength / std::hypot(x, y));
 
     // 2-D calibrations take coordinates and pulse lengths for both axes.
 
@@ -496,8 +505,8 @@ void TestGuideStars::calibrationTest()
     int dec_pulse = std::hypot(dec_x, dec_y) * dec_factor;
     dec_factor = dec_pulse / std::hypot(dec_x, dec_y);
     cal.calculate2D(ra_x, ra_y, dec_x, dec_y, &swap, ra_pulse, dec_pulse);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), ra_factor);
-    QCOMPARE(cal.decPulseMillisecondsPerPixel(), dec_factor);
+    QCOMPARE(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), ra_factor);
+    QCOMPARE(cal.decPulseMillisecondsPerArcsecond() * cal.yArcsecondsPerPixel(), dec_factor);
     QCOMPARE(cal.getAngle(), toDegrees(atan2(-ra_y, ra_x)));
     QCOMPARE(swap, false);
 
@@ -539,61 +548,64 @@ void TestGuideStars::calibrationTest()
     calDec.setD(0, 0, 0);
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
     encodedCal = cal.serialize();
-    double raPulseRate = cal.raPulseMillisecondsPerPixel();
+    double raPulseRate = cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel();
     dms currDec;
     currDec.setD(0, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
     currDec.setD(70, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(70.0 * M_PI / 180.0));
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(),
+                 raPulseRate / std::cos(70.0 * M_PI / 180.0));
     currDec.setD(-45, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(45.0 * M_PI / 180.0));
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(),
+                 raPulseRate / std::cos(45.0 * M_PI / 180.0));
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate / std::cos(20.0 * M_PI / 180.0));
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(),
+                 raPulseRate / std::cos(20.0 * M_PI / 180.0));
     // Set the rate back to its original value.
     currDec.setD(0, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
 
     // Change the calibration DEC.
     // A null calibration DEC should result in no-change to the ra pulse rate.
     dms nullDEC;
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, nullDEC);
     encodedCal = cal.serialize();
-    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    raPulseRate = cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel();
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
     // Both 20 should result in no change.
     calDec.setD(20, 0, 0);
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
     encodedCal = cal.serialize();
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
     // Cal 20 and current 45 should change the rate accordingly.
     currDec.setD(45, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    QCOMPARE(cal.raPulseMillisecondsPerPixel(),
-             raPulseRate * std::cos(20.0 * M_PI / 180.0) / std::cos(45.0 * M_PI / 180.0));
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(),
+                 raPulseRate * std::cos(20.0 * M_PI / 180.0) / std::cos(45.0 * M_PI / 180.0));
     // Changing cal dec to > 60-degrees or < -60 degrees results in no rate change.
     calDec.setD(65, 0, 0);
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
     encodedCal = cal.serialize();
-    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    raPulseRate = cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel();
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    CompareFloat(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
     calDec.setD(-70, 0, 0);
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, calDec);
     encodedCal = cal.serialize();
-    raPulseRate = cal.raPulseMillisecondsPerPixel();
+    raPulseRate = cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel();
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
-    CompareFloat(cal.raPulseMillisecondsPerPixel(), raPulseRate);
+    CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)

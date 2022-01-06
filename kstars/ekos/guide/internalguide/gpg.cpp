@@ -113,9 +113,11 @@ void GPG::startDithering(double dx, double dy, const Calibration &cal)
     double raPixels, decPixels;
     cal.rotateToRaDec(dx, dy, &raPixels, &decPixels);
 
-    // The 1000 in the denominator below converts gear-milliseconds into gear-seconds.
+    // The 1000 in the denominator below converts gear-milliseconds into gear-seconds,
+    // which is the unit GPG wants. Since calibration uses arcseconds, we convert using
+    // arcseconds/pixel, though that's inexact when the pixels aren't square.
     // amount = (pixels * ms/pixel) / 1000;
-    const double amount = raPixels * cal.raPulseMillisecondsPerPixel() / 1000.0;
+    const double amount = raPixels * cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel() / 1000.0;
 
     qCDebug(KSTARS_EKOS_GUIDE) << "GPG Dither started. Gear-seconds =" << amount << "x,y was: " << dx << dy;
     gpg->GuidingDithered(amount, 1.0);

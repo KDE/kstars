@@ -266,8 +266,10 @@ void TestCalibrationProcess::runTest(const CalibrationTest &test)
 
     QVERIFY(compareDouble(calibration.getRAAngle(), test.raAngle));
     QVERIFY(compareDouble(calibration.getDECAngle(), test.decAngle));
-    QVERIFY(compareDouble(calibration.raPulseMillisecondsPerPixel(), test.raMsPerPixel));
-    QVERIFY(compareDouble(calibration.decPulseMillisecondsPerPixel(), test.decMsPerPixel));
+    QVERIFY(compareDouble(calibration.raPulseMillisecondsPerArcsecond() * calibration.xArcsecondsPerPixel(),
+                          test.raMsPerPixel));
+    QVERIFY(compareDouble(calibration.decPulseMillisecondsPerArcsecond() * calibration.yArcsecondsPerPixel(),
+                          test.decMsPerPixel));
     QVERIFY(calibration.declinationSwapEnabled() == test.decSwap);
 }
 

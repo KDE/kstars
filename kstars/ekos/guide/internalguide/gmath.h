@@ -160,7 +160,7 @@ class cgmath : public QObject
 
         void updateCircularBuffers(void);
         GuiderUtils::Vector point2arcsec(const GuiderUtils::Vector &p) const;
-        void calculatePulses(void);
+        void calculatePulses(Ekos::GuideState state);
         void calculateRmsError(void);
 
         // Old-stye Logging--deprecate.

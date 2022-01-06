@@ -256,36 +256,61 @@ const QString directionStr(GuideDirection dir)
 }
 }  // namespace
 
-void cgmath::calculatePulses(void)
+void cgmath::calculatePulses(Ekos::GuideState state)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
 
-    in_params.proportional_gain[0] = Options::rAProportionalGain();
-    in_params.proportional_gain[1] = Options::dECProportionalGain();
+    const bool dithering = state == Ekos::GuideState::GUIDE_DITHERING;
 
-    in_params.integral_gain[0] = Options::rAIntegralGain();
-    in_params.integral_gain[1] = Options::dECIntegralGain();
+    if (!dithering)
+    {
+        in_params.proportional_gain[0] = Options::rAProportionalGain();
+        in_params.proportional_gain[1] = Options::dECProportionalGain();
 
-    in_params.enabled[0] = Options::rAGuideEnabled();
-    in_params.enabled[1] = Options::dECGuideEnabled();
+        in_params.integral_gain[0] = Options::rAIntegralGain();
+        in_params.integral_gain[1] = Options::dECIntegralGain();
 
-    in_params.min_pulse_arcsec[0] = Options::rAMinimumPulseArcSec();
-    in_params.min_pulse_arcsec[1] = Options::dECMinimumPulseArcSec();
+        // Always pulse if were dithering.
+        in_params.enabled[0] = Options::rAGuideEnabled();
+        in_params.enabled[1] = Options::dECGuideEnabled();
 
-    in_params.max_pulse_arcsec[0] = Options::rAMaximumPulseArcSec();
-    in_params.max_pulse_arcsec[1] = Options::dECMaximumPulseArcSec();
+        in_params.min_pulse_arcsec[0] = Options::rAMinimumPulseArcSec();
+        in_params.min_pulse_arcsec[1] = Options::dECMinimumPulseArcSec();
 
-    // RA W/E enable
-    // East RA+ enabled?
-    in_params.enabled_axis1[0] = Options::eastRAGuideEnabled();
-    // West RA- enabled?
-    in_params.enabled_axis2[0] = Options::westRAGuideEnabled();
+        in_params.max_pulse_arcsec[0] = Options::rAMaximumPulseArcSec();
+        in_params.max_pulse_arcsec[1] = Options::dECMaximumPulseArcSec();
 
-    // DEC N/S enable
-    // North DEC+ enabled?
-    in_params.enabled_axis1[1] = Options::northDECGuideEnabled();
-    // South DEC- enabled?
-    in_params.enabled_axis2[1] = Options::southDECGuideEnabled();
+        // RA W/E enable (but always pulse if dithering).
+        // East RA+ enabled?
+        in_params.enabled_axis1[0] = Options::eastRAGuideEnabled();
+        // West RA- enabled?
+        in_params.enabled_axis2[0] = Options::westRAGuideEnabled();
+
+        // DEC N/S enable (but always pulse if dithering).
+        // North DEC+ enabled?
+        in_params.enabled_axis1[1] = Options::northDECGuideEnabled();
+        // South DEC- enabled?
+        in_params.enabled_axis2[1] = Options::southDECGuideEnabled();
+    }
+    else
+    {
+        // If we're dithering, enable all axes and use full pulses.
+        in_params.proportional_gain[0] = 1.0;
+        in_params.proportional_gain[1] = 1.0;
+        in_params.integral_gain[0] = 0.0;
+        in_params.integral_gain[1] = 0.0;
+        in_params.min_pulse_arcsec[0] = 0.0;
+        in_params.min_pulse_arcsec[1] = 0.0;
+        in_params.max_pulse_arcsec[0] = Options::rAMaximumPulseArcSec();
+        in_params.max_pulse_arcsec[1] = Options::dECMaximumPulseArcSec();
+        in_params.enabled[0] = true;
+        in_params.enabled[1] = true;
+        in_params.enabled_axis1[0] = true;
+        in_params.enabled_axis2[0] = true;
+        in_params.enabled_axis1[1] = true;
+        in_params.enabled_axis2[1] = true;
+    }
+
 
     // process axes...
     for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
@@ -314,7 +339,7 @@ void cgmath::calculatePulses(void)
                                    << " integral[" << axisStr(k) << "] = " << drift_integral[k];
 
         // GPG pulse computation
-        bool useGPG = Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
+        bool useGPG = !dithering && Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
         if (useGPG && gpg->computePulse(arcsecDrift,
                                         usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration))
         {
@@ -433,14 +458,15 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     starPositionArcSec    = calibration.convertToArcseconds(starPosition);
     targetPositionArcSec = calibration.convertToArcseconds(targetPosition);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Star    X : " << starPosition.x << " Y  : " << starPosition.y;
-    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle X : " << targetPosition.x << " Y  :" << targetPosition.y;
-    qCDebug(KSTARS_EKOS_GUIDE) << "Star    RA: " << starPositionArcSec.x << " DEC: " << starPositionArcSec.y;
-    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle RA: " << targetPositionArcSec.x << " DEC: " << targetPositionArcSec.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Star    X:" << starPosition.x   << "Y:" << starPosition.y << "arcsecs: " <<
+                               starPositionArcSec.x << starPositionArcSec.y;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Reticle X:" << targetPosition.x << "Y:" << targetPosition.y << "arcsecs: " <<
+                               targetPositionArcSec.x << targetPositionArcSec.y;
+
 
     // Compute RA & DEC drift in arcseconds.
-    GuiderUtils::Vector star_drift = starPositionArcSec - targetPositionArcSec;
-    star_drift = calibration.rotateToRaDec(star_drift);
+    const GuiderUtils::Vector star_xy_arcsec_drift = starPositionArcSec - targetPositionArcSec;
+    const GuiderUtils::Vector star_drift = calibration.rotateToRaDec(star_xy_arcsec_drift);
 
     // both coords are ready for math processing
     // put coord to drift list
@@ -450,8 +476,6 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     drift[GUIDE_DEC][driftUpto[GUIDE_DEC]] = star_drift.y;
 
     qCDebug(KSTARS_EKOS_GUIDE) << "-------> AFTER ROTATION  Diff RA: " << star_drift.x << " DEC: " << star_drift.y;
-    qCDebug(KSTARS_EKOS_GUIDE) << "RA index: " << driftUpto[GUIDE_RA]
-                               << " DEC index: " << driftUpto[GUIDE_DEC];
 
     if (state == Ekos::GUIDE_GUIDING && usingSEPMultiStar())
     {
@@ -476,7 +500,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     const double decDrift = drift[GUIDE_DEC][driftUpto[GUIDE_DEC]];
 
     // make decision by axes
-    calculatePulses();
+    calculatePulses(state);
 
     if (state == Ekos::GUIDE_GUIDING)
     {
@@ -501,10 +525,12 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         const double decGuideFactor = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ?
                                       0 : (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR ? -1.0 : 1.0);
 
-        data.raGuideDistance = raGuideFactor * out_params.pulse_length[GUIDE_RA] /
-                               calibration.raPulseMillisecondsPerPixel();
-        data.decGuideDistance = decGuideFactor * out_params.pulse_length[GUIDE_DEC] /
-                                calibration.decPulseMillisecondsPerPixel();
+        // Phd2LogViewer wants these in pixels instead of arcseconds, so normalizing them, but
+        // that will be wrong for non-square pixels. They should really accept arcsecond units.
+        data.raGuideDistance = calibration.xPixelsPerArcsecond() * raGuideFactor * out_params.pulse_length[GUIDE_RA] /
+                               calibration.raPulseMillisecondsPerArcsecond();
+        data.decGuideDistance = calibration.yPixelsPerArcsecond() * decGuideFactor * out_params.pulse_length[GUIDE_DEC] /
+                                calibration.decPulseMillisecondsPerArcsecond();
 
         data.raDuration = out_params.pulse_dir[GUIDE_RA] == NO_DIR ? 0 : out_params.pulse_length[GUIDE_RA];
         data.raDirection = out_params.pulse_dir[GUIDE_RA];

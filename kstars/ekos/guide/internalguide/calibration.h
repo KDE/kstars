@@ -29,12 +29,9 @@ class Calibration
         void setBinningUsed(int x, int y);
 
         // Generate new calibrations according to the input parameters.
-        bool calculate1D(double x, double y, int RATotalPulse);
         bool calculate1D(double start_x, double start_y,
                          double end_x, double end_y, int RATotalPulse);
 
-        bool calculate2D(double ra_x, double ra_y, double dec_x, double dec_y,
-                         bool *swap_dec, int RATotalPulse, int DETotalPulse);
         bool calculate2D(
             double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
             double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
@@ -80,16 +77,8 @@ class Calibration
         void rotateToRaDec(double dx, double dy, double *ra, double *dec) const;
 
         // Returns the number of milliseconds that should be pulsed to move
-        // RA by one pixel.
-        double raPulseMillisecondsPerPixel() const;
-
-        // Returns the number of milliseconds that should be pulsed to move
         // RA by one arcsecond.
         double raPulseMillisecondsPerArcsecond() const;
-
-        // Returns the number of milliseconds that should be pulsed to move
-        // DEC by one pixel.
-        double decPulseMillisecondsPerPixel() const;
 
         // Returns the number of milliseconds that should be pulsed to move
         // DEC by one arcsecond.
@@ -132,6 +121,11 @@ class Calibration
         void logCalibration() const;
 
     private:
+        // Internal calibration methods.
+        bool calculate1D(double dx, double dy, int RATotalPulse);
+        bool calculate2D(double ra_dx, double ra_dy, double dec_dx, double dec_dy,
+                         bool *swap_dec, int RATotalPulse, int DETotalPulse);
+
         // Serialize and restore the calibration state.
         QString serialize() const;
         bool restore(const QString &encoding);
@@ -143,10 +137,13 @@ class Calibration
         static double calculateRotation(double x, double y);
 
         // Set the rotation angle and the rotation matrix.
+        // The angles are in the arc-second coordinate system (not the pixels--though that would
+        // be the same thing if the pixels were square).
         void setAngle(double rotationAngle);
 
-        void setRaPulseMsPerPixel(double rate);
-        void setDecPulseMsPerPixel(double rate);
+        // Set the calibrated ra and dec rates.
+        void setRaPulseMsPerArcsecond(double rate);
+        void setDecPulseMsPerArcsecond(double rate);
 
         // computes the ratio of the binning currently used to the binning in use while calibrating.
         double binFactor() const;
@@ -179,16 +176,16 @@ class Calibration
         // This is derived from angle in setAngle().
         GuiderUtils::Matrix ROT_Z;
 
-        // The angles associated with the calibration that was computerd or
+        // The angles associated with the calibration that was computed or
         // restored. They won't change as we change pier sides.
         double calibrationAngle { 0 };
         double calibrationAngleRA = 0;
         double calibrationAngleDEC = 0;
 
         // The calibrated values of how many pulse milliseconds are required to
-        // move one pixel in RA and DEC.
-        double raPulseMsPerPixel { 0 };
-        double decPulseMsPerPixel { 0 };
+        // move one arcsecond in RA and DEC.
+        double raPulseMsPerArcsecond { 0 };
+        double decPulseMsPerArcsecond { 0 };
 
         // The decSwap that was computed in calibration.
         bool calibrationDecSwap { false };

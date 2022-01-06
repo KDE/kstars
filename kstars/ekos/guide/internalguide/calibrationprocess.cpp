@@ -228,7 +228,7 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
 
         // This temporary calibration is just used to help find our way back to the origin.
         // total_pulse is not used, but valid.
-        tempCalibration.calculate1D(end_x1 - start_x1, end_y1 - start_y1, ra_total_pulse);
+        tempCalibration.calculate1D(start_x1, start_y1, end_x1, end_y1, ra_total_pulse);
 
         ra_distance = 0;
         backlash = 0;
@@ -374,8 +374,9 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
         calibration->save();
         calibrationStage = CAL_IDLE;
         addStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        // Below converts from ms/arcsecond to arcseconds/second.
         if (guideLog)
-            guideLog->endCalibration(1000.0 / calibration->raPulseMillisecondsPerPixel(), 0);
+            guideLog->endCalibration(1000.0 / calibration->raPulseMillisecondsPerArcsecond(), 0);
     }
     else
     {
@@ -459,7 +460,7 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
 
         qCDebug(KSTARS_EKOS_GUIDE) << "End X2 " << end_x2 << " End Y2 " << end_y2;
 
-        tempCalibration.calculate1D(end_x2 - start_x2, end_y2 - start_y2, de_total_pulse);
+        tempCalibration.calculate1D(start_x2, start_y2, end_x2, end_y2, de_total_pulse);
 
         de_distance = 0;
 
@@ -588,12 +589,11 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
 
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Successful"));
 
-        // Fill in mount
-        // These rates are in ms/pixel. Convert to pixels/second
+        // Below converts from ms/arcsecond to arcseconds/second.
         if (guideLog)
             guideLog->endCalibration(
-                1000.0 / calibration->raPulseMillisecondsPerPixel(),
-                1000.0 / calibration->decPulseMillisecondsPerPixel());
+                1000.0 / calibration->raPulseMillisecondsPerArcsecond(),
+                1000.0 / calibration->decPulseMillisecondsPerArcsecond());
         return;
     }
     else
