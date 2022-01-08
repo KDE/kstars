@@ -38,7 +38,7 @@ install(FILES
 file(GLOB vsop87_files vsop87/*)
 install( FILES ${vsop87_files} DESTINATION ${KSTARS_DATADIR}/kstars)
 
-# N.B. On Windows & Mac, the sound files do not exist at all.
+# N.B. On Windows, the sound files do not exist at all.
 # On Linux, it will overwrite the Oxygen-* files.
 file(GLOB sound_files sounds/*)
 install( FILES ${sound_files} DESTINATION ${KSTARS_DATADIR}/sounds )

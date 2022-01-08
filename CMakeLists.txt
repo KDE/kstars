@@ -468,7 +468,9 @@ IF (NOT ANDROID)
     endif()
 ENDIF ()
 
-install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+if(NOT APPLE) #This is not used on MacOS
+    install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+endif(NOT APPLE)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

@@ -170,15 +170,13 @@ bool ServerManager::startDriver(DriverInfo *dv)
     dv->setServerManager(this);
 
     QString driversDir    = Options::indiDriversDir();
-    QString indiServerDir = Options::indiServer();
+    QString indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 
 #ifdef Q_OS_OSX
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
     if (Options::indiDriversAreInternal())
         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
-    else
-        indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 #endif
 
     if (dv->getRemoteHost().isEmpty() == false)

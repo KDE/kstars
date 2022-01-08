@@ -1,5 +1,8 @@
-add_subdirectory( data )
-add_subdirectory( icons )
+if(NOT APPLE) #This is not needed on MacOS, since the data directory and icons are now installed to the app bundle first using the code at the bottom
+    add_subdirectory( data )
+    add_subdirectory( icons )
+endif(NOT APPLE)
+
 add_subdirectory( htmesh )
 
 if (ANDROID AND CMAKE_TOOLCHAIN_FILE)
@@ -818,6 +821,7 @@ SET(kstars_extra_kstars_SRCS
 SET(catalogsdb_SRCS
         catalogsdb/catalogsdb.cpp)
 
+if(NOT APPLE) #KStarsLite files including the QML files are not needed on MacOS right now
 # Temporary solution to allow use of qml files from source dir DELETE
 SET(KSTARSLITE_CPP_OPTIONS -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" -DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
 
@@ -991,6 +995,7 @@ set(kstarsliteqml_SRCS
     )
 add_subdirectory(kstarslite/qml)
 ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
+endif(NOT APPLE) #This is the end of the Mac KStars disabling of the KStarsLite Code
 
 if(ANDROID)
     add_subdirectory(kstarslite/res)
@@ -1318,6 +1323,13 @@ if(APPLE)
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/dbus"
         DESTINATION "${KSTARS_APP}/Contents/Plugins/")
+    file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
+        DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications5/")
+    file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/kstars.kcfg"
+        DESTINATION "${KSTARS_APP}/Contents/Resources/")
+
     find_program(DBUS_SEND dbus-send PATHS ${PATHS})
     if(NOT DBUS_SEND)
         message(WARNING "DBUS Send program not found in Path, DBUS, KStars Scripting, and the Scheduler won't work without it.")
@@ -1326,6 +1338,7 @@ if(APPLE)
             "${DBUS_SEND}"
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     endif(NOT DBUS_SEND)
+
     find_program(DBUS_DAEMON dbus-daemon PATHS ${PATHS})
     if(NOT DBUS_DAEMON)
         message(WARNING "DBUS Daemon program not found in Path, DBUS, KStars Scripting, and the Scheduler won't work without it.")
@@ -1334,6 +1347,7 @@ if(APPLE)
             "${DBUS_DAEMON}"
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")    
     endif(NOT DBUS_DAEMON)
+
     find_program(XPLANET xplanet PATHS ${PATHS})
     if(NOT XPLANET)
         message(WARNING "X Planet program not found in Path, the XPlanet Solar System Simulator won't work without it.")
@@ -1342,6 +1356,7 @@ if(APPLE)
             "${XPLANET}"
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     endif(NOT XPLANET)
+
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
@@ -1367,9 +1382,11 @@ endif()
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
+if(NOT APPLE) # The desktop file is not needed on MacOS and the other two are bundled above
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+endif(NOT APPLE)
 
 if(INDI_FOUND)
 #install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
