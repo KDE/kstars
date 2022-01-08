@@ -46,6 +46,11 @@ OpsDither::OpsDither() : QFrame(KStars::Instance())
         }
     });
 
+    connect(kcfg_DitherWithOnePulse, &QCheckBox::toggled, this, [&](bool checked)
+    {
+        kcfg_DitherMaxIterations->setEnabled(!checked);
+    });
+
     connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
 
 }

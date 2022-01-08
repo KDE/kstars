@@ -79,14 +79,14 @@
            <string/>
           </property>
           <property name="text">
-           <string>Threshold</string>
+           <string>PHD2 Dither Threshold</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
          <widget class="QSpinBox" name="kcfg_DitherTimeout">
           <property name="toolTip">
-           <string>time limit for successful dither settling</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum allowable distance for dithering to be considered settled (PHD2 only).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="maximum">
            <number>360</number>
@@ -113,7 +113,7 @@
         <item row="2" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_DitherThreshold">
           <property name="toolTip">
-           <string>Maximum allowable distance for guiding to be considered settled.</string>
+           <string>Maximum allowable distance for guiding to be considered settled (PHD2 only).</string>
           </property>
           <property name="maximum">
            <double>50.000000000000000</double>
@@ -137,7 +137,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>Timeout</string>
+           <string>PHD2 Dither Timeout</string>
           </property>
          </widget>
         </item>

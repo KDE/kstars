@@ -23,6 +23,7 @@
 #include <random>
 #include <chrono>
 #include <QTimer>
+#include <QString>
 
 #define MAX_GUIDE_STARS           10
 
@@ -245,8 +246,13 @@ bool InternalGuider::dither(double pixels)
 
         m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
 
-        qCDebug(KSTARS_EKOS_GUIDE) << "Dithering by " << pixels << " started. Current (" << ret_x << ret_y << ") + (" << diff_x <<
-                                   diff_y << ") --> Target " << m_DitherTargetPosition.x << m_DitherTargetPosition.y;
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("Dithering by %1 pixels. Target:  %2,%3 Current: %4,%5 Move: %6,%7 Wander: %8,%9")
+                .arg(pixels, 3, 'f', 1)
+                .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
+                .arg(ret_x, 5, 'f', 1).arg(ret_y, 5, 'f', 1)
+                .arg(diff_x, 4, 'f', 1).arg(diff_y, 4, 'f', 1)
+                .arg(accumulator.first, 5, 'f', 1).arg(accumulator.second, 5, 'f', 1);
         guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
         pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
@@ -270,9 +276,19 @@ bool InternalGuider::dither(double pixels)
         GuiderUtils::Vector(m_DitherTargetPosition.x, m_DitherTargetPosition.y, 0),
         &driftRA, &driftDEC);
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Dithering in progress. Current" << star_position.x << star_position.y << "Target" <<
-                               m_DitherTargetPosition.x <<
-                               m_DitherTargetPosition.y << "Diff star X:" << driftRA << "Y:" << driftDEC;
+    double pixelOffsetX = m_DitherTargetPosition.x - star_position.x;
+    double pixelOffsetY = m_DitherTargetPosition.y - star_position.y;
+    if (Options::ditherWithOnePulse())
+    {
+        accumulator.first -= pixelOffsetX;
+        accumulator.second -= pixelOffsetY;
+    }
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("Dithering in progress.   Current: %1,%2 Target:  %3,%4 Diff: %5,%6 Wander: %8,%9")
+            .arg(star_position.x, 5, 'f', 1).arg(star_position.y, 5, 'f', 1)
+            .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
+            .arg(pixelOffsetX, 4, 'f', 1).arg(pixelOffsetY, 4, 'f', 1)
+            .arg(accumulator.first, 5, 'f', 1).arg(accumulator.second, 5, 'f', 1);
 
     if (Options::ditherWithOnePulse() || (fabs(driftRA) < 1 && fabs(driftDEC) < 1))
     {

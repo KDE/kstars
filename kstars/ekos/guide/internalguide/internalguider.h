@@ -176,7 +176,10 @@ class InternalGuider : public GuideInterface
         // How many 'random' pixels can we move before we have to force direction reversal?
         static const uint8_t MAX_DITHER_TRAVEL = 15;
 
+        // This keeps track of the distance dithering has moved. It's used to make sure
+        // the "random walk" dither doesn't wander too far away.
         QPair<double, double> accumulator;
+
         GuideLog guideLog;
 
         void iterateCalibration();

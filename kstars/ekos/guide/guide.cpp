@@ -147,7 +147,16 @@ Guide::Guide() : QWidget()
 
     //This allows the current guideSubframe option to be loaded.
     if(guiderType == GUIDE_PHD2)
+    {
         setExternalGuiderBLOBEnabled(!Options::guideSubframeEnabled());
+    }
+    else
+    {
+        // These only apply to PHD2, so disabling them when using the internal guider.
+        opsDither->kcfg_DitherTimeout->setEnabled(false);
+        opsDither->kcfg_DitherThreshold->setEnabled(false);
+        opsDither->kcfg_DitherMaxIterations->setEnabled(!Options::ditherWithOnePulse());
+    }
 
     // Initialize non guided dithering random generator.
     resetNonGuidedDither();
