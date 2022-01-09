@@ -2008,8 +2008,6 @@ bool Capture::checkDithering()
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
             && meridianFlipStage != MF_GUIDING
-            // If CCD is looping, we cannot dither UNLESS a different camera and NOT a guide chip is doing the guiding for us.
-            && (currentCCD->isFastExposureEnabled() == false || guideChip == nullptr)
             // We must be either in guide mode or if non-guide dither (via pulsing) is enabled
             && (m_GuideState == GUIDE_GUIDING || Options::ditherNoGuiding())
             // Must be only done for light frames
@@ -2023,9 +2021,6 @@ bool Capture::checkDithering()
 
         qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
         appendLogText(i18n("Dithering..."));
-
-        if (currentCCD->isFastExposureEnabled())
-            targetChip->abortExposure();
 
         m_State = CAPTURE_DITHERING;
         m_DitheringState = IPS_BUSY;
@@ -2054,11 +2049,11 @@ IPState Capture::resumeSequence()
     {
         SequenceJob * next_job = nullptr;
 
-        foreach (SequenceJob * job, jobs)
+        for (auto &oneJob : jobs)
         {
-            if (job->getStatus() == JOB_IDLE || job->getStatus() == JOB_ABORTED)
+            if (oneJob->getStatus() == JOB_IDLE || oneJob->getStatus() == JOB_ABORTED)
             {
-                next_job = job;
+                next_job = oneJob;
                 break;
             }
         }
@@ -2107,21 +2102,45 @@ IPState Capture::resumeSequence()
                 currentCCD->setNextSequenceID(nextSequenceID);
             }
         }
-        // otherwise we loop starting the next exposure until all pending
-        // jobs are completed
+
+        const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
+        // JM 2020-12-06: Check if we need to execute pre-capture script first.
+        if (!preCaptureScript.isEmpty())
+        {
+            if (currentCCD->isFastExposureEnabled())
+            {
+                m_RememberFastExposure = true;
+                currentCCD->setFastExposureEnabled(false);
+            }
+
+            m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
+            m_CaptureScript.start(preCaptureScript, generateScriptArguments());
+            appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
+            return IPS_BUSY;
+        }
         else
         {
-            const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
-            // JM 2020-12-06: Check if we need to execute pre-capture script first.
-            if (!preCaptureScript.isEmpty())
+            // Check if we need to stop fast exposure to perform any
+            // pending tasks. If not continue as is.
+            if (currentCCD->isFastExposureEnabled())
             {
-                m_CaptureScriptType = SCRIPT_PRE_CAPTURE;
-                m_CaptureScript.start(preCaptureScript, generateScriptArguments());
-                appendLogText(i18n("Executing pre capture script %1", preCaptureScript));
-                return IPS_BUSY;
+                if (activeJob &&
+                        activeJob->getFrameType() == FRAME_LIGHT &&
+                        checkLightFramePendingTasks() == IPS_OK)
+                {
+                    // Continue capturing seamlessly
+                    m_State = CAPTURE_CAPTURING;
+                    emit newStatus(Ekos::CAPTURE_CAPTURING);
+                    return IPS_OK;
+                }
+
+                // Stop fast exposure now.
+                m_RememberFastExposure = true;
+                currentCCD->setFastExposureEnabled(false);
             }
-            else
-                checkNextExposure();
+
+            checkNextExposure();
+
         }
     }
 
@@ -2380,6 +2399,13 @@ void Capture::captureImage()
         settings["biny"] = activeJob->getYBin();
 
         frameSettings[activeJob->commandProcessor.activeChip] = settings;
+    }
+
+    // Re-enable fast exposure if it was disabled before due to pending tasks
+    if (m_RememberFastExposure)
+    {
+        m_RememberFastExposure = false;
+        currentCCD->setFastExposureEnabled(true);
     }
 
     // If using DSLR, make sure it is set to correct transfer format

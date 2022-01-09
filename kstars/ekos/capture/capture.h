@@ -1067,6 +1067,8 @@ private slots:
         // Refocus in progress because of time forced refocus or temperature change
         bool isRefocus { false };
 
+        // Fast Exposure
+        bool m_RememberFastExposure {false};
         // Focus on Temperature change
         bool isTemperatureDeltaCheckActive { false };
         double focusTemperatureDelta { 0 }; // Temperature delta as received from the Ekos focus module
