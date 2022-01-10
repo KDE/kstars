@@ -81,7 +81,7 @@ void DeviceManager::startServer()
     }
 #ifdef Q_OS_OSX
     if (Options::indiServerIsInternal())
-        *serverProcess << QCoreApplication::applicationDirPath() + "/indi/indiserver";
+        *serverProcess << QCoreApplication::applicationDirPath() + "/indiserver";
     else
 #endif
         *serverProcess << Options::indiServer();

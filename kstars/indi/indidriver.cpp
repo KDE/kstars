@@ -479,7 +479,7 @@ bool INDIDriver::readXMLDrivers()
     QString driversDir = Options::indiDriversDir();
 #ifdef Q_OS_OSX
     if (Options::indiDriversAreInternal())
-        driversDir = QCoreApplication::applicationDirPath() + "/indi";
+        QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
 #endif
 
     if (indiDir.cd(driversDir) == false)

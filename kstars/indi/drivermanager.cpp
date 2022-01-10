@@ -1252,7 +1252,7 @@ bool DriverManager::checkDriverAvailability(const QString &driver)
 {
     QString indiServerDir = Options::indiServer();
     if (Options::indiServerIsInternal())
-        indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+        indiServerDir = QCoreApplication::applicationDirPath();
     else
         indiServerDir = QFileInfo(Options::indiServer()).dir().path();
 

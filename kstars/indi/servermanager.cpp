@@ -62,7 +62,7 @@ bool ServerManager::start()
             driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
         QString indiServerDir = Options::indiServer();
         if (Options::indiServerIsInternal())
-            indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+            indiServerDir = QCoreApplication::applicationDirPath();
         else
             indiServerDir = QFileInfo(Options::indiServer()).dir().path();
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -109,7 +109,7 @@ bool ServerManager::start()
 
 #ifdef Q_OS_OSX
     if (Options::indiServerIsInternal())
-        serverProcess->start(QCoreApplication::applicationDirPath() + "/indi/indiserver", args);
+        serverProcess->start(QCoreApplication::applicationDirPath() + "/indiserver", args);
     else
 #endif
         serverProcess->start(Options::indiServer(), args);
@@ -174,7 +174,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
 #ifdef Q_OS_OSX
     if (Options::indiServerIsInternal())
-        indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+        indiServerDir = QCoreApplication::applicationDirPath();
     if (Options::indiDriversAreInternal())
         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
 #endif
@@ -281,7 +281,7 @@ bool ServerManager::restartDriver(DriverInfo *dv)
 
 #ifdef Q_OS_OSX
         if (Options::indiServerIsInternal())
-            indiServerDir = QCoreApplication::applicationDirPath() + "/indi";
+            indiServerDir = QCoreApplication::applicationDirPath();
         if (Options::indiDriversAreInternal())
             driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
         else
