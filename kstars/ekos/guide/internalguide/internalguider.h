@@ -40,6 +40,7 @@ class InternalGuider : public GuideInterface
 
         bool Connect() override
         {
+            state = GUIDE_IDLE;
             return true;
         }
         bool Disconnect() override

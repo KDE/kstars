@@ -2883,6 +2883,7 @@ void Guide::handleManualDither()
 
 bool Guide::connectGuider()
 {
+    setStatus(GUIDE_IDLE);
     return guider->Connect();
 }
 

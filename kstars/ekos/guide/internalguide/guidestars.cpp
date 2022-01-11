@@ -263,7 +263,7 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
 GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
-        GuideView *guideView)
+        GuideView *guideView, bool firstFrame)
 {
     // Don't accept reference stars whose position is more than this many pixels from expected.
     constexpr double maxStarAssociationDistance = 10;
@@ -275,7 +275,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
     // Not thrilled doing this, but this is the way the internal guider is setup
     // when guiding is restarted by the scheduler (the normal establish guide star
     // methods are not called).
-    if (starCorrespondence.size() == 0)
+    if (firstFrame && starCorrespondence.size() == 0)
     {
         QVector3D v = selectGuideStar(imageData);
         qCDebug(KSTARS_EKOS_GUIDE) << QString("findGuideStar: Called without starCorrespondence. Refound guide star at %1 %2")

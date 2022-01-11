@@ -204,7 +204,7 @@ bool InternalGuider::dither(double pixels)
     // Instead we call findLocalStarPosition() which does the analysis from the image.
     // Unfortunately, processGuiding() will repeat that computation.
     // We currently don't cache it.
-    GuiderUtils::Vector star_position = pmath->findLocalStarPosition(m_ImageData, guideFrame);
+    GuiderUtils::Vector star_position = pmath->findLocalStarPosition(m_ImageData, guideFrame, false);
     if (pmath->isStarLost() || (star_position.x == -1) || (star_position.y == -1))
     {
         // If the star position is lost, just lose this iteration.
@@ -680,7 +680,7 @@ bool InternalGuider::processGuiding()
     {
         if (state == GUIDE_GUIDING)
         {
-            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame);
+            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, m_isFirstFrame);
             pmath->setTargetPosition(star_pos.x, star_pos.y);
         }
         m_isFirstFrame = false;

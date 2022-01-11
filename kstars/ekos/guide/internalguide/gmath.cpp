@@ -22,12 +22,12 @@
 #include <set>
 
 GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-        GuideView *guideView)
+        GuideView *guideView, bool firstFrame)
 {
     if (usingSEPMultiStar())
     {
         QRect trackingBox = guideView->getTrackingBox();
-        return guideStars.findGuideStar(imageData, trackingBox, guideView);
+        return guideStars.findGuideStar(imageData, trackingBox, guideView, firstFrame);
     }
 
     return GuideAlgorithms::findLocalStarPosition(
@@ -410,7 +410,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     {
         if (Options::gPGEnabled())
         {
-            GuiderUtils::Vector guideStarPosition = findLocalStarPosition(imageData, guideView);
+            GuiderUtils::Vector guideStarPosition = findLocalStarPosition(imageData, guideView, false);
             if (guideStarPosition.x != -1 && !std::isnan(guideStarPosition.x))
             {
                 gpg->suspended(guideStarPosition, targetPosition,
@@ -424,7 +424,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     GuiderUtils::Vector starPositionArcSec, targetPositionArcSec;
 
     // find guiding star location in the image
-    starPosition = findLocalStarPosition(imageData, guideView);
+    starPosition = findLocalStarPosition(imageData, guideView, false);
 
     // If no star found, mark as lost star.
     if (starPosition.x == -1 || std::isnan(starPosition.x))

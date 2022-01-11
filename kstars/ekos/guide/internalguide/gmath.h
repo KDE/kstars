@@ -119,7 +119,7 @@ class cgmath : public QObject
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
         GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                GuideView *guideView);
+                GuideView *guideView, bool firstFrame);
         bool isStarLost() const;
         void setLostStar(bool is_lost);
 

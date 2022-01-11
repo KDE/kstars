@@ -58,7 +58,7 @@ class GuideStars
         // Finds the guide star previously selected with selectGuideStar()
         // in a new image. This sets up internal structures for getDrift().
         GuiderUtils::Vector findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
-                                          GuideView *guideView = nullptr);
+                                          GuideView *guideView, bool firstFrame);
 
         // Finds the drift of the star positions in arc-seconds for RA and DEC.
         // Must be called after findGuideStar().
