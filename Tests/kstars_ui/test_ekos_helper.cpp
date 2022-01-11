@@ -244,6 +244,8 @@ bool TestEkosHelper::shutdownEkosProfile()
     qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ...";
     KWRAP_SUB(KTRY_EKOS_STOP_SIMULATORS());
     qCInfo(KSTARS_EKOS_TEST) << "Stopping profile ... (done)";
+    // Wait until the profile selection is enabled. This shows, that all devices are disconnected.
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->profileGroup->isEnabled() == true, 10000);
     // Everything completed successfully
     return true;
 }

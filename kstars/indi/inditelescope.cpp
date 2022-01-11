@@ -414,32 +414,10 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
 
     if (manualMotionChanged)
     {
-        IPState NSCurrentMotion, WECurrentMotion;
-
-        NSCurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_NS")->s;
-        WECurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_WE")->s;
-
+        IPState NSCurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_NS")->s;
+        IPState WECurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_WE")->s;
         inCustomParking = false;
-
-        if (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY || NSPreviousState == IPS_BUSY ||
-                WEPreviousState == IPS_BUSY)
-        {
-            if (inManualMotion == false && ((NSCurrentMotion == IPS_BUSY && NSPreviousState != IPS_BUSY) ||
-                                            (WECurrentMotion == IPS_BUSY && WEPreviousState != IPS_BUSY)))
-            {
-                inManualMotion = true;
-                //KSNotification::event(QLatin1String("MotionStarted"), i18n("Mount is manually moving"));
-            }
-            else if (inManualMotion && ((NSCurrentMotion != IPS_BUSY && NSPreviousState == IPS_BUSY) ||
-                                        (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
-            {
-                inManualMotion = false;
-                //KSNotification::event(QLatin1String("MotionStopped"), i18n("Mount motion stopped"));
-            }
-
-            NSPreviousState = NSCurrentMotion;
-            WEPreviousState = WECurrentMotion;
-        }
+        inManualMotion = (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY);        
     }
 
     DeviceDecorator::processSwitch(svp);
@@ -1536,6 +1514,9 @@ Telescope::Status Telescope::status(INumberVectorProperty *nvp)
 
         case IPS_BUSY:
         {
+            if (inManualMotion)
+                return MOUNT_MOVING;
+
             auto parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
             if (parkSP && parkSP->getState() == IPS_BUSY)
                 return MOUNT_PARKING;

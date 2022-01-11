@@ -604,8 +604,9 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
         {
             qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << currentTelescope->getStatusString(m_Status)
                                        << " to " << currentTelescope->getStatusString(currentStatus);
-            // If we just finished a slew, let's update initialHA and the current target's position
-            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING)
+            // If we just finished a slew, let's update initialHA and the current target's position,
+            // but only if the meridian flip is not deactived
+            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING && m_MFStatus != FLIP_INACTIVE)
             {
                 if (m_MFStatus == FLIP_NONE)
                 {
@@ -714,6 +715,44 @@ void Mount::setMeridianFlipValues(bool activate, double hours)
         meridianFlipTimeBox->setValue(hours);
 
     meridianFlipSetupChanged();
+}
+
+void Mount::paaStageChanged(int stage)
+{
+    // Clear the current target position is necessary due to a bug in some mount drivers
+    // which report a mount slew instead of a mount motion. For these mounts, ending a slew
+    // leads to setting the current target position, which is necessary for meridian flips
+    // Since we want to avoid meridian flips during and after finishing PAA, it needs to
+    // be set to nullptr.
+
+    if (stage != PolarAlignmentAssistant::PAH_IDLE)
+        currentTargetPosition = nullptr;
+
+    switch (stage) {
+    // deactivate the meridian flip when the first capture is taken
+    case PolarAlignmentAssistant::PAH_FIRST_CAPTURE:
+        if (m_MFStatus != FLIP_INACTIVE)
+        {
+            appendLogText(i18n("Meridian flip set inactive during polar alignment."));
+            m_MFStatus = FLIP_INACTIVE;
+        }
+        break;
+    // activate it when the last rotation is finished or stopped
+    // for safety reasons, we add all stages after the last rotation
+    case PolarAlignmentAssistant::PAH_THIRD_CAPTURE:
+    case PolarAlignmentAssistant::PAH_STAR_SELECT:
+    case PolarAlignmentAssistant::PAH_PRE_REFRESH:
+    case PolarAlignmentAssistant::PAH_REFRESH:
+    case PolarAlignmentAssistant::PAH_POST_REFRESH:
+    case PolarAlignmentAssistant::PAH_IDLE:
+    case PolarAlignmentAssistant::PAH_ERROR:
+        if (m_MFStatus == FLIP_INACTIVE)
+        {
+            appendLogText(i18n("Polar alignment motions finished, meridian flip activated."));
+            m_MFStatus = FLIP_NONE;
+        }
+        break;
+    }
 }
 
 void Mount::meridianFlipSetupChanged()
@@ -1142,7 +1181,7 @@ bool Mount::checkMeridianFlip(dms lst)
         return false;
     }
 
-    if (currentTargetPosition == nullptr)
+    if (currentTargetPosition == nullptr || m_MFStatus == FLIP_INACTIVE)
     {
         meridianFlipStatusText->setText(i18n("Status: inactive (no Target set)"));
         emit newMeridianFlipText(meridianFlipStatusText->text());
@@ -2047,6 +2086,8 @@ QString Mount::meridianFlipStatusString(MeridianFlipStatus status)
             return "FLIP_COMPLETED";
         case FLIP_ERROR:
             return "FLIP_ERROR";
+        case FLIP_INACTIVE:
+            return "FLIP_INACTIVE";
     }
     return "not possible";
 }

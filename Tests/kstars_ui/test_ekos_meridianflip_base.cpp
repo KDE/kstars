@@ -61,7 +61,12 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     // focus tolerance 20%
     KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), toleranceIN, 20.0);
     // use polynomial algorithm
-    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Polynomial");
+    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Iterative");
+    // select star detection
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), focusOptionsProfiles, "1-Focus-Default");
+    // set annulus to 0% - 50%
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), fullFieldInnerRing, 0.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), fullFieldOuterRing, 50.0);
 
     // check if astrometry files exist
     if (! checkAstrometryFiles())
