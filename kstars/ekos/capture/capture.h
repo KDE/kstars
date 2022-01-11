@@ -822,7 +822,7 @@ private slots:
 
         // device status
         void newGuiderDrift(double deviation_rms);
-        void newRotatorAngle(double value);
+        void newRotatorAngle(double value, IPState state);
         void newTemperatureValue(double value);
 
         // communication with other modules

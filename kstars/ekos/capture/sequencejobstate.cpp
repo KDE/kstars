@@ -9,7 +9,8 @@
 
 namespace Ekos
 {
-SequenceJobState::SequenceJobState() {
+SequenceJobState::SequenceJobState()
+{
     // reset the initialization state
     QMutableMapIterator<PrepareActions, bool> it(isInitialized);
 
@@ -20,7 +21,8 @@ SequenceJobState::SequenceJobState() {
     }
 }
 
-void SequenceJobState::prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview)
+void SequenceJobState::prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift,
+                                      bool isPreview)
 {
     // precondition: do not start while already being busy and conditions haven't changed
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceStartGuiderDrift == m_enforceStartGuiderDrift)
@@ -41,16 +43,16 @@ void SequenceJobState::prepareCapture(CCDFrameType frameType, bool enforceCCDTem
     // turn on enforcing guiding drift check if the guider is active
     m_enforceStartGuiderDrift = enforceStartGuiderDrift;
 
-       // Filter changes are actually done in capture(), therefore prepareActions are always true
-       prepareActions[ACTION_FILTER] = true;
-       // nevertheless, emit an event so that Capture changes m_state
-       if (targetFilterID != -1 && frameType == FRAME_LIGHT && targetFilterID != currentFilterID)
-           emit prepareState(CAPTURE_CHANGING_FILTER);
+    // Filter changes are actually done in capture(), therefore prepareActions are always true
+    prepareActions[ACTION_FILTER] = true;
+    // nevertheless, emit an event so that Capture changes m_state
+    if (targetFilterID != -1 && frameType == FRAME_LIGHT && targetFilterID != currentFilterID)
+        emit prepareState(CAPTURE_CHANGING_FILTER);
 
 
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     if (m_enforceTemperature && (fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff() ||
-                               isInitialized[ACTION_TEMPERATURE] == false))
+                                 isInitialized[ACTION_TEMPERATURE] == false))
     {
         prepareActions[ACTION_TEMPERATURE] = false;
         emit setCCDTemperature(targetTemperature);
@@ -138,6 +140,7 @@ void SequenceJobState::setCurrentFilterID(int value)
     currentFilterID = value;
     isInitialized[ACTION_FILTER] = true;
 
+    // TODO introduce settle time
     if (currentFilterID == targetFilterID)
         prepareActions[SequenceJobState::ACTION_FILTER] = true;
 
@@ -155,12 +158,14 @@ void SequenceJobState::setCurrentCCDTemperature(double value)
     checkAllActionsReady();
 }
 
-void SequenceJobState::setCurrentRotatorAngle(double value)
+void SequenceJobState::setCurrentRotatorAngle(double value, IPState state)
 {
     currentRotation = value;
     isInitialized[ACTION_ROTATOR] = true;
 
-    if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold())
+    // TODO introduce settle time
+    // TODO make sure rotator has fully stopped
+    if (fabs(currentRotation - targetRotation) * 60 <= Options::astrometryRotatorThreshold() && state != IPS_BUSY)
         prepareActions[SequenceJobState::ACTION_ROTATOR] = true;
 
     checkAllActionsReady();

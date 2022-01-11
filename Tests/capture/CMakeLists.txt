@@ -27,6 +27,6 @@ endif()
 ADD_EXECUTABLE( test_sequencejobstate test_sequencejobstate.cpp)
 TARGET_LINK_LIBRARIES( test_sequencejobstate ${TEST_LIBRARIES})
 ADD_TEST( NAME TestSequenceJobState COMMAND test_sequencejobstate )
-SET_TESTS_PROPERTIES( TestSequenceJobState PROPERTIES LABELS "stable" )
+SET_TESTS_PROPERTIES( TestSequenceJobState PROPERTIES LABELS "unstable" )
 
 ENDIF ()

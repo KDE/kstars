@@ -2727,7 +2727,7 @@ void Capture::updateRotatorNumber(INumberVectorProperty * nvp)
         // Update widget rotator position
         rotatorSettings->setCurrentAngle(nvp->np[0].value);
         // communicate the new rotator position
-        emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
+        emit newRotatorAngle(rotatorSettings->getCurrentRotationPA(), nvp->s);
     }
 }
 
@@ -4491,7 +4491,7 @@ void Capture::readCurrentState(CaptureState state)
             break;
         case CAPTURE_SETTING_ROTATOR:
             if (currentRotator != nullptr)
-                emit newRotatorAngle(rotatorSettings->getCurrentRotationPA());
+                emit newRotatorAngle(rotatorSettings->getCurrentRotationPA(), currentRotator->getState("ABS_ROTATOR_ANGLE"));
             break;
         case CAPTURE_GUIDER_DRIFT:
             // intentionally left empty since the guider regularly updates the drift

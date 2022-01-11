@@ -104,7 +104,7 @@ public slots:
     /**
      * @brief Update the current rotator position
      */
-    void setCurrentRotatorAngle(double value);
+    void setCurrentRotatorAngle(double value, IPState state);
     /**
      * @brief Set the target rotation angle
      */

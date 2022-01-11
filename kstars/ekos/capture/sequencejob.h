@@ -388,7 +388,7 @@ class SequenceJob : public QObject
         // update the current guiding deviation
         void updateGuiderDrift(double deviation_rms);
         // update the current camera rotator position
-        void updateRotatorAngle(double value);
+        void updateRotatorAngle(double value, IPState state);
 
 
     private:

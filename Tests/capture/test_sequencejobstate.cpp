@@ -10,7 +10,7 @@
 
 #include "Options.h"
 
-TestSequenceJobState::TestSequenceJobState() : QObject(){}
+TestSequenceJobState::TestSequenceJobState() : QObject() {}
 
 
 void TestSequenceJobState::testFullParameterSet()
@@ -36,7 +36,7 @@ void TestSequenceJobState::testFullParameterSet()
     }
     if (enforce_rotate)
     {
-        m_adapter->setRotatorAngle(current_angle);
+        m_adapter->setRotatorAngle(current_angle, IPS_OK);
         m_stateMachine->setTargetRotatorAngle(target_angle);
     }
 
@@ -45,13 +45,13 @@ void TestSequenceJobState::testFullParameterSet()
     QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding | enforce_rotate));
     // now step by step set the values to the target value
     if (enforce_temperature)
-        m_adapter->setCCDTemperature(target_temp + 0.5*Options::maxTemperatureDiff());
+        m_adapter->setCCDTemperature(target_temp + 0.5 * Options::maxTemperatureDiff());
     QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_guiding | enforce_rotate));
     if (enforce_guiding)
         m_adapter->setGuiderDrift(1.5);
     QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_rotate);
     if (enforce_rotate)
-        m_adapter->setRotatorAngle(target_angle + 0.5*Options::astrometryRotatorThreshold()/60);
+        m_adapter->setRotatorAngle(target_angle + 0.5 * Options::astrometryRotatorThreshold() / 60, IPS_OK);
     QVERIFY(m_adapter->isCapturePreparationComplete == true);
 }
 
@@ -99,7 +99,7 @@ void TestSequenceJobState::testWithProcessor()
     // set current values
     m_adapter->setCCDTemperature(current_temp);
     m_adapter->setGuiderDrift(current_drift);
-    m_adapter->setRotatorAngle(current_angle);
+    m_adapter->setRotatorAngle(current_angle, IPS_OK);
 
     // set target values
     m_stateMachine->setTargetCCDTemperature(target_temp);
@@ -139,11 +139,24 @@ void TestSequenceJobState::testFullParameterSet_data()
     QTest::addColumn<bool>("enforce_temperature"); /*!< enforce temperature? */
 
     // iterate over all combinations
-    for (bool preview : {true, false})
-        for (bool guide : {true, false})
-            for (bool rotate : {true, false})
-                for (bool temperature : {true, false})
-                    QTest::newRow(QString("preview=%4 enforce guide=%1, rotate=%2, temperature=%3").arg(guide).arg(rotate).arg(temperature).arg(preview).toLocal8Bit())
+    for (bool preview :
+            {
+                true, false
+            })
+        for (bool guide :
+                {
+                    true, false
+                })
+            for (bool rotate :
+                    {
+                        true, false
+                    })
+                for (bool temperature :
+                        {
+                            true, false
+                        })
+                    QTest::newRow(QString("preview=%4 enforce guide=%1, rotate=%2, temperature=%3").arg(guide).arg(rotate).arg(temperature).arg(
+                                      preview).toLocal8Bit())
                             << preview << guide << rotate << temperature;
 }
 
@@ -185,7 +198,7 @@ void TestSequenceJobState::init()
 void TestSequenceJobState::cleanup()
 {
     disconnect(m_adapter, nullptr, m_stateMachine, nullptr);
-    disconnect(m_stateMachine, nullptr,m_adapter , nullptr);
+    disconnect(m_stateMachine, nullptr, m_adapter, nullptr);
     delete m_adapter;
     delete m_stateMachine;
     m_adapter = nullptr;
@@ -210,7 +223,8 @@ void TestAdapter::setCCDTemperature(double value)
     m_ccdtemperature = value;
 }
 
-void TestAdapter::setGuiderDrift(double value) {
+void TestAdapter::setGuiderDrift(double value)
+{
     // emit only a new value if it is not too close to the last one
     if (std::abs(m_guiderdrift - value) > 0.001)
         emit newGuiderDrift(value);
@@ -218,10 +232,11 @@ void TestAdapter::setGuiderDrift(double value) {
     m_guiderdrift = value;
 }
 
-void TestAdapter::setRotatorAngle(double value) {
+void TestAdapter::setRotatorAngle(double value, IPState state)
+{
     // emit only a new value if it is not too close to the last one
-    if (std::abs(m_rotatorangle - value) > Options::maxTemperatureDiff() / 10)
-        emit newRotatorAngle(value);
+    if (std::abs(m_rotatorangle - value) > 0.1)
+        emit newRotatorAngle(value, state);
     // remember it
     m_rotatorangle = value;
 }
@@ -229,19 +244,20 @@ void TestAdapter::setRotatorAngle(double value) {
 void TestAdapter::readCurrentState(Ekos::CaptureState state)
 {
     // signal the current device value
-    switch (state) {
-    case Ekos::CAPTURE_SETTING_TEMPERATURE:
-        emit newCCDTemperature(m_ccdtemperature);
-        break;
-    case Ekos::CAPTURE_SETTING_ROTATOR:
-        emit newRotatorAngle(m_rotatorangle);
-        break;
-    case Ekos::CAPTURE_GUIDER_DRIFT:
-        emit newGuiderDrift(m_guiderdrift);
-        break;
-    default:
-        // do nothing
-        break;
+    switch (state)
+    {
+        case Ekos::CAPTURE_SETTING_TEMPERATURE:
+            emit newCCDTemperature(m_ccdtemperature);
+            break;
+        case Ekos::CAPTURE_SETTING_ROTATOR:
+            emit newRotatorAngle(m_rotatorangle, IPS_OK);
+            break;
+        case Ekos::CAPTURE_GUIDER_DRIFT:
+            emit newGuiderDrift(m_guiderdrift);
+            break;
+        default:
+            // do nothing
+            break;
     }
 }
 

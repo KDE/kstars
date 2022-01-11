@@ -107,7 +107,7 @@ public:
     // set the current guiding deviation
     void setGuiderDrift(double value);
     // set the current camera rotator position
-    void setRotatorAngle(double value);
+    void setRotatorAngle(double value, IPState state);
 
     // flag if capture preparation is completed
     bool isCapturePreparationComplete = false;
@@ -133,7 +133,7 @@ signals:
     // update the current guiding deviation
     void newGuiderDrift(double deviation_rms);
     // update the current camera rotator position
-    void newRotatorAngle(double value);
+    void newRotatorAngle(double value, IPState state);
 
 };
 
@@ -148,7 +148,7 @@ public:
     explicit TestProcessor() {};
 
     void setCCDTemperature(double value) { emit newCCDTemperature(value); }
-    void setRotatorAngle(double *value) { emit newRotatorAngle(*value); }
+    void setRotatorAngle(double *value) { emit newRotatorAngle(*value, IPS_OK); }
 
     bool isPreview = true;
     void enableCCDBatchMode(bool enable) { isPreview = !enable; }
@@ -157,7 +157,7 @@ signals:
     // update the current CCD temperature
     void newCCDTemperature(double value);
     // update the current camera rotator position
-    void newRotatorAngle(double value);
+    void newRotatorAngle(double value, IPState state);
     // set CCD to preview mode
     void setCCDBatchMode(bool m_preview);
 
