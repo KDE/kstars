@@ -74,6 +74,7 @@
   <summary xml:lang="zh-TW">桌面星象儀</summary>
   <description>
     <p>KStars is freely licensed, open source, cross-platform Astronomy Software by KDE.</p>
+    <p xml:lang="ar">«نجوم‌ك» هي برمجيّة مجّانيّة ومفتوحة المصدر مختصّة بعلوم الفلك، وتتوفّر على مختلف المنصّات.</p>
     <p xml:lang="ca">El KStars és un programari d'astronomia de llicència lliure, codi obert i multiplataforma, creat per la comunitat KDE.</p>
     <p xml:lang="ca-valencia">El KStars és un programari d'astronomia de llicència lliure, codi obert i multiplataforma, creat per la comunitat KDE.</p>
     <p xml:lang="de">KStars ist eine frei lizenzierte, quelloffene, plattformübergreifende Astronomiesoftware von KDE.</p>
@@ -380,6 +381,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>KStars main window</caption>
+      <caption xml:lang="ar">النافذة الرئسية لنجومك</caption>
       <caption xml:lang="ca">Finestra principal del KStars</caption>
       <caption xml:lang="ca-valencia">Finestra principal del KStars</caption>
       <caption xml:lang="cs">Hlavní okno KStars</caption>
@@ -409,6 +411,7 @@
     </screenshot>
     <screenshot>
       <caption>"What's interesting" tool in KStars</caption>
+      <caption xml:lang="ar">أداة "ما المثير؟" في نجومك</caption>
       <caption xml:lang="ca">Eina «Què hi ha d'interessant» al KStars</caption>
       <caption xml:lang="ca-valencia">Eina «Què hi ha d'interessant» al KStars</caption>
       <caption xml:lang="cs">Nástroj "Co je zajímavé! v KStars</caption>
@@ -435,6 +438,7 @@
     </screenshot>
     <screenshot>
       <caption>Ekos tool in KStars</caption>
+      <caption xml:lang="ar">أداة ايكوس في نجومك</caption>
       <caption xml:lang="ca">Eina Ekos al KStars</caption>
       <caption xml:lang="ca-valencia">Eina Ekos al KStars</caption>
       <caption xml:lang="cs">Nástroj Ekos v KStars</caption>
@@ -462,6 +466,7 @@
     </screenshot>
     <screenshot>
       <caption>Observation Planner of KStars</caption>
+      <caption xml:lang="ar">مخطط رصد لنجومك</caption>
       <caption xml:lang="ca">Planificador de l'observació del KStars</caption>
       <caption xml:lang="ca-valencia">Planificador de l'observació del KStars</caption>
       <caption xml:lang="cs">Plánovač pozorování KStars</caption>
