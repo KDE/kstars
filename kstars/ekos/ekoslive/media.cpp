@@ -378,7 +378,7 @@ void Media::sendUpdatedFrame(FITSView *view)
         {"stddev", imageData->getAverageStdDev()},
         {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
-        {"uuid", m_UUID},
+        {"uuid", "+A"},
         {"exposure", exposure.toString()},
         {"focal_length", focal_length.toString()},
         {"aperture", aperture.toString()},
