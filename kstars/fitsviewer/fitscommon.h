@@ -9,11 +9,11 @@
 #include <QString>
 #include <KLocalizedString>
 
-typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN } FITSMode;
+typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_UNKNOWN } FITSMode;
 
 // Focus States
 static const QStringList FITSModes =   { I18N_NOOP("Normal"),  I18N_NOOP("Focus"), I18N_NOOP("Guide"),
-                                         I18N_NOOP("Calibrate"), I18N_NOOP("Align")
+                                         I18N_NOOP("Calibrate"), I18N_NOOP("Align"), I18N_NOOP("Unknown")
                                        };
 
 const QString &getFITSModeStringString(FITSMode mode);

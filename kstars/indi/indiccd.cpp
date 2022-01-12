@@ -1687,7 +1687,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                     success = getFITSViewer()->loadData(data, fileURL, &tabIndex, captureMode, captureFilter, previewTitle);
                 }
                 else
-                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter);
+                    success = getFITSViewer()->updateData(data, fileURL, *tabID, &tabIndex, captureFilter, captureMode);
 
                 if (!success)
                 {
@@ -1713,6 +1713,7 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
         case FITS_FOCUS:
         case FITS_GUIDE:
         case FITS_ALIGN:
+        case FITS_UNKNOWN:
             loadImageInView(targetChip, data);
             emit BLOBUpdated(bp);
             emit newImage(data);

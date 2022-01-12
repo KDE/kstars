@@ -375,7 +375,8 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     for (auto &button : qButtons)
         button->setAutoDefault(false);
 
-    savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
+    savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                    QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else

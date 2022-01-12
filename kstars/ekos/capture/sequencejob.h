@@ -28,302 +28,195 @@ namespace Ekos
 class SequenceJob : public QObject
 {
         Q_OBJECT
-        Q_PROPERTY(QString filename MEMBER m_filename)
-        Q_PROPERTY(QString rawPrefix MEMBER m_RawPrefix)
 
     public:
         static QString const &ISOMarker;
+        static const QStringList StatusStrings;
 
+        // Core Properties
+        typedef enum
+        {
+            // Bool
+            SJ_Preview,
+            // Bool
+            SJ_EnforceTemperature,
+            // Bool
+            SJ_EnforceStartGuiderDrift,
+            // Bool
+            SJ_GuiderActive,
+            // Double
+            SJ_Exposure,
+            // QString
+            SJ_Filter,
+            // QPoint
+            SJ_Binning,
+            // QRect
+            SJ_ROI,
+            // QString
+            SJ_FullPrefix,
+            // Int
+            SJ_Count,
+            // Int
+            SJ_Delay,
+            // Int
+            SJ_ISOIndex,
+            // Double
+            SJ_Gain,
+            // Double
+            SJ_Offset,
+            // QString
+            SJ_LocalDirectory,
+            // QString
+            SJ_RemoteDirectory,
+            // QString
+            SJ_DirectoryPostfix,
+            // Bool
+            SJ_FilterPrefixEnabled,
+            // Bool
+            SJ_ExpPrefixEnabled,
+            // Bool
+            SJ_TimeStampPrefixEnabled,
+            // QString
+            SJ_RawPrefix,
+            // QString
+            SJ_TargetName,
+            // QString
+            SJ_Filename,
+            // Bool
+            SJ_DarkFlat,
+            // Double
+            SJ_TargetADU,
+            // Double
+            SJ_TargetADUTolerance,
+            // Bool
+            SJ_PreMountPark,
+            // Bool
+            SJ_PreDomePark,
+        } PropertyID;
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Constructors
+        ////////////////////////////////////////////////////////////////////////
         SequenceJob();
-        SequenceJob(XMLEle *root); //, SchedulerJob *schedJob);
+        SequenceJob(XMLEle *root);
         ~SequenceJob() = default;
 
+        ////////////////////////////////////////////////////////////////////////
+        /// Capture Fuctions
+        ////////////////////////////////////////////////////////////////////////
         CAPTUREResult capture(bool autofocusReady, FITSMode mode);
         void abort();
         void done();
 
+        ////////////////////////////////////////////////////////////////////////
+        /// Core Properties
+        ////////////////////////////////////////////////////////////////////////
+        void setCoreProperty(PropertyID id, const QVariant &value);
+        QVariant getCoreProperty(PropertyID id) const;
+
+        ////////////////////////////////////////////////////////////////////////
+        /// Job Status Functions
+        ////////////////////////////////////////////////////////////////////////
         const QString &getStatusString()
         {
-            return statusStrings[getStatus()];
+            return StatusStrings[getStatus()];
         }
-        int getDelay()
-        {
-            return delay;
-        }
-        int getCount()
-        {
-            return count;
-        }
-        int getCompleted()
-        {
-            return completed;
-        }
-
-        /**
-         * @brief Remaining execution time in seconds (including download times).
-         */
+        // Setter: Set how many captures have completed thus far
+        void setCompleted(int value);
+        // Getter: How many captured have completed thus far.
+        int getCompleted() const;
+        // Setter: Set how many more seconds to expose in this job
+        void setExposeLeft(double value);
+        // Getter: Get how many more seconds are left to expose.
+        double getExposeLeft() const;
+        // Reset: Reset the job status
+        void resetStatus();
+        // Setter: Set how many times we re-try this job.
+        void setCaptureRetires(int value);
+        // Getter: Get many timed we retried this job already.
+        int getCaptureRetires() const;
+        // Getter: How many more seconds are remaining in this job given the
+        // estimated download time.
         int getJobRemainingTime(double estimatedDownloadTime);
 
-        double getExposure() const
-        {
-            return exposure;
-        }
-
-        void setLocalDir(const QString &dir)
-        {
-            localDirectory = dir;
-        }
-        const QString &getLocalDir()
-        {
-            return localDirectory;
-        }
-        QString getSignature()
-        {
-            return QString(getLocalDir() + getDirectoryPostfix() + '/' + getFullPrefix()).remove(ISOMarker);
-        }
-
+        ////////////////////////////////////////////////////////////////////////
+        /// State Machine Functions
+        ////////////////////////////////////////////////////////////////////////
+        // Setter: Set Target Filter Name
         void setTargetFilter(int pos, const QString &name);
-        int getCurrentFilter() const;
+        // Setter: Set Current filter slot
         void setCurrentFilter(int value);
-
-        const QString &getFilterName() const
-        {
-            return filter;
-        }
-
+        // Getter: Get Current Filter Slot
+        int getCurrentFilter() const;
+        // Setter: Set active filter manager.
         void setFilterManager(const QSharedPointer<FilterManager> &manager)
         {
-            filterManager = manager;
+            m_FilterManager = manager;
         }
-
-        void setCaptureFilter(FITSScale capFilter)
-        {
-            captureFilter = capFilter;
-        }
-        FITSScale getCaptureFilter()
-        {
-            return captureFilter;
-        }
-
-        void setFullPrefix(const QString &cprefix)
-        {
-            fullPrefix = cprefix;
-        }
-        const QString &getFullPrefix()
-        {
-            return fullPrefix;
-        }
-        void setFrame(int in_x, int in_y, int in_w, int in_h)
-        {
-            x = in_x;
-            y = in_y;
-            w = in_w;
-            h = in_h;
-        }
-
-        int getSubX()
-        {
-            return x;
-        }
-        int getSubY()
-        {
-            return y;
-        }
-        int getSubW()
-        {
-            return w;
-        }
-        int getSubH()
-        {
-            return h;
-        }
-
-        void setBin(int xbin, int ybin)
-        {
-            binX = xbin;
-            binY = ybin;
-        }
-        int getXBin()
-        {
-            return binX;
-        }
-        int getYBin()
-        {
-            return binY;
-        }
-
-        void setDelay(int in_delay)
-        {
-            delay = in_delay;
-        }
-        void setCount(int in_count);
-        void setExposure(double duration)
-        {
-            exposure = duration;
-        }
-        void setStatusCell(QTableWidgetItem * cell);
-        void setCountCell(QTableWidgetItem * cell);
-        void setCompleted(int in_completed);
-        int getISOIndex() const;
-        void setISOIndex(int value);
-
-        double getExposeLeft() const;
-        void setExposeLeft(double value);
-        void resetStatus();
-
-        void setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
-        void getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
-
-        bool isFilterPrefixEnabled() const
-        {
-            return filterPrefixEnabled;
-        }
-        bool isExposurePrefixEnabled() const
-        {
-            return expPrefixEnabled;
-        }
-        bool isTimestampPrefixEnabled() const
-        {
-            return timeStampPrefixEnabled;
-        }
-
-        void setTargetName(QString name)
-        {
-            targetName = name;
-        }
-        QString getTargetName() const
-        {
-            return targetName;
-        }
-
         void setCurrentTemperature(double value);
-
         void resetCurrentGuiderDrift();
 
-        double getTargetADU() const;
-        void setTargetADU(double value);
+        ////////////////////////////////////////////////////////////////////////
+        /// GUI Related Functions
+        ////////////////////////////////////////////////////////////////////////
+        void setStatusCell(QTableWidgetItem * cell);
+        void setCountCell(QTableWidgetItem * cell);
 
-        double getTargetADUTolerance() const;
-        void setTargetADUTolerance(double value);
-
-        int getCaptureRetires() const;
-        void setCaptureRetires(int value);
-
-        FlatFieldSource getFlatFieldSource() const;
-        void setFlatFieldSource(const FlatFieldSource &value);
-
-        FlatFieldDuration getFlatFieldDuration() const;
-        void setFlatFieldDuration(const FlatFieldDuration &value);
-
-        SkyPoint getWallCoord() const;
-        void setWallCoord(const SkyPoint &value);
-
-        bool isPreMountPark() const;
-        void setPreMountPark(bool value);
-
-        bool isPreDomePark() const;
-        void setPreDomePark(bool value);
-
-        const QMap<ScriptTypes, QString> &getScripts() const
-        {
-            return m_Scripts;
-        }
-        void setScripts(const QMap<ScriptTypes, QString> &scripts)
-        {
-            m_Scripts = scripts;
-        }
-        QString getScript(ScriptTypes type) const
-        {
-            return m_Scripts[type];
-        }
-        void setScript(ScriptTypes type, const QString &value)
-        {
-            m_Scripts[type] = value;
-        }
-
-        ISD::CCD::UploadMode getUploadMode() const;
-        void setUploadMode(const ISD::CCD::UploadMode &value);
-
-        QString getRemoteDir() const;
-        void setRemoteDir(const QString &value);
-
-        ISD::CCD::TransferFormat getTransforFormat() const;
-        void setTransforFormat(const ISD::CCD::TransferFormat &value);
-
-        double getGain() const;
-        void setGain(double value);
-
-        double getOffset() const;
-        void setOffset(double value);
-
+        ////////////////////////////////////////////////////////////////////////
+        /// Job Attribute Functions
+        ////////////////////////////////////////////////////////////////////////
+        QString getSignature();
+        // Scripts
+        const QMap<ScriptTypes, QString> &getScripts() const;
+        void setScripts(const QMap<ScriptTypes, QString> &scripts);
+        QString getScript(ScriptTypes type) const;
+        void setScript(ScriptTypes type, const QString &value);
+        // Custome Properties
         QMap<QString, QMap<QString, QVariant> > getCustomProperties() const;
         void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value);
 
-        QString getDirectoryPostfix() const;
-        void setDirectoryPostfix(const QString &value);
+        // Setter: Set Frame Type
+        void setFrameType(CCDFrameType value);
+        // Getter: Get Frame Type
+        CCDFrameType getFrameType() const;
 
+        // Setter: Set upload mode
+        void setUploadMode(ISD::CCD::UploadMode value);
+        // Getter: get upload mode
+        ISD::CCD::UploadMode getUploadMode() const;
+
+        // Setter: Set
+        // Getter: Get
+
+        // Setter: Set flat field source
+        void setFlatFieldSource(FlatFieldSource value);
+        // Getter: Get flat field source
+        FlatFieldSource getFlatFieldSource() const;
+
+        // Setter: Set Wall SkyPoint Azimuth coords
+        void setWallCoord(const SkyPoint& value);
+        // Getter: Get Flat field source wall coords
+        const SkyPoint &getWallCoord() const;
+
+        // Setter: Set flat field duration
+        void setFlatFieldDuration(FlatFieldDuration value);
+        // Getter: Get flat field duration
+        FlatFieldDuration getFlatFieldDuration() const;
+
+        // Setter: Set transform format
+        void setTransferFormat(ISD::CCD::TransferFormat value);
+        // Getter: Get transform format
+        ISD::CCD::TransferFormat getTransferFormat() const;
+
+        // Setter: Set job progress ignored flag
+        void setJobProgressIgnored(bool value);
         bool getJobProgressIgnored() const;
-        void setJobProgressIgnored(bool JobProgressIgnored);
 
-        // Command processor implementing actions to be triggered by the state machine
+        //////////////////////////////////////////////////////////////
+        /// Command processor implementing actions to be triggered by the state machine
+        /// FIXME should be this be private?
+        //////////////////////////////////////////////////////////////
         CaptureCommandProcessor commandProcessor;
-
-        // ////////////////////////////////////////////////////////////////////
-        // capture preparation relevant flags
-        // ////////////////////////////////////////////////////////////////////
-        // capture frame type (light, flat, dark, bias)
-        CCDFrameType m_frameType { FRAME_LIGHT };
-        CCDFrameType getFrameType() const
-        {
-            return m_frameType;
-        }
-        void setFrameType(CCDFrameType value)
-        {
-            m_frameType = value;
-        }
-
-        // is the sequence a preview or will the captures be stored?
-        bool m_preview { false };
-        bool isPreview() const
-        {
-            return m_preview;
-        }
-        void setPreview(bool value)
-        {
-            m_preview = value;
-        }
-
-        // should a certain temperature should be enforced?
-        bool m_enforceTemperature { false };
-        bool getEnforceTemperature() const
-        {
-            return m_enforceTemperature;
-        }
-        void setEnforceTemperature(bool value)
-        {
-            m_enforceTemperature = value;
-        }
-
-        // Ensure that guiding deviation is below a configured thresholdß
-        bool m_enforceStartGuiderDrift { false };
-        // Is the guider active?
-        bool m_guiderActive { false };
-        bool getEnforceStartGuiderDrift() const
-        {
-            return m_enforceStartGuiderDrift;
-        }
-        void setEnforceStartGuiderDrift(bool value)
-        {
-            m_enforceStartGuiderDrift = value;
-        }
-        bool isGuiderActive() const
-        {
-            return m_guiderActive;
-        }
-        void setGuiderActive(bool value)
-        {
-            m_guiderActive = value;
-        }
 
         // ////////////////////////////////////////////////////////////////////////////
         // Facade to state machine
@@ -368,12 +261,7 @@ class SequenceJob : public QObject
             stateMachine.targetRotation = value;
         }
 
-        void startPrepareCapture()
-        {
-            emit prepareCapture(getFrameType(), getEnforceTemperature(),
-                                isGuiderActive() && getEnforceStartGuiderDrift(), isPreview());
-        }
-
+        void startPrepareCapture();
 
     signals:
         void prepareComplete();
@@ -394,69 +282,47 @@ class SequenceJob : public QObject
     private:
         void setStatus(JOBStatus const);
 
-        QStringList statusStrings;
+        //////////////////////////////////////////////////////////////
+        /// Custom Types
+        /// We save all core sequence properties in QVariant map
+        //////////////////////////////////////////////////////////////
+        QMap<PropertyID, QVariant> m_CoreProperties;
 
-        double exposure { -1 };
+        //////////////////////////////////////////////////////////////
+        /// Custom Types
+        /// We don't use Q_PROPERTY for these to simplify use
+        //////////////////////////////////////////////////////////////
+        QMap<QString, QMap<QString, QVariant>> m_CustomProperties;
+        FlatFieldSource m_FlatFieldSource { SOURCE_MANUAL };
+        FlatFieldDuration m_FlatFieldDuration { DURATION_MANUAL };
+        SkyPoint m_WallCoord;
+        // Capture Scripts
+        QMap<ScriptTypes, QString> m_Scripts;
+        // Upload Mode
+        ISD::CCD::UploadMode m_UploadMode { ISD::CCD::UPLOAD_CLIENT };
+        // Transfer Format
+        ISD::CCD::TransferFormat m_TransferFormat { ISD::CCD::FORMAT_FITS };
+        // capture frame type (light, flat, dark, bias)
+        CCDFrameType m_FrameType { FRAME_LIGHT };
 
-        QString filter;
-        int binX { 0 };
-        int binY { 0 };
-        int x { 0 };
-        int y { 0 };
-        int w { 0 };
-        int h { 0 };
-        QString fullPrefix;
-        int count { -1 };
-        int delay { -1 };
-        bool m_JobProgressIgnored { false };
-        int isoIndex { -1 };
-        int captureRetires { 0 };
-        unsigned int completed { 0 };
-        double exposeLeft { 0 };
-        double gain { -1 };
-        double offset { -1 };
-        FITSScale captureFilter { FITS_NONE };
+        //////////////////////////////////////////////////////////////
+        /// Filter Manager
+        //////////////////////////////////////////////////////////////
+        QSharedPointer<FilterManager> m_FilterManager;
+
+        //////////////////////////////////////////////////////////////
+        /// Status Variable
+        //////////////////////////////////////////////////////////////
+        int m_CaptureRetires { 0 };
+        uint32_t m_Completed { 0 };
+        double m_ExposeLeft { 0 };
+        bool m_JobProgressIgnored {false};
         QTableWidgetItem * statusCell { nullptr };
         QTableWidgetItem * countCell { nullptr };
-        QMap<ScriptTypes, QString> m_Scripts;
 
-        ISD::CCD::UploadMode uploadMode { ISD::CCD::UPLOAD_CLIENT };
-
-        // Transfer Format
-        ISD::CCD::TransferFormat transforFormat { ISD::CCD::FORMAT_FITS };
-
-        // Directory Settings
-        QString localDirectory;
-        QString remoteDirectory;
-        QString directoryPostfix;
-
-        bool filterPrefixEnabled { false };
-        bool expPrefixEnabled { false };
-        bool timeStampPrefixEnabled { false };
-        QString m_RawPrefix;
-        QString targetName;
-
-        QString m_filename;
-
-        // Flat field variables
-        struct
-        {
-            double targetADU { 0 };
-            double targetADUTolerance { 250 };
-            FlatFieldSource flatFieldSource { SOURCE_MANUAL };
-            FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
-            SkyPoint wallCoord;
-            bool preMountPark { false };
-            bool preDomePark { false };
-
-        } calibrationSettings;
-
-        QMap<QString, QMap<QString, QVariant>> customProperties;
-
-        // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
-
-        // State machine encapsulating the state of this capture sequence job
+        //////////////////////////////////////////////////////////////
+        /// State machine encapsulating the state of this capture sequence job
+        //////////////////////////////////////////////////////////////
         SequenceJobState stateMachine;
 };
 }

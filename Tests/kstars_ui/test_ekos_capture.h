@@ -19,6 +19,14 @@
 #include <QCheckBox>
 #include <QtTest>
 
+/** @brief Helper to retrieve a gadget in KStars.
+ * @param klass is the class of the gadget to look for.
+ * @param name is the gadget name to look for in the UI configuration.
+ * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Capture module
+ */
+#define KTRY_KSTARS_GADGET(klass, name) klass * const name = KStars::Instance()->findChild<klass*>(#name); \
+    QVERIFY2(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
+
 /** @brief Helper to show the Capture tab
  */
 #define KTRY_CAPTURE_SHOW() do { \
@@ -35,6 +43,7 @@
  */
 #define KTRY_CAPTURE_GADGET(klass, name) klass * const name = Ekos::Manager::Instance()->captureModule()->findChild<klass*>(#name); \
     QVERIFY2(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
+
 
 /** @brief Helper to click a button in the Capture tab specifically.
  * @param button is the gadget name of the button to look for in the UI configuration.
@@ -98,6 +107,45 @@
     KTRY_CAPTURE_CLICK(addToQueueB); \
     QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == (jcount+1), 1000); } while(false);
 
+
+/** @brief Helper to configure a Flat frame.
+ * @param exposure is the exposure duration.
+ * @param count is the number of exposures to execute.
+ * @param delay is the delay after exposure.
+ * @param filter is the filter name to set.
+ * @param destination is the folder to store fames to.
+ */
+#define KTRY_CAPTURE_CONFIGURE_FLAT(exposure, count, delay, filter, destination) do { \
+    KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN); \
+    captureExposureN->setValue(static_cast<double>(exposure)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, captureCountN); \
+    captureCountN->setValue(static_cast<int>(count)); \
+    KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN); \
+    captureDelayN->setValue(static_cast<int>(delay)); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
+    KTRY_CAPTURE_COMBO_SET(captureTypeS, "Flat"); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureFormatS); \
+    KTRY_CAPTURE_COMBO_SET(captureFormatS, "FITS"); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
+    KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
+    KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \
+    fileDirectoryT->setText(destination); } while(false)
+
+/** @brief Helper to add a Flat frame to a Capture job.
+ * @param exposure is the exposure duration.
+ * @param count is the number of exposures to execute.
+ * @param delay is the delay after exposure.
+ * @param filter is the filter name to set.
+ * @param destination is the folder to store fames to.
+ */
+#define KTRY_CAPTURE_ADD_FLAT(exposure, count, delay, filter, destination) do { \
+    KTRY_CAPTURE_GADGET(QTableWidget, queueTable); \
+    int const jcount = queueTable->rowCount(); \
+    KTRY_CAPTURE_CONFIGURE_FLAT(exposure, count, delay, filter, destination); \
+    KTRY_CAPTURE_CLICK(addToQueueB); \
+    QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == (jcount+1), 1000); } while(false);
+
+
 class TestEkosCapture : public QObject
 {
     Q_OBJECT
@@ -126,6 +174,10 @@ private slots:
 
     /** @brief Test capturing multiple frames in multiple attempts. */
     void testCaptureMultiple();
+    /**
+     * @brief testCaptureDarkFlats Test dark flat frames capture after flat frame
+     */
+    void testCaptureDarkFlats();
 };
 
 #endif // HAVE_INDI

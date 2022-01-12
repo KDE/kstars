@@ -156,7 +156,7 @@ Capture::Capture()
 
     //connect( seqWatcher, SIGNAL(dirty(QString)), this, &Ekos::Capture::checkSeqFile(QString)));
 
-    connect(addToQueueB, &QPushButton::clicked, this, &Ekos::Capture::addJob);
+    connect(addToQueueB, &QPushButton::clicked, this, &Ekos::Capture::addSequenceJob);
     connect(removeFromQueueB, &QPushButton::clicked, this, &Ekos::Capture::removeJobFromQueue);
     connect(queueUpB, &QPushButton::clicked, this, &Ekos::Capture::moveJobUp);
     connect(queueDownB, &QPushButton::clicked, this, &Ekos::Capture::moveJobDown);
@@ -190,6 +190,7 @@ Capture::Capture()
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
     connect(rotatorB, &QPushButton::clicked, rotatorSettings.get(), &Ekos::Capture::show);
 
+    connect(generateDarkFlatsB, &QPushButton::clicked, this, &Ekos::Capture::generateDarkFlats);
     connect(scriptManagerB, &QPushButton::clicked, this, &Ekos::Capture::handleScriptsManager);
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add"));
@@ -214,6 +215,8 @@ Capture::Capture()
     resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     calibrationB->setIcon(QIcon::fromTheme("run-build"));
     calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    generateDarkFlatsB->setIcon(QIcon::fromTheme("tools-wizard"));
+    generateDarkFlatsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     rotatorB->setIcon(QIcon::fromTheme("kstars_solarsystem"));
     rotatorB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -745,11 +748,11 @@ void Capture::stop(CaptureState targetState)
                     stopText = i18n("CCD capture aborted");
                     break;
             }
-            emit captureAborted(activeJob->getExposure());
+            emit captureAborted(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText);
             appendLogText(stopText);
             activeJob->abort();
-            if (activeJob->isPreview() == false)
+            if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             {
                 int index = jobs.indexOf(activeJob);
                 QJsonObject oneSequence = m_SequenceArray[index].toObject();
@@ -760,7 +763,7 @@ void Capture::stop(CaptureState targetState)
         }
 
         // In case of batch job
-        if (activeJob->isPreview() == false)
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
         {
             activeJob->disconnect(this);
         }
@@ -768,7 +771,7 @@ void Capture::stop(CaptureState targetState)
         else if (calibrationStage == CAL_CALIBRATION)
         {
             activeJob->disconnect(this);
-            activeJob->setPreview(false);
+            activeJob->setCoreProperty(SequenceJob::SJ_Preview, false);
             currentCCD->setUploadMode(activeJob->getUploadMode());
         }
         // or regular preview job
@@ -856,7 +859,7 @@ void Capture::stop(CaptureState targetState)
 //        activeJob->setProperty("filename", filename);
 //        emit newImage(activeJob);
 //        // We only emit this for client/both images since remote images already send this automatically
-//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->isPreview() == false)
+//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
 //        {
 //            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
 //            m_GeneratedPreviewFITS.clear();
@@ -1701,13 +1704,17 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
 
         // If this is a preview job, make sure to enable preview button after
         // we receive the FITS
-        if (activeJob->isPreview() && previewB->isEnabled() == false)
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && previewB->isEnabled() == false)
             previewB->setEnabled(true);
 
         // If dark is selected, perform dark substraction.
-        if (data && darkB->isChecked() && activeJob->isPreview() && useGuideHead == false)
+        if (data && darkB->isChecked() && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && useGuideHead == false)
         {
-            m_DarkProcessor->denoise(targetChip, m_ImageData, activeJob->getExposure(), activeJob->getSubX(), activeJob->getSubY());
+            m_DarkProcessor->denoise(targetChip,
+                                     m_ImageData,
+                                     activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                                     activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().x(),
+                                     activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().y());
             return;
         }
     }
@@ -1779,12 +1786,12 @@ IPState Capture::setCaptureComplete()
 
     secondsLabel->setText(i18n("Complete."));
     // Do not display notifications for very short captures
-    if (activeJob->getExposure() >= 1)
+    if (activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
                               KSNotification::EVENT_INFO);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
-    if (activeJob->isPreview())
+    if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
         //sendNewImage(blobFilename, blobChip);
         emit newImage(activeJob, m_ImageData);
@@ -1809,7 +1816,7 @@ IPState Capture::setCaptureComplete()
         return IPS_BUSY;
     }
 
-    if (! activeJob->isPreview() && calibrationStage != CAL_CALIBRATION)
+    if (! activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && calibrationStage != CAL_CALIBRATION)
     {
         /* Increase the sequence's current capture count */
         activeJob->setCompleted(activeJob->getCompleted() + 1);
@@ -1847,7 +1854,8 @@ IPState Capture::setCaptureComplete()
     /* The image progress has now one more capture */
     imgProgress->setValue(activeJob->getCompleted());
 
-    appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(), activeJob->getCount()));
+    appendLogText(i18n("Received image %1 out of %2.", activeJob->getCompleted(),
+                       activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 
     double hfr = -1, eccentricity = -1;
     int numStars = -1, median = -1;
@@ -1889,7 +1897,8 @@ IPState Capture::setCaptureComplete()
 
     if (activeJob)
     {
-        emit captureComplete(filename, activeJob->getExposure(), activeJob->getFilterName(), hfr,
+        emit captureComplete(filename, activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                             activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString(), hfr,
                              numStars, median, eccentricity);
 
         currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
@@ -1906,7 +1915,7 @@ IPState Capture::setCaptureComplete()
         }
 
         // if we're done
-        if (activeJob->getCount() <= activeJob->getCompleted())
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt() <= activeJob->getCompleted())
         {
             processJobCompletionStage1();
             return IPS_OK;
@@ -1953,7 +1962,7 @@ void Capture::processJobCompletionStage2()
     {
         activeJob->done();
 
-        if (activeJob->isPreview() == false)
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
         {
             int index = jobs.indexOf(activeJob);
             QJsonObject oneSequence = m_SequenceArray[index].toObject();
@@ -2002,7 +2011,7 @@ void Capture::processJobCompletionStage2()
 bool Capture::checkDithering()
 {
     // No need if preview only
-    if (activeJob && activeJob->isPreview())
+    if (activeJob && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
         return false;
 
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
@@ -2157,7 +2166,8 @@ bool Capture::startFocusIfRequired()
     // 1. There is no active job, or
     // 2. Target frame is not LIGHT
     // 3. Capture is preview only
-    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT || activeJob->isPreview())
+    if (activeJob == nullptr || activeJob->getFrameType() != FRAME_LIGHT
+            || activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
         return false;
 
     isRefocus = false;
@@ -2336,7 +2346,8 @@ void Capture::captureImage()
 
     if (currentCCD->isFastExposureEnabled())
     {
-        int remaining = m_isFraming ? 100000 : (activeJob->getCount() - activeJob->getCompleted());
+        int remaining = m_isFraming ? 100000 : (activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt() -
+                                                activeJob->getCompleted());
         if (remaining > 1)
             currentCCD->setFastCount(static_cast<uint>(remaining));
     }
@@ -2347,7 +2358,8 @@ void Capture::captureImage()
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
-        if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU &&
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false
+                && activeJob->getFlatFieldDuration() == DURATION_ADU &&
                 calibrationStage == CAL_PRECAPTURE_COMPLETE)
         {
             if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE)
@@ -2358,13 +2370,11 @@ void Capture::captureImage()
             }
 
             calibrationStage = CAL_CALIBRATION;
-            // We need to be in preview mode and in client mode for this to work
-            //activeJob->setPreview(true);
         }
     }
 
     // If preview, always set to UPLOAD_CLIENT if not already set.
-    if (activeJob->isPreview())
+    if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
             currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
@@ -2384,19 +2394,20 @@ void Capture::captureImage()
 
     m_State = CAPTURE_CAPTURING;
 
-    //if (activeJob->isPreview() == false)
+    //if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
     // NOTE: Why we didn't emit this before for preview?
     emit newStatus(Ekos::CAPTURE_CAPTURING);
 
     if (frameSettings.contains(activeJob->commandProcessor.activeChip))
     {
+        const auto roi = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect();
         QVariantMap settings;
-        settings["x"]    = activeJob->getSubX();
-        settings["y"]    = activeJob->getSubY();
-        settings["w"]    = activeJob->getSubW();
-        settings["h"]    = activeJob->getSubH();
-        settings["binx"] = activeJob->getXBin();
-        settings["biny"] = activeJob->getYBin();
+        settings["x"]    = roi.x();
+        settings["y"]    = roi.y();
+        settings["w"]    = roi.width();
+        settings["h"]    = roi.height();
+        settings["binx"] = activeJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x();
+        settings["biny"] = activeJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y();
 
         frameSettings[activeJob->commandProcessor.activeChip] = settings;
     }
@@ -2409,7 +2420,7 @@ void Capture::captureImage()
     }
 
     // If using DSLR, make sure it is set to correct transfer format
-    currentCCD->setTransformFormat(activeJob->getTransforFormat());
+    currentCCD->setTransformFormat(activeJob->getTransferFormat());
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
@@ -2423,11 +2434,14 @@ void Capture::captureImage()
     {
         case CAPTURE_OK:
         {
-            emit captureStarting(activeJob->getExposure(), activeJob->getFilterName());
-            appendLogText(i18n("Capturing %1-second %2 image...", QString("%L1").arg(activeJob->getExposure(), 0, 'f', 3),
-                               activeJob->getFilterName()));
-            captureTimeout.start(static_cast<int>(activeJob->getExposure()) * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
-            if (activeJob->isPreview() == false)
+            emit captureStarting(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                                 activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+            appendLogText(i18n("Capturing %1-second %2 image...",
+                               QString("%L1").arg(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString()));
+            captureTimeout.start(static_cast<int>(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) * 1000 +
+                                 CAPTURE_TIMEOUT_THRESHOLD);
+            if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             {
                 int index = jobs.indexOf(activeJob);
                 QJsonObject oneSequence = m_SequenceArray[index].toObject();
@@ -2731,7 +2745,12 @@ void Capture::updateRotatorNumber(INumberVectorProperty * nvp)
     }
 }
 
-bool Capture::addJob(bool preview)
+bool Capture::addSequenceJob()
+{
+    return addJob(false, false);
+}
+
+bool Capture::addJob(bool preview, bool isDarkFlat)
 {
     if (m_State != CAPTURE_IDLE && m_State != CAPTURE_ABORTED && m_State != CAPTURE_COMPLETE)
         return false;
@@ -2766,24 +2785,26 @@ bool Capture::addJob(bool preview)
 
     Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
 
+    job->setCoreProperty(SequenceJob::SJ_DarkFlat, isDarkFlat);
+
     if (captureISOS)
-        job->setISOIndex(captureISOS->currentIndex());
+        job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
 
     if (getGain() >= 0)
-        job->setGain(getGain());
+        job->setCoreProperty(SequenceJob::SJ_Gain, job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
 
     if (getOffset() >= 0)
-        job->setOffset(getOffset());
+        job->setCoreProperty(SequenceJob::SJ_Offset, job->getCoreProperty(SequenceJob::SJ_Offset).toDouble());
 
-    job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(captureFormatS->currentIndex()));
+    job->setTransferFormat(static_cast<ISD::CCD::TransferFormat>(captureFormatS->currentIndex()));
 
-    job->setPreview(preview);
+    job->setCoreProperty(SequenceJob::SJ_Preview, preview);
 
     if (cameraTemperatureN->isEnabled())
     {
         double currentTemperature;
         currentCCD->getTemperature(&currentTemperature);
-        job->setEnforceTemperature(cameraTemperatureS->isChecked());
+        job->setCoreProperty(SequenceJob::SJ_EnforceTemperature, cameraTemperatureS->isChecked());
         job->setTargetTemperature(cameraTemperatureN->value());
         job->setCurrentTemperature(currentTemperature);
     }
@@ -2794,11 +2815,11 @@ bool Capture::addJob(bool preview)
     job->setScripts(m_Scripts);
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
-    job->setPreMountPark(preMountPark);
-    job->setPreDomePark(preDomePark);
+    job->setCoreProperty(SequenceJob::SJ_PreMountPark, preMountPark);
+    job->setCoreProperty(SequenceJob::SJ_PreDomePark, preDomePark);
     job->setWallCoord(wallCoord);
-    job->setTargetADU(targetADU);
-    job->setTargetADUTolerance(targetADUTolerance);
+    job->setCoreProperty(SequenceJob::SJ_TargetADU, targetADU);
+    job->setCoreProperty(SequenceJob::SJ_TargetADUTolerance, targetADUTolerance);
 
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
@@ -2808,24 +2829,28 @@ bool Capture::addJob(bool preview)
         filePrefixT->setText(m_TargetName);
     }
 
-    job->setPrefixSettings(filePrefixT->text(), fileFilterS->isChecked(), fileDurationS->isChecked(),
-                           fileTimestampS->isChecked());
+    job->setCoreProperty(SequenceJob::SJ_RawPrefix, filePrefixT->text());
+    job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, fileFilterS->isChecked());
+    job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, fileDurationS->isChecked());
+    job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, fileTimestampS->isChecked());
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
 
-    job->setEnforceStartGuiderDrift(job->getFrameType() == FRAME_LIGHT && startGuiderDriftS->isChecked());
+    job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
+                         && startGuiderDriftS->isChecked()));
     job->setTargetStartGuiderDrift(startGuiderDriftN->value());
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
     if (captureFilterS->currentIndex() != -1 && currentFilter != nullptr)
         job->setTargetFilter(captureFilterS->currentIndex() + 1, captureFilterS->currentText());
 
-    job->setExposure(captureExposureN->value());
+    job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());
 
-    job->setCount(captureCountN->value());
+    job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
 
-    job->setBin(captureBinHN->value(), captureBinVN->value());
+    job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(captureBinHN->value(), captureBinVN->value()));
 
-    job->setDelay(captureDelayN->value() * 1000); /* in ms */
+    /* in ms */
+    job->setCoreProperty(SequenceJob::SJ_Delay, captureDelayN->value() * 1000);
 
     job->commandProcessor.activeChip = targetChip;
     job->commandProcessor.activeCCD = currentCCD;
@@ -2840,14 +2865,15 @@ bool Capture::addJob(bool preview)
         job->setTargetRotation(rotatorSettings->getTargetRotationPA());
     }
 
-    job->setFrame(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(), captureFrameHN->value());
-    job->setRemoteDir(fileRemoteDirT->text());
+    job->setCoreProperty(SequenceJob::SJ_ROI, QRect(captureFrameXN->value(), captureFrameYN->value(), captureFrameWN->value(),
+                         captureFrameHN->value()));
+    job->setCoreProperty(SequenceJob::SJ_RemoteDirectory, fileRemoteDirT->text());
 
     // Remove trailing slash, if any.
     QString fileDirectory = fileDirectoryT->text();
     while (fileDirectory.endsWith("/"))
         fileDirectory.chop(1);
-    job->setLocalDir(fileDirectory);
+    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, fileDirectory);
 
     if (m_JobUnderEdit == false)
     {
@@ -2924,9 +2950,9 @@ bool Capture::addJob(bool preview)
         iso->setText(captureISOS->currentText());
         jsonJob.insert("ISO/Gain", iso->text());
     }
-    else if (job->getGain() >= 0)
+    else if (job->getCoreProperty(SequenceJob::SJ_Gain).toDouble() >= 0)
     {
-        iso->setText(QString::number(job->getGain(), 'f', 1));
+        iso->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Gain).toDouble(), 'f', 1));
         jsonJob.insert("ISO/Gain", iso->text());
     }
     else
@@ -2938,9 +2964,9 @@ bool Capture::addJob(bool preview)
     iso->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QTableWidgetItem * offset = m_JobUnderEdit ? queueTable->item(currentRow, 7) : new QTableWidgetItem();
-    if (job->getOffset() >= 0)
+    if (job->getCoreProperty(SequenceJob::SJ_Offset).toDouble() >= 0)
     {
-        offset->setText(QString::number(job->getOffset(), 'f', 1));
+        offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
         jsonJob.insert("Offset", offset->text());
     }
     else
@@ -3169,7 +3195,8 @@ void Capture::prepareJob(SequenceJob * job)
 
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
-    if (job->isPreview() && Options::useFITSViewer() == false && Options::useSummaryPreview() == false)
+    if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() && Options::useFITSViewer() == false
+            && Options::useSummaryPreview() == false)
     {
         // ask if FITS viewer usage should be enabled
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
@@ -3202,27 +3229,28 @@ void Capture::prepareJob(SequenceJob * job)
         setCamera(activeJob->commandProcessor.activeCCD->getDeviceName());
     }
 
-    /*if (activeJob->isPreview())
+    /*if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
         seqTotalCount = -1;
     else
-        seqTotalCount = activeJob->getCount();*/
+        seqTotalCount = activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt();*/
 
-    seqDelay = activeJob->getDelay();
+    seqDelay = activeJob->getCoreProperty(SequenceJob::SJ_Delay).toInt();
 
     // seqCurrentCount = activeJob->getCompleted();
 
-    if (activeJob->isPreview() == false)
+    if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
     {
-        fullImgCountOUT->setText(QString("%L1").arg(activeJob->getCount()));
+        fullImgCountOUT->setText(QString("%L1").arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
         currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
         // set the progress info
         imgProgress->setEnabled(true);
-        imgProgress->setMaximum(activeJob->getCount());
+        imgProgress->setMaximum(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
         imgProgress->setValue(activeJob->getCompleted());
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getFullPrefix(), QFileInfo(activeJob->getSignature()).path());
+            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
+                                 QFileInfo(activeJob->getSignature()).path());
 
         // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
         // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
@@ -3292,20 +3320,21 @@ void Capture::prepareJob(SequenceJob * job)
         else if (ignoreJobProgress == false)
         {
             int count = nextSequenceID - 1;
-            if (count < activeJob->getCount())
+            if (count < activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt())
                 activeJob->setCompleted(count);
             else
-                activeJob->setCompleted(activeJob->getCount());
+                activeJob->setCompleted(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
         }
 #endif
 
         // Check whether active job is complete by comparing required captures to what is already available
-        if (activeJob->getCount() <= activeJob->getCompleted())
+        if (activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt() <= activeJob->getCompleted())
         {
-            activeJob->setCompleted(activeJob->getCount());
+            activeJob->setCompleted(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
-                               QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
-                               activeJob->getCompleted(), activeJob->getCount()));
+                               QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             processJobCompletionStage2();
 
             /* FIXME: find a clearer way to exit here */
@@ -3316,8 +3345,9 @@ void Capture::prepareJob(SequenceJob * job)
             // There are captures to process
             currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
             appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
-                               QString("%L1").arg(job->getExposure(), 0, 'f', 3), job->getFilterName(),
-                               activeJob->getCompleted(), activeJob->getCount()));
+                               QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 
             // Emit progress update - done a few lines below
             // emit newImage(nullptr, activeJob);
@@ -3464,7 +3494,7 @@ void Capture::preparePreCaptureActions()
         activeJob->setCurrentFilter(m_CurrentFilterPosition);
 
     // update temperature
-    if (currentCCD->hasCooler() && activeJob->getEnforceTemperature())
+    if (currentCCD->hasCooler() && activeJob->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
     {
         double temperature = 0;
         currentCCD->getTemperature(&temperature);
@@ -3475,7 +3505,7 @@ void Capture::preparePreCaptureActions()
 
     setBusy(true);
 
-    if (activeJob->isPreview())
+    if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
         startB->setIcon(
             QIcon::fromTheme("media-playback-stop"));
@@ -3559,11 +3589,14 @@ void Capture::executeJob()
 
     calibrationCheckType = CAL_CHECK_TASK;
 
+    if (activeJob->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
+        setDarkFlatExposure(activeJob);
+
     updatePreCaptureCalibrationStatus();
 
     // Check calibration frame requirements
 #if 0
-    if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
+    if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
     {
         updatePreCaptureCalibrationStatus();
         return;
@@ -3652,8 +3685,9 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (limitGuideDeviationS->isChecked() == false || (activeJob && (activeJob->isPreview()
-            || activeJob->getExposeLeft() == 0.0)))
+    if (limitGuideDeviationS->isChecked() == false || (activeJob
+            && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
+                || activeJob->getExposeLeft() == 0.0)))
         return;
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
@@ -4016,7 +4050,7 @@ int Capture::getTotalFramesCount(QString signature)
         QString sig = job->getSignature();
         if (sig == signature)
         {
-            result += job->getCount();
+            result += job->getCoreProperty(SequenceJob::SJ_Count).toInt();
             found = true;
         }
     }
@@ -4247,6 +4281,7 @@ bool Capture::processJobInfo(XMLEle * root)
     XMLEle * subEP;
     rotatorSettings->setRotationEnforced(false);
 
+    bool isDarkFlat = false;
     m_Scripts.clear();
     QLocale cLocale = QLocale::c();
 
@@ -4431,6 +4466,9 @@ bool Capture::processJobInfo(XMLEle * root)
             subEP = findXMLEle(ep, "FlatDuration");
             if (subEP)
             {
+                const char * dark = findXMLAttValu(subEP, "dark");
+                isDarkFlat = !strcmp(dark, "true");
+
                 XMLEle * typeEP = findXMLEle(subEP, "Type");
                 if (typeEP)
                 {
@@ -4472,7 +4510,7 @@ bool Capture::processJobInfo(XMLEle * root)
         }
     }
 
-    addJob(false);
+    addJob(false, isDarkFlat);
 
     return true;
 }
@@ -4568,8 +4606,6 @@ void Capture::saveSequenceQueueAs()
 bool Capture::saveSequenceQueue(const QString &path)
 {
     QFile file;
-    QString rawPrefix;
-    bool filterEnabled, expEnabled, tsEnabled;
     const QMap<QString, CCDFrameType> frameTypes =
     {
         { "Light", FRAME_LIGHT }, { "Dark", FRAME_DARK }, { "Bias", FRAME_BIAS }, { "Flat", FRAME_FLAT }
@@ -4612,27 +4648,33 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
     for (auto &job : jobs)
     {
-        job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
+        auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+        auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+        auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+        auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+        auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
         outstream << "<Job>" << endl;
 
-        outstream << "<Exposure>" << cLocale.toString(job->getExposure()) << "</Exposure>" << endl;
+        outstream << "<Exposure>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) << "</Exposure>" <<
+                  endl;
         outstream << "<Binning>" << endl;
-        outstream << "<X>" << cLocale.toString(job->getXBin()) << "</X>" << endl;
-        outstream << "<Y>" << cLocale.toString(job->getXBin()) << "</Y>" << endl;
+        outstream << "<X>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << endl;
+        outstream << "<Y>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << endl;
         outstream << "</Binning>" << endl;
         outstream << "<Frame>" << endl;
-        outstream << "<X>" << cLocale.toString(job->getSubX()) << "</X>" << endl;
-        outstream << "<Y>" << cLocale.toString(job->getSubY()) << "</Y>" << endl;
-        outstream << "<W>" << cLocale.toString(job->getSubW()) << "</W>" << endl;
-        outstream << "<H>" << cLocale.toString(job->getSubH()) << "</H>" << endl;
+        outstream << "<X>" << cLocale.toString(roi.x()) << "</X>" << endl;
+        outstream << "<Y>" << cLocale.toString(roi.y()) << "</Y>" << endl;
+        outstream << "<W>" << cLocale.toString(roi.width()) << "</W>" << endl;
+        outstream << "<H>" << cLocale.toString(roi.height()) << "</H>" << endl;
         outstream << "</Frame>" << endl;
         if (job->getTargetTemperature() != Ekos::INVALID_VALUE)
-            outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true" : "false") << "'>"
+            outstream << "<Temperature force='" << (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool() ? "true" :
+                                                    "false") << "'>"
                       << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
             //outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
-            outstream << "<Filter>" << job->getFilterName() << "</Filter>" << endl;
+            outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << endl;
         outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
         //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
@@ -4641,9 +4683,10 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
         outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
         outstream << "</Prefix>" << endl;
-        outstream << "<Count>" << cLocale.toString(job->getCount()) << "</Count>" << endl;
+        outstream << "<Count>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << endl;
         // ms to seconds
-        outstream << "<Delay>" << cLocale.toString(job->getDelay() / 1000.0) << "</Delay>" << endl;
+        outstream << "<Delay>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0) << "</Delay>" <<
+                  endl;
         if (job->getScript(SCRIPT_PRE_CAPTURE).isEmpty() == false)
             outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << endl;
         if (job->getScript(SCRIPT_POST_CAPTURE).isEmpty() == false)
@@ -4652,13 +4695,15 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << endl;
         if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
             outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << endl;
-        outstream << "<FITSDirectory>" << job->getLocalDir() << "</FITSDirectory>" << endl;
+        outstream << "<FITSDirectory>" << job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
+                  endl;
         outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
-        if (job->getRemoteDir().isEmpty() == false)
-            outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
-        if (job->getISOIndex() != -1)
-            outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
-        outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
+        if (job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
+            outstream << "<RemoteDirectory>" << job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString() << "</RemoteDirectory>"
+                      << endl;
+        if (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt() != -1)
+            outstream << "<ISOIndex>" << (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()) << "</ISOIndex>" << endl;
+        outstream << "<FormatIndex>" << (job->getTransferFormat()) << "</FormatIndex>" << endl;
         if (job->getTargetRotation() != Ekos::INVALID_VALUE)
             outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
         QMapIterator<QString, QMap<QString, QVariant>> customIter(job->getCustomProperties());
@@ -4705,19 +4750,24 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<Type>DawnDust</Type>" << endl;
         outstream << "</FlatSource>" << endl;
 
-        outstream << "<FlatDuration>" << endl;
+        outstream << "<FlatDuration dark='" << (job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool() ? "true" : "false")
+                  << "'>" << endl;
         if (job->getFlatFieldDuration() == DURATION_MANUAL)
             outstream << "<Type>Manual</Type>" << endl;
         else
         {
             outstream << "<Type>ADU</Type>" << endl;
-            outstream << "<Value>" << cLocale.toString(job->getTargetADU()) << "</Value>" << endl;
-            outstream << "<Tolerance>" << cLocale.toString(job->getTargetADUTolerance()) << "</Tolerance>" << endl;
+            outstream << "<Value>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble()) << "</Value>" <<
+                      endl;
+            outstream << "<Tolerance>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
+                      "</Tolerance>" << endl;
         }
         outstream << "</FlatDuration>" << endl;
 
-        outstream << "<PreMountPark>" << (job->isPreMountPark() ? "True" : "False") << "</PreMountPark>" << endl;
-        outstream << "<PreDomePark>" << (job->isPreDomePark() ? "True" : "False") << "</PreDomePark>" << endl;
+        outstream << "<PreMountPark>" << (job->getCoreProperty(SequenceJob::SJ_PreMountPark).toBool() ? "True" : "False") <<
+                  "</PreMountPark>" << endl;
+        outstream << "<PreDomePark>" << (job->getCoreProperty(SequenceJob::SJ_PreDomePark).toBool() ? "True" : "False") <<
+                  "</PreDomePark>" << endl;
         outstream << "</Calibration>" << endl;
 
         outstream << "</Job>" << endl;
@@ -4781,50 +4831,52 @@ void Capture::syncGUIToJob(SequenceJob * job)
         return;
     }
 
-    QString rawPrefix;
-    bool filterEnabled, expEnabled, tsEnabled;
+    auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+    auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+    const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
-    job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
-
-    captureExposureN->setValue(job->getExposure());
-    captureBinHN->setValue(job->getXBin());
-    captureBinVN->setValue(job->getYBin());
-    captureFrameXN->setValue(job->getSubX());
-    captureFrameYN->setValue(job->getSubY());
-    captureFrameWN->setValue(job->getSubW());
-    captureFrameHN->setValue(job->getSubH());
+    captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
+    captureBinHN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x());
+    captureBinVN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y());
+    captureFrameXN->setValue(roi.x());
+    captureFrameYN->setValue(roi.y());
+    captureFrameWN->setValue(roi.width());
+    captureFrameHN->setValue(roi.height());
     captureFilterS->setCurrentIndex(job->getTargetFilter() - 1);
     captureTypeS->setCurrentIndex(job->getFrameType());
     filePrefixT->setText(rawPrefix);
     fileFilterS->setChecked(filterEnabled);
     fileDurationS->setChecked(expEnabled);
     fileTimestampS->setChecked(tsEnabled);
-    captureCountN->setValue(job->getCount());
-    captureDelayN->setValue(job->getDelay() / 1000);
+    captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
+    captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     fileUploadModeS->setCurrentIndex(job->getUploadMode());
     fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
-    fileRemoteDirT->setText(job->getRemoteDir());
-    fileDirectoryT->setText(job->getLocalDir());
+    fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
+    fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
 
     // Temperature Options
-    cameraTemperatureS->setChecked(job->getEnforceTemperature());
-    if (job->getEnforceTemperature())
+    cameraTemperatureS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool());
+    if (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    startGuiderDriftS->setChecked(job->getEnforceStartGuiderDrift());
-    if (job->getEnforceStartGuiderDrift())
+    startGuiderDriftS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool());
+    if (job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool())
         startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
+    generateDarkFlatsB->setEnabled(job->getFrameType() != FRAME_LIGHT);
     flatFieldDuration  = job->getFlatFieldDuration();
     flatFieldSource    = job->getFlatFieldSource();
-    targetADU          = job->getTargetADU();
-    targetADUTolerance = job->getTargetADUTolerance();
+    targetADU          = job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
+    targetADUTolerance = job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble();
     wallCoord          = job->getWallCoord();
-    preMountPark       = job->isPreMountPark();
-    preDomePark        = job->isPreDomePark();
+    preMountPark       = job->getCoreProperty(SequenceJob::SJ_PreMountPark).toBool();
+    preDomePark        = job->getCoreProperty(SequenceJob::SJ_PreDomePark).toBool();
 
     // Script options
     m_Scripts          = job->getScripts();
@@ -4833,7 +4885,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     customPropertiesDialog->setCustomProperties(job->getCustomProperties());
 
     if (captureISOS)
-        captureISOS->setCurrentIndex(job->getISOIndex());
+        captureISOS->setCurrentIndex(job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt());
 
     double gain = getGain();
     if (gain >= 0)
@@ -4847,7 +4899,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-    captureFormatS->setCurrentIndex(job->getTransforFormat());
+    captureFormatS->setCurrentIndex(job->getTransferFormat());
 
     if (job->getTargetRotation() != Ekos::INVALID_VALUE)
     {
@@ -4906,28 +4958,36 @@ void Capture::selectedJobChanged(QModelIndex current, QModelIndex previous)
     selectJob(current);
 }
 
-void Capture::selectJob(QModelIndex i)
+bool Capture::selectJob(QModelIndex i)
 {
     if (i.row() < 0 || (i.row() + 1) > jobs.size())
-        return;
+        return false;
 
     SequenceJob * job = jobs.at(i.row());
 
-    if (job == nullptr)
-        return;
+    if (job == nullptr || job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
+        return false;
 
     syncGUIToJob(job);
 
-    if (isBusy || jobs.size() < 2)
-        return;
+    if (isBusy)
+        return false;
 
-    queueUpB->setEnabled(i.row() > 0);
-    queueDownB->setEnabled(i.row() + 1 < jobs.size());
+    if (jobs.size() >= 2)
+    {
+        queueUpB->setEnabled(i.row() > 0);
+        queueDownB->setEnabled(i.row() + 1 < jobs.size());
+    }
+
+    return true;
 }
 
 void Capture::editJob(QModelIndex i)
 {
-    selectJob(i);
+    // Try to select a job. If job not found or not editable return.
+    if (selectJob(i) == false)
+        return;
+
     appendLogText(i18n("Editing job #%1...", i.row() + 1));
 
     addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
@@ -4956,7 +5016,7 @@ double Capture::getProgressPercentage()
 
     foreach (SequenceJob * job, jobs)
     {
-        totalImageCount += job->getCount();
+        totalImageCount += job->getCoreProperty(SequenceJob::SJ_Count).toInt();
         totalImageCompleted += job->getCompleted();
     }
 
@@ -5009,7 +5069,7 @@ QString Capture::getJobFilterName(int id)
     if (id < jobs.count())
     {
         SequenceJob * job = jobs.at(id);
-        return job->getFilterName();
+        return job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
     }
 
     return QString();
@@ -5031,7 +5091,7 @@ int Capture::getJobImageCount(int id)
     if (id < jobs.count())
     {
         SequenceJob * job = jobs.at(id);
-        return job->getCount();
+        return job->getCoreProperty(SequenceJob::SJ_Count).toInt();
     }
 
     return -1;
@@ -5053,7 +5113,7 @@ double Capture::getJobExposureDuration(int id)
     if (id < jobs.count())
     {
         SequenceJob * job = jobs.at(id);
-        return job->getExposure();
+        return job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     }
 
     return -1;
@@ -5486,7 +5546,7 @@ void Capture::setGuideStatus(GuideState state)
 
     if (activeJob)
     {
-        activeJob->setGuiderActive(isActivelyGuiding());
+        activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, isActivelyGuiding());
         activeJob->resetCurrentGuiderDrift();
     }
 }
@@ -5519,10 +5579,8 @@ void Capture::processGuidingFailed()
 
 void Capture::checkFrameType(int index)
 {
-    if (index == FRAME_LIGHT)
-        calibrationB->setEnabled(false);
-    else
-        calibrationB->setEnabled(true);
+    calibrationB->setEnabled(index != FRAME_LIGHT);
+    generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
 }
 
 double Capture::setCurrentADU(double value)
@@ -5535,11 +5593,11 @@ double Capture::setCurrentADU(double value)
     }
 
     double nextExposure = 0;
-    double targetADU    = activeJob->getTargetADU();
+    double targetADU    = activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
     std::vector<double> coeff;
 
     // Check if saturated, then take shorter capture and discard value
-    ExpRaw.append(activeJob->getExposure());
+    ExpRaw.append(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
     ADURaw.append(value);
 
     qCDebug(KSTARS_EKOS_CAPTURE) << "Capture: Current ADU = " << value << " targetADU = " << targetADU
@@ -5611,12 +5669,14 @@ double Capture::setCurrentADU(double value)
         }
     }
 
-    if (nextExposure == 0.0)
+    // 2022.01.12 Put a hard limit to 180 seconds.
+    // If it goes over this limit, the flat source is probably off.
+    if (nextExposure == 0.0 || nextExposure > 180)
     {
         if (value < targetADU)
-            nextExposure = activeJob->getExposure() * 1.25;
+            nextExposure = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() * 1.25;
         else
-            nextExposure = activeJob->getExposure() * .75;
+            nextExposure = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() * .75;
     }
 
     qCDebug(KSTARS_EKOS_CAPTURE) << "next flat exposure is" << nextExposure;
@@ -5704,7 +5764,7 @@ void Capture::clearAutoFocusHFR()
 
 void Capture::openCalibrationDialog()
 {
-    QDialog calibrationDialog;
+    QDialog calibrationDialog(this);
 
     Ui_calibrationOptions calibrationOptions;
     calibrationOptions.setupUi(&calibrationDialog);
@@ -6544,37 +6604,36 @@ bool Capture::processPostCaptureCalibrationStage()
 
     // If there are no more images to capture, do not bother calculating next exposure
     if (calibrationStage == CAL_CALIBRATION_COMPLETE)
-        if (activeJob && activeJob->getCount() <= activeJob->getCompleted())
+        if (activeJob && activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt() <= activeJob->getCompleted())
             return true;
 
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU &&
-            activeJob->getTargetADU() > 0)
+            activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0)
     {
         if (!m_ImageData.isNull())
         {
-            //image_data        = currentImage->imageData();
             double currentADU = m_ImageData->getADU();
             bool outOfRange = false, saturated = false;
 
             switch (m_ImageData->bpp())
             {
                 case 8:
-                    if (activeJob->getTargetADU() > UINT8_MAX)
+                    if (activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT8_MAX)
                         outOfRange = true;
                     else if (currentADU / UINT8_MAX > 0.95)
                         saturated = true;
                     break;
 
                 case 16:
-                    if (activeJob->getTargetADU() > UINT16_MAX)
+                    if (activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT16_MAX)
                         outOfRange = true;
                     else if (currentADU / UINT16_MAX > 0.95)
                         saturated = true;
                     break;
 
                 case 32:
-                    if (activeJob->getTargetADU() > UINT32_MAX)
+                    if (activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT32_MAX)
                         outOfRange = true;
                     else if (currentADU / UINT32_MAX > 0.95)
                         saturated = true;
@@ -6588,21 +6647,20 @@ bool Capture::processPostCaptureCalibrationStage()
             {
                 appendLogText(i18n("Flat calibration failed. Captured image is only %1-bit while requested ADU is %2.",
                                    QString::number(m_ImageData->bpp())
-                                   , QString::number(activeJob->getTargetADU(), 'f', 2)));
+                                   , QString::number(activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble(), 'f', 2)));
                 abort();
                 return false;
             }
             else if (saturated)
             {
-                double nextExposure = activeJob->getExposure() * 0.1;
+                double nextExposure = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() * 0.1;
                 nextExposure = qBound(captureExposureN->minimum(), nextExposure, captureExposureN->maximum());
 
                 appendLogText(i18n("Current image is saturated (%1). Next exposure is %2 seconds.",
                                    QString::number(currentADU, 'f', 0), QString("%L1").arg(nextExposure, 0, 'f', 6)));
 
                 calibrationStage = CAL_CALIBRATION;
-                activeJob->setExposure(nextExposure);
-                //activeJob->setPreview(true);
+                activeJob->setCoreProperty(SequenceJob::SJ_Exposure, nextExposure);
                 if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
                 {
                     currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
@@ -6611,7 +6669,7 @@ bool Capture::processPostCaptureCalibrationStage()
                 return false;
             }
 
-            double ADUDiff = fabs(currentADU - activeJob->getTargetADU());
+            double ADUDiff = fabs(currentADU - activeJob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble());
 
             // If it is within tolerance range of target ADU
             if (ADUDiff <= targetADUTolerance)
@@ -6620,24 +6678,11 @@ bool Capture::processPostCaptureCalibrationStage()
                 {
                     appendLogText(
                         i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
-                    //activeJob->setPreview(false);
                     currentCCD->setUploadMode(activeJob->getUploadMode());
-
-                    // Get raw prefix
-                    captureExposureN->setValue(activeJob->getExposure());
-                    QString imagePrefix = activeJob->property("rawPrefix").toString();
                     auto placeholderPath = Ekos::PlaceholderPath();
-                    placeholderPath.setGenerateFilenameSettings(*activeJob);
-                    placeholderPath.constructPrefix(activeJob, imagePrefix);
-                    activeJob->setFullPrefix(imagePrefix);
-                    seqPrefix = imagePrefix;
-                    currentCCD->setSeqPrefix(imagePrefix);
-
-                    currentCCD->setISOMode(activeJob->isTimestampPrefixEnabled());
-                    currentCCD->setPlaceholderPath(placeholderPath);
-
-                    currentCCD->updateUploadSettings(activeJob->getRemoteDir() + activeJob->getDirectoryPostfix());
-
+                    // Make sure to update Full Prefix as exposure value was changed
+                    placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                    // Mark calibration as complete
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
                     return false;
@@ -6650,7 +6695,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
             // If value is saturated, try to reduce it to valid range first
             if (std::fabs(m_ImageData->getMax(0) - m_ImageData->getMin(0)) < 10)
-                nextExposure = activeJob->getExposure() * 0.5;
+                nextExposure = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() * 0.5;
             else
                 nextExposure = setCurrentADU(currentADU);
 
@@ -6671,7 +6716,7 @@ bool Capture::processPostCaptureCalibrationStage()
                                QString("%L1").arg(nextExposure, 0, 'f', 6)));
 
             calibrationStage = CAL_CALIBRATION;
-            activeJob->setExposure(nextExposure);
+            activeJob->setCoreProperty(SequenceJob::SJ_Exposure, nextExposure);
             //activeJob->setPreview(true);
             if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
             {
@@ -6736,7 +6781,7 @@ void Capture::scriptFinished(int exitCode, QProcess::ExitStatus status)
             appendLogText(i18n("Post capture script finished with code %1.", exitCode));
 
             // If we're done, proceed to completion.
-            if (activeJob == nullptr || activeJob->getCount() <= activeJob->getCompleted())
+            if (activeJob == nullptr || activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt() <= activeJob->getCompleted())
             {
                 processJobCompletionStage1();
             }
@@ -7820,8 +7865,68 @@ void Capture::showTemperatureRegulation()
     {
         currentCCD->setTemperatureRegulation(rampSpin.value(), thresholdSpin.value());
     }
+}
 
-    //delete(dialog);
+void Capture::generateDarkFlats()
+{
+    const auto existingJobs = jobs.size();
+    uint8_t jobsAdded = 0;
+
+    for (int i = 0; i < existingJobs; i++)
+    {
+        if (jobs[i]->getFrameType() != FRAME_FLAT)
+            continue;
+
+        syncGUIToJob(jobs[i]);
+
+        captureTypeS->setCurrentIndex(FRAME_DARK);
+        addJob(false, true);
+        jobsAdded++;
+    }
+
+    if (jobsAdded > 0)
+    {
+        appendLogText(i18np("One dark flats job was created.", "%1 dark flats jobs were created.", jobsAdded));
+    }
+}
+
+bool Capture::setDarkFlatExposure(SequenceJob *job)
+{
+    const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    const auto darkFlatBinning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+    const auto darkFlatADU = job->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
+
+    for (auto &oneJob : jobs)
+    {
+        if (oneJob->getFrameType() != FRAME_FLAT)
+            continue;
+
+        const auto filter = oneJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+
+        // Match filter, if one exists.
+        if (!darkFlatFilter.isEmpty() && darkFlatFilter != filter)
+            continue;
+
+        // Match binning
+        const auto binning = oneJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+        if (darkFlatBinning != binning)
+            continue;
+
+        // Match ADU, if used.
+        const auto adu = oneJob->getCoreProperty(SequenceJob::SJ_TargetADU).toInt();
+        if (job->getFlatFieldDuration() == DURATION_ADU)
+        {
+            if (darkFlatADU != adu)
+                continue;
+        }
+
+        // Now get the exposure
+        job->setCoreProperty(SequenceJob::SJ_Exposure, oneJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
+
+        return true;
+    }
+
+    return false;
 }
 
 }

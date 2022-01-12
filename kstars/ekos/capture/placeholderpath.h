@@ -41,7 +41,7 @@ class PlaceholderPath
         void generateFilename(QString format, bool tsEnabled, bool batch_mode,
                               int nextSequenceID, const QString &extension, QString *filename) const;
         void generateFilename(QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
-                              bool tsEnabled, QString filter, CCDFrameType frameType, double exposure, QString targetName,
+                              bool tsEnabled, bool isDarkFlat, QString filter, CCDFrameType frameType, double exposure, QString targetName,
                               bool batch_mode, int nextSequenceID, const QString &extension, QString *filename) const;
 
         void setGenerateFilenameSettings(const SequenceJob &job);
@@ -68,6 +68,7 @@ class PlaceholderPath
         QString m_RawPrefix;
         bool m_filterPrefixEnabled { false };
         bool m_expPrefixEnabled { false };
+        bool m_DarkFlat {false};
         QString m_filter;
         CCDFrameType m_frameType { FRAME_LIGHT };
         double m_exposure { -1 };

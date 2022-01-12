@@ -3024,7 +3024,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
     QJsonObject status =
     {
         {"seqv", job->getCompleted()},
-        {"seqr", job->getCount()},
+        {"seqr", job->getCoreProperty(SequenceJob::SJ_Count).toInt()},
         {"seql", capturePreview->captureCountsWidget->sequenceRemainingTime->text()}
     };
 
@@ -3042,7 +3042,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
         else
             ekosLiveClient.get()->media()->sendPreviewImage(data, uuid);
 
-        if (job->isPreview() == false)
+        if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             ekosLiveClient.get()->cloud()->upload(data, uuid);
 
     }
@@ -3053,7 +3053,7 @@ void Manager::updateExposureProgress(Ekos::SequenceJob * job)
     QJsonObject status
     {
         {"expv", job->getExposeLeft()},
-        {"expr", job->getExposure()}
+        {"expr", job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);

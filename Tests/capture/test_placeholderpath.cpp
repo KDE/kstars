@@ -14,6 +14,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
+using Ekos::SequenceJob;
+
 TestPlaceholderPath::TestPlaceholderPath() : QObject()
 {
 }
@@ -196,7 +198,7 @@ void TestPlaceholderPath::testSchedulerProcessJobInfo()
                        FITSDirectory);
 
     Ekos::SequenceJob job(root);
-    QCOMPARE(job.getFilterName(), Filter);
+    QCOMPARE(job.getCoreProperty(SequenceJob::SJ_Filter).toString(), Filter);
     auto placeholderPath = Ekos::PlaceholderPath();
     placeholderPath.processJobInfo(&job, targetName);
 
@@ -272,7 +274,7 @@ void TestPlaceholderPath::testCaptureAddJob()
                  // Remove any _ at the end
                  .replace( QRegularExpression("_$"), "");
     Ekos::SequenceJob job(root);
-    QCOMPARE(job.getFilterName(), Filter);
+    QCOMPARE(job.getCoreProperty(SequenceJob::SJ_Filter).toString(), Filter);
     auto placeholderPath = Ekos::PlaceholderPath();
     placeholderPath.addJob(&job, targetName);
 
@@ -448,9 +450,9 @@ void TestPlaceholderPath::testSequenceJobSignature()
     QFETCH(QString, signature);
 
     auto job = new Ekos::SequenceJob();
-    job->setLocalDir(localDir);
-    job->setDirectoryPostfix(directoryPostfix);
-    job->setFullPrefix(fullPrefix);
+    job->setCoreProperty(SequenceJob::SJ_LocalDirectory, localDir);
+    job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_FullPrefix, fullPrefix);
 
     QCOMPARE(job->getSignature(), signature);
 
@@ -530,9 +532,14 @@ void TestPlaceholderPath::testFullNamingSequence()
     placeholderPath.addJob(&job, targetName);
     QString fitsDir, filename;
     // from sequencejob.cpp:302-303
-    if (job.getLocalDir().isEmpty() == false)
-        fitsDir = job.getLocalDir() + job.getDirectoryPostfix();
-    placeholderPath.generateFilenameOld(".fits", bool(batch_mode.toInt()), &filename, fitsDir, job.getFullPrefix(),
+    auto localDir = job.getCoreProperty(SequenceJob::SJ_LocalDirectory).toString();
+    if (localDir.isEmpty() == false)
+        fitsDir = localDir + job.getCoreProperty(SequenceJob::SJ_DirectoryPostfix).toString();
+    placeholderPath.generateFilenameOld(".fits",
+                                        bool(batch_mode.toInt()),
+                                        &filename,
+                                        fitsDir,
+                                        job.getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
                                         nextSequenceID.toInt());
     //QCOMPARE(filename, result);
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
@@ -664,9 +671,10 @@ void TestPlaceholderPath::testFlexibleNaming()
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 
-    job.setTargetName(targetName);
+    job.setCoreProperty(SequenceJob::SJ_TargetName, targetName);
     placeholderPath.setGenerateFilenameSettings(job);
-    placeholderPath.generateFilename(format, job.isTimestampPrefixEnabled(), bm, i, ".fits", &filename);
+    placeholderPath.generateFilename(format, job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool(), bm, i,
+                                     ".fits", &filename);
     QVERIFY2(QRegularExpression(result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(result, filename).toStdString().c_str());
 #endif
@@ -747,9 +755,14 @@ void TestPlaceholderPath::testFlexibleNamingChangeBehavior()
     QVERIFY2(QRegularExpression(new_result).match(filename).hasMatch(),
              QString("\nExpected: %1\nObtained: %2\n").arg(new_result, filename).toStdString().c_str());
 
-    job.setTargetName(targetName);
+    job.setCoreProperty(SequenceJob::SJ_TargetName, targetName);
     placeholderPath.setGenerateFilenameSettings(job);
-    placeholderPath.generateFilename(format, job.isTimestampPrefixEnabled(), bm, i, ".fits", &filename);
+    placeholderPath.generateFilename(format,
+                                     job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool(),
+                                     bm,
+                                     i,
+                                     ".fits",
+                                     &filename);
     QEXPECT_FAIL("", "original filename had __ or // or /_ that are now removed", Continue);
     QVERIFY2(QRegularExpression(old_result).match(filename).hasMatch(),
              QString("\nNot Expected: %1\nObtained: %2\n").arg(old_result, filename).toStdString().c_str());

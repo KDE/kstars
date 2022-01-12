@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+using Ekos::SequenceJob;
 using Ekos::Scheduler;
 
 class TestSchedulerUnit : public QObject
@@ -363,9 +364,9 @@ void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList
     QVERIFY(details.size() == jobs.size());
     for (int i = 0; i < jobs.size(); ++i)
     {
-        QVERIFY(details[i].filter == jobs[i]->getFilterName());
-        QVERIFY(details[i].count == jobs[i]->getCount());
-        QVERIFY(details[i].exposure == jobs[i]->getExposure());
+        QVERIFY(details[i].filter == jobs[i]->getCoreProperty(SequenceJob::SJ_Filter).toString());
+        QVERIFY(details[i].count == jobs[i]->getCoreProperty(SequenceJob::SJ_Count).toInt());
+        QVERIFY(details[i].exposure == jobs[i]->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
         QVERIFY(details[i].type == jobs[i]->getFrameType());
     }
 }

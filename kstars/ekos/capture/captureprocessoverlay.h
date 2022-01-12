@@ -28,8 +28,7 @@ public:
         QString filterName;
         QString filename;
         double exptime;
-        int xBin;
-        int yBin;
+        QPoint binning;
         int width;
         int height;
         double gain;

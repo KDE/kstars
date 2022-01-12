@@ -10,12 +10,24 @@
 #include "ekos/ekos.h"
 #include "ekos/manager.h"
 
+using Ekos::SequenceJob;
+
 CaptureCountsWidget::CaptureCountsWidget(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
     // switch between stacked views
-    connect(switchToGraphicsButton, &QPushButton::clicked, this, [this]() {textView->setVisible(false); graphicalView->setVisible(true); Options::setUseGraphicalCountsDisplay(true);});
-    connect(switchToTextButton, &QPushButton::clicked, this, [this]() {textView->setVisible(true); graphicalView->setVisible(false);Options::setUseGraphicalCountsDisplay(false);});
+    connect(switchToGraphicsButton, &QPushButton::clicked, this, [this]()
+    {
+        textView->setVisible(false);
+        graphicalView->setVisible(true);
+        Options::setUseGraphicalCountsDisplay(true);
+    });
+    connect(switchToTextButton, &QPushButton::clicked, this, [this]()
+    {
+        textView->setVisible(true);
+        graphicalView->setVisible(false);
+        Options::setUseGraphicalCountsDisplay(false);
+    });
 
     // start with the last used view
     graphicalView->setVisible(Options::useGraphicalCountsDisplay());
@@ -35,9 +47,9 @@ void CaptureCountsWidget::updateExposureProgress(Ekos::SequenceJob *job)
     if (imageCountDown.hour() == 23)
         imageCountDown.setHMS(0, 0, 0);
 
-    imageProgress->setRange(0, int(std::ceil(job->getExposure())));
-    imageProgress->setValue(int(std::ceil(job->getExposure() - job->getExposeLeft())));
-    gr_imageProgress->setRange(0, int(std::ceil(job->getExposure())));
+    imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
+    imageProgress->setValue(int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() - job->getExposeLeft())));
+    gr_imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
     gr_imageProgress->setValue(imageProgress->value());
 
     frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
@@ -67,7 +79,7 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
 
     // do not change overall remaining time if scheduler is in endless loop
     if (schedulerProcess == nullptr || schedulerProcess->getCurrentJob() == nullptr ||
-        schedulerProcess->getCurrentJob()->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
+            schedulerProcess->getCurrentJob()->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
     {
         overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
@@ -101,7 +113,8 @@ void CaptureCountsWidget::reset()
     sequenceRemainingTime->setText("--:--:--");
 }
 
-void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString filter, const double exptime, const int xBin, const int yBin, const double gain)
+void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString filter, const double exptime, const int xBin,
+                                       const int yBin, const double gain)
 {
     if (frametype == "")
     {
@@ -115,7 +128,7 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
         gr_frameLabel->setText(frameInfoLabel->text());
         QString details = "";
         if (exptime > 0)
-                details.append(QString("%1: %2 sec").arg(i18n("Exposure")).arg(exptime, 0, 'f', exptime < 1 ? 2: exptime < 5 ? 1 : 0));
+            details.append(QString("%1: %2 sec").arg(i18n("Exposure")).arg(exptime, 0, 'f', exptime < 1 ? 2 : exptime < 5 ? 1 : 0));
         if (xBin > 0 && yBin > 0)
             details.append(QString(", bin: %1x%2").arg(xBin).arg(yBin));
         if (gain >= 0)
@@ -170,66 +183,70 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status)
 
     switch (status)
     {
-    case Ekos::CAPTURE_IDLE:
-        // do nothing
-        break;
-    case Ekos::CAPTURE_ABORTED:
-        reset();
-        break;
-     default:
-        if (infinite_loop == true)
-        {
-            overallRemainingTime->setText("--:--:--");
-            gr_overallProgressBar->setValue(0);
-            gr_overallRemainingTime->setText(overallRemainingTime->text());
-        }
-        else
-        {
-            overallCountDown = overallCountDown.addSecs(total_remaining_time);
-            gr_overallProgressBar->setValue(total_percentage);
-        }
+        case Ekos::CAPTURE_IDLE:
+            // do nothing
+            break;
+        case Ekos::CAPTURE_ABORTED:
+            reset();
+            break;
+        default:
+            if (infinite_loop == true)
+            {
+                overallRemainingTime->setText("--:--:--");
+                gr_overallProgressBar->setValue(0);
+                gr_overallRemainingTime->setText(overallRemainingTime->text());
+            }
+            else
+            {
+                overallCountDown = overallCountDown.addSecs(total_remaining_time);
+                gr_overallProgressBar->setValue(total_percentage);
+            }
 
-        // display overall remainings
-        overallLabel->setText(QString("%1 (%2/%3)")
-                              .arg(total_label)
-                              .arg(total_completed)
-                              .arg(infinite_loop ? QString("-") : QString::number(total_count)));
-        gr_overallLabel->setText(overallLabel->text());
+            // display overall remainings
+            overallLabel->setText(QString("%1 (%2/%3)")
+                                  .arg(total_label)
+                                  .arg(total_completed)
+                                  .arg(infinite_loop ? QString("-") : QString::number(total_count)));
+            gr_overallLabel->setText(overallLabel->text());
 
-        // update job remaining time if run from the scheduler
-        bool show_job_progress = (schedulerProcess != nullptr && schedulerProcess->getCurrentJob() != nullptr);
-        jobLabel->setVisible(show_job_progress);
-        jobRemainingTime->setVisible(show_job_progress);
-        if (show_job_progress)
-        {
-            jobCountDown.setHMS(0, 0, 0);
-            jobCountDown = jobCountDown.addSecs(captureProcess->getOverallRemainingTime());
-            jobLabel->setText(QString("Job (%1/%2)")
+            // update job remaining time if run from the scheduler
+            bool show_job_progress = (schedulerProcess != nullptr && schedulerProcess->getCurrentJob() != nullptr);
+            jobLabel->setVisible(show_job_progress);
+            jobRemainingTime->setVisible(show_job_progress);
+            if (show_job_progress)
+            {
+                jobCountDown.setHMS(0, 0, 0);
+                jobCountDown = jobCountDown.addSecs(captureProcess->getOverallRemainingTime());
+                jobLabel->setText(QString("Job (%1/%2)")
                                   .arg(capture_total_completed)
                                   .arg(capture_total_count));
-        }
+            }
 
-        // update sequence remaining time
-        sequenceCountDown.setHMS(0, 0, 0);
-        sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
+            // update sequence remaining time
+            sequenceCountDown.setHMS(0, 0, 0);
+            sequenceCountDown = sequenceCountDown.addSecs(captureProcess->getActiveJobRemainingTime());
     }
 }
 
 void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
 {
     // display informations about the current active capture
-    if (job->isPreview() == true)
-        setFrameInfo(i18n("Preview"),  job->getFilterName(), job->getExposure(), job->getXBin(), job->getYBin(), job->getGain());
+    if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == true)
+        setFrameInfo(i18n("Preview"),  job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                     job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
+                     job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
     else
-        setFrameInfo(CCDFrameTypeNames[job->getFrameType()], job->getFilterName(), job->getExposure(), job->getXBin(), job->getYBin(), job->getGain());
+        setFrameInfo(CCDFrameTypeNames[job->getFrameType()], job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                     job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
+                     job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
 
     // display sequence progress in the graphical view
-    gr_sequenceProgressBar->setRange(0, job->getCount());
+    gr_sequenceProgressBar->setRange(0, job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     gr_sequenceProgressBar->setValue(job->getCompleted());
     sequenceLabel->setText(QString("%1 %2 (%3/%4)")
                            .arg(CCDFrameTypeNames[job->getFrameType()])
-                           .arg(job->getFilterName())
-                           .arg(job->getCompleted()).arg(job->getCount()));
+                           .arg(job->getCoreProperty(SequenceJob::SJ_TargetName).toString())
+                           .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
     gr_sequenceLabel->setText(sequenceLabel->text());
 }
 

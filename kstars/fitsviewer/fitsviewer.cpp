@@ -560,9 +560,12 @@ bool FITSViewer::updateFITSCommon(FITSTab *tab, const QUrl &imageName)
 }
 
 bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
-                            FITSScale filter)
+                            FITSScale filter, FITSMode mode)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
+
+    if (mode != FITS_UNKNOWN)
+        tab->getView()->updateMode(mode);
 
     if (tab == nullptr)
         return false;

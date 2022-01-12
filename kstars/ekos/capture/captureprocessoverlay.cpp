@@ -14,7 +14,8 @@ CaptureProcessOverlay::CaptureProcessOverlay(QWidget *parent) : QWidget(parent)
     setupUi(this);
     // use white as text color
     setStyleSheet("color: rgb(255, 255, 255);");
-    connect(updateStatisticsButton, &QPushButton::clicked, [&]{
+    connect(updateStatisticsButton, &QPushButton::clicked, [&]
+    {
         m_captureHistory.updateTargetStatistics();
         // refresh the display for the current frame
         updateFrameData();
@@ -45,8 +46,9 @@ void CaptureProcessOverlay::updateFrameData()
     frameDataWidget->setVisible(true);
     const FrameData currentFrame = m_captureHistory.currentFrame();
     frameTypeLabel->setText(QString("%1 %2").arg(CCDFrameTypeNames[currentFrame.frameType]).arg(currentFrame.filterName));
-    exposureValue->setText(QString("%1 sec").arg(currentFrame.exptime, 0, 'f', currentFrame.exptime < 1 ? 2: currentFrame.exptime < 5 ? 1 : 0));
-    binningValue->setText(QString("%1x%2").arg(currentFrame.xBin).arg(currentFrame.yBin));
+    exposureValue->setText(QString("%1 sec").arg(currentFrame.exptime, 0, 'f',
+                           currentFrame.exptime < 1 ? 2 : currentFrame.exptime < 5 ? 1 : 0));
+    binningValue->setText(QString("%1x%2").arg(currentFrame.binning.x()).arg(currentFrame.binning.y()));
     filenameValue->setText(currentFrame.filename);
     geometryValue->setText(QString("%1px x %2px").arg(currentFrame.width).arg(currentFrame.height));
 
@@ -71,7 +73,7 @@ void CaptureProcessOverlay::updateFrameData()
 
     // update capture counts
     if (m_captureHistory.size() > 0)
-        historyCountsLabel->setText(QString("(%1/%2)").arg(m_captureHistory.position()+1).arg(m_captureHistory.size()));
+        historyCountsLabel->setText(QString("(%1/%2)").arg(m_captureHistory.position() + 1).arg(m_captureHistory.size()));
     else
         historyCountsLabel->setText("");
 
@@ -87,11 +89,13 @@ void CaptureProcessOverlay::displayTargetStatistics()
     QList<QString> targets = m_captureHistory.statistics.keys();
     for (QList<QString>::iterator target_it = targets.begin(); target_it != targets.end(); target_it++)
     {
-        display.append(QString("<p><b><u>%1</u></b><table border=0>").arg(*target_it == "" ? "<it>" + i18n("No target") + "</it>" : *target_it));
+        display.append(QString("<p><b><u>%1</u></b><table border=0>").arg(*target_it == "" ? "<it>" + i18n("No target") + "</it>" :
+                       *target_it));
 
         // iterate over all types of captured frames
         QList<QPair<CCDFrameType, QString>> keys = m_captureHistory.statistics[*target_it].keys();
-        for (QList<QPair<CCDFrameType, QString>>::iterator key_it = keys.begin(); key_it != keys.end(); key_it++) {
+        for (QList<QPair<CCDFrameType, QString>>::iterator key_it = keys.begin(); key_it != keys.end(); key_it++)
+        {
             // add frame type x filter as header
             QString frame_type = CCDFrameTypeNames[key_it->first];
             QString filter     = key_it->second;
@@ -136,7 +140,8 @@ bool CaptureProcessOverlay::showPreviousFrame()
     return false;
 }
 
-bool CaptureProcessOverlay::deleteFrame(int pos) {
+bool CaptureProcessOverlay::deleteFrame(int pos)
+{
     if (m_captureHistory.deleteFrame(pos) == true)
     {
         // deleting succeeded, update overlay
@@ -147,7 +152,8 @@ bool CaptureProcessOverlay::deleteFrame(int pos) {
     return false;
 }
 
-bool CaptureProcessOverlay::CaptureHistory::addFrame(CaptureProcessOverlay::FrameData data) {
+bool CaptureProcessOverlay::CaptureHistory::addFrame(CaptureProcessOverlay::FrameData data)
+{
     // check if the file already exists in the history
     for (QList<FrameData>::iterator it = m_history.begin(); it != m_history.end(); it++)
         if (it->filename == data.filename)
@@ -181,7 +187,8 @@ bool CaptureProcessOverlay::CaptureHistory::deleteFrame(int pos)
         return false;
 }
 
-void CaptureProcessOverlay::CaptureHistory::reset() {
+void CaptureProcessOverlay::CaptureHistory::reset()
+{
     m_position = -1;
     m_history.clear();
 }
@@ -231,7 +238,8 @@ void CaptureProcessOverlay::CaptureHistory::updateTargetStatistics()
         m_position = m_history.size() - 1;
 }
 
-void CaptureProcessOverlay::CaptureHistory::countNewFrame(QString target, CCDFrameType frameType, QString filter, double exptime)
+void CaptureProcessOverlay::CaptureHistory::countNewFrame(QString target, CCDFrameType frameType, QString filter,
+        double exptime)
 {
     // create search key
     QPair<CCDFrameType, QString> key(frameType, filter);

@@ -2481,23 +2481,23 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 
 }
 
-void ScriptBuilder::slotINDISetTargetNameTargetName()
+void ScriptBuilder::slotINDIsetCoreProperty(SequenceJob::SJ_TargetName,TargetName()
 {
 
     ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDITargetName" )
     {
-        if (argSetTargetNameINDI->targetName->text().isEmpty())
+        if (argsetCoreProperty(SequenceJob::SJ_TargetName,INDI->targetName->text().isEmpty())
         {
             sf->setValid(false);
             return;
         }
 
-        if (sf->argVal(0) != argSetTargetNameINDI->targetName->text())
+        if (sf->argVal(0) != argsetCoreProperty(SequenceJob::SJ_TargetName,INDI->targetName->text())
             setUnsavedChanges( true );
 
-        sf->setArg(0, argSetTargetNameINDI->targetName->text());
+        sf->setArg(0, argsetCoreProperty(SequenceJob::SJ_TargetName,INDI->targetName->text());
         sf->setValid(true);
     }
     else

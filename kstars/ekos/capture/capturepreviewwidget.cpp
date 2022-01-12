@@ -6,10 +6,13 @@
  */
 
 #include "capturepreviewwidget.h"
+#include "sequencejob.h"
 #include <ekos_capture_debug.h>
 #include "ksutils.h"
 #include "ksmessagebox.h"
 #include "Options.h"
+
+using Ekos::SequenceJob;
 
 CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
 {
@@ -30,8 +33,10 @@ void CapturePreviewWidget::shareCaptureProcess(Ekos::Capture *process)
 
     if (captureProcess != nullptr)
     {
-        connect(captureProcess, &Ekos::Capture::newDownloadProgress, captureCountsWidget, &CaptureCountsWidget::updateDownloadProgress);
-        connect(captureProcess, &Ekos::Capture::newExposureProgress, captureCountsWidget, &CaptureCountsWidget::updateExposureProgress);
+        connect(captureProcess, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
+                &CaptureCountsWidget::updateDownloadProgress);
+        connect(captureProcess, &Ekos::Capture::newExposureProgress, captureCountsWidget,
+                &CaptureCountsWidget::updateExposureProgress);
     }
 }
 
@@ -44,7 +49,8 @@ void CapturePreviewWidget::shareSchedulerProcess(Ekos::Scheduler *process)
 void CapturePreviewWidget::shareMountProcess(Ekos::Mount *process)
 {
     mountProcess = process;
-    connect(mountProcess, &Ekos::Mount::newTarget, [&](SkyObject currentObject){
+    connect(mountProcess, &Ekos::Mount::newTarget, [&](SkyObject currentObject)
+    {
         m_mountTarget = currentObject.name();
     });
 }
@@ -70,18 +76,18 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     else
         m_currentFrame.target = "";
 
-    m_currentFrame.filterName = job->getFilterName();
-    m_currentFrame.exptime   = job->getExposure();
-    m_currentFrame.xBin       = job->getXBin();
-    m_currentFrame.yBin       = job->getYBin();
-    m_currentFrame.gain       = job->getGain();
-    m_currentFrame.offset     = job->getOffset();
+    m_currentFrame.filterName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
+    m_currentFrame.exptime    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    m_currentFrame.binning    = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+    m_currentFrame.gain       = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
+    m_currentFrame.offset     = job->getCoreProperty(SequenceJob::SJ_Offset).toDouble();
     m_currentFrame.filename   = data->filename();
     m_currentFrame.width      = data->width();
     m_currentFrame.height     = data->height();
 
-    if (job->getISOIndex() >= 0 && job->getISOIndex() <= captureProcess->captureISOS->count())
-        m_currentFrame.iso = captureProcess->captureISOS->itemText(job->getISOIndex());
+    const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
+    if (ISOIndex >= 0 && ISOIndex <= captureProcess->captureISOS->count())
+        m_currentFrame.iso = captureProcess->captureISOS->itemText(ISOIndex);
     else
         m_currentFrame.iso = "";
 
@@ -95,7 +101,7 @@ void CapturePreviewWidget::showNextFrame()
     overlay->setEnabled(false);
     if (overlay->showNextFrame())
         m_fitsPreview->loadFile(overlay->currentFrame().filename);
-       // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
+    // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
     else
         overlay->setEnabled(true);
 }
@@ -105,7 +111,7 @@ void CapturePreviewWidget::showPreviousFrame()
     overlay->setEnabled(false);
     if (overlay->showPreviousFrame())
         m_fitsPreview->loadFile(overlay->currentFrame().filename);
-        // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
+    // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
     else
         overlay->setEnabled(true);
 }
@@ -163,7 +169,8 @@ void CapturePreviewWidget::deleteCurrentFrame()
 
     // open the message box
     QFileInfo fileinfo(current.filename);
-    KSMessageBox::Instance()->warningContinueCancel(i18n("Do you really want to delete %1 from the file system?", fileinfo.fileName()),
+    KSMessageBox::Instance()->warningContinueCancel(i18n("Do you really want to delete %1 from the file system?",
+            fileinfo.fileName()),
             i18n("Delete %1", fileinfo.fileName()), 15, false, i18n("Delete"));
 
 }
@@ -184,8 +191,14 @@ void CapturePreviewWidget::setSummaryFITSView(SummaryFITSView *view)
 
     view->processInfoWidget->setLayout(layout);
     // react upon signals
-    connect(view, &FITSView::loaded, [&](){overlay->setEnabled(true);});
-    connect(view, &FITSView::failed, [&](){overlay->setEnabled(true);});
+    connect(view, &FITSView::loaded, [&]()
+    {
+        overlay->setEnabled(true);
+    });
+    connect(view, &FITSView::failed, [&]()
+    {
+        overlay->setEnabled(true);
+    });
 }
 
 void CapturePreviewWidget::setEnabled(bool enabled)

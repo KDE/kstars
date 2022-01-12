@@ -43,13 +43,19 @@ PlaceholderPath::~PlaceholderPath()
 
 void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
 {
-    job->setTargetName(targetName);
+    job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
 
-    QString frameType = getFrameType(job->getFrameType());
-    QString rawPrefix, filterType = job->getFilterName();
-    double exposure    = job->getExposure();
-    bool filterEnabled = false, expEnabled = false, tsEnabled = false;
-    job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
+    auto frameType = getFrameType(job->getFrameType());
+    auto filterType = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    auto exposure    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+    //auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
+
+    if (isDarkFlat)
+        frameType = "DarkFlat";
 
     // Sanitize name
     //QString targetName = schedJob->getName();
@@ -73,7 +79,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
     imagePrefix += frameType;
 
     if (filterEnabled && filterType.isEmpty() == false &&
-            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE))
+            (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE || isDarkFlat))
     {
         imagePrefix += '_';
 
@@ -83,7 +89,8 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
     // JM 2021.08.21 For flat frames with specific ADU, the exposure duration is only advisory
     // and the final exposure time would depend on how many seconds are needed to arrive at the
     // target ADU. Therefore we should add duration to the signature.
-    if (expEnabled && !(job->getFrameType() == FRAME_FLAT && job->getFlatFieldDuration() == DURATION_ADU))
+    //if (expEnabled && !(job->getFrameType() == FRAME_FLAT && job->getFlatFieldDuration() == DURATION_ADU))
+    if (expEnabled)
     {
         imagePrefix += '_';
 
@@ -103,35 +110,37 @@ void PlaceholderPath::processJobInfo(SequenceJob *job, QString targetName)
         }
     }
 
-    job->setFullPrefix(imagePrefix);
+    job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
 
     // Directory postfix
     QString directoryPostfix;
 
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in capture.cpp */
     if (targetName.isEmpty())
-        directoryPostfix = QLatin1String("/") + frameType;
+        directoryPostfix = QDir::separator() + frameType;
     else
-        directoryPostfix = QLatin1String("/") + targetName + QLatin1String("/") + frameType;
-    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE)
+        directoryPostfix = QDir::separator() + targetName + QDir::separator() + frameType;
+    if ((job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT || job->getFrameType() == FRAME_NONE || isDarkFlat)
             && filterType.isEmpty() == false)
-        directoryPostfix += QLatin1String("/") + filterType;
+        directoryPostfix += QDir::separator() + filterType;
 
-    job->setDirectoryPostfix(directoryPostfix);
+    job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
+
 }
 
 void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
 {
-    job->setTargetName(targetName);
+    job->setCoreProperty(SequenceJob::SJ_TargetName, targetName);
 
-    CCDFrameType frameType = job->getFrameType();
-    QString frameTypeStr = CCDFrameTypeNames[frameType];
-    QString imagePrefix;
-    QString rawFilePrefix;
-    bool filterEnabled, exposureEnabled, tsEnabled;
-    job->getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
+    auto frameType = job->getFrameType();
+    auto frameTypeString = getFrameType(job->getFrameType());
+    const auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    QString imagePrefix = rawPrefix;
 
-    imagePrefix = rawFilePrefix;
+    // Override
+    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
+    if (isDarkFlat)
+        frameTypeString = "DarkFlat";
 
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
@@ -143,51 +152,58 @@ void PlaceholderPath::addJob(SequenceJob *job, QString targetName)
 
     constructPrefix(job, imagePrefix);
 
-    job->setFullPrefix(imagePrefix);
+    job->setCoreProperty(SequenceJob::SJ_FullPrefix, imagePrefix);
 
     QString directoryPostfix;
 
+    const auto filterName = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+
     /* FIXME: Refactor directoryPostfix assignment, whose code is duplicated in scheduler.cpp */
     if (targetName.isEmpty())
-        directoryPostfix = QLatin1String("/") + frameTypeStr;
+        directoryPostfix = QDir::separator() + frameTypeString;
     else
-        directoryPostfix = QLatin1String("/") + targetName + QLatin1String("/") + frameTypeStr;
-    if ((frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE)
-            &&  job->getFilterName().isEmpty() == false)
-        directoryPostfix += QLatin1String("/") + job->getFilterName();
+        directoryPostfix = QDir::separator() + targetName + QDir::separator() + frameTypeString;
 
-    job->setDirectoryPostfix(directoryPostfix);
+
+    if ((frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE || isDarkFlat)
+            &&  filterName.isEmpty() == false)
+        directoryPostfix += QDir::separator() + filterName;
+
+    job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
 }
 
 void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
 {
     CCDFrameType frameType = job->getFrameType();
-    QString filter = job->getFilterName();
-    QString rawFilePrefix;
-    bool filterEnabled, exposureEnabled, tsEnabled;
-    job->getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
-    double exposure = job->getExposure();
+    auto filter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    auto filterEnabled = job->getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+    auto expEnabled = job->getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+    auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+
+    double exposure = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
 
     if (imagePrefix.isEmpty() == false)
         imagePrefix += '_';
 
-    imagePrefix += CCDFrameTypeNames[frameType];
+    const auto isDarkFlat = job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
-    /*if (fileFilterS->isChecked() && captureFilterS->currentText().isEmpty() == false &&
-            captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive))*/
+    imagePrefix += isDarkFlat ? "DarkFlat" : CCDFrameTypeNames[frameType];
+
     if (filterEnabled && filter.isEmpty() == false &&
-            (frameType == FRAME_LIGHT || frameType == FRAME_FLAT || frameType == FRAME_NONE))
+            (frameType == FRAME_LIGHT ||
+             frameType == FRAME_FLAT ||
+             frameType == FRAME_NONE ||
+             isDarkFlat))
     {
         imagePrefix += '_';
         imagePrefix += filter;
     }
-    if (exposureEnabled)
+    if (expEnabled)
     {
-        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
         imagePrefix += '_';
 
-        double exposureValue = job->getExposure();
+        double exposureValue = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
 
         // Don't use the locale for exposure value in the capture file name, so that we get a "." as decimal separator
         if (exposureValue == static_cast<int>(exposureValue))
@@ -208,10 +224,9 @@ void PlaceholderPath::constructPrefix(SequenceJob *job, QString &imagePrefix)
     }
 }
 
-void PlaceholderPath::generateFilenameOld(
-    const QString &format, bool batch_mode, QString *filename,
-    QString fitsDir, QString seqPrefix, int nextSequenceID
-)
+void PlaceholderPath::generateFilenameOld(const QString &format, bool batch_mode, QString *filename,
+        QString fitsDir, QString seqPrefix, int nextSequenceID
+                                         )
 {
     QString currentDir;
     if (batch_mode)
@@ -248,12 +263,16 @@ void PlaceholderPath::generateFilename(
     QString format, SequenceJob &job, QString targetName, bool batch_mode, int nextSequenceID, const QString &extension,
     QString *filename) const
 {
-    QString rawFilePrefix;
-    bool filterEnabled, exposureEnabled, tsEnabled;
-    job.getPrefixSettings(rawFilePrefix, filterEnabled, exposureEnabled, tsEnabled);
+    auto filter = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
+    auto rawPrefix = job.getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    auto filterEnabled = job.getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+    auto expEnabled = job.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+    auto tsEnabled = job.getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
+    auto darkFlat = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 
-    generateFilename(format, rawFilePrefix, filterEnabled, exposureEnabled,
-                     tsEnabled, job.getFilterName(), job.getFrameType(), job.getExposure(),
+
+    generateFilename(format, rawPrefix, filterEnabled, expEnabled,
+                     tsEnabled, darkFlat, filter, job.getFrameType(), job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                      targetName, batch_mode, nextSequenceID, extension, filename);
 }
 
@@ -261,13 +280,13 @@ void PlaceholderPath::generateFilename(QString format, bool tsEnabled, bool batc
                                        int nextSequenceID, const QString &extension, QString *filename) const
 {
     generateFilename(format, m_RawPrefix, m_filterPrefixEnabled, m_expPrefixEnabled,
-                     tsEnabled, m_filter, m_frameType, m_exposure, m_targetName, batch_mode,
+                     tsEnabled, m_DarkFlat, m_filter, m_frameType, m_exposure, m_targetName, batch_mode,
                      nextSequenceID, extension, filename);
 }
 
 void PlaceholderPath::generateFilename(
     QString format, QString rawFilePrefix, bool filterEnabled, bool exposureEnabled,
-    bool tsEnabled, QString filter, CCDFrameType frameType, double exposure, QString targetName,
+    bool tsEnabled, bool isDarkFlat, QString filter, CCDFrameType frameType, double exposure, QString targetName,
     bool batch_mode, int nextSequenceID,  const QString &extension, QString *filename) const
 {
     targetName = targetName.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
@@ -311,7 +330,10 @@ void PlaceholderPath::generateFilename(
         }
         else if (match.captured("name") == "T")
         {
-            replacement = getFrameType(frameType);
+            if (isDarkFlat)
+                replacement = "DarkFlat";
+            else
+                replacement = getFrameType(frameType);
         }
         else if (match.captured("name") == "e")
         {
@@ -341,7 +363,8 @@ void PlaceholderPath::generateFilename(
                 if (filterEnabled && filter.isEmpty() == false
                         && (frameType == FRAME_LIGHT
                             || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE))
+                            || frameType == FRAME_NONE
+                            || m_DarkFlat))
                 {
                     replacement = filter;
                 }
@@ -352,7 +375,8 @@ void PlaceholderPath::generateFilename(
                 if (filter.isEmpty() == false
                         && (frameType == FRAME_LIGHT
                             || frameType == FRAME_FLAT
-                            || frameType == FRAME_NONE))
+                            || frameType == FRAME_NONE
+                            || m_DarkFlat))
                 {
                     replacement = filter;
                 }
@@ -424,13 +448,14 @@ void PlaceholderPath::generateFilename(
 
 void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job)
 {
-    m_RawPrefix           = job.property("rawPrefix").toString();
-    m_filterPrefixEnabled = job.isFilterPrefixEnabled();
-    m_expPrefixEnabled    = job.isExposurePrefixEnabled();
-    m_filter              = job.getFilterName();
     m_frameType           = job.getFrameType();
-    m_exposure            = job.getExposure();
-    m_targetName          = job.getTargetName();
+    m_RawPrefix           = job.getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
+    m_filterPrefixEnabled = job.getCoreProperty(SequenceJob::SJ_FilterPrefixEnabled).toBool();
+    m_expPrefixEnabled    = job.getCoreProperty(SequenceJob::SJ_ExpPrefixEnabled).toBool();
+    m_filter              = job.getCoreProperty(SequenceJob::SJ_Filter).toString();
+    m_exposure            = job.getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    m_targetName          = job.getCoreProperty(SequenceJob::SJ_TargetName).toString();
+    m_DarkFlat            = job.getCoreProperty(SequenceJob::SJ_DarkFlat).toBool();
 }
 
 QStringList PlaceholderPath::remainingPlaceholders(QString filename)

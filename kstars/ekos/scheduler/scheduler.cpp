@@ -5354,11 +5354,12 @@ void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<Sequ
 uint16_t Scheduler::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected)
 {
     uint16_t capturesPerRepeat = 0;
-    foreach (SequenceJob *seqJob, seqJobs)
+    for (auto &seqJob : seqJobs)
     {
-        capturesPerRepeat += seqJob->getCount();
+        capturesPerRepeat += seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt();
         QString const signature = seqJob->getSignature();
-        expected[signature] = static_cast<uint16_t>(seqJob->getCount()) + (expected.contains(signature) ? expected[signature] : 0);
+        expected[signature] = static_cast<uint16_t>(seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt()) + (expected.contains(
+                                  signature) ? expected[signature] : 0);
     }
     return capturesPerRepeat;
 }
@@ -5455,7 +5456,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
             }
 
             /* Else recount captures already stored */
-            newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getFullPrefix());
+            newFramesCount[signature] = getCompletedFiles(signature, oneSeqJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString());
         }
 
         // determine whether we need to continue capturing, depending on captured frames
@@ -5524,8 +5525,9 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
     foreach (SequenceJob *seqJob, seqJobs)
     {
         // FIXME: find a way to actually display the filter name.
-        QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCount(), seqJob->getExposure(),
-                               seqJob->getFilterName());
+        QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt(),
+                               seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
+                               seqJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
 
         if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
@@ -5539,7 +5541,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         // Note that looping jobs will have zero repeats required.
         QString const signature      = seqJob->getSignature();
         QString const signature_path = QFileInfo(signature).path();
-        int captures_required        = seqJob->getCount() * schedJob->getRepeatsRequired();
+        int captures_required        = seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt() * schedJob->getRepeatsRequired();
         int captures_completed       = capturedFramesCount[signature];
 
         if (rememberJobProgress && schedJob->getCompletionCondition() != SchedulerJob::FINISH_LOOP)
@@ -5601,7 +5603,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         // Else rely on the captures done during this session
         else if (0 < capturesPerRepeat)
         {
-            captures_completed = schedJob->getCompletedCount() / capturesPerRepeat * seqJob->getCount();
+            captures_completed = schedJob->getCompletedCount() / capturesPerRepeat * seqJob->getCoreProperty(
+                                     SequenceJob::SJ_Count).toInt();
         }
         else
         {
@@ -5632,7 +5635,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         if (!areJobCapturesComplete)
         {
             unsigned int const captures_to_go = captures_required - captures_completed;
-            totalImagingTime += fabs((seqJob->getExposure() + seqJob->getDelay()) * captures_to_go);
+            totalImagingTime += fabs((seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() + seqJob->getCoreProperty(
+                                          SequenceJob::SJ_Delay).toInt()) * captures_to_go);
 
             /* If we have light frames to process, add focus/dithering delay */
             if (seqJob->getFrameType() == FRAME_LIGHT)

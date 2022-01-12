@@ -506,15 +506,15 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
     if (job->getStatus() == JOB_IDLE)
         return;
 
-    if (job->getCompleted() == job->getCount())
+    if (job->getCompleted() == job->getCoreProperty(SequenceJob::SJ_Count).toInt())
     {
         QJsonObject metadata
         {
             {"camera", m_CurrentCamera->getDeviceName()},
             {"chip", m_TargetChip->getType()},
-            {"binx", job->getXBin()},
-            {"biny", job->getYBin()},
-            {"duration", job->getExposure()}
+            {"binx", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()},
+            {"biny", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y()},
+            {"duration", job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()}
         };
 
         // Record temperature
@@ -523,7 +523,7 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
         if (success)
             metadata["temperature"] = temp;
 
-        metadata["count"] = job->getCount();
+        metadata["count"] = job->getCoreProperty(SequenceJob::SJ_Count).toInt();
         generateMasterFrame(m_CurrentDarkFrame, metadata);
         reloadDarksFromDatabase();
         populateMasterMetedata();

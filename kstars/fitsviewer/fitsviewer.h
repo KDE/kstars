@@ -62,7 +62,7 @@ class FITSViewer : public KXmlGuiWindow
 
         void updateFile(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
         bool updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
-                        FITSScale filter = FITS_NONE);
+                        FITSScale filter = FITS_NONE, FITSMode mode = FITS_UNKNOWN);
         bool removeFITS(int fitsUID);
 
         bool isStarsMarked()

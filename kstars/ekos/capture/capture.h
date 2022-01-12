@@ -603,11 +603,18 @@ class Capture : public QWidget, public Ui::Capture
         void processNewTarget(const SkyObject &newTarget, const SkyPoint &newCoords);
 
         /**
+         * @brief addSequenceJob Add a sequence job. This simply calls addJob below with both preview and isDarkFlat set to false.
+         * @return return result of addJob(..)
+         */
+        bool addSequenceJob();
+
+        /**
              * @brief addJob Add a new job to the sequence queue given the settings in the GUI.
              * @param preview True if the job is a preview job, otherwise, it is added as a batch job.
+             * @param isDarkFlat True if the job is a dark flat job, false otherwise.
              * @return True if job is added successfully, false otherwise.
              */
-        bool addJob(bool preview = false);
+        bool addJob(bool preview = false, bool isDarkFlat = false);
 
         /**
          * @brief removeJob Remove a job sequence from the queue
@@ -713,7 +720,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
-private slots:
+    private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
@@ -736,7 +743,7 @@ private slots:
 
         // Jobs
         void resetJobs();
-        void selectJob(QModelIndex i);
+        bool selectJob(QModelIndex i);
         void editJob(QModelIndex i);
         void resetJobEdit();
         void executeJob();
@@ -980,6 +987,23 @@ private slots:
          * @param type error type
          */
         void processCaptureError(ISD::CCD::ErrorType type);
+
+        /**
+         * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
+         */
+        void generateDarkFlats();
+
+        /**
+         * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
+         * completed flat frames.
+         * @param job Dark flat job
+         * @return True if a matching exposure is found and set, false otherwise.
+         * @warning This only works if the flat frames were captured in the same live session.
+         * If the flat frames were captured in another session (i.e. Ekos restarted), then all automatic exposure
+         * calculation results are discarded since Ekos does not save this information to the sequene file.
+         * Possible solution is to write to a local config file to keep this information persist between sessions.
+         */
+        bool setDarkFlatExposure(SequenceJob *job);
 
         double seqExpose { 0 };
         int seqTotalCount;
