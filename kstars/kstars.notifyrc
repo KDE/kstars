@@ -1854,6 +1854,7 @@ Sound=KDE-KStars-Sys-App-Message.ogg
 Action=Sound
 [Event/KnownIssue]
 Name=Known Issue
+Name[ar]=مشاكل معروفة
 Name[ca]=Problema conegut
 Name[ca@valencia]=Problema conegut
 Name[cs]=Známý problém
