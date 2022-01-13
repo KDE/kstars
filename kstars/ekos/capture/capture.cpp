@@ -7488,63 +7488,74 @@ void Capture::createDSLRDialog()
 
 void Capture::removeDevice(ISD::GDInterface *device)
 {
+    auto name = device->getDeviceName();
+
     device->disconnect(this);
-    if (currentTelescope && currentTelescope->getDeviceName() == device->getDeviceName())
+    if (currentTelescope && currentTelescope->getDeviceName() == name)
     {
         currentTelescope = nullptr;
     }
-    else if (currentDome && currentDome->getDeviceName() == device->getDeviceName())
+    else if (currentDome && currentDome->getDeviceName() == name)
     {
         currentDome = nullptr;
     }
-    else if (currentRotator && currentRotator->getDeviceName() == device->getDeviceName())
+    else if (currentRotator && currentRotator->getDeviceName() == name)
     {
         currentRotator = nullptr;
         rotatorB->setEnabled(false);
     }
 
-    if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    for (auto &oneCCD : CCDs)
     {
-        ISD::CCD *oneCCD = static_cast<ISD::CCD *>(device);
-        CCDs.removeAll(oneCCD);
-        cameraS->removeItem(cameraS->findText(device->getDeviceName()));
-        cameraS->removeItem(cameraS->findText(device->getDeviceName() + QString(" Guider")));
-
-        DarkLibrary::Instance()->removeCamera(oneCCD);
-
-        if (CCDs.empty())
+        if (oneCCD->getDeviceName() == name)
         {
-            currentCCD = nullptr;
-            cameraS->setCurrentIndex(-1);
+            CCDs.removeAll(oneCCD);
+            cameraS->removeItem(cameraS->findText(name));
+            cameraS->removeItem(cameraS->findText(name + " Guider"));
+
+            DarkLibrary::Instance()->removeCamera(oneCCD);
+
+            if (CCDs.empty())
+            {
+                currentCCD = nullptr;
+                cameraS->setCurrentIndex(-1);
+            }
+            else
+                cameraS->setCurrentIndex(0);
+
+            //checkCCD();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkCCD();
+            });
+
+            break;
         }
-        else
-            cameraS->setCurrentIndex(0);
-
-        //checkCCD();
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkCCD();
-        });
     }
 
-    if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    for (auto &oneFilter : Filters)
     {
-        Filters.removeOne(static_cast<ISD::Filter *>(device));
-        filterManager->removeDevice(device);
-        filterWheelS->removeItem(filterWheelS->findText(device->getDeviceName()));
-        if (Filters.empty())
+        if (oneFilter->getDeviceName() == name)
         {
-            currentFilter = nullptr;
-            filterWheelS->setCurrentIndex(-1);
-        }
-        else
-            filterWheelS->setCurrentIndex(0);
+            Filters.removeAll(oneFilter);
+            filterManager->removeDevice(device);
+            filterWheelS->removeItem(filterWheelS->findText(name));
+            if (Filters.empty())
+            {
+                currentFilter = nullptr;
+                filterWheelS->setCurrentIndex(-1);
+            }
+            else
+                filterWheelS->setCurrentIndex(0);
 
-        //checkFilter();
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkFilter();
-        });
+            //checkFilter();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFilter();
+            });
+
+            break;
+        }
     }
 }
 

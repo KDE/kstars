@@ -3188,53 +3188,60 @@ void Guide::initConnections()
 
 void Guide::removeDevice(ISD::GDInterface *device)
 {
+    auto name = device->getDeviceName();
+
     device->disconnect(this);
-    if (currentTelescope && (currentTelescope->getDeviceName() == device->getDeviceName()))
+    if (currentTelescope && (currentTelescope->getDeviceName() == name))
     {
         currentTelescope = nullptr;
     }
-    else if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    else
     {
-        CCDs.removeAll(static_cast<ISD::CCD *>(device));
-        guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName()));
-        guiderCombo->removeItem(guiderCombo->findText(device->getDeviceName() + QString(" Guider")));
-        if (CCDs.empty())
+        for (auto &oneCCD : CCDs)
         {
-            currentCCD = nullptr;
-            guiderCombo->setCurrentIndex(-1);
-        }
-        else
-        {
-            currentCCD = CCDs[0];
-            guiderCombo->setCurrentIndex(0);
-        }
+            if (oneCCD->getDeviceName() == name)
+            {
+                CCDs.removeAll(oneCCD);
+                guiderCombo->removeItem(guiderCombo->findText(name));
+                guiderCombo->removeItem(guiderCombo->findText(name + " Guider"));
+                if (CCDs.empty())
+                {
+                    currentCCD = nullptr;
+                    guiderCombo->setCurrentIndex(-1);
+                }
+                else
+                {
+                    currentCCD = CCDs[0];
+                    guiderCombo->setCurrentIndex(0);
+                }
 
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkCCD();
-        });
-    }
+                QTimer::singleShot(1000, this, [this]()
+                {
+                    checkCCD();
+                });
 
-    auto st4 = std::find_if(ST4List.begin(), ST4List.end(), [device](ISD::ST4 * st)
-    {
-        return (st->getDeviceName() == device->getDeviceName());
-    });
-
-    if (st4 != ST4List.end())
-    {
-        ST4List.removeOne(*st4);
-
-        ST4Combo->removeItem(ST4Combo->findText(device->getDeviceName()));
-        if (ST4List.empty())
-        {
-            ST4Driver = GuideDriver = nullptr;
-        }
-        else
-        {
-            setST4(ST4Combo->currentText());
+                break;
+            }
         }
     }
 
+    for (auto &oneST4 : ST4List)
+    {
+        if (oneST4->getDeviceName() == name)
+        {
+            ST4List.removeAll(oneST4);
+            ST4Combo->removeItem(ST4Combo->findText(name));
+            if (ST4List.empty())
+            {
+                ST4Driver = GuideDriver = nullptr;
+            }
+            else
+            {
+                setST4(ST4Combo->currentText());
+            }
+            break;
+        }
+    }
 }
 
 QJsonObject Guide::getSettings() const

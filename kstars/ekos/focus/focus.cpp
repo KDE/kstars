@@ -3634,43 +3634,49 @@ void Focus::setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pi
 
 void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
 {
+    auto name = deviceRemoved->getDeviceName();
+
     // Check in Focusers
-    for (ISD::GDInterface *focuser : Focusers)
+    for (auto &focuser : Focusers)
     {
-        if (focuser->getDeviceName() == deviceRemoved->getDeviceName())
+        if (focuser->getDeviceName() == name)
         {
-            Focusers.removeAll(dynamic_cast<ISD::Focuser*>(focuser));
-            focuserCombo->removeItem(focuserCombo->findText(focuser->getDeviceName()));
+            Focusers.removeAll(focuser);
+            focuserCombo->removeItem(focuserCombo->findText(name));
             QTimer::singleShot(1000, this, [this]()
             {
                 checkFocuser();
                 resetButtons();
             });
+
+            break;
         }
     }
 
     // Check in Temperature Sources.
     for (auto &oneSource : TemperatureSources)
     {
-        if (oneSource->getDeviceName() == deviceRemoved->getDeviceName())
+        if (oneSource->getDeviceName() == name)
         {
             TemperatureSources.removeAll(oneSource);
-            temperatureSourceCombo->removeItem(temperatureSourceCombo->findText(oneSource->getDeviceName()));
+            temperatureSourceCombo->removeItem(temperatureSourceCombo->findText(name));
             QTimer::singleShot(1000, this, [this]()
             {
                 checkTemperatureSource();
             });
+
+            break;
         }
     }
 
     // Check in CCDs
-    for (ISD::GDInterface *ccd : CCDs)
+    for (auto &ccd : CCDs)
     {
-        if (ccd->getDeviceName() == deviceRemoved->getDeviceName())
+        if (ccd->getDeviceName() == name)
         {
-            CCDs.removeAll(dynamic_cast<ISD::CCD*>(ccd));
-            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName()));
-            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(ccd->getDeviceName() + QString(" Guider")));
+            CCDs.removeAll(ccd);
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name));
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name + " Guider"));
 
             if (CCDs.empty())
             {
@@ -3688,16 +3694,18 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
                 checkCCD();
                 resetButtons();
             });
+
+            break;
         }
     }
 
     // Check in Filters
-    for (ISD::GDInterface *filter : Filters)
+    for (auto &filter : Filters)
     {
-        if (filter->getDeviceName() == deviceRemoved->getDeviceName())
+        if (filter->getDeviceName() == name)
         {
             Filters.removeAll(filter);
-            FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(filter->getDeviceName()));
+            FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(name));
             if (Filters.empty())
             {
                 currentFilter = nullptr;
@@ -3711,6 +3719,8 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
                 checkFilter();
                 resetButtons();
             });
+
+            break;
         }
     }
 }

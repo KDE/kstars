@@ -890,64 +890,72 @@ void Align::setDome(ISD::GDInterface *newDome)
 
 void Align::removeDevice(ISD::GDInterface *device)
 {
+    auto name = device->getDeviceName();
     device->disconnect(this);
-    if (currentTelescope && currentTelescope->getDeviceName() == device->getDeviceName())
+    if (currentTelescope && currentTelescope->getDeviceName() == name)
     {
         currentTelescope = nullptr;
         m_isRateSynced = false;
     }
-    else if (currentDome && currentDome->getDeviceName() == device->getDeviceName())
+    else if (currentDome && currentDome->getDeviceName() == name)
     {
         currentDome = nullptr;
     }
-    else if (currentRotator && currentRotator->getDeviceName() == device->getDeviceName())
+    else if (currentRotator && currentRotator->getDeviceName() == name)
     {
         currentRotator = nullptr;
     }
 
-    if (CCDs.contains(static_cast<ISD::CCD *>(device)))
+    for (auto &oneCCD : CCDs)
     {
-        CCDs.removeAll(static_cast<ISD::CCD *>(device));
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName()));
-        CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(device->getDeviceName() + QString(" Guider")));
-        if (CCDs.empty())
+        if (oneCCD->getDeviceName() == name)
         {
-            currentCCD = nullptr;
-            CCDCaptureCombo->setCurrentIndex(-1);
-        }
-        else
-        {
-            currentCCD = CCDs[0];
-            CCDCaptureCombo->setCurrentIndex(0);
-        }
+            CCDs.removeAll(oneCCD);
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name));
+            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name + " Guider"));
+            if (CCDs.empty())
+            {
+                currentCCD = nullptr;
+                CCDCaptureCombo->setCurrentIndex(-1);
+            }
+            else
+            {
+                currentCCD = CCDs[0];
+                CCDCaptureCombo->setCurrentIndex(0);
+            }
 
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkCCD();
-        });
-        //checkCCD();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkCCD();
+            });
+
+            break;
+        }
     }
 
-    if (Filters.contains(static_cast<ISD::Filter *>(device)))
+    for (auto &oneFilter : Filters)
     {
-        Filters.removeAll(static_cast<ISD::Filter *>(device));
-        filterManager->removeDevice(device);
-        FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(device->getDeviceName()));
-        if (Filters.empty())
+        if (oneFilter->getDeviceName() == name)
         {
-            currentFilter = nullptr;
-            FilterDevicesCombo->setCurrentIndex(-1);
+            Filters.removeAll(oneFilter);
+            filterManager->removeDevice(device);
+            FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(name));
+            if (Filters.empty())
+            {
+                currentFilter = nullptr;
+                FilterDevicesCombo->setCurrentIndex(-1);
+            }
+            else
+                FilterDevicesCombo->setCurrentIndex(0);
+
+            //checkFilter();
+            QTimer::singleShot(1000, this, [this]()
+            {
+                checkFilter();
+            });
+            break;
         }
-        else
-            FilterDevicesCombo->setCurrentIndex(0);
-
-        //checkFilter();
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkFilter();
-        });
     }
-
 }
 
 bool Align::syncTelescopeInfo()

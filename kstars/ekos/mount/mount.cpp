@@ -283,16 +283,17 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
 void Mount::removeDevice(ISD::GDInterface *device)
 {
-    if (currentTelescope && (currentTelescope->getDeviceName() == device->getDeviceName()))
+    auto name = device->getDeviceName();
+    if (currentTelescope && (currentTelescope->getDeviceName() == name))
     {
         currentTelescope->disconnect(this);
         m_BaseView->hide();
 
-        qCDebug(KSTARS_EKOS_MOUNT) << "Removing mount driver" << device->getDeviceName();
+        qCDebug(KSTARS_EKOS_MOUNT) << "Removing mount driver" << name;
 
         currentTelescope = nullptr;
     }
-    else if (currentGPS && (currentGPS->getDeviceName() == device->getDeviceName()))
+    else if (currentGPS && (currentGPS->getDeviceName() == name))
     {
         currentGPS->disconnect(this);
         currentGPS = nullptr;
@@ -606,7 +607,8 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
                                        << " to " << currentTelescope->getStatusString(currentStatus);
             // If we just finished a slew, let's update initialHA and the current target's position,
             // but only if the meridian flip is not deactived
-            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING && m_MFStatus != FLIP_INACTIVE)
+            if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING
+                    && m_MFStatus != FLIP_INACTIVE)
             {
                 if (m_MFStatus == FLIP_NONE)
                 {
@@ -728,30 +730,31 @@ void Mount::paaStageChanged(int stage)
     if (stage != PolarAlignmentAssistant::PAH_IDLE)
         currentTargetPosition = nullptr;
 
-    switch (stage) {
-    // deactivate the meridian flip when the first capture is taken
-    case PolarAlignmentAssistant::PAH_FIRST_CAPTURE:
-        if (m_MFStatus != FLIP_INACTIVE)
-        {
-            appendLogText(i18n("Meridian flip set inactive during polar alignment."));
-            m_MFStatus = FLIP_INACTIVE;
-        }
-        break;
-    // activate it when the last rotation is finished or stopped
-    // for safety reasons, we add all stages after the last rotation
-    case PolarAlignmentAssistant::PAH_THIRD_CAPTURE:
-    case PolarAlignmentAssistant::PAH_STAR_SELECT:
-    case PolarAlignmentAssistant::PAH_PRE_REFRESH:
-    case PolarAlignmentAssistant::PAH_REFRESH:
-    case PolarAlignmentAssistant::PAH_POST_REFRESH:
-    case PolarAlignmentAssistant::PAH_IDLE:
-    case PolarAlignmentAssistant::PAH_ERROR:
-        if (m_MFStatus == FLIP_INACTIVE)
-        {
-            appendLogText(i18n("Polar alignment motions finished, meridian flip activated."));
-            m_MFStatus = FLIP_NONE;
-        }
-        break;
+    switch (stage)
+    {
+        // deactivate the meridian flip when the first capture is taken
+        case PolarAlignmentAssistant::PAH_FIRST_CAPTURE:
+            if (m_MFStatus != FLIP_INACTIVE)
+            {
+                appendLogText(i18n("Meridian flip set inactive during polar alignment."));
+                m_MFStatus = FLIP_INACTIVE;
+            }
+            break;
+        // activate it when the last rotation is finished or stopped
+        // for safety reasons, we add all stages after the last rotation
+        case PolarAlignmentAssistant::PAH_THIRD_CAPTURE:
+        case PolarAlignmentAssistant::PAH_STAR_SELECT:
+        case PolarAlignmentAssistant::PAH_PRE_REFRESH:
+        case PolarAlignmentAssistant::PAH_REFRESH:
+        case PolarAlignmentAssistant::PAH_POST_REFRESH:
+        case PolarAlignmentAssistant::PAH_IDLE:
+        case PolarAlignmentAssistant::PAH_ERROR:
+            if (m_MFStatus == FLIP_INACTIVE)
+            {
+                appendLogText(i18n("Polar alignment motions finished, meridian flip activated."));
+                m_MFStatus = FLIP_NONE;
+            }
+            break;
     }
 }
 
