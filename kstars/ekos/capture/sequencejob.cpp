@@ -45,6 +45,22 @@ SequenceJob::SequenceJob()
     connect(&stateMachine, &SequenceJobState::setCCDTemperature, &commandProcessor,
             &CaptureCommandProcessor::setCCDTemperature);
     connect(&stateMachine, &SequenceJobState::setCCDBatchMode, &commandProcessor, &CaptureCommandProcessor::enableCCDBatchMode);
+
+    // Set default property values
+    m_CoreProperties[SJ_Exposure] = -1;
+    m_CoreProperties[SJ_Gain] = -1;
+    m_CoreProperties[SJ_Offset] = -1;
+    m_CoreProperties[SJ_ISOIndex] = -1;
+    m_CoreProperties[SJ_Count] = -1;
+    m_CoreProperties[SJ_Delay] = -1;
+    m_CoreProperties[SJ_Binning] = QPoint(1, 1);
+    m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
+    m_CoreProperties[SJ_ExpPrefixEnabled] = false;
+    m_CoreProperties[SJ_TimeStampPrefixEnabled] = false;
+    m_CoreProperties[SJ_EnforceTemperature] = false;
+    m_CoreProperties[SJ_FilterPrefixEnabled] = false;
+    m_CoreProperties[SJ_DarkFlat] = false;
+    m_CoreProperties[SJ_GuiderActive] = false;
 }
 
 /**
