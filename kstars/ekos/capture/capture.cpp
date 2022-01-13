@@ -3512,6 +3512,9 @@ void Capture::preparePreCaptureActions()
         startB->setToolTip(i18n("Stop"));
     }
 
+    // Update guiderActive before prepareCapture.
+    activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, isActivelyGuiding());
+
     // signal that capture preparation steps should be executed
     emit prepareCapture();
 }
