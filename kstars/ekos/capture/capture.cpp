@@ -4997,6 +4997,10 @@ void Capture::editJob(QModelIndex i)
     addToQueueB->setToolTip(i18n("Apply job changes."));
     removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
+    // Make it sure if user presses enter, the job is validated.
+    previewB->setDefault(false);
+    addToQueueB->setDefault(true);
+
     m_JobUnderEdit = true;
 }
 
@@ -5010,6 +5014,9 @@ void Capture::resetJobEdit()
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
+
+    addToQueueB->setDefault(false);
+    previewB->setDefault(true);
 }
 
 double Capture::getProgressPercentage()
