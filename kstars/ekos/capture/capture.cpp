@@ -2791,10 +2791,10 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
         job->setCoreProperty(SequenceJob::SJ_ISOIndex, captureISOS->currentIndex());
 
     if (getGain() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Gain, job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
+        job->setCoreProperty(SequenceJob::SJ_Gain, getGain());
 
     if (getOffset() >= 0)
-        job->setCoreProperty(SequenceJob::SJ_Offset, job->getCoreProperty(SequenceJob::SJ_Offset).toDouble());
+        job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
     job->setTransferFormat(static_cast<ISD::CCD::TransferFormat>(captureFormatS->currentIndex()));
 
