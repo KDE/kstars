@@ -3568,6 +3568,10 @@ void Manager::syncActiveDevices()
             {
                 devs = findDevicesByInterface(INDI::BaseDevice::GPS_INTERFACE);
             }
+            else if (it.isNameMatch("ACTIVE_ROTATOR"))
+            {
+                devs = findDevicesByInterface(INDI::BaseDevice::ROTATOR_INTERFACE);
+            }
             else if (it.isNameMatch("ACTIVE_FILTER"))
             {
                 devs = findDevicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
