@@ -244,7 +244,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         // calculate horizontal coordinates
         currentCoords.EquatorialToHorizontal(KStars::Instance()->data()->lst(),
-                                            KStars::Instance()->data()->geo()->lat());
+                                             KStars::Instance()->data()->geo()->lat());
         emit newCoords(currentCoords, pierSide(), hourAngle());
 
         ISD::Telescope::Status currentStatus = status(nvp);
@@ -279,7 +279,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoords.setAz(Az->value);
         currentCoords.setAlt(Alt->value);
         currentCoords.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
-                                            KStars::Instance()->data()->geo()->lat());
+                                             KStars::Instance()->data()->geo()->lat());
         // calculate J2000 coordinates
         updateJ2000Coordinates(&currentCoords);
 
@@ -417,7 +417,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         IPState NSCurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_NS")->s;
         IPState WECurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_WE")->s;
         inCustomParking = false;
-        inManualMotion = (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY);        
+        inManualMotion = (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY);
     }
 
     DeviceDecorator::processSwitch(svp);
@@ -651,7 +651,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     INumber *DecEle                = nullptr;
     INumber *AzEle                 = nullptr;
     INumber *AltEle                = nullptr;
-    double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0, targetAlt = 0;
+    double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0;
     bool useJ2000(false);
 
     auto EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
@@ -708,20 +708,6 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     /* Could not find either properties! */
     if (EqProp == nullptr && HorProp == nullptr)
         return false;
-
-    //targetAz = ScopeTarget->az().Degrees();
-    targetAlt = ScopeTarget->altRefracted().Degrees();
-
-    if (minAlt != -1 && maxAlt != -1)
-    {
-        if (targetAlt < minAlt || targetAlt > maxAlt)
-        {
-            KSNotification::error(i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).",
-                                       QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3),
-                                       QString::number(maxAlt, 'g', 3)), i18n("Telescope Motion"));
-            return false;
-        }
-    }
 
     // Function for sending the coordinates to the INDI mount device
     // via the ClientManager. This helper function translates EKOS objects into INDI commands.
@@ -851,10 +837,25 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             sendToMountDevice();
     };
 
-    if (targetAlt < 0)
+    // If altitude limits is enabled, then reject motion immediately.
+    double targetAlt = ScopeTarget->altRefracted().Degrees();
+
+    if ((minAlt != -1 && maxAlt != -1) && (targetAlt < minAlt || targetAlt > maxAlt))
+    {
+        KSNotification::event(QLatin1String("IndiServerMessage"),
+                              i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).",
+                                   QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3),
+                                   QString::number(maxAlt, 'g', 3)), KSNotification::EVENT_WARN);
+        return false;
+    }
+
+    // If disabled, then check if below horizon and warning the user unless the user previously dismissed it.
+    if (Options::confirmBelowHorizon() && targetAlt < 0 && minAlt == -1)
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
+            if (minAlt == -1 && maxAlt == -1)
+                Options::setConfirmBelowHorizon(false);
             KSMessageBox::Instance()->disconnect(this);
             checkObjectAndSend();
         });
