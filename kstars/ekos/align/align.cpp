@@ -639,7 +639,7 @@ void Align::slotMountModel()
         connect(m_MountModel, &Ekos::MountModel::newLog, this, &Ekos::Align::appendLogText, Qt::UniqueConnection);
         connect(m_MountModel, &Ekos::MountModel::aborted, this, [this]()
         {
-            if (currentTelescope)
+            if (currentTelescope && currentTelescope->isSlewing())
                 currentTelescope->Abort();
             abort();
         });
