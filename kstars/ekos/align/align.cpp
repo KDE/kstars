@@ -637,18 +637,16 @@ void Align::slotMountModel()
     {
         m_MountModel = new MountModel(this);
         connect(m_MountModel, &Ekos::MountModel::newLog, this, &Ekos::Align::appendLogText, Qt::UniqueConnection);
+        connect(m_MountModel, &Ekos::MountModel::aborted, this, [this]()
+        {
+            if (currentTelescope)
+                currentTelescope->Abort();
+            abort();
+        });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);
     }
 
     m_MountModel->show();
-
-    //    SkyPoint spWest;
-    //    spWest.setAlt(30);
-    //    spWest.setAz(270);
-    //    spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
-    //    mountModel.alignDec->setValue(static_cast<int>(spWest.dec().Degrees()));
-
-    //    mountModelDialog.show();
 }
 
 
@@ -2506,7 +2504,8 @@ void Align::stop(Ekos::AlignState mode)
         else
         {
             double elapsed = solverTimer.elapsed() / 1000.0;
-            appendLogText(i18n("Solver aborted after %1 seconds.", QString::number(elapsed, 'f', 2)));
+            if (elapsed > 0)
+                appendLogText(i18n("Solver aborted after %1 seconds.", QString::number(elapsed, 'f', 2)));
         }
     }
 

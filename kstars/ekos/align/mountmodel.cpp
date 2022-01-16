@@ -989,7 +989,7 @@ void MountModel::resetAlignmentProcedure()
         QIcon::fromTheme("media-playback-start"));
     m_IsRunning     = false;
     currentAlignmentPoint = 0;
-    abort();
+    emit aborted();
 }
 
 bool MountModel::alignmentPointsAreBad()
@@ -1058,7 +1058,7 @@ void MountModel::startStopAlignmentProcedure()
             QIcon::fromTheme("media-playback-start"));
         alignTable->setCellWidget(currentAlignmentPoint, 3, new QWidget());
         emit newLog(i18n("The Mount Model Tool is Paused."));
-        abort();
+        emit aborted();
         m_IsRunning = false;
 
         QTableWidgetItem *statusReport = new QTableWidgetItem();

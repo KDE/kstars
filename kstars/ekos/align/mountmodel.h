@@ -100,6 +100,7 @@ class MountModel : public QDialog, public Ui::mountModel
 
     signals:
         void newLog(const QString &);
+        void aborted();
 
     private:
 
