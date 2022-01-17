@@ -1095,16 +1095,18 @@ void Manager::checkINDITimeout()
 
         if (remainingDevices.count() == 1)
         {
-            appendLogText(i18n("Unable to establish remote device:\n%1\nPlease ensure remote device name corresponds "
-                               "to actual device name.",
-                               remainingDevices.at(0)));
+            QString message = i18n("Unable to remotely establish:\n%1\nPlease ensure the device is connected and powered on.",
+                                   remainingDevices.at(0));
+            appendLogText(message);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
             KNotification::beep(i18n("Ekos startup error"));
         }
         else
         {
-            appendLogText(i18n("Unable to establish remote devices:\n%1\nPlease ensure remote device name corresponds "
-                               "to actual device name.",
-                               remainingDevices.join("\n")));
+            QString message = i18n("Unable to remotely establish the following devices:\n%1\nPlease ensure each device is connected "
+                                   "and powered on.", remainingDevices.join("\n"));
+            appendLogText(message);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
             KNotification::beep(i18n("Ekos startup error"));
         }
     }
