@@ -184,6 +184,8 @@ void Message::onTextReceived(const QString &message)
         processAstronomyCommands(command, payload);
     else if (command == commands[DIALOG_GET_RESPONSE])
         processDialogResponse(payload);
+    else if (command.startsWith("option_"))
+        processOptionsCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -225,8 +227,6 @@ void Message::onTextReceived(const QString &message)
         processDomeCommands(command, payload);
     else if (command.startsWith("cap_"))
         processCapCommands(command, payload);
-    else if (command.startsWith("option_"))
-        processOptionsCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
     else if (command.startsWith("fm_"))
