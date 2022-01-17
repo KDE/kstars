@@ -4,6 +4,92 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.7 (DoLookUp):
+
+feb6170cb 2022-01-16 Jasem Mutlaq         Make sure mount is slewing first
+ddab6d181 2022-01-16 Jasem Mutlaq         Fix mount model crash where it was calling system abort instead of align abort
+aae00542b 2022-01-16 Jasem Mutlaq         Use KSNotification when rejection motions outside of enabled mount limits. When limits are disabled and user issues GOTO below horizon, issue a time..
+cfcee7a34 2022-01-15 Jasem Mutlaq         In Edit job mode, set default button to validate job. On exit edit mode, reset default button to preview. Fixes #152
+d4932ed97 2022-01-15 Jasem Mutlaq         Check for ACTIVE_ROTATOR as well
+88dbcc22a 2022-01-15 Jasem Mutlaq         Fix gain and offset settings
+636a05c9c 2022-01-13 Jasem Mutlaq         Mark as stable
+b895d2dbf 2022-01-13 Jasem Mutlaq         Set initial property values
+8df58274d 2022-01-13 Jasem Mutlaq         Simplify removeDevice and remove by name instead of pointer
+59a7f4d6e 2022-01-13 Hy Murveit           Bugfix: test to delay capture with high guide deviation was broken
+d558c8959 2022-01-12 Jasem Mutlaq         Add support for flat darks.
+c16eb6f4b 2022-01-12 Jasem Mutlaq         Update frame is always align +A
+5ec6a8013 2022-01-11 Jasem Mutlaq         Wait until rotate state is OK before marking prepare as ready
+7d63e044a 2022-01-11 Wolfgang Reissenberger Deactivating meridian flip while PAA is running
+56ad052e2 2022-01-11 Hy Murveit           Don't allow guidestars to redo star correspondence if it isn't the first guide frame
+d5db98680 2022-01-10 Robert Lancaster     Making the data directory install first on Macs so that it gets copied by...
+99fe1935d 2022-01-09 Jasem Mutlaq         INDI driver sync
+66dcf9cf4 2022-01-09 Jasem Mutlaq         In case we have pending in-sequence tasks, we need to suspend fast exposure to...
+39f549260 2022-01-08 Hy Murveit           Disable some inapplicable controls. Include dither miss in random walk accumulator.
+c9cf28e52 2022-01-08 Robert Lancaster     Fixing some Mac Installation issues
+56339e713 2022-01-07 Jasem Mutlaq         Make video streaming window appear on top since if a user activates live feed then it is more important than other windows on the desktop
+02ead1ff9 2022-01-06 Hy Murveit           change label for new dither control
+267c55170 2022-01-06 Jasem Mutlaq         Extend properties that can be saved in a sequence file beyond just numbers....
+31f0ef70b 2022-01-06 Hy Murveit           dither and calibration cleanup.
+580c5a9c5 2022-01-05 Jasem Mutlaq         Use xplanet to generate images for planetery bodies
+a43a7153f 2022-01-04 Wolfgang Reissenberger Fix for regression introduced in step 1
+dbb44aca4 2022-01-04 Yuri Chornoivan      Fix minor typos
+40c19a5ea 2022-01-04 Akarsh Simha         Remove accidentally included warning
+7c954fa87 2022-01-04 Jasem Mutlaq         Emit PAA stage instead of just boolean toggled
+219207cad 2022-01-03 Akarsh Simha         Fix bugs involving the reading and writing of user's notes (logs) on objects
+2746e8356 2022-01-03 Robert Lancaster     Including XPLanet in the Build on Macs
+55d9055fb 2022-01-03 Robert Lancaster     Copying the QML files to the Mac data directory and supporting new xplanet location
+59851988c 2022-01-03 Jasem Mutlaq         Fix docbook issue
+e39f2f7a7 2022-01-03 Eric Dejouhanet      Mosaic Tool documentation update
+6e5a8c536 2022-01-02 Wolfgang Reissenberger Restricting sequence job state tests to INDI installations
+d81193b09 2022-01-01 Wolfgang Reissenberger State machine for capture control (Step 1)
+8f3cd304c 2022-01-01 Robert Lancaster     Removing unnecessary or redundant astrometry code on all platforms and removing the internal astrometry.net build on MacOS
+4a74f4f11 2021-12-30 Robert Lancaster     Making the data directory install first on Macs so that it gets copied by...
+89c81e716 2021-12-30 Jasem Mutlaq         Add a signal to alert other modules that Polar Alignment Assistant is active
+cac693eb9 2021-12-30 Jasem Mutlaq         Call meridianFlipSetupChanged instead of handling state changes
+3f9862002 2021-12-29 Robert Lancaster     Making the data directory install first on Macs so that it gets copied by...
+b6082ed29 2021-12-28 Robert Lancaster     Fixing Data directory install to app bundle for macs
+8cfa168f8 2021-12-26 Hy Murveit           re-enable the scheduler_ops test, keep it unstable for now
+f2280b776 2021-12-21 Jasem Mutlaq         Call start and not execute as the former is the correct function from cold state
+f65a547c5 2021-12-19 Eric Dejouhanet      Forgot folder creation before d-bus daemon startup.
+b607d6e86 2021-12-18 Eric Dejouhanet      Add d-bus support to CI image, start daemon when testing.
+e32f206f0 2021-12-18 Jasem Mutlaq         Start is the DBus facing function and must result in proper startup of the scheduler. This is a fix to a prior change to use private run
+bca5c0353 2021-12-15 Wolfgang Reissenberger Bugfix for scheduler and place holder test cases
+6782a28d3 2021-12-12 Pino Toscano         tests: remove useless xterm test
+6529f4ffc 2021-12-05 Jasem Mutlaq         Add support to dragging mosaic panels around
+0926c0218 2021-12-09 Ian Hattendorf       Fix issues finding INDI and compiling
+6372ec393 2021-12-06 Hy Murveit           SimClock will no longer remember that it was paused last time
+fceb9cb74 2021-12-05 Hy Murveit           display comets at almost all zooms, default names now 1AU.
+9de2059ab 2021-12-06 Jasem Mutlaq         Move building existing GUI property after we connect the signals so that we do not miss any buildProperty signal
+d224c34f9 2021-10-13 Antonio Escriban     standardized dialog for guider 'Control Parameters' &'Other Settings'
+e7bc2c83c 2021-12-05 Jasem Mutlaq         Use new style Signal slots connection for simclock and timestepbox
+551d2312d 2021-12-04 Jasem Mutlaq         Fix issue where restarted guide camera was not properly reassigned as the current camera due to conflicting states. Reset the camera with the same p..
+bc4fe3bad 2021-12-04 Jasem Mutlaq         Make set target into its own function since it gets reconnected too many times with lambda
+ccce44513 2021-12-04 Jasem Mutlaq         Add log when restarting a driver
+54f31606e 2021-12-02 Jasem Mutlaq         Add setNow dbus function. Update XML file to include setNow and setClockScale. Minor variable refactor
+68e20d0d7 2021-11-30 Jasem Mutlaq         Correct some build instructions
+198323721 2021-11-30 Jasem Mutlaq         Add libkf5doctools-dev as alternative
+5773416c1 2021-11-30 Jasem Mutlaq         INDI drivers sync
+dce51930b 2021-11-25 Jasem Mutlaq         Remove C++ style comments in C file
+4a2b5d64c 2021-11-25 Jasem Mutlaq         Compressed FITS image with fpack are now properly loaded in KStars when they are sent as buffer
+844257eb2 2021-11-25 Jasem Mutlaq         Enable complete flat capture with ADU calculation without using previews
+d26ad8671 2021-11-25 Wolfgang Reissenberger Bugfix guiding deviation restart aborted capture
+6097aa190 2021-11-22 Hy Murveit           PolarAlign: Add image number display in refresh phase.
+a676548f5 2021-11-22 Jasem Mutlaq         This fixes issue #142 by converting all instances of AppDataLocation to AppLocalDataLocation. This has no effect on Linux and MacOS (returns same va..
+124ba3a2a 2021-11-22 Wolfgang Reissenberger Bug fix scheduler capture counting
+0c3c8306d 2021-11-22 Wolfgang Reissenberger Display FITS viewer only when option is set
+262ccfbdc 2021-11-22 Jasem Mutlaq         Fix comet issue on Windows since it was saving file as text when it was binary gzipped file. Also fix comet magnitude calculation now that we use MP..
+d482ab947 2021-11-22 Jasem Mutlaq         Do not include unistd.h on Windows
+bd907c31c 2021-11-22 Jasem Mutlaq         Store name directly in a member variable for faster and safe access. Add device removal function
+509698be7 2021-11-19 Paweł Pleskaczyński  change guide graph style to line graph
+62fb748de 2021-11-18 Wolfgang Reissenberger Bugfix for capture guiding deviation recovery
+97f085604 2021-11-17 Jasem Mutlaq         Make it work on Qt prior to 5.10
+4bff7d0f1 2021-11-17 Jasem Mutlaq         USB entity causing build problems on Ubuntu 18.04 so reverting to regular text until 22.04 is released and 20.04 is the new baseline
+a08a1198d 2021-11-16 Jasem Mutlaq         Revert "Use NewStuff Elements"
+0b3380622 2021-11-11 Oleg Solovyov        Use NewStuff Elements
+906daf38e 2021-11-15 Jasem Mutlaq         Starting 3.5.7 development cycle
+df2613427 2021-11-12 Jasem Mutlaq         Add Zlib include directory so that Windows can find it
+e7cded0c5 2021-11-12 Jasem Mutlaq         Fix compiling on Windows
+
 3.5.6 (MPC):
 
 8fa7a982e 2021-11-10 Jasem Mutlaq         In case of framing, do not capture again in fast exposure as that it already done for us at the driver level
