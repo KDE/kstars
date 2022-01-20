@@ -660,6 +660,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         sendResponse(commands[CAPTURE_GET_FILE_SETTINGS], capture->getFileSettings());
     }
+    else if (command == commands[CAPTURE_GENERATE_DARK_FLATS])
+    {
+        capture->generateDarkFlats();
+    }
 }
 
 void Message::sendCaptureSequence(const QJsonArray &sequenceArray)

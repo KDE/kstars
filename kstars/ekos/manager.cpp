@@ -2973,7 +2973,7 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Telescope::PierSid
         {"ha", ha.Degrees()},
     };
 
-    ekosLiveClient.get()->message()->updateMountStatus(cStatus);
+    ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
 }
 
 void Manager::updateCaptureStatus(Ekos::CaptureState status)
