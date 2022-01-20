@@ -6694,6 +6694,14 @@ bool Capture::processPostCaptureCalibrationStage()
                     placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
                     // Mark calibration as complete
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
+
+                    // Must update sequence prefix as this step is only done in prepareJob
+                    // but since the duration has now been updated, we must take care to update signature
+                    // since it may include a placeholder for duration which would affect it.
+                    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+                        updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
+                                             QFileInfo(activeJob->getSignature()).path());
+
                     startNextExposure();
                     return false;
                 }
