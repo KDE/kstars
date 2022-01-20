@@ -101,9 +101,6 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
     m_RememberShowGround = Options::showGround();
     Options::setShowGround(false);
 
-    // Dialog can only be accepted when creating two tiles or more
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-
     // Rendering options
     connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
     {
@@ -420,8 +417,6 @@ void Mosaic::constructMosaic()
         return;
 
     updateTargetFOV();
-
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ui->mosaicWSpin->value() > 1 || ui->mosaicHSpin->value() > 1);
 
     if (m_MosaicTilesManager->getPA() != ui->rotationSpin->value())
         Options::setCameraRotation(ui->rotationSpin->value());
