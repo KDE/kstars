@@ -4716,6 +4716,14 @@ void Scheduler::startFocusing()
         return;
     }
 
+
+    // If we have a LIGHT filter set, let's set it.
+    if (!currentJob->getInitialFilter().isEmpty())
+    {
+        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "focusInterface:setProperty");
+        focusInterface->setProperty("filter", currentJob->getInitialFilter());
+    }
+
     // Set autostar if full field option is false
     if (Options::focusUseFullField() == false)
     {
@@ -6976,7 +6984,18 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 else if (!strcmp(tagXMLEle(ep), "Job"))
+                {
                     jobs.append(processJobInfo(ep, schedJob));
+                    if (jobs.count() == 1)
+                    {
+                        auto &firstJob = jobs.first();
+                        if (FRAME_LIGHT == firstJob->getFrameType() && nullptr != schedJob)
+                        {
+                            schedJob->setInitialFilter(firstJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
+                        }
+
+                    }
+                }
             }
             delXMLEle(root);
         }
