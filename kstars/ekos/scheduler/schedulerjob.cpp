@@ -1239,3 +1239,13 @@ bool SchedulerJob::runsDuringAstronomicalNightTime() const
     // Thus if dawn comes first, the job startup time occurs during the dusk/dawn interval.
     return nextDawn < nextDusk && startupTime <= earlyDawn;
 }
+
+void SchedulerJob::setInitialFilter(const QString &value)
+{
+    m_InitialFilter = value;
+}
+
+const QString &SchedulerJob::getInitialFilter() const
+{
+    return m_InitialFilter;
+}

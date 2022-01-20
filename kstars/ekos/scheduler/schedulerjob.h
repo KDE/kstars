@@ -632,6 +632,13 @@ class SchedulerJob
              */
         double getMinAltitudeConstraint(double azimuth) const;
 
+        /**
+         * @brief setInitialFilter Set initial filter used in the capture sequence. This is used to pass to focus module.
+         * @param value Filter name of FIRST LIGHT job in the sequence queue, if any.
+         */
+        void setInitialFilter(const QString &value);
+        const QString &getInitialFilter() const;
+
         // Convenience debugging methods.
         static QString jobStatusString(JOBStatus status);
         static QString jobStageString(JOBStage stage);
@@ -746,6 +753,7 @@ class SchedulerJob
         uint16_t repeatsRequired { 1 };
         uint16_t repeatsRemaining { 1 };
         bool inSequenceFocus { false };
+        QString m_InitialFilter;
 
         QString dateTimeDisplayFormat;
 
