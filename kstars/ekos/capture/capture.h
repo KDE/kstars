@@ -319,6 +319,7 @@ class Capture : public QWidget, public Ui::Capture
         void setDustCap(ISD::GDInterface *device)
         {
             currentDustCap = dynamic_cast<ISD::DustCap *>(device);
+            syncFilterInfo();
         }
         void setLightBox(ISD::GDInterface *device)
         {
