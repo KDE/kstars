@@ -3595,8 +3595,21 @@ void Capture::executeJob()
 
     calibrationCheckType = CAL_CHECK_TASK;
 
+    // If the job is a dark flat, let's find the optimal exposure from prior
+    // flat exposures.
     if (activeJob->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
-        setDarkFlatExposure(activeJob);
+    {
+        // If we found a prior exposure, and current upload more is not local, then update full prefix
+        if (setDarkFlatExposure(activeJob) && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        {
+            auto placeholderPath = Ekos::PlaceholderPath();
+            // Make sure to update Full Prefix as exposure value was changed
+            placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
+                                 QFileInfo(activeJob->getSignature()).path());
+        }
+
+    }
 
     updatePreCaptureCalibrationStatus();
 
