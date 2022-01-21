@@ -1536,9 +1536,15 @@ void Capture::checkFilter(int filterNum)
 
 void Capture::syncFilterInfo()
 {
-    if (currentCCD)
+    QList<ISD::GDInterface *> devices;
+    for (const auto &oneCamera : CCDs)
+        devices.append(oneCamera);
+    if (currentDustCap)
+        devices.append(currentDustCap);
+
+    for (const auto &oneDevice : devices)
     {
-        auto activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        auto activeDevices = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
             auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
@@ -1548,13 +1554,13 @@ void Capture::syncFilterInfo()
                 {
                     Options::setDefaultFocusFilterWheel(currentFilter->getDeviceName());
                     activeFilter->setText(currentFilter->getDeviceName().toLatin1().constData());
-                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
                 else if (!currentFilter && strlen(activeFilter->getText()) > 0)
                 {
                     activeFilter->setText("");
-                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
         }
