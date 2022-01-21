@@ -77,6 +77,7 @@ enum COMMANDS
     CAPTURE_GET_CALIBRATION_SETTINGS,
     CAPTURE_GET_FILE_SETTINGS,
     CAPTURE_LOOP,
+    CAPTURE_GENERATE_DARK_FLATS,
 
     // Mount
     MOUNT_PARK,
@@ -257,6 +258,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_GET_CALIBRATION_SETTINGS, "capture_get_calibration_settings"},
     {CAPTURE_GET_FILE_SETTINGS, "capture_get_file_settings"},
     {CAPTURE_LOOP, "capture_loop"},
+    {CAPTURE_GENERATE_DARK_FLATS, "capture_generate_dark_flats"},
 
     {MOUNT_PARK, "mount_park"},
     {MOUNT_UNPARK, "mount_unpark"},

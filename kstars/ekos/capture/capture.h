@@ -720,6 +720,11 @@ class Capture : public QWidget, public Ui::Capture
          */
         void registerNewModule(const QString &name);
 
+        /**
+         * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
+         */
+        void generateDarkFlats();
+
     private slots:
 
         /**
@@ -987,11 +992,6 @@ class Capture : public QWidget, public Ui::Capture
          * @param type error type
          */
         void processCaptureError(ISD::CCD::ErrorType type);
-
-        /**
-         * @brief generateDarkFlats Generate a list of dark flat jobs from available flat frames.
-         */
-        void generateDarkFlats();
 
         /**
          * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
