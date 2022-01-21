@@ -218,6 +218,6 @@ class Message : public QObject
         // Retry for 1 hour before giving up
         static const uint16_t RECONNECT_MAX_TRIES = 720;
         // Throttle interval
-        static const uint16_t THROTTLE_INTERVAL = 5000;
+        static const uint16_t THROTTLE_INTERVAL = 1000;
 };
 }
