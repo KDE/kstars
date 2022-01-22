@@ -1367,6 +1367,8 @@ if(APPLE)
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/kstars/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/sounds.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/locale.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
     set(KSTARS_VERSION "${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_REVISION}")
     execute_process(COMMAND date "+%Y" OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE THIS-YEAR)
     set_target_properties(kstars PROPERTIES
