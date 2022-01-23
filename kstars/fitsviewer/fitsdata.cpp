@@ -370,7 +370,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     // Channels always set to #1 if we are not required to process 3D Cubes
     // Or if mode is not FITS_NORMAL (guide, focus..etc)
-    if (m_Mode != FITS_NORMAL || !Options::auto3DCube())
+    if ( (m_Mode != FITS_NORMAL && m_Mode != FITS_CALIBRATE) || !Options::auto3DCube())
         m_Statistics.channels = 1;
 
     m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
@@ -3490,7 +3490,10 @@ bool FITSData::debayer_8bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    // TODO Maybe all should be treated the same
+    // Doing single channel saves lots of memory though for non-essential
+    // frames
+    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE) ? 3 : 1;
     m_Statistics.dataType = TBYTE;
     delete[] destinationBuffer;
     return true;
@@ -3581,7 +3584,7 @@ bool FITSData::debayer_16bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Statistics.channels = (m_Mode == FITS_NORMAL) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE) ? 3 : 1;
     m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
     return true;
