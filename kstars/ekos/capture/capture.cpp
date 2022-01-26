@@ -1907,7 +1907,7 @@ IPState Capture::setCaptureComplete()
     if (activeJob)
     {
         emit captureComplete(filename, activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                             activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString(), hfr,
+                             activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString(), hfr,
                              numStars, median, eccentricity);
 
         currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
