@@ -1728,7 +1728,10 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
 
             // Bypass the rest of the function if we retry - we will fail if we could not move the focuser
             if (retry_focusing)
+            {
+                emit autofocusAborted(filter(), "");
                 return;
+            }
         }
 
         // Reset the retry count on success or maximum count
