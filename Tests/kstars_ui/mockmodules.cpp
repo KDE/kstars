@@ -15,7 +15,7 @@
 namespace Ekos
 {
 
-const QString MockFocus::mockPath = "/KStars/MockEkos/MockFocus";
+const QString MockFocus::mockPath = "/MockKStars/MockEkos/MockFocus";
 MockFocus::MockFocus()
 {
     qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
@@ -25,7 +25,7 @@ MockFocus::MockFocus()
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
-const QString MockMount::mockPath = "/KStars/MockEkos/MockMount";
+const QString MockMount::mockPath = "/MockKStars/MockEkos/MockMount";
 MockMount::MockMount()
 {
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
@@ -37,7 +37,7 @@ MockMount::MockMount()
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
-const QString MockCapture::mockPath = "/KStars/MockEkos/MockCapture";
+const QString MockCapture::mockPath = "/MockKStars/MockEkos/MockCapture";
 MockCapture::MockCapture()
 {
     qRegisterMetaType<Ekos::CaptureState>("Ekos::CaptureState");
@@ -47,7 +47,7 @@ MockCapture::MockCapture()
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
-const QString MockAlign::mockPath = "/KStars/MockEkos/MockAlign";
+const QString MockAlign::mockPath = "/MockKStars/MockEkos/MockAlign";
 MockAlign::MockAlign()
 {
     qRegisterMetaType<Ekos::AlignState>("Ekos::AlignState");
@@ -57,7 +57,7 @@ MockAlign::MockAlign()
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
-const QString MockGuide::mockPath = "/KStars/MockEkos/MockGuide";
+const QString MockGuide::mockPath = "/MockKStars/MockEkos/MockGuide";
 MockGuide::MockGuide()
 {
     qRegisterMetaType<Ekos::GuideState>("Ekos::GuideState");
@@ -67,7 +67,7 @@ MockGuide::MockGuide()
     QDBusConnection::sessionBus().registerObject(mockPath, this);
 }
 
-const QString MockEkos::mockPath = "/KStars/MockEkos";
+const QString MockEkos::mockPath = "/MockKStars/MockEkos";
 MockEkos::MockEkos()
 {
     qRegisterMetaType<Ekos::CommunicationStatus>("Ekos::CommunicationStatus");

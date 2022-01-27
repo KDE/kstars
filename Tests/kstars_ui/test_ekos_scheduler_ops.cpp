@@ -31,6 +31,10 @@ TestEkosSchedulerOps::TestEkosSchedulerOps(QObject *parent) : QObject(parent)
 
 void TestEkosSchedulerOps::initTestCase()
 {
+  
+    QDBusConnection::sessionBus().registerObject("/MockKStars", this);
+    QDBusConnection::sessionBus().registerService("org.kde.mockkstars");
+
     // This gets executed at the start of testing
 
     disableSkyMap();
@@ -53,13 +57,14 @@ void TestEkosSchedulerOps::init()
     guider.reset(new Ekos::MockGuide);
     ekos.reset(new Ekos::MockEkos);
 
-    scheduler.reset(new Scheduler(Ekos::MockEkos::mockPath, "org.kde.kstars.MockEkos"));
+    scheduler.reset(new Scheduler("/MockKStars/MockEkos/Scheduler", "org.kde.mockkstars",
+                                  Ekos::MockEkos::mockPath, "org.kde.mockkstars.MockEkos"));
     // These org.kde.* interface strings are set up in the various .xml files.
-    scheduler->setFocusInterfaceString("org.kde.kstars.MockEkos.MockFocus");
-    scheduler->setMountInterfaceString("org.kde.kstars.MockEkos.MockMount");
-    scheduler->setCaptureInterfaceString("org.kde.kstars.MockEkos.MockCapture");
-    scheduler->setAlignInterfaceString("org.kde.kstars.MockEkos.MockAlign");
-    scheduler->setGuideInterfaceString("org.kde.kstars.MockEkos.MockGuide");
+    scheduler->setFocusInterfaceString("org.kde.mockkstars.MockEkos.MockFocus");
+    scheduler->setMountInterfaceString("org.kde.mockkstars.MockEkos.MockMount");
+    scheduler->setCaptureInterfaceString("org.kde.mockkstars.MockEkos.MockCapture");
+    scheduler->setAlignInterfaceString("org.kde.mockkstars.MockEkos.MockAlign");
+    scheduler->setGuideInterfaceString("org.kde.mockkstars.MockEkos.MockGuide");
     scheduler->setFocusPathString(Ekos::MockFocus::mockPath);
     scheduler->setMountPathString(Ekos::MockMount::mockPath);
     scheduler->setCapturePathString(Ekos::MockCapture::mockPath);

@@ -130,7 +130,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /** @brief Constructor, the starndard scheduler constructor. */
         Scheduler();
         /** @brief DebugConstructor, a constructor used in testing with a mock ekos. */
-        Scheduler(const QString &ekosPathStr, const QString &ekosInterfaceStr);
+        Scheduler(const QString path, const QString interface,
+                  const QString &ekosPathStr, const QString &ekosInterfaceStr);
         ~Scheduler() = default;
 
         QString getCurrentJobName();
@@ -655,7 +656,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
 
-private:
+    private:
         /**
              * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
@@ -825,7 +826,8 @@ private:
          * @param framesCount map capture signature -> frame count
          * @return true iff the job need to capture light frames
          */
-        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs, const SchedulerJob::CapturedFramesMap &framesCount);
+        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
+                                       const SchedulerJob::CapturedFramesMap &framesCount);
 
         /**
          * @brief Calculate the map signature -> expected number of captures from the given list of capture sequence jobs,
@@ -846,7 +848,8 @@ private:
          *        of the scheduler job creates as many frames as possible, but does not exceed the expected ones.
          * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
          */
-        static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const SchedulerJob::CapturedFramesMap &capturedFramesCount,
+        static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
+                                              const SchedulerJob::CapturedFramesMap &capturedFramesCount,
                                               SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
 
         int getCompletedFiles(const QString &path, const QString &seqPrefix);
@@ -878,6 +881,9 @@ private:
         QPointer<QDBusInterface> capInterface { nullptr };
 
         // Interface strings for the dbus. Changeable for mocks when testing. Private so only tests can change.
+        QString schedulerPathString { "/KStars/Ekos/Scheduler" };
+        QString kstarsInterfaceString { "org.kde.kstars" };
+
         QString focusInterfaceString { "org.kde.kstars.Ekos.Focus" };
         void setFocusInterfaceString(const QString &interface)
         {
