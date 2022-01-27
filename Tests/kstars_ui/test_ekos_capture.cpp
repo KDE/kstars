@@ -345,7 +345,7 @@ void TestEkosCapture::testCaptureDarkFlats()
         }
     });
 
-    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), 120000);
 
     // Verify the proper number of FITS file were created
     QTRY_COMPARE_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count(), 10, 1000);
