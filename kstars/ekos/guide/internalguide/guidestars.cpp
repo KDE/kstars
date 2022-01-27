@@ -145,6 +145,13 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
                                       const QList<double> &minDistances)
 {
     constexpr int maxStarDiameter = 32;
+
+    if ((uint) stars.size() < Options::minDetectionsSEPMultistar())
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Too few stars detected.";
+        return QVector3D(-1, -1, -1);
+    }
+
     int maxIndex = MAX_GUIDE_STARS < stars.count() ? MAX_GUIDE_STARS : stars.count();
     int scores[MAX_GUIDE_STARS];
     QList<Edge> guideStarNeighbors;

@@ -2261,6 +2261,10 @@
          <label>Maximum HFR permitted for SEP MultiStar guide star.</label>
          <default>4.5</default>
       </entry>
+      <entry name="MinDetectionsSEPMultistar" type="UInt">
+         <label>Minimum number of stars detected for SEP MultiStar to initialize.</label>
+         <default>1</default>
+      </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
          <default>true</default>

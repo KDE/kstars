@@ -2728,6 +2728,7 @@ QBrush mountFlipStateBrush(Mount::MeridianFlipStatus state)
     switch (state)
     {
         case Mount::FLIP_NONE:
+        case Mount::FLIP_INACTIVE:
             return offBrush;
         case Mount::FLIP_PLANNED:
             return stoppedBrush;
