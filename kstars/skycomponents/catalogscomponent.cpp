@@ -23,13 +23,13 @@
 CatalogsComponent::CatalogsComponent(SkyComposite *parent, const QString &db_filename,
                                      bool load_default)
     : SkyComponent(parent), m_db_manager(db_filename), m_skyMesh{ SkyMesh::Create(
-                                                           m_db_manager.htmesh_level()) },
+                m_db_manager.htmesh_level()) },
       m_cache(m_skyMesh->size(), calculateCacheSize(Options::dSOCachePercentage()))
 {
     if (load_default)
     {
         const auto &default_file = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
-                                                   Options::dSODefaultCatalogFilename());
+                                   Options::dSODefaultCatalogFilename());
 
         if (QFile(default_file).exists())
         {
@@ -104,8 +104,8 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             catch (const CatalogsDB::DatabaseError &e)
             {
                 qCCritical(KSTARS)
-                    << "Could not load catalog objects in trixel: " << trixel << ", "
-                    << e.what();
+                        << "Could not load catalog objects in trixel: " << trixel << ", "
+                        << e.what();
 
                 KMessageBox::detailedError(
                     nullptr, i18n("Could not load catalog objects in trixel: %1", trixel),
@@ -123,7 +123,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
 
             if (!magCriterion && !mag_unknown)
                 break; // the objects are strictly sorted by magnitude
-                       // unknown magnitude first
+            // unknown magnitude first
             if (!magCriterion)
                 continue;
 
@@ -210,7 +210,7 @@ CatalogObject &CatalogsComponent::insertStaticObject(const CatalogObject &obj)
 
 SkyObject *CatalogsComponent::findByName(const QString &name)
 {
-    auto objects = m_db_manager.find_objects_by_name(name, 1, true);
+    auto objects = m_db_manager.find_objects_by_name(name);
 
     if (objects.size() == 0)
         return nullptr;
@@ -224,7 +224,7 @@ void CatalogsComponent::objectsInArea(QList<SkyObject *> &list, const SkyRegion 
         return;
 
     for (SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd();
-         ++it)
+            ++it)
     {
         try
         {
@@ -312,8 +312,8 @@ void CatalogsComponent::tryImportSkyComponents()
     };
 
     const auto resp = KMessageBox::questionYesNoCancel(
-        nullptr, i18n("Import custom and internet resolved objects "
-                      "from the old DSO database into the new one?"));
+                          nullptr, i18n("Import custom and internet resolved objects "
+                                        "from the old DSO database into the new one?"));
 
     if (resp != KMessageBox::Yes)
     {
