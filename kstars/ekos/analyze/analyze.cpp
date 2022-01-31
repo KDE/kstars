@@ -2135,12 +2135,17 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, &stripe);
     else
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, nullptr);
-    captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, false,
-                                       filename, exposureSeconds, filter));
+    auto session = CaptureSession(captureStartedTime, time, nullptr, false,
+                                  filename, exposureSeconds, filter);
+    captureSessions.add(session);
     addHFR(hfr, numStars, median, eccentricity, time, captureStartedTime);
     updateMaxX(time);
     if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            captureSessionClicked(session, false);
         replot();
+    }
     captureStartedTime = -1;
 }
 
@@ -2163,11 +2168,16 @@ void Analyze::processCaptureAborted(double time, double exposureSeconds, bool ba
         // You can get a captureAborted without a captureStarting,
         // so make sure this associates with a real start.
         addSession(captureStartedTime, time, CAPTURE_Y, failureBrush);
-        captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, true, "",
-                                           exposureSeconds, captureStartedFilter));
+        auto session = CaptureSession(captureStartedTime, time, nullptr, true, "",
+                                      exposureSeconds, captureStartedFilter);
+        captureSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                captureSessionClicked(session, false);
             replot();
+        }
         captureStartedTime = -1;
     }
 }
@@ -2219,11 +2229,16 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
     else
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
-    focusSessions.add(FocusSession(autofocusStartedTime, time, nullptr, true,
-                                   autofocusStartedTemperature, filter, points));
+    auto session = FocusSession(autofocusStartedTime, time, nullptr, true,
+                                autofocusStartedTemperature, filter, points);
+    focusSessions.add(session);
     updateMaxX(time);
     if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            focusSessionClicked(session, false);
         replot();
+    }
     autofocusStartedTime = -1;
 }
 
@@ -2242,11 +2257,16 @@ void Analyze::processAutofocusAborted(double time, const QString &filter, const 
     {
         // Just in case..
         addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
-        focusSessions.add(FocusSession(autofocusStartedTime, time, nullptr, false,
-                                       autofocusStartedTemperature, filter, points));
+        auto session = FocusSession(autofocusStartedTime, time, nullptr, false,
+                                    autofocusStartedTemperature, filter, points);
+        focusSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                focusSessionClicked(session, false);
             replot();
+        }
         autofocusStartedTime = -1;
     }
 }
