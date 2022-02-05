@@ -1368,6 +1368,10 @@
          <whatsthis>Log Ekos Focus Module activity.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="SaveGuideImages" type="Bool">
+         <label>Save Internal Guider images on disk?</label>
+         <default>false</default>
+      </entry>
       <entry name="GuideLogging" type="Bool">
          <whatsthis>Log Ekos Guide Module activity.</whatsthis>
          <default>false</default>

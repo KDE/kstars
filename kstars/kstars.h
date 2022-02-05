@@ -62,6 +62,7 @@ class OpsSolarSystem;
 class OpsSatellites;
 class OpsSupernovae;
 class OpsTerrain;
+class OpsDeveloper;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -902,6 +903,7 @@ class KStars : public KXmlGuiWindow
         OpsCatalog *opcatalog { nullptr };
         OpsGuides *opguides { nullptr };
         OpsTerrain *opterrain { nullptr };
+        OpsDeveloper *opsdeveloper { nullptr };
         OpsSolarSystem *opsolsys { nullptr };
         OpsSatellites *opssatellites { nullptr };
         OpsSupernovae *opssupernovae { nullptr };

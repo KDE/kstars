@@ -570,6 +570,19 @@ void InternalGuider::setGuideView(GuideView *guideView)
 void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
 {
     m_ImageData = data;
+    if (Options::saveGuideImages())
+    {
+        QDateTime now(QDateTime::currentDateTime());
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("guide/" +
+                       now.toString("yyyy-MM-dd"));
+        QDir dir;
+        dir.mkpath(path);
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name     = "guide_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        m_ImageData->saveImage(filename);
+    }
 }
 
 void InternalGuider::reset()

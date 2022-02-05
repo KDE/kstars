@@ -508,16 +508,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="kcfg_SaveFocusImages">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save autofocus frames. Only enable to troubleshoot autofocus by examining frames. This can consume a lot of storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Save Focus Images</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_8">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

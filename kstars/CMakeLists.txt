@@ -545,6 +545,7 @@ set(kstars_options_SRCS
     options/opssatellites.cpp
     options/opssupernovae.cpp
     options/opsterrain.cpp
+    options/opsdeveloper.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -556,6 +557,7 @@ set(kstars_optionsui_SRCS
     options/opssatellites.ui
     options/opssupernovae.ui
     options/opsterrain.ui
+    options/opsdeveloper.ui
 )
 
 set(kstars_dialogs_SRCS
