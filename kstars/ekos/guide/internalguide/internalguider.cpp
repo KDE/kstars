@@ -645,11 +645,6 @@ void InternalGuider::setSquareAlgorithm(int index)
     pmath->setAlgorithmIndex(index);
 }
 
-void InternalGuider::setReticleParameters(double x, double y)
-{
-    pmath->setTargetPosition(x, y);
-}
-
 bool InternalGuider::getReticleParameters(double *x, double *y)
 {
     return pmath->getTargetPosition(x, y);
@@ -689,17 +684,26 @@ bool InternalGuider::processGuiding()
 
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
     // unnecessary guiding pulses.
+    bool process = true;
     if (m_isFirstFrame)
     {
+        m_isFirstFrame = false;
         if (state == GUIDE_GUIDING)
         {
             GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, m_isFirstFrame);
-            pmath->setTargetPosition(star_pos.x, star_pos.y);
+            if (star_pos.x != -1 && star_pos.y != -1)
+                pmath->setTargetPosition(star_pos.x, star_pos.y);
+            else
+            {
+                // We were not able to get started.
+                process = false;
+                m_isFirstFrame = true;
+            }
         }
-        m_isFirstFrame = false;
     }
-    // calc math. it tracks square
-    pmath->performProcessing(state, m_ImageData, guideFrame, &guideLog);
+
+    if (process)
+        pmath->performProcessing(state, m_ImageData, guideFrame, &guideLog);
 
     if (state == GUIDE_SUSPENDED)
     {
@@ -716,7 +720,7 @@ bool InternalGuider::processGuiding()
     // do pulse
     out = pmath->getOutputParameters();
 
-    bool sendPulses = true;
+    bool sendPulses = !pmath->isStarLost();
 
     double delta_rms = std::hypot(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
     if (delta_rms > Options::guideMaxDeltaRMS())

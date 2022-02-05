@@ -24,15 +24,21 @@
 GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
         GuideView *guideView, bool firstFrame)
 {
+    GuiderUtils::Vector position;
     if (usingSEPMultiStar())
     {
         QRect trackingBox = guideView->getTrackingBox();
-        return guideStars.findGuideStar(imageData, trackingBox, guideView, firstFrame);
-    }
+        position = guideStars.findGuideStar(imageData, trackingBox, guideView, firstFrame);
 
-    return GuideAlgorithms::findLocalStarPosition(
-               imageData, algorithm, video_width, video_height,
-               guideView->getTrackingBox());
+    }
+    else
+        position = GuideAlgorithms::findLocalStarPosition(
+                       imageData, algorithm, video_width, video_height,
+                       guideView->getTrackingBox());
+
+    if (position.x == -1 || position.y == -1)
+        setLostStar(true);
+    return position;
 }
 
 
@@ -429,7 +435,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     // If no star found, mark as lost star.
     if (starPosition.x == -1 || std::isnan(starPosition.x))
     {
-        lost_star = true;
+        setLostStar(true);
         if (logger != nullptr && state == Ekos::GUIDE_GUIDING)
         {
             GuideLog::GuideData data;
@@ -440,7 +446,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         return;
     }
     else
-        lost_star = false;
+        setLostStar(false);
 
     // Emit the detected star center
     QVector3D starCenter(starPosition.x, starPosition.y, 0);
@@ -450,6 +456,18 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     if (state == Ekos::GUIDE_CALIBRATING)
         return;
 
+    if (state == Ekos::GUIDE_GUIDING && (targetPosition.x <= 0.0 || targetPosition.y <= 0.0))
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Guiding with target 0.0 -- something's wrong!!!!!!!!!!!";
+        for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
+        {
+            out_params.pulse_dir[k]  = NO_DIR;
+            out_params.pulse_length[k] = 0;
+            out_params.delta[k] = 0;
+            setLostStar(true);
+        }
+        return;
+    }
     qCDebug(KSTARS_EKOS_GUIDE) << "################## BEGIN PROCESSING ##################";
 
     // translate star coords into sky coord. system
