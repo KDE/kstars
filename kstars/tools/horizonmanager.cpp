@@ -303,6 +303,8 @@ void HorizonManager::slotToggleCeiling()
     if(!regionItem)
         return;
 
+    if(!regionItem)
+        return;
     bool turnCeilingOn = !regionItem->data(Qt::UserRole).toBool();
     if (turnCeilingOn)
     {
