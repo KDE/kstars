@@ -2034,11 +2034,6 @@ void Mount::startParkTimer()
                 appendLogText(i18n("Parking time cannot be in the past."));
             return;
         }
-        else if (std::abs(hours) > 12)
-        {
-            qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << hours << "which exceeds 12 hours, auto park is disabled.";
-            return;
-        }
     }
 
     parkMilliSeconds = std::abs(parkMilliSeconds);
