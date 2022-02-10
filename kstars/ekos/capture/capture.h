@@ -21,6 +21,8 @@
 #include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
 
+#include "ekos/auxiliary/solverutils.h"
+
 #include <QTimer>
 #include <QUrl>
 #include <QtDBus>
@@ -726,6 +728,14 @@ class Capture : public QWidget, public Ui::Capture
          */
         void generateDarkFlats();
 
+        /**
+          * @brief Set the coordinates where the mount is pointing.
+          * @param targetObject object close to the target position
+          * @param targetCoord exact coordinates of the target position (could slightly differ to targetObject)
+          */
+        void setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord);
+
+
     private slots:
 
         /**
@@ -820,6 +830,8 @@ class Capture : public QWidget, public Ui::Capture
         void setCoolerToggled(bool enabled);
 
         void setDownloadProgress();
+
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
@@ -1188,5 +1200,12 @@ class Capture : public QWidget, public Ui::Capture
         QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
         void processGuidingFailed();
+
+        /// Target coordinates for pointing check
+        SkyPoint m_TargetCoord;
+        bool m_TargetCoordValid = false;
+        std::unique_ptr<SolverUtils> m_Solver;
+        // Used when solving position every nth capture.
+        unsigned int solverIteration = {0};
 };
 }

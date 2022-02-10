@@ -1931,9 +1931,77 @@ IPState Capture::setCaptureComplete()
         }
     }
 
+#ifdef HAVE_STELLARSOLVER
+    if (Options::capturePosition() && m_ImageData && activeJob && activeJob->getFrameType() == FRAME_LIGHT &&
+            solverIteration++ % Options::capturePositionEvery() == 0)
+    {
+        constexpr double maxSolverSeconds = 15.0;
+        constexpr double minSolverSeconds = 2.0;
+        const double exposureLength = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+        double solverTimeout = std::min(exposureLength - 2, maxSolverSeconds);
+        if (solverTimeout >= minSolverSeconds)
+        {
+            auto profiles = getDefaultAlignOptionsProfiles();
+            auto parameters = profiles.at(Options::solveOptionsProfile());
+
+            m_Solver.reset(new SolverUtils());
+            connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Capture::solverDone, Qt::UniqueConnection);
+            // connect(m_Solver.get(), &SolverUtils::appendLogText, this, &Ekos::Capture::appendLogText, Qt::UniqueConnection);
+
+            m_Solver->useScale(false)
+            .usePosition(false, m_TargetCoord.ra().Degrees(), m_TargetCoord.dec().Degrees())
+            .runSolver(m_ImageData.get(), parameters, solverTimeout);
+        }
+    }
+#endif
+
     return resumeSequence();
 }
 
+void Capture::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
+{
+    disconnect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Capture::solverDone);
+
+    if (timedOut)
+        appendLogText(i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else if (!success)
+        appendLogText(i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else
+    {
+        const double ra = solution.ra;
+        const double dec = solution.dec;
+
+        SkyPoint alignCoord;
+        alignCoord.setRA0(ra / 15.0);
+        alignCoord.setDec0(dec);
+        alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        const double diffRa = (alignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
+        const double diffDec = (alignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;
+
+        // This is an approximation, probably ok for small angles.
+        const double diffTotal = hypot(diffRa, diffDec);
+
+        // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
+        // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
+        appendLogText(
+            QString(i18n("Target Distance: %1 a-s Target %2 %3  Position %4 %5 (%6s)",
+                         QString("%L1").arg(diffTotal, 0, 'f', 0),
+                         m_TargetCoord.ra().toDMSString(), m_TargetCoord.dec().toDMSString(),
+                         alignCoord.ra().toDMSString(), alignCoord.dec().toDMSString(),
+                         QString("%L1").arg(elapsedSeconds, 0, 'f', 2))));
+    }
+}
+
+void Capture::setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord)
+
+{
+    Q_UNUSED(targetObject);
+    m_TargetCoord = targetCoord;
+    m_TargetCoordValid = true;
+    appendLogText(QString("Target updated to JNow RA: %1 DEC %2")
+                  .arg(m_TargetCoord.ra().toHMSString()).arg(m_TargetCoord.dec().toDMSString()));
+}
 
 void Capture::processJobCompletionStage1()
 {

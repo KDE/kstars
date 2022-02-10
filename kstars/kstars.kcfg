@@ -1793,6 +1793,14 @@
          <label>Add the capture timestamp to the capture file name.</label>
          <default>false</default>
       </entry>
+      <entry name="CapturePosition" type="Bool">
+         <label>Calculate position after captures.</label>
+         <default>false</default>
+      </entry>
+      <entry name="CapturePositionEvery" type="UInt">
+         <label>When calculating position after captures, compute it every Nth capture.</label>
+         <default>1</default>
+      </entry>
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>136</height>
+    <width>457</width>
+    <height>158</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -55,6 +55,40 @@
            </widget>
           </item>
           <item row="2" column="0">
+           <layout class="QHBoxLayout" name="capturePositionLayout">
+            <item>
+             <widget class="QCheckBox" name="kcfg_CapturePosition">
+              <property name="toolTip">
+               <string>If checked, captured image position will be solved</string>
+              </property>
+              <property name="whatsThis">
+               <string>If checked, captured image position will be solved</string>
+              </property>
+              <property name="text">
+               <string>Calculate position after captures. Every</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="kcfg_CapturePositionEvery">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>image(s)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
            <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
