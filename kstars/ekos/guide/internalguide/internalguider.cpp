@@ -690,7 +690,7 @@ bool InternalGuider::processGuiding()
         m_isFirstFrame = false;
         if (state == GUIDE_GUIDING)
         {
-            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, m_isFirstFrame);
+            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, true);
             if (star_pos.x != -1 && star_pos.y != -1)
                 pmath->setTargetPosition(star_pos.x, star_pos.y);
             else
