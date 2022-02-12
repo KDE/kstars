@@ -2195,7 +2195,7 @@
       </entry>
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
-         <default>1.0</default>
+         <default>2.0</default>
       </entry>
       <entry name="GuiderType" type="UInt">
          <label>Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 lin_guider)</label>
