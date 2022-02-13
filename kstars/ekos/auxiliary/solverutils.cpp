@@ -78,7 +78,6 @@ void SolverUtils::runSolver(FITSData * data, const SSolver::Parameters &paramete
 
     m_StellarSolver->setLogLevel(SSolver::LOG_ALL);
     m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
-    m_StellarSolver->setLoadWCS(false);
     m_StellarSolver->start();
 
     // Limit the time the solver can run.
