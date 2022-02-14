@@ -12,6 +12,7 @@
 #include "ui_scheduler.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
+#include "ekos/auxiliary/solverutils.h"
 #include "schedulerjob.h"
 
 #include <lilxml.h>
@@ -650,6 +651,22 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void simClockScaleChanged(float);
         void simClockTimeChanged();
 
+        /**
+         * @brief solverDone Process solver solution after it is done.
+         * @param timedOut True if the process timed out.
+         * @param success True if successful, false otherwise.
+         * @param solution The solver solution if successful.
+         * @param elapsedSeconds How many seconds elapsed to solve the image.
+         */
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+
+        /**
+         * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
+         * to ensure it does not deviation from current scheduler job target.
+         * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
+         */
+        void setCaptureComplete(const QVariantMap &metadata);
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::SchedulerState state);
@@ -1127,6 +1144,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         int schedulerIteration { 0 };
         // The time when the scheduler first started running iterations.
         qint64 startMSecs { 0 };
+
+        /// Target coordinates for pointing check
+        std::unique_ptr<SolverUtils> m_Solver;
+        // Used when solving position every nth capture.
+        uint32_t m_SolverIteration {0};
 
         friend TestEkosSchedulerOps;
 };

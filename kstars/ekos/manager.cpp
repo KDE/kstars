@@ -3363,8 +3363,6 @@ void Manager::connectModules()
         // Mount Status
         connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus,
                 Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newTarget, captureProcess.get(), &Ekos::Capture::setTarget,
-                Qt::UniqueConnection);
     }
 
     // Capture <---> EkosLive connections

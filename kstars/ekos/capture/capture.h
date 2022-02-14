@@ -21,8 +21,6 @@
 #include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
 
-#include "ekos/auxiliary/solverutils.h"
-
 #include <QTimer>
 #include <QUrl>
 #include <QtDBus>
@@ -728,14 +726,6 @@ class Capture : public QWidget, public Ui::Capture
          */
         void generateDarkFlats();
 
-        /**
-          * @brief Set the coordinates where the mount is pointing.
-          * @param targetObject object close to the target position
-          * @param targetCoord exact coordinates of the target position (could slightly differ to targetObject)
-          */
-        void setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord);
-
-
     private slots:
 
         /**
@@ -831,14 +821,12 @@ class Capture : public QWidget, public Ui::Capture
 
         void setDownloadProgress();
 
-        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void meridianFlipCompleted();
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
-        Q_SCRIPTABLE void newSequenceImage(const QString &filename, const QString &previewFITS);
+        Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
         void ready();
 
@@ -866,9 +854,7 @@ class Capture : public QWidget, public Ui::Capture
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
-        // Signals for the Analyze tab.
-        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
-                             double hfr, int numStars, int median, double eccentricity);
+        // Signals for the Analyze tab.        
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -1199,13 +1185,7 @@ class Capture : public QWidget, public Ui::Capture
         QList<double> downloadTimes;
         QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
+        QVariantMap m_Metadata;
         void processGuidingFailed();
-
-        /// Target coordinates for pointing check
-        SkyPoint m_TargetCoord;
-        bool m_TargetCoordValid = false;
-        std::unique_ptr<SolverUtils> m_Solver;
-        // Used when solving position every nth capture.
-        unsigned int solverIteration = {0};
 };
 }

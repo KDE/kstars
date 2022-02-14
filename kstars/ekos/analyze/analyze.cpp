@@ -2108,21 +2108,27 @@ void Analyze::processCaptureStarting(double time, double exposureSeconds, const 
 }
 
 // Called when the captureComplete slot receives a signal.
-void Analyze::captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
-                              double hfr, int numStars, int median, double eccentricity)
+void Analyze::captureComplete(const QVariantMap &metadata)
 {
+    auto filename = metadata["filename"].toString();
+    auto exposure = metadata["exposure"].toDouble();
+    auto filter = metadata["filter"].toString();
+    auto hfr = metadata["hfr"].toDouble();
+    auto starCount = metadata["starCount"].toInt();
+    auto median = metadata["median"].toDouble();
+    auto eccentricity = metadata["eccentricity"].toDouble();
+
     saveMessage("CaptureComplete",
                 QString("%1,%2,%3,%4,%5,%6,%7")
-                .arg(QString::number(exposureSeconds, 'f', 3))
+                .arg(QString::number(exposure, 'f', 3))
                 .arg(filter)
                 .arg(QString::number(hfr, 'f', 3))
                 .arg(filename)
-                .arg(numStars)
+                .arg(starCount)
                 .arg(median)
                 .arg(QString::number(eccentricity, 'f', 3)));
     if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr,
-                               numStars, median, eccentricity);
+        processCaptureComplete(logTime(), filename, exposure, filter, hfr, starCount, median, eccentricity);
 }
 
 void Analyze::processCaptureComplete(double time, const QString &filename,

@@ -1796,11 +1796,7 @@
       <entry name="CapturePosition" type="Bool">
          <label>Calculate position after captures.</label>
          <default>false</default>
-      </entry>
-      <entry name="CapturePositionEvery" type="UInt">
-         <label>When calculating position after captures, compute it every Nth capture.</label>
-         <default>1</default>
-      </entry>
+      </entry>      
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">
@@ -2578,6 +2574,14 @@
       <entry name="RescheduleErrors" type="Bool">
          <label>Re-schedule jobs that ran into errors.</label>
          <default>false</default>
+      </entry>
+      <entry name="AlignCheckFrequency" type="UInt">
+         <label>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</label>
+         <default>0</default>
+      </entry>
+      <entry name="AlignCheckThreshold" type="Double">
+         <label>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</label>
+         <default>30</default>
       </entry>
    </group>
    <group name="Analyze">

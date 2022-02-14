@@ -14,7 +14,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>3</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -406,47 +406,83 @@
       <property name="title">
        <string>Alignment</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Reset mount model on alignment failure</string>
+          <string>arcminutes</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="kcfg_AlignCheckFrequency">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
+         <property name="toolTip">
+          <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
+         </property>
+         <property name="text">
+          <string>Reset pipeline if verified image delta exceeds</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="toolTip">
+          <string>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</string>
+         </property>
+         <property name="text">
+          <string>Verify captured image positoin every</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
          <property name="text">
           <string>Reset mount model before starting each job</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
-         <property name="toolTip">
-          <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
-         </property>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Force re-alignment before starting each job</string>
+          <string>frames</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="toolTip">
+          <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
+         </property>
+         <property name="text">
+          <string>Reset pipeline if verified image delta exceeds</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
+         <property name="text">
+          <string>Reset mount model on alignment failure</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="kcfg_AlignCheckThreshold">
+         <property name="maximum">
+          <double>3600.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>60.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
         <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -857,7 +893,7 @@
      </spacer>
     </item>
    </layout>
-  </widget>  
+  </widget>
  </widget>
  <resources/>
  <connections/>

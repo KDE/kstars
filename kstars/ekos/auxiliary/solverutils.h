@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <QFutureWatcher>
 
 #include <stellarsolver.h>
 
@@ -22,27 +23,37 @@ class SolverUtils : public QObject
         Q_OBJECT
 
     public:
-        SolverUtils() {}
+        SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds = 15);
 
-        void runSolver(FITSData * data, const SSolver::Parameters &parameters, double timeoutSeconds);
-
-        SolverUtils &useScale(bool useIt);
+        void runSolver(const QSharedPointer<FITSData> &data);
+        void runSolver(const QString &filename);
+        SolverUtils &useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
 
     signals:
         void done(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-        void appendLogText(const QString &logText);
+        void newLog(const QString &logText);
 
     private:
         void deleteSolver();
         void solverDone();
         void solverTimeout();
+        void executeSolver();
+        void prepareSolver();
 
         std::unique_ptr<StellarSolver> m_StellarSolver;
 
         QTimer m_SolverTimer;
-        double m_SolverTimeoutSeconds = 0;
-        QString m_TempFilename;
+        // Copy of parameters
+        SSolver::Parameters m_Parameters;
+        // Solver timeout in seconds.
+        uint32_t m_Timeout {0};
+        // Temporary file name in case of external solver.
+        QString m_TemporaryFilename;
+        QFutureWatcher<bool> m_Watcher;
+        double m_ScaleLowArcsecPerPixel {0}, m_ScaleHighArcsecPerPixel {0};
+
+        QSharedPointer<FITSData> m_ImageData;
 
         bool m_UseScale { false };
         bool m_UsePosition { false };

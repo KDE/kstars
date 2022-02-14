@@ -7119,6 +7119,8 @@ void Scheduler::registerNewModule(const QString &name)
         connect(captureInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(captureInterface, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(setCaptureStatus(Ekos::CaptureState)),
                 Qt::UniqueConnection);
+        connect(captureInterface, SIGNAL(captureComplete(QVariantMap)), this, SLOT(setCaptureComplete(QVariantMap)),
+                Qt::UniqueConnection);
         checkInterfaceReady(captureInterface);
     }
     else if (name == "Mount")
@@ -7555,7 +7557,8 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                     estimateJobTime(job, m_CapturedFramesCount, this);
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
-            else currentJob->setCompletedCount(currentJob->getCompletedCount() + 1);
+            else
+                currentJob->setCompletedCount(currentJob->getCompletedCount() + 1);
 
             captureFailureCount = 0;
         }
@@ -7907,6 +7910,90 @@ QDateTime Scheduler::getPreemptiveShutdownWakeupTime()
 bool Scheduler::preemptiveShutdown()
 {
     return preemptiveShutdownWakeupTime.isValid();
+}
+
+void Scheduler::setCaptureComplete(const QVariantMap &metadata)
+{
+    if (currentJob &&
+            currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN &&
+            metadata["type"].toInt() == FRAME_LIGHT &&
+            Options::alignCheckFrequency() > 0 &&
+            ++m_SolverIteration >= Options::alignCheckFrequency())
+    {
+        m_SolverIteration = 0;
+
+        auto filename = metadata["filename"].toString();
+        auto exposure = metadata["exposure"].toDouble();
+
+        constexpr double minSolverSeconds = 5.0;
+        double solverTimeout = std::max(exposure - 2, minSolverSeconds);
+        if (solverTimeout >= minSolverSeconds)
+        {
+            auto profiles = getDefaultAlignOptionsProfiles();
+            auto parameters = profiles.at(Options::solveOptionsProfile());
+            // Double search radius
+            parameters.search_radius = parameters.search_radius * 2;
+            m_Solver.reset(new SolverUtils(parameters, solverTimeout));
+            connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone, Qt::UniqueConnection);
+            //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::appendLogText, Qt::UniqueConnection);
+            m_Solver->useScale(Options::astrometryUseImageScale(), Options::astrometryImageScaleLow(),
+                               Options::astrometryImageScaleHigh());
+            m_Solver->usePosition(Options::astrometryUsePosition(), currentJob->getTargetCoords().ra().Degrees(),
+                                  currentJob->getTargetCoords().dec().Degrees());
+            m_Solver->runSolver(filename);
+        }
+    }
+}
+
+void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
+{
+    disconnect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone);
+
+    if (!currentJob)
+        return;
+
+    if (timedOut)
+        appendLogText(i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else if (!success)
+        appendLogText(i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else
+    {
+        const double ra = solution.ra;
+        const double dec = solution.dec;
+
+        const auto target = currentJob->getTargetCoords();
+
+        SkyPoint alignCoord;
+        alignCoord.setRA0(ra / 15.0);
+        alignCoord.setDec0(dec);
+        alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        const double diffRa = (alignCoord.ra().deltaAngle(target.ra())).Degrees() * 3600;
+        const double diffDec = (alignCoord.dec().deltaAngle(target.dec())).Degrees() * 3600;
+
+        // This is an approximation, probably ok for small angles.
+        const double diffTotal = hypot(diffRa, diffDec);
+
+        // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
+        // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) solved in %6s")
+                                       .arg(QString("%L1").arg(diffTotal, 0, 'f', 0),
+                                            target.ra().toDMSString(),
+                                            target.dec().toDMSString(),
+                                            alignCoord.ra().toDMSString(),
+                                            alignCoord.dec().toDMSString(),
+                                            QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
+
+        // If we exceed align check threshold, we abort and re-align.
+        if (diffTotal / 60 > Options::alignCheckThreshold())
+        {
+            appendLogText(i18n("Captured frame is %1 arcminutes away from target, re-aligning...", QString::number(diffTotal / 60.0,
+                               'f', 1)));
+            stopCurrentJobAction();
+            startAstrometry();
+        }
+    }
 }
 
 }

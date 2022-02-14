@@ -852,21 +852,6 @@ void Capture::stop(CaptureState targetState)
     setMeridianFlipStage(MF_READY);
 }
 
-//void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
-//{
-//    if (activeJob && (myChip == nullptr || myChip == targetChip))
-//    {
-//        activeJob->setProperty("filename", filename);
-//        emit newImage(activeJob);
-//        // We only emit this for client/both images since remote images already send this automatically
-//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
-//        {
-//            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
-//            m_GeneratedPreviewFITS.clear();
-//        }
-//    }
-//}
-
 bool Capture::setCamera(const QString &device)
 {
     // Do not change camera while in capture
@@ -1875,14 +1860,6 @@ IPState Capture::setCaptureComplete()
         if (Options::autoHFR() && m_ImageData && !m_ImageData->areStarsSearched() && m_ImageData->getRecordValue("FRAME", frameType)
                 && frameType.toString() == "Light")
         {
-
-#ifdef HAVE_STELLARSOLVER
-            QVariantMap extractionSettings;
-            extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
-            extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
-            m_ImageData->setSourceExtractorSettings(extractionSettings);
-#endif
-
             QFuture<bool> result = m_ImageData->findStars(ALGORITHM_SEP);
             result.waitForFinished();
         }
@@ -1906,9 +1883,16 @@ IPState Capture::setCaptureComplete()
 
     if (activeJob)
     {
-        emit captureComplete(filename, activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                             activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString(), hfr,
-                             numStars, median, eccentricity);
+        QVariantMap metadata;
+        metadata["filename"] = filename;
+        metadata["type"] = activeJob->getFrameType();
+        metadata["exposure"] = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+        metadata["filter"] = activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+        metadata["hfr"] = hfr;
+        metadata["starCount"] = numStars;
+        metadata["median"] = median;
+        metadata["eccentricity"] = eccentricity;
+        emit captureComplete(metadata);
 
         currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
@@ -1931,76 +1915,7 @@ IPState Capture::setCaptureComplete()
         }
     }
 
-#ifdef HAVE_STELLARSOLVER
-    if (Options::capturePosition() && m_ImageData && activeJob && activeJob->getFrameType() == FRAME_LIGHT &&
-            solverIteration++ % Options::capturePositionEvery() == 0)
-    {
-        constexpr double maxSolverSeconds = 15.0;
-        constexpr double minSolverSeconds = 2.0;
-        const double exposureLength = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-        double solverTimeout = std::min(exposureLength - 2, maxSolverSeconds);
-        if (solverTimeout >= minSolverSeconds)
-        {
-            auto profiles = getDefaultAlignOptionsProfiles();
-            auto parameters = profiles.at(Options::solveOptionsProfile());
-
-            m_Solver.reset(new SolverUtils());
-            connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Capture::solverDone, Qt::UniqueConnection);
-            // connect(m_Solver.get(), &SolverUtils::appendLogText, this, &Ekos::Capture::appendLogText, Qt::UniqueConnection);
-
-            m_Solver->useScale(false)
-            .usePosition(false, m_TargetCoord.ra().Degrees(), m_TargetCoord.dec().Degrees())
-            .runSolver(m_ImageData.get(), parameters, solverTimeout);
-        }
-    }
-#endif
-
     return resumeSequence();
-}
-
-void Capture::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
-{
-    disconnect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Capture::solverDone);
-
-    if (timedOut)
-        appendLogText(i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
-    else if (!success)
-        appendLogText(i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
-    else
-    {
-        const double ra = solution.ra;
-        const double dec = solution.dec;
-
-        SkyPoint alignCoord;
-        alignCoord.setRA0(ra / 15.0);
-        alignCoord.setDec0(dec);
-        alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
-        alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-        const double diffRa = (alignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
-        const double diffDec = (alignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;
-
-        // This is an approximation, probably ok for small angles.
-        const double diffTotal = hypot(diffRa, diffDec);
-
-        // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
-        // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
-        appendLogText(
-            QString(i18n("Target Distance: %1 a-s Target %2 %3  Position %4 %5 (%6s)",
-                         QString("%L1").arg(diffTotal, 0, 'f', 0),
-                         m_TargetCoord.ra().toDMSString(), m_TargetCoord.dec().toDMSString(),
-                         alignCoord.ra().toDMSString(), alignCoord.dec().toDMSString(),
-                         QString("%L1").arg(elapsedSeconds, 0, 'f', 2))));
-    }
-}
-
-void Capture::setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord)
-
-{
-    Q_UNUSED(targetObject);
-    m_TargetCoord = targetCoord;
-    m_TargetCoordValid = true;
-    appendLogText(QString("Target updated to JNow RA: %1 DEC %2")
-                  .arg(m_TargetCoord.ra().toHMSString()).arg(m_TargetCoord.dec().toDMSString()));
 }
 
 void Capture::processJobCompletionStage1()
@@ -6850,7 +6765,6 @@ bool Capture::processPostCaptureCalibrationStage()
 void Capture::setNewRemoteFile(QString file)
 {
     appendLogText(i18n("Remote image saved to %1", file));
-    emit newSequenceImage(file, QString());
 }
 
 /*
