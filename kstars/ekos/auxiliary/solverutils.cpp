@@ -100,8 +100,8 @@ void SolverUtils::prepareSolver()
         m_StellarSolver->setProperty("UsePostion", false);
 
     // LOG_ALL is crashy now
-    m_StellarSolver->setLogLevel(SSolver::LOG_ERROR);
-    m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
+    m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
+    m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
 }
 
 void SolverUtils::runSolver(const QSharedPointer<FITSData> &data)
