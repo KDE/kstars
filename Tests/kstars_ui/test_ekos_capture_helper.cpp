@@ -26,7 +26,8 @@ void TestEkosCaptureHelper::init()
 void TestEkosCaptureHelper::cleanup()
 {
     // remove destination directory
-    destination->remove();
+    if (destination != nullptr)
+        destination->remove();
     delete destination;
 }
 
@@ -79,6 +80,19 @@ QString TestEkosCaptureHelper::calculateSignature(QString target, QString filter
         return getImageLocation()->path() + "/Light/" + filter + "/Light";
     else
         return getImageLocation()->path() + "/" + target + "/Light/" + filter + "/" + target + "_Light";
+}
+
+QStringList TestEkosCaptureHelper::searchFITS(const QDir &dir) const
+{
+    QStringList list = dir.entryList(QDir::Files);
+
+    //foreach (auto &f, list)
+    //    QWARN(QString(dir.path()+'/'+f).toStdString().c_str());
+
+    foreach (auto &d, dir.entryList(QDir::NoDotAndDotDot | QDir::Dirs))
+        list.append(searchFITS(QDir(dir.path() + '/' + d)));
+
+    return list;
 }
 
 QDir *TestEkosCaptureHelper::getImageLocation()

@@ -324,6 +324,23 @@ do {\
     qCInfo(KSTARS_EKOS_TEST) << "Process result code: " << result;\
     } while (false)
 
+#define SET_INDI_VALUE_SWITCH(device, group, property, value) do {\
+    int result = QProcess::execute(QString("indi_setprop"), {QString("-s"), QString("%1.%2.%3=%4").arg(device).arg(group).arg(property).arg(value==true?"On":"Off")});\
+    qCInfo(KSTARS_EKOS_TEST) << "Process result code: " << result;\
+    } while (false)
+
+#define CLOSE_MODAL_DIALOG(button_nr) do { \
+    QTimer::singleShot(1000, capture, [&]() { \
+        QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
+        if (dialog) \
+        { \
+            QList<QPushButton*> pb = dialog->findChildren<QPushButton*>(); \
+            QTest::mouseClick(pb[button_nr], Qt::MouseButton::LeftButton); \
+        } \
+    }); \
+    } while (false)
+
+
 
 class TestEkosHelper : public QObject
 {
@@ -339,6 +356,11 @@ public:
     QString m_GuiderDevice = nullptr;
     // Focusing device
     QString m_FocuserDevice = nullptr;
+    // Flat light panel device
+    QString m_LightPanelDevice = nullptr;
+    // Dome device
+    QString m_DomeDevice = nullptr;
+
     // Guider (PHD2 or Internal)
     QString m_Guider = "Internal";
 
@@ -358,7 +380,10 @@ public:
     QQueue<Ekos::FocusState> expectedFocusStates;
     // sequence of guiding states that are expected
     QQueue<Ekos::GuideState> expectedGuidingStates;
+    // sequence of mount states that are expected
     QQueue<ISD::Telescope::Status> expectedMountStates;
+    // sequence of dome states that are expected
+    QQueue<ISD::Dome::Status> expectedDomeStates;
     // sequence of meridian flip states that are expected
     QQueue<Ekos::Mount::MeridianFlipStatus> expectedMeridianFlipStates;
     // sequence of scheduler states that are expected
@@ -499,6 +524,15 @@ public:
      * @brief Retrieve the current scheduler status.
      */
     Ekos::SchedulerState getSchedulerStatus() {return m_SchedulerStatus;}
+    /**
+     * @brief Retrieve the current dome status.
+     */
+    ISD::Dome::Status getDomeStatus() {return m_DomeStatus;}
+
+    /**
+     * @brief Connect to read all modules state changes
+     */
+    void connectModules();
 
 private:
     // current mount status
@@ -518,6 +552,9 @@ private:
 
     // current guiding status
     Ekos::GuideState m_GuideStatus { Ekos::GUIDE_IDLE };
+
+    // current dome status
+    ISD::Dome::Status m_DomeStatus { ISD::Dome::DOME_IDLE };
 
     // current guiding deviation
     double m_GuideDeviation { -1 };
@@ -574,5 +611,11 @@ private:
      * @param status new scheduler status
      */
     void schedulerStatusChanged(Ekos::SchedulerState status);
+
+    /**
+     * @brief Slot to track the dome status
+     * @param status new scheduler status
+     */
+    void domeStatusChanged(ISD::Dome::Status status);
 
 };
