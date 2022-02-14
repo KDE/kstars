@@ -2427,10 +2427,10 @@ void Capture::captureImage()
         case CAPTURE_OK:
         {
             emit captureStarting(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                                 activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                                 activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
             appendLogText(i18n("Capturing %1-second %2 image...",
                                QString("%L1").arg(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString()));
+                               activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
             captureTimeout.start(static_cast<int>(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) * 1000 +
                                  CAPTURE_TIMEOUT_THRESHOLD);
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
@@ -3325,7 +3325,7 @@ void Capture::prepareJob(SequenceJob * job)
             activeJob->setCompleted(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
                                QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             processJobCompletionStage2();
 
@@ -3338,7 +3338,7 @@ void Capture::prepareJob(SequenceJob * job)
             currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
             appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
                                QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 
             // Emit progress update - done a few lines below
@@ -5084,7 +5084,7 @@ QString Capture::getJobFilterName(int id)
     if (id < jobs.count())
     {
         SequenceJob * job = jobs.at(id);
-        return job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
+        return job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     }
 
     return QString();

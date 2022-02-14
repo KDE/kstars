@@ -5539,7 +5539,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         // FIXME: find a way to actually display the filter name.
         QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt(),
                                seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                               seqJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                               seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
 
         if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {

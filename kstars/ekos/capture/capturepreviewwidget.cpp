@@ -76,7 +76,7 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     else
         m_currentFrame.target = "";
 
-    m_currentFrame.filterName = job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
+    m_currentFrame.filterName = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     m_currentFrame.exptime    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     m_currentFrame.binning    = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
     m_currentFrame.gain       = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
