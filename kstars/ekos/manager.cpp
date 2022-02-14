@@ -3247,6 +3247,13 @@ void Manager::announceEvent(const QString &message, KSNotification::EventType ev
 
 void Manager::connectModules()
 {
+    DarkLibrary::Instance()->disconnect(this);
+    connect(DarkLibrary::Instance(), &DarkLibrary::newImage, this, [this](const QSharedPointer<FITSData> &data)
+    {
+        ekosLiveClient.get()->media()->sendPreviewImage(data, "+D");
+    });
+    connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame);
+
     // Guide <---> Capture connections
     if (captureProcess.get() && guideProcess.get())
     {

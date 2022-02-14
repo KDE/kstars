@@ -177,6 +177,9 @@ class Message : public QObject
         // Filter Manager commands
         void processFilterManagerCommands(const QString &command, const QJsonObject &payload);
 
+        // Dark Library commands
+        void processDarkLibraryCommands(const QString &command, const QJsonObject &payload);
+
         // Low-level Device commands
         void processDeviceCommands(const QString &command, const QJsonObject &payload);
 

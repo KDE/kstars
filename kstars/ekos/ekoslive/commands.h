@@ -194,6 +194,18 @@ enum COMMANDS
     ASTRO_GET_OBJECTS_IMAGE,
     ASTRO_GET_OBJECTS_OBSERVABILITY,
     ASTRO_GET_OBJECTS_RISESET,
+
+    // Dark Library
+    DARK_LIBRARY_START,
+    DARK_LIBRARY_STOP,
+    DARK_LIBRARY_SET_SETTINGS,
+    DARK_LIBRARY_GET_DARK_SETTINGS,
+    DARK_LIBRARY_SET_DEFECT_SETTINGS,
+    DARK_LIBRARY_SET_DEFECT_PIXELS,
+    DARK_LIBRARY_GET_DEFECT_SETTINGS,
+    DARK_LIBRARY_GET_VIEW_MASTERS,
+    DARK_LIBRARY_GET_MASTERS_IMAGE,
+    DARK_LIBRARY_CLEAR_MASTERS_ROW,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -360,7 +372,18 @@ static QMap<COMMANDS, QString> const commands =
     {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
     {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"},
     {ASTRO_GET_OBJECTS_OBSERVABILITY, "astro_get_objects_observability"},
-    {ASTRO_GET_OBJECTS_RISESET, "astro_get_objects_riseset"}
+    {ASTRO_GET_OBJECTS_RISESET, "astro_get_objects_riseset"},
+
+    {DARK_LIBRARY_START, "dark_library_start"},
+    {DARK_LIBRARY_STOP, "dark_library_stop"},
+    {DARK_LIBRARY_SET_SETTINGS, "dark_library_set_settings"},
+    {DARK_LIBRARY_GET_DARK_SETTINGS, "dark_library_get_dark_settings"},
+    {DARK_LIBRARY_SET_DEFECT_SETTINGS, "dark_library_set_defect_settings"},
+    {DARK_LIBRARY_SET_DEFECT_PIXELS, "dark_library_set_defect_pixels"},
+    {DARK_LIBRARY_GET_DEFECT_SETTINGS, "dark_library_get_defect_settings"},
+    {DARK_LIBRARY_GET_VIEW_MASTERS, "dark_library_get_view_masters"},
+    {DARK_LIBRARY_GET_MASTERS_IMAGE, "dark_library_get_masters_image"},
+    {DARK_LIBRARY_CLEAR_MASTERS_ROW, "dark_library_clear_masters_row"}
 };
 
 }
