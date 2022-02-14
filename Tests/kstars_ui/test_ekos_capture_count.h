@@ -88,7 +88,7 @@ protected:
     /**
      * @brief Register that a new image has been captured
      */
-    void captureComplete(const QString &filename, double exposureSeconds, const QString &filter, double hfr);
+    void captureComplete(const QVariantMap &metadata);
 
     // sequence of scheduler states that are expected
     QQueue<Ekos::SchedulerState> expectedSchedulerStates;

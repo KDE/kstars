@@ -852,21 +852,6 @@ void Capture::stop(CaptureState targetState)
     setMeridianFlipStage(MF_READY);
 }
 
-//void Capture::sendNewImage(const QString &filename, ISD::CCDChip * myChip)
-//{
-//    if (activeJob && (myChip == nullptr || myChip == targetChip))
-//    {
-//        activeJob->setProperty("filename", filename);
-//        emit newImage(activeJob);
-//        // We only emit this for client/both images since remote images already send this automatically
-//        if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
-//        {
-//            emit newSequenceImage(filename, m_GeneratedPreviewFITS);
-//            m_GeneratedPreviewFITS.clear();
-//        }
-//    }
-//}
-
 bool Capture::setCamera(const QString &device)
 {
     // Do not change camera while in capture
@@ -1536,9 +1521,15 @@ void Capture::checkFilter(int filterNum)
 
 void Capture::syncFilterInfo()
 {
-    if (currentCCD)
+    QList<ISD::GDInterface *> devices;
+    for (const auto &oneCamera : CCDs)
+        devices.append(oneCamera);
+    if (currentDustCap)
+        devices.append(currentDustCap);
+
+    for (const auto &oneDevice : devices)
     {
-        auto activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
+        auto activeDevices = oneDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
             auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
@@ -1548,13 +1539,13 @@ void Capture::syncFilterInfo()
                 {
                     Options::setDefaultFocusFilterWheel(currentFilter->getDeviceName());
                     activeFilter->setText(currentFilter->getDeviceName().toLatin1().constData());
-                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
                 // Reset filter name in CCD driver
                 else if (!currentFilter && strlen(activeFilter->getText()) > 0)
                 {
                     activeFilter->setText("");
-                    currentCCD->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    oneDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
                 }
             }
         }
@@ -1769,7 +1760,7 @@ IPState Capture::setCaptureComplete()
 
     // Do not calculate download time for images stored on server.
     // Only calculate for longer exposures.
-    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL && m_DownloadTimer.isValid())
     {
         //This determines the time since the image started downloading
         //Then it gets the estimated time left and displays it in the log.
@@ -1782,6 +1773,9 @@ IPState Capture::setCaptureComplete()
             QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
             appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
         }
+
+        // Always invalidate timer as it must be explicitly started.
+        m_DownloadTimer.invalidate();
     }
 
     secondsLabel->setText(i18n("Complete."));
@@ -1866,14 +1860,6 @@ IPState Capture::setCaptureComplete()
         if (Options::autoHFR() && m_ImageData && !m_ImageData->areStarsSearched() && m_ImageData->getRecordValue("FRAME", frameType)
                 && frameType.toString() == "Light")
         {
-
-#ifdef HAVE_STELLARSOLVER
-            QVariantMap extractionSettings;
-            extractionSettings["optionsProfileIndex"] = Options::hFROptionsProfile();
-            extractionSettings["optionsProfileGroup"] = static_cast<int>(Ekos::HFRProfiles);
-            m_ImageData->setSourceExtractorSettings(extractionSettings);
-#endif
-
             QFuture<bool> result = m_ImageData->findStars(ALGORITHM_SEP);
             result.waitForFinished();
         }
@@ -1897,9 +1883,16 @@ IPState Capture::setCaptureComplete()
 
     if (activeJob)
     {
-        emit captureComplete(filename, activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                             activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString(), hfr,
-                             numStars, median, eccentricity);
+        QVariantMap metadata;
+        metadata["filename"] = filename;
+        metadata["type"] = activeJob->getFrameType();
+        metadata["exposure"] = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+        metadata["filter"] = activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+        metadata["hfr"] = hfr;
+        metadata["starCount"] = numStars;
+        metadata["median"] = median;
+        metadata["eccentricity"] = eccentricity;
+        emit captureComplete(metadata);
 
         currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
@@ -1924,7 +1917,6 @@ IPState Capture::setCaptureComplete()
 
     return resumeSequence();
 }
-
 
 void Capture::processJobCompletionStage1()
 {
@@ -2435,10 +2427,10 @@ void Capture::captureImage()
         case CAPTURE_OK:
         {
             emit captureStarting(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                                 activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                                 activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
             appendLogText(i18n("Capturing %1-second %2 image...",
                                QString("%L1").arg(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString()));
+                               activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
             captureTimeout.start(static_cast<int>(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) * 1000 +
                                  CAPTURE_TIMEOUT_THRESHOLD);
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
@@ -3333,7 +3325,7 @@ void Capture::prepareJob(SequenceJob * job)
             activeJob->setCompleted(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
             appendLogText(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
                                QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             processJobCompletionStage2();
 
@@ -3346,7 +3338,7 @@ void Capture::prepareJob(SequenceJob * job)
             currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
             appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
                                QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                               job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+                               job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                                activeJob->getCompleted(), activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 
             // Emit progress update - done a few lines below
@@ -3592,8 +3584,21 @@ void Capture::executeJob()
 
     calibrationCheckType = CAL_CHECK_TASK;
 
+    // If the job is a dark flat, let's find the optimal exposure from prior
+    // flat exposures.
     if (activeJob->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
-        setDarkFlatExposure(activeJob);
+    {
+        // If we found a prior exposure, and current upload more is not local, then update full prefix
+        if (setDarkFlatExposure(activeJob) && currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        {
+            auto placeholderPath = Ekos::PlaceholderPath();
+            // Make sure to update Full Prefix as exposure value was changed
+            placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+            updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
+                                 QFileInfo(activeJob->getSignature()).path());
+        }
+
+    }
 
     updatePreCaptureCalibrationStatus();
 
@@ -5079,7 +5084,7 @@ QString Capture::getJobFilterName(int id)
     if (id < jobs.count())
     {
         SequenceJob * job = jobs.at(id);
-        return job->getCoreProperty(SequenceJob::SJ_TargetName).toString();
+        return job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     }
 
     return QString();
@@ -6694,6 +6699,14 @@ bool Capture::processPostCaptureCalibrationStage()
                     placeholderPath.processJobInfo(activeJob, activeJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
                     // Mark calibration as complete
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
+
+                    // Must update sequence prefix as this step is only done in prepareJob
+                    // but since the duration has now been updated, we must take care to update signature
+                    // since it may include a placeholder for duration which would affect it.
+                    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+                        updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
+                                             QFileInfo(activeJob->getSignature()).path());
+
                     startNextExposure();
                     return false;
                 }
@@ -6752,7 +6765,6 @@ bool Capture::processPostCaptureCalibrationStage()
 void Capture::setNewRemoteFile(QString file)
 {
     appendLogText(i18n("Remote image saved to %1", file));
-    emit newSequenceImage(file, QString());
 }
 
 /*

@@ -365,9 +365,12 @@ Scheduler::Scheduler()
     setupScheduler(ekosPathString, ekosInterfaceString);
 }
 
-Scheduler::Scheduler(const QString &ekosPathStr, const QString &ekosInterfaceStr)
+Scheduler::Scheduler(const QString path, const QString interface,
+                     const QString &ekosPathStr, const QString &ekosInterfaceStr)
 {
     // During testing, when mocking ekos, use a special purpose path and interface.
+    schedulerPathString = path;
+    kstarsInterfaceString = interface;
     setupScheduler(ekosPathStr, ekosInterfaceStr);
 }
 
@@ -390,23 +393,24 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     startupTimeEdit->setDateTime(currentDateTime);
     completionTimeEdit->setDateTime(currentDateTime);
 
+
     // Set up DBus interfaces
     new SchedulerAdaptor(this);
-    QDBusConnection::sessionBus().unregisterObject("/KStars/Ekos/Scheduler");
-    if (!QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler", this))
+    QDBusConnection::sessionBus().unregisterObject(schedulerPathString);
+    if (!QDBusConnection::sessionBus().registerObject(schedulerPathString, this))
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Scheduler failed to register with dbus");
-    ekosInterface = new QDBusInterface("org.kde.kstars", ekosPathStr, ekosInterfaceStr,
+    ekosInterface = new QDBusInterface(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr,
                                        QDBusConnection::sessionBus(), this);
 
     // Example of connecting DBus signals
     //connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     //connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
     //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
-    QDBusConnection::sessionBus().connect("org.kde.kstars", ekosPathStr, ekosInterfaceStr, "newModule", this,
+    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newModule", this,
                                           SLOT(registerNewModule(QString)));
-    QDBusConnection::sessionBus().connect("org.kde.kstars", ekosPathStr, ekosInterfaceStr, "indiStatusChanged",
+    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "indiStatusChanged",
                                           this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
-    QDBusConnection::sessionBus().connect("org.kde.kstars", ekosPathStr, ekosInterfaceStr, "ekosStatusChanged",
+    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "ekosStatusChanged",
                                           this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
 
     sleepLabel->setPixmap(
@@ -4716,6 +4720,14 @@ void Scheduler::startFocusing()
         return;
     }
 
+
+    // If we have a LIGHT filter set, let's set it.
+    if (!currentJob->getInitialFilter().isEmpty())
+    {
+        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "focusInterface", "focusInterface:setProperty");
+        focusInterface->setProperty("filter", currentJob->getInitialFilter());
+    }
+
     // Set autostar if full field option is false
     if (Options::focusUseFullField() == false)
     {
@@ -5527,7 +5539,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
         // FIXME: find a way to actually display the filter name.
         QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt(),
                                seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
-                               seqJob->getCoreProperty(SequenceJob::SJ_TargetName).toString());
+                               seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
 
         if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
@@ -6976,7 +6988,18 @@ bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob
                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 else if (!strcmp(tagXMLEle(ep), "Job"))
+                {
                     jobs.append(processJobInfo(ep, schedJob));
+                    if (jobs.count() == 1)
+                    {
+                        auto &firstJob = jobs.first();
+                        if (FRAME_LIGHT == firstJob->getFrameType() && nullptr != schedJob)
+                        {
+                            schedJob->setInitialFilter(firstJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
+                        }
+
+                    }
+                }
             }
             delXMLEle(root);
         }
@@ -7082,7 +7105,7 @@ void Scheduler::registerNewModule(const QString &name)
     if (name == "Focus")
     {
         delete focusInterface;
-        focusInterface   = new QDBusInterface("org.kde.kstars", focusPathString, focusInterfaceString,
+        focusInterface   = new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
                                               QDBusConnection::sessionBus(), this);
         connect(focusInterface, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)),
                 Qt::UniqueConnection);
@@ -7090,18 +7113,20 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "Capture")
     {
         delete captureInterface;
-        captureInterface = new QDBusInterface("org.kde.kstars", capturePathString, captureInterfaceString,
+        captureInterface = new QDBusInterface(kstarsInterfaceString, capturePathString, captureInterfaceString,
                                               QDBusConnection::sessionBus(), this);
 
         connect(captureInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(captureInterface, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(setCaptureStatus(Ekos::CaptureState)),
+                Qt::UniqueConnection);
+        connect(captureInterface, SIGNAL(captureComplete(QVariantMap)), this, SLOT(setCaptureComplete(QVariantMap)),
                 Qt::UniqueConnection);
         checkInterfaceReady(captureInterface);
     }
     else if (name == "Mount")
     {
         delete mountInterface;
-        mountInterface   = new QDBusInterface("org.kde.kstars", mountPathString, mountInterfaceString,
+        mountInterface   = new QDBusInterface(kstarsInterfaceString, mountPathString, mountInterfaceString,
                                               QDBusConnection::sessionBus(), this);
 
         connect(mountInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
@@ -7113,7 +7138,7 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "Align")
     {
         delete alignInterface;
-        alignInterface   = new QDBusInterface("org.kde.kstars", alignPathString, alignInterfaceString,
+        alignInterface   = new QDBusInterface(kstarsInterfaceString, alignPathString, alignInterfaceString,
                                               QDBusConnection::sessionBus(), this);
         connect(alignInterface, SIGNAL(newStatus(Ekos::AlignState)), this, SLOT(setAlignStatus(Ekos::AlignState)),
                 Qt::UniqueConnection);
@@ -7121,7 +7146,7 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "Guide")
     {
         delete guideInterface;
-        guideInterface   = new QDBusInterface("org.kde.kstars", guidePathString, guideInterfaceString,
+        guideInterface   = new QDBusInterface(kstarsInterfaceString, guidePathString, guideInterfaceString,
                                               QDBusConnection::sessionBus(), this);
         connect(guideInterface, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setGuideStatus(Ekos::GuideState)),
                 Qt::UniqueConnection);
@@ -7129,7 +7154,7 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "Dome")
     {
         delete domeInterface;
-        domeInterface    = new QDBusInterface("org.kde.kstars", domePathString, domeInterfaceString,
+        domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
                                               QDBusConnection::sessionBus(), this);
 
         connect(domeInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
@@ -7138,7 +7163,7 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "Weather")
     {
         delete weatherInterface;
-        weatherInterface = new QDBusInterface("org.kde.kstars", weatherPathString, weatherInterfaceString,
+        weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
                                               QDBusConnection::sessionBus(), this);
 
         connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
@@ -7148,7 +7173,7 @@ void Scheduler::registerNewModule(const QString &name)
     else if (name == "DustCap")
     {
         delete capInterface;
-        capInterface = new QDBusInterface("org.kde.kstars", dustCapPathString, dustCapInterfaceString,
+        capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
                                           QDBusConnection::sessionBus(), this);
 
         connect(capInterface, SIGNAL(ready()), this, SLOT(syncProperties()), Qt::UniqueConnection);
@@ -7532,7 +7557,8 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
                     estimateJobTime(job, m_CapturedFramesCount, this);
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
-            else currentJob->setCompletedCount(currentJob->getCompletedCount() + 1);
+            else
+                currentJob->setCompletedCount(currentJob->getCompletedCount() + 1);
 
             captureFailureCount = 0;
         }
@@ -7884,6 +7910,90 @@ QDateTime Scheduler::getPreemptiveShutdownWakeupTime()
 bool Scheduler::preemptiveShutdown()
 {
     return preemptiveShutdownWakeupTime.isValid();
+}
+
+void Scheduler::setCaptureComplete(const QVariantMap &metadata)
+{
+    if (currentJob &&
+            currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN &&
+            metadata["type"].toInt() == FRAME_LIGHT &&
+            Options::alignCheckFrequency() > 0 &&
+            ++m_SolverIteration >= Options::alignCheckFrequency())
+    {
+        m_SolverIteration = 0;
+
+        auto filename = metadata["filename"].toString();
+        auto exposure = metadata["exposure"].toDouble();
+
+        constexpr double minSolverSeconds = 5.0;
+        double solverTimeout = std::max(exposure - 2, minSolverSeconds);
+        if (solverTimeout >= minSolverSeconds)
+        {
+            auto profiles = getDefaultAlignOptionsProfiles();
+            auto parameters = profiles.at(Options::solveOptionsProfile());
+            // Double search radius
+            parameters.search_radius = parameters.search_radius * 2;
+            m_Solver.reset(new SolverUtils(parameters, solverTimeout));
+            connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone, Qt::UniqueConnection);
+            //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::appendLogText, Qt::UniqueConnection);
+            m_Solver->useScale(Options::astrometryUseImageScale(), Options::astrometryImageScaleLow(),
+                               Options::astrometryImageScaleHigh());
+            m_Solver->usePosition(Options::astrometryUsePosition(), currentJob->getTargetCoords().ra().Degrees(),
+                                  currentJob->getTargetCoords().dec().Degrees());
+            m_Solver->runSolver(filename);
+        }
+    }
+}
+
+void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
+{
+    disconnect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone);
+
+    if (!currentJob)
+        return;
+
+    if (timedOut)
+        appendLogText(i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else if (!success)
+        appendLogText(i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+    else
+    {
+        const double ra = solution.ra;
+        const double dec = solution.dec;
+
+        const auto target = currentJob->getTargetCoords();
+
+        SkyPoint alignCoord;
+        alignCoord.setRA0(ra / 15.0);
+        alignCoord.setDec0(dec);
+        alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+        alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+        const double diffRa = (alignCoord.ra().deltaAngle(target.ra())).Degrees() * 3600;
+        const double diffDec = (alignCoord.dec().deltaAngle(target.dec())).Degrees() * 3600;
+
+        // This is an approximation, probably ok for small angles.
+        const double diffTotal = hypot(diffRa, diffDec);
+
+        // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
+        // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) solved in %6s")
+                                       .arg(QString("%L1").arg(diffTotal, 0, 'f', 0),
+                                            target.ra().toDMSString(),
+                                            target.dec().toDMSString(),
+                                            alignCoord.ra().toDMSString(),
+                                            alignCoord.dec().toDMSString(),
+                                            QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
+
+        // If we exceed align check threshold, we abort and re-align.
+        if (diffTotal / 60 > Options::alignCheckThreshold())
+        {
+            appendLogText(i18n("Captured frame is %1 arcminutes away from target, re-aligning...", QString::number(diffTotal / 60.0,
+                               'f', 1)));
+            stopCurrentJobAction();
+            startAstrometry();
+        }
+    }
 }
 
 }

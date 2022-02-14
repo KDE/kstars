@@ -145,6 +145,13 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
                                       const QList<double> &minDistances)
 {
     constexpr int maxStarDiameter = 32;
+
+    if ((uint) stars.size() < Options::minDetectionsSEPMultistar())
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Too few stars detected.";
+        return QVector3D(-1, -1, -1);
+    }
+
     int maxIndex = MAX_GUIDE_STARS < stars.count() ? MAX_GUIDE_STARS : stars.count();
     int scores[MAX_GUIDE_STARS];
     QList<Edge> guideStarNeighbors;
@@ -265,6 +272,13 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
         GuideView *guideView, bool firstFrame)
 {
+    // We fall-back to single star guiding if multistar isn't working,
+    // but limit this for a number of iterations.
+    // If a user doesn't have multiple stars available, the user shouldn't be using multistar.
+    constexpr int MAX_CONSECUTIVE_UNRELIABLE = 10;
+    if (firstFrame)
+        unreliableDectionCounter = 0;
+
     // Don't accept reference stars whose position is more than this many pixels from expected.
     constexpr double maxStarAssociationDistance = 10;
 
@@ -293,10 +307,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
             return GuiderUtils::Vector(-1, -1, -1);
 
         // Allow it to guide even if the main guide star isn't detected (as long as enough reference stars are).
-        constexpr int maxMissingGuideStars = 5;
-        starCorrespondence.setAllowMissingGuideStar(
-            allowMissingGuideStar &&
-            missedGuideStars < maxMissingGuideStars);
+        starCorrespondence.setAllowMissingGuideStar(allowMissingGuideStar);
 
         // Star correspondence can run quicker if it knows the image size.
         starCorrespondence.setImageSize(imageData->width(), imageData->height());
@@ -312,7 +323,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
                 double SNR = skyBackground.SNR(star.sum, star.numPixels);
                 guideStarSNR = SNR;
                 guideStarMass = star.sum;
-                missedGuideStars = 0;
+                unreliableDectionCounter = 0;
                 qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence found " << i << "at" << star.x << star.y << "SNR" << SNR;
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
@@ -327,7 +338,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
             double SNR = 0;
             guideStarSNR = SNR;
             guideStarMass = 0;
-            missedGuideStars++;
+            unreliableDectionCounter = 0;  // debating this
             qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << position.x << position.y << "SNR" << SNR;
             if (guideView != nullptr)
                 plotStars(guideView, trackingBox);
@@ -336,6 +347,10 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
     }
 
     qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence not used. It failed to find the guide star.";
+
+    if (++unreliableDectionCounter > MAX_CONSECUTIVE_UNRELIABLE)
+        return GuiderUtils::Vector(-1, -1, -1);
+
     logStars("findGuide", "Star", skyBackground,
              detectedStars.size(),
              [&](int i) -> const Edge&
@@ -351,10 +366,35 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         return GuiderUtils::Vector(-1, -1, -1);
 
     // If we didn't find a star that way, then fall back
-    findTopStars(imageData, 1, &detectedStars, maxHFR, &trackingBox);
+    findTopStars(imageData, 100, &detectedStars, maxHFR, &trackingBox);
     if (detectedStars.size() > 0)
     {
-        auto &star = detectedStars[0];
+        // Find the star closest to the guide star position, if we have a position.
+        // Otherwise use the center of the tracking box (which must be valid, see above if).
+        // 1. Get the guide star position
+        int best = 0;
+        double refX = trackingBox.x() + trackingBox.width() / 2;
+        double refY = trackingBox.y() + trackingBox.height() / 2;
+        if (starCorrespondence.size() > 0 && starCorrespondence.guideStar() >= 0)
+        {
+            const auto gStar = starCorrespondence.reference(starCorrespondence.guideStar());
+            refX = gStar.x;
+            refY = gStar.y;
+        }
+        // 2. Find the closest star to that position.
+        double minDistSq = 1e8;
+        for (int i = 0; i < detectedStars.size(); ++i)
+        {
+            const auto &dStar = detectedStars[i];
+            const double distSq = (dStar.x - refX) * (dStar.x - refX) + (dStar.y - refY) * (dStar.y - refY);
+            if (distSq < minDistSq)
+            {
+                best = i;
+                minDistSq = distSq;
+            }
+        }
+        // 3. Return that star.
+        auto &star = detectedStars[best];
         double SNR = skyBackground.SNR(star.sum, star.numPixels);
         guideStarSNR = SNR;
         guideStarMass = star.sum;
@@ -397,7 +437,7 @@ int GuideStars::findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
-    // Take only the first maxNumCenters stars
+    // Take only the first num stars
     {
         int starCount = qMin(num, edges.count());
         for (int i = 0; i < starCount; i++)

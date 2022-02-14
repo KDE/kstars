@@ -2108,21 +2108,27 @@ void Analyze::processCaptureStarting(double time, double exposureSeconds, const 
 }
 
 // Called when the captureComplete slot receives a signal.
-void Analyze::captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
-                              double hfr, int numStars, int median, double eccentricity)
+void Analyze::captureComplete(const QVariantMap &metadata)
 {
+    auto filename = metadata["filename"].toString();
+    auto exposure = metadata["exposure"].toDouble();
+    auto filter = metadata["filter"].toString();
+    auto hfr = metadata["hfr"].toDouble();
+    auto starCount = metadata["starCount"].toInt();
+    auto median = metadata["median"].toDouble();
+    auto eccentricity = metadata["eccentricity"].toDouble();
+
     saveMessage("CaptureComplete",
                 QString("%1,%2,%3,%4,%5,%6,%7")
-                .arg(QString::number(exposureSeconds, 'f', 3))
+                .arg(QString::number(exposure, 'f', 3))
                 .arg(filter)
                 .arg(QString::number(hfr, 'f', 3))
                 .arg(filename)
-                .arg(numStars)
+                .arg(starCount)
                 .arg(median)
                 .arg(QString::number(eccentricity, 'f', 3)));
     if (runtimeDisplay && captureStartedTime >= 0)
-        processCaptureComplete(logTime(), filename, exposureSeconds, filter, hfr,
-                               numStars, median, eccentricity);
+        processCaptureComplete(logTime(), filename, exposure, filter, hfr, starCount, median, eccentricity);
 }
 
 void Analyze::processCaptureComplete(double time, const QString &filename,
@@ -2135,12 +2141,17 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, &stripe);
     else
         addSession(captureStartedTime, time, CAPTURE_Y, successBrush, nullptr);
-    captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, false,
-                                       filename, exposureSeconds, filter));
+    auto session = CaptureSession(captureStartedTime, time, nullptr, false,
+                                  filename, exposureSeconds, filter);
+    captureSessions.add(session);
     addHFR(hfr, numStars, median, eccentricity, time, captureStartedTime);
     updateMaxX(time);
     if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            captureSessionClicked(session, false);
         replot();
+    }
     captureStartedTime = -1;
 }
 
@@ -2163,11 +2174,16 @@ void Analyze::processCaptureAborted(double time, double exposureSeconds, bool ba
         // You can get a captureAborted without a captureStarting,
         // so make sure this associates with a real start.
         addSession(captureStartedTime, time, CAPTURE_Y, failureBrush);
-        captureSessions.add(CaptureSession(captureStartedTime, time, nullptr, true, "",
-                                           exposureSeconds, captureStartedFilter));
+        auto session = CaptureSession(captureStartedTime, time, nullptr, true, "",
+                                      exposureSeconds, captureStartedFilter);
+        captureSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                captureSessionClicked(session, false);
             replot();
+        }
         captureStartedTime = -1;
     }
 }
@@ -2219,11 +2235,16 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, &stripe);
     else
         addSession(autofocusStartedTime, time, FOCUS_Y, successBrush, nullptr);
-    focusSessions.add(FocusSession(autofocusStartedTime, time, nullptr, true,
-                                   autofocusStartedTemperature, filter, points));
+    auto session = FocusSession(autofocusStartedTime, time, nullptr, true,
+                                autofocusStartedTemperature, filter, points);
+    focusSessions.add(session);
     updateMaxX(time);
     if (!batchMode)
+    {
+        if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+            focusSessionClicked(session, false);
         replot();
+    }
     autofocusStartedTime = -1;
 }
 
@@ -2242,11 +2263,16 @@ void Analyze::processAutofocusAborted(double time, const QString &filter, const 
     {
         // Just in case..
         addSession(autofocusStartedTime, time, FOCUS_Y, failureBrush);
-        focusSessions.add(FocusSession(autofocusStartedTime, time, nullptr, false,
-                                       autofocusStartedTemperature, filter, points));
+        auto session = FocusSession(autofocusStartedTime, time, nullptr, false,
+                                    autofocusStartedTemperature, filter, points);
+        focusSessions.add(session);
         updateMaxX(time);
         if (!batchMode)
+        {
+            if (runtimeDisplay && keepCurrentCB->isChecked() && statsCursor == nullptr)
+                focusSessionClicked(session, false);
             replot();
+        }
         autofocusStartedTime = -1;
     }
 }
@@ -2728,6 +2754,7 @@ QBrush mountFlipStateBrush(Mount::MeridianFlipStatus state)
     switch (state)
     {
         case Mount::FLIP_NONE:
+        case Mount::FLIP_INACTIVE:
             return offBrush;
         case Mount::FLIP_PLANNED:
             return stoppedBrush;

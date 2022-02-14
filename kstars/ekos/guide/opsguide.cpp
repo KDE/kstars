@@ -47,11 +47,6 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
     loadOptionsProfiles();
 
-    connect(kcfg_GuideOptionsProfile, QOverload<int>::of(&QComboBox::activated), this, [](int index)
-    {
-        Options::setGuideOptionsProfile(index);
-    });
-
     connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
 
 }

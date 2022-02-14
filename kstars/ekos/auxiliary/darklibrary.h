@@ -91,24 +91,37 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         //void reset();
         void setCaptureModule(Capture *instance);
 
+        void start();
+        void stop();
+        void setDarkSettings(const QJsonObject &settings);
+        QJsonObject getDarkSettings();
+        QJsonObject getDefectSettings();
+        void setDefectPixels(const QJsonObject &payload);
+        QJsonArray getViewMasters();
+        void getloadDarkViewMasterFITS(int index);
+        void setDefectSettings(const QJsonObject row);
     protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
     signals:
         void newLog(const QString &message);
+        void newImage(const QSharedPointer<FITSData> &data);
+        void newFrame(FITSView *view);
 
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
         void processNewBLOB(IBLOB *bp);
+        void clearRow(int row = -1);
+
 
     private slots:
         void clearAll();
-        void clearRow();
         void clearExpired();
         void openDarksFolder();
         void saveDefectMap();
         void setCompleted();
         void loadDarkFITS(QModelIndex index);
+
 
     private:
         explicit DarkLibrary(QWidget *parent);

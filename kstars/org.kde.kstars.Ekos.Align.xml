@@ -76,7 +76,7 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::AlignState"/>
     </signal>
     <signal name="newSolution">
-        <arg name="solution" type="(i)" direction="out"/>
+        <arg name="solution" type="a{sv}" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
     </signal>

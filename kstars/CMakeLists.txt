@@ -178,6 +178,7 @@ if (INDI_FOUND)
             ekos/auxiliary/opslogs.cpp
             ekos/auxiliary/stellarsolverprofileeditor.cpp
             ekos/auxiliary/stellarsolverprofile.cpp
+            ekos/auxiliary/solverutils.cpp
             ekos/auxiliary/serialportassistant.cpp
             ekos/auxiliary/portselector.cpp
 
@@ -545,6 +546,7 @@ set(kstars_options_SRCS
     options/opssatellites.cpp
     options/opssupernovae.cpp
     options/opsterrain.cpp
+    options/opsdeveloper.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -556,6 +558,7 @@ set(kstars_optionsui_SRCS
     options/opssatellites.ui
     options/opssupernovae.ui
     options/opsterrain.ui
+    options/opsdeveloper.ui
 )
 
 set(kstars_dialogs_SRCS
@@ -1366,6 +1369,8 @@ if(APPLE)
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/xplanet-data.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/kstars/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/sounds.zip"
+        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/locale.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
     set(KSTARS_VERSION "${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_REVISION}")
     execute_process(COMMAND date "+%Y" OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE THIS-YEAR)

@@ -2011,10 +2011,6 @@ void Align::startSolving()
             m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
         }
 
-        //Unless we decide to load the WCS Coord, let's turn it off.
-        //Be sure to set this to true instead if we want WCS from the solve.
-        m_StellarSolver->setLoadWCS(false);
-
         // Start solving process
         m_StellarSolver->start();
     }

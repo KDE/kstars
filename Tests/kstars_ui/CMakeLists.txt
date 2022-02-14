@@ -24,12 +24,12 @@ SET(KSTARS_UI_EKOS_SRC ${KSTARS_UI_TESTS_SRC} test_ekos_wizard.cpp)
 SET(KSTARS_UI_EKOS_LIBS ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES} ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
 
 SET(KSTARS_UI_MOCK_SRC mockmodules.cpp)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockFocus.xml mockmodules.h Ekos::MockFocus)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockMount.xml mockmodules.h Ekos::MockMount)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockCapture.xml mockmodules.h Ekos::MockCapture)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockAlign.xml mockmodules.h Ekos::MockAlign)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.MockGuide.xml mockmodules.h Ekos::MockGuide)
-qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.kstars.MockEkos.xml mockmodules.h Ekos::MockEkos)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockFocus.xml mockmodules.h Ekos::MockFocus)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockMount.xml mockmodules.h Ekos::MockMount)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockCapture.xml mockmodules.h Ekos::MockCapture)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockAlign.xml mockmodules.h Ekos::MockAlign)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockGuide.xml mockmodules.h Ekos::MockGuide)
+qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.xml mockmodules.h Ekos::MockEkos)
 
 # FIXME: this particular test crashes when done on the EGLFS platform
 # Disabling until we find the reason, other tests do cover this scenario
@@ -115,12 +115,12 @@ ADD_EXECUTABLE(test_ekos_scheduler_ops ${KSTARS_UI_EKOS_SRC} ${KSTARS_UI_MOCK_SR
 TARGET_LINK_LIBRARIES(test_ekos_scheduler_ops ${KSTARS_UI_EKOS_LIBS})
 ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockAlign.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockCapture.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockFocus.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockGuide.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.kstars.MockEkos.MockMount.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockAlign.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockCapture.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockFocus.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockGuide.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockMount.xml
             ${CMAKE_CURRENT_BINARY_DIR})
 
 ADD_TEST(NAME TestEkosSchedulerOps COMMAND test_ekos_scheduler_ops)

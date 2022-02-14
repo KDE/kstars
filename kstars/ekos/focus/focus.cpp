@@ -930,8 +930,6 @@ void Focus::start()
 
     m_LastFocusDirection = FOCUS_NONE;
 
-    polySolutionFound = 0;
-
     waitStarSelectTimer.stop();
 
     starsHFR.clear();
@@ -1143,7 +1141,6 @@ void Focus::stop(Ekos::FocusState completionState)
     inAutoFocus     = false;
     focuserAdditionalMovement = 0;
     inFocusLoop     = false;
-    polySolutionFound  = 0;
     captureInProgress  = false;
     captureFailureCounter = 0;
     minimumRequiredHFR = -1;
@@ -1728,7 +1725,10 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
 
             // Bypass the rest of the function if we retry - we will fail if we could not move the focuser
             if (retry_focusing)
+            {
+                emit autofocusAborted(filter(), "");
                 return;
+            }
         }
 
         // Reset the retry count on success or maximum count
@@ -1810,9 +1810,8 @@ void Focus::setCurrentHFR(double value)
     if (currentHFR > 0)
     {
         // Check if we're done from polynomial fitting algorithm
-        if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
+        if (focusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
         {
-            polySolutionFound = 0;
             completeFocusProcedure(Ekos::FOCUS_COMPLETE);
             return;
         }
@@ -2365,9 +2364,10 @@ void Focus::autoFocusAbs()
 {
     // Q_ASSERT_X(canAbsMove || canRelMove, __FUNCTION__, "Prerequisite: only absolute and relative focusers");
 
-    static int minHFRPos = 0, focusOutLimit = 0, focusInLimit = 0;
-    static double minHFR = 0;
-    double targetPosition = 0, delta = 0;
+    static int minHFRPos = 0, focusOutLimit = 0, focusInLimit = 0, lastHFRPos = 0, fluctuations = 0;
+    static double minHFR = 0, lastDelta = 0;
+    double targetPosition = 0;
+    bool ignoreLimitedDelta = false;
 
     QString deltaTxt = QString("%1").arg(fabs(currentHFR - minHFR) * 100.0, 0, 'g', 3);
     QString HFRText  = QString("%1").arg(currentHFR, 0, 'g', 3);
@@ -2399,6 +2399,8 @@ void Focus::autoFocusAbs()
             HFRInc                    = 0;
             focusOutLimit             = 0;
             focusInLimit              = 0;
+            lastDelta                 = 0;
+            fluctuations              = 0;
 
             // This is the first step, so clamp the initial target position to the device limits
             // If the focuser cannot move because it is at one end of the interval, try the opposite direction next
@@ -2434,21 +2436,21 @@ void Focus::autoFocusAbs()
 
         case FOCUS_IN:
         case FOCUS_OUT:
-            static int lastHFRPos = 0, initSlopePos = 0;
-            static double initSlopeHFR = 0;
-
             if (reverseDir && focusInLimit && focusOutLimit &&
                     fabs(currentHFR - minHFR) < (toleranceIN->value() / 100.0) && HFRInc == 0)
             {
                 if (absIterations <= 2)
                 {
-                    appendLogText(
-                        i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
+                    QString message = i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance.");
+                    appendLogText(message);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else if (noStarCount > 0)
                 {
-                    appendLogText(i18n("Failed to detect focus star in frame. Capture and select a focus star."));
+                    QString message = i18n("Failed to detect focus star in frame. Capture and select a focus star.");
+                    appendLogText(message);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else
@@ -2459,62 +2461,26 @@ void Focus::autoFocusAbs()
             }
             else if (currentHFR < lastHFR)
             {
-                double slope = 0;
-
-                // Let's try to calculate slope of the V curve.
-                if (initSlopeHFR == 0 && HFRInc == 0 && HFRDec >= 1)
-                {
-                    initSlopeHFR = lastHFR;
-                    initSlopePos = lastHFRPos;
-
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting initial slop to " << initSlopePos << " @ HFR " << initSlopeHFR;
-                }
-
                 // Let's now limit the travel distance of the focuser
-                if (m_LastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
+                if (HFRInc >= 1 && m_LastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit && fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusInLimit = lastHFRPos;
                     qCDebug(KSTARS_EKOS_FOCUS) << "New FocusInLimit " << focusInLimit;
                 }
-                else if (m_LastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
+                else if (HFRInc >= 1 && m_LastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
                          fabs(currentHFR - lastHFR) > 0.1)
                 {
                     focusOutLimit = lastHFRPos;
                     qCDebug(KSTARS_EKOS_FOCUS) << "New FocusOutLimit " << focusOutLimit;
                 }
 
-                // If we have slope, get next target position
-                if (initSlopeHFR && absMotionMax > 50)
-                {
-                    double factor = 0.5;
-                    slope         = (currentHFR - initSlopeHFR) / (currentPosition - initSlopePos);
-                    if (fabs(currentHFR - minHFR) * 100.0 < 0.5)
-                        factor = 1 - fabs(currentHFR - minHFR) * 10;
-                    targetPosition = currentPosition + (currentHFR * factor - currentHFR) / slope;
-                    if (targetPosition < 0)
-                    {
-                        factor = 1;
-                        while (targetPosition < 0 && factor > 0)
-                        {
-                            factor -= 0.005;
-                            targetPosition = currentPosition + (currentHFR * factor - currentHFR) / slope;
-                        }
-                    }
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Using slope to calculate target pulse...";
-                }
-                // Otherwise proceed iteratively
+                double factor = std::max(1.0, HFRDec / 2.0);
+                if (m_LastFocusDirection == FOCUS_IN)
+                    targetPosition = currentPosition - (pulseDuration * factor);
                 else
-                {
-                    if (m_LastFocusDirection == FOCUS_IN)
-                        targetPosition = currentPosition - pulseDuration;
-                    else
-                        targetPosition = currentPosition + pulseDuration;
+                    targetPosition = currentPosition + (pulseDuration * factor);
 
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Proceeding iteratively to next target pulse ...";
-                }
-
-                qCDebug(KSTARS_EKOS_FOCUS) << "V-Curve Slope " << slope << " current Position " << currentPosition
-                                           << " targetPosition " << targetPosition;
+                qCDebug(KSTARS_EKOS_FOCUS) << "current Position" << currentPosition << " targetPosition " << targetPosition;
 
                 lastHFR = currentHFR;
 
@@ -2530,85 +2496,87 @@ void Focus::autoFocusAbs()
 
                 // HFR is decreasing, we are on the right direction
                 HFRDec++;
+                if (HFRInc > 0)
+                {
+                    // Remove bad data point and mark fluctuation
+                    if (hfr_position.count() >= 2)
+                    {
+                        hfr_position.remove(hfr_position.count() - 2);
+                        hfr_value.remove(hfr_value.count() - 2);
+                    }
+                    fluctuations++;
+                }
                 HFRInc = 0;
             }
             else
-
             {
                 // HFR increased, let's deal with it.
-                //HFRInc++;
+                HFRInc++;
+                if (HFRDec > 0)
+                    fluctuations++;
                 HFRDec = 0;
 
-                // Reality Check: If it's first time, let's capture again and see if it changes.
-                /*if (HFRInc <= 1 && reverseDir == false)
-                {
-                    capture();
-                    return;
-                }
-                // Looks like we're going away from optimal HFR
-                else
-                {*/
-                reverseDir   = true;
                 lastHFR      = currentHFR;
                 lastHFRPos   = currentPosition;
-                initSlopeHFR = 0;
-                HFRInc       = 0;
 
-                qCDebug(KSTARS_EKOS_FOCUS) << "Focus is moving away from optimal HFR.";
-
-                // Let's set new limits
-                if (m_LastFocusDirection == FOCUS_IN)
+                // Keep moving in same direction (even if bad) for one more iteration to gather data points.
+                if (HFRInc > 1)
                 {
-                    focusInLimit = currentPosition;
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus IN limit to " << focusInLimit;
+                    // Looks like we're going away from optimal HFR
+                    reverseDir   = true;
+                    HFRInc       = 0;
 
-                    if (hfr_position.count() > 3)
-                    {
-                        focusOutLimit = hfr_position[hfr_position.count() - 3];
-                        qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
-                    }
-                }
-                else
-                {
-                    focusOutLimit = currentPosition;
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Focus is moving away from optimal HFR.";
 
-                    if (hfr_position.count() > 3)
+                    // Let's set new limits
+                    if (m_LastFocusDirection == FOCUS_IN)
                     {
-                        focusInLimit = hfr_position[hfr_position.count() - 3];
+                        focusInLimit = currentPosition;
                         qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus IN limit to " << focusInLimit;
-                    }
-                }
-
-                if (focusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 5)
-                {
-                    polynomialFit.reset(new PolynomialFit(3, hfr_position, hfr_value));
-                    double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
-                    double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
-                    double min_position = 0, min_hfr = 0;
-                    isVShapeSolution = polynomialFit->findMinimum(minHFRPos, a, b, &min_position, &min_hfr);
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (isVShapeSolution ? "Yes" : "No");
-                    if (isVShapeSolution)
-                    {
-                        qCDebug(KSTARS_EKOS_FOCUS) << "Minimum Solution:" << min_hfr << "@" << min_position;
-                        polySolutionFound++;
-                        targetPosition = round(min_position);
-                        appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
-
-                        emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
-                        emit minimumFound(min_position, min_hfr);
                     }
                     else
                     {
-                        emit drawPolynomial(polynomialFit.get(), isVShapeSolution, false);
+                        focusOutLimit = currentPosition;
+                        qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
+                    }
+
+                    if (focusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 4)
+                    {
+                        polynomialFit.reset(new PolynomialFit(2, 5, hfr_position, hfr_value));
+                        double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
+                        double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());
+                        double min_position = 0, min_hfr = 0;
+                        isVShapeSolution = polynomialFit->findMinimum(minHFRPos, a, b, &min_position, &min_hfr);
+                        qCDebug(KSTARS_EKOS_FOCUS) << "Found Minimum?" << (isVShapeSolution ? "Yes" : "No");
+                        if (isVShapeSolution)
+                        {
+                            ignoreLimitedDelta = true;
+                            qCDebug(KSTARS_EKOS_FOCUS) << "Minimum Solution:" << min_hfr << "@" << min_position;
+                            targetPosition = round(min_position);
+                            appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
+
+                            emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
+                            emit minimumFound(min_position, min_hfr);
+                        }
+                        else
+                        {
+                            emit drawPolynomial(polynomialFit.get(), isVShapeSolution, false);
+                        }
                     }
                 }
 
-                if (isVShapeSolution == false)
+                if (HFRInc == 1)
                 {
-                    // Decrease pulse
-                    pulseDuration = pulseDuration * 0.75;
-
+                    // Keep going at same stride even if we are going away from CFZ
+                    // This is done to gather data points are the trough.
+                    if (std::abs(lastDelta) > 0)
+                        targetPosition = currentPosition + lastDelta;
+                    else
+                        targetPosition = currentPosition + pulseDuration;
+                }
+                else if (isVShapeSolution == false)
+                {
+                    ignoreLimitedDelta = true;
                     // Let's get close to the minimum HFR position so far detected
                     if (m_LastFocusDirection == FOCUS_OUT)
                         targetPosition = minHFRPos - pulseDuration / 2;
@@ -2642,24 +2610,37 @@ void Focus::autoFocusAbs()
             {
                 // If case target position happens to be the minimal historical
                 // HFR position, accept this value instead of bailing out.
-                if (targetPosition == minHFRPos)
+                if (targetPosition == minHFRPos || isVShapeSolution)
                 {
                     appendLogText("Stopping at minimum recorded HFR position.");
                     completeFocusProcedure(Ekos::FOCUS_COMPLETE);
                 }
                 else
                 {
-                    appendLogText("Focuser cannot move further, device limits reached. Autofocus aborted.");
-                    qCDebug(KSTARS_EKOS_FOCUS) << "Focuser cannot move further, restricted by device limits at " << targetPosition;
+                    QString message = i18n("Focuser cannot move further, device limits reached. Autofocus aborted.");
+                    appendLogText(message);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
+                return;
+            }
+
+            // Too many fluctuatoins
+            if (fluctuations >= MAXIMUM_FLUCTUATIONS)
+            {
+                QString message = i18n("Unstable fluctuations. Try increasing initial step size or exposure time.");
+                appendLogText(message);
+                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 return;
             }
 
             // Ops, deadlock
             if (focusOutLimit && focusOutLimit == focusInLimit)
             {
-                appendLogText(i18n("Deadlock reached. Please try again with different settings."));
+                QString message = i18n("Deadlock reached. Please try again with different settings.");
+                appendLogText(message);
+                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 return;
             }
@@ -2686,27 +2667,32 @@ void Focus::autoFocusAbs()
                     qCDebug(KSTARS_EKOS_FOCUS) << "targetPosition (" << targetPosition << ") - initHFRAbsPos ("
                                                << initialFocuserAbsPosition << ") exceeds maxTravel distance of " << maxTravelIN->value();
 
-                    appendLogText("Maximum travel limit reached. Autofocus aborted.");
+                    QString message = i18n("Maximum travel limit reached. Autofocus aborted.");
+                    appendLogText(message);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                     break;
                 }
             }
 
             // Get delta for next move
-            delta = (targetPosition - currentPosition);
+            lastDelta = (targetPosition - currentPosition);
 
-            qCDebug(KSTARS_EKOS_FOCUS) << "delta (targetPosition - currentPosition) " << delta;
+            qCDebug(KSTARS_EKOS_FOCUS) << "delta (targetPosition - currentPosition) " << lastDelta;
 
             // Limit to Maximum permitted delta (Max Single Step Size)
-            double limitedDelta = qMax(-1.0 * maxSingleStepIN->value(), qMin(1.0 * maxSingleStepIN->value(), delta));
-            if (std::fabs(limitedDelta - delta) > 0)
+            if (ignoreLimitedDelta == false)
             {
-                qCDebug(KSTARS_EKOS_FOCUS) << "Limited delta to maximum permitted single step " << maxSingleStepIN->value();
-                delta = limitedDelta;
+                double limitedDelta = qMax(-1.0 * maxSingleStepIN->value(), qMin(1.0 * maxSingleStepIN->value(), lastDelta));
+                if (std::fabs(limitedDelta - lastDelta) > 0)
+                {
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Limited delta to maximum permitted single step " << maxSingleStepIN->value();
+                    lastDelta = limitedDelta;
+                }
             }
 
             // Now cross your fingers and wait
-            if (!changeFocus(delta))
+            if (!changeFocus(lastDelta))
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
 
             break;
@@ -2802,36 +2788,6 @@ void Focus::autoFocusRel()
             break;
     }
 }
-
-/*void Focus::registerFocusProperty(INDI::Property prop)
-{
-    // Return if it is not our current focuser
-    if (strcmp(prop->getDeviceName(), currentFocuser->getDeviceName()))
-        return;
-
-    // Do not make unnecessary function call
-    // Check if current focuser supports absolute mode
-    if (canAbsMove == false && currentFocuser->canAbsMove())
-    {
-        canAbsMove = true;
-        getAbsFocusPosition();
-
-        absTicksSpin->setEnabled(true);
-        absTicksLabel->setEnabled(true);
-        startGotoB->setEnabled(true);
-    }
-
-    // Do not make unnecessary function call
-    // Check if current focuser supports relative mode
-    if (canRelMove == false && currentFocuser->canRelMove())
-        canRelMove = true;
-
-    if (canTimerMove == false && currentFocuser->canTimerMove())
-    {
-        canTimerMove = true;
-        resetButtons();
-    }
-}*/
 
 void Focus::autoFocusProcessPositionChange(IPState state)
 {

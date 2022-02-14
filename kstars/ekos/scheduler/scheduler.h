@@ -12,6 +12,7 @@
 #include "ui_scheduler.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
+#include "ekos/auxiliary/solverutils.h"
 #include "schedulerjob.h"
 
 #include <lilxml.h>
@@ -130,7 +131,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /** @brief Constructor, the starndard scheduler constructor. */
         Scheduler();
         /** @brief DebugConstructor, a constructor used in testing with a mock ekos. */
-        Scheduler(const QString &ekosPathStr, const QString &ekosInterfaceStr);
+        Scheduler(const QString path, const QString interface,
+                  const QString &ekosPathStr, const QString &ekosInterfaceStr);
         ~Scheduler() = default;
 
         QString getCurrentJobName();
@@ -649,13 +651,29 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void simClockScaleChanged(float);
         void simClockTimeChanged();
 
+        /**
+         * @brief solverDone Process solver solution after it is done.
+         * @param timedOut True if the process timed out.
+         * @param success True if successful, false otherwise.
+         * @param solution The solver solution if successful.
+         * @param elapsedSeconds How many seconds elapsed to solve the image.
+         */
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+
+        /**
+         * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
+         * to ensure it does not deviation from current scheduler job target.
+         * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
+         */
+        void setCaptureComplete(const QVariantMap &metadata);
+
     signals:
         void newLog(const QString &text);
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
 
-private:
+    private:
         /**
              * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
              * Given that score, the scheduler will decide which is the best job that needs to be executed.
@@ -825,7 +843,8 @@ private:
          * @param framesCount map capture signature -> frame count
          * @return true iff the job need to capture light frames
          */
-        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs, const SchedulerJob::CapturedFramesMap &framesCount);
+        void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
+                                       const SchedulerJob::CapturedFramesMap &framesCount);
 
         /**
          * @brief Calculate the map signature -> expected number of captures from the given list of capture sequence jobs,
@@ -846,7 +865,8 @@ private:
          *        of the scheduler job creates as many frames as possible, but does not exceed the expected ones.
          * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
          */
-        static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const SchedulerJob::CapturedFramesMap &capturedFramesCount,
+        static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
+                                              const SchedulerJob::CapturedFramesMap &capturedFramesCount,
                                               SchedulerJob &schedJob, SchedulerJob::CapturedFramesMap &capture_map);
 
         int getCompletedFiles(const QString &path, const QString &seqPrefix);
@@ -878,6 +898,9 @@ private:
         QPointer<QDBusInterface> capInterface { nullptr };
 
         // Interface strings for the dbus. Changeable for mocks when testing. Private so only tests can change.
+        QString schedulerPathString { "/KStars/Ekos/Scheduler" };
+        QString kstarsInterfaceString { "org.kde.kstars" };
+
         QString focusInterfaceString { "org.kde.kstars.Ekos.Focus" };
         void setFocusInterfaceString(const QString &interface)
         {
@@ -1121,6 +1144,11 @@ private:
         int schedulerIteration { 0 };
         // The time when the scheduler first started running iterations.
         qint64 startMSecs { 0 };
+
+        /// Target coordinates for pointing check
+        std::unique_ptr<SolverUtils> m_Solver;
+        // Used when solving position every nth capture.
+        uint32_t m_SolverIteration {0};
 
         friend TestEkosSchedulerOps;
 };

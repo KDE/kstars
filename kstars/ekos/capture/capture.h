@@ -319,6 +319,7 @@ class Capture : public QWidget, public Ui::Capture
         void setDustCap(ISD::GDInterface *device)
         {
             currentDustCap = dynamic_cast<ISD::DustCap *>(device);
+            syncFilterInfo();
         }
         void setLightBox(ISD::GDInterface *device)
         {
@@ -825,7 +826,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void meridianFlipCompleted();
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
-        Q_SCRIPTABLE void newSequenceImage(const QString &filename, const QString &previewFITS);
+        Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
         void ready();
 
@@ -853,9 +854,7 @@ class Capture : public QWidget, public Ui::Capture
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
-        // Signals for the Analyze tab.
-        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
-                             double hfr, int numStars, int median, double eccentricity);
+        // Signals for the Analyze tab.        
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -1186,6 +1185,7 @@ class Capture : public QWidget, public Ui::Capture
         QList<double> downloadTimes;
         QElapsedTimer m_DownloadTimer;
         QTimer downloadProgressTimer;
+        QVariantMap m_Metadata;
         void processGuidingFailed();
 };
 }

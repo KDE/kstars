@@ -9,14 +9,35 @@
 namespace Ekos
 {
 
-PolynomialFit::PolynomialFit(int degree_, const QVector<double>& x_, const QVector<double>& y_)
+PolynomialFit::PolynomialFit(int degree_, uint8_t maxCount, const QVector<double> &x_, const QVector<double> &y_)
     : degree(degree_), x(x_), y(y_)
 {
     Q_ASSERT(x_.size() == y_.size());
+    QVector<QPointF> values;
+    for (int i = 0; i < x.count(); i++)
+        values << QPointF(x[i], y[i]);
+
+    std::sort(values.begin(), values.end(), [](const QPointF & a, const QPointF & b)
+    {
+        return a.y() < b.y();
+    });
+
+    while(values.count() > maxCount)
+        values.takeLast();
+
+    x.clear();
+    y.clear();
+
+    for (const auto &onePoint : values)
+    {
+        x << onePoint.x();
+        y << onePoint.y();
+    }
+
     solve(x, y);
 }
 
-PolynomialFit::PolynomialFit(int degree_, const QVector<int>& x_, const QVector<double>& y_)
+PolynomialFit::PolynomialFit(int degree_, const QVector<int> &x_, const QVector<double> &y_)
     : degree(degree_), y(y_)
 {
     Q_ASSERT(x_.size() == y_.size());
@@ -27,7 +48,7 @@ PolynomialFit::PolynomialFit(int degree_, const QVector<int>& x_, const QVector<
     solve(x, y);
 }
 
-void PolynomialFit::solve(const QVector<double>& x, const QVector<double>& y)
+void PolynomialFit::solve(const QVector<double> &x, const QVector<double> &y)
 {
     double chisq = 0;
     coefficients = gsl_polynomial_fit(x.data(), y.data(), x.count(), degree, chisq);

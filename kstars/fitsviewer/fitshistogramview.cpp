@@ -292,14 +292,17 @@ void FITSHistogramView::createNonLinearHistogram()
                 m_HistogramFrequency[0][scanLine[w]] += sampleBy;
         }
     }
-    for (int h = 0; h < height; h += sampleBy)
+    else
     {
-        auto * scanLine = reinterpret_cast<const QRgb *>((rawImage.scanLine(h)));
-        for (int w = 0; w < width; w += sampleBy)
+        for (int h = 0; h < height; h += sampleBy)
         {
-            m_HistogramFrequency[0][qRed(scanLine[w])] += sampleBy;
-            m_HistogramFrequency[1][qGreen(scanLine[w])] += sampleBy;
-            m_HistogramFrequency[2][qBlue(scanLine[w])] += sampleBy;
+            auto * scanLine = reinterpret_cast<const QRgb *>((rawImage.scanLine(h)));
+            for (int w = 0; w < width; w += sampleBy)
+            {
+                m_HistogramFrequency[0][qRed(scanLine[w])] += sampleBy;
+                m_HistogramFrequency[1][qGreen(scanLine[w])] += sampleBy;
+                m_HistogramFrequency[2][qBlue(scanLine[w])] += sampleBy;
+            }
         }
     }
 

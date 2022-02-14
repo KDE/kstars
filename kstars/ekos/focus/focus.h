@@ -810,7 +810,6 @@ class Focus : public QWidget, public Ui::Focus
 
         /// Polynomial fitting.
         std::unique_ptr<PolynomialFit> polynomialFit;
-        int polySolutionFound { 0 };
 
         // Capture timers
         QTimer captureTimer;
@@ -844,6 +843,8 @@ class Focus : public QWidget, public Ui::Focus
 
         // Mount altitude value for logging
         double mountAlt { INVALID_VALUE };
+
+        static constexpr uint8_t MAXIMUM_FLUCTUATIONS {10};
 
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;

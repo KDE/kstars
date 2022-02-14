@@ -19,6 +19,7 @@
 #include "ksalmanac.h"
 #include "skymapcomposite.h"
 #include "catalogobject.h"
+#include "ekos/auxiliary/darklibrary.h"
 #include "skymap.h"
 #include "Options.h"
 
@@ -231,6 +232,8 @@ void Message::onTextReceived(const QString &message)
         processDSLRCommands(command, payload);
     else if (command.startsWith("fm_"))
         processFilterManagerCommands(command, payload);
+    else if (command.startsWith("dark_library_"))
+        processDarkLibraryCommands(command, payload);
     else if (command.startsWith("device_"))
         processDeviceCommands(command, payload);
 }
@@ -1249,6 +1252,54 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
         m_Manager->getFilterManager()->setFilterData(payload);
     }
 }
+
+void Message::processDarkLibraryCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[DARK_LIBRARY_START])
+    {
+        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
+        Ekos::DarkLibrary::Instance()->start();
+    }
+    else if(command == commands[DARK_LIBRARY_SET_SETTINGS])
+    {
+        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
+    }
+    else if (command == commands[DARK_LIBRARY_STOP])
+    {
+        Ekos::DarkLibrary::Instance()->stop();
+    }
+    else if (command == commands[DARK_LIBRARY_GET_MASTERS_IMAGE])
+    {
+        const int row = payload["row"].toInt();
+        Ekos::DarkLibrary::Instance()->getloadDarkViewMasterFITS(row);
+    }
+    else if (command == commands[DARK_LIBRARY_GET_DARK_SETTINGS])
+    {
+        sendResponse(commands[DARK_LIBRARY_GET_DARK_SETTINGS], Ekos::DarkLibrary::Instance()->getDarkSettings());
+    }
+    else if (command == commands[DARK_LIBRARY_SET_DEFECT_PIXELS])
+    {
+        Ekos::DarkLibrary::Instance()->setDefectPixels(payload);
+    }
+    else if (command == commands[DARK_LIBRARY_SET_DEFECT_SETTINGS])
+    {
+        Ekos::DarkLibrary::Instance()->setDefectSettings(payload);
+    }
+    else if (command == commands[DARK_LIBRARY_GET_DEFECT_SETTINGS])
+    {
+        sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
+    }
+    else if (command == commands[DARK_LIBRARY_GET_VIEW_MASTERS])
+    {
+        sendResponse(commands[DARK_LIBRARY_GET_VIEW_MASTERS], Ekos::DarkLibrary::Instance()->getViewMasters());
+    }
+    else if (command == commands[DARK_LIBRARY_CLEAR_MASTERS_ROW])
+    {
+        const int rowIndex = payload["row"].toInt();
+        Ekos::DarkLibrary::Instance()->clearRow(rowIndex);
+    }
+}
+
 
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {

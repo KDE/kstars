@@ -570,6 +570,19 @@ void InternalGuider::setGuideView(GuideView *guideView)
 void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
 {
     m_ImageData = data;
+    if (Options::saveGuideImages())
+    {
+        QDateTime now(QDateTime::currentDateTime());
+        QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("guide/" +
+                       now.toString("yyyy-MM-dd"));
+        QDir dir;
+        dir.mkpath(path);
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name     = "guide_frame_" + now.toString("HH-mm-ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        m_ImageData->saveImage(filename);
+    }
 }
 
 void InternalGuider::reset()
@@ -632,11 +645,6 @@ void InternalGuider::setSquareAlgorithm(int index)
     pmath->setAlgorithmIndex(index);
 }
 
-void InternalGuider::setReticleParameters(double x, double y)
-{
-    pmath->setTargetPosition(x, y);
-}
-
 bool InternalGuider::getReticleParameters(double *x, double *y)
 {
     return pmath->getTargetPosition(x, y);
@@ -676,17 +684,26 @@ bool InternalGuider::processGuiding()
 
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
     // unnecessary guiding pulses.
+    bool process = true;
     if (m_isFirstFrame)
     {
+        m_isFirstFrame = false;
         if (state == GUIDE_GUIDING)
         {
-            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, m_isFirstFrame);
-            pmath->setTargetPosition(star_pos.x, star_pos.y);
+            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, true);
+            if (star_pos.x != -1 && star_pos.y != -1)
+                pmath->setTargetPosition(star_pos.x, star_pos.y);
+            else
+            {
+                // We were not able to get started.
+                process = false;
+                m_isFirstFrame = true;
+            }
         }
-        m_isFirstFrame = false;
     }
-    // calc math. it tracks square
-    pmath->performProcessing(state, m_ImageData, guideFrame, &guideLog);
+
+    if (process)
+        pmath->performProcessing(state, m_ImageData, guideFrame, &guideLog);
 
     if (state == GUIDE_SUSPENDED)
     {
@@ -703,7 +720,7 @@ bool InternalGuider::processGuiding()
     // do pulse
     out = pmath->getOutputParameters();
 
-    bool sendPulses = true;
+    bool sendPulses = !pmath->isStarLost();
 
     double delta_rms = std::hypot(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
     if (delta_rms > Options::guideMaxDeltaRMS())

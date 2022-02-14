@@ -77,7 +77,6 @@ class InternalGuider : public GuideInterface
         void setSquareAlgorithm(int index);
 
         // Reticle Parameters
-        void setReticleParameters(double x, double y);
         bool getReticleParameters(double *x, double *y);
 
         // Guide Square Box Size

@@ -161,12 +161,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         countDarkTotalTime();
     });
 
-    connect(startB, &QPushButton::clicked, [this]()
-    {
-        generateDarkJobs();
-        executeDarkJobs();
-    });
-
+    connect(startB, &QPushButton::clicked, this, &DarkLibrary::start);
     connect(stopB, &QPushButton::clicked, this, &DarkLibrary::stopDarkJobs);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +206,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
             m_CurrentDefectMap->setProperty("HotPixelAggressiveness", aggresivenessHotSpin->value());
             m_CurrentDefectMap->setProperty("ColdPixelAggressiveness", aggresivenessColdSpin->value());
             m_CurrentDefectMap->filterPixels();
+            emit newFrame(m_DarkView);
         }
     });
     connect(resetMapParametersB, &QPushButton::clicked, [this]()
@@ -433,6 +429,7 @@ bool DarkLibrary::findDefectMap(ISD::CCDChip *m_TargetChip, double duration, QSh
 
     if (bestCandidate.isEmpty())
         return false;
+
 
     QString darkFilename = bestCandidate["filename"].toString();
     QString defectFilename = bestCandidate["defectmap"].toString();
@@ -720,12 +717,13 @@ void DarkLibrary::clearAll()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::clearRow()
+void DarkLibrary::clearRow(int index)
 {
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
-    int row = darkTableView->currentIndex().row();
+    if (index < 0)
+        index = darkTableView->currentIndex().row();
 
-    QSqlRecord record = darkFramesModel->record(row);
+    QSqlRecord record = darkFramesModel->record(index);
     QString filename = record.value("filename").toString();
     QString defectMap = record.value("defectmap").toString();
     QFile::remove(filename);
@@ -734,11 +732,11 @@ void DarkLibrary::clearRow()
 
     userdb.open();
 
-    darkFramesModel->removeRow(row);
+    darkFramesModel->removeRow(index);
     darkFramesModel->submitAll();
     userdb.close();
 
-    darkTableView->selectionModel()->select(darkFramesModel->index(row - 1, 0), QItemSelectionModel::ClearAndSelect);
+    darkTableView->selectionModel()->select(darkFramesModel->index(index - 1, 0), QItemSelectionModel::ClearAndSelect);
 
     refreshFromDB();
     reloadDarksFromDatabase();
@@ -939,6 +937,17 @@ void DarkLibrary::populateMasterMetedata()
         double stddev = m_CurrentDarkFrame->getAverageStdDev();
         masterDeviation->setText(QString::number(stddev, 'f', 1));
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::getloadDarkViewMasterFITS(int index)
+{
+
+    QModelIndex rowIndex = darkFramesModel->index(index, 0);
+    loadDarkFITS(rowIndex);
+    emit newImage(m_DarkView->imageData());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1315,8 +1324,10 @@ void DarkLibrary::generateMasterFrame(const QSharedPointer<FITSData> &data, cons
             break;
     }
 
+    emit newImage(data);
     // Reset Master Buffer
     m_DarkMasterBuffer.assign(m_DarkMasterBuffer.size(), 0);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1333,7 +1344,8 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 
 
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
-    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks/darkframe_" + ts + ".fits");
+    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks/darkframe_" + ts +
+                   ".fits");
 
     data->calculateStats(true);
     if (!data->saveImage(path))
@@ -1430,5 +1442,129 @@ void DarkLibrary::saveDefectMap()
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::start()
+{
+    generateDarkJobs();
+    executeDarkJobs();
+}
+
+void DarkLibrary::setDarkSettings(const QJsonObject &settings)
+{
+    const double ExposureRange = settings["ERange"].toDouble(minExposureSpin->value());
+    const double ExposureLimit = settings["ELimit"].toDouble(maxExposureSpin->value());
+    const double TempRange = settings["TRange"].toDouble(minTemperatureSpin->value());
+    const double TempLimit = settings["TLimit"].toDouble(maxTemperatureSpin->value());
+    const bool binOneCheck = settings["BinOne"].toBool(bin1Check->isChecked());
+    const bool binTwoCheck = settings["BinTwo"].toBool(bin2Check->isChecked());
+    const bool binFourCheck = settings["BinFour"].toBool(bin4Check->isChecked());
+    const int count = settings["count"].toInt(countSpin->value());
+
+    bin1Check->setChecked(binOneCheck);
+    bin2Check->setChecked(binTwoCheck);
+    bin4Check->setChecked(binFourCheck);
+
+    minExposureSpin->setValue(ExposureRange);
+    maxExposureSpin->setValue(ExposureLimit);
+    minTemperatureSpin->setValue(TempRange);
+    maxTemperatureSpin->setValue(TempLimit);
+    countSpin->setValue(count);
+
+}
+void DarkLibrary::stop()
+{
+    stopDarkJobs();
+}
+
+QJsonObject DarkLibrary::getDarkSettings()
+{
+    QJsonObject createDarks =
+    {
+        {"minExposureRange", minExposureSpin->value()},
+        {"maxExposureRange", maxExposureSpin->value()},
+        {"minTempretureRange", minTemperatureSpin->value()},
+        {"maxTempretureRange", maxTemperatureSpin->value()},
+        {"bin1Check", bin1Check->isChecked()},
+        {"bin2Check", bin2Check->isChecked()},
+        {"bin4Check", bin4Check->isChecked()},
+        {"countSpin", countSpin->value()},
+        {"totalImages", totalImages->text()},
+        {"totalTime", totalTime->text()},
+    };
+    return createDarks;
+}
+QJsonObject DarkLibrary::getDefectSettings()
+{
+    QJsonObject createDefectMaps =
+    {
+        {"masterTime", masterTime->text()},
+        {"masterExposure", masterExposure->text()},
+        {"masterTempreture", masterTemperature->text()},
+        {"masterMean", masterMean->text()},
+        {"masterMedian", masterMedian->text()},
+        {"masterDeviation", masterDeviation->text()},
+        {"hotPixelsCount", hotPixelsCount->value()},
+        {"coldPixelsCount", coldPixelsCount->value()},
+        {"aggresivenessHotSpin", aggresivenessHotSpin->value()},
+        {"aggresivenessColdSpin", aggresivenessColdSpin->value()},
+        {"hotPixelsEnabled", hotPixelsEnabled->isChecked()},
+        {"coldPixelsEnabled", coldPixelsEnabled->isChecked()},
+    };
+    return createDefectMaps;
+}
+
+QJsonArray DarkLibrary::getViewMasters()
+{
+    QJsonArray array;
+    int binX, binY;
+    double temperature, duration;
+    QString camera, ts;
+
+    for(int i = 0; i < darkFramesModel->rowCount(); i++)
+    {
+        QSqlRecord record = darkFramesModel->record(i);
+        camera = record.value("ccd").toString();
+        binX = record.value("binX").toInt();
+        binY = record.value("binY").toInt();
+        temperature = record.value("temperature").toDouble();
+        duration = record.value("duration").toDouble();
+        ts = record.value("timestamp").toString();
+
+        QJsonObject filterRows =
+        {
+            {"camera", camera},
+            {"binX", binX},
+            {"binY", binY},
+            {"temperature", temperature},
+            {"duaration", duration},
+            {"ts", ts}
+        };
+        array.append(filterRows);
+    }
+    return array;
+}
+void DarkLibrary::setDefectSettings(const QJsonObject payload)
+{
+    const QString rowString = payload["rowString"].toString();
+    const int masterIndex = payload["rowIndex"].toInt();
+    loadCurrentMasterDark(rowString, masterIndex);
+}
+void DarkLibrary::setDefectPixels(const QJsonObject &payload)
+{
+    const int hotSpin = payload["hotSpin"].toInt();
+    const int coldSpin = payload["coldSpin"].toInt();
+    const bool hotEnabled = payload["hotEnabled"].toBool(hotPixelsEnabled->isChecked());
+    const bool coldEnabled = payload["coldEnabled"].toBool(coldPixelsEnabled->isChecked());
+    hotPixelsEnabled->setChecked(hotEnabled);
+    coldPixelsEnabled->setChecked(coldEnabled);
+
+    m_CurrentDefectMap->setProperty("HotPixelAggressiveness", hotSpin);
+    m_CurrentDefectMap->setProperty("ColdPixelAggressiveness", coldSpin);
+
+    m_CurrentDefectMap->filterPixels();
+    emit newFrame(m_DarkView);
+}
 }
 

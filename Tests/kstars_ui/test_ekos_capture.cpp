@@ -9,6 +9,7 @@
 
 #if defined(HAVE_INDI)
 
+#include "Options.h"
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
@@ -281,6 +282,16 @@ void TestEkosCapture::testCaptureMultiple()
 
 void TestEkosCapture::testCaptureDarkFlats()
 {
+    // ensure that we know that the CCD has a shutter
+    QStringList shutterlessCCDs = Options::shutterlessCCDs();
+    QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+    if (! shutterfulCCDs.contains("CCD Simulator"))
+    {
+        shutterfulCCDs.append("CCD Simulator");
+        Options::setShutterfulCCDs(shutterfulCCDs);
+        shutterlessCCDs.removeAll("CCD Simulator");
+        Options::setShutterlessCCDs(shutterlessCCDs);
+    }
     // We cannot use a system temporary due to what testCaptureToTemporary marks
     QTemporaryDir destination(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVERIFY(destination.isValid());
@@ -345,7 +356,7 @@ void TestEkosCapture::testCaptureDarkFlats()
         }
     });
 
-    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(!startB->icon().name().compare("media-playback-start"), 120000);
 
     // Verify the proper number of FITS file were created
     QTRY_COMPARE_WITH_TIMEOUT(searchFITS(QDir(destination.path())).count(), 10, 1000);

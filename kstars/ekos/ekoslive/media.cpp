@@ -13,6 +13,7 @@
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "hips/hipsfinder.h"
+#include "ekos/auxiliary/darklibrary.h"
 #include "kspaths.h"
 #include "Options.h"
 
@@ -515,5 +516,7 @@ void Media::sendModuleFrame(FITSView * view)
         sendPreviewImage(view, "+F");
     else if (qobject_cast<Ekos::Guide*>(sender()) == m_Manager->guideModule())
         sendPreviewImage(view, "+G");
+    else if (qobject_cast<Ekos::DarkLibrary*>(sender()) == Ekos::DarkLibrary::Instance())
+        sendPreviewImage(view, "+D");
 }
 }

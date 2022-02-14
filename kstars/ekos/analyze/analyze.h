@@ -146,8 +146,7 @@ class Analyze : public QWidget, public Ui::Analyze
         // used to gather data about those processes.
 
         // From Capture
-        void captureComplete(const QString &filename, double exposureSeconds, const QString &filter,
-                             double hfr, int numStars, int median, double eccentricity);
+        void captureComplete(const QVariantMap &metadata);
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 

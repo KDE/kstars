@@ -232,11 +232,11 @@ void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
 {
     // display informations about the current active capture
     if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == true)
-        setFrameInfo(i18n("Preview"),  job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+        setFrameInfo(i18n("Preview"),  job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                      job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
                      job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
     else
-        setFrameInfo(CCDFrameTypeNames[job->getFrameType()], job->getCoreProperty(SequenceJob::SJ_TargetName).toString(),
+        setFrameInfo(CCDFrameTypeNames[job->getFrameType()], job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
                      job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
                      job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
 
@@ -245,7 +245,7 @@ void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
     gr_sequenceProgressBar->setValue(job->getCompleted());
     sequenceLabel->setText(QString("%1 %2 (%3/%4)")
                            .arg(CCDFrameTypeNames[job->getFrameType()])
-                           .arg(job->getCoreProperty(SequenceJob::SJ_TargetName).toString())
+                           .arg(job->getCoreProperty(SequenceJob::SJ_Filter).toString())
                            .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
     gr_sequenceLabel->setText(sequenceLabel->text());
 }

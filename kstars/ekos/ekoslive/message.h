@@ -177,6 +177,9 @@ class Message : public QObject
         // Filter Manager commands
         void processFilterManagerCommands(const QString &command, const QJsonObject &payload);
 
+        // Dark Library commands
+        void processDarkLibraryCommands(const QString &command, const QJsonObject &payload);
+
         // Low-level Device commands
         void processDeviceCommands(const QString &command, const QJsonObject &payload);
 
@@ -218,6 +221,6 @@ class Message : public QObject
         // Retry for 1 hour before giving up
         static const uint16_t RECONNECT_MAX_TRIES = 720;
         // Throttle interval
-        static const uint16_t THROTTLE_INTERVAL = 5000;
+        static const uint16_t THROTTLE_INTERVAL = 1000;
 };
 }

@@ -24,7 +24,7 @@
 // Note that MockEkos uses a different path and interface than the actual
 // scheduler (to avoid name conflicts with the adaptor class) so it use it
 // the scheduler contstructor that takes path and interface needs to be used.
-// Scheduler scheduler("/KStars/MockEkos", "org.kde.kstars.MockEkos");
+// Scheduler scheduler("/MockKStars/MockEkos", "org.kde.mockkstars.MockEkos");
 
 namespace Ekos
 {
@@ -36,7 +36,7 @@ namespace Ekos
 class MockFocus : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos.MockFocus")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockFocus")
         Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
     public:
         MockFocus();
@@ -103,7 +103,7 @@ class MockFocus : public QObject
 class MockMount : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos.MockMount")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockMount")
         Q_PROPERTY(ISD::Telescope::Status status READ status NOTIFY newStatus)
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(bool canPark READ canPark)
@@ -195,7 +195,7 @@ class MockMount : public QObject
 class MockCapture : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos.MockCapture")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockCapture")
         Q_PROPERTY(Ekos::CaptureState status READ status NOTIFY newStatus)
         Q_PROPERTY(QString targetName MEMBER m_TargetName)
         Q_PROPERTY(bool coolerControl READ hasCoolerControl WRITE setCoolerControl)
@@ -273,7 +273,7 @@ class MockCapture : public QObject
 class MockAlign : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos.MockAlign")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockAlign")
         Q_PROPERTY(Ekos::AlignState status READ status NOTIFY newStatus)
 
     public:
@@ -352,7 +352,7 @@ class MockAlign : public QObject
 class MockGuide : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos.MockGuide")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockGuide")
         Q_PROPERTY(Ekos::GuideState status READ status NOTIFY newStatus)
 
     public:
@@ -415,11 +415,11 @@ class MockGuide : public QObject
 // It signals indiStatusChanged.
 // It also has an addModule() method which signals newModule().
 // A scheduler using this mock should be constructed as:
-// Scheduler scheduler("/KStars/MockEkos", "org.kde.kstars.MockEkos");
+// Scheduler scheduler("/MockKStars/MockEkos", "org.kde.mockkstars.MockEkos");
 class MockEkos : public QObject
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.MockEkos")
+        Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos")
         Q_PROPERTY(Ekos::CommunicationStatus indiStatus READ indiStatus NOTIFY indiStatusChanged)
         Q_PROPERTY(Ekos::CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
 

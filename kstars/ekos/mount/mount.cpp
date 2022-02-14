@@ -258,6 +258,11 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
         m_ParkStatus = status;
         emit newParkStatus(status);
 
+        if (currentTelescope->canPark())
+        {
+            parkB->setEnabled(status != ISD::PARK_PARKED);
+            unparkB->setEnabled(status == ISD::PARK_PARKED);
+        }
         // If mount is unparked AND every day auto-paro check is ON
         // AND auto park timer is not yet started, we try to initiate it.
         if (status == ISD::PARK_UNPARKED && everyDayCheck->isChecked() && autoParkTimer.isActive() == false)
@@ -652,10 +657,19 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
 
         if (isTracking && checkMeridianFlip(lst))
             executeMeridianFlip();
+        else
+        {
+            const QString message(i18n("Status: inactive (parked)"));
+            if (currentTelescope->isParked() && meridianFlipStatusText->text() != message)
+            {
+                meridianFlipStatusText->setText(message);
+                emit newMeridianFlipText(meridianFlipStatusText->text());
+            }
+        }
     }
 }
 
-void Mount::updateNumber(INumberVectorProperty *nvp)
+void Mount::updateNumber(INumberVectorProperty * nvp)
 {
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
@@ -786,7 +800,7 @@ void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
     }
 }
 
-void Mount::updateSwitch(ISwitchVectorProperty *svp)
+void Mount::updateSwitch(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
     {
@@ -1177,6 +1191,7 @@ bool Mount::checkMeridianFlip(dms lst)
         return false;
     }
 
+    // Will never get called when parked!
     if (currentTelescope->isParked())
     {
         meridianFlipStatusText->setText(i18n("Status: inactive (parked)"));
@@ -1825,7 +1840,7 @@ bool Mount::resetModel()
     return false;
 }
 
-void Mount::setGPS(ISD::GDInterface *newGPS)
+void Mount::setGPS(ISD::GDInterface * newGPS)
 {
     if (newGPS == currentGPS)
         return;
@@ -2017,11 +2032,6 @@ void Mount::startParkTimer()
             // No need to display warning for every day check
             if (everyDayCheck->isChecked() == false)
                 appendLogText(i18n("Parking time cannot be in the past."));
-            return;
-        }
-        else if (std::abs(hours) > 12)
-        {
-            qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << hours << "which exceeds 12 hours, auto park is disabled.";
             return;
         }
     }

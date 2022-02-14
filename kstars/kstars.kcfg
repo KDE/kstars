@@ -1368,6 +1368,10 @@
          <whatsthis>Log Ekos Focus Module activity.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="SaveGuideImages" type="Bool">
+         <label>Save Internal Guider images on disk?</label>
+         <default>false</default>
+      </entry>
       <entry name="GuideLogging" type="Bool">
          <whatsthis>Log Ekos Guide Module activity.</whatsthis>
          <default>false</default>
@@ -1789,6 +1793,10 @@
          <label>Add the capture timestamp to the capture file name.</label>
          <default>false</default>
       </entry>
+      <entry name="CapturePosition" type="Bool">
+         <label>Calculate position after captures.</label>
+         <default>false</default>
+      </entry>      
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">
@@ -2183,7 +2191,7 @@
       </entry>
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
-         <default>1.0</default>
+         <default>2.0</default>
       </entry>
       <entry name="GuiderType" type="UInt">
          <label>Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 lin_guider)</label>
@@ -2260,6 +2268,10 @@
       <entry name="GuideMaxHFR" type="Double">
          <label>Maximum HFR permitted for SEP MultiStar guide star.</label>
          <default>4.5</default>
+      </entry>
+      <entry name="MinDetectionsSEPMultistar" type="UInt">
+         <label>Minimum number of stars detected for SEP MultiStar to initialize.</label>
+         <default>1</default>
       </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
@@ -2562,6 +2574,14 @@
       <entry name="RescheduleErrors" type="Bool">
          <label>Re-schedule jobs that ran into errors.</label>
          <default>false</default>
+      </entry>
+      <entry name="AlignCheckFrequency" type="UInt">
+         <label>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</label>
+         <default>0</default>
+      </entry>
+      <entry name="AlignCheckThreshold" type="Double">
+         <label>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</label>
+         <default>30</default>
       </entry>
    </group>
    <group name="Analyze">
