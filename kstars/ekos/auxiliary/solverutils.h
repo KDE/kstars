@@ -10,7 +10,7 @@
 #include <QString>
 #include <QTimer>
 #include <QFutureWatcher>
-
+#include <mutex>
 #include <stellarsolver.h>
 
 class FITSData;
@@ -24,6 +24,7 @@ class SolverUtils : public QObject
 
     public:
         SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds = 15);
+        ~SolverUtils();
 
         void runSolver(const QSharedPointer<FITSData> &data);
         void runSolver(const QString &filename);
@@ -59,5 +60,7 @@ class SolverUtils : public QObject
         bool m_UsePosition { false };
         double m_raDegrees { 0.0 };
         double m_decDegrees { 0.0 };
+
+        std::mutex deleteSolverMutex;
 };
 

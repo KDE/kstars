@@ -18,6 +18,11 @@ SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSe
     connect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout, Qt::UniqueConnection);
 }
 
+SolverUtils::~SolverUtils()
+{
+    deleteSolver();
+}
+
 void SolverUtils::executeSolver()
 {
     runSolver(m_ImageData);
@@ -157,6 +162,7 @@ void SolverUtils::solverTimeout()
 
 void SolverUtils::deleteSolver()
 {
+    const std::lock_guard<std::mutex> lock(deleteSolverMutex);
     auto *solver = m_StellarSolver.release();
     if (solver)
     {
@@ -172,6 +178,7 @@ void SolverUtils::deleteSolver()
 
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
+    m_TemporaryFilename.clear();
 
     m_ImageData.reset();
 }
