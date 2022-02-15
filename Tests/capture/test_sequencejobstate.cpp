@@ -41,7 +41,7 @@ void TestSequenceJobState::testFullParameterSet()
     }
 
     // start the capture preparation
-    m_adapter->startCapturePreparation(FRAME_LIGHT, enforce_temperature, enforce_guiding, isPreview);
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, isPreview);
     QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding | enforce_rotate));
     // now step by step set the values to the target value
     if (enforce_temperature)
@@ -80,7 +80,7 @@ void TestSequenceJobState::testLazyInitialisation()
         m_stateMachine->setTargetRotatorAngle(target_angle);
 
     // start the capture preparation
-    m_adapter->startCapturePreparation(FRAME_LIGHT, enforce_temperature, enforce_guiding, isPreview);
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, isPreview);
 
     // Since the state machine does not know the current values, it needs to request them.
     // If this happens, the preparation is already done, since we have current = target
@@ -114,7 +114,7 @@ void TestSequenceJobState::testWithProcessor()
     connect(processor, &TestProcessor::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
 
     // start the capture preparation
-    m_adapter->startCapturePreparation(FRAME_LIGHT, true, true, isPreview);
+    m_stateMachine->prepareLightFrameCapture(true, true, isPreview);
     QVERIFY(m_adapter->isCapturePreparationComplete == false);
     // now step by step set the values to the target value
     m_adapter->setGuiderDrift(1.5);
@@ -125,6 +125,38 @@ void TestSequenceJobState::testWithProcessor()
     // disconnect the processor
     disconnect(m_stateMachine, nullptr, processor, nullptr);
     disconnect(processor, nullptr, m_stateMachine, nullptr);
+}
+
+void TestSequenceJobState::testGuiderDeactivation()
+{
+    bool enforce_temperature = true;
+    bool enforce_guiding     = true;
+    double current_temp = 10.0, target_temp = -10.0;
+    double current_drift = 10.0, target_drift = 2;
+    // set current and target values
+    m_adapter->setCCDTemperature(current_temp);
+    m_stateMachine->setTargetCCDTemperature(target_temp);
+    m_adapter->setGuiderDrift(current_drift);
+    m_stateMachine->setTargetStartGuiderDrift(target_drift);
+
+    // start the capture preparation
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, false);
+    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding));
+    // set the guider drift below the threshold
+    m_adapter->setGuiderDrift(1.5);
+    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_temperature);
+    // stop guider
+    m_adapter->setGuiderActive(false);
+    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding));
+    // set the temperature to the target value
+    m_adapter->setCCDTemperature(target_temp + 0.5*Options::maxTemperatureDiff());
+    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_guiding);
+    // start guider
+    m_adapter->setGuiderActive(true);
+    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_guiding);
+    // set the guider drift below the threshold
+    m_adapter->setGuiderDrift(1.5);
+    QVERIFY(m_adapter->isCapturePreparationComplete == true);
 }
 
 /* *********************************************************************************
@@ -180,12 +212,17 @@ void TestSequenceJobState::cleanupTestCase()
 
 void TestSequenceJobState::init()
 {
-    m_stateMachine = new Ekos::SequenceJobState();
+    QSharedPointer<Ekos::SequenceJobState::CaptureState> captureState;
+    captureState.reset(new Ekos::SequenceJobState::CaptureState());
+    m_stateMachine = new Ekos::SequenceJobState(captureState);
+    // currently all tests are for light frames
+    m_stateMachine->setFrameType(FRAME_LIGHT);
     QVERIFY(m_stateMachine->getStatus() == Ekos::JOB_IDLE);
     m_adapter = new TestAdapter();
     QVERIFY(m_adapter->isCapturePreparationComplete == false);
     // forward signals to the sequence job
-    connect(m_adapter, &TestAdapter::prepareCapture, m_stateMachine, &Ekos::SequenceJobState::prepareCapture);
+    connect(m_adapter, &TestAdapter::prepareCapture, m_stateMachine, &Ekos::SequenceJobState::prepareLightFrameCapture);
+    connect(m_adapter, &TestAdapter::newGuiderState, m_stateMachine, &Ekos::SequenceJobState::setGuiderActive);
     connect(m_adapter, &TestAdapter::newGuiderDrift, m_stateMachine, &Ekos::SequenceJobState::setCurrentGuiderDrift);
     connect(m_adapter, &TestAdapter::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobState::setCurrentRotatorAngle);
     connect(m_adapter, &TestAdapter::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
@@ -207,11 +244,12 @@ void TestSequenceJobState::cleanup()
 
 
 
-void TestAdapter::init(double temp, double drift, double angle)
+void TestAdapter::init(double temp, double drift, double angle, bool guideractive)
 {
     m_ccdtemperature = temp;
     m_guiderdrift = drift;
     m_rotatorangle = angle;
+    m_isguideractive = guideractive;
 }
 
 void TestAdapter::setCCDTemperature(double value)
@@ -223,10 +261,15 @@ void TestAdapter::setCCDTemperature(double value)
     m_ccdtemperature = value;
 }
 
-void TestAdapter::setGuiderDrift(double value)
+void TestAdapter::setGuiderActive(bool active)
 {
-    // emit only a new value if it is not too close to the last one
-    if (std::abs(m_guiderdrift - value) > 0.001)
+    emit newGuiderState(active);
+    m_isguideractive = active;
+}
+
+void TestAdapter::setGuiderDrift(double value) {
+    // emit only if guider is active
+    if (m_isguideractive)
         emit newGuiderDrift(value);
     // remember it
     m_guiderdrift = value;

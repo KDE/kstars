@@ -7,6 +7,7 @@
 /* Project Includes */
 #include "test_placeholderpath.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/capture/capturecommandprocessor.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/capture/placeholderpath.h"
 
@@ -80,7 +81,7 @@ XMLEle* buildXML(
     QString FITSDirectory
 )
 {
-    XMLEle *root = NULL;
+    XMLEle *root = nullptr;
     XMLEle *ep, *subEP;
     root = addXMLEle(root, "root");
 
@@ -449,7 +450,11 @@ void TestPlaceholderPath::testSequenceJobSignature()
     QFETCH(QString, fullPrefix);
     QFETCH(QString, signature);
 
-    auto job = new Ekos::SequenceJob();
+    QSharedPointer<Ekos::CaptureCommandProcessor> cp;
+    cp.reset(new Ekos::CaptureCommandProcessor());
+    QSharedPointer<Ekos::SequenceJobState::CaptureState> captureState;
+    captureState.reset(new Ekos::SequenceJobState::CaptureState());
+    auto job = new Ekos::SequenceJob(cp, captureState);
     job->setCoreProperty(SequenceJob::SJ_LocalDirectory, localDir);
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, fullPrefix);

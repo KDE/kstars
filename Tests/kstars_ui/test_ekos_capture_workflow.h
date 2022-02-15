@@ -16,6 +16,46 @@
 
 #include <QObject>
 
+// Select the flat source from the flats calibration options.
+// Start with a delay of 1 sec a new thread that edits the calibration options:
+//    select the source widget
+//    set pre-mount and pre-dome park options
+//    select a manual flat ADU value
+//    klick OK
+// open the calibration dialog
+#define KTRY_SELECT_FLAT_METHOD(sourceWidget, preMountPark, preDomePark) do { \
+QTimer::singleShot(1000, capture, [&]() { \
+    QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions"); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, sourceWidget); \
+    sourceWidget->setChecked(true); \
+    KTRY_GADGET(calibrationOptions, QCheckBox, parkMountC);  \
+    parkMountC->setChecked(preMountPark); \
+    KTRY_GADGET(calibrationOptions, QCheckBox, parkDomeC);  \
+    parkDomeC->setChecked(preDomePark); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, manualDurationC);  \
+    manualDurationC->setChecked(true); \
+    QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
+    QVERIFY(nullptr != buttons); \
+    QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
+}); \
+KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
+
+#define KTRY_SELECT_FLAT_WALL(capture, azimuth, altitude) do { \
+QTimer::singleShot(1000, capture, [&]() { \
+    QDialog *calibrationOptions = Ekos::Manager::Instance()->findChild<QDialog*>("calibrationOptions"); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, wallSourceC); \
+    wallSourceC->setChecked(true); \
+    KTRY_SET_LINEEDIT(calibrationOptions, azBox, azimuth); \
+    KTRY_SET_LINEEDIT(calibrationOptions, altBox, altitude); \
+    KTRY_GADGET(calibrationOptions, QAbstractButton, manualDurationC);  \
+    manualDurationC->setChecked(true); \
+    QDialogButtonBox* buttons = calibrationOptions->findChild<QDialogButtonBox*>("buttonBox"); \
+    QVERIFY(nullptr != buttons); \
+    QTest::mouseClick(buttons->button(QDialogButtonBox::Ok), Qt::LeftButton); \
+}); \
+KTRY_CAPTURE_CLICK(calibrationB);  } while (false)
+
+
 class TestEkosCaptureWorkflow : public QObject
 {
     Q_OBJECT
@@ -95,6 +135,60 @@ private slots:
      * remains aborted when the guiding deviation is below the configured threshold.
      */
     void testGuidingDeviationAbortCapture();
+
+    /**
+     * @brief Test capturing flats with manual flat light
+     */
+    void testFlatManualSource();
+
+    /** @brief Test data for {@see testFlatManualSource()} */
+    void testFlatManualSource_data();
+
+    /**
+     * @brief Test capturing flats with a lights panel
+     */
+    void testFlatLightPanelSource();
+
+    /** @brief Test data for {@see testFlatLightPanelSource()} */
+    void testFlatLightPanelSource_data();
+
+    /**
+     * @brief Test capturing flats or darks with a dust cap
+     */
+    void testDustcapSource();
+
+    /** @brief Test data for {@see testFlatDustcapSource()} */
+    void testDustcapSource_data();
+
+    /**
+     * @brief Test capturing flats with the wall as flat light source
+     */
+    void testWallSource();
+
+    /** @brief Test data for {@see testWallSource()} */
+    void testWallSource_data();
+
+    /**
+     * @brief Check mount and dome parking before capturing flats.
+     */
+    void testFlatPreMountAndDomePark();
+
+    /**
+     * @brief Check the flat capture behavior if "same focus" is selectee
+     *        in the filter settings when capturing flats. Before capturing
+     *        flats, the focuser should move to the position last determined
+     *        with an autofocus run for the selected filter.
+     */
+    void testFlatSyncFocus();
+
+    /**
+     * @brief Test capturing darks with manual scope covering
+     */
+    void testDarkManualCovering();
+
+    /** @brief Test data for {@see testDarkManualCovering()} */
+    void testDarkManualCovering_data();
+
 };
 
 #endif // HAVE_INDI

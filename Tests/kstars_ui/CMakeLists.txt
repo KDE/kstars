@@ -49,10 +49,10 @@ TARGET_LINK_LIBRARIES(test_ekos_focus ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosFocus COMMAND test_ekos_focus)
 # SET_TESTS_PROPERTIES( TestEkosFocus PROPERTIES LABELS "stable;ui")
 
-ADD_EXECUTABLE(test_ekos_capture ${KSTARS_UI_EKOS_SRC} test_ekos_capture.cpp)
+ADD_EXECUTABLE(test_ekos_capture ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosCapture COMMAND test_ekos_capture)
-SET_TESTS_PROPERTIES( TestEkosCapture PROPERTIES LABELS "stable;ui" )
+SET_TESTS_PROPERTIES( TestEkosCapture PROPERTIES LABELS "stable;ui" TIMEOUT 600)
 
 ADD_EXECUTABLE(test_ekos_filterwheel ${KSTARS_UI_EKOS_SRC} test_ekos_filterwheel.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_filterwheel ${KSTARS_UI_EKOS_LIBS})

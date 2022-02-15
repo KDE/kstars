@@ -65,6 +65,11 @@ private slots:
      */
     void testWithProcessor();
 
+    /**
+     * @brief Test if guider deactivation will prevent completing the preparation.
+     */
+    void testGuiderDeactivation();
+
 private:
     // The state machine
     Ekos::SequenceJobState *m_stateMachine;
@@ -84,26 +89,17 @@ public:
     explicit TestAdapter() {};
 
     double m_ccdtemperature, m_guiderdrift, m_rotatorangle;
+    bool m_isguideractive;
 
     // initialize the values
-    void init(double temp, double drift, double angle);;
-
-    /**
-     * @brief Trigger all peparation actions before a capture may be started.
-     * @param frameType frame type for which the preparation should be done
-     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
-     * @param enforceStartGuiderDrift flag if the guider drift needs to be taken into account
-     * @param isPreview flag if the captures are in the preview mode
-     */
-    void startCapturePreparation(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview)
-    {
-        emit prepareCapture(frameType, enforceCCDTemp, enforceStartGuiderDrift, isPreview);
-    }
+    void init(double temp, double drift, double angle, bool guideractive = true);
 
     // set CCD to preview mode
     void setCCDBatchMode(bool m_preview);
     // set the current CCD temperature
     void setCCDTemperature(double value);
+    // update whether guiding is active
+    void setGuiderActive(bool active);
     // set the current guiding deviation
     void setGuiderDrift(double value);
     // set the current camera rotator position
@@ -130,6 +126,8 @@ signals:
     void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
     // update the current CCD temperature
     void newCCDTemperature(double value);
+    // update the current guider state
+    void newGuiderState(bool active);
     // update the current guiding deviation
     void newGuiderDrift(double deviation_rms);
     // update the current camera rotator position

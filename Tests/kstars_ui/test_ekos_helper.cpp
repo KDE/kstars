@@ -73,6 +73,20 @@ void TestEkosHelper::fillProfile(bool *isDone)
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Guider selected.";
     }
 
+    // Select the light panel device for flats capturing
+    if (m_LightPanelDevice != nullptr) {
+        KTRY_PROFILEEDITOR_GADGET(QComboBox, aux1Combo);
+        setTreeviewCombo(aux1Combo, m_LightPanelDevice);
+        qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Light panel selected.";
+    }
+
+    // Select the dome device
+    if (m_DomeDevice != nullptr) {
+        KTRY_PROFILEEDITOR_GADGET(QComboBox, domeCombo);
+        setTreeviewCombo(domeCombo, m_DomeDevice);
+        qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Dome selected.";
+    }
+
     // wait a short time to make the setup visible
     QTest::qWait(1000);
     // Save the profile using the "Save" button
@@ -147,26 +161,9 @@ bool TestEkosHelper::setupEkosProfile(QString name, bool isPHD2)
 
 }
 
-bool TestEkosHelper::startEkosProfile()
+void TestEkosHelper::connectModules()
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
-
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->setupTab, 1000));
-
-    if (m_Guider == "PHD2")
-    {
-        // Start a PHD2 instance
-        startPHD2();
-        // setup the EKOS profile
-        KWRAP_SUB(QVERIFY(setupEkosProfile("Simulators (PHD2)", true)));
-    }
-    else
-        KWRAP_SUB(QVERIFY(setupEkosProfile("Simulators", false)));
-
-    // start the profile
-    KTRY_EKOS_CLICK(processINDIB);
-    // wait for the devices to come up
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
 
     // connect to the alignment process to receive align status changes
     connect(ekos->alignModule(), &Ekos::Align::newStatus, this, &TestEkosHelper::alignStatusChanged,
@@ -200,12 +197,44 @@ bool TestEkosHelper::startEkosProfile()
     connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosHelper::focusStatusChanged,
             Qt::UniqueConnection);
 
+    // connect to the dome process to receive dome status changes
+    connect(ekos->domeModule(), &Ekos::Dome::newStatus, this, &TestEkosHelper::domeStatusChanged,
+            Qt::UniqueConnection);
+}
+
+bool TestEkosHelper::startEkosProfile()
+{
+    Ekos::Manager * const ekos = Ekos::Manager::Instance();
+
+    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->setupTab, 1000));
+
+    if (m_Guider == "PHD2")
+    {
+        // Start a PHD2 instance
+        startPHD2();
+        // setup the EKOS profile
+        KWRAP_SUB(QVERIFY(setupEkosProfile("Test profile (PHD2)", true)));
+    }
+    else
+        KWRAP_SUB(QVERIFY(setupEkosProfile("Test profile", false)));
+
+    // start the profile
+    KTRY_EKOS_CLICK(processINDIB);
+    // wait for the devices to come up
+    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
+
+    // connect to the alignment process to receive align status changes
+    connectModules();
+
     // Everything completed successfully
     return true;
 }
 
 bool TestEkosHelper::shutdownEkosProfile()
 {
+    // disconnect to the dome process to receive dome status changes
+    disconnect(Ekos::Manager::Instance()->domeModule(), &Ekos::Dome::newStatus, this,
+               &TestEkosHelper::domeStatusChanged);
     // disconnect to the focus process to receive focus status changes
     disconnect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this,
                &TestEkosHelper::focusStatusChanged);
@@ -433,9 +462,20 @@ void TestEkosHelper::init() {
     m_FocusStatus   = Ekos::FOCUS_IDLE;
     m_GuideStatus   = Ekos::GUIDE_IDLE;
     m_MFStatus      = Ekos::Mount::FLIP_NONE;
+    m_DomeStatus    = ISD::Dome::DOME_IDLE;
+    // initialize the event queues
+    expectedAlignStates.clear();
+    expectedCaptureStates.clear();
+    expectedFocusStates.clear();
+    expectedGuidingStates.clear();
+    expectedMountStates.clear();
+    expectedDomeStates.clear();
+    expectedMeridianFlipStates.clear();
+    expectedSchedulerStates.clear();
+
 
     // disable by default
-    use_guiding     = false;
+    use_guiding = false;
 }
 void TestEkosHelper::cleanup() {
 
@@ -549,4 +589,12 @@ void TestEkosHelper::schedulerStatusChanged(Ekos::SchedulerState status)
     // check if the new state is the next one expected, then remove it from the stack
     if (!expectedSchedulerStates.isEmpty() && expectedSchedulerStates.head() == status)
         expectedSchedulerStates.dequeue();
+}
+
+void TestEkosHelper::domeStatusChanged(ISD::Dome::Status status)
+{
+    m_DomeStatus = status;
+    // check if the new state is the next one expected, then remove it from the stack
+    if (!expectedDomeStates.isEmpty() && expectedDomeStates.head() == status)
+        expectedDomeStates.dequeue();
 }

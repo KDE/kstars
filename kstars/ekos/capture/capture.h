@@ -7,6 +7,8 @@
 #pragma once
 
 #include "ui_capture.h"
+#include "capturecommandprocessor.h"
+#include "sequencejobstate.h"
 #include "customproperties.h"
 #include "oal/filter.h"
 #include "ekos/ekos.h"
@@ -92,31 +94,6 @@ class Capture : public QWidget, public Ui::Capture
 
     public:
         typedef enum { MF_NONE, MF_REQUESTED, MF_READY, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_COMPLETED, MF_ALIGNING, MF_GUIDING } MFStage;
-        typedef enum
-        {
-            CAL_NONE,
-            CAL_DUSTCAP_PARKING,
-            CAL_DUSTCAP_PARKED,
-            CAL_LIGHTBOX_ON,
-            CAL_SLEWING,
-            CAL_SLEWING_COMPLETE,
-            CAL_MOUNT_PARKING,
-            CAL_MOUNT_PARKED,
-            CAL_DOME_PARKING,
-            CAL_DOME_PARKED,
-            CAL_PRECAPTURE_COMPLETE,
-            CAL_CALIBRATION,
-            CAL_CALIBRATION_COMPLETE,
-            CAL_CAPTURING,
-            CAL_DUSTCAP_UNPARKING,
-            CAL_DUSTCAP_UNPARKED
-        } CalibrationStage;
-
-        typedef enum
-        {
-            CAL_CHECK_TASK,
-            CAL_CHECK_CONFIRMATION,
-        } CalibrationCheckType;
 
         typedef enum
         {
@@ -312,19 +289,9 @@ class Capture : public QWidget, public Ui::Capture
 
         void addCCD(ISD::GDInterface *newCCD);
         void addFilter(ISD::GDInterface *newFilter);
-        void setDome(ISD::GDInterface *device)
-        {
-            currentDome = dynamic_cast<ISD::Dome *>(device);
-        }
-        void setDustCap(ISD::GDInterface *device)
-        {
-            currentDustCap = dynamic_cast<ISD::DustCap *>(device);
-            syncFilterInfo();
-        }
-        void setLightBox(ISD::GDInterface *device)
-        {
-            currentLightBox = dynamic_cast<ISD::LightBox *>(device);
-        }
+        void setDome(ISD::GDInterface *device);
+        void setDustCap(ISD::GDInterface *device);
+        void setLightBox(ISD::GDInterface *device);
         void removeDevice(ISD::GDInterface *device);
         void addGuideHead(ISD::GDInterface *newCCD);
         void syncFrameType(ISD::GDInterface *ccd);
@@ -787,15 +754,6 @@ class Capture : public QWidget, public Ui::Capture
          */
         IPState checkLightFramePendingTasks();
 
-        /**
-         * @brief Check whether the scope cover is removed (manual cover, flat covers, dark covers etc.)
-         * @return true iff scope cover is open
-         */
-        IPState checkLightFrameScopeCoverOpen();
-
-        IPState checkFlatFramePendingTasks();
-        IPState checkDarkFramePendingTasks();
-
         // Send image info
         //void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
 
@@ -834,6 +792,7 @@ class Capture : public QWidget, public Ui::Capture
         void prepareCapture();
 
         // device status
+        void setGuiderActive(bool active);
         void newGuiderDrift(double deviation_rms);
         void newRotatorAngle(double value, IPState state);
         void newTemperatureValue(double value);
@@ -1036,6 +995,8 @@ class Capture : public QWidget, public Ui::Capture
         // Currently active sequence job.
         // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
+        QSharedPointer<CaptureCommandProcessor> m_commandProcessor;
+        QSharedPointer<SequenceJobState::CaptureState> m_captureState;
 
         QList<ISD::CCD *> CCDs;
 
@@ -1118,12 +1079,8 @@ class Capture : public QWidget, public Ui::Capture
         bool preDomePark { false };
         FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
         FlatFieldSource flatFieldSource { SOURCE_MANUAL };
-        CalibrationStage calibrationStage { CAL_NONE };
-        CalibrationCheckType calibrationCheckType { CAL_CHECK_TASK };
         bool dustCapLightEnabled { false };
         bool lightBoxLightEnabled { false };
-        bool m_TelescopeCoveredDarkExposure { false };
-        bool m_TelescopeCoveredFlatExposure { false };
         QMap<ScriptTypes, QString> m_Scripts;
 
         QUrl dirPath;

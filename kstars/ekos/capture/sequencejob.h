@@ -88,16 +88,12 @@ class SequenceJob : public QObject
             SJ_TargetADU,
             // Double
             SJ_TargetADUTolerance,
-            // Bool
-            SJ_PreMountPark,
-            // Bool
-            SJ_PreDomePark,
         } PropertyID;
 
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob();
+        SequenceJob(const QSharedPointer<CaptureCommandProcessor> cp, const QSharedPointer<SequenceJobState::CaptureState> sharedState);
         SequenceJob(XMLEle *root);
         ~SequenceJob() = default;
 
@@ -149,12 +145,7 @@ class SequenceJob : public QObject
         // Getter: Get Current Filter Slot
         int getCurrentFilter() const;
         // Setter: Set active filter manager.
-        void setFilterManager(const QSharedPointer<FilterManager> &manager)
-        {
-            m_FilterManager = manager;
-        }
-        void setCurrentTemperature(double value);
-        void resetCurrentGuiderDrift();
+        void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
         ////////////////////////////////////////////////////////////////////////
         /// GUI Related Functions
@@ -185,9 +176,6 @@ class SequenceJob : public QObject
         // Getter: get upload mode
         ISD::CCD::UploadMode getUploadMode() const;
 
-        // Setter: Set
-        // Getter: Get
-
         // Setter: Set flat field source
         void setFlatFieldSource(FlatFieldSource value);
         // Getter: Get flat field source
@@ -212,11 +200,26 @@ class SequenceJob : public QObject
         void setJobProgressIgnored(bool value);
         bool getJobProgressIgnored() const;
 
-        //////////////////////////////////////////////////////////////
-        /// Command processor implementing actions to be triggered by the state machine
-        /// FIXME should be this be private?
-        //////////////////////////////////////////////////////////////
-        CaptureCommandProcessor commandProcessor;
+        /**
+         * @brief Set the light box device
+         */
+        void setLightBox(ISD::LightBox *lightBox);
+
+        /**
+         * @brief Set the dust cap device
+         */
+        void setDustCap(ISD::DustCap *dustCap);
+
+        /**
+         * @brief Set the telescope device
+         */
+        void setTelescope(ISD::Telescope *scope);
+
+        /**
+         * @brief Set the dome device
+         */
+        void setDome(ISD::Dome *dome);
+
 
         // ////////////////////////////////////////////////////////////////////////////
         // Facade to state machine
@@ -226,45 +229,109 @@ class SequenceJob : public QObject
          */
         JOBStatus getStatus()
         {
-            return stateMachine.getStatus();
+            return stateMachine->getStatus();
         }
 
         int getTargetFilter()
         {
-            return stateMachine.targetFilterID;
+            return stateMachine->targetFilterID;
         }
 
         double getTargetTemperature()
         {
-            return stateMachine.targetTemperature;
+            return stateMachine->targetTemperature;
         }
         void setTargetTemperature(double value)
         {
-            stateMachine.targetTemperature = value;
+            stateMachine->targetTemperature = value;
         }
 
         double getTargetStartGuiderDrift() const
         {
-            return stateMachine.targetStartGuiderDrift;
+            return stateMachine->targetStartGuiderDrift;
         }
         void setTargetStartGuiderDrift(double value)
         {
-            stateMachine.targetStartGuiderDrift = value;
+            stateMachine->targetStartGuiderDrift = value;
         }
 
         double getTargetRotation() const
         {
-            return stateMachine.targetRotation;
+            return stateMachine->targetRotation;
         }
         void setTargetRotation(double value)
         {
-            stateMachine.targetRotation = value;
+            stateMachine->targetRotation = value;
         }
 
-        void startPrepareCapture();
+        bool getPreMountPark() const
+        {
+            return stateMachine->m_CaptureState->preMountPark;
+        }
+        void setPreMountPark(bool value)
+        {
+            stateMachine->m_CaptureState->preMountPark = value;
+        }
 
-    signals:
+        bool getPreDomePark() const
+        {
+            return stateMachine->m_CaptureState->preDomePark;
+        }
+        void setPreDomePark(bool value)
+        {
+            stateMachine->m_CaptureState->preDomePark = value;
+        }
+
+        SequenceJobState::CalibrationStage getCalibrationStage() const
+        {
+            return stateMachine->calibrationStage;
+        }
+        void setCalibrationStage(SequenceJobState::CalibrationStage value)
+        {
+            stateMachine->calibrationStage = value;
+        }
+
+        bool getAutoFocusReady() const
+        {
+            return stateMachine->m_CaptureState->autoFocusReady;
+        }
+        void setAutoFocusReady(bool value)
+        {
+            stateMachine->m_CaptureState->autoFocusReady = value;
+        }
+
+
+        /**
+         * @brief Central entry point to start all activities that are necessary
+         *        before capturing may start. Signals {@see prepareComplete()} as soon as
+         *        everything is ready.
+         */
+        void prepareCapture();
+        /**
+         * @brief All preparations necessary for capturing are completed
+         */
+        void processPrepareComplete();
+        /**
+         * @brief Abort capturing
+         */
+        void processAbortCapture();
+
+        /**
+         * @brief Check if all initial tasks are completed so that capturing
+         *        of flats may start.
+         * @return IPS_OK if cap is closed, IPS_BUSY if not and IPS_ALERT if the
+         *         process should be aborted.
+         */
+        IPState checkFlatFramePendingTasksCompleted();
+
+signals:
+        // All preparations necessary for capturing are completed
         void prepareComplete();
+        // Abort capturing
+        void abortCapture();
+        // log entry
+        void newLog(QString);
+
         void prepareState(CaptureState state);
         void checkFocus();
         // ask for the current device state
@@ -273,13 +340,18 @@ class SequenceJob : public QObject
         void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
         // update the current CCD temperature
         void updateCCDTemperature(double value);
+        // update whether guiding is active
+        void setGuiderActive(bool active);
         // update the current guiding deviation
         void updateGuiderDrift(double deviation_rms);
         // update the current camera rotator position
         void updateRotatorAngle(double value, IPState state);
 
 
-    private:
+private:
+        // should not be used from outside
+        SequenceJob();
+
         void setStatus(JOBStatus const);
 
         //////////////////////////////////////////////////////////////
@@ -293,9 +365,7 @@ class SequenceJob : public QObject
         /// We don't use Q_PROPERTY for these to simplify use
         //////////////////////////////////////////////////////////////
         QMap<QString, QMap<QString, QVariant>> m_CustomProperties;
-        FlatFieldSource m_FlatFieldSource { SOURCE_MANUAL };
         FlatFieldDuration m_FlatFieldDuration { DURATION_MANUAL };
-        SkyPoint m_WallCoord;
         // Capture Scripts
         QMap<ScriptTypes, QString> m_Scripts;
         // Upload Mode
@@ -321,8 +391,18 @@ class SequenceJob : public QObject
         QTableWidgetItem * countCell { nullptr };
 
         //////////////////////////////////////////////////////////////
-        /// State machine encapsulating the state of this capture sequence job
+        /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
-        SequenceJobState stateMachine;
+        QSharedPointer<CaptureCommandProcessor> commandProcessor;
+        SequenceJobState *stateMachine { nullptr };
+        /**
+         * @brief Create all event connections between the state machine and the command processor
+         */
+        void connectCommandProcessor();
+        /**
+         * @brief Disconnect all event connections between the state machine and the command processor
+         */
+        void disconnectCommandProcessor();
+
 };
 }
