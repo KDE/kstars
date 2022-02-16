@@ -15,6 +15,12 @@ GuideView::GuideView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSVie
 {
 }
 
+void GuideView::updateNeighbors()
+{
+    if (newNeighbors)
+        updateFrame(true);
+}
+
 void GuideView::drawOverlay(QPainter *painter, double scale)
 {
     Q_UNUSED(scale);
@@ -23,6 +29,8 @@ void GuideView::drawOverlay(QPainter *painter, double scale)
 
     for (const auto &neighbor : neighbors)
         drawNeighbor(painter, neighbor);
+    newNeighbors = false;
+
 }
 
 void GuideView::addGuideStarNeighbor(double targetX, double targetY, bool found,
@@ -36,6 +44,7 @@ void GuideView::addGuideStarNeighbor(double targetX, double targetY, bool found,
     n.detectedY = detectedY;
     n.isGuideStar = isGuideStar;
     neighbors.append(n);
+    newNeighbors = true;
 }
 
 void GuideView::clearNeighbors()

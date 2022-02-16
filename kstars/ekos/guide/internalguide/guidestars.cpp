@@ -264,6 +264,7 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
         guideView->addGuideStarNeighbor(offset.x() + reticle_x, offset.y() + reticle_y, found[i],
                                         detected_x, detected_y, isGuideStar);
     }
+    guideView->updateNeighbors();
 }
 
 // Find the guide star using the starCorrespondence algorithm (looking for
