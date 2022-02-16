@@ -552,13 +552,15 @@ void PolarAlignmentAssistant::startPAHProcess()
     // If we're crossing the meridian, warn unless within 5-degrees from the pole.
     if (checkPAHForMeridianCrossing())
     {
+        // Continue
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executePAH]()
         {
             KSMessageBox::Instance()->disconnect(this);
             executePAH();
         });
 
-        emit newLog(i18n("Warning, This could cause the telescope to cross the meridian. Check your direction."));
+        KSMessageBox::Instance()->warningContinueCancel(i18n("This could cause the telescope to cross the meridian."),
+                i18n("Warning"), 15);
     }
     else
         executePAH();
