@@ -437,7 +437,7 @@
           <string>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</string>
          </property>
          <property name="text">
-          <string>Verify captured image positoin every</string>
+          <string>Verify captured image position every</string>
          </property>
         </widget>
        </item>
