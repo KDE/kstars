@@ -113,6 +113,7 @@ void SequenceJobState::prepareFlatFrameCapture()
 {
     // preparation started
     m_PreparationState = PREP_BUSY;
+    m_status           = JOB_BUSY;
     // execute all preparation checks
     checkAllActionsReady();
 }
@@ -121,6 +122,7 @@ void SequenceJobState::prepareDarkFrameCapture()
 {
     // preparation started
     m_PreparationState = PREP_BUSY;
+    m_status           = JOB_BUSY;
     // execute all preparation checks
     checkAllActionsReady();
 }
@@ -340,7 +342,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->lightBoxLightStatus = CAP_LIGHT_BUSY;
         emit setLightBoxLight(captureFlats);
-        emit newLog(i18n("Turn light box light %1...", captureFlats ? "on" : "off"));
+        emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
         return IPS_BUSY;
     }
 
@@ -357,7 +359,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->dustCapStatus = captureFlats ? CAP_UNPARKING : CAP_PARKING;
         emit parkDustCap(!captureFlats);
-        emit newLog(i18n("%1 dust cap...").arg(captureFlats ? "Unparking" : "Parking"));
+        emit newLog(captureFlats ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
         return IPS_BUSY;
     }
 
@@ -367,7 +369,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->dustCapLightStatus = CAP_LIGHT_BUSY;
         emit setDustCapLight(captureFlats);
-        emit newLog(i18n("Turn dust cap light %1...", captureFlats ? "on" : "off"));
+        emit newLog(captureFlats ? i18n("Turn dust cap light on...") : i18n("Turn dust cap light off..."));
         return IPS_BUSY;
     }
     // nothing more to do
@@ -411,7 +413,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
             {
                 m_CaptureState->lightBoxLightStatus = CAP_LIGHT_BUSY;
                 emit setLightBoxLight(captureFlats);
-                emit newLog(i18n("Turn light box light %1...", captureFlats ? "on" : "off"));
+                emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
                 return IPS_BUSY;
     }
         }
