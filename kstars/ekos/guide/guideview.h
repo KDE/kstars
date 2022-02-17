@@ -37,6 +37,9 @@ class GuideView : public FITSView
         // Remove all the neighbors.
         void clearNeighbors();
 
+        // Refresh the neighbor graphics if necessary.
+        void updateNeighbors();
+
     protected:
 
     private:
@@ -58,5 +61,8 @@ class GuideView : public FITSView
 
         void drawNeighbor(QPainter *painter, const Neighbor &neighbor);
         QList<Neighbor> neighbors;
+
+        // True if neighbors have been added but not yet displayed.
+        bool newNeighbors { false };
     signals:
 };

@@ -316,6 +316,7 @@ bool Calibration::calculate2D(
     qCDebug(KSTARS_EKOS_GUIDE) << QString("Set RA ms/as = %1ms / %2as = %3. DEC: %4ms / %5px = %6.")
                                .arg(RATotalPulse).arg(raArcseconds).arg(raPulseMillisecondsPerArcsecond())
                                .arg(DETotalPulse).arg(decArcseconds).arg(decPulseMillisecondsPerArcsecond());
+    initialized = true;
     return true;
 }
 
