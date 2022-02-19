@@ -214,6 +214,12 @@ public:
      */
     QStringList searchFITS(QDir const &dir) const;
 
+    /**
+     * @brief Ensure that it is known whether the CCD device has a shutter or not
+     * @param shutter set to true iff a shutter should be present
+     */
+    void ensureCCDShutter(bool shutter);
+
     QDir *getImageLocation();
 
     // destination where images will be located

@@ -762,17 +762,20 @@ void Capture::stop(CaptureState targetState)
             QString stopText;
             switch (targetState)
             {
-                case CAPTURE_IDLE:
-                    stopText = i18n("CCD capture stopped");
-                    break;
+            case CAPTURE_SUSPENDED:
+                stopText = i18n("CCD capture suspended");
+                activeJob->resetStatus(JOB_BUSY);
+                break;
 
-                case CAPTURE_SUSPENDED:
-                    stopText = i18n("CCD capture suspended");
-                    break;
+            case CAPTURE_ABORTED:
+                stopText = i18n("CCD capture aborted");
+                activeJob->resetStatus(JOB_ABORTED);
+                break;
 
-                default:
-                    stopText = i18n("CCD capture aborted");
-                    break;
+            default:
+                stopText = i18n("CCD capture stopped");
+                activeJob->resetStatus(JOB_IDLE);
+                break;
             }
             emit captureAborted(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText);
@@ -812,8 +815,6 @@ void Capture::stop(CaptureState targetState)
 
             emit newStatus(targetState);
         }
-        // reset flats calibration stage
-        activeJob->setCalibrationStage(SequenceJobState::CAL_NONE);
     }
 
     // Only emit a new status if there is an active job or if capturing is suspended.
@@ -2379,7 +2380,7 @@ void Capture::captureImage()
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
         if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false
                 && activeJob->getFlatFieldDuration() == DURATION_ADU &&
-                activeJob->getCalibrationStage() == SequenceJobState::CAL_PRECAPTURE_COMPLETE)
+                activeJob->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION_COMPLETE)
         {
             if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE)
             {
@@ -3435,16 +3436,6 @@ void Capture::prepareActiveJobStage2()
     else
         emit newImage(activeJob, m_ImageData);
 
-    //connect(job, SIGNAL(checkFocus()), this, &Ekos::Capture::startPostFilterAutoFocus()));
-
-    // Reset calibration stage
-    if (activeJob != nullptr && activeJob->getCalibrationStage() == SequenceJobState::CAL_CAPTURING)
-    {
-        if (activeJob->getFrameType() != FRAME_LIGHT)
-            activeJob->setCalibrationStage(SequenceJobState::CAL_PRECAPTURE_COMPLETE);
-        else
-            activeJob->setCalibrationStage(SequenceJobState::CAL_NONE);
-    }
 
     /* Disable this restriction, let the sequence run even if focus did not run prior to the capture.
      * Besides, this locks up the Scheduler when the Capture module starts a sequence without any prior focus procedure done.
@@ -3840,23 +3831,7 @@ void Capture::setFocusStatus(FocusState state)
 
     if ((isRefocus || isInSequenceFocus) && activeJob && activeJob->getStatus() == JOB_BUSY)
     {
-        // if the focusing has been started during the post-calibration, return to the calibration
-        if (activeJob->getCalibrationStage() < SequenceJobState::CAL_PRECAPTURE_COMPLETE && m_State == CAPTURE_FOCUSING)
-        {
-            if (m_FocusState == FOCUS_COMPLETE)
-            {
-                appendLogText(i18n("Focus complete."));
-                secondsLabel->setText(i18n("Focus complete."));
-                m_State = CAPTURE_PROGRESS;
-            }
-            else if (m_FocusState == FOCUS_FAILED || m_FocusState == FOCUS_ABORTED)
-            {
-                appendLogText(i18n("Autofocus failed."));
-                secondsLabel->setText(i18n("Autofocus failed."));
-                abort();
-            }
-        }
-        else if (m_FocusState == FOCUS_COMPLETE)
+        if (m_FocusState == FOCUS_COMPLETE)
         {
             appendLogText(i18n("Focus complete."));
             secondsLabel->setText(i18n("Focus complete."));
@@ -5954,8 +5929,6 @@ IPState Capture::checkLightFramePendingTasks()
     }
 
     // everything is ready for capturing light frames
-    activeJob->setCalibrationStage(SequenceJobState::CAL_PRECAPTURE_COMPLETE);
-
     return IPS_OK;
 
 }

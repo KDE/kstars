@@ -1385,6 +1385,9 @@ font-weight:bold;
            <property name="enabled">
             <bool>true</bool>
            </property>
+           <property name="toolTip">
+            <string>Start capturing only if guide deviation is below the given threshold (ignored for previews)</string>
+           </property>
            <property name="text">
             <string>Only Start if Guide Deviation &lt;</string>
            </property>
@@ -1972,11 +1975,11 @@ font-weight:bold;
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>30</number>
-            </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>80</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>30</number>
             </attribute>
             <column>
              <property name="text">

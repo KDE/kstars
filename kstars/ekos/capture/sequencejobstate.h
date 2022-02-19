@@ -52,22 +52,20 @@ class SequenceJobState: public QObject
 public:
     typedef enum
     {
-        CAL_NONE,
-        CAL_DUSTCAP_PARKING,
-        CAL_DUSTCAP_PARKED,
-        CAL_LIGHTBOX_ON,
-        CAL_SLEWING,
-        CAL_SLEWING_COMPLETE,
-        CAL_MOUNT_PARKING,
-        CAL_MOUNT_PARKED,
-        CAL_DOME_PARKING,
-        CAL_DOME_PARKED,
-        CAL_PRECAPTURE_COMPLETE,
+        CAL_NONE,                    /* initial state */
+        CAL_DUSTCAP_PARKING,         /* unused        */
+        CAL_DUSTCAP_PARKED,          /* unused        */
+        CAL_LIGHTBOX_ON,             /* unused        */
+        CAL_SLEWING,                 /* unused        */
+        CAL_SLEWING_COMPLETE,        /* unused        */
+        CAL_MOUNT_PARKING,           /* unused        */
+        CAL_MOUNT_PARKED,            /* unused        */
+        CAL_DOME_PARKING,            /* unused        */
+        CAL_DOME_PARKED,             /* unused        */
+        CAL_PRECAPTURE_COMPLETE,     /* unused        */
         CAL_CALIBRATION,
         CAL_CALIBRATION_COMPLETE,
-        CAL_CAPTURING,
-        CAL_DUSTCAP_UNPARKING,
-        CAL_DUSTCAP_UNPARKED
+        CAL_CAPTURING
     } CalibrationStage;
 
     typedef enum {
@@ -191,6 +189,7 @@ public:
         // light source for flat capturing
         FlatFieldSource flatFieldSource { SOURCE_MANUAL };
 
+
         // ////////////////////////////////////////////////////////////////////
         // dark preparation attributes
         // ////////////////////////////////////////////////////////////////////
@@ -227,6 +226,11 @@ public:
      * @brief The current capture sequence job status
      */
     JOBStatus getStatus() { return m_status; }
+
+    /**
+     * @brief Preparation state of the sequence job
+     */
+    PreparationState getPreparationState() const;
 
     /**
      * @brief Reset the status to a dedicated value.
@@ -373,6 +377,8 @@ private:
 
     // capture frame type (light, flat, dark, bias)
     CCDFrameType m_frameType { FRAME_NONE };
+    // do we shoot a preview?
+    bool m_isPreview { false };
     // should a certain temperature should be enforced?
     bool m_enforceTemperature { false };
     // Ensure that guiding deviation is below a configured thresholdß

@@ -31,7 +31,8 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceStartGuiderDrift == m_enforceStartGuiderDrift)
         return;
 
-    m_status = JOB_BUSY;
+    m_status    = JOB_BUSY;
+    m_isPreview = isPreview;
 
     // Reset all prepare actions
     setAllActionsReady();
@@ -176,9 +177,7 @@ void SequenceJobState::checkAllActionsReady()
         if (checkFlatSyncFocus() != IPS_OK)
             return;
 
-        // all preparations ready
-        calibrationStage = CAL_PRECAPTURE_COMPLETE;
-        // avoid doubled events
+        // all preparations ready, avoid doubled events
         if (m_PreparationState == PREP_BUSY)
         {
             m_PreparationState = PREP_COMPLETED;
@@ -239,7 +238,7 @@ void SequenceJobState::setAllActionsReady()
 
 IPState SequenceJobState::checkFlatsLightSourceReady()
 {
-    IPState result;
+    IPState result = IPS_OK;
 
     switch (m_CaptureState->flatFieldSource)
     {
@@ -529,6 +528,7 @@ bool SequenceJobState::checkGuiderDriftForStarting()
 {
     return (!m_enforceStartGuiderDrift ||
             m_frameType != FRAME_LIGHT ||
+            m_isPreview == true ||
             (m_CaptureState->currentGuiderDrift <= targetStartGuiderDrift && isInitialized[ACTION_GUIDER_DRIFT] == true));
 }
 
@@ -767,5 +767,10 @@ void SequenceJobState::hasShutter(bool present)
 
     // re-run checks
     checkAllActionsReady();
+}
+
+SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
+{
+    return m_PreparationState;
 }
 } // namespace

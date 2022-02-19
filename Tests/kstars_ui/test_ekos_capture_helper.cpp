@@ -10,6 +10,7 @@
 
 #include "test_ekos.h"
 #include "ekos/capture/scriptsmanager.h"
+#include "Options.h"
 
 TestEkosCaptureHelper::TestEkosCaptureHelper(QString guider) : TestEkosHelper(guider) {}
 
@@ -93,6 +94,41 @@ QStringList TestEkosCaptureHelper::searchFITS(const QDir &dir) const
         list.append(searchFITS(QDir(dir.path() + '/' + d)));
 
     return list;
+}
+
+void TestEkosCaptureHelper::ensureCCDShutter(bool shutter)
+{
+    if (m_CCDDevice != "")
+    {
+        // ensure that we know that the CCD has a shutter
+        QStringList shutterlessCCDs = Options::shutterlessCCDs();
+        QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+        if (shutter)
+        {
+            // remove CCD device from shutterless CCDs
+            shutterlessCCDs.removeAll(m_CCDDevice);
+            Options::setShutterlessCCDs(shutterlessCCDs);
+            // add CCD device if necessary to shutterful CCDs
+            if (! shutterfulCCDs.contains(m_CCDDevice))
+            {
+                shutterfulCCDs.append(m_CCDDevice);
+                Options::setShutterfulCCDs(shutterfulCCDs);
+            }
+        }
+        else
+        {
+            // remove CCD device from shutterful CCDs
+            shutterfulCCDs.removeAll(m_CCDDevice);
+            Options::setShutterfulCCDs(shutterfulCCDs);
+            // add CCD device if necessary to shutterless CCDs
+            if (! shutterlessCCDs.contains(m_CCDDevice))
+            {
+                shutterlessCCDs.append(m_CCDDevice);
+                Options::setShutterlessCCDs(shutterlessCCDs);
+            }
+        }
+
+    }
 }
 
 QDir *TestEkosCaptureHelper::getImageLocation()

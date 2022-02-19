@@ -665,6 +665,41 @@ void TestEkosCaptureWorkflow::testDarkManualCovering()
 }
 
 
+void TestEkosCaptureWorkflow::testDarksLibrary()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // ensure that we know that the CCD has a shutter
+    m_CaptureHelper->ensureCCDShutter(true);
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // open the darks library dialog
+    KTRY_CLICK(capture, darkLibraryB);
+    QWidget *darkLibraryDialog = nullptr;
+    QTRY_VERIFY_WITH_TIMEOUT(darkLibraryDialog = Ekos::Manager::Instance()->findChild<QWidget *>("DarkLibrary"), 2000);
+
+    // set dark library values to 3x1s darks
+    KTRY_SET_DOUBLESPINBOX(darkLibraryDialog, maxExposureSpin, 1);
+    KTRY_SET_SPINBOX(darkLibraryDialog, countSpin, 3);
+    // expect exactly 3 frames
+    for (int i = 0; i < 3; i++)
+        m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
+    // start
+    KTRY_CLICK(darkLibraryDialog, startB);
+    // wait until completion
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 10000);
+    // check if master frame has been created
+    QFileInfo destinationInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "darks");
+    QDir destination(destinationInfo.absoluteFilePath());
+    QVERIFY(m_CaptureHelper->searchFITS(destination).size() == 1);
+}
+
+
 /* *********************************************************************************
  *
  * Test data
