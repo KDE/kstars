@@ -232,13 +232,26 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
     }
 }
 
-void SequenceJob::resetStatus()
+void SequenceJob::resetStatus(JOBStatus status)
 {
-    setStatus(JOB_IDLE);
-    setCompleted(0);
-    m_ExposeLeft     = 0;
-    m_CaptureRetires = 0;
-    m_JobProgressIgnored = false;
+    setStatus(status);
+    setCalibrationStage(SequenceJobState::CAL_NONE);
+    switch (status)
+    {
+    case JOB_IDLE:
+        setCompleted(0);
+        INDI_FALLTHROUGH;
+    case JOB_ERROR:
+    case JOB_ABORTED:
+    case JOB_DONE:
+        m_ExposeLeft     = 0;
+        m_CaptureRetires = 0;
+        m_JobProgressIgnored = false;
+        break;
+    case JOB_BUSY:
+        // do nothing
+        break;
+    }
 }
 
 void SequenceJob::abort()

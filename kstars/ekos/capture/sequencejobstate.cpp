@@ -31,7 +31,8 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceStartGuiderDrift == m_enforceStartGuiderDrift)
         return;
 
-    m_status = JOB_BUSY;
+    m_status    = JOB_BUSY;
+    m_isPreview = isPreview;
 
     // Reset all prepare actions
     setAllActionsReady();
@@ -113,6 +114,7 @@ void SequenceJobState::prepareFlatFrameCapture()
 {
     // preparation started
     m_PreparationState = PREP_BUSY;
+    m_status           = JOB_BUSY;
     // execute all preparation checks
     checkAllActionsReady();
 }
@@ -121,6 +123,7 @@ void SequenceJobState::prepareDarkFrameCapture()
 {
     // preparation started
     m_PreparationState = PREP_BUSY;
+    m_status           = JOB_BUSY;
     // execute all preparation checks
     checkAllActionsReady();
 }
@@ -174,9 +177,7 @@ void SequenceJobState::checkAllActionsReady()
         if (checkFlatSyncFocus() != IPS_OK)
             return;
 
-        // all preparations ready
-        calibrationStage = CAL_PRECAPTURE_COMPLETE;
-        // avoid doubled events
+        // all preparations ready, avoid doubled events
         if (m_PreparationState == PREP_BUSY)
         {
             m_PreparationState = PREP_COMPLETED;
@@ -237,7 +238,7 @@ void SequenceJobState::setAllActionsReady()
 
 IPState SequenceJobState::checkFlatsLightSourceReady()
 {
-    IPState result;
+    IPState result = IPS_OK;
 
     switch (m_CaptureState->flatFieldSource)
     {
@@ -340,7 +341,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->lightBoxLightStatus = CAP_LIGHT_BUSY;
         emit setLightBoxLight(captureFlats);
-        emit newLog(i18n("Turn light box light %1...", captureFlats ? "on" : "off"));
+        emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
         return IPS_BUSY;
     }
 
@@ -357,7 +358,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->dustCapStatus = captureFlats ? CAP_UNPARKING : CAP_PARKING;
         emit parkDustCap(!captureFlats);
-        emit newLog(i18n("%1 dust cap...").arg(captureFlats ? "Unparking" : "Parking"));
+        emit newLog(captureFlats ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
         return IPS_BUSY;
     }
 
@@ -367,7 +368,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     {
         m_CaptureState->dustCapLightStatus = CAP_LIGHT_BUSY;
         emit setDustCapLight(captureFlats);
-        emit newLog(i18n("Turn dust cap light %1...", captureFlats ? "on" : "off"));
+        emit newLog(captureFlats ? i18n("Turn dust cap light on...") : i18n("Turn dust cap light off..."));
         return IPS_BUSY;
     }
     // nothing more to do
@@ -411,7 +412,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
             {
                 m_CaptureState->lightBoxLightStatus = CAP_LIGHT_BUSY;
                 emit setLightBoxLight(captureFlats);
-                emit newLog(i18n("Turn light box light %1...", captureFlats ? "on" : "off"));
+                emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
                 return IPS_BUSY;
     }
         }
@@ -527,6 +528,7 @@ bool SequenceJobState::checkGuiderDriftForStarting()
 {
     return (!m_enforceStartGuiderDrift ||
             m_frameType != FRAME_LIGHT ||
+            m_isPreview == true ||
             (m_CaptureState->currentGuiderDrift <= targetStartGuiderDrift && isInitialized[ACTION_GUIDER_DRIFT] == true));
 }
 
@@ -765,5 +767,10 @@ void SequenceJobState::hasShutter(bool present)
 
     // re-run checks
     checkAllActionsReady();
+}
+
+SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
+{
+    return m_PreparationState;
 }
 } // namespace

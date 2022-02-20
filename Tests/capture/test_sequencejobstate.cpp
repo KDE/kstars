@@ -42,11 +42,11 @@ void TestSequenceJobState::testFullParameterSet()
 
     // start the capture preparation
     m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, isPreview);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding | enforce_rotate));
+    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | (enforce_guiding &!isPreview) | enforce_rotate));
     // now step by step set the values to the target value
     if (enforce_temperature)
         m_adapter->setCCDTemperature(target_temp + 0.5 * Options::maxTemperatureDiff());
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_guiding | enforce_rotate));
+    QVERIFY(m_adapter->isCapturePreparationComplete == !((enforce_guiding &!isPreview) | enforce_rotate));
     if (enforce_guiding)
         m_adapter->setGuiderDrift(1.5);
     QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_rotate);
@@ -115,7 +115,7 @@ void TestSequenceJobState::testWithProcessor()
 
     // start the capture preparation
     m_stateMachine->prepareLightFrameCapture(true, true, isPreview);
-    QVERIFY(m_adapter->isCapturePreparationComplete == false);
+    QVERIFY(m_adapter->isCapturePreparationComplete == isPreview);
     // now step by step set the values to the target value
     m_adapter->setGuiderDrift(1.5);
     QVERIFY(m_adapter->isCapturePreparationComplete == true);

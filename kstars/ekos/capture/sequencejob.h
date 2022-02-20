@@ -126,7 +126,7 @@ class SequenceJob : public QObject
         // Getter: Get how many more seconds are left to expose.
         double getExposeLeft() const;
         // Reset: Reset the job status
-        void resetStatus();
+        void resetStatus(JOBStatus status = JOB_IDLE);
         // Setter: Set how many times we re-try this job.
         void setCaptureRetires(int value);
         // Getter: Get many timed we retried this job already.
@@ -289,6 +289,15 @@ class SequenceJob : public QObject
         void setCalibrationStage(SequenceJobState::CalibrationStage value)
         {
             stateMachine->calibrationStage = value;
+        }
+
+        SequenceJobState::PreparationState getPreparationState() const
+        {
+            return stateMachine->m_PreparationState;
+        }
+        void setPreparationState(SequenceJobState::PreparationState value)
+        {
+            stateMachine->m_PreparationState = value;
         }
 
         bool getAutoFocusReady() const

@@ -189,6 +189,11 @@ private slots:
     /** @brief Test data for {@see testDarkManualCovering()} */
     void testDarkManualCovering_data();
 
+    /**
+     * @brief Test capturing a simple darks library
+     */
+    void testDarksLibrary();
+
 };
 
 #endif // HAVE_INDI
