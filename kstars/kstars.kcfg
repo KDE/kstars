@@ -2402,7 +2402,7 @@
       <entry name="GPGPKLengthScale" type="Double">
          <default>10.0</default>
       </entry>
-      <entry name="GPGPeriod" type="UInt">
+      <entry name="GPGPeriod" type="Double">
          <default>480</default>
       </entry>
       <entry name="GPGPKSignalVariance" type="Double">

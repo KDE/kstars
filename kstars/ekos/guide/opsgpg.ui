@@ -134,7 +134,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="kcfg_GPGPeriod">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGPeriod">
           <property name="toolTip">
            <string>The length in seconds of the mount's major period (that's being corrected).</string>
           </property>
