@@ -206,6 +206,7 @@ enum COMMANDS
     DARK_LIBRARY_GET_VIEW_MASTERS,
     DARK_LIBRARY_GET_MASTERS_IMAGE,
     DARK_LIBRARY_CLEAR_MASTERS_ROW,
+    DARK_LIBRARY_SET_DEFECT_FRAME
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -383,7 +384,8 @@ static QMap<COMMANDS, QString> const commands =
     {DARK_LIBRARY_GET_DEFECT_SETTINGS, "dark_library_get_defect_settings"},
     {DARK_LIBRARY_GET_VIEW_MASTERS, "dark_library_get_view_masters"},
     {DARK_LIBRARY_GET_MASTERS_IMAGE, "dark_library_get_masters_image"},
-    {DARK_LIBRARY_CLEAR_MASTERS_ROW, "dark_library_clear_masters_row"}
+    {DARK_LIBRARY_CLEAR_MASTERS_ROW, "dark_library_clear_masters_row"},
+    {DARK_LIBRARY_SET_DEFECT_FRAME, "dark_library_set_defect_frame"}
 };
 
 }

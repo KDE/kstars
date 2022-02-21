@@ -162,7 +162,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     });
 
     connect(startB, &QPushButton::clicked, this, &DarkLibrary::start);
-    connect(stopB, &QPushButton::clicked, this, &DarkLibrary::stopDarkJobs);
+    connect(stopB, &QPushButton::clicked, this, &DarkLibrary::stop);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Master Darks Database Connections
@@ -1182,7 +1182,7 @@ void DarkLibrary::generateDarkJobs()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::executeDarkJobs()
+void DarkLibrary::execute()
 {
     m_DarkImagesCounter = 0;
     darkProgress->setValue(0);
@@ -1204,7 +1204,7 @@ void DarkLibrary::executeDarkJobs()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::stopDarkJobs()
+void DarkLibrary::stop()
 {
     m_CaptureModule->abort();
     darkProgress->setValue(0);
@@ -1448,7 +1448,7 @@ void DarkLibrary::saveDefectMap()
 void DarkLibrary::start()
 {
     generateDarkJobs();
-    executeDarkJobs();
+    execute();
 }
 
 void DarkLibrary::setDarkSettings(const QJsonObject &settings)
@@ -1472,10 +1472,6 @@ void DarkLibrary::setDarkSettings(const QJsonObject &settings)
     maxTemperatureSpin->setValue(TempLimit);
     countSpin->setValue(count);
 
-}
-void DarkLibrary::stop()
-{
-    stopDarkJobs();
 }
 
 QJsonObject DarkLibrary::getDarkSettings()
@@ -1557,14 +1553,19 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     const int coldSpin = payload["coldSpin"].toInt();
     const bool hotEnabled = payload["hotEnabled"].toBool(hotPixelsEnabled->isChecked());
     const bool coldEnabled = payload["coldEnabled"].toBool(coldPixelsEnabled->isChecked());
+
     hotPixelsEnabled->setChecked(hotEnabled);
     coldPixelsEnabled->setChecked(coldEnabled);
 
-    m_CurrentDefectMap->setProperty("HotPixelAggressiveness", hotSpin);
-    m_CurrentDefectMap->setProperty("ColdPixelAggressiveness", coldSpin);
+    aggresivenessHotSpin->setValue(hotSpin);
+    aggresivenessColdSpin->setValue(coldSpin);
 
-    m_CurrentDefectMap->filterPixels();
-    emit newFrame(m_DarkView);
+    setDefectFrame(true);
+    generateMapB->click();
+}
+void DarkLibrary::setDefectFrame(bool isDefect)
+{
+    m_DarkView->setDefectMapEnabled(isDefect);
 }
 }
 
