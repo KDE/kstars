@@ -92,7 +92,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void setCaptureModule(Capture *instance);
 
         void start();
-        void stop();
         void setDarkSettings(const QJsonObject &settings);
         QJsonObject getDarkSettings();
         QJsonObject getDefectSettings();
@@ -100,6 +99,12 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QJsonArray getViewMasters();
         void getloadDarkViewMasterFITS(int index);
         void setDefectSettings(const QJsonObject row);
+        void setDefectFrame(bool isDefect);
+
+        /**
+         * @brief stop Abort all dark job captures.
+         */
+        void stop();
     protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
@@ -145,14 +150,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void generateDarkJobs();
 
         /**
-         * @brief executeDarkJobs Start executing the dark jobs in capture module.
+         * @brief execute Start executing the dark jobs in capture module.
          */
-        void executeDarkJobs();
-
-        /**
-         * @brief stopDarkJobs Abort all dark job captures.
-         */
-        void stopDarkJobs();
+        void execute();
 
         /**
          * @brief generateMasterFrameHelper Calls templated generateMasterFrame with the correct data type.
