@@ -265,6 +265,7 @@ public slots:
         IPState EqCoordPreviousState;
         QTimer centerLockTimer;
         QTimer readyTimer;
+        QTimer updateCoordinatesTimer;
         SkyObject *currentObject = nullptr;
         bool inManualMotion      = false;
         bool inCustomParking     = false;

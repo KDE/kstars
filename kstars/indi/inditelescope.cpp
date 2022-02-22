@@ -44,6 +44,14 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     readyTimer.setSingleShot(true);
     connect(&readyTimer, &QTimer::timeout, this, &Telescope::ready);
 
+    // Regularly update the coordinates even if no update has been sent from the INDI service
+    updateCoordinatesTimer.setInterval(1000);
+    updateCoordinatesTimer.setSingleShot(false);
+    connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
+    {
+        emit newCoords(currentCoords, pierSide(), hourAngle());
+    });
+
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
     qDBusRegisterMetaType<ISD::Telescope::Status>();
 
@@ -245,7 +253,9 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         // calculate horizontal coordinates
         currentCoords.EquatorialToHorizontal(KStars::Instance()->data()->lst(),
                                              KStars::Instance()->data()->geo()->lat());
-        emit newCoords(currentCoords, pierSide(), hourAngle());
+        // ensure that coordinates are regularly updated
+        if (! updateCoordinatesTimer.isActive())
+            updateCoordinatesTimer.start();
 
         ISD::Telescope::Status currentStatus = status(nvp);
 
@@ -283,8 +293,19 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         // calculate J2000 coordinates
         updateJ2000Coordinates(&currentCoords);
 
-        emit newCoords(currentCoords, pierSide(), hourAngle());
+        // ensure that coordinates are regularly updated
+        if (! updateCoordinatesTimer.isActive())
+            updateCoordinatesTimer.start();
+
         KStars::Instance()->map()->update();
+    }
+    else if (!strcmp(nvp->name, "POLLING_PERIOD"))
+    {
+        // set the timer how often the coordinates should be published
+        INumber *period = IUFindNumber(nvp, "PERIOD_MS");
+        if (period != nullptr)
+            updateCoordinatesTimer.setInterval(static_cast<int>(period->value));
+
     }
 
     DeviceDecorator::processNumber(nvp);
