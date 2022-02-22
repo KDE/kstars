@@ -48,6 +48,8 @@ class SequenceJob : public QObject
             SJ_Exposure,
             // QString
             SJ_Filter,
+            // QString
+            SJ_Format,
             // QPoint
             SJ_Binning,
             // QRect

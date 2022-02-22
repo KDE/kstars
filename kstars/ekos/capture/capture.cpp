@@ -40,9 +40,9 @@
 #define CAPTURE_TIMEOUT_THRESHOLD  180000
 
 // Current Sequence File Format:
-#define SQ_FORMAT_VERSION 2.2
+#define SQ_FORMAT_VERSION 2.3
 // We accept file formats with version back to:
-#define SQ_COMPAT_VERSION 2.0
+#define SQ_COMPAT_VERSION 2.3
 
 namespace Ekos
 {
@@ -418,7 +418,7 @@ Capture::Capture()
 
     // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
     connect(
-        captureFormatS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+        captureTransferS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
         [&](uint index)
     {
         if (currentCCD)
@@ -762,20 +762,20 @@ void Capture::stop(CaptureState targetState)
             QString stopText;
             switch (targetState)
             {
-            case CAPTURE_SUSPENDED:
-                stopText = i18n("CCD capture suspended");
-                activeJob->resetStatus(JOB_BUSY);
-                break;
+                case CAPTURE_SUSPENDED:
+                    stopText = i18n("CCD capture suspended");
+                    activeJob->resetStatus(JOB_BUSY);
+                    break;
 
-            case CAPTURE_ABORTED:
-                stopText = i18n("CCD capture aborted");
-                activeJob->resetStatus(JOB_ABORTED);
-                break;
+                case CAPTURE_ABORTED:
+                    stopText = i18n("CCD capture aborted");
+                    activeJob->resetStatus(JOB_ABORTED);
+                    break;
 
-            default:
-                stopText = i18n("CCD capture stopped");
-                activeJob->resetStatus(JOB_IDLE);
-                break;
+                default:
+                    stopText = i18n("CCD capture stopped");
+                    activeJob->resetStatus(JOB_IDLE);
+                    break;
             }
             emit captureAborted(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText);
@@ -1029,16 +1029,27 @@ void Capture::checkCCD(int ccdNum)
             captureTypeS->setCurrentIndex(targetChip->getFrameType());
         }
 
+        // Capture Format
+        captureFormatS->blockSignals(true);
+        captureFormatS->clear();
+        captureFormatS->addItems(currentCCD->getCaptureFormats());
+        captureFormatS->setCurrentText(currentCCD->getCaptureFormat());
+        captureFormatS->blockSignals(false);
+
         QStringList isoList = targetChip->getISOList();
         captureISOS->clear();
 
-        captureFormatS->blockSignals(true);
-        captureFormatS->clear();
+        captureTransferS->blockSignals(true);
+        captureTransferS->clear();
 
+        // TODO
+        // We should add all supported transfer format regardless
+        // whether it is DSLR or not since INDI can support additional
+        // encode/transfer formats in the future.
         if (isoList.isEmpty())
         {
             // Only one transfer format
-            captureFormatS->addItem(i18n("FITS"));
+            captureTransferS->addItem(i18n("FITS"));
             captureISOS->setEnabled(false);
         }
         else
@@ -1048,12 +1059,12 @@ void Capture::checkCCD(int ccdNum)
             captureISOS->setCurrentIndex(targetChip->getISOIndex());
 
             // DSLRs have two transfer formats
-            captureFormatS->addItem(i18n("FITS"));
-            captureFormatS->addItem(i18n("Native"));
+            captureTransferS->addItem(i18n("FITS"));
+            captureTransferS->addItem(i18n("Native"));
 
-            //captureFormatS->setCurrentIndex(currentCCD->getTargetTransferFormat());
+            //captureTransferS->setCurrentIndex(currentCCD->getTargetTransferFormat());
             // 2018-05-07 JM: Set value to the value in options
-            captureFormatS->setCurrentIndex(static_cast<int>(Options::captureFormatIndex()));
+            captureTransferS->setCurrentIndex(static_cast<int>(Options::captureFormatIndex()));
 
             uint16_t w, h;
             uint8_t bbp {8};
@@ -1078,7 +1089,7 @@ void Capture::checkCCD(int ccdNum)
             }
         }
 
-        captureFormatS->blockSignals(false);
+        captureTransferS->blockSignals(false);
 
         // Gain Check
         if (currentCCD->hasGain())
@@ -1838,7 +1849,8 @@ IPState Capture::setCaptureComplete()
         return IPS_BUSY;
     }
 
-    if (! activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && activeJob->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
+    if (! activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
+            && activeJob->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
     {
         /* Increase the sequence's current capture count */
         activeJob->setCompleted(activeJob->getCompleted() + 1);
@@ -2278,7 +2290,7 @@ void Capture::captureOne()
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
     }
-    //    else if (captureFormatS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+    //    else if (captureTransferS->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     //    {
     //        appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
     //    }
@@ -2444,7 +2456,8 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
-    rc = activeJob->capture(m_AutoFocusReady, activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
+    rc = activeJob->capture(m_AutoFocusReady,
+                            activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
     if (rc != CAPTURE_OK)
     {
@@ -2813,6 +2826,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
 
     Q_ASSERT_X(job, __FUNCTION__, "Capture Job is invalid.");
 
+    job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_DarkFlat, isDarkFlat);
 
     if (captureISOS)
@@ -2824,7 +2838,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     if (getOffset() >= 0)
         job->setCoreProperty(SequenceJob::SJ_Offset, getOffset());
 
-    job->setTransferFormat(static_cast<ISD::CCD::TransferFormat>(captureFormatS->currentIndex()));
+    job->setTransferFormat(static_cast<ISD::CCD::TransferFormat>(captureTransferS->currentIndex()));
 
     job->setCoreProperty(SequenceJob::SJ_Preview, preview);
 
@@ -4271,6 +4285,8 @@ bool Capture::processJobInfo(XMLEle * root)
     {
         if (!strcmp(tagXMLEle(ep), "Exposure"))
             captureExposureN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+        if (!strcmp(tagXMLEle(ep), "Format"))
+            captureFormatS->setCurrentText(pcdataXMLEle(ep));
         else if (!strcmp(tagXMLEle(ep), "Binning"))
         {
             subEP = findXMLEle(ep, "X");
@@ -4373,7 +4389,7 @@ bool Capture::processJobInfo(XMLEle * root)
         }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
-            captureFormatS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
+            captureTransferS->setCurrentIndex(cLocale.toInt(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "Rotation"))
         {
@@ -4630,6 +4646,7 @@ bool Capture::saveSequenceQueue(const QString &path)
 
         outstream << "<Exposure>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) << "</Exposure>" <<
                   endl;
+        outstream << "<Format>" << job->getCoreProperty(SequenceJob::SJ_Format).toString() << "</Format>" << endl;
         outstream << "<Binning>" << endl;
         outstream << "<X>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << endl;
         outstream << "<Y>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << endl;
@@ -4645,7 +4662,6 @@ bool Capture::saveSequenceQueue(const QString &path)
                                                     "false") << "'>"
                       << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
-            //outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
             outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << endl;
         outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
@@ -4809,6 +4825,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
+    captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
     captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
     captureBinHN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x());
     captureBinVN->setValue(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y());
@@ -4871,7 +4888,7 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         captureOffsetN->setValue(OffsetSpinSpecialValue);
 
-    captureFormatS->setCurrentIndex(job->getTransferFormat());
+    captureTransferS->setCurrentIndex(job->getTransferFormat());
 
     if (job->getTargetRotation() != Ekos::INVALID_VALUE)
     {
@@ -4916,7 +4933,8 @@ QJsonObject Capture::getPresetSettings()
     settings.insert("bin", captureBinHN->value());
     settings.insert("iso", iso);
     settings.insert("frameType", captureTypeS->currentIndex());
-    settings.insert("format", captureFormatS->currentIndex());
+    settings.insert("captureFormat", captureFormatS->currentIndex());
+    settings.insert("transferFormat", captureTransferS->currentIndex());
     settings.insert("gain", gain);
     settings.insert("offset", offset);
     settings.insert("temperature", cameraTemperatureN->value());
@@ -6571,11 +6589,15 @@ void Capture::setPresetSettings(const QJsonObject &settings)
             setOffset(offset);
     }
 
-    int format = settings["format"].toInt(-1);
-    if (format >= 0)
+    int transferFormat = settings["transferFormat"].toInt(-1);
+    if (transferFormat >= 0)
     {
-        captureFormatS->setCurrentIndex(format);
+        captureTransferS->setCurrentIndex(transferFormat);
     }
+
+    QString captureFormat = settings["captureFormat"].toString(captureFormatS->currentText());
+    if (captureFormat != captureFormatS->currentText())
+        captureFormatS->setCurrentText(captureFormat);
 
     captureTypeS->setCurrentIndex(qMax(0, settings["frameType"].toInt(0)));
 

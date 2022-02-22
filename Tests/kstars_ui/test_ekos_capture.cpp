@@ -318,7 +318,8 @@ void TestEkosCapture::testCaptureDarkFlats()
     KTRY_CAPTURE_CLICK(generateDarkFlatsB);
 
     // We should have 4 jobs in total (2 flats and 2 dark flats)
-    QTRY_VERIFY2_WITH_TIMEOUT(queueTable->rowCount() == 4, QString("Row number wrong, %1 expected, %2 found!").arg(4).arg(queueTable->rowCount()).toStdString().c_str(), 1000);
+    QTRY_VERIFY2_WITH_TIMEOUT(queueTable->rowCount() == 4,
+                              QString("Row number wrong, %1 expected, %2 found!").arg(4).arg(queueTable->rowCount()).toStdString().c_str(), 1000);
 
     // Start capturing and wait for procedure to end (visual icon changing) - leave enough time for frames to store
     KTRY_CAPTURE_GADGET(QPushButton, startB);

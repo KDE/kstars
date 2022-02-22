@@ -934,6 +934,18 @@ void CCD::registerProperty(INDI::Property prop)
         // Has Video Stream
         HasVideoStream = true;
     }
+    else if (prop->isNameMatch("CCD_CAPTURE_FORMAT"))
+    {
+        auto sp = prop->getSwitch();
+        if (sp)
+        {
+            m_CaptureFormats.clear();
+            for (const auto &oneSwitch : *sp)
+                m_CaptureFormats << oneSwitch.getLabel();
+
+            m_CaptureFormatIndex = sp->findOnSwitchIndex();
+        }
+    }
     else if (prop->isNameMatch("CCD_TRANSFER_FORMAT"))
     {
         auto sp = prop->getSwitch();
@@ -1206,6 +1218,16 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             emit videoStreamToggled(svp->sp[0].s == ISS_ON);
         }
     }
+    else if (!strcmp(svp->name, "CCD_CAPTURE_FORMAT"))
+    {
+        m_CaptureFormats.clear();
+        for (int i = 0; i < svp->nsp; i++)
+        {
+            m_CaptureFormats << svp->sp[i].label;
+            if (svp->sp[i].s == ISS_ON)
+                m_CaptureFormatIndex = i;
+        }
+    }
     else if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
     {
         ISwitch *format = IUFindSwitch(svp, "FORMAT_NATIVE");
@@ -1456,6 +1478,7 @@ void CCD::processBLOB(IBLOB *bp)
     if (BType == BLOB_OTHER)
     {
         DeviceDecorator::processBLOB(bp);
+        emit newImage(nullptr);
         return;
     }
 
@@ -2504,6 +2527,19 @@ bool CCD::setFastExposureEnabled(bool enable)
     return true;
 }
 
+bool CCD::setCaptureFormat(const QString &format)
+{
+    auto svp = baseDevice->getSwitch("CCD_CAPTURE_FORMAT");
+    if (!svp)
+        return false;
+
+    for (auto &oneSwitch : *svp)
+        oneSwitch.setState(oneSwitch.label == format ? ISS_ON : ISS_OFF);
+
+    clientManager->sendNewSwitch(svp);
+    return true;
+}
+
 bool CCD::setFastCount(uint32_t count)
 {
     auto nvp = baseDevice->getNumber("CCD_FAST_COUNT");
@@ -2606,5 +2642,13 @@ bool CCD::WriteImageFileInternal(const QString &filename, char *buffer, const si
                         QFileDevice::ReadGroup |
                         QFileDevice::ReadOther);
     return ok;
+}
+
+QString CCD::getCaptureFormat() const
+{
+    if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex > m_CaptureFormats.size())
+        return QLatin1String("NA");
+
+    return m_CaptureFormats[m_CaptureFormatIndex];
 }
 }
