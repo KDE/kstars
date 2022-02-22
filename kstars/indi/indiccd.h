@@ -290,6 +290,11 @@ class CCD : public DeviceDecorator
         }
         bool setTransformFormat(CCD::TransferFormat format);
 
+        // Capture Format
+        const QStringList & getCaptureFormats() const { return m_CaptureFormats;}
+        QString getCaptureFormat() const;
+        bool setCaptureFormat(const QString &format);
+
         // BLOB control
         bool isBLOBEnabled();
         bool setBLOBEnabled(bool enable, const QString &prop = QString());
@@ -406,6 +411,8 @@ class CCD : public DeviceDecorator
         std::unique_ptr<WSMedia> m_Media;
         TransferFormat transferFormat { FORMAT_FITS };
         TransferFormat targetTransferFormat { FORMAT_FITS };
+        QStringList m_CaptureFormats;
+        int m_CaptureFormatIndex;
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };
 
         // Gain, since it is spread among different vector properties, let's try to find the property itself.
@@ -428,6 +435,6 @@ class CCD : public DeviceDecorator
         char *fileWriteBuffer { nullptr };
         int fileWriteBufferSize { 0 };
         QString fileWriteFilename;
-        QFuture<void> fileWriteThread;
+        QFuture<void> fileWriteThread;        
 };
 }

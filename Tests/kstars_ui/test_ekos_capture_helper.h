@@ -85,8 +85,8 @@
     captureDelayN->setValue(static_cast<int>(delay)); \
     KTRY_CAPTURE_GADGET(QComboBox, captureTypeS); \
     KTRY_CAPTURE_COMBO_SET(captureTypeS, frametype); \
-    KTRY_CAPTURE_GADGET(QComboBox, captureFormatS); \
-    KTRY_CAPTURE_COMBO_SET(captureFormatS, "FITS"); \
+    KTRY_CAPTURE_GADGET(QComboBox, captureTransferS); \
+    KTRY_CAPTURE_COMBO_SET(captureTransferS, "FITS"); \
     KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
     KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
     KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \

@@ -667,7 +667,7 @@ font-weight:bold;
                </size>
               </property>
              </spacer>
-            </item>
+            </item>            
            </layout>
           </item>
           <item row="2" column="2" colspan="4">
@@ -813,23 +813,6 @@ font-weight:bold;
           <property name="singleStep">
            <double>10.000000000000000</double>
           </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QComboBox" name="captureFormatS">
-          <property name="toolTip">
-           <string>Image Transfer Format</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>FITS</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Native</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="9" column="0" colspan="2">
@@ -1322,6 +1305,40 @@ font-weight:bold;
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="4" column="1">
+            
+        <layout class="QHBoxLayout" name="formatLayout">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <item>
+         <widget class="QComboBox" name="captureFormatS">
+          <property name="toolTip">
+           <string>Image capture format</string>
+          </property>
+         </widget>
+     </item>
+     <item>
+                  
+             <widget class="QComboBox" name="captureTransferS">
+              <property name="toolTip">
+               <string>Image transfer format</string>
+              </property>
+              <item>
+               <property name="text">
+                <string>FITS</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Native</string>
+               </property>
+              </item>
+             </widget>
+         </item>
+     </layout>
+         
         </item>
        </layout>
       </widget>
@@ -1975,11 +1992,11 @@ font-weight:bold;
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>80</number>
-            </attribute>
             <attribute name="horizontalHeaderMinimumSectionSize">
              <number>30</number>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>80</number>
             </attribute>
             <column>
              <property name="text">
@@ -2493,7 +2510,6 @@ font-weight:bold;
   <tabstop>filterEditB</tabstop>
   <tabstop>captureCountN</tabstop>
   <tabstop>captureDelayN</tabstop>
-  <tabstop>captureFormatS</tabstop>
   <tabstop>captureISOS</tabstop>
   <tabstop>captureTypeS</tabstop>
   <tabstop>captureGainN</tabstop>
