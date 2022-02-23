@@ -90,7 +90,10 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         Options::setDefectCameras(m_DefectCameras);
     });
 
-    connect(darkTableView,  &QAbstractItemView::doubleClicked, this, &DarkLibrary::loadDarkFITS);
+    connect(darkTableView,  &QAbstractItemView::doubleClicked, this, [this](QModelIndex index)
+    {
+        loadDarkImage(index.row());
+    });
     connect(openDarksFolderB, &QPushButton::clicked, this, &DarkLibrary::openDarksFolder);
     connect(clearAllB, &QPushButton::clicked, this, &DarkLibrary::clearAll);
     connect(clearRowB, &QPushButton::clicked, this, &DarkLibrary::clearRow);
@@ -577,14 +580,13 @@ void DarkLibrary::closeEvent(QCloseEvent *ev)
 {
     Q_UNUSED(ev)
     Options::setUseFITSViewer(m_RememberFITSViewer);
-    Options::setUseFITSViewer(m_RememberSummaryView);
-    if (!m_RememberFITSDirectory.isEmpty())
-        m_CaptureModule->fileDirectoryT->setText(m_RememberFITSDirectory);
+    Options::setUseSummaryPreview(m_RememberSummaryView);
     if (m_JobsGenerated)
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
         m_CaptureModule->setPresetSettings(m_PresetSettings);
+        m_CaptureModule->setFileSettings(m_FileSettings);
     }
 }
 
@@ -598,13 +600,12 @@ void DarkLibrary::setCompleted()
 
     Options::setUseFITSViewer(m_RememberFITSViewer);
     Options::setUseSummaryPreview(m_RememberSummaryView);
-    if (!m_RememberFITSDirectory.isEmpty())
-        m_CaptureModule->fileDirectoryT->setText(m_RememberFITSDirectory);
     if (m_JobsGenerated)
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
         m_CaptureModule->setPresetSettings(m_PresetSettings);
+        m_CaptureModule->setFileSettings(m_FileSettings);
     }
 
     m_CurrentCamera->disconnect(this);
@@ -942,25 +943,14 @@ void DarkLibrary::populateMasterMetedata()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::getloadDarkViewMasterFITS(int index)
-{
-
-    QModelIndex rowIndex = darkFramesModel->index(index, 0);
-    loadDarkFITS(rowIndex);
-    emit newImage(m_DarkView->imageData());
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::loadDarkFITS(QModelIndex index)
+void DarkLibrary::loadDarkImage(int row)
 {
-    QSqlRecord record = darkFramesModel->record(index.row());
-
+    QSqlRecord record = darkFramesModel->record(row);
     QString filename = record.value("filename").toString();
-
-    if (filename.isEmpty() == false)
-        m_DarkView->loadFile(filename);
+    m_DarkView->loadFile(filename);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1070,8 +1060,8 @@ void DarkLibrary::countDarkTotalTime()
 
     //double exposureCount = (maxExposureSpin->value() - minExposureSpin->value()) / exposureStepSin->value();
     double temperatureCount = 1;
-    if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
-        temperatureCount = (std::fabs((maxTemperatureSpin->value() - minTemperatureSpin->value())) / temperatureStepSpin->value()) +
+    if (m_CurrentCamera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
+        temperatureCount = (std::abs((maxTemperatureSpin->value() - minTemperatureSpin->value())) / temperatureStepSpin->value()) +
                            1;
     int binnings = 0;
     if (bin1Check->isChecked())
@@ -1108,6 +1098,7 @@ void DarkLibrary::generateDarkJobs()
     {
         m_JobsGenerated = true;
         m_PresetSettings = m_CaptureModule->getPresetSettings();
+        m_FileSettings = m_CaptureModule->getFileSettings();
     }
 
     QList<double> temperatures;
@@ -1223,7 +1214,10 @@ void DarkLibrary::initView()
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(m_DarkView);
     darkWidget->setLayout(vlayout);
-    //connect(m_DarkView, &FITSView::loaded, this, &DarkLibrary::loadCurrentMasterDefectMap);
+    connect(m_DarkView, &DarkView::loaded, this, [this]()
+    {
+        emit newImage(m_DarkView->imageData());
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1376,7 +1370,6 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
 void DarkLibrary::setCaptureModule(Capture *instance)
 {
     m_CaptureModule = instance;
-    m_RememberFITSDirectory = m_CaptureModule->fileDirectoryT->text();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1453,35 +1446,41 @@ void DarkLibrary::start()
 
 void DarkLibrary::setDarkSettings(const QJsonObject &settings)
 {
-    const double ExposureRange = settings["ERange"].toDouble(minExposureSpin->value());
-    const double ExposureLimit = settings["ELimit"].toDouble(maxExposureSpin->value());
-    const double TempRange = settings["TRange"].toDouble(minTemperatureSpin->value());
-    const double TempLimit = settings["TLimit"].toDouble(maxTemperatureSpin->value());
+    const QString camera = settings["camera"].toString();
+    const double minExposure = settings["minExposure"].toDouble(minExposureSpin->value());
+    const double maxExposure = settings["maxExposure"].toDouble(maxExposureSpin->value());
+    const double minTemperature = settings["minTemperature"].toDouble(minTemperatureSpin->value());
+    const double maxTemperature = settings["maxTemperature"].toDouble(maxTemperatureSpin->value());
     const bool binOneCheck = settings["BinOne"].toBool(bin1Check->isChecked());
     const bool binTwoCheck = settings["BinTwo"].toBool(bin2Check->isChecked());
     const bool binFourCheck = settings["BinFour"].toBool(bin4Check->isChecked());
     const int count = settings["count"].toInt(countSpin->value());
 
+    cameraS->setCurrentText(camera);
     bin1Check->setChecked(binOneCheck);
     bin2Check->setChecked(binTwoCheck);
     bin4Check->setChecked(binFourCheck);
 
-    minExposureSpin->setValue(ExposureRange);
-    maxExposureSpin->setValue(ExposureLimit);
-    minTemperatureSpin->setValue(TempRange);
-    maxTemperatureSpin->setValue(TempLimit);
+    minExposureSpin->setValue(minExposure);
+    maxExposureSpin->setValue(maxExposure);
+
+    if (minTemperatureSpin->isEnabled())
+        minTemperatureSpin->setValue(minTemperature);
+    if (maxTemperatureSpin->isEnabled())
+        maxTemperatureSpin->setValue(maxTemperature);
     countSpin->setValue(count);
 
 }
-
 QJsonObject DarkLibrary::getDarkSettings()
 {
     QJsonObject createDarks =
     {
-        {"minExposureRange", minExposureSpin->value()},
-        {"maxExposureRange", maxExposureSpin->value()},
-        {"minTempretureRange", minTemperatureSpin->value()},
-        {"maxTempretureRange", maxTemperatureSpin->value()},
+        {"camera", cameraS->currentText()},
+        {"minExposureValue", minExposureSpin->value()},
+        {"maxExposureValue", maxExposureSpin->value()},
+        {"minTemperatureValue", minTemperatureSpin->value()},
+        {"maxTemperatureValue", maxTemperatureSpin->value()},
+        {"temperatureEnabled", minTemperatureSpin->isEnabled()},
         {"bin1Check", bin1Check->isChecked()},
         {"bin2Check", bin2Check->isChecked()},
         {"bin4Check", bin4Check->isChecked()},
@@ -1491,6 +1490,27 @@ QJsonObject DarkLibrary::getDarkSettings()
     };
     return createDarks;
 }
+void DarkLibrary::setCameraPresets(const QJsonObject &settings)
+{
+    const QString camera = settings["camera"].toString();
+    const bool isDarkPrefer = settings["isDarkPrefer"].toBool(preferDarksRadio->isChecked());
+    const bool isDefectPrefer = settings["isDefectPrefer"].toBool(preferDefectsRadio->isChecked());
+    cameraS->setCurrentText(camera);
+    preferDarksRadio->setChecked(isDarkPrefer);
+    preferDefectsRadio->setChecked(isDefectPrefer);
+}
+
+QJsonObject DarkLibrary::getCameraPresets()
+{
+    QJsonObject cameraSettings =
+    {
+        {"camera", cameraS->currentText()},
+        {"preferDarksRadio", preferDarksRadio->isChecked()},
+        {"preferDefectsRadio", preferDefectsRadio->isChecked()},
+    };
+    return cameraSettings;
+}
+
 QJsonObject DarkLibrary::getDefectSettings()
 {
     QJsonObject createDefectMaps =

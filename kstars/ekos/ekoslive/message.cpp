@@ -1264,6 +1264,10 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
     }
+    else if(command == commands[DARK_LIBRARY_SET_CAMERA_PRESETS])
+    {
+        Ekos::DarkLibrary::Instance()->setCameraPresets(payload);
+    }
     else if (command == commands[DARK_LIBRARY_STOP])
     {
         Ekos::DarkLibrary::Instance()->stop();
@@ -1271,11 +1275,15 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     else if (command == commands[DARK_LIBRARY_GET_MASTERS_IMAGE])
     {
         const int row = payload["row"].toInt();
-        Ekos::DarkLibrary::Instance()->getloadDarkViewMasterFITS(row);
+        Ekos::DarkLibrary::Instance()->loadDarkImage(row);
     }
     else if (command == commands[DARK_LIBRARY_GET_DARK_SETTINGS])
     {
         sendResponse(commands[DARK_LIBRARY_GET_DARK_SETTINGS], Ekos::DarkLibrary::Instance()->getDarkSettings());
+    }
+    else if (command == commands[DARK_LIBRARY_GET_CAMERA_PRESETS])
+    {
+        sendResponse(commands[DARK_LIBRARY_GET_CAMERA_PRESETS], Ekos::DarkLibrary::Instance()->getCameraPresets());
     }
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_PIXELS])
     {

@@ -198,6 +198,8 @@ enum COMMANDS
     // Dark Library
     DARK_LIBRARY_START,
     DARK_LIBRARY_STOP,
+    DARK_LIBRARY_SET_CAMERA_PRESETS,
+    DARK_LIBRARY_GET_CAMERA_PRESETS,
     DARK_LIBRARY_SET_SETTINGS,
     DARK_LIBRARY_GET_DARK_SETTINGS,
     DARK_LIBRARY_SET_DEFECT_SETTINGS,
@@ -377,6 +379,8 @@ static QMap<COMMANDS, QString> const commands =
 
     {DARK_LIBRARY_START, "dark_library_start"},
     {DARK_LIBRARY_STOP, "dark_library_stop"},
+    {DARK_LIBRARY_SET_CAMERA_PRESETS, "dark_library_set_camera_presets"},
+    {DARK_LIBRARY_GET_CAMERA_PRESETS, "dark_library_get_camera_presets"},
     {DARK_LIBRARY_SET_SETTINGS, "dark_library_set_settings"},
     {DARK_LIBRARY_GET_DARK_SETTINGS, "dark_library_get_dark_settings"},
     {DARK_LIBRARY_SET_DEFECT_SETTINGS, "dark_library_set_defect_settings"},

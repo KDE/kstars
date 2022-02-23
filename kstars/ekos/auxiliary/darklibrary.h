@@ -93,6 +93,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
 
         void start();
         void setDarkSettings(const QJsonObject &settings);
+        void setCameraPresets(const QJsonObject &settings);
+        QJsonObject getCameraPresets();
         QJsonObject getDarkSettings();
         QJsonObject getDefectSettings();
         void setDefectPixels(const QJsonObject &payload);
@@ -116,6 +118,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
         void processNewBLOB(IBLOB *bp);
+        void loadDarkImage(int row);
         void clearRow(int row = -1);
 
 
@@ -125,7 +128,6 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void openDarksFolder();
         void saveDefectMap();
         void setCompleted();
-        void loadDarkFITS(QModelIndex index);
 
 
     private:
@@ -235,9 +237,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};
-        QString m_RememberFITSDirectory;
         bool m_JobsGenerated {false};
-        QJsonObject m_PresetSettings;
+        QJsonObject m_PresetSettings, m_FileSettings;
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QStringList m_DarkCameras, m_DefectCameras;
         QPointer<DarkView> m_DarkView;
