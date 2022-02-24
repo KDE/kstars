@@ -1487,6 +1487,7 @@ QJsonObject DarkLibrary::getDarkSettings()
         {"countSpin", countSpin->value()},
         {"totalImages", totalImages->text()},
         {"totalTime", totalTime->text()},
+        {"darkProgress", darkProgress->value()}
     };
     return createDarks;
 }
@@ -1498,6 +1499,8 @@ void DarkLibrary::setCameraPresets(const QJsonObject &settings)
     cameraS->setCurrentText(camera);
     preferDarksRadio->setChecked(isDarkPrefer);
     preferDefectsRadio->setChecked(isDefectPrefer);
+    checkCamera();
+    reloadDarksFromDatabase();
 }
 
 QJsonObject DarkLibrary::getCameraPresets()
