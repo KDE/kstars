@@ -115,7 +115,7 @@
       </entry>
       <entry name="CurrentTheme" type="String">
          <label>Current application theme</label>
-         <default>Black Body</default>
+         <default>Default</default>
       </entry>
    </group>
 
