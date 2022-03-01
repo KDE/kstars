@@ -1510,6 +1510,7 @@ QJsonObject DarkLibrary::getCameraPresets()
         {"camera", cameraS->currentText()},
         {"preferDarksRadio", preferDarksRadio->isChecked()},
         {"preferDefectsRadio", preferDefectsRadio->isChecked()},
+        {"fileName", m_FileLabel->text()}
     };
     return cameraSettings;
 }
@@ -1568,6 +1569,7 @@ void DarkLibrary::setDefectSettings(const QJsonObject payload)
 {
     const QString rowString = payload["rowString"].toString();
     const int masterIndex = payload["rowIndex"].toInt();
+    masterDarksCombo->setCurrentIndex(masterIndex);
     loadCurrentMasterDark(rowString, masterIndex);
 }
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)

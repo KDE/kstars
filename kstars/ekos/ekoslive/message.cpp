@@ -1289,6 +1289,10 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         Ekos::DarkLibrary::Instance()->setDefectPixels(payload);
     }
+    else if (command == commands[DARK_LIBRARY_SAVE_MAP])
+    {
+        Ekos::DarkLibrary::Instance()->saveMapB->click();
+    }
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_FRAME])
     {
         Ekos::DarkLibrary::Instance()->setDefectFrame(false);
