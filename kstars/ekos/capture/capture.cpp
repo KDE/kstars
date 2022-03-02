@@ -42,7 +42,7 @@
 // Current Sequence File Format:
 #define SQ_FORMAT_VERSION 2.3
 // We accept file formats with version back to:
-#define SQ_COMPAT_VERSION 2.3
+#define SQ_COMPAT_VERSION 2.0
 
 namespace Ekos
 {
