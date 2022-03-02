@@ -2151,6 +2151,11 @@
          <whatsthis>Path to the Sextractor executable.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("SextractorBinary")</default>
       </entry>
+      <entry name="WatneyBinary" type="String">
+         <label></label>
+         <whatsthis>Path to the Watney Solver executable.</whatsthis>
+         <default code="true">KSUtils::getDefaultPath("WatneyBinary")</default>
+      </entry>
 
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>

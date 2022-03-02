@@ -1867,7 +1867,7 @@ void Align::startSolving()
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
-        if(Options::solverType() != SSolver::SOLVER_ASTAP) //You don't need astrometry index files to use ASTAP
+        if(Options::solverType() != SSolver::SOLVER_ASTAP && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY) //You don't need astrometry index files to use ASTAP or Watney
         {
             bool foundAnIndex = false;
             for(QString dataDir : astrometryDataDirs)
@@ -1916,16 +1916,19 @@ void Align::startSolving()
         m_StellarSolver->setParameters(m_StellarSolverProfiles.at(Options::solveOptionsProfile()));
 
         const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
-        if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
+        if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                    QRegularExpression("[-{}]")));
             alignView->saveImage(filename);
             m_StellarSolver->setProperty("FileToProcess", filename);
-            m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
-            m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
-            m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
-            m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
+            ExternalProgramPaths externalPaths;
+            externalPaths.sextractorBinaryPath = Options::sextractorBinary();
+            externalPaths.solverPath = Options::astrometrySolverBinary();
+            externalPaths.astapBinaryPath = Options::aSTAPExecutable();
+            externalPaths.watneyBinaryPath = Options::watneyBinary();
+            externalPaths.wcsPath = Options::astrometryWCSInfo();
+            m_StellarSolver->setExternalFilePaths(externalPaths);
 
             //No need for a conf file this way.
             m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
@@ -2042,8 +2045,7 @@ void Align::solverComplete()
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
-        // Would be better if parity was a bool field instead of a QString with "pos" and "neg" as possible values.
-        const bool eastToTheRight = solution.parity == "pos" ? false : true;
+        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE? false : true;
         solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
     }
 }

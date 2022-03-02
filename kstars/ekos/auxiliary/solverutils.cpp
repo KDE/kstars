@@ -59,10 +59,14 @@ void SolverUtils::prepareSolver()
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
     m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
-    m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
-    m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
-    m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
-    m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
+    // External program paths
+    ExternalProgramPaths externalPaths;
+    externalPaths.sextractorBinaryPath = Options::sextractorBinary();
+    externalPaths.solverPath = Options::astrometrySolverBinary();
+    externalPaths.astapBinaryPath = Options::aSTAPExecutable();
+    externalPaths.watneyBinaryPath = Options::watneyBinary();
+    externalPaths.wcsPath = Options::astrometryWCSInfo();
+    m_StellarSolver->setExternalFilePaths(externalPaths);
 
     //No need for a conf file this way.
     m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
@@ -71,7 +75,7 @@ void SolverUtils::prepareSolver()
     m_TemporaryFilename.clear();
 
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
-    if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
+    if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
     {
         m_TemporaryFilename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                   QRegularExpression("[-{}]")));

@@ -266,7 +266,7 @@ void TestEkosAlign::prepareTestCase()
     // select StellarSolver
     Options::setSolverType(SSolver::SOLVER_LOCALASTROMETRY);
     // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::FAST_SOLVING);
+    Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON(ekos->alignModule(), slewR, true);
     // reduce the accuracy to avoid testing problems

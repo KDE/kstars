@@ -241,14 +241,16 @@ SSolver::Parameters StellarSolverProfileEditor::getSettingsFromUI()
     params.kron_fact = kron_fact->text().toDouble();
     params.subpix = subpix->text().toInt() ;
     params.r_min = r_min->text().toFloat();
-    //params.inflags
     params.magzero = magzero->text().toFloat();
+    params.threshold_bg_multiple = threshMultiple->text().toFloat();
+    params.threshold_offset = threshOffset->text().toFloat();
     params.minarea = minarea->text().toFloat();
     params.deblend_thresh = deblend_thresh->text().toInt();
     params.deblend_contrast = deblend_contrast->text().toFloat();
     params.clean = (cleanCheckBox->isChecked()) ? 1 : 0;
     params.clean_param = clean_param->text().toDouble();
-    StellarSolver::createConvFilterFromFWHM(&params, fwhm->value());
+    params.convFilterType = (SSolver::ConvFilterType) convFilter->currentIndex();
+    params.fwhm = fwhm->value();
 
     //Star Filter Settings
     params.resort = resort->isChecked();
@@ -289,11 +291,14 @@ void StellarSolverProfileEditor::sendSettingsToUI(SSolver::Parameters a)
     r_min->setText(QString::number(a.r_min));
 
     magzero->setText(QString::number(a.magzero));
+    threshMultiple->setText(QString::number(a.threshold_bg_multiple));
+    threshOffset->setText(QString::number(a.threshold_offset));
     minarea->setText(QString::number(a.minarea));
     deblend_thresh->setText(QString::number(a.deblend_thresh));
     deblend_contrast->setText(QString::number(a.deblend_contrast));
     cleanCheckBox->setChecked(a.clean == 1);
     clean_param->setText(QString::number(a.clean_param));
+    convFilter->setCurrentIndex(a.convFilterType);
     fwhm->setValue(a.fwhm);
 
     //Star Filter Settings

@@ -113,10 +113,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     else
         solver->setParameters(SSolver::Parameters()); // This is default
 
-    // Wait synchronously
-
-    QEventLoop loop;
-    connect(solver, &StellarSolver::finished, &loop, &QEventLoop::quit);
     QList<FITSImage::Star> stars;
     const bool runHFR = group != Ekos::AlignProfiles;
 
@@ -124,7 +120,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         solver->extract(runHFR, boundary);
     else
         solver->extract(runHFR);
-    loop.exec(QEventLoop::ExcludeUserInputEvents);
+
     stars = solver->getStarList();
 
     if (stars.empty())

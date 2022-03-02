@@ -121,9 +121,9 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
     QStringList solverArgs = args;
     // Add parity option if none is give and we already know parity before
     // and is NOT a blind solve
-    if (Options::astrometryDetectParity() && parity.isEmpty() == false && args.contains("parity") == false &&
+    if (Options::astrometryDetectParity() && args.contains("parity") == false &&
             (args.contains("-3") || args.contains("-L")))
-        solverArgs << "--parity" << parity;
+        solverArgs << "--parity" << QString::number(parity);
 
     //for (int i = 0; i < solverSettings->ntp; i++)
     for (auto &it : *solverSettings)
@@ -284,9 +284,9 @@ void RemoteAstrometryParser::checkResults(INumberVectorProperty *nvp)
         else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_PARITY"))
         {
             if (nvp->np[i].value == 1)
-                parity = "pos";
+                parity = FITSImage::POSITIVE;
             else if (nvp->np[i].value == -1)
-                parity = "neg";
+                parity = FITSImage::NEGATIVE;
         }
     }
 
@@ -295,7 +295,7 @@ void RemoteAstrometryParser::checkResults(INumberVectorProperty *nvp)
         int elapsed = (int)round(solverTimer.elapsed() / 1000.0);
         align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
         stopSolver();
-        emit solverFinished(orientation, ra, de, pixscale, parity != "pos");
+        emit solverFinished(orientation, ra, de, pixscale, parity != FITSImage::POSITIVE);
     }
 }
 }

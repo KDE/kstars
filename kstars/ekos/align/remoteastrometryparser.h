@@ -53,7 +53,7 @@ class RemoteAstrometryParser : public AstrometryParser
         bool captureRunning { false };
         Align *align { nullptr };
         QElapsedTimer solverTimer;
-        QString parity;
+        FITSImage::Parity parity = FITSImage::BOTH;
         QString targetCCD;
 };
 }
