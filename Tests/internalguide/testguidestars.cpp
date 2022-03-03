@@ -31,6 +31,7 @@ class TestGuideStars : public QObject
 };
 
 #include "testguidestars.moc"
+#include "Options.h"
 
 TestGuideStars::TestGuideStars() : QObject()
 {
@@ -51,6 +52,7 @@ Edge makeEdge(float x, float y)
 
 void TestGuideStars::basicTest()
 {
+    Options::setMinDetectionsSEPMultistar(5);
     GuideStars g;
 
     // Test setCalibration() and calibration in general.

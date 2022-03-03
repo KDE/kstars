@@ -527,8 +527,10 @@ void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<doub
 {
     auto centers = starCenters;
     scores->clear();
-    for (int i = 0; i < centers.size(); ++i) scores->push_back(0);
-    if (centers.empty()) return;
+    const int numDetections = centers.size();
+    for (int i = 0; i < numDetections; ++i) scores->push_back(0);
+    if (numDetections == 0) return;
+
 
     // Rough constants used by this weighting.
     // If the center pixel is above this, assume it's clipped and don't emphasize.
@@ -543,14 +545,29 @@ void GuideStars::evaluateSEPStars(const QList<Edge *> &starCenters, QVector<doub
         double snrB = bg.SNR(b->sum, b->numPixels);
         return snrA < snrB;
     });
-    for (int i = 0; i < centers.size(); ++i)
+
+    // See if the HFR restriction is too severe.
+    int numRejectedByHFR = 0;
+    for (int i = 0; i < numDetections; ++i)
     {
-        for (int j = 0; j < starCenters.size(); ++j)
+        if (centers.at(i)->HFR > maxHFR)
+            numRejectedByHFR++;
+    }
+    const int starsRemaining = numDetections - numRejectedByHFR;
+    const bool useHFRConstraint =
+        starsRemaining > 5    ||
+        (starsRemaining >= 3 && numDetections <= 6) ||
+        (starsRemaining >= 2 && numDetections <= 4) ||
+        (starsRemaining >= 1 && numDetections <= 2);
+
+    for (int i = 0; i < numDetections; ++i)
+    {
+        for (int j = 0; j < numDetections; ++j)
         {
             if (starCenters.at(j) == centers.at(i))
             {
                 // Don't emphasize stars that are too wide.
-                if (centers.at(i)->HFR > maxHFR)
+                if (useHFRConstraint && centers.at(i)->HFR > maxHFR)
                     (*scores)[j] = -1;
                 else
                     (*scores)[j] += snrWeight * i;
