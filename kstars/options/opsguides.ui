@@ -44,7 +44,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="kcfg_SkyCulture">
+          <widget class="QComboBox" name="SkyCultureComboBox">
            <property name="toolTip">
             <string>Choose sky culture</string>
            </property>

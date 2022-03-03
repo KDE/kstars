@@ -25,8 +25,15 @@ CultureList::CultureList()
             m_CultureList << line.mid(2).trimmed();
     }
 
+    m_CurrentCulture = m_CultureList.at(0);
     m_CultureList.sort();
-    m_CurrentCulture = m_CultureList.at(Options::skyCulture());
+    for (int i = 0; i < m_CultureList.size(); ++i)
+    {
+        if (m_CultureList.at(i) == Options::skyCulture())
+        {
+            m_CurrentCulture = m_CultureList.at(i);
+        }
+    }
 }
 
 void CultureList::setCurrent(QString newName)

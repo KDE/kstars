@@ -24,7 +24,7 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
     setupUi(this);
 
     foreach (const QString &item, KStarsData::Instance()->skyComposite()->getCultureNames())
-        kcfg_SkyCulture->addItem(i18nc("Sky Culture", item.toUtf8().constData()));
+        SkyCultureComboBox->addItem(i18nc("Sky Culture", item.toUtf8().constData()));
 
     m_ConfigDialog = KConfigDialog::exists("settings");
 
@@ -38,6 +38,8 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
     slotToggleConstellationArt(Options::showConstellationArt());
     slotToggleMilkyWayOptions(Options::showMilkyWay());
     slotToggleAutoSelectGrid(Options::autoSelectGrid());
+    SkyCultureComboBox->setCurrentIndex(KStarsData::Instance()->skyComposite()->getCultureNames().indexOf(
+                                            Options::skyCulture()));
 
     connect(kcfg_ShowCNames, SIGNAL(toggled(bool)), this, SLOT(slotToggleConstellOptions(bool)));
     connect(kcfg_ShowConstellationArt, SIGNAL(toggled(bool)), this, SLOT(slotToggleConstellationArt(bool)));
@@ -56,9 +58,10 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
     {
         isDirty = true;
     });
-    connect(kcfg_SkyCulture, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+    connect(SkyCultureComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             [&]()
     {
+        Options::setSkyCulture(KStarsData::Instance()->skyComposite()->getCultureName(SkyCultureComboBox->currentIndex()));
         isDirty = true;
     });
 
@@ -106,7 +109,7 @@ void OpsGuides::slotApply()
     if (map->focusObject() && map->focusObject()->type() == SkyObject::CONSTELLATION)
     {
         if (data->skyComposite()->currentCulture() !=
-                data->skyComposite()->getCultureName(kcfg_SkyCulture->currentIndex()) ||
+                data->skyComposite()->getCultureName(SkyCultureComboBox->currentIndex()) ||
                 data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames())
         {
             map->setClickedObject(nullptr);
@@ -115,7 +118,7 @@ void OpsGuides::slotApply()
     }
 
     data->skyComposite()->setCurrentCulture(
-        KStarsData::Instance()->skyComposite()->getCultureName(kcfg_SkyCulture->currentIndex()));
+        KStarsData::Instance()->skyComposite()->getCultureName(SkyCultureComboBox->currentIndex()));
     data->skyComposite()->reloadCLines();
     data->skyComposite()->reloadCNames();
     data->skyComposite()->reloadConstellationArt();

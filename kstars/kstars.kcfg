@@ -417,10 +417,10 @@
          <whatsthis>Toggle whether constellation lines are hidden while the display is in motion.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="SkyCulture" type="UInt">
+      <entry name="SkyCulture" type="String">
          <label>Sky culture</label>
          <whatsthis>Choose sky culture.</whatsthis>
-         <default>11</default>
+         <default>Western</default>
       </entry>
       <entry name="HideCNames" type="Bool">
          <label>Hide constellation names while moving?</label>
