@@ -1168,13 +1168,13 @@ QString getDefaultPath(const QString &option)
     else if (option == "WatneyBinary")
     {
 #if defined(ASTROMETRY_PREFIX)
-        return QString(ASTROMETRY_PREFIX "/bin/watney-solver");
+        return QString(ASTROMETRY_PREFIX "/opt/watney/watney-solve");
 #elif defined(Q_OS_OSX)
-        return "/usr/local/bin/watney-solver";
+        return "/usr/local/bin/watney-solve";
 #elif defined(Q_OS_WIN)
-        return "C:/Program Files/watney-solve-win-x64-1/watney-solve.exe";
+        return "C:/watney/watney-solve.exe";
 #endif
-        return prefix + "/bin/watney-solver";
+        return prefix + "/opt/watney/watney-solve";
     }
     else if (option == "SextractorBinary")
     {

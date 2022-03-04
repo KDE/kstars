@@ -1953,10 +1953,10 @@ void Align::startSolving()
             appendLogText(i18n("Solving with blind image scale..."));
         }
 
-        bool useImagePostion = Options::astrometryUsePosition();
+        bool useImagePosition = Options::astrometryUsePosition();
         if (useBlindPosition == BLIND_ENGAGNED)
         {
-            useImagePostion = false;
+            useImagePosition = false;
             useBlindPosition = BLIND_USED;
             appendLogText(i18n("Solving with blind image position..."));
         }
@@ -1973,10 +1973,10 @@ void Align::startSolving()
             else
                 m_StellarSolver->setProperty("UseScale", false);
 
-            if (useImagePostion && solution.ra > 0)
+            if (useImagePosition && solution.ra > 0)
                 m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
             else
-                m_StellarSolver->setProperty("UsePostion", false);
+                m_StellarSolver->setProperty("UsePosition", false);
         }
         else
         {
@@ -1992,10 +1992,10 @@ void Align::startSolving()
             else
                 m_StellarSolver->setProperty("UseScale", false);
             //Setting the initial search location settings
-            if(useImagePostion)
+            if(useImagePosition)
                 m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
             else
-                m_StellarSolver->setProperty("UsePostion", false);
+                m_StellarSolver->setProperty("UsePosition", false);
         }
 
         if(Options::alignmentLogging())

@@ -106,7 +106,7 @@ void SolverUtils::prepareSolver()
     if (m_UsePosition)
         m_StellarSolver->setSearchPositionInDegrees(m_raDegrees, m_decDegrees);
     else
-        m_StellarSolver->setProperty("UsePostion", false);
+        m_StellarSolver->setProperty("UsePosition", false);
 
     // LOG_ALL is crashy now
     m_StellarSolver->setLogLevel(SSolver::LOG_NONE);

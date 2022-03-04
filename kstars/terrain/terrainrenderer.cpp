@@ -253,7 +253,7 @@ QRgb TerrainRenderer::getPixel(double az, double alt) const
         return sourceImage.pixel(pixX, pixY);
     }
 
-    // Get floating point pixel postions so we can interpolate.
+    // Get floating point pixel positions so we can interpolate.
     float pixX = width / 2 + (az / 360.0) * width;
     if (pixX > width - 1)
         pixX = width - 1;
