@@ -266,7 +266,7 @@ void TestEkosAlign::prepareTestCase()
     // select StellarSolver
     Options::setSolverType(SSolver::SOLVER_LOCALASTROMETRY);
     // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::FAST_SOLVING);
+    Options::setSolveOptionsProfile(SSolver::Parameters::DEFAULT);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON(ekos->alignModule(), slewR, true);
     // reduce the accuracy to avoid testing problems
@@ -305,7 +305,8 @@ void TestEkosAlign::init()
     image_count  = 0;
 }
 
-void TestEkosAlign::cleanup() {
+void TestEkosAlign::cleanup()
+{
     Ekos::Manager *ekos = Ekos::Manager::Instance();
     Ekos::Scheduler *scheduler = ekos->schedulerModule();
     // press stop button if running
@@ -440,10 +441,13 @@ bool TestEkosAlign::executeAlignment(SkyObject *targetObject)
 bool TestEkosAlign::verifyAlignmentTarget(SkyObject *targetObject)
 {
     QList<double> alignmentTarget = Ekos::Manager::Instance()->alignModule()->getTargetCoords();
-    KVERIFY2_SUB(std::abs(alignmentTarget[0] - targetObject->ra0().Hours()) < 0.005, // difference small enough to capture JNow/J2000 errors
-            QString("RA target J2000 deviation too big: %1 received, %2 expected.").arg(alignmentTarget[0]).arg(targetObject->ra0().Hours()).toLocal8Bit());
+    KVERIFY2_SUB(std::abs(alignmentTarget[0] - targetObject->ra0().Hours()) <
+                 0.005, // difference small enough to capture JNow/J2000 errors
+                 QString("RA target J2000 deviation too big: %1 received, %2 expected.").arg(alignmentTarget[0]).arg(
+                     targetObject->ra0().Hours()).toLocal8Bit());
     KVERIFY2_SUB(std::abs(alignmentTarget[1] - targetObject->dec0().Degrees()) < 0.005,
-            QString("DEC target J2000 deviation too big: %1 received, %2 expected.").arg(alignmentTarget[1]).arg(targetObject->dec0().Degrees()).toLocal8Bit());
+                 QString("DEC target J2000 deviation too big: %1 received, %2 expected.").arg(alignmentTarget[1]).arg(
+                     targetObject->dec0().Degrees()).toLocal8Bit());
     // success
     return true;
 }
@@ -460,7 +464,8 @@ bool TestEkosAlign::alignWithScheduler(SkyObject *targetObject, QString fitsTarg
     const QString sequenceFile = TestEkosSchedulerHelper::getDefaultEsqContent();
     const QString esqFile = testDir->filePath(QString("test.esq"));
     // create the scheduler file
-    const QString schedulerFile = TestEkosSchedulerHelper::getSchedulerFile(targetObject, startupCondition, 1, {true, false, true, false}, false, false, 30, fitsTarget);
+    const QString schedulerFile = TestEkosSchedulerHelper::getSchedulerFile(targetObject, startupCondition, 1, {true, false, true, false},
+                                  false, false, 30, fitsTarget);
     const QString eslFile = testDir->filePath(QString("test.esl"));
     // write both files to the test directory
     KVERIFY_SUB(TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerFile, eslFile, sequenceFile, esqFile));

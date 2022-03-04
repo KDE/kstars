@@ -23,7 +23,8 @@
 #include "ekos/guide/internalguide/gmath.h"
 #include "Options.h"
 
-TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QObject *parent) : TestEkosMeridianFlipBase::TestEkosMeridianFlipBase("Internal", parent){}
+TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QObject *parent) :
+    TestEkosMeridianFlipBase::TestEkosMeridianFlipBase("Internal", parent) {}
 
 TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QString guider, QObject *parent) : QObject(parent)
 {
@@ -88,7 +89,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     // select StellarSolver
     Options::setSolverType(SSolver::SOLVER_LOCALASTROMETRY);
     // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::FAST_SOLVING);
+    Options::setSolveOptionsProfile(SSolver::Parameters::DEFAULT);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON_SUB(ekos->alignModule(), slewR, true);
 
@@ -245,8 +246,9 @@ void TestEkosMeridianFlipBase::cleanup()
  *
  * ********************************************************************************* */
 
-void TestEkosMeridianFlipBase::prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<QString> filterList,
-                                               QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList)
+void TestEkosMeridianFlipBase::prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList,
+        QList<QString> filterList,
+        QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
@@ -321,7 +323,7 @@ bool TestEkosMeridianFlipBase::positionMountForMF(int secsToMF, bool fast)
     // calculate a feasible declination depending to the location's latitude
     // for the upper culmination, we use an azimuth of 45 deg, for the lower culmination half way between pole and horizont
     double lat = KStarsData::Instance()->geo()->lat()->Degrees();
-    target = new SkyPoint(range24(meridianRA + delta), culmination ? (lat-45) : (90-lat/2));
+    target = new SkyPoint(range24(meridianRA + delta), culmination ? (lat - 45) : (90 - lat / 2));
 
     if (fast)
     {
@@ -414,7 +416,7 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initial
 }
 
 bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFocus,
-                                                        SchedulerJob::CompletionCondition completionCondition, int iterations)
+        SchedulerJob::CompletionCondition completionCondition, int iterations)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
@@ -453,18 +455,19 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFo
     Options::setStopEkosAfterShutdown(false);
 
     // set the completion condition
-    switch (completionCondition) {
-    case SchedulerJob::FINISH_REPEAT:
-        // repeat the job for a fixed amount
-        KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
-        KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
-        break;
-    case SchedulerJob::FINISH_LOOP:
-        KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
-        break;
-    default:
-        QWARN(QString("Unsupported completion condition %1!").arg(completionCondition).toStdString().c_str());
-        return false;
+    switch (completionCondition)
+    {
+        case SchedulerJob::FINISH_REPEAT:
+            // repeat the job for a fixed amount
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, repeatCompletionR, true);
+            KTRY_SET_SPINBOX_SUB(scheduler, repeatsSpin, iterations);
+            break;
+        case SchedulerJob::FINISH_LOOP:
+            KTRY_SET_RADIOBUTTON_SUB(scheduler, loopCompletionR, true);
+            break;
+        default:
+            QWARN(QString("Unsupported completion condition %1!").arg(completionCondition).toStdString().c_str());
+            return false;
     }
     // add scheduler job
     KTRY_CLICK_SUB(scheduler, addToQueueB);
@@ -511,7 +514,8 @@ bool TestEkosMeridianFlipBase::checkRefocusing()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 30000);
     // check if focus completion is reached (successful or not)
     if (refocus_checked || autofocus_checked)
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
+        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
+                                     || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
                                      m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
     // focusing might have suspended guiding
     if (m_CaptureHelper->use_guiding)
@@ -554,7 +558,8 @@ bool TestEkosMeridianFlipBase::stopAligning()
     // stop alignment
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->alignModule(), QPushButton, stopB);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->alignModule(), stopB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_IDLE || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_ABORTED ||
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_IDLE
+                                 || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_ABORTED ||
                                  m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_FAILED || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE, 5000);
     // all checks succeeded
     return true;
@@ -581,8 +586,10 @@ bool TestEkosMeridianFlipBase::startCapturing()
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
 
     // check if capture is in a stopped state
-    KWRAP_SUB(QVERIFY(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED
-                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_SUSPENDED|| m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
+    KWRAP_SUB(QVERIFY(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE
+                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED
+                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_SUSPENDED
+                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
 
     // press start
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
@@ -599,7 +606,8 @@ bool TestEkosMeridianFlipBase::startCapturing()
 bool TestEkosMeridianFlipBase::stopCapturing()
 {
     // check if capture is in a stopped state
-    if (m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED ||
+    if (m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE
+            || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED ||
             m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE)
         return true;
 
@@ -629,7 +637,8 @@ bool TestEkosMeridianFlipBase::startScheduler()
 
     // switch to the scheduler module and start
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
-    KVERIFY_SUB(m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_IDLE || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_ABORTED);
+    KVERIFY_SUB(m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_IDLE
+                || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_ABORTED);
     KTRY_CLICK_SUB(scheduler, startB);
 
     // check mount slew and tracking
@@ -648,7 +657,8 @@ bool TestEkosMeridianFlipBase::stopScheduler()
     Ekos::Scheduler *scheduler = Ekos::Manager::Instance()->schedulerModule();
     // switch to the capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(scheduler, 1000));
-    if (m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_RUNNING || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_PAUSED)
+    if (m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_RUNNING
+            || m_CaptureHelper->getSchedulerStatus() == Ekos::SCHEDULER_PAUSED)
         KTRY_CLICK_SUB(scheduler, startB);
     // all checks succeeded
     return true;
@@ -705,7 +715,8 @@ bool TestEkosMeridianFlipBase::stopFocusing()
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QPushButton, stopFocusB);
     if (stopFocusB->isEnabled())
         KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), stopFocusB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE ||
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE
+                                 || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE ||
                                  m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED, 15000);
 
     // all checks succeeded
