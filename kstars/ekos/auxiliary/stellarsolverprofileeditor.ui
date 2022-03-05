@@ -366,7 +366,7 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>10</number>
+         <number>100</number>
         </property>
        </widget>
       </item>
@@ -431,7 +431,7 @@
       <item row="4" column="3">
        <widget class="QComboBox" name="convFilter">
         <property name="toolTip">
-         <string>Whether to use the SEP_SUM_ELLIPSE method or the SEP_SUM_CIRCLE method or automatically choose.  NOTE: Circle is usually better at the moment</string>
+         <string>The type of Convolution Filter that SEP will apply to the image prior to star extraction.  These filters are comparable to the included filters in a SExtractor installation, but here you have the flexibility to change the FWHM.  The Default filter is the fastest filter, but does NOT change with the FWHM setting, and so is best for small stars.  The Gaussian Filter is best for faint object detection.  The Mexican Hat filter is good in crowded star fields or in the vicinity of nebulae.  The TopHat filter is good for extended, low brightness objects.  Note: The &quot;Custom&quot; fitler selection is meant for testing purposes and should only be used by developers</string>
         </property>
         <property name="currentIndex">
          <number>0</number>
@@ -635,7 +635,7 @@
       <item row="3" column="1">
        <widget class="QLineEdit" name="threshOffset">
         <property name="toolTip">
-         <string>This is the minimum area in pixels for a star detection, smaller stars are ignored.</string>
+         <string>Add this offset to the detection threshold</string>
         </property>
         <property name="text">
          <string>0</string>
@@ -652,7 +652,7 @@
       <item row="2" column="1">
        <widget class="QLineEdit" name="threshMultiple">
         <property name="toolTip">
-         <string>This is the minimum area in pixels for a star detection, smaller stars are ignored.</string>
+         <string>Add the multiple times the rms background level to the detection threshold.</string>
         </property>
         <property name="text">
          <string>2.0</string>
