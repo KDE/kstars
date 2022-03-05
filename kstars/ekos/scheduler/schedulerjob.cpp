@@ -33,21 +33,21 @@ QString SchedulerJob::jobStatusString(JOBStatus state)
     switch(state)
     {
         case SchedulerJob::JOB_IDLE:
-            return "JOB_IDLE";
+            return "IDLE";
         case SchedulerJob::JOB_EVALUATION:
-            return "JOB_EVALUATION";
+            return "EVAL";
         case SchedulerJob::JOB_SCHEDULED:
-            return "JOB_SCHEDULED";
+            return "SCHEDULED";
         case SchedulerJob::JOB_BUSY:
-            return "JOB_BUSY";
+            return "BUSY";
         case SchedulerJob::JOB_ERROR:
-            return "JOB_ERROR";
+            return "ERROR";
         case SchedulerJob::JOB_ABORTED:
-            return "JOB_ABORTED";
+            return "ABORTED";
         case SchedulerJob::JOB_INVALID:
-            return "JOB_INVALID";
+            return "INVALID";
         case SchedulerJob::JOB_COMPLETE:
-            return "JOB_COMPLETE";
+            return "COMPLETE";
     }
     return QString("????");
 }
@@ -57,35 +57,95 @@ QString SchedulerJob::jobStageString(JOBStage state)
     switch(state)
     {
         case SchedulerJob::STAGE_IDLE:
-            return "STAGE_IDLE";
+            return "IDLE";
         case SchedulerJob::STAGE_SLEWING:
-            return "STAGE_SLEWING";
+            return "SLEWING";
         case SchedulerJob::STAGE_SLEW_COMPLETE:
-            return "STAGE_SLEW_COMPLETE";
+            return "SLEW_COMPLETE";
         case SchedulerJob::STAGE_FOCUSING:
-            return "STAGE_FOCUSING";
+            return "FOCUSING";
         case SchedulerJob::STAGE_FOCUS_COMPLETE:
-            return "STAGE_FOCUS_COMPLETE";
+            return "FOCUS_COMPLETE";
         case SchedulerJob::STAGE_ALIGNING:
-            return "STAGE_ALIGNING";
+            return "ALIGNING";
         case SchedulerJob::STAGE_ALIGN_COMPLETE:
-            return "STAGE_ALIGN_COMPLETE";
+            return "ALIGN_COMPLETE";
         case SchedulerJob::STAGE_RESLEWING:
-            return "STAGE_RESLEWING";
+            return "RESLEWING";
         case SchedulerJob::STAGE_RESLEWING_COMPLETE:
-            return "STAGE_RESLEWING_COMPLETE";
+            return "RESLEWING_COMPLETE";
         case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
-            return "STAGE_POSTALIGN_FOCUSING";
+            return "POSTALIGN_FOCUSING";
         case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
-            return "STAGE_POSTALIGN_FOCUSING_COMPLETE";
+            return "POSTALIGN_FOCUSING_COMPLETE";
         case SchedulerJob::STAGE_GUIDING:
-            return "STAGE_GUIDING";
+            return "GUIDING";
         case SchedulerJob::STAGE_GUIDING_COMPLETE:
-            return "STAGE_GUIDING_COMPLETE";
+            return "GUIDING_COMPLETE";
         case SchedulerJob::STAGE_CAPTURING:
-            return "STAGE_CAPTURING";
+            return "CAPTURING";
         case SchedulerJob::STAGE_COMPLETE:
-            return "STAGE_COMPLETE";
+            return "COMPLETE";
+    }
+    return QString("????");
+}
+
+QString SchedulerJob::startupConditionString(SchedulerJob::StartupCondition condition)
+{
+    switch(condition)
+    {
+        case START_ASAP:
+            return "ASAP";
+        case START_CULMINATION:
+            return "CULM";
+        case START_AT:
+            return "AT";
+    }
+    return QString("????");
+}
+
+QString SchedulerJob::jobStartupConditionString(SchedulerJob::StartupCondition condition) const
+{
+    switch(condition)
+    {
+        case START_ASAP:
+            return "ASAP";
+        case START_CULMINATION:
+            return "CULM";
+        case START_AT:
+            return QString("AT %1").arg(getFileStartupTime().toString("MM/dd hh:mm"));
+    }
+    return QString("????");
+}
+
+QString SchedulerJob::completionConditionString(SchedulerJob::CompletionCondition condition)
+{
+    switch(condition)
+    {
+        case FINISH_SEQUENCE:
+            return "FINISH";
+        case FINISH_REPEAT:
+            return "REPEAT";
+        case FINISH_LOOP:
+            return "LOOP";
+        case FINISH_AT:
+            return "AT";
+    }
+    return QString("????");
+}
+
+QString SchedulerJob::jobCompletionConditionString(SchedulerJob::CompletionCondition condition) const
+{
+    switch(condition)
+    {
+        case FINISH_SEQUENCE:
+            return "FINISH";
+        case FINISH_REPEAT:
+            return "REPEAT";
+        case FINISH_LOOP:
+            return "LOOP";
+        case FINISH_AT:
+            return QString("AT %1").arg(getCompletionTime().toString("MM/dd hh:mm"));
     }
     return QString("????");
 }
@@ -197,8 +257,15 @@ void SchedulerJob::setEnforceWeather(bool value)
     enforceWeather = value;
 }
 
+void SchedulerJob::setGreedyCompletionTime(const QDateTime &value)
+{
+    greedyCompletionTime = value;
+}
+
 void SchedulerJob::setCompletionTime(const QDateTime &value)
 {
+    setGreedyCompletionTime(QDateTime());
+
     /* If completion time is valid, automatically switch condition to FINISH_AT */
     if (value.isValid())
     {
@@ -272,6 +339,7 @@ void SchedulerJob::setStepPipeline(const StepPipeline &value)
 void SchedulerJob::setState(const JOBStatus &value)
 {
     state = value;
+    stateTime = getLocalTime();
 
     /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
     if (JOB_ERROR == state)
@@ -294,6 +362,7 @@ void SchedulerJob::setState(const JOBStatus &value)
 
     updateJobCells();
 }
+
 
 void SchedulerJob::setLeadTime(const int64_t &value)
 {
@@ -671,34 +740,40 @@ void SchedulerJob::updateJobCells()
 
     if (nullptr != completionCell)
     {
-        /* Display completion time if it is valid and job is not looping */
-        if (FINISH_LOOP != completionCondition && completionTime.isValid())
+        if (greedyCompletionTime.isValid())
         {
-            completionCell->setText(QString("%1%2%L3° %4")
-                                    .arg(altitudeAtCompletion < minAltitude ? QString(QChar(0x26A0)) : "")
-                                    .arg(QChar(isSettingAtCompletion ? 0x2193 : 0x2191))
-                                    .arg(altitudeAtCompletion, 0, 'f', 1)
-                                    .arg(completionTime.toString(dateTimeDisplayFormat)));
-
-            switch (completionCondition)
-            {
-                case FINISH_AT:
-                    completionCell->setIcon(QIcon::fromTheme("chronometer"));
-                    break;
-
-                case FINISH_SEQUENCE:
-                case FINISH_REPEAT:
-                default:
-                    completionCell->setIcon(QIcon());
-                    break;
-            }
+            completionCell->setText(QString("%1")
+                                    .arg(greedyCompletionTime.toString("hh:mm")));
         }
-        /* Else do not display any completion time */
         else
-        {
-            completionCell->setText("-");
-            completionCell->setIcon(QIcon());
-        }
+            /* Display completion time if it is valid and job is not looping */
+            if (FINISH_LOOP != completionCondition && completionTime.isValid())
+            {
+                completionCell->setText(QString("%1%2%L3° %4")
+                                        .arg(altitudeAtCompletion < minAltitude ? QString(QChar(0x26A0)) : "")
+                                        .arg(QChar(isSettingAtCompletion ? 0x2193 : 0x2191))
+                                        .arg(altitudeAtCompletion, 0, 'f', 1)
+                                        .arg(completionTime.toString(dateTimeDisplayFormat)));
+
+                switch (completionCondition)
+                {
+                    case FINISH_AT:
+                        completionCell->setIcon(QIcon::fromTheme("chronometer"));
+                        break;
+
+                    case FINISH_SEQUENCE:
+                    case FINISH_REPEAT:
+                    default:
+                        completionCell->setIcon(QIcon());
+                        break;
+                }
+            }
+        /* Else do not display any completion time */
+            else
+            {
+                completionCell->setText("-");
+                completionCell->setIcon(QIcon());
+            }
 
         if (nullptr != completionCell->tableWidget())
             completionCell->tableWidget()->resizeColumnToContents(completionCell->column());
@@ -791,6 +866,7 @@ void SchedulerJob::reset()
 {
     state = JOB_IDLE;
     stage = STAGE_IDLE;
+    stateTime = getLocalTime();
     estimatedTime = -1;
     leadTime = 0;
     startupCondition = fileStartupCondition;
@@ -798,6 +874,9 @@ void SchedulerJob::reset()
 
     /* Refresh dawn and dusk for startup date */
     calculateDawnDusk(startupTime, nextDawn, nextDusk);
+
+    greedyCompletionTime = QDateTime();
+    stopReason.clear();
 
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
@@ -843,11 +922,16 @@ bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, Schedule
 
 // This uses both the user-setting minAltitude, as well as any artificial horizon
 // constraints the user might have setup.
-double SchedulerJob::getMinAltitudeConstraint(double azimuth) const
+double SchedulerJob::getMinAltitudeConstraint(double azimuth, bool *artificialHorizon) const
 {
     double constraint = getMinAltitude();
+    if (artificialHorizon) *artificialHorizon = false;
     if (getHorizon() != nullptr && enforceArtificialHorizon)
-        constraint = std::max(constraint, getHorizon()->altitudeConstraint(azimuth));
+    {
+        double artificialHorizonConstraint = getHorizon()->altitudeConstraint(azimuth);
+        if (artificialHorizon) *artificialHorizon = artificialHorizonConstraint > constraint;
+        constraint = std::max(constraint, artificialHorizonConstraint);
+    }
     return constraint;
 }
 
@@ -1034,7 +1118,8 @@ double SchedulerJob::getCurrentMoonSeparation() const
     return moon->angularDistanceTo(&o).Degrees();
 }
 
-QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
+QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet, int increment,
+        QString *reason) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
@@ -1055,9 +1140,22 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
 
     // Within the next 24 hours, search when the job target matches the altitude and moon constraints
-    for (unsigned int minute = 0; minute < 24 * 60; minute++)
+    for (unsigned int minute = 0; minute < 24 * 60; minute += increment)
     {
         KStarsDateTime const ltOffset(ltWhen.addSecs(minute * 60));
+
+        // Is this violating twilight?
+        if (getEnforceTwilight() && !runsDuringAstronomicalNightTime(ltOffset))
+        {
+            if (checkIfConstraintsAreMet)
+                continue;
+            else
+            {
+                if (reason) *reason = "twilight";
+                return ltOffset;
+            }
+
+        }
 
         // Update RA/DEC of the target for the current fraction of the day
         KSNumbers numbers(ltOffset.djd());
@@ -1068,7 +1166,8 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
         o.EquatorialToHorizontal(&LST, getGeo()->lat());
         double const altitude = o.alt().Degrees();
         double const azimuth = o.az().Degrees();
-        double const minAlt = getMinAltitudeConstraint(azimuth);
+        bool artificialHorizonConstrains = false;
+        double const minAlt = getMinAltitudeConstraint(azimuth, &artificialHorizonConstrains);
 
         if (minAlt <= altitude)
         {
@@ -1076,18 +1175,36 @@ QDateTime SchedulerJob::calculateAltitudeTime(QDateTime const &when) const
 
             // Continue searching if Moon separation is not good enough
             if (0 < getMinMoonSeparation() && getMoonSeparationScore(ltOffset) < 0)
-                continue;
+            {
+                if (checkIfConstraintsAreMet)
+                    continue;
+                else
+                {
+                    if (reason) *reason = QString("moon separation");
+                    return ltOffset;
+                }
+            }
 
             // Continue searching if target is setting and under the cutoff
-            double offset = LST.Hours() - o.ra().Hours();
-            if (24.0 <= offset)
-                offset -= 24.0;
-            else if (offset < 0.0)
-                offset += 24.0;
-            if (0.0 <= offset && offset < 12.0)
-                if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
-                    continue;
+            if (checkIfConstraintsAreMet)
+            {
+                double offset = LST.Hours() - o.ra().Hours();
+                if (24.0 <= offset)
+                    offset -= 24.0;
+                else if (offset < 0.0)
+                    offset += 24.0;
+                if (0.0 <= offset && offset < 12.0)
+                    if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
+                        continue;
 
+                return ltOffset;
+            }
+        }
+        else if (!checkIfConstraintsAreMet)
+        {
+            if (reason)
+                *reason = QString("altitude %1 < %2%3").arg(altitude, 0, 'f', 1)
+                          .arg(artificialHorizonConstrains ? "artificial horizon " : "").arg(minAlt, 0, 'f', 1);
             return ltOffset;
         }
     }
@@ -1194,7 +1311,7 @@ double SchedulerJob::findAltitude(const SkyPoint &target, const QDateTime &when,
     return o.alt().Degrees();
 }
 
-void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn, QDateTime &nextDusk)
+void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nDawn, QDateTime &nDusk)
 {
     QDateTime startup = when;
 
@@ -1202,7 +1319,8 @@ void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn,
         startup = getLocalTime();
 
     // Our local midnight - the KStarsDateTime date+time constructor is safe for local times
-    KStarsDateTime midnight(startup.date(), QTime(0, 0), Qt::LocalTime);
+    // Exact midnight seems unreliable--offset it by a minute.
+    KStarsDateTime midnight(startup.date(), QTime(0, 1), Qt::LocalTime);
 
     QDateTime dawn = startup, dusk = startup;
 
@@ -1210,34 +1328,112 @@ void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nextDawn,
     for ( ; dawn <= startup || dusk <= startup ; midnight = midnight.addDays(1))
     {
         // KSAlmanac computes the closest dawn and dusk events from the local sidereal time corresponding to the midnight argument
-        KSAlmanac const ksal(midnight, getGeo());
 
+#if 0
+        KSAlmanac const ksal(midnight, getGeo());
         // If dawn is in the past compared to this observation, fetch the next dawn
         if (dawn <= startup)
             dawn = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
                                     3600.0));
-
         // If dusk is in the past compared to this observation, fetch the next dusk
         if (dusk <= startup)
             dusk = getGeo()->UTtoLT(ksal.getDate().addSecs((ksal.getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
                                     3600.0));
+#else
+        // Creating these almanac instances seems expensive.
+        static QMap<QString, KSAlmanac const * > almanacMap;
+        const QString key = QString("%1 %2 %3").arg(midnight.toString()).arg(getGeo()->lat()->Degrees()).arg(
+                                getGeo()->lng()->Degrees());
+        KSAlmanac const * ksal = almanacMap.value(key, nullptr);
+        if (ksal == nullptr)
+        {
+            if (almanacMap.size() > 5)
+            {
+                // don't allow this to grow too large.
+                qDeleteAll(almanacMap);
+                almanacMap.clear();
+            }
+            ksal = new KSAlmanac(midnight, getGeo());
+            almanacMap[key] = ksal;
+        }
+
+        // If dawn is in the past compared to this observation, fetch the next dawn
+        if (dawn <= startup)
+            dawn = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDawnAstronomicalTwilight() * 24.0 + Options::dawnOffset()) *
+                                    3600.0));
+
+        // If dusk is in the past compared to this observation, fetch the next dusk
+        if (dusk <= startup)
+            dusk = getGeo()->UTtoLT(ksal->getDate().addSecs((ksal->getDuskAstronomicalTwilight() * 24.0 + Options::duskOffset()) *
+                                    3600.0));
+#endif
     }
 
     // Now we have the next events:
     // - if dawn comes first, observation runs during the night
     // - if dusk comes first, observation runs during the day
-    nextDawn = dawn;
-    nextDusk = dusk;
+    nDawn = dawn;
+    nDusk = dusk;
 }
 
-bool SchedulerJob::runsDuringAstronomicalNightTime() const
+bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time) const
 {
+    // We call this very frequently in the Greedy Algorithm, and the calls
+    // below are expensive. Almost all the calls are redundent (e.g. if it's not nighttime
+    // now, it's not nighttime in 10 minutes). So, cache the answer and return it if the next
+    // call is for a time between this time and the next dawn/dusk (whichever is sooner).
+
+    static QDateTime previousMinDawnDusk, previousTime;
+    static GeoLocation const *previousGeo = nullptr;  // A dangling pointer, I suppose, but we never reference it.
+    static bool previousAnswer;
+    static double previousPreDawnTime = 0;
+
+    // Lock this method because of all the statics
+    static std::mutex nightTimeMutex;
+    const std::lock_guard<std::mutex> lock(nightTimeMutex);
+
+    // We likely can rely on the previous calculations.
+    if (previousTime.isValid() && previousMinDawnDusk.isValid() &&
+            time >= previousTime && time < previousMinDawnDusk &&
+            getGeo() == previousGeo &&
+            Options::preDawnTime() == previousPreDawnTime)
+    {
+        return previousAnswer;
+    }
+    else
+    {
+        previousAnswer = runsDuringAstronomicalNightTimeInternal(time, &previousMinDawnDusk);
+        previousTime = time;
+        previousGeo = getGeo();
+        previousPreDawnTime = Options::preDawnTime();
+        return previousAnswer;
+    }
+}
+
+
+bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk) const
+{
+    QDateTime t;
+    QDateTime nDawn = nextDawn, nDusk = nextDusk;
+    if (time.isValid())
+    {
+        // Can't rely on the pre-computed dawn/dusk if we're giving it an arbitary time.
+        calculateDawnDusk(time, nDawn, nDusk);
+        t = time;
+    }
+    else
+    {
+        t = startupTime;
+    }
+
     // Calculate the next astronomical dawn time, adjusted with the Ekos pre-dawn offset
-    QDateTime const earlyDawn = nextDawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+    QDateTime const earlyDawn = nDawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+
+    *minDawnDusk = earlyDawn < nDusk ? earlyDawn : nDusk;
 
     // Dawn and dusk are ordered as the immediate next events following the observation time
     // Thus if dawn comes first, the job startup time occurs during the dusk/dawn interval.
-    return nextDawn < nextDusk && startupTime <= earlyDawn;
+    return nDawn < nDusk && t <= earlyDawn;
 }
 
 void SchedulerJob::setInitialFilter(const QString &value)
@@ -1248,4 +1444,78 @@ void SchedulerJob::setInitialFilter(const QString &value)
 const QString &SchedulerJob::getInitialFilter() const
 {
     return m_InitialFilter;
+}
+
+
+// When can this job start? For now ignores culmination constraint.
+QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int increment) const
+{
+    QDateTime ltWhen(
+        when.isValid() ? (Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when)
+        : getLocalTime());
+
+    // We do not consider job state here. It is the responsibility of the caller
+    // to filter for that, if desired.
+
+    if (SchedulerJob::START_AT == getFileStartupCondition())
+    {
+        int secondsFromNow = ltWhen.secsTo(getFileStartupTime());
+        if (secondsFromNow < -500)
+            // We missed it.
+            return QDateTime();
+        ltWhen = secondsFromNow > 0 ? getFileStartupTime() : ltWhen;
+    }
+
+    // Can't start if we're past the finish time.
+    if (getCompletionCondition() == FINISH_AT)
+    {
+        const QDateTime &t = getCompletionTime();
+        if (t.isValid() && t < ltWhen)
+            return QDateTime(); // return an invalid time.
+    }
+
+    return calculateNextTime(ltWhen, true, increment);
+}
+
+// When will this job end (not looking at capture plan)?
+QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QString *reason) const
+{
+    QDateTime ltStart(
+        start.isValid() ? (Qt::UTC == start.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(start)) : start)
+        : getLocalTime());
+
+    // We do not consider job state here. It is the responsibility of the caller
+    // to filter for that, if desired.
+
+    if (SchedulerJob::START_AT == getFileStartupCondition())
+    {
+        if (getFileStartupTime().secsTo(ltStart) < 60)
+        {
+            // if the file startup time is in the future, then end now.
+            // This case probably wouldn't happen in the running code.
+            if (reason) *reason = "before start-at time";
+            return QDateTime();
+        }
+        // otherwise, test from now.
+    }
+
+    // Can't start if we're past the finish time.
+    if (getCompletionCondition() == FINISH_AT)
+    {
+        const QDateTime &t = getCompletionTime();
+        if (t.isValid() && t < ltStart)
+        {
+            if (reason) *reason = "end-at time";
+            return QDateTime(); // return an invalid time.
+        }
+        auto result = calculateNextTime(ltStart, false, increment, reason);
+        if (!result.isValid() || result.secsTo(getCompletionTime()) < 0)
+        {
+            if (reason) *reason = "end-at time";
+            return getCompletionTime();
+        }
+        else return result;
+    }
+
+    return calculateNextTime(ltStart, false, increment, reason);
 }

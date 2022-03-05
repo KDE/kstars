@@ -12,58 +12,65 @@
 
 class TestEkosSchedulerHelper : public TestEkosHelper
 {
-public:
-    struct StartupCondition
-    {
-        SchedulerJob::StartupCondition type;
-        int culminationOffset;
-        QDateTime atLocalDateTime;  // This is in local time, not universal time.
-    };
+    public:
+        struct StartupCondition
+        {
+            SchedulerJob::StartupCondition type;
+            int culminationOffset;
+            QDateTime atLocalDateTime;  // This is in local time, not universal time.
+        };
+        struct CompletionCondition
+        {
+            SchedulerJob::CompletionCondition type;
+            int repeat;
+            QDateTime atLocalDateTime;  // This is in local time, not universal time.
+        };
 
-    struct ScheduleSteps
-    {
-        bool track, focus, align, guide;
-    };
+        struct ScheduleSteps
+        {
+            bool track, focus, align, guide;
+        };
 
-    struct ShutdownProcedure
-    {
-        bool warm_ccd, close_cap, park_mount, park_dome;
-    };
+        struct ShutdownProcedure
+        {
+            bool warm_ccd, close_cap, park_mount, park_dome;
+        };
 
-    struct CaptureJob
-    {
-        int exposureTimeMS;
-        int count;
-        QString filterName;
-        QString fitsDirectory;
-    };
+        struct CaptureJob
+        {
+            int exposureTime;
+            int count;
+            QString filterName;
+            QString fitsDirectory;
+        };
 
-    TestEkosSchedulerHelper();
+        TestEkosSchedulerHelper();
 
-    // This writes the the scheduler and capture files into the locations given.
-    static bool writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile, const QString &esqContents,
-                                         const QString &esqFile);
+        // This writes the the scheduler and capture files into the locations given.
+        static bool writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile, const QString &esqContents,
+                                             const QString &esqFile);
 
-    static QString getSchedulerFile(const SkyObject *targetObject, StartupCondition startupCondition, int iterations, ScheduleSteps steps,
-                                    bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30, QString fitsFile = nullptr,
-                                    ShutdownProcedure shutdownProcedure = {false, false, true, false});
+        static QString getSchedulerFile(const SkyObject *targetObject, const StartupCondition &startupCondition,
+                                        const CompletionCondition &completionCondition, ScheduleSteps steps,
+                                        bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30, QString fitsFile = nullptr,
+                                        ShutdownProcedure shutdownProcedure = {false, false, true, false});
 
-    // This is a capture sequence file needed to start up the scheduler. Most fields are ignored by the scheduler,
-    // and by the Mock capture module as well.
-    static QString getDefaultEsqContent()
-    {
-        return getEsqContent(QVector<CaptureJob>(1, {200, 1, "Red", "."}));
-    }
+        // This is a capture sequence file needed to start up the scheduler. Most fields are ignored by the scheduler,
+        // and by the Mock capture module as well.
+        static QString getDefaultEsqContent()
+        {
+            return getEsqContent(QVector<CaptureJob>(1, {200, 1, "Red", "."}));
+        }
 
-    /**
-     * @brief Create a capture sequence file with the given capture jobs
-     * @param jobs
-     * @return ESQ string to be handled by Capture
-     */
-    static QString getEsqContent(QVector<CaptureJob> jobs);
+        /**
+         * @brief Create a capture sequence file with the given capture jobs
+         * @param jobs
+         * @return ESQ string to be handled by Capture
+         */
+        static QString getEsqContent(QVector<CaptureJob> jobs);
 
     protected:
-    // Simple write-string-to-file utility.
-    static bool writeFile(const QString &filename, const QString &contents);
+        // Simple write-string-to-file utility.
+        static bool writeFile(const QString &filename, const QString &contents);
 
 };

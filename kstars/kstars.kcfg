@@ -2461,6 +2461,10 @@
       </entry>
    </group>
    <group name="Scheduler">
+    <entry name="SchedulerAlgorithm" type="UInt">
+      <label>Scheduler algorithm</label>
+      <default>0</default>
+    </entry>
     <entry name="SchedulerLogging" type="Bool">
       <whatsthis>Log Ekos Scheduler Module activity.</whatsthis>
       <default>false</default>

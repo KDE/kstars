@@ -204,6 +204,7 @@ if (INDI_FOUND)
             ekos/scheduler/scheduler.cpp
             ekos/scheduler/mosaic.cpp
             ekos/scheduler/mosaictilesmanager.cpp
+            ekos/scheduler/greedyscheduler.cpp
 
             # Focus
             ekos/focus/focus.cpp

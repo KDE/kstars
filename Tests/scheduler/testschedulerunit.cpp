@@ -591,8 +591,9 @@ void TestSchedulerUnit::evaluateJobsTest()
     const double minAltitude = 30.0;
 
     // Test 1: Evaluating an empty jobs list should return an empty list.
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
     QVERIFY(sortedJobs.empty());
 
     // Test 2: Add one job to the list.
@@ -605,8 +606,10 @@ void TestSchedulerUnit::evaluateJobsTest()
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
                 minAltitude);
     jobs.append(&job);
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
     // Should have the one same job on both lists.
     QVERIFY(sortedJobs.size() == 1);
     QVERIFY(jobs[0] == sortedJobs[0]);
@@ -661,8 +664,9 @@ void TestSchedulerUnit::evaluateJobsTest()
                 30.0);
     jobs.append(&job2);
 
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
 
     QVERIFY(sortedJobs.size() == 2);
     QVERIFY(sortedJobs[0] == &job1);
@@ -713,8 +717,9 @@ void TestSchedulerUnit::evaluateJobsTest()
                 30.0);
     jobs.append(&job4);
 
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
 
     QVERIFY(sortedJobs.size() == 2);
     QVERIFY(sortedJobs[0] == &job3);

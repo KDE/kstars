@@ -217,7 +217,7 @@ QString findFilename(const QString &filename, const QString &alternateDirectory)
 
     // Try putting the filename at the end of the full path onto alternateDirectory.
     QString name = info.fileName();
-    QString temp = QString("%1/%2").arg(alternateDirectory).arg(name);
+    QString temp = QString("%1/%2").arg(alternateDirectory, name);
     if (fileExists(temp))
         return temp;
 
@@ -231,7 +231,7 @@ QString findFilename(const QString &filename, const QString &alternateDirectory)
         if (index < 0)
             break;
 
-        QString temp2 = QString("%1%2").arg(alternateDirectory).arg(filename.right(size - index));
+        QString temp2 = QString("%1%2").arg(alternateDirectory, filename.right(size - index));
         if (fileExists(temp2))
             return temp2;
 
@@ -280,6 +280,7 @@ IntervalFinder<Ekos::Analyze::GuideSession> guideSessions;
 IntervalFinder<Ekos::Analyze::MountSession> mountSessions;
 IntervalFinder<Ekos::Analyze::AlignSession> alignSessions;
 IntervalFinder<Ekos::Analyze::MountFlipSession> mountFlipSessions;
+IntervalFinder<Ekos::Analyze::SchedulerJobSession> schedulerJobSessions;
 
 }  // namespace
 
@@ -834,6 +835,17 @@ double Analyze::processInputLine(const QString &line)
     {
         processMountFlipState(time, list[2], true);
     }
+    else if ((list[0] == "SchedulerJobStart") && list.size() == 3)
+    {
+        QString jobName = list[2];
+        processSchedulerJobStarted(time, jobName, true);
+    }
+    else if ((list[0] == "SchedulerJobEnd") && list.size() == 4)
+    {
+        QString jobName = list[2];
+        QString reason = list[3];
+        processSchedulerJobEnded(time, jobName, reason, true);
+    }
     else
     {
         return 0;
@@ -1164,6 +1176,17 @@ void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
                  clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
+// When the user clicks on a particular scheduler session in the timeline,
+// a table is rendered in the details section.
+void Analyze::schedulerSessionClicked(SchedulerJobSession &c, bool doubleClick)
+{
+    Q_UNUSED(doubleClick);
+    highlightTimelineItem(SCHEDULER_Y, c.start, c.end);
+    c.setupTable("Scheduler Job", c.jobName,
+                 clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
+    c.addRow("End reason", c.reason);
+}
+
 // This method determines which timeline session (if any) was selected
 // when the user clicks in the Timeline plot. It also sets a cursor
 // in the stats plot.
@@ -1225,6 +1248,15 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
         else if ((temporaryMountFlipSession.rect != nullptr) &&
                  (xval > temporaryMountFlipSession.start))
             mountFlipSessionClicked(temporaryMountFlipSession, doubleClick);
+    }
+    else if (yval >= SCHEDULER_Y - 0.5 && yval <= SCHEDULER_Y + 0.5)
+    {
+        QList<SchedulerJobSession> candidates = schedulerJobSessions.find(xval);
+        if (candidates.size() > 0)
+            schedulerSessionClicked(candidates[0], doubleClick);
+        else if ((temporarySchedulerJobSession.rect != nullptr) &&
+                 (xval > temporarySchedulerJobSession.start))
+            schedulerSessionClicked(temporarySchedulerJobSession, doubleClick);
     }
     setStatsCursor(xval);
     replot();
@@ -1584,6 +1616,7 @@ void Analyze::initTimelinePlot()
     textTicker->addTick(GUIDE_Y, i18n("Guide"));
     textTicker->addTick(MERIDIAN_FLIP_Y, i18n("Flip"));
     textTicker->addTick(MOUNT_Y, i18n("Mount"));
+    textTicker->addTick(SCHEDULER_Y, i18n("Job"));
     timelinePlot->yAxis->setTicker(textTicker);
 }
 
@@ -1846,6 +1879,7 @@ void Analyze::reset()
     resetMountState();
     resetMountCoords();
     resetMountFlipState();
+    resetSchedulerJob();
 
     // Note: no replot().
 }
@@ -1970,8 +2004,7 @@ void Analyze::saveMessage(const QString &type, const QString &message)
     QString line(QString("%1,%2%3%4\n")
                  .arg(type)
                  .arg(QString::number(logTime(), 'f', 3))
-                 .arg(message.size() > 0 ? "," : "")
-                 .arg(message));
+                 .arg(message.size() > 0 ? "," : "", message));
     appendToLog(line);
 }
 
@@ -1997,9 +2030,7 @@ void Analyze::startLog()
     appendToLog(QString("#KStars version %1. Analyze log version 1.0.\n\n")
                 .arg(KSTARS_VERSION));
     appendToLog(QString("%1,%2,%3\n")
-                .arg("AnalyzeStartTime")
-                .arg(analyzeStartTime.toString(timeFormat))
-                .arg(analyzeStartTime.timeZoneAbbreviation()));
+                .arg("AnalyzeStartTime", analyzeStartTime.toString(timeFormat), analyzeStartTime.timeZoneAbbreviation()));
 }
 
 void Analyze::appendToLog(const QString &lines)
@@ -2040,6 +2071,7 @@ void Analyze::removeTemporarySessions()
     removeTemporarySession(&temporaryGuideSession);
     removeTemporarySession(&temporaryMountSession);
     removeTemporarySession(&temporaryAlignSession);
+    removeTemporarySession(&temporarySchedulerJobSession);
 }
 
 // Add a new temporary session.
@@ -2078,6 +2110,7 @@ void Analyze::adjustTemporarySessions()
     adjustTemporarySession(&temporaryGuideSession);
     adjustTemporarySession(&temporaryMountSession);
     adjustTemporarySession(&temporaryAlignSession);
+    adjustTemporarySession(&temporarySchedulerJobSession);
 }
 
 // Called when the captureStarting slot receives a signal.
@@ -2085,9 +2118,7 @@ void Analyze::adjustTemporarySessions()
 void Analyze::captureStarting(double exposureSeconds, const QString &filter)
 {
     saveMessage("CaptureStarting",
-                QString("%1,%2")
-                .arg(QString::number(exposureSeconds, 'f', 3))
-                .arg(filter));
+                QString("%1,%2").arg(QString::number(exposureSeconds, 'f', 3), filter));
     processCaptureStarting(logTime(), exposureSeconds, filter);
 }
 
@@ -2120,10 +2151,7 @@ void Analyze::captureComplete(const QVariantMap &metadata)
 
     saveMessage("CaptureComplete",
                 QString("%1,%2,%3,%4,%5,%6,%7")
-                .arg(QString::number(exposure, 'f', 3))
-                .arg(filter)
-                .arg(QString::number(hfr, 'f', 3))
-                .arg(filename)
+                .arg(QString::number(exposure, 'f', 3), filter, QString::number(hfr, 'f', 3), filename)
                 .arg(starCount)
                 .arg(median)
                 .arg(QString::number(eccentricity, 'f', 3)));
@@ -2222,7 +2250,7 @@ void Analyze::processAutofocusStarting(double time, double temperature, const QS
 
 void Analyze::autofocusComplete(const QString &filter, const QString &points)
 {
-    saveMessage("AutofocusComplete", QString("%1,%2").arg(filter).arg(points));
+    saveMessage("AutofocusComplete", QString("%1,%2").arg(filter, points));
     if (runtimeDisplay && autofocusStartedTime >= 0)
         processAutofocusComplete(logTime(), filter, points);
 }
@@ -2250,7 +2278,7 @@ void Analyze::processAutofocusComplete(double time, const QString &filter, const
 
 void Analyze::autofocusAborted(const QString &filter, const QString &points)
 {
-    saveMessage("AutofocusAborted", QString("%1,%2").arg(filter).arg(points));
+    saveMessage("AutofocusAborted", QString("%1,%2").arg(filter, points));
     if (runtimeDisplay && autofocusStartedTime >= 0)
         processAutofocusAborted(logTime(), filter, points);
 }
@@ -2469,12 +2497,10 @@ void Analyze::guideStats(double raError, double decError, int raPulse, int decPu
                          double snr, double skyBg, int numStars)
 {
     saveMessage("GuideStats", QString("%1,%2,%3,%4,%5,%6,%7")
-                .arg(QString::number(raError, 'f', 3))
-                .arg(QString::number(decError, 'f', 3))
+                .arg(QString::number(raError, 'f', 3), QString::number(decError, 'f', 3))
                 .arg(raPulse)
                 .arg(decPulse)
-                .arg(QString::number(snr, 'f', 3))
-                .arg(QString::number(skyBg, 'f', 3))
+                .arg(QString::number(snr, 'f', 3), QString::number(skyBg, 'f', 3))
                 .arg(numStars));
 
     if (runtimeDisplay)
@@ -2688,10 +2714,8 @@ void Analyze::mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pie
             (pierSide != lastMountPierSide))
     {
         saveMessage("MountCoords", QString("%1,%2,%3,%4,%5,%6")
-                    .arg(QString::number(ra, 'f', 4))
-                    .arg(QString::number(dec, 'f', 4))
-                    .arg(QString::number(az, 'f', 4))
-                    .arg(QString::number(alt, 'f', 4))
+                    .arg(QString::number(ra, 'f', 4), QString::number(dec, 'f', 4),
+                         QString::number(az, 'f', 4), QString::number(alt, 'f', 4))
                     .arg(pierSide)
                     .arg(QString::number(ha, 'f', 4)));
 
@@ -2838,6 +2862,84 @@ void Analyze::resetMountFlipState()
     lastMountFlipStateReceived = Mount::FLIP_NONE;
     lastMountFlipStateStarted = Mount::FLIP_NONE;
     mountFlipStateStartedTime = -1;
+}
+
+QBrush Analyze::schedulerJobBrush(const QString &jobName, bool temporary)
+{
+    QList<Qt::GlobalColor> colors = {Qt::red, Qt::green, Qt::blue, Qt::cyan, Qt::magenta, Qt::yellow,
+                                     Qt::white, Qt::darkGray, Qt::darkGreen, Qt::darkRed
+                                    };
+    Qt::BrushStyle pattern = temporary ? Qt::Dense4Pattern : Qt::SolidPattern;
+    auto it = schedulerJobColors.constFind(jobName);
+    if (it == schedulerJobColors.constEnd())
+    {
+        const int numSoFar = schedulerJobColors.size();
+        auto color = colors[numSoFar % colors.size()];
+        schedulerJobColors[jobName] = color;
+        return QBrush(color, pattern);
+    }
+    else
+    {
+        return QBrush(*it, pattern);
+    }
+}
+
+void Analyze::schedulerJobStarted(const QString &jobName)
+{
+    saveMessage("SchedulerJobStart", jobName);
+    if (runtimeDisplay)
+        processSchedulerJobStarted(logTime(), jobName);
+
+}
+
+void Analyze::schedulerJobEnded(const QString &jobName, const QString &reason)
+{
+    saveMessage("SchedulerJobEnd", QString("%1,%2").arg(jobName, reason));
+    if (runtimeDisplay)
+        processSchedulerJobEnded(logTime(), jobName, reason);
+}
+
+
+// Called by either the above (when live data is received), or reading from file.
+// BatchMode would be true when reading from file.
+void Analyze::processSchedulerJobStarted(double time, const QString &jobName, bool batchMode)
+{
+    schedulerJobStartedTime = time;
+    schedulerJobStartedJobName = jobName;
+    updateMaxX(time);
+
+    if (!batchMode)
+    {
+        addTemporarySession(&temporarySchedulerJobSession, time, 1, SCHEDULER_Y, schedulerJobBrush(jobName, true));
+        temporarySchedulerJobSession.jobName = jobName;
+    }
+}
+
+// Called when the captureComplete slot receives a signal.
+void Analyze::processSchedulerJobEnded(double time, const QString &jobName, const QString &reason, bool batchMode)
+{
+    removeTemporarySession(&temporarySchedulerJobSession);
+
+    if (schedulerJobStartedTime < 0)
+    {
+        fprintf(stderr, "SchedulerJobEnded(%s) message without Start.\n", jobName.toLatin1().data());
+        replot();
+        return;
+    }
+
+    addSession(schedulerJobStartedTime, time, SCHEDULER_Y, schedulerJobBrush(jobName, false));
+    auto session = SchedulerJobSession(schedulerJobStartedTime, time, nullptr, jobName, reason);
+    schedulerJobSessions.add(session);
+    updateMaxX(time);
+    resetSchedulerJob();
+    if (!batchMode)
+        replot();
+}
+
+void Analyze::resetSchedulerJob()
+{
+    schedulerJobStartedTime = -1;
+    schedulerJobStartedJobName = "";
 }
 
 }  // namespace Ekos

@@ -59,7 +59,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,1,1,1,1,1" columnstretch="0,0,0,0">
+         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,1,1,1,1,1,0" columnstretch="0,0,0,0">
           <property name="horizontalSpacing">
            <number>1</number>
           </property>
@@ -149,7 +149,7 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="priorityLabel">
             <property name="text">
              <string>Priority:</string>
             </property>
@@ -628,23 +628,23 @@
              <string/>
             </property>
             <property name="minimum">
-             <number>0</number>
+             <double>0.000000000000000</double>
             </property>
             <property name="maximum">
-             <number>360</number>
-            </property>
-            <property name="value">
-             <number>0</number>
+             <double>360.000000000000000</double>
             </property>
             <property name="singleStep">
-             <double>5.0</double>
+             <double>5.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer_2">
+         <spacer name="verticalSpacer_alg">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -653,11 +653,59 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
-            <height>40</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="AlgorithmGroup">
+          <property name="title">
+           <string>Scheduler Algorithm</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_alg">
+           <item>
+            <widget class="QComboBox" name="schedulerAlgorithmCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select schduler algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: The traditional Ekos scheduler algorithm. PLEASE FILL IN DETAILS&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Will always attempt to run a job. Picks the highest priority job (priority == higher up on the job list) that can run according to its constraints, and is not complete. Will interrupt running jobs if a higher priority job can run. However, it will not start a job if will only run for 30 minutes or less before being interrupted by another job.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Classic</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Greedy</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_alg">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::MinimumExpanding</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </item>
@@ -1571,7 +1619,7 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1">
+         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1,0">
           <property name="spacing">
            <number>3</number>
           </property>
@@ -1988,7 +2036,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="errorHandlingRestartAfterAllButton">
+           <widget class="QRadioButton" name="errorHandlingRestartQueueButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2284,25 +2332,25 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="constraintButtonGroup">
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="startupProcedureButtonGroup">
+  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

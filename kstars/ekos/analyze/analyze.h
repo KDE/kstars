@@ -14,6 +14,7 @@
 #include "ekos/mount/mount.h"
 #include "indi/inditelescope.h"
 #include "ui_analyze.h"
+#include "ekos/scheduler/scheduler.h"
 
 class FITSViewer;
 class OffsetDateTimeTicker;
@@ -127,6 +128,16 @@ class Analyze : public QWidget, public Ui::Analyze
                     : Session(start_, end_, MERIDIAN_FLIP_Y, rect), state(state_) {}
                 MountFlipSession() : Session(0, 0, MERIDIAN_FLIP_Y, nullptr) {}
         };
+        class SchedulerJobSession : public Session
+        {
+            public:
+                SchedulerJobSession(double start_, double end_, QCPItemRect *rect,
+                                    const QString &jobName_, const QString &reason_)
+                    : Session(start_, end_, SCHEDULER_Y, rect), jobName(jobName_), reason(reason_) {}
+                SchedulerJobSession() : Session(0, 0, SCHEDULER_Y, nullptr) {}
+                QString jobName;
+                QString reason;
+        };
         class FocusSession : public Session
         {
             public:
@@ -169,6 +180,9 @@ class Analyze : public QWidget, public Ui::Analyze
         void mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &haValue);
         void mountFlipStatus(Ekos::Mount::MeridianFlipStatus status);
 
+        void schedulerJobStarted(const QString &jobName);
+        void schedulerJobEnded(const QString &jobName, const QString &endReason);
+
     private slots:
 
     signals:
@@ -197,6 +211,9 @@ class Analyze : public QWidget, public Ui::Analyze
         void processAlignState(double time, const QString &statusString, bool batchMode = false);
         void processMountFlipState(double time, const QString &statusString, bool batchMode = false);
 
+        void processSchedulerJobStarted(double time, const QString &jobName, bool batchMode = false);
+        void processSchedulerJobEnded(double time, const QString &jobName, const QString &reason, bool batchMode = false);
+
         // Plotting primatives.
         void replot(bool adjustSlider = true);
         void zoomIn();
@@ -221,6 +238,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void mountSessionClicked(MountSession &c, bool doubleClick);
         void alignSessionClicked(AlignSession &c, bool doubleClick);
         void mountFlipSessionClicked(MountFlipSession &c, bool doubleClick);
+        void schedulerSessionClicked(SchedulerJobSession &c, bool doubleClick);
 
         // Low-level callbacks.
         // These two call processTimelineClick().
@@ -327,6 +345,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void resetMountState();
         void resetMountCoords();
         void resetMountFlipState();
+        void resetSchedulerJob();
         void resetTemperature();
 
         // Read and display an input .analyze file.
@@ -416,6 +435,7 @@ class Analyze : public QWidget, public Ui::Analyze
         AlignSession temporaryAlignSession;
         MountSession temporaryMountSession;
         MountFlipSession temporaryMountFlipSession;
+        SchedulerJobSession temporarySchedulerJobSession;
 
         // Capture state-machine variables.
         double captureStartedTime { -1 };
@@ -464,6 +484,13 @@ class Analyze : public QWidget, public Ui::Analyze
         Mount::MeridianFlipStatus lastMountFlipStateStarted { Mount::FLIP_NONE };
         double mountFlipStateStartedTime { -1 };
 
+        // SchedulerJob state machine variables
+        double schedulerJobStartedTime;
+        QString schedulerJobStartedJobName;
+
+        QMap<QString, QColor> schedulerJobColors;
+        QBrush schedulerJobBrush(const QString &jobName, bool temporary);
+
         // Y-offsets for the timeline plot for the various modules.
         static constexpr int CAPTURE_Y = 1;
         static constexpr int FOCUS_Y = 2;
@@ -471,7 +498,8 @@ class Analyze : public QWidget, public Ui::Analyze
         static constexpr int GUIDE_Y = 4;
         static constexpr int MERIDIAN_FLIP_Y = 5;
         static constexpr int MOUNT_Y = 6;
-        static constexpr int LAST_Y = 7;
+        static constexpr int SCHEDULER_Y = 7;
+        static constexpr int LAST_Y = 8;
 };
 }
 

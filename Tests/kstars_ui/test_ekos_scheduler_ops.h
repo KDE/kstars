@@ -57,8 +57,10 @@ class TestEkosSchedulerOps : public QObject
         void testCulminationStartup();
         void testFixedDateStartup();
         void testArtificialHorizonConstraints();
-        void test2ndJobRunsAfter1stHitsAltitudeConstraint();
+        void testGreedySchedulerRun();
         void testRememberJobProgress();
+        void testGreedy();
+        void testGreedyAborts();
 
         // test data
         void testCulminationStartup_data();
@@ -68,10 +70,10 @@ class TestEkosSchedulerOps : public QObject
         void prepareTestData(QList<QString> locationList, QList<QString> targetList);
         void runSimpleJob(const GeoLocation &geo, const SkyObject *targetObject, const QDateTime &startUTime,
                           const QDateTime &wakeupTime, bool enforceArtificialHorizon);
-        void runUntilFirstShutdown(
-            const GeoLocation &geo, const QVector<SkyObject*> targetObjects,
-            const QDateTime &startSchedulerUTime, const QDateTime &startJobUTime, const QDateTime &interruptUTime,
-            KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir);
+        void startup(const GeoLocation &geo, const QVector<SkyObject*> targetObjects,
+                     const QDateTime &startSchedulerUTime, KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir);
+        void slewAndRun(SkyObject *object, const QDateTime &startUTime, const QDateTime &interruptUTime,
+                        KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label = "");
         void parkAndSleep(KStarsDateTime &testUTime, int &sleepMs);
         void wakeupAndRestart(const QDateTime &restartTime, KStarsDateTime &testUTime, int &sleepMs);
 
@@ -83,6 +85,11 @@ class TestEkosSchedulerOps : public QObject
 
         void initScheduler(const GeoLocation &geo, const QDateTime &startUTime, QTemporaryDir *dir,
                            const QVector<QString> &eslContents, const QVector<QString> &esqContents);
+        void initTimeGeo(const GeoLocation &geo, const QDateTime &startUTime);
+        void initFiles(QTemporaryDir *dir, const QVector<QString> &esls, const QVector<QString> &esqs);
+        QString writeFiles(const QString &label, QTemporaryDir &dir,
+                           const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob,
+                           const QString &schedulerXML);
 
         void initJob(const KStarsDateTime &startUTime, const KStarsDateTime &jobStartUTime);
 
@@ -100,6 +107,11 @@ class TestEkosSchedulerOps : public QObject
         int timeTolerance(int seconds);
         bool checkLastSlew(const SkyObject* targetObject);
         void printJobs(const QString &label);
+        void loadGreedySchedule(
+            bool first, const QString &targetName,
+            const TestEkosSchedulerHelper::StartupCondition &startupCondition,
+            const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
+            QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30);
 
         QSharedPointer<Ekos::Scheduler> scheduler;
         QSharedPointer<Ekos::MockFocus> focuser;
@@ -110,6 +122,7 @@ class TestEkosSchedulerOps : public QObject
         QSharedPointer<Ekos::MockEkos> ekos;
 
         TestEkosSchedulerHelper::StartupCondition m_startupCondition;
+        TestEkosSchedulerHelper::CompletionCondition m_completionCondition;
         QElapsedTimer testTimer;
 };
 
