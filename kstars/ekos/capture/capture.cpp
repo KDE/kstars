@@ -3081,28 +3081,27 @@ void Capture::removeJobFromQueue()
         queueTable->selectRow(currentRow);
 }
 
-void Capture::removeJob(int index)
+bool Capture::removeJob(int index)
 {
     if (m_State != CAPTURE_IDLE && m_State != CAPTURE_ABORTED && m_State != CAPTURE_COMPLETE)
-        return;
+        return false;
 
     if (m_JobUnderEdit)
     {
         resetJobEdit();
-        return;
+        return false;
     }
 
     if (index < 0 || index >= jobs.count())
-        return;
+        return false;
 
 
     queueTable->removeRow(index);
-
     m_SequenceArray.removeAt(index);
     emit sequenceChanged(m_SequenceArray);
 
     if (jobs.empty())
-        return;
+        return true;
 
     SequenceJob * job = jobs.at(index);
     jobs.removeOne(job);
@@ -3136,6 +3135,8 @@ void Capture::removeJob(int index)
     }
 
     m_Dirty = true;
+
+    return true;
 }
 
 void Capture::moveJobUp()
@@ -5172,6 +5173,10 @@ void Capture::clearSequenceQueue()
         queueTable->removeRow(0);
     qDeleteAll(jobs);
     jobs.clear();
+
+    while (m_SequenceArray.count())
+        m_SequenceArray.pop_back();
+    emit sequenceChanged(m_SequenceArray);
 }
 
 QString Capture::getSequenceQueueStatus()

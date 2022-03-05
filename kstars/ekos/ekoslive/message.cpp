@@ -645,7 +645,8 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {
-        capture->removeJob(payload["index"].toInt());
+        if (capture->removeJob(payload["index"].toInt()) == false)
+            sendCaptureSequence(capture->getSequence());
     }
     else if (command == commands[CAPTURE_SET_LIMITS])
     {
