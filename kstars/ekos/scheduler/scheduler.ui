@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>426</height>
+    <width>950</width>
+    <height>537</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1">
@@ -644,68 +644,17 @@
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer_alg">
+         <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>0</width>
-            <height>0</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="AlgorithmGroup">
-          <property name="title">
-           <string>Scheduler Algorithm</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_alg">
-           <item>
-            <widget class="QComboBox" name="schedulerAlgorithmCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select schduler algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: The traditional Ekos scheduler algorithm. PLEASE FILL IN DETAILS&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Will always attempt to run a job. Picks the highest priority job (priority == higher up on the job list) that can run according to its constraints, and is not complete. Will interrupt running jobs if a higher priority job can run. However, it will not start a job if will only run for 30 minutes or less before being interrupted by another job.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Classic</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Greedy</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_alg">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::MinimumExpanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>50</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
         </item>
        </layout>
       </item>
@@ -1098,7 +1047,6 @@
            </property>
            <property name="font">
             <font>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1237,6 +1185,29 @@ font-weight:bold;
             <property name="text">
              <string/>
             </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="schedulerAlgorithmCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: Start jobs that meet the constraints by priority and score.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Always attempt to run a job. It picks the highest priority job that can run according to its constraints. It will interrupt running jobs if a higher priority job can run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Classic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Greedy</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
@@ -2332,18 +2303,18 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
