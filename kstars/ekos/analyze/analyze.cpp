@@ -10,6 +10,7 @@
 #include <QDateTime>
 #include <QShortcut>
 #include <QtGlobal>
+#include <QColor>
 
 #include "auxiliary/kspaths.h"
 #include "dms.h"
@@ -2870,9 +2871,12 @@ void Analyze::resetMountFlipState()
 
 QBrush Analyze::schedulerJobBrush(const QString &jobName, bool temporary)
 {
-    QList<Qt::GlobalColor> colors = {Qt::red, Qt::green, Qt::blue, Qt::cyan, Qt::magenta, Qt::yellow,
-                                     Qt::white, Qt::darkGray, Qt::darkGreen, Qt::darkRed
-                                    };
+    QList<QColor> colors =
+    {
+        {110, 120, 150}, {150, 180, 180}, {180, 165, 130}, {180, 200, 140}, {250, 180, 130},
+        {190, 170, 160}, {140, 110, 160}, {250, 240, 190}, {250, 200, 220}, {150, 125, 175}
+    };
+
     Qt::BrushStyle pattern = temporary ? Qt::Dense4Pattern : Qt::SolidPattern;
     auto it = schedulerJobColors.constFind(jobName);
     if (it == schedulerJobColors.constEnd())
