@@ -382,6 +382,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     else
         m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
 
+    m_StellarSolver.reset(new StellarSolver());
+    connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
+
     initPolarAlignmentAssistant();
     initManualRotator();
     initDarkProcessor();
@@ -1894,25 +1897,15 @@ void Align::startSolving()
                 }
             }
         }
-        if (m_StellarSolver)
-        {
-            auto *solver = m_StellarSolver.release();
-            solver->disconnect(this);
-            if (solver->isRunning())
-            {
-                connect(solver, &StellarSolver::finished, solver, &StellarSolver::deleteLater);
-                solver->abort();
-            }
-            else
-                solver->deleteLater();
-        }
+        if (m_StellarSolver->isRunning())
+            m_StellarSolver->abort();
         if (!m_ImageData)
             m_ImageData = alignView->imageData();
-        m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
+        m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+        m_StellarSolver->setProperty("ProcessType", SSolver::SOLVE);
         m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
         m_StellarSolver->setProperty("SolverType", Options::solverType());
         connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
-        connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
         m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
         m_StellarSolver->setParameters(m_StellarSolverProfiles.at(Options::solveOptionsProfile()));
 
@@ -2446,7 +2439,7 @@ void Align::solverFailed()
 void Align::stop(Ekos::AlignState mode)
 {
     m_CaptureTimer.stop();
-    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
+    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
         m_StellarSolver->abort();
     else if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser)
         remoteParser->stopSolver();

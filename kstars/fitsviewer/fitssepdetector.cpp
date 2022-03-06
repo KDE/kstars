@@ -64,7 +64,6 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 #ifdef HAVE_STELLARSOLVER
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
     Ekos::ProfileGroup group = static_cast<Ekos::ProfileGroup>(getValue("optionsProfileGroup", 1).toInt());
-
     QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     QString filename = "";
     switch(group)
@@ -134,7 +133,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     skyBG.setStarsDetected(bg.num_stars_detected);
     m_ImageData->setSkyBackground(skyBG);
 
-    //There is more information that can be obtained by the Stellarsolver.
+    //There is more information that can be obtained by the Stellarsolver->
     //Background info, Star positions(if a plate solve was done before), etc
     //The information is available as long as the StellarSolver exists.
 
