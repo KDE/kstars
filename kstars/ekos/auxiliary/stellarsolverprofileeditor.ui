@@ -431,7 +431,7 @@
       <item row="4" column="3">
        <widget class="QComboBox" name="convFilter">
         <property name="toolTip">
-         <string>The type of Convolution Filter that SEP will apply to the image prior to star extraction.  These filters are comparable to the included filters in a SExtractor installation, but here you have the flexibility to change the FWHM.  The Default filter is the fastest filter, but does NOT change with the FWHM setting, and so is best for small stars.  The Gaussian Filter is best for faint object detection.  The Mexican Hat filter is good in crowded star fields or in the vicinity of nebulae.  The TopHat filter is good for extended, low brightness objects.  Note: The &quot;Custom&quot; fitler selection is meant for testing purposes and should only be used by developers</string>
+         <string>The type of Convolution Filter that SEP will apply to the image prior to star extraction.  These filters are comparable to the included filters in a SExtractor installation, but here you have the flexibility to change the FWHM.  The Default filter is the fastest filter, but does NOT change with the FWHM setting, and so is best for small stars.  The Gaussian Filter is best for faint object detection.  The Mexican Hat filter is good in crowded star fields or in the vicinity of nebulae.  The Top Hat filter is good for extended, low brightness objects.  Note: The &quot;Custom&quot; filter selection is meant for testing purposes and should only be used by developers</string>
         </property>
         <property name="currentIndex">
          <number>0</number>
