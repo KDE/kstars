@@ -8,6 +8,7 @@
 #include "Options.h"
 #include <KHelpClient>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 KSHelpLabel::KSHelpLabel(const QString &text, const QString &anchor, QWidget *parent) : QLabel(parent), m_anchor(anchor)
 {
@@ -42,7 +43,11 @@ void KSHelpLabel::updateText()
 
 void KSHelpLabel::slotShowDefinition(const QString &term)
 {
+#ifdef Q_OS_OSX // This is because KHelpClient doesn't seem to be working right on MacOS
+    QDesktopServices::openUrl(QUrl("https://docs.kde.org/trunk5/en/kstars/kstars/index.html"));
+#else
     KHelpClient::invokeHelp(term);
+#endif
 }
 
 void KSHelpLabel::setText(const QString &txt)

@@ -1120,6 +1120,13 @@ KConfigDialog *KStars::prepareOps()
     page = dialog->addPage(opsdeveloper, i18n("Developer"), "kstars_developer");
     page->setIcon(QIcon::fromTheme("kstars_developer", QIcon(":/icons/kstars_developer.png")));
 
+#ifdef Q_OS_OSX // This is because KHelpClient doesn't seem to be working right on MacOS
+    dialog->button(QDialogButtonBox::Help)->disconnect();
+    connect(dialog->button(QDialogButtonBox::Help), &QPushButton::clicked, this, []()
+    {
+        KStars::Instance()->appHelpActivated();
+    });
+#endif
 
     return dialog;
 }
