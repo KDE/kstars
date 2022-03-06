@@ -2430,7 +2430,7 @@ void Capture::captureImage()
     // NOTE: Why we didn't emit this before for preview?
     emit newStatus(Ekos::CAPTURE_CAPTURING);
 
-    if (frameSettings.contains(m_commandProcessor.get()->activeChip))
+    if (frameSettings.contains(m_commandProcessor.data()->activeChip))
     {
         const auto roi = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect();
         QVariantMap settings;
@@ -2441,7 +2441,7 @@ void Capture::captureImage()
         settings["binx"] = activeJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x();
         settings["biny"] = activeJob->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y();
 
-        frameSettings[m_commandProcessor.get()->activeChip] = settings;
+        frameSettings[m_commandProcessor.data()->activeChip] = settings;
     }
 
     // Re-enable fast exposure if it was disabled before due to pending tasks
@@ -2893,16 +2893,16 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     /* in ms */
     job->setCoreProperty(SequenceJob::SJ_Delay, captureDelayN->value() * 1000);
 
-    m_commandProcessor.get()->activeChip = targetChip;
-    m_commandProcessor.get()->activeCCD = currentCCD;
-    m_commandProcessor.get()->activeFilterWheel = currentFilter;
+    m_commandProcessor.data()->activeChip = targetChip;
+    m_commandProcessor.data()->activeCCD = currentCCD;
+    m_commandProcessor.data()->activeFilterWheel = currentFilter;
 
     // Custom Properties
     job->setCustomProperties(customPropertiesDialog->getCustomProperties());
 
     if (currentRotator && rotatorSettings->isRotationEnforced())
     {
-        m_commandProcessor.get()->activeRotator = currentRotator;
+        m_commandProcessor.data()->activeRotator = currentRotator;
         job->setTargetRotation(rotatorSettings->getTargetRotationPA());
     }
 
@@ -3266,9 +3266,9 @@ void Capture::prepareJob(SequenceJob * job)
     if (index >= 0)
         queueTable->selectRow(index);
 
-    if (m_commandProcessor.get()->activeCCD != currentCCD)
+    if (m_commandProcessor.data()->activeCCD != currentCCD)
     {
-        setCamera(m_commandProcessor.get()->activeCCD->getDeviceName());
+        setCamera(m_commandProcessor.data()->activeCCD->getDeviceName());
     }
 
     seqDelay = activeJob->getCoreProperty(SequenceJob::SJ_Delay).toInt();
@@ -3591,7 +3591,7 @@ void Capture::executeJob()
     // Update button status
     setBusy(true);
 
-    useGuideHead = (m_commandProcessor.get()->activeChip->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
+    useGuideHead = (m_commandProcessor.data()->activeChip->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     syncGUIToJob(activeJob);
 
@@ -7057,9 +7057,9 @@ void Capture::reconnectDriver(const QString &camera, const QString &filterWheel)
 
             if (activeJob)
             {
-                m_commandProcessor.get()->activeChip = targetChip;
-                m_commandProcessor.get()->activeCCD = currentCCD;
-                m_commandProcessor.get()->activeFilterWheel = currentFilter;
+                m_commandProcessor.data()->activeChip = targetChip;
+                m_commandProcessor.data()->activeCCD = currentCCD;
+                m_commandProcessor.data()->activeFilterWheel = currentFilter;
                 captureImage();
             }
 

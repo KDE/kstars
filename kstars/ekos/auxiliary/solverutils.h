@@ -12,6 +12,7 @@
 #include <QFutureWatcher>
 #include <mutex>
 #include <stellarsolver.h>
+#include <memory>
 
 class FITSData;
 
