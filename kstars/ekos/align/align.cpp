@@ -1816,7 +1816,7 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setFastExposureEnabled(false);
     }
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setEncodingFormat("FITS");
     targetChip->resetFrame();
     targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_ALIGN);
@@ -1867,7 +1867,8 @@ void Align::startSolving()
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
-        if(Options::solverType() != SSolver::SOLVER_ASTAP && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY) //You don't need astrometry index files to use ASTAP or Watney
+        if(Options::solverType() != SSolver::SOLVER_ASTAP
+                && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY) //You don't need astrometry index files to use ASTAP or Watney
         {
             bool foundAnIndex = false;
             for(QString dataDir : astrometryDataDirs)
@@ -2045,7 +2046,7 @@ void Align::solverComplete()
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
-        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE? false : true;
+        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
         solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
     }
 }

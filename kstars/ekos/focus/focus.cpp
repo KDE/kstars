@@ -1329,7 +1329,7 @@ void Focus::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setFastExposureEnabled(false);
     }
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setEncodingFormat("FITS");
     targetChip->setBatchMode(false);
     targetChip->setBinning(activeBin, activeBin);
     targetChip->setCaptureMode(FITS_FOCUS);

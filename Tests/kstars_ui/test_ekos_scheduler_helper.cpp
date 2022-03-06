@@ -98,7 +98,7 @@ QString TestEkosSchedulerHelper::getEsqContent(QVector<TestEkosSchedulerHelper::
                           "<Filter>%3</Filter><Type>Light</Type><Prefix><RawPrefix></RawPrefix><FilterEnabled>0</FilterEnabled>"
                           "<ExpEnabled>0</ExpEnabled><TimeStampEnabled>0</TimeStampEnabled></Prefix>"
                           "<Count>%2</Count><Delay>0</Delay><FITSDirectory>%4</FITSDirectory><UploadMode>0</UploadMode>"
-                          "<FormatIndex>0</FormatIndex><Properties></Properties><Calibration><FlatSource><Type>Manual</Type>"
+                          "<Encoding>FITS</Encoding><Properties></Properties><Calibration><FlatSource><Type>Manual</Type>"
                           "</FlatSource><FlatDuration><Type>ADU</Type><Value>15000</Value><Tolerance>1000</Tolerance></FlatDuration>"
                           "<PreMountPark>False</PreMountPark><PreDomePark>False</PreDomePark></Calibration></Job>")
                   .arg(job_iter->exposureTime).arg(job_iter->count).arg(job_iter->filterName).arg(job_iter->fitsDirectory);

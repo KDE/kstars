@@ -214,13 +214,24 @@ public:
 
     /**
      * @brief Initiate tasks required so that capturing of flats may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareFlatFrameCapture();
+    void prepareFlatFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
      * @brief Initiate tasks required so that capturing of darks may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareDarkFrameCapture();
+    void prepareDarkFrameCapture(bool enforceCCDTemp, bool isPreview);
+
+    /**
+     * @brief Initiate tasks required so that capturing of bias may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
+     */
+    void prepareBiasFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
      * @brief The current capture sequence job status

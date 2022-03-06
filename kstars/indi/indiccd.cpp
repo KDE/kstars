@@ -951,11 +951,13 @@ void CCD::registerProperty(INDI::Property prop)
         auto sp = prop->getSwitch();
         if (sp)
         {
-            auto format = sp->findWidgetByName("FORMAT_NATIVE");
-            if (format && format->getState() == ISS_ON)
-                transferFormat = FORMAT_NATIVE;
-            else
-                transferFormat = FORMAT_FITS;
+            m_EncodingFormats.clear();
+            for (const auto &oneSwitch : *sp)
+                m_EncodingFormats << oneSwitch.getLabel();
+
+            auto format = sp->findOnSwitch();
+            if (format)
+                m_EncodingFormat = format->label;
         }
     }
     else if (prop->isNameMatch("CCD_EXPOSURE_PRESETS"))
@@ -1230,12 +1232,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
     {
-        ISwitch *format = IUFindSwitch(svp, "FORMAT_NATIVE");
-
-        if (format && format->s == ISS_ON)
-            transferFormat = FORMAT_NATIVE;
-        else
-            transferFormat = FORMAT_FITS;
+        ISwitch *format = IUFindOnSwitch(svp);
+        if (format)
+            m_EncodingFormat = format->label;
     }
     else if (!strcmp(svp->name, "RECORD_STREAM"))
     {
@@ -1770,16 +1769,6 @@ void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSDat
     }
 }
 
-CCD::TransferFormat CCD::getTargetTransferFormat() const
-{
-    return targetTransferFormat;
-}
-
-void CCD::setTargetTransferFormat(const TransferFormat &value)
-{
-    targetTransferFormat = value;
-}
-
 //void CCD::FITSViewerDestroyed()
 //{
 //    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
@@ -2077,9 +2066,9 @@ bool CCD::setTemperature(double value)
     return true;
 }
 
-bool CCD::setTransformFormat(CCD::TransferFormat format)
+bool CCD::setEncodingFormat(const QString &value)
 {
-    if (format == transferFormat)
+    if (value == m_EncodingFormat)
         return true;
 
     auto svp = baseDevice->getSwitch("CCD_TRANSFER_FORMAT");
@@ -2087,19 +2076,18 @@ bool CCD::setTransformFormat(CCD::TransferFormat format)
     if (!svp)
         return false;
 
-    auto formatFITS   = svp->findWidgetByName("FORMAT_FITS");
-    auto formatNative = svp->findWidgetByName("FORMAT_NATIVE");
+    svp->reset();
+    for (int i = 0; i < svp->nsp; i++)
+    {
+        if (svp->at(i)->getLabel() == value)
+        {
+            svp->at(i)->setState(ISS_ON);
+            break;
+        }
+    }
 
-    if (!formatFITS || !formatNative)
-        return false;
-
-    transferFormat = format;
-
-    formatFITS->setState(transferFormat == FORMAT_FITS ? ISS_ON : ISS_OFF);
-    formatNative->setState(transferFormat == FORMAT_FITS ? ISS_OFF : ISS_ON);
-
+    m_EncodingFormat = value;
     clientManager->sendNewSwitch(svp);
-
     return true;
 }
 

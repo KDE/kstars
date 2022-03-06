@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
-    <height>613</height>
+    <width>700</width>
+    <height>615</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -667,7 +667,7 @@ font-weight:bold;
                </size>
               </property>
              </spacer>
-            </item>            
+            </item>
            </layout>
           </item>
           <item row="2" column="2" colspan="4">
@@ -1307,38 +1307,35 @@ font-weight:bold;
          </layout>
         </item>
         <item row="4" column="1">
-            
-        <layout class="QHBoxLayout" name="formatLayout">
-            <property name="spacing">
-             <number>1</number>
+         <layout class="QHBoxLayout" name="formatLayout">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="captureFormatS">
+            <property name="toolTip">
+             <string>Image capture format</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="captureEncodingS">
+            <property name="toolTip">
+             <string>Image transfer format</string>
             </property>
             <item>
-         <widget class="QComboBox" name="captureFormatS">
-          <property name="toolTip">
-           <string>Image capture format</string>
-          </property>
-         </widget>
-     </item>
-     <item>
-                  
-             <widget class="QComboBox" name="captureTransferS">
-              <property name="toolTip">
-               <string>Image transfer format</string>
-              </property>
-              <item>
-               <property name="text">
-                <string>FITS</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Native</string>
-               </property>
-              </item>
-             </widget>
-         </item>
-     </layout>
-         
+             <property name="text">
+              <string>FITS</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Native</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

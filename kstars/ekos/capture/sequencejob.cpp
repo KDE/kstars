@@ -45,6 +45,7 @@ SequenceJob::SequenceJob()
     m_CoreProperties[SJ_FilterPrefixEnabled] = false;
     m_CoreProperties[SJ_DarkFlat] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
+    m_CoreProperties[SJ_Encoding] = "FITS";
 }
 
 SequenceJob::SequenceJob(const QSharedPointer<CaptureCommandProcessor> cp,
@@ -106,6 +107,10 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         if (!strcmp(tagXMLEle(ep), "Format"))
         {
             setCoreProperty(SJ_Format, pcdataXMLEle(ep));
+        }
+        if (!strcmp(tagXMLEle(ep), "Encoding"))
+        {
+            setCoreProperty(SJ_Encoding, pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
@@ -533,7 +538,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (commandProcessor.data()->activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
+    if (commandProcessor.data()->activeCCD->getEncodingFormat() == QLatin1String("FITS"))
     {
         int currentBinX = 1, currentBinY = 1;
         commandProcessor.data()->activeChip->getBinning(&currentBinX, &currentBinY);
@@ -564,6 +569,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     }
 
     commandProcessor.data()->activeCCD->setCaptureFormat(getCoreProperty(SJ_Format).toString());
+    commandProcessor.data()->activeCCD->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
     commandProcessor.data()->activeChip->setFrameType(getFrameType());
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
@@ -665,18 +671,6 @@ FlatFieldDuration SequenceJob::getFlatFieldDuration() const
     return m_FlatFieldDuration;
 }
 
-// Setter: Set transform format
-void SequenceJob::setTransferFormat(ISD::CCD::TransferFormat value)
-{
-    m_TransferFormat = value;
-}
-
-// Getter: Get transform format
-ISD::CCD::TransferFormat SequenceJob::getTransferFormat() const
-{
-    return m_TransferFormat;
-}
-
 void SequenceJob::setJobProgressIgnored(bool value)
 {
     m_JobProgressIgnored = value;
@@ -754,13 +748,19 @@ void SequenceJob::prepareCapture()
         case FRAME_LIGHT:
             stateMachine->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
                                                    getCoreProperty(SJ_EnforceStartGuiderDrift).toBool(),
-                                                   getCoreProperty(SequenceJob::SJ_Preview).toBool());
+                                                   getCoreProperty(SJ_Preview).toBool());
             break;
         case FRAME_FLAT:
-            stateMachine->prepareFlatFrameCapture();
+            stateMachine->prepareFlatFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+                                                  getCoreProperty(SJ_Preview).toBool());
             break;
         case FRAME_DARK:
-            stateMachine->prepareDarkFrameCapture();
+            stateMachine->prepareDarkFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+                                                  getCoreProperty(SJ_Preview).toBool());
+            break;
+        case FRAME_BIAS:
+            stateMachine->prepareBiasFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+                                                  getCoreProperty(SJ_Preview).toBool());
             break;
         default:
             // not refactored yet, immediately completed
