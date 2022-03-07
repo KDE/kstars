@@ -1471,6 +1471,7 @@ void DarkLibrary::setDarkSettings(const QJsonObject &settings)
     countSpin->setValue(count);
 
 }
+
 QJsonObject DarkLibrary::getDarkSettings()
 {
     QJsonObject createDarks =
@@ -1491,6 +1492,7 @@ QJsonObject DarkLibrary::getDarkSettings()
     };
     return createDarks;
 }
+
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
     const QString camera = settings["camera"].toString();
@@ -1565,13 +1567,13 @@ QJsonArray DarkLibrary::getViewMasters()
     }
     return array;
 }
+
 void DarkLibrary::setDefectSettings(const QJsonObject payload)
 {
-    const QString rowString = payload["rowString"].toString();
     const int masterIndex = payload["rowIndex"].toInt();
     masterDarksCombo->setCurrentIndex(masterIndex);
-    loadCurrentMasterDark(rowString, masterIndex);
 }
+
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)
 {
     const int hotSpin = payload["hotSpin"].toInt();
@@ -1588,6 +1590,7 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     setDefectFrame(true);
     generateMapB->click();
 }
+
 void DarkLibrary::setDefectFrame(bool isDefect)
 {
     m_DarkView->setDefectMapEnabled(isDefect);
