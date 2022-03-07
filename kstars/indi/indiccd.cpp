@@ -68,6 +68,9 @@ FITSView *CCDChip::getImageView(FITSMode imageType)
 
         case FITS_ALIGN:
             return alignImage;
+
+        default:
+            break;
     }
 
     return nullptr;
@@ -95,6 +98,9 @@ void CCDChip::setImageView(FITSView *image, FITSMode imageType)
 
         case FITS_ALIGN:
             alignImage = image;
+            break;
+
+        default:
             break;
     }
 
@@ -1263,20 +1269,25 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         m_FastExposureEnabled = IUFindOnSwitchIndex(svp) == 0;
     }
-    else if (streamWindow && !strcmp(svp->name, "CONNECTION"))
+    else if (!strcmp(svp->name, "CONNECTION"))
     {
         ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
 
         if (dSwitch && dSwitch->s == ISS_ON)
         {
-            streamWindow->enableStream(false);
-            emit videoStreamToggled(false);
-            streamWindow->close();
-            streamWindow.reset();
-        }
+            if (streamWindow)
+            {
+                streamWindow->enableStream(false);
+                emit videoStreamToggled(false);
+                streamWindow->close();
+                streamWindow.reset();
+            }
 
-        //emit switchUpdated(svp);
-        //return;
+            // Clear the pointers on disconnect.
+            gainN = nullptr;
+            offsetN = nullptr;
+            primaryCCDBLOB = nullptr;
+        }
     }
 
     DeviceDecorator::processSwitch(svp);
