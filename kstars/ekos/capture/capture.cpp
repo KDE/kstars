@@ -836,7 +836,7 @@ void Capture::stop(CaptureState targetState)
     disconnect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
 
     // In case of exposure looping, let's abort
-    if (currentCCD->isFastExposureEnabled())
+    if (currentCCD && targetChip && currentCCD->isFastExposureEnabled())
         targetChip->abortExposure();
 
     imgProgress->reset();
