@@ -1142,6 +1142,7 @@ void Focus::stop(Ekos::FocusState completionState)
     focuserAdditionalMovement = 0;
     inFocusLoop     = false;
     captureInProgress  = false;
+    isVShapeSolution = false;
     captureFailureCounter = 0;
     minimumRequiredHFR = -1;
     noStarCount        = 0;
