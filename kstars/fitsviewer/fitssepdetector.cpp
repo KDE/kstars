@@ -64,7 +64,8 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 #ifdef HAVE_STELLARSOLVER
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
     Ekos::ProfileGroup group = static_cast<Ekos::ProfileGroup>(getValue("optionsProfileGroup", 1).toInt());
-    QPointer<StellarSolver> solver = new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+    std::unique_ptr<StellarSolver> solver;
+    solver.reset(new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
     QString filename = "";
     switch(group)
     {
