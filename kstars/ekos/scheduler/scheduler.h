@@ -386,6 +386,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
         /** @} */
 
+        void setUpdateInterval(int ms)
+        {
+            m_UpdatePeriodMs = ms;
+        }
+        int getUpdateInterval()
+        {
+            return m_UpdatePeriodMs;
+        }
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -1143,10 +1151,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // This is the time between typical scheduler iterations.
         // The time can be modified for testing.
         int m_UpdatePeriodMs = 1000;
-        void setUpdateInterval(int ms)
-        {
-            m_UpdatePeriodMs = ms;
-        }
+
         // Setup the parameters for the next scheduler iteration.
         // When milliseconds is not passed in, it uses m_UpdatePeriodMs.
         void setupNextIteration(SchedulerTimerState nextState);

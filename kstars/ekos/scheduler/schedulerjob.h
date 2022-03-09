@@ -592,8 +592,8 @@ class SchedulerJob
              * @return The date and time the target meets or misses constraints.
              */
         QDateTime calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet = true, int increment = 1,
-                                    QString *reason = nullptr) const;
-        QDateTime getNextPossibleStartTime(const QDateTime &when, int increment = 1) const;
+                                    QString *reason = nullptr, bool runningJob = false) const;
+        QDateTime getNextPossibleStartTime(const QDateTime &when, int increment = 1, bool runningJob = false) const;
         QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr) const;
 
         /**
@@ -680,14 +680,6 @@ class SchedulerJob
         /** @brief Setter used in the unit test to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
         static KStarsDateTime getLocalTime();
-        static void setLocalTime(KStarsDateTime *time)
-        {
-            storedLocalTime = time;
-        }
-        static bool hasLocalTime()
-        {
-            return storedLocalTime != nullptr;
-        }
         /** @} */
 
         /** @brief Setter used in testing to fix the geo location. Otherwise getter gets from KStars instance. */

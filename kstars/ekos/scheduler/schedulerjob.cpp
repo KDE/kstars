@@ -169,9 +169,7 @@ void SchedulerJob::setName(const QString &value)
 
 KStarsDateTime SchedulerJob::getLocalTime()
 {
-    if (hasLocalTime())
-        return *storedLocalTime;
-    return getGeo()->UTtoLT(KStarsData::Instance()->clock()->utc());
+    return Ekos::Scheduler::getLocalTime();
 }
 
 GeoLocation const *SchedulerJob::getGeo()
@@ -1119,7 +1117,7 @@ double SchedulerJob::getCurrentMoonSeparation() const
 }
 
 QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet, int increment,
-        QString *reason) const
+        QString *reason, bool runningJob) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
@@ -1188,15 +1186,17 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
             // Continue searching if target is setting and under the cutoff
             if (checkIfConstraintsAreMet)
             {
-                double offset = LST.Hours() - o.ra().Hours();
-                if (24.0 <= offset)
-                    offset -= 24.0;
-                else if (offset < 0.0)
-                    offset += 24.0;
-                if (0.0 <= offset && offset < 12.0)
-                    if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
-                        continue;
-
+                if (!runningJob)
+                {
+                    double offset = LST.Hours() - o.ra().Hours();
+                    if (24.0 <= offset)
+                        offset -= 24.0;
+                    else if (offset < 0.0)
+                        offset += 24.0;
+                    if (0.0 <= offset && offset < 12.0)
+                        if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
+                            continue;
+                }
                 return ltOffset;
             }
         }
@@ -1448,7 +1448,7 @@ const QString &SchedulerJob::getInitialFilter() const
 
 
 // When can this job start? For now ignores culmination constraint.
-QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int increment) const
+QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int increment, bool runningJob) const
 {
     QDateTime ltWhen(
         when.isValid() ? (Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when)
@@ -1474,7 +1474,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
             return QDateTime(); // return an invalid time.
     }
 
-    return calculateNextTime(ltWhen, true, increment);
+    return calculateNextTime(ltWhen, true, increment, nullptr, runningJob);
 }
 
 // When will this job end (not looking at capture plan)?

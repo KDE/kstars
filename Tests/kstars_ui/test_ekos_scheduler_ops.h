@@ -61,6 +61,7 @@ class TestEkosSchedulerOps : public QObject
         void testRememberJobProgress();
         void testGreedy();
         void testGreedyAborts();
+        void testSettingAltitudeBug();
 
         // test data
         void testCulminationStartup_data();

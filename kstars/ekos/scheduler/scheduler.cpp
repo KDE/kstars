@@ -354,7 +354,8 @@ int Scheduler::runSchedulerIteration()
         // Since iterations aren't yet always set up, we repeat the current
         // iteration type if one wasn't set up in the current iteration.
         // qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler iteration never set up.";
-        TEST_PRINT(stderr, "Scheduler iteration never set up--repeating %s %d...\n",
+        timerInterval = m_UpdatePeriodMs;
+        TEST_PRINT(stderr, "Scheduler iteration never set up--repeating %s with %d...\n",
                    timerStr(timerState).toLatin1().data(), timerInterval);
     }
     printStates(QString("End iteration, sleep %1: ").arg(timerInterval));

@@ -175,8 +175,8 @@ void TestSchedulerUnit::runSetupJob(
     // Setup the time and geo.
     KStarsDateTime ut = geo->LTtoUT(*localTime);
     job.setGeo(geo);
-    job.setLocalTime(localTime);
-    QVERIFY(job.hasLocalTime() && job.hasGeo());
+    Scheduler::setLocalTime(localTime);
+    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
 
     Scheduler::setupJob(job, name, priority, ra, dec, ut.djd(), rotation,
                         sequenceUrl, fitsUrl,
@@ -250,10 +250,10 @@ void TestSchedulerUnit::runSetupJob(
 void TestSchedulerUnit::setupGeoAndTimeTest()
 {
     SchedulerJob job(nullptr);
-    QVERIFY(!job.hasLocalTime() && !job.hasGeo());
+    QVERIFY(!Scheduler::hasLocalTime() && !job.hasGeo());
     job.setGeo(&siliconValley);
-    job.setLocalTime(&midNight);
-    QVERIFY(job.hasLocalTime() && job.hasGeo());
+    Scheduler::setLocalTime(&midNight);
+    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
     QVERIFY(job.getGeo()->lat() == siliconValley.lat());
     QVERIFY(job.getGeo()->lng() == siliconValley.lng());
     QVERIFY(job.getLocalTime() == midNight);

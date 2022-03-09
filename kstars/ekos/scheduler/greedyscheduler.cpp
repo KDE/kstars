@@ -57,7 +57,8 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
         // is more important than the log file (where we can invert when debugging).
         for (int i = schedule.size() - 1; i >= 0; i--)
             scheduler->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
-        scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours (%1)s:").arg(timer.elapsed() / 1000.0));
+        scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:").arg(now.toString()).arg(
+                                     timer.elapsed() / 1000.0));
     }
     else scheduler->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
     if (scheduledJob != nullptr)
@@ -255,7 +256,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
     for (int i = 0; i < jobs.size(); ++i)
     {
         SchedulerJob *job = jobs[i];
-        const bool evaluatingCurrentJob = (currentJob && job == currentJob);
+        const bool evaluatingCurrentJob = (currentJob && (job == currentJob));
 
         if (!allowJob(job, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
             continue;
@@ -265,7 +266,8 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                                           job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
 
         // Find the first time this job can meet all its constraints.
-        const QDateTime startTime = job->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES);
+        const QDateTime startTime = job->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES,
+                                    evaluatingCurrentJob);
         if (startTime.isValid())
         {
             if (nextJob == nullptr)
@@ -331,7 +333,8 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                                                   errorDelaySeconds);
                 // atTime above is the user-specified start time. atJobStartTime is the time it can
                 // actually start, given all the constraints (altitude, twilight, etc).
-                const QDateTime atJobStartTime = atJob->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES);
+                const QDateTime atJobStartTime = atJob->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES, currentJob
+                                                 && (atJob == currentJob));
                 if (atJobStartTime.isValid())
                 {
                     // This difference between the user-specified start time, and the time it can really start.
