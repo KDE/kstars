@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>684</width>
-    <height>413</height>
+    <width>634</width>
+    <height>373</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -29,13 +29,25 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>&amp;General</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
@@ -90,19 +102,19 @@
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <property name="leftMargin">
-             <number>5</number>
+             <number>3</number>
             </property>
             <property name="topMargin">
-             <number>5</number>
+             <number>3</number>
             </property>
             <property name="rightMargin">
-             <number>5</number>
+             <number>3</number>
             </property>
             <property name="bottomMargin">
-             <number>5</number>
+             <number>3</number>
             </property>
             <property name="spacing">
-             <number>5</number>
+             <number>3</number>
             </property>
             <item row="0" column="0">
              <widget class="QLabel" name="label">
@@ -205,6 +217,21 @@
           <string>Logging Output</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
           <item row="0" column="2" colspan="2">
            <widget class="QRadioButton" name="kcfg_RegularLogging">
             <property name="toolTip">
@@ -395,19 +422,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="kcfg_UseAnimatedSlewing">
-           <property name="toolTip">
-            <string>Show slewing motion when focus changes?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, changing the focus position will result in a visible animated &quot;slew&quot; to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
-           </property>
-           <property name="text">
-            <string>Use animated slewing</string>
-           </property>
-          </widget>
-         </item>
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item row="0" column="1" colspan="3">
           <widget class="QCheckBox" name="kcfg_UseAutoLabel">
            <property name="toolTip">
@@ -418,6 +435,16 @@
            </property>
            <property name="text">
             <string>Attach label to centered object</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="toolTip">
+            <string>Adjust speed of zooming when scrolling in and out with the mouse wheel</string>
+           </property>
+           <property name="text">
+            <string>Zoom scroll speed:</string>
            </property>
           </widget>
          </item>
@@ -444,21 +471,7 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="kcfg_LeftClickSelectsObject">
-           <property name="text">
-            <string>Left click selects object</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Default cursor:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
+         <item row="3" column="2">
           <widget class="QComboBox" name="kcfg_DefaultCursor">
            <item>
             <property name="text">
@@ -478,39 +491,46 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QCheckBox" name="kcfg_HideOnSlew">
+          <widget class="QCheckBox" name="kcfg_LeftClickSelectsObject">
+           <property name="text">
+            <string>Left click selects object</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Default cursor:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="kcfg_UseAnimatedSlewing">
            <property name="toolTip">
-            <string>Do not draw all objects while the map is moving?</string>
+            <string>Show slewing motion when focus changes?</string>
            </property>
            <property name="whatsThis">
-            <string>When the map is in motion, smooth animation is compromised if the program has too many objects to draw on the map; check this item to temporarily hide some of the objects while the display is in motion.</string>
+            <string>If checked, changing the focus position will result in a visible animated &quot;slew&quot; to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
            </property>
            <property name="text">
-            <string>Hide objects while moving</string>
+            <string>Use animated slewing</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1" colspan="2">
-          <widget class="QLabel" name="textLabelHideTimeStep">
-           <property name="text">
-            <string>Also hide if time step larger than:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="3">
-          <widget class="TimeStepBox" name="SlewTimeScale"/>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_2">
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
            <property name="toolTip">
-            <string>Adjust speed of zooming when scrolling in and out with the mouse wheel</string>
+            <string>Show inline images on the sky?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, inline images will be shown on the skymap.</string>
            </property>
            <property name="text">
-            <string>Zoom scroll speed:</string>
+            <string>Show inline images</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1" colspan="2">
+         <item row="5" column="1">
           <widget class="QSlider" name="zoomScrollSlider">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -535,7 +555,20 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="3">
+         <item row="3" column="3">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="2">
           <widget class="QDoubleSpinBox" name="kcfg_ZoomScrollFactor">
            <property name="minimum">
             <double>0.010000000000000</double>
@@ -551,164 +584,181 @@
            </property>
           </widget>
          </item>
+         <item row="5" column="3">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="HideBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QGroupBox" name="hideObjectsWhileSlewing">
          <property name="title">
-          <string>Configure Hidden Objects</string>
+          <string>Configure hidden objects while moving</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
-            <item>
-             <layout class="QHBoxLayout">
-              <property name="spacing">
-               <number>5</number>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="kcfg_HideOnSlew">
+            <property name="toolTip">
+             <string>Do not draw all objects while the map is moving?</string>
+            </property>
+            <property name="whatsThis">
+             <string>When the map is in motion, smooth animation is compromised if the program has too many objects to draw on the map; check this item to temporarily hide some of the objects while the display is in motion.</string>
+            </property>
+            <property name="text">
+             <string>Hide objects while moving</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" rowspan="2">
+           <layout class="QGridLayout" name="gridLayout_3">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="textLabelHideTimeStep">
+              <property name="toolTip">
+               <string>Hide objects only if time step is larger than threshold</string>
               </property>
-              <property name="leftMargin">
-               <number>0</number>
+              <property name="text">
+               <string>Also hide if time step larger than:</string>
               </property>
-              <property name="topMargin">
-               <number>0</number>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="kcfg_HideStars">
+              <property name="toolTip">
+               <string>Hide faint stars while moving?</string>
               </property>
-              <property name="rightMargin">
-               <number>0</number>
+              <property name="whatsThis">
+               <string>If checked, then fainter stars will be hidden when the map is in motion.</string>
               </property>
-              <property name="bottomMargin">
-               <number>0</number>
+              <property name="text">
+               <string>Stars fainter than magnitude:</string>
               </property>
-              <item>
-               <widget class="QCheckBox" name="kcfg_HideStars">
-                <property name="toolTip">
-                 <string>Hide faint stars while moving?</string>
-                </property>
-                <property name="whatsThis">
-                 <string>If checked, then fainter stars will be hidden when the map is in motion.</string>
-                </property>
-                <property name="text">
-                 <string>Stars fainter than:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar">
-                <property name="minimumSize">
-                 <size>
-                  <width>40</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="focusPolicy">
-                 <enum>Qt::StrongFocus</enum>
-                </property>
-                <property name="whatsThis">
-                 <string>Stars fainter than this will not be drawn while the map is moving.</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="textLabelMag1">
-                <property name="text">
-                 <string>mag</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </widget>
+            </item>
+            <item row="0" column="1" colspan="2">
+             <widget class="TimeStepBox" name="SlewTimeScale"/>
+            </item>
+            <item row="1" column="1" colspan="2">
+             <widget class="MagnitudeSpinBox" name="kcfg_MagLimitHideStar">
+              <property name="minimumSize">
+               <size>
+                <width>40</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::StrongFocus</enum>
+              </property>
+              <property name="whatsThis">
+               <string>Stars fainter than this will not be drawn while the map is moving.</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="kcfg_HidePlanets">
+            <property name="toolTip">
+             <string>Hide solar system bodies while moving?</string>
+            </property>
+            <property name="whatsThis">
+             <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
+            </property>
+            <property name="text">
+             <string>Solar system</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="kcfg_HideLabels">
+            <property name="toolTip">
+             <string>Hide object labels while moving?</string>
+            </property>
+            <property name="text">
+             <string>Object labels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" rowspan="2">
+           <widget class="QCheckBox" name="kcfg_HideCLines">
+            <property name="toolTip">
+             <string>Hide constellation lines while moving?</string>
+            </property>
+            <property name="whatsThis">
+             <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
+            </property>
+            <property name="text">
+             <string>Constellation lines</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" rowspan="2">
+           <widget class="QCheckBox" name="kcfg_HideGrids">
+            <property name="toolTip">
+             <string>Hide coordinate grids while moving?</string>
+            </property>
+            <property name="whatsThis">
+             <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
+            </property>
+            <property name="text">
+             <string>Coordinate grids</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="kcfg_HideCBounds">
+            <property name="acceptDrops">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Hide constellation boundaries while moving?</string>
+            </property>
+            <property name="text">
+             <string>Constellation boundaries</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="kcfg_HideCNames">
+            <property name="toolTip">
+             <string>Hide constellation names while moving?</string>
+            </property>
+            <property name="whatsThis">
+             <string>If checked, then constellation names will be hidden when the map is in motion.</string>
+            </property>
+            <property name="text">
+             <string>Constellation names</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="kcfg_HideLabels">
-           <property name="text">
-            <string>Object labels</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="kcfg_HidePlanets">
-           <property name="toolTip">
-            <string>Hide solar system bodies while moving?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, then all solar system bodies will be hidden when the map is in motion.</string>
-           </property>
-           <property name="text">
-            <string>Solar system</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="kcfg_HideGrids">
-           <property name="toolTip">
-            <string>Hide coordinate grids while moving?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
-           </property>
-           <property name="text">
-            <string>Coordinate grids</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="kcfg_HideCNames">
-           <property name="toolTip">
-            <string>Hide constellation names while moving?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, then constellation names will be hidden when the map is in motion.</string>
-           </property>
-           <property name="text">
-            <string>Constellation names</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="kcfg_HideCLines">
-           <property name="toolTip">
-            <string>Hide constellation lines while moving?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, then constellation lines will be hidden when the map is in motion.</string>
-           </property>
-           <property name="text">
-            <string>Constellation lines</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="kcfg_HideCBounds">
-           <property name="text">
-            <string>Constellation boundaries</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
-           <property name="text">
-            <string>Inline Images</string>
-           </property>
-           <property name="toolTip">
-            <string>Show inline images on the sky?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, inline images will be shown on the skymap.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -970,10 +1020,6 @@
   <tabstop>kcfg_UseAutoLabel</tabstop>
   <tabstop>kcfg_UseHoverLabel</tabstop>
   <tabstop>kcfg_UseAntialias</tabstop>
-  <tabstop>kcfg_HideOnSlew</tabstop>
-  <tabstop>kcfg_HideStars</tabstop>
-  <tabstop>kcfg_MagLimitHideStar</tabstop>
-  <tabstop>kcfg_HidePlanets</tabstop>
   <tabstop>kcfg_ObsListSymbol</tabstop>
   <tabstop>kcfg_ObsListText</tabstop>
   <tabstop>kcfg_ObsListPreferDSS</tabstop>
@@ -982,7 +1028,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="logbuttonGroup"/>
+  <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>
