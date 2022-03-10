@@ -250,7 +250,10 @@ void SequenceJob::resetStatus(JOBStatus status)
     {
         case JOB_IDLE:
             setCompleted(0);
+            // 2022.03.10: Keeps failing on Windows despite installing latest libindi
+#ifndef Q_OS_WIN
             INDI_FALLTHROUGH;
+#endif
         case JOB_ERROR:
         case JOB_ABORTED:
         case JOB_DONE:
