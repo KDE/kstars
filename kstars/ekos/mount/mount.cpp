@@ -244,7 +244,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);
     connect(currentTelescope, &ISD::GDInterface::textUpdated, this, &Mount::updateText);
     connect(currentTelescope, &ISD::Telescope::newTarget, this, &Mount::newTarget);
-    connect(currentTelescope, &ISD::Telescope::newStatus, this, &Mount::setScopeStatus);
+    //connect(currentTelescope, &ISD::Telescope::newStatus, this, &Mount::setScopeStatus);
     connect(currentTelescope, &ISD::Telescope::newCoords, this, &Mount::newCoords);
     connect(currentTelescope, &ISD::Telescope::newCoords, this, &Mount::updateTelescopeCoords);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
@@ -625,7 +625,13 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
                 qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " << meridianFlipStatusString(m_MFStatus);
             }
 
-            setScopeStatus(currentStatus);
+            //setScopeStatus(currentStatus);
+
+            m_statusText->setProperty("text", currentTelescope->getStatusString(currentStatus));
+            m_Status = currentStatus;
+            // forward
+            emit newStatus(m_Status);
+
             parkB->setEnabled(!currentTelescope->isParked());
             unparkB->setEnabled(currentTelescope->isParked());
 
