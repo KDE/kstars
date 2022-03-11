@@ -15,6 +15,7 @@
 #include "Options.h"
 #include "kspaths.h"
 
+#include <memory>
 #include <math.h>
 #include <QPointer>
 #include <QtConcurrent>
