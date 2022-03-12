@@ -7199,9 +7199,6 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
     QString const sig_file(path_info.completeBaseName());
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Searching in path '%1', files '%2*' for prefix '%3'...").arg(sig_dir, sig_file,
-                                   seqPrefix);
     QDirIterator it(sig_dir, QDir::Files);
 
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
@@ -7211,13 +7208,10 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
 
         if (fileName.startsWith(seqPrefix))
         {
-            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("> Found '%1'").arg(fileName);
             seqFileCount++;
         }
     }
 
-    TEST_PRINT(stderr, "sch%d @@@getCompletedFiles(%s %s): %d\n", __LINE__, path.toLatin1().data(), seqPrefix.toLatin1().data(),
-               seqFileCount);
     return seqFileCount;
 }
 
