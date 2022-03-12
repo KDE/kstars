@@ -300,6 +300,7 @@ class FITSData : public QObject
 
         void setStarCenters(const QList<Edge*> &centers)
         {
+            qDeleteAll(starCenters);
             starCenters = centers;
         }
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &trackingBox = QRect());
@@ -329,7 +330,7 @@ class FITSData : public QObject
         int filterStars(const float innerRadius, const float outerRadius);
 
         // Half Flux Radius
-        Edge *getSelectedHFRStar() const
+        const Edge &getSelectedHFRStar() const
         {
             return m_SelectedHFRStar;
         }
@@ -685,7 +686,7 @@ class FITSData : public QObject
         QList<Edge *> starCenters;
         QList<Edge *> localStarCenters;
         /// The biggest fattest star in the image.
-        Edge *m_SelectedHFRStar { nullptr };
+        Edge m_SelectedHFRStar;
 
         /// Bayer parameters
         BayerParams debayerParams;
@@ -699,14 +700,6 @@ class FITSData : public QObject
 
         // A list of header records
         QList<Record> m_HeaderRecords;
-
-        // Sky Background
-        SkyBackground m_SkyBackground;
-
-        // Detector Settings
-        QVariantMap m_SourceExtractorSettings;
-
-        QFuture<bool> m_StarFindFuture;
 
         QList<FITSSkyObject *> m_SkyObjects;
         bool m_ObjectsSearched {false};
@@ -725,6 +718,18 @@ class FITSData : public QObject
         uint16_t m_HistogramBinCount { 0 };
         double m_JMIndex { 1 };
         bool m_HistogramConstructed { false };
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Star Detector
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        // Sky Background
+        SkyBackground m_SkyBackground;
+        // Detector Settings
+        QVariantMap m_SourceExtractorSettings;
+        QFuture<bool> m_StarFindFuture;
+        QScopedPointer<FITSStarDetector, QScopedPointerDeleteLater> m_StarDetector;
 
         // Cached values for hfr and eccentricity computations
         double cacheHFR { -1 };

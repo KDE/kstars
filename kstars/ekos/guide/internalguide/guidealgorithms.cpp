@@ -492,7 +492,7 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
     static const double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074,
                         P8 = -0.094;
 
-    GuiderUtils::Vector ret;
+    GuiderUtils::Vector ret(-1, -1, -1);
     int i, j;
     double resx, resy, mass, threshold, pval;
     T const *psrc    = nullptr;
@@ -519,11 +519,8 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
         if (result.result())
         {
             imageData->getHFR(HFR_MEDIAN);
-            Edge *star = imageData->getSelectedHFRStar();
-            if (star)
-                ret = GuiderUtils::Vector(star->x, star->y, 0);
-            else
-                ret = GuiderUtils::Vector(-1, -1, -1);
+            const Edge star = imageData->getSelectedHFRStar();
+            ret = GuiderUtils::Vector(star.x, star.y, 0);
         }
         else
             ret = GuiderUtils::Vector(-1, -1, -1);

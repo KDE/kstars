@@ -743,6 +743,10 @@ double FITSView::scaleSize(double size)
 
 void FITSView::updateFrame(bool now)
 {
+    // Do not process if suspended.
+    if (m_Suspended)
+        return;
+
     // JM 2021-03-13: This timer is used to throttle updateFrame calls to improve performance
     // If after 250ms no further update frames are called, then the actual update is triggered.
     // JM 2021-03-16: When stretching in progress, immediately execute so that the user see the changes

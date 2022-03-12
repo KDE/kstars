@@ -1633,6 +1633,8 @@ bool Align::captureAndSolve()
     }
 
     alignView->setBaseSize(alignWidget->size());
+    alignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
+                                         && alignDarkFrameCheck->isChecked()));
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
@@ -3950,12 +3952,12 @@ void Align::initDarkProcessor()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         alignDarkFrameCheck->setChecked(completed);
+        alignView->setProperty("suspended", false);
         if (completed)
         {
             alignView->rescale(ZOOM_KEEP_LEVEL);
             alignView->updateFrame();
         }
-
         setCaptureComplete();
     });
 }

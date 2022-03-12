@@ -45,8 +45,10 @@ class FITSData;
 class FITSLabel;
 
 class FITSView : public QScrollArea
-{
-        Q_OBJECT
+{    
+        Q_OBJECT    
+        Q_PROPERTY(bool suspended MEMBER m_Suspended)
+
     public:
         explicit FITSView(QWidget *parent = nullptr, FITSMode fitsMode = FITS_NORMAL, FITSScale filterType = FITS_NONE);
         virtual ~FITSView() override;
@@ -425,6 +427,7 @@ class FITSView : public QScrollArea
         int magnifyingGlassX { -1 };
         int magnifyingGlassY { -1 };
         bool showMagnifyingGlass { false };
+        bool m_Suspended {false};
 
         //Star Profile Viewer
 #ifdef HAVE_DATAVISUALIZATION

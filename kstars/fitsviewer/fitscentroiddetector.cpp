@@ -14,6 +14,7 @@
 
 #include "fitscentroiddetector.h"
 #include "fits_debug.h"
+#include "fitsdata.h"
 
 //void FITSCentroidDetector::configure(const QString &setting, const QVariant &value)
 //{

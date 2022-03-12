@@ -175,11 +175,13 @@ Guide::Guide() : QWidget()
     {
         if (completed != darkFrameCheck->isChecked())
             setDarkFrameEnabled(completed);
+        guideView->setProperty("suspended", false);
         if (completed)
         {
             guideView->rescale(ZOOM_KEEP_LEVEL);
             guideView->updateFrame();
         }
+        guideView->updateFrame();
         setCaptureComplete();
     });
 }
@@ -874,6 +876,9 @@ bool Guide::captureOneFrame()
     if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStarEnabled() &&
             !((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled()))
         finalExposure *= 3;
+
+    // Prevent flicker when processing dark frame by suspending updates
+    guideView->setProperty("suspended", operationStack.contains(GUIDE_DARK));
 
     // Timeout is exposure duration + timeout threshold in seconds
     captureTimeout.start(finalExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);

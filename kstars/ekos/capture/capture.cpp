@@ -7175,7 +7175,7 @@ void Capture::restartCamera(const QString &name)
 
 void Capture::handleScriptsManager()
 {
-    QPointer<ScriptsManager> manager = new ScriptsManager(this);
+    QScopedPointer<ScriptsManager> manager(new ScriptsManager(this));
 
     manager->setScripts(m_Scripts);
 

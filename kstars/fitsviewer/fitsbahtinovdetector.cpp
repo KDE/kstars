@@ -13,6 +13,7 @@
 #include "fits_debug.h"
 #include "fitsbahtinovdetector.h"
 #include "hough/houghline.h"
+#include "fitsdata.h"
 
 #include <QElapsedTimer>
 #include <QtConcurrent>
