@@ -1361,6 +1361,53 @@ if(APPLE)
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     endif(NOT XPLANET)
 
+    find_program(GSC gsc PATHS ${PATHS})
+    if(NOT GSC)
+        message(WARNING "GSC program not found in Path, the CCD Simulator won't have stars without it.")
+    else(NOT GSC)
+        file(COPY
+            "${GSC}"
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    endif(NOT GSC)
+
+    find_program(INDI_SERVER indiserver PATHS ${PATHS})
+    if(NOT INDI_SERVER)
+        message(WARNING "indiserver program and drivers not found, you can't run local indi drivers without it.")
+    else(NOT INDI_SERVER)
+        get_filename_component(INDI_DRIVERS_DIR "${INDI_SERVER}" DIRECTORY)
+        # INDISERVER
+        file(COPY
+            "${INDI_SERVER}"
+            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+        # INDI Drivers
+        file(GLOB INDI_DRIVERS
+            "${INDI_DRIVERS_DIR}/indi*"
+          )
+        list(FILTER INDI_DRIVERS EXCLUDE REGEX "dSYM$")
+        file(COPY ${INDI_DRIVERS} DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+        # Driver Support Files
+        file(COPY "/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        file(GLOB XML_FILES
+            "${CMAKE_INSTALL_PREFIX}/share/indi/*"
+          )
+        file(COPY ${XML_FILES} DESTINATION "${KSTARS_APP}/Contents/Resources/DriverSupport/")
+        file(COPY "${CMAKE_INSTALL_PREFIX}/lib/indi/MathPlugins" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        # GPHOTO Stuff
+        #execute_process(COMMAND "pkg-config --modversion libgphoto2" OUTPUT_VARIABLE GPHOTO_VERSION)
+        set(GPHOTO_VERSION "2.5.27")
+        set(PORT_VERSION "0.12.0")
+        file(GLOB IOLIBS
+            "${CMAKE_INSTALL_PREFIX}/lib/libgphoto2_port/${PORT_VERSION}/*"
+          )
+        list(FILTER IOLIBS EXCLUDE REGEX "dSYM$")
+        file(COPY ${IOLIBS} DESTINATION "${KSTARS_APP}/Contents/Resources/DriverSupport/gphoto/IOLIBS/")
+        file(GLOB CAMLIBS
+            "${CMAKE_INSTALL_PREFIX}/lib/libgphoto2/${GPHOTO_VERSION}/*"
+          )
+        list(FILTER CAMLIBS EXCLUDE REGEX "dSYM$")
+        file(COPY ${CAMLIBS} DESTINATION "${KSTARS_APP}/Contents/Resources/DriverSupport/gphoto/CAMLIBS/")
+    endif(NOT INDI_SERVER)
+
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
