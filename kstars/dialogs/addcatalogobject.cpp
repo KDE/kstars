@@ -33,13 +33,19 @@ AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
             });
 
     connect(ui->ra, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setRA0({ value }); });
+            [&](const auto value)
+            { m_object.setRA0({ value / 15.0 }); }); // setRA0 expects hours
 
     connect(ui->dec, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
             [&](const auto value) { m_object.setDec0({ value }); });
 
-    connect(ui->mag, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setMag(static_cast<float>(value)); });
+    auto updateMag = [&]()
+    {
+        m_object.setMag(
+            ui->magUnknown->isChecked() ? NaN::f : static_cast<float>(ui->mag->value()));
+    };
+    connect(ui->mag, QOverload<double>::of(&QDoubleSpinBox::valueChanged), updateMag);
+    connect(ui->magUnknown, &QCheckBox::stateChanged, updateMag);
 
     connect(ui->maj, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
             [&](const auto value) { m_object.setMaj(static_cast<float>(value)); });
@@ -70,12 +76,23 @@ void AddCatalogObject::fill_form_from_object()
         ui->type->addItem(SkyObject::typeName(k));
     }
     ui->type->addItem(SkyObject::typeName(SkyObject::TYPE_UNKNOWN));
+    ui->type->setCurrentIndex((int)(m_object.type()));
 
     ui->ra->setValue(m_object.ra0().Degrees());
     ui->dec->setValue(m_object.dec0().Degrees());
-    ui->mag->setValue(m_object.mag());
+    if (std::isnan(m_object.mag()))
+    {
+        ui->magUnknown->setChecked(true);
+    }
+    else
+    {
+        ui->mag->setValue(m_object.mag());
+        ui->magUnknown->setChecked(false);
+    }
     ui->flux->setValue(m_object.flux());
     ui->position_angle->setValue(m_object.pa());
+    ui->maj->setValue(m_object.a());
+    ui->min->setValue(m_object.b());
     refresh_flux();
 }
 

@@ -90,22 +90,36 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
          <string>Apparent magnitude:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="mag">
-        <property name="minimum">
-         <double>-1.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>20.000000000000000</double>
-        </property>
-       </widget>
+      <item row="5" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QDoubleSpinBox" name="mag">
+          <property name="minimum">
+           <double>-1.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>30.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="magUnknown">
+          <property name="toolTip">
+           <string>Check if magnitude is unknown</string>
+          </property>
+          <property name="text">
+           <string>Unknown</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -134,7 +148,7 @@
            <item row="0" column="1">
             <widget class="QDoubleSpinBox" name="min">
              <property name="maximum">
-              <double>60.000000000000000</double>
+              <double>600.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -152,7 +166,7 @@
            <item row="0" column="1">
             <widget class="QDoubleSpinBox" name="maj">
              <property name="maximum">
-              <double>60.000000000000000</double>
+              <double>600.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -238,6 +252,20 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>name</tabstop>
+  <tabstop>type</tabstop>
+  <tabstop>ra</tabstop>
+  <tabstop>dec</tabstop>
+  <tabstop>mag</tabstop>
+  <tabstop>magUnknown</tabstop>
+  <tabstop>min</tabstop>
+  <tabstop>maj</tabstop>
+  <tabstop>long_name</tabstop>
+  <tabstop>catalog_identifier</tabstop>
+  <tabstop>flux</tabstop>
+  <tabstop>position_angle</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -247,8 +275,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>559</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -263,12 +291,28 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>559</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>magUnknown</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>mag</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>284</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
