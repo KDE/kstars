@@ -1740,7 +1740,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name);
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 QJsonObject info =
@@ -1793,7 +1793,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 oneObject->EquatorialToHorizontal(data->lst(), geo->lat());
@@ -1840,7 +1840,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 QJsonObject info;

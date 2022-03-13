@@ -58,8 +58,9 @@ void ListComponent::update(KSNumbers *num)
     }
 }
 
-SkyObject *ListComponent::findByName(const QString &name)
+SkyObject *ListComponent::findByName(const QString &name, bool exact)
 {
+    Q_UNUSED(exact)
     return m_ObjectHash[name.toLower()]; // == nullptr if not found.
 }
 

@@ -139,7 +139,7 @@ void Media::onTextReceived(const QString &message)
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name);
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 QImage centerImage(HIPS_TILE_WIDTH, HIPS_TILE_HEIGHT, QImage::Format_ARGB32_Premultiplied);

@@ -22,42 +22,45 @@ class SkyMap;
  */
 class ListComponent : public SkyComponent
 {
-  public:
-    explicit ListComponent(SkyComposite *parent);
+    public:
+        explicit ListComponent(SkyComposite *parent);
 
-    ~ListComponent() override;
+        ~ListComponent() override;
 
-    /**
-     * @short Update the sky positions of this component.
-     *
-     * This function usually just updates the Horizontal (Azimuth/Altitude)
-     * coordinates of the objects in this component.  If the KSNumbers*
-     * argument is not nullptr, this function also recomputes precession and
-     * nutation for the date in KSNumbers.
-     * @p num Pointer to the KSNumbers object
-     * @note By default, the num parameter is nullptr, indicating that
-     * Precession/Nutation computation should be skipped; this computation
-     * is only occasionally required.
-     */
-    void update(KSNumbers *num = nullptr) override;
+        /**
+         * @short Update the sky positions of this component.
+         *
+         * This function usually just updates the Horizontal (Azimuth/Altitude)
+         * coordinates of the objects in this component.  If the KSNumbers*
+         * argument is not nullptr, this function also recomputes precession and
+         * nutation for the date in KSNumbers.
+         * @p num Pointer to the KSNumbers object
+         * @note By default, the num parameter is nullptr, indicating that
+         * Precession/Nutation computation should be skipped; this computation
+         * is only occasionally required.
+         */
+        void update(KSNumbers *num = nullptr) override;
 
-    SkyObject *findByName(const QString &name) override;
-    SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
+        SkyObject *findByName(const QString &name, bool exact = true) override;
+        SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
 
-    void clear();
+        void clear();
 
-    const QList<SkyObject *> &objectList() const { return m_ObjectList; }
+        const QList<SkyObject *> &objectList() const
+        {
+            return m_ObjectList;
+        }
 
-    /**
-     * @short Add an object to the Object list.
-     *
-     * This method is a handy wrapper, which automatically appends the given
-     * SkyObject to m_ObjectList and inserts references with all common names (name,
-     * name2, longname) into the m_ObjectHash QHash to enable a faster findbyname.
-     */
-    void appendListObject(SkyObject * object);
+        /**
+         * @short Add an object to the Object list.
+         *
+         * This method is a handy wrapper, which automatically appends the given
+         * SkyObject to m_ObjectList and inserts references with all common names (name,
+         * name2, longname) into the m_ObjectHash QHash to enable a faster findbyname.
+         */
+        void appendListObject(SkyObject * object);
 
-  protected:
-    QList<SkyObject *> m_ObjectList;
-    QHash<QString, SkyObject *> m_ObjectHash;
+    protected:
+        QList<SkyObject *> m_ObjectList;
+        QHash<QString, SkyObject *> m_ObjectHash;
 };

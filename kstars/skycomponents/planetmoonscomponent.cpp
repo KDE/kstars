@@ -59,8 +59,9 @@ void PlanetMoonsComponent::updateMoons(KSNumbers *num)
         pmoons->findPosition(num, m_Planet->planet(), dynamic_cast<KSSun *>(parent()->findByName(i18n("Sun"))));
 }
 
-SkyObject *PlanetMoonsComponent::findByName(const QString &name)
+SkyObject *PlanetMoonsComponent::findByName(const QString &name, bool exact)
 {
+    Q_UNUSED(exact)
     int nmoons = pmoons->nMoons();
 
     for (int i = 0; i < nmoons; ++i)

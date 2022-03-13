@@ -55,8 +55,9 @@ bool SolarSystemSingleComponent::selected()
     return visible();
 }
 
-SkyObject *SolarSystemSingleComponent::findByName(const QString &name)
+SkyObject *SolarSystemSingleComponent::findByName(const QString &name, bool exact)
 {
+    Q_UNUSED(exact)
     if (QString::compare(m_Planet->name(), name, Qt::CaseInsensitive) == 0 ||
             QString::compare(m_Planet->longname(), name, Qt::CaseInsensitive) == 0 ||
             QString::compare(m_Planet->name2(), name, Qt::CaseInsensitive) == 0)

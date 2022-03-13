@@ -1064,7 +1064,7 @@ void Mount::setJ2000Enabled(bool enabled)
 
 bool Mount::gotoTarget(const QString &target)
 {
-    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target, false);
 
     if (object != nullptr)
     {
@@ -1077,7 +1077,7 @@ bool Mount::gotoTarget(const QString &target)
 
 bool Mount::syncTarget(const QString &target)
 {
-    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target);
+    SkyObject *object = KStarsData::Instance()->skyComposite()->findByName(target, false);
 
     if (object != nullptr)
     {

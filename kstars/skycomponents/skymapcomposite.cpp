@@ -129,12 +129,12 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
             QString("%1.%2").arg(path).arg(QDateTime::currentDateTime().toTime_t());
 
         const auto &answer = KMessageBox::questionYesNo(
-            nullptr,
-            i18n("Do you want to start over with an empty database?\n"
-                 "This will move the current DSO database \"%1\"\n"
-                 "to \"%2\"",
-                 path, backup_path),
-            "Start over?");
+                                 nullptr,
+                                 i18n("Do you want to start over with an empty database?\n"
+                                      "This will move the current DSO database \"%1\"\n"
+                                      "to \"%2\"",
+                                      path, backup_path),
+                                 "Start over?");
 
         if (answer == KMessageBox::Yes)
         {
@@ -162,8 +162,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_Flags = new FlagComponent(this), 4);
 
     addComponent(m_ObservingList = new TargetListComponent(this, nullptr, QPen(),
-                                                           &Options::obsListSymbol,
-                                                           &Options::obsListText),
+            &Options::obsListSymbol,
+            &Options::obsListText),
                  120);
     addComponent(m_StarHopRouteList = new TargetListComponent(this, nullptr, QPen()),
                  130);
@@ -269,7 +269,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
 
     // create the no-precess aperture if needed
     if (Options::showEquatorialGrid() || Options::showHorizontalGrid() ||
-        Options::showCBounds() || Options::showEquator())
+            Options::showCBounds() || Options::showEquator())
     {
         m_skyMesh->index(focus, radius + 1.0, NO_PRECESS_BUF);
     }
@@ -292,7 +292,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
             {
                 // Find the "original" obj
                 SkyObject *o = findByName(
-                    obj_clone->name()); // FIXME: This is slow.... and can also fail!!!
+                                   obj_clone->name()); // FIXME: This is slow.... and can also fail!!!
                 if (!o)
                     continue;
                 SkyLabeler::AddLabel(o, SkyLabeler::RUDE_LABEL);
@@ -454,8 +454,8 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
     rTry = maxrad;
     oTry = m_SolarSystem->objectNearest(p, rTry);
     if (!dynamic_cast<KSComet *>(oTry) &&
-        !dynamic_cast<KSAsteroid *>(
-            oTry)) // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
+            !dynamic_cast<KSAsteroid *>(
+                oTry)) // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
     {
         rTry *=
             0.25; // this is either sun, moon, or one of the major planets or their moons.
@@ -527,7 +527,7 @@ QHash<int, QVector<QPair<QString, const SkyObject *>>> &SkyMapComposite::getObje
 }
 
 QList<SkyObject *> SkyMapComposite::findObjectsInArea(const SkyPoint &p1,
-                                                      const SkyPoint &p2)
+        const SkyPoint &p2)
 {
     const SkyRegion &region = m_skyMesh->skyRegion(p1, p2);
     QList<SkyObject *> list;
@@ -540,7 +540,7 @@ QList<SkyObject *> SkyMapComposite::findObjectsInArea(const SkyPoint &p1,
     return list;
 }
 
-SkyObject *SkyMapComposite::findByName(const QString &name)
+SkyObject *SkyMapComposite::findByName(const QString &name, bool exact)
 {
 #ifndef KSTARS_LITE
     if (KStars::Closing)
@@ -555,7 +555,7 @@ SkyObject *SkyMapComposite::findByName(const QString &name)
     o            = m_SolarSystem->findByName(name);
     if (o)
         return o;
-    o = m_Catalogs->findByName(name);
+    o = m_Catalogs->findByName(name, exact);
     if (o)
         return o;
     o = m_CNames->findByName(name);

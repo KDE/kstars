@@ -61,11 +61,11 @@ void SkyComposite::update(KSNumbers *num)
         component->update(num);
 }
 
-SkyObject *SkyComposite::findByName(const QString &name)
+SkyObject *SkyComposite::findByName(const QString &name, bool exact)
 {
-    foreach (SkyComponent *comp, components())
+    for (const auto &oneComponent : components())
     {
-        SkyObject *o = comp->findByName(name);
+        SkyObject *o = oneComponent->findByName(name, exact);
         if (o)
             return o;
     }

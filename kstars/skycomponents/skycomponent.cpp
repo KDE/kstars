@@ -20,7 +20,7 @@ void SkyComponent::emitProgressText(const QString &message)
     parent()->emitProgressText(message);
 }
 
-SkyObject *SkyComponent::findByName(const QString &)
+SkyObject *SkyComponent::findByName(const QString &, bool)
 {
     return nullptr;
 }
