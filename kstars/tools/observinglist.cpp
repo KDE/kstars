@@ -255,7 +255,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
 
     if (finalObjectName.isEmpty())
     {
-        KSNotification::sorry(i18n("Unnamed stars are not supported in the observing lists"));
+        KSNotification::sorry(i18n("Stars and objects whose names KStars does not know are not supported in the observing lists"));
         return;
     }
 
@@ -539,7 +539,7 @@ void ObservingList::slotNewSelection()
             //Change the m_currentImageFileName, DSS/SDSS Url to correspond to the new object
             setCurrentImage(o.data());
             ui->SearchImage->setEnabled(true);
-            if (newName != i18n("star"))
+            if (currentObject()->hasName())
             {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary

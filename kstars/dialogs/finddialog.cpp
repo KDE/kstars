@@ -80,6 +80,7 @@ FindDialog::FindDialog(QWidget *parent)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     okB = buttonBox->button(QDialogButtonBox::Ok);
+    okB->setEnabled(false);
 
     QPushButton *detailB = new QPushButton(i18n("Details..."));
     buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
@@ -134,6 +135,7 @@ FindDialog::FindDialog(QWidget *parent)
     connect(ui->SearchBox, &QLineEdit::returnPressed, this, &FindDialog::slotOk);
     connect(ui->FilterType, &QComboBox::currentTextChanged, this, &FindDialog::enqueueSearch);
     connect(ui->SearchList, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotOk()));
+    connect(ui->SearchList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &FindDialog::slotUpdateButtons);
 
     // Set focus to object name edit
     ui->SearchBox->setFocus();
@@ -214,8 +216,6 @@ void FindDialog::initSelection()
             ui->SearchList->selectionModel()->select(selectItem, QItemSelectionModel::ClearAndSelect);
             ui->SearchList->scrollTo(selectItem);
             ui->SearchList->setCurrentIndex(selectItem);
-
-            okB->setEnabled(true);
         }
     }
 
@@ -293,6 +293,7 @@ void FindDialog::filterByType()
 void FindDialog::filterList()
 {
     QString SearchText = processSearchText();
+    bool exactMatchExists = !(m_manager.find_objects_by_name(SearchText, 1, true).empty());
     const auto &objs   = m_manager.find_objects_by_name(SearchText, 10);
     for (const auto &obj : objs)
     {
@@ -301,10 +302,12 @@ void FindDialog::filterList()
     }
 
     sortModel->setFilterFixedString(SearchText);
-    ui->InternetSearchButton->setText(i18n("or search the Internet for %1", SearchText));
+    ui->InternetSearchButton->setText(i18n("Search the Internet for %1", SearchText.isEmpty() ? i18nc("no text to search for",
+                                           "(nothing)") : SearchText));
     filterByType();
     initSelection();
 
+    bool enableInternetSearch = (!exactMatchExists) && (ui->FilterType->currentIndex() == 0);
     //Select the first item in the list that begins with the filter string
     if (!SearchText.isEmpty())
     {
@@ -323,17 +326,30 @@ void FindDialog::filterList()
                     selectItem, QItemSelectionModel::ClearAndSelect);
                 ui->SearchList->scrollTo(selectItem);
                 ui->SearchList->setCurrentIndex(selectItem);
-
-                okB->setEnabled(true);
             }
         }
-        ui->InternetSearchButton->setEnabled(!mItems.contains(
-            SearchText)); // Disable searching the internet when an exact match for SearchText exists in KStars
+        ui->InternetSearchButton->setEnabled(enableInternetSearch && !mItems.contains(
+                SearchText, Qt::CaseInsensitive)); // Disable searching the internet when an exact match for SearchText exists in KStars
     }
     else
         ui->InternetSearchButton->setEnabled(false);
 
     listFiltered = true;
+    slotUpdateButtons();
+}
+
+void FindDialog::slotUpdateButtons()
+{
+    okB->setEnabled(ui->SearchList->selectionModel()->hasSelection());
+
+    if (okB->isEnabled())
+    {
+        okB->setDefault(true);
+    }
+    else if (ui->InternetSearchButton->isEnabled())
+    {
+        ui->InternetSearchButton->setDefault(true);
+    }
 }
 
 SkyObject *FindDialog::selectedObject() const
@@ -392,13 +408,17 @@ QString FindDialog::processSearchText(QString searchText)
 void FindDialog::slotOk()
 {
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
+    if (ui->SearchBox->text().isEmpty())
+    {
+        return;
+    }
     SkyObject *selObj;
     if (!listFiltered)
     {
         filterList();
     }
     selObj = selectedObject();
-    finishProcessing(selObj, Options::resolveNamesOnline());
+    finishProcessing(selObj, Options::resolveNamesOnline() && ui->InternetSearchButton->isEnabled());
 }
 
 void FindDialog::slotResolve()

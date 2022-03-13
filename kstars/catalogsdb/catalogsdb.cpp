@@ -484,30 +484,30 @@ CatalogObjectList DBManager::fetch_objects(QSqlQuery &query) const
 }
 
 CatalogObjectList DBManager::find_objects_by_name(const QString &name, const int limit,
-                                                  const bool exactMatchOnly)
+        const bool exactMatchOnly)
 {
     QMutexLocker _{ &m_mutex };
 
-    // search for an exact match first
-    if (limit == 1)
-    {
-        m_q_obj_by_name_exact.bindValue(":name", name);
-        const auto &objs = fetch_objects(m_q_obj_by_name_exact);
+    // limit < 0 is a sentinel value for unlimited
+    if (limit == 0)
+        return CatalogObjectList();
 
-        if (objs.size() > 0)
-        {
-            return objs;
-        }
-        if (exactMatchOnly)
-        {
-            return CatalogObjectList();
-        }
-    }
+    // search for an exact match first
+    m_q_obj_by_name_exact.bindValue(":name", name);
+    CatalogObjectList objs { fetch_objects(m_q_obj_by_name_exact) };
+
+    if ((limit == 1 && objs.size() > 0) || exactMatchOnly)
+        return objs;
+
+    Q_ASSERT(objs.size() <= 1);
 
     m_q_obj_by_name.bindValue(":name", name);
-    m_q_obj_by_name.bindValue(":limit", limit);
+    m_q_obj_by_name.bindValue(":limit", int(limit - objs.size()));
 
-    return fetch_objects(m_q_obj_by_name);
+    CatalogObjectList moreObjects = fetch_objects(m_q_obj_by_name);
+    moreObjects.splice(moreObjects.begin(), objs);
+    return moreObjects;
+
 }
 
 CatalogObjectList DBManager::find_objects_by_name(const int catalog_id,

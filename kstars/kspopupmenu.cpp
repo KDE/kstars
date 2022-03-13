@@ -235,7 +235,11 @@ void KSPopupMenu::createCatalogObjectMenu(CatalogObject *obj)
                        .arg(obj->getCatalog().name);
 
     if (obj->a() > 0)
-        info += QString("<br>[a=%1′, b=%2′]").arg(obj->a()).arg(obj->b());
+    {
+        float a = obj->a();
+        float b = obj->b() > 0 ? obj->b() : obj->a(); // Assume circular if a != 0 but b == 0
+        info += QString("<br>%1′×%2′").arg(a).arg(b);
+    }
 
     initPopupMenu(obj, name, typeName, info);
     addLinksToMenu(obj);

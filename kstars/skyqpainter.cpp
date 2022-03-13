@@ -20,6 +20,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/earthshadowcomponent.h"
+#include "skyobjects/skyobject.h"
 #include "skyobjects/constellationsart.h"
 #include "skyobjects/catalogobject.h"
 #include "skyobjects/ksasteroid.h"
@@ -802,19 +803,19 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         };
     }
 
-    switch (type)
+    switch ((SkyObject::TYPE)type)
     {
-        case 0:
-        case 1: //catalog star
+        case SkyObject::STAR:
+        case SkyObject::CATALOG_STAR: //catalog star
             //Some NGC/IC objects are stars...changed their type to 1 (was double star)
             if (size < 2.)
                 size = 2.;
             lambdaDrawEllipse(x - size / 2., y - size / 2., size, size);
             break;
-        case 2: //Planet
+        case SkyObject::PLANET: //Planet
             break;
-        case 3:  //Open cluster; draw circle of points
-        case 13: // Asterism
+        case SkyObject::OPEN_CLUSTER:  //Open cluster; draw circle of points
+        case SkyObject::ASTERISM: // Asterism
         {
             tempBrush = brush();
             color     = pen().color().name();
@@ -838,7 +839,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             setBrush(tempBrush);
             break;
         }
-        case 4: //Globular Cluster
+        case SkyObject::GLOBULAR_CLUSTER: //Globular Cluster
             if (size < 2.)
                 size = 2.;
             save();
@@ -850,8 +851,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             restore(); //reset coordinate system
             break;
 
-        case 5:  //Gaseous Nebula
-        case 15: // Dark Nebula
+        case SkyObject::GASEOUS_NEBULA:  //Gaseous Nebula
+        case SkyObject::DARK_NEBULA: // Dark Nebula
             save();
             translate(x, y);
             rotate(positionAngle); //rotate the coordinate system
@@ -862,7 +863,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             lambdaDrawLine(dx1, dy2, dx1, dy1);
             restore(); //reset coordinate system
             break;
-        case 6: //Planetary Nebula
+        case SkyObject::PLANETARY_NEBULA: //Planetary Nebula
             if (size < 2.)
                 size = 2.;
             save();
@@ -876,7 +877,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             lambdaDrawLine(dx2, 0., dx2 + size / 2., 0.);
             restore(); //reset coordinate system
             break;
-        case 7: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
+        case SkyObject::SUPERNOVA_REMNANT: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
             save();
             translate(x, y);
             rotate(positionAngle); //rotate the coordinate system
@@ -887,8 +888,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             lambdaDrawLine(dx1, 0., 0., dy1);
             restore(); //reset coordinate system
             break;
-        case 8:  //Galaxy
-        case 16: // Quasar
+        case SkyObject::GALAXY:  //Galaxy
+        case SkyObject::QUASAR: // Quasar
             color = pen().color().name();
             if (size < 1. && zoom > 20 * MINZOOM)
                 size = 3.; //force ellipse above zoomFactor 20
@@ -907,7 +908,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 drawPoint(QPointF(x, y));
             }
             break;
-        case 14: // Galaxy cluster - draw a dashed circle
+        case SkyObject::GALAXY_CLUSTER: // Galaxy cluster - draw a dashed circle
         {
             tempBrush = brush();
             setBrush(QBrush());
