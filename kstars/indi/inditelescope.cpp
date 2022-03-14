@@ -49,7 +49,8 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     updateCoordinatesTimer.setSingleShot(false);
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
-        emit newCoords(currentCoords, pierSide(), hourAngle());
+        if (isConnected())
+            emit newCoords(currentCoords, pierSide(), hourAngle());
     });
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
