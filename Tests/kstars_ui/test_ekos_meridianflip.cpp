@@ -192,7 +192,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 void TestEkosMeridianFlip::testCaptureGuidingMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, true, false));
+    QVERIFY(prepareCaptureTestcase(20, true, true));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -205,7 +205,7 @@ void TestEkosMeridianFlip::testCaptureGuidingMF()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 21000);
 
     // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFExecuted(25));
+    QVERIFY(checkMFExecuted(45));
 
     // Now check if everything continues as it should be
     QVERIFY(checkPostMFBehavior());
@@ -234,7 +234,11 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
     QVERIFY(checkMFExecuted(25));
 
     // Now check if everything continues as it should be
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
     QVERIFY(checkPostMFBehavior());
+
+    // check if capturing has started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
 }
 
 

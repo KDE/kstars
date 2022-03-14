@@ -250,6 +250,57 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     QVERIFY2(m_CaptureHelper->expectedCaptureStates.size() > 0, "Capture has been restarted although aborted.");
 }
 
+void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    const double deviation_limit = 2.0;
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+    // set start guide deviation guard to < 2" but disable the other one
+    KTRY_SET_CHECKBOX(capture, startGuiderDriftS, true);
+    KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, deviation_limit);
+    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, false);
+
+    // add target to path to emulate the behavior of the scheduler
+    QString imagepath = getImageLocation()->path() + "/test";
+    // build a simple 5xL sequence
+    KTRY_CAPTURE_ADD_LIGHT(30.0, 5, 5.0, "Luminance", imagepath);
+    // set Dubhe as target and slew there
+    SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
+    m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
+
+    // start guiding
+    m_CaptureHelper->startGuiding(1.0);
+
+    // wait 5 seconds
+    QTest::qWait(5000);
+
+    // create a guide drift
+    Ekos::Manager::Instance()->mountModule()->doPulse(RA_INC_DIR, 2000, DEC_INC_DIR, 2000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA+DEC guiding pulses.";
+
+    // wait until guide deviation is present
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() > deviation_limit, 15000);
+
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // start capture but expect it being suspended first
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    // verify that capturing does not start before the guide deviation is below the limit
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() >= deviation_limit, 60000);
+    // wait 3 seconds and then ensure that capture did not start
+    QTest::qWait(3000);
+    QTRY_VERIFY(m_CaptureHelper->expectedCaptureStates.size() > 0);
+    // wait until guiding deviation is below the limit
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() < deviation_limit, 60000);
+    // wait until capturing starts
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
+}
+
 void TestEkosCaptureWorkflow::testFlatManualSource()
 {
     // default initialization

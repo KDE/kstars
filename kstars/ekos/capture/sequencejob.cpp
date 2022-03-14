@@ -750,7 +750,6 @@ void SequenceJob::prepareCapture()
     {
         case FRAME_LIGHT:
             stateMachine->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                                   getCoreProperty(SJ_EnforceStartGuiderDrift).toBool(),
                                                    getCoreProperty(SJ_Preview).toBool());
             break;
         case FRAME_FLAT:

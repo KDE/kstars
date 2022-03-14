@@ -65,11 +65,6 @@ private slots:
      */
     void testWithProcessor();
 
-    /**
-     * @brief Test if guider deactivation will prevent completing the preparation.
-     */
-    void testGuiderDeactivation();
-
 private:
     // The state machine
     Ekos::SequenceJobState *m_stateMachine;
@@ -88,20 +83,16 @@ class TestAdapter : public QObject
 public:
     explicit TestAdapter() {};
 
-    double m_ccdtemperature, m_guiderdrift, m_rotatorangle;
+    double m_ccdtemperature, m_rotatorangle;
     bool m_isguideractive;
 
     // initialize the values
-    void init(double temp, double drift, double angle, bool guideractive = true);
+    void init(double temp, double angle);
 
     // set CCD to preview mode
     void setCCDBatchMode(bool m_preview);
     // set the current CCD temperature
     void setCCDTemperature(double value);
-    // update whether guiding is active
-    void setGuiderActive(bool active);
-    // set the current guiding deviation
-    void setGuiderDrift(double value);
     // set the current camera rotator position
     void setRotatorAngle(double value, IPState state);
 
@@ -126,10 +117,6 @@ signals:
     void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
     // update the current CCD temperature
     void newCCDTemperature(double value);
-    // update the current guider state
-    void newGuiderState(bool active);
-    // update the current guiding deviation
-    void newGuiderDrift(double deviation_rms);
     // update the current camera rotator position
     void newRotatorAngle(double value, IPState state);
 

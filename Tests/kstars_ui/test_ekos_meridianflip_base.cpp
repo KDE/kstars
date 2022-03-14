@@ -58,10 +58,12 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     KTRY_SET_SPINBOX_SUB(ekos->focusModule(), stepIN, 5000);
     // max travel 50000
     KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), maxTravelIN, 50000.0);
-    // focus tolerance 20%
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), toleranceIN, 20.0);
+    // focus tolerance 20% - make focus fast and robust, precision does not matter
+    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, toleranceIN);
+    toleranceIN->setMaximum(20.0);
+    toleranceIN->setValue(20.0);
     // use polynomial algorithm
-    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Iterative");
+    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Polynomial");
     // select star detection
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), focusOptionsProfiles, "1-Focus-Default");
     // set annulus to 0% - 50%
@@ -125,6 +127,8 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
         KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_GuiderDevice);
         // select primary scope (higher focal length seems better for the guiding simulator)
         KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::CCD::TELESCOPE_PRIMARY);
+        // use two steps in each direction for calibration
+        Options::setAutoModeIterations(2);
     }
 
     // Everything completed successfully
@@ -363,13 +367,6 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initial
     KWRAP_SUB(QVERIFY(destination.autoRemove()));
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << destination.path();
 
-    QFETCH(int, count);
-    QFETCH(double, exptime);
-    QFETCH(QString, filters);
-
-    KWRAP_SUB(foreach(QString filter, filters.split(",")) KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter,
-              destination.path()));
-
     // set refocus to 1 min and select due to test data set
     QFETCH(bool, focus);
     refocus_checked = focus;
@@ -389,10 +386,22 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initial
 
     // set guide deviation guard
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, guideDeviation);
+
+    // create capture sequence
+    QFETCH(int, count);
+    QFETCH(double, exptime);
+    QFETCH(QString, filters);
+
+    KWRAP_SUB(foreach(QString filter, filters.split(",")) KTRY_CAPTURE_ADD_LIGHT(exptime, count, 0, filter,
+              destination.path()));
 
     QFETCH(bool, guide);
     if (guide)
     {
+        // clear guiding calibration to ensure proper guiding
+        KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
+
         // slew roughly to the position to calibrate first
         KWRAP_SUB(QVERIFY(positionMountForMF(600, true)));
         qCInfo(KSTARS_EKOS_TEST) << "Slewed roughly to the position to calibrate first.";
@@ -507,12 +516,15 @@ bool TestEkosMeridianFlipBase::checkDithering()
 
 bool TestEkosMeridianFlipBase::checkRefocusing()
 {
-    // wait until additional steps are reached
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 30000);
-    // check if focus completion is reached (successful or not)
     if (refocus_checked || autofocus_checked)
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
-                                     m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
+    {
+        // wait until focusing has started
+        m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
+        KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 30000);
+        // check if focus completion is reached (successful or not)
+            KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
+                                         m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
+    }
     // focusing might have suspended guiding
     if (m_CaptureHelper->use_guiding)
         KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_GUIDING, 20000);
@@ -667,8 +679,12 @@ bool TestEkosMeridianFlipBase::startFocusing()
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), FilterPosCombo, "Luminance");
     // select SEP algorithm for star detection
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), focusDetectionCombo, "SEP");
-    // exp time 5sec
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), exposureIN, 5.0);
+    // set exp time for current filter
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
+    // set exposure times for all filters
+    Ekos::FilterManager *filtermanager = Ekos::Manager::Instance()->getFilterManager();
+    for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
+        filtermanager->setFilterExposure(pos, 3.0);
     // absolute position 40000
     initialFocusPosition = 40000;
     KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), absTicksSpin, initialFocusPosition);
@@ -676,8 +692,8 @@ bool TestEkosMeridianFlipBase::startFocusing()
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), gainIN, 100.0);
     // start focusing
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startGotoB);
-    // initial step size 15000
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), stepIN, 15000);
+    // initial step size 5000
+    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), stepIN, 5000);
     // suspend guiding while focusing
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // wait one second for settling

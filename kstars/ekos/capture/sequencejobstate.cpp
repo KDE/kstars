@@ -26,10 +26,10 @@ void SequenceJobState::setFrameType(CCDFrameType frameType)
     m_PreparationState = PREP_NONE;
 }
 
-void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview)
+void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview)
 {
     // precondition: do not start while already being busy and conditions haven't changed
-    if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature && enforceStartGuiderDrift == m_enforceStartGuiderDrift)
+    if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
     m_status    = JOB_BUSY;
@@ -43,8 +43,6 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
 
     // turn on CCD temperature enforcing if required
     m_enforceTemperature = enforceCCDTemp;
-    // turn on enforcing guiding drift check if the guider is active
-    m_enforceStartGuiderDrift = enforceStartGuiderDrift;
 
     // Filter changes are actually done in capture(), therefore prepareActions are always true
     prepareActions[ACTION_FILTER] = true;
@@ -64,17 +62,6 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
         // trigger setting current value
         if (isInitialized[ACTION_TEMPERATURE] == false)
             emit readCurrentState(CAPTURE_SETTING_TEMPERATURE);
-    }
-
-    // Check if we need to wait for the guider to settle.
-    if (!checkGuiderDriftForStarting())
-    {
-        prepareActions[ACTION_GUIDER_DRIFT] = false;
-        emit prepareState(CAPTURE_GUIDER_DRIFT);
-
-        // trigger setting current value
-        if (isInitialized[ACTION_GUIDER_DRIFT] == false)
-            emit readCurrentState(CAPTURE_GUIDER_DRIFT);
     }
 
     // Check if we need to update rotator (only skip if the value is initialized and within the limits)
@@ -603,6 +590,7 @@ IPState SequenceJobState::checkManualCover()
 bool SequenceJobState::checkGuiderDriftForStarting()
 {
     return (!m_enforceStartGuiderDrift ||
+            ! m_isGuiderActive ||
             m_frameType != FRAME_LIGHT ||
             m_isPreview == true ||
             (m_CaptureState->currentGuiderDrift <= targetStartGuiderDrift && isInitialized[ACTION_GUIDER_DRIFT] == true));
@@ -704,6 +692,7 @@ void SequenceJobState::setCurrentCCDTemperature(double value)
 
 void SequenceJobState::setGuiderActive(bool active)
 {
+    m_isGuiderActive = active;
     // reset initiailisation and preparation actions if not active
     isInitialized[ACTION_GUIDER_DRIFT] &= active;
     prepareActions[SequenceJobState::ACTION_GUIDER_DRIFT] &= active;
@@ -727,7 +716,6 @@ void SequenceJobState::setCurrentGuiderDrift(double value)
 {
     m_CaptureState->currentGuiderDrift = value;
     isInitialized[ACTION_GUIDER_DRIFT] = true;
-    prepareActions[ACTION_GUIDER_DRIFT] = checkGuiderDriftForStarting();
 
     checkAllActionsReady();
 }

@@ -689,7 +689,7 @@ void Capture::start()
     m_SpikesDetected = 0;
 
     m_State = CAPTURE_PROGRESS;
-    emit newStatus(Ekos::CAPTURE_PROGRESS);
+    emit newStatus(m_State);
 
     startB->setIcon(QIcon::fromTheme("media-playback-stop"));
     startB->setToolTip(i18n("Stop Sequence"));
@@ -2734,6 +2734,8 @@ void Capture::setActiveJob(SequenceJob *value)
         activeJob->setDustCap(currentDustCap);
         activeJob->setFilterManager(filterManager);
         activeJob->setAutoFocusReady(m_AutoFocusReady);
+        // ensure that the sequence job knows the current guiding state
+        emit setGuiderActive(isGuidingOn());
     }
 }
 
@@ -3525,8 +3527,8 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
             secondsLabel->setText(i18n("Set Temp to %1 °C...", activeJob->getTargetTemperature()));
             break;
         case CAPTURE_GUIDER_DRIFT:
-            appendLogText(i18n("Waiting for guide drift below %1 a-s...", activeJob->getTargetStartGuiderDrift()));
-            secondsLabel->setText(i18n("Wait for Guider < %1 a-s...", activeJob->getTargetStartGuiderDrift()));
+            appendLogText(i18n("Waiting for guide drift below %1\"...", activeJob->getTargetStartGuiderDrift()));
+            secondsLabel->setText(i18n("Wait for Guider < %1\"...", activeJob->getTargetStartGuiderDrift()));
             break;
 
         case CAPTURE_SETTING_ROTATOR:
@@ -3648,12 +3650,45 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     const double deviation_rms = std::hypot(delta_ra, delta_dec);
+    QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
+
     // communicate the new guiding deviation
     emit newGuiderDrift(deviation_rms);
 
     // if guiding deviations occur and no job is active, check if a meridian flip is ready to be executed
     if (activeJob == nullptr && checkMeridianFlipReady())
         return;
+
+    // if the job is in the startup phase, check if the deviation is below the initial guiding limit
+    if (m_State == CAPTURE_PROGRESS)
+    {
+        // initial guiding deviation irrelevant or below limit
+        if (startGuiderDriftS->isChecked() == false || deviation_rms < startGuiderDriftN->value())
+        {
+            m_State = CAPTURE_CALIBRATING;
+            if (m_DeviationDetected == true)
+                appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
+                               deviationText, startGuiderDriftN->value()));
+            m_DeviationDetected = false;
+        }
+        else
+        {
+            // warn only once
+            if (m_DeviationDetected == false)
+                appendLogText(i18n("Initial guiding deviation %1 exceeded limit value of %2 arcsecs",
+                               deviationText, startGuiderDriftN->value()));
+
+            m_DeviationDetected = true;
+
+            // Check if we need to start meridian flip. If yes, we need to start capturing
+            // to ensure that capturing is recovered after the flip
+            if (checkMeridianFlipReady())
+                start();
+        }
+
+        // in any case, do not proceed
+        return;
+    }
 
     // If guiding is started after a meridian flip we will start getting guide deviations again
     // if the guide deviations are within our limits, we resume the sequence
@@ -3675,8 +3710,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
                 || activeJob->getExposeLeft() == 0.0)))
         return;
-
-    QString deviationText = QString("%1").arg(deviation_rms, 0, 'f', 3);
 
     // If we have an active busy job, let's abort it if guiding deviation is exceeded.
     // And we accounted for the spike
@@ -5896,29 +5929,34 @@ IPState Capture::checkLightFramePendingTasks()
     if ((m_State == CAPTURE_CALIBRATING && m_GuideState != GUIDE_GUIDING) || checkGuidingAfterFlip())
         return IPS_BUSY;
 
-    // step 6: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
+    // step 6: check guide deviation for non meridian flip stages if the initial guide limit is set.
+    //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
+    if (m_State == CAPTURE_PROGRESS && m_GuideState == GUIDE_GUIDING && startGuiderDriftS->isChecked())
+        return IPS_BUSY;
+
+    // step 7: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
     //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
     //         Otherwise the meridian flip is complete
     if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
     {
-        if (limitGuideDeviationS->isChecked() == true)
+        if (limitGuideDeviationS->isChecked() || startGuiderDriftS->isChecked())
             return IPS_BUSY;
         else
             setMeridianFlipStage(MF_NONE);
     }
 
-    // step 7: check if dithering is required or running
+    // step 8: check if dithering is required or running
     if ((m_State == CAPTURE_DITHERING && m_DitheringState != IPS_OK) || checkDithering())
         return IPS_BUSY;
 
-    // step 8: check if re-focusing is required
+    // step 9: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
     if ((m_State == CAPTURE_FOCUSING  && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED)
             || startFocusIfRequired())
         return IPS_BUSY;
 
-    // step 9: resume guiding if it was suspended
+    // step 10: resume guiding if it was suspended
     if (m_GuideState == GUIDE_SUSPENDED)
     {
         appendLogText(i18n("Autoguiding resumed."));
@@ -7062,6 +7100,9 @@ bool Capture::isGuidingOn()
     return (m_GuideState == GUIDE_GUIDING ||
             m_GuideState == GUIDE_CALIBRATING ||
             m_GuideState == GUIDE_CALIBRATION_SUCESS ||
+            m_GuideState == GUIDE_DARK ||
+            m_GuideState == GUIDE_SUBFRAME ||
+            m_GuideState == GUIDE_STAR_SELECT ||
             m_GuideState == GUIDE_REACQUIRE ||
             m_GuideState == GUIDE_DITHERING ||
             m_GuideState == GUIDE_DITHERING_SUCCESS ||

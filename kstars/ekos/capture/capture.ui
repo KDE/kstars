@@ -1429,7 +1429,7 @@ font-weight:bold;
          <item row="0" column="2">
           <widget class="QLabel" name="startGuiderDriftLabel">
            <property name="text">
-            <string>arcsec</string>
+            <string>&quot;</string>
            </property>
           </widget>
          </item>
@@ -1989,11 +1989,11 @@ font-weight:bold;
             <property name="selectionBehavior">
              <enum>QAbstractItemView::SelectRows</enum>
             </property>
-            <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>30</number>
-            </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>80</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>30</number>
             </attribute>
             <column>
              <property name="text">
