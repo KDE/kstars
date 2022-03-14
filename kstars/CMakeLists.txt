@@ -1386,7 +1386,7 @@ if(APPLE)
         list(FILTER INDI_DRIVERS EXCLUDE REGEX "dSYM$")
         file(COPY ${INDI_DRIVERS} DESTINATION "${KSTARS_APP}/Contents/MacOS/")
         # Driver Support Files
-        file(COPY "/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        file(COPY "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
         file(GLOB XML_FILES
             "${CMAKE_INSTALL_PREFIX}/share/indi/*"
           )
