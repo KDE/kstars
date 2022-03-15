@@ -57,11 +57,12 @@ double StarObject::reindexInterval(double pm)
 StarObject::StarObject(dms r, dms d, float m, const QString &n, const QString &n2, const QString &sptype, double pmra,
                        double pmdec, double par, bool mult, bool var, int hd)
     : SkyObject(SkyObject::STAR, r, d, m, n, n2, QString()), PM_RA(pmra), PM_Dec(pmdec), Parallax(par),
-      Multiplicity(mult), Variability(var)
+      Multiplicity(mult), Variability(var), HD(hd)
 {
     QByteArray spt = sptype.toLatin1();
     SpType[0]      = spt[0];
     SpType[1]      = spt[1];
+
     QString lname;
     if (hasName())
     {
@@ -75,9 +76,10 @@ StarObject::StarObject(dms r, dms d, float m, const QString &n, const QString &n
         //If genetive name exists, but no primary name, set primary name = genetive name.
         setName(gname());
     }
-
-    HD = hd;
-
+    else if (HD > 0)
+    {
+        lname = QLatin1String("HD ") + QString::number(HD);
+    }
     setLongName(lname);
     updateID = updateNumID = 0;
 }
@@ -85,7 +87,7 @@ StarObject::StarObject(dms r, dms d, float m, const QString &n, const QString &n
 StarObject::StarObject(double r, double d, float m, const QString &n, const QString &n2, const QString &sptype,
                        double pmra, double pmdec, double par, bool mult, bool var, int hd)
     : SkyObject(SkyObject::STAR, r, d, m, n, n2, QString()), PM_RA(pmra), PM_Dec(pmdec), Parallax(par),
-      Multiplicity(mult), Variability(var)
+      Multiplicity(mult), Variability(var), HD(hd)
 {
     QByteArray spt = sptype.toLatin1();
     SpType[0]      = spt[0];
@@ -104,9 +106,10 @@ StarObject::StarObject(double r, double d, float m, const QString &n, const QStr
         //If genetive name exists, but no primary name, set primary name = genetive name.
         setName(gname());
     }
-
-    HD = hd;
-
+    else if (HD > 0)
+    {
+        lname = QLatin1String("HD ") + QString::number(HD);
+    }
     setLongName(lname);
     updateID = updateNumID = 0;
 }
@@ -147,6 +150,8 @@ void StarObject::init(const StarData *stardata)
     Variability  = stardata->flags & 0x04;
     updateID = updateNumID = 0;
     HD                     = stardata->HD;
+    if (HD > 0)
+        setNames(QString(QLatin1String("HD ") + QString::number(HD)), QString());
     B = V = 99.9;
 
     // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.

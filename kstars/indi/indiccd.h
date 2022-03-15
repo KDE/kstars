@@ -173,7 +173,6 @@ class CCD : public DeviceDecorator
         virtual ~CCD() override;
 
         typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
-        typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
         enum BlobType
         {
             BLOB_IMAGE,
@@ -283,12 +282,13 @@ class CCD : public DeviceDecorator
         UploadMode getUploadMode();
         bool setUploadMode(UploadMode mode);
 
-        // Transfer Format
-        TransferFormat getTransferFormat()
+        // Encoding Format
+        const QString & getEncodingFormat() const
         {
-            return transferFormat;
+            return m_EncodingFormat;
         }
-        bool setTransformFormat(CCD::TransferFormat format);
+        bool setEncodingFormat(const QString &value);
+        const QStringList & getEncodingFormats() const { return m_EncodingFormats;}
 
         // Capture Format
         const QStringList & getCaptureFormats() const { return m_CaptureFormats;}
@@ -327,9 +327,6 @@ class CCD : public DeviceDecorator
         bool setFITSHeader(const QMap<QString, QString> &values);
 
         CCDChip *getChip(CCDChip::ChipType cType);
-
-        TransferFormat getTargetTransferFormat() const;
-        void setTargetTransferFormat(const TransferFormat &value);
 
         bool setFastExposureEnabled(bool enable);
         bool isFastExposureEnabled() const
@@ -409,8 +406,8 @@ class CCD : public DeviceDecorator
         std::unique_ptr<CCDChip> primaryChip;
         std::unique_ptr<CCDChip> guideChip;
         std::unique_ptr<WSMedia> m_Media;
-        TransferFormat transferFormat { FORMAT_FITS };
-        TransferFormat targetTransferFormat { FORMAT_FITS };
+        QString m_EncodingFormat {"FITS"};
+        QStringList m_EncodingFormats;
         QStringList m_CaptureFormats;
         int m_CaptureFormatIndex;
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };

@@ -292,6 +292,7 @@ public slots:
         bool m_hasCustomParking { false };
         bool m_hasSlewRates { false };
         bool m_isJ2000 { false };
+        bool m_hasEquatorialCoordProperty { false };
         QStringList m_slewRates;
 };
 }

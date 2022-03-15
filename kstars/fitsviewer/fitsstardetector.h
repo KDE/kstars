@@ -15,14 +15,16 @@
 #include <QStandardItem>
 #include <QFuture>
 
-#include "fitsdata.h"
-
 class FITSData;
 
 class Edge
 {
     public:
         virtual ~Edge() = default;
+        void invalidate()
+        {
+            x = y = val = HFR = -1;
+        }
         float x {0};
         float y {0};
         int val {0};

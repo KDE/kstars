@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
-    <height>703</height>
+    <width>700</width>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -206,43 +206,19 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <property name="spacing">
+     <property name="horizontalSpacing">
+      <number>4</number>
+     </property>
+     <property name="verticalSpacing">
       <number>3</number>
      </property>
      <item row="0" column="1">
       <widget class="QComboBox" name="indexLocations"/>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_28">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Current CCD FOV: </string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLineEdit" name="folderDetails">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="1" colspan="2">
       <widget class="QLineEdit" name="FOVOut">
        <property name="readOnly">
         <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_31">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Folder Details:</string>
        </property>
       </widget>
      </item>
@@ -253,6 +229,16 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
        </property>
        <property name="text">
         <string>Index Files Location: </string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_31">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Folder Details:</string>
        </property>
       </widget>
      </item>
@@ -292,6 +278,43 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLineEdit" name="folderDetails">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_28">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This displays the current CCD field of view that will be used to calculate which index files are needed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Current CCD FOV: </string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_24">
+       <property name="toolTip">
+        <string>The URL of the server where index files live</string>
+       </property>
+       <property name="text">
+        <string>Index Files URL:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" colspan="2">
+      <widget class="QLineEdit" name="indexURL">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>http://broiler.astrometry.net/~dstn/</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -3878,6 +3901,12 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
   </layout>
  </widget>
  <resources>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
+  <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>
   <include location="../../data/kstars.qrc"/>

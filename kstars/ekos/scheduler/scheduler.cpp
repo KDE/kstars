@@ -26,6 +26,7 @@
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/placeholderpath.h"
 #include "skyobjects/starobject.h"
+#include "greedyscheduler.h"
 
 #include <KNotifications/KNotification>
 #include <KConfigDialog>
@@ -46,6 +47,24 @@
 // the unit tests in test_ekos_scheduler_ops.cpp.
 // All these printouts should be eventually removed.
 #define TEST_PRINT if (false) fprintf
+
+namespace
+{
+
+// This needs to match the definition order for the QueueTable in scheduler.ui
+enum QueueTableColumns
+{
+    NAME_COLUMN = 0,
+    STATUS_COLUMN,
+    CAPTURES_COLUMN,
+    ALTITUDE_COLUMN,
+    SCORE_COLUMN,
+    START_TIME_COLUMN,
+    END_TIME_COLUMN,
+    ESTIMATED_DURATION_COLUMN,
+    LEAD_TIME_COLUMN
+};
+}
 
 namespace Ekos
 {
@@ -268,6 +287,9 @@ void Scheduler::init()
 // Setup the main loop and start.
 void Scheduler::start()
 {
+    // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
+    foreach (auto j, jobs)
+        j->setState(SchedulerJob::JOB_IDLE);
     init();
     iterate();
 }
@@ -332,7 +354,8 @@ int Scheduler::runSchedulerIteration()
         // Since iterations aren't yet always set up, we repeat the current
         // iteration type if one wasn't set up in the current iteration.
         // qCDebug(KSTARS_EKOS_SCHEDULER) << "Scheduler iteration never set up.";
-        TEST_PRINT(stderr, "Scheduler iteration never set up--repeating %s %d...\n",
+        timerInterval = m_UpdatePeriodMs;
+        TEST_PRINT(stderr, "Scheduler iteration never set up--repeating %s with %d...\n",
                    timerStr(timerState).toLatin1().data(), timerInterval);
     }
     printStates(QString("End iteration, sleep %1: ").arg(timerInterval));
@@ -393,6 +416,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     startupTimeEdit->setDateTime(currentDateTime);
     completionTimeEdit->setDateTime(currentDateTime);
 
+    m_GreedyScheduler = new GreedyScheduler();
 
     // Set up DBus interfaces
     new SchedulerAdaptor(this);
@@ -559,6 +583,12 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         Options::setErrorHandlingStrategyDelay(value);
     });
 
+    // restore default values for scheduler algorithm
+    schedulerAlgorithmCombo->setCurrentIndex(Options::schedulerAlgorithm());
+    setAlgorithm(Options::schedulerAlgorithm());
+    connect(schedulerAlgorithmCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
+            this, &Scheduler::setAlgorithm);
+
     connect(copySkyCenterB, &QPushButton::clicked, this, [this]()
     {
         SkyPoint center = SkyMap::Instance()->getCenterPoint();
@@ -609,7 +639,8 @@ void Scheduler::watchJobChanges(bool enable)
 
     QComboBox * const comboBoxes[] =
     {
-        schedulerProfileCombo
+        schedulerProfileCombo,
+        schedulerAlgorithmCombo
     };
 
     QButtonGroup * const buttonGroups[] =
@@ -1940,6 +1971,17 @@ void Scheduler::setCurrentJob(SchedulerJob *job)
     }
 }
 
+void Scheduler::syncGreedyParams()
+{
+    constexpr int abortQueueSeconds = 3600;
+    m_GreedyScheduler->setParams(
+        errorHandlingRestartImmediatelyButton->isChecked(),
+        errorHandlingRestartQueueButton->isChecked(),
+        errorHandlingRescheduleErrorsCB->isChecked(),
+        abortQueueSeconds,
+        errorHandlingDelaySB->value());
+}
+
 void Scheduler::evaluateJobs(bool evaluateOnly)
 {
     /* Don't evaluate if list is empty */
@@ -1950,42 +1992,63 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
         updateCompletedJobsCount();
 
     calculateDawnDusk();
-    bool possiblyDelay = false;
-    QList<SchedulerJob *> sortedJobs = evaluateJobs(jobs, state, m_CapturedFramesCount, Dawn, Dusk,
-                                       errorHandlingRescheduleErrorsCB->isChecked(),
-                                       errorHandlingDontRestartButton->isChecked() == false, &possiblyDelay, this);
-    if (sortedJobs.empty())
-    {
-        setCurrentJob(nullptr);
-        return;
-    }
-    if (possiblyDelay && errorHandlingRestartAfterAllButton->isChecked())
-    {
-        TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_WAKEUP).toLatin1().data());
-        setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingDelaySB->value() * 1000) /
-                           KStarsData::Instance()->clock()->scale()));
-        // but before we restart them, we wait for the given delay.
-        appendLogText(i18n("All jobs aborted. Waiting %1 seconds to re-schedule.", errorHandlingDelaySB->value()));
 
-        sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
-        sleepLabel->show();
-        // we continue to determine which job should be running, when the delay is over
-    }
+    QList<SchedulerJob *> jobsToProcess;
 
-    processJobs(sortedJobs, evaluateOnly);
+    if (ALGORITHM_GREEDY == getAlgorithm())
+    {
+        syncGreedyParams();
+        jobsToProcess = m_GreedyScheduler->scheduleJobs(jobs, getLocalTime(), m_CapturedFramesCount, this);
+    }
+    else
+    {
+        bool possiblyDelay = false;
+        auto rescheduleErrors = errorHandlingRescheduleErrorsCB->isChecked();
+        auto restartJobs = errorHandlingDontRestartButton->isChecked() == false;
+        QList<SchedulerJob *> sortedJobs = prepareJobsForEvaluation(jobs, state, m_CapturedFramesCount, rescheduleErrors,
+                                           restartJobs, &possiblyDelay, this);
+
+        jobsToProcess = evaluateJobs(jobs, m_CapturedFramesCount, Dawn, Dusk, this);
+        if (sortedJobs.empty())
+        {
+            setCurrentJob(nullptr);
+            return;
+        }
+        if (possiblyDelay && errorHandlingRestartQueueButton->isChecked())
+        {
+            TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_WAKEUP).toLatin1().data());
+            setupNextIteration(RUN_WAKEUP, std::lround((errorHandlingDelaySB->value() * 1000) /
+                               KStarsData::Instance()->clock()->scale()));
+            // but before we restart them, we wait for the given delay.
+            appendLogText(i18n("All jobs aborted. Waiting %1 seconds to re-schedule.", errorHandlingDelaySB->value()));
+
+            sleepLabel->setToolTip(i18n("Scheduler waits for a retry."));
+            sleepLabel->show();
+            // we continue to determine which job should be running, when the delay is over
+        }
+    }
+    processJobs(jobsToProcess, evaluateOnly);
 }
 
-QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, SchedulerState state,
-        const QMap<QString, uint16_t> &capturedFramesCount, QDateTime const &Dawn, QDateTime const &Dusk,
+// Decides which jobs should be considered for scheduling (that is, have their status set to JOB_EVALUATION).
+// Evaluates all except if the state is INVALID, COMPLETE, BUSY, ERROR, ABORTED (the last two if the scheduler is running)
+// It also looks at expired FINISH_AT and FINISH_REPEAT with enough reps.
+// It may trigger estimate time (why not always do this?) for some
+// Finally may sort by altitude/priority.
+//
+QList<SchedulerJob *> Scheduler::prepareJobsForEvaluation( QList<SchedulerJob *> &jobs, SchedulerState state,
+        const QMap<QString, uint16_t> &capturedFramesCount,
         bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler)
 {
-
     /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
     QDateTime const now = getLocalTime();
 
     /* First, filter out non-schedulable jobs */
     /* FIXME: jobs in state JOB_ERROR should not be in the list, reorder states */
     QList<SchedulerJob *> sortedJobs = jobs;
+
+    if (sortedJobs.isEmpty())
+        return sortedJobs;
 
     /* Then enumerate SchedulerJobs to consolidate imaging time */
     foreach (SchedulerJob *job, sortedJobs)
@@ -2144,6 +2207,18 @@ QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, Sche
                          std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, getLocalTime()));
         std::stable_sort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
     }
+    return sortedJobs;
+}
+
+QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &sortedJobs,
+        const QMap<QString, uint16_t> &capturedFramesCount,
+        QDateTime const &Dawn, QDateTime const &Dusk, Scheduler *scheduler)
+{
+    if (sortedJobs.isEmpty())
+        return sortedJobs;
+
+    /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
+    QDateTime const now = getLocalTime();
 
     /* The first reordered job has no lead time - this could also be the delay from now to startup */
     sortedJobs.first()->setLeadTime(0);
@@ -2463,7 +2538,7 @@ QList<SchedulerJob *> Scheduler::evaluateJobs( QList<SchedulerJob *> &jobs, Sche
             if (currentJob->hasAltitudeConstraint())
             {
                 // Consolidate a new altitude time from the startup time of the current job
-                QDateTime const nextAltitudeTime = currentJob->calculateAltitudeTime(currentJob->getStartupTime());
+                QDateTime const nextAltitudeTime = currentJob->calculateNextTime(currentJob->getStartupTime());
 
                 if (nextAltitudeTime.isValid())
                 {
@@ -2642,37 +2717,55 @@ void Scheduler::processJobs(QList<SchedulerJob *> sortedJobs, bool jobEvaluation
         return;
     }
 
-    /* The job to run is the first scheduled, locate it in the list */
-    QList<SchedulerJob*>::iterator job_to_execute_iterator = std::find_if(sortedJobs.begin(),
-            sortedJobs.end(), [](SchedulerJob * const job)
+    if (getAlgorithm() == ALGORITHM_GREEDY)
     {
-        return SchedulerJob::JOB_SCHEDULED == job->getState();
-    });
-
-    /* If there is no scheduled job anymore (because the restriction loop made them invalid, for instance), bail out */
-    if (sortedJobs.end() == job_to_execute_iterator)
-    {
-        appendLogText(i18n("No jobs left in the scheduler queue after schedule cleanup."));
-        setCurrentJob(nullptr);
+        // GreedyScheduler::scheduleJobs() must be called first.
+        SchedulerJob *scheduledJob = m_GreedyScheduler->getScheduledJob();
+        if (!scheduledJob)
+        {
+            appendLogText(i18n("No jobs scheduled."));
+            setCurrentJob(nullptr);
+            return;
+        }
+        setCurrentJob(scheduledJob);
         return;
     }
+    else
+    {
+        /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
+        QDateTime const now = getLocalTime();
+        SchedulerJob * job_to_execute = nullptr;
 
-    /* FIXME: it is possible to evaluate jobs while KStars has a time offset, so warn the user about this */
-    QDateTime const now = getLocalTime();
+        /* The job to run is the first scheduled, locate it in the list */
+        QList<SchedulerJob*>::iterator job_to_execute_iterator = std::find_if(sortedJobs.begin(),
+                sortedJobs.end(), [](SchedulerJob * const job)
+        {
+            return SchedulerJob::JOB_SCHEDULED == job->getState();
+        });
 
-    /* Check if job can be processed right now */
-    SchedulerJob * const job_to_execute = *job_to_execute_iterator;
-    if (job_to_execute->getFileStartupCondition() == SchedulerJob::START_ASAP)
-        if( 0 <= calculateJobScore(job_to_execute, Dawn, Dusk, now))
-            job_to_execute->setStartupTime(now);
+        /* If there is no scheduled job anymore (because the restriction loop made them invalid, for instance), bail out */
+        if (sortedJobs.end() == job_to_execute_iterator)
+        {
+            appendLogText(i18n("No jobs left in the scheduler queue after schedule cleanup."));
+            setCurrentJob(nullptr);
+            return;
+        }
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is selected for next observation with priority #%2 and score %3.")
-                                   .arg(job_to_execute->getName())
-                                   .arg(job_to_execute->getPriority())
-                                   .arg(job_to_execute->getScore());
+        job_to_execute = *job_to_execute_iterator;
+        /* Check if job can be processed right now */
+        if (job_to_execute->getFileStartupCondition() == SchedulerJob::START_ASAP)
+            if( 0 <= calculateJobScore(job_to_execute, Dawn, Dusk, now))
+                job_to_execute->setStartupTime(now);
 
-    // Set the current job, and let the status timer execute it when ready
-    setCurrentJob(job_to_execute);
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is selected for next observation with priority #%2 and score %3.")
+                                       .arg(job_to_execute->getName())
+                                       .arg(job_to_execute->getPriority())
+                                       .arg(job_to_execute->getScore());
+
+        // Set the current job, and let the status timer execute it when ready
+        setCurrentJob(job_to_execute);
+    }
 }
 
 void Scheduler::wakeUpScheduler()
@@ -3640,15 +3733,36 @@ void Scheduler::checkJobStage()
             checkJobStageCounter = 0;
     }
 
-    QDateTime const now = getLocalTime();
 
+    if (ALGORITHM_GREEDY == getAlgorithm())
+    {
+        syncGreedyParams();
+        if (!m_GreedyScheduler->checkJob(jobs, getLocalTime(), currentJob))
+        {
+            currentJob->setState(SchedulerJob::JOB_IDLE);
+            stopCurrentJobAction();
+            findNextJob();
+            return;
+        }
+    }
+    else
+    {
+        if (!checkJobStageClassic())
+            return;
+    }
+    checkJobStageEplogue();
+}
+
+bool Scheduler::checkJobStageClassic()
+{
+    QDateTime const now = getLocalTime();
     /* Refresh the score of the current job */
     /* currentJob->setScore(calculateJobScore(currentJob, now)); */
 
     /* If current job is scheduled and has not started yet, wait */
     if (SchedulerJob::JOB_SCHEDULED == currentJob->getState())
         if (now < currentJob->getStartupTime())
-            return;
+            return false;
 
     // #1 Check if we need to stop at some point
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT &&
@@ -3662,7 +3776,7 @@ void Scheduler::checkJobStage()
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             stopCurrentJobAction();
             findNextJob();
-            return;
+            return false;
         }
     }
 
@@ -3684,11 +3798,10 @@ void Scheduler::checkJobStage()
                                    "marking idle.", currentJob->getName(),
                                    QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
                                    QString("%L1").arg(altitudeConstraint, 0, 'f', minAltitude->decimals())));
-
                 currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
                 findNextJob();
-                return;
+                return false;
             }
         }
     }
@@ -3709,11 +3822,10 @@ void Scheduler::checkJobStage()
                 appendLogText(i18n("Job '%2' current moon separation (%1 degrees) is lower than minimum constraint (%3 "
                                    "degrees), marking idle.",
                                    moonSeparation, currentJob->getName(), currentJob->getMinMoonSeparation()));
-
                 currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
                 findNextJob();
-                return;
+                return false;
             }
         }
     }
@@ -3731,10 +3843,14 @@ void Scheduler::checkJobStage()
             currentJob->setState(SchedulerJob::JOB_IDLE);
             stopCurrentJobAction();
             findNextJob();
-            return;
+            return false;
         }
     }
+    return true;
+}
 
+void Scheduler::checkJobStageEplogue()
+{
     // #5 Check system status to improve robustness
     // This handles external events such as disconnections or end-user manipulating INDI panel
     if (!checkStatus())
@@ -3748,6 +3864,8 @@ void Scheduler::checkJobStage()
     switch (currentJob->getStage())
     {
         case SchedulerJob::STAGE_IDLE:
+            // Job is just starting.
+            emit jobStarted(currentJob->getName());
             getNextAction();
             break;
 
@@ -4195,6 +4313,10 @@ bool Scheduler::appendEkosScheduleList(const QString &fileURL)
                 {
                     schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
                 }
+                else if (!strcmp(tag, "SchedulerAlgorithm"))
+                {
+                    setAlgorithm(static_cast<SchedulerAlgorithm>(cLocale.toInt(findXMLAttValu(ep, "value"))));
+                }
                 else if (!strcmp(tag, "ErrorHandlingStrategy"))
                 {
                     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(cLocale.toInt(findXMLAttValu(ep, "value"))));
@@ -4581,6 +4703,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "</Job>" << endl;
     }
 
+    outstream << "<SchedulerAlgorithm value='" << static_cast<int>(getAlgorithm()) << "'/>" << endl;
     outstream << "<ErrorHandlingStrategy value='" << getErrorHandlingStrategy() << "'>" << endl;
     if (errorHandlingRescheduleErrorsCB->isChecked())
         outstream << "<RescheduleErrors />" << endl;
@@ -4773,6 +4896,10 @@ void Scheduler::startFocusing()
     startCurrentOperationTimer();
 }
 
+// FindNextJob (probably misnamed) deals with what to do when jobs end.
+// For instance, if they complete their capture sequence, they may
+// (a) be done, (b) be part of a repeat N times, or (c) be part of a loop forever.
+// Similarly, if jobs are aborted they may (a) restart right away, (b) restart after a delay, (c) be ended.
 void Scheduler::findNextJob()
 {
     if (state == SCHEDULER_PAUSED)
@@ -4791,11 +4918,9 @@ void Scheduler::findNextJob()
     // Reset failed count
     alignFailureCount = guideFailureCount = focusFailureCount = captureFailureCount = 0;
 
-    /* FIXME: Other debug logs in that function probably */
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Find next job...";
-
     if (currentJob->getState() == SchedulerJob::JOB_ERROR || currentJob->getState() == SchedulerJob::JOB_ABORTED)
     {
+        emit jobEnded(currentJob->getName(), currentJob->getStopReason());
         captureBatch = 0;
         // Stop Guiding if it was used
         stopGuiding();
@@ -4834,6 +4959,8 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getState() == SchedulerJob::JOB_IDLE)
     {
+        emit jobEnded(currentJob->getName(), currentJob->getStopReason());
+
         // job constraints no longer valid, start re-evaluation
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -4843,6 +4970,8 @@ void Scheduler::findNextJob()
     // In any case, we're done whether the job completed successfully or not.
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
     {
+        emit jobEnded(currentJob->getName(), currentJob->getStopReason());
+
         /* If we remember job progress, mark the job idle as well as all its duplicates for re-evaluation */
         if (Options::rememberJobProgress())
         {
@@ -4888,6 +5017,7 @@ void Scheduler::findNextJob()
 
             if (currentJob != nullptr)
             {
+                emit jobEnded(currentJob->getName(), currentJob->getStopReason());
                 appendLogText(i18np("Job '%1' is complete after #%2 batch.",
                                     "Job '%1' is complete after #%2 batches.",
                                     currentJob->getName(), currentJob->getRepeatsRequired()));
@@ -4969,6 +5099,8 @@ void Scheduler::findNextJob()
     {
         if (getLocalTime().secsTo(currentJob->getCompletionTime()) <= 0)
         {
+            emit jobEnded(currentJob->getName(), currentJob->getStopReason());
+
             /* Mark the job idle as well as all its duplicates for re-evaluation */
             foreach(SchedulerJob *a_job, jobs)
                 if (a_job == currentJob || a_job->isDuplicateOf(currentJob))
@@ -5201,41 +5333,26 @@ void Scheduler::startCapture(bool restart)
     }
 
 
-    switch (currentJob->getCompletionCondition())
+    SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
+
+    for (auto &e : fMap.keys())
     {
-        case SchedulerJob::FINISH_LOOP:
-        case SchedulerJob::FINISH_AT:
-            // In these cases, we leave the captured frames map empty
-            // to ensure, that the capture sequence is executed in any case.
-            break;
+        QList<QVariant> dbusargs;
+        QDBusMessage reply;
 
-        default:
-            // Scheduler always sets captured frame map when starting a sequence - count may be different, robustness, dynamic priority
-
-            // hand over the map of captured frames so that the capture
-            // process knows about existing frames
-            SchedulerJob::CapturedFramesMap fMap = currentJob->getCapturedFramesMap();
-
-            for (auto &e : fMap.keys())
-            {
-                QList<QVariant> dbusargs;
-                QDBusMessage reply;
-
-                dbusargs.append(e);
-                dbusargs.append(fMap.value(e));
-                TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "setCapturedFramesMap");
-                if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
-                        QDBusMessage::ErrorMessage)
-                {
-                    qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                                      QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(
-                                                          reply.errorMessage());
-                    if (!manageConnectionLoss())
-                        currentJob->setState(SchedulerJob::JOB_ERROR);
-                    return;
-                }
-            }
-            break;
+        dbusargs.append(e);
+        dbusargs.append(fMap.value(e));
+        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:callWithArgs", "setCapturedFramesMap");
+        if ((reply = captureInterface->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap", dbusargs)).type() ==
+                QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(currentJob->getName()).arg(
+                                                  reply.errorMessage());
+            if (!manageConnectionLoss())
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+            return;
+        }
     }
 
     // Start capture process
@@ -5382,11 +5499,29 @@ uint16_t Scheduler::fillCapturedFramesMap(const QMap<QString, uint16_t> &expecte
 {
     uint16_t totalCompletedCount = 0;
 
-    for (QString key : expected.keys())
+    // Figure out which repeat this is for the key with the least progress.
+    int minIterationsCompleted = -1, currentIteration = 0;
+    if (Options::rememberJobProgress())
+    {
+        for (const QString &key : expected.keys())
+        {
+            const int iterationsCompleted = capturedFramesCount[key] / expected[key];
+            if (minIterationsCompleted == -1 || iterationsCompleted < minIterationsCompleted)
+                minIterationsCompleted = iterationsCompleted;
+        }
+        if (schedJob.getCompletionCondition() == SchedulerJob::FINISH_REPEAT
+                && minIterationsCompleted >= schedJob.getRepeatsRequired())
+            currentIteration  = schedJob.getRepeatsRequired() + 1;
+        else
+            currentIteration = minIterationsCompleted + 1;
+    }
+
+    for (const QString &key : expected.keys())
     {
         if (Options::rememberJobProgress())
         {
-            int diff = expected[key] * schedJob.getRepeatsRequired() - capturedFramesCount[key];
+            const int diff = expected[key] * currentIteration - capturedFramesCount[key];
+
             // captured more than required?
             if (diff <= 0)
                 capture_map[key] = expected[key];
@@ -6513,7 +6648,7 @@ void Scheduler::resumeCheckStatus()
 Scheduler::ErrorHandlingStrategy Scheduler::getErrorHandlingStrategy()
 {
     // The UI holds the state
-    if (errorHandlingRestartAfterAllButton->isChecked())
+    if (errorHandlingRestartQueueButton->isChecked())
         return ERROR_RESTART_AFTER_TERMINATION;
     else if (errorHandlingRestartImmediatelyButton->isChecked())
         return ERROR_RESTART_IMMEDIATELY;
@@ -6529,7 +6664,7 @@ void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strate
     switch (strategy)
     {
         case ERROR_RESTART_AFTER_TERMINATION:
-            errorHandlingRestartAfterAllButton->setChecked(true);
+            errorHandlingRestartQueueButton->setChecked(true);
             break;
         case ERROR_RESTART_IMMEDIATELY:
             errorHandlingRestartImmediatelyButton->setChecked(true);
@@ -6540,7 +6675,38 @@ void Scheduler::setErrorHandlingStrategy(Scheduler::ErrorHandlingStrategy strate
     }
 }
 
+// Can't use a SchedulerAlgorithm type for the arg here
+// as the compiler is unhappy connecting the signals currentIndexChanged(int)
+// or activated(int) to an enum.
+void Scheduler::setAlgorithm(int algIndex)
+{
+    Options::setSchedulerAlgorithm(algIndex);
+    if (schedulerAlgorithmCombo->currentIndex() != algIndex)
+        schedulerAlgorithmCombo->setCurrentIndex(algIndex);
+    if (algIndex == ALGORITHM_GREEDY)
+    {
+        queueTable->setColumnHidden(SCORE_COLUMN, true);
+        queueTable->setColumnHidden(LEAD_TIME_COLUMN, true);
+        priorityLabel->setDisabled(true);
+        prioritySpin->setDisabled(true);
+        queueTable->model()->setHeaderData(START_TIME_COLUMN, Qt::Horizontal, tr("Next Start"));
+        queueTable->model()->setHeaderData(END_TIME_COLUMN, Qt::Horizontal, tr("Next End"));
+    }
+    else
+    {
+        queueTable->setColumnHidden(SCORE_COLUMN, false);
+        queueTable->setColumnHidden(LEAD_TIME_COLUMN, false);
+        prioritySpin->setDisabled(false);
+        priorityLabel->setDisabled(false);
+        queueTable->model()->setHeaderData(START_TIME_COLUMN, Qt::Horizontal, tr("Start Time"));
+        queueTable->model()->setHeaderData(END_TIME_COLUMN, Qt::Horizontal, tr("End Time"));
+    }
+}
 
+Scheduler::SchedulerAlgorithm Scheduler::getAlgorithm() const
+{
+    return static_cast<SchedulerAlgorithm>(Options::schedulerAlgorithm());
+}
 
 void Scheduler::startMosaicTool()
 {
@@ -7033,9 +7199,6 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
     QFileInfo const path_info(path);
     QString const sig_dir(path_info.dir().path());
     QString const sig_file(path_info.completeBaseName());
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Searching in path '%1', files '%2*' for prefix '%3'...").arg(sig_dir, sig_file,
-                                   seqPrefix);
     QDirIterator it(sig_dir, QDir::Files);
 
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
@@ -7045,13 +7208,10 @@ int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
 
         if (fileName.startsWith(seqPrefix))
         {
-            qCDebug(KSTARS_EKOS_SCHEDULER) << QString("> Found '%1'").arg(fileName);
             seqFileCount++;
         }
     }
 
-    TEST_PRINT(stderr, "sch%d @@@getCompletedFiles(%s %s): %d\n", __LINE__, path.toLatin1().data(), seqPrefix.toLatin1().data(),
-               seqFileCount);
     return seqFileCount;
 }
 

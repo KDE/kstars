@@ -751,8 +751,9 @@ class Align : public QWidget, public Ui::Align
         /// Keep track of how long the solver is running
         QElapsedTimer solverTimer;
 
-        // StellarSolver Profiles
+        // The StellarSolver
         std::unique_ptr<StellarSolver> m_StellarSolver;
+        // StellarSolver Profiles
         QList<SSolver::Parameters> m_StellarSolverProfiles;
 
         /// Have we slewed?

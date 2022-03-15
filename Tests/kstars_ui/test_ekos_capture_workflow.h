@@ -125,7 +125,7 @@ private slots:
     void testPreCaptureScriptExecution();
 
     /**
-     * @brief Test if after capture continues where it had been suspended by a
+     * @brief Test if capture continues where it had been suspended by a
      * guiding deviation as soon as guiding is back below the deviation threshold
      */
     void testGuidingDeviationSuspendingCapture();
@@ -135,6 +135,12 @@ private slots:
      * remains aborted when the guiding deviation is below the configured threshold.
      */
     void testGuidingDeviationAbortCapture();
+
+    /**
+     * @brief Test if a guiding deviation beyond the configured limit blocks the start of
+     * capturing until the guiding deviation is below the configured deviation threshold.
+     */
+    void testInitialGuidingLimitCapture();
 
     /**
      * @brief Test capturing flats with manual flat light

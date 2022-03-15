@@ -12,6 +12,7 @@
 #include <QFutureWatcher>
 #include <mutex>
 #include <stellarsolver.h>
+#include <memory>
 
 class FITSData;
 
@@ -36,7 +37,6 @@ class SolverUtils : public QObject
         void newLog(const QString &logText);
 
     private:
-        void deleteSolver();
         void solverDone();
         void solverTimeout();
         void executeSolver();

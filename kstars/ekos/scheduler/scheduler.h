@@ -39,6 +39,7 @@ namespace Ekos
 {
 
 class SequenceJob;
+class GreedyScheduler;
 
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
@@ -102,6 +103,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
             ERROR_RESTART_AFTER_TERMINATION,
             ERROR_RESTART_IMMEDIATELY
         } ErrorHandlingStrategy;
+
+        /** @brief Algorithms, in the same order as UI. */
+        typedef enum
+        {
+            ALGORITHM_CLASSIC,
+            ALGORITHM_GREEDY
+        } SchedulerAlgorithm;
 
         /** @brief Columns, in the same order as UI. */
         typedef enum
@@ -299,19 +307,30 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /**
              * @brief evaluateJobs Computes estimated start and end times for the SchedulerJobs passed in. Returns a proposed schedule.
              * @param jobs The input list of SchedulerJobs to evaluate.
-             * @param state The current scheduler state.
              * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
              * @param dawn next dawn, as a KStarsDateTime
              * @param dusk next dusk, as a KStarsDateTime
+             * @param scheduler instance of the scheduler used for logging. Can be nullptr.
+             * @return list of sorted jobs
+             */
+        static QList<SchedulerJob *> evaluateJobs(QList<SchedulerJob *> &jobs, const QMap<QString, uint16_t> &capturedFramesCount,
+                QDateTime const &dawn, QDateTime const &dusk, Scheduler *scheduler);
+
+        /**
+             * @brief prepareJobsForEvaluation Start of job evaluation
+             * @param jobs The input list of SchedulerJobs to evaluate.
+             * @param state The current scheduler state.
+             * @param capturedFramesCount which parts of the schedulerJobs have already been completed.
              * @param rescheduleErrors whether jobs that failed with errors should be rescheduled.
              * @param restartJobs whether jobs that failed for one reason or another shoulc be rescheduled.
              * @param possiblyDelay a return value indicating whether the timer should try scheduling again after a delay.
              * @param scheduler instance of the scheduler used for logging. Can be nullptr.
              * @return Total score
              */
-        static QList<SchedulerJob *> evaluateJobs(QList<SchedulerJob *> &jobs, SchedulerState state,
-                const QMap<QString, uint16_t> &capturedFramesCount, QDateTime const &dawn, QDateTime const &dusk,
-                bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
+        static QList<SchedulerJob *> prepareJobsForEvaluation(
+            QList<SchedulerJob *> &jobs, SchedulerState state, const QMap<QString, uint16_t> &capturedFramesCount,
+            bool rescheduleErrors, bool restartJobs, bool *possiblyDelay, Scheduler *scheduler);
+
         /**
              * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
              * @param job Target
@@ -319,7 +338,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @param dusk next dusk, as a KStarsDateTime
              * @param when date and time to evaluate constraints, now if omitted.
              * @return Total score
+             *
              */
+
         static int16_t calculateJobScore(SchedulerJob const *job, QDateTime const &dawn, QDateTime const &dusk,
                                          QDateTime const &when = QDateTime());
 
@@ -365,6 +386,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
         /** @} */
 
+        void setUpdateInterval(int ms)
+        {
+            m_UpdatePeriodMs = ms;
+        }
+        int getUpdateInterval()
+        {
+            return m_UpdatePeriodMs;
+        }
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -380,6 +409,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @return seconds of overhead.
              */
         static int timeHeuristics(const SchedulerJob *schedJob);
+
+        void setAlgorithm(int alg);
+        SchedulerAlgorithm getAlgorithm() const;
 
         // Used in testing, instead of KStars::Instance() resources
         static KStarsDateTime *storedLocalTime;
@@ -581,6 +613,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
              */
         void checkJobStage();
+        bool checkJobStageClassic();
+        void checkJobStageEplogue();
 
         /**
              * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate. If no jobs are found, it starts the shutdown stage.
@@ -672,6 +706,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
+        // Below 2 are for the Analyze timeline.
+        void jobStarted(const QString &jobName);
+        void jobEnded(const QString &jobName, const QString &endReason);
 
     private:
         /**
@@ -1114,10 +1151,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // This is the time between typical scheduler iterations.
         // The time can be modified for testing.
         int m_UpdatePeriodMs = 1000;
-        void setUpdateInterval(int ms)
-        {
-            m_UpdatePeriodMs = ms;
-        }
+
         // Setup the parameters for the next scheduler iteration.
         // When milliseconds is not passed in, it uses m_UpdatePeriodMs.
         void setupNextIteration(SchedulerTimerState nextState);
@@ -1150,6 +1184,18 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Used when solving position every nth capture.
         uint32_t m_SolverIteration {0};
 
+        void syncGreedyParams();
+        QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
+
         friend TestEkosSchedulerOps;
+        // Only for testing
+        QList<SchedulerJob *> &getJobs()
+        {
+            return jobs;
+        }
+        QPointer<GreedyScheduler> &getGreedyScheduler()
+        {
+            return m_GreedyScheduler;
+        }
 };
 }

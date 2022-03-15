@@ -1657,8 +1657,8 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
     {
         case ALGORITHM_SEP:
         {
-            QPointer<FITSSEPDetector> detector = new FITSSEPDetector(this);
-            detector->setSettings(m_SourceExtractorSettings);
+            m_StarDetector.reset(new FITSSEPDetector(this));
+            m_StarDetector->setSettings(m_SourceExtractorSettings);
             if (m_Mode == FITS_NORMAL && trackingBox.isNull())
             {
                 if (Options::quickHFR())
@@ -1667,56 +1667,57 @@ QFuture<bool> FITSData::findStars(StarAlgorithm algorithm, const QRect &tracking
                     const int w = getStatistics().width;
                     const int h = getStatistics().height;
                     QRect middle(static_cast<int>(w * 0.25), static_cast<int>(h * 0.25), w / 2, h / 2);
-                    return detector->findSources(middle);
+                    return m_StarDetector->findSources(middle);
                 }
             }
-            m_StarFindFuture = detector->findSources(trackingBox);
+            m_StarFindFuture = m_StarDetector->findSources(trackingBox);
             return m_StarFindFuture;
         }
 
         case ALGORITHM_GRADIENT:
         default:
         {
-            QPointer<FITSGradientDetector> detector = new FITSGradientDetector(this);
-            detector->setSettings(m_SourceExtractorSettings);
-            m_StarFindFuture = detector->findSources(trackingBox);
+            m_StarDetector.reset(new FITSGradientDetector(this));
+            m_StarDetector->setSettings(m_SourceExtractorSettings);
+            m_StarFindFuture = m_StarDetector->findSources(trackingBox);
             return m_StarFindFuture;
         }
 
         case ALGORITHM_CENTROID:
         {
 #ifndef KSTARS_LITE
-            QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-            detector->setSettings(m_SourceExtractorSettings);
+            m_StarDetector.reset(new FITSCentroidDetector(this));
+            m_StarDetector->setSettings(m_SourceExtractorSettings);
             // We need JMIndex calculated from histogram
             if (!isHistogramConstructed())
                 constructHistogram();
-            detector->configure("JMINDEX", m_JMIndex);
-            m_StarFindFuture = detector->findSources(trackingBox);
+            m_StarDetector->configure("JMINDEX", m_JMIndex);
+            m_StarFindFuture = m_StarDetector->findSources(trackingBox);
             return m_StarFindFuture;
         }
 #else
             {
-                QPointer<FITSCentroidDetector> detector = new FITSCentroidDetector(this);
-                return detector->findSources(starCenters, trackingBox);
+                m_StarDetector.reset(new FITSCentroidDetector(this));
+                m_StarFindFuture = starDetector->findSources(trackingBox);
+                return m_StarFindFuture;
             }
 #endif
 
         case ALGORITHM_THRESHOLD:
         {
-            QPointer<FITSThresholdDetector> detector = new FITSThresholdDetector(this);
-            detector->setSettings(m_SourceExtractorSettings);
-            detector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
-            m_StarFindFuture =  detector->findSources(trackingBox);
+            m_StarDetector.reset(new FITSThresholdDetector(this));
+            m_StarDetector->setSettings(m_SourceExtractorSettings);
+            m_StarDetector->configure("THRESHOLD_PERCENTAGE", Options::focusThreshold());
+            m_StarFindFuture =  m_StarDetector->findSources(trackingBox);
             return m_StarFindFuture;
         }
 
         case ALGORITHM_BAHTINOV:
         {
-            QPointer<FITSBahtinovDetector> detector = new FITSBahtinovDetector(this);
-            detector->setSettings(m_SourceExtractorSettings);
-            detector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
-            m_StarFindFuture = detector->findSources(trackingBox);
+            m_StarDetector.reset(new FITSBahtinovDetector(this));
+            m_StarDetector->setSettings(m_SourceExtractorSettings);
+            m_StarDetector->configure("NUMBER_OF_AVERAGE_ROWS", Options::focusMultiRowAverage());
+            m_StarFindFuture = m_StarDetector->findSources(trackingBox);
             return m_StarFindFuture;
         }
     }
@@ -1748,7 +1749,7 @@ double FITSData::getHFR(HFRType type)
     if (cacheHFR >= 0 && cacheHFRType == type)
         return cacheHFR;
 
-    m_SelectedHFRStar = nullptr;
+    m_SelectedHFRStar.invalidate();
 
     if (type == HFR_MAX)
     {
@@ -1764,7 +1765,7 @@ double FITSData::getHFR(HFRType type)
             }
         }
 
-        m_SelectedHFRStar = starCenters[maxIndex];
+        m_SelectedHFRStar = *starCenters[maxIndex];
         cacheHFR = starCenters[maxIndex]->HFR;
         cacheHFRType = type;
         return cacheHFR;
@@ -1784,17 +1785,17 @@ double FITSData::getHFR(HFRType type)
         if (starCenters.empty())
             return -1;
 
-        m_SelectedHFRStar = starCenters[static_cast<int>(starCenters.size() * 0.05)];
-        cacheHFR = m_SelectedHFRStar->HFR;
+        m_SelectedHFRStar = *starCenters[static_cast<int>(starCenters.size() * 0.05)];
+        cacheHFR = m_SelectedHFRStar.HFR;
         cacheHFRType = type;
         return cacheHFR;
     }
     else if (type == HFR_MEDIAN)
     {
         std::nth_element(starCenters.begin(), starCenters.begin() + starCenters.size() / 2, starCenters.end());
-        m_SelectedHFRStar = starCenters[starCenters.size() / 2];
+        m_SelectedHFRStar = *starCenters[starCenters.size() / 2];
 
-        cacheHFR = m_SelectedHFRStar->HFR;
+        cacheHFR = m_SelectedHFRStar.HFR;
         cacheHFRType = type;
         return cacheHFR;
     }
@@ -1863,7 +1864,7 @@ double FITSData::getHFR(int x, int y)
         if (std::fabs(starCenters[i]->x - x) <= starCenters[i]->width / 2 &&
                 std::fabs(starCenters[i]->y - y) <= starCenters[i]->width / 2)
         {
-            m_SelectedHFRStar = starCenters[i];
+            m_SelectedHFRStar = *starCenters[i];
             return starCenters[i]->HFR;
         }
     }

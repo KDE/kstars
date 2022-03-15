@@ -1165,6 +1165,17 @@ QString getDefaultPath(const QString &option)
 #endif
         return prefix + "/bin/solve-field";
     }
+    else if (option == "WatneyBinary")
+    {
+#if defined(ASTROMETRY_PREFIX)
+        return QString(ASTROMETRY_PREFIX "/opt/watney/watney-solve");
+#elif defined(Q_OS_OSX)
+        return "/usr/local/bin/watney-solve";
+#elif defined(Q_OS_WIN)
+        return "C:/watney/watney-solve.exe";
+#endif
+        return prefix + "/opt/watney/watney-solve";
+    }
     else if (option == "SextractorBinary")
     {
 #if defined(SEXTRACTOR_PREFIX)

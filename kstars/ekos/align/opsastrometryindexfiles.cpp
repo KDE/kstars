@@ -22,9 +22,16 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
     alignModule         = parent;
     manager             = new QNetworkAccessManager();
 
+    indexURL->setText("http://broiler.astrometry.net/~dstn/");
+
     //Get a pointer to the KConfigDialog
     // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
     connect(openIndexFileDirectory, SIGNAL(clicked()), this, SLOT(slotOpenIndexFileDirectory()));
+    connect(indexURL, &QLineEdit::textChanged, [&]()
+    {
+        indexURL->text();
+    });
+
 
     astrometryIndex[2.8]  = "00";
     astrometryIndex[4.0]  = "01";
@@ -320,7 +327,8 @@ void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
 
 bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
 {
-    QNetworkReply *response = manager->get(QNetworkRequest(QUrl("http://broiler.astrometry.net")));
+    QUrl indexUrl = QUrl(this->indexURL->text());
+    QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexUrl.url(QUrl::RemovePath))));
     QTimer timeout(this);
     timeout.setInterval(5000);
     timeout.setSingleShot(true);
@@ -334,9 +342,11 @@ bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
         }
         qApp->processEvents();
     }
+
     timeout.stop();
     bool wasSuccessful = (response->error() == QNetworkReply::NoError);
     response->deleteLater();
+
     return wasSuccessful;
 }
 
@@ -547,11 +557,23 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             checkBox->setChecked(!checked);
             if (astrometryIndicesAreAvailable())
             {
+                QString BASE_URL;
                 QString URL;
+
+                if (this->indexURL->text().endsWith("/"))
+                {
+                    BASE_URL = this->indexURL->text();
+                }
+                else
+                {
+                    BASE_URL = this->indexURL->text() + "/";
+                }
+
                 if (indexSeriesName.startsWith(QLatin1String("index-41")))
-                    URL = "http://broiler.astrometry.net/~dstn/4100/" + indexSeriesName;
+                    URL = BASE_URL + "4100/" + indexSeriesName;
                 else if (indexSeriesName.startsWith(QLatin1String("index-42")))
-                    URL = "http://broiler.astrometry.net/~dstn/4200/" + indexSeriesName;
+                    URL = BASE_URL + "4200/" + indexSeriesName;
+
                 int maxIndex = 0;
                 if (indexFileNum < 8 && URL.contains("*"))
                 {
@@ -567,7 +589,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             }
             else
             {
-                KSNotification::sorry(i18n("Could not contact Astrometry Index Server: broiler.astrometry.net"));
+                KSNotification::sorry(i18n("Could not contact Astrometry Index Server."));
             }
         }
         else

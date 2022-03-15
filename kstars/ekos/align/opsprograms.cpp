@@ -43,37 +43,15 @@ void OpsPrograms::slotApply()
 
 void OpsPrograms::loadDefaultPaths(int option)
 {
-    ExternalProgramPaths paths;
-
-    switch(option)
-    {
-        case 0:
-            return;
-            break;
-        case 1:
-            paths = StellarSolver::getLinuxDefaultPaths();
-            break;
-        case 2:
-            paths = StellarSolver::getLinuxInternalPaths();
-            break;
-        case 3:
-            paths = StellarSolver::getMacHomebrewPaths();
-            break;
-        case 4:
-            paths = StellarSolver::getWinANSVRPaths();
-            break;
-        case 5:
-            paths = StellarSolver::getWinCygwinPaths();
-            break;
-        default:
-            paths = StellarSolver::getLinuxDefaultPaths();
-            break;
-    }
+    if(option == 0)
+        return;
+    ExternalProgramPaths paths = StellarSolver::getDefaultExternalPaths((SSolver::ComputerSystemType) (option - 1));
 
     kcfg_SextractorBinary->setText(paths.sextractorBinaryPath);
     kcfg_AstrometryConfFile->setText(paths.confPath);
     kcfg_AstrometrySolverBinary->setText(paths.solverPath);
     kcfg_ASTAPExecutable->setText(paths.astapBinaryPath);
+    kcfg_WatneyBinary->setText(paths.watneyBinaryPath);
     kcfg_AstrometryWCSInfo->setText(paths.wcsPath);
 
     defaultPathSelector->setCurrentIndex(0);

@@ -645,7 +645,8 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {
-        capture->removeJob(payload["index"].toInt());
+        if (capture->removeJob(payload["index"].toInt()) == false)
+            sendCaptureSequence(capture->getSequence());
     }
     else if (command == commands[CAPTURE_SET_LIMITS])
     {
@@ -1289,6 +1290,10 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         Ekos::DarkLibrary::Instance()->setDefectPixels(payload);
     }
+    else if (command == commands[DARK_LIBRARY_SAVE_MAP])
+    {
+        Ekos::DarkLibrary::Instance()->saveMapB->click();
+    }
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_FRAME])
     {
         Ekos::DarkLibrary::Instance()->setDefectFrame(false);
@@ -1735,7 +1740,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name);
+            SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 QJsonObject info =
@@ -1788,7 +1793,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 oneObject->EquatorialToHorizontal(data->lst(), geo->lat());
@@ -1835,7 +1840,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         for (auto &oneName : objectNames)
         {
             const QString name = oneName.toString();
-            SkyObject *oneObject = data->skyComposite()->findByName(name);
+            SkyObject *oneObject = data->skyComposite()->findByName(name, false);
             if (oneObject)
             {
                 QJsonObject info;

@@ -3477,6 +3477,11 @@ void Manager::connectModules()
     // Analyze connections.
     if (analyzeProcess.get())
     {
+        connect(schedulerProcess.get(), &Ekos::Scheduler::jobStarted,
+                analyzeProcess.get(), &Ekos::Analyze::schedulerJobStarted, Qt::UniqueConnection);
+        connect(schedulerProcess.get(), &Ekos::Scheduler::jobEnded,
+                analyzeProcess.get(), &Ekos::Analyze::schedulerJobEnded, Qt::UniqueConnection);
+
         if (captureProcess.get())
         {
             connect(captureProcess.get(), &Ekos::Capture::captureComplete,

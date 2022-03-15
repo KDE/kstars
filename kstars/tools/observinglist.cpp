@@ -241,6 +241,10 @@ void ObservingList::showEvent(QShowEvent *)
 
 void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool update)
 {
+    if (!m_initialWishlistLoad)
+    {
+        showEvent(nullptr); // Initialize the observing wishlist
+    }
     bool addToWishList = true;
     if (!_obj)
         _obj = SkyMap::Instance()->clickedObject(); // Eh? Why? Weird default behavior.
@@ -255,7 +259,7 @@ void ObservingList::slotAddObject(const SkyObject *_obj, bool session, bool upda
 
     if (finalObjectName.isEmpty())
     {
-        KSNotification::sorry(i18n("Unnamed stars are not supported in the observing lists"));
+        KSNotification::sorry(i18n("Stars and objects whose names KStars does not know are not supported in the observing lists"));
         return;
     }
 
@@ -539,7 +543,7 @@ void ObservingList::slotNewSelection()
             //Change the m_currentImageFileName, DSS/SDSS Url to correspond to the new object
             setCurrentImage(o.data());
             ui->SearchImage->setEnabled(true);
-            if (newName != i18n("star"))
+            if (currentObject()->hasName())
             {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
@@ -549,7 +553,7 @@ void ObservingList::slotNewSelection()
                 ui->NotesEdit->setEnabled(true);
 
                 const auto &userLog =
-                  KStarsData::Instance()->getUserData(LogObject->name()).userLog;
+                    KStarsData::Instance()->getUserData(LogObject->name()).userLog;
 
                 if (userLog.isEmpty())
                 {
@@ -871,7 +875,7 @@ void ObservingList::saveCurrentUserLog()
             i18n("Record here observation logs and/or data on %1.", getObjectName(LogObject)))
     {
         const auto &success = KStarsData::Instance()->updateUserLog(
-            LogObject->name(), ui->NotesEdit->toPlainText());
+                                  LogObject->name(), ui->NotesEdit->toPlainText());
 
         if (!success.first)
             KSNotification::sorry(success.second, i18n("Could not update the user log."));
@@ -1059,7 +1063,9 @@ void ObservingList::slotSaveList()
     if (!f.open(QIODevice::WriteOnly))
     {
         qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
-        KMessageBox::error(this, i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.", f.fileName()), i18n("Could not save observing wishlist"));
+        KMessageBox::error(this,
+                           i18n("Could not open the observing wishlist file %1 for writing. Your wishlist changes will not be saved. Check if the location is writable and not full.",
+                                f.fileName()), i18n("Could not save observing wishlist"));
         return;
     }
     QTextStream writeemall(&f);
@@ -1081,7 +1087,7 @@ void ObservingList::slotLoadWishList()
 
     QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
     addingObjectsProgress->setWindowTitle(i18nc("@title:window", "Observing List Wizard"));
-    addingObjectsProgress->setLabelText(i18n("Please wait while loading objects..."));
+    addingObjectsProgress->setLabelText(i18n("Please wait while loading observing wishlist..."));
     addingObjectsProgress->setMaximum(0);
     addingObjectsProgress->setMinimum(0);
     addingObjectsProgress->show();
@@ -1113,8 +1119,29 @@ void ObservingList::slotLoadWishList()
         else
             failedObjects.append(line);
 
-        if (addingObjectsProgress->wasCanceled())
-            break;
+        if (addingObjectsProgress->wasCanceled() && !istream.atEnd())
+        {
+            QMessageBox msgBox =
+            {
+                QMessageBox::Icon::Warning,
+                i18n("Canceling this will truncate your wishlist"),
+                i18n("If you cancel this operation, your wishlist will be truncated and the following objects will be removed from the wishlist when you exit KStars. Are you sure this is okay?"),
+                QMessageBox::Yes | QMessageBox::No,
+                this
+            };
+            msgBox.setDefaultButton(QMessageBox::No);
+            auto pos = istream.pos();
+            msgBox.setDetailedText(istream.readAll());
+            istream.seek(pos);
+            if (msgBox.exec() == QMessageBox::Yes)
+                break;
+            else
+            {
+                addingObjectsProgress->reset();
+                addingObjectsProgress->show();
+            }
+
+        }
         qApp->processEvents();
     }
     delete (addingObjectsProgress);
@@ -1124,7 +1151,7 @@ void ObservingList::slotLoadWishList()
     {
         QMessageBox msgBox = {QMessageBox::Icon::Warning,
                               i18np("Observing wishlist truncated: %1 object not found", "Observing wishlist truncated: %1 objects not found", failedObjects.size()),
-                              i18np("%1 object could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", "%1 objects could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup.", failedObjects.size()),
+                              i18np("%1 object could not be found in the database, and will be removed from the observing wish list. We recommend that you copy its name as a backup so you can add it later.", "%1 objects could not be found in the database, and will be removed from the observing wish list. We recommend that you copy the detailed list as a backup, whereby you can later use the Batch Add feature in the Observation Planner to add them back using internet search.", failedObjects.size()),
                               QMessageBox::Ok,
                               this
                              };
@@ -1627,7 +1654,8 @@ void ObservingList::slotDeleteCurrentImage()
 
 void ObservingList::saveThumbImage()
 {
-    QFileInfo const f(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(m_currentThumbImageFileName));
+    QFileInfo const f(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(
+                          m_currentThumbImageFileName));
     if (!f.exists())
     {
         QImage img(getCurrentImagePath());

@@ -16,23 +16,16 @@ TestSequenceJobState::TestSequenceJobState() : QObject() {}
 void TestSequenceJobState::testFullParameterSet()
 {
     QFETCH(bool, isPreview);
-    QFETCH(bool, enforce_guiding);
     QFETCH(bool, enforce_rotate);
     QFETCH(bool, enforce_temperature);
 
     double current_temp = 10.0, target_temp = -10.0;
-    double current_drift = 10.0, target_drift = 2;
     double current_angle = 10.0, target_angle = 50;
     // set current and target values
     if (enforce_temperature)
     {
         m_adapter->setCCDTemperature(current_temp);
         m_stateMachine->setTargetCCDTemperature(target_temp);
-    }
-    if (enforce_guiding)
-    {
-        m_adapter->setGuiderDrift(current_drift);
-        m_stateMachine->setTargetStartGuiderDrift(target_drift);
     }
     if (enforce_rotate)
     {
@@ -41,14 +34,11 @@ void TestSequenceJobState::testFullParameterSet()
     }
 
     // start the capture preparation
-    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, isPreview);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | (enforce_guiding &!isPreview) | enforce_rotate));
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, isPreview);
+    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_rotate));
     // now step by step set the values to the target value
     if (enforce_temperature)
         m_adapter->setCCDTemperature(target_temp + 0.5 * Options::maxTemperatureDiff());
-    QVERIFY(m_adapter->isCapturePreparationComplete == !((enforce_guiding &!isPreview) | enforce_rotate));
-    if (enforce_guiding)
-        m_adapter->setGuiderDrift(1.5);
     QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_rotate);
     if (enforce_rotate)
         m_adapter->setRotatorAngle(target_angle + 0.5 * Options::astrometryRotatorThreshold() / 60, IPS_OK);
@@ -58,29 +48,25 @@ void TestSequenceJobState::testFullParameterSet()
 void TestSequenceJobState::testLazyInitialisation()
 {
     QFETCH(bool, isPreview);
-    QFETCH(bool, enforce_guiding);
     QFETCH(bool, enforce_rotate);
     QFETCH(bool, enforce_temperature);
 
     // we set current = target so that it is not necessary to update the device values
     // but the state machine needs to ask for the current values
     double current_temp = 10.0, target_temp = current_temp;
-    double current_drift = 10.0, target_drift = current_drift;
     double current_angle = 10.0, target_angle = current_angle;
 
     // initialize the test processor, but do not inform the state machine
-    m_adapter->init(current_temp, current_drift, current_angle);
+    m_adapter->init(current_temp, current_angle);
 
     // set target values
     if (enforce_temperature)
         m_stateMachine->setTargetCCDTemperature(target_temp);
-    if (enforce_guiding)
-        m_stateMachine->setTargetStartGuiderDrift(target_drift);
     if (enforce_rotate)
         m_stateMachine->setTargetRotatorAngle(target_angle);
 
     // start the capture preparation
-    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, isPreview);
+    m_stateMachine->prepareLightFrameCapture(enforce_temperature, isPreview);
 
     // Since the state machine does not know the current values, it needs to request them.
     // If this happens, the preparation is already done, since we have current = target
@@ -92,18 +78,15 @@ void TestSequenceJobState::testWithProcessor()
     TestProcessor *processor = new TestProcessor();
 
     double current_temp = 10.0, target_temp = -10.0;
-    double current_drift = 10.0, target_drift = 2;
     double current_angle = 10.0, target_angle = 50;
     bool isPreview = processor->isPreview;
 
     // set current values
     m_adapter->setCCDTemperature(current_temp);
-    m_adapter->setGuiderDrift(current_drift);
     m_adapter->setRotatorAngle(current_angle, IPS_OK);
 
     // set target values
     m_stateMachine->setTargetCCDTemperature(target_temp);
-    m_stateMachine->setTargetStartGuiderDrift(target_drift);
     m_stateMachine->setTargetRotatorAngle(target_angle);
 
     // connect the processor
@@ -114,10 +97,7 @@ void TestSequenceJobState::testWithProcessor()
     connect(processor, &TestProcessor::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
 
     // start the capture preparation
-    m_stateMachine->prepareLightFrameCapture(true, true, isPreview);
-    QVERIFY(m_adapter->isCapturePreparationComplete == isPreview);
-    // now step by step set the values to the target value
-    m_adapter->setGuiderDrift(1.5);
+    m_stateMachine->prepareLightFrameCapture(true, isPreview);
     QVERIFY(m_adapter->isCapturePreparationComplete == true);
     // verify if the batch mode has been set
     QVERIFY(processor->isPreview == isPreview);
@@ -127,38 +107,6 @@ void TestSequenceJobState::testWithProcessor()
     disconnect(processor, nullptr, m_stateMachine, nullptr);
 }
 
-void TestSequenceJobState::testGuiderDeactivation()
-{
-    bool enforce_temperature = true;
-    bool enforce_guiding     = true;
-    double current_temp = 10.0, target_temp = -10.0;
-    double current_drift = 10.0, target_drift = 2;
-    // set current and target values
-    m_adapter->setCCDTemperature(current_temp);
-    m_stateMachine->setTargetCCDTemperature(target_temp);
-    m_adapter->setGuiderDrift(current_drift);
-    m_stateMachine->setTargetStartGuiderDrift(target_drift);
-
-    // start the capture preparation
-    m_stateMachine->prepareLightFrameCapture(enforce_temperature, enforce_guiding, false);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding));
-    // set the guider drift below the threshold
-    m_adapter->setGuiderDrift(1.5);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_temperature);
-    // stop guider
-    m_adapter->setGuiderActive(false);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !(enforce_temperature | enforce_guiding));
-    // set the temperature to the target value
-    m_adapter->setCCDTemperature(target_temp + 0.5*Options::maxTemperatureDiff());
-    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_guiding);
-    // start guider
-    m_adapter->setGuiderActive(true);
-    QVERIFY(m_adapter->isCapturePreparationComplete == !enforce_guiding);
-    // set the guider drift below the threshold
-    m_adapter->setGuiderDrift(1.5);
-    QVERIFY(m_adapter->isCapturePreparationComplete == true);
-}
-
 /* *********************************************************************************
  * Test data
  * ********************************************************************************* */
@@ -166,30 +114,15 @@ void TestSequenceJobState::testGuiderDeactivation()
 void TestSequenceJobState::testFullParameterSet_data()
 {
     QTest::addColumn<bool>("isPreview");           /*!< preview capture? */
-    QTest::addColumn<bool>("enforce_guiding");     /*!< enforce guiding? */
     QTest::addColumn<bool>("enforce_rotate");      /*!< enforce rotating? */
     QTest::addColumn<bool>("enforce_temperature"); /*!< enforce temperature? */
 
     // iterate over all combinations
-    for (bool preview :
-            {
-                true, false
-            })
-        for (bool guide :
-                {
-                    true, false
-                })
-            for (bool rotate :
-                    {
-                        true, false
-                    })
-                for (bool temperature :
-                        {
-                            true, false
-                        })
-                    QTest::newRow(QString("preview=%4 enforce guide=%1, rotate=%2, temperature=%3").arg(guide).arg(rotate).arg(temperature).arg(
-                                      preview).toLocal8Bit())
-                            << preview << guide << rotate << temperature;
+    for (bool preview : {true, false})
+        for (bool rotate : {true, false})
+            for (bool temperature : {true, false})
+                QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2").arg(rotate).arg(temperature).arg(preview).toLocal8Bit())
+                        << preview << rotate << temperature;
 }
 
 void TestSequenceJobState::testLazyInitialisation_data()
@@ -222,8 +155,6 @@ void TestSequenceJobState::init()
     QVERIFY(m_adapter->isCapturePreparationComplete == false);
     // forward signals to the sequence job
     connect(m_adapter, &TestAdapter::prepareCapture, m_stateMachine, &Ekos::SequenceJobState::prepareLightFrameCapture);
-    connect(m_adapter, &TestAdapter::newGuiderState, m_stateMachine, &Ekos::SequenceJobState::setGuiderActive);
-    connect(m_adapter, &TestAdapter::newGuiderDrift, m_stateMachine, &Ekos::SequenceJobState::setCurrentGuiderDrift);
     connect(m_adapter, &TestAdapter::newRotatorAngle, m_stateMachine, &Ekos::SequenceJobState::setCurrentRotatorAngle);
     connect(m_adapter, &TestAdapter::newCCDTemperature, m_stateMachine, &Ekos::SequenceJobState::setCurrentCCDTemperature);
     // react upon sequence job signals
@@ -244,12 +175,10 @@ void TestSequenceJobState::cleanup()
 
 
 
-void TestAdapter::init(double temp, double drift, double angle, bool guideractive)
+void TestAdapter::init(double temp, double angle)
 {
     m_ccdtemperature = temp;
-    m_guiderdrift = drift;
     m_rotatorangle = angle;
-    m_isguideractive = guideractive;
 }
 
 void TestAdapter::setCCDTemperature(double value)
@@ -259,20 +188,6 @@ void TestAdapter::setCCDTemperature(double value)
         emit newCCDTemperature(value);
     // remember it
     m_ccdtemperature = value;
-}
-
-void TestAdapter::setGuiderActive(bool active)
-{
-    emit newGuiderState(active);
-    m_isguideractive = active;
-}
-
-void TestAdapter::setGuiderDrift(double value) {
-    // emit only if guider is active
-    if (m_isguideractive)
-        emit newGuiderDrift(value);
-    // remember it
-    m_guiderdrift = value;
 }
 
 void TestAdapter::setRotatorAngle(double value, IPState state)
@@ -294,9 +209,6 @@ void TestAdapter::readCurrentState(Ekos::CaptureState state)
             break;
         case Ekos::CAPTURE_SETTING_ROTATOR:
             emit newRotatorAngle(m_rotatorangle, IPS_OK);
-            break;
-        case Ekos::CAPTURE_GUIDER_DRIFT:
-            emit newGuiderDrift(m_guiderdrift);
             break;
         default:
             // do nothing

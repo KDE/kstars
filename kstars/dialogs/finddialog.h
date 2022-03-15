@@ -107,6 +107,9 @@ class FindDialog : public QDialog
 
     void slotDetails();
 
+    /** Enable/disable the OK button, and set the default button */
+    void slotUpdateButtons();
+
   protected:
     /**
      * Process Keystrokes.  The Up and Down arrow keys are used to select the

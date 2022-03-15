@@ -15,6 +15,7 @@
 
 #include "fits_debug.h"
 #include "fitsgradientdetector.h"
+#include "fitsdata.h"
 
 QFuture<bool> FITSGradientDetector::findSources(const QRect &boundary)
 {

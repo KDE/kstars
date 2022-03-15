@@ -1155,7 +1155,7 @@ void DarkLibrary::generateDarkJobs()
                 settings["bin"] = oneBin;
                 settings["frameType"] = FRAME_DARK;
                 settings["temperature"] = oneTemperature;
-                settings["format"] = 0;
+                settings["transferFormat"] = 0;
 
                 QString directory = prefix + QString("sequence_%1").arg(sequence);
                 QJsonObject fileSettings;
@@ -1471,6 +1471,7 @@ void DarkLibrary::setDarkSettings(const QJsonObject &settings)
     countSpin->setValue(count);
 
 }
+
 QJsonObject DarkLibrary::getDarkSettings()
 {
     QJsonObject createDarks =
@@ -1491,6 +1492,7 @@ QJsonObject DarkLibrary::getDarkSettings()
     };
     return createDarks;
 }
+
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
     const QString camera = settings["camera"].toString();
@@ -1510,6 +1512,7 @@ QJsonObject DarkLibrary::getCameraPresets()
         {"camera", cameraS->currentText()},
         {"preferDarksRadio", preferDarksRadio->isChecked()},
         {"preferDefectsRadio", preferDefectsRadio->isChecked()},
+        {"fileName", m_FileLabel->text()}
     };
     return cameraSettings;
 }
@@ -1564,12 +1567,13 @@ QJsonArray DarkLibrary::getViewMasters()
     }
     return array;
 }
+
 void DarkLibrary::setDefectSettings(const QJsonObject payload)
 {
-    const QString rowString = payload["rowString"].toString();
     const int masterIndex = payload["rowIndex"].toInt();
-    loadCurrentMasterDark(rowString, masterIndex);
+    masterDarksCombo->setCurrentIndex(masterIndex);
 }
+
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)
 {
     const int hotSpin = payload["hotSpin"].toInt();
@@ -1586,6 +1590,7 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     setDefectFrame(true);
     generateMapB->click();
 }
+
 void DarkLibrary::setDefectFrame(bool isDefect)
 {
     m_DarkView->setDefectMapEnabled(isDefect);

@@ -14,6 +14,7 @@
 
 #include "fits_debug.h"
 #include "fitsthresholddetector.h"
+#include "fitsdata.h"
 
 //void FITSThresholdDetector::configure(const QString &setting, const QVariant &value)
 //{

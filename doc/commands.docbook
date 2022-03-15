@@ -1006,10 +1006,12 @@ the relevant object type [in brackets].</para>
 <variablelist>
 <varlistentry>
 <term>[All]</term>
-<listitem><para>
-Identification and type:  The top one to three lines are devoted to the
-name(s) of the object, and its type.  For stars, the Spectral Type
-is also shown here.
+<listitem><para> Identification and quick info: The top several lines
+are devoted to the name(s) of the object, its type and the
+constellation in which it lies. The magnitude is shown with the
+superscript 'm' if it is available. For stars, the Spectral Type is
+also shown here. For deep-sky objects, the dimensions, if known, are
+shown in arcminutes (eg: 6'×3') and the source catalog is also shown.
 </para></listitem>
 </varlistentry>
 

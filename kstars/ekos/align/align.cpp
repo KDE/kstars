@@ -382,6 +382,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     else
         m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
 
+    m_StellarSolver.reset(new StellarSolver());
+    connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
+
     initPolarAlignmentAssistant();
     initManualRotator();
     initDarkProcessor();
@@ -1630,6 +1633,8 @@ bool Align::captureAndSolve()
     }
 
     alignView->setBaseSize(alignWidget->size());
+    alignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
+                                         && alignDarkFrameCheck->isChecked()));
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
@@ -1816,7 +1821,7 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setFastExposureEnabled(false);
     }
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setEncodingFormat("FITS");
     targetChip->resetFrame();
     targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_ALIGN);
@@ -1867,7 +1872,8 @@ void Align::startSolving()
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
-        if(Options::solverType() != SSolver::SOLVER_ASTAP) //You don't need astrometry index files to use ASTAP
+        if(Options::solverType() != SSolver::SOLVER_ASTAP
+                && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY) //You don't need astrometry index files to use ASTAP or Watney
         {
             bool foundAnIndex = false;
             for(QString dataDir : astrometryDataDirs)
@@ -1893,39 +1899,32 @@ void Align::startSolving()
                 }
             }
         }
-        if (m_StellarSolver)
-        {
-            auto *solver = m_StellarSolver.release();
-            solver->disconnect(this);
-            if (solver->isRunning())
-            {
-                connect(solver, &StellarSolver::finished, solver, &StellarSolver::deleteLater);
-                solver->abort();
-            }
-            else
-                solver->deleteLater();
-        }
+        if (m_StellarSolver->isRunning())
+            m_StellarSolver->abort();
         if (!m_ImageData)
             m_ImageData = alignView->imageData();
-        m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
+        m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+        m_StellarSolver->setProperty("ProcessType", SSolver::SOLVE);
         m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
         m_StellarSolver->setProperty("SolverType", Options::solverType());
         connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
-        connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
         m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
         m_StellarSolver->setParameters(m_StellarSolverProfiles.at(Options::solveOptionsProfile()));
 
         const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
-        if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
+        if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                    QRegularExpression("[-{}]")));
             alignView->saveImage(filename);
             m_StellarSolver->setProperty("FileToProcess", filename);
-            m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
-            m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
-            m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
-            m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
+            ExternalProgramPaths externalPaths;
+            externalPaths.sextractorBinaryPath = Options::sextractorBinary();
+            externalPaths.solverPath = Options::astrometrySolverBinary();
+            externalPaths.astapBinaryPath = Options::aSTAPExecutable();
+            externalPaths.watneyBinaryPath = Options::watneyBinary();
+            externalPaths.wcsPath = Options::astrometryWCSInfo();
+            m_StellarSolver->setExternalFilePaths(externalPaths);
 
             //No need for a conf file this way.
             m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
@@ -1950,10 +1949,10 @@ void Align::startSolving()
             appendLogText(i18n("Solving with blind image scale..."));
         }
 
-        bool useImagePostion = Options::astrometryUsePosition();
+        bool useImagePosition = Options::astrometryUsePosition();
         if (useBlindPosition == BLIND_ENGAGNED)
         {
-            useImagePostion = false;
+            useImagePosition = false;
             useBlindPosition = BLIND_USED;
             appendLogText(i18n("Solving with blind image position..."));
         }
@@ -1970,10 +1969,10 @@ void Align::startSolving()
             else
                 m_StellarSolver->setProperty("UseScale", false);
 
-            if (useImagePostion && solution.ra > 0)
+            if (useImagePosition && solution.ra > 0)
                 m_StellarSolver->setSearchPositionInDegrees(solution.ra, solution.dec);
             else
-                m_StellarSolver->setProperty("UsePostion", false);
+                m_StellarSolver->setProperty("UsePosition", false);
         }
         else
         {
@@ -1989,10 +1988,10 @@ void Align::startSolving()
             else
                 m_StellarSolver->setProperty("UseScale", false);
             //Setting the initial search location settings
-            if(useImagePostion)
+            if(useImagePosition)
                 m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
             else
-                m_StellarSolver->setProperty("UsePostion", false);
+                m_StellarSolver->setProperty("UsePosition", false);
         }
 
         if(Options::alignmentLogging())
@@ -2042,8 +2041,7 @@ void Align::solverComplete()
     else
     {
         FITSImage::Solution solution = m_StellarSolver->getSolution();
-        // Would be better if parity was a bool field instead of a QString with "pos" and "neg" as possible values.
-        const bool eastToTheRight = solution.parity == "pos" ? false : true;
+        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
         solverFinished(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
     }
 }
@@ -2443,7 +2441,7 @@ void Align::solverFailed()
 void Align::stop(Ekos::AlignState mode)
 {
     m_CaptureTimer.stop();
-    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL && m_StellarSolver)
+    if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
         m_StellarSolver->abort();
     else if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser)
         remoteParser->stopSolver();
@@ -3954,12 +3952,12 @@ void Align::initDarkProcessor()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         alignDarkFrameCheck->setChecked(completed);
+        alignView->setProperty("suspended", false);
         if (completed)
         {
             alignView->rescale(ZOOM_KEEP_LEVEL);
             alignView->updateFrame();
         }
-
         setCaptureComplete();
     });
 }

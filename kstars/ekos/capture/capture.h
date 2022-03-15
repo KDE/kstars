@@ -588,8 +588,9 @@ class Capture : public QWidget, public Ui::Capture
          * @brief removeJob Remove a job sequence from the queue
          * @param index Row index for job to remove, if left as -1 (default), the currently selected row will be removed.
          *        if no row is selected, the last job shall be removed.
+         * @param true if sequence is removed. False otherwise.
          */
-        void removeJob(int index = -1);
+        bool removeJob(int index = -1);
 
         void removeJobFromQueue();
 

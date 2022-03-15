@@ -59,7 +59,7 @@ class SolarSystemSingleComponent : public SkyComponent
         void updateMoons(KSNumbers *num) override;
 
 
-        SkyObject *findByName(const QString &name) override;
+        SkyObject *findByName(const QString &name, bool exact = true) override;
         SkyObject *objectNearest(SkyPoint *p, double &maxrad) override;
         void draw(SkyPainter *skyp) override;
 

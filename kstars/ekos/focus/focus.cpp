@@ -137,6 +137,7 @@ Focus::Focus()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         darkFrameCheck->setChecked(completed);
+        focusView->setProperty("suspended", false);
         if (completed)
         {
             focusView->rescale(ZOOM_KEEP_LEVEL);
@@ -1142,6 +1143,7 @@ void Focus::stop(Ekos::FocusState completionState)
     focuserAdditionalMovement = 0;
     inFocusLoop     = false;
     captureInProgress  = false;
+    isVShapeSolution = false;
     captureFailureCounter = 0;
     minimumRequiredHFR = -1;
     noStarCount        = 0;
@@ -1273,6 +1275,7 @@ void Focus::capture(double settleTime)
         }
     }
 
+    focusView->setProperty("suspended", darkFrameCheck->isChecked());
     prepareCapture(targetChip);
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
@@ -1329,7 +1332,7 @@ void Focus::prepareCapture(ISD::CCDChip *targetChip)
         currentCCD->setFastExposureEnabled(false);
     }
 
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setEncodingFormat("FITS");
     targetChip->setBatchMode(false);
     targetChip->setBinning(activeBin, activeBin);
     targetChip->setCaptureMode(FITS_FOCUS);
@@ -1816,20 +1819,19 @@ void Focus::setCurrentHFR(double value)
             return;
         }
 
-        Edge *selectedHFRStarHFR = nullptr;
+        Edge selectedHFRStarHFR = m_ImageData->getSelectedHFRStar();
 
         // Center tracking box around selected star (if it valid) either in:
         // 1. Autofocus
         // 2. CheckFocus (minimumHFRCheck)
         // The starCenter _must_ already be defined, otherwise, we proceed until
         // the latter half of the function searches for a star and define it.
-        if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) &&
-                (selectedHFRStarHFR = m_ImageData->getSelectedHFRStar()) != nullptr)
+        if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0))
         {
             // Now we have star selected in the frame
             starSelected = true;
-            starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR->x)));
-            starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR->y)));
+            starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR.x)));
+            starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR.y)));
 
             syncTrackingBoxPosition();
 
@@ -1960,9 +1962,9 @@ void Focus::setHFRComplete()
         if (useAutoStar->isChecked())
         {
             // Do we have a valid star detected?
-            Edge *selectedHFRStar = m_ImageData->getSelectedHFRStar();
+            const Edge selectedHFRStar = m_ImageData->getSelectedHFRStar();
 
-            if (selectedHFRStar == nullptr)
+            if (selectedHFRStar.x == -1)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
@@ -1984,8 +1986,8 @@ void Focus::setHFRComplete()
             }
 
             // set the tracking box on selectedHFRStar
-            starCenter.setX(selectedHFRStar->x);
-            starCenter.setY(selectedHFRStar->y);
+            starCenter.setX(selectedHFRStar.x);
+            starCenter.setY(selectedHFRStar.y);
             starCenter.setZ(subBinX);
             starSelected = true;
             syncTrackingBoxPosition();
@@ -1996,8 +1998,8 @@ void Focus::setHFRComplete()
             if (subFramed == false && useSubFrame->isEnabled() && useSubFrame->isChecked())
             {
                 int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
-                int subX   = (selectedHFRStar->x - offset) * subBinX;
-                int subY   = (selectedHFRStar->y - offset) * subBinY;
+                int subX   = (selectedHFRStar.x - offset) * subBinX;
+                int subY   = (selectedHFRStar.y - offset) * subBinY;
                 int subW   = offset * 2 * subBinX;
                 int subH   = offset * 2 * subBinY;
 
@@ -2047,8 +2049,8 @@ void Focus::setHFRComplete()
             // If we're subframed or don't need subframe, let's record the max star coordinates
             else
             {
-                starCenter.setX(selectedHFRStar->x);
-                starCenter.setY(selectedHFRStar->y);
+                starCenter.setX(selectedHFRStar.x);
+                starCenter.setY(selectedHFRStar.y);
                 starCenter.setZ(subBinX);
 
                 // Let's now capture again if we're autofocusing

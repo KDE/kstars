@@ -50,6 +50,8 @@ class SequenceJob : public QObject
             SJ_Filter,
             // QString
             SJ_Format,
+            // QString
+            SJ_Encoding,
             // QPoint
             SJ_Binning,
             // QRect
@@ -192,11 +194,6 @@ class SequenceJob : public QObject
         void setFlatFieldDuration(FlatFieldDuration value);
         // Getter: Get flat field duration
         FlatFieldDuration getFlatFieldDuration() const;
-
-        // Setter: Set transform format
-        void setTransferFormat(ISD::CCD::TransferFormat value);
-        // Getter: Get transform format
-        ISD::CCD::TransferFormat getTransferFormat() const;
 
         // Setter: Set job progress ignored flag
         void setJobProgressIgnored(bool value);
@@ -382,7 +379,7 @@ private:
         // Upload Mode
         ISD::CCD::UploadMode m_UploadMode { ISD::CCD::UPLOAD_CLIENT };
         // Transfer Format
-        ISD::CCD::TransferFormat m_TransferFormat { ISD::CCD::FORMAT_FITS };
+        QString m_TransferFormat { "FITS" };
         // capture frame type (light, flat, dark, bias)
         CCDFrameType m_FrameType { FRAME_LIGHT };
 

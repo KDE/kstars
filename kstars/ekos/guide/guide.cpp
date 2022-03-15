@@ -175,11 +175,13 @@ Guide::Guide() : QWidget()
     {
         if (completed != darkFrameCheck->isChecked())
             setDarkFrameEnabled(completed);
+        guideView->setProperty("suspended", false);
         if (completed)
         {
             guideView->rescale(ZOOM_KEEP_LEVEL);
             guideView->updateFrame();
         }
+        guideView->updateFrame();
         setCaptureComplete();
     });
 }
@@ -457,7 +459,8 @@ bool Guide::setCamera(const QString &device)
     // in the 'Guider'pulldown menu. So we cannnot set binning in INDIDriver. As the default binning
     // of the new camera is mostly 1x1 binning is set to 1x1 to prevent false error report of
     // binning support in 'processCCDNumber'.
-    guideBinIndex = 0;
+    //pmneo: Do net reset stored bin setting, this should be solved in the processCCDNumber
+    //guideBinIndex = 0;
 
     return false;
 }
@@ -661,15 +664,26 @@ void Guide::updateGuideParams()
     if (targetChip->canBin())
     {
         int maxBinX, maxBinY;
+
         targetChip->getBinning(&subBinX, &subBinY);
         targetChip->getMaxBin(&maxBinX, &maxBinY);
+
+        //override with stored guide bin index, if within the range of possible bin modes
+        if( guideBinIndex >= 0 && guideBinIndex < maxBinX && guideBinIndex < maxBinY )
+        {
+            subBinX = guideBinIndex + 1;
+            subBinY = guideBinIndex + 1;
+        }
+
+        guideBinIndex = subBinX - 1;
 
         binningCombo->blockSignals(true);
 
         binningCombo->clear();
         for (int i = 1; i <= maxBinX; i++)
             binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
-        binningCombo->setCurrentIndex(subBinX - 1);
+
+        binningCombo->setCurrentIndex( guideBinIndex );
 
         binningCombo->blockSignals(false);
     }
@@ -863,6 +877,9 @@ bool Guide::captureOneFrame()
             !((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled()))
         finalExposure *= 3;
 
+    // Prevent flicker when processing dark frame by suspending updates
+    guideView->setProperty("suspended", operationStack.contains(GUIDE_DARK));
+
     // Timeout is exposure duration + timeout threshold in seconds
     captureTimeout.start(finalExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
 
@@ -880,7 +897,7 @@ void Guide::prepareCapture(ISD::CCDChip *targetChip)
         targetChip->setCaptureFilter(FITS_NONE);
     else
         targetChip->setCaptureFilter(static_cast<FITSScale>(filterCombo->currentIndex()));
-    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setEncodingFormat("FITS");
 }
 
 bool Guide::abort()
@@ -977,7 +994,7 @@ void Guide::processCaptureTimeout()
     auto restartExposure = [&]()
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+        currentCCD->setEncodingFormat("FITS");
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->abortExposure();
         prepareCapture(targetChip);
@@ -1776,9 +1793,12 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
         if (guideBinIndex > (nvp->np[0].value - 1)) // INDI driver reports not supported binning
         {
             appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
-            guideBinIndex = nvp->np[0].value - 1;
+            binningCombo->setCurrentIndex( nvp->np[0].value - 1 );
         }
-        binningCombo->setCurrentIndex(guideBinIndex);
+        else
+        {
+            binningCombo->setCurrentIndex(guideBinIndex);
+        }
         connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Guide::updateCCDBin);
         saveSettings(); // Save binning (and more) immediately
     }
@@ -1796,7 +1816,7 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
             ((m_State == GUIDE_GUIDING) || (m_State == GUIDE_DITHERING) || (m_State == GUIDE_CALIBRATING)))
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
-        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+        currentCCD->setEncodingFormat("FITS");
         targetChip->capture(exposureIN->value());
     }
 }

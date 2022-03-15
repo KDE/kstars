@@ -85,9 +85,11 @@ class SatellitesComponent : public SkyComponent
         /**
          * Return object given name
          * @param name object name
+         * @p exact If true, it will return an exact match, otherwise it can return
+         * a partial match.
          * @return object if found, otherwise nullptr
          */
-        SkyObject *findByName(const QString &name) override;
+        SkyObject *findByName(const QString &name, bool exact = true) override;
 
         void loadData();
 

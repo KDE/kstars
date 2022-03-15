@@ -125,7 +125,7 @@ void SatellitesComponent::draw(SkyPainter *skyp)
 #endif
 }
 
-void SatellitesComponent::drawLabel(Satellite *sat, const QPointF& pos)
+void SatellitesComponent::drawLabel(Satellite *sat, const QPointF &pos)
 {
     SkyLabeler *labeler = SkyLabeler::Instance();
     labeler->setPen(KStarsData::Instance()->colorScheme()->colorNamed("SatLabelColor"));
@@ -243,7 +243,8 @@ SkyObject *SatellitesComponent::objectNearest(SkyPoint *p, double &maxrad)
     return oBest;
 }
 
-SkyObject *SatellitesComponent::findByName(const QString &name)
+SkyObject *SatellitesComponent::findByName(const QString &name, bool exact)
 {
+    Q_UNUSED(exact)
     return nameHash[name.toLower()];
 }

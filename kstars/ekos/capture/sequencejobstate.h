@@ -207,20 +207,30 @@ public:
     /**
      * @brief Trigger all peparation actions before a capture may be started.
      * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
-     * @param enforceStartGuiderDrift flag if the guider drift needs to be taken into account
      * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareLightFrameCapture(bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
+    void prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
      * @brief Initiate tasks required so that capturing of flats may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareFlatFrameCapture();
+    void prepareFlatFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
      * @brief Initiate tasks required so that capturing of darks may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareDarkFrameCapture();
+    void prepareDarkFrameCapture(bool enforceCCDTemp, bool isPreview);
+
+    /**
+     * @brief Initiate tasks required so that capturing of bias may start.
+     * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param isPreview flag if the captures are in the preview mode
+     */
+    void prepareBiasFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
      * @brief The current capture sequence job status
@@ -381,8 +391,10 @@ private:
     bool m_isPreview { false };
     // should a certain temperature should be enforced?
     bool m_enforceTemperature { false };
-    // Ensure that guiding deviation is below a configured thresholdß
+    // Ensure that guiding deviation is below a configured threshold
     bool m_enforceStartGuiderDrift { false };
+    // is guiding active?
+    bool m_isGuiderActive { false };
 
     // ////////////////////////////////////////////////////////////////////
     // capture preparation state

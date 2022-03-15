@@ -175,8 +175,8 @@ void TestSchedulerUnit::runSetupJob(
     // Setup the time and geo.
     KStarsDateTime ut = geo->LTtoUT(*localTime);
     job.setGeo(geo);
-    job.setLocalTime(localTime);
-    QVERIFY(job.hasLocalTime() && job.hasGeo());
+    Scheduler::setLocalTime(localTime);
+    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
 
     Scheduler::setupJob(job, name, priority, ra, dec, ut.djd(), rotation,
                         sequenceUrl, fitsUrl,
@@ -250,10 +250,10 @@ void TestSchedulerUnit::runSetupJob(
 void TestSchedulerUnit::setupGeoAndTimeTest()
 {
     SchedulerJob job(nullptr);
-    QVERIFY(!job.hasLocalTime() && !job.hasGeo());
+    QVERIFY(!Scheduler::hasLocalTime() && !job.hasGeo());
     job.setGeo(&siliconValley);
-    job.setLocalTime(&midNight);
-    QVERIFY(job.hasLocalTime() && job.hasGeo());
+    Scheduler::setLocalTime(&midNight);
+    QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
     QVERIFY(job.getGeo()->lat() == siliconValley.lat());
     QVERIFY(job.getGeo()->lng() == siliconValley.lng());
     QVERIFY(job.getLocalTime() == midNight);
@@ -591,8 +591,9 @@ void TestSchedulerUnit::evaluateJobsTest()
     const double minAltitude = 30.0;
 
     // Test 1: Evaluating an empty jobs list should return an empty list.
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
     QVERIFY(sortedJobs.empty());
 
     // Test 2: Add one job to the list.
@@ -605,8 +606,10 @@ void TestSchedulerUnit::evaluateJobsTest()
                 SchedulerJob::FINISH_SEQUENCE, QDateTime(), 1,
                 minAltitude);
     jobs.append(&job);
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
     // Should have the one same job on both lists.
     QVERIFY(sortedJobs.size() == 1);
     QVERIFY(jobs[0] == sortedJobs[0]);
@@ -661,8 +664,9 @@ void TestSchedulerUnit::evaluateJobsTest()
                 30.0);
     jobs.append(&job2);
 
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
 
     QVERIFY(sortedJobs.size() == 2);
     QVERIFY(sortedJobs[0] == &job1);
@@ -713,8 +717,9 @@ void TestSchedulerUnit::evaluateJobsTest()
                 30.0);
     jobs.append(&job4);
 
-    sortedJobs = Scheduler::evaluateJobs(jobs, state, capturedFrames,  dawn, dusk,
-                                         rescheduleErrors, restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::prepareJobsForEvaluation(jobs, state, capturedFrames, rescheduleErrors,
+                 restart, &possiblyDelay, nullptr);
+    sortedJobs = Scheduler::evaluateJobs(sortedJobs, capturedFrames,  dawn, dusk, nullptr);
 
     QVERIFY(sortedJobs.size() == 2);
     QVERIFY(sortedJobs[0] == &job3);

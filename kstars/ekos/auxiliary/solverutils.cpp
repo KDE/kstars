@@ -16,11 +16,14 @@ SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSe
 {
     connect(&m_Watcher, &QFutureWatcher<bool>::finished, this, &SolverUtils::executeSolver, Qt::UniqueConnection);
     connect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout, Qt::UniqueConnection);
+
+    m_StellarSolver.reset(new StellarSolver());
+    connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
 }
 
 SolverUtils::~SolverUtils()
 {
-    deleteSolver();
+
 }
 
 void SolverUtils::executeSolver()
@@ -37,32 +40,22 @@ void SolverUtils::runSolver(const QString &filename)
 
 void SolverUtils::prepareSolver()
 {
-    if (m_StellarSolver)
-    {
-        auto *solver = m_StellarSolver.release();
-        if (solver)
-        {
-            solver->disconnect(this);
-            if (solver->isRunning())
-            {
-                connect(solver, &StellarSolver::finished, solver, &StellarSolver::deleteLater);
-                solver->abort();
-            }
-            else
-                solver->deleteLater();
-        }
-    }
-
-    m_StellarSolver.reset(new StellarSolver(SSolver::SOLVE, m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
+    if (m_StellarSolver->isRunning())
+        m_StellarSolver->abort();
+    m_StellarSolver->setProperty("ProcessType", SSolver::SOLVE);
+    m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
-    connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
     m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
-    m_StellarSolver->setProperty("SextractorBinaryPath", Options::sextractorBinary());
-    m_StellarSolver->setProperty("SolverPath", Options::astrometrySolverBinary());
-    m_StellarSolver->setProperty("ASTAPBinaryPath", Options::aSTAPExecutable());
-    m_StellarSolver->setProperty("WCSPath", Options::astrometryWCSInfo());
+    // External program paths
+    ExternalProgramPaths externalPaths;
+    externalPaths.sextractorBinaryPath = Options::sextractorBinary();
+    externalPaths.solverPath = Options::astrometrySolverBinary();
+    externalPaths.astapBinaryPath = Options::aSTAPExecutable();
+    externalPaths.watneyBinaryPath = Options::watneyBinary();
+    externalPaths.wcsPath = Options::astrometryWCSInfo();
+    m_StellarSolver->setExternalFilePaths(externalPaths);
 
     //No need for a conf file this way.
     m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
@@ -71,7 +64,7 @@ void SolverUtils::prepareSolver()
     m_TemporaryFilename.clear();
 
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
-    if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP)
+    if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
     {
         m_TemporaryFilename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                   QRegularExpression("[-{}]")));
@@ -102,7 +95,7 @@ void SolverUtils::prepareSolver()
     if (m_UsePosition)
         m_StellarSolver->setSearchPositionInDegrees(m_raDegrees, m_decDegrees);
     else
-        m_StellarSolver->setProperty("UsePostion", false);
+        m_StellarSolver->setProperty("UsePosition", false);
 
     // LOG_ALL is crashy now
     m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
@@ -149,7 +142,11 @@ void SolverUtils::solverDone()
     if (success)
         solution = m_StellarSolver->getSolution();
     emit done(false, success, solution, elapsed);
-    deleteSolver();
+
+    if (!m_TemporaryFilename.isEmpty())
+        QFile::remove(m_TemporaryFilename);
+    m_TemporaryFilename.clear();
+    m_ImageData.reset();
 }
 
 void SolverUtils::solverTimeout()
@@ -157,28 +154,9 @@ void SolverUtils::solverTimeout()
     m_SolverTimer.stop();
     FITSImage::Solution empty;
     emit done(true, false, empty, m_Timeout);
-    deleteSolver();
-}
-
-void SolverUtils::deleteSolver()
-{
-    const std::lock_guard<std::mutex> lock(deleteSolverMutex);
-    auto *solver = m_StellarSolver.release();
-    if (solver)
-    {
-        solver->disconnect(this);
-        if (solver->isRunning())
-        {
-            connect(solver, &StellarSolver::finished, solver, &StellarSolver::deleteLater);
-            solver->abort();
-        }
-        else
-            solver->deleteLater();
-    }
 
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
-
     m_ImageData.reset();
 }

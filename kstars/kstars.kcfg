@@ -417,10 +417,10 @@
          <whatsthis>Toggle whether constellation lines are hidden while the display is in motion.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="SkyCulture" type="UInt">
+      <entry name="SkyCulture" type="String">
          <label>Sky culture</label>
          <whatsthis>Choose sky culture.</whatsthis>
-         <default>11</default>
+         <default>Western</default>
       </entry>
       <entry name="HideCNames" type="Bool">
          <label>Hide constellation names while moving?</label>
@@ -1766,10 +1766,6 @@
          <label>Force exposure times to align with DSLR exposure presets. This insures accurate exposure times for sub-second exposures.</label>
          <default>true</default>
       </entry>
-      <entry name="CaptureFormatIndex" type="UInt">
-         <label>Index of desired capture format (FITS or Native).</label>
-         <default>0</default>
-      </entry>
       <entry name="CaptureDirectory" type="String">
          <label>Path to capture directory to save images.</label>
          <default code="true">KSUtils::getDefaultPath("fitsDir")</default>
@@ -2151,6 +2147,11 @@
          <whatsthis>Path to the Sextractor executable.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("SextractorBinary")</default>
       </entry>
+      <entry name="WatneyBinary" type="String">
+         <label></label>
+         <whatsthis>Path to the Watney Solver executable.</whatsthis>
+         <default code="true">KSUtils::getDefaultPath("WatneyBinary")</default>
+      </entry>
 
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>
@@ -2456,6 +2457,10 @@
       </entry>
    </group>
    <group name="Scheduler">
+    <entry name="SchedulerAlgorithm" type="UInt">
+      <label>Scheduler algorithm</label>
+      <default>0</default>
+    </entry>
     <entry name="SchedulerLogging" type="Bool">
       <whatsthis>Log Ekos Scheduler Module activity.</whatsthis>
       <default>false</default>

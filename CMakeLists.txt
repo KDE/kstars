@@ -138,7 +138,6 @@ else(BUILD_KSTARS_LITE)
     MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
     find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
-      Auth
       Config
       Crash
       DocTools
@@ -215,7 +214,7 @@ MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 if (INDI_FOUND AND NOT ANDROID)
-    find_package(StellarSolver REQUIRED)
+    find_package(StellarSolver REQUIRED 2.1)
 endif(INDI_FOUND AND NOT ANDROID)
 MACRO_BOOL_TO_01(StellarSolver_FOUND HAVE_STELLARSOLVER)
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>426</height>
+    <width>950</width>
+    <height>537</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1">
@@ -59,7 +59,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,1,1,1,1,1" columnstretch="0,0,0,0">
+         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,1,1,1,1,1,0" columnstretch="0,0,0,0">
           <property name="horizontalSpacing">
            <number>1</number>
           </property>
@@ -149,7 +149,7 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="priorityLabel">
             <property name="text">
              <string>Priority:</string>
             </property>
@@ -628,28 +628,25 @@
              <string/>
             </property>
             <property name="minimum">
-             <number>0</number>
+             <double>0.000000000000000</double>
             </property>
             <property name="maximum">
-             <number>360</number>
-            </property>
-            <property name="value">
-             <number>0</number>
+             <double>360.000000000000000</double>
             </property>
             <property name="singleStep">
-             <double>5.0</double>
+             <double>5.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer_2">
+         <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -1050,7 +1047,6 @@
            </property>
            <property name="font">
             <font>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1189,6 +1185,29 @@ font-weight:bold;
             <property name="text">
              <string/>
             </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="schedulerAlgorithmCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: Start jobs that meet the constraints by priority and score.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Always attempt to run a job. It picks the highest priority job that can run according to its constraints. It will interrupt running jobs if a higher priority job can run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Classic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Greedy</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
@@ -1571,7 +1590,7 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1">
+         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1,0">
           <property name="spacing">
            <number>3</number>
           </property>
@@ -1988,7 +2007,7 @@ font-weight:bold;
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="errorHandlingRestartAfterAllButton">
+           <widget class="QRadioButton" name="errorHandlingRestartQueueButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -2284,18 +2303,13 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="constraintButtonGroup">
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -2303,6 +2317,11 @@ font-weight:bold;
   <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

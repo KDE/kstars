@@ -290,6 +290,10 @@ class SchedulerJob
         {
             return state;
         }
+        QDateTime getStateTime() const
+        {
+            return stateTime;
+        }
         void setState(const JOBStatus &value);
         /** @} */
 
@@ -385,8 +389,21 @@ class SchedulerJob
         {
             return completionTime;
         }
+        QDateTime getGreedyCompletionTime() const
+        {
+            return greedyCompletionTime;
+        }
+        const QString &getStopReason() const
+        {
+            return stopReason;
+        }
+        void setStopReason(const QString &reason)
+        {
+            stopReason = reason;
+        }
         void setCompletionTime(const QDateTime &value);
         /** @} */
+        void setGreedyCompletionTime(const QDateTime &value);
 
         /** @brief Shortcut to widget cell for completion time in the job queue table. */
         /** @{ */
@@ -569,11 +586,15 @@ class SchedulerJob
         double getCurrentMoonSeparation() const;
 
         /**
-             * @brief calculateAltitudeTime calculate the altitude time given the minimum altitude given.
+             * @brief calculateNextTime calculate the next time constraints are met (or missed).
              * @param when date and time to start searching from, now if omitted.
-             * @return The date and time the target is at or above the argument altitude, valid if found, invalid if not achievable (always under altitude).
+             * @param constraintsAreMet if true, searches for the next time constrains are met, else missed.
+             * @return The date and time the target meets or misses constraints.
              */
-        QDateTime calculateAltitudeTime(QDateTime const &when = QDateTime()) const;
+        QDateTime calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet = true, int increment = 1,
+                                    QString *reason = nullptr, bool runningJob = false) const;
+        QDateTime getNextPossibleStartTime(const QDateTime &when, int increment = 1, bool runningJob = false) const;
+        QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr) const;
 
         /**
              * @brief calculateCulmination find culmination time adjust for the job offset
@@ -609,10 +630,11 @@ class SchedulerJob
 
         /**
              * @brief runsDuringAstronomicalNightTime
+             * @param time uses the time given for the check, or, if not valid (the default) uses the job's startup time.
              * @return true if the next dawn/dusk event after this observation is the astronomical dawn, else false.
              * @note This function relies on the guarantee that dawn and dusk are calculated to be the first events after this observation.
              */
-        bool runsDuringAstronomicalNightTime() const;
+        bool runsDuringAstronomicalNightTime(const QDateTime &time = QDateTime()) const;
 
         /**
              * @brief findAltitude Find altitude given a specific time
@@ -630,7 +652,7 @@ class SchedulerJob
              * @param azimuth Azimuth
              * @return Minimum allowed altitude of the target at the specific azimuth.
              */
-        double getMinAltitudeConstraint(double azimuth) const;
+        double getMinAltitudeConstraint(double azimuth, bool *artificialHorizon = nullptr) const;
 
         /**
          * @brief setInitialFilter Set initial filter used in the capture sequence. This is used to pass to focus module.
@@ -642,8 +664,14 @@ class SchedulerJob
         // Convenience debugging methods.
         static QString jobStatusString(JOBStatus status);
         static QString jobStageString(JOBStage stage);
+        static QString startupConditionString(SchedulerJob::StartupCondition condition);
+        QString jobStartupConditionString(SchedulerJob::StartupCondition condition) const;
+        static QString completionConditionString(SchedulerJob::CompletionCondition condition);
+        QString jobCompletionConditionString(SchedulerJob::CompletionCondition condition) const;
 
     private:
+        bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk) const;
+
         // Private constructor for unit testing.
         SchedulerJob(KSMoon *moonPtr);
         friend TestSchedulerUnit;
@@ -652,14 +680,6 @@ class SchedulerJob
         /** @brief Setter used in the unit test to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
         static KStarsDateTime getLocalTime();
-        static void setLocalTime(KStarsDateTime *time)
-        {
-            storedLocalTime = time;
-        }
-        static bool hasLocalTime()
-        {
-            return storedLocalTime != nullptr;
-        }
         /** @} */
 
         /** @brief Setter used in testing to fix the geo location. Otherwise getter gets from KStars instance. */
@@ -695,6 +715,10 @@ class SchedulerJob
         JOBStatus state { JOB_IDLE };
         JOBStage stage { STAGE_IDLE };
 
+        // The time that the job stage was set.
+        // Used by the Greedy Algorithm to decide when to run JOB_ABORTED jobs again.
+        QDateTime stateTime;
+
         StartupCondition fileStartupCondition { START_ASAP };
         StartupCondition startupCondition { START_ASAP };
         CompletionCondition completionCondition { FINISH_SEQUENCE };
@@ -705,6 +729,10 @@ class SchedulerJob
         QDateTime fileStartupTime;
         QDateTime startupTime;
         QDateTime completionTime;
+        // An alternative completionTime field used by the greedy scheduler algorithm.
+        QDateTime greedyCompletionTime;
+        // The reason this job is stopping/will-be stopped.
+        QString stopReason;
 
         /* @internal Caches to optimize cell rendering. */
         /* @{ */

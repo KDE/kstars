@@ -70,9 +70,17 @@ void OpsAdvanced::slotChangeTimeScale(float newScale)
 
 void OpsAdvanced::slotToggleHideOptions()
 {
-    textLabelHideTimeStep->setEnabled(kcfg_HideOnSlew->isChecked());
-    SlewTimeScale->setEnabled(kcfg_HideOnSlew->isChecked());
-    HideBox->setEnabled(kcfg_HideOnSlew->isChecked());
+    const auto isOn = kcfg_HideOnSlew->isChecked();
+    textLabelHideTimeStep->setEnabled(isOn);
+    SlewTimeScale->setEnabled(isOn);
+    kcfg_MagLimitHideStar->setEnabled(isOn);
+    kcfg_HideCBounds->setEnabled(isOn);
+    kcfg_HideCLines->setEnabled(isOn);
+    kcfg_HideCNames->setEnabled(isOn);
+    kcfg_HideGrids->setEnabled(isOn);
+    kcfg_HideLabels->setEnabled(isOn);
+    kcfg_HidePlanets->setEnabled(isOn);
+    kcfg_HideStars->setEnabled(isOn);
 }
 
 void OpsAdvanced::slotToggleVerbosityOptions()

@@ -49,7 +49,8 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     updateCoordinatesTimer.setSingleShot(false);
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
-        emit newCoords(currentCoords, pierSide(), hourAngle());
+        if (isConnected())
+            emit newCoords(currentCoords, pierSide(), hourAngle());
     });
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
@@ -204,6 +205,7 @@ void Telescope::registerProperty(INDI::Property prop)
     else if (prop->isNameMatch("EQUATORIAL_EOD_COORD"))
     {
         m_isJ2000 = false;
+        m_hasEquatorialCoordProperty = true;
     }
     else if (prop->isNameMatch("SAT_TRACKING_STAT"))
     {
@@ -212,6 +214,7 @@ void Telescope::registerProperty(INDI::Property prop)
     else if (prop->isNameMatch("EQUATORIAL_COORD"))
     {
         m_isJ2000 = true;
+        m_hasEquatorialCoordProperty = true;
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -278,7 +281,11 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         KStars::Instance()->map()->update();
     }
-    else if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
+    // JM 2022.03.11 Only process HORIZONTAL_COORD if it was the ONLY source of information
+    // When a driver both sends EQUATORIAL_COORD and HORIZONTAL_COORD, we should prioritize EQUATORIAL_COORD
+    // especially since the conversion from horizontal to equatorial is not as accurate and can result in weird
+    // coordinates near the poles.
+    else if (!strcmp(nvp->name, "HORIZONTAL_COORD") && m_hasEquatorialCoordProperty == false)
     {
         INumber *Az  = IUFindNumber(nvp, "AZ");
         INumber *Alt = IUFindNumber(nvp, "ALT");
@@ -290,6 +297,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoords.setAlt(Alt->value);
         currentCoords.HorizontalToEquatorial(KStars::Instance()->data()->lst(),
                                              KStars::Instance()->data()->geo()->lat());
+
         // calculate J2000 coordinates
         updateJ2000Coordinates(&currentCoords);
 

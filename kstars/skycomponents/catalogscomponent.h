@@ -87,7 +87,7 @@ class CatalogsComponent : public SkyComponent
          * \return a pointer to the SkyObject whose name matches the argument, or
          * a nullptr pointer if no match was found. (Due to way KStars works)
          */
-        SkyObject *findByName(const QString &name) override;
+        SkyObject *findByName(const QString &name, bool exact = true) override;
 
         void objectsInArea(QList<SkyObject *> &list, const SkyRegion &region) override;
 

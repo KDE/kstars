@@ -152,10 +152,9 @@ void TestEkosScheduler::testScheduleManipulation()
     for (int i = 0; i < count; i++)
     {
         queueTable->selectRow(i % queueTable->rowCount());
-        int const index = count - i - 1;
-        QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(index)));
-        QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[index % seqs.count()]));
-        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)index/10 + (double)count/2, 45.0);
+        QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
+        QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));
+        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
         QCOMPARE(qPrintable(dms::fromString(raBox->text(), false).toHMSString()), qPrintable(o.ra().toHMSString()));
         QCOMPARE(qPrintable(dms::fromString(decBox->text(), true).toDMSString()), qPrintable(o.dec().toDMSString()));
     }
@@ -171,10 +170,9 @@ void TestEkosScheduler::testScheduleManipulation()
         queueTable->selectRow(0);
         queueTable->selectRow(i % queueTable->rowCount());
 
-        int const index = count - i - 1;
-        QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(index)));
-        QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[index % seqs.count()]));
-        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)index/10 + (double)count/2, 45.0);
+        QCOMPARE(qPrintable(nameEdit->text()), qPrintable(QString("Object-%1").arg(i)));
+        QCOMPARE(qPrintable(sequenceEdit->text()), qPrintable(seqs[i % seqs.count()]));
+        SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
         QCOMPARE(qPrintable(dms::fromString(raBox->text(), false).toHMSString()), qPrintable(o.ra().toHMSString()));
         QCOMPARE(qPrintable(dms::fromString(decBox->text(), true).toDMSString()), qPrintable(o.dec().toDMSString()));
     }
