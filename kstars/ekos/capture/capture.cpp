@@ -1833,7 +1833,8 @@ IPState Capture::setCaptureComplete()
         /* Increase the sequence's current capture count */
         activeJob->setCompleted(activeJob->getCompleted() + 1);
         /* Decrease the counter for in-sequence focusing */
-        inSequenceFocusCounter--;
+        if (inSequenceFocusCounter > 0)
+            inSequenceFocusCounter--;
     }
 
     /* Decrease the dithering counter except for directly after meridian flip                                           */
