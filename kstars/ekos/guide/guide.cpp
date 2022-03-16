@@ -3287,7 +3287,7 @@ QJsonObject Guide::getSettings() const
     settings.insert("dither_enabled", Options::ditherEnabled());
     settings.insert("dither_pixels", Options::ditherPixels());
     settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
-    settings.insert("gpGuideGraph::G_enabled", Options::gPGEnabled());
+    settings.insert("gpg_enabled", Options::gPGEnabled());
 
     return settings;
 }
@@ -3385,7 +3385,7 @@ void Guide::setSettings(const QJsonObject &settings)
     Options::setDitherPixels(ditherPixels);
     const int ditherFrequency = settings["dither_frequency"].toInt(Options::ditherFrames());
     Options::setDitherFrames(ditherFrequency);
-    const bool gpg = settings["gpGuideGraph::G_enabled"].toBool(Options::gPGEnabled());
+    const bool gpg = settings["gpg_enabled"].toBool(Options::gPGEnabled());
     Options::setGPGEnabled(gpg);
 
     init = true;
