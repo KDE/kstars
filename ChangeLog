@@ -68,6 +68,52 @@ bbe08f422 2022-02-21 Salman Naheed        Ekoslive dark library
 5a04cdbaa 2022-02-19 Wolfgang Reissenberger Bugfix selecting guide deviation when guiding is not running
 9071245d7 2022-02-17 Wolfgang Reissenberger Bugfix darks jobstate and #158
 e23f1c33d 2022-02-16 Hy Murveit           Small bug fixes: calibration not always shown. MultiStar graphics offset by a frame.
+5bd737613 2022-02-16 Jasem Mutlaq         Fix meridian flip message, should be KSMessageBox and not newLog
+15e470984 2022-02-16 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+628cf1241 2022-02-15 Yuri Chornoivan      Fix minor typo
+99410cd62 2022-02-15 Hy Murveit           Make sure SolverUtils doesn't delete a running StellarSolver
+c3bd4bd40 2022-02-14 Wolfgang Reissenberger State machine for capture control | preparation phase
+f60d72d9b 2022-02-14 Salman Naheed        Ekoslive dark library
+f103653f4 2022-02-14 Jasem Mutlaq         Disable stellarsolver logging
+59f0a1301 2022-02-14 Wolfgang Reissenberger Display of filter name corrected
+22e0ec011 2022-02-14 Jasem Mutlaq         More refinement to the polynomial method. Discard bad data points.
+d606ffd33 2022-02-14 Jasem Mutlaq         Check target position versus current position every N frames
+76e733a3e 2022-02-13 Robert Lancaster     removing setLoadWCS in another spot
+80eabfa07 2022-02-12 Jasem Mutlaq         Change default guide exposure to 2 seconds
+0fd94a4a5 2022-02-11 Hy Murveit           guider bugfix, firstframe improperly set
+dd1c4becb 2022-02-10 Jasem Mutlaq         Allow send module frame to send from dark library
+be665df18 2022-02-10 Hy Murveit           Check position after captures
+ce83f275f 2022-02-08 Jasem Mutlaq         INDI drivers sync
+d9e30a0fe 2022-02-08 Jasem Mutlaq         Remove check for parking time over 12 hours since it is acceptable if within 24 hours
+6978d77d9 2022-02-08 Robert Lancaster     Removing WCS Coord disabling line
+1ba2464c3 2022-02-07 Hy Murveit           Changes needed for upcoming Indi AstroPhysics driver
+e40d833de 2022-02-05 Hy Murveit           guider cleanup and bugfix
+b831c904e 2022-02-05 Hy Murveit           Add developer options tab, add option to save internal guider images.
+62a551549 2022-01-31 Jasem Mutlaq         Catalog search should not be limited so that we can check for multiple identifiers
+9305fe2b2 2022-01-31 Hy Murveit           Analyze: update graphics plot for completed capture or focus if latest is checked.
+f1d600e5e 2022-01-31 l10n daemon script   SVN_SILENT made messages (.desktop file) - always resolve ours
+3a778dc16 2022-01-27 Jasem Mutlaq         Increase test timeout
+1c8e607e9 2022-01-27 Hy Murveit           Adjust dbus interfaces and paths to allow test_ekos_scheduler_ops tests to...
+0515257a7 2022-01-27 Hy Murveit           Min #detections to initialize SEP MultiStar
+6a5a96382 2022-01-26 Hy Murveit           add missing signal to analyze for focus restarts
+0f2a4c951 2022-01-26 Jasem Mutlaq         Fix wrong arg
+55b462887 2022-01-25 Toni Schriber        Standardized dialog for guider 'Control Parameters' &'Other Settings'
+35236a51c 2022-01-23 Jasem Mutlaq         Check if regionItem is null
+b3114467b 2022-01-23 Jasem Mutlaq         Fix issue in treating calibration frames since we used to only check a single channel whereas we were supposed to check all three
+8808d3309 2022-01-23 Jasem Mutlaq         Add else for multiple channels
+1efbbc7cc 2022-01-22 Robert Lancaster     Adding translations to Mac prebuild
+6dafdc27b 2022-01-21 Jasem Mutlaq         Fix bug where filter is sometimes not set in camera or dustcap drivers unless it is set explicitly by the user by selecting it from the dropdown. No..
+003a29faa 2022-01-21 Jasem Mutlaq         Fix issue when saving dark flats with sub-second exposures as we need to update the full prefix if duration was selected
+0032701b6 2022-01-21 Jasem Mutlaq         Invalidate download timer to avoid bogus reports
+18174ad1c 2022-01-21 Jasem Mutlaq         Reduce threashold to 1000ms
+ff1ac9cfe 2022-01-21 Salman Naheed        Add generate dark flats to EkosLive
+0ecfd135b 2022-01-20 Jasem Mutlaq         Make it so it is possible to create a 1x1 mosaic for purposes of framing
+0f5c633c5 2022-01-20 Jasem Mutlaq         Update sequence prefix for ADU-calculated flat frames since full prefix can...
+36e47a522 2022-01-20 Jasem Mutlaq         Set Focus module to the filter of the first light job in the sequence so that...
+7c0807ad4 2022-01-19 Jasem Mutlaq         Starting KStars v3.5.8 development cycle
+06277101e 2022-01-18 Jasem Mutlaq         INDI drivers sync
+2e8345b8f 2022-01-17 Jasem Mutlaq         Improve message when failing to establish connection for remote devices
+6f94491d3 2022-01-17 Jasem Mutlaq         Move options before ekoslive
 
 
 3.5.7 (DoLookUp):
