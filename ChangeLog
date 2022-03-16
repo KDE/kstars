@@ -4,6 +4,72 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.5.8 (Arrakis):
+
+907bc629b 2022-03-15 Jasem Mutlaq         Replace repeated message with just a label update
+fead0a8d4 2022-03-15 Wolfgang Reissenberger Avoid in-sequence-counter countdown when already zero
+b10c443f7 2022-03-14 Robert Lancaster     Forgot Prefix path for DriverSupport
+0a552226f 2022-03-14 Jasem Mutlaq         Only emit newCoord when mount is connected
+e02adcf48 2022-03-14 Wolfgang Reissenberger Bugfix initial guide deviation set blocks post MF calibration
+6853eec35 2022-03-14 Jasem Mutlaq         If telescope device is not defined or connected, do not process coordinates
+1640c7a2b 2022-03-13 Robert Lancaster     Moving KStars Mac INDI copy instructions to cmakelists
+56cd0535f 2022-03-13 Jasem Mutlaq         Add an exact parameter to findByName so that catalog component can customize its search behavior globally
+64b9ec0c3 2022-03-13 Akarsh Simha         Fix  CatalogsComponent::findByName() to find only 1 exact match
+0e2a3ab07 2022-03-13 Akarsh Simha         Fixes and some improvements to the "Add catalog object" UI
+e22bfc6ed 2022-03-11 Akarsh Simha         Fix truncation of observing list upon adding to it from popup menu
+993692eaa 2022-03-13 Akarsh Simha         Make some usability improvements, especially in the Find Dialog
+9245f9b75 2022-03-12 Hy Murveit           reduce log spam
+e23a7ab8c 2022-03-12 Jasem Mutlaq         Various memory leaks. Still there is definitely memory leaks when performing...
+dabeeec3d 2022-03-11 Jasem Mutlaq         Fix compile on 18.04
+f34bcb7d9 2022-03-11 Jasem Mutlaq         Disable event-driven setScopeStatus from INDI::Telescope since it sets m_Status which prevents the polling method from working
+5033fba01 2022-03-11 Jasem Mutlaq         Fix bug that caused PAA to fail if a driver send HORIZONTAL_COORD as well
+836f47c89 2022-03-11 Jasem Mutlaq         Improve Look n Feel tab
+23bb6cbfd 2022-03-10 Robert Lancaster     updating to StellarSolver 2.1
+f184fd378 2022-03-09 Nicolas Fella        Don't find KAuth
+96ed6a6d7 2022-03-10 Jasem Mutlaq         Fix compile on Windows
+755c34e96 2022-03-09 Hy Murveit           Make the test_ekos_scheduler_ops tests more stable.
+860301309 2022-03-09 Jasem Mutlaq         Fix typo
+abec3e796 2022-03-09 Jasem Mutlaq         Extra check
+e4685108d 2022-03-09 Jasem Mutlaq         vShapeSolution should be reset in stop
+d38a27b17 2022-03-08 Akarsh Simha         Whenever stars have Henry Draper numbers, make them show up as their names
+21635a353 2022-03-08 Robert Lancaster     Fix memory leak
+4c71e6262 2022-03-07 Jasem Mutlaq         No need to explicitly load the dark frame
+50c523bdc 2022-03-07 Jasem Mutlaq         Clear pointers on disconnect
+d973ffec2 2022-03-06 Robert Lancaster     Making it faster by reusing stellarsolver.
+4ea60c7fe 2022-03-07 Jasem Mutlaq         Capture encoding is now fully implemented in the code along with capture format. Fix issue when setting temperature and filters in non-light frames
+e1a1f7c33 2022-03-06 Jasem Mutlaq         Make it compile on 18.04
+4cfc70ff0 2022-03-06 Jasem Mutlaq         Make it compile on 18.04
+8e7fd183f 2022-03-06 Hy Murveit           change scheduler colors for analyze
+146577ca6 2022-03-06 Robert Lancaster     Fixing a KHelpClient bug on MacOS
+3b39d06b4 2022-03-06 Philip Mair          Fixed restoring of bin settings
+134d3d8d1 2022-03-06 Yuri Chornoivan      Fix minor typos
+52e0e4d1e 2022-03-06 Jasem Mutlaq         Improve tooltip and simplify UI
+961575df9 2022-03-05 Robert Lancaster     Improving Tooltips
+d2724f80c 2022-03-05 Jasem Mutlaq         Clear sequence array on clear sequence
+24d0806b5 2022-03-02 Akarsh Simha         Fix bug due to addition of new sky culture by saving config differently
+ec9448cbd 2022-03-05 Hy Murveit           New Greedy Algorithm for Scheduler
+a39d48e8e 2022-03-04 Mattia Procopio      Allow to provide a custom URL to download index data from
+3e5b922c1 2022-03-04 Robert Lancaster     Fixing some issues found by Jussi Saarvirta
+56a377826 2022-03-03 Hy Murveit           fix maxGuidestarsHFR issue, fix test, increase max dither size
+cf5db0400 2022-03-02 Robert Lancaster     Updating KStars to support StellarSolver 2.0
+9f20fe9e7 2022-03-02 Jasem Mutlaq         Make minimum exposure value 1 for refresh phase
+831dc2890 2022-03-02 Hy Murveit           Allow older capture sequence files
+cc7225978 2022-03-01 Salman Naheed        Ekoslive dark library
+bfa23a060 2022-02-28 Nate Graham          Add Release tags to AppStream metadata file
+06d6c0460 2022-02-26 Nate Graham          Make default color scheme default
+8fe6068e0 2022-02-24 Salman Naheed        Ekoslive dark library
+5dbb32de0 2022-02-23 Hy Murveit           Unconstrain Ekos' main vertical slider
+df71cbf3e 2022-02-22 Salman Naheed        Ekoslive dark library
+cd1cb58cf 2022-02-22 Wolfgang Reissenberger Timer based update of mount coordinates
+8c457d62a 2022-02-22 Jasem Mutlaq         Add support for INDI capture format
+2de2a7d0b 2022-02-21 Akarsh Simha         Adding popular asterisms as a sky culture
+bbe08f422 2022-02-21 Salman Naheed        Ekoslive dark library
+46d5fd47b 2022-02-21 Hy Murveit           Change gpg period spinbox from int to double
+5a04cdbaa 2022-02-19 Wolfgang Reissenberger Bugfix selecting guide deviation when guiding is not running
+9071245d7 2022-02-17 Wolfgang Reissenberger Bugfix darks jobstate and #158
+e23f1c33d 2022-02-16 Hy Murveit           Small bug fixes: calibration not always shown. MultiStar graphics offset by a frame.
+
+
 3.5.7 (DoLookUp):
 
 feb6170cb 2022-01-16 Jasem Mutlaq         Make sure mount is slewing first

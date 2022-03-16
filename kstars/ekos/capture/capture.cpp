@@ -2327,7 +2327,8 @@ void Capture::captureImage()
     // Do not start nor abort if Focus is busy
     if (m_FocusState >= FOCUS_PROGRESS)
     {
-        appendLogText(i18n("Delaying capture while focus module is busy."));
+        //appendLogText(i18n("Delaying capture while focus module is busy."));
+        secondsLabel->setText(i18n("Focusing..."));
         QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
         return;
     }
@@ -3669,7 +3670,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             m_State = CAPTURE_CALIBRATING;
             if (m_DeviationDetected == true)
                 appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
-                               deviationText, startGuiderDriftN->value()));
+                                   deviationText, startGuiderDriftN->value()));
             m_DeviationDetected = false;
         }
         else
@@ -3677,7 +3678,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             // warn only once
             if (m_DeviationDetected == false)
                 appendLogText(i18n("Initial guiding deviation %1 exceeded limit value of %2 arcsecs",
-                               deviationText, startGuiderDriftN->value()));
+                                   deviationText, startGuiderDriftN->value()));
 
             m_DeviationDetected = true;
 

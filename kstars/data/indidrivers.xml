@@ -53,9 +53,9 @@
             <driver name="AstroPhysics">indi_lx200ap</driver>
             <version>1.0</version>
         </device>
-        <device label="AstroPhysics Testing" manufacturer="Astrophysics">
-            <driver name="AstroPhysics Testing">indi_lx200ap_v2</driver>
-            <version>1.0</version>
+        <device label="AstroPhysics V2" manufacturer="Astrophysics">
+            <driver name="AstroPhysics V2">indi_lx200ap_v2</driver>
+            <version>1.1</version>
         </device>
         <device label="ZWO AM5" manufacturer="ZWO">
             <driver name="LX200 Autostar">indi_lx200autostar</driver>
@@ -431,6 +431,10 @@
             <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
             <version>0.7</version>
         </device>
+        <device label="Esatto Arco" manufacturer="Primaluce Lab">
+            <driver name="Esatto Arco">indi_esattoarco_focus</driver>
+            <version>0.1</version>
+        </device>
         <device label="Lakeside" manufacturer="LakesideAstro">
             <driver name="Lakeside">indi_lakeside_focus</driver>
             <version>1.1</version>
@@ -785,37 +789,37 @@
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
         <device label="ZWO Camera 1" manufacturer="ZWO">
             <driver name="ZWO Camera">indi_asi_single_ccd</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
         <device label="ZWO Camera 2" manufacturer="ZWO">
             <driver name="ZWO Camera">indi_asi_single_ccd</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
         <device label="ZWO Camera 3" manufacturer="ZWO">
             <driver name="ZWO Camera">indi_asi_single_ccd</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ASI EFW" mdpd="true" manufacturer="ZWO">
             <driver name="ASI EFW">indi_asi_wheel</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ASI EAF" manufacturer="ZWO">
             <driver name="ASI EAF">indi_asi_focuser</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ASI ST4" manufacturer="ZWO">
             <driver name="ASI ST4">indi_asi_st4</driver>
-            <version>2.0</version>
+            <version>2.1</version>
         </device>
     </devGroup>
 </driversList>
@@ -823,7 +827,7 @@
     <devGroup group="Auxiliary">
         <device label="AstroLink 4">
             <driver name="AstroLink 4">indi_astrolink4</driver>
-            <version>0.1</version>
+            <version>0.7</version>
         </device>
     </devGroup>
 </driversList>
