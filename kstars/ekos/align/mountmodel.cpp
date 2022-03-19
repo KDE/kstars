@@ -66,10 +66,6 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
         QIcon::fromTheme("document-open"));
     loadAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    saveAsAlignB->setIcon(
-        QIcon::fromTheme("document-save-as"));
-    saveAsAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
     saveAlignB->setIcon(
         QIcon::fromTheme("document-save"));
     saveAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -100,7 +96,6 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
             &Ekos::MountModel::slotStarSelected);
 
     connect(loadAlignB, &QPushButton::clicked, this, &Ekos::MountModel::slotLoadAlignmentPoints);
-    connect(saveAsAlignB, &QPushButton::clicked, this, &Ekos::MountModel::slotSaveAsAlignmentPoints);
     connect(saveAlignB, &QPushButton::clicked, this, &Ekos::MountModel::slotSaveAlignmentPoints);
     connect(clearAllAlignB, &QPushButton::clicked, this, &Ekos::MountModel::slotClearAllAlignPoints);
     connect(removeAlignB, &QPushButton::clicked, this, &Ekos::MountModel::slotRemoveAlignPoint);
@@ -255,7 +250,7 @@ void MountModel::updatePreviewAlignPoints()
 void MountModel::slotLoadAlignmentPoints()
 {
     QUrl fileURL = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Open Ekos Alignment List"),
-                   alignURLPath,
+                   alignURL,
                    "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
         return;
@@ -267,7 +262,7 @@ void MountModel::slotLoadAlignmentPoints()
         return;
     }
 
-    alignURLPath = QUrl(fileURL.url(QUrl::RemoveFilename));
+    alignURL = fileURL;
 
     loadAlignmentPoints(fileURL.toLocalFile());
     if (previewShowing)
@@ -358,12 +353,6 @@ bool MountModel::loadAlignmentPoints(const QString &fileURL)
     return false;
 }
 
-void MountModel::slotSaveAsAlignmentPoints()
-{
-    alignURL.clear();
-    slotSaveAlignmentPoints();
-}
-
 void MountModel::slotSaveAlignmentPoints()
 {
     QUrl backupCurrent = alignURL;
@@ -371,33 +360,18 @@ void MountModel::slotSaveAlignmentPoints()
     if (alignURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || alignURL.toLocalFile().contains("/Temp"))
         alignURL.clear();
 
+    alignURL = QFileDialog::getSaveFileUrl(this, i18nc("@title:window", "Save Ekos Alignment List"), alignURL,
+                                           "Ekos Alignment List (*.eal)");
+    // if user presses cancel
     if (alignURL.isEmpty())
     {
-        alignURL = QFileDialog::getSaveFileUrl(this, i18nc("@title:window", "Save Ekos Alignment List"), alignURLPath,
-                                               "Ekos Alignment List (*.eal)");
-        // if user presses cancel
-        if (alignURL.isEmpty())
-        {
-            alignURL = backupCurrent;
-            return;
-        }
-
-        alignURLPath = QUrl(alignURL.url(QUrl::RemoveFilename));
-
-        if (alignURL.toLocalFile().endsWith(QLatin1String(".eal")) == false)
-            alignURL.setPath(alignURL.toLocalFile() + ".eal");
-
-        if (QFile::exists(alignURL.toLocalFile()))
-        {
-            int r = KMessageBox::warningContinueCancel(nullptr,
-                    i18n("A file named \"%1\" already exists. "
-                         "Overwrite it?",
-                         alignURL.fileName()),
-                    i18n("Overwrite File?"), KStandardGuiItem::overwrite());
-            if (r == KMessageBox::Cancel)
-                return;
-        }
+        alignURL = backupCurrent;
+        return;
     }
+
+    if (alignURL.toLocalFile().endsWith(QLatin1String(".eal")) == false)
+        alignURL.setPath(alignURL.toLocalFile() + ".eal");
+
 
     if (alignURL.isValid())
     {

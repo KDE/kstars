@@ -55,7 +55,6 @@ class MountModel : public QDialog, public Ui::mountModel
         void slotWizardAlignmentPoints();
         void slotStarSelected(const QString selectedStar);
         void slotLoadAlignmentPoints();
-        void slotSaveAsAlignmentPoints();
         void slotSaveAlignmentPoints();
         void slotClearAllAlignPoints();
         void slotRemoveAlignPoint();
@@ -110,7 +109,6 @@ class MountModel : public QDialog, public Ui::mountModel
         bool previewShowing { false };
         QVector<const StarObject *> alignStars;
         QUrl alignURL;
-        QUrl alignURLPath;
         SkyPoint telescopeCoord;
 
 
