@@ -1328,6 +1328,9 @@ if(APPLE)
         "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/dbus"
         DESTINATION "${KSTARS_APP}/Contents/Plugins/")
     file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/gsc"
+        DESTINATION "${KSTARS_APP}/Contents/MacOS/")
+    file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
         DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications5/")
     file(COPY
@@ -1361,15 +1364,6 @@ if(APPLE)
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     endif(NOT XPLANET)
 
-    find_program(GSC gsc PATHS ${PATHS})
-    if(NOT GSC)
-        message(WARNING "GSC program not found in Path, the CCD Simulator won't have stars without it.")
-    else(NOT GSC)
-        file(COPY
-            "${GSC}"
-            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
-    endif(NOT GSC)
-
     find_program(INDI_SERVER indiserver PATHS ${PATHS})
     if(NOT INDI_SERVER)
         message(WARNING "indiserver program and drivers not found, you can't run local indi drivers without it.")
@@ -1385,8 +1379,12 @@ if(APPLE)
           )
         list(FILTER INDI_DRIVERS EXCLUDE REGEX "dSYM$")
         file(COPY ${INDI_DRIVERS} DESTINATION "${KSTARS_APP}/Contents/MacOS/")
-        # Driver Support Files
-        file(COPY "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        # Driver Support Files (Note: On some installations it is in the install prefix, in others in the /usr/local/lib directory)
+        if(EXISTS "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport")
+            file(COPY "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        elseif(EXISTS "/usr/local/lib/indi/DriverSupport")
+            file(COPY "/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        endif(EXISTS "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport")
         file(GLOB XML_FILES
             "${CMAKE_INSTALL_PREFIX}/share/indi/*"
           )
