@@ -216,10 +216,24 @@ QDateTime firstPossibleStart(SchedulerJob *job, const QDateTime &now,
                              bool rescheduleErrors, int errorDelaySeconds)
 {
     QDateTime possibleStart = now;
-    if (job->getState() == SchedulerJob::JOB_ABORTED && rescheduleAbortsQueue)
-        possibleStart = job->getStateTime().addSecs(abortDelaySeconds);
-    if (job->getState() == SchedulerJob::JOB_ERROR && rescheduleErrors)
-        possibleStart = job->getStateTime().addSecs(errorDelaySeconds);
+    const QDateTime &abortTime = job->getLastAbortTime();
+    const QDateTime &errorTime = job->getLastErrorTime();
+
+    if (abortTime.isValid() && rescheduleAbortsQueue)
+    {
+        auto abortStartTime = abortTime.addSecs(abortDelaySeconds);
+        if (abortStartTime > now)
+            possibleStart = abortStartTime;
+    }
+
+
+    if (errorTime.isValid() && rescheduleErrors)
+    {
+        auto errorStartTime = errorTime.addSecs(errorDelaySeconds);
+        if (errorStartTime > now)
+            possibleStart = errorStartTime;
+    }
+
     if (!possibleStart.isValid() || possibleStart < now)
         possibleStart = now;
     return possibleStart;
