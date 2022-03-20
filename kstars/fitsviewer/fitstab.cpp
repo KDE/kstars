@@ -684,10 +684,15 @@ bool FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
-        currentURL =
-            QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
-                                        "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
-
+        #ifdef Q_OS_OSX //For some reason, the other code caused KStars to crash on MacOS
+                currentURL =
+                    QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
+                                                "Images (*.fits *.fits.gz *.fit *.jpg *.jpeg *.png)");
+        #else
+                currentURL =
+                    QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
+                                                "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
+        #endif
         // if user presses cancel
         if (currentURL.isEmpty())
         {

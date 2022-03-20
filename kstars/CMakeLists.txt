@@ -1300,17 +1300,16 @@ else ()
 endif ()
 
 if(APPLE)
-    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
-        include(FetchContent)
-        FetchContent_Declare(macfiles
-          GIT_REPOSITORY https://github.com/rlancaste/kstars-mac-files.git
-          GIT_TAG main
-          CONFIGURE_COMMAND ""
-          BUILD_COMMAND ""
-          SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/macfiles
-        )
-        FetchContent_MakeAvailable(macfiles)
-    endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/macfiles)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files)
+        message(STATUS "Updating KStars Mac Files")
+        execute_process(COMMAND "git" "pull"
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files")
+    else(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files)
+        message(STATUS "Downloading KStars Mac Files")
+        execute_process(COMMAND "git" "clone" "https://github.com/rlancaste/kstars-mac-files.git"
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    endif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files)
+
     set(KSTARS_APP "${CMAKE_BINARY_DIR}/bin/KStars.app")
     execute_process(COMMAND ${CMAKE_COMMAND}
                     -DBUNDLED_DATA_LOCATION=${CMAKE_BINARY_DIR}/bin/KStars.app/Contents/Resources
@@ -1322,11 +1321,14 @@ if(APPLE)
         "${CMAKE_CURRENT_SOURCE_DIR}/data/qml"
         DESTINATION "${KSTARS_APP}/Contents/Resources/kstars/")
     file(COPY
-        "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/icons"
+        "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/icons"
         DESTINATION "${KSTARS_APP}/Contents/Resources/")
     file(COPY
-        "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/dbus"
+        "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/dbus"
         DESTINATION "${KSTARS_APP}/Contents/Plugins/")
+    file(COPY
+        "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/gsc"
+        DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
         DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications5/")
@@ -1361,15 +1363,6 @@ if(APPLE)
             DESTINATION "${KSTARS_APP}/Contents/MacOS/")
     endif(NOT XPLANET)
 
-    find_program(GSC gsc PATHS ${PATHS})
-    if(NOT GSC)
-        message(WARNING "GSC program not found in Path, the CCD Simulator won't have stars without it.")
-    else(NOT GSC)
-        file(COPY
-            "${GSC}"
-            DESTINATION "${KSTARS_APP}/Contents/MacOS/")
-    endif(NOT GSC)
-
     find_program(INDI_SERVER indiserver PATHS ${PATHS})
     if(NOT INDI_SERVER)
         message(WARNING "indiserver program and drivers not found, you can't run local indi drivers without it.")
@@ -1385,8 +1378,12 @@ if(APPLE)
           )
         list(FILTER INDI_DRIVERS EXCLUDE REGEX "dSYM$")
         file(COPY ${INDI_DRIVERS} DESTINATION "${KSTARS_APP}/Contents/MacOS/")
-        # Driver Support Files
-        file(COPY "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        # Driver Support Files (Note: On some installations it is in the install prefix, in others in the /usr/local/lib directory)
+        if(EXISTS "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport")
+            file(COPY "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        elseif(EXISTS "/usr/local/lib/indi/DriverSupport")
+            file(COPY "/usr/local/lib/indi/DriverSupport" DESTINATION "${KSTARS_APP}/Contents/Resources/")
+        endif(EXISTS "${CMAKE_INSTALL_PREFIX}/usr/local/lib/indi/DriverSupport")
         file(GLOB XML_FILES
             "${CMAKE_INSTALL_PREFIX}/share/indi/*"
           )
@@ -1408,23 +1405,23 @@ if(APPLE)
         file(COPY ${CAMLIBS} DESTINATION "${KSTARS_APP}/Contents/Resources/DriverSupport/gphoto/CAMLIBS/")
     endif(NOT INDI_SERVER)
 
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/FrameworksForVLC.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/FrameworksForVLC.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/backend.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/backend.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/phonon/vlc.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/vlc.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/xplanet-data.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/xplanet-data.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/kstars/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/sounds.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/sounds.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/locale.zip"
+    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/locale.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/")
     set(KSTARS_VERSION "${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_REVISION}")
     execute_process(COMMAND date "+%Y" OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE THIS-YEAR)
     set_target_properties(kstars PROPERTIES
         MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/macfiles/macosbundle.plist.in"
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/macosbundle.plist.in"
     )
 endif(APPLE)
 

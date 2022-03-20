@@ -6,13 +6,18 @@
 
 #pragma once
 
+#include <stellarsolver.h>
+
 #include <QObject>
 #include <QString>
 #include <QTimer>
 #include <QFutureWatcher>
 #include <mutex>
-#include <stellarsolver.h>
 #include <memory>
+
+#ifdef _WIN32
+#undef Unused
+#endif
 
 class FITSData;
 
