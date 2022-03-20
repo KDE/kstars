@@ -294,6 +294,14 @@ class SchedulerJob
         {
             return stateTime;
         }
+        QDateTime getLastAbortTime() const
+        {
+            return lastAbortTime;
+        }
+        QDateTime getLastErrorTime() const
+        {
+            return lastErrorTime;
+        }
         void setState(const JOBStatus &value);
         /** @} */
 
@@ -718,6 +726,8 @@ class SchedulerJob
         // The time that the job stage was set.
         // Used by the Greedy Algorithm to decide when to run JOB_ABORTED jobs again.
         QDateTime stateTime;
+        QDateTime lastAbortTime;
+        QDateTime lastErrorTime;
 
         StartupCondition fileStartupCondition { START_ASAP };
         StartupCondition startupCondition { START_ASAP };
