@@ -341,7 +341,10 @@ void SchedulerJob::setState(const JOBStatus &value)
 
     /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
     if (JOB_ERROR == state)
+    {
+        lastErrorTime = getLocalTime();
         KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
+    }
 
     /* If job becomes invalid or idle, automatically reset its startup characteristics, and force its duration to be reestimated */
     if (JOB_INVALID == value || JOB_IDLE == value)
@@ -354,6 +357,7 @@ void SchedulerJob::setState(const JOBStatus &value)
     /* If job is aborted, automatically reset its startup characteristics */
     if (JOB_ABORTED == value)
     {
+        lastAbortTime = getLocalTime();
         setStartupCondition(fileStartupCondition);
         /* setStartupTime(fileStartupTime); */
     }
@@ -865,6 +869,8 @@ void SchedulerJob::reset()
     state = JOB_IDLE;
     stage = STAGE_IDLE;
     stateTime = getLocalTime();
+    lastAbortTime = QDateTime();
+    lastErrorTime = QDateTime();
     estimatedTime = -1;
     leadTime = 0;
     startupCondition = fileStartupCondition;

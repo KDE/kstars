@@ -123,6 +123,11 @@ void TestEkosSchedulerOps::init()
     // define START_ASAP and FINISH_SEQUENCE as default startup/completion conditions.
     m_startupCondition.type = SchedulerJob::START_ASAP;
     m_completionCondition.type = SchedulerJob::FINISH_SEQUENCE;
+
+    Options::setDawnOffset(0);
+    Options::setDuskOffset(0);
+    Options::setSettingAltitudeCutoff(0);
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_CLASSIC);
 }
 
 void TestEkosSchedulerOps::cleanup()
@@ -998,7 +1003,6 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
 
 void TestEkosSchedulerOps::testGreedySchedulerRun()
 {
-
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
     // This test will iterate the scheduler every 40 simulated seconds (to save testing time).
     WithInterval interval(40000, scheduler);
@@ -1270,6 +1274,8 @@ void TestEkosSchedulerOps::testGreedy()
 
 void TestEkosSchedulerOps::testGreedyAborts()
 {
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+
     // Allow 5minutes of slop in the schedule. The scheduler simulates every 2 minutes,
     // so 5 minutes is a little more than 2 of these timesteps.
     constexpr int checkScheduleTolerance = 300;
@@ -1303,26 +1309,26 @@ void TestEkosSchedulerOps::testGreedyAborts()
     loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30);
     loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42);
 
-    // start the scheduler at ...
-    KStarsDateTime evalUTime(QDate(2022, 2, 28), QTime(12, 30, 26), Qt::UTC);
+    // start the scheduler at 1am
+    KStarsDateTime evalUTime(QDate(2022, 2, 28), QTime(9, 00, 00), Qt::UTC);
     KStarsData::Instance()->changeDateTime(evalUTime);
 
     scheduler->evaluateJobs(false);
 
     QVERIFY(checkSchedule(
     {
-        {"M 5",        "2022/02/28 04:30", "2022/02/28 05:14"},
+        {"M 104",      "2022/02/28 01:00", "2022/02/28 03:52"},
+        {"M 5",        "2022/02/28 03:52", "2022/02/28 05:14"},
         {"M 42",       "2022/02/28 19:31", "2022/02/28 20:43"},
         {"NGC 3628",   "2022/02/28 22:02", "2022/03/01 00:38"},
         {"M 104",      "2022/03/01 00:39", "2022/03/01 03:49"},
         {"M 5",        "2022/03/01 03:50", "2022/03/01 05:12"},
         {"M 42",       "2022/03/01 19:31", "2022/03/01 20:39"},
         {"NGC 3628",   "2022/03/01 21:58", "2022/03/02 00:34"},
-        {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"},
-        {"M 5",        "2022/03/02 03:46", "2022/03/02 05:12"}},
+        {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"}},
     scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
-    // Now load the same schedule, but set the M5 job to have been aborted a minute before (2/28 12:29) the eval time (2/28 12:30am)
+    // Now load the same schedule, but set the M104 job to have been aborted a minute before
     scheduler->getGreedyScheduler()->setRescheduleAbortsImmediate(false);
     scheduler->getGreedyScheduler()->setRescheduleAbortsQueue(true);
     scheduler->getGreedyScheduler()->setRescheduleErrors(true);
@@ -1336,34 +1342,68 @@ void TestEkosSchedulerOps::testGreedyAborts()
     // Otherwise time changes below will trigger reschedules and mess up test.
     scheduler->state = Ekos::SCHEDULER_RUNNING;
 
-    // Find the M 5 job and make it aborted at ....
-    KStarsDateTime abortUTime(QDate(2022, 2, 28), QTime(12, 29, 26), Qt::UTC);
+    // Find the M 104 job and make it aborted at 12:59am
+    KStarsDateTime abortUTime(QDate(2022, 2, 28), QTime(8, 59, 00), Qt::UTC);
     KStarsData::Instance()->changeDateTime(abortUTime);
 
+    SchedulerJob *m104Job = nullptr;
     foreach (auto &job, scheduler->jobs)
-        if (job->getName() == "M 5")
-            job->setState(SchedulerJob::JOB_ABORTED);
+        if (job->getName() == "M 104")
+        {
+            m104Job = job;
+            m104Job->setState(SchedulerJob::JOB_ABORTED);
+        }
+    QVERIFY(m104Job != nullptr);
 
-    // start the scheduler at ...
+    // start the scheduler at 1am
     KStarsData::Instance()->changeDateTime(evalUTime);
 
     scheduler->evaluateJobs(false);
 
-    // The M5 job is no longer the first job, since aborted jobs are delayed an hour,
-    // but it does return the next day.
-
+    // The M104 job is no longer the first job, since aborted jobs are delayed an hour,
     QVERIFY(checkSchedule(
     {
-        {"M 42",       "2022/02/28 19:30", "2022/02/28 20:42"},
-        {"NGC 3628",   "2022/02/28 22:03", "2022/03/01 00:39"},
-        {"M 104",      "2022/03/01 00:40", "2022/03/01 03:48"},
-        {"M 5",        "2022/03/01 03:49", "2022/03/01 05:13"},
-        {"M 42",       "2022/03/01 19:30", "2022/03/01 20:38"},
-        {"NGC 3628",   "2022/03/01 21:59", "2022/03/02 00:35"},
-        {"M 104",      "2022/03/02 00:36", "2022/03/02 03:44"},
-        {"M 5",        "2022/03/02 03:45", "2022/03/02 05:11"}},
-    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+        {"NGC 3628",   "2022/02/28 01:00", "2022/02/28 02:00"},
+        {"M 104",      "2022/02/28 02:00", "2022/02/28 03:52"},
+        {"M 5",        "2022/02/28 03:52", "2022/02/28 05:14"},
+        {"M 42",       "2022/02/28 19:31", "2022/02/28 20:43"},
+        {"NGC 3628",   "2022/02/28 22:02", "2022/03/01 00:38"},
+        {"M 104",      "2022/03/01 00:39", "2022/03/01 03:49"},
+        {"M 5",        "2022/03/01 03:50", "2022/03/01 05:12"},
+        {"M 42",       "2022/03/01 19:31", "2022/03/01 20:39"},
+        {"NGC 3628",   "2022/03/01 21:58", "2022/03/02 00:34"},
+        {"M 104",      "2022/03/02 00:35", "2022/03/02 03:45"}},
 
+    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    auto ngc3628 = scheduler->getGreedyScheduler()->getSchedule()[0].job;
+    QVERIFY(ngc3628->getName() == "NGC 3628");
+
+    // And ngc3628 should not be preempted right away,
+    QDateTime localTime(QDate(2022, 2, 28), QTime(1, 00, 00), Qt::LocalTime);
+    bool keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    QVERIFY(keepRunning);
+
+    // nor in a half-hour.
+    auto newTime = evalUTime.addSecs(1800);
+    KStarsData::Instance()->changeDateTime(newTime);
+    localTime = localTime.addSecs(1800);
+    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    QVERIFY(keepRunning);
+
+    // But if we wait until 2am, m104 should preempt it,
+    newTime = newTime.addSecs(1800);
+    KStarsData::Instance()->changeDateTime(newTime);
+    localTime = localTime.addSecs(1800);
+    keepRunning = scheduler->getGreedyScheduler()->checkJob(scheduler->jobs, localTime, ngc3628);
+    QVERIFY(!keepRunning);
+
+    // and M104 should be scheduled to start running "now" (2am).
+    scheduler->evaluateJobs(false);
+    auto newSchedule = scheduler->getGreedyScheduler()->getSchedule();
+    QVERIFY(newSchedule.size() > 0);
+    QVERIFY(newSchedule[0].job->getName() == "M 104");
+    QVERIFY(std::abs(newSchedule[0].startTime.secsTo(
+                         QDateTime(QDate(2022, 2, 28), QTime(2, 00, 00), Qt::LocalTime))) < 200);
 }
 
 void TestEkosSchedulerOps::testSettingAltitudeBug()
