@@ -2015,6 +2015,8 @@ void Align::startSolving()
     }
     else
     {
+        if (m_ImageData.isNull())
+            m_ImageData = alignView->imageData();
         // This should run only for load&slew. For regular solve, we don't get here
         // as the image is read and solved server-side.
         remoteParser->startSolver(m_ImageData->filename(), generateRemoteArgs(m_ImageData), false);
