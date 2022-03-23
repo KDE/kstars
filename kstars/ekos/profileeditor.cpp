@@ -651,7 +651,8 @@ void ProfileEditor::loadDrivers()
     populateManufacturerCombo(m_MountModel, ui->mountCombo, selectedMount, isLocal, QList<DeviceFamily>() << KSTARS_TELESCOPE);
     populateManufacturerCombo(m_CameraModel, ui->ccdCombo, selectedCamera, isLocal, QList<DeviceFamily>() << KSTARS_CCD);
     populateManufacturerCombo(m_GuiderModel, ui->guiderCombo, selectedGuider, isLocal, QList<DeviceFamily>() << KSTARS_CCD);
-    populateManufacturerCombo(m_FocuserModel, ui->focuserCombo, selectedFocuser, isLocal, QList<DeviceFamily>() << KSTARS_FOCUSER);
+    populateManufacturerCombo(m_FocuserModel, ui->focuserCombo, selectedFocuser, isLocal,
+                              QList<DeviceFamily>() << KSTARS_FOCUSER);
     populateManufacturerCombo(m_Aux1Model, ui->aux1Combo, selectedAux1, isLocal, auxFamily);
     populateManufacturerCombo(m_Aux2Model, ui->aux2Combo, selectedAux2, isLocal, auxFamily);
     populateManufacturerCombo(m_Aux3Model, ui->aux3Combo, selectedAux3, isLocal, auxFamily);
@@ -988,28 +989,36 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
 
     // Drivers
     const QString mount = profile["mount"].toString("--");
-    if (mount != "--")
+    if (mount == "--")
+        ui->mountCombo->setCurrentIndex(0);
+    else
     {
         ui->mountCombo->addItem(mount);
         ui->mountCombo->setCurrentIndex(ui->mountCombo->count() - 1);
     }
 
     const QString ccd = profile["ccd"].toString("--");
-    if (ccd != "--")
+    if (ccd == "--")
+        ui->ccdCombo->setCurrentIndex(0);
+    else
     {
         ui->ccdCombo->addItem(ccd);
         ui->ccdCombo->setCurrentIndex(ui->ccdCombo->count() - 1);
     }
 
     const QString guider = profile["guider"].toString("--");
-    if (guider != "--")
+    if (guider == "--")
+        ui->guiderCombo->setCurrentIndex(0);
+    else
     {
         ui->guiderCombo->addItem(guider);
         ui->guiderCombo->setCurrentIndex(ui->guiderCombo->count() - 1);
     }
 
     const QString focuser = profile["focuser"].toString("--");
-    if (focuser != "--")
+    if (focuser == "--")
+        ui->focuserCombo->setCurrentIndex(0);
+    else
     {
         ui->focuserCombo->addItem(focuser);
         ui->focuserCombo->setCurrentIndex(ui->focuserCombo->count() - 1);
@@ -1019,10 +1028,42 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->AOCombo->setCurrentText(profile["ao"].toString("--"));
     ui->domeCombo->setCurrentText(profile["dome"].toString("--"));
     ui->weatherCombo->setCurrentText(profile["weather"].toString("--"));
-    ui->aux1Combo->setCurrentText(profile["aux1"].toString("--"));
-    ui->aux2Combo->setCurrentText(profile["aux2"].toString("--"));
-    ui->aux3Combo->setCurrentText(profile["aux3"].toString("--"));
-    ui->aux4Combo->setCurrentText(profile["aux4"].toString("--"));
+
+    const auto aux1 = profile["aux1"].toString("--");
+    if (aux1.isEmpty() || aux1 == "--")
+        ui->aux1Combo->setCurrentIndex(0);
+    else
+    {
+        ui->aux1Combo->addItem(aux1);
+        ui->aux1Combo->setCurrentIndex(ui->aux1Combo->count() - 1);
+    }
+
+    const auto aux2 = profile["aux2"].toString("--");
+    if (aux2.isEmpty() || aux2 == "--")
+        ui->aux2Combo->setCurrentIndex(0);
+    else
+    {
+        ui->aux2Combo->addItem(aux2);
+        ui->aux2Combo->setCurrentIndex(ui->aux2Combo->count() - 1);
+    }
+
+    const auto aux3 = profile["aux3"].toString("--");
+    if (aux3.isEmpty() || aux3 == "--")
+        ui->aux3Combo->setCurrentIndex(0);
+    else
+    {
+        ui->aux3Combo->addItem(aux3);
+        ui->aux3Combo->setCurrentIndex(ui->aux3Combo->count() - 1);
+    }
+
+    const auto aux4 = profile["aux4"].toString("--");
+    if (aux4.isEmpty() || aux4 == "--")
+        ui->aux4Combo->setCurrentIndex(0);
+    else
+    {
+        ui->aux4Combo->addItem(aux4);
+        ui->aux4Combo->setCurrentIndex(ui->aux4Combo->count() - 1);
+    }
 }
 
 void ProfileEditor::scanNetwork()
