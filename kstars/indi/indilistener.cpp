@@ -100,7 +100,7 @@ INDIListener::~INDIListener()
     qDeleteAll(st4Devices);
 }
 
-bool INDIListener::isStandardProperty(const QString &name)
+bool INDIListener::isStandardProperty(const QString &name) const
 {
     for (auto &item : indi_std)
     {
@@ -110,7 +110,7 @@ bool INDIListener::isStandardProperty(const QString &name)
     return false;
 }
 
-ISD::GDInterface *INDIListener::getDevice(const QString &name)
+ISD::GDInterface *INDIListener::getDevice(const QString &name) const
 {
     for (auto &oneDevice : devices)
     {
@@ -221,7 +221,7 @@ void INDIListener::removeDevice(const QString &deviceName)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << deviceName;
 
-    for (ISD::GDInterface *oneDevice : devices)
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == deviceName)
         {
@@ -241,7 +241,7 @@ void INDIListener::registerProperty(INDI::Property prop)
     qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
                          << ">";
 
-    for (auto oneDevice : devices)
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {

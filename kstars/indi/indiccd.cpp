@@ -1787,7 +1787,7 @@ void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSDat
 
 void CCD::StreamWindowHidden()
 {
-    if (baseDevice->isConnected())
+    if (isConnected())
     {
         // We can have more than one *_VIDEO_STREAM property active so disable them all
         auto streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");

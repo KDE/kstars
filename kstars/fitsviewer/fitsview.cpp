@@ -2202,17 +2202,11 @@ bool FITSView::isTelescopeActive()
         return false;
     }
 
-    foreach (ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
+    for (const auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice * bd = gd->getBaseDevice();
-
-        if (gd->getType() != KSTARS_TELESCOPE)
+        if (oneDevice->getType() != KSTARS_TELESCOPE)
             continue;
-
-        if (bd == nullptr)
-            continue;
-
-        return bd->isConnected();
+        return oneDevice->isConnected();
     }
     return false;
 #else
