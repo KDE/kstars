@@ -48,7 +48,7 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
     QList<SchedulerJob *> sortedJobs =
         prepareJobsForEvaluation(jobs, now, capturedFramesCount, scheduler);
 
-    scheduledJob = selectNextJob(sortedJobs, now, nullptr, true, &when);
+    scheduledJob = selectNextJob(sortedJobs, now, nullptr, true, &when, nullptr, nullptr, &capturedFramesCount);
     auto schedule = getSchedule();
     if (!schedule.empty())
     {
@@ -57,8 +57,8 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
         // is more important than the log file (where we can invert when debugging).
         for (int i = schedule.size() - 1; i >= 0; i--)
             scheduler->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
-        scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:").arg(now.toString()).arg(
-                                     timer.elapsed() / 1000.0));
+        scheduler->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
+                                 .arg(now.toString()).arg(timer.elapsed() / 1000.0));
     }
     else scheduler->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
     if (scheduledJob != nullptr)
@@ -155,7 +155,7 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
         }
     }
 
-    // Change the starte to eval or ERROR/ABORTED for all jobs that will be evaluated.
+    // Estimate the job times
     foreach (SchedulerJob *job, sortedJobs)
     {
         if (job->getState() == SchedulerJob::JOB_INVALID || job->getState() == SchedulerJob::JOB_COMPLETE)
@@ -252,7 +252,8 @@ QDateTime firstPossibleStart(SchedulerJob *job, const QDateTime &now,
 //   should be preempted for another job.
 SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, const QDateTime &now,
         SchedulerJob *currentJob, bool fullSchedule, QDateTime *when,
-        QDateTime *nextInterruption, QString *interruptReason)
+        QDateTime *nextInterruption, QString *interruptReason,
+        const QMap<QString, uint16_t> *capturedFramesCount)
 {
     // Don't schedule a job that will be preempted in less than MIN_RUN_SECS.
     constexpr int MIN_RUN_SECS = 10 * 60;
@@ -394,12 +395,13 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
 
     constexpr int twoDays = 48 * 3600;
     if (fullSchedule && nextJob != nullptr)
-        simulate(jobs, now, now.addSecs(twoDays));
+        simulate(jobs, now, now.addSecs(twoDays), capturedFramesCount);
 
     return nextJob;
 }
 
-void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time, const QDateTime &endTime)
+void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time, const QDateTime &endTime,
+                               const QMap<QString, uint16_t> *capturedFramesCount)
 {
     schedule.clear();
 
@@ -432,8 +434,10 @@ void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTim
             numStartupCandidates++;
     }
 
-    QMap<QString, uint16_t> capturedFramesCount;
-    QList<SchedulerJob *>simJobs = prepareJobsForEvaluation(copiedJobs, time, capturedFramesCount, nullptr);
+    QMap<QString, uint16_t> capturedFramesCopy;
+    if (capturedFramesCount != nullptr)
+        capturedFramesCopy = *capturedFramesCount;
+    QList<SchedulerJob *>simJobs = prepareJobsForEvaluation(copiedJobs, time, capturedFramesCopy, nullptr);
 
     QDateTime simTime = time;
     int iterations = 0;

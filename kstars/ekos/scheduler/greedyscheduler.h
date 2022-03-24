@@ -150,12 +150,14 @@ class GreedyScheduler : public QObject
                                     bool fullSchedule = false,
                                     QDateTime *when = nullptr,
                                     QDateTime *nextInterruption = nullptr,
-                                    QString *interruptReason = nullptr);
+                                    QString *interruptReason = nullptr,
+                                    const QMap<QString, uint16_t> *capturedFramesCount = nullptr);
 
         // Simulate the running of the scheduler from time to endTime.
         // Used to find which jobs will be run in the future.
         void simulate(const QList<SchedulerJob *> &jobs, const QDateTime &time,
-                      const QDateTime &endTime = QDateTime());
+                      const QDateTime &endTime = QDateTime(),
+                      const QMap<QString, uint16_t> *capturedFramesCount = nullptr);
 
         // Error/Abort restart parameters.
         // Defaults don't matter much, will be set by UI.
