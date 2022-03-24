@@ -92,7 +92,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
 
     connect(darkTableView,  &QAbstractItemView::doubleClicked, this, [this](QModelIndex index)
     {
-        loadDarkImage(index.row());
+        loadIndexInView(index.row());
     });
     connect(openDarksFolderB, &QPushButton::clicked, this, &DarkLibrary::openDarksFolder);
     connect(clearAllB, &QPushButton::clicked, this, &DarkLibrary::clearAll);
@@ -946,11 +946,13 @@ void DarkLibrary::populateMasterMetedata()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::loadDarkImage(int row)
+void DarkLibrary::loadIndexInView(int row)
 {
     QSqlRecord record = darkFramesModel->record(row);
     QString filename = record.value("filename").toString();
-    m_DarkView->loadFile(filename);
+    // Avoid duplicate loads
+    if (m_DarkView->imageData().isNull() || m_DarkView->imageData()->filename() != filename)
+        m_DarkView->loadFile(filename);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1446,15 +1448,15 @@ void DarkLibrary::start()
 
 void DarkLibrary::setDarkSettings(const QJsonObject &settings)
 {
-    const QString camera = settings["camera"].toString();
-    const double minExposure = settings["minExposure"].toDouble(minExposureSpin->value());
-    const double maxExposure = settings["maxExposure"].toDouble(maxExposureSpin->value());
-    const double minTemperature = settings["minTemperature"].toDouble(minTemperatureSpin->value());
-    const double maxTemperature = settings["maxTemperature"].toDouble(maxTemperatureSpin->value());
-    const bool binOneCheck = settings["BinOne"].toBool(bin1Check->isChecked());
-    const bool binTwoCheck = settings["BinTwo"].toBool(bin2Check->isChecked());
-    const bool binFourCheck = settings["BinFour"].toBool(bin4Check->isChecked());
-    const int count = settings["count"].toInt(countSpin->value());
+    const auto camera = settings["camera"].toString();
+    const auto minExposure = settings["minExposure"].toDouble(minExposureSpin->value());
+    const auto maxExposure = settings["maxExposure"].toDouble(maxExposureSpin->value());
+    const auto minTemperature = settings["minTemperature"].toDouble(minTemperatureSpin->value());
+    const auto maxTemperature = settings["maxTemperature"].toDouble(maxTemperatureSpin->value());
+    const auto binOneCheck = settings["BinOne"].toBool(bin1Check->isChecked());
+    const auto binTwoCheck = settings["BinTwo"].toBool(bin2Check->isChecked());
+    const auto binFourCheck = settings["BinFour"].toBool(bin4Check->isChecked());
+    const auto count = settings["count"].toInt(countSpin->value());
 
     cameraS->setCurrentText(camera);
     bin1Check->setChecked(binOneCheck);
@@ -1495,9 +1497,9 @@ QJsonObject DarkLibrary::getDarkSettings()
 
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
-    const QString camera = settings["camera"].toString();
-    const bool isDarkPrefer = settings["isDarkPrefer"].toBool(preferDarksRadio->isChecked());
-    const bool isDefectPrefer = settings["isDefectPrefer"].toBool(preferDefectsRadio->isChecked());
+    const auto camera = settings["camera"].toString();
+    const auto isDarkPrefer = settings["isDarkPrefer"].toBool(preferDarksRadio->isChecked());
+    const auto isDefectPrefer = settings["isDefectPrefer"].toBool(preferDefectsRadio->isChecked());
     cameraS->setCurrentText(camera);
     preferDarksRadio->setChecked(isDarkPrefer);
     preferDefectsRadio->setChecked(isDefectPrefer);
@@ -1540,19 +1542,16 @@ QJsonObject DarkLibrary::getDefectSettings()
 QJsonArray DarkLibrary::getViewMasters()
 {
     QJsonArray array;
-    int binX, binY;
-    double temperature, duration;
-    QString camera, ts;
 
     for(int i = 0; i < darkFramesModel->rowCount(); i++)
     {
         QSqlRecord record = darkFramesModel->record(i);
-        camera = record.value("ccd").toString();
-        binX = record.value("binX").toInt();
-        binY = record.value("binY").toInt();
-        temperature = record.value("temperature").toDouble();
-        duration = record.value("duration").toDouble();
-        ts = record.value("timestamp").toString();
+        auto camera = record.value("ccd").toString();
+        auto binX = record.value("binX").toInt();
+        auto binY = record.value("binY").toInt();
+        auto temperature = record.value("temperature").toDouble();
+        auto duration = record.value("duration").toDouble();
+        auto ts = record.value("timestamp").toString();
 
         QJsonObject filterRows =
         {
@@ -1570,16 +1569,16 @@ QJsonArray DarkLibrary::getViewMasters()
 
 void DarkLibrary::setDefectSettings(const QJsonObject payload)
 {
-    const int masterIndex = payload["rowIndex"].toInt();
-    masterDarksCombo->setCurrentIndex(masterIndex);
+    const auto index = payload["rowIndex"].toInt(0);
+    masterDarksCombo->setCurrentIndex(index);
 }
 
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)
 {
-    const int hotSpin = payload["hotSpin"].toInt();
-    const int coldSpin = payload["coldSpin"].toInt();
-    const bool hotEnabled = payload["hotEnabled"].toBool(hotPixelsEnabled->isChecked());
-    const bool coldEnabled = payload["coldEnabled"].toBool(coldPixelsEnabled->isChecked());
+    const auto hotSpin = payload["hotSpin"].toInt();
+    const auto coldSpin = payload["coldSpin"].toInt();
+    const auto hotEnabled = payload["hotEnabled"].toBool(hotPixelsEnabled->isChecked());
+    const auto coldEnabled = payload["coldEnabled"].toBool(coldPixelsEnabled->isChecked());
 
     hotPixelsEnabled->setChecked(hotEnabled);
     coldPixelsEnabled->setChecked(coldEnabled);
@@ -1587,13 +1586,13 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     aggresivenessHotSpin->setValue(hotSpin);
     aggresivenessColdSpin->setValue(coldSpin);
 
-    setDefectFrame(true);
+    setDefectMapEnabled(true);
     generateMapB->click();
 }
 
-void DarkLibrary::setDefectFrame(bool isDefect)
+void DarkLibrary::setDefectMapEnabled(bool enabled)
 {
-    m_DarkView->setDefectMapEnabled(isDefect);
+    m_DarkView->setDefectMapEnabled(enabled);
 }
 }
 
