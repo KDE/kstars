@@ -241,7 +241,7 @@ void INDIListener::registerProperty(INDI::Property prop)
     qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
                          << ">";
 
-    for (auto &oneDevice : devices)
+    for (ISD::GDInterface *oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
