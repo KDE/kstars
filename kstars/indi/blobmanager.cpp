@@ -15,7 +15,8 @@
 
 #include <indi_debug.h>
 
-BlobManager::BlobManager(const QString &host, int port, const QString &device, const QString &prop) : m_Device(device), m_Property(prop)
+BlobManager::BlobManager(QObject *parent, const QString &host, int port, const QString &device,
+                         const QString &prop) : QObject(parent), m_Device(device), m_Property(prop)
 {
     // Set INDI server params
     setServer(host.toLatin1().constData(), port);
@@ -29,11 +30,12 @@ BlobManager::BlobManager(const QString &host, int port, const QString &device, c
 
 void BlobManager::serverDisconnected(int exit_code)
 {
-    qCDebug(KSTARS_INDI) << "INDI server disconnected from BLOB manager for Device:" << m_Device << "Property:" << m_Property << "Exit code:" << exit_code;
+    qCDebug(KSTARS_INDI) << "INDI server disconnected from BLOB manager for Device:" << m_Device << "Property:" << m_Property <<
+                         "Exit code:" << exit_code;
 }
 
 void BlobManager::newBLOB(IBLOB *bp)
-{    
+{
     emit newINDIBLOB(bp);
 }
 

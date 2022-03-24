@@ -103,7 +103,7 @@ class ClientManager : public QObject, public INDI::BaseClient
 
     private:
         QList<DriverInfo *> managedDrivers;
-        QList<QPointer<BlobManager>> blobManagers;
+        QList<BlobManager *> blobManagers;
         ServerManager *sManager { nullptr };
 
     signals:
