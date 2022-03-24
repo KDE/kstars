@@ -6687,6 +6687,7 @@ void Scheduler::setAlgorithm(int algIndex)
     {
         queueTable->setColumnHidden(SCORE_COLUMN, true);
         queueTable->setColumnHidden(LEAD_TIME_COLUMN, true);
+        queueTable->setColumnHidden(ESTIMATED_DURATION_COLUMN, true);
         priorityLabel->setDisabled(true);
         prioritySpin->setDisabled(true);
         queueTable->model()->setHeaderData(START_TIME_COLUMN, Qt::Horizontal, tr("Next Start"));
@@ -6696,11 +6697,13 @@ void Scheduler::setAlgorithm(int algIndex)
     {
         queueTable->setColumnHidden(SCORE_COLUMN, false);
         queueTable->setColumnHidden(LEAD_TIME_COLUMN, false);
+        queueTable->setColumnHidden(ESTIMATED_DURATION_COLUMN, false);
         prioritySpin->setDisabled(false);
         priorityLabel->setDisabled(false);
         queueTable->model()->setHeaderData(START_TIME_COLUMN, Qt::Horizontal, tr("Start Time"));
         queueTable->model()->setHeaderData(END_TIME_COLUMN, Qt::Horizontal, tr("End Time"));
     }
+    queueTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 Scheduler::SchedulerAlgorithm Scheduler::getAlgorithm() const

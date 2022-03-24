@@ -62,6 +62,7 @@ class TestEkosSchedulerOps : public QObject
         void testGreedy();
         void testGreedyAborts();
         void testSettingAltitudeBug();
+        void testEstimateTimeBug();
 
         // test data
         void testCulminationStartup_data();
@@ -112,7 +113,9 @@ class TestEkosSchedulerOps : public QObject
             bool first, const QString &targetName,
             const TestEkosSchedulerHelper::StartupCondition &startupCondition,
             const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
-            QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30);
+            QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30,
+            const TestEkosSchedulerHelper::ScheduleSteps steps = {true, true, true, true});
+        void makeFitsFiles(const QString &base, int num);
 
         QSharedPointer<Ekos::Scheduler> scheduler;
         QSharedPointer<Ekos::MockFocus> focuser;
