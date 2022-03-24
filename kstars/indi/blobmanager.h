@@ -38,7 +38,7 @@ class BlobManager : public QObject, public INDI::BaseClient
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
   public:
-    BlobManager(const QString &host, int port, const QString &device, const QString &prop);
+    BlobManager(QObject *parent, const QString &host, int port, const QString &device, const QString &prop);
     virtual ~BlobManager() override = default;
 
     bool enabled() { return m_Enabled; }
