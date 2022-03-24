@@ -52,7 +52,7 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
     {
         if (Options::useTimeUpdate() && Options::useKStarsSource())
         {
-            if (dType != KSTARS_UNKNOWN && baseDevice != nullptr && baseDevice->isConnected())
+            if (dType != KSTARS_UNKNOWN && baseDevice != nullptr && isConnected())
             {
                 auto tvp = baseDevice->getText("TIME_UTC");
                 if (tvp && tvp->getPermission() != IP_RO)
@@ -151,7 +151,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
         auto port = baseDevice->getText("DEVICE_PORT");
         if (svp && port)
         {
-            for (const auto &it: *svp)
+            for (const auto &it : *svp)
             {
                 if (it.isNameMatch(port->at(0)->getText()))
                 {

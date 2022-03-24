@@ -688,28 +688,22 @@ void ObservingList::slotSlewToObject()
         return;
     }
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (const auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
-
-        if (gd->getType() != KSTARS_TELESCOPE)
+        if (oneDevice->getType() != KSTARS_TELESCOPE)
             continue;
 
-        if (bd == nullptr)
-            continue;
-
-        if (bd->isConnected() == false)
+        if (oneDevice->isConnected() == false)
         {
             KSNotification::error(
-                i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+                i18n("Telescope %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
             return;
         }
 
         ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
 
-        gd->setProperty(&SlewCMD);
-        gd->runCommand(INDI_SEND_COORDS, currentObject());
-
+        oneDevice->setProperty(&SlewCMD);
+        oneDevice->runCommand(INDI_SEND_COORDS, currentObject());
         return;
     }
 

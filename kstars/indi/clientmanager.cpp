@@ -119,7 +119,7 @@ void ClientManager::removeProperty(INDI::Property *prop)
     // If BLOB property is removed, remove its corresponding property if one exists.
     if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
     {
-        for (QPointer<BlobManager> bm : blobManagers)
+        for (QPointer<BlobManager> &bm : blobManagers)
         {
             const QString bProperty = bm.data()->property("property").toString();
             const QString bDevice = bm.data()->property("device").toString();
@@ -156,9 +156,9 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
         }
     }
 
-    for (auto driverInfo : managedDrivers)
+    for (auto &driverInfo : managedDrivers)
     {
-        for (auto deviceInfo : driverInfo->getDevices())
+        for (auto &deviceInfo : driverInfo->getDevices())
         {
             if (deviceInfo->getDeviceName() == deviceName)
             {
@@ -236,7 +236,7 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     dv->setClientState(false);
     managedDrivers.removeOne(dv);
 
-    for (auto di : dv->getDevices())
+    for (auto &di : dv->getDevices())
     {
         // #1 Remove from GUI Manager
         GUIManager::Instance()->removeDevice(di->getDeviceName());
@@ -310,7 +310,7 @@ DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 
 void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QString &property)
 {
-    for(QPointer<BlobManager> bm : blobManagers)
+    for(QPointer<BlobManager> &bm : blobManagers)
     {
         if (bm->property("device") == device && (property.isEmpty() || bm->property("property") == property))
         {
@@ -322,7 +322,7 @@ void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QS
 
 bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
 {
-    for(QPointer<BlobManager> bm : blobManagers)
+    for(QPointer<BlobManager> &bm : blobManagers)
     {
         if (bm->property("device") == device && bm->property("property") == property)
             return bm->property("enabled").toBool();
