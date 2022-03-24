@@ -101,7 +101,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QJsonArray getViewMasters();
         void getloadDarkViewMasterFITS(int index);
         void setDefectSettings(const QJsonObject row);
-        void setDefectFrame(bool isDefect);
+        void setDefectMapEnabled(bool enabled);
 
         /**
          * @brief stop Abort all dark job captures.
@@ -118,7 +118,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
         void processNewBLOB(IBLOB *bp);
-        void loadDarkImage(int row);
+        void loadIndexInView(int row);
         void clearRow(int row = -1);
 
 
