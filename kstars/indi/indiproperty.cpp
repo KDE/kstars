@@ -163,7 +163,7 @@ void INDI_P::initGUI()
 
 void INDI_P::buildSwitchGUI()
 {
-    auto svp = dataProp.getSwitch();
+    auto svp = static_cast<ISwitchVectorProperty*>(dataProp.getSwitch());
 
     if (!svp)
         return;
@@ -172,7 +172,7 @@ void INDI_P::buildSwitchGUI()
 
     if (guiType == PG_BUTTONS)
     {
-        if (svp->getRule() == ISR_1OFMANY)
+        if (svp->r == ISR_1OFMANY)
             groupB->setExclusive(true);
         else
             groupB->setExclusive(false);
@@ -183,10 +183,10 @@ void INDI_P::buildSwitchGUI()
     if (svp->p != IP_RO)
         QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton*)));
 
-    for (auto &it : *svp)
+    for (int i = 0; i < svp->nsp; i++)
     {
         auto lp = new INDI_E(this, dataProp);
-        lp->buildSwitch(groupB, &it);
+        lp->buildSwitch(groupB, svp->sp + i);
         elementList.append(lp);
     }
 
@@ -197,15 +197,15 @@ void INDI_P::buildSwitchGUI()
 
 void INDI_P::buildTextGUI()
 {
-    auto tvp = dataProp.getText();
+    auto tvp = static_cast<ITextVectorProperty*>(dataProp.getText());
 
     if (!tvp)
         return;
 
-    for (auto &it : *tvp)
+    for (int i = 0; i < tvp->ntp; i++)
     {
         auto lp = new INDI_E(this, dataProp);
-        lp->buildText(&it);
+        lp->buildText(tvp->tp + i);
         elementList.append(lp);
     }
 
@@ -213,7 +213,7 @@ void INDI_P::buildTextGUI()
 
     PHBox->addItem(horSpacer);
 
-    if (tvp->getPermission() == IP_RO)
+    if (tvp->p == IP_RO)
         return;
 
     // INDI STD, but we use our own controls
@@ -225,15 +225,15 @@ void INDI_P::buildTextGUI()
 
 void INDI_P::buildNumberGUI()
 {
-    auto nvp = dataProp.getNumber();
+    auto nvp = static_cast<INumberVectorProperty*>(dataProp.getNumber());
 
     if (!nvp)
         return;
 
-    for (auto &it : *nvp)
+    for (int i = 0; i < nvp->nnp; i++)
     {
         auto lp = new INDI_E(this, dataProp);
-        lp->buildNumber(&it);
+        lp->buildNumber(nvp->np + i);
         elementList.append(lp);
     }
 
@@ -241,7 +241,7 @@ void INDI_P::buildNumberGUI()
 
     PHBox->addItem(horSpacer);
 
-    if (nvp->getPermission() == IP_RO)
+    if (nvp->p == IP_RO)
         return;
 
     setupSetButton(i18n("Set"));
@@ -249,15 +249,15 @@ void INDI_P::buildNumberGUI()
 
 void INDI_P::buildLightGUI()
 {
-    auto lvp = dataProp.getLight();
+    auto lvp = static_cast<ILightVectorProperty*>(dataProp.getLight());
 
     if (!lvp)
         return;
 
-    for (auto &it : *lvp)
+    for (int i = 0; i < lvp->nlp; i++)
     {
         auto ep = new INDI_E(this, dataProp);
-        ep->buildLight(&it);
+        ep->buildLight(lvp->lp + i);
         elementList.append(ep);
     }
 
@@ -268,15 +268,15 @@ void INDI_P::buildLightGUI()
 
 void INDI_P::buildBLOBGUI()
 {
-    auto bvp = dataProp.getBLOB();
+    auto bvp = static_cast<IBLOBVectorProperty*>(dataProp.getBLOB());
 
     if (!bvp)
         return;
 
-    for (auto &it : *bvp)
+    for (int i = 0; i < bvp->nbp; i++)
     {
         auto lp = new INDI_E(this, dataProp);
-        lp->buildBLOB(&it);
+        lp->buildBLOB(bvp->bp + i);
         elementList.append(lp);
     }
 
@@ -569,7 +569,8 @@ void INDI_P::sendBlob()
 #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
         pg->getDevice()->getClientManager()->sendOneBlob(bp);
 #else
-        pg->getDevice()->getClientManager()->sendOneBlob(bp->getName(), bp->getSize(), bp->getFormat(), const_cast<void *>(bp->getBlob()));
+        pg->getDevice()->getClientManager()->sendOneBlob(bp->getName(), bp->getSize(), bp->getFormat(),
+                const_cast<void *>(bp->getBlob()));
 #endif
     }
 
