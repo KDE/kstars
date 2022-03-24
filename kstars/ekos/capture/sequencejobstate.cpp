@@ -272,13 +272,15 @@ void SequenceJobState::checkAllActionsReady()
             }
             break;
         case FRAME_BIAS:
-            if (!areActionsReady())
+            if (areActionsReady())
+            {
                 // avoid doubled events
                 if (m_PreparationState == PREP_BUSY)
                 {
                     m_PreparationState = PREP_COMPLETED;
                     emit prepareComplete();
                 }
+            }
             break;
         default:
             // all other cases not refactored yet, preparation immediately completed

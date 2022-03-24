@@ -6,6 +6,9 @@
 
 #include <QFile>
 
+#include <chrono>
+#include <ctime>
+
 #include "test_ekos_scheduler_ops.h"
 #include "test_ekos_scheduler_helper.h"
 #include "ekos/scheduler/scheduler.h"
@@ -288,8 +291,12 @@ QString TestEkosSchedulerOps::writeFiles(const QString &label, QTemporaryDir &di
         const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob,
         const QString &schedulerXML)
 {
-    const QString eslFilename = dir.filePath(QString("%1.esl").arg(label));
-    const QString esqFilename = dir.filePath(QString("%1.esq").arg(label));
+    // nanoseconds since epoch will be tacked on to the label to keep them unique.
+    long int nn = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                      std::chrono::system_clock::now().time_since_epoch()).count();
+
+    const QString eslFilename = dir.filePath(QString("%1-%2.esl").arg(label).arg(nn));
+    const QString esqFilename = dir.filePath(QString("%1-%2.esq").arg(label).arg(nn));
     const QString eslContents = QString(schedulerXML);
     const QString esqContents = TestEkosSchedulerHelper::getEsqContent(captureJob);
 
@@ -1123,13 +1130,14 @@ void TestEkosSchedulerOps::loadGreedySchedule(
     bool first, const QString &targetName,
     const TestEkosSchedulerHelper::StartupCondition &startupCondition,
     const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
-    QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude)
+    QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude,
+    const TestEkosSchedulerHelper::ScheduleSteps steps)
 {
     SkyObject *object = KStars::Instance()->data()->skyComposite()->findByName(targetName);
     QVERIFY(object != nullptr);
     const QString schedulerXML =
         TestEkosSchedulerHelper::getSchedulerFile(
-            object, startupCondition, completionCondition, {true, true, true, true}, true, true, minAltitude);
+            object, startupCondition, completionCondition, steps, true, true, minAltitude);
 
     // Write the scheduler and sequence files.
     QString f1 = writeFiles(targetName, dir, captureJob, schedulerXML);
@@ -1475,6 +1483,88 @@ void TestEkosSchedulerOps::testSettingAltitudeBug()
     SchedulerJob *job2359 = scheduler->getJobs()[0];
     auto time1Local = (Qt::UTC == time1.timeSpec() ? geo.UTtoLT(KStarsDateTime(time1)) : time1);
     QVERIFY(greedy->checkJob(scheduler->getJobs(), time1Local, job2359));
+}
+
+// This creates empty/dummy fits files to be discovered inside estimateJobTime, when it
+// tries to figure out how of of the job is already completed.
+// Only useful when Options::rememberJobProgress() is true.
+void TestEkosSchedulerOps::makeFitsFiles(const QString &base, int num)
+{
+    QFile f("/dev/null");
+    QFileInfo info(base);
+    info.dir().mkpath(".");
+
+    for (int i = 0; i < num; ++i)
+    {
+        QString newName = QString("%1-%2.fits").arg(base).arg(i);
+        QVERIFY(f.copy(newName));
+    }
+}
+
+// In this test, we simulate pre-existing captures with the rememberJobProgress option,
+// and make sure Greedy estimates the job completion time properly.
+void TestEkosSchedulerOps::testEstimateTimeBug()
+{
+    Options::setDawnOffset(0);
+    Options::setDuskOffset(0);
+    Options::setSettingAltitudeCutoff(3);
+    Options::setPreDawnTime(0);
+    Options::setRememberJobProgress(true);
+    Options::setDitherEnabled(true);
+    Options::setDitherFrames(1);
+
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+    SchedulerJob::setHorizon(nullptr);
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
+    const QDateTime time1 = QDateTime(QDate(2022, 3, 20), QTime(18, 52, 48), Qt::UTC); //19:52 local
+    initTimeGeo(geo, time1);
+
+    auto path = dir.filePath(".");
+    auto jobLRGB = QVector<TestEkosSchedulerHelper::CaptureJob>(
+    {{360, 3, "L", path}, {360, 1, "R", path}, {360, 1, "G", path}, {360, 1, "B", path}, {360, 2, "L", path}});
+    auto jobNB = QVector<TestEkosSchedulerHelper::CaptureJob>({{600, 1, "Ha", path}, {600, 1, "OIII", path}});
+
+    // Guessing he was using 40minute offsets
+    Options::setDawnOffset(.666);
+    Options::setDuskOffset(-.666);
+
+    TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
+    TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
+    asapStartupCondition.type = SchedulerJob::START_ASAP;
+    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+    TestEkosSchedulerHelper::CompletionCondition repeat9;
+    repeat9.type = SchedulerJob::FINISH_REPEAT;
+    repeat9.repeat = 9;
+
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/L/NGC_2359_Light"), 41);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/R/NGC_2359_Light"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/G/NGC_2359_Light"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/B/NGC_2359_Light"), 8);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/Ha/NGC_2359_Light"), 12);
+    makeFitsFiles(QString("%1%2").arg(path, "/NGC_2359/Light/OIII/NGC_2359_Light"), 11);
+
+    // Not focusing in these schedule steps.
+    TestEkosSchedulerHelper::ScheduleSteps steps = {true, false, true, true};
+
+    loadGreedySchedule(true, "NGC 2359", asapStartupCondition, repeat9, dir, jobLRGB, 20, steps);
+    loadGreedySchedule(false, "NGC 2359", asapStartupCondition, loopCompletionCondition, dir, jobNB, 20, steps);
+    loadGreedySchedule(false, "M 53", asapStartupCondition, loopCompletionCondition, dir, jobLRGB, 20, steps);
+
+    scheduler->evaluateJobs(false);
+
+    // The first (LRGB) version of NGC 2359 is mostly completed and should just run for about 45 minutes.
+    // At that point, the narrowband NGC2359 and LRGB M53 jobs run.
+    QVERIFY(checkSchedule(
+    {
+        {"NGC 2359",   "2022/03/20 19:52", "2022/03/20 20:38"},
+        {"NGC 2359",   "2022/03/20 20:39", "2022/03/20 22:11"},
+        {"M 53",       "2022/03/20 22:12", "2022/03/21 05:14"},
+        {"NGC 2359",   "2022/03/21 19:45", "2022/03/21 22:07"},
+        {"M 53",       "2022/03/21 22:08", "2022/03/22 05:12"},
+        {"NGC 2359",   "2022/03/22 19:47", "2022/03/22 22:03"}},
+    scheduler->getGreedyScheduler()->getSchedule(), 300));
 }
 
 void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QString> targetList)

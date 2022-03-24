@@ -179,8 +179,8 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
 
     connect(avtUI->View->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onYRangeChanged(QCPRange)));
     connect(avtUI->View->xAxis2, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXRangeChanged(QCPRange)));
-    connect(avtUI->View, SIGNAL(plottableClick(QCPAbstractPlottable*,int,QMouseEvent*)), this,
-            SLOT(plotMousePress(QCPAbstractPlottable*,int,QMouseEvent*)));
+    connect(avtUI->View, SIGNAL(plottableClick(QCPAbstractPlottable*, int, QMouseEvent*)), this,
+            SLOT(plotMousePress(QCPAbstractPlottable*, int, QMouseEvent*)));
     connect(avtUI->View, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
 
     connect(avtUI->browseButton, SIGNAL(clicked()), this, SLOT(slotBrowseObject()));
@@ -251,8 +251,13 @@ AltVsTime::~AltVsTime()
 }
 void AltVsTime::slotAddSource()
 {
-    SkyObject *obj = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
 
+    SkyObject *obj = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    if (!obj)
+    {
+        QString name = FindDialog::processSearchText(avtUI->nameBox->text());
+        obj = KStarsData::Instance()->objectNamed(name);
+    }
     if (obj)
     {
         //An object with the current name exists.  If the object is not already
@@ -304,7 +309,7 @@ void AltVsTime::slotAddSource()
             {
                 //within an arcsecond?
                 if (fabs(newRA.Degrees() - p->ra().Degrees()) < 0.0003 &&
-                    fabs(newDec.Degrees() - p->dec().Degrees()) < 0.0003)
+                        fabs(newDec.Degrees() - p->dec().Degrees()) < 0.0003)
                 {
                     found = true;
                     break;
@@ -572,26 +577,26 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
                                    i18n("<table>"
-                                      "<tr>"
-                                      "<th colspan=\"2\">%1</th>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>LST:   </td>"
-                                      "<td>%3</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>LT:   </td>"
-                                      "<td>%2</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>Altitude:   </td>"
-                                      "<td>%4</td>"
-                                      "</tr>"
-                                      "</table>",
-                                      graph->name().isEmpty() ? "???" : graph->name(),
-                                      localTime.toString(),
-                                      localSiderealTime.toString(),
-                                      QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
+                                        "<tr>"
+                                        "<th colspan=\"2\">%1</th>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>LST:   </td>"
+                                        "<td>%3</td>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>LT:   </td>"
+                                        "<td>%2</td>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>Altitude:   </td>"
+                                        "<td>%4</td>"
+                                        "</tr>"
+                                        "</table>",
+                                        graph->name().isEmpty() ? "???" : graph->name(),
+                                        localTime.toString(),
+                                        localSiderealTime.toString(),
+                                        QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
         }
@@ -665,7 +670,12 @@ void AltVsTime::slotComputeAltitudeByTime()
     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
     {
-        qCWarning(KSTARS) << "slotComputeAltitudeByTime: Unable to find" << avtUI->PlotList->currentItem()->text();
+        if (avtUI->PlotList->currentItem())
+            qCWarning(KSTARS) << "slotComputeAltitudeByTime: Unable to find" << avtUI->PlotList->currentItem()->text();
+        else
+        {
+            qCWarning(KSTARS) << "slotComputeAltitudeByTime: Unable to find item";
+        }
         return;
     }
 
@@ -735,7 +745,7 @@ void AltVsTime::slotMarkRiseTime()
 void AltVsTime::slotMarkSetTime()
 {
     const KStarsDateTime &ut  = KStarsData::Instance()->ut();
-     SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
+    SkyObject *selectedObject = pList.at(avtUI->PlotList->currentRow());
     if (selectedObject == nullptr)
     {
         qCWarning(KSTARS) << "Mark Set Time: Unable to find" << avtUI->PlotList->currentItem()->text();
@@ -925,25 +935,25 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
                                    i18n("<table>"
-                                      "<tr>"
-                                      "<th colspan=\"2\">%1</th>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>LST:   </td>"
-                                      "<td>%3</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>LT:   </td>"
-                                      "<td>%2</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                      "<td>Altitude:   </td>"
-                                      "<td>%4</td>"
-                                      "</tr>"
-                                      "</table>",
-                                      graph->name().isEmpty() ? "???" : graph->name(),
-                                      localTime.toString(), localSiderealTime.toString(),
-                                      QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
+                                        "<tr>"
+                                        "<th colspan=\"2\">%1</th>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>LST:   </td>"
+                                        "<td>%3</td>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>LT:   </td>"
+                                        "<td>%2</td>"
+                                        "</tr>"
+                                        "<tr>"
+                                        "<td>Altitude:   </td>"
+                                        "<td>%4</td>"
+                                        "</tr>"
+                                        "</table>",
+                                        graph->name().isEmpty() ? "???" : graph->name(),
+                                        localTime.toString(), localSiderealTime.toString(),
+                                        QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
                                    avtUI->View, avtUI->View->rect());
             }
             else
