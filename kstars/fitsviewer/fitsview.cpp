@@ -198,27 +198,30 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     m_ImageFrame = new FITSLabel(this);
     m_ImageFrame->setMouseTracking(true);
-    connect(m_ImageFrame, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-    connect(m_ImageFrame, SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
-    connect(m_ImageFrame, SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+    connect(m_ImageFrame, &FITSLabel::newStatus, this, &FITSView::newStatus);
+    connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
+    connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
 
-    connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(syncWCSState()));
+    connect(&wcsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::syncWCSState);
 
     m_UpdateFrameTimer.setInterval(50);
     m_UpdateFrameTimer.setSingleShot(true);
-    connect(&m_UpdateFrameTimer, &QTimer::timeout, [this]()
+    connect(&m_UpdateFrameTimer, &QTimer::timeout, this, [this]()
     {
-        if (toggleStretchAction)
-            toggleStretchAction->setChecked(stretchImage);
+        if (m_ImageFrame)
+        {
+            if (toggleStretchAction)
+                toggleStretchAction->setChecked(stretchImage);
 
-        // We employ two schemes for managing the image and its overlays, depending on the size of the image
-        // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
-        // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
-        // the size of the image itself, never scaling that up.
-        if (isLargeImage())
-            updateFrameLargeImage();
-        else
-            updateFrameSmallImage();
+            // We employ two schemes for managing the image and its overlays, depending on the size of the image
+            // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
+            // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
+            // the size of the image itself, never scaling that up.
+            if (isLargeImage())
+                updateFrameLargeImage();
+            else
+                updateFrameSmallImage();
+        }
     });
 
     connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
