@@ -319,7 +319,7 @@ void Media::upload(FITSView * view)
 
     // For low bandwidth images
     // Except for dark frames +D
-    if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || (m_UUID[0] != "+D" && m_UUID[0] == "+"))
+    if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || (m_UUID != "+D" && m_UUID[0] == "+"))
     {
         QPixmap scaledImage = view->getDisplayPixmap().width() > HB_IMAGE_WIDTH / 2 ?
                               view->getDisplayPixmap().scaledToWidth(HB_IMAGE_WIDTH / 2, Qt::FastTransformation) :
