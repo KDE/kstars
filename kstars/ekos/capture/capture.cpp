@@ -641,7 +641,13 @@ void Capture::start()
         {
             if (job->getStatus() != JOB_DONE)
             {
-                appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
+                // If we arrived here with a zero-delay timer, raise the interval before returning to avoid a cpu peak
+                if (captureDelayTimer->isActive())
+                {
+                    if (captureDelayTimer->interval() <= 0)
+                        captureDelayTimer->setInterval(1000);
+                }
+                else appendLogText(i18n("No pending jobs found. Please add a job to the sequence queue."));
                 return;
             }
         }
