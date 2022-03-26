@@ -1586,6 +1586,8 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     aggresivenessHotSpin->setValue(hotSpin);
     aggresivenessColdSpin->setValue(coldSpin);
 
+    m_DarkView->ZoomDefault();
+
     setDefectMapEnabled(true);
     generateMapB->click();
 }
