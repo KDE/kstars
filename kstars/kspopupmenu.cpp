@@ -604,7 +604,7 @@ void KSPopupMenu::addINDI()
     if (INDIListener::Instance()->size() == 0)
         return;
 
-    for (const auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
         INDI::BaseDevice *bd = gd->getBaseDevice();
 

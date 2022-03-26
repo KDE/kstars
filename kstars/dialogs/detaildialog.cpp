@@ -1100,7 +1100,7 @@ void DetailDialog::centerTelescope()
         return;
     }
 
-    for (const auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getType() != KSTARS_TELESCOPE)
             continue;

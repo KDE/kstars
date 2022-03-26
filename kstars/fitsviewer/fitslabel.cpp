@@ -326,7 +326,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
     }
 
 
-    for (const auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getType() != KSTARS_TELESCOPE)
             continue;

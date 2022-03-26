@@ -271,7 +271,7 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("lock_telescope"))
     {
-        for (const auto &oneDevice : INDIListener::Instance()->getDevices())
+        for (auto oneDevice : INDIListener::Instance()->getDevices())
         {
             if (oneDevice->getType() != KSTARS_TELESCOPE)
                 continue;
