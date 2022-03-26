@@ -266,75 +266,13 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 
     for (auto &gd : INDIListener::Instance()->getDevices())
     {
-        if (gd->getType() != KSTARS_TELESCOPE)
+        if (gd->getType() != KSTARS_TELESCOPE || gd->isConnected() == false)
             continue;
 
-        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+        auto oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+        auto coordNP = oneTelescope->currentCoordinates();
 
-        if (oneTelescope->isConnected() == false)
-            continue;
-
-        auto coordNP = oneTelescope->getBaseDevice()->getNumber("EQUATORIAL_EOD_COORD");
-
-        if (coordNP == nullptr)
-        {
-            coordNP = oneTelescope->getBaseDevice()->getNumber("EQUATORIAL_COORD");
-            if (coordNP)
-            {
-                auto np = coordNP->findWidgetByName("RA");
-                if (np == nullptr)
-                    continue;
-                indi_sp.setRA(np->getValue());
-                indi_sp.setRA0(np->getValue());
-
-                np = coordNP->findWidgetByName("DEC");
-                if (np == nullptr)
-                    continue;
-                indi_sp.setDec(np->getValue());
-                indi_sp.setDec0(np->getValue());
-
-                indi_sp.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
-            }
-            else
-            {
-                coordNP = oneTelescope->getBaseDevice()->getNumber("HORIZONTAL_COORD");
-                if (coordNP == nullptr)
-                    continue;
-                else
-                {
-                    auto np = coordNP->findWidgetByName("AZ");
-                    if (np == nullptr)
-                        continue;
-                    indi_sp.setAz(np->getValue());
-
-                    np = coordNP->findWidgetByName("ALT");
-                    if (np == nullptr)
-                        continue;
-                    indi_sp.setAlt(np->getValue());
-                    indi_sp.HorizontalToEquatorial(m_KStarsData->lst(), m_KStarsData->geo()->lat());
-                }
-            }
-        }
-        else
-        {
-            auto np = coordNP->findWidgetByName("RA");
-            if (np == nullptr)
-                continue;
-            indi_sp.setRA(np->getValue());
-
-            np = coordNP->findWidgetByName("DEC");
-            if (np == nullptr)
-                continue;
-            indi_sp.setDec(np->getValue());
-        }
-
-        if (Options::useAltAz())
-            indi_sp.EquatorialToHorizontal(m_KStarsData->lst(), m_KStarsData->geo()->lat());
-
-        if (std::isnan(indi_sp.ra().Degrees()) || std::isnan(indi_sp.dec().Degrees()))
-            continue;
-
-        QPointF P = m_SkyMap->m_proj->toScreen(&indi_sp);
+        QPointF P = m_SkyMap->m_proj->toScreen(&coordNP);
         if (Options::useAntialias())
         {
             float s1 = 0.5 * pxperdegree;
