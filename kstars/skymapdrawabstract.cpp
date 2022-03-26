@@ -264,7 +264,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
     psky.setBrush(Qt::NoBrush);
     float pxperdegree = Options::zoomFactor() / 57.3;
 
-    for (auto &gd : INDIListener::Instance()->getDevices())
+    for (auto gd : INDIListener::Instance()->getDevices())
     {
         if (gd->getType() != KSTARS_TELESCOPE || gd->isConnected() == false)
             continue;
