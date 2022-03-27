@@ -704,6 +704,7 @@ class Capture : public QWidget, public Ui::Capture
         void checkFrameType(int index);
         void resetFrame();
         void setExposureProgress(ISD::CCDChip *tChip, double value, IPState state);
+        void updateCaptureCountDown(int deltaMillis);
         void checkSeqBoundary(const QString &path);
         void saveFITSDirectory();
         void setDefaultCCD(QString ccd);
@@ -967,6 +968,12 @@ class Capture : public QWidget, public Ui::Capture
         double seqExpose { 0 };
         int seqTotalCount;
         int seqCurrentCount { 0 };
+        // time left of the current exposure
+        QTime imageCountDown;
+        double lastRemainingFrameTimeMS;
+        // time left for the current sequence
+        QTime sequenceCountDown;
+
         int seqDelay { 0 };
         int retries { 0 };
         // Timer for starting the next capture sequence with delay
@@ -1029,7 +1036,6 @@ class Capture : public QWidget, public Ui::Capture
         bool m_Dirty { false };
         bool m_JobUnderEdit { false };
         int m_CurrentFilterPosition { -1 };
-        QProgressIndicator *pi { nullptr };
 
         // Guide Deviation
         bool m_DeviationDetected { false };

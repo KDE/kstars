@@ -82,10 +82,6 @@ Capture::Capture()
 
     rotatorSettings.reset(new RotatorSettings(this));
 
-    pi = new QProgressIndicator(this);
-
-    progressLayout->addWidget(pi, 0, 4, 1, 1);
-
     seqFileCount = 0;
     //seqWatcher		= new KDirWatch();
     seqDelayTimer = new QTimer(this);
@@ -432,6 +428,10 @@ Capture::Capture()
     m_DarkProcessor = new DarkProcessor(this);
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Capture::appendLogText);
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
+
+    // display the capture status in the UI
+    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::CaptureStatusWidget::setCaptureState);
+
 }
 
 Capture::~Capture()
@@ -834,8 +834,6 @@ void Capture::stop(CaptureState targetState)
         currentLightBox->SetLightEnabled(false);
     }
 
-    if (meridianFlipStage == MF_NONE || meridianFlipStage >= MF_COMPLETED)
-        secondsLabel->clear();
     disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Capture::processData);
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this,  &Ekos::Capture::setExposureProgress);
     //    disconnect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
@@ -848,9 +846,10 @@ void Capture::stop(CaptureState targetState)
     imgProgress->reset();
     imgProgress->setEnabled(false);
 
-    fullImgCountOUT->setText(QString());
-    currentImgCountOUT->setText(QString());
-    exposeOUT->setText(QString());
+    frameRemainingTime->setText("--:--:--");
+    jobRemainingTime->setText("--:--:--");
+    frameInfoLabel->setText(i18n("Expose:"));
+    jobLabel->setText(i18n("Sequence"));
     m_isFraming = false;
 
     setBusy(false);
@@ -1615,7 +1614,6 @@ IPState Capture::startNextExposure()
     // nothing pending, let's start the next exposure
     if (seqDelay > 0)
     {
-        secondsLabel->setText(i18n("Waiting..."));
         m_State = CAPTURE_WAITING;
         emit newStatus(Ekos::CAPTURE_WAITING);
     }
@@ -1767,7 +1765,7 @@ IPState Capture::setCaptureComplete()
         // If fast exposure is on, do not capture again, it will be captured by the driver.
         if (currentCCD->isFastExposureEnabled() == false)
         {
-            secondsLabel->setText(i18n("Framing..."));
+            captureStatusWidget->setStatus(i18n("Framing..."), Qt::darkGreen);
             activeJob->capture(m_AutoFocusReady, FITS_NORMAL);
         }
         return IPS_OK;
@@ -1788,20 +1786,15 @@ IPState Capture::setCaptureComplete()
         //This determines the time since the image started downloading
         //Then it gets the estimated time left and displays it in the log.
         double currentDownloadTime = m_DownloadTimer.elapsed() / 1000.0;
-        // No need to spam logs for very short exposures.
-        if (currentDownloadTime > 1)
-        {
-            downloadTimes << currentDownloadTime;
-            QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
-            QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
-            appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
-        }
+        downloadTimes << currentDownloadTime;
+        QString dLTimeString = QString::number(currentDownloadTime, 'd', 2);
+        QString estimatedTimeString = QString::number(getEstimatedDownloadTime(), 'd', 2);
+        appendLogText(i18n("Download Time: %1 s, New Download Time Estimate: %2 s.", dLTimeString, estimatedTimeString));
 
         // Always invalidate timer as it must be explicitly started.
         m_DownloadTimer.invalidate();
     }
 
-    secondsLabel->setText(i18n("Complete."));
     // Do not display notifications for very short captures
     if (activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
@@ -1918,8 +1911,6 @@ IPState Capture::setCaptureComplete()
         metadata["median"] = median;
         metadata["eccentricity"] = eccentricity;
         emit captureComplete(metadata);
-
-        currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
 
         // Check if we need to execute post capture script first
 
@@ -2042,8 +2033,6 @@ bool Capture::checkDithering()
             && ditherCounter == 0)
     {
         ditherCounter = Options::ditherFrames();
-
-        secondsLabel->setText(i18n("Dithering..."));
 
         qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
         appendLogText(i18n("Dithering..."));
@@ -2218,8 +2207,6 @@ bool Capture::startFocusIfRequired()
     // Either it is time to force autofocus or temperature has changed
     if (isRefocus)
     {
-        secondsLabel->setText(i18n("Focusing..."));
-
         if (currentCCD->isFastExposureEnabled())
             targetChip->abortExposure();
 
@@ -2251,8 +2238,6 @@ bool Capture::startFocusIfRequired()
             if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
                 currentFilter->runCommand(INDI_SET_FILTER, &targetFilterPosition);
         }
-
-        secondsLabel->setText(i18n("Focusing..."));
 
         if (currentCCD->isFastExposureEnabled())
             targetChip->abortExposure();
@@ -2311,21 +2296,18 @@ void Capture::captureImage()
     switch (m_FilterManagerState)
     {
         case FILTER_IDLE:
-            secondsLabel->clear();
+            // do nothing
             break;
 
         case FILTER_AUTOFOCUS:
-            secondsLabel->setText(i18n("Focusing..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             return;
 
         case FILTER_CHANGE:
-            secondsLabel->setText(i18n("Changing Filters..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             return;
 
         case FILTER_OFFSET:
-            secondsLabel->setText(i18n("Adjusting Filter Offset..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             return;
     }
@@ -2334,7 +2316,6 @@ void Capture::captureImage()
     if (m_FocusState >= FOCUS_PROGRESS)
     {
         //appendLogText(i18n("Delaying capture while focus module is busy."));
-        secondsLabel->setText(i18n("Focusing..."));
         QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
         return;
     }
@@ -2442,6 +2423,10 @@ void Capture::captureImage()
 
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
 
+    // necessary since the status widget doesn't store the calibration stage
+    if (activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
+        captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
+
     rc = activeJob->capture(m_AutoFocusReady,
                             activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
@@ -2460,6 +2445,20 @@ void Capture::captureImage()
                                activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
             captureTimeout.start(static_cast<int>(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) * 1000 +
                                  CAPTURE_TIMEOUT_THRESHOLD);
+            // calculate remaining capture time for the current job
+            imageCountDown.setHMS(0, 0, 0);
+            double ms_left = std::ceil(activeJob->getExposeLeft()*1000.0);
+            imageCountDown = imageCountDown.addMSecs(int(ms_left));
+            lastRemainingFrameTimeMS = ms_left;
+            sequenceCountDown.setHMS(0, 0, 0);
+            sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
+            frameInfoLabel->setText(QString("%1 %2:").arg(CCDFrameTypeNames[activeJob->getFrameType()])
+                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+            jobLabel->setText(QString("%1 %2 (%L3/%L4)").arg(CCDFrameTypeNames[activeJob->getFrameType()])
+                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
+
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             {
                 int index = jobs.indexOf(activeJob);
@@ -2483,13 +2482,11 @@ void Capture::captureImage()
 
         case CAPTURE_FILTER_BUSY:
             // Try again in 1 second if filter is busy
-            secondsLabel->setText(i18n("Changing filter..."));
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
 
         case CAPTURE_GUIDER_DRIFT_WAIT:
             // Try again in 1 second if filter is busy
-            secondsLabel->setText(i18n("Guider settling..."));
             qCDebug(KSTARS_EKOS_CAPTURE) << "Waiting for the guider to settle.";
             QTimer::singleShot(1000, this, &Ekos::Capture::captureImage);
             break;
@@ -2594,7 +2591,9 @@ void Capture::setDownloadProgress()
         double downloadTimeLeft = getEstimatedDownloadTime() - m_DownloadTimer.elapsed() / 1000.0;
         if(downloadTimeLeft > 0)
         {
-            exposeOUT->setText(QString("%L1").arg(downloadTimeLeft, 0, 'd', 2));
+            imageCountDown.setHMS(0, 0, 0);
+            imageCountDown = imageCountDown.addSecs(int(std::ceil(downloadTimeLeft)));
+            frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
             emit newDownloadProgress(downloadTimeLeft);
         }
     }
@@ -2605,7 +2604,9 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
         return;
 
-    exposeOUT->setText(QString("%L1").arg(value, 0, 'd', 2));
+    double deltaMS = std::ceil(1000.0 * value - lastRemainingFrameTimeMS);
+    updateCaptureCountDown(int(deltaMS));
+    lastRemainingFrameTimeMS += deltaMS;
 
     if (activeJob)
     {
@@ -2657,7 +2658,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
             emit suspendGuiding();
         }
 
-        secondsLabel->setText(i18n("Downloading..."));
+        captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
 
         //This will start the clock to see how long the download takes.
         m_DownloadTimer.start();
@@ -2666,11 +2667,14 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
 
         //disconnect(currentCCD, &ISD::CCD::newExposureValue(ISD::CCDChip*,double,IPState)), this, &Ekos::Capture::updateCaptureProgress(ISD::CCDChip*,double,IPState)));
     }
-    // JM: Don't change to i18np, value is DOUBLE, not Integer.
-    else if (value <= 1)
-        secondsLabel->setText(i18n("second left"));
-    else
-        secondsLabel->setText(i18n("seconds left"));
+}
+
+void Capture::updateCaptureCountDown(int deltaMillis)
+{
+    imageCountDown = imageCountDown.addMSecs(deltaMillis);
+    sequenceCountDown = sequenceCountDown.addMSecs(deltaMillis);
+    frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+    jobRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
 }
 
 void Capture::processCaptureError(ISD::CCD::ErrorType type)
@@ -3207,7 +3211,6 @@ void Capture::setBusy(bool enable)
 {
     isBusy = enable;
 
-    enable ? pi->startAnimation() : pi->stopAnimation();
     previewB->setEnabled(!enable);
     loopB->setEnabled(!enable);
 
@@ -3263,9 +3266,6 @@ void Capture::prepareJob(SequenceJob * job)
 
     if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
     {
-        fullImgCountOUT->setText(QString("%L1").arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
-        currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
-
         // set the progress info
         imgProgress->setEnabled(true);
         imgProgress->setMaximum(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
@@ -3354,7 +3354,6 @@ void Capture::prepareJob(SequenceJob * job)
         else
         {
             // There are captures to process
-            currentImgCountOUT->setText(QString("%L1").arg(activeJob->getCompleted()));
             appendLogText(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
                                QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
                                job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
@@ -3532,16 +3531,16 @@ void Capture::updatePrepareState(Ekos::CaptureState prepareState)
     {
         case CAPTURE_SETTING_TEMPERATURE:
             appendLogText(i18n("Setting temperature to %1 °C...", activeJob->getTargetTemperature()));
-            secondsLabel->setText(i18n("Set Temp to %1 °C...", activeJob->getTargetTemperature()));
+            captureStatusWidget->setStatus(i18n("Set Temp to %1 °C...", activeJob->getTargetTemperature()), Qt::yellow);
             break;
         case CAPTURE_GUIDER_DRIFT:
             appendLogText(i18n("Waiting for guide drift below %1\"...", activeJob->getTargetStartGuiderDrift()));
-            secondsLabel->setText(i18n("Wait for Guider < %1\"...", activeJob->getTargetStartGuiderDrift()));
+            captureStatusWidget->setStatus(i18n("Wait for Guider < %1\"...", activeJob->getTargetStartGuiderDrift()), Qt::yellow);
             break;
 
         case CAPTURE_SETTING_ROTATOR:
             appendLogText(i18n("Setting rotation to %1 degrees E of N...", activeJob->getTargetRotation()));
-            secondsLabel->setText(i18n("Set Rotator %1...", activeJob->getTargetRotation()));
+            captureStatusWidget->setStatus(i18n("Set Rotator %1...", activeJob->getTargetRotation()), Qt::yellow);
             break;
 
         default:
@@ -3625,9 +3624,6 @@ void Capture::updatePreCaptureCalibrationStatus()
         return;
     else if (rc == IPS_BUSY)
     {
-        // Clear the label if we are neither executing a meridian flip nor re-focusing
-        if ((meridianFlipStage == MF_NONE || meridianFlipStage == MF_READY) && m_State != CAPTURE_FOCUSING)
-            secondsLabel->clear();
         QTimer::singleShot(1000, this, &Ekos::Capture::updatePreCaptureCalibrationStatus);
         return;
     }
@@ -3868,7 +3864,7 @@ void Capture::setFocusStatus(FocusState state)
         if (m_FocusState == FOCUS_COMPLETE)
         {
             appendLogText(i18n("Focus complete."));
-            secondsLabel->setText(i18n("Focus complete."));
+            captureStatusWidget->setStatus(i18n("Focus complete."), Qt::yellow);
         }
         // Meridian flip will abort focusing. In this case, after the meridian flip has completed capture
         // will restart the re-focus attempt. Therefore we only abort capture if meridian flip is not running.
@@ -3877,7 +3873,7 @@ void Capture::setFocusStatus(FocusState state)
                 )
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
-            secondsLabel->setText(i18n("Autofocus failed."));
+            captureStatusWidget->setStatus(i18n("Autofocus failed."), Qt::darkRed);
             abort();
         }
     }
@@ -3933,8 +3929,6 @@ void Capture::setMeridianFlipStage(MFStage stage)
         switch (stage)
         {
             case MF_NONE:
-                if (m_State == CAPTURE_PAUSED)
-                    secondsLabel->setText(i18n("Paused..."));
                 meridianFlipStage = stage;
                 emit newMeridianFlipStatus(Mount::FLIP_NONE);
                 break;
@@ -3948,7 +3942,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 else if (m_State == CAPTURE_PAUSED)
                 {
                     // paused after meridian flip requested
-                    secondsLabel->setText(i18n("Paused..."));
+                    captureStatusWidget->setStatus(i18n("Paused..."), Qt::yellow);
                     meridianFlipStage = stage;
                     emit newMeridianFlipStatus(Mount::FLIP_ACCEPTED);
                 }
@@ -3966,7 +3960,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
             case MF_INITIATED:
                 meridianFlipStage = MF_INITIATED;
                 emit meridianFlipStarted();
-                secondsLabel->setText(i18n("Meridian Flip..."));
+                captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
                 KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
                 break;
 
@@ -3980,7 +3974,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 break;
 
             case MF_COMPLETED:
-                secondsLabel->setText(i18n("Flip complete."));
+                captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
                 meridianFlipStage = MF_COMPLETED;
 
                 // Reset HFR pixels to file value after meridian flip
@@ -5318,7 +5312,6 @@ bool Capture::checkGuidingAfterFlip()
     if (m_State < CAPTURE_CALIBRATING)
     {
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
-        secondsLabel->setText(i18n("Calibrating..."));
 
         m_State = CAPTURE_CALIBRATING;
         emit newStatus(Ekos::CAPTURE_CALIBRATING);
@@ -5352,7 +5345,6 @@ bool Capture::checkAlignmentAfterFlip()
     if (m_State < CAPTURE_ALIGNING)
     {
         appendLogText(i18n("Performing post flip re-alignment..."));
-        secondsLabel->setText(i18n("Aligning..."));
 
         retries = 0;
         m_State   = CAPTURE_ALIGNING;
@@ -5372,7 +5364,6 @@ bool Capture::checkPausing()
     if (m_State == CAPTURE_PAUSE_PLANNED)
     {
         appendLogText(i18n("Sequence paused."));
-        secondsLabel->setText(i18n("Paused..."));
         m_State = CAPTURE_PAUSED;
         emit newStatus(m_State);
         // handle a requested meridian flip
@@ -5469,7 +5460,6 @@ void Capture::setAlignStatus(AlignState state)
                 else
                 {
                     appendLogText(i18n("Post-flip alignment failed. Retrying..."));
-                    secondsLabel->setText(i18n("Aligning..."));
 
                     this->m_State = CAPTURE_ALIGNING;
                     emit newStatus(Ekos::CAPTURE_ALIGNING);
@@ -6283,12 +6273,12 @@ void Capture::setMountStatus(ISD::Telescope::Status newState)
             // Only disable when button is "Start", and not "Stopped"
             // If mount is in motion, Stopped button should always be enabled to terminate
             // the sequence
-            if (pi->isAnimated() == false)
+            if (isBusy == false)
                 startB->setEnabled(false);
             break;
 
         default:
-            if (pi->isAnimated() == false)
+            if (isBusy == false)
             {
                 previewB->setEnabled(true);
                 if (currentCCD)
@@ -6443,7 +6433,6 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
         m_FilterManagerState = filterState;
         if (m_State == CAPTURE_CHANGING_FILTER)
         {
-            secondsLabel->setText(Ekos::getFilterStatusString(filterState));
             switch (filterState)
             {
                 case FILTER_OFFSET:
@@ -6464,6 +6453,8 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
             }
         }
     });
+    // display capture status changes
+    connect(filterManager.data(), &FilterManager::newStatus, captureStatusWidget, &CaptureStatusWidget::setFilterState);
 
     connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
     {

@@ -565,11 +565,6 @@ void Manager::reset()
     capturePreview->reset();
     mountStatus->setText(i18n("Idle"));
     mountStatus->setStyleSheet(QString());
-    capturePreview->captureStatus->setText(i18n("Idle"));
-    if (capturePreview->capturePI)
-        capturePreview->capturePI->stopAnimation();
-    if (mountPI)
-        mountPI->stopAnimation();
     focusManager->reset();
     guideManager->reset();
 
@@ -2282,6 +2277,9 @@ void Manager::initCapture()
     capturePreview->setEnabled(true);
 
     captureProcess->setFilterManager(filterManager);
+    // display capture status changes
+    connect(filterManager.data(), &FilterManager::newStatus, capturePreview->captureStatusWidget, &CaptureStatusWidget::setFilterState);
+
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
@@ -2987,31 +2985,20 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
         case Ekos::CAPTURE_ABORTED:
         /* Fall through */
         case Ekos::CAPTURE_COMPLETE:
-            if (capturePreview->capturePI->isAnimated())
-            {
-                capturePreview->capturePI->stopAnimation();
-
-                if (getFocusStatusText() == "Complete")
-                    focusManager->stopAnimation();
-            }
+            if (getFocusStatusText() == "Complete")
+                focusManager->stopAnimation();
             m_CountdownTimer.stop();
             break;
+         case Ekos::CAPTURE_CAPTURING:
+            m_CountdownTimer.start();
+            break;
         default:
-            if (status == Ekos::CAPTURE_CAPTURING)
-                capturePreview->capturePI->setColor(Qt::darkGreen);
-            else
-                capturePreview->capturePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (capturePreview->capturePI->isAnimated() == false)
-            {
-                capturePreview->capturePI->startAnimation();
-                m_CountdownTimer.start();
-            }
             break;
     }
 
     QJsonObject cStatus =
     {
-        {"status", capturePreview->captureStatus->text()},
+        {"status", capturePreview->captureStatusWidget->getStatusText()},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };

@@ -112,6 +112,7 @@ if (INDI_FOUND)
             ekos/capture/capturepreviewwidget.ui
             ekos/capture/capturecountswidget.ui
             ekos/capture/captureprocessoverlay.ui
+            ekos/capture/capturestatuswidget.ui
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
@@ -184,6 +185,7 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturestatuswidget.cpp
             ekos/capture/capturecommandprocessor.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
