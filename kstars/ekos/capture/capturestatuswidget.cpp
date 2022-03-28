@@ -28,7 +28,6 @@ void CaptureStatusWidget::setCaptureState(CaptureState status)
         break;
     case CAPTURE_PAUSED:
         setStatus(i18n("Paused"), Qt::gray);
-        statusText->setText(i18n(""));
         break;
     case CAPTURE_SUSPENDED:
         setStatus(i18n("Suspended"), Qt::gray);
