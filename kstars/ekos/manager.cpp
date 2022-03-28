@@ -2278,7 +2278,8 @@ void Manager::initCapture()
 
     captureProcess->setFilterManager(filterManager);
     // display capture status changes
-    connect(filterManager.data(), &FilterManager::newStatus, capturePreview->captureStatusWidget, &CaptureStatusWidget::setFilterState);
+    connect(filterManager.data(), &FilterManager::newStatus, capturePreview->captureStatusWidget,
+            &CaptureStatusWidget::setFilterState);
 
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
@@ -2989,7 +2990,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
                 focusManager->stopAnimation();
             m_CountdownTimer.stop();
             break;
-         case Ekos::CAPTURE_CAPTURING:
+        case Ekos::CAPTURE_CAPTURING:
             m_CountdownTimer.start();
             break;
         default:
@@ -2998,7 +2999,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     QJsonObject cStatus =
     {
-        {"status", capturePreview->captureStatusWidget->getStatusText()},
+        {"status", captureStates[status]},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
