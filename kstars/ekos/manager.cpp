@@ -2282,7 +2282,6 @@ void Manager::initCapture()
     capturePreview->setEnabled(true);
 
     captureProcess->setFilterManager(filterManager);
-
     for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
         if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
@@ -3011,7 +3010,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     QJsonObject cStatus =
     {
-        {"status", capturePreview->captureStatus->text()},
+        {"status", captureStates[status]},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
