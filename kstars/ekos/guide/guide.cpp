@@ -1358,20 +1358,20 @@ bool Guide::guide()
         }
     };
 
-    if (Options::defaultCaptureCCD() == guiderCombo->currentText())
-    {
-        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeGuide]()
-        {
-            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
-            KSMessageBox::Instance()->disconnect(this);
-            executeGuide();
-        });
+    //    if (Options::defaultCaptureCCD() == guiderCombo->currentText())
+    //    {
+    //        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeGuide]()
+    //        {
+    //            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
+    //            KSMessageBox::Instance()->disconnect(this);
+    //            executeGuide();
+    //        });
 
-        KSMessageBox::Instance()->questionYesNo(
-            i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
+    //        KSMessageBox::Instance()->questionYesNo(
+    //            i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
 
-        return false;
-    }
+    //        return false;
+    //    }
 
     if (m_MountStatus == ISD::Telescope::MOUNT_PARKED)
     {

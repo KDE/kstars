@@ -99,9 +99,9 @@ void ClientManager::newProperty(INDI::Property *pprop)
     // Only handle RW and RO BLOB properties
     if (prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
     {
-        QPointer<BlobManager> bm = new BlobManager(getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
-        connect(bm.data(), &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
-        connect(bm.data(), &BlobManager::connected, this, [prop, this]()
+        BlobManager *bm = new BlobManager(this, getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
+        connect(bm, &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
+        connect(bm, &BlobManager::connected, this, [prop, this]()
         {
             if (prop && prop.getRegistered())
                 emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
@@ -119,14 +119,14 @@ void ClientManager::removeProperty(INDI::Property *prop)
     // If BLOB property is removed, remove its corresponding property if one exists.
     if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
     {
-        for (QPointer<BlobManager> bm : blobManagers)
+        for (auto &bm : blobManagers)
         {
-            const QString bProperty = bm.data()->property("property").toString();
-            const QString bDevice = bm.data()->property("device").toString();
+            const QString bProperty = bm->property("property").toString();
+            const QString bDevice = bm->property("device").toString();
             if (bDevice == device && bProperty == name)
             {
                 blobManagers.removeOne(bm);
-                bm.data()->disconnectServer();
+                bm->disconnectServer();
                 bm->deleteLater();
                 break;
             }
@@ -145,10 +145,10 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
     QString deviceName = dp->getDeviceName();
 
-    QMutableListIterator<QPointer<BlobManager>> it(blobManagers);
+    QMutableListIterator<BlobManager*> it(blobManagers);
     while (it.hasNext())
     {
-        QPointer<BlobManager> &oneManager = it.next();
+        auto &oneManager = it.next();
         if (oneManager->property("device").toString() == deviceName)
         {
             oneManager->disconnect();
@@ -156,9 +156,9 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
         }
     }
 
-    for (auto driverInfo : managedDrivers)
+    for (auto &driverInfo : managedDrivers)
     {
-        for (auto deviceInfo : driverInfo->getDevices())
+        for (auto &deviceInfo : driverInfo->getDevices())
         {
             if (deviceInfo->getDeviceName() == deviceName)
             {
@@ -236,7 +236,7 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     dv->setClientState(false);
     managedDrivers.removeOne(dv);
 
-    for (auto di : dv->getDevices())
+    for (auto &di : dv->getDevices())
     {
         // #1 Remove from GUI Manager
         GUIManager::Instance()->removeDevice(di->getDeviceName());
@@ -310,7 +310,7 @@ DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 
 void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QString &property)
 {
-    for(QPointer<BlobManager> bm : blobManagers)
+    for(const auto &bm : blobManagers)
     {
         if (bm->property("device") == device && (property.isEmpty() || bm->property("property") == property))
         {
@@ -322,7 +322,7 @@ void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QS
 
 bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
 {
-    for(QPointer<BlobManager> bm : blobManagers)
+    for(const auto &bm : blobManagers)
     {
         if (bm->property("device") == device && bm->property("property") == property)
             return bm->property("enabled").toBool();

@@ -271,47 +271,29 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("lock_telescope"))
     {
-        if (INDIListener::Instance()->size() == 0)
+        for (auto oneDevice : INDIListener::Instance()->getDevices())
         {
-            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
-            return;
-        }
-
-        ISD::GDInterface *oneScope = nullptr;
-
-        foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
-        {
-            INDI::BaseDevice *bd = gd->getBaseDevice();
-
-            if (gd->getType() != KSTARS_TELESCOPE)
+            if (oneDevice->getType() != KSTARS_TELESCOPE)
                 continue;
 
-            if (bd == nullptr)
-                continue;
-
-            if (bd->isConnected() == false)
+            if (oneDevice->isConnected() == false)
             {
                 KMessageBox::error(
                     nullptr,
                     i18n("Telescope %1 is offline. Please connect and retry again.",
-                         gd->getDeviceName()));
+                         oneDevice->getDeviceName()));
                 return;
             }
 
-            oneScope = gd;
-            break;
-        }
-
-        if (oneScope == nullptr)
-        {
-            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+            if (a->isChecked())
+                oneDevice->runCommand(INDI_CENTER_LOCK);
+            else
+                oneDevice->runCommand(INDI_CENTER_UNLOCK);
             return;
         }
 
-        if (a->isChecked())
-            oneScope->runCommand(INDI_CENTER_LOCK);
-        else
-            oneScope->runCommand(INDI_CENTER_UNLOCK);
+        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        return;
     }
     else if (a == actionCollection()->action("show_fits_viewer"))
     {

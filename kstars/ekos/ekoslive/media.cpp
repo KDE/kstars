@@ -299,7 +299,7 @@ void Media::upload(FITSView * view)
         {"mean", imageData->getAverageMean()},
         {"median", imageData->getAverageMedian()},
         {"stddev", imageData->getAverageStdDev()},
-        {"bin", QString("%1x%2").arg(xbin.toString()).arg(ybin.toString())},
+        {"bin", QString("%1x%2").arg(xbin.toString(), ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
         {"uuid", m_UUID},
         {"exposure", exposure.toString()},
@@ -317,21 +317,25 @@ void Media::upload(FITSView * view)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
+    auto sendPixmap = (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+");
+    auto scaleWidth = sendPixmap ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
+
     // For low bandwidth images
-    if (!m_Options[OPTION_SET_HIGH_BANDWIDTH] || m_UUID[0] == "+")
+    // Except for dark frames +D
+    if (sendPixmap)
     {
-        QPixmap scaledImage = view->getDisplayPixmap().width() > HB_IMAGE_WIDTH / 2 ?
-                              view->getDisplayPixmap().scaledToWidth(HB_IMAGE_WIDTH / 2, Qt::FastTransformation) :
+        QPixmap scaledImage = view->getDisplayPixmap().width() > scaleWidth ?
+                              view->getDisplayPixmap().scaledToWidth(scaleWidth, Qt::FastTransformation) :
                               view->getDisplayPixmap();
-        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY / 2);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), scaleWidth);
     }
     // For high bandwidth images
     else
     {
-        QImage scaledImage =  view->getDisplayImage().width() > HB_IMAGE_WIDTH ?
-                              view->getDisplayImage().scaledToWidth(HB_IMAGE_WIDTH, Qt::SmoothTransformation) :
+        QImage scaledImage =  view->getDisplayImage().width() > scaleWidth ?
+                              view->getDisplayImage().scaledToWidth(scaleWidth, Qt::SmoothTransformation) :
                               view->getDisplayImage();
-        scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
+        scaledImage.save(&buffer, ext.toLatin1().constData(), scaleWidth);
     }
     buffer.close();
 

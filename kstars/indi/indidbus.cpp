@@ -86,7 +86,7 @@ bool INDIDBus::connect(const QString &host, const QString &port)
     if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
     {
         delete (remote_indi);
-        remote_indi = 0;
+        remote_indi = nullptr;
         return false;
     }
 
@@ -118,13 +118,9 @@ QStringList INDIDBus::getDevices()
 {
     QStringList devices;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        devices << dp->getDeviceName();
+        devices << oneDevice->getDeviceName();
     }
 
     return devices;
@@ -134,16 +130,12 @@ QStringList INDIDBus::getProperties(const QString &device)
 {
     QStringList properties;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
             // Let's print a list of all device properties
-            for (const auto &prop : *dp->getProperties())
+            for (const auto &prop : *oneDevice->getProperties())
             {
                 switch (prop->getType())
                 {
@@ -175,7 +167,6 @@ QStringList INDIDBus::getProperties(const QString &device)
                     case INDI_UNKNOWN:
                         qCWarning(KSTARS) << device << '.' << QString(prop->getName()) << " has an unknown type! Aborting...";
                         return properties;
-                        break;
                 }
             }
 
@@ -191,15 +182,11 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 {
     QString status = "Invalid";
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto prop = dp->getProperty(property.toLatin1());
+            auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
                 status = QString(pstateStr(prop->getState()));
@@ -217,17 +204,13 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 
 bool INDIDBus::sendProperty(const QString &device, const QString &property)
 {
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
+        ClientManager *cm = oneDevice->getDeviceInfo()->getDriverInfo()->getClientManager();
 
-        ClientManager *cm = gd->getDeviceInfo()->getDriverInfo()->getClientManager();
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto prop = dp->getProperty(property.toLatin1());
+            auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
                 switch (prop->getType())
@@ -268,15 +251,11 @@ QString INDIDBus::getLight(const QString &device, const QString &property, const
 {
     QString status = "Invalid";
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto prop = dp->getProperty(property.toLatin1());
+            auto prop = oneDevice->getProperty(property.toLatin1());
             if (prop)
             {
                 auto lp = prop->getLight();
@@ -309,15 +288,11 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
         return false;
     }
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto sp = dp->getSwitch(property.toLatin1());
+            auto sp = oneDevice->getBaseDevice()->getSwitch(property.toLatin1());
 
             if (sp->getRule() == ISR_1OFMANY && status == "Off")
             {
@@ -349,15 +324,11 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 {
     QString result("Invalid");
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto sp = dp->getSwitch(property.toLatin1());
+            auto sp = oneDevice->getBaseDevice()->getSwitch(property.toLatin1());
             if (sp)
             {
                 auto sw = sp->findWidgetByName(switchName.toLatin1());
@@ -382,15 +353,11 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 
 bool INDIDBus::setText(const QString &device, const QString &property, const QString &textName, const QString &text)
 {
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto tp = dp->getText(property.toLatin1());
+            auto tp = oneDevice->getBaseDevice()->getText(property.toLatin1());
 
             if (tp)
             {
@@ -418,15 +385,11 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 {
     QString result("Invalid");
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto tp = dp->getText(property.toLatin1());
+            auto tp = oneDevice->getBaseDevice()->getText(property.toLatin1());
             if (tp)
             {
                 auto t = tp->findWidgetByName(textName.toLatin1());
@@ -451,15 +414,11 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 
 bool INDIDBus::setNumber(const QString &device, const QString &property, const QString &numberName, double value)
 {
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto np = dp->getNumber(property.toLatin1());
+            auto np = oneDevice->getBaseDevice()->getNumber(property.toLatin1());
 
             if (np)
             {
@@ -487,15 +446,11 @@ double INDIDBus::getNumber(const QString &device, const QString &property, const
 {
     double result = NaN::d;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto np = dp->getNumber(property.toLatin1());
+            auto np = oneDevice->getBaseDevice()->getNumber(property.toLatin1());
             if (np)
             {
                 auto n = np->findWidgetByName(numberName.toLatin1());
@@ -524,15 +479,11 @@ QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property,
     QByteArray array;
     size = -1;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto bp = dp->getBLOB(property.toLatin1());
+            auto bp = oneDevice->getBaseDevice()->getBLOB(property.toLatin1());
             if (bp)
             {
                 auto b = bp->findWidgetByName(blobName.toLatin1());
@@ -565,21 +516,17 @@ QString INDIDBus::getBLOBFile(const QString &device, const QString &property, co
     QString filename;
     size = -1;
 
-    foreach (ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *dp = gd->getBaseDevice();
-        if (!dp)
-            continue;
-
-        if (dp->getDeviceName() == device)
+        if (oneDevice->getDeviceName() == device)
         {
-            auto bp = dp->getBLOB(property.toLatin1());
+            auto bp = oneDevice->getBaseDevice()->getBLOB(property.toLatin1());
             if (bp)
             {
                 auto b = bp->findWidgetByName(blobName.toLatin1());
                 if (b)
                 {
-                    filename   = QString(((char *)b->aux2));
+                    filename   = QString(static_cast<char *>(b->aux2));
                     size       = b->bloblen;
                     blobFormat = QString(b->format).trimmed();
 

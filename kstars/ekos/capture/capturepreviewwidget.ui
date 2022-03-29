@@ -54,7 +54,7 @@
     <number>4</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="captureStatusLayout">
+    <layout class="QHBoxLayout" name="captureStatusLayout" stretch="0,1,0">
      <property name="spacing">
       <number>2</number>
      </property>
@@ -94,35 +94,10 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="captureStatus">
+      <widget class="Ekos::CaptureStatusWidget" name="captureStatusWidget" native="true">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Idle</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QProgressIndicator" name="capturePI" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>24</width>
          <height>24</height>
         </size>
        </property>
@@ -169,10 +144,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QProgressIndicator</class>
+   <class>Ekos::CaptureStatusWidget</class>
    <extends>QWidget</extends>
-   <header>auxiliary/QProgressIndicator.h</header>
-   <container>1</container>
+   <header>ekos/capture/capturestatuswidget.h</header>
   </customwidget>
   <customwidget>
    <class>CaptureCountsWidget</class>

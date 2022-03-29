@@ -1276,7 +1276,7 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     else if (command == commands[DARK_LIBRARY_GET_MASTERS_IMAGE])
     {
         const int row = payload["row"].toInt();
-        Ekos::DarkLibrary::Instance()->loadDarkImage(row);
+        Ekos::DarkLibrary::Instance()->loadIndexInView(row);
     }
     else if (command == commands[DARK_LIBRARY_GET_DARK_SETTINGS])
     {
@@ -1296,7 +1296,7 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     }
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_FRAME])
     {
-        Ekos::DarkLibrary::Instance()->setDefectFrame(false);
+        Ekos::DarkLibrary::Instance()->setDefectMapEnabled(false);
     }
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_SETTINGS])
     {
@@ -2023,7 +2023,7 @@ void Message::sendStates()
     if (m_isConnected == false)
         return;
 
-    QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatus->text()}};
+    QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatusWidget->getStatusText()}};
     sendResponse(commands[NEW_CAPTURE_STATE], captureState);
 
     // Send capture sequence if one exists
@@ -2220,7 +2220,7 @@ void Message::sendModuleState(const QString &name)
 
     if (name == "Capture")
     {
-        QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatus->text()}};
+        QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatusWidget->getStatusText()}};
         sendResponse(commands[NEW_CAPTURE_STATE], captureState);
         sendCaptureSequence(m_Manager->captureModule()->getSequence());
     }

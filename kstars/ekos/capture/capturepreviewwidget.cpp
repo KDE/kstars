@@ -217,7 +217,7 @@ void CapturePreviewWidget::reset()
 
 void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status)
 {
-    captureStatus->setText(Ekos::getCaptureStatusString(status));
+    captureStatusWidget->setCaptureState(status);
 
     // update the data of the overlay
     if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
