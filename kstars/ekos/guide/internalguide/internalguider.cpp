@@ -42,6 +42,7 @@ InternalGuider::InternalGuider()
         pierSide, Options::reverseDecOnPierSideChange(), subBinX, subBinY, nullptr);
 
     state = GUIDE_IDLE;
+    m_DitherOrigin = QVector3D(0, 0, 0);
 }
 
 bool InternalGuider::guide()
@@ -61,6 +62,7 @@ bool InternalGuider::guide()
 
     m_starLostCounter = 0;
     m_highRMSCounter = 0;
+    m_DitherOrigin = QVector3D(0, 0, 0);
 
     m_isFirstFrame = true;
 
@@ -118,7 +120,8 @@ bool InternalGuider::abort()
     m_ProgressiveDither.clear();
     m_starLostCounter = 0;
     m_highRMSCounter = 0;
-    accumulator.first = accumulator.second = 0;
+
+    m_DitherOrigin = QVector3D(0, 0, 0);
 
     pmath->suspend(false);
     state = GUIDE_IDLE;
@@ -237,12 +240,17 @@ bool InternalGuider::dither(double pixels)
         if (pmath->getCalibration().declinationSwapEnabled())
             diff_y *= -1;
 
-        if (fabs(diff_x + accumulator.first) > MAX_DITHER_TRAVEL)
+        if (m_DitherOrigin.x() == 0 && m_DitherOrigin.y() == 0)
+        {
+            m_DitherOrigin = QVector3D(ret_x, ret_y, 0);
+        }
+        double totalXOffset = ret_x - m_DitherOrigin.x();
+        double totalYOffset = ret_y - m_DitherOrigin.y();
+
+        if (fabs(diff_x + totalXOffset) > MAX_DITHER_TRAVEL)
             diff_x *= -1.5;
-        accumulator.first += diff_x;
-        if (fabs(diff_y + accumulator.second) > MAX_DITHER_TRAVEL)
+        if (fabs(diff_y + totalYOffset) > MAX_DITHER_TRAVEL)
             diff_y *= -1.5;
-        accumulator.second += diff_y;
 
         m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
 
@@ -252,7 +260,7 @@ bool InternalGuider::dither(double pixels)
                 .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
                 .arg(ret_x, 5, 'f', 1).arg(ret_y, 5, 'f', 1)
                 .arg(diff_x, 4, 'f', 1).arg(diff_y, 4, 'f', 1)
-                .arg(accumulator.first, 5, 'f', 1).arg(accumulator.second, 5, 'f', 1);
+                .arg(totalXOffset + diff_x, 5, 'f', 1).arg(totalYOffset + diff_y, 5, 'f', 1);
         guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
         pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
@@ -278,21 +286,25 @@ bool InternalGuider::dither(double pixels)
 
     double pixelOffsetX = m_DitherTargetPosition.x - star_position.x;
     double pixelOffsetY = m_DitherTargetPosition.y - star_position.y;
-    if (Options::ditherWithOnePulse())
-    {
-        accumulator.first -= pixelOffsetX;
-        accumulator.second -= pixelOffsetY;
-    }
+
     qCDebug(KSTARS_EKOS_GUIDE)
             << QString("Dithering in progress.   Current: %1,%2 Target:  %3,%4 Diff: %5,%6 Wander: %8,%9")
             .arg(star_position.x, 5, 'f', 1).arg(star_position.y, 5, 'f', 1)
             .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
             .arg(pixelOffsetX, 4, 'f', 1).arg(pixelOffsetY, 4, 'f', 1)
-            .arg(accumulator.first, 5, 'f', 1).arg(accumulator.second, 5, 'f', 1);
+            .arg(star_position.x - m_DitherOrigin.x(), 5, 'f', 1)
+            .arg(star_position.y - m_DitherOrigin.y(), 5, 'f', 1);
 
     if (Options::ditherWithOnePulse() || (fabs(driftRA) < 1 && fabs(driftDEC) < 1))
     {
         pmath->setTargetPosition(star_position.x, star_position.y);
+
+        // In one-pulse dithering we want the target to be whereever we end up
+        // after the pulse. So, the first guide frame should not send any pulses
+        // and should reset the reticle to the position it finds.
+        if (Options::ditherWithOnePulse())
+            m_isFirstFrame = true;
+
         qCDebug(KSTARS_EKOS_GUIDE) << "Dither complete.";
 
         if (Options::ditherSettle() > 0)
@@ -810,6 +822,7 @@ bool InternalGuider::processGuiding()
 bool InternalGuider::selectAutoStarSEPMultistar()
 {
     guideFrame->updateFrame();
+    m_DitherOrigin = QVector3D(0, 0, 0);
     QVector3D newStarCenter = pmath->selectGuideStar(m_ImageData);
     if (newStarCenter.x() >= 0)
     {
@@ -826,6 +839,7 @@ bool InternalGuider::SEPMultiStarEnabled()
 
 bool InternalGuider::selectAutoStar()
 {
+    m_DitherOrigin = QVector3D(0, 0, 0);
     if (Options::guideAlgorithm() == SEP_MULTISTAR)
         return selectAutoStarSEPMultistar();
 
