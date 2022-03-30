@@ -63,6 +63,7 @@ class TestEkosSchedulerOps : public QObject
         void testGreedyAborts();
         void testSettingAltitudeBug();
         void testEstimateTimeBug();
+        void testGreedyMessier();
 
         // test data
         void testCulminationStartup_data();

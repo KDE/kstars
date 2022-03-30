@@ -113,6 +113,15 @@ class ArtificialHorizon
         QList<ArtificialHorizonEntity *> m_HorizonList;
         bool testing { false };
 
+        // Methods and data structure for precomputing altitudeConstraint(azimuth).
+        // This way, we don't traverse the potentially horizon list each time
+        // we query the horizon constraint.
+        void precomputeConstraints() const;
+        void resetPrecomputeConstraints() const;
+        double precomputedConstraint(double azimuth) const;
+        double altitudeConstraintInternal(double azimuthDegrees) const;
+        mutable QVector<double> precomputedConstraints;
+
         friend TestArtificialHorizon;
 };
 

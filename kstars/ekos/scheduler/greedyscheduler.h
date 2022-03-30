@@ -134,7 +134,7 @@ class GreedyScheduler : public QObject
         // can be scheduled by scheduleJobs().
         QList<SchedulerJob *> prepareJobsForEvaluation(
             QList<SchedulerJob *> &jobs, const QDateTime &now,
-            const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler);
+            const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true);
 
         // Removes the EVALUATION state, after eval is done.
         void unsetEvaluation(const QList<SchedulerJob *> &jobs);

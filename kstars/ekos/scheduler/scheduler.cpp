@@ -1984,6 +1984,9 @@ void Scheduler::syncGreedyParams()
 
 void Scheduler::evaluateJobs(bool evaluateOnly)
 {
+    for (auto job : jobs)
+        job->clearCache();
+
     /* Don't evaluate if list is empty */
     if (jobs.isEmpty())
         return;
@@ -2002,6 +2005,8 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
     }
     else
     {
+        SchedulerJob::enableGraphicsUpdates(false);
+
         bool possiblyDelay = false;
         auto rescheduleErrors = errorHandlingRescheduleErrorsCB->isChecked();
         auto restartJobs = errorHandlingDontRestartButton->isChecked() == false;
@@ -2026,6 +2031,9 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
             sleepLabel->show();
             // we continue to determine which job should be running, when the delay is over
         }
+        SchedulerJob::enableGraphicsUpdates(true);
+        for (auto job : jobsToProcess)
+            job->updateJobCells();
     }
     processJobs(jobsToProcess, evaluateOnly);
 }
