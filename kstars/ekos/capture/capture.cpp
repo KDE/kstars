@@ -2359,7 +2359,7 @@ void Capture::captureImage()
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
         if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false
                 && activeJob->getFlatFieldDuration() == DURATION_ADU &&
-                activeJob->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION_COMPLETE)
+                activeJob->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
             if (currentCCD->getEncodingFormat() != "FITS")
             {
@@ -2447,16 +2447,16 @@ void Capture::captureImage()
                                  CAPTURE_TIMEOUT_THRESHOLD);
             // calculate remaining capture time for the current job
             imageCountDown.setHMS(0, 0, 0);
-            double ms_left = std::ceil(activeJob->getExposeLeft()*1000.0);
+            double ms_left = std::ceil(activeJob->getExposeLeft() * 1000.0);
             imageCountDown = imageCountDown.addMSecs(int(ms_left));
             lastRemainingFrameTimeMS = ms_left;
             sequenceCountDown.setHMS(0, 0, 0);
             sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
             frameInfoLabel->setText(QString("%1 %2:").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+                                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
             jobLabel->setText(QString("%1 %2 (%L3/%L4)").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
-                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+                              .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+                              .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
