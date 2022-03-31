@@ -2378,7 +2378,7 @@ void Capture::captureImage()
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
         if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false
                 && activeJob->getFlatFieldDuration() == DURATION_ADU &&
-                activeJob->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION_COMPLETE)
+                activeJob->getCalibrationStage() == SequenceJobState::CAL_NONE)
         {
             if (currentCCD->getEncodingFormat() != "FITS")
             {
