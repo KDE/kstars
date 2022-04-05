@@ -1004,6 +1004,9 @@ void Guide::processCaptureTimeout()
 
     m_CaptureTimeoutCounter++;
 
+    if (currentCCD == nullptr)
+        return;
+
     if (m_DeviceRestartCounter >= 3)
     {
         m_CaptureTimeoutCounter = 0;
