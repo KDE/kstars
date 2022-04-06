@@ -9,6 +9,9 @@
 
 #include <QObject>
 #include "fitsviewer/fitsdata.h"
+#include "ekos/auxiliary/solverutils.h"
+#include <QFutureWatcher>
+#include <memory>
 
 class TestFitsData : public QObject
 {
@@ -46,6 +49,43 @@ class TestFitsData : public QObject
 
         void testBahtinovFocusHFR_data();
         void testBahtinovFocusHFR();
+
+        void testParallelSolvers();
+    private:
+        void startGuideDetect(const QString &filename);
+        void guideLoadFinished();
+        void guideDetectFinished();
+
+        std::unique_ptr<FITSData> guideFits;
+        QFuture<bool> guideFuture;
+        QFutureWatcher<bool> guideWatcher;
+        int numGuideDetects { 0 };
+};
+
+class SolverLoop : public QObject
+{
+        Q_OBJECT
+    public:
+        SolverLoop(const QVector<QString> &files, const QString &dir, bool isDetecting, int numReps);
+        void start();
+        bool done();
+
+    private:
+        void detectFinished();
+        void loadFinished();
+        void startDetect(const QString &filename);
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+
+        QVector<QString> filenames;
+        QString directory;
+        std::unique_ptr<FITSData> fits;
+        QFuture<bool> future;
+        QFutureWatcher<bool> watcher;
+        int numDetects { 0 };
+        int repetitions { 0 };
+        bool detecting { true };
+        std::unique_ptr<SolverUtils> solver;
+
 };
 
 #endif // TESTFITSDATA_H
