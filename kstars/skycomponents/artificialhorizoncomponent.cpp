@@ -155,6 +155,7 @@ ArtificialHorizon::~ArtificialHorizon()
 void ArtificialHorizon::load(const QList<ArtificialHorizonEntity *> &list)
 {
     m_HorizonList = list;
+    resetPrecomputeConstraints();
 }
 
 bool ArtificialHorizonComponent::load()
@@ -541,6 +542,7 @@ void ArtificialHorizon::removeRegion(const QString &regionName, bool lineOnly)
         m_HorizonList.removeOne(regionHorizon);
         delete (regionHorizon);
     }
+    resetPrecomputeConstraints();
 }
 
 void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool lineOnly)
@@ -562,6 +564,7 @@ void ArtificialHorizon::addRegion(const QString &regionName, bool enabled, const
     horizon->setList(list);
 
     m_HorizonList.append(horizon);
+    resetPrecomputeConstraints();
 }
 
 void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list,
@@ -606,13 +609,53 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintAbove(double azim
     return entity;
 }
 
+// Estimate the horizon contraint to .1 degrees.
+// This significantly speeds up computation.
+constexpr int PRECOMPUTED_RESOLUTION = 10;
+
 double ArtificialHorizon::altitudeConstraint(double azimuthDegrees) const
+{
+    if (precomputedConstraints.size() != 360 * PRECOMPUTED_RESOLUTION)
+        precomputeConstraints();
+    return precomputedConstraint(azimuthDegrees);
+}
+
+double ArtificialHorizon::altitudeConstraintInternal(double azimuthDegrees) const
 {
     const ArtificialHorizonEntity *horizonBelow = getConstraintBelow(azimuthDegrees, 90.0, nullptr);
     if (horizonBelow == nullptr)
         return UNDEFINED_ALTITUDE;
     bool ignore = false;
     return horizonBelow->altitudeConstraint(azimuthDegrees, &ignore);
+}
+
+// Quantize the constraints to within .1 degrees (so there are 360*10=3600
+// precomputed values).
+void ArtificialHorizon::precomputeConstraints() const
+{
+    precomputedConstraints.clear();
+    precomputedConstraints.fill(0, 360 * PRECOMPUTED_RESOLUTION);
+    for (int i = 0; i < 360 * PRECOMPUTED_RESOLUTION; ++i)
+    {
+        const double az = i / static_cast<double>(PRECOMPUTED_RESOLUTION);
+        precomputedConstraints[i] = altitudeConstraintInternal(az);
+    }
+}
+
+void ArtificialHorizon::resetPrecomputeConstraints() const
+{
+    precomputedConstraints.clear();
+}
+
+double ArtificialHorizon::precomputedConstraint(double azimuth) const
+{
+    constexpr int maxval = 360 * PRECOMPUTED_RESOLUTION;
+    int index = azimuth * PRECOMPUTED_RESOLUTION + 0.5;
+    if (index == maxval)
+        index = 0;
+    if (index < 0 || index >= precomputedConstraints.size())
+        return UNDEFINED_ALTITUDE;
+    return precomputedConstraints[index];
 }
 
 const ArtificialHorizonEntity *ArtificialHorizon::getConstraintBelow(double azimuthDegrees, double altitudeDegrees,

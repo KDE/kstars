@@ -600,9 +600,11 @@ class SchedulerJob
              * @return The date and time the target meets or misses constraints.
              */
         QDateTime calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet = true, int increment = 1,
-                                    QString *reason = nullptr, bool runningJob = false) const;
-        QDateTime getNextPossibleStartTime(const QDateTime &when, int increment = 1, bool runningJob = false) const;
-        QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr) const;
+                                    QString *reason = nullptr, bool runningJob = false, const QDateTime &until = QDateTime()) const;
+        QDateTime getNextPossibleStartTime(const QDateTime &when, int increment = 1, bool runningJob = false,
+                                           const QDateTime &until = QDateTime()) const;
+        QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr,
+                                 const QDateTime &until = QDateTime()) const;
 
         /**
              * @brief calculateCulmination find culmination time adjust for the job offset
@@ -642,7 +644,7 @@ class SchedulerJob
              * @return true if the next dawn/dusk event after this observation is the astronomical dawn, else false.
              * @note This function relies on the guarantee that dawn and dusk are calculated to be the first events after this observation.
              */
-        bool runsDuringAstronomicalNightTime(const QDateTime &time = QDateTime()) const;
+        bool runsDuringAstronomicalNightTime(const QDateTime &time = QDateTime(), QDateTime *nextPossibleSuccess = nullptr) const;
 
         /**
              * @brief findAltitude Find altitude given a specific time
@@ -677,8 +679,19 @@ class SchedulerJob
         static QString completionConditionString(SchedulerJob::CompletionCondition condition);
         QString jobCompletionConditionString(SchedulerJob::CompletionCondition condition) const;
 
+        static void enableGraphicsUpdates(bool update)
+        {
+            m_UpdateGraphics = update;
+        }
+
+        // Clear the cache that keeps results for getNextPossibleStartTime().
+        void clearCache()
+        {
+            startTimeCache.clear();
+        }
     private:
-        bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk) const;
+        bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
+                QDateTime *nextPossibleSuccess = nullptr) const;
 
         // Private constructor for unit testing.
         SchedulerJob(KSMoon *moonPtr);
@@ -801,6 +814,39 @@ class SchedulerJob
 
         /// Pointer to Moon object
         KSMoon *moon { nullptr };
+
+        // There are times when we pause graphics updates for all jobs.
+        static bool m_UpdateGraphics;
+
+        // This class is used to cache the results computed in getNextPossibleStartTime()
+        // which is called repeatedly by the Greedy scheduler.
+        // The cache would need to be cleared if something changes that would affect the
+        // start time of jobs (geography, altitide constraints) so it is reset at the start
+        // of all schedule calculations--which does not impact its effectiveness.
+        class StartTimeCache
+        {
+                // Keep track of calls to getNextPossibleStartTime, storing the when, until and result.
+                struct StartTimeComputation
+                {
+                    QDateTime from;
+                    QDateTime until;
+                    QDateTime result;
+                };
+            public:
+                StartTimeCache() {}
+                // Check if the computation has been done, and if so, return the previous result.
+                bool check(const QDateTime &from, const QDateTime &until,
+                           QDateTime *result, QDateTime *newFrom) const;
+                // Add a result to the cache.
+                void add(const QDateTime &from, const QDateTime &until, const QDateTime &result) const;
+                // Clear the cache.
+                void clear() const;
+            private:
+                // Made this mutable and all methods const so that the cache could be
+                // used in SchedulerJob const methods.
+                mutable QList<StartTimeComputation> startComputations;
+        };
+        StartTimeCache startTimeCache;
 
         // These are used in testing, instead of KStars::Instance() resources
         static KStarsDateTime *storedLocalTime;

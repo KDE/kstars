@@ -39,6 +39,10 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
         const QMap<QString, uint16_t> &capturedFramesCount,
         Scheduler *scheduler)
 {
+    for (auto job : jobs)
+        job->clearCache();
+
+    SchedulerJob::enableGraphicsUpdates(false);
     QDateTime when;
     QElapsedTimer timer;
     timer.start();
@@ -71,6 +75,16 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
         foreach (auto job, sortedJobs)
             job->updateJobCells();
     }
+    // The graphics would get updated many times during scheduling, which can
+    // cause significant cpu usage. No need for that, so we turn off updates
+    // at the start of this method, and then update all jobs once here.
+    SchedulerJob::enableGraphicsUpdates(true);
+    for (auto job : sortedJobs)
+    {
+        job->updateJobCells();
+        job->clearCache();
+    }
+
     return sortedJobs;
 }
 
@@ -96,10 +110,9 @@ bool GreedyScheduler::checkJob(QList<SchedulerJob *> &jobs,
 
 QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
     QList<SchedulerJob *> &jobs, const QDateTime &now,
-    const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler)
+    const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTimes)
 {
     QList<SchedulerJob *> sortedJobs = jobs;
-
     // Remove some finished jobs from eval.
     foreach (SchedulerJob *job, sortedJobs)
     {
@@ -160,15 +173,18 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
     {
         if (job->getState() == SchedulerJob::JOB_INVALID || job->getState() == SchedulerJob::JOB_COMPLETE)
             continue;
-        job->setEstimatedTime(-1);
 
         // -1 = Job is not estimated yet
         // -2 = Job is estimated but time is unknown
         // > 0  Job is estimated and time is known
-        if (Scheduler::estimateJobTime(job, capturedFramesCount, scheduler) == false)
+        if (reestimateJobTimes)
         {
-            job->setState(SchedulerJob::JOB_INVALID);
-            continue;
+            job->setEstimatedTime(-1);
+            if (Scheduler::estimateJobTime(job, capturedFramesCount, scheduler) == false)
+            {
+                job->setState(SchedulerJob::JOB_INVALID);
+                continue;
+            }
         }
         if (job->getEstimatedTime() == 0)
         {
@@ -281,6 +297,8 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                                           job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
 
         // Find the first time this job can meet all its constraints.
+        // I found that passing in an "until" 4th argument actually hurt performance, as it reduces
+        // the effectiveness of the cache that getNextPossibleStartTime uses.
         const QDateTime startTime = job->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES,
                                     evaluatingCurrentJob);
         if (startTime.isValid())
@@ -317,6 +335,10 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                     nextJob = job;
                 }
             }
+            // If scheduling, and we have a solution close enough to now, none of the lower priority
+            // jobs can possibly be scheduled.
+            if (!currentJob && nextStart.isValid() && now.secsTo(nextStart) < MIN_RUN_SECS)
+                break;
         }
         else if (evaluatingCurrentJob)
         {
@@ -437,7 +459,8 @@ void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTim
     QMap<QString, uint16_t> capturedFramesCopy;
     if (capturedFramesCount != nullptr)
         capturedFramesCopy = *capturedFramesCount;
-    QList<SchedulerJob *>simJobs = prepareJobsForEvaluation(copiedJobs, time, capturedFramesCopy, nullptr);
+    QList<SchedulerJob *>simJobs =
+        prepareJobsForEvaluation(copiedJobs, time, capturedFramesCopy, nullptr, false);
 
     QDateTime simTime = time;
     int iterations = 0;
@@ -458,9 +481,13 @@ void GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDateTim
         if (selectedJob == nullptr)
             break;
 
+        // Are we past the end time?
+        if (endTime.isValid() && jobStartTime.secsTo(endTime) < 0) break;
+
         QString constraintReason;
         // Get the time that this next job would fail its constraints, and a human-readable explanation.
-        QDateTime jobConstraintTime = selectedJob->getNextEndTime(jobStartTime, SCHEDULE_RESOLUTION_MINUTES, &constraintReason);
+        QDateTime jobConstraintTime = selectedJob->getNextEndTime(jobStartTime, SCHEDULE_RESOLUTION_MINUTES, &constraintReason,
+                                      jobInterruptTime);
         QDateTime jobCompletionTime;
         if (selectedJob->getEstimatedTime() > 0)
         {

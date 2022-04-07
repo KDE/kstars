@@ -913,6 +913,7 @@ void TestEkosSchedulerOps::testTwilightStartup()
     initScheduler(geo, startUTime, &dir, eslVector, esqVector);
     initJob(startUTime, jobStartUTime);
 }
+
 void addHorizonConstraint(ArtificialHorizon *horizon, const QString &name, bool enabled,
                           const QVector<double> &azimuths, const QVector<double> &altitudes)
 {
@@ -1153,7 +1154,11 @@ struct SPlan
 
 bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler::JobSchedule> &schedule, int tolerance)
 {
-    if (schedule.size() != ref.size()) return false;
+    if (schedule.size() != ref.size())
+    {
+        qCInfo(KSTARS_EKOS_TEST) << QString("Sizes don't match %1 vs ref %2").arg(schedule.size()).arg(ref.size());
+        return false;
+    }
     for (int i = 0; i < ref.size(); ++i)
     {
         QDateTime startTime = QDateTime::fromString(ref[i].start, "yyyy/MM/dd hh:mm");
@@ -1166,7 +1171,16 @@ bool checkSchedule(const QVector<SPlan> &ref, const QList<Ekos::GreedyScheduler:
         if ((ref[i].name != schedule[i].job->getName()) ||
                 (std::abs(schedule[i].startTime.secsTo(startTime)) > tolerance) ||
                 (std::abs(schedule[i].stopTime.secsTo(stopTime)) > tolerance))
+        {
+            qCInfo(KSTARS_EKOS_TEST)
+                    << QString("Mismatch on entry %1: ref \"%2\" \"%3\" \"%4\" result \"%5\" \"%6\" \"%7\"")
+                    .arg(i)
+                    .arg(ref[i].name, startTime.toString(), stopTime.toString(),
+                         schedule[i].job->getName(),
+                         schedule[i].startTime.toString(),
+                         schedule[i].stopTime.toString());
             return false;
+        }
     }
     return true;
 }
@@ -1235,8 +1249,7 @@ void TestEkosSchedulerOps::testGreedy()
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
         {"Deneb",  "2021/06/14 22:44", "2021/06/14 23:30"},
         {"Altair", "2021/06/14 23:31", "2021/06/15 02:29"},
-        {"Deneb",  "2021/06/15 02:30", "2021/06/15 03:53"},
-        {"Deneb",  "2021/06/15 22:41", "2021/06/16 01:59"}},
+        {"Deneb",  "2021/06/15 02:30", "2021/06/15 03:53"}},
     scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Now we're using START_AT 6/14 1am for Altair (but not repeating twice).
@@ -1275,8 +1288,7 @@ void TestEkosSchedulerOps::testGreedy()
         {"Deneb",  "2021/06/13 22:48", "2021/06/14 01:00"},
         {"Altair", "2021/06/14 01:00", "2021/06/14 03:21"},
         {"Deneb",  "2021/06/14 03:22", "2021/06/14 03:53"},
-        {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"},
-        {"Deneb",  "2021/06/15 22:39", "2021/06/16 03:53"}},
+        {"Deneb",  "2021/06/14 22:44", "2021/06/15 03:52"}},
     scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
@@ -1565,6 +1577,188 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
         {"M 53",       "2022/03/21 22:08", "2022/03/22 05:12"},
         {"NGC 2359",   "2022/03/22 19:47", "2022/03/22 22:03"}},
     scheduler->getGreedyScheduler()->getSchedule(), 300));
+}
+
+// A helper for setting up the esl and esq files for the test below.
+// The issue is the test loads an esl file, and that file has in it the name of the esq files
+// it needs to load. These files are put in temporary directories, so the contents needs
+// to modified to reflect the locations of the esq files.
+namespace
+{
+QString setupMessierFiles(QTemporaryDir &dir, const QString &eslFilename, const QString esqFilename)
+{
+    QString esq = esqFilename;
+    QString esl = eslFilename;
+
+    const QString esqPath(dir.filePath(esq));
+    const QString eslPath(dir.filePath(esl));
+
+    // Confused about where the test runs...
+    if (!QFile::exists(esq) || !QFile::exists(esl))
+    {
+        esq = QString("../Tests/kstars_ui/%1").arg(esqFilename);
+        esl = QString("../Tests/kstars_ui/%1").arg(eslFilename);
+        qCInfo(KSTARS_EKOS_TEST) << QString("Didn't find the files, looking in %1 %2").arg(esq, esl);
+        if (!QFile::exists(esq) || !QFile::exists(esl))
+            return QString();
+    }
+
+    // Copy the sequence file to the temp direcotry
+    QFile::copy(esq, esqPath);
+
+    // Read and modify the esl file: chage __ESQ_FILE__ to the value of esqPath, and write it out to the temp directory.
+    QFile eslFile(esl);
+    if (!eslFile.open(QFile::ReadOnly | QFile::Text))
+        return QString();
+    QTextStream in(&eslFile);
+    TestEkosSchedulerHelper::writeFile(eslPath, in.readAll().replace(QString("__ESQ_FILE__"), esqPath));
+
+    if (!QFile::exists(esqPath) || !QFile::exists(eslPath))
+        return QString();
+
+    return eslPath;
+}
+}  // namespace
+
+void TestEkosSchedulerOps::testGreedyMessier()
+{
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+    QString esl0Path = setupMessierFiles(dir, "Messier-1-40-alt0.esl", "Messier-1-40.esq");
+    QString esl30Path = setupMessierFiles(dir, "Messier-1-40-alt30.esl", "Messier-1-40.esq");
+    if (esl0Path.isEmpty() || esl30Path.isEmpty())
+    {
+        QSKIP("Skipping test because of missing esq or esl files");
+        return;
+    }
+
+    Options::setDawnOffset(0);
+    Options::setDuskOffset(0);
+    Options::setSettingAltitudeCutoff(3);
+    Options::setPreDawnTime(0);
+    Options::setRememberJobProgress(false);
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+
+    GeoLocation geo(dms(9, 45, 54), dms(49, 6, 22), "Schwaebisch Hall", "Baden-Wuerttemberg", "Germany", +1);
+    const QDateTime time1 = QDateTime(QDate(2022, 3, 7), QTime(21, 28, 55), Qt::UTC); //22:28 local
+    initTimeGeo(geo, time1);
+
+    qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 0 min altitude.");
+    SchedulerJob::setHorizon(nullptr);
+    scheduler->load(true, QString("file://%1").arg(esl0Path));
+    const QVector<SPlan> scheduleMinAlt0 =
+    {
+        {"M 39", "2022/03/07 22:28", "2022/03/07 22:39"},
+        {"M 33", "2022/03/07 22:40", "2022/03/07 22:50"},
+        {"M 32", "2022/03/07 22:51", "2022/03/07 23:02"},
+        {"M 31", "2022/03/07 23:03", "2022/03/07 23:13"},
+        {"M 34", "2022/03/07 23:14", "2022/03/07 23:25"},
+        {"M 1",  "2022/03/07 23:26", "2022/03/07 23:36"},
+        {"M 35", "2022/03/07 23:37", "2022/03/07 23:48"},
+        {"M 38", "2022/03/07 23:49", "2022/03/07 23:59"},
+        {"M 36", "2022/03/08 00:00", "2022/03/08 00:11"},
+        {"M 40", "2022/03/08 00:12", "2022/03/08 00:22"},
+        {"M 3",  "2022/03/08 00:23", "2022/03/08 00:34"},
+        {"M 13", "2022/03/08 00:35", "2022/03/08 00:45"},
+        {"M 29", "2022/03/08 00:46", "2022/03/08 00:57"},
+        {"M 5",  "2022/03/08 00:58", "2022/03/08 01:08"},
+        {"M 12", "2022/03/08 01:09", "2022/03/08 01:20"},
+        {"M 27", "2022/03/08 01:23", "2022/03/08 01:33"},
+        {"M 10", "2022/03/08 01:34", "2022/03/08 01:45"},
+        {"M 14", "2022/03/08 01:46", "2022/03/08 01:56"},
+        {"M 4",  "2022/03/08 02:05", "2022/03/08 02:16"},
+        {"M 9",  "2022/03/08 02:17", "2022/03/08 02:27"},
+        {"M 11", "2022/03/08 02:40", "2022/03/08 02:51"}
+    };
+    QVERIFY(checkSchedule(scheduleMinAlt0, scheduler->getGreedyScheduler()->getSchedule(), 300));
+
+    qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with no artificial horizon and 30 min altitude.");
+    SchedulerJob::setHorizon(nullptr);
+    scheduler->load(true, QString("file://%1").arg(esl30Path));
+    const QVector<SPlan> scheduleMinAlt30 =
+    {
+        {"M 1",  "2022/03/07 22:28", "2022/03/07 22:39"},
+        {"M 35", "2022/03/07 22:40", "2022/03/07 22:50"},
+        {"M 38", "2022/03/07 22:51", "2022/03/07 23:02"},
+        {"M 36", "2022/03/07 23:03", "2022/03/07 23:13"},
+        {"M 40", "2022/03/07 23:14", "2022/03/07 23:25"},
+        {"M 3",  "2022/03/07 23:26", "2022/03/07 23:36"},
+        {"M 13", "2022/03/08 00:23", "2022/03/08 00:34"},
+        {"M 5",  "2022/03/08 01:43", "2022/03/08 01:53"},
+        {"M 12", "2022/03/08 03:40", "2022/03/08 03:51"},
+        {"M 29", "2022/03/08 03:56", "2022/03/08 04:06"},
+        {"M 39", "2022/03/08 04:15", "2022/03/08 04:26"},
+        {"M 10", "2022/03/08 04:27", "2022/03/08 04:37"},
+        {"M 27", "2022/03/08 04:38", "2022/03/08 04:49"},
+        {"M 14", "2022/03/08 04:50", "2022/03/08 05:00"},
+        {"M 34", "2022/03/08 20:03", "2022/03/08 20:14"}
+    };
+    QVERIFY(checkSchedule(scheduleMinAlt30, scheduler->getGreedyScheduler()->getSchedule(), 300));
+    // TODO: verify this test data.
+
+    // The timing was affected by calculating horizon constraints.
+    // Measure the time with and without a realistic artificial horizon.
+    ArtificialHorizon largeHorizon;
+    addHorizonConstraint(
+        &largeHorizon, "h", true, QVector<double>(
+    {
+        // vector of azimuths
+        67.623611, 71.494167, 73.817778, 75.726667, 77.536944, 79.640000, 81.505278, 82.337778, 83.820000, 84.479444,
+        86.375556, 89.347500, 91.982500, 93.771667, 95.124722, 95.747778, 97.303889, 100.735278, 104.573611, 106.721389,
+        108.360278, 110.640833, 111.963611, 114.940556, 116.497500, 118.858611, 119.981389, 122.832500, 124.695278, 125.882778,
+        127.580278, 129.888889, 130.668333, 132.550833, 133.389167, 133.892222, 138.481111, 139.192778, 140.057500, 141.234722,
+        142.308333, 144.151944, 145.714167, 146.290833, 149.275278, 151.138056, 152.107500, 153.526389, 154.321667, 155.640000,
+        156.685833, 156.302778, 157.421667, 160.331389, 161.091389, 160.952778, 161.975556, 162.564167, 164.866944, 166.906389,
+        167.750000, 167.782778, 169.212500, 170.241944, 170.642500, 172.948056, 174.382778, 174.738333, 175.333056, 175.878889,
+        177.345000, 178.390278, 177.411111, 180.062500, 177.540278, 177.981111, 179.459444, 180.363056, 182.301667, 184.176111,
+        185.036944, 188.303611, 190.110833, 191.809444, 196.293889, 197.398889, 196.634722, 196.238889, 198.553056, 199.896389,
+        205.868333, 207.224722, 231.645278, 258.324167, 277.260833, 292.470833, 302.961111, 308.996389, 309.027500, 312.311667,
+        313.423333, 316.827500, 316.471111, 322.656944, 329.775278, 330.606944, 333.355278, 340.709167, 342.927222, 344.010000,
+        345.696389, 347.886111, 349.058611, 351.998889, 353.010278, 357.548611, 359.510278, 359.320278, 363.102500, 369.171389,
+        371.129444, 372.717778, 375.897500, 379.531944, 380.118333, 383.015278, 385.493333, 32.556944, 35.456667, 35.773889,
+        38.304167, 43.844722, 52.575556, 55.080000, 57.086667, 67.523333, 68.458056}),
+    QVector<double>(
+    {
+        // vector of altitudes
+        22.721111, 21.776944, 20.672222, 25.656667,
+        27.865000, 29.283889, 29.107778, 27.240556, 26.704722, 28.126111, 28.722222, 29.286111, 28.931944, 26.810000,
+        24.275278, 21.858333, 20.081944, 20.608333, 21.693056, 22.915833, 26.003333, 29.119167, 28.771667, 24.334444,
+        22.909444, 21.960278, 20.691389, 24.635000, 24.556667, 22.429167, 24.333056, 24.526667, 24.417222, 26.273611,
+        25.870833, 24.805556, 27.208333, 29.074167, 31.087500, 30.648333, 28.023889, 27.469722, 27.212222, 26.296667,
+        24.987222, 23.888333, 25.336667, 25.510556, 24.482222, 24.494444, 23.861667, 22.288889, 19.551667, 20.260278,
+        21.554722, 22.983056, 24.001111, 27.154722, 28.523056, 27.060278, 24.611944, 22.693333, 23.140833, 22.666389,
+        20.984722, 27.248611, 27.015000, 24.659444, 23.478611, 21.943056, 20.511389, 21.130000, 23.937778, 23.787778,
+        29.003056, 35.778056, 37.504167, 41.471111, 43.260556, 42.360833, 39.985000, 31.131389, 32.261111, 31.051944,
+        32.915000, 31.470000, 30.330556, 29.764722, 28.692500, 24.937222, 24.907222, 41.375556, 44.511389, 43.528611,
+        38.659722, 33.497500, 27.334444, 24.551667, 21.920278, 22.558333, 27.221111, 27.113611, 30.526667, 31.531667,
+        25.062778, 27.808889, 24.439167, 23.505278, 22.182222, 23.534444, 22.537778, 23.492222, 22.485000, 23.643611,
+        25.677222, 23.192778, 19.320556, 16.915556, 18.304444, 18.866389, 18.523889, 23.704167, 24.008611, 25.070000,
+        28.784444, 30.421389, 35.479444, 33.950833, 35.842778, 34.506667, 34.424722, 28.031944, 30.806389, 29.865833,
+        22.579722, 22.644444, 22.672222}));
+
+    qCInfo(KSTARS_EKOS_TEST) << QString("Calculate schedule with large artificial horizon.");
+    SchedulerJob::setHorizon(&largeHorizon);
+    scheduler->load(true, QString("file://%1").arg(esl30Path));
+    const QVector<SPlan> scheduleAHMinAlt30 =
+    {
+        {"M 35", "2022/03/07 22:28", "2022/03/07 22:39"},
+        {"M 38", "2022/03/07 22:40", "2022/03/07 22:50"},
+        {"M 36", "2022/03/07 22:51", "2022/03/07 23:02"},
+        {"M 40", "2022/03/07 23:03", "2022/03/07 23:13"},
+        {"M 3",  "2022/03/07 23:14", "2022/03/07 23:25"},
+        {"M 13", "2022/03/08 00:24", "2022/03/08 00:34"},
+        {"M 5",  "2022/03/08 01:43", "2022/03/08 01:54"},
+        {"M 12", "2022/03/08 03:41", "2022/03/08 03:51"},
+        {"M 29", "2022/03/08 03:56", "2022/03/08 04:07"},
+        {"M 39", "2022/03/08 04:16", "2022/03/08 04:26"},
+        {"M 10", "2022/03/08 04:27", "2022/03/08 04:38"},
+        {"M 27", "2022/03/08 04:39", "2022/03/08 04:49"},
+        {"M 14", "2022/03/08 04:50", "2022/03/08 05:01"},
+        {"M 34", "2022/03/08 20:03", "2022/03/08 20:13"},
+        {"M 1",  "2022/03/08 20:14", "2022/03/08 20:25"}
+    };
+    QVERIFY(checkSchedule(scheduleAHMinAlt30, scheduler->getGreedyScheduler()->getSchedule(), 300));
+    // TODO: verify this test data.
+
 }
 
 void TestEkosSchedulerOps::prepareTestData(QList<QString> locationList, QList<QString> targetList)

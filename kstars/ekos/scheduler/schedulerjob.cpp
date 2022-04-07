@@ -23,6 +23,7 @@
 #define BAD_SCORE -1000
 #define MIN_ALTITUDE 15.0
 
+bool SchedulerJob::m_UpdateGraphics = true;
 
 GeoLocation *SchedulerJob::storedGeo = nullptr;
 KStarsDateTime *SchedulerJob::storedLocalTime = nullptr;
@@ -616,6 +617,7 @@ void SchedulerJob::setRotation(double value)
 
 void SchedulerJob::updateJobCells()
 {
+    if (!m_UpdateGraphics) return;
     if (nullptr != nameCell)
     {
         nameCell->setText(name);
@@ -885,6 +887,7 @@ void SchedulerJob::reset()
     /* No change to culmination offset */
     repeatsRemaining = repeatsRequired;
     updateJobCells();
+    clearCache();
 }
 
 bool SchedulerJob::decreasingScoreOrder(SchedulerJob const *job1, SchedulerJob const *job2)
@@ -1123,7 +1126,7 @@ double SchedulerJob::getCurrentMoonSeparation() const
 }
 
 QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet, int increment,
-        QString *reason, bool runningJob) const
+        QString *reason, bool runningJob, const QDateTime &until) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
@@ -1143,22 +1146,38 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
 
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
 
+    auto maxMinute = 1e8;
+    if (!runningJob && until.isValid())
+        maxMinute = when.secsTo(until) / 60;
+
+    if (maxMinute > 24 * 60)
+        maxMinute = 24 * 60;
+
     // Within the next 24 hours, search when the job target matches the altitude and moon constraints
-    for (unsigned int minute = 0; minute < 24 * 60; minute += increment)
+    for (unsigned int minute = 0; minute < maxMinute; minute += increment)
     {
         KStarsDateTime const ltOffset(ltWhen.addSecs(minute * 60));
 
         // Is this violating twilight?
-        if (getEnforceTwilight() && !runsDuringAstronomicalNightTime(ltOffset))
+        QDateTime nextSuccess;
+        if (getEnforceTwilight() && !runsDuringAstronomicalNightTime(ltOffset, &nextSuccess))
         {
             if (checkIfConstraintsAreMet)
+            {
+                // Change the minute to increment-minutes before next success.
+                if (nextSuccess.isValid())
+                {
+                    const int minutesToSuccess = ltOffset.secsTo(nextSuccess) / 60 - increment;
+                    if (minutesToSuccess > 0)
+                        minute += minutesToSuccess;
+                }
                 continue;
+            }
             else
             {
                 if (reason) *reason = "twilight";
                 return ltOffset;
             }
-
         }
 
         // Update RA/DEC of the target for the current fraction of the day
@@ -1382,7 +1401,8 @@ void SchedulerJob::calculateDawnDusk(QDateTime const &when, QDateTime &nDawn, QD
     nDusk = dusk;
 }
 
-bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time) const
+bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
+        QDateTime *nextPossibleSuccess) const
 {
     // We call this very frequently in the Greedy Algorithm, and the calls
     // below are expensive. Almost all the calls are redundent (e.g. if it's not nighttime
@@ -1393,6 +1413,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time) const
     static GeoLocation const *previousGeo = nullptr;  // A dangling pointer, I suppose, but we never reference it.
     static bool previousAnswer;
     static double previousPreDawnTime = 0;
+    static QDateTime nextSuccess;
 
     // Lock this method because of all the statics
     static std::mutex nightTimeMutex;
@@ -1404,20 +1425,25 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time) const
             getGeo() == previousGeo &&
             Options::preDawnTime() == previousPreDawnTime)
     {
+        if (!previousAnswer && nextPossibleSuccess != nullptr)
+            *nextPossibleSuccess = nextSuccess;
         return previousAnswer;
     }
     else
     {
-        previousAnswer = runsDuringAstronomicalNightTimeInternal(time, &previousMinDawnDusk);
+        previousAnswer = runsDuringAstronomicalNightTimeInternal(time, &previousMinDawnDusk, &nextSuccess);
         previousTime = time;
         previousGeo = getGeo();
         previousPreDawnTime = Options::preDawnTime();
+        if (!previousAnswer && nextPossibleSuccess != nullptr)
+            *nextPossibleSuccess = nextSuccess;
         return previousAnswer;
     }
 }
 
 
-bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk) const
+bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
+        QDateTime *nextPossibleSuccess) const
 {
     QDateTime t;
     QDateTime nDawn = nextDawn, nDusk = nextDusk;
@@ -1439,7 +1465,16 @@ bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time
 
     // Dawn and dusk are ordered as the immediate next events following the observation time
     // Thus if dawn comes first, the job startup time occurs during the dusk/dawn interval.
-    return nDawn < nDusk && t <= earlyDawn;
+    bool result = nDawn < nDusk && t <= earlyDawn;
+
+    // Return a hint about when it might succeed.
+    if (nextPossibleSuccess != nullptr)
+    {
+        if (result) *nextPossibleSuccess = QDateTime();
+        else *nextPossibleSuccess = nDusk;
+    }
+
+    return result;
 }
 
 void SchedulerJob::setInitialFilter(const QString &value)
@@ -1452,9 +1487,71 @@ const QString &SchedulerJob::getInitialFilter() const
     return m_InitialFilter;
 }
 
+bool SchedulerJob::StartTimeCache::check(const QDateTime &from, const QDateTime &until,
+        QDateTime *result, QDateTime *newFrom) const
+{
+    // Look at the cached results from getNextPossibleStartTime.
+    // If the desired 'from' time is in one of them, that is, between computation.from and computation.until,
+    // then we can re-use that result (as long as the desired until time is < computation.until).
+    foreach (const StartTimeComputation &computation, startComputations)
+    {
+        if (from >= computation.from &&
+                (!computation.until.isValid() || from < computation.until) &&
+                (!computation.result.isValid() || from < computation.result))
+        {
+            if (computation.result.isValid() || until <= computation.until)
+            {
+                // We have a cached result.
+                *result = computation.result;
+                *newFrom = QDateTime();
+                return true;
+            }
+            else
+            {
+                // No cached result, but at least we can constrain the search.
+                *result = QDateTime();
+                *newFrom = computation.until;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void SchedulerJob::StartTimeCache::clear() const
+{
+    startComputations.clear();
+}
+
+void SchedulerJob::StartTimeCache::add(const QDateTime &from, const QDateTime &until, const QDateTime &result) const
+{
+    // Manage the cache size.
+    if (startComputations.size() > 10)
+        startComputations.clear();
+
+    // The getNextPossibleStartTime computation (which calls calculateNextTime) searches ahead at most 24 hours.
+    QDateTime endTime;
+    if (!until.isValid())
+        endTime = from.addSecs(24 * 3600);
+    else
+    {
+        QDateTime oneDay = from.addSecs(24 * 3600);
+        if (until > oneDay)
+            endTime = oneDay;
+        else
+            endTime = until;
+    }
+
+    StartTimeComputation c;
+    c.from = from;
+    c.until = endTime;
+    c.result = result;
+    startComputations.push_back(c);
+}
 
 // When can this job start? For now ignores culmination constraint.
-QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int increment, bool runningJob) const
+QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int increment, bool runningJob,
+        const QDateTime &until) const
 {
     QDateTime ltWhen(
         when.isValid() ? (Qt::UTC == when.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(when)) : when)
@@ -1480,11 +1577,26 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
             return QDateTime(); // return an invalid time.
     }
 
-    return calculateNextTime(ltWhen, true, increment, nullptr, runningJob);
+    if (runningJob)
+        return calculateNextTime(ltWhen, true, increment, nullptr, runningJob, until);
+    else
+    {
+        QDateTime result, newFrom;
+        if (startTimeCache.check(ltWhen, until, &result, &newFrom))
+        {
+            if (result.isValid() || !newFrom.isValid())
+                return result;
+            if (newFrom.isValid())
+                ltWhen = newFrom;
+        }
+        result = calculateNextTime(ltWhen, true, increment, nullptr, runningJob, until);
+        startTimeCache.add(ltWhen, until, result);
+        return result;
+    }
 }
 
 // When will this job end (not looking at capture plan)?
-QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QString *reason) const
+QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QString *reason, const QDateTime &until) const
 {
     QDateTime ltStart(
         start.isValid() ? (Qt::UTC == start.timeSpec() ? getGeo()->UTtoLT(KStarsDateTime(start)) : start)
@@ -1514,7 +1626,7 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
             if (reason) *reason = "end-at time";
             return QDateTime(); // return an invalid time.
         }
-        auto result = calculateNextTime(ltStart, false, increment, reason);
+        auto result = calculateNextTime(ltStart, false, increment, reason, false, until);
         if (!result.isValid() || result.secsTo(getCompletionTime()) < 0)
         {
             if (reason) *reason = "end-at time";
@@ -1523,5 +1635,5 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
         else return result;
     }
 
-    return calculateNextTime(ltStart, false, increment, reason);
+    return calculateNextTime(ltStart, false, increment, reason, false, until);
 }

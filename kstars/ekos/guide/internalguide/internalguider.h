@@ -178,7 +178,7 @@ class InternalGuider : public GuideInterface
 
         // This keeps track of the distance dithering has moved. It's used to make sure
         // the "random walk" dither doesn't wander too far away.
-        QPair<double, double> accumulator;
+        QVector3D m_DitherOrigin;
 
         GuideLog guideLog;
 

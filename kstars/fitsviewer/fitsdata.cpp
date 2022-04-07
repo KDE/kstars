@@ -101,20 +101,27 @@ FITSData::~FITSData()
 
 #ifdef HAVE_WCSLIB
     if (m_WCSHandle != nullptr)
+    {
         wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
+        m_nwcs = 0;
+    }
 #endif
 
     if (starCenters.count() > 0)
         qDeleteAll(starCenters);
+    starCenters.clear();
 
     if (m_SkyObjects.count() > 0)
         qDeleteAll(m_SkyObjects);
+    m_SkyObjects.clear();
 
     if (fptr != nullptr)
     {
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         fptr = nullptr;
     }
 }
@@ -130,6 +137,7 @@ void FITSData::loadCommon(const QString &inFilename)
         fits_flush_file(fptr, &status);
         fits_close_file(fptr, &status);
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         fptr = nullptr;
     }
 
@@ -238,6 +246,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         if (rc == false)
         {
             free(m_PackBuffer);
+            m_PackBuffer = nullptr;
             errMessage = i18n("Failed to unpack compressed fits");
             if (!silent)
                 KSNotification::error(errMessage, i18n("FITS Open"));
@@ -281,6 +290,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     {
         recordLastError(status);
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
     }
 
@@ -288,6 +298,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     {
         recordLastError(status);
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
     }
 
@@ -298,6 +309,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return false;
     }
 
@@ -357,6 +369,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return false;
     }
 
@@ -381,6 +394,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
                                << m_ImageBufferSize << " bytes.";
         clearImageBuffers();
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return false;
     }
 
@@ -393,6 +407,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     {
         recordLastError(status);
         free(m_PackBuffer);
+        m_PackBuffer = nullptr;
         return fitsOpenError(status, i18n("Error reading image."), silent);
     }
 
@@ -2332,14 +2347,15 @@ bool FITSData::checkForWCS()
 #ifdef HAVE_WCSLIB
 
     int status = 0;
-    char * header;
-    int nkeyrec, nreject;
+    char * header = nullptr;
+    int nkeyrec = 0, nreject = 0;
 
     // Free wcs before re-use
     if (m_WCSHandle != nullptr)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
     }
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
@@ -2350,15 +2366,19 @@ bool FITSData::checkForWCS()
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
     {
-        free(header);
+        fits_free_memory(header, &status);
+        header = nullptr;
         wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         return false;
     }
 
-    free(header);
+    fits_free_memory(header, &status);
+    header = nullptr;
 
     if (m_WCSHandle == nullptr)
     {
@@ -2371,6 +2391,7 @@ bool FITSData::checkForWCS()
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = i18n("No world coordinate systems found.");
         return false;
     }
@@ -2380,6 +2401,7 @@ bool FITSData::checkForWCS()
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
@@ -2403,14 +2425,15 @@ bool FITSData::loadWCS(bool extras)
     if (m_WCSHandle != nullptr)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_nwcs = 0;
         m_WCSHandle = nullptr;
     }
 
     qCDebug(KSTARS_FITS) << "Started WCS Data Processing...";
 
     int status = 0;
-    char * header;
-    int nkeyrec, nreject, nwcs;
+    char * header = nullptr;
+    int nkeyrec = 0, nreject = 0;
 
     if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
     {
@@ -2421,17 +2444,19 @@ bool FITSData::loadWCS(bool extras)
         return false;
     }
 
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &m_WCSHandle)) != 0)
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
     {
-        free(header);
+        fits_free_memory(header, &status);
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         m_WCSState = Failure;
         return false;
     }
 
-    free(header);
+    fits_free_memory(header, &status);
+    header = nullptr;
 
     if (m_WCSHandle == nullptr)
     {
@@ -2445,6 +2470,7 @@ bool FITSData::loadWCS(bool extras)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = i18n("No world coordinate systems found.");
         m_WCSState = Failure;
         return false;
@@ -2455,6 +2481,7 @@ bool FITSData::loadWCS(bool extras)
     {
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_WCSHandle = nullptr;
+        m_nwcs = 0;
         m_LastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         m_WCSState = Failure;
         return false;

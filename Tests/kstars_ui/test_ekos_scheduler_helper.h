@@ -69,8 +69,9 @@ class TestEkosSchedulerHelper : public TestEkosHelper
          */
         static QString getEsqContent(QVector<CaptureJob> jobs);
 
-    protected:
         // Simple write-string-to-file utility.
         static bool writeFile(const QString &filename, const QString &contents);
+
+    protected:
 
 };

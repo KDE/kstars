@@ -121,6 +121,9 @@ ADD_CUSTOM_COMMAND( TARGET test_ekos_scheduler_ops POST_BUILD
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockFocus.xml
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockGuide.xml
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.mockkstars.MockEkos.MockMount.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/Messier-1-40-alt0.esl
+            ${CMAKE_CURRENT_SOURCE_DIR}/Messier-1-40-alt30.esl
+            ${CMAKE_CURRENT_SOURCE_DIR}/Messier-1-40.esq
             ${CMAKE_CURRENT_BINARY_DIR})
 
 ADD_TEST(NAME TestEkosSchedulerOps COMMAND test_ekos_scheduler_ops)
