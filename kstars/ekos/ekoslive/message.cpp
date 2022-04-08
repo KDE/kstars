@@ -648,6 +648,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         if (capture->removeJob(payload["index"].toInt()) == false)
             sendCaptureSequence(capture->getSequence());
     }
+    else if (command == commands[CAPTURE_CLEAR_SEQUENCES])
+    {
+        capture->clearSequenceQueue();
+    }
     else if (command == commands[CAPTURE_SET_LIMITS])
     {
         capture->setLimitSettings(payload);
