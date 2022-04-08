@@ -6711,7 +6711,7 @@ void Scheduler::setAlgorithm(int algIndex)
         queueTable->model()->setHeaderData(START_TIME_COLUMN, Qt::Horizontal, tr("Start Time"));
         queueTable->model()->setHeaderData(END_TIME_COLUMN, Qt::Horizontal, tr("End Time"));
     }
-    queueTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    queueTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 Scheduler::SchedulerAlgorithm Scheduler::getAlgorithm() const
