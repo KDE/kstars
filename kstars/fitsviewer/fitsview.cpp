@@ -242,6 +242,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
 FITSView::~FITSView()
 {
+    m_UpdateFrameTimer.stop();
     fitsWatcher.waitForFinished();
     wcsWatcher.waitForFinished();
 }
