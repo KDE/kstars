@@ -42,6 +42,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
                            int maxIndex, double fileSize);
     bool astrometryIndicesAreAvailable();
     void setDownloadInfoVisible(QString indexSeriesName,QCheckBox *checkBox, bool set);
+    int indexFileCount(QString indexName);
     bool fileCountMatches(QDir directory, QString indexName);
     void disconnectDownload(QMetaObject::Connection *cancelConnection, QMetaObject::Connection *replyConnection, QMetaObject::Connection *percentConnection);
 
