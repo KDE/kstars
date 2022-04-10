@@ -2324,35 +2324,11 @@ font-weight:bold;
          <property name="lineWidth">
           <number>1</number>
          </property>
-         <layout class="QGridLayout" name="progressGrid" columnstretch="0,0,0,0,0,0">
-          <item row="0" column="1" colspan="5">
-           <widget class="Ekos::CaptureStatusWidget" name="captureStatusWidget" native="true">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-           </widget>
-          </item>
+         <layout class="QGridLayout" name="progressGrid" columnstretch="0,0,10,0,0,0">
           <item row="2" column="0">
-           <widget class="QLabel" name="avgDownloadLabel">
+           <widget class="QLabel" name="jobLabel">
             <property name="text">
-             <string>Avg. Download:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="5">
-           <widget class="QLabel" name="sequenceLeftLabel">
-            <property name="text">
-             <string>left</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="timeLeftLabel">
-            <property name="text">
-             <string>left</string>
+             <string>total remaining:</string>
             </property>
            </widget>
           </item>
@@ -2360,58 +2336,16 @@ font-weight:bold;
            <widget class="QLabel" name="frameInfoLabel">
             <property name="font">
              <font>
-              <weight>75</weight>
-              <bold>true</bold>
+              <weight>50</weight>
+              <bold>false</bold>
              </font>
             </property>
             <property name="text">
-             <string>Expose:</string>
+             <string>Expose (-/-):</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="frameRemainingTime">
-            <property name="minimumSize">
-             <size>
-              <width>70</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>--:--:--</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="jobRemainingTime">
-            <property name="minimumSize">
-             <size>
-              <width>70</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>--:--:--</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="avgDownloadTime">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
+          <item row="2" column="2">
            <spacer name="horizontalSpacer_5">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2424,8 +2358,14 @@ font-weight:bold;
             </property>
            </spacer>
           </item>
-          <item row="1" column="4" colspan="2">
-           <widget class="QLabel" name="jobLabel">
+          <item row="1" column="1">
+           <widget class="QLabel" name="frameRemainingTime">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -2433,24 +2373,20 @@ font-weight:bold;
              </font>
             </property>
             <property name="text">
-             <string>Sequence (x/y)</string>
+             <string>--:--:--</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="6">
-           <widget class="QProgressBar" name="imgProgress">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="secLabel">
+          <item row="2" column="4">
+           <widget class="QLabel" name="avgDownloadTime">
             <property name="text">
-             <string>sec</string>
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -2458,6 +2394,59 @@ font-weight:bold;
            <widget class="QLabel" name="progressLabel">
             <property name="text">
              <string>&lt;b&gt;Progress&lt;/b&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="jobRemainingTime">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>--:--:--</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLabel" name="avgDownloadLabel">
+            <property name="text">
+             <string>Avg. Download:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QLabel" name="secLabel">
+            <property name="text">
+             <string>sec</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="5">
+           <widget class="Ekos::CaptureStatusWidget" name="captureStatusWidget" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="6">
+           <widget class="QProgressBar" name="imgProgress">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
