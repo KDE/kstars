@@ -848,8 +848,7 @@ void Capture::stop(CaptureState targetState)
 
     frameRemainingTime->setText("--:--:--");
     jobRemainingTime->setText("--:--:--");
-    frameInfoLabel->setText(i18n("Expose:"));
-    jobLabel->setText(i18n("Sequence"));
+    frameInfoLabel->setText(i18n("Expose (-/-):"));
     m_isFraming = false;
 
     setBusy(false);
@@ -2452,11 +2451,9 @@ void Capture::captureImage()
             lastRemainingFrameTimeMS = ms_left;
             sequenceCountDown.setHMS(0, 0, 0);
             sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
-            frameInfoLabel->setText(QString("%1 %2:").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
-            jobLabel->setText(QString("%1 %2 (%L3/%L4)").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                              .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
-                              .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            frameInfoLabel->setText(QString("%1 %2 (%L3/%L4):").arg(CCDFrameTypeNames[activeJob->getFrameType()])
+                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
