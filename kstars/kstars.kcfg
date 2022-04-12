@@ -2646,6 +2646,10 @@
       <whatsthis>Display RMS Error on the Analyze Statistics Plot.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="AnalyzeTargetDistance" type="Double">
+      <whatsthis>Display the arc-seconds distance between the target position and the plate-solved captured image on the Analyze plot.</whatsthis>
+      <default>false</default>
+    </entry>
     <entry name="AnalyzeRMSC" type="Bool">
       <whatsthis>Display RMS Error (during capture) on the Analyze Statistics Plot.</whatsthis>
       <default>false</default>

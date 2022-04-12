@@ -2324,7 +2324,10 @@ font-weight:bold;
          <property name="lineWidth">
           <number>1</number>
          </property>
-         <layout class="QGridLayout" name="progressGrid" columnstretch="0,0,10,0,0,0">
+         <layout class="QGridLayout" name="progressGrid" columnstretch="0,0,10,0,1,0">
+          <property name="horizontalSpacing">
+           <number>2</number>
+          </property>
           <item row="2" column="0">
            <widget class="QLabel" name="jobLabel">
             <property name="text">
@@ -2424,6 +2427,9 @@ font-weight:bold;
             <property name="text">
              <string>Avg. Download:</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
            </widget>
           </item>
           <item row="2" column="5">
@@ -2447,6 +2453,33 @@ font-weight:bold;
            <widget class="QProgressBar" name="imgProgress">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLabel" name="targetDriftLabel">
+            <property name="text">
+             <string>Target drift:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="targetDrift">
+            <property name="text">
+             <string>0.0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QLabel" name="targetDriftUnit">
+            <property name="text">
+             <string>&quot;</string>
             </property>
            </widget>
           </item>

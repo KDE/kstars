@@ -75,6 +75,12 @@ public slots:
     void updateCaptureStatus(Ekos::CaptureState status);
 
     /**
+     * @brief Slot receiving the update of the current target distance.
+     * @param targetDiff distance to the target in arcseconds.
+     */
+    void updateTargetDistance(double targetDiff);
+
+    /**
      * @brief update the count down value of the current exposure
      * @param delta time difference
      */

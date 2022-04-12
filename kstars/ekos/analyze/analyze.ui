@@ -1247,6 +1247,54 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="13">
+      <widget class="QCheckBox" name="targetDistanceCB">
+       <property name="minimumSize">
+        <size>
+         <width>40</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the distance between the plate-solved captured image and the target position in arc-seconds. Must be enabled in scheduler options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt</string>
+       </property>
+       <property name="text">
+        <string>dist a-s</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="14">
+      <widget class="QLineEdit" name="targetDistanceOut">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Plot the distance between the plate-solved captured image and the target position in arc-seconds. Must be enabled in scheduler options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 9pt</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+
     </layout>
    </item>
    <item>

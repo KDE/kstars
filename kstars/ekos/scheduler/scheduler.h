@@ -706,6 +706,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
+        // distance in arc-seconds measured by plate solving the a captured image and
+        // comparing that position to the target position.
+        void targetDistance(double distance);
         // Below 2 are for the Analyze timeline.
         void jobStarted(const QString &jobName);
         void jobEnded(const QString &jobName, const QString &endReason);
