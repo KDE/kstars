@@ -8155,6 +8155,7 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
                                             alignCoord.ra().toDMSString(),
                                             alignCoord.dec().toDMSString(),
                                             QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
+        emit targetDistance(diffTotal);
 
         // If we exceed align check threshold, we abort and re-align.
         if (diffTotal / 60 > Options::alignCheckThreshold())

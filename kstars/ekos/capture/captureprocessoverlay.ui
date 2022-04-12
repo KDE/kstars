@@ -271,30 +271,6 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0" colspan="5">
-       <widget class="QLabel" name="geometryValue">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;width x height&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3" colspan="2">
-       <widget class="QLabel" name="binningValue">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;bin&gt;</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="exposureLabel">
         <property name="font">
@@ -306,18 +282,6 @@
         </property>
         <property name="text">
          <string>Exposure:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="binningLabel">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Binning:</string>
         </property>
        </widget>
       </item>
@@ -445,6 +409,66 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="geometryValue">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;width x height&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="binningLabel">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Binning:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="binningValue">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;bin&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="targetDriftLabel">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Target Drift:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="targetDriftValue">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;drift&gt;</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

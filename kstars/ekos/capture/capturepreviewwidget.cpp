@@ -76,14 +76,15 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     else
         m_currentFrame.target = "";
 
-    m_currentFrame.filterName = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
-    m_currentFrame.exptime    = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-    m_currentFrame.binning    = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
-    m_currentFrame.gain       = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
-    m_currentFrame.offset     = job->getCoreProperty(SequenceJob::SJ_Offset).toDouble();
-    m_currentFrame.filename   = data->filename();
-    m_currentFrame.width      = data->width();
-    m_currentFrame.height     = data->height();
+    m_currentFrame.filterName  = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    m_currentFrame.exptime     = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    m_currentFrame.targetdrift = -1.0; // will be updated later
+    m_currentFrame.binning     = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+    m_currentFrame.gain        = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
+    m_currentFrame.offset      = job->getCoreProperty(SequenceJob::SJ_Offset).toDouble();
+    m_currentFrame.filename    = data->filename();
+    m_currentFrame.width       = data->width();
+    m_currentFrame.height      = data->height();
 
     const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
     if (ISOIndex >= 0 && ISOIndex <= captureProcess->captureISOS->count())
@@ -228,6 +229,12 @@ void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status)
 
     // forward to sub widget
     captureCountsWidget->updateCaptureStatus(status);
+}
+
+void CapturePreviewWidget::updateTargetDistance(double targetDiff)
+{
+    // forward it to the overlay
+    overlay->updateTargetDistance(targetDiff);
 }
 
 void CapturePreviewWidget::updateCaptureCountDown(int delta)

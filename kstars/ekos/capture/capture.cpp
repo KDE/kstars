@@ -82,6 +82,14 @@ Capture::Capture()
 
     rotatorSettings.reset(new RotatorSettings(this));
 
+    // hide avg. download time and target drift initially
+    targetDriftLabel->setVisible(false);
+    targetDrift->setVisible(false);
+    targetDriftUnit->setVisible(false);
+    avgDownloadTime->setVisible(false);
+    avgDownloadLabel->setVisible(false);
+    secLabel->setVisible(false);
+
     seqFileCount = 0;
     //seqWatcher		= new KDirWatch();
     seqDelayTimer = new QTimer(this);
@@ -2284,6 +2292,16 @@ void Capture::startFraming()
     }
 }
 
+void Capture::updateTargetDistance(double targetDiff)
+{
+    // ensure that the drift is visible
+    targetDriftLabel->setVisible(true);
+    targetDrift->setVisible(true);
+    targetDriftUnit->setVisible(true);
+    // update the drift value
+    targetDrift->setText(QString("%L1").arg(targetDiff, 0, 'd', 1));
+}
+
 void Capture::captureImage()
 {
     if (activeJob == nullptr)
@@ -2454,6 +2472,11 @@ void Capture::captureImage()
             frameInfoLabel->setText(QString("%1 %2 (%L3/%L4):").arg(CCDFrameTypeNames[activeJob->getFrameType()])
                     .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
                     .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            // ensure that the download time label is visible
+            avgDownloadTime->setVisible(true);
+            avgDownloadLabel->setVisible(true);
+            secLabel->setVisible(true);
+            // show estimated download time
             avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
@@ -4907,6 +4930,14 @@ void Capture::syncGUIToJob(SequenceJob * job)
     }
     else
         rotatorSettings->setRotationEnforced(false);
+
+    // hide target drift if align check frequency is == 0
+    if (Options::alignCheckFrequency() == 0)
+    {
+        targetDriftLabel->setVisible(false);
+        targetDrift->setVisible(false);
+        targetDriftUnit->setVisible(false);
+    }
 
     emit settingsUpdated(getPresetSettings());
 }

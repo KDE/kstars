@@ -28,6 +28,7 @@ public:
         QString filterName;
         QString filename;
         double exptime;
+        double targetdrift;
         QPoint binning;
         int width;
         int height;
@@ -65,6 +66,7 @@ public:
          * @brief the currently pointed capture frame
          */
         const FrameData currentFrame() {return m_history.at(m_position);}
+
         /**
          * @brief The current navigation position in the capture history
          */
@@ -119,6 +121,12 @@ public:
      * @brief Update the overlay with the meta data of the current frame and add it to the history
      */
     void updateFrameData();
+
+    /**
+     * @brief Update the current target distance.
+     * @param targetDiff distance to the target in arcseconds.
+     */
+    void updateTargetDistance(double targetDiff);
 
     /**
      * @brief Obtain the position of the current frame from the history

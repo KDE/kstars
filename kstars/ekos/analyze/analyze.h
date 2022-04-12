@@ -182,6 +182,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         void schedulerJobStarted(const QString &jobName);
         void schedulerJobEnded(const QString &jobName, const QString &endReason);
+        void newTargetDistance(double targetDistance);
 
     private slots:
 
@@ -213,6 +214,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         void processSchedulerJobStarted(double time, const QString &jobName, bool batchMode = false);
         void processSchedulerJobEnded(double time, const QString &jobName, const QString &reason, bool batchMode = false);
+        void processTargetDistance(double time, double targetDistance, bool batchMode = false);
 
         // Plotting primatives.
         void replot(bool adjustSlider = true);
@@ -298,6 +300,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
                     const double time, double startTime);
         void addTemperature(double temperature, const double time);
+        void addTargetDistance(double targetDistance, const double time);
 
         // Initialize the graphs (axes, linestyle, pen, name, checkbox callbacks).
         // Returns the graph index.
@@ -400,6 +403,7 @@ class Analyze : public QWidget, public Ui::Analyze
         QCPAxis *medianAxis;
         QCPAxis *numCaptureStarsAxis;
         QCPAxis *temperatureAxis;
+        QCPAxis *targetDistanceAxis;
         // Used to keep track of the y-axis position when moving it with the mouse.
         double yAxisInitialPos = { 0 };
 
