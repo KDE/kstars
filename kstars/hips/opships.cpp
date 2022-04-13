@@ -33,6 +33,22 @@ OpsHIPSDisplay::OpsHIPSDisplay() : QFrame(KStars::Instance())
 OpsHIPSCache::OpsHIPSCache() : QFrame(KStars::Instance())
 {
     setupUi(this);
+
+    connect(selectDirectoryB, &QPushButton::clicked, this, [this]()
+    {
+        QString dir = QFileDialog::getExistingDirectory(this, i18nc("@title:window", "HiPS Offline Storage"),
+                      kcfg_HIPSOfflinePath->text());
+
+        if (dir.isEmpty())
+            return;
+
+        kcfg_HIPSOfflinePath->setText(dir);
+
+        QDir hipsDirectory(dir);
+        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        HIPSManager::Instance()->setOfflineLevels(orders);
+        HIPSManager::Instance()->setCurrentSource("Offline");
+    });
 }
 
 OpsHIPS::OpsHIPS() : QFrame(KStars::Instance())
@@ -42,9 +58,10 @@ OpsHIPS::OpsHIPS() : QFrame(KStars::Instance())
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("hipssettings");
 
-    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QLatin1String("hips_previews/"));
+    QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(
+                       QLatin1String("hips_previews/"));
     QDir dir;
-    dir.mkpath(path);    
+    dir.mkpath(path);
 
     connect(refreshSourceB, SIGNAL(clicked()), this, SLOT(slotRefresh()));
 
@@ -64,7 +81,8 @@ void OpsHIPS::slotRefresh()
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    downloadJob->get(QUrl("http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&&moc_sky_fraction=1&get=record"));
+    downloadJob->get(
+        QUrl("http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&&moc_sky_fraction=1&get=record"));
 }
 
 void OpsHIPS::downloadReady()
@@ -75,7 +93,7 @@ void OpsHIPS::downloadReady()
 
     QStringList hipsTitles;
 
-    QMap<QString,QString> oneSource;
+    QMap<QString, QString> oneSource;
     while (stream.atEnd() == false)
     {
         QString line = stream.readLine();
@@ -97,12 +115,12 @@ void OpsHIPS::downloadReady()
     }
 
     // Get existing database sources
-    QList<QMap<QString,QString>> dbSources;
+    QList<QMap<QString, QString>> dbSources;
     KStarsData::Instance()->userdb()->GetAllHIPSSources(dbSources);
 
     // Get existing database titles
     QStringList dbTitles;
-    for (QMap<QString,QString> oneSource : dbSources)
+    for (QMap<QString, QString> oneSource : dbSources)
         dbTitles << oneSource["obs_title"];
 
     // Add all titles to list widget
@@ -138,7 +156,7 @@ void OpsHIPS::downloadError(const QString &errorString)
 
 void OpsHIPS::slotItemUpdated(QListWidgetItem *item)
 {
-    for(QMap<QString,QString> &oneSource: sources)
+    for(QMap<QString, QString> &oneSource : sources)
     {
         if (oneSource.value("obs_title") == item->text())
         {
@@ -153,7 +171,7 @@ void OpsHIPS::slotItemUpdated(QListWidgetItem *item)
 
 void OpsHIPS::slotItemClicked(QListWidgetItem *item)
 {
-    for(QMap<QString,QString> &oneSource: sources)
+    for(QMap<QString, QString> &oneSource : sources)
     {
         if (oneSource.value("obs_title") == item->text())
         {
@@ -170,14 +188,16 @@ void OpsHIPS::setPreview(const QString &id, const QString &url)
     uint hash = qHash(id);
     QString previewName = QString("%1.jpg").arg(hash);
 
-    QString currentPreviewPath = QDir(KSPaths::locate(QStandardPaths::AppLocalDataLocation, QLatin1String("hips_previews"))).filePath(previewName);
+    QString currentPreviewPath = QDir(KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                      QLatin1String("hips_previews"))).filePath(previewName);
     if (currentPreviewPath.isEmpty() == false)
     {
         sourceImage->setPixmap(QPixmap(currentPreviewPath));
     }
     else
     {
-        currentPreviewPath = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QLatin1String("hips_previews/") + previewName);
+        currentPreviewPath = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(
+                                 QLatin1String("hips_previews/") + previewName);
 
         previewJob = new FileDownloader();
         connect(previewJob, SIGNAL(downloaded()), this, SLOT(previewReady()));

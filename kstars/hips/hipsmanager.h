@@ -93,6 +93,7 @@ class HIPSManager : public QObject
         {
             return m_uid;
         }
+        void setOfflineLevels(const QStringList &value);
 
     public slots:
         bool setCurrentSource(const QString &title);
@@ -135,4 +136,5 @@ class HIPSManager : public QObject
         uint8_t m_currentOrder { 0 };
         uint16_t m_currentTileWidth { 0 };
         QUrl m_currentURL;
+        QVector<int> m_OfflineLevels;
 };

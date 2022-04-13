@@ -52,6 +52,7 @@ class SkyQPainter : public SkyPainter, public QPainter
 
     ~SkyQPainter() override;
 
+    void setPaintDevice(QPaintDevice *pd) { m_pd = pd;}
     void setPen(const QPen &pen) override;
     void setBrush(const QBrush &brush) override;
 
@@ -92,8 +93,8 @@ class SkyQPainter : public SkyPainter, public QPainter
     /// This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
     bool drawConstellationArtImage(ConstellationsArt *obj) override;
-    bool drawHips() override;
-    bool drawTerrain() override;
+    bool drawHips(bool useCache = false) override;
+    bool drawTerrain(bool useCache = false) override;
 
   private:
     QPaintDevice *m_pd{ nullptr };
@@ -102,6 +103,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     HIPSRenderer *m_hipsRender{ nullptr };
     TerrainRenderer *m_terrainRender{ nullptr };
     QSize m_size;
+    QScopedPointer<QImage> m_HiPSImage;
     static int starColorMode;
     static QColor m_starColor;
     static QMap<char, QColor> ColorMap;

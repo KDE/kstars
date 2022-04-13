@@ -16,6 +16,7 @@
 
 HIPSComponent::HIPSComponent(SkyComposite *parent) : SkyComponent(parent)
 {
+    m_ElapsedTimer.start();
 }
 
 bool HIPSComponent::selected()
@@ -25,9 +26,28 @@ bool HIPSComponent::selected()
 
 void HIPSComponent::draw(SkyPainter *skyp)
 {
+
 #if !defined(KSTARS_LITE)
-  if (((SkyMap::IsSlewing() == false) || Options::hIPSPanning()) && selected())
-        skyp->drawHips();
+    if ( (SkyMap::IsSlewing() && !Options::hIPSPanning()) || !selected())
+        return;
+
+    // If we are tracking and we currently have a focus object or point
+    // Then no need for re-render every update cycle since that is CPU intensive
+    // Draw the cached HiPS image for 5000ms. When this expires, render the image again and
+    // restart the timer.
+    if (Options::isTracking() && SkyMap::IsFocused())
+    {
+        if (m_ElapsedTimer.elapsed() < HIPS_REDRAW_PERIOD)
+            skyp->drawHips(true);
+        else
+        {
+            skyp->drawHips(false);
+            m_ElapsedTimer.restart();
+        }
+    }
+    // When slewing or not tracking, render and draw immediately.
+    else
+        skyp->drawHips(false);
 #else
     Q_UNUSED(skyp);
 #endif

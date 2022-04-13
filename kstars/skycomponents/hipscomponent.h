@@ -29,4 +29,8 @@ class HIPSComponent : public SkyComponent
 
     bool selected() override;
     void draw(SkyPainter *skyp) override;
+
+  private:
+    QElapsedTimer m_ElapsedTimer;
+    static constexpr uint32_t HIPS_REDRAW_PERIOD {5000};
 };

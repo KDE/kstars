@@ -42,7 +42,17 @@ HIPSManager * HIPSManager::_HIPSManager = nullptr;
 HIPSManager *HIPSManager::Instance()
 {
     if (_HIPSManager == nullptr)
+    {
         _HIPSManager = new HIPSManager();
+
+        if (Options::hIPSUseOfflineSource())
+        {
+            QDir hipsDirectory(Options::hIPSOfflinePath());
+            auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+            HIPSManager::Instance()->setOfflineLevels(orders);
+            _HIPSManager->setCurrentSource("Offline");
+        }
+    }
 
     return _HIPSManager;
 }
@@ -68,6 +78,8 @@ HIPSManager::HIPSManager() : QObject(KStars::Instance())
     g_discCache->setMaximumCacheSize(Options::hIPSNetCache() * 1024 * 1024);
     value = Options::hIPSMemoryCache() * 1024 * 1024;
     m_cache.setMaxCost(Options::hIPSMemoryCache() * 1024 * 1024);
+
+
 
 }
 
@@ -127,7 +139,7 @@ void HIPSManager::readSources()
 
 QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
 {
-    if (m_currentSource.isEmpty())
+    if (Options::hIPSUseOfflineSource() == false && m_currentSource.isEmpty())
     {
         qCWarning(KSTARS) << "HIPS source not available!";
         return nullptr;
@@ -207,6 +219,17 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     if (!allsky)
     {
         int dir = (pix / 10000) * 10000;
+
+        if (Options::hIPSUseOfflineSource())
+        {
+            // Find closest level
+            if (m_OfflineLevels.contains(level) == false)
+            {
+                auto it = std::upper_bound(m_OfflineLevels.begin(), m_OfflineLevels.end(), level);
+                if (it != m_OfflineLevels.end())
+                    level = *it;
+            }
+        }
 
         path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) +
                '.' + m_currentFormat;
@@ -393,7 +416,20 @@ pixCacheItem_t *HIPSManager::getCacheItem(pixCacheKey_t &key)
 
 bool HIPSManager::setCurrentSource(const QString &title)
 {
-    if (title == "None")
+    // Offline DSS
+    if (Options::hIPSUseOfflineSource() || title == "Offline")
+    {
+        m_currentFormat = "jpg";
+        m_currentTileWidth = 512;
+        m_currentFrame = HIPS_EQUATORIAL_FRAME;
+        m_currentURL = QUrl(Options::hIPSOfflinePath());
+        m_currentURL.setScheme("file");
+        m_currentOrder = m_OfflineLevels.last();
+        m_uid = qHash(m_currentURL);
+        Options::setShowHIPS(true);
+        return true;
+    }
+    else if (title == "None")
     {
         Options::setShowHIPS(false);
         Options::setHIPSSource(title);
@@ -444,6 +480,19 @@ bool HIPSManager::setCurrentSource(const QString &title)
     }
 
     return false;
+}
+
+// Extract which levels are available for offline use.
+void HIPSManager::setOfflineLevels(const QStringList &value)
+{
+    for (auto oneLevel : value)
+    {
+        if (oneLevel.startsWith("Norder"))
+        {
+            oneLevel.remove("Norder");
+            m_OfflineLevels << oneLevel.toUInt();;
+        }
+    }
 }
 
 void RemoveTimer::setKey(const pixCacheKey_t &key)
