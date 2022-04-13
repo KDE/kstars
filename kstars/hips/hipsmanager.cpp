@@ -220,17 +220,6 @@ QImage *HIPSManager::getPix(bool allsky, int level, int pix, bool &freeImage)
     {
         int dir = (pix / 10000) * 10000;
 
-        if (Options::hIPSUseOfflineSource())
-        {
-            // Find closest level
-            if (m_OfflineLevels.contains(level) == false)
-            {
-                auto it = std::upper_bound(m_OfflineLevels.begin(), m_OfflineLevels.end(), level);
-                if (it != m_OfflineLevels.end())
-                    level = *it;
-            }
-        }
-
         path = "/Norder" + QString::number(level) + "/Dir" + QString::number(dir) + "/Npix" + QString::number(pix) +
                '.' + m_currentFormat;
     }
@@ -424,7 +413,7 @@ bool HIPSManager::setCurrentSource(const QString &title)
         m_currentFrame = HIPS_EQUATORIAL_FRAME;
         m_currentURL = QUrl(Options::hIPSOfflinePath());
         m_currentURL.setScheme("file");
-        m_currentOrder = m_OfflineLevels.last();
+        m_currentOrder = m_OfflineLevelsMap.lastKey();
         m_uid = qHash(m_currentURL);
         Options::setShowHIPS(true);
         return true;
@@ -490,9 +479,32 @@ void HIPSManager::setOfflineLevels(const QStringList &value)
         if (oneLevel.startsWith("Norder"))
         {
             oneLevel.remove("Norder");
-            m_OfflineLevels << oneLevel.toUInt();;
+            auto level =  oneLevel.toUInt();
+            m_OfflineLevelsMap[level] = level;
         }
     }
+
+    // Now let's map all the missing levels, if any
+    for (int i = 3; i < 9; i++)
+    {
+        // Find closest level
+        if (m_OfflineLevelsMap.contains(i) == false)
+        {
+            const auto keys = m_OfflineLevelsMap.keys();
+            const auto values = m_OfflineLevelsMap.values();
+            auto it = std::upper_bound(keys.constBegin(), keys.constEnd(), i);
+            if (it != keys.end())
+                m_OfflineLevelsMap[i] = *it;
+            else
+                m_OfflineLevelsMap[i] = values.last();
+
+        }
+    }
+}
+
+int HIPSManager::getUsableLevel(int level) const
+{
+    return Options::hIPSUseOfflineSource() ? m_OfflineLevelsMap[level] : level;
 }
 
 void RemoveTimer::setKey(const pixCacheKey_t &key)
