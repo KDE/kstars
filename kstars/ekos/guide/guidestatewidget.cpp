@@ -74,7 +74,7 @@ void GuideStateWidget::updateGuideStatus(GuideState state)
             runningStateLed->setColor(Qt::red);
             preparingStateLed->on();
             break;
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             preparingStateLed->setColor(Qt::green);
             runningStateLed->setColor(Qt::yellow);
             preparingStateLed->on();

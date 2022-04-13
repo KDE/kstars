@@ -190,7 +190,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
         case SET_GUIDER_SQUARE_POS:
             if (reply == "OK")
             {
-                emit newStatus(GUIDE_CALIBRATION_SUCESS);
+                emit newStatus(GUIDE_CALIBRATION_SUCCESS);
             }
             else
             {

@@ -5516,7 +5516,7 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_GUIDING:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             autoGuideReady = true;
             break;
 
@@ -7126,7 +7126,7 @@ bool Capture::isGuidingOn()
 
     return (m_GuideState == GUIDE_GUIDING ||
             m_GuideState == GUIDE_CALIBRATING ||
-            m_GuideState == GUIDE_CALIBRATION_SUCESS ||
+            m_GuideState == GUIDE_CALIBRATION_SUCCESS ||
             m_GuideState == GUIDE_DARK ||
             m_GuideState == GUIDE_SUBFRAME ||
             m_GuideState == GUIDE_STAR_SELECT ||

@@ -334,7 +334,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
         case CalibrationComplete:
             emit newLog(i18n("PHD2: Calibration Complete."));
-            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
             break;
 
         case StartGuiding:

@@ -484,7 +484,7 @@ bool InternalGuider::calibrate()
     if (restoreCalibration())
     {
         calibrationProcess.reset();
-        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
         KSNotification::event(QLatin1String("CalibrationRestored"),
                               i18n("Guiding calibration restored"));
         reset();
@@ -564,7 +564,7 @@ void InternalGuider::iterateCalibration()
                               KSNotification::EVENT_ALERT);
         reset();
     }
-    else if (status == GUIDE_CALIBRATION_SUCESS)
+    else if (status == GUIDE_CALIBRATION_SUCCESS)
     {
         KSNotification::event(QLatin1String("CalibrationSuccessful"),
                               i18n("Guiding calibration completed successfully"));
