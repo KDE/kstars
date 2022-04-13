@@ -128,6 +128,7 @@ build-appimage:
     - *build_recipe
     - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
   artifacts:
+    expire_in: 1 week
     paths:
       - 'kstars-build/*.AppImage*'
 
