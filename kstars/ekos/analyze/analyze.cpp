@@ -2372,7 +2372,7 @@ Ekos::GuideState stringToGuideState(const QString &str)
     else if (str == I18N_NOOP("Calibration error"))
         return GUIDE_CALIBRATION_ERROR;
     else if (str == I18N_NOOP("Calibrated"))
-        return GUIDE_CALIBRATION_SUCESS;
+        return GUIDE_CALIBRATION_SUCCESS;
     else if (str == I18N_NOOP("Guiding"))
         return GUIDE_GUIDING;
     else if (str == I18N_NOOP("Suspended"))
@@ -2412,7 +2412,7 @@ Analyze::SimpleGuideState convertGuideState(Ekos::GuideState state)
             return Analyze::G_IGNORE;
         case GUIDE_CALIBRATING:
         case GUIDE_CALIBRATION_ERROR:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             return Analyze::G_CALIBRATING;
         case GUIDE_SUSPENDED:
         case GUIDE_REACQUIRE:

@@ -373,7 +373,7 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
     {
         calibration->save();
         calibrationStage = CAL_IDLE;
-        addStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        addStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
         // Below converts from ms/arcsecond to arcseconds/second.
         if (guideLog)
             guideLog->endCalibration(1000.0 / calibration->raPulseMillisecondsPerArcsecond(), 0);
@@ -585,7 +585,7 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
         else
             addLogStatus(i18n("DEC swap disabled."));
 
-        addStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+        addStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
 
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Successful"));
 

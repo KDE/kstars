@@ -90,7 +90,7 @@ void GuideManager::updateGuideStatus(Ekos::GuideState status)
         case Ekos::GUIDE_ABORTED:
         case Ekos::GUIDE_SUSPENDED:
         case Ekos::GUIDE_DITHERING_ERROR:
-        case Ekos::GUIDE_CALIBRATION_SUCESS:
+        case Ekos::GUIDE_CALIBRATION_SUCCESS:
             if (guidePI->isAnimated())
                 guidePI->stopAnimation();
             break;
