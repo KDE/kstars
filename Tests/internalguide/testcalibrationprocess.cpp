@@ -126,7 +126,7 @@ CalibrationTest calTest1 =
         { 107.890785, 85.981506, GuideDirection::DEC_DEC_DIR, 1100, GuideState::GUIDE_CALIBRATING },
         { 107.052650, 85.997002, GuideDirection::DEC_DEC_DIR, 1100, GuideState::GUIDE_CALIBRATING },
         { 106.989433, 86.010635, GuideDirection::DEC_DEC_DIR, 1100, GuideState::GUIDE_CALIBRATING },
-        { 105.983643, 85.992851, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCESS }
+        { 105.983643, 85.992851, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
     /*raAngle*/ 270.642141, /*decAngle*/357.982581, /*raMsPerPx*/ 1365.201045, /*decMsPerPx*/1777.789432, /*decSwap*/true
 };
@@ -165,7 +165,7 @@ CalibrationTest calTest2 =
         { 162.964462, 62.978321, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         { 161.016037, 63.011227, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         { 158.015213, 63.022118, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
-        { 156.009674, 62.980377, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCESS }
+        { 156.009674, 62.980377, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
     /*raAngle*/ 270.220776, /*decAngle*/359.956572, /*raMsPerPx*/ 1759.773729, /*decMsPerPx*/2187.595339, /*decSwap*/true
 };
@@ -199,7 +199,7 @@ CalibrationTest calTest3 =
         {460.006256, 55.995888, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {455.963013, 56.034840, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {451.027283, 56.041237, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
-        {447.000793, 56.051575, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCESS }
+        {447.000793, 56.051575, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
     /*raAngle*/ 269.977814, /*decAngle*/359.995686, /*raMsPerPx*/ 861.989870, /*decMsPerPx*/1070.726035, /*decSwap*/true
 };
@@ -234,7 +234,7 @@ CalibrationTest calTest4 =
         {143.031677, 250.988510, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {148.006699, 251.001663, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {151.995514, 251.071701, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
-        {157.012283, 251.060547, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCESS }
+        {157.012283, 251.060547, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
     /*raAngle*/ 270.017435, /*decAngle*/180.151901, /*raMsPerPx*/ 833.739546, /*decMsPerPx*/1112.338058, /*decSwap*/false
 };
