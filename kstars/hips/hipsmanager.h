@@ -67,6 +67,7 @@ class HIPSManager : public QObject
         {
             return m_hipsSources;
         }
+        int getUsableLevel(int level) const;
         PixCache *getCache();
         qint64 getDiscCacheSize() const;
         const QString &getCurrentFormat() const
@@ -136,5 +137,5 @@ class HIPSManager : public QObject
         uint8_t m_currentOrder { 0 };
         uint16_t m_currentTileWidth { 0 };
         QUrl m_currentURL;
-        QVector<int> m_OfflineLevels;
+        QMap<int, int> m_OfflineLevelsMap;
 };
