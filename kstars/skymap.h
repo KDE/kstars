@@ -68,6 +68,11 @@ class SkyMap : public QGraphicsView
 
         static SkyMap *Instance();
 
+        static bool IsFocused()
+        {
+            return (pinstance->focusObject() || pinstance->focusPoint());
+        }
+
         static bool IsSlewing()
         {
             return pinstance->isSlewing();

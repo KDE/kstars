@@ -2722,6 +2722,13 @@
        <whatsthis>Toggle whether the HIPS sources are drawn in the sky map.</whatsthis>
        <default>false</default>
     </entry>
+    <entry name="HIPSUseOfflineSource" type="Bool">
+       <label>Use offline storage to load HiPS?</label>
+       <default>false</default>
+    </entry>
+    <entry name="HIPSOfflinePath" type="String">
+          <label>HIPS offline full path.</label>
+    </entry>
    </group>
    <group name="Terrain">
     <entry name="TerrainSource" type="String">
