@@ -112,6 +112,14 @@ void HIPSManager::showSettings()
 
 void HIPSManager::slotApply()
 {
+    if (Options::hIPSUseOfflineSource())
+    {
+        QDir hipsDirectory(Options::hIPSOfflinePath());
+        auto orders = hipsDirectory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        HIPSManager::Instance()->setOfflineLevels(orders);
+        _HIPSManager->setCurrentSource("Offline");
+    }
+
     readSources();
     KStars::Instance()->repopulateHIPS();
     SkyMap::Instance()->forceUpdate();
@@ -405,20 +413,7 @@ pixCacheItem_t *HIPSManager::getCacheItem(pixCacheKey_t &key)
 
 bool HIPSManager::setCurrentSource(const QString &title)
 {
-    // Offline DSS
-    if (Options::hIPSUseOfflineSource() || title == "Offline")
-    {
-        m_currentFormat = "jpg";
-        m_currentTileWidth = 512;
-        m_currentFrame = HIPS_EQUATORIAL_FRAME;
-        m_currentURL = QUrl(Options::hIPSOfflinePath());
-        m_currentURL.setScheme("file");
-        m_currentOrder = m_OfflineLevelsMap.lastKey();
-        m_uid = qHash(m_currentURL);
-        Options::setShowHIPS(true);
-        return true;
-    }
-    else if (title == "None")
+    if (title == "None")
     {
         Options::setShowHIPS(false);
         Options::setHIPSSource(title);
@@ -431,6 +426,20 @@ bool HIPSManager::setCurrentSource(const QString &title)
         m_uid = 0;
         return true;
     }
+    // Offline DSS
+    else if (Options::hIPSUseOfflineSource() || title == "Offline")
+    {
+        m_currentFormat = "jpg";
+        m_currentTileWidth = 512;
+        m_currentFrame = HIPS_EQUATORIAL_FRAME;
+        m_currentURL = QUrl(Options::hIPSOfflinePath());
+        m_currentURL.setScheme("file");
+        m_currentOrder = m_OfflineLevelsMap.lastKey();
+        m_uid = qHash(m_currentURL);
+        Options::setShowHIPS(true);
+        return true;
+    }
+
 
     for (QMap<QString, QString> &source : m_hipsSources)
     {
