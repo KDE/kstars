@@ -77,7 +77,7 @@ void SkyMapQDraw::paintEvent(QPaintEvent *event)
     m_SkyPainter->setClipPath(path);
     m_SkyPainter->setClipping(true);
 
-    m_KStarsData->skyComposite()->draw(m_SkyPainter.get());
+    m_KStarsData->skyComposite()->draw(m_SkyPainter.data());
     //Finish up
     m_SkyPainter->end();
 
