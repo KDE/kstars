@@ -702,6 +702,8 @@ bool PolarAlignmentAssistant::calculatePAHError()
     emit newLog(QString("Polar Alignment Error: %1").arg(msg));
     PAHErrorLabel->setText(msg);
 
+    polarAlign.setMaxPixelSearchRange(polarError.Degrees() + 1);
+
     // These are viewed during the refresh phase.
     PAHOrigErrorTotal->setText(polarError.toDMSString());
     PAHOrigErrorAlt->setText(altError.toDMSString());

@@ -156,7 +156,7 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename, bool silent)
     loadCommon(inFilename);
     QFileInfo info(m_Filename);
     QString extension = info.completeSuffix().toLower();
-    qCInfo(KSTARS_FITS) << "Loading file " << m_Filename;
+    qCDebug(KSTARS_FITS) << "Loading file " << m_Filename;
     return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray(), extension, silent);
 }
 

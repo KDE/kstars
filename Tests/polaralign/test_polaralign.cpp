@@ -116,6 +116,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
     double azimuthError, altitudeError;
     polarAlign.calculateAzAltError(&azimuthError, &altitudeError);
+    polarAlign.setMaxPixelSearchRange(std::hypot(azimuthError, altitudeError) + 1);
 
     QPointF corrected;
     if (data.x < 0 && data.y < 0)
@@ -579,6 +580,16 @@ void TestPolarAlign::testRunPAA()
     },
     // False means the parity is flipped.
     false);
+
+    // From Jasem's friend's log. Error was larger than hardcoded search limits.
+    // Fixed to adjust search limits.
+    runPAA(kuwait,
+    {
+        {180.65170, -48.38820, 39.56825, 0.75773, 2022, 04, 07, 20, 02, 49},
+        {198.36159, -49.33399, 39.61439, 0.75786, 2022, 04, 07, 20, 03, 13},
+        {215.61283, -50.20872, 39.26446, 0.75801, 2022, 04, 07, 20, 03, 37},
+        1924, 1452, -1, -1
+    });
 }
 
 void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,
@@ -607,7 +618,7 @@ void TestPolarAlign::testAlt()
     time1.setTimeSpec(Qt::UTC);
 
 
-    double az1, alt1;
+    double az1 = 0, alt1 = 0;
     getAzAlt(time1, geo, QPointF(IMAGE_WIDTH / 2, IMAGE_HEIGHT / 2), 20.26276, 89.84129, 75.75402, pixScale, &az1, &alt1);
 
     KStarsDateTime time2;
@@ -615,7 +626,7 @@ void TestPolarAlign::testAlt()
     time2.setTime(QTime(3, 42, 10));
     time2.setTimeSpec(Qt::UTC);
 
-    double az2, alt2;
+    double az2 = 0, alt2 = 0;
     getAzAlt(time2, geo, QPointF(IMAGE_WIDTH / 2, IMAGE_HEIGHT / 2), 26.66804, 89.61473, 79.69920, pixScale, &az2, &alt2);
 
     // The first set of coordinates and times were taken were sampled, and then the mount's
