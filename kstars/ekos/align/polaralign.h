@@ -85,6 +85,11 @@ class PolarAlign
         // Returns the mount's axis--for debugging.
         void getAxis(double *azAxis, double *altAxis) const;
 
+        // This is not required, and is a hint as to how far the pixelError method should search
+        // for a solution. The suggestion may be ignored if it is too large or small, but in
+        // general this should be a degree or so larger than the polar alignment error in degrees.
+        void setMaxPixelSearchRange(double degrees);
+
     private:
         // returns true in the northern hemisphere.
         // if no geo location available, defaults to northern.
@@ -121,6 +126,9 @@ class PolarAlign
         // Values set by the last call to findAxis() that correspond to the mount's axis.
         double azimuthCenter { 0 };
         double altitudeCenter { 0 };
+
+        // Constrains the search for the correction pixel. Units are degrees.
+        double maxPixelSearchRange { 2 };
 
         friend TestPolarAlign;
 };
