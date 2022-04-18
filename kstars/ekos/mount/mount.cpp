@@ -276,6 +276,8 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     if (enableLimitsCheck->isChecked())
         currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
 
+
+
     syncTelescopeInfo();
 
     // Send initial status
@@ -422,6 +424,9 @@ void Mount::syncTelescopeInfo()
     auto tvp = currentTelescope->getBaseDevice()->getText("SCOPE_CONFIG_NAME");
     if (tvp)
         scopeConfigNameEdit->setText(tvp->at(0)->getText());
+
+    m_leftRightCheck->setProperty("checked", currentTelescope->isReversed(AXIS_RA));
+    m_upDownCheck->setProperty("checked", currentTelescope->isReversed(AXIS_DE));
 }
 
 void Mount::registerNewModule(const QString &name)
@@ -721,11 +726,15 @@ bool Mount::setSlewRate(int index)
 void Mount::setUpDownReversed(bool enabled)
 {
     Options::setUpDownReversed(enabled);
+    if (currentTelescope)
+        currentTelescope->setReversedEnabled(AXIS_DE, enabled);
 }
 
 void Mount::setLeftRightReversed(bool enabled)
 {
     Options::setLeftRightReversed(enabled);
+    if (currentTelescope)
+        currentTelescope->setReversedEnabled(AXIS_RA, enabled);
 }
 
 void Mount::setMeridianFlipValues(bool activate, double hours)
@@ -858,16 +867,12 @@ void Mount::motionCommand(int command, int NS, int WE)
 {
     if (NS != -1)
     {
-        if (Options::upDownReversed())
-            NS = !NS;
         currentTelescope->MoveNS(static_cast<ISD::Telescope::TelescopeMotionNS>(NS),
                                  static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
 
     if (WE != -1)
     {
-        if (Options::leftRightReversed())
-            WE = !WE;
         currentTelescope->MoveWE(static_cast<ISD::Telescope::TelescopeMotionWE>(WE),
                                  static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
     }
