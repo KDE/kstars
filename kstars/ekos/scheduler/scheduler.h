@@ -386,6 +386,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
         /** @} */
 
+        // Scheduler Settings
+        void setSettings(const QJsonObject &settings);
+
         void setUpdateInterval(int ms)
         {
             m_UpdatePeriodMs = ms;
@@ -394,6 +397,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             return m_UpdatePeriodMs;
         }
+
+        // Primary Settings
+        void setPrimarySettings(const QJsonObject &settings);
+
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -693,6 +700,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
          * @param elapsedSeconds How many seconds elapsed to solve the image.
          */
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+
+        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
         /**
          * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check

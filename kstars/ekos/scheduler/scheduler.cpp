@@ -8168,4 +8168,84 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setPrimarySettings(const QJsonObject &settings)
+{
+    syncControl(settings, "target", nameEdit);
+    syncControl(settings, "ra", raBox);
+    syncControl(settings, "dec", decBox);
+    syncControl(settings, "rotation", rotationSpin);
+    syncControl(settings, "sequence", sequenceEdit);
+    syncControl(settings, "fits", fitsEdit);
+    syncControl(settings, "priority", prioritySpin);
+    syncControl(settings, "profile", schedulerProfileCombo);
+    syncControl(settings, "track", trackStepCheck);
+    syncControl(settings, "focus", focusStepCheck);
+    syncControl(settings, "align", alignStepCheck);
+    syncControl(settings, "guide", guideStepCheck);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QLineEdit *pLE = nullptr;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(pSB->value());
+        if (value != pSB->value())
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(pDSB->value());
+        if (value != pDSB->value())
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool(pCB->isChecked());
+        if (value != pCB->isChecked())
+        {
+            pCB->setChecked(value);
+            return true;
+        }
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString(pComboBox->currentText());
+        if (value != pComboBox->currentText())
+        {
+            pComboBox->setCurrentText(value);
+            return true;
+        }
+    }
+    else if ((pLE = qobject_cast<QLineEdit *>(widget)))
+    {
+        const QString value = settings[key].toString(pLE->text());
+        if (value != pLE->text())
+        {
+            pLE->setText(value);
+            return true;
+        }
+    }
+
+    return false;
+};
+
 }
