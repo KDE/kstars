@@ -665,15 +665,15 @@ bool SkyQPainter::drawHips(bool useCache)
 
     if (useCache && m_HiPSImage)
     {
-        drawImage(viewport(), *m_HiPSImage.get());
+        drawImage(viewport(), *m_HiPSImage.data());
         return true;
     }
     else
     {
         m_HiPSImage.reset(new QImage(w, h, QImage::Format_ARGB32_Premultiplied));
-        bool rendered     = m_hipsRender->render(w, h, m_HiPSImage.get(), m_proj);
+        bool rendered     = m_hipsRender->render(w, h, m_HiPSImage.data(), m_proj);
         if (rendered)
-            drawImage(viewport(), *m_HiPSImage.get());
+            drawImage(viewport(), *m_HiPSImage.data());
         return rendered;
     }
 }

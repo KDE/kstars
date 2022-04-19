@@ -2283,8 +2283,7 @@ void Manager::initCapture()
     // display target drift
     connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
             captureProcess.get(), &Ekos::Capture::updateTargetDistance,  Qt::UniqueConnection);
-    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance, this, [this](double distance)
-    {
+    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance, this, [this](double distance) {
         capturePreview->updateTargetDistance(distance);
     });
 
@@ -2576,7 +2575,7 @@ void Manager::initDome()
             newStatus = (newStatus == ISD::Dome::DOME_MOVING_CW) ? ISD::Dome::DOME_UNPARKING :
                         ISD::Dome::DOME_PARKING;
         }
-        QJsonObject status = { { "status", newStatus} };
+        QJsonObject status = { { "status", ISD::Dome::getStatusString(newStatus)} };
         ekosLiveClient.get()->message()->updateDomeStatus(status);
     });
 
@@ -2634,7 +2633,7 @@ void Manager::initDustCap()
 
     connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus)
     {
-        QJsonObject status = { { "status", newStatus} };
+        QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus)} };
         ekosLiveClient.get()->message()->updateCapStatus(status);
     });
     connect(dustCapProcess.get(), &Ekos::DustCap::lightToggled, [&](bool enabled)
@@ -2955,7 +2954,7 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 
     QJsonObject cStatus =
     {
-        {"status", status}
+        {"status", mountStatus->text()}
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);
@@ -2963,7 +2962,7 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 
 void Manager::updateMountCoords(const SkyPoint position, ISD::Telescope::PierSide pierSide, const dms &ha)
 {
-    Q_UNUSED(pierSide)
+    Q_UNUSED(pierSide);
     raOUT->setText(position.ra().toHMSString());
     decOUT->setText(position.dec().toDMSString());
     azOUT->setText(position.az().toDMSString());
@@ -3005,7 +3004,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     QJsonObject cStatus =
     {
-        {"status", status},
+        {"status", captureStates[status]},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };
@@ -3075,7 +3074,7 @@ void Manager::updateFocusStatus(Ekos::FocusState status)
 
     QJsonObject cStatus =
     {
-        {"status", status}
+        {"status", getFocusStatusText()}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
@@ -3086,7 +3085,7 @@ void Manager::updateGuideStatus(Ekos::GuideState status)
     guideManager->updateGuideStatus(status);
     QJsonObject cStatus =
     {
-        {"status", status}
+        {"status", getGuideStatusText()}
     };
 
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
