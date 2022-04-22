@@ -4162,9 +4162,11 @@ void Scheduler::stopCurrentJobAction()
                 alignInterface->call(QDBus::AutoDetect, "abort");
                 break;
 
+            // N.B. Need to use BlockWithGui as proposed by Wolfgang
+            // to ensure capture is properly aborted before taking any further actions.
             case SchedulerJob::STAGE_CAPTURING:
                 TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:call", "abort");
-                captureInterface->call(QDBus::AutoDetect, "abort");
+                captureInterface->call(QDBus::BlockWithGui, "abort");
                 break;
 
             default:
