@@ -34,7 +34,7 @@ cache:
   - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev
   - mkdir -p kstars-build
   - cd kstars-build
-  - cmake -GNinja -DCMAKE_BUILD_TYPE=Release .. -DCCACHE_SUPPORT=ON -DBUILD_TESTING=${BUILD_TESTING:-OFF} -DBUILD_DOC=${BUILD_DOC:-OFF}
+  - cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE:-Debug} .. -DCCACHE_SUPPORT=ON -DBUILD_TESTING=${BUILD_TESTING:-OFF} -DBUILD_DOC=${BUILD_DOC:-OFF}
   - ninja -j8 all install
 
 build:
@@ -116,6 +116,8 @@ build-appimage:
   allow_failure: true
   only:
     - merge_requests
+  variables:
+    BUILD_TYPE: "Release"
   before_script:
     - python3 -m pip install appimage-builder
     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
