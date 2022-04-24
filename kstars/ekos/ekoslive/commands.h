@@ -145,6 +145,9 @@ enum COMMANDS
     ALIGN_SET_FILE_EXTENSION,
     ALIGN_SET_SETTINGS,
 
+    // Scheduler
+    SCHEDULER_SET_PRIMARY_SETTINGS,
+
     // Polar Assistant Helper
     PAH_START,
     PAH_STOP,
@@ -324,6 +327,8 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_GET_PRIMARY_SETTINGS, "focus_get_primary_settings"},
     {FOCUS_GET_PROCESS_SETTINGS, "focus_get_process_settings"},
     {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
+
+    {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},

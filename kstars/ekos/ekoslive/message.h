@@ -153,6 +153,9 @@ class Message : public QObject
         // Align
         void processAlignCommands(const QString &command, const QJsonObject &payload);
 
+        // Scheduler
+        void processSchedulerCommands(const QString &command, const QJsonObject &payload);
+
         // Polar
         void processPolarCommands(const QString &command, const QJsonObject &payload);
 
