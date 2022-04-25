@@ -100,7 +100,7 @@
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ar">توفّر البرمجيّة محاكاةً رسوميّة دقيقة لسماء الليل، من أيّ نقطة على سطح الأرض وفي أيّ وقت. يعرض «نجوم‌ك» حوالي ١٠٠ مليون نجم، و١٣٬٠٠٠ جرم سماويّ عميق، والكواكب الثّمانية، والشّمس والقمر وآلاف المذنّبات والكويكبات، والمستعرات العظمى والأقمار الصّناعيّة.</p>
     <p xml:lang="ca">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
-    <p xml:lang="ca-valencia">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
+    <p xml:lang="ca-valencia">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol emplaçament a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estreles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, milers de cometes, asteroides, supernoves i satèl·lits.</p>
     <p xml:lang="de">KStars simuliert präzise den Blick in den nächtlichen Himmel von jedem Punkt der Erde aus, zu jedem beliebigen Datum und Uhrzeit. Derzeit gibt es im Planetarium bis zu 100 Millionen Sterne, 13000 Deep-Sky-Objekte, alle acht Planeten, die Sonne und den Mond, sowie tausende Kometen, Asteroiden, Supernovae und Satelliten.</p>
     <p xml:lang="en-GB">It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="es">Proporciona una precisa simulación gráfica del cielo nocturno vista desde cualquier punto de la Tierra y para cualquier fecha y hora. La pantalla muestra unos 100 millones de estrellas, 13.000 objetos del espacio profundo, los 8 planetas, el Sol y la Luna, así como miles de cometas, asteroides, supernovas y satélites.</p>
@@ -125,7 +125,7 @@
     <p>For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="ar">إن كنت طالبًا أو أستاذًا، فستجد أنّ البرمجيّة تدعم ضبط سرعة المحاكاة الذي يتيح عرض الظّواهر التي تحدث على فترات زمنيّة طويلة، وتدعم الكثير من الحسابات الفلكيّة المعروفة، وتوفّر حاسبة فلكيّة لتوقّع الاقترانات.</p>
     <p xml:lang="ca">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica del KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
-    <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de veure fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica de KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
+    <p xml:lang="ca-valencia">Per a estudiants i professors, permet velocitats de simulació ajustables per tal de vore fenòmens que transcorren en escales de temps llargues, la calculadora astronòmica de KStars per a predir conjuncions i molts càlculs astronòmics habituals.</p>
     <p xml:lang="de">Für Schüler und Lehrer unterstützt es einstellbare Simulationsgeschwindigkeiten, um Phänomene zu betrachten, die auf langen Zeitskalen ablaufen, den KStars-Astrorechner zur Vorhersage von Konjunktionen und viele allgemeine astronomische Berechnungen.</p>
     <p xml:lang="en-GB">For students and teachers, it supports adjustable simulation speeds in order to view phenomena that happen over long timescales, the KStars Astrocalculator to predict conjunctions, and many common astronomical calculations.</p>
     <p xml:lang="es">Para estudiantes y profesores, permite ajustar la velocidad de simulación para poder ver fenómenos que ocurren a lo largo de mucho tiempo; la calculadora astronómica de KStars permite predecir conjunciones y realizar cálculos astronómicos comunes.</p>
@@ -235,7 +235,7 @@
       <li xml:lang="ar">الفهرس المبدئيّ والذي يحتوي النّجوم حتّى القدْر ٨</li>
       <li xml:lang="bs">Uobičajeni Katalog se sastoji od zvijezda do magnitude 8</li>
       <li xml:lang="ca">Catàleg predeterminat consistent en estrelles fins a magnitud 8</li>
-      <li xml:lang="ca-valencia">Catàleg predeterminat consistent en estrelles fins a magnitud 8</li>
+      <li xml:lang="ca-valencia">Catàleg predeterminat consistent en estreles fins a magnitud 8</li>
       <li xml:lang="de">Standardkatalog mit Sternen bis zur Magnitude 8</li>
       <li xml:lang="en-GB">Default catalogue consisting of stars to magnitude 8</li>
       <li xml:lang="es">El catálogo por omisión contiene estrellas hasta la magnitud 8</li>
@@ -264,7 +264,7 @@
       <li xml:lang="ar">فهارس أخرى فيها ما يقارب ١٠٠ مليون نجم حتّى القدْر ١٦</li>
       <li xml:lang="bs">Prošireni katalozi koji se sastoji od 100 milijuna zvijezda u veličini 16</li>
       <li xml:lang="ca">Catàlegs addicionals consistents en 100 milions d'estrelles fins a magnitud 16</li>
-      <li xml:lang="ca-valencia">Catàlegs addicionals consistents en 100 milions d'estrelles fins a magnitud 16</li>
+      <li xml:lang="ca-valencia">Catàlegs addicionals consistents en 100 milions d'estreles fins a magnitud 16</li>
       <li xml:lang="de">Zusätzliche Kataloge mit 100 Millionen Sternen bis zur Magnitude 16</li>
       <li xml:lang="en-GB">Extra catalogues consisting of 100 million stars to magnitude 16</li>
       <li xml:lang="es">Los catálogos adicionales contienen 100 millones de estrellas hasta la magnitud 16</li>
