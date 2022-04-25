@@ -21,16 +21,19 @@
  */
 class HIPSComponent : public SkyComponent
 {
-  public:
-    /** Constructor */
-    explicit HIPSComponent(SkyComposite *);
+    public:
+        /** Constructor */
+        explicit HIPSComponent(SkyComposite *);
 
-    virtual ~HIPSComponent() override = default;
+        virtual ~HIPSComponent() override = default;
 
-    bool selected() override;
-    void draw(SkyPainter *skyp) override;
+        bool selected() override;
+        void draw(SkyPainter *skyp) override;
 
-  private:
-    QElapsedTimer m_ElapsedTimer;
-    static constexpr uint32_t HIPS_REDRAW_PERIOD {5000};
+    private:
+        QElapsedTimer m_ElapsedTimer, m_RefreshTimer;
+        static constexpr uint32_t HIPS_REDRAW_PERIOD {5000};
+        static constexpr uint32_t HIPS_REFRESH_PERIOD {2000};
+        double m_LastZoom {1};
+        QString m_LastFocusedObjectName;
 };

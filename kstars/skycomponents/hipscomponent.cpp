@@ -17,6 +17,7 @@
 HIPSComponent::HIPSComponent(SkyComposite *parent) : SkyComponent(parent)
 {
     m_ElapsedTimer.start();
+    m_RefreshTimer.start();
 }
 
 bool HIPSComponent::selected()
@@ -35,19 +36,36 @@ void HIPSComponent::draw(SkyPainter *skyp)
     // Then no need for re-render every update cycle since that is CPU intensive
     // Draw the cached HiPS image for 5000ms. When this expires, render the image again and
     // restart the timer.
-    if (Options::isTracking() && SkyMap::IsFocused())
+
+    // Keep track of zoom level and redraw if changes.
+    double newZoom = Options::zoomFactor();
+    if (std::abs(newZoom - m_LastZoom) == 0. && Options::isTracking() && SkyMap::IsFocused())
     {
-        if (m_ElapsedTimer.elapsed() < HIPS_REDRAW_PERIOD)
+        // We can draw the cache when two conditions are met.
+        // 1. It is not yet time to re-draw
+        // 2. Refresh time expired.
+        if (m_ElapsedTimer.elapsed() < HIPS_REDRAW_PERIOD && m_RefreshTimer.elapsed() > HIPS_REFRESH_PERIOD)
+        {
             skyp->drawHips(true);
+        }
         else
         {
             skyp->drawHips(false);
             m_ElapsedTimer.restart();
         }
+
+        // If focus object changes, we reset fresh timer to force drawing of uncached image.
+        if (SkyMap::Instance()->focusObject() && SkyMap::Instance()->focusObject()->name() != m_LastFocusedObjectName)
+        {
+            m_LastFocusedObjectName = SkyMap::Instance()->focusObject()->name();
+            m_RefreshTimer.restart();
+        }
     }
     // When slewing or not tracking, render and draw immediately.
     else
         skyp->drawHips(false);
+
+    m_LastZoom = newZoom;
 #else
     Q_UNUSED(skyp);
 #endif
