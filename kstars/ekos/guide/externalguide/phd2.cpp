@@ -390,6 +390,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
         case SettleDone:
         {
+            // guiding stopped during dithering
+            if (state == PHD2::STOPPED)
+                return;
+
             bool error = false;
 
             if (jsonEvent["Status"].toInt() != 0)
