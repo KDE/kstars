@@ -50,7 +50,10 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
         if (isConnected())
+        {
+            currentCoords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             emit newCoords(currentCoords, pierSide(), hourAngle());
+        }
     });
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
