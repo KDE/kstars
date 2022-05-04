@@ -242,13 +242,15 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
     for (auto &skymarksize : astrometryIndex.keys())
     {
+        QString indexName1        = "index_41" + astrometryIndex.value(skymarksize);
+        QString indexName2        = "index_42" + astrometryIndex.value(skymarksize);
+        QString indexName3        = "index_52" + astrometryIndex.value(skymarksize);
+        QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
+        QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
+        QCheckBox *indexCheckBox3 = findChild<QCheckBox *>(indexName3);
         if ((skymarksize >= 0.40 * fov_check && skymarksize <= 0.9 * fov_check) ||
                 (fov_check > last_skymarksize && fov_check < skymarksize))
         {
-            QString indexName1        = "index_41" + astrometryIndex.value(skymarksize);
-            QString indexName2        = "index_42" + astrometryIndex.value(skymarksize);
-            QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
-            QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if (indexCheckBox1)
             {
                 indexCheckBox1->setIcon(QIcon(":/icons/astrometry-required.svg"));
@@ -259,13 +261,14 @@ void OpsAstrometryIndexFiles::slotUpdate()
                 indexCheckBox2->setIcon(QIcon(":/icons/astrometry-required.svg"));
                 indexCheckBox2->setToolTip(i18n("Required"));
             }
+            if (indexCheckBox3)
+            {
+                indexCheckBox3->setIcon(QIcon(":/icons/astrometry-required.svg"));
+                indexCheckBox3->setToolTip(i18n("Required"));
+            }
         }
         else if (skymarksize >= 0.10 * fov_check && skymarksize <= fov_check)
         {
-            QString indexName1        = "index_41" + astrometryIndex.value(skymarksize);
-            QString indexName2        = "index_42" + astrometryIndex.value(skymarksize);
-            QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
-            QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if (indexCheckBox1)
             {
                 indexCheckBox1->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
@@ -275,6 +278,11 @@ void OpsAstrometryIndexFiles::slotUpdate()
             {
                 indexCheckBox2->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
                 indexCheckBox2->setToolTip(i18n("Recommended"));
+            }
+            if (indexCheckBox3)
+            {
+                indexCheckBox3->setIcon(QIcon(":/icons/astrometry-recommended.svg"));
+                indexCheckBox3->setToolTip(i18n("Recommended"));
             }
         }
 
@@ -302,19 +310,26 @@ void OpsAstrometryIndexFiles::slotUpdate()
     }
 }
 
-bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName)
+int OpsAstrometryIndexFiles::indexFileCount(QString indexName)
 {
-    QString indexNameMatch = indexName.left(10) + "*.fits";
-    QStringList list = directory.entryList(QStringList(indexNameMatch));
     int count = 0;
     if(indexName.contains("4207") || indexName.contains("4206") || indexName.contains("4205"))
         count = 12;
     else if(indexName.contains("4204") || indexName.contains("4203") || indexName.contains("4202")
-            || indexName.contains("4201") || indexName.contains("4200"))
+            || indexName.contains("4201") || indexName.contains("4200") || indexName.contains("5206")
+            || indexName.contains("5205") || indexName.contains("5204") || indexName.contains("5203")
+            || indexName.contains("5202") || indexName.contains("5201") || indexName.contains("5200"))
         count = 48;
     else
         count = 1;
-    return list.count() == count;
+    return count;
+}
+
+bool OpsAstrometryIndexFiles::fileCountMatches(QDir directory, QString indexName)
+{
+    QString indexNameMatch = indexName.left(10) + "*.fits";
+    QStringList list = directory.entryList(QStringList(indexNameMatch));
+    return list.count() == indexFileCount(indexName);
 }
 
 void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
@@ -573,14 +588,11 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                     URL = BASE_URL + "4100/" + indexSeriesName;
                 else if (indexSeriesName.startsWith(QLatin1String("index-42")))
                     URL = BASE_URL + "4200/" + indexSeriesName;
+                else if (indexSeriesName.startsWith(QLatin1String("index-52")))
+                    URL = "https://portal.nersc.gov/project/cosmo/temp/dstn/index-5200/LITE/" + indexSeriesName;
 
-                int maxIndex = 0;
-                if (indexFileNum < 8 && URL.contains("*"))
-                {
-                    maxIndex = 11;
-                    if (indexFileNum < 5)
-                        maxIndex = 47;
-                }
+                int maxIndex = indexFileCount(indexSeriesName) - 1;
+
                 double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString),
                                               -1.909); //This estimates the file size based on skymark size obtained from the index number.
                 if(maxIndex != 0)

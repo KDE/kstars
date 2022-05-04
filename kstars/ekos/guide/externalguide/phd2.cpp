@@ -334,7 +334,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
         case CalibrationComplete:
             emit newLog(i18n("PHD2: Calibration Complete."));
-            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
             break;
 
         case StartGuiding:
@@ -390,6 +390,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
         case SettleDone:
         {
+            // guiding stopped during dithering
+            if (state == PHD2::STOPPED)
+                return;
+
             bool error = false;
 
             if (jsonEvent["Status"].toInt() != 0)
@@ -1470,7 +1474,7 @@ bool PHD2::abort()
 bool PHD2::calibrate()
 {
     // We don't explicitly do calibration since it is done in the guide step by PHD2 anyway
-    //emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+    //emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
     return true;
 }
 

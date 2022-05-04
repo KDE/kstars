@@ -1147,6 +1147,7 @@ IF (NOT ANDROID)
         Qt5::Concurrent
         Qt5::WebSockets
         ${ZLIB_LIBRARIES}
+        Eigen3::Eigen
         )
 
     if (Qt5Keychain_FOUND)

@@ -20,7 +20,6 @@
 
 SkyPainter::SkyPainter()
 {
-    m_sm = SkyMap::Instance();
 }
 
 void SkyPainter::setSizeMagLimit(float sizeMagLim)

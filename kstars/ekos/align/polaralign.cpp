@@ -172,6 +172,19 @@ void PolarAlign::calculateAzAltError(double *azError, double *altError) const
         *azError -= 360;
 }
 
+void PolarAlign::setMaxPixelSearchRange(double degrees)
+{
+    // Suggestion for how far pixelError() below searches.
+    // Don't allow the search to be modified too much.
+    const double d = fabs(degrees);
+    if (d < 2)
+        maxPixelSearchRange = 2.0;
+    else if (d > 10)
+        maxPixelSearchRange = 10.0;
+    else
+        maxPixelSearchRange = d;
+}
+
 // Given the currently estimated RA axis polar alignment error, and given a start pixel,
 // find the polar-alignment error if the user moves a star (from his point of view)
 // from that pixel to pixel2.
@@ -194,9 +207,11 @@ bool PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF
     calculateAzAltError(&azOffset, &altOffset);
 
     QPointF pix;
-    double azE, altE;
+    double azE = 0, altE = 0;
 
-    pixelError(image, pixel, pixel2, -2.0, 2.0, 0.2, -2.0, 2.0, 0.2, &azE, &altE, &pix);
+    pixelError(image, pixel, pixel2,
+               -maxPixelSearchRange, maxPixelSearchRange, 0.2,
+               -maxPixelSearchRange, maxPixelSearchRange, 0.2, &azE, &altE, &pix);
     pixelError(image, pixel, pixel2, azE - .2, azE + .2, 0.02,
                altE - .2, altE + .2, 0.02, &azE, &altE, &pix);
     pixelError(image, pixel, pixel2, azE - .02, azE + .02, 0.002,

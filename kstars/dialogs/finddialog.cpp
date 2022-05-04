@@ -407,11 +407,13 @@ QString FindDialog::processSearchText(QString searchText)
 
 void FindDialog::slotOk()
 {
+    // JM 2022.04.20 Below does not work when a user is simply browsing
+    // and selecting an item without entering any text in the search box.
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
-    if (ui->SearchBox->text().isEmpty())
-    {
-        return;
-    }
+    //    if (ui->SearchBox->text().isEmpty())
+    //    {
+    //        return;
+    //    }
     SkyObject *selObj;
     if (!listFiltered)
     {
@@ -475,8 +477,8 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
                 case SkyObject::GALAXY:
                     if (selObj->name() != selObj->longname())
                         m_HistoryCombo->addItem(QString("%1 (%2)")
-                                                    .arg(selObj->name())
-                                                    .arg(selObj->longname()));
+                                                .arg(selObj->name())
+                                                .arg(selObj->longname()));
                     else
                         m_HistoryCombo->addItem(QString("%1").arg(selObj->longname()));
                     break;

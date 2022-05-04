@@ -222,6 +222,8 @@ void Message::onTextReceived(const QString &message)
         processGuideCommands(command, payload);
     else if (command.startsWith("align_"))
         processAlignCommands(command, payload);
+    else if (command.startsWith("scheduler"))
+        processSchedulerCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
     else if (command.startsWith("dome_"))
@@ -236,6 +238,7 @@ void Message::onTextReceived(const QString &message)
         processDarkLibraryCommands(command, payload);
     else if (command.startsWith("device_"))
         processDeviceCommands(command, payload);
+
 }
 
 void Message::sendCameras()
@@ -648,6 +651,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         if (capture->removeJob(payload["index"].toInt()) == false)
             sendCaptureSequence(capture->getSequence());
     }
+    else if (command == commands[CAPTURE_CLEAR_SEQUENCES])
+    {
+        capture->clearSequenceQueue();
+    }
     else if (command == commands[CAPTURE_SET_LIMITS])
     {
         capture->setLimitSettings(payload);
@@ -964,6 +971,16 @@ void Message::setAlignSolution(const QVariantMap &solution)
     };
 
     sendResponse(commands[NEW_ALIGN_STATE], alignState);
+}
+
+void Message::processSchedulerCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Scheduler *scheduler = m_Manager->schedulerModule();
+
+    if (command == commands[SCHEDULER_SET_PRIMARY_SETTINGS])
+    {
+        scheduler->setPrimarySettings(payload);
+    }
 }
 
 void Message::processPolarCommands(const QString &command, const QJsonObject &payload)

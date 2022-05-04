@@ -497,7 +497,7 @@ void Guide::checkCCD(int ccdNum)
         case GUIDE_SUBFRAME:
         case GUIDE_STAR_SELECT:
         case GUIDE_CALIBRATING:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
         case GUIDE_GUIDING:
         case GUIDE_SUSPENDED:
         case GUIDE_REACQUIRE:
@@ -1160,7 +1160,7 @@ void Guide::setCaptureComplete()
         case GUIDE_ABORTED:
         case GUIDE_CONNECTED:
         case GUIDE_DISCONNECTED:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
         case GUIDE_CALIBRATION_ERROR:
         case GUIDE_DITHERING_ERROR:
             setBusy(false);
@@ -1671,7 +1671,7 @@ void Guide::setStatus(Ekos::GuideState newState)
 #endif
             break;
 
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             appendLogText(i18n("Calibration completed."));
             calibrationComplete = true;
 

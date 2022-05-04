@@ -16,6 +16,7 @@
 SkyMapQDraw::SkyMapQDraw(SkyMap *sm) : QWidget(sm), SkyMapDrawAbstract(sm)
 {
     m_SkyPixmap = new QPixmap(width(), height());
+    m_SkyPainter.reset(new SkyQPainter(this, m_SkyPixmap));
 }
 
 SkyMapQDraw::~SkyMapQDraw()
@@ -61,22 +62,24 @@ void SkyMapQDraw::paintEvent(QPaintEvent *event)
     m_SkyMap->showFocusCoords();
     m_SkyMap->setupProjector();
 
-    SkyQPainter psky(this, m_SkyPixmap);
+    m_SkyPixmap->fill(Qt::black);
+    m_SkyPainter->setPaintDevice(m_SkyPixmap);
+
     //FIXME: we may want to move this into the components.
-    psky.begin();
+    m_SkyPainter->begin();
 
     //Draw all sky elements
-    psky.drawSkyBackground();
+    m_SkyPainter->drawSkyBackground();
 
     // Set Clipping
     QPainterPath path;
     path.addPolygon(m_SkyMap->projector()->clipPoly());
-    psky.setClipPath(path);
-    psky.setClipping(true);
+    m_SkyPainter->setClipPath(path);
+    m_SkyPainter->setClipping(true);
 
-    m_KStarsData->skyComposite()->draw(&psky);
+    m_KStarsData->skyComposite()->draw(m_SkyPainter.data());
     //Finish up
-    psky.end();
+    m_SkyPainter->end();
 
     QPainter psky2;
     psky2.begin(this);

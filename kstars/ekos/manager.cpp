@@ -2280,7 +2280,12 @@ void Manager::initCapture()
     // display capture status changes
     connect(filterManager.data(), &FilterManager::newStatus, capturePreview->captureStatusWidget,
             &CaptureStatusWidget::setFilterState);
-
+    // display target drift
+    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
+            captureProcess.get(), &Ekos::Capture::updateTargetDistance,  Qt::UniqueConnection);
+    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance, this, [this](double distance) {
+        capturePreview->updateTargetDistance(distance);
+    });
 
     for (auto &device : findDevices(KSTARS_AUXILIARY))
     {
@@ -3469,6 +3474,8 @@ void Manager::connectModules()
                 analyzeProcess.get(), &Ekos::Analyze::schedulerJobStarted, Qt::UniqueConnection);
         connect(schedulerProcess.get(), &Ekos::Scheduler::jobEnded,
                 analyzeProcess.get(), &Ekos::Analyze::schedulerJobEnded, Qt::UniqueConnection);
+        connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
+                analyzeProcess.get(), &Ekos::Analyze::newTargetDistance,  Qt::UniqueConnection);
 
         if (captureProcess.get())
         {

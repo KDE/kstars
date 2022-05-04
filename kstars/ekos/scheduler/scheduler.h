@@ -386,6 +386,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
         /** @} */
 
+        // Scheduler Settings
+        void setSettings(const QJsonObject &settings);
+
         void setUpdateInterval(int ms)
         {
             m_UpdatePeriodMs = ms;
@@ -394,6 +397,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             return m_UpdatePeriodMs;
         }
+
+        // Primary Settings
+        void setPrimarySettings(const QJsonObject &settings);
+
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -694,6 +701,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
          */
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
+        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+
         /**
          * @brief setCaptureComplete Handle one sequence image completion. This is used now only to run alignment check
          * to ensure it does not deviation from current scheduler job target.
@@ -706,6 +715,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
+        // distance in arc-seconds measured by plate solving the a captured image and
+        // comparing that position to the target position.
+        void targetDistance(double distance);
         // Below 2 are for the Analyze timeline.
         void jobStarted(const QString &jobName);
         void jobEnded(const QString &jobName, const QString &endReason);

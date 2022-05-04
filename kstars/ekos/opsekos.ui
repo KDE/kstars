@@ -423,11 +423,11 @@
        </item>
        <item row="4" column="0">
         <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
-         <property name="toolTip">
-          <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
+        <property name="toolTip">
+          <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
          </property>
          <property name="text">
-          <string>Reset pipeline if verified image delta exceeds</string>
+          <string>Force re-alignment before re-starting jobs</string>
          </property>
         </widget>
        </item>

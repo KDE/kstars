@@ -71,6 +71,7 @@ enum COMMANDS
     CAPTURE_GET_SEQUENCES,
     CAPTURE_ADD_SEQUENCE,
     CAPTURE_REMOVE_SEQUENCE,
+    CAPTURE_CLEAR_SEQUENCES,
     CAPTURE_SET_SETTINGS,
     CAPTURE_SET_LIMITS,
     CAPTURE_GET_LIMITS,
@@ -143,6 +144,9 @@ enum COMMANDS
     ALIGN_LOAD_AND_SLEW,
     ALIGN_SET_FILE_EXTENSION,
     ALIGN_SET_SETTINGS,
+
+    // Scheduler
+    SCHEDULER_SET_PRIMARY_SETTINGS,
 
     // Polar Assistant Helper
     PAH_START,
@@ -270,6 +274,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_GET_SEQUENCES, "capture_get_sequences"},
     {CAPTURE_ADD_SEQUENCE, "capture_add_sequence"},
     {CAPTURE_REMOVE_SEQUENCE, "capture_remove_sequence"},
+    {CAPTURE_CLEAR_SEQUENCES, "capture_clear_sequences"},
     {CAPTURE_SET_SETTINGS, "capture_set_settings"},
     {CAPTURE_SET_LIMITS, "capture_set_limits"},
     {CAPTURE_GET_LIMITS, "capture_get_limits"},
@@ -322,6 +327,8 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_GET_PRIMARY_SETTINGS, "focus_get_primary_settings"},
     {FOCUS_GET_PROCESS_SETTINGS, "focus_get_process_settings"},
     {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
+
+    {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},

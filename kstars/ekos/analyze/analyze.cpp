@@ -82,6 +82,7 @@ int MOUNT_HA_GRAPH = -1;
 int AZ_GRAPH = -1;
 int ALT_GRAPH = -1;
 int PIER_SIDE_GRAPH = -1;
+int TARGET_DISTANCE_GRAPH = -1;
 
 // Initialized in initGraphicsPlot().
 int FOCUS_GRAPHICS = -1;
@@ -329,6 +330,7 @@ Analyze::Analyze()
     initStatsPlot();
     initGraphicsPlot();
     fullWidthCB->setChecked(true);
+    keepCurrentCB->setChecked(true);
     runtimeDisplay = true;
     fullWidthCB->setVisible(true);
     fullWidthCB->setDisabled(false);
@@ -617,6 +619,11 @@ void Analyze::addTemperature(double temperature, double time)
     statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
 }
 
+void Analyze::addTargetDistance(double targetDistance, double time)
+{
+    statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(time, targetDistance);
+}
+
 // Add the HFR values to the Stats graph, as a constant value between startTime and time.
 void Analyze::addHFR(double hfr, int numCaptureStars, int median, double eccentricity,
                      double time, double startTime)
@@ -801,6 +808,13 @@ double Analyze::processInputLine(const QString &line)
         if (!ok)
             return 0;
         processTemperature(time, temperature, true);
+    }
+    else if ((list[0] == "TargetDistance") && list.size() == 3)
+    {
+        const double targetDistance = QString(list[2]).toDouble(&ok);
+        if (!ok)
+            return 0;
+        processTargetDistance(time, targetDistance, true);
     }
     else if ((list[0] == "MountState") && list.size() == 3)
     {
@@ -1482,6 +1496,9 @@ void Analyze::updateStatsValues()
     updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
     updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
 
+    auto asFcn = [](double d) -> QString { return QString("%1\"").arg(d, 0, 'f', 0); };
+    updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn);
+
     auto hmsFcn = [](double d) -> QString
     {
         dms ra;
@@ -1533,6 +1550,7 @@ void Analyze::initStatsCheckboxes()
     skyBgCB->setChecked(Options::analyzeSkyBg());
     snrCB->setChecked(Options::analyzeSNR());
     temperatureCB->setChecked(Options::analyzeTemperature());
+    targetDistanceCB->setChecked(Options::analyzeTargetDistance());
     raCB->setChecked(Options::analyzeRA());
     decCB->setChecked(Options::analyzeDEC());
     raPulseCB->setChecked(Options::analyzeRAp());
@@ -1744,6 +1762,13 @@ void Analyze::initStatsPlot()
     TEMPERATURE_GRAPH = initGraphAndCB(statsPlot, temperatureAxis, QCPGraph::lsLine, Qt::yellow, "temp", temperatureCB,
                                        Options::setAnalyzeTemperature);
 
+    targetDistanceAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
+    targetDistanceAxis->setVisible(false);
+    targetDistanceAxis->setRange(0, 60);
+    TARGET_DISTANCE_GRAPH = initGraphAndCB(statsPlot, targetDistanceAxis, QCPGraph::lsLine,
+                                           QColor(253, 185, 200),  // pink
+                                           "tDist", targetDistanceCB, Options::setAnalyzeTargetDistance);
+
     snrAxis = statsPlot->axisRect()->addAxis(QCPAxis::atLeft, 0);
     snrAxis->setVisible(false);
     snrAxis->setRange(-100, 100);  // this will be reset.
@@ -1859,6 +1884,7 @@ void Analyze::reset()
     skyBgOut->setText("");
     snrOut->setText("");
     temperatureOut->setText("");
+    targetDistanceOut->setText("");
     eccentricityOut->setText("");
     medianOut->setText("");
     numCaptureStarsOut->setText("");
@@ -2346,7 +2372,7 @@ Ekos::GuideState stringToGuideState(const QString &str)
     else if (str == I18N_NOOP("Calibration error"))
         return GUIDE_CALIBRATION_ERROR;
     else if (str == I18N_NOOP("Calibrated"))
-        return GUIDE_CALIBRATION_SUCESS;
+        return GUIDE_CALIBRATION_SUCCESS;
     else if (str == I18N_NOOP("Guiding"))
         return GUIDE_GUIDING;
     else if (str == I18N_NOOP("Suspended"))
@@ -2386,7 +2412,7 @@ Analyze::SimpleGuideState convertGuideState(Ekos::GuideState state)
             return Analyze::G_IGNORE;
         case GUIDE_CALIBRATING:
         case GUIDE_CALIBRATION_ERROR:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             return Analyze::G_CALIBRATING;
         case GUIDE_SUSPENDED:
         case GUIDE_REACQUIRE:
@@ -2497,6 +2523,20 @@ void Analyze::resetTemperature()
     lastTemperature = -1000;
 }
 
+void Analyze::newTargetDistance(double targetDistance)
+{
+    saveMessage("TargetDistance", QString("%1").arg(QString::number(targetDistance, 'f', 0)));
+    if (runtimeDisplay)
+        processTargetDistance(logTime(), targetDistance);
+}
+
+void Analyze::processTargetDistance(double time, double targetDistance, bool batchMode)
+{
+    addTargetDistance(targetDistance, time);
+    updateMaxX(time);
+    if (!batchMode)
+        replot();
+}
 
 void Analyze::guideStats(double raError, double decError, int raPulse, int decPulse,
                          double snr, double skyBg, int numStars)

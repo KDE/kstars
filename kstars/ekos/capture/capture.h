@@ -530,6 +530,12 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief Slot receiving the update of the current target distance.
+         * @param targetDiff distance to the target in arcseconds.
+         */
+        void updateTargetDistance(double targetDiff);
+
+        /**
              * @brief captureImage Initiates image capture in the active job.
              */
         void captureImage();

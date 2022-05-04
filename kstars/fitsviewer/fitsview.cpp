@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QImageReader>
 #include <QGestureEvent>
+#include <QMutexLocker>
 
 #ifndef _WIN32
 #include <unistd.h>
@@ -208,20 +209,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     m_UpdateFrameTimer.setSingleShot(true);
     connect(&m_UpdateFrameTimer, &QTimer::timeout, this, [this]()
     {
-        if (m_ImageFrame)
-        {
-            if (toggleStretchAction)
-                toggleStretchAction->setChecked(stretchImage);
-
-            // We employ two schemes for managing the image and its overlays, depending on the size of the image
-            // and whether we need to therefore conserve memory. The small-image strategy explicitly scales up
-            // the image, and writes overlays on the scaled pixmap. The large-image strategy uses a pixmap that's
-            // the size of the image itself, never scaling that up.
-            if (isLargeImage())
-                updateFrameLargeImage();
-            else
-                updateFrameSmallImage();
-        }
+        this->updateFrame(true);
     });
 
     connect(&fitsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::loadInFrame);
@@ -242,6 +230,9 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
 FITSView::~FITSView()
 {
+    QMutexLocker locker(&updateMutex);
+    m_UpdateFrameTimer.stop();
+    m_Suspended = true;
     fitsWatcher.waitForFinished();
     wcsWatcher.waitForFinished();
 }
@@ -746,6 +737,8 @@ double FITSView::scaleSize(double size)
 
 void FITSView::updateFrame(bool now)
 {
+    QMutexLocker locker(&updateMutex);
+
     // Do not process if suspended.
     if (m_Suspended)
         return;

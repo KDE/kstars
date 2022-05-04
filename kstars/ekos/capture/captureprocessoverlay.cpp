@@ -66,6 +66,11 @@ void CaptureProcessOverlay::updateFrameData()
     isoValue->setVisible(visible);
     isoValue->setText(QString("ISO %1").arg(currentFrame.iso));
 
+    visible = (currentFrame.targetdrift >= 0);
+    targetDriftLabel->setVisible(visible);
+    targetDriftValue->setVisible(visible);
+    targetDriftValue->setText(QString("%L1\"").arg(currentFrame.targetdrift, 0, 'f', 1));
+
     // determine file creation date
     QFileInfo fileinfo(currentFrame.filename);
     const QDateTime lastmodified = fileinfo.lastModified();
@@ -80,6 +85,16 @@ void CaptureProcessOverlay::updateFrameData()
     // update enabling of the navigation buttons
     historyBackwardButton->setEnabled(m_captureHistory.size() > 0 && m_captureHistory.position() > 0);
     historyForwardButton->setEnabled(m_captureHistory.size() > 0 && m_captureHistory.size() - m_captureHistory.position() > 1);
+}
+
+void CaptureProcessOverlay::updateTargetDistance(double targetDiff)
+{
+    // since the history is read only, we need to delete the last one and add it again.
+    FrameData lastFrame = m_captureHistory.getFrame(m_captureHistory.size()-1);
+    lastFrame.targetdrift = targetDiff;
+    m_captureHistory.deleteFrame(m_captureHistory.size()-1);
+    m_captureHistory.addFrame(lastFrame);
+    updateFrameData();
 }
 
 void CaptureProcessOverlay::displayTargetStatistics()

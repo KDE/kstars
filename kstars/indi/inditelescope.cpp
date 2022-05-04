@@ -50,7 +50,10 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
         if (isConnected())
+        {
+            currentCoords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             emit newCoords(currentCoords, pierSide(), hourAngle());
+        }
     });
 
     qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
@@ -1566,6 +1569,26 @@ const dms Telescope::hourAngle() const
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     return dms(lst.Degrees() - currentCoords.ra().Degrees());
+}
+
+bool Telescope::isReversed(INDI_EQ_AXIS axis)
+{
+    auto reversed = baseDevice->getSwitch("TELESCOPE_REVERSE_MOTION");
+    if (!reversed)
+        return false;
+
+    return reversed->at(axis == AXIS_DE ? 0 : 1)->getState() == ISS_ON;
+}
+
+bool Telescope::setReversedEnabled(INDI_EQ_AXIS axis, bool enabled)
+{
+    auto reversed = baseDevice->getSwitch("TELESCOPE_REVERSE_MOTION");
+    if (!reversed)
+        return false;
+
+    reversed->at(axis == AXIS_DE ? 0 : 1)->setState(enabled ? ISS_ON : ISS_OFF);
+    clientManager->sendNewSwitch(reversed);
+    return true;
 }
 
 }

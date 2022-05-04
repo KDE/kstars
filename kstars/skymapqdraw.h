@@ -39,6 +39,8 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract
     void resizeEvent(QResizeEvent *e) override;
 
     QPixmap *m_SkyPixmap;
+
+    QScopedPointer<SkyQPainter> m_SkyPainter;
 };
 
 #endif

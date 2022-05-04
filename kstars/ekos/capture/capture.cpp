@@ -82,6 +82,14 @@ Capture::Capture()
 
     rotatorSettings.reset(new RotatorSettings(this));
 
+    // hide avg. download time and target drift initially
+    targetDriftLabel->setVisible(false);
+    targetDrift->setVisible(false);
+    targetDriftUnit->setVisible(false);
+    avgDownloadTime->setVisible(false);
+    avgDownloadLabel->setVisible(false);
+    secLabel->setVisible(false);
+
     seqFileCount = 0;
     //seqWatcher		= new KDirWatch();
     seqDelayTimer = new QTimer(this);
@@ -848,8 +856,7 @@ void Capture::stop(CaptureState targetState)
 
     frameRemainingTime->setText("--:--:--");
     jobRemainingTime->setText("--:--:--");
-    frameInfoLabel->setText(i18n("Expose:"));
-    jobLabel->setText(i18n("Sequence"));
+    frameInfoLabel->setText(i18n("Expose (-/-):"));
     m_isFraming = false;
 
     setBusy(false);
@@ -2285,6 +2292,16 @@ void Capture::startFraming()
     }
 }
 
+void Capture::updateTargetDistance(double targetDiff)
+{
+    // ensure that the drift is visible
+    targetDriftLabel->setVisible(true);
+    targetDrift->setVisible(true);
+    targetDriftUnit->setVisible(true);
+    // update the drift value
+    targetDrift->setText(QString("%L1").arg(targetDiff, 0, 'd', 1));
+}
+
 void Capture::captureImage()
 {
     if (activeJob == nullptr)
@@ -2452,11 +2469,14 @@ void Capture::captureImage()
             lastRemainingFrameTimeMS = ms_left;
             sequenceCountDown.setHMS(0, 0, 0);
             sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
-            frameInfoLabel->setText(QString("%1 %2:").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString()));
-            jobLabel->setText(QString("%1 %2 (%L3/%L4)").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                              .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
-                              .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            frameInfoLabel->setText(QString("%1 %2 (%L3/%L4):").arg(CCDFrameTypeNames[activeJob->getFrameType()])
+                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            // ensure that the download time label is visible
+            avgDownloadTime->setVisible(true);
+            avgDownloadLabel->setVisible(true);
+            secLabel->setVisible(true);
+            // show estimated download time
             avgDownloadTime->setText(QString("%L1").arg(getEstimatedDownloadTime(), 0, 'd', 2));
 
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
@@ -4911,6 +4931,14 @@ void Capture::syncGUIToJob(SequenceJob * job)
     else
         rotatorSettings->setRotationEnforced(false);
 
+    // hide target drift if align check frequency is == 0
+    if (Options::alignCheckFrequency() == 0)
+    {
+        targetDriftLabel->setVisible(false);
+        targetDrift->setVisible(false);
+        targetDriftUnit->setVisible(false);
+    }
+
     emit settingsUpdated(getPresetSettings());
 }
 
@@ -5488,7 +5516,7 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_GUIDING:
-        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_SUCCESS:
             autoGuideReady = true;
             break;
 
@@ -7098,7 +7126,7 @@ bool Capture::isGuidingOn()
 
     return (m_GuideState == GUIDE_GUIDING ||
             m_GuideState == GUIDE_CALIBRATING ||
-            m_GuideState == GUIDE_CALIBRATION_SUCESS ||
+            m_GuideState == GUIDE_CALIBRATION_SUCCESS ||
             m_GuideState == GUIDE_DARK ||
             m_GuideState == GUIDE_SUBFRAME ||
             m_GuideState == GUIDE_STAR_SELECT ||

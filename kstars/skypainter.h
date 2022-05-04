@@ -169,18 +169,17 @@ class SkyPainter
 
         /**
          * @brief drawHips Draw HIPS all sky catalog
+         * @param useCache if True, try to re-use last generated image instead of rendering a new image.
          * @return true if it was drawn
          */
-        virtual bool drawHips() = 0;
+        virtual bool drawHips(bool useCache = false) = 0;
 
         /**
          * @brief drawHips Draw the Terrain
+         * @param useCache if True, try to re-use last generated image instead of rendering a new image.
          * @return true if it was drawn
          */
-        virtual bool drawTerrain() = 0;
-
-    protected:
-    SkyMap *m_sm{ nullptr };
+        virtual bool drawTerrain(bool useCache = false) = 0;
 
     private:
     float m_sizeMagLim{ 10.0f };

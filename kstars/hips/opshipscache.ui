@@ -6,91 +6,172 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>181</width>
-    <height>66</height>
+    <width>419</width>
+    <height>105</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="toolTip">
-      <string>Cache space on hard disk used to store HiPS images.</string>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>3</number>
      </property>
-     <property name="text">
-      <string>Disk:</string>
-     </property>
-    </widget>
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="toolTip">
+          <string>Cache space on hard disk used to store HiPS images.</string>
+         </property>
+         <property name="text">
+          <string>Disk:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="kcfg_HIPSNetCache">
+         <property name="toolTip">
+          <string>Cache space on hard disk used to store HiPS images.</string>
+         </property>
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>100000</number>
+         </property>
+         <property name="value">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>MB</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="toolTip">
+          <string>Cache space in RAM used to store HiPS images.</string>
+         </property>
+         <property name="text">
+          <string>Memory:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="kcfg_HIPSMemoryCache">
+         <property name="toolTip">
+          <string>Cache space in RAM used to store HiPS images.</string>
+         </property>
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>4096</number>
+         </property>
+         <property name="value">
+          <number>300</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>MB</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="1">
-    <widget class="QSpinBox" name="kcfg_HIPSNetCache">
-     <property name="toolTip">
-      <string>Cache space on hard disk used to store HiPS images.</string>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>3</number>
      </property>
-     <property name="minimum">
-      <number>10</number>
-     </property>
-     <property name="maximum">
-      <number>100000</number>
-     </property>
-     <property name="value">
-      <number>1000</number>
-     </property>
-    </widget>
+     <item>
+      <widget class="QCheckBox" name="kcfg_HIPSUseOfflineSource">
+       <property name="toolTip">
+        <string>Do not download HiPS from Internet. Use DSS offline storage path to load all data.</string>
+       </property>
+       <property name="text">
+        <string>DSS Offline Source</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="kcfg_HIPSOfflinePath">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="selectDirectoryB">
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="folder-open"/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>28</width>
+         <height>28</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>MB</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4" rowspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="toolTip">
-      <string>Cache space in RAM used to store HiPS images.</string>
-     </property>
-     <property name="text">
-      <string>Memory:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="kcfg_HIPSMemoryCache">
-     <property name="toolTip">
-      <string>Cache space in RAM used to store HiPS images.</string>
-     </property>
-     <property name="minimum">
-      <number>10</number>
-     </property>
-     <property name="maximum">
-      <number>4096</number>
-     </property>
-     <property name="value">
-      <number>300</number>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>MB</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

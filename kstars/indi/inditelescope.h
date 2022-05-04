@@ -107,6 +107,8 @@ class Telescope : public DeviceDecorator
         bool StopNS();
         bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
         bool StopWE();
+        bool isReversed(INDI_EQ_AXIS axis);
+        bool setReversedEnabled(INDI_EQ_AXIS axis, bool enabled);
         bool isSlewing();
         bool isInMotion();
         bool canAbort()
@@ -223,7 +225,7 @@ class Telescope : public DeviceDecorator
          */
         void updateJ2000Coordinates(SkyPoint *coords);
 
-public slots:
+    public slots:
         virtual bool runCommand(int command, void *ptr = nullptr) override;
         bool Abort();
         bool Park();
