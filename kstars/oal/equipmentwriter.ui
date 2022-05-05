@@ -586,7 +586,7 @@
            <item>
             <widget class="QPushButton" name="NewLens">
              <property name="text">
-              <string>Add New</string>
+              <string comment="New Lens">Add New</string>
              </property>
             </widget>
            </item>
