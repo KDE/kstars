@@ -1,0 +1,21 @@
+# kapidox info
+description: KStars is free, open source, cross-platform Astronomy Software.
+logo: logo.png
+
+platforms:
+    - name: Linux
+    - name: Windows
+    - name: macOS
+
+public_lib: true
+public_source_dirs:
+    - kstars
+libraries:
+    - cmake: KStarsLib
+      qmake: KStarsLib
+cmakename: KStarsLib
+
+maintainer:
+    - mutlaqja
+irc: kstars
+mailinglist: kstars-devel
