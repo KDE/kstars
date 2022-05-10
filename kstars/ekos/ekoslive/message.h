@@ -136,6 +136,9 @@ class Message : public QObject
         void setProfileMapping(const QJsonObject &payload);
         void sendStates();
 
+        // Scheduler
+        void sendSchedulerJobs();
+
         // Capture
         void processCaptureCommands(const QString &command, const QJsonObject &payload);
         void setCapturePresetSettings(const QJsonObject &settings);

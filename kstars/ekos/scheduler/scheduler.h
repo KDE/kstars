@@ -401,6 +401,34 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Primary Settings
         void setPrimarySettings(const QJsonObject &settings);
 
+        // Job Startup Conditions
+        void setJobStartupConditions(const QJsonObject &settings);
+
+        // Job Constraints
+        void setJobConstraints(const QJsonObject &settings);
+
+        // Job Completion Conditions
+        void setJobCompletionConditions(const QJsonObject &settings);
+
+        // Observatory Startup Procedure
+        void setObservatoryStartupProcedure(const QJsonObject &settings);
+
+        // Aborted Job Managemgent Settings
+        void setAbortedJobManagementSettings(const QJsonObject &settings);
+
+        // Observatory Shutdown Procedure
+        void setObservatoryShutdownProcedure(const QJsonObject &settings);
+
+        /**
+             * @brief addJob Add a new job from form values
+             */
+        void addJob();
+
+        const QList<SchedulerJob *> &getJobs() const
+        {
+            return jobs;
+        }
+
     private:
         /**
              * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -515,11 +543,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * jobUnderEdit determines whether to add or edit
              */
         void saveJob();
-
-        /**
-             * @brief addJob Add a new job from form values
-             */
-        void addJob();
 
         /**
              * @brief editJob Edit an observation job
@@ -1200,11 +1223,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
 
         friend TestEkosSchedulerOps;
-        // Only for testing
-        QList<SchedulerJob *> &getJobs()
-        {
-            return jobs;
-        }
         QPointer<GreedyScheduler> &getGreedyScheduler()
         {
             return m_GreedyScheduler;

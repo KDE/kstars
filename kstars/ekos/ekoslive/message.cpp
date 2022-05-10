@@ -981,6 +981,39 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     {
         scheduler->setPrimarySettings(payload);
     }
+    else if (command == commands[SCHEDULER_SET_JOB_STARTUP_CONDITIONS])
+    {
+        scheduler->setJobStartupConditions(payload);
+    }
+    else if (command == commands[SCHEDULER_SET_JOB_CONSTRAINTS])
+    {
+        scheduler->setJobConstraints(payload);
+    }
+    else if (command == commands[SCHEDULER_SET_JOB_COMPLETION_SETTINGS])
+    {
+        scheduler->setJobCompletionConditions(payload);
+    }
+    else if (command == commands[SCHEDULER_SET_OBSERVATORY_STARTUP_PROCEDURE])
+    {
+        scheduler->setObservatoryStartupProcedure(payload);
+    }
+    else if (command == commands[SCHEDULER_SET_ABORTED_JOB_MANAGEMENT])
+    {
+        scheduler->setAbortedJobManagementSettings(payload);
+    }
+    else if (command == commands[SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE])
+    {
+        scheduler->setObservatoryShutdownProcedure(payload);
+    }
+    else if (command == commands[SCHEDULER_GET_JOBS])
+    {
+        sendSchedulerJobs();
+    }
+    else if (command == commands[SCHEDULER_ADD_JOBS])
+    {
+        scheduler->addJob();
+    }
+
 }
 
 void Message::processPolarCommands(const QString &command, const QJsonObject &payload)
@@ -1200,6 +1233,20 @@ void Message::sendProfiles()
         {"profiles", profileArray}
     };
     sendResponse(commands[GET_PROFILES], profiles);
+}
+
+void Message::sendSchedulerJobs()
+{
+    QJsonArray jobArray;
+
+    for (const auto &oneJob : m_Manager->schedulerModule()->getJobs())
+        jobArray.append(oneJob->toJson());
+
+    QJsonObject jobs =
+    {
+        {"jobs", jobArray}
+    };
+    sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
 }
 
 void Message::setEkosStatingStatus(Ekos::CommunicationStatus status)

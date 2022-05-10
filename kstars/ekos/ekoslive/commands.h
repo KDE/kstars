@@ -147,6 +147,14 @@ enum COMMANDS
 
     // Scheduler
     SCHEDULER_SET_PRIMARY_SETTINGS,
+    SCHEDULER_SET_JOB_STARTUP_CONDITIONS,
+    SCHEDULER_SET_JOB_CONSTRAINTS,
+    SCHEDULER_SET_JOB_COMPLETION_SETTINGS,
+    SCHEDULER_SET_OBSERVATORY_STARTUP_PROCEDURE,
+    SCHEDULER_SET_ABORTED_JOB_MANAGEMENT,
+    SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE,
+    SCHEDULER_GET_JOBS,
+    SCHEDULER_ADD_JOBS,
 
     // Polar Assistant Helper
     PAH_START,
@@ -329,6 +337,14 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
 
     {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
+    {SCHEDULER_SET_JOB_STARTUP_CONDITIONS, "scheduler_set_job_startup_conditions"},
+    {SCHEDULER_SET_JOB_CONSTRAINTS, "scheduler_set_job_constraints"},
+    {SCHEDULER_SET_JOB_COMPLETION_SETTINGS, "scheduler_set_job_completion_settings"},
+    {SCHEDULER_SET_OBSERVATORY_STARTUP_PROCEDURE, "scheduler_set_observatory_startup_procedure"},
+    {SCHEDULER_SET_ABORTED_JOB_MANAGEMENT, "scheduler_set_aborted_job_management"},
+    {SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE, "scheduler_set_observatory_shutdown_procedure"},
+    {SCHEDULER_GET_JOBS, "scheduler_get_jobs"},
+    {SCHEDULER_ADD_JOBS, "scheduler_add_jobs"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},

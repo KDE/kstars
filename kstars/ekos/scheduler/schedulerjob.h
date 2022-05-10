@@ -12,6 +12,7 @@
 #include <QMap>
 #include "ksmoon.h"
 #include "kstarsdatetime.h"
+#include <QJsonObject>
 
 class ArtificialHorizon;
 class QTableWidgetItem;
@@ -25,6 +26,8 @@ class SchedulerJob
 {
     public:
         SchedulerJob();
+
+        QJsonObject toJson() const;
 
         /** @brief States of a SchedulerJob. */
         typedef enum
