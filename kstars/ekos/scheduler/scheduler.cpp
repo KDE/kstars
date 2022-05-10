@@ -8192,6 +8192,81 @@ void Scheduler::setPrimarySettings(const QJsonObject &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setJobStartupConditions(const QJsonObject &settings)
+{
+    syncControl(settings, "asapCheck", asapConditionR);
+    syncControl(settings, "culminationCheck", culminationConditionR);
+    syncControl(settings, "startupTimeCheck", startupTimeConditionR);
+    syncControl(settings, "culmination", culminationOffset);
+    syncControl(settings, "scheduledStartTime", startupTimeEdit);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setJobConstraints(const QJsonObject &settings)
+{
+    syncControl(settings, "alt", altConstraintCheck);
+    syncControl(settings, "moon", moonSeparationCheck);
+    syncControl(settings, "weather", weatherCheck);
+    syncControl(settings, "scheduledStartTime", startupTimeEdit);
+    syncControl(settings, "twilight", twilightCheck);
+    syncControl(settings, "artifHorizon", artificialHorizonCheck);
+    syncControl(settings, "altValue", minAltitude);
+    syncControl(settings, "moonValue", minMoonSeparation);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setJobCompletionConditions(const QJsonObject &settings)
+{
+    syncControl(settings, "sequenceCheck", sequenceCompletionR);
+    syncControl(settings, "repeatCheck", repeatCompletionR);
+    syncControl(settings, "loopCheck", loopCompletionR);
+    syncControl(settings, "timeCheck", timeCompletionR);
+    syncControl(settings, "repeatRuns", repeatsSpin);
+    syncControl(settings, "scheduledStartTime", completionTimeEdit);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setObservatoryStartupProcedure(const QJsonObject &settings)
+{
+    syncControl(settings, "unparkDome", unparkDomeCheck);
+    syncControl(settings, "unparkMount", unparkMountCheck);
+    syncControl(settings, "uncap", uncapCheck);
+    syncControl(settings, "script", startupScript);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setAbortedJobManagementSettings(const QJsonObject &settings)
+{
+    syncControl(settings, "rescheduleError", errorHandlingRescheduleErrorsCB);
+    syncControl(settings, "rescheduleErrorTime", errorHandlingDelaySB);
+    syncControl(settings, "noneCheck", errorHandlingDontRestartButton);
+    syncControl(settings, "queueCheck", errorHandlingRestartQueueButton);
+    syncControl(settings, "immediateCheck", errorHandlingRestartImmediatelyButton);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setObservatoryShutdownProcedure(const QJsonObject &settings)
+{
+    syncControl(settings, "warmCCD", warmCCDCheck);
+    syncControl(settings, "cap", capCheck);
+    syncControl(settings, "parkMount", parkMountCheck);
+    syncControl(settings, "parkDome", parkDomeCheck);
+    syncControl(settings, "script", shutdownScript);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
 {
     QSpinBox *pSB = nullptr;
@@ -8199,6 +8274,8 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
     QLineEdit *pLE = nullptr;
+    QRadioButton *pRB = nullptr;
+    QDateTimeEdit *pDT = nullptr;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
     {
@@ -8243,6 +8320,25 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
         if (value != pLE->text())
         {
             pLE->setText(value);
+            return true;
+        }
+    }
+    else if ((pRB = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool(pRB->isChecked());
+        if (value != pRB->isChecked())
+        {
+            pRB->setChecked(value);
+            return true;
+        }
+    }
+    else if ((pDT = qobject_cast<QDateTimeEdit *>(widget)))
+    {
+        // TODO Need 64bit integer.
+        const auto value = settings[key].toDouble();
+        if (std::abs(value - pDT->dateTime().currentSecsSinceEpoch()) > 0)
+        {
+            pDT->setDateTime(QDateTime::fromSecsSinceEpoch(value));
             return true;
         }
     }

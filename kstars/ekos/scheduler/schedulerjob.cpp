@@ -1637,3 +1637,30 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
 
     return calculateNextTime(ltStart, false, increment, reason, false, until);
 }
+
+QJsonObject SchedulerJob::toJson() const
+{
+    return
+    {
+        {"name", name},
+        {"rotation", rotation},
+        {"targetRA", targetCoords.ra0().Hours()},
+        {"targetDEC", targetCoords.dec0().Degrees()},
+        {"state", state},
+        {"stage", stage},
+        {"sequenceCount", sequenceCount},
+        {"completedCount", completedCount},
+        {"minAltitude", minAltitude},
+        {"minMoonSeparation", minMoonSeparation},
+        // Warning: Qt JSON does not natively support 64bit integers
+        {"estimatedTime", static_cast<double>(estimatedTime)},
+        {"culminationOffset", culminationOffset},
+        {"priority", priority},
+        // Warning: Qt JSON does not natively support 64bit integers
+        {"leadTime", static_cast<double>(leadTime)},
+        {"repeatsRequired", repeatsRequired},
+        {"repeatsRemaining", repeatsRemaining},
+        {"inSequenceFocus", inSequenceFocus},
+        {"score", score},
+    };
+}
