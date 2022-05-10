@@ -46,6 +46,7 @@ class SequenceJobState: public QObject
     Q_OBJECT
 
     friend class SequenceJob;
+    friend class CaptureDeviceAdaptor;
     // Fixme: too many friends
     friend class Capture;
 
@@ -143,12 +144,11 @@ public:
         // ////////////////////////////////////////////////////////////////////
         // current filter ID
         int currentFilterID { Ekos::INVALID_VALUE };
-        // current temperature
-        double currentTemperature { Ekos::INVALID_VALUE };
-        // current rotation in absolute ticks, NOT angle
-        double currentRotation { Ekos::INVALID_VALUE };
-        // current guiding deviation at start time
-        double currentGuiderDrift { 1e8 };
+        // Map tracking whether the current value has been initialized.
+        // With this construct we could do a lazy initialization of current values if setCurrent...()
+        // sets this flag to true. This is necessary since we listen to the events, but as long as
+        // the value does not change, there won't be an event.
+        QMap<PrepareActions, bool> isInitialized;
 
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
@@ -157,38 +157,12 @@ public:
         bool telescopeCovered { false };
         // flag if there is a light box device
         bool hasLightBox { false };
-        // light box light status
-        LightStatus lightBoxLightStatus { CAP_LIGHT_UNKNOWN };
         // flag if there is a dust cap device
         bool hasDustCap { false };
-        // dust cap flat light status
-        LightStatus dustCapLightStatus { CAP_LIGHT_UNKNOWN };
-        // dust cap status
-        CapState dustCapStatus { CAP_UNKNOWN };
-        // wall coordinates for capturing flats with the wall as light source
-        SkyPoint wallCoord;
         // flag if there is a telescope device
         bool hasTelescope { false };
-        // telescope status
-        ISD::Telescope::Status scopeStatus { ISD::Telescope::MOUNT_IDLE };
-        ISD::ParkStatus scopeParkStatus { ISD::PARK_UNKNOWN };
-        // telescope status for flats using the wall position
-        ScopeWallPositionStatus wpScopeStatus { WP_NONE };
-        // flag if the mount should be parking before capturing
-        bool preMountPark;
         // flag if there is a dome device
         bool hasDome { false };
-        // dome status
-        ISD::Dome::Status domeStatus { ISD::Dome::DOME_IDLE };
-        // flag if the dome should be parking before capturing
-        bool preDomePark;
-        // flag if auto focus has been completed for the selected filter
-        bool autoFocusReady;
-        // status of the focuser synchronisation
-        FlatSyncStatus flatSyncStatus { FS_NONE };
-        // light source for flat capturing
-        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
-
 
         // ////////////////////////////////////////////////////////////////////
         // dark preparation attributes
@@ -207,9 +181,10 @@ public:
     /**
      * @brief Trigger all peparation actions before a capture may be started.
      * @param enforceCCDTemp flag if the CCD temperature should be set to the target value.
+     * @param enforceInitialGuidingDrift flag if the initial guiding drift must be below the target value.
      * @param isPreview flag if the captures are in the preview mode
      */
-    void prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview);
+    void prepareLightFrameCapture(bool enforceCCDTemp, bool enforceInitialGuidingDrift, bool isPreview);
 
     /**
      * @brief Initiate tasks required so that capturing of flats may start.
@@ -267,11 +242,6 @@ public slots:
      */
     void setTargetCCDTemperature(double value) { targetTemperature = value; }
     /**
-     * @brief React whether guiding is (de-) activated.
-     *        If guiding is deactivated, its initialisation status is set to false - {@see isInitialized}.
-     */
-    void setGuiderActive(bool active);
-    /**
      * @brief Update the current guiding deviation.
      */
     void setCurrentGuiderDrift(double value);
@@ -281,13 +251,13 @@ public slots:
     void setTargetStartGuiderDrift(double value) { targetStartGuiderDrift = value; }
 
     /**
-     * @brief Update the current rotator position
+     * @brief Update the current rotator position (calculated from the rotator angle)
      */
-    void setCurrentRotatorAngle(double value, IPState state);
+    void setCurrentRotatorPositionAngle(double currentRotation, IPState state);
     /**
      * @brief Set the target rotation angle
      */
-    void setTargetRotatorAngle(double value) { targetRotation = value; }
+    void setTargetRotatorAngle(double value) { targetPositionAngle = value; }
 
     /**
      * @brief Cover for the scope with a flats light source done
@@ -369,11 +339,6 @@ signals:
 private:
     // current status of the capture sequence job
     JOBStatus m_status { JOB_IDLE };
-    // Map tracking whether the current value has been initialized.
-    // With this construct we could do a lazy initialization of current values if setCurrent...()
-    // sets this flag to true. This is necessary since we listen to the events, but as long as
-    // the value (e.g. the CCD temperature) does not change, there won't be an event.
-    QMap<PrepareActions, bool> isInitialized;
 
     // Is the capture preparation ready?
     PreparationState m_PreparationState { PREP_NONE };
@@ -384,6 +349,10 @@ private:
 
     // Mapping PrepareActions --> bool marks whether a certain action is completed (=true) or not (=false)
     QMap<PrepareActions, bool> prepareActions;
+    // This is a workaround for a specific INDI behaviour. If a INDI property is set, it sends this value
+    // back to the clients. If the value does not immediately change to the target value (like e.g. the CCD
+    // temperature), the first value after setting a property must be ignored.
+    QMap<PrepareActions, bool> ignoreNextValue;
 
     // capture frame type (light, flat, dark, bias)
     CCDFrameType m_frameType { FRAME_NONE };
@@ -391,10 +360,37 @@ private:
     bool m_isPreview { false };
     // should a certain temperature should be enforced?
     bool m_enforceTemperature { false };
-    // Ensure that guiding deviation is below a configured threshold
-    bool m_enforceStartGuiderDrift { false };
-    // is guiding active?
-    bool m_isGuiderActive { false };
+    // should the a certain maximal initial guiding drift should be enforced?
+    bool m_enforceInitialGuiding { false };
+
+    // ////////////////////////////////////////////////////////////////////
+    // flat preparation attributes
+    // ////////////////////////////////////////////////////////////////////
+    // light box light status
+    LightStatus lightBoxLightStatus { CAP_LIGHT_UNKNOWN };
+    // dust cap flat light status
+    LightStatus dustCapLightStatus { CAP_LIGHT_UNKNOWN };
+    // dust cap status
+    CapState dustCapStatus { CAP_UNKNOWN };
+    // telescope status
+    ISD::Telescope::Status scopeStatus { ISD::Telescope::MOUNT_IDLE };
+    ISD::ParkStatus scopeParkStatus { ISD::PARK_UNKNOWN };
+    // status of the focuser synchronisation
+    FlatSyncStatus flatSyncStatus { FS_NONE };
+    // light source for flat capturing
+    FlatFieldSource flatFieldSource { SOURCE_MANUAL };
+    // wall coordinates for capturing flats with the wall as light source
+    SkyPoint wallCoord;
+    // telescope status for flats using the wall position
+    ScopeWallPositionStatus wpScopeStatus { WP_NONE };
+    // flag if the mount should be parking before capturing
+    bool preMountPark;
+    // dome status
+    ISD::Dome::Status domeStatus { ISD::Dome::DOME_IDLE };
+    // flag if the dome should be parking before capturing
+    bool preDomePark;
+    // flag if auto focus has been completed for the selected filter
+    bool autoFocusReady;
 
     // ////////////////////////////////////////////////////////////////////
     // capture preparation state
@@ -416,12 +412,9 @@ private:
     void setAllActionsReady();
 
     /**
-     * @brief Is guiding good enough for start capturing?
-     * This is the case if either the guider is not active, the frame type is
-     * not a light frame, start guide limit is not active or the guiding deviation
-     * is below the configured threshold.
+     * @brief Prepare CCD temperature checks
      */
-    bool checkGuiderDriftForStarting();
+    void prepareTemperatureCheck(bool enforceCCDTemp);
 
     /**
      * @brief Before capturing light frames check, if the scope cover is open.
@@ -429,6 +422,15 @@ private:
      *         process should be aborted.
      */
     IPState checkLightFrameScopeCoverOpen();
+
+    /**
+     * @brief Check if a certain action has already been initialized
+     */
+    bool isInitialized(PrepareActions action);
+    /**
+     * @brief Set a certain action as initialized
+     */
+    void setInitialized(PrepareActions action, bool init);
 
     // ////////////////////////////////////////////////////////////////////
     // flats preparation state
@@ -522,14 +524,14 @@ private:
     // target temperature
     double targetTemperature { Ekos::INVALID_VALUE };
     // target rotation in absolute ticks, NOT angle
-    double targetRotation { Ekos::INVALID_VALUE };
+    double targetPositionAngle { Ekos::INVALID_VALUE };
     // target guiding deviation at start time
     double targetStartGuiderDrift { 0.0 };
     // calibration state
     CalibrationStage calibrationStage { CAL_NONE };
     // query state for (un)covering the scope
     CalibrationCheckType coverQueryState { CAL_CHECK_TASK };
-
+    void prepareRotatorCheck();
 };
 
 }; // namespace

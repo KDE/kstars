@@ -27,12 +27,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
         angleSpin->setValue(angle);
     });
 
-    connect(setAngleB, SIGNAL(clicked()), this, SLOT(gotoAngle()));
-
     PAMulSpin->setValue(Options::pAMultiplier());
     PAOffsetSpin->setValue(Options::pAOffset());
-
-    connect(setPAB, SIGNAL(clicked()), this, SLOT(setPA()));
 
     syncFOVPA->setChecked(Options::syncFOVPA());
     connect(syncFOVPA, &QCheckBox::toggled, [this](bool toggled)
@@ -56,26 +52,6 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     });
 }
 
-void RotatorSettings::setRotator(ISD::GDInterface *rotator)
-{
-    currentRotator = rotator;
-
-    connect(currentRotator, &ISD::GDInterface::propertyDefined, [&](INDI::Property * prop)
-    {
-        if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
-        {
-            auto absAngle = prop->getNumber();
-            setCurrentAngle(absAngle->at(0)->getValue());
-        }
-    });
-}
-
-
-void RotatorSettings::gotoAngle()
-{
-    double angle = angleSpin->value();
-    currentRotator->runCommand(INDI_SET_ROTATOR_ANGLE, &angle);
-}
 
 void RotatorSettings::setCurrentAngle(double angle)
 {
@@ -133,19 +109,4 @@ void RotatorSettings::syncPA(double PA)
             }
         }
     }
-}
-
-void RotatorSettings::setPA()
-{
-    // PA = RawAngle * Multiplier + Offset
-    double rawAngle = (PASpin->value() - PAOffsetSpin->value()) / PAMulSpin->value();
-    // Get raw angle (0 to 360) from PA (-180 to +180)
-    if (rawAngle < 0)
-        rawAngle += 360;
-    else if (rawAngle > 360)
-        rawAngle -= 360;
-
-    //angleEdit->setText(QString::number(rawAngle, 'f', 3));
-    angleSpin->setValue(rawAngle);
-    gotoAngle();
 }

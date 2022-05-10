@@ -7,7 +7,7 @@
 /* Project Includes */
 #include "test_placeholderpath.h"
 #include "ekos/capture/sequencejob.h"
-#include "ekos/capture/capturecommandprocessor.h"
+#include "ekos/capture/capturedeviceadaptor.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/capture/placeholderpath.h"
 
@@ -450,8 +450,8 @@ void TestPlaceholderPath::testSequenceJobSignature()
     QFETCH(QString, fullPrefix);
     QFETCH(QString, signature);
 
-    QSharedPointer<Ekos::CaptureCommandProcessor> cp;
-    cp.reset(new Ekos::CaptureCommandProcessor());
+    QSharedPointer<Ekos::CaptureDeviceAdaptor> cp;
+    cp.reset(new Ekos::CaptureDeviceAdaptor());
     QSharedPointer<Ekos::SequenceJobState::CaptureState> captureState;
     captureState.reset(new Ekos::SequenceJobState::CaptureState());
     auto job = new Ekos::SequenceJob(cp, captureState);

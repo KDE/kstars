@@ -262,7 +262,6 @@ void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
     // set start guide deviation guard to < 2" but disable the other one
     KTRY_SET_CHECKBOX(capture, startGuiderDriftS, true);
     KTRY_SET_DOUBLESPINBOX(capture, startGuiderDriftN, deviation_limit);
-    KTRY_SET_CHECKBOX(capture, limitGuideDeviationS, false);
 
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
@@ -273,7 +272,7 @@ void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
     m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
 
     // start guiding
-    m_CaptureHelper->startGuiding(1.0);
+    m_CaptureHelper->startGuiding(2.0);
 
     // wait 5 seconds
     QTest::qWait(5000);
@@ -299,6 +298,119 @@ void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
     QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getGuideDeviation() < deviation_limit, 60000);
     // wait until capturing starts
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 30000);
+}
+
+void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
+{
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // initial and target temperature
+    QFETCH(double, initTemp);
+    QFETCH(double, targetTemp);
+
+    // initialize the CCD temperature and wait until it is reached
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(), 60000);
+
+    // set target temperature
+    KTRY_SET_DOUBLESPINBOX(capture, cameraTemperatureN, targetTemp);
+    KTRY_SET_CHECKBOX(capture, cameraTemperatureS, true);
+
+    // build a simple 1xL sequence
+    KTRY_CAPTURE_ADD_LIGHT(10.0, 5, 5.0, "Luminance", getImageLocation()->path() + "/test");
+    // expect capturing state
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+
+    // start capturing
+    KTRY_CLICK(capture, startB);
+    // check if capturing has started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+    // check if the temperature is at the expected level
+    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+
+    // stop capturing
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(capture, startB);
+    // check if capturing has stopped
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+
+    // restart again to check whether an already reached temperature is handled properly
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    // check if capturing has started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
+    // check if the temperature is at the expected level
+    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+
+    // stop capturing
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
+    KTRY_CLICK(capture, startB);
+    // check if capturing has stopped
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+
+    // change temperature back to initial value
+    SET_INDI_VALUE_DOUBLE(m_CaptureHelper->m_CCDDevice, "CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", initTemp);
+    QTRY_VERIFY_WITH_TIMEOUT(std::abs(capture->temperatureOUT->text().toDouble()) <= Options::maxTemperatureDiff(), 60000);
+
+    // start capturing for a second time
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+    KTRY_CLICK(capture, startB);
+    // check if capturing has started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+    // check if the temperature is at the expected level
+    QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+
+}
+
+void TestEkosCaptureWorkflow::testCaptureWaitingForRotator()
+{
+    // use the rotator simulator
+    m_CaptureHelper->m_RotatorDevice = "Rotator Simulator";
+
+    // default initialization
+    QVERIFY(prepareTestCase());
+
+    // switch to capture module
+    Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
+
+    // open the rotator dialog
+    KTRY_CLICK(capture, rotatorB);
+
+    QWidget *rotatorDialog = nullptr;
+    QTRY_VERIFY_WITH_TIMEOUT(rotatorDialog = Ekos::Manager::Instance()->findChild<QWidget *>("RotatorDialog"), 2000);
+
+    // target angle rotation
+    double targetAngle = 90.0;
+    // enforce rotation
+    KTRY_SET_CHECKBOX(rotatorDialog, enforceRotationCheck, true);
+    // set the target rotation angle
+    KTRY_SET_DOUBLESPINBOX(rotatorDialog, targetPASpin, targetAngle);
+    // Close with OK
+    KTRY_GADGET(capture, QDialogButtonBox, buttonBox);
+    QTest::mouseClick(buttonBox->button(QDialogButtonBox::Ok), Qt::LeftButton);
+
+    // build a simple 1xL sequence
+    KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Luminance", getImageLocation()->path() + "/test");
+    // expect capturing state
+    m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
+
+   // start capturing
+    KTRY_CLICK(capture, startB);
+    // check if capturing has started
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
+
+    KTRY_GADGET(capture, QLineEdit, PAOut);
+    QTRY_VERIFY2(fabs(PAOut->text().toDouble() - targetAngle) * 60 <= Options::astrometryRotatorThreshold(),
+                 QString("Rotator angle %1° not at the expected value of %2°").arg(PAOut->text()).arg(targetAngle).toLocal8Bit());
 }
 
 void TestEkosCaptureWorkflow::testFlatManualSource()
@@ -733,6 +845,9 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     QWidget *darkLibraryDialog = nullptr;
     QTRY_VERIFY_WITH_TIMEOUT(darkLibraryDialog = Ekos::Manager::Instance()->findChild<QWidget *>("DarkLibrary"), 2000);
 
+    // select the CCD camera
+    KTRY_SET_COMBO(darkLibraryDialog, cameraS, m_CaptureHelper->m_CCDDevice);
+
     // set dark library values to 3x1s darks
     KTRY_SET_DOUBLESPINBOX(darkLibraryDialog, maxExposureSpin, 1);
     KTRY_SET_SPINBOX(darkLibraryDialog, countSpin, 3);
@@ -818,6 +933,15 @@ void TestEkosCaptureWorkflow::testDarkManualCovering_data()
     QTest::newRow("modal=false") << SHUTTER_NO << false << true;
 }
 
+void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature_data()
+{
+    QTest::addColumn<double>("initTemp");             /*!< Initial temperature value */
+    QTest::addColumn<double>("targetTemp");           /*!< Target temperature value  */
+
+    QTest::newRow("init=0 target=-5") << 0.0 << -5.0;
+    QTest::newRow("init=0 target=0")  << 0.0 <<  0.0;
+}
+
 
 /* *********************************************************************************
  *
@@ -901,6 +1025,10 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_MountDevice);
     // select primary scope (higher focal length seems better for the guiding simulator)
     KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::CCD::TELESCOPE_PRIMARY);
+    // disable guiding restrictions by default
+    KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), startGuiderDriftS, false);
+    KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), limitGuideDeviationS, false);
+
 
     // ensure that the scope is unparked
     Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
@@ -936,12 +1064,16 @@ void TestEkosCaptureWorkflow::init() {
 }
 
 void TestEkosCaptureWorkflow::cleanup() {
-    Ekos::Manager::Instance()->focusModule()->abort();
+    if (Ekos::Manager::Instance()->focusModule() != nullptr)
+        Ekos::Manager::Instance()->focusModule()->abort();
 
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
-    capture->abort();
-    capture->clearSequenceQueue();
-    KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
+    if (capture != nullptr)
+    {
+        capture->abort();
+        capture->clearSequenceQueue();
+        KTRY_SET_CHECKBOX(capture, limitRefocusS, false);
+    }
 
     m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());

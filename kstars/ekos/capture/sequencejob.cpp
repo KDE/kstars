@@ -48,19 +48,15 @@ SequenceJob::SequenceJob()
     m_CoreProperties[SJ_Encoding] = "FITS";
 }
 
-SequenceJob::SequenceJob(const QSharedPointer<CaptureCommandProcessor> cp,
+SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
                          const QSharedPointer<SequenceJobState::CaptureState> sharedState) : SequenceJob()
 {
-    commandProcessor = cp;
+    captureDeviceAdaptor = cp;
     // initialize the state machine
     stateMachine = new SequenceJobState(sharedState);
 
     // signal forwarding between this and the state machine
-    connect(this, &SequenceJob::updateCCDTemperature, stateMachine, &SequenceJobState::setCurrentCCDTemperature);
-    connect(this, &SequenceJob::updateRotatorAngle, stateMachine, &SequenceJobState::setCurrentRotatorAngle);
-    connect(this, &SequenceJob::setGuiderActive, stateMachine, &SequenceJobState::setGuiderActive);
     connect(this, &SequenceJob::updateGuiderDrift, stateMachine, &SequenceJobState::setCurrentGuiderDrift);
-    connect(stateMachine, &SequenceJobState::readCurrentState, this, &SequenceJob::readCurrentState);
     connect(stateMachine, &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
     connect(stateMachine, &SequenceJobState::prepareComplete, this, &SequenceJob::processPrepareComplete);
     connect(stateMachine, &SequenceJobState::abortCapture, this, &SequenceJob::processAbortCapture);
@@ -270,9 +266,9 @@ void SequenceJob::resetStatus(JOBStatus status)
 void SequenceJob::abort()
 {
     setStatus(JOB_ABORTED);
-    if (commandProcessor.data()->activeChip->canAbort())
-        commandProcessor.data()->activeChip->abortExposure();
-    commandProcessor.data()->activeChip->setBatchMode(false);
+    if (captureDeviceAdaptor.data()->getActiveChip()->canAbort())
+        captureDeviceAdaptor.data()->getActiveChip()->abortExposure();
+    captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(false);
 }
 
 void SequenceJob::done()
@@ -371,78 +367,56 @@ void SequenceJob::setScript(ScriptTypes type, const QString &value)
     m_Scripts[type] = value;
 }
 
-void SequenceJob::connectCommandProcessor()
+void SequenceJob::connectDeviceAdaptor()
 {
-    connect(stateMachine, &SequenceJobState::setRotatorAngle, commandProcessor.data(),
-            &CaptureCommandProcessor::setRotatorAngle);
-    connect(stateMachine, &SequenceJobState::setCCDTemperature, commandProcessor.data(),
-            &CaptureCommandProcessor::setCCDTemperature);
-    connect(stateMachine, &SequenceJobState::setCCDBatchMode, commandProcessor.data(),
-            &CaptureCommandProcessor::enableCCDBatchMode);
-    connect(stateMachine, &SequenceJobState::askManualScopeLightCover, commandProcessor.data(),
-            &CaptureCommandProcessor::askManualScopeLightCover);
-    connect(stateMachine, &SequenceJobState::askManualScopeLightOpen, commandProcessor.data(),
-            &CaptureCommandProcessor::askManualScopeLightOpen);
-    connect(stateMachine, &SequenceJobState::setLightBoxLight, commandProcessor.data(),
-            &CaptureCommandProcessor::setLightBoxLight);
-    connect(stateMachine, &SequenceJobState::setDustCapLight, commandProcessor.data(),
-            &CaptureCommandProcessor::setDustCapLight);
-    connect(stateMachine, &SequenceJobState::parkDustCap, commandProcessor.data(), &CaptureCommandProcessor::parkDustCap);
-    connect(stateMachine, &SequenceJobState::slewTelescope, commandProcessor.data(), &CaptureCommandProcessor::slewTelescope);
-    connect(stateMachine, &SequenceJobState::setScopeTracking, commandProcessor.data(),
-            &CaptureCommandProcessor::setScopeTracking);
-    connect(stateMachine, &SequenceJobState::setScopeParked, commandProcessor.data(), &CaptureCommandProcessor::setScopeParked);
-    connect(stateMachine, &SequenceJobState::setDomeParked, commandProcessor.data(), &CaptureCommandProcessor::setDomeParked);
-    connect(stateMachine, &SequenceJobState::flatSyncFocus, commandProcessor.data(), &CaptureCommandProcessor::flatSyncFocus);
-    connect(stateMachine, &SequenceJobState::queryHasShutter, commandProcessor.data(),
-            &CaptureCommandProcessor::queryHasShutter);
-    // connect command processor with state machine
-    connect(commandProcessor.data(), &CaptureCommandProcessor::manualScopeLightCover, stateMachine,
-            &SequenceJobState::manualScopeLightCover);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::lightBoxLight, stateMachine, &SequenceJobState::lightBoxLight);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::dustCapLight, stateMachine, &SequenceJobState::dustCapLight);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::dustCapStatusChanged, stateMachine,
-            &SequenceJobState::dustCapStatusChanged);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::scopeStatusChanged, stateMachine,
-            &SequenceJobState::scopeStatusChanged);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::scopeParkStatusChanged, stateMachine,
-            &SequenceJobState::scopeParkStatusChanged);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::domeStatusChanged, stateMachine,
-            &SequenceJobState::domeStatusChanged);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::flatSyncFocusChanged, stateMachine,
-            &SequenceJobState::flatSyncFocusChanged);
-    connect(commandProcessor.data(), &CaptureCommandProcessor::hasShutter, stateMachine, &SequenceJobState::hasShutter);
+    captureDeviceAdaptor->setCurrentSequenceJobState(stateMachine);
+    captureDeviceAdaptor->connectRotator();
+    captureDeviceAdaptor->connectActiveCCD();
+    captureDeviceAdaptor->connectTelescope();
+    captureDeviceAdaptor->connectDome();
+    captureDeviceAdaptor->connectDustCap();
+    // connect state machine with device adaptor
+    connect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::readCurrentState);
+    connect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
+    // connect device adaptor with state machine
+    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine, &SequenceJobState::flatSyncFocusChanged);
 }
 
-void SequenceJob::disconnectCommandProcessor()
+void SequenceJob::disconnectDeviceAdaptor()
 {
-    disconnect(stateMachine, nullptr, commandProcessor.data(), nullptr);
-    disconnect(commandProcessor.data(), nullptr, stateMachine, nullptr);
+    captureDeviceAdaptor->disconnectRotator();
+    captureDeviceAdaptor->disconnectActiveCCD();
+    captureDeviceAdaptor->disconnectTelescope();
+    captureDeviceAdaptor->disconnectDome();
+    captureDeviceAdaptor->disconnectDustCap();
+    disconnect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::readCurrentState);
+    disconnect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
+    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine, &SequenceJobState::flatSyncFocusChanged);
 }
 
 CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 {
-    commandProcessor.data()->activeChip->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
-    commandProcessor.data()->activeCCD->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
-    commandProcessor.data()->activeCCD->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
+    captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
+    captureDeviceAdaptor.data()->getActiveCCD()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
+    captureDeviceAdaptor.data()->getActiveCCD()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
 
     auto placeholderPath = Ekos::PlaceholderPath(getCoreProperty(SJ_LocalDirectory).toString() + "/sequence.esq");
     placeholderPath.setGenerateFilenameSettings(*this);
-    commandProcessor.data()->activeCCD->setPlaceholderPath(placeholderPath);
+    captureDeviceAdaptor.data()->getActiveCCD()->setPlaceholderPath(placeholderPath);
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
-        if (commandProcessor.data()->activeCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
-            commandProcessor.data()->activeCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        if (captureDeviceAdaptor.data()->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            captureDeviceAdaptor.data()->getActiveCCD()->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
     else
-        commandProcessor.data()->activeCCD->setUploadMode(m_UploadMode);
+        captureDeviceAdaptor.data()->getActiveCCD()->setUploadMode(m_UploadMode);
 
     QMapIterator<QString, QMap<QString, QVariant>> i(m_CustomProperties);
     while (i.hasNext())
     {
         i.next();
-        INDI::Property *customProp = commandProcessor.data()->activeCCD->getProperty(i.key());
+        INDI::Property *customProp = captureDeviceAdaptor.data()->getActiveCCD()->getProperty(i.key());
         if (customProp)
         {
             QMap<QString, QVariant> elements = i.value();
@@ -460,7 +434,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneSwitch)
                             oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
                     }
-                    commandProcessor.data()->activeCCD->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
+                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
                 }
                 break;
                 case INDI_TEXT:
@@ -473,7 +447,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneText)
                             oneText->setText(j.value().toString().toLatin1().constData());
                     }
-                    commandProcessor.data()->activeCCD->getDriverInfo()->getClientManager()->sendNewText(tp);
+                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewText(tp);
                 }
                 break;
                 case INDI_NUMBER:
@@ -486,7 +460,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneNumber)
                             oneNumber->setValue(j.value().toDouble());
                     }
-                    commandProcessor.data()->activeCCD->getDriverInfo()->getClientManager()->sendNewNumber(np);
+                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewNumber(np);
                 }
                 break;
                 default:
@@ -496,29 +470,29 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     }
 
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
-    if (commandProcessor.data()->activeChip->isBatchMode() && remoteDirectory.isEmpty() == false)
-        commandProcessor.data()->activeCCD->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
+    if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
+        captureDeviceAdaptor.data()->getActiveCCD()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
     {
-        if (ISOIndex != commandProcessor.data()->activeChip->getISOIndex())
-            commandProcessor.data()->activeChip->setISOIndex(ISOIndex);
+        if (ISOIndex != captureDeviceAdaptor.data()->getActiveChip()->getISOIndex())
+            captureDeviceAdaptor.data()->getActiveChip()->setISOIndex(ISOIndex);
     }
 
     const auto gain = getCoreProperty(SJ_Gain).toDouble();
     if (gain != -1)
     {
-        commandProcessor.data()->activeCCD->setGain(gain);
+        captureDeviceAdaptor.data()->getActiveCCD()->setGain(gain);
     }
 
     const auto offset = getCoreProperty(SJ_Offset).toDouble();
     if (offset != -1)
     {
-        commandProcessor.data()->activeCCD->setOffset(offset);
+        captureDeviceAdaptor.data()->getActiveCCD()->setOffset(offset);
     }
 
-    if (stateMachine->targetFilterID != -1 && commandProcessor.data()->activeFilterWheel != nullptr)
+    if (stateMachine->targetFilterID != -1 && captureDeviceAdaptor.data()->getFilterWheel() != nullptr)
     {
         if (stateMachine->targetFilterID != stateMachine->m_CaptureState->currentFilterID)
         {
@@ -534,24 +508,18 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
         }
     }
 
-    if (!stateMachine->checkGuiderDriftForStarting())
-    {
-        emit prepareState(CAPTURE_GUIDER_DRIFT);
-        return CAPTURE_GUIDER_DRIFT_WAIT;
-    }
-
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (commandProcessor.data()->activeCCD->getEncodingFormat() == QLatin1String("FITS"))
+    if (captureDeviceAdaptor.data()->getActiveCCD()->getEncodingFormat() == QLatin1String("FITS"))
     {
         int currentBinX = 1, currentBinY = 1;
-        commandProcessor.data()->activeChip->getBinning(&currentBinX, &currentBinY);
+        captureDeviceAdaptor.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
 
         const auto binning = getCoreProperty(SJ_Binning).toPoint();
         // N.B. Always set binning _before_ setting frame because if the subframed image
         // is problematic in 1x1 but works fine for 2x2, then it would fail it was set first
         // So setting binning first always ensures this will work.
-        if (commandProcessor.data()->activeChip->canBin()
-                && commandProcessor.data()->activeChip->setBinning(binning.x(), binning.y()) == false)
+        if (captureDeviceAdaptor.data()->getActiveChip()->canBin()
+                && captureDeviceAdaptor.data()->getActiveChip()->setBinning(binning.x(), binning.y()) == false)
         {
             setStatus(JOB_ERROR);
             return CAPTURE_BIN_ERROR;
@@ -559,8 +527,8 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 
         const auto roi = getCoreProperty(SJ_ROI).toRect();
 
-        if ((roi.width() > 0 && roi.height() > 0) && commandProcessor.data()->activeChip->canSubframe()
-                && commandProcessor.data()->activeChip->setFrame(roi.x(),
+        if ((roi.width() > 0 && roi.height() > 0) && captureDeviceAdaptor.data()->getActiveChip()->canSubframe()
+                && captureDeviceAdaptor.data()->getActiveChip()->setFrame(roi.x(),
                         roi.y(),
                         roi.width(),
                         roi.height(),
@@ -571,23 +539,23 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
         }
     }
 
-    commandProcessor.data()->activeCCD->setCaptureFormat(getCoreProperty(SJ_Format).toString());
-    commandProcessor.data()->activeCCD->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
-    commandProcessor.data()->activeChip->setFrameType(getFrameType());
+    captureDeviceAdaptor.data()->getActiveCCD()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
+    captureDeviceAdaptor.data()->getActiveCCD()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
+    captureDeviceAdaptor.data()->getActiveChip()->setFrameType(getFrameType());
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
     // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
     // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
     // But in case of automatically calculated flat frames, we need FITSData.
     // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
-    commandProcessor.data()->activeChip->setCaptureMode(mode);
-    commandProcessor.data()->activeChip->setCaptureFilter(FITS_NONE);
+    captureDeviceAdaptor.data()->getActiveChip()->setCaptureMode(mode);
+    captureDeviceAdaptor.data()->getActiveChip()->setCaptureFilter(FITS_NONE);
 
     setStatus(getStatus());
 
     const auto exposure = getCoreProperty(SJ_Exposure).toDouble();
     m_ExposeLeft = exposure;
-    commandProcessor.data()->activeChip->capture(exposure);
+    captureDeviceAdaptor.data()->getActiveChip()->capture(exposure);
 
     return CAPTURE_OK;
 }
@@ -644,22 +612,22 @@ ISD::CCD::UploadMode SequenceJob::getUploadMode() const
 // Setter: Set flat field source
 void SequenceJob::setFlatFieldSource(FlatFieldSource value)
 {
-    stateMachine->m_CaptureState->flatFieldSource = value;
+    stateMachine->flatFieldSource = value;
 }
 // Getter: Get flat field source
 FlatFieldSource SequenceJob::getFlatFieldSource() const
 {
-    return stateMachine->m_CaptureState->flatFieldSource;
+    return stateMachine->flatFieldSource;
 }
 
 void SequenceJob::setWallCoord(const SkyPoint &value)
 {
-    stateMachine->m_CaptureState->wallCoord = value;
+    stateMachine->wallCoord = value;
 }
 
 const SkyPoint &SequenceJob::getWallCoord() const
 {
-    return stateMachine->m_CaptureState->wallCoord;
+    return stateMachine->wallCoord;
 }
 
 // Setter: Set flat field duration
@@ -686,36 +654,27 @@ bool SequenceJob::getJobProgressIgnored() const
 
 void SequenceJob::setLightBox(ISD::LightBox *lightBox)
 {
-    // forward it to the command processor
-    commandProcessor.data()->setLightBox(lightBox);
     stateMachine->m_CaptureState->hasLightBox = (lightBox != nullptr);
 }
 
 void SequenceJob::setDustCap(ISD::DustCap *dustCap)
 {
-    // forward it to the command processor
-    commandProcessor.data()->setDustCap(dustCap);
     stateMachine->m_CaptureState->hasDustCap = (dustCap != nullptr);
 }
 
 void SequenceJob::setTelescope(ISD::Telescope *scope)
 {
-    // forward it to the command processor
-    commandProcessor.data()->setTelescope(scope);
     stateMachine->m_CaptureState->hasTelescope = (scope != nullptr);
 }
 
 void SequenceJob::setDome(ISD::Dome *dome)
 {
-    // forward it to the command processor
-    commandProcessor.data()->setDome(dome);
     stateMachine->m_CaptureState->hasDome = (dome != nullptr);
 }
 
 void SequenceJob::setFilterManager(const QSharedPointer<FilterManager> &manager)
 {
     m_FilterManager = manager;
-    commandProcessor.data()->setFilterManager(manager);
 }
 
 void SequenceJob::setFrameType(CCDFrameType value)
@@ -744,12 +703,13 @@ QString SequenceJob::getSignature()
 void SequenceJob::prepareCapture()
 {
     // create the event connections
-    connectCommandProcessor();
+    connectDeviceAdaptor();
     // simply forward it to the state machine
     switch (getFrameType())
     {
         case FRAME_LIGHT:
             stateMachine->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
+                                                   getCoreProperty(SJ_EnforceStartGuiderDrift).toBool() && getCoreProperty(SJ_GuiderActive).toBool() ,
                                                    getCoreProperty(SJ_Preview).toBool());
             break;
         case FRAME_FLAT:
@@ -773,13 +733,13 @@ void SequenceJob::prepareCapture()
 
 void SequenceJob::processPrepareComplete()
 {
-    disconnectCommandProcessor();
+    disconnectDeviceAdaptor();
     emit prepareComplete();
 }
 
 void SequenceJob::processAbortCapture()
 {
-    disconnectCommandProcessor();
+    disconnectDeviceAdaptor();
     emit abortCapture();
 }
 

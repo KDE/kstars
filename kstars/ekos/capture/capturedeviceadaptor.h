@@ -17,40 +17,100 @@
 #include "indi/inditelescope.h"
 #include "ekos/auxiliary/filtermanager.h"
 
+#include "sequencejobstate.h"
+
 namespace Ekos
 {
-class CaptureCommandProcessor: public QObject
+class CaptureDeviceAdaptor: public QObject
 {
     Q_OBJECT
 
 public:
-    CaptureCommandProcessor();
+    CaptureDeviceAdaptor();
+
+    //////////////////////////////////////////////////////////////////////
+    // current sequence job's state machine
+    //////////////////////////////////////////////////////////////////////
+
+    SequenceJobState *currentSequenceJobState = nullptr;
+
+    /**
+     * @brief Set the state machine for the current sequence job and attach
+     *        all active devices to it.
+     */
+    void setCurrentSequenceJobState(SequenceJobState *jobState);
+
 
     //////////////////////////////////////////////////////////////////////
     // Devices
     //////////////////////////////////////////////////////////////////////
     void setLightBox(ISD::LightBox *device);
+    ISD::LightBox *getLightBox() { return m_lightBox; }
+    void connectLightBox();
+    void disconnectLightBox();
+
     void setDustCap(ISD::DustCap *device);
+    ISD::DustCap *getDustCap() { return m_dustCap; }
+    void connectDustCap();
+    void disconnectDustCap();
+
     void setTelescope(ISD::Telescope *device);
+    ISD::Telescope *getTelescope() { return m_telescope; }
+    void connectTelescope();
+    void disconnectTelescope();
+
     void setDome(ISD::Dome *device);
+    ISD::Dome *getDome() { return m_dome; }
+    void connectDome();
+    void disconnectDome();
+
+    void setRotator(ISD::GDInterface *device);
+    ISD::GDInterface *getRotator() { return activeRotator; }
+    void connectRotator();
+    void disconnectRotator();
+
+    void setActiveCCD(ISD::CCD *device);
+    ISD::CCD *getActiveCCD() { return activeCCD; }
+    void connectActiveCCD();
+    void disconnectActiveCCD();
+
+    void setActiveChip(ISD::CCDChip *device);
+    ISD::CCDChip *getActiveChip() { return activeChip; }
+    // void connectActiveChip();
+    // void disconnectActiveChip();
+
+    void setFilterWheel(ISD::GDInterface *device);
+    ISD::GDInterface *getFilterWheel() { return activeFilterWheel; }
+    // void connectFilterWheel();
+    // void disconnectFilterWheel();
+
+    void setFilterManager(const QSharedPointer<FilterManager> &value) { filterManager = value; }
+    const QSharedPointer<FilterManager> getFilterManager() { return filterManager; }
+    void connectFilterManager();
+    void disconnectFilterManager();
+
     //////////////////////////////////////////////////////////////////////
     // Rotator commands
     //////////////////////////////////////////////////////////////////////
-    // active rotator device
-    ISD::GDInterface * activeRotator { nullptr };
-
     /**
      * @brief Set the rotator's angle
      */
     void setRotatorAngle(double *rawAngle);
 
+    /**
+     * @brief Read the current rotator's angle from the rotator device
+     *        and emit it as {@see newRotatorAngle()}
+     */
+    void readRotatorAngle();
+
+    /**
+     * @brief Slot reading updates from the rotator device
+     */
+    void updateRotatorNumber(INumberVectorProperty *nvp);
+
     //////////////////////////////////////////////////////////////////////
     // Camera commands
     //////////////////////////////////////////////////////////////////////
-    // active camera device
-    ISD::CCD * activeCCD { nullptr };
-    // active CCD chip
-    ISD::CCDChip * activeChip { nullptr };
 
     /**
      * @brief Set the CCD target temperature
@@ -67,11 +127,6 @@ public:
     //////////////////////////////////////////////////////////////////////
     // Filter wheel commands
     //////////////////////////////////////////////////////////////////////
-    // currently active filter wheel device
-    ISD::GDInterface * activeFilterWheel { nullptr };
-    // Filter Manager
-    QSharedPointer<FilterManager> filterManager;
-    void setFilterManager(const QSharedPointer<FilterManager> &value) { filterManager = value; }
 
     //////////////////////////////////////////////////////////////////////
     // Flat capturing commands
@@ -127,8 +182,15 @@ public:
      */
     void queryHasShutter();
 
-
 signals:
+    /**
+     * @brief Update for the CCD temperature
+     */
+    void newCCDTemperatureValue(double value);
+    /**
+     * @brief Update for the rotator's angle
+     */
+    void newRotatorAngle(double value, IPState state);
     /**
      * @brief Cover for the scope with a flats light source
      */
@@ -166,6 +228,13 @@ signals:
      */
     void hasShutter(bool present);
 
+public slots:
+    /**
+     * @brief Slot that reads the requested device state and publishes the corresponding event
+     * @param state device state that needs to be read directly
+     */
+    void readCurrentState(Ekos::CaptureState state);
+
 private:
     // the light box device
     ISD::LightBox *m_lightBox { nullptr };
@@ -175,6 +244,17 @@ private:
     ISD::Telescope *m_telescope { nullptr };
     // the current dome
     ISD::Dome *m_dome { nullptr };
+    // active rotator device
+    ISD::GDInterface * activeRotator { nullptr };
+    // active camera device
+    ISD::CCD * activeCCD { nullptr };
+    // active CCD chip
+    ISD::CCDChip * activeChip { nullptr };
+    // currently active filter wheel device
+    ISD::GDInterface * activeFilterWheel { nullptr };
+    // Filter Manager
+    QSharedPointer<FilterManager> filterManager;
+
     // flag if manual cover has been asked
     bool m_ManualCoveringAsked { false };
 };

@@ -7,7 +7,7 @@
 #pragma once
 
 #include "ui_capture.h"
-#include "capturecommandprocessor.h"
+#include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
 #include "customproperties.h"
 #include "oal/filter.h"
@@ -679,7 +679,7 @@ class Capture : public QWidget, public Ui::Capture
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
 
-        void setGuideChip(ISD::CCDChip *chip);
+        void setGuideChip(ISD::CCDChip *guideChip);
         //void setGeneratedPreviewFITS(const QString &previewFITS);
 
         // Clear Camera Configuration
@@ -780,7 +780,7 @@ class Capture : public QWidget, public Ui::Capture
         void updatePrepareState(Ekos::CaptureState prepareState);
 
         // Rotator
-        void updateRotatorNumber(INumberVectorProperty *nvp);
+        void updateRotatorAngle(double value);
 
         // Cooler
         void setCoolerToggled(bool enabled);
@@ -800,10 +800,7 @@ class Capture : public QWidget, public Ui::Capture
         void prepareCapture();
 
         // device status
-        void setGuiderActive(bool active);
         void newGuiderDrift(double deviation_rms);
-        void newRotatorAngle(double value, IPState state);
-        void newTemperatureValue(double value);
 
         // communication with other modules
         void checkFocus(double);
@@ -848,12 +845,6 @@ class Capture : public QWidget, public Ui::Capture
         void prepareJob(SequenceJob *job);
         void syncGUIToJob(SequenceJob *job);
         bool processJobInfo(XMLEle *root);
-
-        /**
-         * @brief Slot that reads the requested device state and publishes the corresponding event
-         * @param state device state that needs to be read directly
-         */
-        void readCurrentState(Ekos::CaptureState state);
 
         /**
          * @brief processJobCompletionStage1 Process job completion. In stage 1 when simply check if the is a post-job script to be running
@@ -1009,29 +1000,15 @@ class Capture : public QWidget, public Ui::Capture
         // Currently active sequence job.
         // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
-        QSharedPointer<CaptureCommandProcessor> m_commandProcessor;
+        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<SequenceJobState::CaptureState> m_captureState;
 
         QList<ISD::CCD *> CCDs;
-
-        ISD::CCDChip *targetChip { nullptr };
-        ISD::CCDChip *guideChip { nullptr };
-        ISD::CCDChip *blobChip { nullptr };
-        //QString blobFilename;
-        //QString m_GeneratedPreviewFITS;
 
         // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
         QList<ISD::GDInterface *> Filters;
 
         QList<SequenceJob *> jobs;
-
-        ISD::Telescope *currentTelescope { nullptr };
-        ISD::CCD *currentCCD { nullptr };
-        ISD::GDInterface *currentFilter { nullptr };
-        ISD::GDInterface *currentRotator { nullptr };
-        ISD::DustCap *currentDustCap { nullptr };
-        ISD::LightBox *currentLightBox { nullptr };
-        ISD::Dome *currentDome { nullptr };
 
         QPointer<QDBusInterface> mountInterface;
 
@@ -1131,9 +1108,6 @@ class Capture : public QWidget, public Ui::Capture
 
         void createDSLRDialog();
         std::unique_ptr<DSLRInfo> dslrInfoDialog;
-
-        // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
 
         // DSLR Infos
         QList<QMap<QString, QVariant>> DSLRInfos;
