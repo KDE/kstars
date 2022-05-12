@@ -34,7 +34,7 @@ void GreedyScheduler::setParams(bool restartImmediately, bool restartQueue,
     setErrorDelaySeconds(errorHandlingDelay);
 }
 
-QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
+QList<SchedulerJob *> GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
         const QDateTime &now,
         const QMap<QString, uint16_t> &capturedFramesCount,
         Scheduler *scheduler)
@@ -88,7 +88,7 @@ QList<SchedulerJob *> GreedyScheduler::scheduleJobs(QList<SchedulerJob *> &jobs,
     return sortedJobs;
 }
 
-bool GreedyScheduler::checkJob(QList<SchedulerJob *> &jobs,
+bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
                                const QDateTime &now,
                                SchedulerJob *currentJob)
 {
@@ -109,7 +109,7 @@ bool GreedyScheduler::checkJob(QList<SchedulerJob *> &jobs,
 }
 
 QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
-    QList<SchedulerJob *> &jobs, const QDateTime &now,
+    const QList<SchedulerJob *> &jobs, const QDateTime &now,
     const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTimes)
 {
     QList<SchedulerJob *> sortedJobs = jobs;
