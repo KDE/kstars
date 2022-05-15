@@ -629,6 +629,9 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
                         emit newStatus(Ekos::GUIDE_CALIBRATING);
                     }
                     break;
+                case DITHERING:
+                    // do nothing, this is the initial step in PHD2 for dithering
+                    break;
                 default:
                     emit newLog(i18n("PHD2: Star Selected."));
                     emit newStatus(GUIDE_STAR_SELECT);
@@ -639,6 +642,7 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
             switch (state)
             {
                 case PAUSED:
+                case DITHERING:
                     emit newLog(i18n("PHD2: Guiding resumed."));
                     abortTimer->stop();
                     emit newStatus(Ekos::GUIDE_GUIDING);
@@ -696,6 +700,10 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
                     break;
             }
             break;
+        case DITHERING:
+            emit newLog(i18n("PHD2: Dithering started."));
+            emit newStatus(GUIDE_DITHERING);
+            break;
     }
 
     state = newstate;
@@ -725,7 +733,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
             break;
 
         case DITHER_COMMAND_RECEIVED:               //dither
-            emit newStatus(Ekos::GUIDE_DITHERING);
+            handlePHD2AppState(DITHERING);
             break;
 
         //find_star
@@ -1146,7 +1154,7 @@ bool PHD2::dither(double pixels)
         {
             // act like we just dithered so we get the appropriate
             // effects after the settling completes
-            emit newStatus(Ekos::GUIDE_DITHERING);
+            handlePHD2AppState(DITHERING);
             isDitherActive = true;
         }
         return true;
@@ -1183,7 +1191,7 @@ bool PHD2::dither(double pixels)
 
     sendPHD2Request("dither", args);
 
-    emit newStatus(Ekos::GUIDE_DITHERING);
+    handlePHD2AppState(DITHERING);
 
     return true;
 }
@@ -1304,8 +1312,6 @@ bool PHD2::guide()
     errorLog.clear();
 
     isSettling = true;
-    emit newStatus(GUIDE_CALIBRATING);
-
     sendPHD2Request("guide", args);
 
     return true;

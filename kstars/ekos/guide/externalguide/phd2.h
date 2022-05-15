@@ -70,6 +70,7 @@ class PHD2 : public GuideInterface
             LOSTLOCK,
             PAUSED,
             LOOPING,
+            DITHERING,
         };
         enum PHD2Connection
         {
