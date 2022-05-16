@@ -378,7 +378,19 @@ void Scheduler::setupNextIteration(SchedulerTimerState nextState, int millisecon
                    timerStr(timerState).toLatin1().data(), timerInterval);
     }
     timerState = nextState;
-    timerInterval = milliseconds;
+    // check if setup is called from a thread outside of the iteration timer thread
+    if (iterationTimer.isActive())
+    {
+        // restart the timer to ensure the correct startup delay
+        int remaining = iterationTimer.remainingTime();
+        iterationTimer.stop();
+        timerInterval = std::max(0, milliseconds - remaining);
+        iterationTimer.start(timerInterval);
+    }
+    else {
+        // setup called from inside the iteration timer thread
+        timerInterval = milliseconds;
+    }
     iterationSetup = true;
 }
 

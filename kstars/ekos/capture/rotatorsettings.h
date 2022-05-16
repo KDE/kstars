@@ -18,8 +18,6 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
 public:
     explicit RotatorSettings(QWidget *parent);
 
-    void setRotator(ISD::GDInterface *rotator);
-
     void setTicksMinMaxStep(int32_t min, int32_t max, int32_t step);
 
     void setCurrentAngle(double angle);
@@ -38,11 +36,7 @@ public:
     void refresh();
 
 protected slots:
-    void gotoAngle();
     void updatePA();
-    void setPA();
     void syncPA(double PA);
 
-private:
-    ISD::GDInterface *currentRotator { nullptr };    
 };

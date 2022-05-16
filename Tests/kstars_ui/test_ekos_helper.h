@@ -352,6 +352,8 @@ public:
     QString m_MountDevice = nullptr;
     // CCD device
     QString m_CCDDevice = nullptr;
+    // Rotator device
+    QString m_RotatorDevice = nullptr;
     // Guiding device
     QString m_GuiderDevice = nullptr;
     // Focusing device
@@ -598,7 +600,6 @@ private:
      * @param delta_dec DEC deviation
      */
     void guideDeviationChanged(double delta_ra, double delta_dec);
-
 
     /**
      * @brief Slot to track the capture status

@@ -41,36 +41,20 @@ private slots:
     /**
      * @brief Test case with temperature, rotator and guiding
      */
-    void testFullParameterSet();
+    void testPrepareLightFrames();
 
     /**
-     * @brief Test data for {@see testFullParameterSet()}
+     * @brief Test data for {@see testPrepareLightFrames()}
      */
-    void testFullParameterSet_data();
-
-    /**
-     * @brief Test case with first temperature, rotator and guiding values
-     *        are set AFTER capture preparation is triggered.
-     */
-    void testLazyInitialisation();
-
-    /**
-     * @brief Test data for {@see testLazyInitialisation()}
-     */
-    void testLazyInitialisation_data();
-
-    /**
-     * @brief Test case using the {@see TestProcessor} as loop setting target
-     *        values for temperature and rotator angle.
-     */
-    void testWithProcessor();
+    void testPrepareLightFrames_data();
 
 private:
     // The state machine
     Ekos::SequenceJobState *m_stateMachine;
     // the test adapter simulating the EKOS environment
     TestAdapter *m_adapter;
-
+    // forward signals to the sequence job
+    void connectAdapter();
 };
 
 /* *********************************************************************************
@@ -81,20 +65,23 @@ class TestAdapter : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestAdapter() {};
+    explicit TestAdapter();;
 
-    double m_ccdtemperature, m_rotatorangle;
-    bool m_isguideractive;
+    double m_ccdtemperature = 0.0, m_rotatorangle = 0.0, m_guiding_dev;
+    double m_targetccdtemp, m_targetrotatorangle, m_target_guiding_dev;
+    bool m_isguideractive, m_ispreview;
+
+    QTimer *temperatureTimer, *rotatorTimer, *guidingTimer;
 
     // initialize the values
-    void init(double temp, double angle);
+    void init(double temp, double angle, double guiding_limit);
 
     // set CCD to preview mode
     void setCCDBatchMode(bool m_preview);
     // set the current CCD temperature
     void setCCDTemperature(double value);
     // set the current camera rotator position
-    void setRotatorAngle(double value, IPState state);
+    void setRotatorAngle(double *value);
 
     // flag if capture preparation is completed
     bool isCapturePreparationComplete = false;
@@ -119,31 +106,6 @@ signals:
     void newCCDTemperature(double value);
     // update the current camera rotator position
     void newRotatorAngle(double value, IPState state);
-
-};
-
-/* *********************************************************************************
- * Test processor
- * ********************************************************************************* */
-
-class TestProcessor : public QObject
-{
-    Q_OBJECT
-public:
-    explicit TestProcessor() {};
-
-    void setCCDTemperature(double value) { emit newCCDTemperature(value); }
-    void setRotatorAngle(double *value) { emit newRotatorAngle(*value, IPS_OK); }
-
-    bool isPreview = true;
-    void enableCCDBatchMode(bool enable) { isPreview = !enable; }
-
-signals:
-    // update the current CCD temperature
-    void newCCDTemperature(double value);
-    // update the current camera rotator position
-    void newRotatorAngle(double value, IPState state);
-    // set CCD to preview mode
-    void setCCDBatchMode(bool m_preview);
-
+    // update to the current guiding deviation
+    void newGuiderDrift(double deviation_rms);
 };

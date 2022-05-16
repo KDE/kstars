@@ -7,7 +7,7 @@
 #pragma once
 
 #include "sequencejobstate.h"
-#include "capturecommandprocessor.h"
+#include "capturedeviceadaptor.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
 #include "ekos/auxiliary/filtermanager.h"
@@ -97,7 +97,7 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob(const QSharedPointer<CaptureCommandProcessor> cp, const QSharedPointer<SequenceJobState::CaptureState> sharedState);
+        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<SequenceJobState::CaptureState> sharedState);
         SequenceJob(XMLEle *root);
         ~SequenceJob() = default;
 
@@ -256,29 +256,29 @@ class SequenceJob : public QObject
 
         double getTargetRotation() const
         {
-            return stateMachine->targetRotation;
+            return stateMachine->targetPositionAngle;
         }
         void setTargetRotation(double value)
         {
-            stateMachine->targetRotation = value;
+            stateMachine->targetPositionAngle = value;
         }
 
         bool getPreMountPark() const
         {
-            return stateMachine->m_CaptureState->preMountPark;
+            return stateMachine->preMountPark;
         }
         void setPreMountPark(bool value)
         {
-            stateMachine->m_CaptureState->preMountPark = value;
+            stateMachine->preMountPark = value;
         }
 
         bool getPreDomePark() const
         {
-            return stateMachine->m_CaptureState->preDomePark;
+            return stateMachine->preDomePark;
         }
         void setPreDomePark(bool value)
         {
-            stateMachine->m_CaptureState->preDomePark = value;
+            stateMachine->preDomePark = value;
         }
 
         SequenceJobState::CalibrationStage getCalibrationStage() const
@@ -301,11 +301,11 @@ class SequenceJob : public QObject
 
         bool getAutoFocusReady() const
         {
-            return stateMachine->m_CaptureState->autoFocusReady;
+            return stateMachine->autoFocusReady;
         }
         void setAutoFocusReady(bool value)
         {
-            stateMachine->m_CaptureState->autoFocusReady = value;
+            stateMachine->autoFocusReady = value;
         }
 
 
@@ -342,18 +342,10 @@ signals:
 
         void prepareState(CaptureState state);
         void checkFocus();
-        // ask for the current device state
-        void readCurrentState(CaptureState state);
         // signals to be forwarded to the state machine
         void prepareCapture(CCDFrameType frameType, bool enforceCCDTemp, bool enforceStartGuiderDrift, bool isPreview);
-        // update the current CCD temperature
-        void updateCCDTemperature(double value);
-        // update whether guiding is active
-        void setGuiderActive(bool active);
         // update the current guiding deviation
         void updateGuiderDrift(double deviation_rms);
-        // update the current camera rotator position
-        void updateRotatorAngle(double value, IPState state);
 
 
 private:
@@ -401,16 +393,16 @@ private:
         //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
-        QSharedPointer<CaptureCommandProcessor> commandProcessor;
+        QSharedPointer<CaptureDeviceAdaptor> captureDeviceAdaptor;
         SequenceJobState *stateMachine { nullptr };
         /**
          * @brief Create all event connections between the state machine and the command processor
          */
-        void connectCommandProcessor();
+        void connectDeviceAdaptor();
         /**
          * @brief Disconnect all event connections between the state machine and the command processor
          */
-        void disconnectCommandProcessor();
+        void disconnectDeviceAdaptor();
 
 };
 }

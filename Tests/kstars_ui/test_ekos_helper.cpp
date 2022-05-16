@@ -87,6 +87,13 @@ void TestEkosHelper::fillProfile(bool *isDone)
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Dome selected.";
     }
 
+    // Select the rotator device
+    if (m_RotatorDevice != nullptr) {
+        KTRY_PROFILEEDITOR_GADGET(QComboBox, aux2Combo);
+        setTreeviewCombo(aux2Combo, m_RotatorDevice);
+        qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Rotator selected.";
+    }
+
     // wait a short time to make the setup visible
     QTest::qWait(1000);
     // Save the profile using the "Save" button

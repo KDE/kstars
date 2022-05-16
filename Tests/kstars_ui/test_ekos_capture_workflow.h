@@ -143,6 +143,19 @@ private slots:
     void testInitialGuidingLimitCapture();
 
     /**
+     * @brief Wait with start of capturing until the target temperature has been reached
+     */
+    void testCaptureWaitingForTemperature();
+
+    /** @brief Test data for {@see testCaptureWaitingForTemperature()} */
+    void testCaptureWaitingForTemperature_data();
+
+    /**
+     * @brief Wait with start of capturing until the target rotator position has been reached
+     */
+    void testCaptureWaitingForRotator();
+
+    /**
      * @brief Test capturing flats with manual flat light
      */
     void testFlatManualSource();

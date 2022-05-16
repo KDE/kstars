@@ -57,7 +57,7 @@ class GreedyScheduler : public QObject
           * @param scheduler A pointer to the scheduler object, useful for notifying the user. Can be nullptr.
           * @return returns a possibly sorted list of the same jobs input, but with state and start/end time changes.
           */
-        QList<SchedulerJob *> scheduleJobs(QList<SchedulerJob *> &jobs,
+        QList<SchedulerJob *> scheduleJobs(const QList<SchedulerJob *> &jobs,
                                            const QDateTime &now,
                                            const QMap<QString, uint16_t> &capturedFramesCount,
                                            Scheduler *scheduler);
@@ -68,7 +68,7 @@ class GreedyScheduler : public QObject
           * @param currentJob The currently running job, which may be continued or aborted.
           * @return returns true if the job should continue to run.
           */
-        bool checkJob(QList<SchedulerJob *> &jobs,
+        bool checkJob(const QList<SchedulerJob *> &jobs,
                       const QDateTime &now,
                       SchedulerJob *currentJob);
         /**
@@ -133,7 +133,7 @@ class GreedyScheduler : public QObject
         // Changes the states of the jons on the list, deciding which ones
         // can be scheduled by scheduleJobs().
         QList<SchedulerJob *> prepareJobsForEvaluation(
-            QList<SchedulerJob *> &jobs, const QDateTime &now,
+            const QList<SchedulerJob *> &jobs, const QDateTime &now,
             const QMap<QString, uint16_t> &capturedFramesCount, Scheduler *scheduler, bool reestimateJobTime = true);
 
         // Removes the EVALUATION state, after eval is done.
