@@ -203,6 +203,11 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void clearBuffers();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Camera Functions
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        double getGain();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Defect Map Functions
         ////////////////////////////////////////////////////////////////////////////////////////////////
         void refreshDefectMastersList(const QString &camera);
@@ -228,6 +233,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         ISD::CCDChip *m_TargetChip {nullptr};
         QList<ISD::CCD *> m_Cameras;
         bool m_UseGuideHead {false};
+        double GainSpinSpecialValue { INVALID_VALUE };
 
         Capture *m_CaptureModule {nullptr};
         QSqlTableModel *darkFramesModel = nullptr;

@@ -512,6 +512,19 @@ int CCDChip::getISOIndex() const
     return isoProp->findOnSwitchIndex();
 }
 
+bool CCDChip::getISOValue(QString &value) const
+{
+    auto index = getISOIndex();
+    auto list = getISOList();
+    if (!list.isEmpty() && index >= 0 && index < list.count())
+    {
+        value = list[index];
+        return true;
+    }
+
+    return false;
+}
+
 bool CCDChip::setISOIndex(int value)
 {
     auto isoProp = baseDevice->getSwitch("CCD_ISO");
