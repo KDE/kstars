@@ -224,6 +224,18 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
+    // Add Gain/ISO to Dark Library
+    if (currentDBVersion < 309)
+    {
+        QSqlQuery query(m_UserDB);
+        QString columnQuery = QString("ALTER TABLE darkframe ADD COLUMN gain INTEGER DEFAULT -1");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+        columnQuery = QString("ALTER TABLE darkframe ADD COLUMN iso TEXT DEFAULT NULL");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     m_UserDB.close();
     return true;
 }
@@ -359,8 +371,9 @@ bool KSUserDB::RebuildDB()
     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
 
     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT "
-                  "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, "
-                  "filename TEXT NOT NULL, defectmap TEXT DEFAULT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
+                  "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, gain INTEGER DEFAULT -1, "
+                  "iso TEXT DEFAULT NULL, duration REAL, filename TEXT NOT NULL, defectmap TEXT DEFAULT NULL, timestamp "
+                  "DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
     tables.append("CREATE TABLE IF NOT EXISTS hips (ID TEXT NOT NULL UNIQUE,"
                   "obs_title TEXT NOT NULL, obs_description TEXT NOT NULL, hips_order TEXT NOT NULL,"
@@ -556,8 +569,6 @@ void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
     QSqlRecord record = darkframe.record();
     // Remove PK so that it gets auto-incremented later
     record.remove(0);
-    // Remove timestamp so that it gets auto-generated
-    record.remove(7);
 
     for (QVariantMap::const_iterator iter = oneFrame.begin(); iter != oneFrame.end(); ++iter)
         record.setValue(iter.key(), iter.value());

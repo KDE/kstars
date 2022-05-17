@@ -137,6 +137,7 @@ class CCDChip
         }
 
         int getISOIndex() const;
+        bool getISOValue(QString &value) const;
         bool setISOIndex(int value);
 
         QStringList getISOList() const;
@@ -283,15 +284,21 @@ class CCD : public DeviceDecorator
         bool setUploadMode(UploadMode mode);
 
         // Encoding Format
-        const QString & getEncodingFormat() const
+        const QString &getEncodingFormat() const
         {
             return m_EncodingFormat;
         }
         bool setEncodingFormat(const QString &value);
-        const QStringList & getEncodingFormats() const { return m_EncodingFormats;}
+        const QStringList &getEncodingFormats() const
+        {
+            return m_EncodingFormats;
+        }
 
         // Capture Format
-        const QStringList & getCaptureFormats() const { return m_CaptureFormats;}
+        const QStringList &getCaptureFormats() const
+        {
+            return m_CaptureFormats;
+        }
         QString getCaptureFormat() const;
         bool setCaptureFormat(const QString &format);
 
@@ -432,6 +439,6 @@ class CCD : public DeviceDecorator
         char *fileWriteBuffer { nullptr };
         int fileWriteBufferSize { 0 };
         QString fileWriteFilename;
-        QFuture<void> fileWriteThread;        
+        QFuture<void> fileWriteThread;
 };
 }
