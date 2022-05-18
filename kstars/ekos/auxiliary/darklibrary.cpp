@@ -70,7 +70,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_DarkCameras = Options::darkCameras();
     m_DefectCameras = Options::defectCameras();
 
-    connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this]()
+    connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
+            this, [this]()
     {
         const QString device = m_CurrentCamera->getDeviceName();
         if (preferDarksRadio->isChecked())
@@ -1577,7 +1578,9 @@ QJsonObject DarkLibrary::getDarkSettings()
         {"countSpin", countSpin->value()},
         {"totalImages", totalImages->text()},
         {"totalTime", totalTime->text()},
-        {"darkProgress", darkProgress->value()}
+        {"darkProgress", darkProgress->value()},
+        {"gain", captureGainN->value()},
+        {"iso", captureISOS->currentText()}
     };
 
     if (captureGainN->isEnabled())
