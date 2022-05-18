@@ -716,7 +716,6 @@ set(libkstarscomponents_SRCS
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp
     skycomponents/hipscomponent.cpp
-    skycomponents/mosaiccomponent.cpp
     skycomponents/terraincomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
@@ -729,6 +728,12 @@ set(libkstarscomponents_SRCS
     skycomponents/flagcomponent.cpp
     skycomponents/targetlistcomponent.cpp
     )
+
+IF (INDI_FOUND)
+LIST(APPEND libkstarscomponents_SRCS
+    skycomponents/mosaiccomponent.cpp
+    )
+ENDIF(INDI_FOUND)
 
 #LIST(APPEND libkstarscomponents_SRCS
 #    #skycomponents/notifyupdatesui.cpp
@@ -761,8 +766,13 @@ set(kstars_skyobjects_SRCS
     skyobjects/satellite.cpp
     skyobjects/satellitegroup.cpp
     skyobjects/supernova.cpp
+    )
+
+IF (INDI_FOUND)
+LIST(APPEND kstars_skyobjects_SRCS
     skyobjects/mosaictiles.cpp
     )
+ENDIF(INDI_FOUND)
 
 set(kstars_projection_SRCS
     projections/projector.cpp

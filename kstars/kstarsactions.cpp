@@ -45,7 +45,9 @@
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/catalogscomponent.h"
 #include "skycomponents/mosaiccomponent.h"
+#ifdef HAVE_INDI
 #include "skyobjects/mosaictiles.h"
+#endif
 #include "tools/altvstime.h"
 #include "tools/astrocalc.h"
 #include "tools/eyepiecefield.h"
@@ -1884,7 +1886,7 @@ void KStars::slotShowGUIItem(bool show)
 
     if (sender() == actionCollection()->action("show_sbAzAlt"))
     {
-        Options::setShowAltAzField(show);       
+        Options::setShowAltAzField(show);
         AltAzField.setHidden(!show);
     }
 
