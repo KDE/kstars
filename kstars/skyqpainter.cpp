@@ -29,7 +29,9 @@
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
 #include "skyobjects/ksearthshadow.h"
+#ifdef HAVE_INDI
 #include "skyobjects/mosaictiles.h"
+#endif
 #include "hips/hipsrenderer.h"
 #include "terrain/terrainrenderer.h"
 
@@ -659,6 +661,7 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     return true;
 }
 
+#ifdef HAVE_INDI
 bool SkyQPainter::drawMosaicPanel(MosaicTiles *obj)
 {
     bool visible = false;
@@ -683,6 +686,7 @@ bool SkyQPainter::drawMosaicPanel(MosaicTiles *obj)
 
     return true;
 }
+#endif
 
 bool SkyQPainter::drawHips(bool useCache)
 {

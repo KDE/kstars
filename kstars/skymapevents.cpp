@@ -20,7 +20,9 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/mosaiccomponent.h"
+#ifdef HAVE_INDI
 #include "skyobjects/mosaictiles.h"
+#endif
 #include "widgets/infoboxwidget.h"
 
 #include <QGestureEvent>
@@ -559,6 +561,7 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
 
     if (mouseButtonDown)
     {
+#ifdef HAVE_INDI
         if (Options::showMosaicPanel())
         {
             auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
@@ -595,6 +598,7 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
                 }
             }
         }
+#endif
 
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
         if (!mouseMoveCursor)

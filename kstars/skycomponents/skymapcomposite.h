@@ -12,7 +12,7 @@
 #include "skylabeler.h"
 #include "skymesh.h"
 #include "skyobject.h"
-
+#include "config-kstars.h"
 #include <QList>
 
 #include <memory>
@@ -230,10 +230,12 @@ class SkyMapComposite : public QObject, public SkyComposite
             return m_MilkyWay;
         }
 
+#ifdef HAVE_INDI
         inline MosaicComponent *mosaicComponent()
         {
             return m_Mosaic;
         }
+#endif
 
         //Accessors for StarComponent
         SkyObject *findStarByGenetiveName(const QString name);
@@ -292,7 +294,9 @@ class SkyMapComposite : public QObject, public SkyComposite
         FlagComponent *m_Flags { nullptr };
         HIPSComponent *m_HiPS{ nullptr };
         TerrainComponent *m_Terrain{ nullptr };
-        MosaicComponent *m_Mosaic{ nullptr };
+#ifdef HAVE_INDI
+        MosaicComponent *m_Mosaic { nullptr };
+#endif
 #endif
         TargetListComponent *m_ObservingList { nullptr };
         TargetListComponent *m_StarHopRouteList{ nullptr };

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "skycomponents/typedef.h"
+#include "config-kstars.h"
 
 #include <QList>
 #include <QPainter>
@@ -172,7 +173,9 @@ class SkyPainter
          * @brief drawMosaicPanel Draws mosaic panel in planning or operation mode.
          * @return true if it was drawn
          */
+#ifdef HAVE_INDI
         virtual bool drawMosaicPanel(MosaicTiles *obj) = 0;
+#endif
         /**
          * @brief drawHips Draw HIPS all sky catalog
          * @param useCache if True, try to re-use last generated image instead of rendering a new image.

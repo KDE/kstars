@@ -157,7 +157,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_Terrain = new TerrainComponent(this));
 
     // Mosaic Component
+#ifdef HAVE_INDI
     addComponent(m_Mosaic = new MosaicComponent(this));
+#endif
 
     addComponent(m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
@@ -357,7 +359,9 @@ void SkyMapComposite::draw(SkyPainter *skyp)
         QPen(QColor(data->colorScheme()->colorNamed("StarHopRouteColor")), 1.);
     m_StarHopRouteList->draw(skyp);
 
+#ifdef HAVE_INDI
     m_Mosaic->draw(skyp);
+#endif
 
     m_ArtificialHorizon->draw(skyp);
 
