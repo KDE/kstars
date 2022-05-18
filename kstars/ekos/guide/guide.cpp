@@ -3301,6 +3301,9 @@ void Guide::setSettings(const QJsonObject &settings)
 
     auto syncControl = [settings](const QString & key, QWidget * widget)
     {
+        if (settings.contains(key) == false)
+            return false;
+
         QSpinBox *pSB = nullptr;
         QDoubleSpinBox *pDSB = nullptr;
         QCheckBox *pCB = nullptr;

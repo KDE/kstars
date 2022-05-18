@@ -47,6 +47,7 @@
 #include "skymap.h"
 #include "hipscomponent.h"
 #include "terraincomponent.h"
+#include "mosaiccomponent.h"
 #endif
 
 #include <QApplication>
@@ -154,6 +155,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_HiPS = new HIPSComponent(this));
 
     addComponent(m_Terrain = new TerrainComponent(this));
+
+    // Mosaic Component
+    addComponent(m_Mosaic = new MosaicComponent(this));
 
     addComponent(m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
@@ -352,6 +356,8 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     m_StarHopRouteList->pen =
         QPen(QColor(data->colorScheme()->colorNamed("StarHopRouteColor")), 1.);
     m_StarHopRouteList->draw(skyp);
+
+    m_Mosaic->draw(skyp);
 
     m_ArtificialHorizon->draw(skyp);
 

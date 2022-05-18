@@ -4525,6 +4525,9 @@ void Focus::setMechanicsSettings(const QJsonObject &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool Focus::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
 {
+    if (settings.contains(key) == false)
+        return false;
+
     QSpinBox *pSB = nullptr;
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;

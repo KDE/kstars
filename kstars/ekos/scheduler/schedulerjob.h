@@ -100,11 +100,11 @@ class SchedulerJob
         void setTargetCoords(const dms &ra, const dms &dec, double djd);
         /** @} */
 
-        double getRotation()
+        double getPositionAngle()
         {
-            return rotation;
+            return m_PositionAngle;
         }
-        void setRotation(double rotation);
+        void setPositionAngle(double value);
 
         /** @brief Capture sequence this job uses while running. */
         /** @{ */
@@ -735,7 +735,7 @@ class SchedulerJob
 
         QString name;
         SkyPoint targetCoords;
-        double rotation { -1 };
+        double m_PositionAngle { -1 };
         JOBStatus state { JOB_IDLE };
         JOBStage stage { STAGE_IDLE };
 

@@ -2283,7 +2283,8 @@ void Manager::initCapture()
     // display target drift
     connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
             captureProcess.get(), &Ekos::Capture::updateTargetDistance,  Qt::UniqueConnection);
-    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance, this, [this](double distance) {
+    connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance, this, [this](double distance)
+    {
         capturePreview->updateTargetDistance(distance);
     });
 
@@ -2448,10 +2449,10 @@ void Manager::initMount()
     connect(mountProcess.get(), &Ekos::Mount::newLog, this, &Ekos::Manager::updateLog);
     connect(mountProcess.get(), &Ekos::Mount::newCoords, this, &Ekos::Manager::updateMountCoords);
     connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
-    connect(mountProcess.get(), &Ekos::Mount::newTarget, [&](SkyObject currentObject)
+    connect(mountProcess.get(), &Ekos::Mount::newTargetName, this, [this](const QString & name)
     {
-        mountTarget->setText(currentObject.name());
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", currentObject.name()}}));
+        mountTarget->setText(name);
+        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", name}}));
     });
     connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, [&](ISD::Telescope::PierSide side)
     {

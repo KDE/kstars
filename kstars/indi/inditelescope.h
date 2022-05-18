@@ -238,10 +238,15 @@ class Telescope : public DeviceDecorator
     signals:
         /**
          * @brief The mount has finished the slew to a new target.
-         * @param currentObject object close to the position the mount is pointing to
          * @param currentCoords exact position where the mount is positioned
          */
-        void newTarget(SkyObject &currentObject, SkyPoint &currentCoords);
+        void newTarget(SkyPoint &currentCoords);
+
+        /**
+         * @brief The mount has finished the slew to a new target.
+         * @param Name Name of object, if any, the mount is positioned at.
+         */
+        void newTargetName(const QString &name);
         /**
          * @brief Change in the mount status.
          */

@@ -70,7 +70,8 @@ class SkyMap : public QGraphicsView
 
         static bool IsFocused()
         {
-            return (pinstance->focusObject() || pinstance->focusPoint());
+            //return (pinstance->focusObject() || pinstance->focusPoint());
+            return (pinstance->focusObject());
         }
 
         static bool IsSlewing()
@@ -107,6 +108,9 @@ class SkyMap : public QGraphicsView
 
         /** @short Update object name and coordinates in the Focus InfoBox */
         void showFocusCoords();
+
+        /** @brief Update info boxes coordinates */
+        void updateInfoBoxes();
 
         /** @short Update the focus position according to current options. */
         void updateFocus();
@@ -572,6 +576,11 @@ class SkyMap : public QGraphicsView
         /** Emitted when a sky object is removed from the database */
         void removeSkyObject(SkyObject *object);
 
+        /** Emitter when mosaic center is dragged in the sky map */
+        void mosaicCenterChanged(dms dRA, dms dDE);
+
+        void updateQueued();
+
     protected:
         bool event(QEvent *event) override;
 
@@ -635,6 +644,9 @@ class SkyMap : public QGraphicsView
         /** Set the shape of mouse cursor to a cross with 4 arrows. */
         void setMouseMoveCursor();
 
+        /** Set the shape of mouse cursor to an open hand. */
+        void setMouseDragCursor();
+
     private:
 
         /** @short Sets the shape of the mouse cursor to a magnifying glass. */
@@ -687,6 +699,7 @@ class SkyMap : public QGraphicsView
         bool midMouseButtonDown { false };
         /// True if mouseMoveEvent; needed by setMouseMoveCursor
         bool mouseMoveCursor { false };
+        bool mouseDragCursor { false };
         bool slewing { false };
         bool clockSlewing { false };
         //if false only old pixmap will repainted with bitBlt(), this

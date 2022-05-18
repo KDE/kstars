@@ -244,7 +244,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Mount::updateSwitch);
     connect(currentTelescope, &ISD::GDInterface::textUpdated, this, &Mount::updateText);
     connect(currentTelescope, &ISD::Telescope::newTarget, this, &Mount::newTarget);
-    //connect(currentTelescope, &ISD::Telescope::newStatus, this, &Mount::setScopeStatus);
+    connect(currentTelescope, &ISD::Telescope::newTargetName, this, &Mount::newTargetName);
     connect(currentTelescope, &ISD::Telescope::newCoords, this, &Mount::newCoords);
     connect(currentTelescope, &ISD::Telescope::newCoords, this, &Mount::updateTelescopeCoords);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
@@ -1079,6 +1079,11 @@ bool Mount::gotoTarget(const QString &target)
     }
 
     return false;
+}
+
+bool Mount::gotoTarget(const SkyPoint &target)
+{
+    return slew(target.ra().Hours(), target.dec().Degrees());
 }
 
 bool Mount::syncTarget(const QString &target)

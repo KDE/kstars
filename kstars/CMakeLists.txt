@@ -106,6 +106,7 @@ if (INDI_FOUND)
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/mosaic.ui
+            ekos/scheduler/framingassistant.ui
             # Capture
             ekos/capture/capture.ui
             ekos/capture/calibrationoptions.ui
@@ -205,7 +206,10 @@ if (INDI_FOUND)
             ekos/scheduler/schedulerjob.cpp
             ekos/scheduler/scheduler.cpp
             ekos/scheduler/mosaic.cpp
+            ekos/scheduler/framingassistantui.cpp
             ekos/scheduler/mosaictilesmanager.cpp
+            ekos/scheduler/mosaictilesmodel.cpp
+            #ekos/scheduler/mosaicrenderer.cpp
             ekos/scheduler/greedyscheduler.cpp
 
             # Focus
@@ -712,6 +716,7 @@ set(libkstarscomponents_SRCS
     skycomponents/equator.cpp
     skycomponents/artificialhorizoncomponent.cpp
     skycomponents/hipscomponent.cpp
+    skycomponents/mosaiccomponent.cpp
     skycomponents/terraincomponent.cpp
     skycomponents/horizoncomponent.cpp
     skycomponents/milkyway.cpp
@@ -756,6 +761,7 @@ set(kstars_skyobjects_SRCS
     skyobjects/satellite.cpp
     skyobjects/satellitegroup.cpp
     skyobjects/supernova.cpp
+    skyobjects/mosaictiles.cpp
     )
 
 set(kstars_projection_SRCS

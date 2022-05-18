@@ -93,6 +93,7 @@ class SkyQPainter : public SkyPainter, public QPainter
     /// This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF &pos, float size, char sp = 'A');
     bool drawConstellationArtImage(ConstellationsArt *obj) override;
+    bool drawMosaicPanel(MosaicTiles *obj) override;
     bool drawHips(bool useCache = false) override;
     bool drawTerrain(bool useCache = false) override;
 

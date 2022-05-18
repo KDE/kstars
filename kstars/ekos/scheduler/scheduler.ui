@@ -606,15 +606,15 @@
           <item row="2" column="0">
            <widget class="QLabel" name="rotationLabel">
             <property name="toolTip">
-             <string>Select CCD Rotation.</string>
+             <string>Target Position Angle</string>
             </property>
             <property name="text">
-             <string>Rotation:</string>
+             <string>PA</string>
             </property>
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QDoubleSpinBox" name="rotationSpin">
+           <widget class="QDoubleSpinBox" name="positionAngleSpin">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -622,16 +622,16 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>CCD Rotation</string>
+             <string>Position Angle in Degrees</string>
             </property>
             <property name="whatsThis">
              <string/>
             </property>
             <property name="minimum">
-             <double>0.000000000000000</double>
+             <double>-180.000000000000000</double>
             </property>
             <property name="maximum">
-             <double>360.000000000000000</double>
+             <double>180.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>5.000000000000000</double>
@@ -2303,28 +2303,28 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>

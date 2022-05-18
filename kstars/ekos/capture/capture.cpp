@@ -98,7 +98,8 @@ Capture::Capture()
     {
         // SLOT(rotatorSettings->setPA()
         // PA = RawAngle * Multiplier + Offset
-        double rawAngle = (rotatorSettings->PASpin->value() - rotatorSettings->PAOffsetSpin->value()) / rotatorSettings->PAMulSpin->value();
+        double rawAngle = (rotatorSettings->PASpin->value() - rotatorSettings->PAOffsetSpin->value()) /
+                          rotatorSettings->PAMulSpin->value();
         // Get raw angle (0 to 360) from PA (-180 to +180)
         if (rawAngle < 0)
             rawAngle += 360;
@@ -1248,8 +1249,9 @@ void Capture::updateFrameProperties(int reset)
     QString frameProp    = useGuideHead ? QString("GUIDER_FRAME") : QString("CCD_FRAME");
     QString exposureProp = useGuideHead ? QString("GUIDER_EXPOSURE") : QString("CCD_EXPOSURE");
     QString exposureElem = useGuideHead ? QString("GUIDER_EXPOSURE_VALUE") : QString("CCD_EXPOSURE_VALUE");
-    m_captureDeviceAdaptor->setActiveChip(useGuideHead ? m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::GUIDE_CCD) :
-                                                                m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::PRIMARY_CCD));
+    m_captureDeviceAdaptor->setActiveChip(useGuideHead ? m_captureDeviceAdaptor->getActiveCCD()->getChip(
+            ISD::CCDChip::GUIDE_CCD) :
+                                          m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::PRIMARY_CCD));
 
     captureFrameWN->setEnabled(m_captureDeviceAdaptor->getActiveChip()->canSubframe());
     captureFrameHN->setEnabled(m_captureDeviceAdaptor->getActiveChip()->canSubframe());
@@ -1463,8 +1465,9 @@ void Capture::processCCDNumber(INumberVectorProperty * nvp)
 
 void Capture::resetFrame()
 {
-    m_captureDeviceAdaptor->setActiveChip(useGuideHead ? m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::GUIDE_CCD) :
-                                                                m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::PRIMARY_CCD));
+    m_captureDeviceAdaptor->setActiveChip(useGuideHead ? m_captureDeviceAdaptor->getActiveCCD()->getChip(
+            ISD::CCDChip::GUIDE_CCD) :
+                                          m_captureDeviceAdaptor->getActiveCCD()->getChip(ISD::CCDChip::PRIMARY_CCD));
     m_captureDeviceAdaptor->getActiveChip()->resetFrame();
     updateFrameProperties(1);
 }
@@ -1731,7 +1734,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         //if (!strcmp(data->name, "CCD2"))
         if (data)
         {
-            tChip = m_captureDeviceAdaptor->getActiveCCD()->getChip(static_cast<ISD::CCDChip::ChipType>(data->property("chip").toInt()));
+            tChip = m_captureDeviceAdaptor->getActiveCCD()->getChip(static_cast<ISD::CCDChip::ChipType>
+                    (data->property("chip").toInt()));
             if (tChip != m_captureDeviceAdaptor->getActiveChip())
             {
                 if (m_GuideState == GUIDE_IDLE)
@@ -2405,7 +2409,8 @@ void Capture::captureImage()
             m_captureDeviceAdaptor->getActiveCCD()->setFastCount(static_cast<uint>(remaining));
     }
 
-    connect(m_captureDeviceAdaptor->getActiveCCD(), &ISD::CCD::newImage, this, &Ekos::Capture::processData, Qt::UniqueConnection);
+    connect(m_captureDeviceAdaptor->getActiveCCD(), &ISD::CCD::newImage, this, &Ekos::Capture::processData,
+            Qt::UniqueConnection);
     //connect(currentCCD, &ISD::CCD::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
@@ -2475,7 +2480,8 @@ void Capture::captureImage()
     // If using DSLR, make sure it is set to correct transfer format
     m_captureDeviceAdaptor->getActiveCCD()->setEncodingFormat(activeJob->getCoreProperty(SequenceJob::SJ_Encoding).toString());
 
-    connect(m_captureDeviceAdaptor->getActiveCCD(), &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
+    connect(m_captureDeviceAdaptor->getActiveCCD(), &ISD::CCD::newExposureValue, this, &Ekos::Capture::setExposureProgress,
+            Qt::UniqueConnection);
 
     // necessary since the status widget doesn't store the calibration stage
     if (activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
@@ -2507,8 +2513,8 @@ void Capture::captureImage()
             sequenceCountDown.setHMS(0, 0, 0);
             sequenceCountDown = sequenceCountDown.addSecs(getActiveJobRemainingTime());
             frameInfoLabel->setText(QString("%1 %2 (%L3/%L4):").arg(CCDFrameTypeNames[activeJob->getFrameType()])
-                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
-                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+                                    .arg(activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString())
+                                    .arg(activeJob->getCompleted()).arg(activeJob->getCoreProperty(SequenceJob::SJ_Count).toInt()));
             // ensure that the download time label is visible
             avgDownloadTime->setVisible(true);
             avgDownloadLabel->setVisible(true);
@@ -2700,7 +2706,8 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         activeJob->setCaptureRetires(0);
         activeJob->setExposeLeft(0);
 
-        if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        if (m_captureDeviceAdaptor->getActiveCCD()
+                && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
             if (activeJob && activeJob->getStatus() == JOB_BUSY)
             {
@@ -4119,17 +4126,17 @@ void Capture::setTelescope(ISD::GDInterface * newTelescope)
         m_captureDeviceAdaptor->setTelescope(static_cast<ISD::Telescope *>(newTelescope));
 
     m_captureDeviceAdaptor->getTelescope()->disconnect(this);
-    connect(m_captureDeviceAdaptor->getTelescope(), &ISD::GDInterface::numberUpdated, this, &Ekos::Capture::processTelescopeNumber);
-    connect(m_captureDeviceAdaptor->getTelescope(), &ISD::Telescope::newTarget, this, &Ekos::Capture::processNewTarget);
+    connect(m_captureDeviceAdaptor->getTelescope(), &ISD::GDInterface::numberUpdated, this,
+            &Ekos::Capture::processTelescopeNumber);
+    connect(m_captureDeviceAdaptor->getTelescope(), &ISD::Telescope::newTargetName, this, &Ekos::Capture::processNewTargetName);
     syncTelescopeInfo();
 }
 
-void Capture::processNewTarget(const SkyObject &newTarget, const SkyPoint &newCoords)
+void Capture::processNewTargetName(const QString &name)
 {
-    Q_UNUSED(newCoords)
     if (m_State == CAPTURE_IDLE || m_State == CAPTURE_COMPLETE)
     {
-        QString sanitized = newTarget.name();
+        QString sanitized = name;
         if (sanitized != i18n("unnamed"))
         {
             // Remove illegal characters that can be problematic
@@ -6591,7 +6598,8 @@ void Capture::setPresetSettings(const QJsonObject &settings)
     setBinning(bin, bin);
 
     double temperature = settings["temperature"].toDouble(INVALID_VALUE);
-    if (temperature > INVALID_VALUE && m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->hasCoolerControl())
+    if (temperature > INVALID_VALUE && m_captureDeviceAdaptor->getActiveCCD()
+            && m_captureDeviceAdaptor->getActiveCCD()->hasCoolerControl())
     {
         setForceTemperature(true);
         setTargetTemperature(temperature);
@@ -6809,7 +6817,8 @@ void Capture::clearCameraConfiguration()
         }
     });
 
-    KSMessageBox::Instance()->questionYesNo( i18n("Reset %1 configuration to default?", m_captureDeviceAdaptor->getActiveCCD()->getDeviceName()),
+    KSMessageBox::Instance()->questionYesNo( i18n("Reset %1 configuration to default?",
+            m_captureDeviceAdaptor->getActiveCCD()->getDeviceName()),
             i18n("Confirmation"), 30);
 }
 
@@ -6845,7 +6854,8 @@ void Capture::processCaptureTimeout()
     if (m_CaptureTimeoutCounter > 1)
     {
         QString camera = m_captureDeviceAdaptor->getActiveCCD()->getDeviceName();
-        QString fw = (m_captureDeviceAdaptor->getFilterWheel() != nullptr) ? m_captureDeviceAdaptor->getFilterWheel()->getDeviceName() : "";
+        QString fw = (m_captureDeviceAdaptor->getFilterWheel() != nullptr) ?
+                     m_captureDeviceAdaptor->getFilterWheel()->getDeviceName() : "";
         emit driverTimedout(camera);
         QTimer::singleShot(5000, this, [ &, camera, fw]()
         {
@@ -6861,7 +6871,8 @@ void Capture::processCaptureTimeout()
         {
             appendLogText(i18n("Exposure timeout. Restarting exposure..."));
             m_captureDeviceAdaptor->getActiveCCD()->setEncodingFormat("FITS");
-            ISD::CCDChip *targetChip = m_captureDeviceAdaptor->getActiveCCD()->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            ISD::CCDChip *targetChip = m_captureDeviceAdaptor->getActiveCCD()->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD :
+                                       ISD::CCDChip::PRIMARY_CCD);
             targetChip->abortExposure();
             targetChip->capture(captureExposureN->value());
             captureTimeout.start(static_cast<int>(captureExposureN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD));
@@ -7163,10 +7174,10 @@ void Capture::syncDSLRToTargetChip(const QString &model)
     {
         auto camera = *pos;
         m_captureDeviceAdaptor->getActiveChip()->setImageInfo(camera["Width"].toInt(),
-                                 camera["Height"].toInt(),
-                                 camera["PixelW"].toDouble(),
-                                 camera["PixelH"].toDouble(),
-                                 8);
+                camera["Height"].toInt(),
+                camera["PixelW"].toDouble(),
+                camera["PixelH"].toDouble(),
+                8);
     }
 }
 

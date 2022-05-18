@@ -424,10 +424,35 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         void addJob();
 
+        /**
+             * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
+             * jobUnderEdit determines whether to add or edit
+             */
+        void saveJob();
+
         const QList<SchedulerJob *> &getJobs() const
         {
             return jobs;
         }
+
+        /**
+             * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
+             * and a new version given the supplied parameters are saved to the output directory
+             * @param prefix Prefix to set for the job sequence
+             * @param outputDir Output dir to set for the job sequence
+             * @return True if new file is saved, false otherwise
+             */
+        bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+
+        XMLEle *getSequenceJobRoot(const QString &filename) const;
+
+        /**
+             * @brief saveScheduler Save scheduler jobs to a file
+             * @param path path of a file
+             * @return true on success, false on failure.
+             */
+        bool saveScheduler(const QUrl &fileURL);
+
 
     private:
         /**
@@ -537,12 +562,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief Selects sequence queue.
              */
         void selectShutdownScript();
-
-        /**
-             * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
-             * jobUnderEdit determines whether to add or edit
-             */
-        void saveJob();
 
         /**
              * @brief editJob Edit an observation job
@@ -862,14 +881,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /**
              * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
              */
-        void checkCapParkingStatus();
-
-        /**
-             * @brief saveScheduler Save scheduler jobs to a file
-             * @param path path of a file
-             * @return true on success, false on failure.
-             */
-        bool saveScheduler(const QUrl &fileURL);
+        void checkCapParkingStatus();        
 
         /**
              * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
@@ -877,15 +889,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @return true on success, false on failure.
              */
         bool processJobInfo(XMLEle *root);
-
-        /**
-             * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
-             * and a new version given the supplied parameters are saved to the output directory
-             * @param prefix Prefix to set for the job sequence
-             * @param outputDir Output dir to set for the job sequence
-             * @return True if new file is saved, false otherwise
-             */
-        bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
 
         /** @internal Change the current job, updating associated widgets.
          * @param job is an existing SchedulerJob to set as current, or nullptr.
@@ -900,7 +903,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         void loadProfiles();
 
-        XMLEle *getSequenceJobRoot();
+
 
         /**
             * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.

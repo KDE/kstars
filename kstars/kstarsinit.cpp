@@ -623,6 +623,13 @@ void KStars::initActions()
     ka->setEnabled(false);
     ka->setChecked(Options::showSensorFOV());
 
+    ka = actionCollection()->add<KToggleAction>("show_mosaic_panel", this, SLOT(slotINDIToolBar()))
+         << i18nc("Toggle the Mosaic Panel", "Mosaic Panel")
+         << QIcon::fromTheme("zoom-draw")
+         << ToolTip(i18n("Toggle Mosaic Panel"));
+    ka->setEnabled(true);
+    ka->setChecked(Options::showMosaicPanel());
+
     ka = actionCollection()->add<KToggleAction>("show_mount_box", this, SLOT(slotINDIToolBar()))
          << i18nc("Toggle the Mount Control Panel", "Mount Control")
          << QIcon::fromTheme("draw-text")
@@ -734,11 +741,11 @@ void KStars::repopulateHIPS()
     {
         QString title = source.value("obs_title");
 
-        QAction *ka = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
-                      << title << AddToGroup(hipsGroup)
-                      << Checked(Options::hIPSSource() == title);
+        QAction *newAction = actionCollection()->addAction(title, this, SLOT(slotHIPSSource()))
+                             << title << AddToGroup(hipsGroup)
+                             << Checked(Options::hIPSSource() == title);
 
-        hipsActionMenu->addAction(ka);
+        hipsActionMenu->addAction(newAction);
     }
 
     // Hips settings
@@ -753,23 +760,18 @@ void KStars::initStatusBar()
     statusBar()->showMessage(i18n(" Welcome to KStars "));
 
     QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
-    if (Options::showAltAzField())
-    {
-        AltAzField.setText(s);
-        statusBar()->insertPermanentWidget(0, &AltAzField);
-    }
 
-    if (Options::showRADecField())
-    {
-        RADecField.setText(s);
-        statusBar()->insertPermanentWidget(1, &RADecField);
-    }
+    AltAzField.setHidden(!Options::showAltAzField());
+    AltAzField.setText(s);
+    statusBar()->insertPermanentWidget(0, &AltAzField);
 
-    if (Options::showJ2000RADecField())
-    {
-        J2000RADecField.setText(s);
-        statusBar()->insertPermanentWidget(1, &J2000RADecField);
-    }
+    RADecField.setHidden(!Options::showRADecField());
+    RADecField.setText(s);
+    statusBar()->insertPermanentWidget(1, &RADecField);
+
+    J2000RADecField.setHidden(!Options::showJ2000RADecField());
+    J2000RADecField.setText(s);
+    statusBar()->insertPermanentWidget(2, &J2000RADecField);
 
     if (!Options::showStatusBar())
         statusBar()->hide();
