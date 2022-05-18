@@ -511,6 +511,13 @@ class Mount : public QWidget, public Ui::Mount
          */
         void registerNewModule(const QString &name);
 
+        /**
+         * @brief gotoTarget Slew to target coordinates.
+         * @param target Target
+         * @return True if slew successful, false otherwise.
+         */
+        bool gotoTarget(const SkyPoint &target);
+
     private slots:
         void startParkTimer();
         void stopParkTimer();
@@ -531,10 +538,15 @@ class Mount : public QWidget, public Ui::Mount
         void newCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
         /**
          * @brief The mount has finished the slew to a new target.
-         * @param currentObject object close to the position the mount is pointing to
          * @param currentCoords exact position where the mount is positioned
          */
-        void newTarget(SkyObject &currentObject, SkyPoint &currentCoord);
+        void newTarget(SkyPoint &currentCoord);
+
+        /**
+         * @brief The mount has finished the slew to a new target.
+         * @param Name Name of object, if any, the mount is positioned at.
+         */
+        void newTargetName(const QString &name);
         /**
          * @brief Change in the mount status.
          */

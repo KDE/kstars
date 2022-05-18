@@ -1,11 +1,11 @@
 /*
-    SPDX-FileCopyrightText: 2015 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    SPDX-FileCopyrightText: 2022 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "mosaic.h"
-#include "ui_mosaic.h"
+#include "framingassistant.h"
+#include "ui_framingassistant.h"
 #include "mosaictilesmanager.h"
 #include "kstars.h"
 #include "Options.h"
@@ -19,7 +19,17 @@
 namespace Ekos
 {
 
-Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(parent), ui(new Ui::mosaicDialog())
+FramingAssistant* FramingAssistant::Instance()
+{
+    if (_FramingAssistant == nullptr)
+    {
+        _FramingAssistant = new FramingAssistant;
+    }
+
+    return _FramingAssistant;
+}
+
+FramingAssistant::FramingAssistant(): QDialog(KStars::Instance()), ui(new Ui::FramingAssistant())
 {
     ui->setupUi(this);
 
@@ -32,36 +42,41 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
     ui->rotationSpin->setValue(Options::cameraRotation());
 
     // Initial job location is the home path appended with the target name
-    ui->jobsDir->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + targetName.replace(' ', '_')));
-    ui->selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder"));
+    //ui->jobsDir->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + targetName.replace(' ', '_')));
+    //ui->selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder"));
 
     // The update timer avoids stacking updates which crash the sky map renderer
     updateTimer = new QTimer(this);
     updateTimer->setSingleShot(true);
     updateTimer->setInterval(1000);
-    connect(updateTimer, &QTimer::timeout, this, &Ekos::Mosaic::constructMosaic);
+    connect(updateTimer, &QTimer::timeout, this, &Ekos::FramingAssistant::constructMosaic);
 
     // Scope optics information
     // - Changing the optics configuration changes the FOV, which changes the target field dimensions
-    connect(ui->focalLenSpin, &QDoubleSpinBox::editingFinished, this, &Ekos::Mosaic::calculateFOV);
-    connect(ui->cameraWSpin, &QSpinBox::editingFinished, this, &Ekos::Mosaic::calculateFOV);
-    connect(ui->cameraHSpin, &QSpinBox::editingFinished, this, &Ekos::Mosaic::calculateFOV);
-    connect(ui->pixelWSizeSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Mosaic::calculateFOV);
-    connect(ui->pixelHSizeSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Mosaic::calculateFOV);
-    connect(ui->rotationSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Mosaic::calculateFOV);
+    connect(ui->focalLenSpin, &QDoubleSpinBox::editingFinished, this, &Ekos::FramingAssistant::calculateFOV);
+    connect(ui->cameraWSpin, &QSpinBox::editingFinished, this, &Ekos::FramingAssistant::calculateFOV);
+    connect(ui->cameraHSpin, &QSpinBox::editingFinished, this, &Ekos::FramingAssistant::calculateFOV);
+    connect(ui->pixelWSizeSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::FramingAssistant::calculateFOV);
+    connect(ui->pixelHSizeSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::FramingAssistant::calculateFOV);
+    connect(ui->rotationSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::FramingAssistant::calculateFOV);
 
     // Mosaic configuration
     // - Changing the target field dimensions changes the grid dimensions
     // - Changing the overlap field changes the grid dimensions (more intuitive than changing the field)
     // - Changing the grid dimensions changes the target field dimensions
     connect(ui->targetHFOVSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Mosaic::updateGridFromTargetFOV);
+            &Ekos::FramingAssistant::updateGridFromTargetFOV);
     connect(ui->targetWFOVSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Mosaic::updateGridFromTargetFOV);
+            &Ekos::FramingAssistant::updateGridFromTargetFOV);
     connect(ui->overlapSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Mosaic::updateGridFromTargetFOV);
-    connect(ui->mosaicWSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::updateTargetFOVFromGrid);
-    connect(ui->mosaicHSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::updateTargetFOVFromGrid);
+            &Ekos::FramingAssistant::updateGridFromTargetFOV);
+    connect(ui->mosaicWSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            &Ekos::FramingAssistant::updateTargetFOVFromGrid);
+    connect(ui->mosaicHSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            &Ekos::FramingAssistant::updateTargetFOVFromGrid);
 
     // Lazy update for s-shape
     connect(ui->reverseOddRows, &QCheckBox::toggled, this, [&]()
@@ -71,9 +86,9 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
     });
 
     // Buttons
-    connect(ui->resetB, &QPushButton::clicked, this, &Ekos::Mosaic::updateTargetFOVFromGrid);
-    connect(ui->selectJobsDirB, &QPushButton::clicked, this, &Ekos::Mosaic::saveJobsDirectory);
-    connect(ui->fetchB, &QPushButton::clicked, this, &Mosaic::fetchINDIInformation);
+    connect(ui->resetB, &QPushButton::clicked, this, &Ekos::FramingAssistant::updateTargetFOVFromGrid);
+    connect(ui->selectJobsDirB, &QPushButton::clicked, this, &Ekos::FramingAssistant::saveJobsDirectory);
+    connect(ui->fetchB, &QPushButton::clicked, this, &FramingAssistant::fetchINDIInformation);
 
     // The sky map is a pixmap background, and the mosaic tiles are rendered over it
     //m_TilesScene = new MosaicTilesScene(this);
@@ -93,7 +108,7 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
         updateTimer->start();
     });
     m_TilesScene.addItem(m_MosaicTilesManager);
-    ui->mosaicView->setScene(&m_TilesScene);
+    //ui->mosaicView->setScene(&m_TilesScene);
 
     // Always use Equatorial Mode in Mosaic mode
     m_RememberAltAzOption = Options::useAltAz();
@@ -102,44 +117,44 @@ Mosaic::Mosaic(QString targetName, SkyPoint center, QWidget *parent): QDialog(pa
     Options::setShowGround(false);
 
     // Rendering options
-    connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
-    {
-        ui->transparencySlider->setToolTip(QString("%1%").arg(v));
-        m_MosaicTilesManager->setPainterAlpha(v);
-        updateTimer->start();
-    });
-    connect(ui->transparencyAuto, &QCheckBox::toggled, this, [&](bool v)
-    {
-        ui->transparencySlider->setEnabled(!v);
-        if (v)
-            updateTimer->start();
-    });
+    //    connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
+    //    {
+    //        ui->transparencySlider->setToolTip(QString("%1%").arg(v));
+    //        m_MosaicTilesManager->setPainterAlpha(v);
+    //        updateTimer->start();
+    //    });
+    //    connect(ui->transparencyAuto, &QCheckBox::toggled, this, [&](bool v)
+    //    {
+    //        ui->transparencySlider->setEnabled(!v);
+    //        if (v)
+    //            updateTimer->start();
+    //    });
 
     // Job options
-    connect(ui->alignEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::rewordStepEvery);
-    connect(ui->focusEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Mosaic::rewordStepEvery);
-    ui->alignEvery->valueChanged(0);
-    ui->focusEvery->valueChanged(0);
+    connect(ui->alignEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistant::rewordStepEvery);
+    connect(ui->focusEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistant::rewordStepEvery);
+    emit ui->alignEvery->valueChanged(0);
+    emit ui->focusEvery->valueChanged(0);
 
     // Center, fetch optics and adjust size
-    setCenter(center);
+    //setCenter(center);
     fetchINDIInformation();
     adjustSize();
 }
 
-Mosaic::~Mosaic()
+FramingAssistant::~FramingAssistant()
 {
     delete updateTimer;
     Options::setUseAltAz(m_RememberAltAzOption);
     Options::setShowGround(m_RememberShowGround);
 }
 
-QString Mosaic::getJobsDir() const
+QString FramingAssistant::getJobsDir() const
 {
     return ui->jobsDir->text();
 }
 
-bool Mosaic::isScopeInfoValid() const
+bool FramingAssistant::isScopeInfoValid() const
 {
     if (0 < ui->focalLenSpin->value())
         if (0 < ui->cameraWSpin->value() && 0 < ui->cameraWSpin->value())
@@ -148,19 +163,19 @@ bool Mosaic::isScopeInfoValid() const
     return false;
 }
 
-double Mosaic::getTargetWFOV() const
+double FramingAssistant::getTargetWFOV() const
 {
     double const xFOV = ui->cameraWFOVSpin->value() * (1 - ui->overlapSpin->value() / 100.0);
     return ui->cameraWFOVSpin->value() + xFOV * (ui->mosaicWSpin->value() - 1);
 }
 
-double Mosaic::getTargetHFOV() const
+double FramingAssistant::getTargetHFOV() const
 {
     double const yFOV = ui->cameraHFOVSpin->value() * (1 - ui->overlapSpin->value() / 100.0);
     return ui->cameraHFOVSpin->value() + yFOV * (ui->mosaicHSpin->value() - 1);
 }
 
-double Mosaic::getTargetMosaicW() const
+double FramingAssistant::getTargetMosaicW() const
 {
     // If FOV is invalid, or target FOV is null, or target FOV is smaller than camera FOV, we get one tile
     if (!isScopeInfoValid() || !ui->targetWFOVSpin->value() || ui->targetWFOVSpin->value() <= ui->cameraWFOVSpin->value())
@@ -173,7 +188,7 @@ double Mosaic::getTargetMosaicW() const
     return tiles;
 }
 
-double Mosaic::getTargetMosaicH() const
+double FramingAssistant::getTargetMosaicH() const
 {
     // If FOV is invalid, or target FOV is null, or target FOV is smaller than camera FOV, we get one tile
     if (!isScopeInfoValid() || !ui->targetHFOVSpin->value() || ui->targetHFOVSpin->value() <= ui->cameraHFOVSpin->value())
@@ -186,28 +201,22 @@ double Mosaic::getTargetMosaicH() const
     return tiles;
 }
 
-int Mosaic::exec()
-{
-    premosaicZoomFactor = Options::zoomFactor();
+//int FramingAssistant::exec()
+//{
+//    premosaicZoomFactor = Options::zoomFactor();
 
-    int const result = QDialog::exec();
+//    int const result = QDialog::exec();
 
-    // Revert various options
-    updateTimer->stop();
-    SkyMap *map = SkyMap::Instance();
-    if (map && 0 < premosaicZoomFactor)
-        map->setZoomFactor(premosaicZoomFactor);
+//    // Revert various options
+//    updateTimer->stop();
+//    SkyMap *map = SkyMap::Instance();
+//    if (map && 0 < premosaicZoomFactor)
+//        map->setZoomFactor(premosaicZoomFactor);
 
-    return result;
-}
+//    return result;
+//}
 
-void Mosaic::accept()
-{
-    //createJobs();
-    QDialog::accept();
-}
-
-void Mosaic::saveJobsDirectory()
+void FramingAssistant::saveJobsDirectory()
 {
     QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "FITS Save Directory"),
                   ui->jobsDir->text());
@@ -216,30 +225,13 @@ void Mosaic::saveJobsDirectory()
         ui->jobsDir->setText(dir);
 }
 
-void Mosaic::setCenter(const SkyPoint &value)
+void FramingAssistant::setCenter(const SkyPoint &value)
 {
     m_CenterPoint = value;
     m_CenterPoint.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
 }
 
-void Mosaic::setCameraSize(uint16_t width, uint16_t height)
-{
-    ui->cameraWSpin->setValue(width);
-    ui->cameraHSpin->setValue(height);
-}
-
-void Mosaic::setPixelSize(double pixelWSize, double pixelHSize)
-{
-    ui->pixelWSizeSpin->setValue(pixelWSize);
-    ui->pixelHSizeSpin->setValue(pixelHSize);
-}
-
-void Mosaic::setFocalLength(double focalLength)
-{
-    ui->focalLenSpin->setValue(focalLength);
-}
-
-void Mosaic::calculateFOV()
+void FramingAssistant::calculateFOV()
 {
     if (!isScopeInfoValid())
         return;
@@ -284,7 +276,7 @@ void Mosaic::calculateFOV()
     updateTimer->start();
 }
 
-void Mosaic::updateTargetFOV()
+void FramingAssistant::updateTargetFOV()
 {
     KStars *ks  = KStars::Instance();
     SkyMap *map = SkyMap::Instance();
@@ -331,7 +323,7 @@ void Mosaic::updateTargetFOV()
 
 }
 
-void Mosaic::resizeEvent(QResizeEvent *)
+void FramingAssistant::resizeEvent(QResizeEvent *)
 {
     // Adjust scene rect to avoid rounding holes on border
     QRectF adjustedSceneRect(m_TilesScene.sceneRect());
@@ -340,16 +332,16 @@ void Mosaic::resizeEvent(QResizeEvent *)
     adjustedSceneRect.setRight(adjustedSceneRect.right() - 2);
     adjustedSceneRect.setBottom(adjustedSceneRect.bottom() - 2);
 
-    ui->mosaicView->fitInView(adjustedSceneRect, Qt::KeepAspectRatioByExpanding);
-    ui->mosaicView->centerOn(QPointF());
+    //    ui->mosaicView->fitInView(adjustedSceneRect, Qt::KeepAspectRatioByExpanding);
+    //    ui->mosaicView->centerOn(QPointF());
 }
 
-void Mosaic::showEvent(QShowEvent *)
+void FramingAssistant::showEvent(QShowEvent *)
 {
     resizeEvent(nullptr);
 }
 
-void Mosaic::resetFOV()
+void FramingAssistant::resetFOV()
 {
     if (!isScopeInfoValid())
         return;
@@ -358,7 +350,7 @@ void Mosaic::resetFOV()
     ui->targetHFOVSpin->setValue(getTargetHFOV());
 }
 
-void Mosaic::updateTargetFOVFromGrid()
+void FramingAssistant::updateTargetFOVFromGrid()
 {
     if (!isScopeInfoValid())
         return;
@@ -383,7 +375,7 @@ void Mosaic::updateTargetFOVFromGrid()
     }
 }
 
-void Mosaic::updateGridFromTargetFOV()
+void FramingAssistant::updateGridFromTargetFOV()
 {
     if (!isScopeInfoValid())
         return;
@@ -409,7 +401,7 @@ void Mosaic::updateGridFromTargetFOV()
     updateTimer->start();
 }
 
-void Mosaic::constructMosaic()
+void FramingAssistant::constructMosaic()
 {
     updateTimer->stop();
 
@@ -438,36 +430,36 @@ void Mosaic::constructMosaic()
                                       m_SkyPixmapItem->boundingRect().center()),
                                       ui->reverseOddRows->checkState() == Qt::CheckState::Checked);
 
-    ui->jobCountSpin->setValue(m_MosaicTilesManager->getWidth() * m_MosaicTilesManager->getHeight());
+    //    ui->jobCountSpin->setValue(m_MosaicTilesManager->getWidth() * m_MosaicTilesManager->getHeight());
 
-    if (ui->transparencyAuto->isChecked())
-    {
-        // Tiles should be more transparent when many are overlapped
-        // Overlap < 50%: low transparency, as only two tiles will overlap on a line
-        // 50% < Overlap < 75%: mid transparency, as three tiles will overlap one a line
-        // 75% < Overlap: high transparency, as four tiles will overlap on a line
-        // Slider controlling transparency provides [5%,50%], which is scaled to 0-200 alpha.
+    //    if (ui->transparencyAuto->isChecked())
+    //    {
+    //        // Tiles should be more transparent when many are overlapped
+    //        // Overlap < 50%: low transparency, as only two tiles will overlap on a line
+    //        // 50% < Overlap < 75%: mid transparency, as three tiles will overlap one a line
+    //        // 75% < Overlap: high transparency, as four tiles will overlap on a line
+    //        // Slider controlling transparency provides [5%,50%], which is scaled to 0-200 alpha.
 
-        if (1 < ui->jobCountSpin->value())
-            ui->transparencySlider->setValue(40 - ui->overlapSpin->value() / 2);
-        else
-            ui->transparencySlider->setValue(40);
+    //        if (1 < ui->jobCountSpin->value())
+    //            ui->transparencySlider->setValue(40 - ui->overlapSpin->value() / 2);
+    //        else
+    //            ui->transparencySlider->setValue(40);
 
-        ui->transparencySlider->update();
-    }
+    //        ui->transparencySlider->update();
+    //    }
 
     resizeEvent(nullptr);
     m_MosaicTilesManager->show();
 
-    ui->mosaicView->update();
+    //ui->mosaicView->update();
 }
 
-QList <Mosaic::Job> Mosaic::getJobs() const
+QList <FramingAssistant::Job> FramingAssistant::getJobs() const
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Mosaic Tile W:" << m_MosaicTilesManager->boundingRect().width() << "H:" <<
                                    m_MosaicTilesManager->boundingRect().height();
 
-    QList <Mosaic::Job> result;
+    QList <FramingAssistant::Job> result;
 
     // We have two items:
     // 1. SkyMapItem is the pixmap we fetch from KStars that shows the sky field.
@@ -506,7 +498,7 @@ QList <Mosaic::Job> Mosaic::getJobs() const
     return result;
 }
 
-void Mosaic::fetchINDIInformation()
+void FramingAssistant::fetchINDIInformation()
 {
     QDBusInterface alignInterface("org.kde.kstars",
                                   "/KStars/Ekos/Align",
@@ -518,15 +510,15 @@ void Mosaic::fetchINDIInformation()
     {
         QList<double> const values = cameraReply.value();
 
-        setCameraSize(values[0], values[1]);
-        setPixelSize(values[2], values[3]);
+        m_CameraSize = QSize(values[0], values[1]);
+        m_PixelSize = QSizeF(values[2], values[3]);
     }
 
     QDBusReply<QList<double>> telescopeReply = alignInterface.call("telescopeInfo");
     if (telescopeReply.isValid())
     {
         QList<double> const values = telescopeReply.value();
-        setFocalLength(values[0]);
+        m_FocalLength = values[0];
     }
 
     QDBusReply<QList<double>> solutionReply = alignInterface.call("getSolutionResult");
@@ -534,13 +526,13 @@ void Mosaic::fetchINDIInformation()
     {
         QList<double> const values = solutionReply.value();
         if (values[0] > INVALID_VALUE)
-            ui->rotationSpin->setValue(values[0]);
+            m_Rotation = values[0];
     }
 
     calculateFOV();
 }
 
-void Mosaic::rewordStepEvery(int v)
+void FramingAssistant::rewordStepEvery(int v)
 {
     QSpinBox * sp = dynamic_cast<QSpinBox *>(sender());
     if (0 < v)

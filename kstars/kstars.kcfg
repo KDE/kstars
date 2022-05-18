@@ -691,6 +691,11 @@
          <whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="ShowMosaicPanel" type="Bool">
+         <label>Draw Mosaic Panel in the sky map?</label>
+         <whatsthis>Toggle whether the Mosaic Panel are drawn in the sky map.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="SlewTimeScale" type="Double">
          <label>Minimum timescale for forced-slewing mode</label>
          <whatsthis>The timescale above which slewing mode is forced on at all times.</whatsthis>
@@ -2721,7 +2726,7 @@
        <label>Draw HiPS sources in the sky map?</label>
        <whatsthis>Toggle whether the HIPS sources are drawn in the sky map.</whatsthis>
        <default>false</default>
-    </entry>
+    </entry>    
     <entry name="HIPSUseOfflineSource" type="Bool">
        <label>Use offline storage to load HiPS?</label>
        <default>false</default>
@@ -2863,6 +2868,16 @@
    <entry name="ASTAPLargeSearchWindow" type="Bool">
       <label>Increase search window size.</label>
       <default>false</default>
+   </entry>
+   </group>
+   <group name="Mosaic">
+   <entry name="MosaicTransparencyAuto" type="Bool">
+     <whatsthis>Manage the mosaic panel transparency level automatically.</whatsthis>
+     <default>true</default>
+   </entry>
+   <entry name="MosaicTransparencyLevel" type="Double">
+     <whatsthis>Control mosaic panel transparency level.</whatsthis>
+     <default>50</default>
    </entry>
    </group>
 </kcfg>

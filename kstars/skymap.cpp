@@ -203,8 +203,8 @@ SkyMap::SkyMap()
     m_objBox = new InfoBoxWidget(Options::shadeFocusBox(), Options::positionFocusBox(), Options::stickyFocusBox(),
                                  QStringList(), this);
     m_objBox->setVisible(Options::showFocusBox());
-    connect(this, SIGNAL(objectChanged(SkyObject*)), m_objBox, SLOT(slotObjectChanged(SkyObject*)));
-    connect(this, SIGNAL(positionChanged(SkyPoint*)), m_objBox, SLOT(slotPointChanged(SkyPoint*)));
+    connect(this, &SkyMap::objectChanged, m_objBox, &InfoBoxWidget::slotObjectChanged);
+    connect(this, &SkyMap::positionChanged, m_objBox, &InfoBoxWidget::slotPointChanged);
 
     m_SkyMapDraw = new SkyMapQDraw(this);
     m_SkyMapDraw->setMouseTracking(true);
@@ -295,6 +295,14 @@ void SkyMap::showFocusCoords()
         emit objectChanged(focusObject());
     else
         emit positionChanged(focus());
+}
+
+void SkyMap::updateInfoBoxes()
+{
+    if (focusObject() && Options::isTracking())
+        m_objBox->slotObjectChanged(focusObject());
+    else
+        m_objBox->slotPointChanged(focus());
 }
 
 void SkyMap::slotTransientLabel()
@@ -1247,6 +1255,7 @@ void SkyMap::setupProjector()
 void SkyMap::setZoomMouseCursor()
 {
     mouseMoveCursor = false; // no mousemove cursor
+    mouseDragCursor = false;
     QBitmap cursor  = zoomCursorBitmap(2);
     QBitmap mask    = zoomCursorBitmap(4);
     setCursor(QCursor(cursor, mask));
@@ -1256,6 +1265,7 @@ void SkyMap::setMouseCursorShape(Cursor type)
 {
     // no mousemove cursor
     mouseMoveCursor = false;
+    mouseDragCursor = false;
 
     switch (type)
     {
@@ -1287,6 +1297,15 @@ void SkyMap::setMouseMoveCursor()
     {
         setCursor(Qt::SizeAllCursor); // cursor shape defined in qt
         mouseMoveCursor = true;
+    }
+}
+
+void SkyMap::setMouseDragCursor()
+{
+    if (mouseButtonDown)
+    {
+        setCursor(Qt::OpenHandCursor); // cursor shape defined in qt
+        mouseDragCursor = true;
     }
 }
 

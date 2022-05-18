@@ -20,6 +20,8 @@
 #include "scheduleradaptor.h"
 #include "schedulerjob.h"
 #include "skymapcomposite.h"
+#include "skycomponents/mosaiccomponent.h"
+#include "skyobjects/mosaictiles.h"
 #include "auxiliary/QProgressIndicator.h"
 #include "dialogs/finddialog.h"
 #include "ekos/manager.h"
@@ -387,7 +389,8 @@ void Scheduler::setupNextIteration(SchedulerTimerState nextState, int millisecon
         timerInterval = std::max(0, milliseconds - remaining);
         iterationTimer.start(timerInterval);
     }
-    else {
+    else
+    {
         // setup called from inside the iteration timer thread
         timerInterval = milliseconds;
     }
@@ -818,7 +821,7 @@ void Scheduler::addObject(SkyObject *object)
         decBox->showInDegrees(object->dec0());
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
-        mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
+        //mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
 
         setDirty();
     }
@@ -839,7 +842,7 @@ void Scheduler::selectFITS()
         nameEdit->setText(fitsURL.fileName());
 
     addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
-    mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
+    //mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
 
     processFITSSelection();
 
@@ -941,7 +944,7 @@ void Scheduler::setSequence(const QString &sequenceFileURL)
             || (nameEdit->text().isEmpty() == false && fitsURL.isEmpty() == false))
     {
         addToQueueB->setEnabled(true);
-        mosaicB->setEnabled(true);
+        //mosaicB->setEnabled(true);
     }
 
     setDirty();
@@ -1018,7 +1021,7 @@ void Scheduler::setupJob(
     job.setPriority(priority);
     // djd should be ut.djd
     job.setTargetCoords(ra, dec, djd);
-    job.setRotation(rotation);
+    job.setPositionAngle(rotation);
 
     /* Consider sequence file is new, and clear captured frames map */
     job.setCapturedFramesMap(SchedulerJob::CapturedFramesMap());
@@ -1184,7 +1187,7 @@ void Scheduler::saveJob()
     setupJob(
         *job, nameEdit->text(), prioritySpin->value(), ra, dec,
         KStarsData::Instance()->ut().djd(),
-        rotationSpin->value(), sequenceURL, fitsURL,
+        positionAngleSpin->value(), sequenceURL, fitsURL,
 
         startCondition, startupTimeEdit->dateTime(), culminationOffset->value(),
         stopCondition, completionTimeEdit->dateTime(), repeatsSpin->value(),
@@ -1329,7 +1332,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     fitsEdit->setText(fitsURL.toLocalFile());
     sequenceEdit->setText(sequenceURL.toLocalFile());
 
-    rotationSpin->setValue(job->getRotation());
+    positionAngleSpin->setValue(job->getPositionAngle());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -1860,7 +1863,7 @@ void Scheduler::stop()
     queueAppendB->setEnabled(true);
     addToQueueB->setEnabled(true);
     setJobManipulation(false, false);
-    mosaicB->setEnabled(true);
+    //mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
 
@@ -1900,7 +1903,7 @@ void Scheduler::execute()
             queueAppendB->setEnabled(false);
             addToQueueB->setEnabled(false);
             setJobManipulation(false, false);
-            mosaicB->setEnabled(false);
+            //mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
             startupB->setEnabled(false);
             shutdownB->setEnabled(false);
@@ -4331,6 +4334,12 @@ bool Scheduler::appendEkosScheduleList(const QString &fileURL)
                 const char *tag = tagXMLEle(ep);
                 if (!strcmp(tag, "Job"))
                     processJobInfo(ep);
+                else if (!strcmp(tag, "Mosaic"))
+                {
+                    // If we have mosaic info, load it up.
+                    auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
+                    tiles->fromXML(fileURL);
+                }
                 else if (!strcmp(tag, "Profile"))
                 {
                     schedulerProfileCombo->setCurrentText(pcdataXMLEle(ep));
@@ -4417,7 +4426,7 @@ bool Scheduler::appendEkosScheduleList(const QString &fileURL)
     }
 
     schedulerURL = QUrl::fromLocalFile(fileURL);
-    mosaicB->setEnabled(true);
+    //mosaicB->setEnabled(true);
     mDirty = false;
     delLilXML(xmlParser);
     // update save button tool tip
@@ -4447,7 +4456,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     minAltitude->setValue(minAltitude->minimum());
     minMoonSeparation->setValue(minMoonSeparation->minimum());
-    rotationSpin->setValue(0);
+    positionAngleSpin->setValue(0);
 
     // We expect all data read from the XML to be in the C locale - QLocale::c()
     QLocale cLocale = QLocale::c();
@@ -4485,9 +4494,9 @@ bool Scheduler::processJobInfo(XMLEle *root)
             fitsEdit->setText(pcdataXMLEle(ep));
             fitsURL.setPath(fitsEdit->text());
         }
-        else if (!strcmp(tagXMLEle(ep), "Rotation"))
+        else if (!strcmp(tagXMLEle(ep), "PositionAngle"))
         {
-            rotationSpin->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+            positionAngleSpin->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "StartupCondition"))
         {
@@ -4622,7 +4631,6 @@ void Scheduler::save()
             return;
         }
 
-        mDirty = false;
         // update save button tool tip
         queueSaveB->setToolTip("Save schedule to " + schedulerURL.fileName());
     }
@@ -4651,11 +4659,43 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     QLocale cLocale = QLocale::c();
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.4'>" << endl;
+    outstream << "<SchedulerList version='1.5'>" << endl;
     // ensure to escape special XML characters
     outstream << "<Profile>" << QString(entityXML(strdup(schedulerProfileCombo->currentText().toStdString().c_str()))) <<
               "</Profile>" << endl;
 
+    auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
+    bool useMosaicInfo = !tiles->sequenceFile().isEmpty();
+
+    if (useMosaicInfo)
+    {
+        outstream << "<Mosaic>" << endl;
+        outstream << "<Target>" << tiles->targetName() << "</Target>" << endl;
+        outstream << "<Sequence>" << tiles->sequenceFile() << "</Sequence>" << endl;
+        outstream << "<Directory>" << tiles->outputDirectory() << "</Directory>" << endl;
+        outstream << "<FocusEveryN>" << tiles->focusEveryN() << "</FocusEveryN>" << endl;
+        outstream << "<AlignEveryN>" << tiles->alignEveryN() << "</AlignEveryN>" << endl;
+        if (tiles->isTrackChecked())
+            outstream << "<TrackChecked/>" << endl;
+        if (tiles->isFocusChecked())
+            outstream << "<FocusChecked/>" << endl;
+        if (tiles->isAlignChecked())
+            outstream << "<AlignChecked/>" << endl;
+        if (tiles->isGuideChecked())
+            outstream << "<GuideChecked/>" << endl;
+        outstream << "<Overlap>" << cLocale.toString(tiles->overlap()) << "</Overlap>" << endl;
+        outstream << "<CenterRA>" << cLocale.toString(tiles->ra0().Hours()) << "</CenterRA>" << endl;
+        outstream << "<CenterDE>" << cLocale.toString(tiles->dec0().Degrees()) << "</CenterDE>" << endl;
+        outstream << "<GridW>" << tiles->gridSize().width() << "</GridW>" << endl;
+        outstream << "<GridH>" << tiles->gridSize().height() << "</GridH>" << endl;
+        outstream << "<FOVW>" << cLocale.toString(tiles->mosaicFOV().width()) << "</FOVW>" << endl;
+        outstream << "<FOVH>" << cLocale.toString(tiles->mosaicFOV().height()) << "</FOVH>" << endl;
+        outstream << "<CameraFOVW>" << cLocale.toString(tiles->cameraFOV().width()) << "</CameraFOVW>" << endl;
+        outstream << "<CameraFOVH>" << cLocale.toString(tiles->cameraFOV().height()) << "</CameraFOVH>" << endl;
+        outstream << "</Mosaic>" << endl;
+    }
+
+    int index = 0;
     foreach (SchedulerJob *job, jobs)
     {
         outstream << "<Job>" << endl;
@@ -4671,9 +4711,19 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
         else
-            outstream << "<Rotation>" << job->getRotation() << "</Rotation>" << endl;
+            outstream << "<PositionAngle>" << job->getPositionAngle() << "</PositionAngle>" << endl;
 
         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
+
+        if (useMosaicInfo)
+        {
+            auto oneTile = tiles->tiles().at(index++);
+            outstream << "<TileCenter>" << endl;
+            outstream << "<X>" << cLocale.toString(oneTile->center.x()) << "</X>" << endl;
+            outstream << "<Y>" << cLocale.toString(oneTile->center.y()) << "</Y>" << endl;
+            outstream << "<Rotation>" << cLocale.toString(oneTile->rotation) << "</Rotation>" << endl;
+            outstream << "</TileCenter>" << endl;
+        }
 
         outstream << "<StartupCondition>" << endl;
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
@@ -4760,6 +4810,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
     appendLogText(i18n("Scheduler list saved to %1", fileURL.toLocalFile()));
     file.close();
+    mDirty = false;
     return true;
 }
 
@@ -5220,7 +5271,7 @@ void Scheduler::startAstrometry()
         const SkyPoint targetCoords = currentJob->getTargetCoords();
         QList<QVariant> targetArgs, rotationArgs;
         targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
-        rotationArgs << currentJob->getRotation();
+        rotationArgs << currentJob->getPositionAngle();
 
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetCoords");
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
@@ -5233,11 +5284,11 @@ void Scheduler::startAstrometry()
             return;
         }
 
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetRotation");
-        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetRotation",
+        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetPositionAngle");
+        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
                      rotationArgs)).type() == QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetRotation request received DBUS error: %2").arg(
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
                                                   currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
                 currentJob->setState(SchedulerJob::JOB_ERROR);
@@ -5467,7 +5518,7 @@ void Scheduler::setDirty()
     bool const addingOK = (nameSelectionOK || fitsSelectionOK) && seqSelectionOK;
 
     addToQueueB->setEnabled(addingOK);
-    mosaicB->setEnabled(addingOK);
+    //mosaicB->setEnabled(addingOK);
 }
 
 void Scheduler::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob*> &seqjobs,
@@ -6783,7 +6834,7 @@ void Scheduler::startMosaicTool()
 
         int batchCount     = 1;
 
-        XMLEle *root = getSequenceJobRoot();
+        XMLEle *root = getSequenceJobRoot(sequenceURL.toLocalFile());
         if (root == nullptr)
             return;
 
@@ -6820,7 +6871,7 @@ void Scheduler::startMosaicTool()
 
             raBox->showInHours(oneJob.center.ra0());
             decBox->showInDegrees(oneJob.center.dec0());
-            rotationSpin->setValue(oneJob.rotation);
+            positionAngleSpin->setValue(oneJob.rotation);
 
             alignStepCheck->setChecked(oneJob.doAlign);
             focusStepCheck->setChecked(oneJob.doFocus);
@@ -6845,10 +6896,10 @@ void Scheduler::startMosaicTool()
     }
 }
 
-XMLEle * Scheduler::getSequenceJobRoot()
+XMLEle * Scheduler::getSequenceJobRoot(const QString &filename) const
 {
     QFile sFile;
-    sFile.setFileName(sequenceURL.toLocalFile());
+    sFile.setFileName(filename);
 
     if (!sFile.open(QIODevice::ReadOnly))
     {
@@ -6877,16 +6928,6 @@ XMLEle * Scheduler::getSequenceJobRoot()
 
 bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
 {
-    QFile sFile;
-    sFile.setFileName(sequenceURL.toLocalFile());
-
-    if (!sFile.open(QIODevice::ReadOnly))
-    {
-        KSNotification::sorry(i18n("Unable to open sequence file %1", sFile.fileName()),
-                              i18n("Could Not Open File"));
-        return false;
-    }
-
     XMLEle *ep    = nullptr;
     XMLEle *subEP = nullptr;
 
@@ -6906,7 +6947,7 @@ bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QSt
                 }
                 else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
                 {
-                    editXMLEle(subEP, QString("%1/%2").arg(outputDir, prefix).toLatin1().constData());
+                    editXMLEle(subEP, outputDir.toLatin1().constData());
                 }
             }
         }
@@ -8190,8 +8231,12 @@ void Scheduler::setPrimarySettings(const QJsonObject &settings)
     syncControl(settings, "target", nameEdit);
     syncControl(settings, "ra", raBox);
     syncControl(settings, "dec", decBox);
-    syncControl(settings, "rotation", rotationSpin);
-    syncControl(settings, "sequence", sequenceEdit);
+    syncControl(settings, "pa", positionAngleSpin);
+    if (settings.contains("sequence"))
+    {
+        syncControl(settings, "sequence", sequenceEdit);
+        setSequence(settings["sequence"].toString());
+    }
     syncControl(settings, "fits", fitsEdit);
     syncControl(settings, "priority", prioritySpin);
     syncControl(settings, "profile", schedulerProfileCombo);
@@ -8281,6 +8326,9 @@ void Scheduler::setObservatoryShutdownProcedure(const QJsonObject &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
 {
+    if (settings.contains(key) == false)
+        return false;
+
     QSpinBox *pSB = nullptr;
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;

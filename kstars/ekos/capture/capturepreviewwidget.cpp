@@ -49,9 +49,9 @@ void CapturePreviewWidget::shareSchedulerProcess(Ekos::Scheduler *process)
 void CapturePreviewWidget::shareMountProcess(Ekos::Mount *process)
 {
     mountProcess = process;
-    connect(mountProcess, &Ekos::Mount::newTarget, [&](SkyObject currentObject)
+    connect(mountProcess, &Ekos::Mount::newTargetName, this, [this](const QString & name)
     {
-        m_mountTarget = currentObject.name();
+        m_mountTarget = name;
     });
 }
 

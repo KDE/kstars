@@ -103,8 +103,8 @@ void RotatorSettings::syncPA(double PA)
                 // used by astrometry, the PA is always 180 degree off. To avoid confusion to the user
                 // the PA is drawn REVERSED to show the *expected* frame. However, the final PA is
                 // the "correct" PA as expected by astrometry.
-                double drawnPA = PA >= 0 ? (PA - 180) : (PA + 180);
-                oneFOV->setPA(drawnPA);
+                //double drawnPA = PA >= 0 ? (PA - 180) : (PA + 180);
+                oneFOV->setPA(PA);
                 break;
             }
         }

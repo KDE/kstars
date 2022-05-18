@@ -387,8 +387,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 if (unParkAction)
                     unParkAction->setEnabled(true);
 
-                SkyObject emptySky = SkyObject();
-                emit newTarget(emptySky, currentCoords);
+                emit newTarget(currentCoords);
             }
             else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
             {
@@ -746,16 +745,13 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     auto sendToMountDevice = [ = ]()
     {
         // communicate the new target only if a slew will be executed for the given coordinates
-        if (this->slewDefined())
+        if (slewDefined())
         {
-            if (currentObject == nullptr)
-            {
-                SkyObject emptySky = SkyObject();
-                emit newTarget(emptySky, *ScopeTarget);
-            }
-            else
-                emit newTarget(*currentObject, *ScopeTarget);
+            emit newTarget(*ScopeTarget);
+            if (currentObject)
+                emit newTargetName(currentObject->name());
         }
+
         if (EqProp)
         {
             dms ra, de;

@@ -610,9 +610,9 @@ void SchedulerJob::setTargetCoords(const dms &ra, const dms &dec, double djd)
     targetCoords.apparentCoord(static_cast<long double>(J2000), djd);
 }
 
-void SchedulerJob::setRotation(double value)
+void SchedulerJob::setPositionAngle(double value)
 {
-    rotation = value;
+    m_PositionAngle = value;
 }
 
 void SchedulerJob::updateJobCells()
@@ -1643,7 +1643,7 @@ QJsonObject SchedulerJob::toJson() const
     return
     {
         {"name", name},
-        {"rotation", rotation},
+        {"pa", m_PositionAngle},
         {"targetRA", targetCoords.ra0().Hours()},
         {"targetDEC", targetCoords.dec0().Degrees()},
         {"state", state},

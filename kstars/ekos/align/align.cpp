@@ -2117,21 +2117,15 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         calculateAlignTargetDiff();
     }
 
-    double solverPA = orientation;
     // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
-    double solverFlippedPA = orientation + 180;
-    // Limit PA to -180 to +180
-    if (solverFlippedPA > 180)
-        solverFlippedPA -= 360;
-    if (solverFlippedPA < -180)
-        solverFlippedPA += 360;
+    double solverPA = rotationToPositionAngle(orientation);
     solverFOV->setCenter(alignCoord);
-    solverFOV->setPA(solverFlippedPA);
+    solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
     // Sensor FOV as well
-    sensorFOV->setPA(solverFlippedPA);
+    sensorFOV->setPA(solverPA);
 
     QString ra_dms, dec_dms;
     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -2243,27 +2237,31 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         }
         else if (std::isnan(loadSlewTargetPA) == false)
         {
-            double current = range360(currentRotatorPA);
-            double target = range360(loadSlewTargetPA);
-            double targetFlipped = range360(loadSlewTargetPA + 180);
+            double current = currentRotatorPA;
+            double target = loadSlewTargetPA;
+            //double targetFlipped = range360(loadSlewTargetPA + 180);
 
             double diff = current - target;
-            if (fabs(current + 360.0 - target) < fabs(diff))
-            {
-                diff = current + 360.0 - target;
-            }
+            if (diff > 180)
+                diff -= 360;
+            if (diff < -180)
+                diff += 360;
+//            if (fabs(current + 360.0 - target) < fabs(diff))
+//            {
+//                diff = current + 360.0 - target;
+//            }
 
-            if (fabs(current - targetFlipped) < fabs(diff))
-            {
-                diff = current - targetFlipped;
-                target = targetFlipped;
-            }
+//            if (fabs(current - targetFlipped) < fabs(diff))
+//            {
+//                diff = current - targetFlipped;
+//                target = targetFlipped;
+//            }
 
-            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
-            {
-                diff = current + 360.0 - targetFlipped;
-                target = targetFlipped;
-            }
+//            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
+//            {
+//                diff = current + 360.0 - targetFlipped;
+//                target = targetFlipped;
+//            }
 
             double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
@@ -3570,6 +3568,9 @@ void Align::setSettings(const QJsonObject &settings)
 
     auto syncControl = [settings](const QString & key, QWidget * widget)
     {
+        if (settings.contains(key) == false)
+            return false;
+
         QSpinBox *pSB = nullptr;
         QDoubleSpinBox *pDSB = nullptr;
         QCheckBox *pCB = nullptr;
@@ -3697,6 +3698,16 @@ void Align::syncFOV()
     }
 }
 
+double Align::rotationToPositionAngle(double value)
+{
+    double pa = value + 180;
+    if (pa > 180)
+        pa -= 360;
+    if (pa < -180)
+        pa += 360;
+    return pa;
+}
+
 // m_wasSlewStarted can't be false for more than 10s after a slew starts.
 bool Align::didSlewStart()
 {
@@ -3712,17 +3723,15 @@ bool Align::didSlewStart()
 
 void Align::setTargetCoords(double ra0, double de0)
 {
-    double maxrad = 1000.0 / Options::zoomFactor();
     SkyPoint target;
     target.setRA0(ra0);
     target.setDec0(de0);
     target.updateCoordsNow(KStarsData::Instance()->updateNum());
-    setTarget(*KStarsData::Instance()->skyComposite()->objectNearest(&target, maxrad), target);
+    setTarget(target);
 }
 
-void Align::setTarget(const SkyObject &targetObject, const SkyPoint &targetCoord)
+void Align::setTarget(const SkyPoint &targetCoord)
 {
-    Q_UNUSED(targetObject);
     m_targetCoord = targetCoord;
     m_targetCoordValid = true;
     qCInfo(KSTARS_EKOS_ALIGN) << "Target updated to JNow RA:" << m_targetCoord.ra().toHMSString()
@@ -3741,10 +3750,9 @@ QList<double> Align::getTargetCoords()
     return coord;
 }
 
-void Align::setTargetRotation(double rotation)
+void Align::setTargetPositionAngle(double value)
 {
-    loadSlewTargetPA = rotation;
-
+    loadSlewTargetPA =  value;
     qCDebug(KSTARS_EKOS_ALIGN) << "Target Rotation updated to: " << loadSlewTargetPA;
 }
 

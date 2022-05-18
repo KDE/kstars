@@ -48,7 +48,7 @@ class TestSchedulerUnit : public QObject
     private:
         void runSetupJob(SchedulerJob &job,
                          GeoLocation *geo, KStarsDateTime *localTime, const QString &name, int priority,
-                         const dms &ra, const dms &dec, double rotation, const QUrl &sequenceUrl,
+                         const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
                          const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
                          int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
                          double minAlt, double minMoonSep = 0, bool enforceWeather = false, bool enforceTwilight = true,
@@ -166,7 +166,7 @@ void TestSchedulerUnit::darkSkyScoreTest()
 // and tests to see that the resulting SchedulerJob object has the values that were requested.
 void TestSchedulerUnit::runSetupJob(
     SchedulerJob &job, GeoLocation *geo, KStarsDateTime *localTime, const QString &name, int priority,
-    const dms &ra, const dms &dec, double rotation, const QUrl &sequenceUrl,
+    const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
     const QUrl &fitsUrl, SchedulerJob::StartupCondition sCond, const QDateTime &sTime,
     int16_t sOffset, SchedulerJob::CompletionCondition eCond, const QDateTime &eTime, int eReps,
     double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
@@ -178,7 +178,7 @@ void TestSchedulerUnit::runSetupJob(
     Scheduler::setLocalTime(localTime);
     QVERIFY(Scheduler::hasLocalTime() && job.hasGeo());
 
-    Scheduler::setupJob(job, name, priority, ra, dec, ut.djd(), rotation,
+    Scheduler::setupJob(job, name, priority, ra, dec, ut.djd(), positionAngle,
                         sequenceUrl, fitsUrl,
                         sCond, sTime, sOffset,
                         eCond, eTime, eReps,
@@ -189,7 +189,7 @@ void TestSchedulerUnit::runSetupJob(
     QVERIFY(priority == job.getPriority());
     QVERIFY(ra == job.getTargetCoords().ra0());
     QVERIFY(dec == job.getTargetCoords().dec0());
-    QVERIFY(rotation == job.getRotation());
+    QVERIFY(positionAngle == job.getPositionAngle());
     QVERIFY(sequenceUrl == job.getSequenceFile());
     QVERIFY(fitsUrl == job.getFITSFile());
     QVERIFY(minAlt == job.getMinAltitude());

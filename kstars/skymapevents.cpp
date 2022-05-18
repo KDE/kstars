@@ -19,6 +19,10 @@
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/starcomponent.h"
+#include "skycomponents/mosaiccomponent.h"
+#ifdef HAVE_INDI
+#include "skyobjects/mosaictiles.h"
+#endif
 #include "widgets/infoboxwidget.h"
 
 #include <QGestureEvent>
@@ -557,6 +561,45 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
 
     if (mouseButtonDown)
     {
+#ifdef HAVE_INDI
+        if (Options::showMosaicPanel())
+        {
+            auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
+
+            if (tiles->operationMode() == MosaicTiles::MODE_PLANNING)
+            {
+                // Check if mouse point within Mosaic FOV bounds.
+                auto mosaicFOV = tiles->mosaicFOV();
+                auto upperRA = tiles->ra0().Degrees() + mosaicFOV.width() / 60;
+                auto lowerRA = tiles->ra0().Degrees() - mosaicFOV.width() / 60;
+                auto upperDE = tiles->dec0().Degrees() + mosaicFOV.height() / 60;
+                auto lowerDE = tiles->dec0().Degrees() - mosaicFOV.height() / 60;
+
+                auto mouseRA = m_MousePoint.ra().Degrees();
+                auto mouseDE = m_MousePoint.dec().Degrees();
+
+                // If mouse point is within, then behave like drag and drop
+                if (mouseRA > lowerRA && mouseRA < upperRA && mouseDE > lowerDE && mouseDE < upperDE)
+                {
+                    if (!mouseDragCursor)
+                        setMouseDragCursor();
+
+                    dms dRA  = m_MousePoint.ra() - clickedPoint()->ra();
+                    dms dDec = m_MousePoint.dec() - clickedPoint()->dec();
+
+                    // Emit difference between mouse point and clicked point.
+                    emit mosaicCenterChanged(dRA, dDec);
+
+                    // Update mouse and clicked points.
+                    m_MousePoint = projector()->fromScreen(e->pos(), data->lst(), data->geo()->lat());
+                    setClickedPoint(&m_MousePoint);
+                    update();
+                    return;
+                }
+            }
+        }
+#endif
+
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
         if (!mouseMoveCursor)
             setMouseMoveCursor();
@@ -592,7 +635,6 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
         //redetermine RA, Dec of mouse pointer, using new focus
         m_MousePoint = projector()->fromScreen(e->pos(), data->lst(), data->geo()->lat());
         setClickedPoint(&m_MousePoint);
-
         forceUpdate(); // must be new computed
     }
     else //mouse button not down
@@ -677,7 +719,7 @@ void SkyMap::mousePressEvent(QMouseEvent *e)
     }
 
     // if button is down and cursor is not moved set the move cursor after 500 ms
-    QTimer::singleShot(500, this, SLOT(setMouseMoveCursor()));
+    //QTimer::singleShot(500, this, SLOT(setMouseMoveCursor()));
 
     // break if point is unusable
     if (projector()->unusablePoint(e->pos()))

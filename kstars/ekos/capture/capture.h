@@ -571,10 +571,10 @@ class Capture : public QWidget, public Ui::Capture
         void processTelescopeNumber(INumberVectorProperty *nvp);
 
         /**
-         * @brief processNewTarget If mount slews to a new object, process it as it can be used for prefix
-         * @param newTarget new sky object under tracking.
+         * @brief processNewTargetName If mount slews to a new object, process it as it can be used for prefix
+         * @param name new sky object under tracking.
          */
-        void processNewTarget(const SkyObject &newTarget, const SkyPoint &newCoords);
+        void processNewTargetName(const QString &name);
 
         /**
          * @brief addSequenceJob Add a sequence job. This simply calls addJob below with both preview and isDarkFlat set to false.

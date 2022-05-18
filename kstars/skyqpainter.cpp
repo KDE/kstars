@@ -29,6 +29,9 @@
 #include "skyobjects/satellite.h"
 #include "skyobjects/supernova.h"
 #include "skyobjects/ksearthshadow.h"
+#ifdef HAVE_INDI
+#include "skyobjects/mosaictiles.h"
+#endif
 #include "hips/hipsrenderer.h"
 #include "terrain/terrainrenderer.h"
 
@@ -657,6 +660,33 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     restore();
     return true;
 }
+
+#ifdef HAVE_INDI
+bool SkyQPainter::drawMosaicPanel(MosaicTiles *obj)
+{
+    bool visible = false;
+    obj->EquatorialToHorizontal(KStarsData::Instance()->lst(),
+                                KStarsData::Instance()->geo()->lat());
+    QPointF tileMid = m_proj->toScreen(obj, true, &visible);
+
+    if (!visible || !m_proj->onScreen(tileMid) || !obj->isValid())
+        return false;
+
+    //double northRotation = m_proj->findNorthPA(obj, tileMid.x(), tileMid.y())
+
+    // convert 0 to +180 EAST, and 0 to -180 WEST to 0 to 360 CCW
+    auto PA = (obj->positionAngle() < 0) ? obj->positionAngle() + 360 : obj->positionAngle();
+    auto finalPA =  m_proj->findNorthPA(obj, tileMid.x(), tileMid.y()) - PA;
+
+    save();
+    translate(tileMid.toPoint());
+    rotate(finalPA);
+    obj->draw(this);
+    restore();
+
+    return true;
+}
+#endif
 
 bool SkyQPainter::drawHips(bool useCache)
 {

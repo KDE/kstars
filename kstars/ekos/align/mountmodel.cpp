@@ -1061,7 +1061,7 @@ void MountModel::startAlignmentPoint()
         alignIndicator->startAnimation();
 
         const SkyObject *target = getWizardAlignObject(raDeg, dec);
-        m_AlignInstance->setTarget(*target, *target);
+        m_AlignInstance->setTarget(*target);
         m_AlignInstance->Slew();
     }
 }

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "skycomponents/typedef.h"
+#include "config-kstars.h"
 
 #include <QList>
 #include <QPainter>
@@ -20,6 +21,7 @@ class KSEarthShadow;
 class LineList;
 class LineListLabel;
 class Satellite;
+class MosaicTiles;
 class SkipHashList;
 class SkyMap;
 class SkyObject;
@@ -89,8 +91,8 @@ class SkyPainter
          * @note it's more efficient to use this than repeated calls to drawSkyLine(),
          * because it avoids an extra points->size() -2 projections.
          */
-    virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr,
-                                 LineListLabel *label = nullptr) = 0;
+        virtual void drawSkyPolyline(LineList *list, SkipHashList *skipList = nullptr,
+                                     LineListLabel *label = nullptr) = 0;
 
         /**
          * @short Draw a polygon in the sky.
@@ -115,21 +117,21 @@ class SkyPainter
          * @param sp the spectral class of the source
          * @return true if a source was drawn
          */
-    virtual bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') = 0;
+        virtual bool drawPointSource(const SkyPoint *loc, float mag, char sp = 'A') = 0;
 
         /**
-     * @short Draw a deep sky object (loaded from the new implementation)
-     * @param obj the object to draw
-     * @param drawImage if true, try to draw the image of the object
-     * @return true if it was drawn
-     */
-    virtual bool drawCatalogObject(const CatalogObject &obj) = 0;
+        * @short Draw a deep sky object (loaded from the new implementation)
+        * @param obj the object to draw
+        * @param drawImage if true, try to draw the image of the object
+        * @return true if it was drawn
+        */
+        virtual bool drawCatalogObject(const CatalogObject &obj) = 0;
 
-    /**
-         * @short Draw a planet
-         * @param planet the planet to draw
-         * @return true if it was drawn
-         */
+        /**
+             * @short Draw a planet
+             * @param planet the planet to draw
+             * @return true if it was drawn
+             */
         virtual bool drawPlanet(KSPlanetBase *planet) = 0;
 
         /**
@@ -154,8 +156,8 @@ class SkyPainter
         /** @short Draw a Supernova */
         virtual bool drawSupernova(Supernova *sup) = 0;
 
-    virtual void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr,
-                             bool *drawLabel = nullptr) = 0;
+        virtual void drawHorizon(bool filled, SkyPoint *labelPoint = nullptr,
+                                 bool *drawLabel = nullptr) = 0;
 
         /** @short Get the width of a star of magnitude mag */
         float starWidth(float mag) const;
@@ -167,6 +169,13 @@ class SkyPainter
          */
         virtual bool drawConstellationArtImage(ConstellationsArt *obj) = 0;
 
+        /**
+         * @brief drawMosaicPanel Draws mosaic panel in planning or operation mode.
+         * @return true if it was drawn
+         */
+#ifdef HAVE_INDI
+        virtual bool drawMosaicPanel(MosaicTiles *obj) = 0;
+#endif
         /**
          * @brief drawHips Draw HIPS all sky catalog
          * @param useCache if True, try to re-use last generated image instead of rendering a new image.
@@ -182,5 +191,5 @@ class SkyPainter
         virtual bool drawTerrain(bool useCache = false) = 0;
 
     private:
-    float m_sizeMagLim{ 10.0f };
+        float m_sizeMagLim{ 10.0f };
 };

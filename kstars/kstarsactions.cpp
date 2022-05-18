@@ -44,6 +44,10 @@
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/catalogscomponent.h"
+#include "skycomponents/mosaiccomponent.h"
+#ifdef HAVE_INDI
+#include "skyobjects/mosaictiles.h"
+#endif
 #include "tools/altvstime.h"
 #include "tools/astrocalc.h"
 #include "tools/eyepiecefield.h"
@@ -75,6 +79,7 @@
 #include "fitsviewer/opsfits.h"
 #ifdef HAVE_INDI
 #include "ekos/manager.h"
+#include "ekos/scheduler/framingassistantui.h"
 #include "ekos/opsekos.h"
 #endif
 #endif
@@ -334,6 +339,19 @@ void KStars::slotINDIToolBar()
         {
             if (oneFOV->objectName() == "sensor_fov")
                 oneFOV->setProperty("visible", a->isChecked());
+        }
+    }
+    else if (a == actionCollection()->action("show_mosaic_panel"))
+    {
+        Options::setShowMosaicPanel(a->isChecked());
+        // TODO
+        // If scheduler is not running, then we should also show the Mosaic Planner dialog.
+        auto scheduler = Ekos::Manager::Instance()->schedulerModule();
+        if (a->isChecked() && scheduler && scheduler->status() != Ekos::SCHEDULER_RUNNING)
+        {
+            Ekos::FramingAssistantUI *assistant = new Ekos::FramingAssistantUI();
+            assistant->setAttribute(Qt::WA_DeleteOnClose, true);
+            assistant->show();
         }
     }
 
@@ -1869,28 +1887,19 @@ void KStars::slotShowGUIItem(bool show)
     if (sender() == actionCollection()->action("show_sbAzAlt"))
     {
         Options::setShowAltAzField(show);
-        if (!show)
-            AltAzField.hide();
-        else
-            AltAzField.show();
+        AltAzField.setHidden(!show);
     }
 
     if (sender() == actionCollection()->action("show_sbRADec"))
     {
         Options::setShowRADecField(show);
-        if (!show)
-            RADecField.hide();
-        else
-            RADecField.show();
+        RADecField.setHidden(!show);
     }
 
     if (sender() == actionCollection()->action("show_sbJ2000RADec"))
     {
         Options::setShowJ2000RADecField(show);
-        if (!show)
-            J2000RADecField.hide();
-        else
-            J2000RADecField.show();
+        J2000RADecField.setHidden(!show);
     }
 }
 void KStars::addColorMenuItem(QString name, const QString &actionName)
