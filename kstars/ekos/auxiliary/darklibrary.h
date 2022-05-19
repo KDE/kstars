@@ -253,5 +253,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QSharedPointer<DefectMap> m_CurrentDefectMap;
         QSharedPointer<FITSData> m_CurrentDarkFrame;
         QFutureWatcher<bool> m_DarkFrameFutureWatcher;
+
+        // Do not add to cache if system memory falls below 250MB.
+        static constexpr uint16_t CACHE_MEMORY_LIMIT {250};
 };
 }

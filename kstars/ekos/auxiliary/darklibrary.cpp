@@ -18,7 +18,6 @@
 #include "kstarsdata.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
-#include "fitsviewer/fitshistogramview.h"
 
 #include "ekos_debug.h"
 
@@ -54,9 +53,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_StatusBar->insertPermanentWidget(0, m_StatusLabel);
     m_StatusBar->insertPermanentWidget(1, m_FileLabel, 1);
     mainLayout->addWidget(m_StatusBar);
-
-    histogramView->setProperty("axesLabelEnabled", false);
-    //histogramView->setProperty("linear", true);
 
     QDir writableDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     writableDir.mkpath("darks");
@@ -114,20 +110,11 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         {
             m_DarkView->loadData(m_CurrentDarkFrame);
             loadCurrentMasterDefectMap();
-            histogramView->setImageData(m_CurrentDarkFrame);
-            if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
-                m_CurrentDarkFrame->constructHistogram();
             populateMasterMetedata();
         }
         else
             m_FileLabel->setText(i18n("Failed to load %1: %2",  m_MasterDarkFrameFilename, m_CurrentDarkFrame->getLastError()));
 
-    });
-    connect(m_CurrentDarkFrame.data(), &FITSData::histogramReady, this, [this]()
-    {
-        histogramView->setEnabled(true);
-        histogramView->reset();
-        histogramView->syncGUI();
     });
 
     connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index)
@@ -363,6 +350,11 @@ bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSh
         return true;
     }
 
+    // Before adding to cache, clear the cache if memory drops too low.
+    auto memoryMB = KSUtils::getAvailableRAM() / 1e6;
+    if (memoryMB < CACHE_MEMORY_LIMIT)
+        m_CachedDarkFrames.clear();
+
     // Finally we made it, let's put it in the hash
     if (cacheDarkFrameFromFile(filename))
     {
@@ -548,9 +540,6 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
         generateMasterFrame(m_CurrentDarkFrame, metadata);
         reloadDarksFromDatabase();
         populateMasterMetedata();
-        histogramView->setImageData(m_CurrentDarkFrame);
-        if (!Options::nonLinearHistogram() && !m_CurrentDarkFrame->isHistogramConstructed())
-            m_CurrentDarkFrame->constructHistogram();
     }
 }
 
@@ -684,12 +673,6 @@ void DarkLibrary::clearBuffers()
     m_CurrentDarkFrame.clear();
     // Should clear existing view
     m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
-    connect(m_CurrentDarkFrame.data(), &FITSData::histogramReady, [this]()
-    {
-        histogramView->setEnabled(true);
-        histogramView->reset();
-        histogramView->syncGUI();
-    });
     m_DarkView->clearData();
     m_CurrentDefectMap.clear();
 
@@ -1415,7 +1398,6 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
     for (uint32_t i = 0; i < m_DarkMasterBuffer.size(); i++)
         writableBuffer[i] = m_DarkMasterBuffer[i] / count;
 
-
     QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
     QString path = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("darks/darkframe_" + ts +
                    ".fits");
@@ -1427,7 +1409,9 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
         return;
     }
 
-    m_CachedDarkFrames[path] = data;
+    auto memoryMB = KSUtils::getAvailableRAM() / 1e6;
+    if (memoryMB > CACHE_MEMORY_LIMIT)
+        m_CachedDarkFrames[path] = data;
 
     QVariantMap map;
     map["ccd"]         = metadata["camera"].toString();
