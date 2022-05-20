@@ -320,10 +320,10 @@ class MockAlign : public QObject
             targetRa = ra;
             targetDec = dec;
         }
-        Q_SCRIPTABLE Q_NOREPLY void setTargetRotation(double rotation)
+        Q_SCRIPTABLE Q_NOREPLY void setTargetPositionAngle(double rotation)
         {
-            fprintf(stderr, "%d @@@MockAlign::setTargetRotation(%f)\n", __LINE__, rotation);
-            targetRotation = rotation;
+            fprintf(stderr, "%d @@@MockAlign::setTargetPositionAngle(%f)\n", __LINE__, rotation);
+            targetPositionAngle = rotation;
             Q_UNUSED(rotation);
         }
         bool loadAndSlew(const QByteArray &image, const QString &extension)
@@ -343,7 +343,7 @@ class MockAlign : public QObject
         int action { 0 };
         double targetRa { 0 };
         double targetDec { 0 };
-        double targetRotation { 0 };
+        double targetPositionAngle { 0 };
 };
 
 // MockGuide returns status() of GUIDE_GUIDING, GUIDE_ABORTED, or GUIDE_IDLE
