@@ -2909,9 +2909,13 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     // JM 2019-11-26: In case there is no raw prefix set
     // BUT target name is set, we update the prefix to include
     // the target name, which is usually set by the scheduler.
-    if (filePrefixT->text().isEmpty() && !m_TargetName.isEmpty())
+    if (!m_TargetName.isEmpty())
     {
-        filePrefixT->setText(m_TargetName);
+        // Target name as set externally should override Full Target Name that
+        // was set by GOTO operation alone.
+        m_FullTargetName = m_TargetName.replace("_", " ");
+        if (filePrefixT->text().isEmpty())
+            filePrefixT->setText(m_TargetName);
     }
 
     job->setCoreProperty(SequenceJob::SJ_RawPrefix, filePrefixT->text());
@@ -3606,8 +3610,8 @@ void Capture::executeJob()
     QString rawPrefix = activeJob->property("rawPrefix").toString();
     if (m_ObserverName.isEmpty() == false)
         FITSHeader["FITS_OBSERVER"] = m_ObserverName;
-    if (m_TargetName.isEmpty() == false)
-        FITSHeader["FITS_OBJECT"] = m_TargetName;
+    if (m_FullTargetName.isEmpty() == false)
+        FITSHeader["FITS_OBJECT"] = m_FullTargetName;
     else if (rawPrefix.isEmpty() == false)
     {
         // JM 2021-07-08: Remove "_" from target name.
@@ -4139,6 +4143,7 @@ void Capture::processNewTargetName(const QString &name)
         QString sanitized = name;
         if (sanitized != i18n("unnamed"))
         {
+            m_FullTargetName = name;
             // Remove illegal characters that can be problematic
             sanitized = sanitized.replace( QRegularExpression("\\s|/|\\(|\\)|:|\\*|~|\"" ), "_" )
                         // Remove any two or more __
