@@ -1755,13 +1755,13 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             objectIterator.toFront();
             while (objectIterator.hasNext())
             {
-                const SkyObject *oneObject = objectIterator.next().second;
+                auto oneObject = objectIterator.next().second;
                 double duration = 0;
 
                 for (KStarsDateTime t = start; t < end; t = t.addSecs(3600.0))
                 {
                     auto LST = geo->GSTtoLST(t.gst());
-                    //oneObject->EquatorialToHorizontal(&LST, geo->lat());
+                    const_cast<SkyObject *>(oneObject)->EquatorialToHorizontal(&LST, geo->lat());
                     if (oneObject->alt().Degrees() >= objectMinAlt)
                         duration += 3600;
                 }

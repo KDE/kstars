@@ -564,6 +564,7 @@ void FramingAssistantUI::goAndSolve()
     // Otherwise, initiate GOTO
     else
     {
+        Ekos::Manager::Instance()->alignModule()->setSolverAction(Ekos::Align::GOTO_SLEW);
         Ekos::Manager::Instance()->mountModule()->gotoTarget(m_CenterPoint);
         ui->goSolveB->setStyleSheet("border: 1px outset magenta");
         m_GOTOSolvePending = true;

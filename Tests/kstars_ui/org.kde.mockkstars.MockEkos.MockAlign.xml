@@ -23,7 +23,7 @@
       <arg name="de" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setTargetRotation">
+    <method name="setTargetPositionAngle">
       <arg name="rotation" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

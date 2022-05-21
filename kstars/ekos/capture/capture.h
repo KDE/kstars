@@ -995,6 +995,7 @@ class Capture : public QWidget, public Ui::Capture
         bool autoGuideReady { false};
 
         QString m_TargetName;
+        QString m_FullTargetName;
         QString m_ObserverName;
 
         // Currently active sequence job.

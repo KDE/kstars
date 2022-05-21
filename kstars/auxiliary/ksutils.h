@@ -343,7 +343,6 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
 /**
  * @brief getAvailableRAM Try to get available and total RAM on system
  * @return availableRAM Available (free and unclaimed) system RAM in bytes. 0 if failed to determine RAM
- * @return True if RAM was successfully queried, false otherwise.
  */
 double getAvailableRAM();
 

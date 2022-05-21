@@ -2940,15 +2940,15 @@ void Scheduler::calculateDawnDusk()
     preDawnDateTime = Dawn.addSecs(-60.0 * abs(Options::preDawnTime()));
 }
 
-void Scheduler::executeJob(SchedulerJob *job)
+bool Scheduler::executeJob(SchedulerJob *job)
 {
     // Some states have executeJob called after current job is cancelled - checkStatus does this
     if (job == nullptr)
-        return;
+        return false;
 
     // Don't execute the current job if it is already busy
     if (currentJob == job && SchedulerJob::JOB_BUSY == currentJob->getState())
-        return;
+        return false;
 
     setCurrentJob(job);
     int index = jobs.indexOf(job);
@@ -2963,10 +2963,10 @@ void Scheduler::executeJob(SchedulerJob *job)
     // If the time to wait is greater than the lead time (5 minutes by default)
     // then we sleep, otherwise we wait. It's the same thing, just different labels.
     if (shouldSchedulerSleep(currentJob))
-        return;
+        return false;
     // If job schedule isn't now, wait - continuing to execute would cancel a parking attempt
     else if (0 < getLocalTime().secsTo(currentJob->getStartupTime()))
-        return;
+        return false;
 
     // From this point job can be executed now
 
@@ -3000,6 +3000,7 @@ void Scheduler::executeJob(SchedulerJob *job)
     // No need to continue evaluating jobs as we already have one.
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
     setupNextIteration(RUN_JOBCHECK);
+    return true;
 }
 
 bool Scheduler::checkEkosState()
@@ -3734,8 +3735,9 @@ bool Scheduler::checkStatus()
         //    Find the next job in this case, otherwise execute the current one
         if (currentJob->getState() == SchedulerJob::JOB_COMPLETE)
             findNextJob();
-        else
-            executeJob(currentJob);
+        else if (executeJob(currentJob) == false)
+            return false;
+
     }
 
     return true;
@@ -5103,7 +5105,8 @@ void Scheduler::findNextJob()
         else
         {
             /* FIXME: raise priority to allow other jobs to schedule in-between */
-            executeJob(currentJob);
+            if (executeJob(currentJob) == false)
+                return;
 
             /* JM 2020-08-23: If user opts to force realign instead of for each job then we force this FIRST */
             if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
@@ -5147,7 +5150,8 @@ void Scheduler::findNextJob()
     }
     else if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
     {
-        executeJob(currentJob);
+        if (executeJob(currentJob) == false)
+            return;
 
         if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
         {
@@ -5195,7 +5199,8 @@ void Scheduler::findNextJob()
         }
         else
         {
-            executeJob(currentJob);
+            if (executeJob(currentJob) == false)
+                return;
 
             if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN && Options::forceAlignmentBeforeJob())
             {
