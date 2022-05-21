@@ -65,12 +65,6 @@ std::shared_ptr<MosaicTiles::OneTile> MosaicTiles::oneTile(int row, int col)
     return m_Tiles[offset];
 }
 
-bool MosaicTiles::toXML(const QTextStream &output)
-{
-    Q_UNUSED(output)
-    return false;
-}
-
 bool MosaicTiles::fromXML(const QString &filename)
 {
     QFile sFile;
@@ -80,7 +74,7 @@ bool MosaicTiles::fromXML(const QString &filename)
         return false;
 
     LilXML *xmlParser = newLilXML();
-    char errmsg[2048]={0};
+    char errmsg[2048] = {0};
     XMLEle *root = nullptr;
     XMLEle *ep   = nullptr;
     char c;
@@ -93,7 +87,7 @@ bool MosaicTiles::fromXML(const QString &filename)
     QLocale cLocale = QLocale::c();
 
     bool mosaicInfoFound = false;
-    int index=1;
+    int index = 1;
 
     m_TrackChecked = m_FocusChecked = m_AlignChecked = m_GuideChecked = false;
 
@@ -227,17 +221,17 @@ bool MosaicTiles::processJobInfo(XMLEle *root, int index)
 }
 
 
-bool MosaicTiles::toJSON(QJsonObject &output)
-{
-    Q_UNUSED(output)
-    return false;
-}
+//bool MosaicTiles::toJSON(QJsonObject &output)
+//{
+//    Q_UNUSED(output)
+//    return false;
+//}
 
-bool MosaicTiles::fromJSON(const QJsonObject &input)
-{
-    Q_UNUSED(input)
-    return false;
-}
+//bool MosaicTiles::fromJSON(const QJsonObject &input)
+//{
+//    Q_UNUSED(input)
+//    return false;
+//}
 
 void MosaicTiles::appendTile(const OneTile &value)
 {

@@ -29,13 +29,6 @@ class MosaicTiles : public SkyObject
         /***************************************************************************************************
          * Import/Export Functions.
          ***************************************************************************************************/
-        /**
-         * @brief toXML
-         * @param output
-         * @return
-         */
-        bool toXML(const QTextStream &output);
-
 #ifdef HAVE_INDI
         /**
          * @brief fromXML Load Scheduler XML file and parse it to create tiles in operation mode.
@@ -50,14 +43,14 @@ class MosaicTiles : public SkyObject
          * @param output
          * @return
          */
-        bool toJSON(QJsonObject &output);
+        //bool toJSON(QJsonObject &output);
 
         /**
          * @brief fromJSON
          * @param input
          * @return
          */
-        bool fromJSON(const QJsonObject &input);
+        //bool fromJSON(const QJsonObject &input);
 
         /***************************************************************************************************
          * Operation Modes
