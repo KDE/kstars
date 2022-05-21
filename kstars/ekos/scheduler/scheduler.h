@@ -776,8 +776,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
              * @brief executeJob After the best job is selected, we call this in order to start the process that will execute the job.
              * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
              * @param value
+             * @return True if job is accepted and can be executed, false otherwise.
              */
-        void executeJob(SchedulerJob *job);
+        bool executeJob(SchedulerJob *job);
 
         void executeScript(const QString &filename);
 
