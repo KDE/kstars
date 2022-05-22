@@ -3735,9 +3735,10 @@ bool Scheduler::checkStatus()
         //    Find the next job in this case, otherwise execute the current one
         if (currentJob->getState() == SchedulerJob::JOB_COMPLETE)
             findNextJob();
-        else if (executeJob(currentJob) == false)
-            return false;
 
+        // N.B. We explicitly do not check for return result here because regardless of execution result
+        // we do not have any pending tasks further down.
+        executeJob(currentJob);
     }
 
     return true;
@@ -5293,7 +5294,8 @@ void Scheduler::startAstrometry()
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
                      rotationArgs)).type() == QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
                                                   currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
                 currentJob->setState(SchedulerJob::JOB_ERROR);
