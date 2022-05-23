@@ -352,6 +352,13 @@ Capture::Capture()
         Options::setFileSettingsUseTimestamp(checked);
     });
 
+    // 12. Refocus after meridian flip
+    meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
+    connect(meridianRefocusS, &QCheckBox::toggled, [](bool checked)
+    {
+        Options::setRefocusAfterMeridianFlip(checked);
+    });
+
     QCheckBox * const checkBoxes[] =
     {
         limitGuideDeviationS,
@@ -2252,6 +2259,23 @@ bool Capture::startFocusIfRequired()
         }
     }
 
+    if (meridianRefocusS->isChecked() && refocusAfterMeridianFlip)
+    {
+        isRefocus = true;
+        refocusAfterMeridianFlip = false;
+        appendLogText(i18n("Refocus after merdian flip"));
+
+        // Post meridian flip we need to reset filter _before_ running in-sequence focusing
+        // as it could have changed for whatever reason (e.g. alignment used a different filter).
+        if (m_captureDeviceAdaptor->getFilterWheel())
+        {
+            int targetFilterPosition = activeJob->getTargetFilter();
+            int currentFilterPosition = m_captureDeviceAdaptor->getFilterManager()->getFilterPosition();
+            if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
+                m_captureDeviceAdaptor->getFilterWheel()->runCommand(INDI_SET_FILTER, &targetFilterPosition);
+        }
+    }
+
     // Either it is time to force autofocus or temperature has changed
     if (isRefocus)
     {
@@ -4036,6 +4060,10 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 if ( Options::ditherEnabled() || Options::ditherNoGuiding())
                     ditherCounter = Options::ditherFrames();
 
+                // if requested set flag so it perform refocus before next frame
+                if (meridianRefocusS->isChecked())
+                    refocusAfterMeridianFlip = true;
+
                 break;
 
             default:
@@ -4283,6 +4311,10 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
                     refocusEveryNMinutesValue = minutesValue > 0 ? minutesValue : 0;
                     limitRefocusN->setValue(refocusEveryNMinutesValue);
+                }
+                else if (!strcmp(tagXMLEle(ep), "RefocusOnMeridianFlip"))
+                {
+                    meridianRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
@@ -4665,6 +4697,7 @@ bool Capture::saveSequenceQueue(const QString &path)
               << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
     outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
               << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
+    outstream << "<RefocusOnMeridianFlip enabled='" << (meridianRefocusS->isChecked() ? "true" : "false") << "'/>" << endl;
     for (auto &job : jobs)
     {
         auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();

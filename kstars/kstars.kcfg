@@ -1673,6 +1673,10 @@
          <whatsthis>Sets the time interval before forced autofocus attempts during a capture sequence.</whatsthis>
          <default>60</default>
       </entry>
+      <entry name="RefocusAfterMeridianFlip" type="Bool">
+         <label>Refocus after meridian flip is done</label>
+         <default>false</default>
+      </entry>
       <entry name="ResetMountModelAfterMeridian" type="Bool">
          <label>Reset mount model after meridian flip.</label>
          <default>true</default>
