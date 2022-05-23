@@ -59,20 +59,20 @@ class Mount : public QWidget, public Ui::Mount
         typedef enum
         {
             FLIP_NONE,      // this is the default state, comparing the hour angle with the next flip position
-                            // it moves to FLIP_PLANNED when a flip is needed
+            // it moves to FLIP_PLANNED when a flip is needed
             FLIP_PLANNED,   // a meridian flip is ready to be started due to the target position and the
-                            // configured offsets and signals to the Capture class that a flip is required
+            // configured offsets and signals to the Capture class that a flip is required
             FLIP_WAITING,   // step after FLUP_PLANNED waiting until Capture completes a running exposure
             FLIP_ACCEPTED,  // Capture is idle or has completed the exposure and will wait until the flip
-                            // is completed.
+            // is completed.
             FLIP_RUNNING,   // this signals that a flip slew is in progress, when the slew is completed
-                            // the state is set to FLIP_COMPLETED
+            // the state is set to FLIP_COMPLETED
             FLIP_COMPLETED, // this checks that the flip was completed successfully or not and after tidying up
-                            // moves to FLIP_NONE to wait for the next flip requirement.
-                            // Capture sees this and resumes.
+            // moves to FLIP_NONE to wait for the next flip requirement.
+            // Capture sees this and resumes.
             FLIP_ERROR,     // errors in the flip process should end up here
             FLIP_INACTIVE   // do not execute a meridian flip since it will disturb other activities like
-                            // a running polar alignment
+            // a running polar alignment
         } MeridianFlipStatus;
 
         /**
@@ -100,6 +100,13 @@ class Mount : public QWidget, public Ui::Mount
         ISD::Telescope::Status status() const
         {
             return m_Status;
+        }
+        QString statusString(bool translated) const
+        {
+            if (currentTelescope)
+                return currentTelescope->statusString(m_Status, translated);
+            else
+                return "NA";
         }
         ISD::Telescope::PierSide pierSide() const
         {

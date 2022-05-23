@@ -48,6 +48,9 @@ class Telescope : public DeviceDecorator
         typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
         typedef enum { TRACK_SIDEREAL, TRACK_SOLAR, TRACK_LUNAR, TRACK_CUSTOM } TrackModes;
 
+
+        static const QList<const char *> mountStates;
+
         void registerProperty(INDI::Property prop) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
@@ -142,7 +145,7 @@ class Telescope : public DeviceDecorator
 
         Status status(INumberVectorProperty *nvp);
         Status status();
-        const QString getStatusString(Status status);
+        const QString statusString(Status status, bool translated = true) const;
 
         // Altitude Limits
         void setAltLimits(double minAltitude, double maxAltitude);

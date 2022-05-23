@@ -1102,7 +1102,7 @@ void Message::setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage)
 
     QJsonObject polarState =
     {
-        {"stage", paa->getPAHStageString()}
+        {"stage", paa->getPAHStageString(false)}
     };
 
 
@@ -2095,18 +2095,19 @@ void Message::sendStates()
     if (m_isConnected == false)
         return;
 
-    QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatusWidget->getStatusText()}};
-    sendResponse(commands[NEW_CAPTURE_STATE], captureState);
-
     // Send capture sequence if one exists
     if (m_Manager->captureModule())
+    {
+        QJsonObject captureState = {{ "status", getCaptureStatusString(m_Manager->captureModule()->status(), false)}};
+        sendResponse(commands[NEW_CAPTURE_STATE], captureState);
         sendCaptureSequence(m_Manager->captureModule()->getSequence());
+    }
 
     if (m_Manager->mountModule())
     {
         QJsonObject mountState =
         {
-            {"status", m_Manager->mountStatus->text()},
+            {"status", m_Manager->mountModule()->statusString(false)},
             {"target", m_Manager->mountTarget->text()},
             {"slewRate", m_Manager->mountModule()->slewRate()},
             {"pierSide", m_Manager->mountModule()->pierSide()}
@@ -2115,18 +2116,24 @@ void Message::sendStates()
         sendResponse(commands[NEW_MOUNT_STATE], mountState);
     }
 
-    QJsonObject focusState = {{ "status", m_Manager->getFocusStatusText()}};
-    sendResponse(commands[NEW_FOCUS_STATE], focusState);
+    if (m_Manager->focusModule())
+    {
+        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->status(), false)}};
+        sendResponse(commands[NEW_FOCUS_STATE], focusState);
+    }
 
-    QJsonObject guideState = {{ "status", m_Manager->getGuideStatusText()}};
-    sendResponse(commands[NEW_GUIDE_STATE], guideState);
+    if (m_Manager->guideModule())
+    {
+        QJsonObject guideState = {{ "status", getGuideStatusString(m_Manager->guideModule()->status(), false)}};
+        sendResponse(commands[NEW_GUIDE_STATE], guideState);
+    }
 
     if (m_Manager->alignModule())
     {
         // Align State
         QJsonObject alignState =
         {
-            {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
+            {"status", getAlignStatusString(m_Manager->alignModule()->status(), false)}
         };
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
@@ -2141,7 +2148,7 @@ void Message::sendStates()
             doc.setHtml(paa->getPAHMessage());
             QJsonObject polarState =
             {
-                {"stage", paa->getPAHStageString()},
+                {"stage", paa->getPAHStageString(false)},
                 {"enabled", paa->isEnabled()},
                 {"message", doc.toPlainText()},
             };
@@ -2292,7 +2299,7 @@ void Message::sendModuleState(const QString &name)
 
     if (name == "Capture")
     {
-        QJsonObject captureState = {{ "status", m_Manager->capturePreview->captureStatusWidget->getStatusText()}};
+        QJsonObject captureState = {{ "status", getCaptureStatusString(m_Manager->captureModule()->status(), false)}};
         sendResponse(commands[NEW_CAPTURE_STATE], captureState);
         sendCaptureSequence(m_Manager->captureModule()->getSequence());
     }
@@ -2310,12 +2317,12 @@ void Message::sendModuleState(const QString &name)
     }
     else if (name == "Focus")
     {
-        QJsonObject focusState = {{ "status", m_Manager->getFocusStatusText()}};
+        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->status(), false)}};
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
     else if (name == "Guide")
     {
-        QJsonObject guideState = {{ "status", m_Manager->getGuideStatusText()}};
+        QJsonObject guideState = {{ "status", getGuideStatusString(m_Manager->guideModule()->status(), false)}};
         sendResponse(commands[NEW_GUIDE_STATE], guideState);
     }
     else if (name == "Align")
@@ -2323,7 +2330,7 @@ void Message::sendModuleState(const QString &name)
         // Align State
         QJsonObject alignState =
         {
-            {"status", Ekos::alignStates[m_Manager->alignModule()->status()]},
+            {"status", getAlignStatusString(m_Manager->alignModule()->status(), false)}
         };
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
@@ -2338,7 +2345,7 @@ void Message::sendModuleState(const QString &name)
             doc.setHtml(paa->getPAHMessage());
             QJsonObject polarState =
             {
-                {"stage", paa->getPAHStageString()},
+                {"stage", paa->getPAHStageString(false)},
                 {"enabled", paa->isEnabled()},
                 {"message", doc.toPlainText()},
             };

@@ -15,29 +15,29 @@
 
 namespace Ekos
 {
-const QString &getGuideStatusString(GuideState state)
+const QString getGuideStatusString(GuideState state, bool translated)
 {
-    return guideStates[state];
+    return translated ? i18n(guideStates[state]) : guideStates[state];
 }
-const QString &getCaptureStatusString(CaptureState state)
+const QString getCaptureStatusString(CaptureState state, bool translated)
 {
-    return captureStates[state];
+    return translated ? i18n(captureStates[state]) : captureStates[state];
 }
-const QString &getFocusStatusString(FocusState state)
+const QString getFocusStatusString(FocusState state, bool translated)
 {
-    return focusStates[state];
+    return translated ? i18n(focusStates[state]) : focusStates[state];
 }
-const QString &getAlignStatusString(AlignState state)
+const QString getAlignStatusString(AlignState state, bool translated)
 {
-    return alignStates[state];
+    return translated ? i18n(alignStates[state]) : alignStates[state];
 }
-const QString &getFilterStatusString(FilterState state)
+const QString getFilterStatusString(FilterState state, bool translated)
 {
-    return filterStates[state];
+    return translated ? i18n(filterStates[state]) : filterStates[state];
 }
-const QString &getSchedulerStatusString(FilterState state)
+const QString getSchedulerStatusString(FilterState state, bool translated)
 {
-    return schedulerStates[state];
+    return translated ? i18n(schedulerStates[state]) : schedulerStates[state];
 }
 
 /* Taken from https://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
@@ -90,7 +90,7 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
 }
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CommunicationStatus& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CommunicationStatus &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
@@ -108,7 +108,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::Communicati
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::CaptureState &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
@@ -126,7 +126,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::CaptureStat
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::FocusState &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
@@ -144,7 +144,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::FocusState 
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::GuideState& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::GuideState &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
@@ -162,7 +162,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::GuideState 
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::AlignState& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::AlignState &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
@@ -180,7 +180,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState 
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::SchedulerState& source)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::SchedulerState &source)
 {
     argument.beginStructure();
     argument << static_cast<int>(source);
