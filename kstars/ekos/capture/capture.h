@@ -1052,6 +1052,8 @@ class Capture : public QWidget, public Ui::Capture
         int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
         QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
 
+        bool refocusAfterMeridianFlip { false };// set to true at meridian flip to request refocus
+
         // Meridian flip
         SkyPoint initialMountCoords;
         bool resumeAlignmentAfterFlip { false };
