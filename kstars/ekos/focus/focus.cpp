@@ -4432,7 +4432,7 @@ QJsonObject Focus::getPrimarySettings() const
     settings.insert("inner", fullFieldInnerRing->value());
     settings.insert("outer", fullFieldOuterRing->value());
     settings.insert("suspend", suspendGuideCheck->isChecked());
-    settings.insert("guide_settle", FocusSettleTime->value());
+    settings.insert("guide_settle", GuideSettleTime->value());
 
     return settings;
 }
@@ -4450,7 +4450,7 @@ void Focus::setPrimarySettings(const QJsonObject &settings)
     syncControl(settings, "inner", fullFieldInnerRing);
     syncControl(settings, "outer", fullFieldOuterRing);
     syncControl(settings, "suspend", suspendGuideCheck);
-    syncControl(settings, "guide_settle", FocusSettleTime);
+    syncControl(settings, "guide_settle", GuideSettleTime);
 
 }
 
