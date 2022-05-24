@@ -152,7 +152,7 @@ else(BUILD_KSTARS_LITE)
 endif(BUILD_KSTARS_LITE)
 
 ## Eigen3 Library
-find_package(Eigen3 REQUIRED)
+find_package(Eigen3 REQUIRED CONFIG)
 
 ## CFITSIO Library
 if(ANDROID)
