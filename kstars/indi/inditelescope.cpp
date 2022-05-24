@@ -26,8 +26,9 @@
 namespace ISD
 {
 
-const QList<const char *> Telescope::mountStates = { I18N_NOOP("Idle"),  I18N_NOOP("Parked"),  I18N_NOOP("Parking"),
-                                                     I18N_NOOP("Slewing"), I18N_NOOP("Moving"), I18N_NOOP("Tracking"), I18N_NOOP("Error")
+const QList<const char *> Telescope::mountStates = { I18N_NOOP("Idle"),  I18N_NOOP("Moving"), I18N_NOOP("Slewing"),
+                                                     I18N_NOOP("Tracking"), I18N_NOOP("Parking"), I18N_NOOP("Parked"),
+                                                     I18N_NOOP("Error")
                                                    };
 
 Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)

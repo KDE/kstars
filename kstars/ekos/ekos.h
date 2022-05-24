@@ -182,7 +182,8 @@ const QString getFilterStatusString(FilterState state, bool translated = true);
 const QString getSchedulerStatusString(AlignState state, bool translated = true);
 
 static const QList<const char *> schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Startup"), I18N_NOOP("Running"),
-                                                     I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted")
+                                                     I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted"),
+                                                     I18N_NOOP("Loading")
                                                    };
 
 typedef enum

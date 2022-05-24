@@ -52,7 +52,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
 
     if (tiles->operationMode() == MosaicTiles::MODE_OPERATION)
     {
-        m_CenterPoint = *tiles.get();
+        m_CenterPoint = *tiles.data();
     }
     else
     {

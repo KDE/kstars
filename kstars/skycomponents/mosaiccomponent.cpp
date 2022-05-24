@@ -25,7 +25,7 @@ bool MosaicComponent::selected()
 void MosaicComponent::draw(SkyPainter *skyp)
 {
     if (selected())
-        skyp->drawMosaicPanel(m_MosaicTiles.get());
+        skyp->drawMosaicPanel(m_MosaicTiles.data());
 }
 
 const QSharedPointer<MosaicTiles> MosaicComponent::tiles() const
