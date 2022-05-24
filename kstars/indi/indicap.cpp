@@ -14,8 +14,8 @@
 namespace ISD
 {
 
-const QList<const char *> DustCap::capStates = { I18N_NOOP("Idle"), I18N_NOOP("Parked"), I18N_NOOP("Parking"),
-                                                 I18N_NOOP("UnParking"), I18N_NOOP("Error")
+const QList<const char *> DustCap::capStates = { I18N_NOOP("Idle"), I18N_NOOP("Parking"), I18N_NOOP("UnParking"),
+                                                 I18N_NOOP("Parked"), I18N_NOOP("Error")
                                                };
 
 DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
