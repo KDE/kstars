@@ -8,6 +8,7 @@
 
 #include "skypoint.h"
 #include <lilxml.h>
+#include <memory>
 
 namespace Ekos
 {
