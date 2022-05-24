@@ -1626,7 +1626,7 @@ font-weight:bold;
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform autofocus after meridian flip&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Refocus after merdian flip</string>
+            <string>Refocus after meridian flip</string>
            </property>
           </widget>
          </item>

@@ -2263,7 +2263,7 @@ bool Capture::startFocusIfRequired()
     {
         isRefocus = true;
         refocusAfterMeridianFlip = false;
-        appendLogText(i18n("Refocus after merdian flip"));
+        appendLogText(i18n("Refocus after meridian flip"));
 
         // Post meridian flip we need to reset filter _before_ running in-sequence focusing
         // as it could have changed for whatever reason (e.g. alignment used a different filter).
