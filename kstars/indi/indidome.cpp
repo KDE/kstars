@@ -17,9 +17,9 @@
 namespace ISD
 {
 
-const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Parked"), I18N_NOOP("Parking"),
-                                               I18N_NOOP("UnParking"), I18N_NOOP("Moving clockwise"), I18N_NOOP("Moving counter clockwise"),
-                                               I18N_NOOP("Tracking"), I18N_NOOP("Error")
+const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Moving clockwise"), I18N_NOOP("Moving counter clockwise"),
+                                               I18N_NOOP("Tracking"), I18N_NOOP("Parking"), I18N_NOOP("UnParking"), I18N_NOOP("Parked"),
+                                               I18N_NOOP("Error")
                                              };
 
 Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
