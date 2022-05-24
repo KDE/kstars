@@ -440,18 +440,10 @@ class Manager : public QDialog, public Ui::Manager
         // Focus summary
         void updateFocusStatus(FocusState status);
         void updateCurrentHFR(double newHFR, int position);
-        const QString getFocusStatusText()
-        {
-            return focusManager->focusStatus->text();
-        }
 
         // Guide Summary
         void updateGuideStatus(GuideState status);
         void updateSigmas(double ra, double de);
-        const QString getGuideStatusText()
-        {
-            return guideManager->guideStatus->text();
-        }
 
     private:
         explicit Manager(QWidget *parent);

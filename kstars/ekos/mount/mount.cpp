@@ -614,8 +614,8 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
     ISD::Telescope::Status currentStatus = currentTelescope->status();
     if (m_Status != currentStatus)
     {
-        qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << currentTelescope->getStatusString(m_Status)
-                                   << " to " << currentTelescope->getStatusString(currentStatus);
+        qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << currentTelescope->statusString(m_Status)
+                                   << " to " << currentTelescope->statusString(currentStatus);
         // If we just finished a slew, let's update initialHA and the current target's position,
         // but only if the meridian flip is not deactived
         if (currentStatus == ISD::Telescope::MOUNT_TRACKING && m_Status == ISD::Telescope::MOUNT_SLEWING
@@ -633,7 +633,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::Pier
 
         //setScopeStatus(currentStatus);
 
-        m_statusText->setProperty("text", currentTelescope->getStatusString(currentStatus));
+        m_statusText->setProperty("text", currentTelescope->statusString(currentStatus));
         m_Status = currentStatus;
         // forward
         emit newStatus(m_Status);
@@ -1931,7 +1931,7 @@ void Mount::setScopeStatus(ISD::Telescope::Status status)
 {
     if (m_Status != status)
     {
-        m_statusText->setProperty("text", currentTelescope->getStatusString(status));
+        m_statusText->setProperty("text", currentTelescope->statusString(status));
         m_Status = status;
         // forward
         emit newStatus(status);

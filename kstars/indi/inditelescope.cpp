@@ -17,6 +17,7 @@
 #include "ksnotification.h"
 
 #include <KActionCollection>
+#include <KLocalizedString>
 
 #include <QAction>
 
@@ -24,6 +25,11 @@
 
 namespace ISD
 {
+
+const QList<const char *> Telescope::mountStates = { I18N_NOOP("Idle"),  I18N_NOOP("Parked"),  I18N_NOOP("Parking"),
+                                                     I18N_NOOP("Slewing"), I18N_NOOP("Moving"), I18N_NOOP("Tracking"), I18N_NOOP("Error")
+                                                   };
+
 Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     dType                = KSTARS_TELESCOPE;
@@ -1354,33 +1360,15 @@ Telescope::Status Telescope::status()
     return status(EqProp);
 }
 
-const QString Telescope::getStatusString(Telescope::Status status)
+const QString Telescope::statusString(Telescope::Status status, bool translated) const
 {
     switch (status)
     {
-        case ISD::Telescope::MOUNT_IDLE:
-            return i18n("Idle");
-
-        case ISD::Telescope::MOUNT_PARKED:
-            return i18n("Parked");
-
-        case ISD::Telescope::MOUNT_PARKING:
-            return i18n("Parking");
-
-        case ISD::Telescope::MOUNT_SLEWING:
-            return i18n("Slewing");
-
         case ISD::Telescope::MOUNT_MOVING:
-            return i18n("Moving %1", getManualMotionString());
-
-        case ISD::Telescope::MOUNT_TRACKING:
-            return i18n("Tracking");
-
-        case ISD::Telescope::MOUNT_ERROR:
-            return i18n("Error");
+            return (translated ? i18n(mountStates[status]) : mountStates[status]) + QString(" %1").arg(getManualMotionString());
+        default:
+            return translated ? i18n(mountStates[status]) : mountStates[status];
     }
-
-    return i18n("Error");
 }
 
 QString Telescope::getManualMotionString() const

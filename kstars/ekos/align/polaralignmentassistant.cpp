@@ -27,20 +27,20 @@
 namespace Ekos
 {
 
-const QMap<PolarAlignmentAssistant::PAHStage, QString> PolarAlignmentAssistant::PAHStages =
+const QMap<PolarAlignmentAssistant::PAHStage, const char *> PolarAlignmentAssistant::PAHStages =
 {
     {PAH_IDLE, I18N_NOOP("Idle")},
-    {PAH_FIRST_CAPTURE, I18N_NOOP("First Capture"}),
-    {PAH_FIND_CP, I18N_NOOP("Finding CP"}),
-    {PAH_FIRST_ROTATE, I18N_NOOP("First Rotation"}),
-    {PAH_SECOND_CAPTURE, I18N_NOOP("Second Capture"}),
-    {PAH_SECOND_ROTATE, I18N_NOOP("Second Rotation"}),
-    {PAH_THIRD_CAPTURE, I18N_NOOP("Third Capture"}),
-    {PAH_STAR_SELECT, I18N_NOOP("Select Star"}),
-    {PAH_PRE_REFRESH, I18N_NOOP("Select Refresh"}),
-    {PAH_REFRESH, I18N_NOOP("Refreshing"}),
-    {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete"}),
-    {PAH_ERROR, I18N_NOOP("Error")},
+    {PAH_FIRST_CAPTURE, I18N_NOOP("First Capture")},
+    {PAH_FIND_CP, I18N_NOOP("Finding CP")},
+    {PAH_FIRST_ROTATE, I18N_NOOP("First Rotation")},
+    {PAH_SECOND_CAPTURE, I18N_NOOP("Second Capture")},
+    {PAH_SECOND_ROTATE, I18N_NOOP("Second Rotation")},
+    {PAH_THIRD_CAPTURE, I18N_NOOP("Third Capture")},
+    {PAH_STAR_SELECT, I18N_NOOP("Select Star")},
+    {PAH_PRE_REFRESH, I18N_NOOP("Select Refresh")},
+    {PAH_REFRESH, I18N_NOOP("Refreshing")},
+    {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete")},
+    {PAH_ERROR, I18N_NOOP("Error")}
 };
 
 PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view) : QWidget(parent)

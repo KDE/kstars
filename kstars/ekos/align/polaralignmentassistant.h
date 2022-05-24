@@ -133,9 +133,9 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Update the setting
         void setPAHSettings(const QJsonObject &settings);
         // Return current active stage label
-        QString getPAHStageString() const
+        QString getPAHStageString(bool translated = true) const
         {
-            return PAHStages[m_PAHStage];
+            return translated ? i18n(PAHStages[m_PAHStage]) : PAHStages[m_PAHStage];
         }
         // Return last message
         QString getPAHMessage() const;
@@ -239,7 +239,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         AlignView *alignView { nullptr };
 
         // PAH Stage Map
-        static const QMap<PAHStage, QString> PAHStages;
+        static const QMap<PAHStage, const char *> PAHStages;
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };

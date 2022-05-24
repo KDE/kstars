@@ -23,41 +23,41 @@ class Dome : public DeviceDecorator
 {
         Q_OBJECT
 
-public:
-    explicit Dome(GDInterface *iPtr);
-    typedef enum
-    {
-        DOME_IDLE,
-        DOME_MOVING_CW,
-        DOME_MOVING_CCW,
-        DOME_TRACKING,
-        DOME_PARKING,
-        DOME_UNPARKING,
-        DOME_PARKED,
-        DOME_ERROR
-    } Status;
+    public:
+        explicit Dome(GDInterface *iPtr);
+        typedef enum
+        {
+            DOME_IDLE,
+            DOME_MOVING_CW,
+            DOME_MOVING_CCW,
+            DOME_TRACKING,
+            DOME_PARKING,
+            DOME_UNPARKING,
+            DOME_PARKED,
+            DOME_ERROR
+        } Status;
 
-    typedef enum
-    {
-        SHUTTER_UNKNOWN,
-        SHUTTER_OPEN,
-        SHUTTER_CLOSED,
-        SHUTTER_OPENING,
-        SHUTTER_CLOSING,
-        SHUTTER_ERROR
-    } ShutterStatus;
+        typedef enum
+        {
+            SHUTTER_UNKNOWN,
+            SHUTTER_OPEN,
+            SHUTTER_CLOSED,
+            SHUTTER_OPENING,
+            SHUTTER_CLOSING,
+            SHUTTER_ERROR
+        } ShutterStatus;
 
-    typedef enum
-    {
-        DOME_CW,
-        DOME_CCW
-    } DomeDirection;
+        typedef enum
+        {
+            DOME_CW,
+            DOME_CCW
+        } DomeDirection;
 
-    typedef enum
-    {
-        MOTION_START,
-        MOTION_STOP
-    } DomeMotionCommand;
+        typedef enum
+        {
+            MOTION_START,
+            MOTION_STOP
+        } DomeMotionCommand;
 
 
         void processSwitch(ISwitchVectorProperty *svp) override;
@@ -112,12 +112,12 @@ public:
         {
             return m_Status;
         }
-        static const QString getStatusString (Status status);
+        static const QString getStatusString (Status status, bool translated = true);
 
         ShutterStatus shutterStatus();
         ShutterStatus shutterStatus(ISwitchVectorProperty *svp);
 
-public slots:
+    public slots:
         bool Abort();
         bool Park();
         bool UnPark();
@@ -141,6 +141,7 @@ public slots:
         bool m_CanAbort { false };
         bool m_HasShutter { false };
         std::unique_ptr<QTimer> readyTimer;
+        static const QList<const char *> domeStates;
 };
 }
 

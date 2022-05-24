@@ -14,6 +14,10 @@
 namespace ISD
 {
 
+const QList<const char *> DustCap::capStates = { I18N_NOOP("Idle"), I18N_NOOP("Parked"), I18N_NOOP("Parking"),
+                                                 I18N_NOOP("UnParking"), I18N_NOOP("Error")
+                                               };
+
 DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
 {
     dType = KSTARS_AUXILIARY;
@@ -215,27 +219,9 @@ bool DustCap::SetBrightness(uint16_t val)
     return true;
 }
 
-const QString DustCap::getStatusString(DustCap::Status status)
+const QString DustCap::getStatusString(DustCap::Status status, bool translated)
 {
-    switch (status)
-    {
-        case ISD::DustCap::CAP_IDLE:
-            return i18n("Idle");
-
-        case ISD::DustCap::CAP_PARKED:
-            return i18n("Parked");
-
-        case ISD::DustCap::CAP_PARKING:
-            return i18n("Parking");
-
-        case ISD::DustCap::CAP_UNPARKING:
-            return i18n("UnParking");
-
-        case ISD::DustCap::CAP_ERROR:
-            return i18n("Error");
-    }
-
-    return i18n("Error");
+    return translated ? i18n(capStates[status]) : capStates[status];
 }
 
 }
