@@ -32,6 +32,7 @@
 
 #include <KNotifications/KNotification>
 #include <KConfigDialog>
+#include <KActionCollection>
 
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>
@@ -535,7 +536,14 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(selectStartupScriptB, &QPushButton::clicked, this, &Scheduler::selectStartupScript);
     connect(selectShutdownScriptB, &QPushButton::clicked, this, &Scheduler::selectShutdownScript);
 
-    connect(mosaicB, &QPushButton::clicked, this, &Scheduler::startMosaicTool);
+    connect(KStars::Instance()->actionCollection()->action("show_mosaic_panel"), &QAction::triggered, this, [this](bool checked)
+    {
+        mosaicB->setDown(checked);
+    });
+    connect(mosaicB, &QPushButton::clicked, this, []()
+    {
+        KStars::Instance()->actionCollection()->action("show_mosaic_panel")->trigger();
+    });
     connect(addToQueueB, &QPushButton::clicked, this, &Scheduler::addJob);
     connect(removeFromQueueB, &QPushButton::clicked, this, &Scheduler::removeJob);
     connect(queueUpB, &QPushButton::clicked, this, &Scheduler::moveJobUp);

@@ -846,7 +846,7 @@
           <item>
            <widget class="QPushButton" name="mosaicB">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -867,7 +867,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Open the Mosaic Tool.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;The Mosaic Tool requires a target with valid coordinates in the left panel, and a valid sequence file.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;The target will be used as center for the mosaic and the sequence will be assigned to all tiles of the mosaic.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Open the Mosaic Planner</string>
             </property>
             <property name="text">
              <string/>
@@ -2303,28 +2303,28 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
