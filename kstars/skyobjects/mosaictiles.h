@@ -11,6 +11,7 @@
 
 #include <QBrush>
 #include <QPen>
+#include <memory>
 
 #ifdef HAVE_INDI
 #include <lilxml.h>
