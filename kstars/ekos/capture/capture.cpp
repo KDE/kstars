@@ -2937,7 +2937,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     {
         // Target name as set externally should override Full Target Name that
         // was set by GOTO operation alone.
-        m_FullTargetName = m_TargetName.replace("_", " ");
+        m_FullTargetName = m_TargetName;
+        m_FullTargetName.replace("_", " ");
         if (filePrefixT->text().isEmpty())
             filePrefixT->setText(m_TargetName);
     }
