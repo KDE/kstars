@@ -2,7 +2,7 @@
 Name=Save Astrometry Index File to a write protected directory
 Name[ar]=حفظ ملفّ فهرسة فلكيّ في دليل محميّ ضدّ الكتابة
 Name[ca]=Desa el fitxer d'índex d'astrometria en un directori protegit contra escriptura
-Name[ca@valencia]=Guarda el fitxer d'índex de l'astrometria en un directori protegit contra escriptura
+Name[ca@valencia]=Guarda el fitxer d'índex de l'astrometria en un directori protegit contra escritura
 Name[en_GB]=Save Astrometry Index File to a write protected directory
 Name[es]=Guardar el archivo de índice de Astrometry en un directorio protegido contra escritura
 Name[et]=Astromeetria indeksifaili salvestamine kirjutuskaitstud kataloogi
