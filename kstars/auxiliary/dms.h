@@ -443,17 +443,9 @@ inline void dms::SinCos(double &s, double &c) const
     start = std::clock();
 #endif
 
-#ifdef __GLIBC__
-#if (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 1 && !defined(__UCLIBC__))
-    //GNU version
+#ifdef HAVE_SINCOS
     sincos(radians(), &s, &c);
 #else
-    //For older GLIBC versions
-    s = ::sin(radians());
-    c = ::cos(radians());
-#endif
-#else
-    //ANSI-compliant version
     s = ::sin(radians());
     c = ::cos(radians());
 #endif
