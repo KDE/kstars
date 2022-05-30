@@ -233,12 +233,6 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
         return;
     delete splash;
     datainitFinished();
-
-#if (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 1 && !defined(__UCLIBC__))
-    qDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
-#else
-    qDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
-#endif
 }
 
 KStars *KStars::createInstance(bool doSplash, bool clockrun, const QString &startdate)

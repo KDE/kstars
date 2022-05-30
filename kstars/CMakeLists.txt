@@ -20,6 +20,12 @@ if(MSVC)
     add_definitions(-DNOMINMAX)
 endif()
 
+include(CheckCXXSymbolExists)
+check_cxx_symbol_exists(sincos "math.h" HAVE_SINCOS)
+if(HAVE_SINCOS)
+    add_definitions(-DHAVE_SINCOS)
+endif()
+
 include_directories(
     ${kstars_SOURCE_DIR}/kstars
     ${kstars_SOURCE_DIR}/kstars/skyobjects

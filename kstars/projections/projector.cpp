@@ -504,7 +504,7 @@ Eigen::Vector2f Projector::toScreenVec(const SkyPoint *o, bool oRefract, bool *o
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-#if (__GLIBC__ >= 2 && __GLIBC_MINOR__ >= 1)
+#ifdef HAVE_SINCOS
     sincos(dX, &sindX, &cosdX);
     sincos(Y, &sinY, &cosY);
 #else
