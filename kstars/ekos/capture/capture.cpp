@@ -135,8 +135,14 @@ Capture::Capture()
 
     connect(captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), captureBinVN, &QSpinBox::setValue);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(cameraS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultCCD);
+#else
+    connect(cameraS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Capture::setDefaultCCD);
+#endif
+
     connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkCCD);
 
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Capture::toggleVideo);
@@ -152,8 +158,14 @@ Capture::Capture()
         Options::setAutoDark(darkB->isChecked());
     });
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultFilterWheel);
+#else
+    connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Capture::setDefaultFilterWheel);
+#endif
+
     connect(filterWheelS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
@@ -6971,11 +6983,13 @@ void Capture::removeDevice(ISD::GDInterface *device)
             cameraS->removeItem(cameraS->findText(name));
             cameraS->removeItem(cameraS->findText(name + " Guider"));
 
+            if (m_captureDeviceAdaptor->getActiveCCD() == oneCCD)
+                m_captureDeviceAdaptor->setActiveCCD(nullptr);
+
             DarkLibrary::Instance()->removeCamera(oneCCD);
 
             if (CCDs.empty())
             {
-                m_captureDeviceAdaptor->setActiveCCD(nullptr);
                 cameraS->setCurrentIndex(-1);
             }
             else
@@ -6998,9 +7012,12 @@ void Capture::removeDevice(ISD::GDInterface *device)
             Filters.removeAll(oneFilter);
             m_captureDeviceAdaptor->getFilterManager()->removeDevice(device);
             filterWheelS->removeItem(filterWheelS->findText(name));
+
+            if (m_captureDeviceAdaptor->getFilterWheel() == oneFilter)
+                m_captureDeviceAdaptor->setFilterWheel(nullptr);
+
             if (Filters.empty())
             {
-                m_captureDeviceAdaptor->setFilterWheel(nullptr);
                 filterWheelS->setCurrentIndex(-1);
             }
             else
