@@ -15,6 +15,9 @@
 
 #include "kstars_debug.h"
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 KSPlanet::OrbitDataManager KSPlanet::odm;
 
 KSPlanet::OrbitDataManager::OrbitDataManager()
@@ -32,7 +35,7 @@ bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname, QVector<Orb
         QStringList fields;
         while (fileReader.hasMoreLines())
         {
-            fields = fileReader.readLine().split(' ', QString::SkipEmptyParts);
+            fields = fileReader.readLine().split(' ', Qt::SkipEmptyParts);
 
             if (fields.size() == 3)
             {

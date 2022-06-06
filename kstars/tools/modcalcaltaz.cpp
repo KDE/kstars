@@ -75,8 +75,8 @@ void modCalcAltAz::slotObject()
     if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
         SkyObject *o = FindDialog::Instance()->targetObject();
-        RA->showInHours(o->ra());
-        Dec->showInDegrees(o->dec());
+        RA->show(o->ra());
+        Dec->show(o->dec());
         slotCompute();
     }
 }
@@ -97,17 +97,17 @@ void modCalcAltAz::slotCompute()
         //Validate Az and Alt coordinates
         bool ok(false);
         dms alt;
-        dms az = Az->createDms(true, &ok);
+        dms az = Az->createDms(&ok);
         if (ok)
-            alt = Alt->createDms(true, &ok);
+            alt = Alt->createDms(&ok);
         if (ok)
         {
             SkyPoint sp;
             sp.setAz(az);
             sp.setAlt(alt);
             sp.HorizontalToEquatorial(&LST, geoPlace->lat());
-            RA->showInHours(sp.ra());
-            Dec->showInDegrees(sp.dec());
+            RA->show(sp.ra());
+            Dec->show(sp.dec());
         }
     }
     else
@@ -115,15 +115,15 @@ void modCalcAltAz::slotCompute()
         //Validate RA and Dec coordinates
         bool ok(false);
         dms ra;
-        dms dec = Dec->createDms(true, &ok);
+        dms dec = Dec->createDms(&ok);
         if (ok)
-            ra = RA->createDms(false, &ok);
+            ra = RA->createDms(&ok);
         if (ok)
         {
             SkyPoint sp(ra, dec);
             sp.EquatorialToHorizontal(&LST, geoPlace->lat());
-            Az->showInDegrees(sp.az());
-            Alt->showInDegrees(sp.alt());
+            Az->show(sp.az());
+            Alt->show(sp.alt());
         }
     }
 }

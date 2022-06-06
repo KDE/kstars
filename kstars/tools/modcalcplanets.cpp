@@ -145,7 +145,7 @@ void modCalcPlanets::showGeocentricEclipticCoords(const dms &eLong, const dms &e
 
 void modCalcPlanets::showEquatorialCoords(const dms &ra, const dms &dec)
 {
-    RABox->show(ra, false);
+    RABox->show(ra);
     DecBox->show(dec);
 }
 
@@ -355,7 +355,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
         }
         else
         {
-            longB = LongBoxBatch->createDms(true);
+            longB = LongBoxBatch->createDms();
         }
         if (AllRadioBatch->isChecked() || LongCheckBatch->isChecked())
             lineToWrite += longB.toDMSString() + space;
@@ -368,7 +368,7 @@ void modCalcPlanets::processLines(QTextStream &istream)
         }
         else
         {
-            latB = LatBoxBatch->createDms(true);
+            latB = LatBoxBatch->createDms();
         }
         if (AllRadioBatch->isChecked() || LatCheckBatch->isChecked())
             lineToWrite += latB.toDMSString() + space;

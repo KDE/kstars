@@ -517,7 +517,7 @@ class Manager : public QDialog, public Ui::Manager
         QList<ISD::GDInterface *> proxyDevices;
 
         // All Managed devices (ie. those explicitly defined in the profile)
-        QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
+        QMultiMap<DeviceFamily, ISD::GDInterface *> managedDevices;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;

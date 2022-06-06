@@ -45,7 +45,7 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const
     }
     else if (role == SkyObjectRole)
     {
-        return qVariantFromValue((void *)skyObjects[index.row()].second);
+        return QVariant::fromValue((void *)skyObjects[index.row()].second);
     }
     return QVariant();
 }

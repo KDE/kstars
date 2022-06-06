@@ -63,6 +63,7 @@ void StarHopperDialog::starHop(const SkyPoint &startHop, const SkyPoint &stopHop
         delete starList;
         KSNotification::error(i18n("Star-hopper algorithm failed. If you're trying a large star hop, try using a "
                                    "smaller FOV or changing the source point"));
+        this->done(QDialog::Rejected);
     }
 }
 

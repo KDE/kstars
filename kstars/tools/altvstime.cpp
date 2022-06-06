@@ -284,8 +284,8 @@ void AltVsTime::slotAddSource()
         if (!avtUI->nameBox->text().isEmpty() && !avtUI->raBox->text().isEmpty() && !avtUI->decBox->text().isEmpty())
         {
             bool okRA, okDec;
-            dms newRA  = avtUI->raBox->createDms(false, &okRA);
-            dms newDec = avtUI->decBox->createDms(true, &okDec);
+            dms newRA  = avtUI->raBox->createDms(&okRA);
+            dms newDec = avtUI->decBox->createDms(&okDec);
             if (!okRA || !okDec)
                 return;
 
@@ -444,8 +444,8 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
 
         avtUI->PlotList->addItem(getObjectName(o));
         avtUI->PlotList->setCurrentRow(avtUI->PlotList->count() - 1);
-        avtUI->raBox->showInHours(o->ra());
-        avtUI->decBox->showInDegrees(o->dec());
+        avtUI->raBox->show(o->ra());
+        avtUI->decBox->show(o->dec());
         avtUI->nameBox->setText(getObjectName(o));
 
         //Set epochName to epoch shown in date tab
@@ -500,8 +500,8 @@ void AltVsTime::slotHighlight(int row)
     if (row >= 0 && row < pList.size())
     {
         SkyObject *p = pList.at(row);
-        avtUI->raBox->showInHours(p->ra());
-        avtUI->decBox->showInDegrees(p->dec());
+        avtUI->raBox->show(p->ra());
+        avtUI->decBox->show(p->dec());
         avtUI->nameBox->setText(avtUI->PlotList->currentItem()->text());
     }
 
@@ -1109,8 +1109,8 @@ void AltVsTime::slotChooseCity()
         if (newGeo)
         {
             geo = newGeo;
-            avtUI->latBox->showInDegrees(geo->lat());
-            avtUI->longBox->showInDegrees(geo->lng());
+            avtUI->latBox->show(geo->lat());
+            avtUI->longBox->show(geo->lng());
         }
     }
     delete ld;

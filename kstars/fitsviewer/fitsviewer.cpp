@@ -388,6 +388,9 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
         case FITS_ALIGN:
             fitsTabWidget->addTab(tab, i18n("Align"));
             break;
+
+        case FITS_UNKNOWN:
+            break;
     }
 
     saveFileAction->setEnabled(true);

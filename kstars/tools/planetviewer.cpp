@@ -26,6 +26,9 @@
 
 #include <cmath>
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 PlanetViewerUI::PlanetViewerUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -239,7 +242,7 @@ void PlanetViewer::initPlotObjects()
             while (fileReader.hasMoreLines())
             {
                 QString line       = fileReader.readLine();
-                QStringList fields = line.split(' ', QString::SkipEmptyParts);
+                QStringList fields = line.split(' ', Qt::SkipEmptyParts);
                 if (fields.size() == 3)
                 {
                     x = fields[0].toDouble();

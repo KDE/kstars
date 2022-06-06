@@ -631,6 +631,8 @@ void InternalGuider::setStarPosition(QVector3D &starCenter)
 
 void InternalGuider::trackingStarSelected(int x, int y)
 {
+    Q_UNUSED(x);
+    Q_UNUSED(y);
     /*
 
       Not sure what's going on here--manual star selection for calibration?

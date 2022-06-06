@@ -222,8 +222,8 @@ void KSWizard::slotChangeCity()
                 break;
             }
         }
-        location->LongBox->showInDegrees(Geo->lng());
-        location->LatBox->showInDegrees(Geo->lat());
+        location->LongBox->show(Geo->lng());
+        location->LatBox->show(Geo->lat());
     }
 }
 

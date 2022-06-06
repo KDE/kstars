@@ -70,8 +70,8 @@ void modCalcVlsr::slotFindObject()
     if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
         SkyObject *o = FindDialog::Instance()->targetObject();
-        RA->showInHours(o->ra0());
-        Dec->showInDegrees(o->dec0());
+        RA->show(o->ra0());
+        Dec->show(o->dec0());
     }
 }
 
@@ -96,7 +96,7 @@ void modCalcVlsr::slotLocation()
 void modCalcVlsr::slotCompute()
 {
     bool ok1(false), ok2(false);
-    SkyPoint sp(RA->createDms(false, &ok1), Dec->createDms(true, &ok2));
+    SkyPoint sp(RA->createDms(&ok1), Dec->createDms(&ok2));
     if (!ok1 || !ok2)
         return;
 
@@ -376,7 +376,7 @@ void modCalcVlsr::processLines(QTextStream &istream)
             i++;
         }
         else
-            raB = RABoxBatch->createDms(false);
+            raB = RABoxBatch->createDms();
 
         if (AllRadioBatch->isChecked())
             ostream << raB.toHMSString() << space;
@@ -436,7 +436,7 @@ void modCalcVlsr::processLines(QTextStream &istream)
             i++;
         }
         else
-            longB = LongitudeBoxBatch->createDms(true);
+            longB = LongitudeBoxBatch->createDms();
 
         if (AllRadioBatch->isChecked())
             ostream << longB.toDMSString() << space;
@@ -451,7 +451,7 @@ void modCalcVlsr::processLines(QTextStream &istream)
             i++;
         }
         else
-            latB = LatitudeBoxBatch->createDms(true);
+            latB = LatitudeBoxBatch->createDms();
         if (AllRadioBatch->isChecked())
             ostream << latB.toDMSString() << space;
         else if (LatCheckBatch->isChecked())

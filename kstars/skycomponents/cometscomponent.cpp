@@ -154,7 +154,7 @@ void CometsComponent::loadData()
             objectLists(SkyObject::COMET).append(QPair<QString, const SkyObject *>(com->name(), com));
         });
     }
-    catch (const std::runtime_error)
+    catch (const std::runtime_error&)
     {
         qCInfo(KSTARS) << "Loading comets failed.";
         qCInfo(KSTARS) << " -> was trying to read " + file_name;

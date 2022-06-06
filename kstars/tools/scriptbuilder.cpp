@@ -1003,7 +1003,8 @@ void ScriptBuilder::slotRunScript()
     env.insert("PATH", "/usr/local/bin:" + QCoreApplication::applicationDirPath() + ':' + path);
     p.setProcessEnvironment(env);
 #endif
-    p.start(f.fileName());
+    QStringList arguments;
+    p.start(f.fileName(), arguments);
 
     if (!p.waitForStarted())
         qDebug() << "Process did not start.";
@@ -1438,7 +1439,7 @@ void ScriptBuilder::slotArgWidget()
             if (ok)
             {
                 ra.setH(r);
-                argSetRaDec->RABox->showInHours(ra);
+                argSetRaDec->RABox->show(ra);
             }
 
             ok = !sf->argVal(1).isEmpty();
@@ -1447,7 +1448,7 @@ void ScriptBuilder::slotArgWidget()
             else
                 argSetRaDec->DecBox->clear();
             if (ok)
-                argSetRaDec->DecBox->showInDegrees(dms(d));
+                argSetRaDec->DecBox->show(dms(d));
         }
         else if (sf->name() == "setAltAz")
         {
@@ -1462,14 +1463,14 @@ void ScriptBuilder::slotArgWidget()
             else
                 argSetAltAz->AzBox->clear();
             if (ok)
-                argSetAltAz->AltBox->showInDegrees(dms(y));
+                argSetAltAz->AltBox->show(dms(y));
             else
                 argSetAltAz->AltBox->clear();
 
             ok = !sf->argVal(1).isEmpty();
             x  = sf->argVal(1).toDouble(&ok);
             if (ok)
-                argSetAltAz->AzBox->showInDegrees(dms(x));
+                argSetAltAz->AzBox->show(dms(x));
         }
         else if (sf->name() == "zoomIn")
         {
@@ -1779,7 +1780,7 @@ void ScriptBuilder::slotRa()
             return;
 
         bool ok(false);
-        dms ra = argSetRaDec->RABox->createDms(false, &ok);
+        dms ra = argSetRaDec->RABox->createDms(&ok);
         if (ok)
         {
             setUnsavedChanges(true);
@@ -1811,7 +1812,7 @@ void ScriptBuilder::slotDec()
             return;
 
         bool ok(false);
-        dms dec = argSetRaDec->DecBox->createDms(true, &ok);
+        dms dec = argSetRaDec->DecBox->createDms(&ok);
         if (ok)
         {
             setUnsavedChanges(true);
@@ -1843,7 +1844,7 @@ void ScriptBuilder::slotAz()
             return;
 
         bool ok(false);
-        dms az = argSetAltAz->AzBox->createDms(true, &ok);
+        dms az = argSetAltAz->AzBox->createDms(&ok);
         if (ok)
         {
             setUnsavedChanges(true);
@@ -1874,7 +1875,7 @@ void ScriptBuilder::slotAlt()
             return;
 
         bool ok(false);
-        dms alt = argSetAltAz->AltBox->createDms(true, &ok);
+        dms alt = argSetAltAz->AltBox->createDms(&ok);
         if (ok)
         {
             setUnsavedChanges(true);
@@ -2413,7 +2414,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
         }
 
         bool ok(false);
-        dms ra = argSetTargetCoordINDI->RABox->createDms(false, &ok);
+        dms ra = argSetTargetCoordINDI->RABox->createDms(&ok);
         if ( ok )
         {
 
@@ -2454,7 +2455,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
         }
 
         bool ok(false);
-        dms dec = argSetTargetCoordINDI->DecBox->createDms(true, &ok);
+        dms dec = argSetTargetCoordINDI->DecBox->createDms(&ok);
         if ( ok )
         {
 
@@ -2629,7 +2630,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
         }
 
         bool ok(false);
-        dms longitude = argSetGeoLocationINDI->longBox->createDms(true, &ok);
+        dms longitude = argSetGeoLocationINDI->longBox->createDms(&ok);
         if ( ok )
         {
 
@@ -2670,7 +2671,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
         }
 
         bool ok(false);
-        dms latitude = argSetGeoLocationINDI->latBox->createDms(true, &ok);
+        dms latitude = argSetGeoLocationINDI->latBox->createDms(&ok);
         if ( ok )
         {
 

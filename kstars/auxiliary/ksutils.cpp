@@ -1018,7 +1018,7 @@ void Logging::Write(QTextStream &stream, QtMsgType type,
            << "] - ";
     stream << msg << '\n';
     stream.flush();
-    //stream << qFormatLogMessage(type, context, msg) << endl;
+    //stream << qFormatLogMessage(type, context, msg) << Qt::endl;
 }
 
 void Logging::UseDefault()

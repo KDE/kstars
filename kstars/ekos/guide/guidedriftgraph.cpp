@@ -11,6 +11,9 @@
 #include "kstarsdata.h"
 #include "Options.h"
 
+// Qt version calming
+#include <qtendl.h>
+
 GuideDriftGraph::GuideDriftGraph(QWidget *parent)
 {
     Q_UNUSED(parent);
@@ -319,7 +322,7 @@ void GuideDriftGraph::autoScaleGraphs()
 
 void GuideDriftGraph::zoomX(int zoomLevel)
 {
-    double key = (guideTimer.isValid() || guideTimer.isNull()) ? 0 : guideTimer.elapsed() / 1000.0;
+    double key = (guideElapsedTimer.isValid() || guideTimer.isValid() || guideTimer.isNull()) ? 0 : guideElapsedTimer.elapsed() / 1000.0;
 
     // The # of seconds displayd on the x-axis of the drift-graph for the various zoom levels.
     static std::vector<int> zoomLevels = {15, 30, 60, 120, 300, 900, 1800, 3600, 7200, 14400};
@@ -486,7 +489,7 @@ void GuideDriftGraph::exportGuideData()
 
     outstream <<
               "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" <<
-              endl;
+              Qt::endl;
 
     for (int i = 0; i < numPoints; i++)
     {
@@ -500,7 +503,7 @@ void GuideDriftGraph::exportGuideData()
         localTime = localTime.addSecs(t);
 
         outstream << i << ',' << t << ',' << localTime.toString("hh:mm:ss AP") << ',' << ra << ',' << de << ',' << raPulse << ',' <<
-                  dePulse << ',' << endl;
+                  dePulse << ',' << Qt::endl;
     }
     file.close();
 }
@@ -508,6 +511,7 @@ void GuideDriftGraph::exportGuideData()
 void GuideDriftGraph::resetTimer()
 {
     guideTimer = QTime::currentTime();
+    guideElapsedTimer.start();
 }
 
 void GuideDriftGraph::connectGuider(Ekos::GuideInterface *guider)
@@ -523,7 +527,7 @@ void GuideDriftGraph::connectGuider(Ekos::GuideInterface *guider)
 void GuideDriftGraph::setAxisDelta(double ra, double de)
 {
     // Time since timer started.
-    double key = guideTimer.elapsed() / 1000.0;
+    double key = guideElapsedTimer.elapsed() / 1000.0;
 
     // similar to same operation in Guide::setAxisDelta
     ra = -ra;
@@ -544,7 +548,7 @@ void GuideDriftGraph::setAxisDelta(double ra, double de)
 
 void GuideDriftGraph::setAxisSigma(double ra, double de)
 {
-    const double key = guideTimer.elapsed() / 1000.0;
+    const double key = guideElapsedTimer.elapsed() / 1000.0;
     const double total = std::hypot(ra, de);
     graph(GuideGraph::G_RA_RMS)->addData(key, ra);
     graph(GuideGraph::G_DEC_RMS)->addData(key, de);
@@ -553,14 +557,14 @@ void GuideDriftGraph::setAxisSigma(double ra, double de)
 
 void GuideDriftGraph::setAxisPulse(double ra, double de)
 {
-    double key = guideTimer.elapsed() / 1000.0;
+    double key = guideElapsedTimer.elapsed() / 1000.0;
     graph(GuideGraph::G_RA_PULSE)->addData(key, ra);
     graph(GuideGraph::G_DEC_PULSE)->addData(key, de);
 }
 
 void GuideDriftGraph::setSNR(double snr)
 {
-    double key = guideTimer.elapsed() / 1000.0;
+    double key = guideElapsedTimer.elapsed() / 1000.0;
     graph(GuideGraph::G_SNR)->addData(key, snr);
 
     // Sets the SNR axis to have the maximum be 95% of the way up from the middle to the top.

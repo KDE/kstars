@@ -553,7 +553,6 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         QString indexSeriesName = checkBox->text().remove('&');
         QString filePath        = astrometryDataDir + '/' + indexSeriesName;
         QString fileNumString   = indexSeriesName.mid(8, 2);
-        int indexFileNum        = fileNumString.toInt();
 
         if (checked)
         {

@@ -71,6 +71,7 @@ private:
 
     // Guide timer
     QTime guideTimer;
+    QElapsedTimer guideElapsedTimer;
 
     QUrl guideURLPath;
 };

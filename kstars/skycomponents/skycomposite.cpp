@@ -22,7 +22,7 @@ SkyComposite::~SkyComposite()
 void SkyComposite::addComponent(SkyComponent *component, int priority)
 {
     //qDebug() << "Adding sky component " << component << " of type " << typeid( *component ).name() << " with priority " << priority;
-    m_Components.insertMulti(priority, component);
+    m_Components.insert(priority, component);
     /*
     foreach( SkyComponent *p, components() ) {
         qDebug() << "List now has: " << p << " of type " << typeid( *p ).name();

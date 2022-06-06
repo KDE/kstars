@@ -1194,6 +1194,7 @@ void DetailDialog::updateThumbnail()
         //If the image was unset, delete the old image on disk.
         if (tp->imageFound())
         {
+            #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
@@ -1202,6 +1203,16 @@ void DetailDialog::updateThumbnail()
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());
+            #else
+            bool rc = Data->Image->pixmap(Qt::ReturnByValue).save(fname, "PNG");
+            if (rc == false)
+            {
+                KSNotification::error(i18n("Unable to save image to %1", fname),
+                                      i18n("Save Thumbnail"));
+            }
+            else
+                *Thumbnail = (Data->Image->pixmap(Qt::ReturnByValue));
+            #endif
         }
         else
         {

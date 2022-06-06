@@ -7,10 +7,13 @@
 #include "addcatalogobject.h"
 #include "ui_addcatalogobject.h"
 
+#include <QPushButton>
+
 AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
     : QDialog(parent), ui(new Ui::AddCatalogObject), m_object{ obj }
 {
     ui->setupUi(this);
+    ui->ra->setDegType(false);
     fill_form_from_object();
 
     connect(ui->name, &QLineEdit::textChanged,
@@ -32,12 +35,21 @@ AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
                 refresh_flux();
             });
 
-    connect(ui->ra, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value)
-            { m_object.setRA0({ value / 15.0 }); }); // setRA0 expects hours
+    auto validateAndStoreCoordinates = [&]() {
+        bool raOk(false), decOk(false);
+        auto ra = ui->ra->createDms(&raOk);
+        auto dec = ui->dec->createDms(&decOk);
+        auto* okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
+        Q_ASSERT(!!okButton);
+        okButton->setEnabled(raOk && decOk);
+        if (raOk && decOk) {
+            m_object.setRA0(ra);
+            m_object.setDec0(dec);
+        }
+    };
 
-    connect(ui->dec, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setDec0({ value }); });
+    connect(ui->ra, &dmsBox::textChanged, validateAndStoreCoordinates);
+    connect(ui->dec, &dmsBox::textChanged, validateAndStoreCoordinates);
 
     auto updateMag = [&]()
     {
@@ -78,8 +90,10 @@ void AddCatalogObject::fill_form_from_object()
     ui->type->addItem(SkyObject::typeName(SkyObject::TYPE_UNKNOWN));
     ui->type->setCurrentIndex((int)(m_object.type()));
 
-    ui->ra->setValue(m_object.ra0().Degrees());
-    ui->dec->setValue(m_object.dec0().Degrees());
+    dms ra0 = m_object.ra0();
+    dms dec0 = m_object.dec0(); // Make a copy to avoid overwriting by signal-slot connection
+    ui->ra->show(ra0);
+    ui->dec->show(dec0);
     if (std::isnan(m_object.mag()))
     {
         ui->magUnknown->setChecked(true);

@@ -23,12 +23,15 @@
 
 #include <indi_debug.h>
 
+// Qt version calming
+#include <qtendl.h>
+
 ServerManager::ServerManager(const QString &inHost, uint inPort)
 {
     host          = inHost;
     port          = QString::number(inPort);
 
-    //qDebug() << "We got port unit with value of " << inPort << " and now as tring it is equal to #" << port << "#" << endl;
+    //qDebug() << "We got port unit with value of " << inPort << " and now as tring it is equal to #" << port << "#" << Qt::endl;
 }
 
 ServerManager::~ServerManager()
@@ -183,12 +186,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
     {
         QString driverString = dv->getName() + "@" + dv->getRemoteHost() + ":" + dv->getRemotePort();
         qCDebug(KSTARS_INDI) << "Starting Remote INDI Driver" << driverString;
-        out << "start " << driverString;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-        out << Qt::endl;
-#else
-        out << endl;
-#endif
+        out << "start " << driverString << Qt::endl;
         out.flush();
     }
     else
@@ -215,12 +213,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
             out << " -n \"" << dv->getUniqueLabel() << "\"";
         if (dv->getSkeletonFile().isEmpty() == false)
             out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
         out << Qt::endl;
-#else
-        out << endl;
-#endif
-
         out.flush();
 
         dv->setServerState(true);
@@ -243,13 +236,7 @@ void ServerManager::stopDriver(DriverInfo *dv)
         out << "stop " << dv->getExecutable() << " -n \"" << dv->getUniqueLabel() << "\"";
     else
         out << "stop " << dv->getExecutable();
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     out << Qt::endl;
-#else
-    out << endl;
-#endif
-
     out.flush();
     dv->setServerState(false);
     dv->setPort(dv->getUserPort());
@@ -296,7 +283,7 @@ bool ServerManager::restartDriver(DriverInfo *dv)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
             out << Qt::endl;
 #else
-            out << endl;
+            out << Qt::endl;
 #endif
             out.flush();
         }
@@ -313,12 +300,7 @@ bool ServerManager::restartDriver(DriverInfo *dv)
                 out << " -n \"" << dv->getUniqueLabel() << "\"";
             if (dv->getSkeletonFile().isEmpty() == false)
                 out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
             out << Qt::endl;
-#else
-            out << endl;
-#endif
-
             out.flush();
 
             dv->setServerState(true);

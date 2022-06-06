@@ -907,7 +907,10 @@ void Manager::start()
                 DriverManager::Instance()->stopAllDevices();
                 //TODO is there a better way to do this.
                 QProcess p;
-                p.start("pkill indiserver");
+                const QString program="pkill";
+                QStringList arguments;
+                arguments << "indiserver";
+                p.start(program, arguments);
                 p.waitForFinished();
 
                 QTimer::singleShot(1000, executeStartINDIServices);
@@ -1430,7 +1433,7 @@ void Manager::setTelescope(ISD::GDInterface * scopeDevice)
 {
     //mount = scopeDevice;
 
-    managedDevices[KSTARS_TELESCOPE] = scopeDevice;
+    managedDevices.insert(KSTARS_TELESCOPE, scopeDevice);
 
     appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
@@ -1473,7 +1476,7 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
         if (oneCCD == ccdDevice)
             return;
 
-    managedDevices.insertMulti(KSTARS_CCD, ccdDevice);
+    managedDevices.insert(KSTARS_CCD, ccdDevice);
 
     initCapture();
 
@@ -1541,9 +1544,9 @@ void Manager::setCCD(ISD::GDInterface * ccdDevice)
 
     if (managedDevices.contains(KSTARS_TELESCOPE))
     {
-        alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-        captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-        guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+        alignProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
+        captureProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
+        guideProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
     }
 }
 
@@ -1551,7 +1554,7 @@ void Manager::setFilter(ISD::GDInterface * filterDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_FILTER).contains(filterDevice) == false)
-        managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
+        managedDevices.insert(KSTARS_FILTER, filterDevice);
 
     appendLogText(i18n("%1 filter is online.", filterDevice->getDeviceName()));
 
@@ -1577,7 +1580,7 @@ void Manager::setFocuser(ISD::GDInterface * focuserDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_FOCUSER).contains(focuserDevice) == false)
-        managedDevices.insertMulti(KSTARS_FOCUSER, focuserDevice);
+        managedDevices.insert(KSTARS_FOCUSER, focuserDevice);
 
     initCapture();
 
@@ -1595,7 +1598,7 @@ void Manager::setFocuser(ISD::GDInterface * focuserDevice)
 
 void Manager::setDome(ISD::GDInterface * domeDevice)
 {
-    managedDevices[KSTARS_DOME] = domeDevice;
+    managedDevices.insert(KSTARS_DOME, domeDevice);
 
     initDome();
 
@@ -1615,7 +1618,7 @@ void Manager::setDome(ISD::GDInterface * domeDevice)
 
 void Manager::setWeather(ISD::GDInterface * weatherDevice)
 {
-    managedDevices[KSTARS_WEATHER] = weatherDevice;
+    managedDevices.insert(KSTARS_WEATHER, weatherDevice);
 
     initWeather();
 
@@ -1640,7 +1643,7 @@ void Manager::setDustCap(ISD::GDInterface * dustCapDevice)
 {
     // No duplicates
     if (findDevices(KSTARS_AUXILIARY).contains(dustCapDevice) == false)
-        managedDevices.insertMulti(KSTARS_AUXILIARY, dustCapDevice);
+        managedDevices.insert(KSTARS_AUXILIARY, dustCapDevice);
 
     initDustCap();
 
@@ -1660,7 +1663,7 @@ void Manager::setLightBox(ISD::GDInterface * lightBoxDevice)
 
     // No duplicates
     if (findDevices(KSTARS_AUXILIARY).contains(lightBoxDevice) == false)
-        managedDevices.insertMulti(KSTARS_AUXILIARY, lightBoxDevice);
+        managedDevices.insert(KSTARS_AUXILIARY, lightBoxDevice);
 
     if (captureProcess.get() != nullptr)
         captureProcess->setLightBox(lightBoxDevice);
@@ -1783,19 +1786,19 @@ void Manager::processNewNumber(INumberVectorProperty * nvp)
     {
         if (guideProcess.get() != nullptr)
         {
-            guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            guideProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //guideProcess->syncTelescopeInfo();
         }
 
         if (alignProcess.get() != nullptr)
         {
-            alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            alignProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //alignProcess->syncTelescopeInfo();
         }
 
         if (mountProcess.get() != nullptr)
         {
-            mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            mountProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //mountProcess->syncTelescopeInfo();
         }
 
@@ -1963,19 +1966,19 @@ void Manager::processNewProperty(INDI::Property prop)
     {
         if (guideProcess.get() != nullptr)
         {
-            guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            guideProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //guideProcess->syncTelescopeInfo();
         }
 
         if (alignProcess.get() != nullptr)
         {
-            alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            alignProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //alignProcess->syncTelescopeInfo();
         }
 
         if (mountProcess.get() != nullptr)
         {
-            mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            mountProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
             //mountProcess->syncTelescopeInfo();
         }
 
@@ -2034,10 +2037,10 @@ void Manager::processNewProperty(INDI::Property prop)
     if (prop->isNameMatch("TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (captureProcess.get() != nullptr)
-            captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            captureProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
 
         if (mountProcess.get() != nullptr)
-            mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            mountProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
 
         return;
     }
@@ -2074,7 +2077,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
     {
-        managedDevices[KSTARS_ROTATOR] = deviceInterface;
+        managedDevices.insert(KSTARS_ROTATOR, deviceInterface);
         if (captureProcess.get() != nullptr)
             captureProcess->setRotator(deviceInterface);
         if (alignProcess.get() != nullptr)
@@ -2083,7 +2086,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (prop->isNameMatch("GPS_REFRESH"))
     {
-        managedDevices.insertMulti(KSTARS_AUXILIARY, deviceInterface);
+        managedDevices.insert(KSTARS_AUXILIARY, deviceInterface);
         if (mountProcess.get() != nullptr)
             mountProcess->setGPS(deviceInterface);
     }
@@ -2140,7 +2143,7 @@ void Manager::processTabChange()
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled())
         {
-            if (managedDevices[KSTARS_CCD]->isConnected() && managedDevices.contains(KSTARS_TELESCOPE))
+            if (managedDevices.value(KSTARS_CCD)->isConnected() && managedDevices.contains(KSTARS_TELESCOPE))
             {
                 if (alignProcess->isParserOK())
                     alignProcess->setEnabled(true);
@@ -2298,11 +2301,11 @@ void Manager::initCapture()
 
     if (managedDevices.contains(KSTARS_DOME))
     {
-        captureProcess->setDome(managedDevices[KSTARS_DOME]);
+        captureProcess->setDome(managedDevices.value(KSTARS_DOME));
     }
     if (managedDevices.contains(KSTARS_ROTATOR))
     {
-        captureProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
+        captureProcess->setRotator(managedDevices.value(KSTARS_ROTATOR));
     }
 
     connectModules();
@@ -2339,11 +2342,11 @@ void Manager::initAlign()
 
     if (managedDevices.contains(KSTARS_DOME))
     {
-        alignProcess->setDome(managedDevices[KSTARS_DOME]);
+        alignProcess->setDome(managedDevices.value(KSTARS_DOME));
     }
     if (managedDevices.contains(KSTARS_ROTATOR))
     {
-        alignProcess->setRotator(managedDevices[KSTARS_ROTATOR]);
+        alignProcess->setRotator(managedDevices.value(KSTARS_ROTATOR));
     }
 
     connectModules();
@@ -2522,8 +2525,8 @@ void Manager::initGuide()
             toolsWidget->indexOf(guideProcess.get()) == -1)
     {
         //if (mount && mount->isConnected())
-        if (managedDevices.contains(KSTARS_TELESCOPE) && managedDevices[KSTARS_TELESCOPE]->isConnected())
-            guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+        if (managedDevices.contains(KSTARS_TELESCOPE) && managedDevices.value(KSTARS_TELESCOPE)->isConnected())
+            guideProcess->setTelescope(managedDevices.value(KSTARS_TELESCOPE));
 
         int index = addModuleTab(EkosModule::Guide, guideProcess.get(), QIcon(":/icons/ekos_guide.png"));
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
@@ -2922,7 +2925,7 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 
     lastStatus = status;
 
-    mountStatus->setText(dynamic_cast<ISD::Telescope *>(managedDevices[KSTARS_TELESCOPE])->statusString(status));
+    mountStatus->setText(dynamic_cast<ISD::Telescope *>(managedDevices.value(KSTARS_TELESCOPE))->statusString(status));
     mountStatus->setStyleSheet(QString());
 
     switch (status)
@@ -2955,7 +2958,7 @@ void Manager::updateMountStatus(ISD::Telescope::Status status)
 
     QJsonObject cStatus =
     {
-        {"status", dynamic_cast<ISD::Telescope *>(managedDevices[KSTARS_TELESCOPE])->statusString(status, false)}
+        {"status", dynamic_cast<ISD::Telescope *>(managedDevices.value(KSTARS_TELESCOPE))->statusString(status, false)}
     };
 
     ekosLiveClient.get()->message()->updateMountStatus(cStatus);

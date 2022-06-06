@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>456</height>
+    <width>457</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,7 +28,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="name"/>
+       <widget class="QLineEdit" name="name">
+        <property name="placeholderText">
+         <string>e.g. PGC 54559</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_4">
@@ -43,19 +47,16 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>RA / Dec (°, J2000):</string>
+         <string>RA / Dec (J2000):</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QDoubleSpinBox" name="ra">
-          <property name="decimals">
-           <number>5</number>
-          </property>
-          <property name="maximum">
-           <double>360.000000000000000</double>
+         <widget class="dmsBox" name="ra">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -76,15 +77,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="dec">
-          <property name="decimals">
-           <number>6</number>
-          </property>
-          <property name="minimum">
-           <double>-90.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>90.000000000000000</double>
+         <widget class="dmsBox" name="dec">
+          <property name="clearButtonEnabled">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -232,7 +227,11 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="long_name"/>
+          <widget class="QLineEdit" name="long_name">
+           <property name="placeholderText">
+            <string>e.g. Hoag's Object</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -252,6 +251,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>name</tabstop>
   <tabstop>type</tabstop>

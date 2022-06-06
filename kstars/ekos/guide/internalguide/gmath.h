@@ -205,7 +205,7 @@ class cgmath : public QObject
         bool do_statistics { true };
 
         QFile logFile;
-        QTime logTime;
+        QElapsedTimer logTime;
 
         GuideStars guideStars;
 
