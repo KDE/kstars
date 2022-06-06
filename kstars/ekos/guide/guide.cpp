@@ -1701,7 +1701,7 @@ void Guide::setStatus(Ekos::GuideState newState)
                 setBusy(true);
 
                 clearGuideGraphs();
-                guideTimer = QTime::currentTime();
+                guideTimer.start();
                 driftGraph->resetTimer();
                 driftGraph->refreshColorScheme();
             }
@@ -3071,8 +3071,13 @@ void Guide::initConnections()
             &Ekos::Guide::updateTrackingBoxSize);
 
     // Guider CCD Selection
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Guide::setDefaultCCD);
+    #else
+    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Guide::setDefaultCCD);
+    #endif
     connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
             [&](int index)
     {
@@ -3094,7 +3099,11 @@ void Guide::initConnections()
     if(guiderType != GUIDE_PHD2) //For PHD2, this is handled in the configurePHD2Camera method
         connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
     // ST4 Selection
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString & text)
+    #else
+    connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), [&](const QString & text)
+    #endif
     {
         setDefaultST4(text);
         setST4(text);

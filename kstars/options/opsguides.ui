@@ -38,9 +38,6 @@
            <property name="text">
             <string>Sky culture:</string>
            </property>
-           <property name="buddy">
-            <cstring>kcfg_SkyCulture</cstring>
-           </property>
           </widget>
          </item>
          <item>
@@ -402,26 +399,34 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kcfg_SkyCulture</tabstop>
+  <tabstop>kcfg_ShowCLines</tabstop>
   <tabstop>kcfg_ShowCBounds</tabstop>
+  <tabstop>kcfg_ShowConstellationArt</tabstop>
   <tabstop>kcfg_ShowHighlightedCBound</tabstop>
   <tabstop>kcfg_ShowCNames</tabstop>
+  <tabstop>kcfg_UseLatinConstellNames</tabstop>
   <tabstop>kcfg_UseLocalConstellNames</tabstop>
   <tabstop>kcfg_UseAbbrevConstellNames</tabstop>
   <tabstop>kcfg_ShowMilkyWay</tabstop>
+  <tabstop>kcfg_FillMilkyWay</tabstop>
+  <tabstop>kcfg_ShowEquator</tabstop>
+  <tabstop>kcfg_ShowFlags</tabstop>
+  <tabstop>kcfg_ShowHorizon</tabstop>
+  <tabstop>kcfg_ShowGround</tabstop>
+  <tabstop>kcfg_ShowEcliptic</tabstop>
   <tabstop>kcfg_AutoSelectGrid</tabstop>
   <tabstop>kcfg_ShowEquatorialGrid</tabstop>
   <tabstop>kcfg_ShowHorizontalGrid</tabstop>
-  <tabstop>kcfg_ShowFlags</tabstop>
+  <tabstop>kcfg_ShowLocalMeridian</tabstop>
  </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="nameButtonGroup"/>
   <buttongroup name="constellationButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="nameButtonGroup"/>
  </buttongroups>
 </ui>

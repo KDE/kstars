@@ -48,6 +48,7 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
     connect(kcfg_AutoSelectGrid, SIGNAL(toggled(bool)), this, SLOT(slotToggleAutoSelectGrid(bool)));
 
     // Track changes to apply settings
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(constellationButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
             [&]()
     {
@@ -58,6 +59,18 @@ OpsGuides::OpsGuides() : QFrame(KStars::Instance())
     {
         isDirty = true;
     });
+    #else
+    connect(constellationButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idPressed), this,
+            [&]()
+    {
+        isDirty = true;
+    });
+    connect(nameButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idPressed), this,
+            [&]()
+    {
+        isDirty = true;
+    });
+    #endif
     connect(SkyCultureComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             [&]()
     {

@@ -21,6 +21,9 @@
 #include <cmath>
 #include <set>
 
+// Qt version calming
+#include <qtendl.h>
+
 GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
         GuideView *guideView, bool firstFrame)
 {
@@ -104,13 +107,13 @@ void cgmath::createGuideLog()
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
 
-    out << "Guiding rate,x15 arcsec/sec: " << endl;
-    out << "Focal,mm: " << calibration.getFocalLength() << endl;
-    out << "Aperture,mm: " << aperture << endl;
-    out << "F/D: " << calibration.getFocalLength() / aperture << endl;
+    out << "Guiding rate,x15 arcsec/sec: " << Qt::endl;
+    out << "Focal,mm: " << calibration.getFocalLength() << Qt::endl;
+    out << "Aperture,mm: " << aperture << Qt::endl;
+    out << "F/D: " << calibration.getFocalLength() / aperture << Qt::endl;
     out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error "
         "(arcsec), DEC Correction (ms), DEC Correction Direction"
-        << endl;
+        << Qt::endl;
 
     logTime.restart();
 }
@@ -405,7 +408,7 @@ void cgmath::calculatePulses(Ekos::GuideState state)
         out << iterationCounter << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] <<
             ","
             << directionStr(out_params.pulse_dir[0]) << "," << out_params.delta[1] << ","
-            << out_params.pulse_length[1] << "," << directionStr(out_params.pulse_dir[1]) << endl;
+            << out_params.pulse_length[1] << "," << directionStr(out_params.pulse_dir[1]) << Qt::endl;
     }
 }
 

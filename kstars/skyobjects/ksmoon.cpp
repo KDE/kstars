@@ -28,6 +28,9 @@
 
 #include <typeinfo>
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 using namespace std;
 
 namespace
@@ -105,7 +108,7 @@ bool KSMoon::loadData()
         QTextStream stream(&f);
         while (!stream.atEnd())
         {
-            fields = stream.readLine().split(' ', QString::SkipEmptyParts);
+            fields = stream.readLine().split(' ', Qt::SkipEmptyParts);
 
             if (fields.size() == 6)
             {
@@ -128,7 +131,7 @@ bool KSMoon::loadData()
         QTextStream stream(&f);
         while (!stream.atEnd())
         {
-            fields = stream.readLine().split(' ', QString::SkipEmptyParts);
+            fields = stream.readLine().split(' ', Qt::SkipEmptyParts);
 
             if (fields.size() == 5)
             {

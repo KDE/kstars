@@ -289,9 +289,9 @@ bool TestEkosHelper::shutdownEkosProfile()
 void TestEkosHelper::startPHD2()
 {
     phd2 = new QProcess(this);
-
-    // Start PHD2 with the proper configuration
-    phd2->start(QString("phd2"));
+    QStringList arguments;
+        // Start PHD2 with the proper configuration
+    phd2->start(QString("phd2"), arguments);
     QVERIFY(phd2->waitForStarted(3000));
     QTest::qWait(2000);
     QTRY_VERIFY_WITH_TIMEOUT(phd2->state() == QProcess::Running, 1000);
@@ -320,11 +320,11 @@ void TestEkosHelper::preparePHD2()
     QString const phd2_config_name = ".PHDGuidingV2";
     QString const phd2_config_bak_name = ".PHDGuidingV2.bak";
     QString const phd2_config_orig_name = ".PHDGuidingV2_mf";
-    QStandardPaths::enableTestMode(false);
+    QStandardPaths::setTestModeEnabled(false);
     QFileInfo phd2_config_home(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config_name);
     QFileInfo phd2_config_home_bak(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config_bak_name);
     QFileInfo phd2_config_orig(phd2_config_orig_name);
-    QStandardPaths::enableTestMode(true);
+    QStandardPaths::setTestModeEnabled(true);
     QWARN(QString("Writing PHD configuration file to '%1'").arg(phd2_config_home.filePath()).toStdString().c_str());
     if (phd2_config_home.exists())
     {
@@ -342,7 +342,7 @@ void TestEkosHelper::cleanupPHD2()
 {
     QString const phd2_config = ".PHDGuidingV2";
     QString const phd2_config_bak = ".PHDGuidingV2.bak";
-    QStandardPaths::enableTestMode(false);
+    QStandardPaths::setTestModeEnabled(false);
     QFileInfo phd2_config_home(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config);
     QFileInfo phd2_config_home_bak(QStandardPaths::writableLocation(QStandardPaths::HomeLocation), phd2_config_bak);
     // remove PHD2 test config

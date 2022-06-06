@@ -66,8 +66,13 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_DarkCameras = Options::darkCameras();
     m_DefectCameras = Options::defectCameras();
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
             this, [this]()
+    #else
+    connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled),
+            this, [this]()
+    #endif
     {
         const QString device = m_CurrentCamera->getDeviceName();
         if (preferDarksRadio->isChecked())
@@ -145,9 +150,13 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     });
 
     connect(countSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
-
-    connect(binningButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int,
-            bool)
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    connect(binningButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
+            this, [this](int, bool)
+    #else
+    connect(binningButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled),
+            this, [this](int, bool)
+    #endif
     {
         countDarkTotalTime();
     });

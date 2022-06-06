@@ -105,5 +105,5 @@ class SkyComposite : public SkyComponent
         }
 
     private:
-        QMap<int, SkyComponent *> m_Components;
+        QMultiMap<int, SkyComponent *> m_Components;
 };

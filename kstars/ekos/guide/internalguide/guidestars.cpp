@@ -482,7 +482,7 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
     if (imageData == nullptr)
         return;
 
-    QTime timer;
+    QElapsedTimer timer;
     timer.restart();
     QList<Edge*> sepStars;
     int count = findAllSEPStars(imageData, &sepStars, num * 2);

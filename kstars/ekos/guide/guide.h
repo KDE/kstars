@@ -575,7 +575,7 @@ class Guide : public QWidget, public Ui::Guide
         GuideStateWidget *guideStateWidget { nullptr };
 
         // Guide timer
-        QTime guideTimer;
+        QElapsedTimer guideTimer;
 
         // Capture timeout timer
         QTimer captureTimeout;

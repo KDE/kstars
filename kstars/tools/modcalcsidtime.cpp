@@ -15,6 +15,9 @@
 
 #include <QTextStream>
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 modCalcSidTime::modCalcSidTime(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
@@ -239,7 +242,7 @@ void modCalcSidTime::processLines(QTextStream &istream)
         line = istream.readLine();
         line = line.trimmed();
 
-        QStringList fields = line.split(' ', QString::SkipEmptyParts);
+        QStringList fields = line.split(' ', Qt::SkipEmptyParts);
 
         //Find and parse the location string
         if (LocationCheckBatch->isChecked())
@@ -254,10 +257,10 @@ void modCalcSidTime::processLines(QTextStream &istream)
                 int iEnd               = line.indexOf(q, iStart + 1);
                 QString locationString = line.mid(iStart, iEnd - iStart + 1);
                 line.remove(locationString);
-                fields = line.split(' ', QString::SkipEmptyParts);
+                fields = line.split(' ', Qt::SkipEmptyParts);
                 locationString.remove(q);
 
-                QStringList locationFields = locationString.split(',', QString::SkipEmptyParts);
+                QStringList locationFields = locationString.split(',', Qt::SkipEmptyParts);
                 for (int i = 0; i < locationFields.size(); i++)
                     locationFields[i] = locationFields[i].trimmed();
 

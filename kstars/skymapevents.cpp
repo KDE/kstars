@@ -647,9 +647,9 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
 
 void SkyMap::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0)
+    if (e->angleDelta().y() > 0)
         zoomInOrMagStep(e->modifiers());
-    else if (e->delta() < 0)
+    else if (e->angleDelta().y() < 0)
         zoomOutOrMagStep(e->modifiers());
 }
 

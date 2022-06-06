@@ -3777,7 +3777,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         exposureIN->setValue(filterManager->getFilterExposure());
     });
 
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [ = ](const QString & text)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
@@ -4112,23 +4112,39 @@ void Focus::initSettingsConnections()
     ///////////////////////////////////////////////////////////////////////////
     /// Focuser Group
     ///////////////////////////////////////////////////////////////////////////
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
+    #else
+    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    #endif
     connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// CCD & Filter Wheel Group
     ///////////////////////////////////////////////////////////////////////////
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
-    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
     connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
+    #else
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    #endif
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Settings Group
@@ -4154,12 +4170,18 @@ void Focus::initSettingsConnections()
     connect(multiRowAverageSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(captureTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(motionTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
-    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
+    #else
+    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Focus::syncSettings);
+    #endif
+    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings); 
 }
 
 void Focus::initPlots()

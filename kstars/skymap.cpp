@@ -709,7 +709,7 @@ void SkyMap::slotEndRulerMode()
                                     ((f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX()));
             }
             fov = nameToFovMap[QInputDialog::getItem(this, i18n("Star Hopper: Choose a field-of-view"),
-                                                           i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0,
+                                                           i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
                                                            false, &ok)];
         }
         else

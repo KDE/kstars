@@ -44,6 +44,9 @@
 // We accept file formats with version back to:
 #define SQ_COMPAT_VERSION 2.0
 
+// Qt version calming
+#include <qtendl.h>
+
 namespace Ekos
 {
 Capture::Capture()
@@ -135,8 +138,13 @@ Capture::Capture()
 
     connect(captureBinHN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), captureBinVN, &QSpinBox::setValue);
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(cameraS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultCCD);
+    #else
+    connect(cameraS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Capture::setDefaultCCD);
+    #endif
     connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkCCD);
 
     connect(liveVideoB, &QPushButton::clicked, this, &Ekos::Capture::toggleVideo);
@@ -152,8 +160,13 @@ Capture::Capture()
         Options::setAutoDark(darkB->isChecked());
     });
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Capture::setDefaultFilterWheel);
+    #else
+    connect(filterWheelS, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Capture::setDefaultFilterWheel);
+    #endif
     connect(filterWheelS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
             &Ekos::Capture::checkFilter);
 
@@ -174,7 +187,7 @@ Capture::Capture()
 
     connect(filterEditB, &QPushButton::clicked, this, &Ekos::Capture::editFilterName);
 
-    connect(captureFilterS, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    connect(captureFilterS, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [ = ]()
     {
         updateHFRThreshold();
@@ -4677,28 +4690,28 @@ bool Capture::saveSequenceQueue(const QString &path)
     // We serialize sequence data to XML using the C locale
     QLocale cLocale = QLocale::c();
 
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
+    outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << Qt::endl;
     if (m_ObserverName.isEmpty() == false)
-        outstream << "<Observer>" << m_ObserverName << "</Observer>" << endl;
-    outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << endl;
-    outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << endl;
+        outstream << "<Observer>" << m_ObserverName << "</Observer>" << Qt::endl;
+    outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << Qt::endl;
+    outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << Qt::endl;
     outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << endl;
+              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << Qt::endl;
     outstream << "<GuideStartDeviation enabled='" << (startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(startGuiderDriftN->value()) << "</GuideStartDeviation>" << endl;
+              << cLocale.toString(startGuiderDriftN->value()) << "</GuideStartDeviation>" << Qt::endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
     if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
                           "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
                           "Current HFR value will not be written to sequence file."));
     outstream << "<Autofocus enabled='" << (limitFocusHFRS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << endl;
+              << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << Qt::endl;
     outstream << "<RefocusOnTemperatureDelta enabled='" << (limitFocusDeltaTS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << endl;
+              << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << Qt::endl;
     outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << endl;
-    outstream << "<RefocusOnMeridianFlip enabled='" << (meridianRefocusS->isChecked() ? "true" : "false") << "'/>" << endl;
+              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << Qt::endl;
+    outstream << "<RefocusOnMeridianFlip enabled='" << (meridianRefocusS->isChecked() ? "true" : "false") << "'/>" << Qt::endl;
     for (auto &job : jobs)
     {
         auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
@@ -4707,64 +4720,64 @@ bool Capture::saveSequenceQueue(const QString &path)
         auto tsEnabled = job->getCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled).toBool();
         auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
-        outstream << "<Job>" << endl;
+        outstream << "<Job>" << Qt::endl;
 
         outstream << "<Exposure>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()) << "</Exposure>" <<
-                  endl;
-        outstream << "<Format>" << job->getCoreProperty(SequenceJob::SJ_Format).toString() << "</Format>" << endl;
-        outstream << "<Encoding>" << job->getCoreProperty(SequenceJob::SJ_Encoding).toString() << "</Encoding>" << endl;
-        outstream << "<Binning>" << endl;
-        outstream << "<X>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << endl;
-        outstream << "<Y>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << endl;
-        outstream << "</Binning>" << endl;
-        outstream << "<Frame>" << endl;
-        outstream << "<X>" << cLocale.toString(roi.x()) << "</X>" << endl;
-        outstream << "<Y>" << cLocale.toString(roi.y()) << "</Y>" << endl;
-        outstream << "<W>" << cLocale.toString(roi.width()) << "</W>" << endl;
-        outstream << "<H>" << cLocale.toString(roi.height()) << "</H>" << endl;
-        outstream << "</Frame>" << endl;
+                  Qt::endl;
+        outstream << "<Format>" << job->getCoreProperty(SequenceJob::SJ_Format).toString() << "</Format>" << Qt::endl;
+        outstream << "<Encoding>" << job->getCoreProperty(SequenceJob::SJ_Encoding).toString() << "</Encoding>" << Qt::endl;
+        outstream << "<Binning>" << Qt::endl;
+        outstream << "<X>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</X>" << Qt::endl;
+        outstream << "<Y>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()) << "</Y>" << Qt::endl;
+        outstream << "</Binning>" << Qt::endl;
+        outstream << "<Frame>" << Qt::endl;
+        outstream << "<X>" << cLocale.toString(roi.x()) << "</X>" << Qt::endl;
+        outstream << "<Y>" << cLocale.toString(roi.y()) << "</Y>" << Qt::endl;
+        outstream << "<W>" << cLocale.toString(roi.width()) << "</W>" << Qt::endl;
+        outstream << "<H>" << cLocale.toString(roi.height()) << "</H>" << Qt::endl;
+        outstream << "</Frame>" << Qt::endl;
         if (job->getTargetTemperature() != Ekos::INVALID_VALUE)
             outstream << "<Temperature force='" << (job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool() ? "true" :
                                                     "false") << "'>"
-                      << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << endl;
+                      << cLocale.toString(job->getTargetTemperature()) << "</Temperature>" << Qt::endl;
         if (job->getTargetFilter() >= 0)
-            outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << endl;
-        outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << endl;
-        outstream << "<Prefix>" << endl;
-        //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
-        outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
-        outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
-        outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
-        outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
-        outstream << "</Prefix>" << endl;
-        outstream << "<Count>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << endl;
+            outstream << "<Filter>" << job->getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;
+        outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << Qt::endl;
+        outstream << "<Prefix>" << Qt::endl;
+        //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << Qt::endl;
+        outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << Qt::endl;
+        outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << Qt::endl;
+        outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << Qt::endl;
+        outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << Qt::endl;
+        outstream << "</Prefix>" << Qt::endl;
+        outstream << "<Count>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << Qt::endl;
         // ms to seconds
         outstream << "<Delay>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0) << "</Delay>" <<
-                  endl;
+                  Qt::endl;
         if (job->getScript(SCRIPT_PRE_CAPTURE).isEmpty() == false)
-            outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << endl;
+            outstream << "<PreCaptureScript>" << job->getScript(SCRIPT_PRE_CAPTURE) << "</PreCaptureScript>" << Qt::endl;
         if (job->getScript(SCRIPT_POST_CAPTURE).isEmpty() == false)
-            outstream << "<PostCaptureScript>" << job->getScript(SCRIPT_POST_CAPTURE) << "</PostCaptureScript>" << endl;
+            outstream << "<PostCaptureScript>" << job->getScript(SCRIPT_POST_CAPTURE) << "</PostCaptureScript>" << Qt::endl;
         if (job->getScript(SCRIPT_PRE_JOB).isEmpty() == false)
-            outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << endl;
+            outstream << "<PreJobScript>" << job->getScript(SCRIPT_PRE_JOB) << "</PreJobScript>" << Qt::endl;
         if (job->getScript(SCRIPT_POST_JOB).isEmpty() == false)
-            outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << endl;
+            outstream << "<PostJobScript>" << job->getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << Qt::endl;
         outstream << "<FITSDirectory>" << job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
-                  endl;
-        outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
+                  Qt::endl;
+        outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << Qt::endl;
         if (job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
             outstream << "<RemoteDirectory>" << job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString() << "</RemoteDirectory>"
-                      << endl;
+                      << Qt::endl;
         if (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt() != -1)
-            outstream << "<ISOIndex>" << (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()) << "</ISOIndex>" << endl;
+            outstream << "<ISOIndex>" << (job->getCoreProperty(SequenceJob::SJ_ISOIndex).toInt()) << "</ISOIndex>" << Qt::endl;
         if (job->getTargetRotation() != Ekos::INVALID_VALUE)
-            outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << endl;
+            outstream << "<Rotation>" << (job->getTargetRotation()) << "</Rotation>" << Qt::endl;
         QMapIterator<QString, QMap<QString, QVariant>> customIter(job->getCustomProperties());
-        outstream << "<Properties>" << endl;
+        outstream << "<Properties>" << Qt::endl;
         while (customIter.hasNext())
         {
             customIter.next();
-            outstream << "<PropertyVector name='" << customIter.key() << "'>" << endl;
+            outstream << "<PropertyVector name='" << customIter.key() << "'>" << Qt::endl;
             QMap<QString, QVariant> elements = customIter.value();
             QMapIterator<QString, QVariant> iter(elements);
             while (iter.hasNext())
@@ -4773,60 +4786,60 @@ bool Capture::saveSequenceQueue(const QString &path)
                 if (iter.value().type() == QVariant::String)
                 {
                     outstream << "<OneElement name='" << iter.key()
-                              << "'>" << iter.value().toString() << "</OneElement>" << endl;
+                              << "'>" << iter.value().toString() << "</OneElement>" << Qt::endl;
                 }
                 else
                 {
                     outstream << "<OneElement name='" << iter.key()
-                              << "'>" << iter.value().toDouble() << "</OneElement>" << endl;
+                              << "'>" << iter.value().toDouble() << "</OneElement>" << Qt::endl;
                 }
             }
-            outstream << "</PropertyVector>" << endl;
+            outstream << "</PropertyVector>" << Qt::endl;
         }
-        outstream << "</Properties>" << endl;
+        outstream << "</Properties>" << Qt::endl;
 
-        outstream << "<Calibration>" << endl;
-        outstream << "<FlatSource>" << endl;
+        outstream << "<Calibration>" << Qt::endl;
+        outstream << "<FlatSource>" << Qt::endl;
         if (job->getFlatFieldSource() == SOURCE_MANUAL)
-            outstream << "<Type>Manual</Type>" << endl;
+            outstream << "<Type>Manual</Type>" << Qt::endl;
         else if (job->getFlatFieldSource() == SOURCE_FLATCAP)
-            outstream << "<Type>FlatCap</Type>" << endl;
+            outstream << "<Type>FlatCap</Type>" << Qt::endl;
         else if (job->getFlatFieldSource() == SOURCE_DARKCAP)
-            outstream << "<Type>DarkCap</Type>" << endl;
+            outstream << "<Type>DarkCap</Type>" << Qt::endl;
         else if (job->getFlatFieldSource() == SOURCE_WALL)
         {
-            outstream << "<Type>Wall</Type>" << endl;
-            outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << endl;
-            outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << endl;
+            outstream << "<Type>Wall</Type>" << Qt::endl;
+            outstream << "<Az>" << cLocale.toString(job->getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;
+            outstream << "<Alt>" << cLocale.toString(job->getWallCoord().alt().Degrees()) << "</Alt>" << Qt::endl;
         }
         else
-            outstream << "<Type>DawnDust</Type>" << endl;
-        outstream << "</FlatSource>" << endl;
+            outstream << "<Type>DawnDust</Type>" << Qt::endl;
+        outstream << "</FlatSource>" << Qt::endl;
 
         outstream << "<FlatDuration dark='" << (job->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool() ? "true" : "false")
-                  << "'>" << endl;
+                  << "'>" << Qt::endl;
         if (job->getFlatFieldDuration() == DURATION_MANUAL)
-            outstream << "<Type>Manual</Type>" << endl;
+            outstream << "<Type>Manual</Type>" << Qt::endl;
         else
         {
-            outstream << "<Type>ADU</Type>" << endl;
+            outstream << "<Type>ADU</Type>" << Qt::endl;
             outstream << "<Value>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble()) << "</Value>" <<
-                      endl;
+                      Qt::endl;
             outstream << "<Tolerance>" << cLocale.toString(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
-                      "</Tolerance>" << endl;
+                      "</Tolerance>" << Qt::endl;
         }
-        outstream << "</FlatDuration>" << endl;
+        outstream << "</FlatDuration>" << Qt::endl;
 
         outstream << "<PreMountPark>" << (job->getPreMountPark() ? "True" : "False") <<
-                  "</PreMountPark>" << endl;
+                  "</PreMountPark>" << Qt::endl;
         outstream << "<PreDomePark>" << (job->getPreDomePark() ? "True" : "False") <<
-                  "</PreDomePark>" << endl;
-        outstream << "</Calibration>" << endl;
+                  "</PreDomePark>" << Qt::endl;
+        outstream << "</Calibration>" << Qt::endl;
 
-        outstream << "</Job>" << endl;
+        outstream << "</Job>" << Qt::endl;
     }
 
-    outstream << "</SequenceQueue>" << endl;
+    outstream << "</SequenceQueue>" << Qt::endl;
 
     appendLogText(i18n("Sequence queue saved to %1", path));
     file.flush();

@@ -40,6 +40,9 @@
 #include "byteorder.h"
 #endif
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 StarComponent *StarComponent::pinstance = nullptr;
 
 StarComponent::StarComponent(SkyComposite *parent)
@@ -583,7 +586,7 @@ SkyObject *StarComponent::findStarByGenetiveName(const QString name)
 {
     if (name.startsWith(QLatin1String("HD")))
     {
-        QStringList fields = name.split(' ', QString::SkipEmptyParts);
+        QStringList fields = name.split(' ', Qt::SkipEmptyParts);
         bool Ok            = false;
         unsigned int HDNum = fields[1].toInt(&Ok);
         if (Ok)

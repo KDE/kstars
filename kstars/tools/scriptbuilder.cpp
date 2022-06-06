@@ -1003,7 +1003,8 @@ void ScriptBuilder::slotRunScript()
     env.insert("PATH", "/usr/local/bin:" + QCoreApplication::applicationDirPath() + ':' + path);
     p.setProcessEnvironment(env);
 #endif
-    p.start(f.fileName());
+    QStringList arguments;
+    p.start(f.fileName(), arguments);
 
     if (!p.waitForStarted())
         qDebug() << "Process did not start.";

@@ -255,7 +255,7 @@ void PVPlotWidget::mouseDoubleClickEvent(QMouseEvent *e)
 void PVPlotWidget::wheelEvent(QWheelEvent *e)
 {
     updateFactor(e->modifiers());
-    if (e->delta() > 0)
+    if (e->angleDelta().y() > 0)
         slotZoomIn();
     else
         slotZoomOut();

@@ -23,6 +23,9 @@
 
 #include <indi_debug.h>
 
+// Qt version calming
+#include <qtendl.h>
+
 namespace ISD
 {
 
@@ -609,14 +612,14 @@ bool Telescope::doPulse(GuideDirection dir, int msecs)
 
     clientManager->sendNewNumber(npulse);
 
-    //qDebug() << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms " << endl;
+    //qDebug() << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms " << Qt::endl;
 
     return true;
 }
 
 bool Telescope::runCommand(int command, void *ptr)
 {
-    //qDebug() << "Telescope run command is called!!!" << endl;
+    //qDebug() << "Telescope run command is called!!!" << Qt::endl;
 
     switch (command)
     {
@@ -1030,7 +1033,7 @@ bool Telescope::Abort()
     if (!abortSW)
         return false;
 
-    qCDebug(KSTARS_INDI) << "ISD:Telescope: Aborted." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: Aborted." << Qt::endl;
 
     abortSW->setState(ISS_ON);
     clientManager->sendNewSwitch(motionSP);
@@ -1052,7 +1055,7 @@ bool Telescope::Park()
     if (!parkSW)
         return false;
 
-    qCDebug(KSTARS_INDI) << "ISD:Telescope: Parking..." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: Parking..." << Qt::endl;
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
@@ -1073,7 +1076,7 @@ bool Telescope::UnPark()
     if (!parkSW)
         return false;
 
-    qCDebug(KSTARS_INDI) << "ISD:Telescope: UnParking..." << endl;
+    qCDebug(KSTARS_INDI) << "ISD:Telescope: UnParking..." << Qt::endl;
 
     parkSP->reset();
     parkSW->setState(ISS_ON);

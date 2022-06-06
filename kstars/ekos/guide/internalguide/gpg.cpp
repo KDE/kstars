@@ -168,7 +168,7 @@ void GPG::suspended(const GuiderUtils::Vector &guideStarPosition,
     double controlGain = gpg->GetControlGain();
     gpg->SetControlGain(0.0);
 
-    QTime gpgTimer;
+    QElapsedTimer gpgTimer;
     gpgTimer.restart();
     const double gpgResult = gpg->result(gpgInput, getSNR(guideStars, gpgInput), Options::guideExposure());
     // Store the updated period length.
@@ -223,7 +223,7 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
     gpg->SetMinMove(Options::rAMinimumPulseArcSec());
 
     // GPG input is in RA arcseconds.
-    QTime gpgTimer;
+    QElapsedTimer gpgTimer;
     gpgTimer.restart();
     const double gpgResult = gpg->result(raArcsecError, getSNR(guideStars, raArcsecError), Options::guideExposure());
     const double gpgTime = gpgTimer.elapsed();

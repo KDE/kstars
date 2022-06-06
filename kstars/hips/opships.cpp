@@ -23,6 +23,9 @@
 #include <QPushButton>
 #include <QStringList>
 
+// Qt version calming
+#include <qtkeepemptyparts.h>
+
 static const QStringList hipsKeys = { "ID", "obs_title", "obs_description", "hips_order", "hips_frame", "hips_tile_width", "hips_tile_format", "hips_service_url", "moc_sky_fraction"};
 
 OpsHIPSDisplay::OpsHIPSDisplay() : QFrame(KStars::Instance())
@@ -104,7 +107,7 @@ void OpsHIPS::downloadReady()
             continue;
         }
 
-        QStringList keyvalue = line.split('=', QString::KeepEmptyParts);
+        QStringList keyvalue = line.split('=', Qt::KeepEmptyParts);
         QString key   = keyvalue[0].simplified();
         if (hipsKeys.contains(key) == false)
             continue;

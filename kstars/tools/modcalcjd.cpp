@@ -17,6 +17,9 @@
 #include <QLineEdit>
 #include <QTextStream>
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 #define MJD0 2400000.5
 
 modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit)
@@ -144,7 +147,7 @@ void modCalcJD::processLines(QTextStream &istream, int inputData)
     {
         line             = istream.readLine();
         line             = line.trimmed();
-        QStringList data = line.split(' ', QString::SkipEmptyParts);
+        QStringList data = line.split(' ', Qt::SkipEmptyParts);
 
         if (inputData == 0) //Parse date & time
         {

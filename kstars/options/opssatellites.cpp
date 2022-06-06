@@ -64,8 +64,13 @@ OpsSatellites::OpsSatellites() : QFrame(KStars::Instance())
     connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
     connect(m_Model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(slotItemChanged(QStandardItem*)));
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
             [&]() { isDirty = true; });
+    #else
+    connect(satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idPressed), this,
+            [&]() { isDirty = true; });
+    #endif
 
     isDirty = false;
 }

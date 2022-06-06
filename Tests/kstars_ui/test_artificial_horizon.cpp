@@ -91,7 +91,7 @@ bool clickView(QAbstractItemView *view, const QModelIndex &idx, int leftOffset)
         return false;
     QPoint itemPtLeft = itemPtCenter;
     itemPtLeft.setX(view->visualRect(idx).left() + leftOffset);
-    QTest::mouseClick(view->viewport(), Qt::LeftButton, 0, itemPtLeft);
+    QTest::mouseClick(view->viewport(), Qt::LeftButton, Qt::NoModifier, itemPtLeft);
     return true;
 }
 

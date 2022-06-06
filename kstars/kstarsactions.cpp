@@ -1377,7 +1377,8 @@ void KStars::slotRunScript()
         // FIXME This is a hack and does not work on non-Linux systems
         // The Script Builder should generate files that can run cross-platform
         QProcess p;
-        p.start(f.fileName());
+        QStringList arguments;
+        p.start(f.fileName(), arguments);
         if (!p.waitForStarted())
             return;
 
@@ -1810,7 +1811,7 @@ void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
         nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
         fov = nameToFovMap[QInputDialog::getItem(
                                this, i18n("Eyepiece View: Choose a field-of-view"),
-                               i18n("FOV to render eyepiece view for:"), nameToFovMap.uniqueKeys(), 0, false,
+                               i18n("FOV to render eyepiece view for:"), nameToFovMap.keys(), 0, false,
                                &ok)];
     }
     if (ok)

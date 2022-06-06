@@ -44,8 +44,13 @@ OpsSolarSystem::OpsSolarSystem() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
     //connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotCancel()) );
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
             [&]() { isDirty = true; });
+    #else
+    connect(solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idPressed), this,
+            [&]() { isDirty = true; });
+    #endif
 }
 
 void OpsSolarSystem::slotChangeMagDownload(double mag)

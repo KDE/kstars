@@ -112,9 +112,9 @@ void XPlanetImageLabel::wheelEvent(QWheelEvent *e)
     }
     else
     {
-        if (e->delta() > 0)
+        if (e->angleDelta().y() > 0)
             emit zoomIn();
-        else if (e->delta() < 0)
+        else if (e->angleDelta().y() < 0)
             emit zoomOut();
         e->accept();
     }
@@ -1117,7 +1117,7 @@ void XPlanetImageViewer::setFOVfromList()
         bool ok = false;
         const FOV *fov = nullptr;
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Choose a field-of-view"),
-                                                       i18n("FOV to render in XPlanet:"), nameToFovMap.uniqueKeys(), 0,
+                                                       i18n("FOV to render in XPlanet:"), nameToFovMap.keys(), 0,
                                                        false, &ok)];
         if (ok)
         {

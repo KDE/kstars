@@ -10,6 +10,9 @@
 
 #include <QRegExp>
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 #ifdef COUNT_DMS_SINCOS_CALLS
 long unsigned dms::dms_constructor_calls         = 0;
 long unsigned dms::dms_with_sincos_called        = 0;
@@ -88,9 +91,9 @@ bool dms::setFromString(const QString &str, bool isDeg)
 
     //check for colon-delimiters or space-delimiters
     if (entry.contains(':'))
-        fields = entry.split(':', QString::SkipEmptyParts);
+        fields = entry.split(':', Qt::SkipEmptyParts);
     else
-        fields = entry.split(' ', QString::SkipEmptyParts);
+        fields = entry.split(' ', Qt::SkipEmptyParts);
 
     //anything with one field is invalid!
     if (fields.count() == 1)

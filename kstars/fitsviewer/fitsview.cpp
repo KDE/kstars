@@ -1902,7 +1902,11 @@ void FITSView::wheelEvent(QWheelEvent * event)
     }
     else
     {
+        #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         QPoint mouseCenter = getImagePoint(event->pos());
+        #else
+        QPoint mouseCenter = getImagePoint(event->position().toPoint());
+        #endif
         if (event->angleDelta().y() > 0)
             ZoomIn();
         else

@@ -23,6 +23,9 @@
 
 #define AL_FORMAT_VERSION 1.0
 
+// Qt version calming
+#include <qtendl.h>
+
 namespace Ekos
 {
 MountModel::MountModel(Align *parent) : QDialog(parent)
@@ -89,9 +92,9 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
     connect(alignTypeBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::MountModel::alignTypeChanged);
 
-    connect(starListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
+    connect(starListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this,
             &Ekos::MountModel::slotStarSelected);
-    connect(greekStarListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+    connect(greekStarListBox, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             this,
             &Ekos::MountModel::slotStarSelected);
 
@@ -401,8 +404,8 @@ bool MountModel::saveAlignmentPoints(const QString &path)
 
     QTextStream outstream(&file);
 
-    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<AlignmentList version='" << AL_FORMAT_VERSION << "'>" << endl;
+    outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
+    outstream << "<AlignmentList version='" << AL_FORMAT_VERSION << "'>" << Qt::endl;
 
     for (int i = 0; i < alignTable->rowCount(); i++)
     {
@@ -416,13 +419,13 @@ bool MountModel::saveAlignmentPoints(const QString &path)
         QString deString  = deCell->text();
         QString objString = objNameCell->text();
 
-        outstream << "<AlignmentPoint>" << endl;
-        outstream << "<RA>" << raString << "</RA>" << endl;
-        outstream << "<DE>" << deString << "</DE>" << endl;
-        outstream << "<NAME>" << objString << "</NAME>" << endl;
-        outstream << "</AlignmentPoint>" << endl;
+        outstream << "<AlignmentPoint>" << Qt::endl;
+        outstream << "<RA>" << raString << "</RA>" << Qt::endl;
+        outstream << "<DE>" << deString << "</DE>" << Qt::endl;
+        outstream << "<NAME>" << objString << "</NAME>" << Qt::endl;
+        outstream << "</AlignmentPoint>" << Qt::endl;
     }
-    outstream << "</AlignmentList>" << endl;
+    outstream << "</AlignmentList>" << Qt::endl;
     emit newLog(i18n("Alignment List saved to %1", path));
     file.close();
     return true;

@@ -397,7 +397,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
         return true;
     }
 
-    QTime timer;
+    QElapsedTimer timer;
     timer.start();
 
     // Only compute the pixel's az and alt values for every Nth pixel.
@@ -405,7 +405,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
     // This saves a lot of time.
     const int sampling = Options::terrainDownsampling();
     InterpArray interp(w, h, sampling);
-    QTime setupTimer;
+    QElapsedTimer setupTimer;
     setupTimer.start();
     setupLookup(w, h, sampling, proj, interp.azimuthLookup(), interp.altitudeLookup());
 
@@ -462,8 +462,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
             // so i,j will be transparent.
         }
     }
-    QTime copyTimer;
-    copyTimer.start();
+
     savedImage = terrainImage->copy();
 
     QFile f(sourceFilename);

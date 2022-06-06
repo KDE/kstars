@@ -35,6 +35,9 @@
 
 #include "kstars_debug.h"
 
+// Qt version calming
+#include <qtskipemptyparts.h>
+
 namespace
 {
 // Report fatal error during data loading to user
@@ -55,27 +58,30 @@ void fatalErrorMessage(QString fname)
 
 // Report non-fatal error during data loading to user and ask
 // whether he wants to continue.
+//
+// No remaining calls so commented out to suppress unused warning
+//
 // Calls QApplication::exit if he don't
-bool nonFatalErrorMessage(QString fname)
-{
-    qCWarning(KSTARS) << i18n( "Non-Critical File Not Found: %1", fname );
-#ifdef KSTARS_LITE
-    Q_UNUSED(fname);
-    return true;
-#else
-    int res = KMessageBox::warningContinueCancel(nullptr,
-              i18n("The file %1 could not be found. "
-                   "KStars can still run without this file. "
-                   "KStars search for this file in following locations:\n\n\t"
-                   "%2\n\n"
-                   "It appears that you setup is broken. Press Continue to run KStars without this file ",
-                   fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
-              i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
-    if( res != KMessageBox::Continue )
-        qApp->exit(1);
-    return res == KMessageBox::Continue;
-#endif
-}
+//bool nonFatalErrorMessage(QString fname)
+//{
+//    qCWarning(KSTARS) << i18n( "Non-Critical File Not Found: %1", fname );
+//#ifdef KSTARS_LITE
+//    Q_UNUSED(fname);
+//    return true;
+//#else
+//    int res = KMessageBox::warningContinueCancel(nullptr,
+//              i18n("The file %1 could not be found. "
+//                   "KStars can still run without this file. "
+//                   "KStars search for this file in following locations:\n\n\t"
+//                   "%2\n\n"
+//                   "It appears that you setup is broken. Press Continue to run KStars without this file ",
+//                   fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+//              i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
+//    if( res != KMessageBox::Continue )
+//        qApp->exit(1);
+//    return res == KMessageBox::Continue;
+//#endif
+//}
 }
 
 KStarsData *KStarsData::pinstance = nullptr;
@@ -516,7 +522,7 @@ bool KStarsData::readTimeZoneRulebook()
             QString line = stream.readLine().trimmed();
             if (line.length() && !line.startsWith('#')) //ignore commented and blank lines
             {
-                QStringList fields = line.split(' ', QString::SkipEmptyParts);
+                QStringList fields = line.split(' ', Qt::SkipEmptyParts);
                 QString id         = fields[0];
                 QTime stime        = QTime(fields[3].leftRef(fields[3].indexOf(':')).toInt(),
                                            fields[3].midRef(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
@@ -1488,13 +1494,18 @@ void KStarsData::syncFOV()
             visibleFOVs.append(fov);
     }
     // Remove unavailable FOVs
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     QSet<QString> names = QSet<QString>::fromList(Options::fOVNames());
+    #else
+    const QStringList m_fOVNames = Options::fOVNames();
+    QSet<QString> names (m_fOVNames.begin(), m_fOVNames.end());
+    #endif
     QSet<QString> all;
     foreach (FOV *fov, visibleFOVs)
     {
         all.insert(fov->name());
     }
-    Options::setFOVNames(all.intersect(names).toList());
+    Options::setFOVNames(all.intersect(names).values());
 }
 
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha

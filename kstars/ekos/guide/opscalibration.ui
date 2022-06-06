@@ -107,7 +107,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="label1">
             <property name="toolTip">
              <string>Maximum number of pixels the calibration should move. Once it exceeds this amount, it will finish the calibration phase.  It may move less if  max iterations is reached.</string>
             </property>

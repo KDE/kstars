@@ -55,6 +55,9 @@
 #include <indicom.h>
 #include <memory>
 
+// Qt version calming
+#include <qtendl.h>
+
 #define MAXIMUM_SOLVER_ITERATIONS 10
 #define CAPTURE_RETRY_DELAY       10000
 #define PAH_CUTOFF_FOV            10 // Minimum FOV width in arcminutes for PAH to work
@@ -131,8 +134,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Align::setDefaultCCD);
+    #else
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
+            &Ekos::Align::setDefaultCCD);
+    #endif
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
 
     connect(loadSlewB, &QPushButton::clicked, [&]()
@@ -141,8 +149,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     });
 
     FilterDevicesCombo->addItem("--");
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
             [ = ](const QString & text)
+    #else
+    connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated),
+            [ = ](const QString & text)
+    #endif
     {
         syncSettings();
         Options::setDefaultAlignFilterWheel(text);
@@ -162,8 +175,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
 
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             [ = ](int id)
+    #else
+    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
+            [ = ](int id)
+    #endif
     {
         this->m_CurrentGotoMode = static_cast<GotoMode>(id);
     });
@@ -263,8 +281,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
     localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
     remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
+
+    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             &Align::setSolverMode);
+    #else
+    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
+            &Align::setSolverMode);
+    #endif
     setSolverMode(solverModeButtonGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
@@ -3901,7 +3925,7 @@ void Align::exportSolutionPoints()
     QString epoch = QString::number(KStarsDateTime::currentDateTime().epoch());
 
     outstream << "RA (J" << epoch << "),DE (J" << epoch
-              << "),RA (degrees),DE (degrees),Name,RA Error (arcsec),DE Error (arcsec)" << endl;
+              << "),RA (degrees),DE (degrees),Name,RA Error (arcsec),DE Error (arcsec)" << Qt::endl;
 
     for (int i = 0; i < solutionTable->rowCount(); i++)
     {
@@ -3920,7 +3944,7 @@ void Align::exportSolutionPoints()
         dms deDMS = dms::fromString(deCell->text(), true);
         outstream << raDMS.toHMSString() << ',' << deDMS.toDMSString() << ',' << raDMS.Degrees() << ','
                   << deDMS.Degrees() << ',' << objNameCell->text() << ',' << raErrorCell->text().remove('\"') << ','
-                  << deErrorCell->text().remove('\"') << endl;
+                  << deErrorCell->text().remove('\"') << Qt::endl;
     }
     emit newLog(i18n("Solution Points Saved as: %1", path));
     file.close();

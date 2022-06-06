@@ -117,7 +117,7 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         double relativeHFR(double origHFR, const QList<Edge*> *stars);
 
         // Used to time the focus algorithm.
-        QTime stopWatch;
+        QElapsedTimer stopWatch;
 
         // A vector containing the HFR values sampled by this algorithm so far.
         QVector<double> values;
