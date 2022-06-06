@@ -75,7 +75,7 @@ class FramingAssistantUI : public QDialog
         void updateTargetFOVFromGrid();
         void updateGridFromTargetFOV();
         void constructMosaic();
-        void calculateFOV();        
+        void calculateFOV();
         void resetFOV();
         void fetchINDIInformation();
         void rewordStepEvery(int v);
@@ -102,5 +102,6 @@ class FramingAssistantUI : public QDialog
         QSizeF m_PixelSize, m_cameraFOV, m_MosaicFOV;
         QSize m_GridSize {1, 1};
         double m_Overlap {10}, m_Rotation {0};
+        QString m_JobsDirectory;
 };
 }

@@ -145,7 +145,11 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
             ui->targetEdit->blockSignals(true);
             ui->targetEdit->setText(sanitized);
             ui->targetEdit->blockSignals(false);
-            ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+
+            if (m_JobsDirectory.isEmpty())
+                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+            else
+                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
 
             ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
                                         !ui->directoryEdit->text().isEmpty());
@@ -172,9 +176,16 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     // Set initial target on startup
     if (tiles->operationMode() == MosaicTiles::MODE_PLANNING && SkyMap::IsFocused())
     {
-        auto target = sanitize(SkyMap::Instance()->focusObject()->name());
-        ui->targetEdit->setText(target);
-        ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + target));
+        auto sanitized = sanitize(SkyMap::Instance()->focusObject()->name());
+        if (sanitized != i18n("unnamed"))
+        {
+            ui->targetEdit->setText(sanitized);
+
+            if (m_JobsDirectory.isEmpty())
+                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+            else
+                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+        }
     }
 
     // Update object name
@@ -186,7 +197,11 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
             // Remove illegal characters that can be problematic
             sanitized = sanitize(sanitized);
             ui->targetEdit->setText(sanitized);
-            ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+
+            if (m_JobsDirectory.isEmpty())
+                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+            else
+                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
         }
     });
 
@@ -672,12 +687,24 @@ void FramingAssistantUI::selectSequence()
 
 void FramingAssistantUI::selectDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "Select Jobs Directory"),
-                  QDir::homePath());
+    m_JobsDirectory = QFileDialog::getExistingDirectory(Ekos::Manager::Instance(), i18nc("@title:window", "Select Jobs Directory"),
+                      QDir::homePath());
 
-    if (!dir.isEmpty())
+    if (!m_JobsDirectory.isEmpty())
     {
-        ui->directoryEdit->setText(dir);
+        // If we already have a target specified, then append it to directory path.
+        QString sanitized = ui->targetEdit->text();
+        if (sanitized.isEmpty() == false && sanitized != i18n("unnamed"))
+        {
+            // Remove illegal characters that can be problematic
+            sanitized = sanitize(sanitized);
+            ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+
+        }
+        else
+            ui->directoryEdit->setText(m_JobsDirectory);
+
+
         ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
                                     !ui->directoryEdit->text().isEmpty());
     }
