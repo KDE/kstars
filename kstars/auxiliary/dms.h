@@ -480,3 +480,32 @@ inline bool operator==(const dms &a1, const dms &a2)
 {
     return a1.Degrees() == a2.Degrees();
 }
+
+/**
+ * User-defined dms literals for convenience
+ */
+
+/**
+ * Create a constant angle in degrees
+ */
+inline dms operator "" _deg(long double x) { return dms(double(x)); }
+
+/**
+ * Create a constant angle in hours
+ */
+inline dms operator "" _h(long double x) { return dms(double(x * 15.0)); }
+
+/**
+ * Create a constant angle in radians
+ */
+inline dms operator "" _rad(long double x) { return dms(double(x / dms::DegToRad)); }
+
+/**
+ * Create a constant angle from a DMS string
+ */
+inline dms operator "" _dms(const char *dmsString) { return dms::fromString(QString(dmsString), true); }
+
+/**
+ * Create a constant angle from a HMS string
+ */
+inline dms operator "" _hms(const char *hmsString) { return dms::fromString(QString(hmsString), false); }

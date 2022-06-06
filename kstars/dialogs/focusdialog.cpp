@@ -72,11 +72,11 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     {
         //center->deprecess(KStarsData::Instance()->updateNum());
         center->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
-        fd->raBox->setDMS(center->ra().toHMSString());
-        fd->decBox->setDMS(center->dec().toDMSString());
+        fd->raBox->show(center->ra());
+        fd->decBox->show(center->dec());
 
-        fd->azBox->setDMS(center->az().toDMSString());
-        fd->altBox->setDMS(center->alt().toDMSString());
+        fd->azBox->show(center->az());
+        fd->altBox->show(center->alt());
 
         checkLineEdits();
     }
@@ -103,10 +103,10 @@ void FocusDialog::checkLineEdits()
 {
     bool raOk(false), decOk(false), azOk(false), altOk(false);
 
-    fd->raBox->createDms(false, &raOk);
-    fd->decBox->createDms(true, &decOk);
-    fd->azBox->createDms(true, &azOk);
-    fd->altBox->createDms(true, &altOk);
+    fd->raBox->createDms(&raOk);
+    fd->decBox->createDms(&decOk);
+    fd->azBox->createDms(&azOk);
+    fd->altBox->createDms(&altOk);
 
     if ((raOk && decOk) || (azOk && altOk))
         okB->setEnabled(true);
@@ -119,8 +119,8 @@ void FocusDialog::validatePoint()
     bool raOk(false), decOk(false), azOk(false), altOk(false);
 
     //false means expressed in hours
-    dms ra(fd->raBox->createDms(false, &raOk));
-    dms dec(fd->decBox->createDms(true, &decOk));
+    dms ra(fd->raBox->createDms(&raOk));
+    dms dec(fd->decBox->createDms(&decOk));
 
     QString message;
 
@@ -172,8 +172,8 @@ void FocusDialog::validatePoint()
     }
     else
     {
-        dms az(fd->azBox->createDms(true, &azOk));
-        dms alt(fd->altBox->createDms(true, &altOk));
+        dms az(fd->azBox->createDms(&azOk));
+        dms alt(fd->altBox->createDms(&altOk));
 
         if (azOk && altOk)
         {

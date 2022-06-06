@@ -111,8 +111,8 @@ void OpsAstrometry::slotApply()
     //    return;
 
     bool raOK = false, deOK = false;
-    dms RA = estRA->createDms(false, &raOK);
-    dms DE = estDec->createDms(true, &deOK);
+    dms RA = estRA->createDms(&raOK);
+    dms DE = estDec->createDms(&deOK);
 
     if (raOK && deOK)
     {

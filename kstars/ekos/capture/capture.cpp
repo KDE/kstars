@@ -5906,8 +5906,8 @@ void Capture::openCalibrationDialog()
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
 
-            wallAz  = calibrationOptions.azBox->createDms(true, &azOk);
-            wallAlt = calibrationOptions.altBox->createDms(true, &altOk);
+            wallAz  = calibrationOptions.azBox->createDms(&azOk);
+            wallAlt = calibrationOptions.altBox->createDms(&altOk);
 
             if (azOk && altOk)
             {

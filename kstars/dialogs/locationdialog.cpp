@@ -243,8 +243,8 @@ void LocationDialog::changeCity()
             ld->NewProvinceName->setText(SelectedCity->translatedProvince());
 
         ld->NewCountryName->setText(SelectedCity->translatedCountry());
-        ld->NewLong->showInDegrees(SelectedCity->lng());
-        ld->NewLat->showInDegrees(SelectedCity->lat());
+        ld->NewLong->show(SelectedCity->lng());
+        ld->NewLat->show(SelectedCity->lat());
         ld->TZBox->setEditText(QLocale().toString(SelectedCity->TZ0()));
         ld->NewElev->setValue(SelectedCity->elevation());
 
@@ -305,8 +305,8 @@ bool LocationDialog::updateCity(CityOperation operation)
     }
 
     bool latOk(false), lngOk(false), tzOk(false);
-    dms lat                = ld->NewLat->createDms(true, &latOk);
-    dms lng                = ld->NewLong->createDms(true, &lngOk);
+    dms lat                = ld->NewLat->createDms(&latOk);
+    dms lng                = ld->NewLong->createDms(&lngOk);
     QString TimeZoneString = ld->TZBox->lineEdit()->text();
     TimeZoneString.replace(QLocale().decimalPoint(), ".");
     double TZ = TimeZoneString.toDouble(&tzOk);
@@ -525,10 +525,10 @@ bool LocationDialog::checkLongLat()
         return false;
 
     bool ok;
-    double lng = ld->NewLong->createDms(true, &ok).Degrees();
+    double lng = ld->NewLong->createDms(&ok).Degrees();
     if (!ok)
         return false;
-    double lat = ld->NewLat->createDms(true, &ok).Degrees();
+    double lat = ld->NewLat->createDms(&ok).Degrees();
     if (!ok)
         return false;
 

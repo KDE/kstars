@@ -462,4 +462,3 @@ QDataStream &operator>>(QDataStream &in, dms &d){
    d = dms(D);
    return in;
 }
-

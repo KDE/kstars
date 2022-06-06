@@ -65,8 +65,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     }
 
     m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
-    ui->raBox->setDMS(m_CenterPoint.ra0().toHMSString());
-    ui->decBox->setDMS(m_CenterPoint.dec0().toDMSString());
+    ui->raBox->show(m_CenterPoint.ra0());
+    ui->decBox->show(m_CenterPoint.dec0());
 
     // Page Navigation
     connect(ui->backToEquipmentB, &QPushButton::clicked, this, [this]()
@@ -128,8 +128,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         m_CenterPoint.setRA0(range24(m_CenterPoint.ra0().Hours() + dRA.Hours()));
         m_CenterPoint.setDec0(rangeDec(m_CenterPoint.dec0().Degrees() + dDE.Degrees()));
         m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
-        ui->raBox->setDMS(m_CenterPoint.ra0().toHMSString());
-        ui->decBox->setDMS(m_CenterPoint.dec0().toDMSString());
+        ui->raBox->show(m_CenterPoint.ra0());
+        ui->decBox->show(m_CenterPoint.dec0());
         //m_CenterPoint.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
         m_DebounceTimer->start();
     });
@@ -164,8 +164,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         m_CenterPoint.setDec0(J2000Coords.dec0());
 
         m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
-        ui->raBox->setDMS(m_CenterPoint.ra0().toHMSString());
-        ui->decBox->setDMS(m_CenterPoint.dec0().toDMSString());
+        ui->raBox->show(m_CenterPoint.ra0());
+        ui->decBox->show(m_CenterPoint.dec0());
         m_DebounceTimer->start();
     });
 
@@ -193,7 +193,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     // Watch for manual changes in ra box
     connect(ui->raBox, &dmsBox::editingFinished, this, [this]
     {
-        m_CenterPoint.setRA0(ui->raBox->createDms(false));
+        m_CenterPoint.setRA0(ui->raBox->createDms());
         m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
         m_DebounceTimer->start();
     });
@@ -201,7 +201,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     // Watch for manual hanges in de box
     connect(ui->decBox, &dmsBox::editingFinished, this, [this]
     {
-        m_CenterPoint.setDec0(ui->decBox->createDms(true));
+        m_CenterPoint.setDec0(ui->decBox->createDms());
         m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
         m_DebounceTimer->start();
     });

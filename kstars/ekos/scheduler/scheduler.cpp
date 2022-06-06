@@ -620,8 +620,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         SkyPoint center = SkyMap::Instance()->getCenterPoint();
         //center.deprecess(KStarsData::Instance()->updateNum());
         center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
-        raBox->setDMS(center.ra0().toHMSString());
-        decBox->setDMS(center.dec0().toDMSString());
+        raBox->show(center.ra0());
+        decBox->show(center.dec0());
     });
 
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::applyConfig);
@@ -836,8 +836,8 @@ void Scheduler::addObject(SkyObject *object)
         }
 
         nameEdit->setText(finalObjectName);
-        raBox->showInHours(object->ra0());
-        decBox->showInDegrees(object->dec0());
+        raBox->show(object->ra0());
+        decBox->show(object->dec0());
 
         addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
         //mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
@@ -932,8 +932,8 @@ void Scheduler::processFITSSelection()
         deDMS = dms::fromString(objectde_str, true);
     }
 
-    raBox->setDMS(raDMS.toHMSString());
-    decBox->setDMS(deDMS.toDMSString());
+    raBox->show(raDMS);
+    decBox->show(deDMS);
 
     char object_str[256] = {0};
     if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status))
@@ -1127,8 +1127,8 @@ void Scheduler::saveJob()
     }
 
     bool raOk = false, decOk = false;
-    dms /*const*/ ra(raBox->createDms(false, &raOk)); //false means expressed in hours
-    dms /*const*/ dec(decBox->createDms(true, &decOk));
+    dms /*const*/ ra(raBox->createDms(&raOk));
+    dms /*const*/ dec(decBox->createDms(&decOk));
 
     if (raOk == false)
     {
@@ -1342,8 +1342,8 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     prioritySpin->setValue(job->getPriority());
 
-    raBox->showInHours(job->getTargetCoords().ra0());
-    decBox->showInDegrees(job->getTargetCoords().dec0());
+    raBox->show(job->getTargetCoords().ra0());
+    decBox->show(job->getTargetCoords().dec0());
 
     // fitsURL/sequenceURL are not part of UI, but the UI serves as model, so keep them here for now
     fitsURL = job->getFITSFile().isEmpty() ? QUrl() : job->getFITSFile();
@@ -4497,14 +4497,14 @@ bool Scheduler::processJobInfo(XMLEle *root)
             {
                 dms ra;
                 ra.setH(cLocale.toDouble(pcdataXMLEle(subEP)));
-                raBox->showInHours(ra);
+                raBox->show(ra);
             }
             subEP = findXMLEle(ep, "J2000DE");
             if (subEP)
             {
                 dms de;
                 de.setD(cLocale.toDouble(pcdataXMLEle(subEP)));
-                decBox->showInDegrees(de);
+                decBox->show(de);
             }
         }
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
@@ -6814,8 +6814,8 @@ Scheduler::SchedulerAlgorithm Scheduler::getAlgorithm() const
 void Scheduler::startMosaicTool()
 {
     bool raOk = false, decOk = false;
-    dms ra(raBox->createDms(false, &raOk)); //false means expressed in hours
-    dms dec(decBox->createDms(true, &decOk));
+    dms ra(raBox->createDms(&raOk));
+    dms dec(decBox->createDms(&decOk));
 
     if (raOk == false)
     {
@@ -6896,8 +6896,8 @@ void Scheduler::startMosaicTool()
             sequenceEdit->setText(filename);
             sequenceURL = QUrl::fromLocalFile(filename);
 
-            raBox->showInHours(oneJob.center.ra0());
-            decBox->showInDegrees(oneJob.center.dec0());
+            raBox->show(oneJob.center.ra0());
+            decBox->show(oneJob.center.dec0());
             positionAngleSpin->setValue(oneJob.rotation);
 
             alignStepCheck->setChecked(oneJob.doAlign);

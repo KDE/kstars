@@ -53,8 +53,8 @@ void modCalcEclCoords::slotObject()
     if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
         SkyObject *o = FindDialog::Instance()->targetObject();
-        RA->showInHours(o->ra());
-        Dec->showInDegrees(o->dec());
+        RA->show(o->ra());
+        Dec->show(o->dec());
         slotCompute();
     }
 }
@@ -76,15 +76,15 @@ void modCalcEclCoords::slotCompute(void)
         //Validate ecliptic coordinates
         bool ok(false);
         dms elat;
-        dms elong = EcLong->createDms(true, &ok);
+        dms elong = EcLong->createDms(&ok);
         if (ok)
-            elat = EcLat->createDms(true, &ok);
+            elat = EcLat->createDms(&ok);
         if (ok)
         {
             SkyPoint sp;
             sp.setFromEcliptic(num.obliquity(), elong, elat);
-            RA->showInHours(sp.ra());
-            Dec->showInDegrees(sp.dec());
+            RA->show(sp.ra());
+            Dec->show(sp.dec());
         }
     }
     else
@@ -92,16 +92,16 @@ void modCalcEclCoords::slotCompute(void)
         //Validate RA and Dec coordinates
         bool ok(false);
         dms ra;
-        dms dec = Dec->createDms(true, &ok);
+        dms dec = Dec->createDms(&ok);
         if (ok)
-            ra = RA->createDms(false, &ok);
+            ra = RA->createDms(&ok);
         if (ok)
         {
             SkyPoint sp(ra, dec);
             dms elong, elat;
             sp.findEcliptic(num.obliquity(), elong, elat);
-            EcLong->showInDegrees(elong);
-            EcLat->showInDegrees(elat);
+            EcLong->show(elong);
+            EcLat->show(elat);
         }
     }
 }

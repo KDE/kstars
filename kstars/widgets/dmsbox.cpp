@@ -16,79 +16,25 @@
 
 #include <cstdlib>
 
-dmsBox::dmsBox(QWidget *parent, bool dg) : QLineEdit(parent), EmptyFlag(true)
+dmsBox::dmsBox(QWidget *parent, Unit unit) : QLineEdit(parent), m_unit(unit)
 {
     setMaxLength(14);
     setMaximumWidth(160);
-    setDegType(dg);
-
-    connect(this, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
+    setUnits(unit);
 }
 
-void dmsBox::setEmptyText()
+void dmsBox::setPlaceholderText()
 {
-    //Set the text color to the average between
-    //QColorGroup::Text and QColorGroup::Base
-    QPalette p = QApplication::palette();
-    QColor txc = p.color(QPalette::Active, QPalette::Text);
-    QColor bgc = p.color(QPalette::Active, QPalette::Base);
-    int r((txc.red() + bgc.red()) / 2);
-    int g((txc.green() + bgc.green()) / 2);
-    int b((txc.blue() + bgc.blue()) / 2);
-
-    p.setColor(QPalette::Active, QPalette::Text, QColor(r, g, b));
-    p.setColor(QPalette::Inactive, QPalette::Text, QColor(r, g, b));
-    setPalette(p);
-
     if (degType())
-        setText("dd mm ss.s");
+        QLineEdit::setPlaceholderText("dd mm ss.s");
     else
-        setText("hh mm ss.s");
-
-    EmptyFlag = true;
+        QLineEdit::setPlaceholderText("hh mm ss.s");
 }
 
-void dmsBox::focusInEvent(QFocusEvent *e)
+void dmsBox::setUnits(Unit unit)
 {
-    QLineEdit::focusInEvent(e);
-
-    if (EmptyFlag)
-    {
-        clear();
-        setPalette(QApplication::palette());
-        EmptyFlag = false;
-    }
-}
-
-void dmsBox::focusOutEvent(QFocusEvent *e)
-{
-    QLineEdit::focusOutEvent(e);
-
-    if (text().isEmpty())
-    {
-        setEmptyText();
-    }
-}
-
-void dmsBox::slotTextChanged(const QString &t)
-{
-    if (!hasFocus())
-    {
-        if (EmptyFlag && !t.isEmpty())
-        {
-            EmptyFlag = false;
-        }
-
-        if (!EmptyFlag && t.isEmpty())
-        {
-            setEmptyText();
-        }
-    }
-}
-
-void dmsBox::setDegType(bool t)
-{
-    deg = t;
+    m_unit = unit;
+    const bool t = (m_unit == Unit::DEGREES);
 
     QString sTip = (t ? i18n("Angle value in degrees.") : i18n("Angle value in hours."));
     QString sWhatsThis;
@@ -138,49 +84,30 @@ void dmsBox::setDegType(bool t)
 
     setToolTip(sTip);
     setWhatsThis(sWhatsThis);
+    setPlaceholderText();
 
     clear();
-    EmptyFlag = false;
-    setEmptyText();
 }
 
-void dmsBox::showInDegrees(const dms *d)
+void dmsBox::show(const dms &d)
 {
-    showInDegrees(dms(*d));
-}
-void dmsBox::showInDegrees(dms d)
-{
-    double seconds = d.arcsec() + d.marcsec() / 1000.;
-    setDMS(QString::asprintf("%02d %02d %05.2f", d.degree(), d.arcmin(), seconds));
-}
-
-void dmsBox::showInHours(const dms *d)
-{
-    showInHours(dms(*d));
-}
-void dmsBox::showInHours(dms d)
-{
-    double seconds = d.second() + d.msecond() / 1000.;
-    setDMS(QString::asprintf("%02d %02d %05.2f", d.hour(), d.minute(), seconds));
+    if (m_unit == Unit::DEGREES) {
+        double seconds = d.arcsec() + d.marcsec() / 1000.;
+        setText(QString::asprintf("%02d %02d %05.2f", d.degree(), d.arcmin(), seconds));
+    }
+    else if (m_unit == Unit::HOURS) {
+        double seconds = d.second() + d.msecond() / 1000.;
+        setText(QString::asprintf("%02d %02d %05.2f", d.hour(), d.minute(), seconds));
+    } else {
+        Q_ASSERT(false); // Unhandled unit type
+    }
 }
 
-void dmsBox::show(const dms *d, bool deg)
+dms dmsBox::createDms(bool *ok)
 {
-    show(dms(*d), deg);
-}
-void dmsBox::show(dms d, bool deg)
-{
-    if (deg)
-        showInDegrees(d);
-    else
-        showInHours(d);
-}
-
-dms dmsBox::createDms(bool deg, bool *ok)
-{
-    dms dmsAngle(0.0); // FIXME: Should we change this to NaN?
+    dms dmsAngle;
     bool check;
-    check = dmsAngle.setFromString(text(), deg);
+    check = dmsAngle.setFromString(text(), (m_unit == Unit::DEGREES));
     if (ok)
         *ok = check; //ok might be a null pointer!
 

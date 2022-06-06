@@ -116,8 +116,8 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
 
 void FlagManager::setRaDec(const dms &ra, const dms &dec)
 {
-    ui->raBox->show(ra, false);
-    ui->decBox->show(dec, true);
+    ui->raBox->show(ra);
+    ui->decBox->show(dec);
 }
 
 void FlagManager::clearFields()
@@ -164,8 +164,8 @@ void FlagManager::showFlag(int flagIdx)
 bool FlagManager::validatePoint()
 {
     bool raOk(false), decOk(false);
-    dms ra(ui->raBox->createDms(false, &raOk)); //false means expressed in hours
-    dms dec(ui->decBox->createDms(true, &decOk));
+    dms ra(ui->raBox->createDms(&raOk));
+    dms dec(ui->decBox->createDms(&decOk));
 
     QString message;
 
@@ -204,8 +204,8 @@ void FlagManager::slotAddFlag()
     if (validatePoint() == false)
         return;
 
-    dms ra(ui->raBox->createDms(false)); //false means expressed in hours
-    dms dec(ui->decBox->createDms(true));
+    dms ra(ui->raBox->createDms());
+    dms dec(ui->decBox->createDms());
 
     insertFlag(true);
 
@@ -302,8 +302,8 @@ void FlagManager::slotSaveChanges()
 
     m_Ks->map()->forceUpdate();
 
-    dms ra(ui->raBox->createDms(false)); //false means expressed in hours
-    dms dec(ui->decBox->createDms(true));
+    dms ra(ui->raBox->createDms());
+    dms dec(ui->decBox->createDms());
 
     SkyPoint flagPoint(ra, dec);
 
@@ -325,8 +325,8 @@ void FlagManager::slotSetShownFlag(QModelIndex idx)
 
 void FlagManager::insertFlag(bool isNew, int row)
 {
-    dms ra(ui->raBox->createDms(false)); //false means expressed in hours
-    dms dec(ui->decBox->createDms(true));
+    dms ra(ui->raBox->createDms());
+    dms dec(ui->decBox->createDms());
     SkyPoint flagPoint(ra, dec);
 
     // Add flag in the list

@@ -60,7 +60,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
 
     // Initialize the Maximum Separation box to 1 degree
     maxSeparationBox->setDegType(true);
-    maxSeparationBox->setDMS("01 00 00.0");
+    maxSeparationBox->show(1.0_deg);
 
     //FilterEdit->showClearButton = true;
     ClearFilterButton->setIcon(QIcon::fromTheme("edit-clear"));
@@ -246,7 +246,7 @@ void ConjunctionsTool::slotCompute(void)
     // Check if we have a valid angle in maxSeparationBox
     dms maxSeparation(0.0);
     bool ok;
-    maxSeparation = maxSeparationBox->createDms(true, &ok);
+    maxSeparation = maxSeparationBox->createDms(&ok);
 
     if (!ok)
     {

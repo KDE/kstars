@@ -58,7 +58,7 @@ void modCalcApCoord::slotCompute()
     dt.setFromEpoch(EpochCat->value());
     long double jd0 = dt.djd();
 
-    SkyPoint sp(RACat->createDms(false), DecCat->createDms());
+    SkyPoint sp(RACat->createDms(), DecCat->createDms());
     sp.apparentCoord(jd0, jd);
 
     RA->setText(sp.ra().toHMSString());
@@ -70,8 +70,8 @@ void modCalcApCoord::slotObject()
     if (FindDialog::Instance()->exec() == QDialog::Accepted)
     {
         SkyObject *o = FindDialog::Instance()->targetObject();
-        RACat->showInHours(o->ra0());
-        DecCat->showInDegrees(o->dec0());
+        RACat->show(o->ra0());
+        DecCat->show(o->dec0());
         EpochCat->setValue(2000.0);
 
         slotCompute();
@@ -230,7 +230,7 @@ void modCalcApCoord::processLines(QTextStream &istream)
             i++;
         }
         else
-            raB = raBoxBatch->createDms(false);
+            raB = raBoxBatch->createDms();
 
         if (allRadioBatch->isChecked())
             ostream << raB.toHMSString() << space;

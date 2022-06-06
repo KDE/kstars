@@ -46,9 +46,9 @@ SkyPoint modCalcAngDist::getCoords(dmsBox *rBox, dmsBox *dBox, bool *ok)
     dms raCoord, decCoord;
 
     bool ok2 = false;
-    raCoord  = rBox->createDms(false, &ok2);
+    raCoord  = rBox->createDms(&ok2);
     if (ok2)
-        decCoord = dBox->createDms(true, &ok2);
+        decCoord = dBox->createDms(&ok2);
 
     if (ok2)
     {
@@ -93,14 +93,14 @@ void modCalcAngDist::slotObjectButton()
         SkyObject *o = FindDialog::Instance()->targetObject();
         if (sender()->objectName() == QString("FirstObjectButton"))
         {
-            FirstRA->showInHours(o->ra());
-            FirstDec->showInDegrees(o->dec());
+            FirstRA->show(o->ra());
+            FirstDec->show(o->dec());
             FirstPositionBox->setTitle(i18n("First position: %1", o->name()));
         }
         else
         {
-            SecondRA->showInHours(o->ra());
-            SecondDec->showInDegrees(o->dec());
+            SecondRA->show(o->ra());
+            SecondDec->show(o->dec());
             SecondPositionBox->setTitle(i18n("Second position: %1", o->name()));
         }
 
@@ -188,7 +188,7 @@ void modCalcAngDist::processLines(QTextStream &istream)
             i++;
         }
         else
-            ra0B = ra0BoxBatch->createDms(false);
+            ra0B = ra0BoxBatch->createDms();
 
         if (allRadioBatch->isChecked())
             ostream << ra0B.toHMSString() << space;
@@ -218,7 +218,7 @@ void modCalcAngDist::processLines(QTextStream &istream)
             i++;
         }
         else
-            ra1B = ra1BoxBatch->createDms(false);
+            ra1B = ra1BoxBatch->createDms();
 
         if (allRadioBatch->isChecked())
             ostream << ra1B.toHMSString() << space;

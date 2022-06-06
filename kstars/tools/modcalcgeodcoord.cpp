@@ -342,7 +342,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
                 i++;
             }
             else
-                longB = LongGeoBoxBatch->createDms(true);
+                longB = LongGeoBoxBatch->createDms();
 
             if (AllRadioBatch->isChecked())
                 ostream << longB.toDMSString() << space;
@@ -357,7 +357,7 @@ void modCalcGeodCoord::processLines(QTextStream &istream)
                 i++;
             }
             else
-                latB = LatGeoBoxBatch->createDms(true);
+                latB = LatGeoBoxBatch->createDms();
 
             if (AllRadioBatch->isChecked())
                 ostream << latB.toDMSString() << space;

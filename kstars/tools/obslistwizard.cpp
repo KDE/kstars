@@ -339,13 +339,13 @@ void ObsListWizard::slotParseRegion()
             yRect1      = 0.0;
             yRect2      = 0.0;
 
-            xRect1 = olw->RAMin->createDms(false, &rectOk).Hours();
+            xRect1 = olw->RAMin->createDms(&rectOk).Hours();
             if (rectOk)
-                xRect2 = olw->RAMax->createDms(false, &rectOk).Hours();
+                xRect2 = olw->RAMax->createDms(&rectOk).Hours();
             if (rectOk)
-                yRect1 = olw->DecMin->createDms(true, &rectOk).Degrees();
+                yRect1 = olw->DecMin->createDms(&rectOk).Degrees();
             if (rectOk)
-                yRect2 = olw->DecMax->createDms(true, &rectOk).Degrees();
+                yRect2 = olw->DecMax->createDms(&rectOk).Degrees();
             if (xRect2 == 0.0)
                 xRect2 = 24.0;
 
@@ -385,14 +385,14 @@ void ObsListWizard::slotParseRegion()
     else if (!olw->RA->isEmpty() && !olw->Dec->isEmpty() && !olw->Radius->isEmpty())
     {
         bool circOk;
-        dms ra = olw->RA->createDms(false, &circOk);
+        dms ra = olw->RA->createDms(&circOk);
         dms dc;
         if (circOk)
-            dc = olw->Dec->createDms(true, &circOk);
+            dc = olw->Dec->createDms(&circOk);
         if (circOk)
         {
             pCirc.set(ra, dc);
-            rCirc = olw->Radius->createDms(true, &circOk).Degrees();
+            rCirc = olw->Radius->createDms(&circOk).Degrees();
         }
         else
         {

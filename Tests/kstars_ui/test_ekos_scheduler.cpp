@@ -134,9 +134,9 @@ void TestEkosScheduler::testScheduleManipulation()
 
         SkyObject o(SkyObject::TYPE_UNKNOWN, LST.radians() - (double)i/10 + (double)count/2, 45.0);
         raBox->setText(o.ra().toHMSString());
-        QVERIFY(abs(raBox->createDms(false).Hours() - o.ra().Hours()) <= 15.0/3600.0);
+        QVERIFY(abs(raBox->createDms().Hours() - o.ra().Hours()) <= 15.0/3600.0);
         decBox->setText(o.dec().toDMSString());
-        QVERIFY(abs(decBox->createDms(true).Degrees() - o.dec().Degrees()) <= 1.0/3600.0);
+        QVERIFY(abs(decBox->createDms().Degrees() - o.dec().Degrees()) <= 1.0/3600.0);
         sequenceEdit->setText(seqs[i % seqs.count()]);
 
         Ekos::Manager::Instance()->schedulerModule()->addObject(&o);
