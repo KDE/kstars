@@ -252,7 +252,10 @@ void SequenceJobState::setAllActionsReady()
         it.setValue(true);
     }
     // reset the initialization state
-    for (PrepareActions action: {ACTION_FILTER, ACTION_ROTATOR, ACTION_TEMPERATURE, ACTION_GUIDER_DRIFT})
+    for (PrepareActions action :
+            {
+                ACTION_FILTER, ACTION_ROTATOR, ACTION_TEMPERATURE, ACTION_GUIDER_DRIFT
+            })
         setInitialized(action, false);
 }
 
@@ -365,7 +368,8 @@ IPState SequenceJobState::checkFlatCapReady()
 
     if (m_CaptureState->hasDustCap == false)
     {
-        emit newLog("Skipping flat/dark cap since it is not connected.");
+        if (m_CaptureState->hasLightBox == false)
+            emit newLog("Skipping flat/dark cap since it is not connected.");
         return IPS_OK;
     }
 
@@ -400,7 +404,9 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 
     bool captureFlats = (frameType == FRAME_FLAT);
 
-    if (m_CaptureState->hasLightBox == true && lightBoxLightStatus != CAP_LIGHT_ON)
+    LightStatus targetLightBoxStatus = (frameType == FRAME_FLAT) ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
+
+    if (m_CaptureState->hasLightBox == true && lightBoxLightStatus != targetLightBoxStatus)
     {
         lightBoxLightStatus = CAP_LIGHT_BUSY;
         emit setLightBoxLight(captureFlats);
@@ -410,7 +416,9 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 
     if (m_CaptureState->hasDustCap == false)
     {
-        emit newLog("Skipping flat/dark cap since it is not connected.");
+        // Only warn if we don't have already light box.
+        if (m_CaptureState->hasLightBox == false)
+            emit newLog("Skipping flat/dark cap since it is not connected.");
         return IPS_OK;
     }
 
@@ -426,7 +434,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     }
 
     // turn the light on for flats and off otherwise
-    LightStatus targetLightStatus = frameType == FRAME_FLAT ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
+    LightStatus targetLightStatus = (frameType == FRAME_FLAT) ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
     if (dustCapLightStatus != targetLightStatus)
     {
         dustCapLightStatus = CAP_LIGHT_BUSY;
@@ -445,7 +453,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
         if (wpScopeStatus < WP_SLEWING)
         {
             wallCoord.HorizontalToEquatorial(KStarsData::Instance()->lst(),
-                    KStarsData::Instance()->geo()->lat());
+                                             KStarsData::Instance()->geo()->lat());
             wpScopeStatus = WP_SLEWING;
             emit slewTelescope(wallCoord);
             emit newLog(i18n("Mount slewing to wall position..."));
