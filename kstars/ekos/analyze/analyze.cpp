@@ -426,6 +426,7 @@ void Analyze::initInputSelection()
             runtimeDisplay = false;
 
             maxXValue = readDataFromFile(inputURL.toLocalFile());
+            checkForMissingSchedulerJobEnd(maxXValue);
             plotStart = 0;
             plotWidth = maxXValue + 5;
             replot();
@@ -979,7 +980,6 @@ Analyze::FocusSession::FocusSession(double start_, double end_, QCPItemRect *rec
         {
             positions.clear();
             hfrs.clear();
-            fprintf(stderr, "Bad focus position %d in %s\n", i - 2, points.toLatin1().data());
             return;
         }
         positions.push_back(position);
@@ -1877,9 +1877,15 @@ void Analyze::reset()
     detailsTable->setPalette(p);
 
     inputValue->clear();
+
     captureSessions.clear();
     focusSessions.clear();
-
+    guideSessions.clear();
+    mountSessions.clear();
+    alignSessions.clear();
+    mountFlipSessions.clear();
+    schedulerJobSessions.clear();
+    
     numStarsOut->setText("");
     skyBgOut->setText("");
     snrOut->setText("");
@@ -2952,6 +2958,7 @@ void Analyze::schedulerJobEnded(const QString &jobName, const QString &reason)
 // BatchMode would be true when reading from file.
 void Analyze::processSchedulerJobStarted(double time, const QString &jobName, bool batchMode)
 {
+    checkForMissingSchedulerJobEnd(time-1);
     schedulerJobStartedTime = time;
     schedulerJobStartedJobName = jobName;
     updateMaxX(time);
@@ -2970,7 +2977,6 @@ void Analyze::processSchedulerJobEnded(double time, const QString &jobName, cons
 
     if (schedulerJobStartedTime < 0)
     {
-        fprintf(stderr, "SchedulerJobEnded(%s) message without Start.\n", jobName.toLatin1().data());
         replot();
         return;
     }
@@ -2982,6 +2988,19 @@ void Analyze::processSchedulerJobEnded(double time, const QString &jobName, cons
     resetSchedulerJob();
     if (!batchMode)
         replot();
+}
+
+// Just called in batch mode, in case the processSchedulerJobEnded was never called.
+void Analyze::checkForMissingSchedulerJobEnd(double time)
+{
+    if (schedulerJobStartedTime < 0)
+        return;
+    removeTemporarySession(&temporarySchedulerJobSession);
+    addSession(schedulerJobStartedTime, time, SCHEDULER_Y, schedulerJobBrush(schedulerJobStartedJobName, false));
+    auto session = SchedulerJobSession(schedulerJobStartedTime, time, nullptr, schedulerJobStartedJobName, "missing job end");
+    schedulerJobSessions.add(session);
+    updateMaxX(time);
+    resetSchedulerJob();
 }
 
 void Analyze::resetSchedulerJob()
