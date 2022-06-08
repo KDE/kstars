@@ -85,6 +85,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     fitsWCS.setVisible(false);
 
+    statusBar()->insertPermanentWidget(FITS_CLIP, &fitsClip);
     statusBar()->insertPermanentWidget(FITS_HFR, &fitsHFR);
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
     statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
@@ -333,15 +334,22 @@ QString HFRStatusString(const QSharedPointer<FITSData> &data)
     if (hfrValue <= 0.0) return QString("");
     if (data->getSkyBackground().starsDetected > 0)
         return
-            i18np("HFR=%2 Ecc=%3 %1 star.", "HFR=%2 Ecc=%3 %1 stars.",
+            i18np("HFR:%2 Ecc:%3 %1 star.", "HFR:%2 Ecc:%3 %1 stars.",
                   data->getSkyBackground().starsDetected,
                   QString::number(hfrValue, 'f', 2),
                   QString::number(data->getEccentricity(), 'f', 2));
     else
         return
-            i18np("HFR=%2, %1 star.", "HFR=%2, %1 stars.",
+            i18np("HFR:%2, %1 star.", "HFR:%2, %1 stars.",
                   data->getDetectedStars(),
                   QString::number(hfrValue, 'f', 2));
+}
+
+QString HFRClipString(FITSView* view)
+{
+    if (view->isClippingShown())
+        return QString("Clip:%1").arg(view->getNumClipped());
+    return "";
 }
 }  // namespace
 
@@ -417,6 +425,8 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
     else
         updateStatusBar("", FITS_HFR);
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
+
+    updateStatusBar(HFRClipString(tab->getView()), FITS_CLIP);
 
     tab->getView()->setCursorMode(FITSView::dragCursor);
 
@@ -559,6 +569,8 @@ bool FITSViewer::updateFITSCommon(FITSTab *tab, const QUrl &imageName)
     else
         updateStatusBar("", FITS_HFR);
 
+    updateStatusBar(HFRClipString(tab->getView()), FITS_CLIP);
+
     return true;
 }
 
@@ -604,6 +616,8 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         updateStatusBar(HFRStatusString(view->imageData()), FITS_HFR);
     else
         updateStatusBar("", FITS_HFR);
+
+    updateStatusBar(HFRClipString(fitsTabs[currentIndex]->getView()), FITS_CLIP);
 
     if (view->imageData()->hasDebayer())
     {
@@ -774,6 +788,9 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
             break;
         case FITS_HFR:
             fitsHFR.setText(msg);
+            break;
+        case FITS_CLIP:
+            fitsClip.setText(msg);
             break;
         case FITS_MESSAGE:
             statusBar()->showMessage(msg);
@@ -968,6 +985,8 @@ void FITSViewer::toggleClipping()
     if (fitsTabs.empty())
         return;
     getCurrentView()->toggleClipping();
+    if (!getCurrentView()->isClippingShown())
+        fitsClip.clear();
     updateButtonStatus("view_clipping", i18n("Clipping"), getCurrentView()->isClippingShown());
 }
 
