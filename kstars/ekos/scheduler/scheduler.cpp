@@ -1021,6 +1021,7 @@ void Scheduler::addJob()
         // jobEvaluationOnly = true;
         // evaluateJobs();
     }
+    emit jobsUpdated(getJSONJobs());
 }
 
 void Scheduler::setupJob(
@@ -1675,6 +1676,7 @@ void Scheduler::setJobStatusCells(int row)
     job->setEstimatedTimeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_DURATION)));
     job->setLeadTimeCell(queueTable->item(row, static_cast<int>(SCHEDCOL_LEADTIME)));
     job->updateJobCells();
+    emit jobsUpdated(getJSONJobs());
 }
 
 void Scheduler::resetJobEdit()
@@ -1751,8 +1753,14 @@ void Scheduler::removeJob()
 
     mDirty = true;
     evaluateJobs(true);
+    emit jobsUpdated(getJSONJobs());
 }
 
+void Scheduler::removeOneJob(int index)
+{
+    queueTable->selectRow(index);
+    removeJob();
+}
 void Scheduler::toggleScheduler()
 {
     if (state == SCHEDULER_RUNNING)
@@ -2070,6 +2078,8 @@ void Scheduler::evaluateJobs(bool evaluateOnly)
             job->updateJobCells();
     }
     processJobs(jobsToProcess, evaluateOnly);
+
+    emit jobsUpdated(getJSONJobs());
 }
 
 // Decides which jobs should be considered for scheduling (that is, have their status set to JOB_EVALUATION).
@@ -8250,6 +8260,16 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
     }
 }
 
+QJsonArray Scheduler::getJSONJobs()
+{
+    QJsonArray jobArray;
+
+    for (const auto &oneJob : getJobs())
+        jobArray.append(oneJob->toJson());
+
+    return jobArray;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -8271,6 +8291,7 @@ void Scheduler::setPrimarySettings(const QJsonObject &settings)
     syncControl(settings, "focus", focusStepCheck);
     syncControl(settings, "align", alignStepCheck);
     syncControl(settings, "guide", guideStepCheck);
+    syncControl(settings, "algorithm", schedulerAlgorithmCombo);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -8363,6 +8384,7 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
     QLineEdit *pLE = nullptr;
     QRadioButton *pRB = nullptr;
     QDateTimeEdit *pDT = nullptr;
+    dmsBox *dms = nullptr;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
     {
@@ -8433,4 +8455,14 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
     return false;
 };
 
+QJsonObject Scheduler::getSchedulerSettings()
+{
+    QJsonObject schedulerSettings =
+    {
+        {"algorithm", schedulerAlgorithmCombo->currentIndex()},
+        {"state", state},
+    };
+    return schedulerSettings;
+
+}
 }

@@ -1662,5 +1662,6 @@ QJsonObject SchedulerJob::toJson() const
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},
         {"score", score},
+
     };
 }

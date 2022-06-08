@@ -29,7 +29,6 @@
 
 namespace EkosLive
 {
-
 Message::Message(Ekos::Manager *manager): m_Manager(manager), m_DSOManager(CatalogsDB::dso_db_path())
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &Message::onConnected);
@@ -38,6 +37,7 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager), m_DSOManager(Catal
             &Message::onError);
 
     connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
+    connect(manager->schedulerModule(), &Ekos::Scheduler::jobsUpdated, this, &Message::sendSchedulerJobList);
 
     m_ThrottleTS = QDateTime::currentDateTime();
 }
@@ -1013,6 +1013,19 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     {
         scheduler->addJob();
     }
+    else if(command == commands[SCHEDULER_REMOVE_JOBS])
+    {
+        int index = payload["index"].toInt();
+        scheduler->removeOneJob(index);
+    }
+    else if(command == commands[SCHEDULER_GET_SETTINGS])
+    {
+        sendResponse(commands[SCHEDULER_GET_SETTINGS], scheduler->getSchedulerSettings());
+    }
+    else if(command == commands[SCHEDULER_START_JOB])
+    {
+        scheduler->toggleScheduler();
+    }
 
 }
 
@@ -1237,14 +1250,18 @@ void Message::sendProfiles()
 
 void Message::sendSchedulerJobs()
 {
-    QJsonArray jobArray;
-
-    for (const auto &oneJob : m_Manager->schedulerModule()->getJobs())
-        jobArray.append(oneJob->toJson());
-
     QJsonObject jobs =
     {
-        {"jobs", jobArray}
+        {"jobs", m_Manager->schedulerModule()->getJSONJobs()}
+    };
+    sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
+}
+
+void Message::sendSchedulerJobList(QJsonArray jobsList)
+{
+    QJsonObject jobs =
+    {
+        {"jobs", jobsList}
     };
     sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
 }
@@ -1794,6 +1811,37 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         QJsonArray response = QJsonArray::fromStringList(searchObjects);
 
         sendResponse(commands[ASTRO_SEARCH_OBJECTS], response);
+    }
+    else if(command == commands[ASTRO_GET_OBJECT_INFO])
+    {
+        const auto name = payload["object"].toString();
+        QJsonObject info;
+        SkyObject *oneObject = KStarsData::Instance()->skyComposite()->findByName(name, false);
+        if(oneObject)
+        {
+            info =
+            {
+                {"name", name},
+                {"designations", QJsonArray::fromStringList(oneObject->longname().split(", "))},
+                {"magnitude", oneObject->mag()},
+                {"ra0", oneObject->ra0().Hours()},
+                {"de0", oneObject->dec0().Degrees()},
+                {"ra", oneObject->ra().Hours()},
+                {"de", oneObject->dec().Degrees()},
+                {"object", true}
+            };
+            sendResponse(commands[ASTRO_GET_OBJECT_INFO], info);
+        }
+        else
+        {
+            info =
+            {
+                {"name", name},
+                {"object", false},
+            };
+            sendResponse(commands[ASTRO_GET_OBJECT_INFO], info );
+        }
+
     }
     // Get a list of object based on criteria
     else if (command == commands[ASTRO_GET_OBJECTS_INFO])

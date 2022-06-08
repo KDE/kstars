@@ -1047,6 +1047,7 @@
            </property>
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
