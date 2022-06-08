@@ -214,6 +214,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         void processSchedulerJobStarted(double time, const QString &jobName, bool batchMode = false);
         void processSchedulerJobEnded(double time, const QString &jobName, const QString &reason, bool batchMode = false);
+        void checkForMissingSchedulerJobEnd(double time);
         void processTargetDistance(double time, double targetDistance, bool batchMode = false);
 
         // Plotting primatives.
