@@ -53,6 +53,7 @@ double getAngle(const V3 &p1, const V3 &p2);
 // by degrees.
 V3 rotateAroundAxis(const V3 &point, const V3 &axis, double degrees);
 V3 rotateAroundY(const V3 &point, double degrees);
+V3 rotateAroundZ(const V3 &point, double degrees);
 
 // Converts the AzAlt (azimuth is in .x(), altitude in .y())
 // to an xyz point, and vica versa.

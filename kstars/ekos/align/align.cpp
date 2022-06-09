@@ -134,13 +134,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Align::setDefaultCCD);
-    #else
+#else
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
             &Ekos::Align::setDefaultCCD);
-    #endif
+#endif
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
 
     connect(loadSlewB, &QPushButton::clicked, [&]()
@@ -149,13 +149,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     });
 
     FilterDevicesCombo->addItem("--");
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
             [ = ](const QString & text)
-    #else
+#else
     connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated),
             [ = ](const QString & text)
-    #endif
+#endif
     {
         syncSettings();
         Options::setDefaultAlignFilterWheel(text);
@@ -175,13 +175,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
 
-    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             [ = ](int id)
-    #else
+#else
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
             [ = ](int id)
-    #endif
+#endif
     {
         this->m_CurrentGotoMode = static_cast<GotoMode>(id);
     });
@@ -282,13 +282,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
     remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
 
-    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
             &Align::setSolverMode);
-    #else
+#else
     connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
             &Align::setSolverMode);
-    #endif
+#endif
     setSolverMode(solverModeButtonGroup->checkedId());
 
     // Which telescope info to use for FOV calculations
@@ -2270,22 +2270,22 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 diff -= 360;
             if (diff < -180)
                 diff += 360;
-//            if (fabs(current + 360.0 - target) < fabs(diff))
-//            {
-//                diff = current + 360.0 - target;
-//            }
+            //            if (fabs(current + 360.0 - target) < fabs(diff))
+            //            {
+            //                diff = current + 360.0 - target;
+            //            }
 
-//            if (fabs(current - targetFlipped) < fabs(diff))
-//            {
-//                diff = current - targetFlipped;
-//                target = targetFlipped;
-//            }
+            //            if (fabs(current - targetFlipped) < fabs(diff))
+            //            {
+            //                diff = current - targetFlipped;
+            //                target = targetFlipped;
+            //            }
 
-//            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
-//            {
-//                diff = current + 360.0 - targetFlipped;
-//                target = targetFlipped;
-//            }
+            //            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
+            //            {
+            //                diff = current + 360.0 - targetFlipped;
+            //                target = targetFlipped;
+            //            }
 
             double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
@@ -3782,8 +3782,12 @@ void Align::setTargetPositionAngle(double value)
 
 void Align::calculateAlignTargetDiff()
 {
-    if (matchPAHStage(PAA::PAH_FIRST_CAPTURE) || matchPAHStage(PAA::PAH_SECOND_CAPTURE)
-            || matchPAHStage(PAA::PAH_THIRD_CAPTURE))
+    if (matchPAHStage(PAA::PAH_FIRST_CAPTURE) ||
+            matchPAHStage(PAA::PAH_SECOND_CAPTURE) ||
+            matchPAHStage(PAA::PAH_THIRD_CAPTURE) ||
+            matchPAHStage(PAA::PAH_FIRST_SOLVE) ||
+            matchPAHStage(PAA::PAH_SECOND_SOLVE) ||
+            matchPAHStage(PAA::PAH_THIRD_SOLVE))
         return;
     m_TargetDiffRA = (alignCoord.ra().deltaAngle(m_targetCoord.ra())).Degrees() * 3600;
     m_TargetDiffDE = (alignCoord.dec().deltaAngle(m_targetCoord.dec())).Degrees() * 3600;
@@ -3955,10 +3959,6 @@ void Align::initPolarAlignmentAssistant()
     // Create PAA instance
     m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, alignView);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::captureAndSolve, this, &Ekos::Align::captureAndSolve);
-    connect(m_PolarAlignmentAssistant, &Ekos::PAA::settleStarted, [this](double duration)
-    {
-        m_CaptureTimer.start(duration);
-    });
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newAlignTableResult, this, &Ekos::Align::setAlignTableResult);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newFrame, this, &Ekos::Align::newFrame);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newPAHStage, this, &Ekos::Align::processPAHStage);
@@ -4001,6 +4001,11 @@ void Align::processPAHStage(int stage)
     switch (stage)
     {
         case PAA::PAH_IDLE:
+            // Abort any solver that might be running.
+            // Assumes this state change won't happen randomly (e.g. in the middle of align).
+            // Alternatively could just let the stellarsolver finish naturally.
+            if (m_StellarSolver && m_StellarSolver->isRunning())
+                m_StellarSolver->abort();
             break;
         case PAA::PAH_POST_REFRESH:
         {
@@ -4009,13 +4014,7 @@ void Align::processPAHStage(int stage)
             stop(ALIGN_IDLE);
         }
         break;
-        case PAA::PAH_PRE_REFRESH:
-            // If user stops here, we restore the settings, if not we
-            // disable again in the refresh process
-            // and restore when refresh is complete
-            Options::setAstrometrySolverWCS(rememberSolverWCS);
-            Options::setAutoWCS(rememberAutoWCS);
-            break;
+
         case PAA::PAH_FIRST_CAPTURE:
             nothingR->setChecked(true);
             m_CurrentGotoMode = GOTO_NOTHING;

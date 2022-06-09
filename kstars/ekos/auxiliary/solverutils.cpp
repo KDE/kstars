@@ -38,6 +38,19 @@ void SolverUtils::runSolver(const QString &filename)
     m_Watcher.setFuture(response);
 }
 
+void SolverUtils::setHealpix(int indexToUse, int healpixToUse)
+{
+    m_IndexToUse = indexToUse;
+    m_HealpixToUse = healpixToUse;
+}
+
+void SolverUtils::getSolutionHealpix(int *indexUsed, int *healpixUsed)
+{
+    *indexUsed = m_StellarSolver->getSolutionIndexNumber();
+    *healpixUsed = m_StellarSolver->getSolutionHealpix();
+}
+
+
 void SolverUtils::prepareSolver()
 {
     if (m_StellarSolver->isRunning())
@@ -47,7 +60,17 @@ void SolverUtils::prepareSolver()
     m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
     connect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
-    m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
+
+    if (m_IndexToUse >= 0)
+    {
+        // The would only have an effect if Options::solverType() == SOLVER_STELLARSOLVER
+        QStringList indexFiles = StellarSolver::getIndexFiles(
+                                     Options::astrometryIndexFolderList(), m_IndexToUse, m_HealpixToUse);
+        m_StellarSolver->setIndexFilePaths(indexFiles);
+    }
+    else
+        m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
+
     // External program paths
     ExternalProgramPaths externalPaths;
     externalPaths.sextractorBinaryPath = Options::sextractorBinary();

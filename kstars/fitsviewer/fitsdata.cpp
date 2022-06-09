@@ -3890,7 +3890,7 @@ bool FITSData::ImageToFITS(const QString &filename, const QString &format, QStri
     return true;
 }
 
-bool FITSData::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
+void FITSData::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
 {
     int status = 0;
 
@@ -3940,10 +3940,6 @@ bool FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
 
     m_WCSState = Idle;
-
-    qCDebug(KSTARS_FITS) << "Finished update WCS info.";
-
-    return true;
 }
 
 bool FITSData::contains(const QPointF &point) const

@@ -749,7 +749,7 @@
           <item row="7" column="2">
            <widget class="QCheckBox" name="transparencyAuto">
             <property name="text">
-             <string>Auto</string>
+             <string comment="Transparency">Auto</string>
             </property>
             <property name="checked">
              <bool>true</bool>

@@ -52,19 +52,23 @@ void loadDummyFits(QSharedPointer<FITSData> &image, const KStarsDateTime &time,
     stats.height = IMAGE_HEIGHT;
     image->restoreStatistics(stats);
     image->setDateTime(time);
-    QVERIFY(image->injectWCS(orientation, ra, dec, pixScale, eastToTheRight));
+    image->injectWCS(orientation, ra, dec, pixScale, eastToTheRight);
     QVERIFY(image->checkForWCS());
+}
+
+void setupData(Solution s, QSharedPointer<FITSData> &image, bool eastToTheRight)
+{
+    KStarsDateTime time;
+    time.setDate(QDate(s.year, s.month, s.day));
+    time.setTime(QTime(s.hour, s.minute, s.second));
+    time.setTimeSpec(Qt::UTC);
+    loadDummyFits(image, time, s.ra, s.dec, s.orientation, s.pixScale, eastToTheRight);
 }
 
 void setupData(const PaaData &data, int sampleNum, QSharedPointer<FITSData> &image, bool eastToTheRight)
 {
-    const Solution &d = sampleNum == 0 ? data.s1 : sampleNum == 1 ? data.s2 : data.s3;
-
-    KStarsDateTime time;
-    time.setDate(QDate(d.year, d.month, d.day));
-    time.setTime(QTime(d.hour, d.minute, d.second));
-    time.setTimeSpec(Qt::UTC);
-    loadDummyFits(image, time, d.ra, d.dec, d.orientation, d.pixScale, eastToTheRight);
+    const Solution &s = sampleNum == 0 ? data.s1 : sampleNum == 1 ? data.s2 : data.s3;
+    setupData(s, image, eastToTheRight);
 }
 
 TestPolarAlign::TestPolarAlign() : QObject()
@@ -590,6 +594,91 @@ void TestPolarAlign::testRunPAA()
         {215.61283, -50.20872, 39.26446, 0.75801, 2022, 04, 07, 20, 03, 37},
         1924, 1452, -1, -1
     });
+}
+
+struct RefreshSolution
+{
+    double azErr, altErr;
+    double azAdj, altAdj;
+};
+
+void TestPolarAlign::testRefreshCoords()
+{
+    const GeoLocation siliconValley(dms(-122, 10), dms(37, 26, 30));
+
+    // Taken from the 5/29 log. Times are UTC, so Pacific + 7.
+    Solution p1 = {211.174, 60.8994, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 11 };
+    Solution p2 = {233.324, 60.632,  69.66035, 0.39157, 2022, 5, 30, 5, 11, 34 };
+    Solution p3 = {254.451, 60.3434, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 57 };
+
+    QVector<Solution> ps = {p1, p2, p3};
+
+    // right at start Estimated current adjustment: Az 0.0' Alt 0.0' residual 4a-s"
+    Solution r1 =  {254.454,  60.346, 0, 0.391548, 2022, 5, 30, 5, 13, 3 };
+    // refresh 25, Estimated current adjustment: Az 0.0' Alt -28.0' residual 23a-s"
+    Solution r2 =  {253.841,  60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 31 };
+    // refresh 26, Estimated current adjustment: Az 0.0' Alt -28.0' residual 26a-s"
+    Solution r3 =  {253.842,  60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 34 };
+
+    // refresh 27, Estimated current adjustment: Az 11.0' Alt -23.0' residual 220a-s"
+    Solution r4 =  {253.769,  60.207, 0, 0.391548, 2022, 5, 30, 5, 14, 48 };
+    // refresh 28, Estimated current adjustment: Az 10.0' Alt -22.0' residual 265a-s"
+    Solution r5 =  {253.769,  60.206, 0, 0.391548, 2022, 5, 30, 5, 14, 52 };
+    // refresh 29, Estimated current adjustment: Az 17.0' Alt -19.0' residual 409a-s"
+    Solution r6 =  {253.724,  60.297, 0, 0.391548, 2022, 5, 30, 5, 15, 2 };
+    // refresh 36, Estimated current adjustment: Az 27.0' Alt -15.0' residual 607a-s"
+    Solution r7 =  {253.656,  60.429, 0, 0.391548, 2022, 5, 30, 5, 15, 28 };
+
+    QVector<Solution> rs = {r1, r2, r3, r4, r5, r6, r7};
+
+
+    QVector<RefreshSolution> refreshSolutions =
+    {
+        // az error| alt error| az adjust | alt adjust
+        { 0.629487,  -0.468870,  0.000000,  -0.001389 },
+        { 0.638877,  -0.010564, -0.005556,  -0.459722 },
+        { 0.638877,  -0.010564, -0.005556,  -0.459722 },
+        { 0.387476,  -0.011953,  0.245833,  -0.458333 },
+        { 0.387500,  -0.009175,  0.245833,  -0.461111 },
+        { 0.234734,  -0.007787,  0.398611,  -0.462500 },
+        { 0.016678,  -0.007787,  0.616667,  -0.462500 },
+    };
+
+
+    PolarAlign polarAlign(&siliconValley);
+    foreach (const Solution &p, ps)
+    {
+        QSharedPointer<FITSData> image;
+        setupData(p, image, true);
+        QVERIFY(polarAlign.addPoint(image));
+    }
+    polarAlign.findAxis();
+
+    double initialAzimuthError, initialAltitudeError;
+    polarAlign.calculateAzAltError(&initialAzimuthError, &initialAltitudeError);
+    dms polarError(hypot(initialAzimuthError, initialAltitudeError));
+    dms azError(initialAzimuthError), altError(initialAltitudeError);
+
+    int i = 0;
+    foreach (const Solution &r, rs)
+    {
+        KStarsDateTime newTime;
+        newTime.setDate(QDate(r.year, r.month, r.day));
+        newTime.setTime(QTime(r.hour, r.minute, r.second));
+        newTime.setTimeSpec(Qt::UTC);
+
+        SkyPoint solution;
+        SkyPoint refreshPoint(r.ra / 15.0, r.dec);
+        double azErr, altErr, azAdjustment, altAdjustment;
+        polarAlign.processRefreshCoords(refreshPoint, newTime, &azErr, &altErr, &azAdjustment, &altAdjustment);
+
+        constexpr double smallError = .0001;
+        QVERIFY(fabs(azErr - refreshSolutions[i].azErr) < smallError);
+        QVERIFY(fabs(altErr - refreshSolutions[i].altErr) < smallError);
+        QVERIFY(fabs(azAdjustment - refreshSolutions[i].azAdj) < smallError);
+        QVERIFY(fabs(altAdjustment - refreshSolutions[i].altAdj) < smallError);
+        i++;
+    }
 }
 
 void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,

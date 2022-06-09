@@ -13,16 +13,18 @@
 #include "ksnotification.h"
 #include "ksmessagebox.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
-
-// Options
+#include "ekos/auxiliary/solverutils.h"
 #include "Options.h"
-
-
 #include "QProgressIndicator.h"
-
+#include "polaralignwidget.h"
 #include <ekos_align_debug.h>
 
-#define PAA_VERSION "v2.3"
+#define PAA_VERSION "v3.0"
+
+// Algorithm choice in UI
+#define PLATE_SOLVE_ALGORITHM 0
+#define MOVE_STAR_ALGORITHM 1
+#define MOVE_STAR_UPDATE_ERR_ALGORITHM 2
 
 namespace Ekos
 {
@@ -31,21 +33,26 @@ const QMap<PolarAlignmentAssistant::PAHStage, const char *> PolarAlignmentAssist
 {
     {PAH_IDLE, I18N_NOOP("Idle")},
     {PAH_FIRST_CAPTURE, I18N_NOOP("First Capture")},
+    {PAH_FIRST_SOLVE, I18N_NOOP("First Solve")},
     {PAH_FIND_CP, I18N_NOOP("Finding CP")},
     {PAH_FIRST_ROTATE, I18N_NOOP("First Rotation")},
+    {PAH_FIRST_SETTLE, I18N_NOOP("First Settle")},
     {PAH_SECOND_CAPTURE, I18N_NOOP("Second Capture")},
+    {PAH_SECOND_SOLVE, I18N_NOOP("Second Solve")},
     {PAH_SECOND_ROTATE, I18N_NOOP("Second Rotation")},
+    {PAH_SECOND_SETTLE, I18N_NOOP("Second Settle")},
     {PAH_THIRD_CAPTURE, I18N_NOOP("Third Capture")},
+    {PAH_THIRD_SOLVE, I18N_NOOP("Third Solve")},
     {PAH_STAR_SELECT, I18N_NOOP("Select Star")},
-    {PAH_PRE_REFRESH, I18N_NOOP("Select Refresh")},
     {PAH_REFRESH, I18N_NOOP("Refreshing")},
     {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete")},
-    {PAH_ERROR, I18N_NOOP("Error")}
 };
 
 PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view) : QWidget(parent)
 {
     setupUi(this);
+    polarAlignWidget = new PolarAlignWidget();
+    mainPALayout->insertWidget(0, polarAlignWidget);
 
     m_AlignInstance = parent;
     alignView = view;
@@ -55,13 +62,36 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view)
         Options::setPAHMountSpeedIndex(index);
     });
 
-    PAHUpdatedErrorLine->setVisible(Options::pAHRefreshUpdateError());
-    PAHRefreshUpdateError->setChecked(Options::pAHRefreshUpdateError());
-    connect(PAHRefreshUpdateError, &QCheckBox::toggled, [this](bool toggled)
+    showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
+                     (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
+
+    PAHRefreshAlgorithm->setCurrentIndex(Options::pAHRefreshAlgorithm());
+    connect(PAHRefreshAlgorithm, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
     {
-        Options::setPAHRefreshUpdateError(toggled);
-        PAHUpdatedErrorLine->setVisible(toggled);
+        // If the star-correspondence method of tracking polar alignment error wasn't initialized,
+        // at the start, it can't be turned on mid process.
+        if ((m_PAHStage == PAH_REFRESH) && refreshIteration > 0 && (index != PLATE_SOLVE_ALGORITHM)
+                && !starCorrespondencePAH.size())
+        {
+            PAHRefreshAlgorithm->setCurrentIndex(PLATE_SOLVE_ALGORITHM);
+            Options::setPAHRefreshAlgorithm(PLATE_SOLVE_ALGORITHM);
+            emit newLog(i18n("Cannot change to MoveStar algorithm once refresh has begun"));
+            return;
+        }
+        Options::setPAHRefreshAlgorithm(index);
+        if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_STAR_SELECT)
+        {
+            refreshText->setText(getPAHMessage());
+            emit newPAHMessage(getPAHMessage());
+        }
+        showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
+                         (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
+        if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+            updatePlateSolveTriangle(m_ImageData);
+        else
+            alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
     });
+    starCorrespondencePAH.reset();
 
     // PAH Connections
     PAHWidgets->setCurrentWidget(PAHIntroPage);
@@ -77,20 +107,28 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view)
     connect(PAHStartB, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::startPAHProcess);
     // PAH StopB is just a shortcut for the regular stop
     connect(PAHStopB, &QPushButton::clicked, this, &PolarAlignmentAssistant::stopPAHProcess);
-    connect(PAHCorrectionsNextB, &QPushButton::clicked, this,
-            &Ekos::PolarAlignmentAssistant::setPAHCorrectionSelectionComplete);
     connect(PAHRefreshB, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::startPAHRefreshProcess);
-    connect(PAHDoneB, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::setPAHRefreshComplete);
     // done button for manual slewing during polar alignment:
     connect(PAHManualDone, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::setPAHSlewDone);
 
     hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
 
+    label_PAHOrigErrorAz->setText("Az: ");
+    label_PAHOrigErrorAlt->setText("Alt: ");
 }
 
 PolarAlignmentAssistant::~PolarAlignmentAssistant()
 {
+}
 
+void PolarAlignmentAssistant::showUpdatedError(bool show)
+{
+    label_PAHUpdatedErrorTotal->setVisible(show);
+    PAHUpdatedErrorTotal->setVisible(show);
+    label_PAHUpdatedErrorAlt->setVisible(show);
+    PAHUpdatedErrorAlt->setVisible(show);
+    label_PAHUpdatedErrorAz->setVisible(show);
+    PAHUpdatedErrorAz->setVisible(show);
 }
 
 void PolarAlignmentAssistant::syncMountSpeed()
@@ -133,15 +171,214 @@ void PolarAlignmentAssistant::setEnabled(bool enabled)
 
 }
 
-void PolarAlignmentAssistant::syncStage()
+// This solver is only used by the refresh plate-solving scheme.
+void PolarAlignmentAssistant::startSolver()
 {
-    if (m_PAHStage == PAH_FIRST_CAPTURE)
-        PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
-    else if (m_PAHStage == PAH_SECOND_CAPTURE)
-        PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-    else if (m_PAHStage == PAH_THIRD_CAPTURE)
-        PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+    auto profiles = getDefaultAlignOptionsProfiles();
+    auto parameters = profiles.at(Options::solveOptionsProfile());
+    // Double search radius
+    parameters.search_radius = parameters.search_radius * 2;
+    constexpr double solverTimeout = 10.0;
 
+    m_Solver.reset(new SolverUtils(parameters, solverTimeout));
+    connect(m_Solver.get(), &SolverUtils::done, this, &PolarAlignmentAssistant::solverDone, Qt::UniqueConnection);
+
+    // Use the scale and position from the most recent solve.
+    m_Solver->useScale(Options::astrometryUseImageScale(), m_LastPixscale * 0.9, m_LastPixscale * 1.1);
+    m_Solver->usePosition(true, m_LastRa, m_LastDec);
+    m_Solver->setHealpix(m_IndexToUse, m_HealpixToUse);
+    m_Solver->runSolver(m_ImageData);
+}
+
+void PolarAlignmentAssistant::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution,
+        double elapsedSeconds)
+{
+    disconnect(m_Solver.get(), &SolverUtils::done, this, &PolarAlignmentAssistant::solverDone);
+
+    if (m_PAHStage != PAH_REFRESH)
+        return;
+
+    if (timedOut || !success)
+    {
+        // I'm torn between 1 and 2 for this constant.
+        // 1: If a solve failed, open up the search next time.
+        // 2: A common reason for a solve to fail is because a knob was adjusted during the exposure.
+        //    Let it try one more time.
+        constexpr int MAX_NUM_HEALPIX_FAILURES = 2;
+        if (++m_NumHealpixFailures >= MAX_NUM_HEALPIX_FAILURES)
+        {
+            // Don't use the previous index and healpix next time we solve.
+            m_IndexToUse = -1;
+            m_HealpixToUse = -1;
+        }
+    }
+    else
+    {
+        // Get the index and healpix from the successful solve.
+        m_Solver->getSolutionHealpix(&m_IndexToUse, &m_HealpixToUse);
+    }
+
+    if (timedOut)
+    {
+        emit newLog(i18n("Refresh solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+        emit captureAndSolve();
+    }
+    else if (!success)
+    {
+        emit newLog(i18n("Refresh solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+        emit captureAndSolve();
+    }
+    else
+    {
+        m_NumHealpixFailures = 0;
+        refreshIteration++;
+        const double ra = solution.ra;
+        const double dec = solution.dec;
+        m_LastRa = solution.ra;
+        m_LastDec = solution.dec;
+        m_LastOrientation = solution.orientation;
+        m_LastPixscale = solution.pixscale;
+
+        emit newLog(QString("Refresh solver success %1s: ra %2 dec %3 scale %4")
+                    .arg(elapsedSeconds, 0, 'f', 1).arg(ra, 0, 'f', 3)
+                    .arg(dec, 0, 'f', 3).arg(solution.pixscale));
+
+        // RA is input in hours, not degrees!
+        SkyPoint refreshCoords(ra / 15.0, dec);
+        double azError = 0, altError = 0;
+        if (polarAlign.processRefreshCoords(refreshCoords, m_ImageData->getDateTime(), &azError, &altError))
+        {
+            updateRefreshDisplay(azError, altError);
+
+            const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
+            // The 2nd false means don't block. The code below doesn't work if we block
+            // because wcsToPixel in updateTriangle() depends on the injectWCS being finished.
+            alignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false, false);
+            updatePlateSolveTriangle(m_ImageData);
+        }
+        else
+            emit newLog(QString("Could not estimate mount rotation"));
+    }
+    // Start the next refresh capture.
+    emit captureAndSolve();
+}
+
+void PolarAlignmentAssistant::updatePlateSolveTriangle(const QSharedPointer<FITSData> &image)
+{
+    if (image.isNull())
+        return;
+
+    // To render the triangle for the plate-solve refresh, we need image coordinates for
+    // - the original (3rd image) center point (originalPoint)
+    // - the solution point (solutionPoint),
+    // - the alt-only solution point (altOnlyPoint),
+    // - the current center of the image (centerPixel),
+    // The triangle is made from the first 3 above.
+    const SkyPoint &originalCoords = polarAlign.getPoint(2);
+    QPointF originalPixel, solutionPixel, altOnlyPixel, dummy;
+    QPointF centerPixel(image->width() / 2, image->height() / 2);
+    if (image->wcsToPixel(originalCoords, originalPixel, dummy) &&
+            image->wcsToPixel(refreshSolution, solutionPixel, dummy) &&
+            image->wcsToPixel(altOnlyRefreshSolution, altOnlyPixel, dummy))
+    {
+        alignView->setCorrectionParams(originalPixel, solutionPixel, altOnlyPixel);
+        alignView->setStarCircle(centerPixel);
+    }
+    else
+    {
+        qCDebug(KSTARS_EKOS_ALIGN) << "wcs failed";
+    }
+}
+
+namespace
+{
+
+// These functions paint up/down/left/right-pointing arrows in a box of size w x h.
+
+void upArrow(QPainter *painter, int w, int h)
+{
+    const double wCenter = w / 2, lineTop = 0.38, lineBottom = 0.9;
+    const double lineLength = h * (lineBottom - lineTop);
+    painter->drawRect(wCenter - w * .1, h * lineTop, w * .2, lineLength);
+    QPolygonF arrowHead;
+    arrowHead << QPointF(wCenter, h * .1) << QPointF(w * .2, h * .4) << QPointF(w * .8, h * .4);
+    painter->drawConvexPolygon(arrowHead);
+}
+void downArrow(QPainter *painter, int w, int h)
+{
+    const double wCenter = w / 2, lineBottom = 0.62, lineTop = 0.1;
+    const double lineLength = h * (lineBottom - lineTop);
+    painter->drawRect(wCenter - w * .1, h * lineTop, w * .2, lineLength);
+    QPolygonF arrowHead;
+    arrowHead << QPointF(wCenter, h * .9) << QPointF(w * .2, h * .6) << QPointF(w * .8, h * .6);
+    painter->drawConvexPolygon(arrowHead);
+}
+void leftArrow(QPainter *painter, int w, int h)
+{
+    const double hCenter = h / 2, lineLeft = 0.38, lineRight = 0.9;
+    const double lineLength = w * (lineRight - lineLeft);
+    painter->drawRect(h * lineLeft, hCenter - h * .1, lineLength, h * .2);
+    QPolygonF arrowHead;
+    arrowHead << QPointF(w * .1, hCenter) << QPointF(w * .4, h * .2) << QPointF(w * .4, h * .8);
+    painter->drawConvexPolygon(arrowHead);
+}
+void rightArrow(QPainter *painter, int w, int h)
+{
+    const double hCenter = h / 2, lineLeft = .1, lineRight = .62;
+    const double lineLength = w * (lineRight - lineLeft);
+    painter->drawRect(h * lineLeft, hCenter - h * .1, lineLength, h * .2);
+    QPolygonF arrowHead;
+    arrowHead << QPointF(w * .9, hCenter) << QPointF(w * .6, h * .2) << QPointF(w * .6, h * .8);
+    painter->drawConvexPolygon(arrowHead);
+}
+}  // namespace
+
+// Draw arrows that give the user a hint of how he/she needs to adjust the azimuth and altitude
+// knobs. The arrows' size changes depending on the azimuth and altitude error.
+void PolarAlignmentAssistant::drawArrows(double azError, double altError)
+{
+    constexpr double minError = 20.0 / 3600.0;  // 20 arcsec
+    double absError = fabs(altError);
+
+    // these constants are worked out so a 10' error gives a size of 100
+    // and a 1' error gives a size of 20.
+    constexpr double largeErr = 10.0 / 60.0, smallErr = 1.0 / 60.0, largeSize = 100, smallSize = 20, c1 = 533.33, c2 = 11.111;
+
+    int size = 0;
+    if (absError > largeErr)
+        size = largeSize;
+    else if (absError < smallErr)
+        size = smallSize;
+    else size = absError * c1 + c2;
+
+    QPixmap altPixmap(size, size);
+    altPixmap.fill(QColor("transparent"));
+    QPainter altPainter(&altPixmap);
+    altPainter.setBrush(arrowAlt->palette().color(QPalette::WindowText));
+
+    if (altError > minError)
+        downArrow(&altPainter, size, size);
+    else if (altError < -minError)
+        upArrow(&altPainter, size, size);
+    arrowAlt->setPixmap(altPixmap);
+
+    absError = fabs(azError);
+    if (absError > largeErr)
+        size = largeSize;
+    else if (absError < smallErr)
+        size = smallSize;
+    else size = absError * c1 + c2;
+
+    QPixmap azPixmap(size, size);
+    azPixmap.fill(QColor("transparent"));
+    QPainter azPainter(&azPixmap);
+    azPainter.setBrush(arrowAz->palette().color(QPalette::WindowText));
+
+    if (azError > minError)
+        leftArrow(&azPainter, size, size);
+    else if (azError < -minError)
+        rightArrow(&azPainter, size, size);
+    arrowAz->setPixmap(azPixmap);
 }
 
 bool PolarAlignmentAssistant::detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *starIndex)
@@ -203,6 +440,21 @@ bool PolarAlignmentAssistant::detectStarsPAHRefresh(QList<Edge> *stars, int num,
     return stars->count();
 }
 
+void PolarAlignmentAssistant::updateRefreshDisplay(double azE, double altE)
+{
+    drawArrows(azE, altE);
+    const double errDegrees = hypot(azE, altE);
+    dms totalError(errDegrees), azError(azE), altError(altE);
+    PAHUpdatedErrorTotal->setText(totalError.toDMSString());
+    PAHUpdatedErrorAlt->setText(altError.toDMSString());
+    PAHUpdatedErrorAz->setText(azError.toDMSString());
+
+    QString debugString = QString("PAA Refresh(%1): Corrected az: %2 alt: %4 total: %6")
+                          .arg(refreshIteration).arg(azError.toDMSString())
+                          .arg(altError.toDMSString()).arg(totalError.toDMSString());
+    emit newLog(debugString);
+}
+
 void PolarAlignmentAssistant::processPAHRefresh()
 {
     alignView->setStarCircle();
@@ -212,13 +464,19 @@ void PolarAlignmentAssistant::processPAHRefresh()
     PAHUpdatedErrorAz->clear();
     QString debugString;
     imageNumber++;
-    PAHIteration->setText(QString("%1").arg(imageNumber));
+    PAHIteration->setText(QString("Image %1").arg(imageNumber));
+
+    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    {
+        startSolver();
+        return;
+    }
 
     // Always run on the initial iteration to setup the user's star,
     // so that if it is enabled later the star could be tracked.
     // Flaw here is that if enough stars are not detected, iteration is not incremented,
     // so it may repeat.
-    if (Options::pAHRefreshUpdateError() || (refreshIteration == 0))
+    if ((Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM) || (refreshIteration == 0))
     {
         constexpr int MIN_PAH_REFRESH_STARS = 10;
 
@@ -309,26 +567,11 @@ void PolarAlignmentAssistant::processPAHRefresh()
                 if (polarAlign.pixelError(alignView->keptImage(), QPointF(stars[starIndex].x, stars[starIndex].y),
                                           correctionTo, &azE, &altE))
                 {
-                    const double errDegrees = hypot(azE, altE);
-                    dms totalError(errDegrees), azError(azE), altError(altE);
-                    PAHUpdatedErrorTotal->setText(totalError.toDMSString());
-                    PAHUpdatedErrorAlt->setText(altError.toDMSString());
-                    PAHUpdatedErrorAz->setText(azError.toDMSString());
-                    constexpr double oneArcMin = 1.0 / 60.0;
-                    PAHUpdatedErrorTotal->setStyleSheet(
-                        errDegrees < oneArcMin ? "color:green" : (errDegrees < 2 * oneArcMin ? "color:yellow" : "color:red"));
-                    PAHUpdatedErrorAlt->setStyleSheet(
-                        fabs(altE) < oneArcMin ? "color:green" : (fabs(altE) < 2 * oneArcMin ? "color:yellow" : "color:red"));
-                    PAHUpdatedErrorAz->setStyleSheet(
-                        fabs(azE) < oneArcMin ? "color:green" : (fabs(azE) < 2 * oneArcMin ? "color:yellow" : "color:red"));
-
-                    debugString = QString("PAA Refresh(%1): %2,%3 --> %4,%5 @ %6,%7. Corrected az: %8 (%9) alt: %10 (%11) total: %12 (%13)")
+                    updateRefreshDisplay(azE, altE);
+                    debugString = QString("PAA Refresh(%1): %2,%3 --> %4,%5 @ %6,%7")
                                   .arg(refreshIteration).arg(correctionFrom.x(), 4, 'f', 0).arg(correctionFrom.y(), 4, 'f', 0)
                                   .arg(correctionTo.x(), 4, 'f', 0).arg(correctionTo.y(), 4, 'f', 0)
-                                  .arg(stars[starIndex].x, 4, 'f', 0).arg(stars[starIndex].y, 4, 'f', 0)
-                                  .arg(azError.toDMSString()).arg(azE, 5, 'f', 3)
-                                  .arg(altError.toDMSString()).arg(altE, 6, 'f', 3)
-                                  .arg(totalError.toDMSString()).arg(hypot(azE, altE), 6, 'f', 3);
+                                  .arg(stars[starIndex].x, 4, 'f', 0).arg(stars[starIndex].y, 4, 'f', 0);
                     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
                 }
                 else
@@ -358,7 +601,12 @@ void PolarAlignmentAssistant::processPAHRefresh()
 
 bool PolarAlignmentAssistant::processSolverFailure()
 {
-    if ((m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_THIRD_CAPTURE)
+    if ((m_PAHStage == PAH_FIRST_CAPTURE ||
+            m_PAHStage == PAH_SECOND_CAPTURE ||
+            m_PAHStage == PAH_THIRD_CAPTURE ||
+            m_PAHStage == PAH_FIRST_SOLVE ||
+            m_PAHStage == PAH_SECOND_SOLVE ||
+            m_PAHStage == PAH_THIRD_SOLVE)
             && ++m_PAHRetrySolveCounter < 4)
     {
         emit captureAndSolve();
@@ -379,6 +627,7 @@ void PolarAlignmentAssistant::setPAHStage(PAHStage stage)
     if (stage != m_PAHStage)
     {
         m_PAHStage = stage;
+        polarAlignWidget->updatePAHStage(stage);
         emit newPAHStage(m_PAHStage);
     }
 }
@@ -387,77 +636,55 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
 {
     double deltaAngle = fabs(ra.deltaAngle(targetPAH.ra()).Degrees());
 
+    QString rotProgressMessage;
+    QString rotDoneMessage;
+    PAHStage nextCapture;
+    PAHStage nextSettle;
+
     if (m_PAHStage == PAH_FIRST_ROTATE)
     {
-        // only wait for telescope to slew to new position if manual slewing is switched off
-        if(!PAHManual->isChecked())
-        {
-            qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remaining degrees:" << deltaAngle;
-            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
-            {
-                m_CurrentTelescope->StopWE();
-                emit newLog(i18n("Mount first rotation is complete."));
-
-                m_PAHStage = PAH_SECOND_CAPTURE;
-                emit newPAHStage(m_PAHStage);
-
-                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-                emit newPAHMessage(secondCaptureText->text());
-
-                if (settleDuration >= 0)
-                {
-                    PAHWidgets->setCurrentWidget(PAHFirstSettlePage);
-                    emit newLog(i18n("Settling..."));
-                    QTimer::singleShot(settleDuration, [this]()
-                    {
-                        PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-                        emit newPAHMessage(secondCaptureText->text());
-                    });
-                }
-
-                emit settleStarted(settleDuration);
-            }
-            // If for some reason we didn't stop, let's stop if we get too far
-            else if (deltaAngle > PAHRotationSpin->value() * 1.25)
-            {
-                m_CurrentTelescope->Abort();
-                emit newLog(i18n("Mount aborted. Please restart the process and reduce the speed."));
-                stopPAHProcess();
-            }
-            return;
-        } // endif not manual slew
+        rotProgressMessage = "First mount rotation remaining degrees:";
+        rotDoneMessage = i18n("Mount first rotation is complete.");
+        nextCapture = PAH_SECOND_CAPTURE;
+        nextSettle = PAH_FIRST_SETTLE;
     }
     else if (m_PAHStage == PAH_SECOND_ROTATE)
     {
+        rotProgressMessage = "Second mount rotation remaining degrees:";
+        rotDoneMessage = i18n("Mount second rotation is complete.");
+        nextCapture = PAH_THIRD_CAPTURE;
+        nextSettle = PAH_SECOND_SETTLE;
+    }
+    else return;
+
+    if (m_PAHStage == PAH_FIRST_ROTATE || m_PAHStage == PAH_SECOND_ROTATE)
+    {
         // only wait for telescope to slew to new position if manual slewing is switched off
         if(!PAHManual->isChecked())
         {
-
-            qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remaining degrees:" << deltaAngle;
+            qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << deltaAngle;
             if (deltaAngle <= PAH_ROTATION_THRESHOLD)
             {
                 m_CurrentTelescope->StopWE();
-                emit newLog(i18n("Mount second rotation is complete."));
+                emit newLog(rotDoneMessage);
 
-                m_PAHStage = PAH_THIRD_CAPTURE;
-                emit newPAHStage(m_PAHStage);
-
-
-                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
-                emit newPAHMessage(thirdCaptureText->text());
-
-                if (settleDuration >= 0)
+                if (settleDuration <= 0)
                 {
-                    PAHWidgets->setCurrentWidget(PAHSecondSettlePage);
+                    setPAHStage(nextCapture);
+                    updateDisplay(m_PAHStage, getPAHMessage());
+                }
+                else
+                {
+                    setPAHStage(nextSettle);
+                    updateDisplay(m_PAHStage, getPAHMessage());
+
                     emit newLog(i18n("Settling..."));
-                    QTimer::singleShot(settleDuration, [this]()
+                    QTimer::singleShot(settleDuration, [nextCapture, this]()
                     {
-                        PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
-                        emit newPAHMessage(thirdCaptureText->text());
+                        setPAHStage(nextCapture);
+                        updateDisplay(m_PAHStage, getPAHMessage());
                     });
                 }
-
-                emit settleStarted(settleDuration);
             }
             // If for some reason we didn't stop, let's stop if we get too far
             else if (deltaAngle > PAHRotationSpin->value() * 1.25)
@@ -506,14 +733,46 @@ bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
     return wouldCrossMeridian;
 }
 
+void PolarAlignmentAssistant::updateDisplay(PAHStage stage, const QString &message)
+{
+    switch(stage)
+    {
+        case PAH_FIRST_ROTATE:
+        case PAH_SECOND_ROTATE:
+            if (PAHManual->isChecked())
+            {
+                polarAlignWidget->updatePAHStage(stage);
+                PAHWidgets->setCurrentWidget(PAHManualRotatePage);
+                manualRotateText->setText(message);
+                emit newPAHMessage(message);
+                return;
+            }
+        // fall through
+        case PAH_FIRST_CAPTURE:
+        case PAH_SECOND_CAPTURE:
+        case PAH_THIRD_CAPTURE:
+        case PAH_FIRST_SOLVE:
+        case PAH_SECOND_SOLVE:
+        case PAH_THIRD_SOLVE:
+            polarAlignWidget->updatePAHStage(stage);
+            PAHWidgets->setCurrentWidget(PAHMessagePage);
+            PAHMessageText->setText(message);
+            emit newPAHMessage(message);
+            break;
+
+        default:
+            break;
+
+    }
+}
+
 void PolarAlignmentAssistant::startPAHProcess()
 {
     qCInfo(KSTARS_EKOS_ALIGN) << QString("Starting Polar Alignment Assistant process %1 ...").arg(PAA_VERSION);
 
     auto executePAH = [ this ]()
     {
-        m_PAHStage = PAH_FIRST_CAPTURE;
-        emit newPAHStage(m_PAHStage);
+        setPAHStage(PAH_FIRST_CAPTURE);
 
         if (Options::limitedResourcesMode())
             emit newLog(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
@@ -540,9 +799,11 @@ void PolarAlignmentAssistant::startPAHProcess()
         PAHOrigErrorTotal->clear();
         PAHOrigErrorAlt->clear();
         PAHOrigErrorAz->clear();
+        PAHIteration->setText("");
 
-        PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
-        emit newPAHMessage(firstCaptureText->text());
+        updateDisplay(m_PAHStage, getPAHMessage());
+
+        alignView->setCorrectionParams(QPointF(), QPointF(), QPointF());
 
         m_PAHRetrySolveCounter = 0;
         emit captureAndSolve();
@@ -570,7 +831,11 @@ void PolarAlignmentAssistant::stopPAHProcess()
 {
     if (m_PAHStage == PAH_IDLE)
         return;
-
+    if (m_PAHStage == PAH_REFRESH)
+    {
+        setPAHStage(PAH_POST_REFRESH);
+        polarAlignWidget->updatePAHStage(m_PAHStage);
+    }
     qCInfo(KSTARS_EKOS_ALIGN) << "Stopping Polar Alignment Assistant process...";
 
     // Only display dialog if user explicitly restarts
@@ -583,8 +848,8 @@ void PolarAlignmentAssistant::stopPAHProcess()
     if (m_CurrentTelescope && m_CurrentTelescope->isInMotion())
         m_CurrentTelescope->Abort();
 
-    m_PAHStage = PAH_IDLE;
-    emit newPAHStage(m_PAHStage);
+    setPAHStage(PAH_IDLE);
+    polarAlignWidget->updatePAHStage(m_PAHStage);
 
     PAHStartB->setEnabled(true);
     PAHStopB->setEnabled(false);
@@ -648,8 +913,10 @@ void PolarAlignmentAssistant::rotatePAH()
 
 void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
 {
+    polarAlign.refreshSolution(&refreshSolution, &altOnlyRefreshSolution);
+
     // We use the previously stored image (the 3rd PAA image)
-    // so we can continue to estimage the correction even after
+    // so we can continue to estimate the correction even after
     // capturing new images during the refresh stage.
     const QSharedPointer<FITSData> &imageData = alignView->keptImage();
 
@@ -671,10 +938,15 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
                           .arg(correctionAltTo.x(), 4, 'f', 0).arg(correctionAltTo.y(), 4, 'f', 0);
     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
     correctionFrom = pixel;
-    alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+
+    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+        updatePlateSolveTriangle(imageData);
+    else
+        alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 
     return;
 }
+
 
 bool PolarAlignmentAssistant::calculatePAHError()
 {
@@ -690,6 +962,7 @@ bool PolarAlignmentAssistant::calculatePAHError()
 
     double azimuthError, altitudeError;
     polarAlign.calculateAzAltError(&azimuthError, &altitudeError);
+    drawArrows(azimuthError, altitudeError);
     dms polarError(hypot(altitudeError, azimuthError));
     dms azError(azimuthError), altError(altitudeError);
 
@@ -700,7 +973,6 @@ bool PolarAlignmentAssistant::calculatePAHError()
                   .arg(polarError.toDMSString()).arg(azError.toDMSString())
                   .arg(altError.toDMSString());
     emit newLog(QString("Polar Alignment Error: %1").arg(msg));
-    PAHErrorLabel->setText(msg);
 
     polarAlign.setMaxPixelSearchRange(polarError.Degrees() + 1);
 
@@ -736,6 +1008,8 @@ bool PolarAlignmentAssistant::calculatePAHError()
 
 void PolarAlignmentAssistant::syncCorrectionVector()
 {
+    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+        return;
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 }
@@ -749,7 +1023,7 @@ void PolarAlignmentAssistant::setPAHCorrectionOffsetPercentage(double dx, double
 
 void PolarAlignmentAssistant::setPAHCorrectionOffset(int x, int y)
 {
-    if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_PRE_REFRESH)
+    if (m_PAHStage == PAH_REFRESH)
     {
         emit newLog(i18n("Polar-alignment star cannot be updated during refresh phase as it might affect error measurements."));
     }
@@ -761,30 +1035,20 @@ void PolarAlignmentAssistant::setPAHCorrectionOffset(int x, int y)
     }
 }
 
-void PolarAlignmentAssistant::setPAHCorrectionSelectionComplete()
-{
-    m_PAHStage = PAH_PRE_REFRESH;
-    emit newPAHStage(m_PAHStage);
-    PAHWidgets->setCurrentWidget(PAHRefreshPage);
-    emit newPAHMessage(refreshText->text());
-}
-
 void PolarAlignmentAssistant::setPAHSlewDone()
 {
     emit newPAHMessage("Manual slew done.");
     switch(m_PAHStage)
     {
         case PAH_FIRST_ROTATE :
-            m_PAHStage = PAH_SECOND_CAPTURE;
-            emit newPAHStage(m_PAHStage);
-            PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+            setPAHStage(PAH_SECOND_CAPTURE);
             emit newLog(i18n("First manual rotation done."));
+            updateDisplay(m_PAHStage, getPAHMessage());
             break;
         case PAH_SECOND_ROTATE :
-            m_PAHStage = PAH_THIRD_CAPTURE;
-            emit newPAHStage(m_PAHStage);
-            PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+            setPAHStage(PAH_THIRD_CAPTURE);
             emit newLog(i18n("Second manual rotation done."));
+            updateDisplay(m_PAHStage, getPAHMessage());
             break;
         default :
             return; // no other stage should be able to trigger this event
@@ -799,9 +1063,13 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 
     refreshIteration = 0;
     imageNumber = 0;
+    m_IndexToUse = -1;
+    m_HealpixToUse = -1;
+    m_NumHealpixFailures = 0;
 
-    m_PAHStage = PAH_REFRESH;
-    emit newPAHStage(m_PAHStage);
+    setPAHStage(PAH_REFRESH);
+    polarAlignWidget->updatePAHStage(m_PAHStage);
+    refreshText->setText(getPAHMessage());
 
     PAHRefreshB->setEnabled(false);
 
@@ -818,15 +1086,6 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
     emit captureAndSolve();
 }
 
-void PolarAlignmentAssistant::setPAHRefreshComplete()
-{
-    refreshIteration = 0;
-    imageNumber = 0;
-    m_PAHStage = PAH_POST_REFRESH;
-    emit newPAHStage(m_PAHStage);
-    stopPAHProcess();
-}
-
 void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, double dec, double pixscale,
         bool eastToTheRight)
 {
@@ -834,22 +1093,28 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
     {
         emit newLog(
             i18n("Mount is synced to celestial pole. You can now continue Polar Alignment Assistant procedure."));
-        m_PAHStage = PAH_FIRST_CAPTURE;
-        emit newPAHStage(m_PAHStage);
+        setPAHStage(PAH_FIRST_CAPTURE);
+        polarAlignWidget->updatePAHStage(m_PAHStage);
         return;
     }
 
-    if (m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_THIRD_CAPTURE)
+    if (m_PAHStage == PAH_FIRST_SOLVE || m_PAHStage == PAH_SECOND_SOLVE || m_PAHStage == PAH_THIRD_SOLVE)
     {
-        bool doWcs = (m_PAHStage == PAH_THIRD_CAPTURE) || !Options::limitedResourcesMode();
+        // For now just used by refresh, when looking at the 3rd image.
+        m_LastRa = ra;
+        m_LastDec = dec;
+        m_LastOrientation = orientation;
+        m_LastPixscale = pixscale;
+
+        bool doWcs = (m_PAHStage == PAH_THIRD_SOLVE) || !Options::limitedResourcesMode();
         if (doWcs)
         {
             emit newLog(i18n("Please wait while WCS data is processed..."));
-            PAHWidgets->setCurrentWidget(
-                m_PAHStage == PAH_FIRST_CAPTURE
-                ? PAHFirstWcsPage
-                : (m_PAHStage == PAH_SECOND_CAPTURE ? PAHSecondWcsPage
-                   : PAHThirdWcsPage));
+            PAHMessageText->setText(
+                m_PAHStage == PAH_FIRST_SOLVE
+                ? "Calculating WCS for the first image...</p>"
+                : (m_PAHStage == PAH_SECOND_SOLVE ? "Calculating WCS for the second image...</p>"
+                   : "Calculating WCS for the third image...</p>"));
         }
         connect(alignView, &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled, Qt::UniqueConnection);
         alignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
@@ -874,10 +1139,25 @@ void PolarAlignmentAssistant::setPAHSettings(const QJsonObject &settings)
 {
     PAHDirectionCombo->setCurrentIndex(settings["mountDirection"].toInt(0));
     PAHRotationSpin->setValue(settings["mountRotation"].toInt(30));
-    PAHExposure->setValue(settings["refresh"].toDouble(1));
+    PAHExposure->setValue(settings["refresh"].toDouble(2));
     if (settings.contains("mountSpeed"))
         PAHSlewRateCombo->setCurrentIndex(settings["mountSpeed"].toInt(0));
     PAHManual->setChecked(settings["manualslew"].toBool(false));
+}
+
+void PolarAlignmentAssistant::setImageData(const QSharedPointer<FITSData> &image)
+{
+    m_ImageData = image;
+
+    if (m_PAHStage == PAH_FIRST_CAPTURE)
+        setPAHStage(PAH_FIRST_SOLVE);
+    else if (m_PAHStage == PAH_SECOND_CAPTURE)
+        setPAHStage(PAH_SECOND_SOLVE);
+    else if (m_PAHStage == PAH_THIRD_CAPTURE)
+        setPAHStage(PAH_THIRD_SOLVE);
+    else
+        return;
+    updateDisplay(m_PAHStage, getPAHMessage());
 }
 
 void PolarAlignmentAssistant::setWCSToggled(bool result)
@@ -886,7 +1166,7 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
 
     disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled);
 
-    if (m_PAHStage == PAH_FIRST_CAPTURE)
+    if (m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_FIRST_SOLVE)
     {
         // We need WCS to be synced first
         if (result == false && m_AlignInstance->wcsSynced() == true)
@@ -899,51 +1179,36 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
         polarAlign.reset();
         polarAlign.addPoint(m_ImageData);
 
-        m_PAHStage = PAH_FIRST_ROTATE;
-        emit newPAHStage(m_PAHStage);
-
+        setPAHStage(PAH_FIRST_ROTATE);
+        auto msg = getPAHMessage();
         if (PAHManual->isChecked())
         {
-            QString msg = QString("Please rotate your mount about %1 deg in RA")
-                          .arg(PAHRotationSpin->value());
-            manualRotateText->setText(msg);
+            msg = QString("Please rotate your mount about %1 deg in RA")
+                  .arg(PAHRotationSpin->value());
             emit newLog(msg);
-            PAHWidgets->setCurrentWidget(PAHManualRotatePage);
-            emit newPAHMessage(manualRotateText->text());
         }
-        else
-        {
-            PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
-            emit newPAHMessage(firstRotateText->text());
-        }
+        updateDisplay(m_PAHStage, msg);
 
         rotatePAH();
     }
-    else if (m_PAHStage == PAH_SECOND_CAPTURE)
+    else if (m_PAHStage == PAH_SECOND_CAPTURE || m_PAHStage == PAH_SECOND_SOLVE)
     {
-        m_PAHStage = PAH_SECOND_ROTATE;
-        emit newPAHStage(m_PAHStage);
+        setPAHStage(PAH_SECOND_ROTATE);
+        auto msg = getPAHMessage();
 
         if (PAHManual->isChecked())
         {
-            QString msg = QString("Please rotate your mount about %1 deg in RA")
-                          .arg(PAHRotationSpin->value());
-            manualRotateText->setText(msg);
+            msg = QString("Please rotate your mount about %1 deg in RA")
+                  .arg(PAHRotationSpin->value());
             emit newLog(msg);
-            PAHWidgets->setCurrentWidget(PAHManualRotatePage);
-            emit newPAHMessage(manualRotateText->text());
         }
-        else
-        {
-            PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
-            emit newPAHMessage(secondRotateText->text());
-        }
+        updateDisplay(m_PAHStage, msg);
 
         polarAlign.addPoint(m_ImageData);
 
         rotatePAH();
     }
-    else if (m_PAHStage == PAH_THIRD_CAPTURE)
+    else if (m_PAHStage == PAH_THIRD_CAPTURE || m_PAHStage == PAH_THIRD_SOLVE)
     {
         // Critical error
         if (result == false)
@@ -958,10 +1223,16 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
         // We have celestial pole location. So correction vector is just the vector between these two points
         if (calculatePAHError())
         {
-            m_PAHStage = PAH_STAR_SELECT;
-            emit newPAHStage(m_PAHStage);
-            PAHWidgets->setCurrentWidget(PAHCorrectionPage);
-            emit newPAHMessage(correctionText->text());
+            setPAHStage(PAH_STAR_SELECT);
+            polarAlignWidget->updatePAHStage(m_PAHStage);
+            PAHWidgets->setCurrentWidget(PAHRefreshPage);
+            refreshText->setText(getPAHMessage());
+            emit newPAHMessage(getPAHMessage());
+        }
+        else
+        {
+            emit newLog(i18n("PAA: Failed to find the RA axis. Quitting."));
+            stopPAHProcess();
         }
     }
 }
@@ -991,23 +1262,37 @@ QString PolarAlignmentAssistant::getPAHMessage() const
         case PAH_FIND_CP:
             return introText->text();
         case PAH_FIRST_CAPTURE:
-            return firstCaptureText->text();
+            return "<p>The assistant requires three images to find a solution.  Ekos is now capturing the first image...</p>";
+        case PAH_FIRST_SOLVE:
+            return "<p>Solving the <i>first</i> image...</p>";
         case PAH_FIRST_ROTATE:
-            return firstRotateText->text();
+            return "<p>Executing the <i>first</i> mount rotation...</p>";
+        case PAH_FIRST_SETTLE:
+            return "<p>Settling after the <i>first</i> mount rotation.</p>";
+        case PAH_SECOND_SETTLE:
+            return "<p>Settling after the <i>second</i> mount rotation.</p>";
         case PAH_SECOND_CAPTURE:
-            return secondCaptureText->text();
+            return "<p>Capturing the second image...</p>";
+        case PAH_SECOND_SOLVE:
+            return "<p>Solving the <i>second</i> image...</p>";
         case PAH_SECOND_ROTATE:
-            return secondRotateText->text();
+            return "<p>Executing the <i>second</i> mount rotation...</p>";
         case PAH_THIRD_CAPTURE:
-            return thirdCaptureText->text();
+            return "<p>Capturing the <i>third</i> and final image...</p>";
+        case PAH_THIRD_SOLVE:
+            return "<p>Solving the <i>third</i> image...</p>";
         case PAH_STAR_SELECT:
-            return correctionText->text();
-        case PAH_PRE_REFRESH:
-        case PAH_POST_REFRESH:
+            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+                return "<p>Choose your exposure time & toggle <i>Plate Solve</i> to select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>";
+            else
+                return "<p>Choose your exposure time & toggle <i>Plate Solve</i> to select an adjustment method.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector.</p><p>Use <i>Update PA Error</i> to estimate the remaining error. Click <i>Refresh</i> to begin.</p>";
         case PAH_REFRESH:
-            return refreshText->text();
-        case PAH_ERROR:
-            return PAHErrorDescriptionLabel->text();
+            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+                return "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>";
+            else
+                return "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow line, then adjust the <i>Azimuth knob</i> to move it along the Green line until the selected star is centered within the crosshair.</p><p>Click <i>Stop</i> when the star is centered.</p>";
+        case PAH_POST_REFRESH:
+            return "";
     }
 
     return QString();

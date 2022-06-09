@@ -37,6 +37,9 @@ class SolverUtils : public QObject
         SolverUtils &useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
 
+        void setHealpix(int indexToUse = -1, int healpixToUse = -1);
+        void getSolutionHealpix(int *indexUsed, int *healpixUsed);
+
     signals:
         void done(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void newLog(const QString &logText);
@@ -60,6 +63,9 @@ class SolverUtils : public QObject
         double m_ScaleLowArcsecPerPixel {0}, m_ScaleHighArcsecPerPixel {0};
 
         QSharedPointer<FITSData> m_ImageData;
+
+        int m_IndexToUse { -1 };
+        int m_HealpixToUse { -1 };
 
         bool m_UseScale { false };
         bool m_UsePosition { false };

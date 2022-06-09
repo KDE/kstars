@@ -1082,11 +1082,13 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[PAH_SELECT_STAR_DONE])
     {
-        paa->setPAHCorrectionSelectionComplete();
+        // This button was removed from the desktop PAA scheme.
+        // Nothing to do.
+        // TODO: Make sure this works.
     }
     else if (command == commands[PAH_REFRESHING_DONE])
     {
-        paa->setPAHRefreshComplete();
+        paa->stopPAHProcess();
     }
     else if (command == commands[PAH_SLEW_DONE])
     {
