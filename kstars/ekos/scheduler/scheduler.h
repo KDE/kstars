@@ -420,14 +420,26 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void setObservatoryShutdownProcedure(const QJsonObject &settings);
 
         /**
-             * @brief addJob Add a new job from form values
-             */
+         * @brief Remove a job from current table row.
+         * @param index
+         */
+        void removeJob();
+
+        /**
+         * @brief Remove a job by selecting a table row.
+         * @param index
+         */
+        void removeOneJob(int index);
+
+        /**
+         * @brief addJob Add a new job from form values
+         */
         void addJob();
 
         /**
-             * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
-             * jobUnderEdit determines whether to add or edit
-             */
+         * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
+         * jobUnderEdit determines whether to add or edit
+         */
         void saveJob();
 
         const QList<SchedulerJob *> &getJobs() const
@@ -435,6 +447,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
             return jobs;
         }
 
+        QJsonArray getJSONJobs();
+
+        void toggleScheduler();
+
+        QJsonObject getSchedulerSettings();
         /**
              * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
              * and a new version given the supplied parameters are saved to the output directory
@@ -570,11 +587,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void loadJob(QModelIndex i);
 
         /**
-             * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
-             */
-        void removeJob();
-
-        /**
              * @brief setJobAddApply Set first button state to add new job or apply changes.
              */
         void setJobAddApply(bool add_mode);
@@ -624,7 +636,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         bool shouldSchedulerSleep(SchedulerJob *currentJob);
 
         bool completeShutdown();
-        void toggleScheduler();
         void pause();
         void setPaused();
         void save();
@@ -763,6 +774,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Below 2 are for the Analyze timeline.
         void jobStarted(const QString &jobName);
         void jobEnded(const QString &jobName, const QString &endReason);
+        void jobsUpdated(QJsonArray jobsList);
 
     private:
         /**
@@ -882,7 +894,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /**
              * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
              */
-        void checkCapParkingStatus();        
+        void checkCapParkingStatus();
 
         /**
              * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly

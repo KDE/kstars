@@ -3382,6 +3382,13 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
     }
 
+    // Scheduler <---> EkosLive connections
+    if(schedulerProcess.get() && ekosLiveClient.get())
+    {
+        connect(schedulerProcess.get(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
+    }
+
     // Focus <---> Align connections
     if (focusProcess.get() && alignProcess.get())
     {

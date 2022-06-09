@@ -39,6 +39,7 @@ enum COMMANDS
     NEW_ALIGN_FRAME,
     NEW_NOTIFICATION,
     NEW_TEMPERATURE,
+    NEW_SCHEDULER_STATE,
 
     SET_CLIENT_STATE,
     LOGOUT,
@@ -155,6 +156,9 @@ enum COMMANDS
     SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE,
     SCHEDULER_GET_JOBS,
     SCHEDULER_ADD_JOBS,
+    SCHEDULER_REMOVE_JOBS,
+    SCHEDULER_GET_SETTINGS,
+    SCHEDULER_START_JOB,
 
     // Polar Assistant Helper
     PAH_START,
@@ -204,6 +208,7 @@ enum COMMANDS
     // Astronomy Library
     ASTRO_GET_ALMANC,
     ASTRO_SEARCH_OBJECTS,
+    ASTRO_GET_OBJECT_INFO,
     ASTRO_GET_OBJECTS_INFO,
     ASTRO_GET_OBJECTS_IMAGE,
     ASTRO_GET_OBJECTS_OBSERVABILITY,
@@ -253,6 +258,7 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_ALIGN_FRAME, "new_align_frame"},
     {NEW_NOTIFICATION, "new_notification"},
     {NEW_TEMPERATURE, "new_temperature"},
+    {NEW_SCHEDULER_STATE, "new_scheduler_state"},
 
     {SET_CLIENT_STATE, "set_client_state"},
     {LOGOUT, "logout"},
@@ -345,6 +351,9 @@ static QMap<COMMANDS, QString> const commands =
     {SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE, "scheduler_set_observatory_shutdown_procedure"},
     {SCHEDULER_GET_JOBS, "scheduler_get_jobs"},
     {SCHEDULER_ADD_JOBS, "scheduler_add_jobs"},
+    {SCHEDULER_REMOVE_JOBS, "scheduler_remove_jobs"},
+    {SCHEDULER_GET_SETTINGS, "scheduler_get_settings"},
+    {SCHEDULER_START_JOB, "scheduler_start_job"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},
@@ -400,6 +409,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {ASTRO_GET_ALMANC, "astro_get_almanac"},
     {ASTRO_SEARCH_OBJECTS, "astro_search_objects"},
+    {ASTRO_GET_OBJECT_INFO, "astro_get_object_info"},
     {ASTRO_GET_OBJECTS_INFO, "astro_get_objects_info"},
     {ASTRO_GET_OBJECTS_IMAGE, "astro_get_objects_image"},
     {ASTRO_GET_OBJECTS_OBSERVABILITY, "astro_get_objects_observability"},

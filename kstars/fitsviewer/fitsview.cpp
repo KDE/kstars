@@ -825,8 +825,9 @@ namespace
 {
 
 template <typename T>
-void drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
+int drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
 {
+    int numClipped = 0;
     painter->save();
     painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
     const T clipping = clipVal;
@@ -836,19 +837,25 @@ void drawClippingOneChannel(T *inputBuffer, QPainter *painter, int width, int he
         for (int x = 0; x < width; x++)
         {
             if (inputLine[x] > clipping)
+            {
                 painter->drawPoint(x, y);
+                numClipped++;
+            }
         }
     }
+    fprintf(stderr, "%d of %d clipped (%.2f%%)\n", numClipped, width * height, numClipped * 100.0 / (width * height));
     painter->restore();
+    return numClipped;
 }
 
 template <typename T>
-void drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
+int drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int height, double clipVal, double scale)
 {
     painter->save();
     painter->setPen(QPen(Qt::red, scale, Qt::SolidLine));
     const int size = width * height;
     const T clipping = clipVal;
+    int numClipped = 0;
     for (int y = 0; y < height; y++)
     {
         // R, G, B input images are stored one after another.
@@ -862,19 +869,25 @@ void drawClippingThreeChannels(T *inputBuffer, QPainter *painter, int width, int
             const T inputG = inputLineG[x];
             const T inputB = inputLineB[x];
             if (inputR > clipping || inputG > clipping || inputB > clipping)
+            {
                 painter->drawPoint(x, y);
+                numClipped++;
+            }
         }
     }
+    fprintf(stderr, "%d of %d clipped (%.2f%%)\n", numClipped, width * height, numClipped * 100.0 / (width * height));
     painter->restore();
+    return numClipped;
 }
 
 template <typename T>
-void drawClip(T *input_buffer, int num_channels, QPainter *painter, int width, int height, double clipVal, double scale)
+int drawClip(T *input_buffer, int num_channels, QPainter *painter, int width, int height, double clipVal, double scale)
 {
     if (num_channels == 1)
-        drawClippingOneChannel(input_buffer, painter, width, height, clipVal, scale);
+        return drawClippingOneChannel(input_buffer, painter, width, height, clipVal, scale);
     else if (num_channels == 3)
-        drawClippingThreeChannels(input_buffer, painter, width, height, clipVal, scale);
+        return drawClippingThreeChannels(input_buffer, painter, width, height, clipVal, scale);
+    else return 0;
 }
 
 }  // namespace
@@ -891,36 +904,41 @@ void FITSView::drawClipping(QPainter *painter)
     switch (m_ImageData->dataType())
     {
         case TBYTE:
-            drawClip(reinterpret_cast<uint8_t const*>(input), m_ImageData->channels(), painter, width, height, BYTE_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<uint8_t const*>(input), m_ImageData->channels(), painter, width, height, BYTE_CLIP,
+                                    scaleSize(1));
             break;
         case TSHORT:
-            drawClip(reinterpret_cast<short const*>(input), m_ImageData->channels(), painter, width, height, SHORT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<short const*>(input), m_ImageData->channels(), painter, width, height, SHORT_CLIP,
+                                    scaleSize(1));
             break;
         case TUSHORT:
-            drawClip(reinterpret_cast<unsigned short const*>(input), m_ImageData->channels(), painter, width, height, USHORT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<unsigned short const*>(input), m_ImageData->channels(), painter, width, height,
+                                    USHORT_CLIP,
+                                    scaleSize(1));
             break;
         case TLONG:
-            drawClip(reinterpret_cast<long const*>(input), m_ImageData->channels(), painter, width, height, USHORT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<long const*>(input), m_ImageData->channels(), painter, width, height, USHORT_CLIP,
+                                    scaleSize(1));
             break;
         case TFLOAT:
-            drawClip(reinterpret_cast<float const*>(input), m_ImageData->channels(), painter, width, height, FLOAT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<float const*>(input), m_ImageData->channels(), painter, width, height, FLOAT_CLIP,
+                                    scaleSize(1));
             break;
         case TLONGLONG:
-            drawClip(reinterpret_cast<long long const*>(input), m_ImageData->channels(), painter, width, height, USHORT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<long long const*>(input), m_ImageData->channels(), painter, width, height,
+                                    USHORT_CLIP,
+                                    scaleSize(1));
             break;
         case TDOUBLE:
-            drawClip(reinterpret_cast<double const*>(input), m_ImageData->channels(), painter, width, height, FLOAT_CLIP,
-                     scaleSize(1));
+            m_NumClipped = drawClip(reinterpret_cast<double const*>(input), m_ImageData->channels(), painter, width, height, FLOAT_CLIP,
+                                    scaleSize(1));
             break;
         default:
+            m_NumClipped = 0;
             break;
     }
+    emit newStatus(QString("Clip:%1").arg(m_NumClipped), FITS_CLIP);
+
 }
 
 void FITSView::ZoomDefault()
@@ -1902,11 +1920,11 @@ void FITSView::wheelEvent(QWheelEvent * event)
     }
     else
     {
-        #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         QPoint mouseCenter = getImagePoint(event->pos());
-        #else
+#else
         QPoint mouseCenter = getImagePoint(event->position().toPoint());
-        #endif
+#endif
         if (event->angleDelta().y() > 0)
             ZoomIn();
         else

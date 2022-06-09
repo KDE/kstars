@@ -260,6 +260,11 @@ class FITSView : public QScrollArea
             }
         }
 
+        // Returns the number of clipped pixels, if that's being computed.
+        int getNumClipped()
+        {
+            return m_NumClipped;
+        }
     public slots:
         void wheelEvent(QWheelEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
@@ -364,6 +369,7 @@ class FITSView : public QScrollArea
         bool showPixelGrid { false };
         bool showStarsHFR { false };
         bool showClipping { false };
+        int m_NumClipped { 0 };
 
         // Should the image be displayed in linear (false) or stretched (true).
         // Initial value controlled by Options::autoStretch.

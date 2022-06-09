@@ -56,6 +56,10 @@ class Message : public QObject
         void sendCaps();
         void sendDrivers();
         void sendDevices();
+        void sendSchedulerJobList(QJsonArray jobsList);
+
+        // Scheduler
+        void sendSchedulerJobs();
 
     signals:
         void connected();
@@ -135,9 +139,6 @@ class Message : public QObject
         void sendProfiles();
         void setProfileMapping(const QJsonObject &payload);
         void sendStates();
-
-        // Scheduler
-        void sendSchedulerJobs();
 
         // Capture
         void processCaptureCommands(const QString &command, const QJsonObject &payload);

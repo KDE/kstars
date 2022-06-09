@@ -18,7 +18,7 @@ static const QStringList FITSModes =   { I18N_NOOP("Normal"),  I18N_NOOP("Focus"
 
 const QString &getFITSModeStringString(FITSMode mode);
 
-typedef enum { FITS_HFR, FITS_WCS, FITS_VALUE, FITS_POSITION, FITS_ZOOM, FITS_RESOLUTION, FITS_LED, FITS_MESSAGE} FITSBar;
+typedef enum { FITS_CLIP, FITS_HFR, FITS_WCS, FITS_VALUE, FITS_POSITION, FITS_ZOOM, FITS_RESOLUTION, FITS_LED, FITS_MESSAGE} FITSBar;
 
 typedef enum
 {

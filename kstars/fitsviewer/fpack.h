@@ -1,5 +1,5 @@
 /* used by FPACK and FUNPACK
-    SPDX-FileCopyrightText: William D. Pence <https://heasarc.gsfc.nasa.gov/fitsio/>
+    SPDX-FileCopyrightText: William D. Pence <https:xheasarc.gsfc.nasa.gov/fitsio/>
     SPDX-FileCopyrightText: R. Seaman
 
     SPDX-License-Identifier: LicenseRef-NASA-FV-License-Agreement
@@ -167,13 +167,13 @@ int fp_loop (int argc, char *argv[], int unpack, char *output_filename, fpstate 
 /* Unpack input file to outfile file on disk */
 int fp_pack (char *infits, char *outfits, fpstate fpvar, int *islossless);
 /* Unpack input data to output FITS file in memory */
-//int fp_pack_data_to_fits (const char *inputBuffer, size_t inputBufferSize, fitsfile **outfits, fpstate fpvar,
-//                          int *islossless);
+/*int fp_pack_data_to_fits (const char *inputBuffer, size_t inputBufferSize, fitsfile **outfits, fpstate fpvar,
+                          int *islossless);*/
 /* Unpack input data to output data in memory */
-//int fp_pack_data_to_data (const char *inputBuffer, size_t inputBufferSize, unsigned char **outputBuffer,
-//                         size_t *outputBufferSize,
-//                          fpstate fpvar,
-//                          int *islossless);
+/*int fp_pack_data_to_data (const char *inputBuffer, size_t inputBufferSize, unsigned char **outputBuffer,
+                         size_t *outputBufferSize,
+                          fpstate fpvar,
+                          int *islossless);*/
 /* Pack input fits file to in-memory fits file */
 int fp_pack_fits_to_fits (fitsfile *infptr, fitsfile **outfits, fpstate fpvar, int *islossless);
 
@@ -184,7 +184,7 @@ int fp_unpack (char *infits, char *outfits, fpstate fpvar);
 /* Unpack input compressed input file to uncompressed output in-memory fits file */
 int fp_unpack_file_to_fits (char *infits, fitsfile **outfits, fpstate fpvar);
 /* Unpack input compressed data to uncompressed output in-memory fits file */
-//int fp_unpack_data_to_fits (const char *inputBuffer, size_t inputBufferSize, fitsfile **outfptr, fpstate fpvar);
+/*int fp_unpack_data_to_fits (const char *inputBuffer, size_t inputBufferSize, fitsfile **outfptr, fpstate fpvar);*/
 /* Unpack input compressed data to uncompressed output uncompressed data */
 int fp_unpack_data_to_data (const char *inputBuffer, size_t inputBufferSize, unsigned char **outputBuffer,
                             size_t *outputBufferSize, fpstate fpvar);
