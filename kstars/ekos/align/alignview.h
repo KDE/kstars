@@ -20,15 +20,18 @@ class AlignView : public FITSView
     public:
         explicit AlignView(QWidget *parent = nullptr, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
-        /* Calculate WCS header info and update WCS info */
-        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool extras);
+        // Calculate WCS header info and update WCS info.
+        // If the expensive computations are not included, e.g. extras == false, then there's
+        // no reason to block (i.e. use the wcsWatcher). The computations are quick.
+        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight,
+                       bool extras, bool block = true);
 
         void drawOverlay(QPainter *, double scale) override;
 
         // Resets the marker and lines, celestial pole point and raAxis.
         void reset();
 
-        // Correction line
+        // Setup correction triangle
         void setCorrectionParams(const QPointF &from, const QPointF &to, const QPointF &altTo);
 
         void setRaAxis(const QPointF &value);
@@ -46,9 +49,12 @@ class AlignView : public FITSView
         }
 
     protected:
-        void drawTriangle(QPainter *painter);
+        // Draw the polar-align triangle which guides the user how to correct polar alignment.
+        void drawTriangle(QPainter *painter, const QPointF &from, const QPointF &to, const QPointF &altTo);
+        // Draws the mounts current RA axis (set in setRaAxis() above).
         void drawRaAxis(QPainter *painter);
-        void drawStarCircle(QPainter *painter);
+        // Draw the circle around the star used to help the user correct polar alignment.
+        void drawStarCircle(QPainter *painter, const QPointF &center, double radius, const QColor &color);
 
         virtual void processMarkerSelection(int x, int y) override;
 

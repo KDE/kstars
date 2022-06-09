@@ -134,6 +134,7 @@ if (INDI_FOUND)
             ekos/align/manualrotator.ui
             ekos/align/mountmodel.ui
             ekos/align/polaralignmentassistant.ui
+            ekos/align/polaralignwidget.ui
             #ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
@@ -244,6 +245,7 @@ if (INDI_FOUND)
             ekos/align/mountmodel.cpp
             ekos/align/polaralignmentassistant.cpp
             ekos/align/manualrotator.cpp
+            ekos/align/polaralignwidget.cpp
 
 
             # Guide

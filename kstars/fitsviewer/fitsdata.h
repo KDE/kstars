@@ -404,15 +404,14 @@ class FITSData : public QObject
         bool pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord);
 
         /**
-             * @brief injectWCS Add WCS keywords to file
+             * @brief injectWCS Add WCS keywords
              * @param orientation Solver orientation, degrees E of N.
              * @param ra J2000 Right Ascension
              * @param dec J2000 Declination
              * @param pixscale Pixel scale in arcsecs per pixel
              * @param eastToTheRight if true, then when the image is rotated so that north is up, then east would be to the right on the image.
-             * @return  True if file is successfully updated with WCS info.
              */
-        bool injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
+        void injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////

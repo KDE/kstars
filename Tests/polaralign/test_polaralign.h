@@ -31,6 +31,7 @@ class TestPolarAlign : public QObject
 
     private slots:
         void testRunPAA();
+        void testRefreshCoords();
         void testAlt();
         void testRotate();
         void testRotate_data();

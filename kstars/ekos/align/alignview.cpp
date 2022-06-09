@@ -10,6 +10,7 @@
 
 #include "ekos_align_debug.h"
 #include "kstarsdata.h"
+#include <math.h>
 #include "Options.h"
 #include "fitsviewer/fitsdata.h"
 
@@ -27,35 +28,29 @@ void AlignView::drawOverlay(QPainter *painter, double scale)
     FITSView::drawOverlay(painter, getScale());
     painter->setOpacity(1);
 
-    // drawRaAxis checks to see that the pole is valid and in the image.
+    // drawRaAxis/Triangle/StarCircle all make sure their points are valid.
     drawRaAxis(painter);
-
-    // drawTriangle checks if the points are valid.
-    drawTriangle(painter);
-
-    // ditto
-    drawStarCircle(painter);
+    drawTriangle(painter, correctionFrom, correctionTo, correctionAltTo);
+    drawStarCircle(painter, starCircle, 35.0, Qt::yellow);
 }
 
-bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool extras)
+bool AlignView::injectWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, bool extras,
+                          bool block)
 {
-    bool rc = m_ImageData->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
-    // If file fails to load, then no WCS data
-    if (rc == false)
-    {
-        qCritical(KSTARS_EKOS_ALIGN) << "Error creating WCS file:" << m_ImageData->getLastError();
-        emit wcsToggled(false);
-        return false;
-    }
+    m_ImageData->injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
 
-    if (wcsWatcher.isRunning() == false && m_ImageData->getWCSState() == FITSData::Idle)
+    if (block)
     {
-        // Load WCS async
-        QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS, extras);
-        wcsWatcher.setFuture(future);
+        if (wcsWatcher.isRunning() == false && m_ImageData->getWCSState() == FITSData::Idle)
+        {
+            // Load WCS async
+            QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS, extras);
+            wcsWatcher.setFuture(future);
+        }
+        return true;
     }
-
-    return true;
+    // This should probably not be called in a UI thread when extras is true.
+    return m_ImageData->loadWCS(extras);
 }
 
 void AlignView::reset()
@@ -89,9 +84,9 @@ void AlignView::setStarCircle(const QPointF &pixel)
     updateFrame(true);
 }
 
-void AlignView::drawTriangle(QPainter *painter)
+void AlignView::drawTriangle(QPainter *painter, const QPointF &from, const QPointF &to, const QPointF &altTo)
 {
-    if (correctionFrom.isNull() && correctionTo.isNull() && correctionAltTo.isNull())
+    if (from.isNull() && to.isNull() && altTo.isNull())
         return;
 
     painter->setRenderHint(QPainter::Antialiasing);
@@ -101,22 +96,13 @@ void AlignView::drawTriangle(QPainter *painter)
 
     // Some of the points may be out of the image.
     painter->setPen(QPen(Qt::magenta, 2));
-    painter->drawLine(correctionFrom.x() * scale,
-                      correctionFrom.y() * scale,
-                      correctionTo.x() * scale,
-                      correctionTo.y() * scale);
+    painter->drawLine(from.x() * scale, from.y() * scale, to.x() * scale, to.y() * scale);
 
     painter->setPen(QPen(Qt::yellow, 3));
-    painter->drawLine(correctionFrom.x() * scale,
-                      correctionFrom.y() * scale,
-                      correctionAltTo.x() * scale,
-                      correctionAltTo.y() * scale);
+    painter->drawLine(from.x() * scale, from.y() * scale, altTo.x() * scale, altTo.y() * scale);
 
     painter->setPen(QPen(Qt::green, 3));
-    painter->drawLine(correctionAltTo.x() * scale,
-                      correctionAltTo.y() * scale,
-                      correctionTo.x() * scale,
-                      correctionTo.y() * scale);
+    painter->drawLine(altTo.x() * scale, altTo.y() * scale, to.x() * scale, to.y() * scale);
 
     // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
     // so we have to at least draw the NCP/SCP locations
@@ -138,21 +124,20 @@ void AlignView::drawTriangle(QPainter *painter)
     }
 }
 
-
-void AlignView::drawStarCircle(QPainter *painter)
+void AlignView::drawStarCircle(QPainter *painter, const QPointF &center, double radius, const QColor &color)
 {
-    if (starCircle.isNull())
+    if (center.isNull())
         return;
 
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setBrush(Qt::NoBrush);
 
     const double scale = getScale();
-    QPointF center(starCircle.x() * scale, starCircle.y() * scale);
+    QPointF pt(center.x() * scale, center.y() * scale);
 
     // Could get fancy and change from yellow to green when closer to the green line.
-    painter->setPen(QPen(Qt::yellow, 1));
-    painter->drawEllipse(center, 35.0, 35.0);
+    painter->setPen(QPen(color, 1));
+    painter->drawEllipse(pt, radius, radius);
 }
 
 void AlignView::drawRaAxis(QPainter *painter)

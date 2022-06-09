@@ -19,7 +19,7 @@
     <height>150</height>
    </size>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="mainPALayout">
    <property name="spacing">
     <number>3</number>
    </property>
@@ -75,7 +75,7 @@
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Put your equatorial mount in the home position and point it toward the celestial pole or any point near the meridian. Select &lt;span style=&quot; font-weight:600;&quot;&gt;mount direction&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;speed &lt;/span&gt;and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the polar alignment process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Put your equatorial mount either (a) in the home position pointed toward the celestial pole or (b) pointed anywhere ideally near the meridian. Select &lt;span style=&quot; font-weight:600;&quot;&gt;mount direction&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;speed &lt;/span&gt;and then click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the polar alignment process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -189,7 +189,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="PAHFirstCapturePage">
+     <widget class="QWidget" name="PAHMessagePage">
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <property name="spacing">
         <number>3</number>
@@ -207,7 +207,7 @@
         <number>3</number>
        </property>
        <item>
-        <widget class="QLabel" name="firstCaptureText">
+        <widget class="QLabel" name="PAHMessageText">
          <property name="text">
           <string>&lt;p&gt;The assistant requires three images to find a solution.  Ekos is now capturing the first image...&lt;/p&gt;</string>
          </property>
@@ -215,6 +215,22 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_1">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>150</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -267,233 +283,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="PAHFirstRotatePage">
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="firstRotateText">
-           <property name="text">
-            <string>&lt;p&gt;Executing the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation...&lt;/p&gt;</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHSecondCapturePage">
-      <layout class="QVBoxLayout" name="verticalLayout_12">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="secondCaptureText">
-         <property name="text">
-          <string>&lt;p&gt;Capturing the second image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHSecondRotatePage">
-      <layout class="QVBoxLayout" name="verticalLayout_16">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="secondRotateText">
-           <property name="text">
-            <string>&lt;p&gt;Executing the &lt;i&gt;second &lt;/i&gt;mount rotation...&lt;/p&gt;</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHThirdCapturePage">
-      <layout class="QVBoxLayout" name="verticalLayout_17">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="thirdCaptureText">
-         <property name="text">
-          <string>&lt;p&gt;Capturing the &lt;i&gt;third&lt;/i&gt; and final image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHErrorPage">
-      <layout class="QVBoxLayout" name="verticalLayout_13">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="PAHErrorDescriptionLabel">
-         <property name="text">
-          <string>Error Occurred</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHCorrectionPage">
-      <layout class="QVBoxLayout" name="verticalLayout_14">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_14">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_23">
-           <property name="toolTip">
-            <string>Angle between expected perfectly aligned mount center and the actual center</string>
-           </property>
-           <property name="text">
-            <string>Polar Error:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="PAHErrorLabel">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_8">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_16">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="correctionText">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&lt;p&gt;Correction triangle is plotted above. &lt;span style=&quot; font-weight:600;&quot;&gt;Zoom in and select a bright star &lt;/span&gt; to reposition the correction vector. &lt;span style=&quot; font-weight:600;&quot;&gt;Click Next &lt;/span&gt; when done.&lt;/p&gt;</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="PAHCorrectionsNextB">
-           <property name="text">
-            <string>Next</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="PAHRefreshPage">
       <layout class="QVBoxLayout" name="verticalLayout_15">
        <property name="spacing">
@@ -514,7 +303,7 @@
        <item>
         <widget class="QLabel" name="refreshText">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continuous capture at the given exposure duration. Adjust mount's &lt;span style=&quot; font-weight:600;&quot;&gt;Altitude knob&lt;/span&gt; to move the star along the &lt;span style=&quot; font-weight:600; color:#ffff50;&quot;&gt;Yellow&lt;/span&gt; line, then adjust the &lt;span style=&quot; font-weight:600;&quot;&gt;Azimuth knob&lt;/span&gt; to move it along the &lt;span style=&quot; font-weight:600; color:#00ff00;&quot;&gt;Green&lt;/span&gt; line until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when the star is centered.&lt;/p&gt;&lt;p&gt;Use &lt;span style=&quot; font-weight:600;&quot;&gt;Update PA Error&lt;/span&gt; to estimate the remaining error as you adjust the star position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string/>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -532,7 +321,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>0</width>
-           <height>150</height>
+           <height>100</height>
           </size>
          </property>
         </spacer>
@@ -546,6 +335,9 @@
           <widget class="QPushButton" name="PAHRefreshB">
            <property name="text">
             <string>Refresh</string>
+           </property>
+           <property name="toolTip">
+            <string>Start the refresh phase--where image captures loop while you adjust the altitude and azimuth knobs to correct polar alignment.</string>
            </property>
           </widget>
          </item>
@@ -564,7 +356,7 @@
             <double>30.000000000000000</double>
            </property>
            <property name="value">
-            <double>1.000000000000000</double>
+            <double>2.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -572,6 +364,9 @@
           <spacer name="horizontalSpacer_7">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -582,37 +377,12 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="iteratonLabel">
+          <widget class="QLabel" name="PAHIteration">
            <property name="enabled">
             <bool>true</bool>
            </property>
            <property name="text">
-            <string>Image#:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="PAHIteration">
-           <property name="minimumSize">
-            <size>
-             <width>40</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>40</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Refresh iteration number.</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
+            <string>Image#</string>
            </property>
           </widget>
          </item>
@@ -621,22 +391,43 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>20</width>
              <height>20</height>
             </size>
            </property>
           </spacer>
          </item>
          <item>
-          <widget class="QCheckBox" name="PAHRefreshUpdateError">
+          <widget class="QComboBox" name="PAHRefreshAlgorithm">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
-            <string>Re-estimates the new polar-alignment error after refresh exposures. Will help you see what your new polar alignment error is, but takes compute resources and can slow down the exposure rate.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select polar-alignment correction algorithm:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PlateSolve&lt;/span&gt;: Uses plate solving to track what the corrected alignment error is during the Refresh process. User should try to reduce the error in the Updated Err line below and minimize the size of the arrows. This is the only scheme that can fully correct an error larger than the image field-of-view, but depends on reliable plate solving. &lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;MoveStar&lt;/span&gt;: A triange is overlayed on the above captured image. User selects a star and moves the star along the triange to improve the polar alignment. Corrected polar-alignment error is not estimated during the process. If the alignment error is larger than the image field-of-view, this scheme must be used iteratively.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;MoveStar and Calc Error&lt;/span&gt;: Like MoveStar, but Ekos attempts to track the star being moved and estimates the current alignment error when it can.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="text">
-            <string>Update PA Error</string>
-           </property>
+           <item>
+            <property name="text">
+             <string>Plate Solve</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Move Star</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Move Star &amp; Calc Error</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -652,13 +443,6 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="QPushButton" name="PAHDoneB">
-           <property name="text">
-            <string>Done</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
@@ -667,22 +451,39 @@
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>QSizePolicy::Expanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>7</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_origError">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
+        <layout class="QGridLayout" name="PAHErrorLines" rowstretch="0,0,0" columnstretch="0,0,0,0,0,0,0">
+         <item row="0" column="2" colspan="2" alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="arrowAlt">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4" colspan="2" alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="arrowAz">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string></string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
           <widget class="QLabel" name="label_PAHOrigErrorTotal">
            <property name="minimumSize">
             <size>
@@ -702,10 +503,13 @@
            <property name="text">
             <string>Measured Err:</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHOrigErrorTotal">
+         <item row="1" column="1">
+          <widget class="QLabel" name="PAHOrigErrorTotal">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -721,12 +525,9 @@
            <property name="toolTip">
             <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="2">
           <widget class="QLabel" name="label_PAHOrigErrorAlt">
            <property name="minimumSize">
             <size>
@@ -751,8 +552,8 @@
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHOrigErrorAlt">
+         <item row="1" column="3">
+          <widget class="QLabel" name="PAHOrigErrorAlt">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -768,12 +569,9 @@
            <property name="toolTip">
             <string>Polar Alignment altitude error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="4">
           <widget class="QLabel" name="label_PAHOrigErrorAz">
            <property name="minimumSize">
             <size>
@@ -798,8 +596,8 @@
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHOrigErrorAz">
+         <item row="1" column="5">
+          <widget class="QLabel" name="PAHOrigErrorAz">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -815,12 +613,9 @@
            <property name="toolTip">
             <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="6">
           <spacer name="horizontalSpacer_origError">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -833,15 +628,7 @@
            </property>
           </spacer>
          </item>
-        </layout>
-       </item>
-       <item>
-           <widget class="QWidget" name="PAHUpdatedErrorLine">
-        <layout class="QHBoxLayout" name="PAHUpdatedErrorLineLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
+         <item row="2" column="0">
           <widget class="QLabel" name="label_PAHUpdatedErrorTotal">
            <property name="minimumSize">
             <size>
@@ -861,10 +648,13 @@
            <property name="text">
             <string>Updated Err:</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHUpdatedErrorTotal">
+         <item row="2" column="1">
+          <widget class="QLabel" name="PAHUpdatedErrorTotal">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -880,12 +670,9 @@
            <property name="toolTip">
             <string>Polar Alignment total error estimated after recent adjustments.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="2">
           <widget class="QLabel" name="label_PAHUpdatedErrorAlt">
            <property name="minimumSize">
             <size>
@@ -903,15 +690,15 @@
             <string>Polar Alignment altitude error estimated after recent adjustments.</string>
            </property>
            <property name="text">
-            <string>Alt:</string>
+            <string></string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHUpdatedErrorAlt">
+         <item row="2" column="3">
+          <widget class="QLabel" name="PAHUpdatedErrorAlt">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -927,12 +714,9 @@
            <property name="toolTip">
             <string>Polar Alignment altitude error estimated after recent adjustments.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="4">
           <widget class="QLabel" name="label_PAHUpdatedErrorAz">
            <property name="minimumSize">
             <size>
@@ -950,15 +734,15 @@
             <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
            </property>
            <property name="text">
-            <string>Az:</string>
+            <string></string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QLineEdit" name="PAHUpdatedErrorAz">
+         <item row="2" column="5">
+          <widget class="QLabel" name="PAHUpdatedErrorAz">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -974,12 +758,9 @@
            <property name="toolTip">
             <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="6">
           <spacer name="horizontalSpacer_updatedError">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -993,239 +774,6 @@
           </spacer>
          </item>
         </layout>
-    </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHFirstSolverPage">
-      <layout class="QVBoxLayout" name="verticalLayout_s1">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="firstSolverText">
-         <property name="text">
-          <string>&lt;p&gt;Solving the first image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHSecondSolverPage">
-      <layout class="QVBoxLayout" name="verticalLayout_s2">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="secondSolverText">
-         <property name="text">
-          <string>&lt;p&gt;Solving the second image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHThirdSolverPage">
-      <layout class="QVBoxLayout" name="verticalLayout_s3">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="thirdSolverText">
-         <property name="text">
-          <string>&lt;p&gt;Solving the third image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHFirstWcsPage">
-      <layout class="QVBoxLayout" name="verticalLayout_w1">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="firstWcsText">
-         <property name="text">
-          <string>&lt;p&gt;Calculating WCS for the first image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHSecondWcsPage">
-      <layout class="QVBoxLayout" name="verticalLayout_w2">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="secondWcsText">
-         <property name="text">
-          <string>&lt;p&gt;Calculating WCS for the second image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHThirdWcsPage">
-      <layout class="QVBoxLayout" name="verticalLayout_w3">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="thirdWcsText">
-         <property name="text">
-          <string>&lt;p&gt;Calculating WCS for the third image...&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHFirstSettlePage">
-      <layout class="QVBoxLayout" name="verticalLayout_se1">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="firstSettleText">
-         <property name="text">
-          <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PAHSecondSettlePage">
-      <layout class="QVBoxLayout" name="verticalLayout_se2">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="secondSettleText">
-         <property name="text">
-          <string>&lt;p&gt;Settling after the &lt;span style=&quot; font-style:italic;&quot;&gt;second&lt;/span&gt; mount rotation.&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

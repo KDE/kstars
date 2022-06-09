@@ -764,6 +764,7 @@ void Mount::paaStageChanged(int stage)
     {
         // deactivate the meridian flip when the first capture is taken
         case PolarAlignmentAssistant::PAH_FIRST_CAPTURE:
+        case PolarAlignmentAssistant::PAH_FIRST_SOLVE:
             if (m_MFStatus != FLIP_INACTIVE)
             {
                 appendLogText(i18n("Meridian flip set inactive during polar alignment."));
@@ -773,12 +774,11 @@ void Mount::paaStageChanged(int stage)
         // activate it when the last rotation is finished or stopped
         // for safety reasons, we add all stages after the last rotation
         case PolarAlignmentAssistant::PAH_THIRD_CAPTURE:
+        case PolarAlignmentAssistant::PAH_THIRD_SOLVE:
         case PolarAlignmentAssistant::PAH_STAR_SELECT:
-        case PolarAlignmentAssistant::PAH_PRE_REFRESH:
         case PolarAlignmentAssistant::PAH_REFRESH:
         case PolarAlignmentAssistant::PAH_POST_REFRESH:
         case PolarAlignmentAssistant::PAH_IDLE:
-        case PolarAlignmentAssistant::PAH_ERROR:
             if (m_MFStatus == FLIP_INACTIVE)
             {
                 appendLogText(i18n("Polar alignment motions finished, meridian flip activated."));

@@ -153,6 +153,16 @@ V3 rotateAroundY(const V3 &point, double degrees)
                -point.x() * sinAngle + point.z() * cosAngle);
 }
 
+V3 rotateAroundZ(const V3 &point, double degrees)
+{
+    const double radians = d2r(degrees);
+    const double cosAngle = cos(radians);
+    const double sinAngle = sin(radians);
+    return V3( point.x() * cosAngle - point.y() * sinAngle,
+               point.x() * sinAngle + point.y() * cosAngle,
+               point.z());
+}
+
 // Rotates in altitude then azimuth, as is done to correct for polar alignment.
 // Note, NOT a single rotation along a great circle, but rather two separate
 // rotations.

@@ -2183,9 +2183,9 @@
          <label>Speed index to set mount in Polar Alignment Assistant Tool.</label>
          <default>-1</default>
       </entry>
-      <entry name="PAHRefreshUpdateError" type="Bool">
-         <label>Re-estimates the new polar-alignment error after refresh exposures. Will help you see what your new polar alignment error is, but takes compute resources and can slow down the exposure rate.</label>
-         <default>false</default>
+      <entry name="PAHRefreshAlgorithm" type="Int">
+         <label>The algorithm used for polar-align refresh.</label>
+         <default>2</default>
       </entry>
       <entry name="PAHAutoPark" type="Bool">
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>

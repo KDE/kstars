@@ -16,9 +16,12 @@
 #include "indi/inditelescope.h"
 
 class QProgressIndicator;
+class SolverUtils;
 
 namespace Ekos
 {
+
+class PolarAlignWidget;
 
 /**
  * @brief The PolarAlignmentAssistant class
@@ -51,16 +54,19 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         {
             PAH_IDLE,
             PAH_FIRST_CAPTURE,
+            PAH_FIRST_SOLVE,
             PAH_FIND_CP,
             PAH_FIRST_ROTATE,
+            PAH_FIRST_SETTLE,
             PAH_SECOND_CAPTURE,
+            PAH_SECOND_SOLVE,
             PAH_SECOND_ROTATE,
+            PAH_SECOND_SETTLE,
             PAH_THIRD_CAPTURE,
+            PAH_THIRD_SOLVE,
             PAH_STAR_SELECT,
-            PAH_PRE_REFRESH,
             PAH_REFRESH,
-            PAH_POST_REFRESH,
-            PAH_ERROR
+            PAH_POST_REFRESH
         } PAHStage;
 
         enum CircleSolution
@@ -99,8 +105,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         {
             return m_PAHStage;
         }
-        // Sync the GUI to the current PAH Stage.
-        void syncStage();
         // Set active stage.
         void setPAHStage(PAHStage stage);
         // Start the polar alignment process.
@@ -122,12 +126,8 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         }
         // Start the refresh process.
         void startPAHRefreshProcess();
-        // Finish the refresh process.
-        void setPAHRefreshComplete();
         // This should be called when manual slewing is complete.
         void setPAHSlewDone();
-        // Called when the user completes selection of the correction triangle.
-        void setPAHCorrectionSelectionComplete();
         // PAH Settings. PAH should be in separate class
         QJsonObject getPAHSettings() const;
         // Update the setting
@@ -140,10 +140,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Return last message
         QString getPAHMessage() const;
         // Set image data from align class
-        void setImageData(const QSharedPointer<FITSData> &image)
-        {
-            m_ImageData = image;
-        }
+        void setImageData(const QSharedPointer<FITSData> &image);
 
     protected:
         // Polar Alignment Helper slots
@@ -151,7 +148,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void setPAHCorrectionOffset(int x, int y);
 
     private:
-
         /**
             * @brief Warns the user if the polar alignment might cross the meridian.
             */
@@ -174,6 +170,13 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
          */
         void setupCorrectionGraphics(const QPointF &pixel);
 
+        /**
+         * @brief supdateRefreshDisplay Updates the UI's refresh error stats.
+         * @param azError the azimuth error in degrees
+         * @param altError the altitude error in degrees
+         */
+        void updateRefreshDisplay(double azError, double altError);
+
     signals:
         // Report new log
         void newLog(const QString &);
@@ -183,8 +186,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
         // Report new correction vector
         void newCorrectionVector(QLineF correctionVector);
-        // Request capture with settle period
-        void settleStarted(double duration);
         // Report new PAH stage
         void newPAHStage(PAHStage stage);
         // Report new PAH message
@@ -197,6 +198,15 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void newFrame(FITSView *view);
 
     private:
+        void updateDisplay(PAHStage stage, const QString &message);
+        void drawArrows(double altError, double azError);
+        void showUpdatedError(bool show);
+        // These are only used in the plate-solve refresh scheme.
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+        void startSolver();
+        void updatePlateSolveTriangle(const QSharedPointer<FITSData> &image);
+
+
 
         // Polar Alignment Helper
         PAHStage m_PAHStage { PAH_IDLE };
@@ -215,9 +225,14 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // correctionAltTo is where the use should move that star to only fix altitude.
         QPointF correctionFrom, correctionTo, correctionAltTo;
 
+        // RA/DEC coordinates where the image center needs to be move to to correct the RA axis.
+        SkyPoint refreshSolution, altOnlyRefreshSolution;
+
+
         bool detectStarsPAHRefresh(QList<Edge> *stars, int num, int x, int y, int *xyIndex);
 
-        // Incremented every time sufficient # of stars are detected.
+        // Incremented every time sufficient # of stars are detected (for move-star refresh) or
+        // when solver is successful (for plate-solve refresh).
         int refreshIteration { 0 };
         // Incremented on every image received.
         int imageNumber { 0 };
@@ -243,5 +258,20 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };
+
+        PolarAlignWidget *polarAlignWidget {nullptr};
+
+        // Used in the refresh part of polar alignment.
+        std::unique_ptr<SolverUtils> m_Solver;
+        double m_LastRa {0};
+        double m_LastDec {0};
+        double m_LastOrientation {0};
+        double m_LastPixscale {0};
+
+        // Restricts (the internal solver) to using the index and healpix
+        // from the previous solve, if that solve was successful.
+        int m_IndexToUse { -1 };
+        int m_HealpixToUse { -1 };
+        int m_NumHealpixFailures { 0 };
 };
 }

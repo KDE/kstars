@@ -35,14 +35,28 @@ class TestPolarAlign;
         double altitudeError = axisAlt - latitudeDegrees;
         double azimuthError = axisAz - 0;
  7) Compute the overall error
-        dms polarError(hypot(altitudeError, azimuthError));
- 8) Compute a target correction
+        dms polarError(hypot(azimuthError, altitudeError));
+
+Using the "move star" correction scheme:
+
+ 8a) Compute a target correction
         int correctedX, correctedY;
         if (!polarAlign.findCorrectedPixel(
                imageData, x, y, altitudeError, azimuthError, &correctedX, &correctedY))
           error();
- 9) The user should use the GEM azimuth and altitude adjustments to move the
+ 9a) The user uses the GEM azimuth and altitude adjustments to move the
     object at position x,y in the image to position correctedX, correctedY.
+
+Using the plate solve correction scheme:
+
+ 8b) Compute the remaining axis error (after partial correction)
+         SkyPoint coords, solution;
+         coords = [coordinates from plate-solving a refresh image]
+         // The signs of the error indicate the correction direction
+         processRefreshCoords(coords, currentTime, &azError, &altError);
+ 9b) The user uses the GEM azimuth and altitude adjustments to move the telescope.
+      positive altitude error: reduce altitide.
+      positive azimuth error: point telescope more to the left.
  *********************************************************************/
 
 class PolarAlign
@@ -55,6 +69,14 @@ class PolarAlign
 
         // Add a sample point.
         bool addPoint(const QSharedPointer<FITSData> &image);
+
+        // Returns the i-th point (zero based).
+        const SkyPoint getPoint(int index)
+        {
+            if (index >= 0 && index < points.size())
+                return points[index];
+            return SkyPoint();
+        }
 
         // Finds the mount's axis of rotation. Three points must have been added.
         // Returns false if the axis can't be found.
@@ -90,6 +112,18 @@ class PolarAlign
         // general this should be a degree or so larger than the polar alignment error in degrees.
         void setMaxPixelSearchRange(double degrees);
 
+        // Compute the remaining polar-alignment azimuth and altitude error from a new image's coordinates
+        // as compared with the coordinates from the last polar-align measurement image.
+        // The differences between the two coordinates is a measure of the rotation that has been
+        // applied during the polar-align correction phase.
+        bool processRefreshCoords(const SkyPoint &coords, const KStarsDateTime &time,
+                                  double *azError, double *altError,
+                                  double *azAdjustment = nullptr, double *altAdjustment = nullptr) const;
+
+        // Find the skypoints where the telescope needs to point (rotated there by adjusting az and alt)
+        // in order for the mount to be properly polar aligned.
+        bool refreshSolution(SkyPoint *solution, SkyPoint *altOnlySolution) const;
+
     private:
         // returns true in the northern hemisphere.
         // if no geo location available, defaults to northern.
@@ -120,7 +154,7 @@ class PolarAlign
         QVector<SkyPoint> points;
         QVector<KStarsDateTime> times;
 
-        // The geographic location used to compute altitude and azimuth.
+        // The geographic location used to compute azimuth and altitude.
         const GeoLocation *geoLocation;
 
         // Values set by the last call to findAxis() that correspond to the mount's axis.
