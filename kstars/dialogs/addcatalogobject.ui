@@ -133,17 +133,17 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <layout class="QFormLayout" name="formLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Minor axis:</string>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="maj">
+             <property name="maximum">
+              <double>600.000000000000000</double>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QDoubleSpinBox" name="min">
-             <property name="maximum">
-              <double>600.000000000000000</double>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Major axis:</string>
              </property>
             </widget>
            </item>
@@ -154,12 +154,12 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Major axis:</string>
+              <string>Minor axis:</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QDoubleSpinBox" name="maj">
+            <widget class="QDoubleSpinBox" name="min">
              <property name="maximum">
               <double>600.000000000000000</double>
              </property>
@@ -190,7 +190,11 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="catalog_identifier"/>
+          <widget class="QLineEdit" name="catalog_identifier">
+           <property name="placeholderText">
+            <string>e.g. PGC</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_9">
@@ -240,14 +244,41 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QPushButton" name="guessFromTextButton">
+       <property name="toolTip">
+        <string>This feature allows you to copy-paste a piece of text from e.g. a website or another app and magically try to infer the contents of this form from it.</string>
+       </property>
+       <property name="text">
+        <string>Guess from &amp;Text</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -266,8 +297,8 @@
   <tabstop>dec</tabstop>
   <tabstop>mag</tabstop>
   <tabstop>magUnknown</tabstop>
-  <tabstop>min</tabstop>
   <tabstop>maj</tabstop>
+  <tabstop>min</tabstop>
   <tabstop>long_name</tabstop>
   <tabstop>catalog_identifier</tabstop>
   <tabstop>flux</tabstop>

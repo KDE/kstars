@@ -63,7 +63,7 @@ class CatalogObject : public SkyObject
      */
     CatalogObject(oid id = {}, const SkyObject::TYPE t = SkyObject::STAR,
                   const dms &r = dms(0.0), const dms &d = dms(0.0),
-                  const float m = NaN::f, const QString &n = "unnamed",
+                  const float m = NaN::f, const QString &n = QString(),
                   const QString &lname              = QString(),
                   const QString &catalog_identifier = QString(),
                   const int catalog_id = -1, const float a = 0.0, const float b = 0.0,

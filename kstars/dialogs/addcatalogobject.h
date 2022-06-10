@@ -51,6 +51,13 @@ class AddCatalogObject : public QDialog
 
     /** Enable/Disable the `flux` field depending on object type. */
     void refresh_flux();
+
+    /** Guess the contents of the form by parsing the supplied text. */
+    void guess_form_contents_from_text(QString text);
+
+  private slots:
+    /** Overload of the above that prompts for the text using an input box. */
+    void guess_form_contents_from_text();
 };
 
 #endif // ADDCATALOGOBJECT_H
