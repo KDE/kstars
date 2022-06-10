@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>129</height>
+    <width>306</width>
+    <height>172</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -239,6 +239,8 @@
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
   <tabstop>epochBox</tabstop>
+  <tabstop>JNowB</tabstop>
+  <tabstop>J2000B</tabstop>
   <tabstop>azBox</tabstop>
   <tabstop>altBox</tabstop>
  </tabstops>
