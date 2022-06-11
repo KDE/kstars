@@ -84,11 +84,11 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     connect(fd->azBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
     connect(fd->altBox, SIGNAL(textChanged(QString)), this, SLOT(checkLineEdits()));
 
-    connect(fd->J2000B, &QPushButton::clicked, [this]()
+    connect(fd->J2000B, &QPushButton::clicked, this, [&]()
     {
         fd->epochBox->setText(J2000EpochString);
     });
-    connect(fd->JNowB, &QPushButton::clicked, [this]()
+    connect(fd->JNowB, &QPushButton::clicked, this, [&]()
     {
         fd->epochBox->setText(QString::number(KStarsData::Instance()->lt().epoch(), 'f', 3));
     });
@@ -146,10 +146,13 @@ void FocusDialog::validatePoint()
         Point->setRA(ra);
         Point->setDec(dec);
 
-        if (jd0 != J2000) {
+        if (jd0 != J2000)
+        {
             // Compute and set the J2000 coordinates of Point
             Point->catalogueCoord(jd0);
-        } else {
+        }
+        else
+        {
             Point->setRA0(ra);
             Point->setDec0(dec);
         }
