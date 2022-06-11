@@ -187,6 +187,8 @@ void Message::onTextReceived(const QString &message)
         processDialogResponse(payload);
     else if (command.startsWith("option_"))
         processOptionsCommands(command, payload);
+    else if (command.startsWith("scheduler"))
+        processSchedulerCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -222,8 +224,6 @@ void Message::onTextReceived(const QString &message)
         processGuideCommands(command, payload);
     else if (command.startsWith("align_"))
         processAlignCommands(command, payload);
-    else if (command.startsWith("scheduler"))
-        processSchedulerCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
     else if (command.startsWith("dome_"))
