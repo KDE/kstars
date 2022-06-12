@@ -1011,11 +1011,11 @@ bool Align::syncTelescopeInfo()
         if (np && np->getValue() > 0)
             guideAperture = np->getValue();
 
-        aperture = primaryAperture;
+        m_TelescopeAperture = primaryAperture;
 
         //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
         if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
-            aperture = guideAperture;
+            m_TelescopeAperture = guideAperture;
 
         np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
         if (np && np->getValue() > 0)
@@ -1025,17 +1025,17 @@ bool Align::syncTelescopeInfo()
         if (np && np->getValue() > 0)
             guideFL = np->getValue();
 
-        focal_length = primaryFL;
+        m_TelescopeFocalLength = primaryFL;
 
         //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
         if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
-            focal_length = guideFL;
+            m_TelescopeFocalLength = guideFL;
     }
 
-    if (focal_length == -1 || aperture == -1)
+    if (m_TelescopeFocalLength == -1 || m_TelescopeAperture == -1)
         return false;
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1 && m_TelescopeFocalLength != -1 && m_TelescopeAperture != -1)
     {
         FOVScopeCombo->setItemData(
             ISD::CCD::TELESCOPE_PRIMARY,
@@ -1075,15 +1075,15 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
     if (guideAperture > 0)
         this->guideAperture = guideAperture;
 
-    focal_length = primaryFL;
+    m_TelescopeFocalLength = primaryFL;
 
     if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
-        focal_length = guideFL;
+        m_TelescopeFocalLength = guideFL;
 
-    aperture = primaryAperture;
+    m_TelescopeAperture = primaryAperture;
 
     if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
-        aperture = guideAperture;
+        m_TelescopeAperture = guideAperture;
 
     syncTelescopeInfo();
 }
@@ -1093,32 +1093,26 @@ void Align::syncCCDInfo()
     if (!currentCCD)
         return;
 
-    auto nvp = currentCCD->getBaseDevice()->getNumber(useGuideHead ? "GUIDER_INFO" : "CCD_INFO");
+    auto targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    Q_ASSERT(targetChip);
 
-    if (nvp)
-    {
-        auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
-        if (np && np->getValue() > 0)
-            ccd_hor_pixel = ccd_ver_pixel = np->getValue();
+    // Get Maximum resolution and pixel size
+    uint8_t bit_depth = 8;
+    targetChip->getImageInfo(m_CameraWidth, m_CameraHeight, m_CameraPixelWidth, m_CameraPixelHeight, bit_depth);
 
-        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
-        if (np && np->getValue() > 0)
-            ccd_ver_pixel = np->getValue();
-
-        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
-        if (np && np->getValue() > 0)
-            ccd_ver_pixel = np->getValue();
-    }
-
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-    auto svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
-    if (svp)
-        setWCSEnabled(Options::astrometrySolverWCS());
+    setWCSEnabled(Options::astrometrySolverWCS());
 
     targetChip->setImageView(alignView, FITS_ALIGN);
 
-    targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &ccd_width, nullptr, &ccd_height);
+    // In case ROI is different (smaller) than maximum resolution, let's use that.
+    int roiW = 0, roiH = 0;
+    targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &roiW, nullptr, &roiH);
+    if ( (roiW > 0 && roiW < m_CameraWidth) || (roiH > 0 && roiH < m_CameraHeight))
+    {
+        m_CameraWidth = roiW;
+        m_CameraHeight = roiH;
+    }
+
     binningCombo->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
@@ -1135,10 +1129,7 @@ void Align::syncCCDInfo()
         binningCombo->blockSignals(false);
     }
 
-    if (ccd_hor_pixel <= 0 || ccd_ver_pixel <= 0)
-        return;
-
-    if (ccd_hor_pixel > 0 && ccd_ver_pixel > 0 && focal_length > 0 && aperture > 0)
+    if (m_CameraPixelWidth > 0 && m_CameraPixelHeight > 0 && m_TelescopeFocalLength > 0 && m_TelescopeAperture > 0)
     {
         calculateFOV();
     }
@@ -1146,16 +1137,16 @@ void Align::syncCCDInfo()
 
 void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
 {
-    fov_w     = fov_x;
-    fov_h     = fov_y;
-    fov_scale = fov_pixscale;
+    fov_w     = m_FOVWidth;
+    fov_h     = m_FOVHeight;
+    fov_scale = m_FOVPixelScale;
 }
 
 QList<double> Align::fov()
 {
     QList<double> result;
 
-    result << fov_x << fov_y << fov_pixscale;
+    result << m_FOVWidth << m_FOVHeight << m_FOVPixelScale;
 
     return result;
 }
@@ -1164,7 +1155,7 @@ QList<double> Align::cameraInfo()
 {
     QList<double> result;
 
-    result << ccd_width << ccd_height << ccd_hor_pixel << ccd_ver_pixel;
+    result << m_CameraWidth << m_CameraHeight << m_CameraPixelWidth << m_CameraPixelHeight;
 
     return result;
 }
@@ -1173,7 +1164,7 @@ QList<double> Align::telescopeInfo()
 {
     QList<double> result;
 
-    result << focal_length << aperture;
+    result << m_TelescopeFocalLength << m_TelescopeAperture;
 
     return result;
 }
@@ -1181,11 +1172,11 @@ QList<double> Align::telescopeInfo()
 void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale)
 {
     // FOV in arcsecs
-    fov_w = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
-    fov_h = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
+    fov_w = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / m_TelescopeFocalLength;
+    fov_h = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / m_TelescopeFocalLength;
 
     // Pix Scale
-    fov_scale = (fov_w * (Options::solverBinningIndex() + 1)) / ccd_width;
+    fov_scale = (fov_w * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
 
     // FOV in arcmins
     fov_w /= 60.0;
@@ -1194,11 +1185,11 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
 
 void Align::calculateEffectiveFocalLength(double newFOVW)
 {
-    if (newFOVW < 0 || newFOVW == fov_x)
+    if (newFOVW < 0 || newFOVW == m_FOVWidth)
         return;
 
-    double new_focal_length = ((ccd_width * ccd_hor_pixel / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
-    double focal_diff = std::fabs(new_focal_length - focal_length);
+    double new_focal_length = ((m_CameraWidth * m_CameraPixelWidth / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
+    double focal_diff = std::fabs(new_focal_length - m_TelescopeFocalLength);
 
     if (focal_diff > 1)
     {
@@ -1215,40 +1206,40 @@ void Align::calculateFOV()
     // Calculate FOV
 
     // FOV in arcsecs
-    fov_x = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
-    fov_y = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
+    m_FOVWidth = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / m_TelescopeFocalLength;
+    m_FOVHeight = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / m_TelescopeFocalLength;
 
     // Pix Scale
-    fov_pixscale = (fov_x * (Options::solverBinningIndex() + 1)) / ccd_width;
+    m_FOVPixelScale = (m_FOVWidth * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
 
     // FOV in arcmins
-    fov_x /= 60.0;
-    fov_y /= 60.0;
+    m_FOVWidth /= 60.0;
+    m_FOVHeight /= 60.0;
+
+    double calculated_fov_x = m_FOVWidth;
+    double calculated_fov_y = m_FOVHeight;
+
+    QString calculatedFOV = (QString("%1' x %2'").arg(m_FOVWidth, 0, 'f', 1).arg(m_FOVHeight, 0, 'f', 1));
 
     // Put FOV upper limit as 180 degrees
-    if (fov_x < 1 || fov_x > 60 * 180 || fov_y < 1 || fov_y > 60 * 180)
+    if (m_FOVWidth < 1 || m_FOVWidth > 60 * 180 || m_FOVHeight < 1 || m_FOVHeight > 60 * 180)
     {
         appendLogText(
-            i18n("Warning! The calculated field of view is out of bounds. Ensure the telescope focal length and camera pixel size are correct."));
+            i18n("Warning! The calculated field of view (%1) is out of bounds. Ensure the telescope focal length and camera pixel size are correct.", calculatedFOV));
         return;
     }
-
-    double calculated_fov_x = fov_x;
-    double calculated_fov_y = fov_y;
-
-    QString calculatedFOV = (QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
 
     double effectiveFocalLength = FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_PRIMARY ? primaryEffectiveFL :
                                   guideEffectiveFL;
 
-    FocalLengthOut->setText(QString("%1 (%2)").arg(focal_length, 0, 'f', 1).
-                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : focal_length, 0, 'f', 1));
-    FocalRatioOut->setText(QString("%1 (%2)").arg(focal_length / aperture, 0, 'f', 1).
-                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / aperture : focal_length / aperture, 0, 'f', 1));
+    FocalLengthOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength, 0, 'f', 1).
+                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_TelescopeFocalLength, 0, 'f', 1));
+    FocalRatioOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1).
+                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1));
 
     if (effectiveFocalLength > 0)
     {
-        double focal_diff = std::fabs(effectiveFocalLength  - focal_length);
+        double focal_diff = std::fabs(effectiveFocalLength  - m_TelescopeFocalLength);
         if (focal_diff < 5)
             FocalLengthOut->setStyleSheet("color:green");
         else if (focal_diff < 15)
@@ -1262,14 +1253,14 @@ void Align::calculateFOV()
     // per profile/pixel_size/focal_length combinations. It defaults to 0' x 0' and gets updated after the first successful solver is complete.
     getEffectiveFOV();
 
-    if (fov_x == 0)
+    if (m_FOVWidth == 0)
     {
         //FOVOut->setReadOnly(false);
         FOVOut->setToolTip(
             i18n("<p>Effective field of view size in arcminutes.</p><p>Please capture and solve once to measure the effective FOV or enter the values manually.</p><p>Calculated FOV: %1</p>",
                  calculatedFOV));
-        fov_x = calculated_fov_x;
-        fov_y = calculated_fov_y;
+        m_FOVWidth = calculated_fov_x;
+        m_FOVHeight = calculated_fov_y;
         m_EffectiveFOVPending = true;
     }
     else
@@ -1278,15 +1269,15 @@ void Align::calculateFOV()
         FOVOut->setToolTip(i18n("<p>Effective field of view size in arcminutes.</p>"));
     }
 
-    solverFOV->setSize(fov_x, fov_y);
-    sensorFOV->setSize(fov_x, fov_y);
+    solverFOV->setSize(m_FOVWidth, m_FOVHeight);
+    sensorFOV->setSize(m_FOVWidth, m_FOVHeight);
     if (currentCCD)
         sensorFOV->setName(currentCCD->getDeviceName());
 
-    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'f', 1).arg(fov_y, 0, 'f', 1));
+    FOVOut->setText(QString("%1' x %2'").arg(m_FOVWidth, 0, 'f', 1).arg(m_FOVHeight, 0, 'f', 1));
 
     // Enable or Disable PAA depending on current FOV
-    const bool fovOK = ((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV;
+    const bool fovOK = ((m_FOVWidth + m_FOVHeight) / 2.0) > PAH_CUTOFF_FOV;
     if (m_PolarAlignmentAssistant != nullptr)
         m_PolarAlignmentAssistant->setEnabled(fovOK);
 
@@ -1297,8 +1288,8 @@ void Align::calculateFOV()
         // Degrees
         if (unitType == 0)
         {
-            double fov_low  = qMin(fov_x / 60, fov_y / 60);
-            double fov_high = qMax(fov_x / 60, fov_y / 60);
+            double fov_low  = qMin(m_FOVWidth / 60, m_FOVHeight / 60);
+            double fov_high = qMax(m_FOVWidth / 60, m_FOVHeight / 60);
             opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_low);
             opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_high);
 
@@ -1308,8 +1299,8 @@ void Align::calculateFOV()
         // Arcmins
         else if (unitType == 1)
         {
-            double fov_low  = qMin(fov_x, fov_y);
-            double fov_high = qMax(fov_x, fov_y);
+            double fov_low  = qMin(m_FOVWidth, m_FOVHeight);
+            double fov_high = qMax(m_FOVWidth, m_FOVHeight);
             opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_low);
             opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_high);
 
@@ -1319,12 +1310,12 @@ void Align::calculateFOV()
         // Arcsec per pixel
         else
         {
-            opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_pixscale * 0.9);
-            opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale * 1.1);
+            opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(m_FOVPixelScale * 0.9);
+            opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(m_FOVPixelScale * 1.1);
 
             // 10% boundary
-            Options::setAstrometryImageScaleLow(fov_pixscale * 0.9);
-            Options::setAstrometryImageScaleHigh(fov_pixscale * 1.1);
+            Options::setAstrometryImageScaleLow(m_FOVPixelScale * 0.9);
+            Options::setAstrometryImageScaleHigh(m_FOVPixelScale * 1.1);
         }
     }
 }
@@ -1447,10 +1438,10 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
     {
         if (Options::astrometryUseDownsample())
         {
-            if (Options::astrometryAutoDownsample() && ccd_width && ccd_height)
+            if (Options::astrometryAutoDownsample() && m_CameraWidth && m_CameraHeight)
             {
                 uint8_t bin = qMax(Options::solverBinningIndex() + 1, 1u);
-                uint16_t w = ccd_width / bin;
+                uint16_t w = m_CameraWidth / bin;
                 optionsMap["downsample"] = getSolverDownsample(w);
             }
             else
@@ -1459,10 +1450,10 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
 
         //Options needed for Sextractor
         int bin = Options::solverBinningIndex() + 1;
-        optionsMap["image_width"] = ccd_width / bin;
-        optionsMap["image_height"] = ccd_height / bin;
+        optionsMap["image_width"] = m_CameraWidth / bin;
+        optionsMap["image_height"] = m_CameraHeight / bin;
 
-        if (Options::astrometryUseImageScale() && fov_x > 0 && fov_y > 0)
+        if (Options::astrometryUseImageScale() && m_FOVWidth > 0 && m_FOVHeight > 0)
         {
             QString units = "dw";
             if (Options::astrometryImageScaleUnits() == 1)
@@ -1472,8 +1463,8 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
             if (Options::astrometryAutoUpdateImageScale())
             {
                 QString fov_low, fov_high;
-                double fov_w = fov_x;
-                double fov_h = fov_y;
+                double fov_w = m_FOVWidth;
+                double fov_h = m_FOVHeight;
 
                 if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
                 {
@@ -1482,8 +1473,8 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
                 }
                 else if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
                 {
-                    fov_w = fov_pixscale;
-                    fov_h = fov_pixscale;
+                    fov_w = m_FOVPixelScale;
+                    fov_h = m_FOVPixelScale;
                 }
 
                 // If effective FOV is pending, let's set a wider tolerance range
@@ -1585,14 +1576,14 @@ bool Align::captureAndSolve()
     //if (parser->init() == false)
     //    return false;
 
-    if (focal_length == -1 || aperture == -1)
+    if (m_TelescopeFocalLength == -1 || m_TelescopeAperture == -1)
     {
         KSNotification::error(
             i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
         return false;
     }
 
-    if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
+    if (m_CameraPixelWidth == -1 || m_CameraPixelHeight == -1)
     {
         KSNotification::error(i18n("CCD pixel size is missing. Please check your driver settings and try again."));
         return false;
@@ -2113,11 +2104,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
     if (!m_SolveFromFile &&
-            (fov_x == 0 || m_EffectiveFOVPending || std::fabs(pixscale - fov_pixscale) > 0.005) &&
+            (m_FOVWidth == 0 || m_EffectiveFOVPending || std::fabs(pixscale - m_FOVPixelScale) > 0.005) &&
             pixscale > 0)
     {
-        double newFOVW = ccd_width * pixscale / binx / 60.0;
-        double newFOVH = ccd_height * pixscale / biny / 60.0;
+        double newFOVW = m_CameraWidth * pixscale / binx / 60.0;
+        double newFOVH = m_CameraHeight * pixscale / biny / 60.0;
 
         calculateEffectiveFocalLength(newFOVW);
         saveNewEffectiveFOV(newFOVW, newFOVH);
@@ -3176,19 +3167,17 @@ void Align::setWCSEnabled(bool enable)
     wcsControl->reset();
     if (enable)
     {
-        appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the "
-                           "CCD driver or by solving an image before proceeding to capture any further images, "
-                           "otherwise the WCS information may be invalid."));
+        appendLogText(i18n("World Coordinate System (WCS) is enabled."));
         wcs_enable->setState(ISS_ON);
     }
     else
     {
+        appendLogText(i18n("World Coordinate System (WCS) is disabled."));
         wcs_disable->setState(ISS_ON);
         m_wcsSynced    = false;
-        appendLogText(i18n("World Coordinate System (WCS) is disabled."));
     }
 
-    ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+    auto clientManager = currentCCD->getDriverInfo()->getClientManager();
     if (clientManager)
         clientManager->sendNewSwitch(wcsControl);
 }
@@ -3354,8 +3343,8 @@ void Align::updateTelescopeType(int index)
 
     syncSettings();
 
-    focal_length = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
-    aperture = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
+    m_TelescopeFocalLength = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
+    m_TelescopeAperture = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
 
     Options::setSolverScopeType(index);
 
@@ -3488,20 +3477,20 @@ QVariantMap Align::getEffectiveFOV()
 {
     KStarsData::Instance()->userdb()->GetAllEffectiveFOVs(effectiveFOVs);
 
-    fov_x = fov_y = 0;
+    m_FOVWidth = m_FOVHeight = 0;
 
     for (auto &map : effectiveFOVs)
     {
         if (map["Profile"].toString() == m_ActiveProfile->name)
         {
-            if (map["Width"].toInt() == ccd_width &&
-                    map["Height"].toInt() == ccd_height &&
-                    map["PixelW"].toDouble() == ccd_hor_pixel &&
-                    map["PixelH"].toDouble() == ccd_ver_pixel &&
-                    map["FocalLength"].toDouble() == focal_length)
+            if (map["Width"].toInt() == m_CameraWidth &&
+                    map["Height"].toInt() == m_CameraHeight &&
+                    map["PixelW"].toDouble() == m_CameraPixelWidth &&
+                    map["PixelH"].toDouble() == m_CameraPixelHeight &&
+                    map["FocalLength"].toDouble() == m_TelescopeFocalLength)
             {
-                fov_x = map["FovW"].toDouble();
-                fov_y = map["FovH"].toDouble();
+                m_FOVWidth = map["FovW"].toDouble();
+                m_FOVHeight = map["FovH"].toDouble();
                 return map;
             }
         }
@@ -3512,7 +3501,7 @@ QVariantMap Align::getEffectiveFOV()
 
 void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 {
-    if (newFOVW < 0 || newFOVH < 0 || (newFOVW == fov_x && newFOVH == fov_y))
+    if (newFOVW < 0 || newFOVH < 0 || (newFOVW == m_FOVWidth && newFOVH == m_FOVHeight))
         return;
 
     QVariantMap effectiveMap = getEffectiveFOV();
@@ -3529,11 +3518,11 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     }
 
     effectiveMap["Profile"] = m_ActiveProfile->name;
-    effectiveMap["Width"] = ccd_width;
-    effectiveMap["Height"] = ccd_height;
-    effectiveMap["PixelW"] = ccd_hor_pixel;
-    effectiveMap["PixelH"] = ccd_ver_pixel;
-    effectiveMap["FocalLength"] = focal_length;
+    effectiveMap["Width"] = m_CameraWidth;
+    effectiveMap["Height"] = m_CameraHeight;
+    effectiveMap["PixelW"] = m_CameraPixelWidth;
+    effectiveMap["PixelH"] = m_CameraPixelHeight;
+    effectiveMap["FocalLength"] = m_TelescopeFocalLength;
     effectiveMap["FovW"] = newFOVW;
     effectiveMap["FovH"] = newFOVH;
 

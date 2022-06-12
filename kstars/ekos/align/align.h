@@ -721,15 +721,15 @@ class Align : public QWidget, public Ui::Align
         BlindState useBlindPosition {BLIND_IDLE};
 
         // FOV
-        double ccd_hor_pixel { -1 };
-        double ccd_ver_pixel { -1 };
-        double focal_length { -1 };
-        double aperture { -1 };
-        double fov_x { 0 };
-        double fov_y { 0 };
-        double fov_pixscale { 0 };
-        int ccd_width { 0 };
-        int ccd_height { 0 };
+        double m_CameraPixelWidth { -1 };
+        double m_CameraPixelHeight { -1 };
+        double m_TelescopeFocalLength { -1 };
+        double m_TelescopeAperture { -1 };
+        double m_FOVWidth { 0 };
+        double m_FOVHeight { 0 };
+        double m_FOVPixelScale { 0 };
+        uint16_t m_CameraWidth { 0 };
+        uint16_t m_CameraHeight { 0 };
 
         // Keep track of solver results
         double sOrientation { INVALID_VALUE };
