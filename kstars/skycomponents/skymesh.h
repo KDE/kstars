@@ -82,7 +82,7 @@ class SkyMesh : public HTMesh
          * how fine a mesh we will use. The number of triangles (trixels) in the
          * mesh will be 8 * 4^level so a mesh of level 5 will have 8 * 4^5 = 8 *
          * 2^10 = 8192 trixels.  The size of the triangles are roughly pi / *
-         * 2^(level + 1) so a level 5 mesh will have triagles size roughly of
+         * 2^(level + 1) so a level 5 mesh will have triangles size roughly of
          * .05 radians or 2.8 degrees.
                */
     static SkyMesh *Create(int level);

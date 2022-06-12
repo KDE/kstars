@@ -1467,7 +1467,7 @@ for specifying a sky object on which to center.</para></listitem>
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </term>
 <listitem><para>Open the <guilabel>Set Coordinates Manually</guilabel> tool,
-for specifying RA/Dec or Az/Alt coordinates on which to center.</para></listitem>
+    for specifying RA/Dec or Az/Alt coordinates on which to center. The tool defaults to <link linkend="ai-epoch">J2000 epoch</link> for the RA/Dec.</para></listitem>
 </varlistentry>
 
 <varlistentry>

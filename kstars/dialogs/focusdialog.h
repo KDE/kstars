@@ -70,5 +70,4 @@ class FocusDialog : public QDialog
         FocusDialogUI *fd { nullptr };
         bool UsedAltAz { false };
         QPushButton *okB { nullptr };
-        bool UseJNow { true };
 };
