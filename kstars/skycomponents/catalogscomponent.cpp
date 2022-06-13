@@ -118,7 +118,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
         for (auto &object : objects.data())
         {
             auto mag          = object.mag();
-            bool mag_unknown  = std::isnan(mag) || (mag > 36.0);
+            bool mag_unknown  = std::isnan(mag) || (mag > FAINTEST_MAGNITUDE);
             bool magCriterion = (mag_unknown && showUnknownMagObjects) || (mag < maglim);
 
             if (!magCriterion && !mag_unknown)
@@ -127,6 +127,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (!magCriterion)
                 continue;
 
+            // FIXME: Remove magic number 10800
             double size = object.a() * dms::PI * Options::zoomFactor() / 10800.0;
 
             bool sizeCriterion =

@@ -205,7 +205,7 @@ PYBIND11_MODULE(pykstars, m)
     py::enum_<SkyObject::TYPE>(m, "ObjectType", "The types of CatalogObjects",
                                py::arithmetic())
         .value("STAR", SkyObject::STAR)
-        .value("CATALOGSTAR", SkyObject::CATALOG_STAR)
+        .value("CATALOG_STAR", SkyObject::CATALOG_STAR)
         .value("PLANET", SkyObject::TYPE::PLANET)
         .value("OPEN_CLUSTER", SkyObject::TYPE::OPEN_CLUSTER)
         .value("GLOBULAR_CLUSTER", SkyObject::TYPE::GLOBULAR_CLUSTER)

@@ -793,7 +793,7 @@
       <entry name="MagLimitDrawDeepSky" type="Double">
          <label>Faint limit for deep-sky objects</label>
          <whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed in.</whatsthis>
-         <default>16.0</default>
+         <default>36.0</default>
       </entry>
       <entry name="MagLimitDrawDeepSkyZoomOut" type="Double">
          <label>Faint limit for deep-sky objects when zoomed out</label>
