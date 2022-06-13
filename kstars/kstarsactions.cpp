@@ -349,9 +349,13 @@ void KStars::slotINDIToolBar()
         auto scheduler = Ekos::Manager::Instance()->schedulerModule();
         if (a->isChecked() && scheduler && scheduler->status() != Ekos::SCHEDULER_RUNNING)
         {
-            Ekos::FramingAssistantUI *assistant = new Ekos::FramingAssistantUI();
-            assistant->setAttribute(Qt::WA_DeleteOnClose, true);
-            assistant->show();
+            // Only create if we don't have an instance already
+            if (findChild<Ekos::FramingAssistantUI *>("FramingAssistant") == nullptr)
+            {
+                Ekos::FramingAssistantUI *assistant = new Ekos::FramingAssistantUI();
+                assistant->setAttribute(Qt::WA_DeleteOnClose, true);
+                assistant->show();
+            }
         }
     }
 

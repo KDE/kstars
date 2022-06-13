@@ -690,7 +690,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             else if (deltaAngle > PAHRotationSpin->value() * 1.25)
             {
                 m_CurrentTelescope->Abort();
-                emit newLog(i18n("Mount aborted. Please restart the process and reduce the speed."));
+                emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
                 stopPAHProcess();
             }
             return;
@@ -1285,7 +1285,7 @@ QString PolarAlignmentAssistant::getPAHMessage() const
             if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Choose your exposure time & select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>";
             else
-              return "<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>";
+                return "<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>";
         case PAH_REFRESH:
             if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>";
