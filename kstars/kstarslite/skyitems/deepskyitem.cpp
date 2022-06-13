@@ -249,7 +249,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, Me
                 //zoom > 2000.), and it's brighter than maglim (unless mag is
                 //undefined (=99.9)
                 bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
-                bool magCriterion = (mag < (float)maglim) || (showUnknownMagObjects && (std::isnan(mag) || mag > 36.0));
+                bool magCriterion = (mag < (float)maglim) || (showUnknownMagObjects && (std::isnan(mag) || mag > FAINTEST_MAGNITUDE));
 
                 bool drawLabel = false;
 

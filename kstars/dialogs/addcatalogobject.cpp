@@ -244,6 +244,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     float positionAngle = 0;
     QString name;
     QString catalogName;
+    QString catalogIdentifier;
     SkyObject::TYPE type = SkyObject::TYPE_UNKNOWN;
 
     // Note: The following method is a proxy to support older versions of Qt.
@@ -364,7 +365,8 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     {
         catalogDetermined = true;
         catalogName = rmatch.captured(1);
-        name = catalogName + ' ' + rmatch.captured(2);
+        catalogIdentifier = rmatch.captured(2);
+        name = catalogName + ' ' + catalogIdentifier;
         qCDebug(KSTARS) << "Found known catalog field: " << name
                         << " in text " << rmatch.captured(0);
     }
@@ -499,7 +501,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     }
     if (catalogDetermined)
     {
-        ui->catalog_identifier->setText(catalogName);
+        ui->catalog_identifier->setText(catalogIdentifier);
     }
     refresh_flux();
 }

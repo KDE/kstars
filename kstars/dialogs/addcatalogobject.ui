@@ -192,7 +192,7 @@
          <item row="1" column="1">
           <widget class="QLineEdit" name="catalog_identifier">
            <property name="placeholderText">
-            <string>e.g. PGC</string>
+            <string>e.g. 54559</string>
            </property>
           </widget>
          </item>

@@ -13,6 +13,7 @@
 #include "skycomponents/catalogscomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "widgets/magnitudespinbox.h"
+#include "skyobject.h"
 
 #include <KActionCollection>
 #include <KConfigDialog>
@@ -73,6 +74,14 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
 
     connect(manageButton, &QPushButton::clicked, KStars::Instance(),
             &KStars::slotDSOCatalogGUI);
+
+    // Make sure the zoomed-out limit is always brighter than the
+    // zoomed-in limit to avoid weird behavior
+    kcfg_MagLimitDrawDeepSky->setMaximum(FAINTEST_MAGNITUDE);
+    connect(kcfg_MagLimitDrawDeepSky, &QDoubleSpinBox::editingFinished,
+            [&]() {
+                kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(kcfg_MagLimitDrawDeepSky->value());
+            });
 
     isDirty = false;
 }

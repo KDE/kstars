@@ -604,7 +604,7 @@
          <widget class="QCheckBox" name="kcfg_ResolveNamesOnline">
           <property name="toolTip">
            <string>If this checkbox is checked, when an object name unknown to KStars is entered in the Find Dialog, KStars will contact online services (such as CDS Sesame) to learn about the object and then add it to the database.
-                The objects acquired in this manner are stored under a catalog that is called _Internet_Resolved as of this writing.</string>
+The objects acquired in this manner are stored under a catalog that is called user, and it can be edited using the "Manage DSO Catalogs" feature.</string>
           </property>
           <property name="text">
            <string>Resolve names not known to KStars using online services</string>
@@ -650,19 +650,17 @@
           <item row="1" column="1">
            <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limit for deep-sky objects when zoomed out.</string>
             </property>
             <property name="maximum">
-             <double>30.000000000000000</double>
+             <double>36.000000000000000</double>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="LabelMagDeepSkyZoomOut">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limit for deep-sky objects when zoomed out.</string>
             </property>
             <property name="text">
              <string>Faint limit zoomed out:</string>
@@ -672,8 +670,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
           <item row="1" column="2">
            <widget class="QLabel" name="LabelMag4">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limits for deep-sky objects when zoomed out.</string>
             </property>
             <property name="text">
              <string>mag</string>
@@ -683,8 +680,7 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
           <item row="0" column="0">
            <widget class="QLabel" name="LabelMagDeepSky">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limits for deep-sky objects when zoomed in.</string>
             </property>
             <property name="text">
              <string>Faint limit zoomed in:</string>
@@ -694,19 +690,17 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
           <item row="0" column="1">
            <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSky">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limits for deep-sky objects when zoomed in.</string>
             </property>
             <property name="maximum">
-             <double>30.000000000000000</double>
+             <double>36.000000000000000</double>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
            <widget class="QLabel" name="LabelMag3">
             <property name="toolTip">
-             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
-These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+             <string>Set the faint magnitude limits for deep-sky objects when zoomed in.</string>
             </property>
             <property name="text">
              <string>mag</string>
@@ -733,6 +727,11 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_ShowUnknownMagObjects">
+          <property name="toolTip">
+            <string>Many objects do not have known magnitudes in the databases.
+They generally tend to be faint or very diffuse, but this is not always the case.
+Check this checkbox to show such objects which do not have known magnitudes in the database.</string>
+          </property>
           <property name="text">
            <string>Show objects of unknown magnitude</string>
           </property>
