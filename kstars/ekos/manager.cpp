@@ -907,7 +907,7 @@ void Manager::start()
                 DriverManager::Instance()->stopAllDevices();
                 //TODO is there a better way to do this.
                 QProcess p;
-                const QString program="pkill";
+                const QString program = "pkill";
                 QStringList arguments;
                 arguments << "indiserver";
                 p.start(program, arguments);
@@ -2976,6 +2976,8 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Telescope::PierSid
     {
         {"ra", dms::fromString(raOUT->text(), false).Degrees()},
         {"de", dms::fromString(decOUT->text(), true).Degrees()},
+        {"ra0", position.ra0().Degrees()},
+        {"de0", position.dec0().Degrees()},
         {"az", dms::fromString(azOUT->text(), true).Degrees()},
         {"at", dms::fromString(altOUT->text(), true).Degrees()},
         {"ha", ha.Degrees()},
