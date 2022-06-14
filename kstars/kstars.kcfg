@@ -2026,7 +2026,7 @@
       </entry>
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="AstrometryRotatorThreshold" type="Double">
          <whatsthis>Threshold between measured and FITS position angles in arcminutes to consider the load and slew operation successful.</whatsthis>
