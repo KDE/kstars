@@ -65,9 +65,9 @@ void RotatorSettings::updatePA()
 {
     double PA = rotatorGauge->value() * PAMulSpin->value() + PAOffsetSpin->value();
     // Limit PA to -180 to +180
-    if (PA > 180)
+    while (PA > 180)
         PA -= 360;
-    if (PA < -180)
+    while (PA < -180)
         PA += 360;
 
     //PASpin->setValue(PA);
