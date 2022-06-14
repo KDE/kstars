@@ -8461,6 +8461,10 @@ QJsonObject Scheduler::getSchedulerSettings()
     {
         {"algorithm", schedulerAlgorithmCombo->currentIndex()},
         {"state", state},
+        {"trackStepCheck", trackStepCheck->isChecked()},
+        {"focusStepCheck", focusStepCheck->isChecked()},
+        {"alignStepCheck", alignStepCheck->isChecked()},
+        {"guideStepCheck", guideStepCheck->isChecked()},
     };
     return schedulerSettings;
 
