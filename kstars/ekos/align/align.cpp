@@ -1225,7 +1225,8 @@ void Align::calculateFOV()
     if (m_FOVWidth < 1 || m_FOVWidth > 60 * 180 || m_FOVHeight < 1 || m_FOVHeight > 60 * 180)
     {
         appendLogText(
-            i18n("Warning! The calculated field of view (%1) is out of bounds. Ensure the telescope focal length and camera pixel size are correct.", calculatedFOV));
+            i18n("Warning! The calculated field of view (%1) is out of bounds. Ensure the telescope focal length and camera pixel size are correct.",
+                 calculatedFOV));
         return;
     }
 
@@ -1235,7 +1236,8 @@ void Align::calculateFOV()
     FocalLengthOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength, 0, 'f', 1).
                             arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_TelescopeFocalLength, 0, 'f', 1));
     FocalRatioOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1).
-                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1));
+                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0,
+                               'f', 1));
 
     if (effectiveFocalLength > 0)
     {
@@ -2228,7 +2230,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             {
                 // PA = RawAngle * Multiplier + Offset
                 double rawAngle = absAngle->at(0)->getValue();
-                double offset   = range360(solverPA - (rawAngle * Options::pAMultiplier()));
+                double offset   = range360(currentRotatorPA - (rawAngle * Options::pAMultiplier()));
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
                                            << "Rotator Offset:" << offset;
@@ -2239,10 +2241,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                     && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
                 double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
-                //                if (rawAngle < 0)
-                //                    rawAngle += 360;
-                //                else if (rawAngle > 360)
-                //                    rawAngle -= 360;
                 absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
@@ -2791,9 +2789,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
     {
         // PA = RawAngle * Multiplier + Offset
         currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
-        if (currentRotatorPA > 180)
+        while (currentRotatorPA > 180)
             currentRotatorPA -= 360;
-        if (currentRotatorPA < -180)
+        while (currentRotatorPA < -180)
             currentRotatorPA += 360;
         if (std::isnan(loadSlewTargetPA) == false
                 && fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
