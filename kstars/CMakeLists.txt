@@ -124,6 +124,7 @@ if (INDI_FOUND)
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
             ekos/capture/scriptsmanager.ui
+            ekos/capture/limits.ui
             # Align
             ekos/align/align.ui
             ekos/align/opsastrometry.ui
