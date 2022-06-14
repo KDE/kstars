@@ -266,6 +266,7 @@ class Telescope : public DeviceDecorator
         void newParkStatus(ISD::ParkStatus status);
         void slewRateChanged(int rate);
         void pierSideChanged(PierSide side);
+        void axisReversed(INDI_EQ_AXIS axis, bool reversed);
         void ready();
 
     private:

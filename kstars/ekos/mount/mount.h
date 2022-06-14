@@ -25,7 +25,7 @@ namespace Ekos
  *@class Mount
  *@short Supports controlling INDI telescope devices including setting/retrieving mount properties, slewing, motion and speed controls, in addition to enforcing altitude limits and parking/unparking.
  *@author Jasem Mutlaq
- *@version 1.4
+ *@version 1.5
  */
 
 class Mount : public QWidget, public Ui::Mount
@@ -524,6 +524,13 @@ class Mount : public QWidget, public Ui::Mount
          * @return True if slew successful, false otherwise.
          */
         bool gotoTarget(const SkyPoint &target);
+
+        /**
+         * @brief syncAxisReversed Update Mount Control GUI on the reverse motion toggled state.
+         * @param axis RA (left/right) or DE (up/down)
+         * @param reversed True if reversed, false otherwise.
+         */
+        void syncAxisReversed(INDI_EQ_AXIS axis, bool reversed);
 
     private slots:
         void startParkTimer();

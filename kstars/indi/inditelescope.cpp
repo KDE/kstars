@@ -452,6 +452,11 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         manualMotionChanged = true;
     else if (!strcmp(svp->name, "TELESCOPE_MOTION_WE"))
         manualMotionChanged = true;
+    else if (!strcmp(svp->name, "TELESCOPE_REVERSE_MOTION"))
+    {
+        emit axisReversed(AXIS_DE, svp->sp[0].s == ISS_ON);
+        emit axisReversed(AXIS_RA, svp->sp[1].s == ISS_ON);
+    }
 
     if (manualMotionChanged)
     {

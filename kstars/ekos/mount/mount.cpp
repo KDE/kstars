@@ -249,6 +249,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, &ISD::Telescope::newCoords, this, &Mount::updateTelescopeCoords);
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
     connect(currentTelescope, &ISD::Telescope::pierSideChanged, this, &Mount::pierSideChanged);
+    connect(currentTelescope, &ISD::Telescope::axisReversed, this, &Mount::syncAxisReversed);
     connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
     {
         m_BaseView->hide();
@@ -2133,5 +2134,13 @@ QString Mount::pierSideStateString()
         default:
             return "Pier Side: Unknown";
     }
+}
+
+void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
+{
+    if (axis == AXIS_RA)
+        m_leftRightCheck->setProperty("checked", reversed);
+    else
+        m_upDownCheck->setProperty("checked", reversed);
 }
 }
