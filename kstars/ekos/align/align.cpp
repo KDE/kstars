@@ -2137,7 +2137,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
-    double solverPA = rotationToPositionAngle(orientation);
+    double solverPA = SolverUtils::rotationToPositionAngle(orientation);
     solverFOV->setCenter(alignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
@@ -3707,16 +3707,6 @@ void Align::syncFOV()
         KSNotification::error(i18n("Invalid FOV."));
         FOVOut->setStyleSheet("background-color:red");
     }
-}
-
-double Align::rotationToPositionAngle(double value)
-{
-    double pa = value + 180;
-    if (pa > 180)
-        pa -= 360;
-    if (pa < -180)
-        pa += 360;
-    return pa;
 }
 
 // m_wasSlewStarted can't be false for more than 10s after a slew starts.

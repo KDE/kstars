@@ -101,7 +101,7 @@ class FramingAssistantUI : public QDialog
         QSize m_CameraSize;
         QSizeF m_PixelSize, m_cameraFOV, m_MosaicFOV;
         QSize m_GridSize {1, 1};
-        double m_Overlap {10}, m_Rotation {0};
+        double m_Overlap {10}, m_PA {0};
         QString m_JobsDirectory;
 };
 }

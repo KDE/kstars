@@ -694,13 +694,6 @@ class Align : public QWidget, public Ui::Align
         void saveNewEffectiveFOV(double newFOVW, double newFOVH);
         QList<QVariantMap> effectiveFOVs;
         void syncFOV();
-        /**
-         * @brief rotationToPositionAngle Convert Astrometry Rotation to Position Angle
-         * @param value Astrometry.net defined rotation (E of N). Because astrometry.net reads images bottom-up
-         * the orientation is always 180 degrees off.
-         * @return Position Angle matching the rotation.
-         */
-        double rotationToPositionAngle(double value);
 
         // We are using calculated FOV now until a more accurate effective FOV is found.
         bool m_EffectiveFOVPending { false };
