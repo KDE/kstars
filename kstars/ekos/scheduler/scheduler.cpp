@@ -8466,6 +8466,11 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"focusStepCheck", focusStepCheck->isChecked()},
         {"alignStepCheck", alignStepCheck->isChecked()},
         {"guideStepCheck", guideStepCheck->isChecked()},
+        {"pa", positionAngleSpin->value()},
+        {"priority", prioritySpin->value()},
+        {"sequence", sequenceEdit->text()},
+        {"fits", fitsEdit->text()},
+        {"profile", profile()},
     };
     return schedulerSettings;
 
