@@ -26,7 +26,7 @@
 modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
 {
     setupUi(this);
-    RA->setDegType(false);
+    RA->setUnits(dmsBox::HOURS);
 
     Date->setDateTime(KStarsDateTime::currentDateTime());
     initGeo();

@@ -465,7 +465,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     geo = KStarsData::Instance()->geo();
 
-    raBox->setDegType(false); //RA box should be HMS-style
+    //RA box should be HMS-style
+    raBox->setUnits(dmsBox::HOURS);
 
     /* FIXME: Find a way to have multi-line tooltips in the .ui file, then move the widget configuration there - what about i18n? */
 
@@ -726,11 +727,11 @@ void Scheduler::watchJobChanges(bool enable)
             setDirty();
         });
         for (auto * const control : buttonGroups)
-            #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool)
-            #else
+#else
             connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled), this, [this](int, bool)
-            #endif
+#endif
         {
             setDirty();
         });
@@ -766,11 +767,11 @@ void Scheduler::watchJobChanges(bool enable)
         for (auto * const control : buttons)
             disconnect(control, static_cast<void (QAbstractButton::*)(bool)>(&QAbstractButton::clicked), this, nullptr);
         for (auto * const control : buttonGroups)
-            #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             disconnect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, nullptr);
-            #else
+#else
             disconnect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled), this, nullptr);
-            #endif
+#endif
         for (auto * const control : spinBoxes)
             disconnect(control, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, nullptr);
         for (auto * const control : dspinBoxes)

@@ -26,7 +26,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit) : QFrame(parentSplit)
     setupUi(this);
 
     KStarsData *data = KStarsData::Instance();
-    RA->setDegType(false);
+    RA->setUnits(dmsBox::HOURS);
 
     //Initialize Date/Time and Location data
     geoPlace = data->geo();

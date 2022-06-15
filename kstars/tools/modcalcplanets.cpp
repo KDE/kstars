@@ -26,7 +26,7 @@ modCalcPlanets::modCalcPlanets(QWidget *parentSplit) : QFrame(parentSplit)
     geoPlace = KStarsData::Instance()->geo();
     LocationButton->setText(geoPlace->fullName());
 
-    RABox->setDegType(false);
+    RABox->setUnits(dmsBox::HOURS);
 
     // signals and slots connections
     connect(PlanetComboBox, SIGNAL(activated(int)), this, SLOT(slotComputePosition()));

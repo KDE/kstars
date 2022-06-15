@@ -22,8 +22,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit) : QFrame(parentSplit)
 {
     setupUi(this);
     showCurrentTime();
-    RACat->setDegType(false);
-    DecCat->setDegType(true);
+    RACat->setUnits(dmsBox::HOURS);
+    DecCat->setUnits(dmsBox::DEGREES);
 
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));

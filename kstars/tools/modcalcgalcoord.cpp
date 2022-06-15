@@ -17,7 +17,7 @@
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit) : QFrame(parentSplit)
 {
     setupUi(this);
-    RA->setDegType(false);
+    RA->setUnits(dmsBox::HOURS);
 
     connect(RA, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()));
     connect(Dec, SIGNAL(editingFinished()), this, SLOT(slotComputeCoords()));

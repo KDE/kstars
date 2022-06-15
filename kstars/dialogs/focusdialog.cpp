@@ -55,7 +55,7 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
     fd->raBox->setMinimumWidth(fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width());
     fd->azBox->setMinimumWidth(fd->raBox->fontMetrics().boundingRect("00h 00m 00s").width());
 
-    fd->raBox->setDegType(false); //RA box should be HMS-style
+    fd->raBox->setUnits(dmsBox::HOURS); //RA box should be HMS-style
     fd->raBox->setFocus();        //set input focus
 
     const SkyPoint *center {nullptr};

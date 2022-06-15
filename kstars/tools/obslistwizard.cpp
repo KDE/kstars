@@ -114,9 +114,9 @@ void ObsListWizard::initialize()
     olw->Mag->setMaximum(20.0);
     olw->Mag->setValue(6.0);
 
-    olw->RA->setDegType(false);
-    olw->RAMin->setDegType(false);
-    olw->RAMax->setDegType(false);
+    olw->RA->setUnits(dmsBox::HOURS);
+    olw->RAMin->setUnits(dmsBox::HOURS);
+    olw->RAMax->setUnits(dmsBox::HOURS);
 
     //Initialize object counts
     ObjectCount   = 0; //number of objects in observing list
