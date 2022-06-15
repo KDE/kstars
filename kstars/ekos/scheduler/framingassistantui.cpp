@@ -227,6 +227,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->selectJobsDirB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::selectDirectory);
     // Rendering options
     ui->transparencySlider->setValue(Options::mosaicTransparencyLevel());
+    ui->transparencySlider->setEnabled(!Options::mosaicTransparencyAuto());
     tiles->setPainterAlpha(Options::mosaicTransparencyLevel());
     connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
     {
