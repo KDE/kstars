@@ -3773,4 +3773,19 @@ void Manager::setPortSelectionComplete()
     if (currentProfile->autoConnect)
         connectDevices();
 }
+
+void Manager::activateModule(const QString &name, bool popup)
+{
+    auto child = toolsWidget->findChild<QWidget *>(name);
+    if (child)
+    {
+        toolsWidget->setCurrentWidget(child);
+        if (popup)
+        {
+            raise();
+            activateWindow();
+            showNormal();
+        }
+    }
+}
 }

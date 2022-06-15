@@ -158,6 +158,13 @@ class Manager : public QDialog, public Ui::Manager
         void announceEvent(const QString &message, KSNotification::EventType event);
 
         /**
+         * @brief activateModule Switch tab to specific module name (i.e. CCD) and raise Ekos screen to focus.
+         * @param name module name CCD, Guide, Focus, Mount, Scheduler, or Observatory.
+         * @param popup if True, show Ekos Manager window in the foreground.
+         */
+        void activateModule(const QString &name, bool popup = false);
+
+        /**
          * @brief addProfile Add a new profile to the database.
          * @param profileInfo Collection of profile parameters to include the following:
          * 1. name: Profile name

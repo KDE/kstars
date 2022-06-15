@@ -29,6 +29,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
 
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
 
+    ui->raBox->setUnits(dmsBox::HOURS);
+
     // Initial optics information is taken from Ekos options
     ui->focalLenSpin->setValue(Options::telescopeFocalLength());
     ui->pixelWSizeSpin->setValue(Options::cameraPixelWidth());
@@ -647,7 +649,9 @@ void FramingAssistantUI::createJobs()
     auto schedulerListFile = QString("%1/%2.esl").arg(outputDirectory, target);
     scheduler->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
-    Ekos::Manager::Instance()->raise();
+    Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
+
+
 }
 
 void FramingAssistantUI::setMountState(ISD::Telescope::Status value)
