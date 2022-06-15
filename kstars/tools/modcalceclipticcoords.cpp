@@ -24,7 +24,7 @@
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit) : QFrame(parentSplit)
 {
     setupUi(this);
-    RA->setDegType(false);
+    RA->setUnits(dmsBox::HOURS);
 
     //Initialize Date/Time and Location data
     DateTime->setDateTime(KStarsData::Instance()->lt());

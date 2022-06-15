@@ -29,6 +29,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
 
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
 
+    ui->raBox->setUnits(dmsBox::HOURS);
+
     // Initial optics information is taken from Ekos options
     ui->focalLenSpin->setValue(Options::telescopeFocalLength());
     ui->pixelWSizeSpin->setValue(Options::cameraPixelWidth());
@@ -225,10 +227,12 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->selectJobsDirB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::selectDirectory);
     // Rendering options
     ui->transparencySlider->setValue(Options::mosaicTransparencyLevel());
+    ui->transparencySlider->setEnabled(!Options::mosaicTransparencyAuto());
     tiles->setPainterAlpha(Options::mosaicTransparencyLevel());
     connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
     {
         ui->transparencySlider->setToolTip(QString("%1%").arg(v));
+        Options::setMosaicTransparencyLevel(v);
         auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
         tiles->setPainterAlpha(v);
         m_DebounceTimer->start();
@@ -238,6 +242,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->transparencyAuto, &QCheckBox::toggled, this, [&](bool v)
     {
         ui->transparencySlider->setEnabled(!v);
+        Options::setMosaicTransparencyAuto(v);
         auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
         tiles->setPainterAlphaAuto(v);
         if (v)
@@ -367,6 +372,7 @@ void FramingAssistantUI::calculateFOV()
     Options::setCameraPixelHeight(ui->pixelHSizeSpin->value());
     Options::setCameraWidth(ui->cameraWSpin->value());
     Options::setCameraHeight(ui->cameraHSpin->value());
+    Options::setCameraRotation(ui->positionAngleSpin->value());
 
     // Calculate FOV in arcmins
     const auto fov_x = 206264.8062470963552 * ui->cameraWSpin->value() * ui->pixelWSizeSpin->value() / 60000.0 /
@@ -465,16 +471,6 @@ void FramingAssistantUI::constructMosaic()
         return;
 
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
-
-    // Update PA
-    if (std::abs(tiles->positionAngle() - ui->positionAngleSpin->value()) > 0)
-    {
-        Options::setCameraRotation(ui->positionAngleSpin->value());
-    }
-
-    //    qCDebug(KSTARS_EKOS_SCHEDULER) << "Tile FOV in pixels W:" << ui->cameraWFOVSpin->value() * pixelsPerArcminRA << "H:"
-    //                                   << ui->cameraHFOVSpin->value() * pixelsPerArcminDE;
-
     // Set Basic Metadata
 
     // Center
@@ -498,6 +494,12 @@ void FramingAssistantUI::constructMosaic()
 
 void FramingAssistantUI::fetchINDIInformation()
 {
+    // Block all signals so we can set the values directly.
+    for (auto oneWidget : ui->equipment->children())
+        oneWidget->blockSignals(true);
+    for (auto oneWidget : ui->createGrid->children())
+        oneWidget->blockSignals(true);
+
     QDBusInterface alignInterface("org.kde.kstars",
                                   "/KStars/Ekos/Align",
                                   "org.kde.kstars.Ekos.Align",
@@ -530,16 +532,18 @@ void FramingAssistantUI::fetchINDIInformation()
         QList<double> const values = solutionReply.value();
         if (values[0] > INVALID_VALUE)
         {
-            m_Rotation = values[0] + 180;
-            if (m_Rotation > 180)
-                m_Rotation -= 360.0;
-            if (m_Rotation < -180)
-                m_Rotation += 360.0;
-            ui->positionAngleSpin->setValue(m_Rotation);
+            m_PA = SolverUtils::rotationToPositionAngle(values[0]);
+            ui->positionAngleSpin->setValue(m_PA);
         }
     }
 
     calculateFOV();
+
+    // Restore all signals
+    for (auto oneWidget : ui->equipment->children())
+        oneWidget->blockSignals(false);
+    for (auto oneWidget : ui->createGrid->children())
+        oneWidget->blockSignals(false);
 }
 
 void FramingAssistantUI::rewordStepEvery(int v)
@@ -647,7 +651,9 @@ void FramingAssistantUI::createJobs()
     auto schedulerListFile = QString("%1/%2.esl").arg(outputDirectory, target);
     scheduler->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
-    Ekos::Manager::Instance()->raise();
+    Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
+
+
 }
 
 void FramingAssistantUI::setMountState(ISD::Telescope::Status value)

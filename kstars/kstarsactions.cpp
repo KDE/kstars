@@ -1937,9 +1937,13 @@ void KStars::removeColorMenuItem(const QString &actionName)
 
 void KStars::slotAboutToQuit()
 {
+    if (m_SkyMap == nullptr)
+        return;
+
     // Delete skymap. This required to run destructors and save
     // current state in the option.
     delete m_SkyMap;
+    m_SkyMap = nullptr;
 
     //Store Window geometry in Options object
     Options::setWindowWidth(width());

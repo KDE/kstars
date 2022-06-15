@@ -141,8 +141,8 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
     background->setLayer("background");
     background->setVisible(true);
 
-    avtUI->raBox->setDegType(false);
-    avtUI->decBox->setDegType(true);
+    avtUI->raBox->setUnits(dmsBox::HOURS);
+    avtUI->decBox->setUnits(dmsBox::DEGREES);
 
     //FIXME:
     //Doesn't make sense to manually adjust long/lat unless we can modify TZ also

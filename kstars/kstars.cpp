@@ -652,4 +652,5 @@ void KStars::closeEvent(QCloseEvent *event)
 {
     KStars::Closing = true;
     QWidget::closeEvent(event);
+    slotAboutToQuit();
 }

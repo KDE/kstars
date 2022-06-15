@@ -1225,7 +1225,8 @@ void Align::calculateFOV()
     if (m_FOVWidth < 1 || m_FOVWidth > 60 * 180 || m_FOVHeight < 1 || m_FOVHeight > 60 * 180)
     {
         appendLogText(
-            i18n("Warning! The calculated field of view (%1) is out of bounds. Ensure the telescope focal length and camera pixel size are correct.", calculatedFOV));
+            i18n("Warning! The calculated field of view (%1) is out of bounds. Ensure the telescope focal length and camera pixel size are correct.",
+                 calculatedFOV));
         return;
     }
 
@@ -1235,7 +1236,8 @@ void Align::calculateFOV()
     FocalLengthOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength, 0, 'f', 1).
                             arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_TelescopeFocalLength, 0, 'f', 1));
     FocalRatioOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1).
-                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1));
+                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0,
+                               'f', 1));
 
     if (effectiveFocalLength > 0)
     {
@@ -2135,7 +2137,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // TODO 2019-11-06 JM: KStars needs to support "upside-down" displays since this is a hack.
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
-    double solverPA = rotationToPositionAngle(orientation);
+    double solverPA = SolverUtils::rotationToPositionAngle(orientation);
     solverFOV->setCenter(alignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
@@ -2228,7 +2230,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             {
                 // PA = RawAngle * Multiplier + Offset
                 double rawAngle = absAngle->at(0)->getValue();
-                double offset   = range360(solverPA - (rawAngle * Options::pAMultiplier()));
+                double offset   = range360(currentRotatorPA - (rawAngle * Options::pAMultiplier()));
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
                                            << "Rotator Offset:" << offset;
@@ -2239,10 +2241,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                     && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
                 double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
-                //                if (rawAngle < 0)
-                //                    rawAngle += 360;
-                //                else if (rawAngle > 360)
-                //                    rawAngle -= 360;
                 absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
@@ -2791,9 +2789,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
     {
         // PA = RawAngle * Multiplier + Offset
         currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
-        if (currentRotatorPA > 180)
+        while (currentRotatorPA > 180)
             currentRotatorPA -= 360;
-        if (currentRotatorPA < -180)
+        while (currentRotatorPA < -180)
             currentRotatorPA += 360;
         if (std::isnan(loadSlewTargetPA) == false
                 && fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
@@ -3709,16 +3707,6 @@ void Align::syncFOV()
         KSNotification::error(i18n("Invalid FOV."));
         FOVOut->setStyleSheet("background-color:red");
     }
-}
-
-double Align::rotationToPositionAngle(double value)
-{
-    double pa = value + 180;
-    if (pa > 180)
-        pa -= 360;
-    if (pa < -180)
-        pa += 360;
-    return pa;
 }
 
 // m_wasSlewStarted can't be false for more than 10s after a slew starts.

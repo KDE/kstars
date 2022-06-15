@@ -22,6 +22,7 @@
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
+#include "ui_limits.h"
 
 #include <QTimer>
 #include <QUrl>
@@ -1128,6 +1129,8 @@ class Capture : public QWidget, public Ui::Capture
 
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
+        std::unique_ptr<Ui::Limits> m_LimitsUI;
+        QPointer<QDialog> m_LimitsDialog;
 
         QList<double> downloadTimes;
         QElapsedTimer m_DownloadTimer;

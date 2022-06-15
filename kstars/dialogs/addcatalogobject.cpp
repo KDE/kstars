@@ -15,7 +15,7 @@ AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
     : QDialog(parent), ui(new Ui::AddCatalogObject), m_object{ obj }
 {
     ui->setupUi(this);
-    ui->ra->setDegType(false);
+    ui->ra->setUnits(dmsBox::HOURS);
     fill_form_from_object();
 
     connect(ui->name, &QLineEdit::textChanged,

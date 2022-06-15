@@ -32,95 +32,96 @@
  */
 class dmsBox : public QLineEdit
 {
-    Q_OBJECT
-    Q_PROPERTY(bool degType READ degType WRITE setDegType)
+        Q_OBJECT
+        Q_PROPERTY(Unit units READ getUnits WRITE setUnits)
 
-  public:
+    public:
 
-    enum class Unit {
-        HOURS,
-        DEGREES
-    };
-    /**
-     * Constructor for the dmsBox object.
-     *
-     * @param parent Pointer to the parent QWidget
-     * @param unit Units to use (Degree/Arcmin/Arcsec or Hour/Min/Sec)
-     */
-    explicit dmsBox(QWidget *parent, Unit unit);
+        typedef enum
+        {
+            HOURS,
+            DEGREES
+        } Unit;
+        /**
+         * Constructor for the dmsBox object.
+         *
+         * @param parent Pointer to the parent QWidget
+         * @param unit Units to use (Degree/Arcmin/Arcsec or Hour/Min/Sec)
+         */
+        explicit dmsBox(QWidget *parent, Unit unit);
 
-    /**
-     * Deprecated delegating constructor for backwards compatibility
-     *
-     * @param parent Pointer to the parent QWidget
-     * @param isDegree If true, use Unit::DEGREES; if false, use Unit::HOURS
-     */
-    explicit dmsBox(QWidget *parent, bool isDegree = true)
-        : dmsBox(parent, isDegree ? Unit::DEGREES : Unit::HOURS) {}
+        /**
+         * Deprecated delegating constructor for backwards compatibility
+         *
+         * @param parent Pointer to the parent QWidget
+         * @param isDegree If true, use Unit::DEGREES; if false, use Unit::HOURS
+         */
+        explicit dmsBox(QWidget *parent, bool isDegree = true)
+            : dmsBox(parent, isDegree ? Unit::DEGREES : Unit::HOURS) {}
 
-    virtual ~dmsBox() override = default;
+        virtual ~dmsBox() override = default;
 
-    /**
-     * Display an angle.
-     *
-     * @param d the dms object which is to be displayed.
-     */
-    void show(const dms &d);
+        /**
+         * Display an angle.
+         *
+         * @param d the dms object which is to be displayed.
+         */
+        void show(const dms &d);
 
-    /**
-     * Display an angle.This behaves essentially like the above
-     * function.  It differs only in the data type of its argument.
-     *
-     * @param t the dms object which is to be displayed.
-     */
-    inline void show(const dms *t) { show(*t); }
+        /**
+         * Display an angle.This behaves essentially like the above
+         * function.  It differs only in the data type of its argument.
+         *
+         * @param t the dms object which is to be displayed.
+         */
+        inline void show(const dms *t)
+        {
+            show(*t);
+        }
 
-    /**
-     * Parse the text in the dmsBox as an angle. The text may be an integer
-     * or double value, or it may be a triplet of integer values (separated by spaces
-     * or colons) representing deg/hrs, min, sec.  It is also possible to have two
-     * fields.  In this case, if the second field is a double, it is converted
-     * to decimal min and double sec.
-     *
-     * @param ok set to true if a dms object was successfully created.
-     * @return a dms object constructed from the fields of the dmsbox
-     */
-    dms createDms(bool *ok = nullptr);
+        /**
+         * Parse the text in the dmsBox as an angle. The text may be an integer
+         * or double value, or it may be a triplet of integer values (separated by spaces
+         * or colons) representing deg/hrs, min, sec.  It is also possible to have two
+         * fields.  In this case, if the second field is a double, it is converted
+         * to decimal min and double sec.
+         *
+         * @param ok set to true if a dms object was successfully created.
+         * @return a dms object constructed from the fields of the dmsbox
+         */
+        dms createDms(bool *ok = nullptr);
 
-    /**
-     * @return a boolean indicating if object contains degrees or hours
-     * @note Deprecated. Preserved for backward compatibility.
-     */
-    inline bool degType(void) const { return (m_unit == Unit::DEGREES); }
+        /**
+         * @return the unit being used (DEGREES or HOURS)
+         */
+        inline Unit getUnits() const
+        {
+            return m_unit;
+        }
 
-    /**
-     * @return the unit being used (DEGREES or HOURS)
-     */
-    inline Unit unitType(void) const { return m_unit; }
+        /**
+         * @short set the dmsBox to Degrees or Hours
+         *
+         * @param unit If Unit::DEGREES, then the display and
+         * interpretation of text is in degrees, if Unit::HOURS then in
+         * hours.
+         */
+        void setUnits(Unit unit);
 
-    /**
-     * @short set the dmsBox to Degrees or Hours
-     *
-     * @param unit If Unit::DEGREES, then the display and
-     * interpretation of text is in degrees, if Unit::HOURS then in
-     * hours.
-     */
-    void setUnits(Unit unit);
+        /** Clears the QLineEdit */
+        inline void clearFields(void)
+        {
+            setText(QString());
+        }
 
-    /**
-     * @short set the dmsBox to Degrees or Hours
-     * @note Deprecated. Overload of the above retained for backward compatibility.
-     */
-    inline void setDegType(bool isDegree) { setUnits(isDegree ? Unit::DEGREES : Unit::HOURS); }
+        inline bool isEmpty() const
+        {
+            return text().isEmpty();
+        }
 
-    /** Clears the QLineEdit */
-    inline void clearFields(void) { setText(QString()); }
+    private:
 
-    inline bool isEmpty() const { return text().isEmpty(); }
+        void setPlaceholderText();
 
-  private:
-
-    void setPlaceholderText();
-
-    Unit m_unit;
+        Unit m_unit;
 };

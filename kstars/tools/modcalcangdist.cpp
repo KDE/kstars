@@ -22,8 +22,8 @@
 modCalcAngDist::modCalcAngDist(QWidget *parentSplit) : QFrame(parentSplit)
 {
     setupUi(this);
-    FirstRA->setDegType(false);
-    SecondRA->setDegType(false);
+    FirstRA->setUnits(dmsBox::HOURS);
+    SecondRA->setUnits(dmsBox::HOURS);
 
     connect(FirstRA, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()));
     connect(FirstDec, SIGNAL(editingFinished()), this, SLOT(slotValidatePositions()));

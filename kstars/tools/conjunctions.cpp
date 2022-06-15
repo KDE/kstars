@@ -59,7 +59,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     pNames[KSPlanetBase::MOON] = i18n("Moon");
 
     // Initialize the Maximum Separation box to 1 degree
-    maxSeparationBox->setDegType(true);
+    maxSeparationBox->setUnits(dmsBox::DEGREES);
     maxSeparationBox->show(1.0_deg);
 
     //FilterEdit->showClearButton = true;

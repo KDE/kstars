@@ -79,6 +79,10 @@ Capture::Capture()
         qCDebug(KSTARS_EKOS_CAPTURE) << DSLRInfos;
     }
 
+    m_LimitsDialog = new QDialog(this);
+    m_LimitsUI.reset(new Ui::Limits());
+    m_LimitsUI->setupUi(m_LimitsDialog);
+
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
     //isAutoGuiding   = false;
@@ -124,6 +128,7 @@ Capture::Capture()
     connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
     connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
+    connect(limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
     connect(temperatureRegulationB, &QPushButton::clicked, this, &Ekos::Capture::showTemperatureRegulation);
 
     startB->setIcon(QIcon::fromTheme("media-playback-start"));
@@ -278,29 +283,29 @@ Capture::Capture()
     /// Settings
     ////////////////////////////////////////////////////////////////////////
     // #0 Start Guide Deviation Check
-    startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
-    connect(startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
+    m_LimitsUI->startGuiderDriftS->setChecked(Options::enforceStartGuiderDrift());
+    connect(m_LimitsUI->startGuiderDriftS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceStartGuiderDrift(checked);
     });
 
     // #1 Abort Guide Deviation Check
-    limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
-    connect(limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
+    m_LimitsUI->limitGuideDeviationS->setChecked(Options::enforceGuideDeviation());
+    connect(m_LimitsUI->limitGuideDeviationS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceGuideDeviation(checked);
     });
 
     // #2 Guide Deviation Value
-    limitGuideDeviationN->setValue(Options::guideDeviation());
-    connect(limitGuideDeviationN, &QDoubleSpinBox::editingFinished, [ = ]()
+    m_LimitsUI->limitGuideDeviationN->setValue(Options::guideDeviation());
+    connect(m_LimitsUI->limitGuideDeviationN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setGuideDeviation(limitGuideDeviationN->value());
+        Options::setGuideDeviation(m_LimitsUI->limitGuideDeviationN->value());
     });
 
     // 3. Autofocus HFR Check
-    limitFocusHFRS->setChecked(Options::enforceAutofocus());
-    connect(limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
+    m_LimitsUI->limitFocusHFRS->setChecked(Options::enforceAutofocus());
+    connect(m_LimitsUI->limitFocusHFRS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocus(checked);
         if (checked == false)
@@ -308,15 +313,15 @@ Capture::Capture()
     });
 
     // 4. Autofocus HFR Deviation
-    limitFocusHFRN->setValue(Options::hFRDeviation());
-    connect(limitFocusHFRN, &QDoubleSpinBox::editingFinished, [ = ]()
+    m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
+    connect(m_LimitsUI->limitFocusHFRN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setHFRDeviation(limitFocusHFRN->value());
+        Options::setHFRDeviation(m_LimitsUI->limitFocusHFRN->value());
     });
 
     // 5. Autofocus temperature Check
-    limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
-    connect(limitFocusDeltaTS, &QCheckBox::toggled, [ = ](bool checked)
+    m_LimitsUI->limitFocusDeltaTS->setChecked(Options::enforceAutofocusOnTemperature());
+    connect(m_LimitsUI->limitFocusDeltaTS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceAutofocusOnTemperature(checked);
         if (checked == false)
@@ -324,24 +329,24 @@ Capture::Capture()
     });
 
     // 6. Autofocus temperature Delta
-    limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
-    connect(limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, [ = ]()
+    m_LimitsUI->limitFocusDeltaTN->setValue(Options::maxFocusTemperatureDelta());
+    connect(m_LimitsUI->limitFocusDeltaTN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setMaxFocusTemperatureDelta(limitFocusDeltaTN->value());
+        Options::setMaxFocusTemperatureDelta(m_LimitsUI->limitFocusDeltaTN->value());
     });
 
     // 7. Refocus Every Check
-    limitRefocusS->setChecked(Options::enforceRefocusEveryN());
-    connect(limitRefocusS, &QCheckBox::toggled, [ = ](bool checked)
+    m_LimitsUI->limitRefocusS->setChecked(Options::enforceRefocusEveryN());
+    connect(m_LimitsUI->limitRefocusS, &QCheckBox::toggled, [ = ](bool checked)
     {
         Options::setEnforceRefocusEveryN(checked);
     });
 
     // 8. Refocus Every Value
-    limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
-    connect(limitRefocusN, &QDoubleSpinBox::editingFinished, [ = ]()
+    m_LimitsUI->limitRefocusN->setValue(static_cast<int>(Options::refocusEveryN()));
+    connect(m_LimitsUI->limitRefocusN, &QDoubleSpinBox::editingFinished, [ = ]()
     {
-        Options::setRefocusEveryN(static_cast<uint>(limitRefocusN->value()));
+        Options::setRefocusEveryN(static_cast<uint>(m_LimitsUI->limitRefocusN->value()));
     });
 
     // 9. File settings: filter name
@@ -366,26 +371,26 @@ Capture::Capture()
     });
 
     // 12. Refocus after meridian flip
-    meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
-    connect(meridianRefocusS, &QCheckBox::toggled, [](bool checked)
+    m_LimitsUI->meridianRefocusS->setChecked(Options::refocusAfterMeridianFlip());
+    connect(m_LimitsUI->meridianRefocusS, &QCheckBox::toggled, [](bool checked)
     {
         Options::setRefocusAfterMeridianFlip(checked);
     });
 
     QCheckBox * const checkBoxes[] =
     {
-        limitGuideDeviationS,
-        limitRefocusS,
-        limitGuideDeviationS,
+        m_LimitsUI->limitGuideDeviationS,
+        m_LimitsUI->limitRefocusS,
+        m_LimitsUI->limitGuideDeviationS,
     };
     for (const QCheckBox * control : checkBoxes)
         connect(control, &QCheckBox::toggled, this, &Ekos::Capture::setDirty);
 
     QDoubleSpinBox * const dspinBoxes[]
     {
-        limitFocusHFRN,
-        limitFocusDeltaTN,
-        limitGuideDeviationN,
+        m_LimitsUI->limitFocusHFRN,
+        m_LimitsUI->limitFocusDeltaTN,
+        m_LimitsUI->limitGuideDeviationN,
     };
     for (const QDoubleSpinBox * control : dspinBoxes)
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
@@ -761,11 +766,11 @@ void Capture::start()
 
     setBusy(true);
 
-    if (limitGuideDeviationS->isChecked() && autoGuideReady == false)
+    if (m_LimitsUI->limitGuideDeviationS->isChecked() && autoGuideReady == false)
         appendLogText(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
-    if (limitFocusHFRS->isChecked() && m_AutoFocusReady == false)
+    if (m_LimitsUI->limitFocusHFRS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: in-sequence focusing is selected but autofocus process was not started."));
-    if (limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
+    if (m_LimitsUI->limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
     if (m_captureDeviceAdaptor->getActiveCCD()->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
@@ -2144,7 +2149,7 @@ IPState Capture::resumeSequence()
         if (next_job)
         {
             //check delta also when starting a new job!
-            isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
+            isTemperatureDeltaCheckActive = (m_AutoFocusReady && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
             prepareJob(next_job);
 
@@ -2167,7 +2172,7 @@ IPState Capture::resumeSequence()
     // Otherwise, let's prepare for next exposure.
     else
     {
-        isTemperatureDeltaCheckActive = (m_AutoFocusReady && limitFocusDeltaTS->isChecked());
+        isTemperatureDeltaCheckActive = (m_AutoFocusReady && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (m_GuideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
@@ -2245,15 +2250,15 @@ bool Capture::startFocusIfRequired()
         return false;
 
     isRefocus = false;
-    isInSequenceFocus = (m_AutoFocusReady && limitFocusHFRS->isChecked());
+    isInSequenceFocus = (m_AutoFocusReady && m_LimitsUI->limitFocusHFRS->isChecked());
 
     // check if time for forced refocus
-    if (limitRefocusS->isChecked())
+    if (m_LimitsUI->limitRefocusS->isChecked())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
-                                     ". Requested Interval (secs): " << limitRefocusN->value() * 60;
+                                     ". Requested Interval (secs): " << m_LimitsUI->limitRefocusN->value() * 60;
 
-        if (getRefocusEveryNTimerElapsedSec() >= limitRefocusN->value() * 60)
+        if (getRefocusEveryNTimerElapsedSec() >= m_LimitsUI->limitRefocusN->value() * 60)
         {
             isRefocus = true;
             appendLogText(i18n("Scheduled refocus starting after %1 seconds...", getRefocusEveryNTimerElapsedSec()));
@@ -2263,16 +2268,16 @@ bool Capture::startFocusIfRequired()
     if (!isRefocus && isTemperatureDeltaCheckActive)
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << focusTemperatureDelta <<
-                                     ". Requested maximum delta (°C): " << limitFocusDeltaTN->value();
+                                     ". Requested maximum delta (°C): " << m_LimitsUI->limitFocusDeltaTN->value();
 
-        if (focusTemperatureDelta > limitFocusDeltaTN->value())
+        if (focusTemperatureDelta > m_LimitsUI->limitFocusDeltaTN->value())
         {
             isRefocus = true;
             appendLogText(i18n("Refocus starting because of temperature change of %1 °C...", focusTemperatureDelta));
         }
     }
 
-    if (meridianRefocusS->isChecked() && refocusAfterMeridianFlip)
+    if (m_LimitsUI->meridianRefocusS->isChecked() && refocusAfterMeridianFlip)
     {
         isRefocus = true;
         refocusAfterMeridianFlip = false;
@@ -2296,7 +2301,7 @@ bool Capture::startFocusIfRequired()
             m_captureDeviceAdaptor->getActiveChip()->abortExposure();
 
         // If we are over 30 mins since last autofocus, we'll reset frame.
-        if (limitRefocusN->value() >= 30)
+        if (m_LimitsUI->limitRefocusN->value() >= 30)
             emit resetFocus();
 
         // force refocus
@@ -2328,7 +2333,7 @@ bool Capture::startFocusIfRequired()
             m_captureDeviceAdaptor->getActiveChip()->abortExposure();
 
         setFocusStatus(FOCUS_PROGRESS);
-        emit checkFocus(limitFocusHFRN->value() == 0.0 ? 0.1 : limitFocusHFRN->value());
+        emit checkFocus(m_LimitsUI->limitFocusHFRN->value() == 0.0 ? 0.1 : m_LimitsUI->limitFocusHFRN->value());
 
         qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
         m_State = CAPTURE_FOCUSING;
@@ -2963,8 +2968,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
 
     job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
-                         && startGuiderDriftS->isChecked()));
-    job->setTargetStartGuiderDrift(startGuiderDriftN->value());
+                         && m_LimitsUI->startGuiderDriftS->isChecked()));
+    job->setTargetStartGuiderDrift(m_LimitsUI->startGuiderDriftN->value());
 
     //if (filterSlot != nullptr && currentFilter != nullptr)
     if (captureFilterS->currentIndex() != -1 && m_captureDeviceAdaptor->getFilterWheel() != nullptr)
@@ -3751,12 +3756,12 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (m_State == CAPTURE_PROGRESS)
     {
         // initial guiding deviation irrelevant or below limit
-        if (startGuiderDriftS->isChecked() == false || deviation_rms < startGuiderDriftN->value())
+        if (m_LimitsUI->startGuiderDriftS->isChecked() == false || deviation_rms < m_LimitsUI->startGuiderDriftN->value())
         {
             m_State = CAPTURE_CALIBRATING;
             if (m_DeviationDetected == true)
                 appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
-                                   deviationText, startGuiderDriftN->value()));
+                                   deviationText, m_LimitsUI->startGuiderDriftN->value()));
             m_DeviationDetected = false;
         }
         else
@@ -3764,7 +3769,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             // warn only once
             if (m_DeviationDetected == false)
                 appendLogText(i18n("Initial guiding deviation %1 exceeded limit value of %2 arcsecs",
-                                   deviationText, startGuiderDriftN->value()));
+                                   deviationText, m_LimitsUI->startGuiderDriftN->value()));
 
             m_DeviationDetected = true;
 
@@ -3784,7 +3789,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     {
         // If the user didn't select any guiding deviation, we fall through
         // otherwise we can for deviation RMS
-        if (limitGuideDeviationS->isChecked() == false || deviation_rms < limitGuideDeviationN->value())
+        if (m_LimitsUI->limitGuideDeviationS->isChecked() == false || deviation_rms < m_LimitsUI->limitGuideDeviationN->value())
         {
             appendLogText(i18n("Post meridian flip calibration completed successfully."));
             // N.B. Set meridian flip stage AFTER resumeSequence() always
@@ -3794,7 +3799,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     }
 
     // We don't enforce limit on previews
-    if (limitGuideDeviationS->isChecked() == false || (activeJob
+    if (m_LimitsUI->limitGuideDeviationS->isChecked() == false || (activeJob
             && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
                 || activeJob->getExposeLeft() == 0.0)))
         return;
@@ -3803,7 +3808,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     // And we accounted for the spike
     if (activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
-        if (deviation_rms <= limitGuideDeviationN->value())
+        if (deviation_rms <= m_LimitsUI->limitGuideDeviationN->value())
             m_SpikesDetected = 0;
         else
         {
@@ -3814,7 +3819,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive samples, "
                                "suspending exposure and waiting for guider up to %3 seconds.",
-                               deviationText, limitGuideDeviationN->value(),
+                               deviationText, m_LimitsUI->limitGuideDeviationN->value(),
                                QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3),
                                CONSECUTIVE_SPIKES_TO_FAIL));
 
@@ -3846,7 +3851,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     if (abortedJob && m_DeviationDetected)
     {
-        if (deviation_rms <= limitGuideDeviationN->value())
+        if (deviation_rms <= m_LimitsUI->limitGuideDeviationN->value())
         {
             guideDeviationTimer.stop();
 
@@ -3859,11 +3864,11 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                     if (seqDelay == 0)
                         appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                            "resuming exposure.",
-                                           deviationText, limitGuideDeviationN->value()));
+                                           deviationText, m_LimitsUI->limitGuideDeviationN->value()));
                     else
                         appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                            "resuming exposure in %3 seconds.",
-                                           deviationText, limitGuideDeviationN->value(), seqDelay / 1000.0));
+                                           deviationText, m_LimitsUI->limitGuideDeviationN->value(), seqDelay / 1000.0));
 
                     captureDelayTimer->start(seqDelay);
                 }
@@ -3877,7 +3882,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 captureDelayTimer->stop();
 
             appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
-                               deviationText, limitGuideDeviationN->value()));
+                               deviationText, m_LimitsUI->limitGuideDeviationN->value()));
         }
     }
 }
@@ -3936,7 +3941,7 @@ void Capture::setFocusStatus(FocusState state)
 
             // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
             // in case in-sequence-focusing is used.
-            limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+            m_LimitsUI->limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
         }
 
         // successful focus so reset elapsed time
@@ -3989,7 +3994,7 @@ void Capture::updateHFRThreshold()
 
     if (filterHFRList.empty())
     {
-        limitFocusHFRN->setValue(Options::hFRDeviation());
+        m_LimitsUI->limitFocusHFRN->setValue(Options::hFRDeviation());
         return;
     }
 
@@ -4002,7 +4007,7 @@ void Capture::updateHFRThreshold()
 
     // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
     // in case in-sequence-focusing is used.
-    limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
+    m_LimitsUI->limitFocusHFRN->setValue(median + (median * (Options::hFRThresholdPercentage() / 100.0)));
 }
 
 void Capture::setMeridianFlipStage(MFStage stage)
@@ -4067,7 +4072,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                     qCDebug(KSTARS_EKOS_CAPTURE) << "Resetting HFR value to file value of" << fileHFR << "pixels after meridian flip.";
                     //firstAutoFocus = true;
                     inSequenceFocusCounter = 0;
-                    limitFocusHFRN->setValue(fileHFR);
+                    m_LimitsUI->limitFocusHFRN->setValue(fileHFR);
                 }
 
                 // after a meridian flip we do not need to dither
@@ -4075,7 +4080,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                     ditherCounter = Options::ditherFrames();
 
                 // if requested set flag so it perform refocus before next frame
-                if (meridianRefocusS->isChecked())
+                if (m_LimitsUI->meridianRefocusS->isChecked())
                     refocusAfterMeridianFlip = true;
 
                 break;
@@ -4295,40 +4300,40 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
-                    limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                    m_LimitsUI->limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
                 {
-                    startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
-                    startGuiderDriftN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                    m_LimitsUI->startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->startGuiderDriftN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "Autofocus"))
                 {
-                    limitFocusHFRS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->limitFocusHFRS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     double const HFRValue = cLocale.toDouble(pcdataXMLEle(ep));
                     // Set the HFR value from XML, or reset it to zero, don't let another unrelated older HFR be used
                     // Note that HFR value will only be serialized to XML when option "Save Sequence HFR to File" is enabled
                     fileHFR = HFRValue > 0.0 ? HFRValue : 0.0;
-                    limitFocusHFRN->setValue(fileHFR);
+                    m_LimitsUI->limitFocusHFRN->setValue(fileHFR);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnTemperatureDelta"))
                 {
-                    limitFocusDeltaTS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->limitFocusDeltaTS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     double const deltaValue = cLocale.toDouble(pcdataXMLEle(ep));
-                    limitFocusDeltaTN->setValue(deltaValue);
+                    m_LimitsUI->limitFocusDeltaTN->setValue(deltaValue);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusEveryN"))
                 {
-                    limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->limitRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     int const minutesValue = cLocale.toInt(pcdataXMLEle(ep));
                     // Set the refocus period from XML, or reset it to zero, don't let another unrelated older refocus period be used.
                     refocusEveryNMinutesValue = minutesValue > 0 ? minutesValue : 0;
-                    limitRefocusN->setValue(refocusEveryNMinutesValue);
+                    m_LimitsUI->limitRefocusN->setValue(refocusEveryNMinutesValue);
                 }
                 else if (!strcmp(tagXMLEle(ep), "RefocusOnMeridianFlip"))
                 {
-                    meridianRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                    m_LimitsUI->meridianRefocusS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 }
                 else if (!strcmp(tagXMLEle(ep), "MeridianFlip"))
                 {
@@ -4696,22 +4701,24 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Observer>" << m_ObserverName << "</Observer>" << Qt::endl;
     outstream << "<CCD>" << cameraS->currentText() << "</CCD>" << Qt::endl;
     outstream << "<FilterWheel>" << filterWheelS->currentText() << "</FilterWheel>" << Qt::endl;
-    outstream << "<GuideDeviation enabled='" << (limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitGuideDeviationN->value()) << "</GuideDeviation>" << Qt::endl;
-    outstream << "<GuideStartDeviation enabled='" << (startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(startGuiderDriftN->value()) << "</GuideStartDeviation>" << Qt::endl;
+    outstream << "<GuideDeviation enabled='" << (m_LimitsUI->limitGuideDeviationS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(m_LimitsUI->limitGuideDeviationN->value()) << "</GuideDeviation>" << Qt::endl;
+    outstream << "<GuideStartDeviation enabled='" << (m_LimitsUI->startGuiderDriftS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(m_LimitsUI->startGuiderDriftN->value()) << "</GuideStartDeviation>" << Qt::endl;
     // Issue a warning when autofocus is enabled but Ekos options prevent HFR value from being written
-    if (limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
+    if (m_LimitsUI->limitFocusHFRS->isChecked() && !Options::saveHFRToFile())
         appendLogText(i18n(
                           "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to File\" is not enabled. "
                           "Current HFR value will not be written to sequence file."));
-    outstream << "<Autofocus enabled='" << (limitFocusHFRS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(Options::saveHFRToFile() ? limitFocusHFRN->value() : 0) << "</Autofocus>" << Qt::endl;
-    outstream << "<RefocusOnTemperatureDelta enabled='" << (limitFocusDeltaTS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << Qt::endl;
-    outstream << "<RefocusEveryN enabled='" << (limitRefocusS->isChecked() ? "true" : "false") << "'>"
-              << cLocale.toString(limitRefocusN->value()) << "</RefocusEveryN>" << Qt::endl;
-    outstream << "<RefocusOnMeridianFlip enabled='" << (meridianRefocusS->isChecked() ? "true" : "false") << "'/>" << Qt::endl;
+    outstream << "<Autofocus enabled='" << (m_LimitsUI->limitFocusHFRS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(Options::saveHFRToFile() ? m_LimitsUI->limitFocusHFRN->value() : 0) << "</Autofocus>" << Qt::endl;
+    outstream << "<RefocusOnTemperatureDelta enabled='" << (m_LimitsUI->limitFocusDeltaTS->isChecked() ? "true" : "false") <<
+              "'>"
+              << cLocale.toString(m_LimitsUI->limitFocusDeltaTN->value()) << "</RefocusOnTemperatureDelta>" << Qt::endl;
+    outstream << "<RefocusEveryN enabled='" << (m_LimitsUI->limitRefocusS->isChecked() ? "true" : "false") << "'>"
+              << cLocale.toString(m_LimitsUI->limitRefocusN->value()) << "</RefocusEveryN>" << Qt::endl;
+    outstream << "<RefocusOnMeridianFlip enabled='" << (m_LimitsUI->meridianRefocusS->isChecked() ? "true" : "false") << "'/>"
+              << Qt::endl;
     for (auto &job : jobs)
     {
         auto rawPrefix = job->getCoreProperty(SequenceJob::SJ_RawPrefix).toString();
@@ -4931,9 +4938,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    startGuiderDriftS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool());
+    m_LimitsUI->startGuiderDriftS->setChecked(job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool());
     if (job->getCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift).toBool())
-        startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
+        m_LimitsUI->startGuiderDriftN->setValue(job->getTargetStartGuiderDrift());
 
     // Flat field options
     calibrationB->setEnabled(job->getFrameType() != FRAME_LIGHT);
@@ -5233,16 +5240,16 @@ int Capture::getActiveJobRemainingTime()
 
 void Capture::setMaximumGuidingDeviation(bool enable, double value)
 {
-    limitGuideDeviationS->setChecked(enable);
+    m_LimitsUI->limitGuideDeviationS->setChecked(enable);
     if (enable)
-        limitGuideDeviationN->setValue(value);
+        m_LimitsUI->limitGuideDeviationN->setValue(value);
 }
 
 void Capture::setInSequenceFocus(bool enable, double HFR)
 {
-    limitFocusHFRS->setChecked(enable);
+    m_LimitsUI->limitFocusHFRS->setChecked(enable);
     if (enable)
-        limitFocusHFRN->setValue(HFR);
+        m_LimitsUI->limitFocusHFRN->setValue(HFR);
 }
 
 void Capture::setTargetTemperature(double temperature)
@@ -5466,7 +5473,7 @@ bool Capture::checkMeridianFlipReady()
     // meridian flip requested or already in action
 
     // Reset frame if we need to do focusing later on
-    if (isInSequenceFocus || (limitRefocusS->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
+    if (isInSequenceFocus || (m_LimitsUI->limitRefocusS->isChecked() && getRefocusEveryNTimerElapsedSec() > 0))
         emit resetFocus();
 
     // signal that meridian flip may take place
@@ -5828,7 +5835,7 @@ void Capture::clearAutoFocusHFR()
     if (fileHFR > 0)
         return;
 
-    limitFocusHFRN->setValue(0);
+    m_LimitsUI->limitFocusHFRN->setValue(0);
     //firstAutoFocus = true;
 }
 
@@ -5994,7 +6001,7 @@ IPState Capture::checkLightFramePendingTasks()
 
     // step 6: check guide deviation for non meridian flip stages if the initial guide limit is set.
     //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
-    if (m_State == CAPTURE_PROGRESS && m_GuideState == GUIDE_GUIDING && startGuiderDriftS->isChecked())
+    if (m_State == CAPTURE_PROGRESS && m_GuideState == GUIDE_GUIDING && m_LimitsUI->startGuiderDriftS->isChecked())
         return IPS_BUSY;
 
     // step 7: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
@@ -6002,7 +6009,7 @@ IPState Capture::checkLightFramePendingTasks()
     //         Otherwise the meridian flip is complete
     if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
     {
-        if (limitGuideDeviationS->isChecked() || startGuiderDriftS->isChecked())
+        if (m_LimitsUI->limitGuideDeviationS->isChecked() || m_LimitsUI->startGuiderDriftS->isChecked())
             return IPS_BUSY;
         else
             setMeridianFlipStage(MF_NONE);
@@ -6413,12 +6420,12 @@ void Capture::showObserverDialog()
 void Capture::startRefocusTimer(bool forced)
 {
     /* If refocus is requested, only restart timer if not already running in order to keep current elapsed time since last refocus */
-    if (limitRefocusS->isChecked())
+    if (m_LimitsUI->limitRefocusS->isChecked())
     {
         // How much time passed since we last started the time
         long elapsedSecs = refocusEveryNTimer.elapsed() / 1000;
         // How many seconds do we wait for between focusing (60 mins ==> 3600 secs)
-        int totalSecs   = limitRefocusN->value() * 60;
+        int totalSecs   = m_LimitsUI->limitRefocusN->value() * 60;
 
         if (!refocusEveryNTimer.isValid() || forced)
         {
@@ -6779,60 +6786,60 @@ QJsonObject Capture::getCalibrationSettings()
 
 void Capture::setLimitSettings(const QJsonObject &settings)
 {
-    const bool deviationCheck = settings["deviationCheck"].toBool(limitGuideDeviationS->isChecked());
-    const double deviationValue = settings["deviationValue"].toDouble(limitGuideDeviationN->value());
-    const bool focusHFRCheck = settings["focusHFRCheck"].toBool(limitFocusHFRS->isChecked());
-    const double focusHFRValue = settings["focusHFRValue"].toDouble(limitFocusHFRN->value());
-    const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(limitFocusDeltaTS->isChecked());
-    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(limitFocusDeltaTN->value());
-    const bool refocusNCheck = settings["refocusNCheck"].toBool(limitRefocusS->isChecked());
-    const int refocusNValue = settings["refocusNValue"].toInt(limitRefocusN->value());
+    const bool deviationCheck = settings["deviationCheck"].toBool(m_LimitsUI->limitGuideDeviationS->isChecked());
+    const double deviationValue = settings["deviationValue"].toDouble(m_LimitsUI->limitGuideDeviationN->value());
+    const bool focusHFRCheck = settings["focusHFRCheck"].toBool(m_LimitsUI->limitFocusHFRS->isChecked());
+    const double focusHFRValue = settings["focusHFRValue"].toDouble(m_LimitsUI->limitFocusHFRN->value());
+    const bool focusDeltaTCheck = settings["focusDeltaTCheck"].toBool(m_LimitsUI->limitFocusDeltaTS->isChecked());
+    const double focusDeltaTValue = settings["focusDeltaTValue"].toDouble(m_LimitsUI->limitFocusDeltaTN->value());
+    const bool refocusNCheck = settings["refocusNCheck"].toBool(m_LimitsUI->limitRefocusS->isChecked());
+    const int refocusNValue = settings["refocusNValue"].toInt(m_LimitsUI->limitRefocusN->value());
 
     if (deviationCheck)
     {
-        limitGuideDeviationS->setChecked(true);
-        limitGuideDeviationN->setValue(deviationValue);
+        m_LimitsUI->limitGuideDeviationS->setChecked(true);
+        m_LimitsUI->limitGuideDeviationN->setValue(deviationValue);
     }
     else
-        limitGuideDeviationS->setChecked(false);
+        m_LimitsUI->limitGuideDeviationS->setChecked(false);
 
     if (focusHFRCheck)
     {
-        limitFocusHFRS->setChecked(true);
-        limitFocusHFRN->setValue(focusHFRValue);
+        m_LimitsUI->limitFocusHFRS->setChecked(true);
+        m_LimitsUI->limitFocusHFRN->setValue(focusHFRValue);
     }
     else
-        limitFocusHFRS->setChecked(false);
+        m_LimitsUI->limitFocusHFRS->setChecked(false);
 
     if (focusDeltaTCheck)
     {
-        limitFocusDeltaTS->setChecked(true);
-        limitFocusDeltaTN->setValue(focusDeltaTValue);
+        m_LimitsUI->limitFocusDeltaTS->setChecked(true);
+        m_LimitsUI->limitFocusDeltaTN->setValue(focusDeltaTValue);
     }
     else
-        limitFocusDeltaTS->setChecked(false);
+        m_LimitsUI->limitFocusDeltaTS->setChecked(false);
 
     if (refocusNCheck)
     {
-        limitRefocusS->setChecked(true);
-        limitRefocusN->setValue(refocusNValue);
+        m_LimitsUI->limitRefocusS->setChecked(true);
+        m_LimitsUI->limitRefocusN->setValue(refocusNValue);
     }
     else
-        limitRefocusS->setChecked(false);
+        m_LimitsUI->limitRefocusS->setChecked(false);
 }
 
 QJsonObject Capture::getLimitSettings()
 {
     QJsonObject settings =
     {
-        {"deviationCheck", limitGuideDeviationS->isChecked()},
-        {"deviationValue", limitGuideDeviationN->value()},
-        {"focusHFRCheck", limitFocusHFRS->isChecked()},
-        {"focusHFRValue", limitFocusHFRN->value()},
-        {"focusDeltaTCheck", limitFocusDeltaTS->isChecked()},
-        {"focusDeltaTValue", limitFocusDeltaTN->value()},
-        {"refocusNCheck", limitRefocusS->isChecked()},
-        {"refocusNValue", limitRefocusN->value()},
+        {"deviationCheck", m_LimitsUI->limitGuideDeviationS->isChecked()},
+        {"deviationValue", m_LimitsUI->limitGuideDeviationN->value()},
+        {"focusHFRCheck", m_LimitsUI->limitFocusHFRS->isChecked()},
+        {"focusHFRValue", m_LimitsUI->limitFocusHFRN->value()},
+        {"focusDeltaTCheck", m_LimitsUI->limitFocusDeltaTS->isChecked()},
+        {"focusDeltaTValue", m_LimitsUI->limitFocusDeltaTN->value()},
+        {"refocusNCheck", m_LimitsUI->limitRefocusS->isChecked()},
+        {"refocusNValue", m_LimitsUI->limitRefocusN->value()},
     };
 
     return settings;

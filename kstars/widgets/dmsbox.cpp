@@ -25,7 +25,7 @@ dmsBox::dmsBox(QWidget *parent, Unit unit) : QLineEdit(parent), m_unit(unit)
 
 void dmsBox::setPlaceholderText()
 {
-    if (degType())
+    if (m_unit == DEGREES)
         QLineEdit::setPlaceholderText("dd mm ss.s");
     else
         QLineEdit::setPlaceholderText("hh mm ss.s");
@@ -91,14 +91,18 @@ void dmsBox::setUnits(Unit unit)
 
 void dmsBox::show(const dms &d)
 {
-    if (m_unit == Unit::DEGREES) {
+    if (m_unit == Unit::DEGREES)
+    {
         double seconds = d.arcsec() + d.marcsec() / 1000.;
         setText(QString::asprintf("%02d %02d %05.2f", d.degree(), d.arcmin(), seconds));
     }
-    else if (m_unit == Unit::HOURS) {
+    else if (m_unit == Unit::HOURS)
+    {
         double seconds = d.second() + d.msecond() / 1000.;
         setText(QString::asprintf("%02d %02d %05.2f", d.hour(), d.minute(), seconds));
-    } else {
+    }
+    else
+    {
         Q_ASSERT(false); // Unhandled unit type
     }
 }

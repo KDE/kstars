@@ -183,3 +183,23 @@ void SolverUtils::solverTimeout()
     m_TemporaryFilename.clear();
     m_ImageData.reset();
 }
+
+double SolverUtils::rotationToPositionAngle(double value)
+{
+    double pa = value + 180;
+    while (pa > 180)
+        pa -= 360;
+    while (pa < -180)
+        pa += 360;
+    return pa;
+}
+
+double SolverUtils::positionAngleToRotation(double value)
+{
+    double rotation = value - 180;
+    while (rotation > 180)
+        rotation -= 360;
+    while (rotation < -180)
+        rotation += 360;
+    return rotation;
+}
