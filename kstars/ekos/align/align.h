@@ -529,8 +529,6 @@ class Align : public QWidget, public Ui::Align
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
         void setMountStatus(ISD::Telescope::Status newState);
-        //        void setMountCoords(const QString &ra, const QString &dec, const QString &az,
-        //                            const QString &alt, int pierSide, const QString &ha);
 
         // Align Settings
         QJsonObject getSettings() const;
@@ -538,6 +536,9 @@ class Align : public QWidget, public Ui::Align
 
         void zoomAlignView();
         void setAlignZoom(double scale);
+
+        // Manual Rotator Dialog
+        void toggleManualRotator(bool toggled);
 
     private slots:
 
@@ -604,6 +605,9 @@ class Align : public QWidget, public Ui::Align
 
         // Settings
         void settingsUpdated(const QJsonObject &settings);
+
+        // Manual Rotator
+        void manualRotatorChanged(double currentPA, double targetPA, double threshold);
 
     private:
         /**

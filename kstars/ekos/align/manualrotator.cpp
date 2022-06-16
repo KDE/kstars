@@ -49,7 +49,7 @@ void ManualRotator::setRotatorDiff(double current, double target, double diff)
     else
     {
         diffLabel->setText(i18n("%1°", QString::number(diff, 'f', 1)));
-        iconName = (diff > 0.0) ? "object-rotate-left" : "object-rotate-right";
+        iconName = (diff < 0.0) ? "object-rotate-left" : "object-rotate-right";
     }
 
     icon->setPixmap(QIcon::fromTheme(iconName).pixmap(300, 300));

@@ -128,8 +128,13 @@ Focus::Focus()
     connect(this, &Ekos::Focus::initHFRPlot, HFRPlot, &FocusHFRVPlot::init);
     connect(this, &Ekos::Focus::redrawHFRPlot, HFRPlot, &FocusHFRVPlot::redraw);
     connect(this, &Ekos::Focus::newHFRPlotPosition, HFRPlot, &FocusHFRVPlot::addPosition);
+    // connect signal/slot for adding a new position with errors to be shown as error bars
+    connect(this, &Ekos::Focus::newHFRPlotPositionWithSigma, HFRPlot, &FocusHFRVPlot::addPositionWithSigma);
     connect(this, &Ekos::Focus::drawPolynomial, HFRPlot, &FocusHFRVPlot::drawPolynomial);
+    // connect signal/slot for the curve plotting to the V-Curve widget
+    connect(this, &Ekos::Focus::drawCurve, HFRPlot, &FocusHFRVPlot::drawCurve);
     connect(this, &Ekos::Focus::setTitle, HFRPlot, &FocusHFRVPlot::setTitle);
+    connect(this, &Ekos::Focus::updateTitle, HFRPlot, &FocusHFRVPlot::updateTitle);
     connect(this, &Ekos::Focus::minimumFound, HFRPlot, &FocusHFRVPlot::drawMinimum);
 
     m_DarkProcessor = new DarkProcessor(this);
@@ -727,8 +732,19 @@ void Focus::checkFocuser(int FocuserNum)
         connect(focusBacklashSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int value)
         {
             if (currentFocuser)
+            {
+                if (currentFocuser->getBacklash() == value)
+                    // Prevent an event storm where a fast update of the backlash field, e.g. changing
+                    // the value to "12" results in 2 events; "1", "12". As these events get
+                    // processed in the driver and persisted, they in turn update backlash and start
+                    // to conflict with this callback, getting stuck forever: "1", "12", "1', "12"
+                    return;
                 currentFocuser->setBacklash(value);
+                syncSettings();
+            }
         });
+
+
     }
     else
     {
@@ -990,19 +1006,22 @@ void Focus::start()
     //    Options::setFocusFramesCount(focusFramesSpin->value());
     //    Options::setFocusUseFullField(useFullField->isChecked());
 
-    qCDebug(KSTARS_EKOS_FOCUS)  << "Starting focus with Detection: " << focusDetectionCombo->currentText()
-                                << " Algorithm: " << focusAlgorithmCombo->currentText()
-                                << " Box size: " << focusBoxSize->value()
-                                << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
-                                << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
-                                << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
-                                << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
-                                << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
-                                << " Gaussian Sigma: " << gaussianSigmaSpin->value()
-                                << " Gaussian Kernel size: " << gaussianKernelSizeSpin->value()
-                                << " Multi row average: " << multiRowAverageSpin->value()
-                                << " Tolerance: " << toleranceIN->value()
-                                << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
+    qCInfo(KSTARS_EKOS_FOCUS)  << "Starting focus with Detection: " << focusDetectionCombo->currentText()
+                               << " Algorithm: " << focusAlgorithmCombo->currentText()
+                               << " Box size: " << focusBoxSize->value()
+                               << " Subframe: " << ( useSubFrame->isChecked() ? "yes" : "no" )
+                               << " Autostar: " << ( useAutoStar->isChecked() ? "yes" : "no" )
+                               << " Full frame: " << ( useFullField->isChecked() ? "yes" : "no " )
+                               << " [" << fullFieldInnerRing->value() << "%," << fullFieldOuterRing->value() << "%]"
+                               << " Step Size: " << stepIN->value() << " Threshold: " << thresholdSpin->value()
+                               << " Gaussian Sigma: " << gaussianSigmaSpin->value()
+                               << " Gaussian Kernel size: " << gaussianKernelSizeSpin->value()
+                               << " Multi row average: " << multiRowAverageSpin->value()
+                               << " Tolerance: " << toleranceIN->value()
+                               << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value()
+                               << " Curve Fit: " << curveFitCombo->currentText()
+                               << " Use Weights: " << ( useWeights->isChecked() ? "yes" : "no" )
+                               << " R2 Limit: " << R2Limit->value();
 
     if (currentTemperatureSourceElement)
         emit autofocusStarting(currentTemperatureSourceElement->value, filter());
@@ -1033,19 +1052,21 @@ void Focus::start()
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
 
     // Used for all the focuser types.
-    if (focusAlgorithm == FOCUS_LINEAR)
+    if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
     {
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
             maxTravelIN->value(), stepIN->value(), position, absMotionMin, absMotionMax,
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
             currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
-            Options::initialFocusOutSteps());
+            Options::initialFocusOutSteps(),
+            focusAlgorithm, focusBacklashSpin->value(), curveFit, useWeights->isChecked());
         if (canAbsMove)
             initialFocuserAbsPosition = position;
         linearFocuser.reset(MakeLinearFocuser(params));
+        curveFitting.reset(new CurveFitting());
         linearRequestedPosition = linearFocuser->initialPosition();
-        const int newPosition = adjustLinearPosition(position, linearRequestedPosition);
+        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusBacklashSpin->value());
         if (newPosition != position)
         {
             if (!changeFocus(newPosition - position))
@@ -1059,17 +1080,29 @@ void Focus::start()
     capture();
 }
 
-int Focus::adjustLinearPosition(int position, int newPosition)
+int Focus::adjustLinearPosition(int position, int newPosition, int backlash)
 {
     if (newPosition > position)
     {
         constexpr int extraMotionSteps = 5;
-        int adjustment = extraMotionSteps * stepIN->value();
+        int adjustment;
+
+        // If user has set a backlash value then for Linear 1 Pass use that, otherwise use 5 * step size
+        if (focusAlgorithm == FOCUS_LINEAR1PASS && backlash > 0)
+        {
+            adjustment = backlash;
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by backlash %1").arg(adjustment);
+        }
+        else
+        {
+            adjustment = extraMotionSteps * stepIN->value();
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by %1").arg(adjustment);
+        }
+
         if (newPosition + adjustment > absMotionMax)
             adjustment = static_cast<int>(absMotionMax) - newPosition;
 
         focuserAdditionalMovement = adjustment;
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: extending outward movement by %1").arg(adjustment);
 
         return newPosition + adjustment;
     }
@@ -2173,7 +2206,7 @@ void Focus::setHFRComplete()
 
     // Now let's kick in the algorithms
 
-    if (focusAlgorithm == FOCUS_LINEAR)
+    if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
         autoFocusLinear();
     else if (canAbsMove || canRelMove)
         // Position-based algorithms
@@ -2214,6 +2247,9 @@ bool Focus::autoFocusChecks()
         }
         else if (focusAlgorithm == FOCUS_LINEAR)
         {
+            // JEE TODO: Linear currently continues if there are no stars
+            // For L1P I think its better to Abort and give control back either to the user or the scheduler
+            // This needs to be revisited to find the best way of dealing with this scenario.
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
         }
@@ -2238,8 +2274,9 @@ void Focus::plotLinearFocus()
 
     // Get the data to plot.
     QVector<double> HFRs;
+    QVector<double> sigmas;
     QVector<int> positions;
-    linearFocuser->getMeasurements(&positions, &HFRs);
+    linearFocuser->getMeasurements(&positions, &HFRs, &sigmas);
     const FocusAlgorithmInterface::FocusParams &params = linearFocuser->getParams();
 
     // As an optimization for slower machines, e.g. RPi4s, if the points are the same except for
@@ -2261,52 +2298,100 @@ void Focus::plotLinearFocus()
     lastPositions = positions;
     lastHFRs = HFRs;
 
-    if (incrementalChange)
-        emit newHFRPlotPosition(static_cast<double>(positions.last()), HFRs.last(), params.initialStepSize, plt);
+    if (params.useWeights)
+    {
+        if (incrementalChange)
+            emit newHFRPlotPositionWithSigma(static_cast<double>(positions.last()), HFRs.last(), sigmas.last(), params.initialStepSize,
+                                             plt);
+        else
+        {
+            emit initHFRPlot(true);
+            for (int i = 0; i < positions.size(); ++i)
+                emit newHFRPlotPositionWithSigma(static_cast<double>(positions[i]), HFRs[i], sigmas[i], params.initialStepSize, plt);
+        }
+    }
     else
     {
-        emit initHFRPlot(true);
-        for (int i = 0; i < positions.size(); ++i)
-            emit newHFRPlotPosition(static_cast<double>(positions[i]), HFRs[i], params.initialStepSize, plt);
+        if (incrementalChange)
+            emit newHFRPlotPosition(static_cast<double>(positions.last()), HFRs.last(), params.initialStepSize, plt);
+        else
+        {
+            emit initHFRPlot(true);
+            for (int i = 0; i < positions.size(); ++i)
+                emit newHFRPlotPosition(static_cast<double>(positions[i]), HFRs[i], params.initialStepSize, plt);
+        }
     }
 
     // Plot the polynomial, if there are enough points.
     if (HFRs.size() > 3)
     {
         // The polynomial should only reflect 1st-pass samples.
-        QVector<double> pass1HFRs;
+        QVector<double> pass1HFRs, pass1Sigmas;
         QVector<int> pass1Positions;
-        linearFocuser->getPass1Measurements(&pass1Positions, &pass1HFRs);
-        polynomialFit.reset(new PolynomialFit(2, pass1Positions, pass1HFRs));
-
         double minPosition, minValue;
         double searchMin = std::max(params.minPositionAllowed, params.startPosition - params.maxTravel);
         double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
-        if (polynomialFit->findMinimum(params.startPosition, searchMin, searchMax, &minPosition, &minValue))
-        {
-            emit drawPolynomial(polynomialFit.get(), true, true, plt);
 
-            // Only plot the first pass' min position if we're not done.
-            // Once we have a result, we don't want to display an intermediate minimum.
-            if (linearFocuser->isDone())
-                emit minimumFound(-1, -1, plt);
-            else
-                emit minimumFound(minPosition, minValue, plt);
-        }
-        else
+        linearFocuser->getPass1Measurements(&pass1Positions, &pass1HFRs, &pass1Sigmas);
+        if (focusAlgorithm == FOCUS_LINEAR)
         {
-            // Didn't get a good polynomial fit.
-            emit drawPolynomial(polynomialFit.get(), false, false, plt);
-            emit minimumFound(-1, -1, plt);
+            // TODO: Need to determine whether to change LINEAR over to the LM solver in CurveFitting
+            // This will be determined after L1P's first release has been deemed successful.
+            polynomialFit.reset(new PolynomialFit(2, pass1Positions, pass1HFRs));
+
+            if (polynomialFit->findMinimum(params.startPosition, searchMin, searchMax, &minPosition, &minValue))
+            {
+                emit drawPolynomial(polynomialFit.get(), true, true, plt);
+
+                // Only plot the first pass' min position if we're not done.
+                // Once we have a result, we don't want to display an intermediate minimum.
+                if (linearFocuser->isDone())
+                    emit minimumFound(-1, -1, plt);
+                else
+                    emit minimumFound(minPosition, minValue, plt);
+            }
+            else
+            {
+                // Didn't get a good polynomial fit.
+                emit drawPolynomial(polynomialFit.get(), false, false, plt);
+                emit minimumFound(-1, -1, plt);
+            }
+
+        }
+        else // Linear 1 Pass
+        {
+            curveFitting->fitCurve(pass1Positions, pass1HFRs, pass1Sigmas, params.curveFit, params.useWeights);
+
+            if (curveFitting->findMin(params.startPosition, searchMin, searchMax, &minPosition, &minValue, params.curveFit))
+            {
+                R2 = curveFitting->calculateR2(static_cast<CurveFitting::CurveFit>(params.curveFit));
+                emit drawCurve(curveFitting.get(), true, true, plt);
+
+                // For Linear 1 Pass always display the minimum on the graph
+                emit minimumFound(minPosition, minValue, plt);
+            }
+            else
+            {
+                // Didn't get a good fit.
+                emit drawCurve(curveFitting.get(), false, false, plt);
+                emit minimumFound(-1, -1, plt);
+            }
         }
     }
 
     // Linear focuser might change the latest hfr with its relativeHFR scheme.
     HFROut->setText(QString("%1").arg(linearFocuser->latestHFR(), 0, 'f', 2));
 
-    emit setTitle(linearFocuser->getTextStatus());
+    emit setTitle(linearFocuser->getTextStatus(R2));
 
     if (!plt) HFRPlot->replot();
+}
+
+// Called after the first pass is complete and we're moving to the final focus position
+// Calculate R2 for the curve and update the graph.
+void Focus::plotLinearFinalUpdates()
+{
+    emit updateTitle(linearFocuser->getTextStatus(R2), true);
 }
 
 void Focus::autoFocusLinear()
@@ -2331,17 +2416,50 @@ void Focus::autoFocusLinear()
 
     // Only use the relativeHFR algorithm if full field is enabled with one capture/measurement.
     bool useFocusStarsHFR = Options::focusUseFullField() && focusFramesSpin->value() == 1;
-    auto focusStars = useFocusStarsHFR ? &(m_ImageData->getStarCenters()) : nullptr;
+    auto focusStars = useFocusStarsHFR || (focusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
+    int nextPosition;
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR, focusStars);
-    plotLinearFocus();
+    if (focusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone())
+        // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph title.
+        plotLinearFinalUpdates();
+    else
+        // Update the graph with the next datapoint, draw the curve, etc.
+        plotLinearFocus();
 
-    const int nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition);
-    if (linearRequestedPosition == -1)
+    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusBacklashSpin->value());
+
+    if (linearFocuser->isDone())
     {
-        if (linearFocuser->isDone() && linearFocuser->solution() != -1)
+        if (linearFocuser->solution() != -1)
         {
-            completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
+            // Now test that the curve fit was acceptable. If not retry the focus process using standard retry process
+            // R2 check is only available for Linear 1 Pass for Hyperbola and Parabola
+            if (curveFit == CurveFitting::FOCUS_QUADRATIC)
+                // Linear only uses Quadratic so need to do the R2 check, just complete
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
+            else if (R2 >= R2Limit->value())
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check passed R2=%1 R2Limit=%2").arg(R2).arg(R2Limit->value());
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
+                R2Retries = 0;
+            }
+            else if (R2Retries == 0)
+            {
+                // Failed the R2 check for the first time so retry...
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check failed R2=%1 R2Limit=%2 retrying...").arg(R2).arg(
+                                               R2Limit->value());
+                completeFocusProcedure(Ekos::FOCUS_ABORTED, false);
+                R2Retries++;
+            }
+            else
+            {
+                // Retried after an R2 check fail but failed again so... log msg and continue
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check failed R2=%1 R2Limit=%2, but continuing...").arg(R2).arg(
+                                               R2Limit->value());
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
+                R2Retries = 0;
+            }
         }
         else
         {
@@ -2736,7 +2854,7 @@ void Focus::autoFocusRel()
             capture();
             return;
         }
-        else if (focusAlgorithm == FOCUS_LINEAR)
+        else if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
         {
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
@@ -2803,7 +2921,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             int temp = focuserAdditionalMovement;
             focuserAdditionalMovement = 0;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("LinearFocuser: un-doing extension. Moving back in by %1").arg(temp);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: un-doing extension. Moving back in by %1").arg(temp);
 
             if (!focusIn(temp))
             {
@@ -3343,6 +3461,15 @@ void Focus::toggleSubframe(bool enable)
 
     if (useFullField->isChecked())
         useFullField->setChecked(!enable);
+
+    if (useFullField->isChecked() && (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA))
+        // Allow useWeights for fullframe and Hyperbola or Parabola
+        useWeights->setEnabled(true);
+    else if (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA)
+    {
+        useWeights->setEnabled(false);
+        useWeights->setChecked(false);
+    }
 }
 
 void Focus::filterChangeWarning(int index)
@@ -3777,7 +3904,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
         exposureIN->setValue(filterManager->getFilterExposure());
     });
 
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
+    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [ = ](const QString & text)
     {
         exposureIN->setValue(filterManager->getFilterExposure(text));
@@ -3939,6 +4066,8 @@ void Focus::syncSettings()
             Options::setFocusGaussianSigma(dsb->value());
         else if (dsb == initialFocusOutStepsIN)
             Options::setInitialFocusOutSteps(dsb->value());
+        else if (dsb == R2Limit)
+            Options::setFocusR2Limit(dsb->value());
     }
     else if ( (sb = qobject_cast<QSpinBox*>(sender())))
     {
@@ -3961,6 +4090,7 @@ void Focus::syncSettings()
             Options::setFocusCaptureTimeout(sb->value());
         else if (sb == motionTimeoutSpin)
             Options::setFocusMotionTimeout(sb->value());
+
     }
     else if ( (cb = qobject_cast<QCheckBox*>(sender())))
     {
@@ -3977,6 +4107,9 @@ void Focus::syncSettings()
             Options::setFocusUseFullField(cb->isChecked());
         else if (cb == suspendGuideCheck)
             Options::setSuspendGuiding(cb->isChecked());
+        else if (cb == useWeights)
+            Options::setFocusUseWeights(cb->isChecked());
+
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -4005,6 +4138,8 @@ void Focus::syncSettings()
             Options::setFocusAlgorithm(cbox->currentIndex());
         else if (cbox == focusDetectionCombo)
             Options::setFocusDetection(cbox->currentIndex());
+        else if (cbox == curveFitCombo)
+            Options::setFocusCurveFit(cbox->currentIndex());
     }
 
     emit settingsUpdated(getSettings());
@@ -4046,6 +4181,10 @@ void Focus::loadSettings()
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     // Guide Setting time
     GuideSettleTime->setValue(Options::guideSettleTime());
+    // Use Weights
+    useWeights->setChecked(Options::focusUseWeights());
+    // R2Limit
+    R2Limit->setValue(Options::focusR2Limit());
 
     // Box Size
     focusBoxSize->setValue(Options::focusBoxSize());
@@ -4083,6 +4222,10 @@ void Focus::loadSettings()
     // Timeouts
     captureTimeoutSpin->setValue(Options::focusCaptureTimeout());
     motionTimeoutSpin->setValue(Options::focusMotionTimeout());
+    // Curve fit, use weights and R2 limit
+    setCurveFit(static_cast<CurveFitting::CurveFit>(Options::focusCurveFit()));
+    // This must go below the above line (which sets curveFit from options).
+    curveFitCombo->setCurrentIndex(curveFit);
 
     // Increase focus box size in case of Bahtinov mask focus
     // Disable auto star in case of Bahtinov mask focus
@@ -4112,39 +4255,23 @@ void Focus::initSettingsConnections()
     ///////////////////////////////////////////////////////////////////////////
     /// Focuser Group
     ///////////////////////////////////////////////////////////////////////////
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
-    #else
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    #endif
     connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// CCD & Filter Wheel Group
     ///////////////////////////////////////////////////////////////////////////
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
+    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
     connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
-    #else
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    #endif
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
-    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
 
     ///////////////////////////////////////////////////////////////////////////
     /// Settings Group
@@ -4162,6 +4289,7 @@ void Focus::initSettingsConnections()
     connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(focusBacklashSpin, &QSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(initialFocusOutStepsIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
     connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
@@ -4170,18 +4298,23 @@ void Focus::initSettingsConnections()
     connect(multiRowAverageSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(captureTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
     connect(motionTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
     connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Focus::syncSettings);
-    #else
+#else
     connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
             &Ekos::Focus::syncSettings);
     connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
             &Ekos::Focus::syncSettings);
-    #endif
-    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings); 
+#endif
+    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
+    connect(curveFitCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Focus::syncSettings);
+    connect(R2Limit, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    connect(useWeights, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
 }
 
 void Focus::initPlots()
@@ -4265,11 +4398,19 @@ void Focus::initConnections()
         {
             useSubFrame->setChecked(false);
             useAutoStar->setChecked(false);
+            if (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA)
+                // If we are using parabola or hyperbola enable setWeights
+                useWeights->setEnabled(true);
         }
         else
         {
             // Disable the overlay
             focusView->setStarFilterRange(0, 1);
+            if (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA)
+            {
+                useWeights->setEnabled(false);
+                useWeights->setChecked(false);
+            }
         }
     });
 
@@ -4326,6 +4467,13 @@ void Focus::initConnections()
         setFocusAlgorithm(static_cast<FocusAlgorithm>(index));
     });
 
+    // Update the curve fit if the selection changes. Use the currentIndexChanged method rather than
+    // activated as the former fires when the index is changed by the user AND if changed programmatically
+    connect(curveFitCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int index)
+    {
+        setCurveFit(static_cast<CurveFitting::CurveFit>(index));
+    });
+
     // Reset star center on auto star check toggle
     connect(useAutoStar, &QCheckBox::toggled, this, [&](bool enabled)
     {
@@ -4348,6 +4496,9 @@ void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
             maxTravelIN->setEnabled(true);             // Max Travel
             stepIN->setEnabled(true);                  // Initial Step Size
             maxSingleStepIN->setEnabled(true);         // Max Step Size
+            toleranceIN->setEnabled(true);             // Solution tolerance
+            curveFitCombo->setEnabled(false);          // Curve fit can only be QUADRATIC
+            curveFitCombo->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
             break;
 
         case FOCUS_POLYNOMIAL:
@@ -4355,6 +4506,9 @@ void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
             maxTravelIN->setEnabled(true);             // Max Travel
             stepIN->setEnabled(true);                  // Initial Step Size
             maxSingleStepIN->setEnabled(true);         // Max Step Size
+            toleranceIN->setEnabled(true);             // Solution tolerance
+            curveFitCombo->setEnabled(false);          // Curve fit can only be QUADRATIC
+            curveFitCombo->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
             break;
 
         case FOCUS_LINEAR:
@@ -4362,6 +4516,41 @@ void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
             maxTravelIN->setEnabled(true);             // Max Travel
             stepIN->setEnabled(true);                  // Initial Step Size
             maxSingleStepIN->setEnabled(false);        // Max Step Size
+            toleranceIN->setEnabled(true);             // Solution tolerance
+            curveFitCombo->setEnabled(false);          // Curve fit can only be QUADRATIC
+            curveFitCombo->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            break;
+
+        case FOCUS_LINEAR1PASS:
+            initialFocusOutStepsIN->setEnabled(true);  // Out step multiple
+            maxTravelIN->setEnabled(true);             // Max Travel
+            stepIN->setEnabled(true);                  // Initial Step Size
+            maxSingleStepIN->setEnabled(false);        // Max Step Size
+            toleranceIN->setEnabled(false);            // Solution tolerance
+            curveFitCombo->setEnabled(true);           // Curve fit
+            break;
+    }
+}
+
+void Focus::setCurveFit(CurveFitting::CurveFit curve)
+{
+    curveFit = curve;
+    switch(curveFit)
+    {
+        case CurveFitting::FOCUS_QUADRATIC:
+            useWeights->setEnabled(false);             // Use weights not allowed
+            useWeights->setChecked(false);
+            R2Limit->setEnabled(false);                // R2Limit not allowed
+            break;
+
+        case CurveFitting::FOCUS_HYPERBOLA:
+            useWeights->setEnabled(useFullField->isChecked());    // Only use weights on multi-stars with analysis (=FullField)
+            R2Limit->setEnabled(true);                            // R2Limit allowed
+            break;
+
+        case CurveFitting::FOCUS_PARABOLA:
+            useWeights->setEnabled(useFullField->isChecked());    // Only use weights on multi-stars with analysis (=FullField)
+            R2Limit->setEnabled(true);                            // R2Limit allowed
             break;
     }
 }
@@ -4455,6 +4644,8 @@ QJsonObject Focus::getPrimarySettings() const
     settings.insert("outer", fullFieldOuterRing->value());
     settings.insert("suspend", suspendGuideCheck->isChecked());
     settings.insert("guide_settle", GuideSettleTime->value());
+    settings.insert("useweights", useWeights->isChecked());
+    settings.insert("R2Limit", R2Limit->value());
 
     return settings;
 }
@@ -4473,6 +4664,8 @@ void Focus::setPrimarySettings(const QJsonObject &settings)
     syncControl(settings, "outer", fullFieldOuterRing);
     syncControl(settings, "suspend", suspendGuideCheck);
     syncControl(settings, "guide_settle", GuideSettleTime);
+    syncControl(settings, "useweights", useWeights);
+    syncControl(settings, "R2Limit", R2Limit);
 
 }
 
@@ -4492,6 +4685,7 @@ QJsonObject Focus::getProcessSettings() const
     settings.insert("rows", multiRowAverageSpin->value());
     settings.insert("kernel", gaussianKernelSizeSpin->value());
     settings.insert("sigma", gaussianSigmaSpin->value());
+    settings.insert("curvefit", curveFitCombo->currentText());
 
     return settings;
 }
@@ -4510,6 +4704,7 @@ void Focus::setProcessSettings(const QJsonObject &settings)
     syncControl(settings, "rows", multiRowAverageSpin);
     syncControl(settings, "kernel", gaussianKernelSizeSpin);
     syncControl(settings, "sigma", gaussianSigmaSpin);
+    syncControl(settings, "curvefit", curveFitCombo);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -4547,9 +4742,6 @@ void Focus::setMechanicsSettings(const QJsonObject &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool Focus::syncControl(const QJsonObject &settings, const QString &key, QWidget * widget)
 {
-    if (settings.contains(key) == false)
-        return false;
-
     QSpinBox *pSB = nullptr;
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;

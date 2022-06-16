@@ -5,6 +5,7 @@
 */
 
 #include "focusalgorithms.h"
+#include "curvefit.h"
 
 #include "polynomialfit.h"
 #include <QVector>
@@ -28,7 +29,9 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
 
         // Constructor initializes a linear autofocus algorithm, starting at some initial position,
         // sampling HFR values, decreasing the position by some step size, until the algorithm believe's
-        // it's seen a minimum. It then tries to find that minimum in a 2nd pass.
+        // it's seen a minimum. It then either:
+        // a) tries to find that minimum in a 2nd pass. This is the LINEAR algorithm, or
+        // b) moves to the minimum. This is the LINEAR 1 PASS algorithm.
         LinearFocusAlgorithm(const FocusParams &params);
 
         // After construction, this should be called to get the initial position desired by the
@@ -42,20 +45,23 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // Pass in the measurement for the last requested position. Returns the position for the next
         // requested measurement, or -1 if the algorithm's done or if there's an error.
         // If stars is not nullptr, then the relativeHFR scheme is used to modify the HFR value.
-        int newMeasurement(int position, double value, const QList<Edge*> *stars) override;
+        int newMeasurement(int position, double value,
+                           const QList<Edge*> *stars) override;
 
         FocusAlgorithmInterface *Copy() override;
 
-        void getMeasurements(QVector<int> *pos, QVector<double> *hfrs) const override
+        void getMeasurements(QVector<int> *pos, QVector<double> *hfrs, QVector<double> *sds) const override
         {
             *pos = positions;
             *hfrs = values;
+            *sds = sigmas;
         }
 
-        void getPass1Measurements(QVector<int> *pos, QVector<double> *hfrs) const override
+        void getPass1Measurements(QVector<int> *pos, QVector<double> *hfrs, QVector<double> *sds) const override
         {
             *pos = pass1Positions;
             *hfrs = pass1Values;
+            *sds = pass1Sigmas;
         }
 
         double latestHFR() const override
@@ -65,31 +71,15 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
             return -1;
         }
 
-        QString getTextStatus() override
-        {
-            if (done)
-            {
-                if (focusSolution > 0)
-                    return QString("Solution: %1").arg(focusSolution);
-                else
-                    return "Failed";
-            }
-            if (solutionPending)
-                return QString("Pending: %1,  %2").arg(solutionPendingPosition).arg(solutionPendingValue, 0, 'f', 2);
-            if (inFirstPass)
-                return "1st Pass";
-            else
-                return QString("2nd Pass. 1st: %1,  %2")
-                       .arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 2);
-        }
+        QString getTextStatus(double R2 = 0) const override;
 
     private:
 
         // Called in newMeasurement. Sets up the next iteration.
-        int completeIteration(int step);
+        int completeIteration(int step, bool foundFit, double minPos, double minVal);
 
         // Does the bookkeeping for the final focus solution.
-        int setupSolution(int position, double value);
+        int setupSolution(int position, double value, double sigma);
 
         // Called when we've found a solution, e.g. the HFR value is within tolerance of the desired value.
         // It it returns true, then it's decided tht we should try one more sample for a possible improvement.
@@ -101,7 +91,11 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
 
         // Sets the internal state for re-finding the minimum, and returns the requested next
         // position to sample.
+        // Called by Linear. L1P calls finishFirstPass instead
         int setupSecondPass(int position, double value, double margin = 2.0);
+
+        // Called by L1P to finish off the first pass, setting state variables.
+        int finishFirstPass(int position, double value);
 
         // Used in the 2nd pass. Focus is getting worse. Requires several consecutive samples getting worse.
         bool gettingWorse();
@@ -116,12 +110,18 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         // See comment above method definition.
         double relativeHFR(double origHFR, const QList<Edge*> *stars);
 
+        // Calculate the standard deviation (=sigma) of the star HFRs
+        double calculateStarSigma(const bool useWeights, const QList<Edge*> *stars);
+
         // Used to time the focus algorithm.
-        QElapsedTimer stopWatch;
+        QTime stopWatch;
 
         // A vector containing the HFR values sampled by this algorithm so far.
         QVector<double> values;
         QVector<double> pass1Values;
+        // A vector containing star measurement standard deviation = sigma
+        QVector<double> sigmas;
+        QVector<double> pass1Sigmas;
         // A vector containing the focus positions corresponding to the HFR values stored above.
         QVector<int> positions;
         QVector<int> pass1Positions;
@@ -196,6 +196,61 @@ LinearFocusAlgorithm::LinearFocusAlgorithm(const FocusParams &focusParams)
     computeInitialPosition();
 }
 
+QString LinearFocusAlgorithm::getTextStatus(double R2) const
+{
+    if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
+    {
+        if (done)
+        {
+            if (focusSolution > 0)
+                return QString("Solution: %1").arg(focusSolution);
+            else
+                return "Failed";
+        }
+        if (solutionPending)
+            return QString("Pending: %1,  %2").arg(solutionPendingPosition).arg(solutionPendingValue, 0, 'f', 2);
+        if (inFirstPass)
+            return "1st Pass";
+        else
+            return QString("2nd Pass. 1st: %1,  %2")
+                   .arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 2);
+    }
+    else // Linear 1 Pass
+    {
+        QString text = "L1P: ";
+        if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
+            text.append("Quadratic");
+        else if (params.curveFit == CurveFitting::FOCUS_HYPERBOLA)
+        {
+            text.append("Hyperbola");
+            text.append(params.useWeights ? " (W)" : " (U)");
+        }
+        else if (params.curveFit == CurveFitting::FOCUS_PARABOLA)
+        {
+            text.append("Parabola");
+            text.append(params.useWeights ? " (W)" : " (U)");
+        }
+
+        if (inFirstPass)
+            return text;
+        else if (!done)
+            return text.append(". Moving to Solution");
+        else
+        {
+            if (focusSolution > 0)
+            {
+                if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
+                    return text.append(" Solution: %1").arg(focusSolution);
+                else
+                    // Add R2 to 2 decimal places. Round down to be conservative
+                    return text.append(" Solution: %1, R2=%2").arg(focusSolution).arg(trunc(R2 * 100.0) / 100.0, 0, 'f', 2);
+            }
+            else
+                return text.append(" Failed");
+        }
+    }
+}
+
 void LinearFocusAlgorithm::computeInitialPosition()
 {
     // These variables get reset if the algorithm is restarted.
@@ -210,11 +265,11 @@ void LinearFocusAlgorithm::computeInitialPosition()
     secondPassStartIndex = -1;
 
     qCDebug(KSTARS_EKOS_FOCUS)
-            << QString("Linear: v3.3. 1st pass. Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9 init#steps %10")
+            << QString("Linear: Travel %1 initStep %2 pos %3 min %4 max %5 maxIters %6 tolerance %7 minlimit %8 maxlimit %9 init#steps %10 algo %11 backlash %12 curvefit %13 useweights %14")
             .arg(params.maxTravel).arg(params.initialStepSize).arg(params.startPosition).arg(params.minPositionAllowed)
-            .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit).arg(
-                maxPositionLimit)
-            .arg(params.initialOutwardSteps);
+            .arg(params.maxPositionAllowed).arg(params.maxIterations).arg(params.focusTolerance).arg(minPositionLimit)
+            .arg(maxPositionLimit).arg(params.initialOutwardSteps).arg(params.focusAlgorithm).arg(params.backlash)
+            .arg(params.curveFit).arg(params.useWeights);
 
     requestedPosition = std::min(maxPositionLimit,
                                  static_cast<int>(params.startPosition + params.initialOutwardSteps * params.initialStepSize));
@@ -325,10 +380,50 @@ double LinearFocusAlgorithm::relativeHFR(double origHFR, const QList<Edge*> *sta
     return relativeHFR;
 }
 
+// Calculate the standard deviation (=sigma) of the star HFR measurements
+// on the stars used in getHFR. Sigma is then used in the curve fitting process.
+double LinearFocusAlgorithm::calculateStarSigma(const bool useWeights, const QList<Edge*> *stars)
+{
+    if (stars == nullptr || stars->size() <= 0 || !useWeights)
+        // If we can't calculate sigma set to 1 - which will stop curve fit weightings being used
+        return 1.0f;
+
+    const int n = stars->size();
+    double sum = 0;
+    for (int i = 0; i < n; ++i)
+        sum += stars->value(i)->HFR;
+    const double mean = sum / n;
+    double variance = 0;
+    for(int i = 0; i < n; ++i)
+        variance += pow(stars->value(i)->HFR - mean, 2.0);
+    variance = variance / n;
+    return sqrt(variance);
+}
+
 int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList<Edge*> *stars)
 {
-    double origValue = value;
-    value = relativeHFR(value, stars);
+    double minPos = -1.0, minVal = 0;
+    bool foundFit = false;
+
+    double starSigma = 1.0, origValue = value;
+    // For QUADRATIC continue to use the relativeHFR functionality
+    // For HYPERBOLA and PARABOLA the stars used for the HDR calculation and the sigma calculation
+    // should be the same. For now, we will use the full set of stars and therefore not adjust the HFR
+    // JEE TODO: revisit adding relativeHFR functionality for FOCUS_PARABOLA and FOCUS_HYPERBOLA
+    if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
+        value = relativeHFR(value, stars);
+    else
+        // Calculate the standard deviation (=sigma) of the star measurements to be used by the curve fitting process.
+        // Currently only available for Hyperbola and Parabola
+        starSigma = calculateStarSigma(params.useWeights, stars);
+
+    // For LINEAR 1 PASS don't bother with a full 2nd pass just jump to the solution
+    // Do the step out and back in to deal with backlash
+    if (params.focusAlgorithm == Focus::FOCUS_LINEAR1PASS && !inFirstPass)
+    {
+        return setupSolution(position, value, starSigma);
+    }
+
     int thisStepSize = stepSize;
     ++numSteps;
     if (inFirstPass)
@@ -359,10 +454,12 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
     // Store the sample values.
     values.push_back(value);
     positions.push_back(position);
+    sigmas.push_back(starSigma);
     if (inFirstPass)
     {
         pass1Values.push_back(value);
         pass1Positions.push_back(position);
+        pass1Sigmas.push_back(starSigma);
     }
 
     // If we're in the 2nd pass and either
@@ -374,10 +471,10 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
     {
         if (setupPendingSolution(position))
             // We can continue to look a little further.
-            return completeIteration(retryNumber > 0 ? 0 : stepSize);
+            return completeIteration(retryNumber > 0 ? 0 : stepSize, false, -1.0f, -1.0f);
         else
             // Finish now
-            return setupSolution(position, value);
+            return setupSolution(position, value, starSigma);
     }
 
     if (inFirstPass)
@@ -389,24 +486,33 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
 
         if (values.size() >= kMinPolynomialPoints)
         {
-            PolynomialFit fit(2, positions, values);
-            double minPos, minVal;
-            bool foundFit = fit.findMinimum(position, 0, params.maxPositionAllowed, &minPos, &minVal);
-            if (!foundFit)
+            if (params.curveFit == CurveFitting::FOCUS_QUADRATIC)
             {
-                // I've found that the first sample can be odd--perhaps due to backlash.
-                // Try again skipping the first sample, if we have sufficient points.
-                if (values.size() > kMinPolynomialPoints)
+                PolynomialFit fit(2, positions, values);
+                foundFit = fit.findMinimum(position, 0, params.maxPositionAllowed, &minPos, &minVal);
+                if (!foundFit)
                 {
-                    PolynomialFit fit2(2, positions.mid(1), values.mid(1));
-                    foundFit = fit2.findMinimum(position, 0, params.maxPositionAllowed, &minPos, &minVal);
-                    minPos = minPos + 1;
+                    // I've found that the first sample can be odd--perhaps due to backlash.
+                    // Try again skipping the first sample, if we have sufficient points.
+                    if (values.size() > kMinPolynomialPoints)
+                    {
+                        PolynomialFit fit2(2, positions.mid(1), values.mid(1));
+                        foundFit = fit2.findMinimum(position, 0, params.maxPositionAllowed, &minPos, &minVal);
+                        minPos = minPos + 1;
+                    }
                 }
             }
+            else // Hyperbola or Parabola so use the LM solver
+            {
+                curveFit.fitCurve(positions, values, sigmas, params.curveFit, params.useWeights);
+                foundFit = curveFit.findMin(position, 0, params.maxPositionAllowed, &minPos, &minVal,
+                                            static_cast<CurveFitting::CurveFit>(params.curveFit));
+            }
+
             if (foundFit)
             {
                 const int distanceToMin = static_cast<int>(position - minPos);
-                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: poly fit(%1): %2 = %3 @ %4 distToMin %5")
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: fit(%1): %2 = %3 @ %4 distToMin %5")
                                            .arg(positions.size()).arg(minPos).arg(minVal).arg(position).arg(distanceToMin);
                 if (distanceToMin >= 0)
                 {
@@ -444,7 +550,19 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
                     }
                 }
 
-                if (numPolySolutionsFound >= kNumPolySolutionsRequired)
+                // The LINEAR algo goes >2 steps past the minimum. The LINEAR 1 PASS algo uses the InitialOutwardSteps parameter
+                // in order to have some user control over the number of steps past the minimum when fitting the curve.
+                // JEE TODO: Are we stepping out too far and wasting time? Needs more analysis.
+                // With LINEAR 1 PASS setupSecondPass with a margin of 0.0 as no need to move the focuser further
+                // This will result in a step out, past the solution of either "backlash" id set, or 5 * step size, followed
+                // by a step in to the solution. By stepping out and in, backlash will be neutralised.
+                int howFarToGo;
+                if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
+                    howFarToGo = kNumPolySolutionsRequired;
+                else
+                    howFarToGo = params.initialOutwardSteps - 1;
+
+                if (numPolySolutionsFound >= howFarToGo)
                 {
                     // We found a minimum. Setup the 2nd pass. We could use either the polynomial min or the
                     // min measured star as the target HFR. I've seen using the polynomial minimum to be
@@ -452,7 +570,16 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
                     double minMeasurement = *std::min_element(values.begin(), values.end());
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 1stPass solution @ %1: pos %2 val %3, min measurement %4")
                                                .arg(position).arg(minPos).arg(minVal).arg(minMeasurement);
-                    return setupSecondPass(static_cast<int>(minPos), minMeasurement);
+
+                    // For Linear setup the second pass with a margin of 2
+                    if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
+                        return setupSecondPass(static_cast<int>(minPos), minMeasurement, 2.0);
+                    else
+                        // For Linear 1 Pass do a round on the double minPos parameter before casting to an int
+                        // as the cast will truncate and potentially change the position down by 1
+                        // The code to display v-curve rounds so this keeps things consistent.
+                        // Could make this change for Linear as well but this will then need testfocus to change
+                        return finishFirstPass(static_cast<int>(round(minPos)), minMeasurement);
                 }
                 else if (numRestartSolutionsFound >= kNumRestartSolutionsRequired)
                 {
@@ -487,30 +614,55 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
     else if (gettingWorse())
     {
         // Doesn't look like we'll find something close to the min. Retry the 2nd pass.
+        // NOTE: this branch will only be executed for the 2 pass version of Linear
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: getting worse, re-running 2nd pass");
         return setupSecondPass(firstPassBestPosition, firstPassBestValue);
     }
 
-    return completeIteration(thisStepSize);
+    return completeIteration(thisStepSize, foundFit, minPos, minVal);
 }
 
-int LinearFocusAlgorithm::setupSolution(int position, double value)
+int LinearFocusAlgorithm::setupSolution(int position, double value, double sigma)
 {
     focusSolution = position;
     focusHFR = value;
     done = true;
     doneString = i18n("Solution found.");
-    qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass solution @ %1 = %2 (best %3)")
-                               .arg(position).arg(value).arg(firstPassBestValue);
+    if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: solution @ %1 = %2 (best %3)")
+                                   .arg(position).arg(value).arg(firstPassBestValue);
+    else // Linear 1 Pass
+    {
+        double delta = fabs(value - firstPassBestValue);
+        QString str("Linear: solution @ ");
+        str.append(QString("%1 = %2 (expected %3) delta=%4").arg(position).arg(value).arg(firstPassBestValue).arg(delta));
+
+        if (params.useWeights && sigma > 0.0)
+        {
+            double numSigmas = delta / sigma;
+            str.append(QString(" or %1 sigma %2 than expected")
+                       .arg(numSigmas).arg(value <= firstPassBestValue ? "better" : "worse"));
+            if (value <= firstPassBestValue || numSigmas < 1)
+                str.append(QString(". GREAT result"));
+            else if (numSigmas < 3)
+                str.append(QString(". OK result"));
+            else
+                str.append(QString(". POOR result. If this happens repeatedly it may be a sign of poor backlash compensation."));
+        }
+
+        qCDebug(KSTARS_EKOS_FOCUS) << str;
+    }
     debugLog();
     return -1;
 }
 
-int LinearFocusAlgorithm::completeIteration(int step)
+int LinearFocusAlgorithm::completeIteration(int step, bool foundFit, double minPos, double minVal)
 {
-    if (numSteps == params.maxIterations - 2)
+    if (params.focusAlgorithm == Focus::FOCUS_LINEAR && numSteps == params.maxIterations - 2)
     {
         // If we're close to exceeding the iteration limit, retry this pass near the old minimum position.
+        // For Linear 1 Pass we are still in the first pass so no point retrying the 2nd pass. Just carry on and
+        // fail in 2 more datapoints if necessary.
         const int minIndex = static_cast<int>(std::min_element(values.begin(), values.end()) - values.begin());
         return setupSecondPass(positions[minIndex], values[minIndex], 0.5);
     }
@@ -531,10 +683,28 @@ int LinearFocusAlgorithm::completeIteration(int step)
     if (requestedPosition < minPositionLimit)
     {
         // The position is too low. Pick the min value and go to (or retry) a 2nd iteration.
-        const int minIndex = static_cast<int>(std::min_element(values.begin(), values.end()) - values.begin());
-        qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: reached end without Vmin. Restarting %1 pos %2 value %3")
-                                   .arg(minIndex).arg(positions[minIndex]).arg(values[minIndex]);
-        return setupSecondPass(positions[minIndex], values[minIndex]);
+        if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
+        {
+            const int minIndex = static_cast<int>(std::min_element(values.begin(), values.end()) - values.begin());
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: reached end without Vmin. Restarting %1 pos %2 value %3")
+                                       .arg(minIndex).arg(positions[minIndex]).arg(values[minIndex]);
+            return setupSecondPass(positions[minIndex], values[minIndex]);
+        }
+        else // Linear 1 Pass
+        {
+            if (foundFit && minPos >= minPositionLimit)
+                // Although we ran out of room, we have got a viable, although not perfect, solution
+                return finishFirstPass(static_cast<int>(round(minPos)), minVal);
+            else
+            {
+                // We can't travel far enough to find a solution so fail as focuser parameters require user attention
+                done = true;
+                doneString = i18n("Solution lies outside max travel.");
+                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error %1").arg(doneString);
+                debugLog();
+                return -1;
+            }
+        }
     }
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: requesting position %1").arg(requestedPosition);
     return requestedPosition;
@@ -608,7 +778,7 @@ void LinearFocusAlgorithm::debugLog()
     QString str("Linear: points=[");
     for (int i = 0; i < positions.size(); ++i)
     {
-        str.append(QString("(%1, %2)").arg(positions[i]).arg(values[i]));
+        str.append(QString("(%1, %2, %3)").arg(positions[i]).arg(values[i]).arg(sigmas[i]));
         if (i < positions.size() - 1)
             str.append(", ");
     }
@@ -618,10 +788,15 @@ void LinearFocusAlgorithm::debugLog()
     str.append(QString(";HFR=%1").arg(focusHFR));
     str.append(QString(";filter='%1'").arg(params.filterName));
     str.append(QString(";temperature=%1").arg(params.temperature));
+    str.append(QString(";focusalgorithm=%1").arg(params.focusAlgorithm));
+    str.append(QString(";backlash=%1").arg(params.backlash));
+    str.append(QString(";curvefit=%1").arg(params.curveFit));
+    str.append(QString(";useweights=%1").arg(params.useWeights));
 
     qCDebug(KSTARS_EKOS_FOCUS) << str;
 }
 
+// Called by Linear to set state for the second pass
 int LinearFocusAlgorithm::setupSecondPass(int position, double value, double margin)
 {
     firstPassBestPosition = position;
@@ -635,6 +810,16 @@ int LinearFocusAlgorithm::setupSecondPass(int position, double value, double mar
     requestedPosition = std::min(static_cast<int>(firstPassBestPosition + stepSize * margin), maxPositionLimit);
     stepSize = params.initialStepSize / 2;
     qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: 2ndPass starting at %1 step %2").arg(requestedPosition).arg(stepSize);
+    return requestedPosition;
+}
+
+// Called by L1P to finish off the first pass by setting state variables
+int LinearFocusAlgorithm::finishFirstPass(int position, double value)
+{
+    firstPassBestPosition = position;
+    firstPassBestValue = value;
+    inFirstPass = false;
+    requestedPosition = position;
     return requestedPosition;
 }
 

@@ -55,7 +55,7 @@ class Focus : public QWidget, public Ui::Focus
 
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
-        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR } FocusAlgorithm;
+        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR, FOCUS_LINEAR1PASS } FocusAlgorithm;
         //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
@@ -483,12 +483,30 @@ class Focus : public QWidget, public Ui::Focus
         void newHFRPlotPosition(double pos, double hfr, int pulseDuration, bool plot = true);
 
         /**
+          * @brief new HFR plot position with sigma
+          * @param pos focuser position with associated error (sigma)
+          * @param hfr measured star HFR value
+          * @param sigma is the standard deviation of star HFRs
+          * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
+          *        or the number of ticks in a relative or absolute focuser
+          * */
+        void newHFRPlotPositionWithSigma(double pos, double hfr, double sigma, int pulseDuration, bool plot = true);
+
+        /**
          * @brief draw the approximating polynomial into the HFR V-graph
          * @param poly pointer to the polynomial approximation
          * @param isVShape has the solution a V shape?
          * @param activate make the graph visible?
          */
         void drawPolynomial(PolynomialFit *poly, bool isVShape, bool activate, bool plot = true);
+
+        /**
+         * @brief draw the curve into the HFR V-graph
+         * @param poly pointer to the polynomial approximation
+         * @param isVShape has the solution a V shape?
+         * @param activate make the graph visible?
+         */
+        void drawCurve(CurveFitting *curve, bool isVShape, bool activate, bool plot = true);
 
         /**
          * @brief Focus solution with minimal HFR found
@@ -510,6 +528,12 @@ class Focus : public QWidget, public Ui::Focus
          * @param title the title
          */
         void setTitle(const QString &title, bool plot = true);
+
+        /**
+         * @brief update the title on the focus plot
+         * @param title
+         */
+        void updateTitle(const QString &title, bool plot = true);
 
     private:
 
@@ -552,12 +576,15 @@ class Focus : public QWidget, public Ui::Focus
         // Linear does plotting differently from the rest.
         void plotLinearFocus();
 
+        // Linear final updates to the curve
+        void plotLinearFinalUpdates();
+
         /** @brief Helper function determining whether the focuser behaves like a position
          *         based one (vs. a timer based)
          */
         bool isPositionBased()
         {
-            return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR));
+            return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR) || (focusAlgorithm == FOCUS_LINEAR1PASS));
         }
         void resetButtons();
         void stop(FocusState completionState = FOCUS_ABORTED);
@@ -577,6 +604,8 @@ class Focus : public QWidget, public Ui::Focus
         // Sets the algorithm and enables/disables various UI inputs.
         void setFocusAlgorithm(FocusAlgorithm algorithm);
 
+        void setCurveFit(CurveFitting::CurveFit curvefit);
+
         // Move the focuser in (negative) or out (positive amount).
         bool changeFocus(int amount);
 
@@ -589,7 +618,8 @@ class Focus : public QWidget, public Ui::Focus
         // and set focuserAdditionalMovement to the extra motion, so that after this motion completes
         // we will then scan back in (back to the originally requested position). This "dance" is done
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
-        int adjustLinearPosition(int position, int newPosition);
+        // For LINEAR1PASS algo use the user-defined backlash value to adjust by
+        int adjustLinearPosition(int position, int newPosition, int backlash);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -670,6 +700,8 @@ class Focus : public QWidget, public Ui::Focus
         StarAlgorithm focusDetection { ALGORITHM_GRADIENT };
         /// Focus Process Algorithm
         FocusAlgorithm focusAlgorithm { FOCUS_ITERATIVE };
+        /// Curve fit, default to Quadratic
+        CurveFitting::CurveFit curveFit { CurveFitting::FOCUS_QUADRATIC };
 
         /*********************
          * HFR Club variables
@@ -754,6 +786,10 @@ class Focus : public QWidget, public Ui::Focus
         bool m_RememberCameraFastExposure = { false };
         // Future Watch
         QFutureWatcher<bool> m_StarFinderWatcher;
+        // R2 as a measure of how well the curve fits the datapoints. Passed to the V-curve graph for display
+        double R2 = 0;
+        // Counter to retry the auto focus run if the R2Limit has not been reached
+        int R2Retries = 0;
 
         /// Autofocus log file info.
         QStringList m_LogText;
@@ -810,6 +846,9 @@ class Focus : public QWidget, public Ui::Focus
 
         /// Polynomial fitting.
         std::unique_ptr<PolynomialFit> polynomialFit;
+
+        // Curve fitting.
+        std::unique_ptr<CurveFitting> curveFitting;
 
         // Capture timers
         QTimer captureTimer;

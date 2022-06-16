@@ -108,6 +108,7 @@
      <property name="font">
       <font>
        <pointsize>64</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -131,7 +132,7 @@
      <item>
       <widget class="QPushButton" name="cancelB">
        <property name="text">
-        <string>Cancel Load &amp;&amp; Slew</string>
+        <string>Cancel</string>
        </property>
       </widget>
      </item>

@@ -8,6 +8,8 @@
 
 #include <QString>
 #include <QList>
+#include "focus.h"
+#include "curvefit.h"
 
 class Edge;
 
@@ -50,16 +52,28 @@ class FocusAlgorithmInterface
             double temperature;
             // The number of outward steps taken at the start of the algorithm.
             double initialOutwardSteps;
+            // The focus algo
+            Focus::FocusAlgorithm focusAlgorithm;
+            // The user defined focuser backlash value
+            // The value does not need to be exact but needs to be >= focuser backlash
+            int backlash;
+            // Curve fit is the type of curve to fit to the data
+            CurveFitting::CurveFit curveFit;
+            // Whether we want to use weightings of datapoints in the curve fitting process
+            bool useWeights;
 
             FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
                         int _minPositionAllowed, int _maxPositionAllowed,
                         int _maxIterations, double _focusTolerance, const QString &filterName_,
-                        double _temperature, double _initialOutwardSteps) :
+                        double _temperature, double _initialOutwardSteps, Focus::FocusAlgorithm _focusAlgorithm,
+                        int _backlash, CurveFitting::CurveFit _curveFit, bool _useWeights) :
                 maxTravel(_maxTravel), initialStepSize(_initialStepSize),
                 startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),
                 maxPositionAllowed(_maxPositionAllowed), maxIterations(_maxIterations),
                 focusTolerance(_focusTolerance), filterName(filterName_),
-                temperature(_temperature), initialOutwardSteps(_initialOutwardSteps) {}
+                temperature(_temperature), initialOutwardSteps(_initialOutwardSteps),
+                focusAlgorithm(_focusAlgorithm), backlash(_backlash), curveFit(_curveFit),
+                useWeights(_useWeights) {}
         };
 
         // Constructor initializes an autofocus algorithm from the input params.
@@ -103,10 +117,15 @@ class FocusAlgorithmInterface
 
         virtual double latestHFR() const = 0;
 
-        virtual void getMeasurements(QVector<int> *positions, QVector<double> *hfrs) const = 0;
-        virtual void getPass1Measurements(QVector<int> *positions, QVector<double> *hfrs) const = 0;
+        virtual void getMeasurements(QVector<int> *positions, QVector<double> *hfrs,
+                                     QVector<double> *sigmas) const = 0;
+        virtual void getPass1Measurements(QVector<int> *positions, QVector<double> *hfrs,
+                                          QVector<double> *sigmas) const = 0;
 
-        virtual QString getTextStatus() = 0;
+        virtual QString getTextStatus(double R2 = 0) const = 0;
+
+        // Curve fitting object
+        CurveFitting curveFit;
 
         // For testing.
         virtual FocusAlgorithmInterface *Copy() = 0;

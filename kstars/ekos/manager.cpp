@@ -2375,10 +2375,14 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
     connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
+    // connect signal/slot for adding a new position with errors to be shown as error bars
+    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPositionWithSigma, focusManager->hfrVPlot, &FocusHFRVPlot::addPositionWithSigma);
     connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
     connect(focusProcess.get(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
+    connect(focusProcess.get(), &Ekos::Focus::updateTitle, focusManager->hfrVPlot, &FocusHFRVPlot::updateTitle);
     connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
-
+    // setup signal/slots for Linear 1 Pass focus algo
+    connect(focusProcess.get(), &Ekos::Focus::drawCurve, focusManager->hfrVPlot, &FocusHFRVPlot::drawCurve);
 
     // Focus <---> Filter Manager connections
     focusProcess->setFilterManager(filterManager);
@@ -3460,6 +3464,9 @@ void Manager::connectModules()
 
         connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendAlignSettings, Qt::UniqueConnection);
+
+        connect(alignProcess.get(), &Ekos::Align::manualRotatorChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendManualRotatorStatus, Qt::UniqueConnection);
     }
 
     // Focus <--> EkosLive Connections

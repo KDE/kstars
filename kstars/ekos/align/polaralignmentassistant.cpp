@@ -21,11 +21,6 @@
 
 #define PAA_VERSION "v3.0"
 
-// Algorithm choice in UI
-#define PLATE_SOLVE_ALGORITHM 0
-#define MOVE_STAR_ALGORITHM 1
-#define MOVE_STAR_UPDATE_ERR_ALGORITHM 2
-
 namespace Ekos
 {
 
@@ -65,31 +60,10 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view)
     showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
                      (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
 
-    PAHRefreshAlgorithm->setCurrentIndex(Options::pAHRefreshAlgorithm());
-    connect(PAHRefreshAlgorithm, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    PAHRefreshAlgorithmCombo->setCurrentIndex(Options::pAHRefreshAlgorithm());
+    connect(PAHRefreshAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index)
     {
-        // If the star-correspondence method of tracking polar alignment error wasn't initialized,
-        // at the start, it can't be turned on mid process.
-        if ((m_PAHStage == PAH_REFRESH) && refreshIteration > 0 && (index != PLATE_SOLVE_ALGORITHM)
-                && !starCorrespondencePAH.size())
-        {
-            PAHRefreshAlgorithm->setCurrentIndex(PLATE_SOLVE_ALGORITHM);
-            Options::setPAHRefreshAlgorithm(PLATE_SOLVE_ALGORITHM);
-            emit newLog(i18n("Cannot change to MoveStar algorithm once refresh has begun"));
-            return;
-        }
-        Options::setPAHRefreshAlgorithm(index);
-        if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_STAR_SELECT)
-        {
-            refreshText->setText(getPAHMessage());
-            emit newPAHMessage(getPAHMessage());
-        }
-        showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
-                         (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
-        if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
-            updatePlateSolveTriangle(m_ImageData);
-        else
-            alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+        setPAHRefreshAlgorithm(static_cast<PAHRefreshAlgorithm>(index));
     });
     starCorrespondencePAH.reset();
 
@@ -1298,5 +1272,31 @@ QString PolarAlignmentAssistant::getPAHMessage() const
     return QString();
 }
 
+void PolarAlignmentAssistant::setPAHRefreshAlgorithm(PAHRefreshAlgorithm value)
+{
+    // If the star-correspondence method of tracking polar alignment error wasn't initialized,
+    // at the start, it can't be turned on mid process.
+    if ((m_PAHStage == PAH_REFRESH) && refreshIteration > 0 && (value != PLATE_SOLVE_ALGORITHM)
+            && !starCorrespondencePAH.size())
+    {
+        PAHRefreshAlgorithmCombo->setCurrentIndex(PLATE_SOLVE_ALGORITHM);
+        Options::setPAHRefreshAlgorithm(PLATE_SOLVE_ALGORITHM);
+        emit newLog(i18n("Cannot change to MoveStar algorithm once refresh has begun"));
+        return;
+    }
+    Options::setPAHRefreshAlgorithm(value);
+    if (m_PAHStage == PAH_REFRESH || m_PAHStage == PAH_STAR_SELECT)
+    {
+        refreshText->setText(getPAHMessage());
+        emit newPAHMessage(getPAHMessage());
+    }
+    showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
+                     (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
+    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+        updatePlateSolveTriangle(m_ImageData);
+    else
+        alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+
+}
 
 }

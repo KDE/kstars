@@ -145,6 +145,8 @@ enum COMMANDS
     ALIGN_LOAD_AND_SLEW,
     ALIGN_SET_FILE_EXTENSION,
     ALIGN_SET_SETTINGS,
+    ALIGN_MANUAL_ROTATOR_STATUS,
+    ALIGN_MANUAL_ROTATOR_TOGGLE,
 
     // Scheduler
     SCHEDULER_SET_PRIMARY_SETTINGS,
@@ -171,6 +173,7 @@ enum COMMANDS
     PAH_RESET_VIEW,
     PAH_SLEW_DONE,
     PAH_PAH_SET_ZOOM,
+    PAH_SET_ALGORITHM,
 
     // Options
     OPTION_SET_HIGH_BANDWIDTH,
@@ -368,6 +371,8 @@ static QMap<COMMANDS, QString> const commands =
     {ALIGN_LOAD_AND_SLEW, "align_load_and_slew"},
     {ALIGN_SET_FILE_EXTENSION, "align_set_file_extension"},
     {ALIGN_SET_SETTINGS, "align_set_settings"},
+    {ALIGN_MANUAL_ROTATOR_STATUS, "align_manual_rotator_status"},
+    {ALIGN_MANUAL_ROTATOR_TOGGLE, "align_manual_rotator_toggle"},
 
     {PAH_START, "polar_start"},
     {PAH_STOP, "polar_stop"},
@@ -379,6 +384,7 @@ static QMap<COMMANDS, QString> const commands =
     {PAH_RESET_VIEW, "polar_reset_view"},
     {PAH_SLEW_DONE, "polar_slew_done"},
     {PAH_PAH_SET_ZOOM, "polar_set_zoom"},
+    {PAH_SET_ALGORITHM, "polar_set_algorithm"},
 
     {OPTION_SET_HIGH_BANDWIDTH, "option_set_high_bandwidth"},
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
