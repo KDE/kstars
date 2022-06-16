@@ -3464,6 +3464,9 @@ void Manager::connectModules()
 
         connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendAlignSettings, Qt::UniqueConnection);
+
+        connect(alignProcess.get(), &Ekos::Align::manualRotatorChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendManualRotatorStatus, Qt::UniqueConnection);
     }
 
     // Focus <--> EkosLive Connections

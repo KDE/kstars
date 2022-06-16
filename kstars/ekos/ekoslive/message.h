@@ -124,6 +124,8 @@ class Message : public QObject
         // StellarSolver
         void sendStellarSolverProfiles();
 
+        void sendManualRotatorStatus(double currentPA, double targetPA, double threshold);
+
     private slots:
 
         // Connection

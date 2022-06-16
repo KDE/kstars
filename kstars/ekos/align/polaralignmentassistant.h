@@ -69,6 +69,14 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             PAH_POST_REFRESH
         } PAHStage;
 
+        // Algorithm choice in UI
+        typedef enum
+        {
+            PLATE_SOLVE_ALGORITHM,
+            MOVE_STAR_ALGORITHM,
+            MOVE_STAR_UPDATE_ERR_ALGORITHM
+        } PAHRefreshAlgorithm;
+
         enum CircleSolution
         {
             NO_CIRCLE_SOLUTION,
@@ -142,6 +150,8 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Set image data from align class
         void setImageData(const QSharedPointer<FITSData> &image);
 
+        void setPAHRefreshAlgorithm(PAHRefreshAlgorithm value);
+
     protected:
         // Polar Alignment Helper slots
         void rotatePAH();
@@ -205,8 +215,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void startSolver();
         void updatePlateSolveTriangle(const QSharedPointer<FITSData> &image);
-
-
 
         // Polar Alignment Helper
         PAHStage m_PAHStage { PAH_IDLE };

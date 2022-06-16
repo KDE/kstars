@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>343</height>
+    <width>550</width>
+    <height>198</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -333,11 +333,11 @@
          </property>
          <item>
           <widget class="QPushButton" name="PAHRefreshB">
-           <property name="text">
-            <string>Refresh</string>
-           </property>
            <property name="toolTip">
             <string>Start the refresh phase--where image captures loop while you adjust the altitude and azimuth knobs to correct polar alignment.</string>
+           </property>
+           <property name="text">
+            <string>Refresh</string>
            </property>
           </widget>
          </item>
@@ -403,7 +403,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QComboBox" name="PAHRefreshAlgorithm">
+          <widget class="QComboBox" name="PAHRefreshAlgorithmCombo">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -469,7 +469,7 @@
             <bool>true</bool>
            </property>
            <property name="text">
-            <string></string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -479,7 +479,7 @@
             <bool>true</bool>
            </property>
            <property name="text">
-            <string></string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -690,7 +690,7 @@
             <string>Polar Alignment altitude error estimated after recent adjustments.</string>
            </property>
            <property name="text">
-            <string></string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -734,7 +734,7 @@
             <string>Polar Alignment azimuth error estimated after recent adjustments.</string>
            </property>
            <property name="text">
-            <string></string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

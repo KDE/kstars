@@ -2252,33 +2252,18 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {
             double current = currentRotatorPA;
             double target = loadSlewTargetPA;
-            //double targetFlipped = range360(loadSlewTargetPA + 180);
 
             double diff = current - target;
-            if (diff > 180)
+            while (diff > 180)
                 diff -= 360;
-            if (diff < -180)
+            while (diff < -180)
                 diff += 360;
-            //            if (fabs(current + 360.0 - target) < fabs(diff))
-            //            {
-            //                diff = current + 360.0 - target;
-            //            }
-
-            //            if (fabs(current - targetFlipped) < fabs(diff))
-            //            {
-            //                diff = current - targetFlipped;
-            //                target = targetFlipped;
-            //            }
-
-            //            if (fabs(current + 360.0 - targetFlipped) < fabs(diff))
-            //            {
-            //                diff = current + 360.0 - targetFlipped;
-            //                target = targetFlipped;
-            //            }
 
             double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
-            appendLogText(i18n("Current Rotation is %1; Target Rotation is %2; diff: %3", current, target, diff));
+            appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
+
+            emit manualRotatorChanged(current, target, threshold);
 
             m_ManualRotator->setRotatorDiff(current, target, diff);
             if (fabs(diff) > threshold)
@@ -4020,5 +4005,16 @@ void Align::processPAHStage(int stage)
 bool Align::matchPAHStage(uint32_t stage)
 {
     return m_PolarAlignmentAssistant && m_PolarAlignmentAssistant->getPAHStage() == stage;
+}
+
+void Align::toggleManualRotator(bool toggled)
+{
+    if (toggled)
+    {
+        m_ManualRotator->show();
+        m_ManualRotator->raise();
+    }
+    else
+        m_ManualRotator->close();
 }
 }

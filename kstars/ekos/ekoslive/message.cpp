@@ -945,6 +945,10 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
         file.close();
         align->loadAndSlew(file.fileName());
     }
+    else if (command == commands[ALIGN_MANUAL_ROTATOR_TOGGLE])
+    {
+        align->toggleManualRotator(payload["toggled"].toBool());
+    }
 }
 
 void Message::setAlignStatus(Ekos::AlignState newState)
@@ -1053,6 +1057,10 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         paa->setPAHRefreshDuration(payload["value"].toDouble(1));
         paa->startPAHRefreshProcess();
+    }
+    else if (command == commands[PAH_SET_ALGORITHM])
+    {
+        paa->setPAHRefreshAlgorithm(static_cast<Ekos::PolarAlignmentAssistant::PAHRefreshAlgorithm>(payload["value"].toInt(1)));
     }
     else if (command == commands[PAH_RESET_VIEW])
     {
@@ -2218,6 +2226,15 @@ void Message::sendEvent(const QString &message, KSNotification::EventType event)
 
     QJsonObject newEvent = {{ "severity", event}, {"message", message}, {"uuid", QUuid::createUuid().toString()}};
     sendResponse(commands[NEW_NOTIFICATION], newEvent);
+}
+
+void Message::sendManualRotatorStatus(double currentPA, double targetPA, double threshold)
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonObject request = {{ "currentPA", currentPA}, {"targetPA", targetPA}, {"threshold", threshold}};
+    sendResponse(commands[ALIGN_MANUAL_ROTATOR_STATUS], request);
 }
 
 void Message::setBoundingRect(QRect rect, QSize view, double currentZoom)
