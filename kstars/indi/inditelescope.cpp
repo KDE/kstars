@@ -823,7 +823,8 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     // for the target coordinates) calls sendToMountDevice
     auto checkObjectAndSend = [ = ]()
     {
-        double maxrad = 1000.0 / Options::zoomFactor();
+        // Search within 0.1 degrees indepdent of zoom level.
+        double maxrad = 0.1;
         currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
         if (currentObject)
         {
