@@ -227,6 +227,7 @@ if (INDI_FOUND)
             ekos/focus/focusalgorithms.cpp
             ekos/focus/polynomialfit.cpp
             ekos/focus/focusstars.cpp
+            ekos/focus/curvefit.cpp
 
             # Mount
             ekos/mount/mount.cpp

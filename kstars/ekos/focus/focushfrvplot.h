@@ -12,6 +12,7 @@
 #include "qcustomplot.h"
 #include "ekos/ekos.h"
 #include "ekos/focus/polynomialfit.h"
+#include "ekos/focus/curvefit.h"
 
 class FocusHFRVPlot : public QCustomPlot
 {
@@ -28,10 +29,26 @@ class FocusHFRVPlot : public QCustomPlot
         void addPosition(double pos, double newHFR, int pulseDuration, bool plot = true);
 
         /**
+         * @brief add a single focus position result with error (sigma)
+         * @param pos focuser position or iteration number
+         * @param newHFR HFR value for the given position
+         * @param sigma value is the error (sigma) in the HFR measurement
+         * @param pulseDuration Pulse duration in ms for relative focusers that only support timers,
+         *        or the number of ticks in a relative or absolute focuser
+         */
+        void addPositionWithSigma(double pos, double newHFR, double sigma, int pulseDuration, bool plot = true);
+
+        /**
          * @brief sets the plot title
          * @param title the new plot title
          */
         void setTitle(const QString &title, bool plot = true);
+
+        /**
+         * @brief updates the plot title
+         * @param title the new plot title
+         */
+        void updateTitle(const QString &title, bool plot = true);
 
         /**
          * @brief Annotate's the plot's solution graph with the solution position.
@@ -49,12 +66,28 @@ class FocusHFRVPlot : public QCustomPlot
         void drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, bool makeVisible, bool plot = true);
 
         /**
+         * @brief Draws the curve on the plot's graph.
+         * @param curveFit pointer to the curve approximation
+         * @param isVShape is the curve of a V shape (true) or U shape (false)?
+         * @param makeVisible make the graph visible (true) or use the last state (false)?
+         */
+        void drawCurve(Ekos::CurveFitting *curveFit, bool isVShape, bool makeVisible, bool plot = true);
+
+        /**
          * @brief Refresh the entire graph
          * @param polyFit pointer to the polynomial approximation
          * @param solutionPosition focuser position of the focal point
          * @param solutionValue HFR value on the focal point
          */
         void redraw(Ekos::PolynomialFit *polyFit, double solutionPosition, double solutionValue);
+
+        /**
+         * @brief Refresh the entire graph
+         * @param curveFit pointer to the curve approximation
+         * @param solutionPosition focuser position of the focal point
+         * @param solutionValue HFR value on the focal point
+         */
+        void redrawCurve(Ekos::CurveFitting *curveFit, double solutionPosition, double solutionValue);
 
         /**
          * @brief Initialize and reset the entire HFR V-plot
@@ -94,8 +127,17 @@ class FocusHFRVPlot : public QCustomPlot
          */
         void setSolutionVShape(bool isVShape);
 
+        /**
+         * @brief Clear all the items on HFR plot
+         */
+        void clearItems();
+
         QCPGraph *polynomialGraph = nullptr;
-        QVector<double> hfr_position, hfr_value;
+        QVector<double> hfr_position, hfr_value, hfr_sigma;
+
+        // Error bars for the focus plot
+        bool useErrorBars = false;
+        QCPErrorBars * errorBars = nullptr;
 
         // Title text for the focus plot
         QCPItemText *plotTitle  { nullptr };

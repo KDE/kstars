@@ -9,6 +9,8 @@
 
 #include "klocalizedstring.h"
 
+#include "curvefit.h"
+
 #define DEFAULT_BASIC_FONT_SIZE 10
 
 FocusHFRVPlot::FocusHFRVPlot(QWidget *parent) : QCustomPlot (parent)
@@ -51,7 +53,6 @@ FocusHFRVPlot::FocusHFRVPlot(QWidget *parent) : QCustomPlot (parent)
     v_graph->setLineStyle(QCPGraph::lsNone);
     v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::white, 14));
 
-
     focusPoint = addGraph();
     focusPoint->setLineStyle(QCPGraph::lsImpulse);
     focusPoint->setPen(QPen(QColor(140, 140, 140), 2, Qt::SolidLine));
@@ -90,11 +91,22 @@ FocusHFRVPlot::FocusHFRVPlot(QWidget *parent) : QCustomPlot (parent)
             }
         }
     });
-
+    // Add the error bars
+    errorBars = new QCPErrorBars((this)->xAxis, (this)->yAxis);
 }
 
 void FocusHFRVPlot::drawHFRIndices()
 {
+    // Setup error bars
+    QVector<double> err;
+    if (useErrorBars)
+    {
+        errorBars->removeFromLegend();
+        errorBars->setAntialiased(false);
+        errorBars->setDataPlottable((this)->v_graph);
+        errorBars->setPen(QPen(QColor(180, 180, 180)));
+    }
+
     // Put the sample number inside the plot point's circle.
     for (int i = 0; i < hfr_position.size(); ++i)
     {
@@ -106,7 +118,14 @@ void FocusHFRVPlot::drawHFRIndices()
         textLabel->setFont(QFont(font().family(), (int) std::round(1.2 * basicFontSize())));
         textLabel->setPen(Qt::NoPen);
         textLabel->setColor(Qt::red);
+
+        if (useErrorBars)
+            err.push_front(hfr_sigma[i]);
     }
+    // Setup the error bar data if we're using it
+    errorBars->setVisible(useErrorBars);
+    if (useErrorBars)
+        errorBars->setData(err);
 }
 
 void FocusHFRVPlot::init(bool showPosition)
@@ -114,15 +133,18 @@ void FocusHFRVPlot::init(bool showPosition)
     m_showPositions = showPosition;
     hfr_position.clear();
     hfr_value.clear();
+    hfr_sigma.clear();
     polynomialGraph->data()->clear();
     focusPoint->data().clear();
+    useErrorBars = false;
+    errorBars->data().clear();
     // the next step seems necessary (QCP bug?)
     v_graph->setData(QVector<double> {}, QVector<double> {});
     focusPoint->setData(QVector<double> {}, QVector<double> {});
     m_polynomialGraphIsVisible = false;
     m_isVShape = false;
     maxHFR = -1;
-    clearItems();
+    FocusHFRVPlot::clearItems();
     replot();
 }
 
@@ -130,7 +152,7 @@ void FocusHFRVPlot::drawHFRPlot(double currentHFR, int pulseDuration)
 {
     // DrawHFRPlot is the base on which other things are built upon.
     // Clear any previous annotations.
-    clearItems();
+    FocusHFRVPlot::clearItems();
 
     v_graph->setData(hfr_position, hfr_value);
     drawHFRIndices();
@@ -173,10 +195,20 @@ void FocusHFRVPlot::addPosition(double pos, double newHFR, int pulseDuration, bo
 {
     hfr_position.append(pos);
     hfr_value.append(newHFR);
+    useErrorBars = false;
     if (plot)
         drawHFRPlot(newHFR, pulseDuration);
 }
 
+void FocusHFRVPlot::addPositionWithSigma(double pos, double newHFR, double sigma, int pulseDuration, bool plot)
+{
+    hfr_position.append(pos);
+    hfr_value.append(newHFR);
+    hfr_sigma.append(sigma);
+    useErrorBars = true;
+    if (plot)
+        drawHFRPlot(newHFR, pulseDuration);
+}
 void FocusHFRVPlot::setTitle(const QString &title, bool plot)
 {
     plotTitle = new QCPItemText(this);
@@ -192,6 +224,15 @@ void FocusHFRVPlot::setTitle(const QString &title, bool plot)
     if (plot) replot();
 }
 
+void FocusHFRVPlot::updateTitle(const QString &title, bool plot)
+{
+    // Update a previous set title without having to redraw everything
+    if (plotTitle != nullptr)
+    {
+        plotTitle->setText(title);
+        if (plot) replot();
+    }
+}
 void FocusHFRVPlot::setSolutionVShape(bool isVShape)
 {
     m_isVShape = isVShape;
@@ -211,6 +252,13 @@ void FocusHFRVPlot::setSolutionVShape(bool isVShape)
     }
 
     polynomialGraph->setPen(pen);
+}
+
+void FocusHFRVPlot::clearItems()
+{
+    // Clear all the items on the HFR plot and reset pointers
+    QCustomPlot::clearItems();
+    plotTitle = nullptr;
 }
 
 void FocusHFRVPlot::drawMinimum(double solutionPosition, double solutionValue, bool plot)
@@ -262,12 +310,48 @@ void FocusHFRVPlot::drawPolynomial(Ekos::PolynomialFit *polyFit, bool isVShape, 
     }
 }
 
+void FocusHFRVPlot::drawCurve(Ekos::CurveFitting *curveFit, bool isVShape, bool makeVisible, bool plot)
+{
+    if (curveFit == nullptr)
+        return;
+
+    // do nothing if graph is not visible and should not be made as such
+    if(makeVisible)
+        m_polynomialGraphIsVisible = true;
+    else if (m_polynomialGraphIsVisible == false)
+        return;
+
+    setSolutionVShape(isVShape);
+    if (polynomialGraph != nullptr)
+    {
+        polynomialGraph->data()->clear();
+        QCPRange range = xAxis->range();
+        double interval = range.size() / 20.0;
+
+        for(double x = range.lower ; x < range.upper ; x += interval)
+        {
+            double y = curveFit->f(x);
+            polynomialGraph->addData(x, y);
+        }
+        if (plot) replot();
+    }
+}
+
 void FocusHFRVPlot::redraw(Ekos::PolynomialFit *polyFit, double solutionPosition, double solutionValue)
 {
     if (hfr_value.empty() == false)
         drawHFRPlot(hfr_value.last(), 0);
 
     drawPolynomial(polyFit, m_isVShape, false);
+    drawMinimum(solutionPosition, solutionValue);
+}
+
+void FocusHFRVPlot::redrawCurve(Ekos::CurveFitting *curveFit, double solutionPosition, double solutionValue)
+{
+    if (hfr_value.empty() == false)
+        drawHFRPlot(hfr_value.last(), 0);
+
+    drawCurve(curveFit, m_isVShape, false);
     drawMinimum(solutionPosition, solutionValue);
 }
 

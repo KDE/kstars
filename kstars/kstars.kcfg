@@ -1942,6 +1942,18 @@
          <label>Number of rows to combine in the Bahtinov average calculation.</label>
          <default>3</default>
       </entry>
+      <entry name="FocusCurveFit" type="UInt">
+         <label>Curve Type.</label>
+         <default>0</default>
+      </entry>
+      <entry name="FocusUseWeights" type="Bool">
+         <label>Use weights in the curve fitting process.</label>
+         <default>false</default>
+      </entry>
+      <entry name="FocusR2Limit" type="Double">
+         <label>Acceptable limit on R2 from curve fit.</label>
+         <default>0.0</default>
+      </entry>
    </group>
    <group name="StellarSolver">
       <entry name="FocusSextractorType" type="UInt">

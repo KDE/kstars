@@ -27,6 +27,9 @@ class TestFocus : public QObject
     private slots:
         void basicTest();
         void restartTest();
+        void L1PHyperbolaTest();
+        void L1PParabolaTest();
+        void L1PQuadraticTest();
 };
 
 #include "testfocus.moc"
@@ -45,10 +48,91 @@ FocusAlgorithmInterface::FocusParams makeParams()
     const QString filterName = "Red";
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
+    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR;
+    const int backlash = 0;
+    const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_QUADRATIC;
+    const bool useWeights = false;
     const FocusAlgorithmInterface::FocusParams params(
         maxTravel, initialStepSize, startPosition, minPositionAllowed,
         maxPositionAllowed, maxIterations, focusTolerance, filterName,
-        temperature, initialOutwardSteps);
+        temperature, initialOutwardSteps, focusAlgorithm, backlash,
+        curveFit, useWeights);
+
+    return params;
+}
+
+FocusAlgorithmInterface::FocusParams makeL1PHyperbolaParams()
+{
+    const int maxTravel = 100000;
+    const int initialStepSize = 25;
+    const int startPosition = 10000;
+    const int minPositionAllowed = 0;
+    const int maxPositionAllowed = 1000000;
+    const int maxIterations = 30;
+    const double focusTolerance = 0.05;
+    const QString filterName = "Green";
+    const double temperature = 20.0;
+    const double initialOutwardSteps = 5;
+    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const int backlash = 300;
+    const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_HYPERBOLA;
+    const bool useWeights = true;
+    const FocusAlgorithmInterface::FocusParams params(
+        maxTravel, initialStepSize, startPosition, minPositionAllowed,
+        maxPositionAllowed, maxIterations, focusTolerance, filterName,
+        temperature, initialOutwardSteps, focusAlgorithm, backlash,
+        curveFit, useWeights);
+
+    return params;
+}
+
+FocusAlgorithmInterface::FocusParams makeL1PParabolaParams()
+{
+    const int maxTravel = 100000;
+    const int initialStepSize = 25;
+    const int startPosition = 10000;
+    const int minPositionAllowed = 0;
+    const int maxPositionAllowed = 1000000;
+    const int maxIterations = 30;
+    const double focusTolerance = 0.05;
+    const QString filterName = "Blue";
+    const double temperature = 20.0;
+    const double initialOutwardSteps = 5;
+    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const int backlash = 200;
+    const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_PARABOLA;
+    const bool useWeights = false;
+    const FocusAlgorithmInterface::FocusParams params(
+        maxTravel, initialStepSize, startPosition, minPositionAllowed,
+        maxPositionAllowed, maxIterations, focusTolerance, filterName,
+        temperature, initialOutwardSteps, focusAlgorithm, backlash,
+        curveFit, useWeights);
+
+    return params;
+}
+
+FocusAlgorithmInterface::FocusParams makeL1PQuadraticParams()
+{
+    const int maxTravel = 100000;
+    const int initialStepSize = 25;
+    const int startPosition = 10000;
+    const int minPositionAllowed = 0;
+    const int maxPositionAllowed = 1000000;
+    const int maxIterations = 30;
+    const double focusTolerance = 0.05;
+    const QString filterName = "Lum";
+    const double temperature = 20.0;
+    const double initialOutwardSteps = 5;
+    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const int backlash = 0;
+    const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_QUADRATIC;
+    const bool useWeights = false;
+    const FocusAlgorithmInterface::FocusParams params(
+        maxTravel, initialStepSize, startPosition, minPositionAllowed,
+        maxPositionAllowed, maxIterations, focusTolerance, filterName,
+        temperature, initialOutwardSteps, focusAlgorithm, backlash,
+        curveFit, useWeights);
+
     return params;
 }
 
@@ -86,7 +170,6 @@ void TestFocus::basicTest()
     int currentPosition = focuser->initialPosition();
 
     // Here we run the algorithm, feeding it a v-curve, and watching it solve.
-
     // First pass: Should see the position reducing by initialStepSize
     position = focuser->newMeasurement(currentPosition, 5);
     QCOMPARE(position, currentPosition - params.initialStepSize);
@@ -387,6 +470,354 @@ void TestFocus::restartTest()
 
     // At this point it should restart with a higher initial position, but not too high.
     QCOMPARE(position, 11842);
+}
+
+void TestFocus::L1PHyperbolaTest()
+{
+    // Linear 1 Pass hyperbola curve test.
+    auto params = makeL1PHyperbolaParams();
+    std::unique_ptr<FocusAlgorithmInterface> focuser(MakeLinearFocuser(params));
+    int position = focuser->initialPosition();
+    // The first position should be initialPosition + stepSize * initialOutwardSteps,
+    // unless maxPositionAllowed or maxTravel doesn't allow that.
+    QCOMPARE(position, static_cast <int> (params.startPosition + params.initialOutwardSteps * params.initialStepSize));
+
+    params.maxTravel = 4 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.startPosition + params.maxTravel);
+
+    params.maxPositionAllowed = params.startPosition + 3 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.maxPositionAllowed);
+
+    // go back to the default params
+    params = makeL1PHyperbolaParams();
+    focuser.reset(MakeLinearFocuser(params));
+    int currentPosition = focuser->initialPosition();
+
+    // Here we run the algorithm, feeding it a v-curve, and watching it solve.
+    // Should see the position reducing by initialStepSize
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 0.9);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Level off and then increase.
+
+    position = focuser->newMeasurement(currentPosition, 1.1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Send in the last datapoint to complete the first pass. The focuser will move to the solution
+    // found by the curve fitting process.
+    int solution = 10000;
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, solution);
+
+    // Check the latestHDR method
+    QCOMPARE(focuser->latestHFR(), 5.0);
+
+    // Check the getMeasurements method
+    QVector<int> pos;
+    QVector<double> hfrs;
+    QVector<double> sigmas;
+    focuser->getMeasurements(&pos, &hfrs, &sigmas);
+    QVERIFY(pos.size() == 11);
+    QVERIFY(hfrs.size() == 11);
+    QVERIFY(sigmas.size() == 11);
+    QCOMPARE(pos.last(), currentPosition);
+    QCOMPARE(hfrs.last(), 5.0);
+    QCOMPARE(sigmas.last(), 1.0);
+    currentPosition = position;
+
+    // Check the getPass1Measurements method - for L1P this is the same as getMeasurement
+    QVector<int> posPass1;
+    QVector<double> hfrsPass1;
+    QVector<double> sigmasPass1;
+    focuser->getPass1Measurements(&posPass1, &hfrsPass1, &sigmasPass1);
+    QCOMPARE(pos.last(), posPass1.last());
+    QCOMPARE(hfrs.last(), hfrsPass1.last());
+    QCOMPARE(sigmas.last(), sigmasPass1.last());
+
+    // Check the getTextStatus method
+    double R2 = 0.8;
+    QCOMPARE(focuser->getTextStatus(R2), "L1P: Hyperbola (W). Moving to Solution");
+
+    // Now let it complete.
+    position = focuser->newMeasurement(currentPosition, 0.91);
+    // Focuser returns a position of -1 to indicate its done.
+    QCOMPARE(position, -1);
+    // Check the isDone method
+    QVERIFY(focuser->isDone());
+    //Check the solution method
+    QCOMPARE(focuser->solution(), currentPosition);
+    // Check the doneReason method
+    QCOMPARE(focuser->doneReason(), "Solution found.");
+}
+
+void TestFocus::L1PParabolaTest()
+{
+    // Linear 1 Pass parabola curve test.
+    auto params = makeL1PParabolaParams();
+    std::unique_ptr<FocusAlgorithmInterface> focuser(MakeLinearFocuser(params));
+    int position = focuser->initialPosition();
+    // The first position should be initialPosition + stepSize * initialOutwardSteps,
+    // unless maxPositionAllowed or maxTravel doesn't allow that.
+    QCOMPARE(position, static_cast <int> (params.startPosition + params.initialOutwardSteps * params.initialStepSize));
+
+    params.maxTravel = 4 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.startPosition + params.maxTravel);
+
+    params.maxPositionAllowed = params.startPosition + 3 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.maxPositionAllowed);
+
+    // go back to the default params
+    params = makeL1PParabolaParams();
+    focuser.reset(MakeLinearFocuser(params));
+    int currentPosition = focuser->initialPosition();
+
+    // Here we run the algorithm, feeding it a v-curve, and watching it solve.
+    // Should see the position reducing by initialStepSize
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 0.9);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Level off and then increase.
+
+    position = focuser->newMeasurement(currentPosition, 1.1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Send in the last datapoint to complete the first pass. The focuser will move to the solution
+    // found by the curve fitting process.
+    int solution = 10000;
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, solution);
+
+    // Check the latestHDR method
+    QCOMPARE(focuser->latestHFR(), 5.0);
+
+    // Check the getMeasurements method
+    QVector<int> pos;
+    QVector<double> hfrs;
+    QVector<double> sigmas;
+    focuser->getMeasurements(&pos, &hfrs, &sigmas);
+    QVERIFY(pos.size() == 11);
+    QVERIFY(hfrs.size() == 11);
+    QVERIFY(sigmas.size() == 11);
+    QCOMPARE(pos.last(), currentPosition);
+    QCOMPARE(hfrs.last(), 5.0);
+    QCOMPARE(sigmas.last(), 1.0);
+    currentPosition = position;
+
+    // Check the getPass1Measurements method - for L1P this is the same as getMeasurement
+    QVector<int> posPass1;
+    QVector<double> hfrsPass1;
+    QVector<double> sigmasPass1;
+    focuser->getPass1Measurements(&posPass1, &hfrsPass1, &sigmasPass1);
+    QCOMPARE(pos.last(), posPass1.last());
+    QCOMPARE(hfrs.last(), hfrsPass1.last());
+    QCOMPARE(sigmas.last(), sigmasPass1.last());
+
+    // Check the getTextStatus method
+    double R2 = 0.8;
+    QCOMPARE(focuser->getTextStatus(R2), "L1P: Parabola (U). Moving to Solution");
+
+    // Now let it complete.
+    position = focuser->newMeasurement(currentPosition, 0.91);
+    // Focuser returns a position of -1 to indicate its done.
+    QCOMPARE(position, -1);
+    // Check the isDone method
+    QVERIFY(focuser->isDone());
+    //Check the solution method
+    QCOMPARE(focuser->solution(), currentPosition);
+    // Check the doneReason method
+    QCOMPARE(focuser->doneReason(), "Solution found.");
+}
+
+void TestFocus::L1PQuadraticTest()
+{
+    // Linear 1 Pass quadratic curve test - should be the same as parabola
+    auto params = makeL1PQuadraticParams();
+    std::unique_ptr<FocusAlgorithmInterface> focuser(MakeLinearFocuser(params));
+    int position = focuser->initialPosition();
+    // The first position should be initialPosition + stepSize * initialOutwardSteps,
+    // unless maxPositionAllowed or maxTravel doesn't allow that.
+    QCOMPARE(position, static_cast <int> (params.startPosition + params.initialOutwardSteps * params.initialStepSize));
+
+    params.maxTravel = 4 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.startPosition + params.maxTravel);
+
+    params.maxPositionAllowed = params.startPosition + 3 * params.initialStepSize;
+    focuser.reset(MakeLinearFocuser(params));
+    position = focuser->initialPosition();
+    QCOMPARE(position, params.maxPositionAllowed);
+
+    // go back to the default params
+    params = makeL1PQuadraticParams();
+    focuser.reset(MakeLinearFocuser(params));
+    int currentPosition = focuser->initialPosition();
+
+    // Here we run the algorithm, feeding it a v-curve, and watching it solve.
+    // Should see the position reducing by initialStepSize
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 0.9);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Level off and then increase.
+
+    position = focuser->newMeasurement(currentPosition, 1.1);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 2);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 3);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    position = focuser->newMeasurement(currentPosition, 4);
+    QCOMPARE(position, currentPosition - params.initialStepSize);
+    currentPosition = position;
+
+    // Send in the last datapoint to complete the first pass. The focuser will move to the solution
+    // found by the curve fitting process.
+    int solution = 10000;
+    position = focuser->newMeasurement(currentPosition, 5);
+    QCOMPARE(position, solution);
+
+    // Check the latestHDR method
+    QCOMPARE(focuser->latestHFR(), 5.0);
+
+    // Check the getMeasurements method
+    QVector<int> pos;
+    QVector<double> hfrs;
+    QVector<double> sigmas;
+    focuser->getMeasurements(&pos, &hfrs, &sigmas);
+    QVERIFY(pos.size() == 11);
+    QVERIFY(hfrs.size() == 11);
+    QVERIFY(sigmas.size() == 11);
+    QCOMPARE(pos.last(), currentPosition);
+    QCOMPARE(hfrs.last(), 5.0);
+    QCOMPARE(sigmas.last(), 1.0);
+    currentPosition = position;
+
+    // Check the getPass1Measurements method - for L1P this is the same as getMeasurement
+    QVector<int> posPass1;
+    QVector<double> hfrsPass1;
+    QVector<double> sigmasPass1;
+    focuser->getPass1Measurements(&posPass1, &hfrsPass1, &sigmasPass1);
+    QCOMPARE(pos.last(), posPass1.last());
+    QCOMPARE(hfrs.last(), hfrsPass1.last());
+    QCOMPARE(sigmas.last(), sigmasPass1.last());
+
+    // Check the getTextStatus method
+    double R2 = 0.8;
+    QCOMPARE(focuser->getTextStatus(R2), "L1P: Quadratic. Moving to Solution");
+
+    // Now let it complete.
+    position = focuser->newMeasurement(currentPosition, 0.91);
+    // Focuser returns a position of -1 to indicate its done.
+    QCOMPARE(position, -1);
+    // Check the isDone method
+    QVERIFY(focuser->isDone());
+    //Check the solution method
+    QCOMPARE(focuser->solution(), currentPosition);
+    // Check the doneReason method
+    QCOMPARE(focuser->doneReason(), "Solution found.");
 }
 
 QTEST_GUILESS_MAIN(TestFocus)
