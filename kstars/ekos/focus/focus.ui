@@ -1126,7 +1126,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to use the standard deviation of the star HFR as a weighting to the curve fitting algorithm. If unchecked,all data points are given equal weighting.Currently only available when using Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the Linear 1 Pass algorithm This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to use the standard deviation of the star HFR as a weighting to the curve fitting algorithm. If unchecked, all data points are given equal weighting. Currently only available when using Full Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the Linear 1 Pass algorithm. This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
                 <string>Use Weights</string>
