@@ -2271,7 +2271,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 targetAccuracyNotMet = true;
                 m_ManualRotator->show();
                 m_ManualRotator->raise();
-                return;
             }
             else
             {
