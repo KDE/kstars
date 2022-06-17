@@ -45,6 +45,10 @@ void BlobManager::newDevice(INDI::BaseDevice *device)
     if (QString(device->getDeviceName()) == m_Device)
     {
         setBLOBMode(B_ONLY, m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
+        // enable Direct Blob Access for faster BLOB loading.
+#if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 9 && INDI_VERSION_RELEASE >= 7
+        enableDirectBlobAccess(m_Device.toLatin1().constData(), m_Property.toLatin1().constData());
+#endif
         emit connected();
     }
 }
