@@ -2987,6 +2987,9 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     stopB->setEnabled(true);
     pi->startAnimation();
 
+    // Must clear image data so we are forced to read the
+    // image data again from align view when solving begins.
+    m_ImageData.clear();
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
     data->loadFromBuffer(image, extension);
