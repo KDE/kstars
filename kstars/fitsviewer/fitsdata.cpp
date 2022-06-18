@@ -526,7 +526,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
 
     m_Statistics.width = static_cast<uint16_t>(imageFromFile.width());
     m_Statistics.height = static_cast<uint16_t>(imageFromFile.height());
-    m_Statistics.channels = imageFromFile.isGrayscale() ? 1 : 3;
+    m_Statistics.channels = imageFromFile.format() == QImage::Format_Grayscale8 ? 1 : 3;
     m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
     clearImageBuffers();
     m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * static_cast<uint16_t>
