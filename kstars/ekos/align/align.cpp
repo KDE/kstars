@@ -2222,7 +2222,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         currentRotatorPA = solverPA;
 
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-        if (currentRotator != nullptr)
+        if (currentRotator != nullptr && currentRotator->isConnected())
         {
             // Update Rotator offsets
             auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
