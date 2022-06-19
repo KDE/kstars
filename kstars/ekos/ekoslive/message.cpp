@@ -1291,6 +1291,29 @@ void Message::setEkosStatingStatus(Ekos::CommunicationStatus status)
 
 void Message::processOptionsCommands(const QString &command, const QJsonObject &payload)
 {
+    if (command == commands[OPTION_SET])
+    {
+        const QJsonArray options = payload["options"].toArray();
+        for (const auto &oneOption : options)
+            Options::self()->setProperty(oneOption["name"].toString().toLatin1(), oneOption["value"].toVariant());
+        return;
+    }
+    else if (command == commands[OPTION_GET])
+    {
+        const QJsonArray options = payload["options"].toArray();
+        QJsonArray result;
+        for (const auto &oneOption : options)
+        {
+            const auto name = oneOption["name"].toString();
+            QVariant value = Options::self()->property(name.toLatin1());
+            QVariantMap map;
+            map["name"] = name;
+            map["value"] = value;
+            result.append(QJsonObject::fromVariantMap(map));
+        }
+        sendResponse(commands[OPTION_GET], result);
+        return;
+    }
     if (command == commands[OPTION_SET_HIGH_BANDWIDTH])
         m_Options[OPTION_SET_HIGH_BANDWIDTH] = payload["value"].toBool(true);
     else if (command == commands[OPTION_SET_IMAGE_TRANSFER])

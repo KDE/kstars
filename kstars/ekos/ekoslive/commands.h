@@ -180,6 +180,8 @@ enum COMMANDS
     OPTION_SET_IMAGE_TRANSFER,
     OPTION_SET_NOTIFICATIONS,
     OPTION_SET_CLOUD_STORAGE,
+    OPTION_SET,
+    OPTION_GET,
 
     // Storage Options
     SET_BLOBS,
@@ -231,7 +233,7 @@ enum COMMANDS
     DARK_LIBRARY_GET_VIEW_MASTERS,
     DARK_LIBRARY_GET_MASTERS_IMAGE,
     DARK_LIBRARY_CLEAR_MASTERS_ROW,
-    DARK_LIBRARY_SET_DEFECT_FRAME
+    DARK_LIBRARY_SET_DEFECT_FRAME,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -390,6 +392,8 @@ static QMap<COMMANDS, QString> const commands =
     {OPTION_SET_IMAGE_TRANSFER, "option_set_image_transfer"},
     {OPTION_SET_NOTIFICATIONS, "option_set_notifications"},
     {OPTION_SET_CLOUD_STORAGE, "option_set_cloud_storage"},
+    {OPTION_SET, "option_set"},
+    {OPTION_GET, "option_get"},
 
     {SET_BLOBS, "set_blobs"},
 
