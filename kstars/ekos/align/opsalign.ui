@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>179</height>
+    <width>449</width>
+    <height>251</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -218,16 +218,6 @@
       <property name="bottomMargin">
        <number>3</number>
       </property>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
-        <property name="toolTip">
-         <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
-        </property>
-        <property name="text">
-         <string>Overlay</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
         <property name="toolTip">
@@ -235,6 +225,16 @@
         </property>
         <property name="text">
          <string>WCS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
+        <property name="toolTip">
+         <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+        </property>
+        <property name="text">
+         <string>Overlay</string>
         </property>
        </widget>
       </item>
@@ -248,20 +248,66 @@
         </property>
        </widget>
       </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Rotator Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Threshold:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="maximum">
+           <double>120.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>10.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>arcmin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_AstrometryUseRotator">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use automatic or manual rotation control when using Load &amp;amp; Slew. For automatic control, the rotator is commanded to rotate to match the desired position angle. For manual control, the user is asked to manually rotate the camera until the desired position angle is reached.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use automatic or manual rotation control when using Load &amp;amp; Slew. For automatic control, the mechanized rotator is commanded to rotate to match the desired position angle. For manual control, the user is asked to manually rotate the camera until the desired position angle is reached.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
-         <string>Rotator Control:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRotatorThreshold">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotator threshold in arc-minutes when using Load &amp;amp; Slew. If the difference between measured position angle and FITS position angle is below this value, the Load &amp;amp; Slew operation is considered successful.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Automatic &amp;&amp; Manual Rotator Control</string>
         </property>
        </widget>
       </item>
@@ -269,14 +315,14 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer_6">
+    <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>3</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>

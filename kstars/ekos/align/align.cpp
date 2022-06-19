@@ -230,6 +230,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
     KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
     page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
+    connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
 
     opsPrograms = new OpsPrograms(this);
     page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
