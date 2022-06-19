@@ -1088,7 +1088,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDEN
 
 ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
-kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS} GENERATE_MOC)
 
 ecm_qt_declare_logging_category(kstarslite_SRCS HEADER kstars_debug.h IDENTIFIER KSTARS CATEGORY_NAME org.kde.kstars)
 ecm_qt_declare_logging_category(kstarslite_SRCS HEADER fits_debug.h IDENTIFIER KSTARS_FITS CATEGORY_NAME org.kde.kstars.fits)
