@@ -505,6 +505,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    positionAngleSpin->setSpecialValueText("--");
+
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
     queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueSaveB->setIcon(QIcon::fromTheme("document-save"));
@@ -5321,16 +5323,20 @@ void Scheduler::startAstrometry()
             return;
         }
 
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetPositionAngle");
-        if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
-                     rotationArgs)).type() == QDBusMessage::ErrorMessage)
+        // Only send if it has valid value.
+        if (currentJob->getPositionAngle() >= -180)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
-                                                  currentJob->getName(), reply.errorMessage());
-            if (!manageConnectionLoss())
-                currentJob->setState(SchedulerJob::JOB_ERROR);
-            return;
+            TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "setTargetPositionAngle");
+            if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
+                         rotationArgs)).type() == QDBusMessage::ErrorMessage)
+            {
+                qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                                  QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
+                                                      currentJob->getName(), reply.errorMessage());
+                if (!manageConnectionLoss())
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
+                return;
+            }
         }
 
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "captureAndSolve");
