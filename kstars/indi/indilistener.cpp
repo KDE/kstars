@@ -112,7 +112,7 @@ bool INDIListener::isStandardProperty(const QString &name) const
 
 ISD::GDInterface *INDIListener::getDevice(const QString &name) const
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == name)
             return oneDevice;
@@ -205,7 +205,7 @@ void INDIListener::removeDevice(const QString &deviceName)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << deviceName;
 
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == deviceName)
         {
@@ -228,7 +228,7 @@ void INDIListener::registerProperty(INDI::Property prop)
     qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
                          << ">";
 
-    for (ISD::GDInterface *oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
@@ -368,7 +368,7 @@ void INDIListener::registerProperty(INDI::Property prop)
 
 void INDIListener::removeProperty(const QString &device, const QString &name)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -380,7 +380,7 @@ void INDIListener::removeProperty(const QString &device, const QString &name)
 
 void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == svp->device)
         {
@@ -392,7 +392,7 @@ void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 
 void INDIListener::processNumber(INumberVectorProperty *nvp)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == nvp->device)
         {
@@ -404,7 +404,7 @@ void INDIListener::processNumber(INumberVectorProperty *nvp)
 
 void INDIListener::processText(ITextVectorProperty *tvp)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == tvp->device)
         {
@@ -416,7 +416,7 @@ void INDIListener::processText(ITextVectorProperty *tvp)
 
 void INDIListener::processLight(ILightVectorProperty *lvp)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == lvp->device)
         {
@@ -428,7 +428,7 @@ void INDIListener::processLight(ILightVectorProperty *lvp)
 
 void INDIListener::processBLOB(IBLOB *bp)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == bp->bvp->device)
         {
@@ -440,7 +440,7 @@ void INDIListener::processBLOB(IBLOB *bp)
 
 void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
 {
-    for (auto oneDevice : devices)
+    for (auto oneDevice : qAsConst(devices))
     {
         if (oneDevice->getDeviceName() == dp->getDeviceName())
         {

@@ -230,6 +230,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
     KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
     page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
+    connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
 
     opsPrograms = new OpsPrograms(this);
     page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
@@ -2222,7 +2223,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         currentRotatorPA = solverPA;
 
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-        if (currentRotator != nullptr)
+        if (currentRotator != nullptr && currentRotator->isConnected())
         {
             // Update Rotator offsets
             auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
@@ -2271,7 +2272,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 targetAccuracyNotMet = true;
                 m_ManualRotator->show();
                 m_ManualRotator->raise();
-                return;
             }
             else
             {
@@ -2987,6 +2987,9 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     stopB->setEnabled(true);
     pi->startAnimation();
 
+    // Must clear image data so we are forced to read the
+    // image data again from align view when solving begins.
+    m_ImageData.clear();
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
     data->loadFromBuffer(image, extension);

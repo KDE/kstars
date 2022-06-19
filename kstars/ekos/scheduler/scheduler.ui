@@ -523,6 +523,15 @@
                  </color>
                 </brush>
                </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
               </active>
               <inactive>
                <colorrole role="WindowText">
@@ -546,6 +555,15 @@
                <colorrole role="ButtonText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
                   <red>255</red>
                   <green>0</green>
                   <blue>0</blue>
@@ -578,6 +596,15 @@
                   <red>160</red>
                   <green>162</green>
                   <blue>162</blue>
+                 </color>
+                </brush>
+               </colorrole>
+               <colorrole role="PlaceholderText">
+                <brush brushstyle="NoBrush">
+                 <color alpha="128">
+                  <red>255</red>
+                  <green>0</green>
+                  <blue>0</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -628,7 +655,7 @@
              <string/>
             </property>
             <property name="minimum">
-             <double>-180.000000000000000</double>
+             <double>-181.000000000000000</double>
             </property>
             <property name="maximum">
              <double>180.000000000000000</double>
@@ -637,7 +664,7 @@
              <double>5.000000000000000</double>
             </property>
             <property name="value">
-             <double>0.000000000000000</double>
+             <double>-181.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -2304,28 +2331,28 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
  </buttongroups>
 </ui>
