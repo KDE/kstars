@@ -97,6 +97,7 @@ class Message : public QObject
         void setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage);
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
+        void setUpdatedErrors(double total, double az, double alt);
         void setPAHEnabled(bool enabled);
         void setBoundingRect(QRect rect, QSize view, double currentZoom);
         // Capture

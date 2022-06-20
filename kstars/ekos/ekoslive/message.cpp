@@ -1060,7 +1060,9 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[PAH_SET_ALGORITHM])
     {
-        paa->setPAHRefreshAlgorithm(static_cast<Ekos::PolarAlignmentAssistant::PAHRefreshAlgorithm>(payload["value"].toInt(1)));
+        auto algorithmCombo = paa->findChild<QComboBox*>("PAHRefreshAlgorithmCombo");
+        if (algorithmCombo)
+            algorithmCombo->setCurrentIndex(static_cast<Ekos::PolarAlignmentAssistant::PAHRefreshAlgorithm>(payload["value"].toInt(1)));
     }
     else if (command == commands[PAH_RESET_VIEW])
     {
@@ -1176,6 +1178,21 @@ void Message::setPolarResults(QLineF correctionVector, double polarError, double
     };
 
     sendResponse(commands[NEW_POLAR_STATE], polarState);
+}
+
+void Message::setUpdatedErrors(double total, double az, double alt)
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonObject error =
+    {
+        {"updatedError", total},
+        {"updatedAZError", az},
+        {"updatedALTError", alt}
+    };
+
+    sendResponse(commands[NEW_POLAR_STATE], error);
 }
 
 void Message::setPAHEnabled(bool enabled)

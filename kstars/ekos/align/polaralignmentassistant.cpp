@@ -427,6 +427,7 @@ void PolarAlignmentAssistant::updateRefreshDisplay(double azE, double altE)
                           .arg(refreshIteration).arg(azError.toDMSString())
                           .arg(altError.toDMSString()).arg(totalError.toDMSString());
     emit newLog(debugString);
+    emit updatedErrorsChanged(totalError.Degrees(), azError.Degrees(), altError.Degrees());
 }
 
 void PolarAlignmentAssistant::processPAHRefresh()

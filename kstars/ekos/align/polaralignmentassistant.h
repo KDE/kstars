@@ -192,8 +192,10 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void newLog(const QString &);
         // Request new capture and solve
         void captureAndSolve();
-        // Report new PAA results
+        // Report correction vector and original errors
         void polarResultUpdated(QLineF correctionVector, double polarError, double azError, double altError);
+        // Report updated errors
+        void updatedErrorsChanged(double total, double az, double alt);
         // Report new correction vector
         void newCorrectionVector(QLineF correctionVector);
         // Report new PAH stage
