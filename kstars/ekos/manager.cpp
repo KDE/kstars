@@ -3453,6 +3453,9 @@ void Manager::connectModules()
         connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::polarResultUpdated,
                 ekosLiveClient.get()->message(),
                 &EkosLive::Message::setPolarResults, Qt::UniqueConnection);
+        connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::updatedErrorsChanged,
+                ekosLiveClient.get()->message(),
+                &EkosLive::Message::setUpdatedErrors, Qt::UniqueConnection);
         connect(alignProcess.get()->polarAlignmentAssistant(), &Ekos::PolarAlignmentAssistant::newCorrectionVector,
                 ekosLiveClient.get()->media(),
                 &EkosLive::Media::setCorrectionVector, Qt::UniqueConnection);
