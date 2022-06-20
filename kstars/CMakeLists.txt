@@ -552,8 +552,6 @@ ki18n_wrap_ui(libkstarswidgets_ui_SRCS
     widgets/unitspinboxwidget.ui
 )
 
-set(kstars_KCFG_SRCS Options.kcfgc)
-
 set(kstars_options_SRCS
     options/opsadvanced.cpp
     options/opscatalog.cpp
@@ -691,7 +689,6 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
-set( kstars_KCFG_SRCS Options.kcfgc )
 set(libkstarscomponents_SRCS
     skycomponents/skylabeler.cpp
     skycomponents/highpmstarlist.cpp
@@ -1088,12 +1085,30 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDEN
 
 ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
-kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS} GENERATE_MOC)
+
+set( kstars_KCFG_SRCS Options.kcfgc )
+
+# We cannot generate property up until KF5 Config v5.78.0 or later
+if (${KF5_VERSION} VERSION_GREATER_EQUAL "5.78.0")
+    set(KF5_CONFIG_OK true)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/Options.kcfgc.cmake
+        ${CMAKE_CURRENT_SOURCE_DIR}/Options.kcfgc
+    )
+    kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS} GENERATE_MOC)
+    kconfig_add_kcfg_files(kstarslite_SRCS ${kstars_KCFG_SRCS} GENERATE_MOC)
+else()
+    set(KF5_CONFIG_OK false)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/Options.kcfgc.cmake
+        ${CMAKE_CURRENT_SOURCE_DIR}/Options.kcfgc
+    )
+    kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+    kconfig_add_kcfg_files(kstarslite_SRCS ${kstars_KCFG_SRCS})
+endif()
 
 ecm_qt_declare_logging_category(kstarslite_SRCS HEADER kstars_debug.h IDENTIFIER KSTARS CATEGORY_NAME org.kde.kstars)
 ecm_qt_declare_logging_category(kstarslite_SRCS HEADER fits_debug.h IDENTIFIER KSTARS_FITS CATEGORY_NAME org.kde.kstars.fits)
-
-kconfig_add_kcfg_files(kstarslite_SRCS ${kstars_KCFG_SRCS})
 
 IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstars kstars_SRCS 10 cpp)
