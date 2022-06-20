@@ -78,6 +78,7 @@ Tests/skyobjects/test_skypoint
 doc/index.cache.bz2
 
 # Generated source/header files
+kstars/Options.kcfgc
 kstars/*adaptor.cpp
 kstars/*adaptor.h
 unitybuild_*.cpp
