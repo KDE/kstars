@@ -18,12 +18,18 @@ SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSe
     connect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout, Qt::UniqueConnection);
 
     m_StellarSolver.reset(new StellarSolver());
-    connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
+    // connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
 }
 
 SolverUtils::~SolverUtils()
 {
-
+    disconnect(&m_Watcher, &QFutureWatcher<bool>::finished, this, &SolverUtils::executeSolver);
+    disconnect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout);
+    if (m_StellarSolver.get())
+    {
+        // disconnect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
+        disconnect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
+    }
 }
 
 void SolverUtils::executeSolver()
@@ -153,8 +159,6 @@ SolverUtils &SolverUtils::usePosition(bool useIt, double raDegrees, double decDe
     return *this;
 }
 
-SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
-
 void SolverUtils::solverDone()
 {
     const double elapsed = m_Timeout - m_SolverTimer.remainingTime() / 1000.0;
@@ -169,7 +173,6 @@ void SolverUtils::solverDone()
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
-    m_ImageData.reset();
 }
 
 void SolverUtils::solverTimeout()
@@ -181,7 +184,6 @@ void SolverUtils::solverTimeout()
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);
     m_TemporaryFilename.clear();
-    m_ImageData.reset();
 }
 
 double SolverUtils::rotationToPositionAngle(double value)

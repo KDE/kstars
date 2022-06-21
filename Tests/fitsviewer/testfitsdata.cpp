@@ -416,12 +416,18 @@ SolverLoop::SolverLoop(const QVector<QString> &files, const QString &dir, bool i
     repetitions = numReps;
     directory = dir;
     detecting = isDetecting;
+
+    // Preload the images.
+    for (const QString &fname : files)
+    {
+        images.push_back(QSharedPointer<FITSData>(new FITSData));
+        images.back().get()->loadFromFile(QString("%1/%2").arg(dir, fname)).waitForFinished();
+    }
 }
 
 void SolverLoop::start()
 {
-
-    startDetect(QString("%1/%2").arg(directory, filenames[numDetects % filenames.size()]));
+    startDetect(numDetects % filenames.size());
 }
 
 bool SolverLoop::done()
@@ -434,20 +440,21 @@ void SolverLoop::solverDone(bool timedOut, bool success, const FITSImage::Soluti
 {
     disconnect(solver.get(), &SolverUtils::done, this, &SolverLoop::solverDone);
 
+    const auto &filename = filenames[currentIndex];
     if (timedOut)
-        qInfo() << QString("#%1: %2 Solver timed out: %1s").arg(numDetects).arg(fits->filename()).arg(elapsedSeconds, 0, 'f', 1);
+        qInfo() << QString("#%1: %2 Solver timed out: %3s").arg(numDetects).arg(filename).arg(elapsedSeconds, 0, 'f', 1);
     else if (!success)
-        qInfo() << QString("#%1: %2 Solver failed: %1s").arg(numDetects).arg(fits->filename()).arg(elapsedSeconds, 0, 'f', 1);
+        qInfo() << QString("#%1: %2 Solver failed: %3s").arg(numDetects).arg(filename).arg(elapsedSeconds, 0, 'f', 1);
     else
     {
         const double ra = solution.ra;
         const double dec = solution.dec;
         const double scale = solution.pixscale;
-        qInfo() << QString("#%1: %2 Solver returned RA %3 DEC %4 Scale %5: %6s").arg(numDetects).arg(fits->filename())
+        qInfo() << QString("#%1: %2 Solver returned RA %3 DEC %4 Scale %5: %6s").arg(numDetects).arg(filename)
                 .arg(ra, 6, 'f', 3).arg(dec, 6, 'f', 3).arg(scale).arg(elapsedSeconds, 4, 'f', 1);
 
         if (numDetects++ < repetitions)
-            startDetect(QString("%1/%2").arg(directory, filenames[numDetects % filenames.size()]));
+            startDetect(numDetects % filenames.size());
     }
 }
 
@@ -459,10 +466,10 @@ void SolverLoop::detectFinished()
     bool result = watcher.result();
     if (result)
     {
-        qInfo() << QString("#%1: %2 HFR %3").arg(numDetects).arg(fits->filename()).arg(fits->getHFR());
+        qInfo() << QString("#%1: %2 HFR %3").arg(numDetects).arg(filenames[currentIndex]).arg(images[currentIndex]->getHFR());
         if (++numDetects < repetitions)
         {
-            startDetect(QString("%1/%2").arg(directory, filenames[numDetects % filenames.size()]));
+            startDetect(numDetects % filenames.size());
         }
     }
     else
@@ -471,52 +478,32 @@ void SolverLoop::detectFinished()
     }
 }
 
-void SolverLoop::loadFinished()
+void SolverLoop::startDetect(int index)
 {
-    bool result = watcher.result();
-    if (result)
+    currentIndex = index;
+    if (detecting)
     {
-        // Loaded the file, now start the detection.
-        disconnect(&watcher, &QFutureWatcher<bool>::finished, this,
-                   &SolverLoop::loadFinished);
-        if (detecting)
-        {
-            // detecting stars
-            connect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::detectFinished);
-            future = fits->findStars(ALGORITHM_SEP);
-            watcher.setFuture(future);
-        }
-        else
-        {
-            // plate solving
-            auto profiles = Ekos::getDefaultAlignOptionsProfiles();
-            auto parameters = profiles.at(Options::solveOptionsProfile());
-
-            // Double search radius
-            Options::setSolverType(0); // Internal solver
-            parameters.search_radius = parameters.search_radius * 2;
-            solver.reset(new SolverUtils(parameters, 20));
-            connect(solver.get(), &SolverUtils::done, this, &SolverLoop::solverDone, Qt::UniqueConnection);
-            solver->useScale(false, 0, 0);
-            solver->usePosition(false, 0, 0);
-            fprintf(stderr, "Running solver with %s\n", fits->filename().toLatin1().data());
-            solver->runSolver(fits->filename());
-        }
+        auto &image = images[currentIndex];
+        // detecting stars
+        connect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::detectFinished);
+        future = image->findStars(ALGORITHM_SEP);
+        watcher.setFuture(future);
     }
     else
     {
-        QFAIL("Load failed");
+        // plate solving
+        auto profiles = Ekos::getDefaultAlignOptionsProfiles();
+        auto parameters = profiles.at(Options::solveOptionsProfile());
+
+        // Double search radius
+        Options::setSolverType(0); // Internal solver
+        parameters.search_radius = parameters.search_radius * 2;
+        solver.reset(new SolverUtils(parameters, 20));
+        connect(solver.get(), &SolverUtils::done, this, &SolverLoop::solverDone, Qt::UniqueConnection);
+        solver->useScale(false, 0, 0);
+        solver->usePosition(false, 0, 0);
+        solver->runSolver(images[currentIndex]);
     }
-}
-
-void SolverLoop::startDetect(const QString &filename)
-{
-    fits.reset(new FITSData());
-    QVERIFY(fits != nullptr);
-
-    connect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::loadFinished);
-    future = fits->loadFromFile(filename);
-    watcher.setFuture(future);
 }
 
 // This tests how well we can detect stars and/or plate-solve a number of images
@@ -527,6 +514,8 @@ void SolverLoop::startDetect(const QString &filename)
 // Of course, you also need to change the #if to enable the test.
 // You may wish to reconfigure the section with SolverLoop at the bottom to have more
 // or less parallelism and switch between star detection and plate solves.
+// You may want to run this as follows:
+//   export QTEST_FUNCTION_TIMEOUT=1000000000; testfitsdata testParallelSolvers -maxwarnings 1000000
 void TestFitsData::testParallelSolvers()
 {
 #define SKIP_PARALLEL_SOLVERS_TEST
@@ -536,9 +525,9 @@ void TestFitsData::testParallelSolvers()
 #else
     Options::setAutoDebayer(false);
 
-    QString dir = "/home/hy/Desktop/SharedFolder/DEBUG-solver";
-    QString dir1 = dir;
-    QVector<QString> files1 =
+    const QString dir = "/home/hy/Desktop/SharedFolder/DEBUG-solver";
+    const QString dir1 = dir;
+    const QVector<QString> files1 =
     {
         "guide_frame_00-20-08.fits",
         "guide_frame_00-20-12.fits",
@@ -557,8 +546,8 @@ void TestFitsData::testParallelSolvers()
             */
     };
 
-    QString dir2 = dir;
-    QVector<QString> files2 =
+    const QString dir2 = dir;
+    const QVector<QString> files2 =
     {
         /*
         "guide_frame_00-20-08.fits",
@@ -576,8 +565,8 @@ void TestFitsData::testParallelSolvers()
         "guide_frame_00-20-46.fits"
     };
 
-    QString dir3 = dir;
-    QVector<QString> files3 =
+    const QString dir3 = dir;
+    const QVector<QString> files3 =
     {
         "m5_Light_LPR_120_secs_2022-03-12T04-44-56_201.fits",
         "m5_Light_LPR_120_secs_2022-03-12T04-47-02_202.fits",
@@ -587,30 +576,29 @@ void TestFitsData::testParallelSolvers()
     };
 
     // Set the number of iterations here. THe more the better.
-    constexpr int num = 3000;
+    constexpr int num = 10000;
 
     // In the below declarations of SolverLoop,
     // for the 3rd arg: true means detect stars, false means plate solve them.
 
     // Detect stars in guide files
     SolverLoop loop1(files1, dir1, true, num);
-    loop1.start();
 
     // Detect stars in other guide files
     SolverLoop loop2(files2, dir2, true, num);
-    loop2.start();
 
     // Detect stars in subs
     SolverLoop loop3(files3, dir3, true, num / 10);
-    loop3.start();
 
     // This one solves the fits files
-    //SolverLoop loop4(files1, dir1, false, num);
-    //loop4.start();
+    SolverLoop loop4(files1, dir1, false, num);
 
-    while(!loop1.done() || !loop2.done() || !loop3.done()
-            //|| !loop4.done()
-         )
+    loop1.start();
+    loop2.start();
+    loop3.start();
+    loop4.start();
+
+    while(!loop1.done() || !loop2.done() || !loop3.done() || !loop4.done())
         // The qWait is needed to allow message passing.
         QTest::qWait(1000);
 #endif
