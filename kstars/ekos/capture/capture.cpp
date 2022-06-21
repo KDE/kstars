@@ -6910,7 +6910,7 @@ void Capture::processCaptureTimeout()
         return;
     }
 
-    if (m_CaptureTimeoutCounter > 1)
+    if (m_CaptureTimeoutCounter > 1 && m_captureDeviceAdaptor->getActiveCCD())
     {
         QString camera = m_captureDeviceAdaptor->getActiveCCD()->getDeviceName();
         QString fw = (m_captureDeviceAdaptor->getFilterWheel() != nullptr) ?
