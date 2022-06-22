@@ -72,20 +72,20 @@ class SolverLoop : public QObject
 
     private:
         void detectFinished();
-        void loadFinished();
-        void startDetect(const QString &filename);
+        void startDetect(int index);
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
         QVector<QString> filenames;
         QString directory;
-        std::unique_ptr<FITSData> fits;
         QFuture<bool> future;
         QFutureWatcher<bool> watcher;
         int numDetects { 0 };
         int repetitions { 0 };
         bool detecting { true };
-        std::unique_ptr<SolverUtils> solver;
+        QSharedPointer<SolverUtils> solver;
 
+        int currentIndex { 0 };
+        QVector<QSharedPointer<FITSData>> images;
 };
 
 #endif // TESTFITSDATA_H

@@ -272,7 +272,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         PolarAlignWidget *polarAlignWidget {nullptr};
 
         // Used in the refresh part of polar alignment.
-        std::unique_ptr<SolverUtils> m_Solver;
+        QSharedPointer<SolverUtils> m_Solver;
         double m_LastRa {0};
         double m_LastDec {0};
         double m_LastOrientation {0};

@@ -1231,7 +1231,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         qint64 startMSecs { 0 };
 
         /// Target coordinates for pointing check
-        std::unique_ptr<SolverUtils> m_Solver;
+        QSharedPointer<SolverUtils> m_Solver;
         // Used when solving position every nth capture.
         uint32_t m_SolverIteration {0};
 
