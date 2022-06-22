@@ -4765,7 +4765,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
             outstream << "<Condition>ASAP</Condition>" << Qt::endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
-            outstream << "<Condition value='" << cLocale.toString(job->getCulminationOffset()) << "'>Culmination</Condition>" << Qt::endl;
+            outstream << "<Condition value='" << cLocale.toString(job->getCulminationOffset()) << "'>Culmination</Condition>" <<
+                      Qt::endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
             outstream << "<Condition value='" << job->getFileStartupTime().toString(Qt::ISODate) << "'>At</Condition>"
                       << Qt::endl;
@@ -4773,7 +4774,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         outstream << "<Constraints>" << Qt::endl;
         if (job->hasMinAltitude())
-            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" << Qt::endl;
+            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" <<
+                      Qt::endl;
         if (job->getMinMoonSeparation() > 0)
             outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
                       << Qt::endl;
@@ -8203,7 +8205,7 @@ void Scheduler::setCaptureComplete(const QVariantMap &metadata)
             auto parameters = profiles.at(Options::solveOptionsProfile());
             // Double search radius
             parameters.search_radius = parameters.search_radius * 2;
-            m_Solver.reset(new SolverUtils(parameters, solverTimeout));
+            m_Solver.reset(new SolverUtils(parameters, solverTimeout),  &QObject::deleteLater);
             connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone, Qt::UniqueConnection);
             //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::appendLogText, Qt::UniqueConnection);
             m_Solver->useScale(Options::astrometryUseImageScale(), Options::astrometryImageScaleLow(),

@@ -82,7 +82,7 @@ class SolverLoop : public QObject
         int numDetects { 0 };
         int repetitions { 0 };
         bool detecting { true };
-        std::unique_ptr<SolverUtils> solver;
+        QSharedPointer<SolverUtils> solver;
 
         int currentIndex { 0 };
         QVector<QSharedPointer<FITSData>> images;

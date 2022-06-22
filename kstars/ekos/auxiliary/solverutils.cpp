@@ -28,7 +28,7 @@ SolverUtils::~SolverUtils()
     if (m_StellarSolver.get())
     {
         // disconnect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &SolverUtils::newLog);
-        disconnect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
+        disconnect(m_StellarSolver.get(), &StellarSolver::finished, this, &SolverUtils::solverDone);
     }
 }
 
@@ -65,7 +65,7 @@ void SolverUtils::prepareSolver()
     m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
-    connect(m_StellarSolver.get(), &StellarSolver::ready, this, &SolverUtils::solverDone);
+    connect(m_StellarSolver.get(), &StellarSolver::finished, this, &SolverUtils::solverDone, Qt::UniqueConnection);
 
     if (m_IndexToUse >= 0)
     {

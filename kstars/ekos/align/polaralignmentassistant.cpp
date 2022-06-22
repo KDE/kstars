@@ -154,7 +154,7 @@ void PolarAlignmentAssistant::startSolver()
     parameters.search_radius = parameters.search_radius * 2;
     constexpr double solverTimeout = 10.0;
 
-    m_Solver.reset(new SolverUtils(parameters, solverTimeout));
+    m_Solver.reset(new SolverUtils(parameters, solverTimeout), &QObject::deleteLater);
     connect(m_Solver.get(), &SolverUtils::done, this, &PolarAlignmentAssistant::solverDone, Qt::UniqueConnection);
 
     // Use the scale and position from the most recent solve.

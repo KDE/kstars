@@ -54,7 +54,7 @@ void TestFitsData::testComputeHFR_data()
     // Normal HFR tests
     QTest::newRow("NGC4535-1-FOCUS") << "ngc4535-autofocus1.fits" << FITS_FOCUS << 11 << 3.92;
     QTest::newRow("NGC4535-2-FOCUS") << "ngc4535-autofocus2.fits" << FITS_FOCUS << 17 << 2.13;
-    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 125 << 1.30;
+    QTest::newRow("NGC4535-3-FOCUS") << "ngc4535-autofocus3.fits" << FITS_FOCUS << 126 << 1.254911;
 
     // Focus HFR tests
     QTest::newRow("NGC4535-1-NORMAL") << "ngc4535-autofocus1.fits" << FITS_NORMAL << 3 << 3.02;
@@ -89,7 +89,6 @@ void TestFitsData::testComputeHFR()
 
     QCOMPARE(d->getDetectedStars(), NSTARS);
     QCOMPARE(d->getStarCenters().count(), NSTARS);
-    qDebug() << "Expected HFR:" << HFR << "Calculated:" << d->getHFR();
     QVERIFY(abs(d->getHFR() - HFR) <= 0.1);
 #endif
 }
@@ -172,18 +171,18 @@ void TestFitsData::initGenericDataFixture()
             << "m47_sim_stars.fits"
             << FITS_NORMAL
             << 80       // Stars found with the Centroid detection
-            << 94       // Stars found with the StellarSolver detection - default profile limits count
+            << 104      // Stars found with the StellarSolver detection - default profile limits count
             << 1.49     // HFR found with the Centroid detection
-            << 1.80     // HFR found with the Gradient detection
+            << 1.482291 // HFR found with the Gradient detection
             << 0.0      // HFR found with the Threshold detection - not used
-            << 2.08     // HFR found with the StellarSolver detection
+            << 1.482291 // HFR found with the StellarSolver detection
             << 41.08    // ADU
             << 41.08    // Mean
             << 360.18   // StdDev
             << 0.114    // SNR
             << 57832L   // Max
             << 21L      // Min
-            << 0.0      // Median
+            << 31.0     // Median
             << QRect(591 - 16 / 2, 482 - 16 / 2, 16, 16);
 #endif
 }
@@ -240,7 +239,6 @@ void TestFitsData::testLoadFits()
     QCOMPARE((long)fd->getMax(), MAXIMUM);
     QCOMPARE((long)fd->getMin(), MINIMUM);
 
-    QWARN("No MEDIAN calculation in the current implementation");
     QVERIFY(abs(fd->getMedian() - MEDIAN) < 0.01);
 
     // Without searching for stars, there are no stars found
@@ -281,8 +279,8 @@ void TestFitsData::testLoadFits()
     fd->findStars(ALGORITHM_SEP, TRACKING_BOX).waitForFinished();
     auto centers = fd->getStarCenters();
     QCOMPARE(centers.count(), 1);
-    QWARN(QString("Center    %1,%2").arg(centers[0]->x).arg(centers[0]->y).toStdString().c_str());
-    QWARN(QString("TB Center %1,%2").arg(TRACKING_BOX.center().x()).arg(TRACKING_BOX.center().y()).toStdString().c_str());
+    // QWARN(QString("Center    %1,%2").arg(centers[0]->x).arg(centers[0]->y).toStdString().c_str());
+    // QWARN(QString("TB Center %1,%2").arg(TRACKING_BOX.center().x()).arg(TRACKING_BOX.center().y()).toStdString().c_str());
     QVERIFY(abs(centers[0]->x - TRACKING_BOX.center().x()) <= 5);
     QVERIFY(abs(centers[0]->y - TRACKING_BOX.center().y()) <= 5);
 #endif
@@ -498,7 +496,7 @@ void SolverLoop::startDetect(int index)
         // Double search radius
         Options::setSolverType(0); // Internal solver
         parameters.search_radius = parameters.search_radius * 2;
-        solver.reset(new SolverUtils(parameters, 20));
+        solver.reset(new SolverUtils(parameters, 20), &QObject::deleteLater);
         connect(solver.get(), &SolverUtils::done, this, &SolverLoop::solverDone, Qt::UniqueConnection);
         solver->useScale(false, 0, 0);
         solver->usePosition(false, 0, 0);
@@ -511,10 +509,11 @@ void SolverLoop::startDetect(int index)
 // I have not provided the fits files as part of the source code, so you need to
 // provide them, add them the QVector<QString> variables, and make sure the directory
 // below points to the one holding your files.
-// Of course, you also need to change the #if to enable the test.
+//
 // You may wish to reconfigure the section with SolverLoop at the bottom to have more
 // or less parallelism and switch between star detection and plate solves.
-// You may want to run this as follows:
+//
+// You can want to run this as follows:
 //   export QTEST_FUNCTION_TIMEOUT=1000000000; testfitsdata testParallelSolvers -maxwarnings 1000000
 void TestFitsData::testParallelSolvers()
 {
@@ -536,27 +535,11 @@ void TestFitsData::testParallelSolvers()
         "guide_frame_00-20-21.fits",
         "guide_frame_00-20-24.fits",
         "guide_frame_00-20-27.fits",
-        /*
-        "guide_frame_00-20-30.fits",
-        "guide_frame_00-20-34.fits",
-        "guide_frame_00-20-37.fits",
-        "guide_frame_00-20-40.fits",
-        "guide_frame_00-20-43.fits",
-        "guide_frame_00-20-46.fits"
-            */
     };
 
     const QString dir2 = dir;
     const QVector<QString> files2 =
     {
-        /*
-        "guide_frame_00-20-08.fits",
-        "guide_frame_00-20-12.fits",
-        "guide_frame_00-20-15.fits",
-        "guide_frame_00-20-18.fits",
-        "guide_frame_00-20-21.fits",
-        "guide_frame_00-20-24.fits",
-        "guide_frame_00-20-27.fits",*/
         "guide_frame_00-20-30.fits",
         "guide_frame_00-20-34.fits",
         "guide_frame_00-20-37.fits",
@@ -575,23 +558,23 @@ void TestFitsData::testParallelSolvers()
         "m5_Light_LPR_120_secs_2022-03-12T04-53-07_205.fits"
     };
 
-    // Set the number of iterations here. THe more the better.
-    constexpr int num = 10000;
+    // Set the number of iterations here. THe more the better, e.g. 10000.
+    constexpr int numIterations = 10000;
 
     // In the below declarations of SolverLoop,
     // for the 3rd arg: true means detect stars, false means plate solve them.
 
     // Detect stars in guide files
-    SolverLoop loop1(files1, dir1, true, num);
+    SolverLoop loop1(files1, dir1, true, numIterations);
 
     // Detect stars in other guide files
-    SolverLoop loop2(files2, dir2, true, num);
+    SolverLoop loop2(files2, dir2, true, numIterations);
 
     // Detect stars in subs
-    SolverLoop loop3(files3, dir3, true, num / 10);
+    SolverLoop loop3(files3, dir3, true, numIterations / 15);
 
     // This one solves the fits files
-    SolverLoop loop4(files1, dir1, false, num);
+    SolverLoop loop4(files1, dir1, false, numIterations / 50);
 
     loop1.start();
     loop2.start();
