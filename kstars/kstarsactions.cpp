@@ -1940,6 +1940,12 @@ void KStars::slotAboutToQuit()
     if (m_SkyMap == nullptr)
         return;
 
+#ifdef HAVE_INDI
+    DriverManager::Instance()->disconnectClients();
+    INDIListener::Instance()->disconnect();
+    GUIManager::Instance()->disconnect();
+#endif
+
     // Delete skymap. This required to run destructors and save
     // current state in the option.
     delete m_SkyMap;
