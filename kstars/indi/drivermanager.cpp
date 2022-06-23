@@ -508,9 +508,18 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
     updateMenuActions();
 }
 
+void DriverManager::disconnectClients()
+{
+    for (auto clientManager : clients)
+    {
+        clientManager->disconnectAll();
+        clientManager->disconnect();
+    }
+}
+
 void DriverManager::clearServers()
 {
-    foreach (ServerManager *serverManager, servers)
+    for (auto serverManager : servers)
         serverManager->terminate();
 
     qDeleteAll(servers);

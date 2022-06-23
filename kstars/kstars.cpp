@@ -26,6 +26,7 @@
 #include "ekos/manager.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
+#include "indi/indilistener.h"
 #endif
 
 #ifdef HAVE_CFITSIO

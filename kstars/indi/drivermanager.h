@@ -149,11 +149,12 @@ class DriverManager : public QDialog
 
         QString getUniqueDeviceLabel(const QString &label);
 
+        void disconnectClients();
         void clearServers();
 
     private:
         DriverManager(QWidget *parent);
-        ~DriverManager();
+        ~DriverManager() override;
 
         bool checkDriverAvailability(const QString &driver);
 
