@@ -973,6 +973,9 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void startGuidingTimer(int milliseconds);
         void processGuidingTimer();
 
+        // Returns true if the job is storing its captures on the same machine as the scheduler.
+        bool canCountCaptures(const SchedulerJob &job);
+
         Ekos::Scheduler *ui { nullptr };
         //DBus interfaces
         QPointer<QDBusInterface> focusInterface { nullptr };

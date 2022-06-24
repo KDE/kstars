@@ -5007,6 +5007,22 @@ void Scheduler::startFocusing()
     startCurrentOperationTimer();
 }
 
+bool Scheduler::canCountCaptures(const SchedulerJob &job)
+{
+    QList<SequenceJob*> seqjobs;
+    bool hasAutoFocus = false;
+    SchedulerJob tempJob = job;
+    if (loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus, nullptr) == false)
+        return false;
+
+    for (const SequenceJob *oneSeqJob : seqjobs)
+    {
+        if (oneSeqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+            return false;
+    }
+    return true;
+}
+
 // FindNextJob (probably misnamed) deals with what to do when jobs end.
 // For instance, if they complete their capture sequence, they may
 // (a) be done, (b) be part of a repeat N times, or (c) be part of a loop forever.
@@ -5100,6 +5116,11 @@ void Scheduler::findNextJob()
         // Always reset job stage
         currentJob->setStage(SchedulerJob::STAGE_IDLE);
 
+        // If saving remotely, then can't tell later that the job has been completed.
+        // Set it complete now.
+        if (!canCountCaptures(*currentJob))
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+
         setCurrentJob(nullptr);
         TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
         setupNextIteration(RUN_SCHEDULER);
@@ -5132,6 +5153,8 @@ void Scheduler::findNextJob()
                 appendLogText(i18np("Job '%1' is complete after #%2 batch.",
                                     "Job '%1' is complete after #%2 batches.",
                                     currentJob->getName(), currentJob->getRepeatsRequired()));
+                if (!canCountCaptures(*currentJob))
+                    currentJob->setState(SchedulerJob::JOB_COMPLETE);
                 setCurrentJob(nullptr);
             }
             TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_SCHEDULER).toLatin1().data());
@@ -8393,7 +8416,6 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
     QLineEdit *pLE = nullptr;
     QRadioButton *pRB = nullptr;
     QDateTimeEdit *pDT = nullptr;
-    dmsBox *dms = nullptr;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
     {
