@@ -95,71 +95,71 @@ void AsteroidsComponent::loadDataFromText()
         KSUtils::JPLParser ast_parser(filepath_txt);
 
         ast_parser.for_each(
-            [&](const auto &get)
-            {
-                full_name = get("full_name").toString();
-                full_name = full_name.trimmed();
-                int catN  = full_name.section(' ', 0, 0).toInt();
-                name      = full_name.section(' ', 1, -1);
+            [&](const auto & get)
+        {
+            full_name = get("full_name").toString();
+            full_name = full_name.trimmed();
+            int catN  = full_name.section(' ', 0, 0).toInt();
+            name      = full_name.section(' ', 1, -1);
 
-                //JM temporary hack to avoid Europa,Io, and Asterope duplication
-                if (name == i18nc("Asteroid name (optional)", "Europa") ||
+            //JM temporary hack to avoid Europa,Io, and Asterope duplication
+            if (name == i18nc("Asteroid name (optional)", "Europa") ||
                     name == i18nc("Asteroid name (optional)", "Io") ||
                     name == i18nc("Asteroid name (optional)", "Asterope"))
-                    name += i18n(" (Asteroid)");
+                name += i18n(" (Asteroid)");
 
-                mJD         = get("epoch.mjd").toInt();
-                q           = get("q").toString().toDouble();
-                a           = get("a").toString().toDouble();
-                e           = get("e").toString().toDouble();
-                dble_i      = get("i").toString().toDouble();
-                dble_w      = get("w").toString().toDouble();
-                dble_N      = get("om").toString().toDouble();
-                dble_M      = get("ma").toString().toDouble();
-                orbit_id    = get("orbit_id").toString();
-                H           = get("H").toString().toDouble();
-                G           = get("G").toString().toDouble();
-                neo         = get("neo").toString() == "Y";
-                diameter    = get("diameter").toString().toFloat();
-                dimensions  = get("extent").toString();
-                albedo      = get("albedo").toString().toFloat();
-                rot_period  = get("rot_per").toString().toFloat();
-                period      = get("per.y").toDouble();
-                earth_moid  = get("moid").toString().toDouble();
-                orbit_class = get("class").toString();
+            mJD         = get("epoch_mjd").toString().toInt();
+            q           = get("q").toString().toDouble();
+            a           = get("a").toString().toDouble();
+            e           = get("e").toString().toDouble();
+            dble_i      = get("i").toString().toDouble();
+            dble_w      = get("w").toString().toDouble();
+            dble_N      = get("om").toString().toDouble();
+            dble_M      = get("ma").toString().toDouble();
+            orbit_id    = get("orbit_id").toString();
+            H           = get("H").toString().toDouble();
+            G           = get("G").toString().toDouble();
+            neo         = get("neo").toString() == "Y";
+            diameter    = get("diameter").toString().toFloat();
+            dimensions  = get("extent").toString();
+            albedo      = get("albedo").toString().toFloat();
+            rot_period  = get("rot_per").toString().toFloat();
+            period      = get("per_y").toString().toDouble();
+            earth_moid  = get("moid").toString().toDouble();
+            orbit_class = get("class").toString();
 
-                JD = static_cast<double>(mJD) + 2400000.5;
+            JD = static_cast<double>(mJD) + 2400000.5;
 
-                KSAsteroid *new_asteroid = nullptr;
+            KSAsteroid *new_asteroid = nullptr;
 
-                // Diameter is missing from JPL data
-                if (name == i18nc("Asteroid name (optional)", "Pluto"))
-                    diameter = 2390;
+            // Diameter is missing from JPL data
+            if (name == i18nc("Asteroid name (optional)", "Pluto"))
+                diameter = 2390;
 
-                new_asteroid =
-                    new KSAsteroid(catN, name, QString(), JD, a, e, dms(dble_i),
-                                   dms(dble_w), dms(dble_N), dms(dble_M), H, G);
+            new_asteroid =
+                new KSAsteroid(catN, name, QString(), JD, a, e, dms(dble_i),
+                               dms(dble_w), dms(dble_N), dms(dble_M), H, G);
 
-                new_asteroid->setPerihelion(q);
-                new_asteroid->setOrbitID(orbit_id);
-                new_asteroid->setNEO(neo);
-                new_asteroid->setDiameter(diameter);
-                new_asteroid->setDimensions(dimensions);
-                new_asteroid->setAlbedo(albedo);
-                new_asteroid->setRotationPeriod(rot_period);
-                new_asteroid->setPeriod(period);
-                new_asteroid->setEarthMOID(earth_moid);
-                new_asteroid->setOrbitClass(orbit_class);
-                new_asteroid->setPhysicalSize(diameter);
-                //new_asteroid->setAngularSize(0.005);
+            new_asteroid->setPerihelion(q);
+            new_asteroid->setOrbitID(orbit_id);
+            new_asteroid->setNEO(neo);
+            new_asteroid->setDiameter(diameter);
+            new_asteroid->setDimensions(dimensions);
+            new_asteroid->setAlbedo(albedo);
+            new_asteroid->setRotationPeriod(rot_period);
+            new_asteroid->setPeriod(period);
+            new_asteroid->setEarthMOID(earth_moid);
+            new_asteroid->setOrbitClass(orbit_class);
+            new_asteroid->setPhysicalSize(diameter);
+            //new_asteroid->setAngularSize(0.005);
 
-                appendListObject(new_asteroid);
+            appendListObject(new_asteroid);
 
-                // Add name to the list of object names
-                objectNames(SkyObject::ASTEROID).append(name);
-                objectLists(SkyObject::ASTEROID)
-                    .append(QPair<QString, const SkyObject *>(name, new_asteroid));
-            });
+            // Add name to the list of object names
+            objectNames(SkyObject::ASTEROID).append(name);
+            objectLists(SkyObject::ASTEROID)
+            .append(QPair<QString, const SkyObject *>(name, new_asteroid));
+        });
     }
     catch (const std::runtime_error &e)
     {
@@ -241,8 +241,10 @@ void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
     if (isAutoUpdate == false)
         downloadJob->setProgressDialogEnabled(true, i18n("Asteroid Update"),
                                               i18n("Downloading asteroids updates..."));
-    downloadJob->registerDataVerification([&](const QByteArray &data)
-                                          { return data.startsWith("{\"signature\""); });
+    downloadJob->registerDataVerification([&](const QByteArray & data)
+    {
+        return data.startsWith("{\"signature\"");
+    });
 
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     if (isAutoUpdate == false)
@@ -255,8 +257,8 @@ void AsteroidsComponent::updateDataFile(bool isAutoUpdate)
     QByteArray post_data =
         KSUtils::getJPLQueryString("a",
                                    "full_name,neo,H,G,diameter,extent,albedo,rot_per,"
-                                   "orbit_id,epoch.mjd,e,a,q,i,om,w,ma,per.y,moid,class",
-                                   QVector<KSUtils::JPLFilter>{ { "H", "LT", mag } });
+                                   "orbit_id,epoch_mjd,e,a,q,i,om,w,ma,per_y,moid,class",
+    QVector<KSUtils::JPLFilter> { { "H", "LT", mag } });
     downloadJob->post(url, post_data);
 }
 
@@ -267,7 +269,7 @@ void AsteroidsComponent::downloadReady()
 
     // Write data to asteroids.dat
     QFile file(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
-                   .filePath("asteroids.dat"));
+               .filePath("asteroids.dat"));
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
     {
         file.write(data);
