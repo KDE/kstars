@@ -264,6 +264,12 @@ class Focus : public QWidget, public Ui::Focus
              */
         Q_SCRIPTABLE bool focusOut(int ms = -1);
 
+        /**
+             * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
+             * @param requiredHFR Minimum HFR to trigger autofocus process.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void checkFocus(double requiredHFR);
+
         /** @}*/
 
         /**
@@ -356,12 +362,6 @@ class Focus : public QWidget, public Ui::Focus
              * @param nvp pointer to updated focuser number property.
              */
         void processTemperatureSource(INumberVectorProperty *nvp);
-
-        /**
-             * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
-             * @param requiredHFR Minimum HFR to trigger autofocus process.
-             */
-        void checkFocus(double requiredHFR);
 
         /**
              * @brief setFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
