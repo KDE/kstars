@@ -58,11 +58,10 @@ class FITSView : public QScrollArea
         /**
          * @brief loadFITS Loads FITS data and displays it in a FITSView frame
          * @param inFilename FITS File name
-         * @param silent if set, error popups are suppressed.
          * @note If image is successfully, loaded() signal is emitted, otherwise failed() signal is emitted.
          * Obtain error by calling lastError()
          */
-        void loadFile(const QString &inFilename, bool silent = true);
+        void loadFile(const QString &inFilename);
 
         /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
@@ -449,7 +448,7 @@ class FITSView : public QScrollArea
         void actionUpdated(const QString &name, bool enable);
         void trackingStarSelected(int x, int y);
         void loaded();
-        void failed();
+        void failed(const QString &error);
         void starProfileWindowClosed();
 
         friend class FITSLabel;

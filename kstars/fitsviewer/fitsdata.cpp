@@ -144,60 +144,55 @@ void FITSData::loadCommon(const QString &inFilename)
     m_Filename = inFilename;
 }
 
-bool FITSData::loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename, bool silent)
+bool FITSData::loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename)
 {
     loadCommon(inFilename);
     qCDebug(KSTARS_FITS) << "Reading file buffer (" << KFormat().formatByteSize(buffer.size()) << ")";
-    return privateLoad(buffer, extension, silent);
+    return privateLoad(buffer, extension);
 }
 
-QFuture<bool> FITSData::loadFromFile(const QString &inFilename, bool silent)
+QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 {
     loadCommon(inFilename);
     QFileInfo info(m_Filename);
     QString extension = info.completeSuffix().toLower();
     qCDebug(KSTARS_FITS) << "Loading file " << m_Filename;
-    return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray(), extension, silent);
+    return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray(), extension);
 }
 
 namespace
 {
 // Common code for reporting fits read errors. Always returns false.
-bool fitsOpenError(int status, const QString &message, bool silent)
+QString fitsErrorToString(int status)
 {
-    char error_status[512];
+    char error_status[512] = {0};
     fits_report_error(stderr, status);
     fits_get_errstatus(status, error_status);
-    QString errMessage = message;
-    errMessage.append(i18n(" Error: %1", QString::fromUtf8(error_status)));
-    if (!silent)
-        KSNotification::error(errMessage, i18n("FITS Open"));
-    qCCritical(KSTARS_FITS) << errMessage;
-    return false;
+    QString message = error_status;
+    return message;
 }
 }
 
-bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension, bool silent)
+bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
 {
     m_isTemporary = m_Filename.startsWith(KSPaths::writableLocation(QStandardPaths::TempLocation));
     cacheHFR = -1;
     cacheEccentricity = -1;
 
     if (extension.contains("fit"))
-        return loadFITSImage(buffer, extension, silent);
+        return loadFITSImage(buffer, extension);
     if (QImageReader::supportedImageFormats().contains(extension.toLatin1()))
-        return loadCanonicalImage(buffer, extension, silent);
+        return loadCanonicalImage(buffer, extension);
     else if (RAWFormats.contains(extension))
-        return loadRAWImage(buffer, extension, silent);
+        return loadRAWImage(buffer, extension);
 
     return false;
 }
 
-bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension, bool silent)
+bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
 {
     int status = 0, anynull = 0;
     long naxes[3];
-    QString errMessage;
 
     m_HistogramConstructed = false;
 
@@ -234,8 +229,8 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
                 if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY, &data, &m_PackBufferSize, 0,
                                       nullptr, &status))
                 {
-                    recordLastError(status);
-                    return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
+                    m_LastError = i18n("Error reading fits buffer: %1.", fitsErrorToString(status));
+                    return false;
                 }
 
                 m_Statistics.size = m_PackBufferSize;
@@ -247,10 +242,8 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         {
             free(m_PackBuffer);
             m_PackBuffer = nullptr;
-            errMessage = i18n("Failed to unpack compressed fits");
-            if (!silent)
-                KSNotification::error(errMessage, i18n("FITS Open"));
-            qCCritical(KSTARS_FITS) << errMessage;
+            m_LastError = i18n("Failed to unpack compressed fits");
+            qCCritical(KSTARS_FITS) << m_LastError;
             return false;
         }
 
@@ -265,8 +258,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         // files with [ ] or ( ) in their names.
         if (fits_open_diskfile(&fptr, m_Filename.toLocal8Bit(), READONLY, &status))
         {
-            recordLastError(status);
-            return fitsOpenError(status, i18n("Error opening fits file %1", m_Filename), silent);
+            m_LastError = i18n("Error opening fits file %1 : %2", m_Filename, fitsErrorToString(status));
         }
 
         m_Statistics.size = QFile(m_Filename).size();
@@ -279,8 +271,9 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
         if (fits_open_memfile(&fptr, m_Filename.toLocal8Bit().data(), READONLY,
                               &temp_buffer, &temp_size, 0, nullptr, &status))
         {
-            recordLastError(status);
-            return fitsOpenError(status, i18n("Error reading fits buffer."), silent);
+            m_LastError = i18n("Error reading fits buffer: %1", fitsErrorToString(status));
+            return false;
+
         }
 
         m_Statistics.size = temp_size;
@@ -288,25 +281,23 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     if (fits_movabs_hdu(fptr, 1, IMAGE_HDU, &status))
     {
-        recordLastError(status);
+
         free(m_PackBuffer);
         m_PackBuffer = nullptr;
-        return fitsOpenError(status, i18n("Could not locate image HDU."), silent);
+        m_LastError = i18n("Could not locate image HDU: %1", fitsErrorToString(status));
     }
 
     if (fits_get_img_param(fptr, 3, &m_FITSBITPIX, &(m_Statistics.ndim), naxes, &status))
     {
-        recordLastError(status);
         free(m_PackBuffer);
         m_PackBuffer = nullptr;
-        return fitsOpenError(status, i18n("FITS file open error (fits_get_img_param)."), silent);
+        m_LastError = i18n("FITS file open error (fits_get_img_param): %1", fitsErrorToString(status));
+        return false;
     }
 
     if (m_Statistics.ndim < 2)
     {
         m_LastError = i18n("1D FITS images are not supported in KStars.");
-        if (!silent)
-            KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
         free(m_PackBuffer);
         m_PackBuffer = nullptr;
@@ -353,8 +344,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
             break;
         default:
             m_LastError = i18n("Bit depth %1 is not supported.", m_FITSBITPIX);
-            if (!silent)
-                KSNotification::error(m_LastError, i18n("FITS Open"));
             qCCritical(KSTARS_FITS) << m_LastError;
             return false;
     }
@@ -365,8 +354,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         m_LastError = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
-        if (!silent)
-            KSNotification::error(m_LastError, i18n("FITS Open"));
         qCCritical(KSTARS_FITS) << m_LastError;
         free(m_PackBuffer);
         m_PackBuffer = nullptr;
@@ -405,10 +392,8 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
 
     if (fits_read_img(fptr, m_Statistics.dataType, 1, nelements, nullptr, m_ImageBuffer, &anynull, &status))
     {
-        recordLastError(status);
-        free(m_PackBuffer);
-        m_PackBuffer = nullptr;
-        return fitsOpenError(status, i18n("Error reading image."), silent);
+        m_LastError = i18n("Error reading image: %1", fitsErrorToString(status));
+        return false;
     }
 
     parseHeader();
@@ -447,11 +432,8 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension,
     return true;
 }
 
-bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension, bool silent)
+bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &extension)
 {
-    // TODO need to add error popups as well later on
-    Q_UNUSED(silent);
-    QString errMessage;
     QImage imageFromFile;
     if (!buffer.isEmpty())
     {
@@ -518,9 +500,8 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
             m_Statistics.bytesPerPixel = sizeof(double);
             break;
         default:
-            errMessage = QString("Bit depth %1 is not supported.").arg(m_FITSBITPIX);
-            QMessageBox::critical(nullptr, "Message", errMessage);
-            qCCritical(KSTARS_FITS) << errMessage;
+            m_LastError = QString("Bit depth %1 is not supported.").arg(m_FITSBITPIX);
+            qCCritical(KSTARS_FITS) << m_LastError;
             return false;
     }
 
@@ -534,8 +515,8 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
-        qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(
-                                    m_ImageBufferSize);
+        m_LastError = i18n("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ", m_ImageBufferSize);
+        qCCritical(KSTARS_FITS) << m_LastError;
         clearImageBuffers();
         return false;
     }
@@ -568,10 +549,9 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
     return true;
 }
 
-bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent)
+bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension)
 {
     // TODO need to add error popups as well later on
-    Q_UNUSED(silent);
     Q_UNUSED(extension);
 
 #if !defined(KSTARS_LITE) && !defined(HAVE_LIBRAW)
@@ -650,8 +630,8 @@ bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension, 
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];
     if (m_ImageBuffer == nullptr)
     {
-        qCCritical(KSTARS_FITS) << QString("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ").arg(
-                                    m_ImageBufferSize);
+        m_LastError = i18n("FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes ", m_ImageBufferSize);
+        qCCritical(KSTARS_FITS) << m_LastError;
         libraw_dcraw_clear_mem(image);
         clearImageBuffers();
         return false;
@@ -771,7 +751,7 @@ bool FITSData::saveImage(const QString &newFilename)
 
     if (m_isCompressed)
     {
-        KSNotification::error(i18n("Saving compressed files is not supported."));
+        m_LastError = i18n("Saving compressed files is not supported.");
         return false;
     }
 
@@ -820,14 +800,14 @@ bool FITSData::saveImage(const QString &newFilename)
     /* close current file */
     if (fptr && fits_close_file(fptr, &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to close file: %1", fitsErrorToString(status));
         return false;
     }
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to create file: %1", fitsErrorToString(status));
         return status;
     }
 
@@ -842,7 +822,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // JM 2020-12-28: Here we to use bitpix values
     if (fits_create_img(fptr, m_FITSBITPIX, naxis, naxes, &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to create image: %1", fitsErrorToString(status));
         return false;
     }
 
@@ -851,14 +831,14 @@ bool FITSData::saveImage(const QString &newFilename)
     // Minimum
     if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(m_Statistics.min), "Minimum value", &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to update key: %1", fitsErrorToString(status));
         return false;
     }
 
     // Maximum
     if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(m_Statistics.max), "Maximum value", &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to update key: %1", fitsErrorToString(status));
         return false;
     }
 
@@ -947,7 +927,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to update date: %1", fitsErrorToString(status));
         return false;
     }
 
@@ -956,7 +936,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // History
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to update history: %1", fitsErrorToString(status));
         return false;
     }
 
@@ -978,7 +958,7 @@ bool FITSData::saveImage(const QString &newFilename)
     // Here we need to use the actual data type
     if (fits_write_img(fptr, m_Statistics.dataType, 1, nelements, m_ImageBuffer, &status))
     {
-        recordLastError(status);
+        m_LastError = i18n("Failed to write image: %1", fitsErrorToString(status));
         return false;
     }
 
@@ -3313,7 +3293,7 @@ bool FITSData::checkDebayer()
 
     if (m_Statistics.dataType != TUSHORT && m_Statistics.dataType != TBYTE)
     {
-        KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
+        m_LastError = i18n("Only 8 and 16 bits bayered images supported.");
         return false;
     }
     QString pattern(bayerPattern);
@@ -3346,7 +3326,7 @@ bool FITSData::checkDebayer()
     // We return unless we find a valid pattern
     else
     {
-        KSNotification::error(i18n("Unsupported bayer pattern %1.", pattern), i18n("Debayer error"));
+        m_LastError = i18n("Unsupported bayer pattern %1.", pattern);
         return false;
     }
 
@@ -3377,8 +3357,7 @@ bool FITSData::checkDebayer()
     }
     if (debayerParams.offsetX != 0 || debayerParams.offsetY > 1 || debayerParams.offsetY < 0)
     {
-        KSNotification::error(i18n("Unsupported bayer offsets %1 %2.",
-                                   debayerParams.offsetX, debayerParams.offsetY), i18n("Debayer error"));
+        m_LastError = i18n("Unsupported bayer offsets %1 %2.", debayerParams.offsetX, debayerParams.offsetY);
         return false;
     }
 
@@ -3446,8 +3425,7 @@ bool FITSData::debayer_8bit()
     catch (const std::bad_alloc &e)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
-                              10);
+        m_LastError = i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what());
         return false;
     }
 
@@ -3457,7 +3435,7 @@ bool FITSData::debayer_8bit()
     if (bayer_destination_buffer == nullptr)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"), 10);
+        m_LastError = i18n("Unable to allocate memory for temporary bayer buffer.");
         return false;
     }
 
@@ -3477,7 +3455,7 @@ bool FITSData::debayer_8bit()
 
     if (error_code != DC1394_SUCCESS)
     {
-        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"), 10);
+        m_LastError = i18n("Debayer failed (%1)", error_code);
         m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
@@ -3494,8 +3472,7 @@ bool FITSData::debayer_8bit()
         {
             delete[] destinationBuffer;
             logOOMError(rgb_size);
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
-                                  10);
+            m_LastError = i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what());
             return false;
         }
 
@@ -3540,8 +3517,7 @@ bool FITSData::debayer_16bit()
     catch (const std::bad_alloc &e)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
-                              10);
+        m_LastError = i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what());
         return false;
     }
 
@@ -3551,7 +3527,7 @@ bool FITSData::debayer_16bit()
     if (bayer_destination_buffer == nullptr)
     {
         logOOMError(rgb_size);
-        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"), 10);
+        m_LastError = i18n("Unable to allocate memory for temporary bayer buffer.");
         return false;
     }
 
@@ -3571,7 +3547,7 @@ bool FITSData::debayer_16bit()
 
     if (error_code != DC1394_SUCCESS)
     {
-        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
+        m_LastError = i18n("Debayer failed (%1)");
         m_Statistics.channels = 1;
         delete[] destinationBuffer;
         return false;
@@ -3588,8 +3564,7 @@ bool FITSData::debayer_16bit()
         {
             logOOMError(rgb_size);
             delete[] destinationBuffer;
-            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what()), i18n("Debayer error"),
-                                  10);
+            m_LastError = i18n("Unable to allocate memory for temporary bayer buffer: %1", e.what());
             return false;
         }
 
@@ -4145,13 +4120,6 @@ template <typename T> void FITSData::constructHistogramInternal()
 
     m_HistogramConstructed = true;
     emit histogramReady();
-}
-
-void FITSData::recordLastError(int errorCode)
-{
-    char fitsErrorMessage[512] = {0};
-    fits_get_errstatus(errorCode, fitsErrorMessage);
-    m_LastError = fitsErrorMessage;
 }
 
 double FITSData::getAverageMean() const

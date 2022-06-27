@@ -1672,18 +1672,13 @@ void CCD::processBLOB(IBLOB *bp)
     QSharedPointer<FITSData> blob_data;
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
     blob_data.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
-    if (!blob_data->loadFromBuffer(buffer, shortFormat, filename, false))
+    if (!blob_data->loadFromBuffer(buffer, shortFormat, filename))
     {
-        // If reading the blob fails, we treat it the same as exposure failure
-        // and recapture again if possible
-        qCCritical(KSTARS_INDI) << "failed reading FITS memory buffer";
         emit error(ERROR_LOAD);
         return;
     }
 
     handleImage(targetChip, filename, bp, blob_data);
-    //    else
-    //        emit BLOBUpdated(bp);
 }
 
 void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)

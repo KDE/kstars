@@ -2969,7 +2969,7 @@ bool Align::loadAndSlew(QString fileURL)
 
     m_ImageData.clear();
 
-    alignView->loadFile(fileURL, false);
+    alignView->loadFile(fileURL);
     //m_FileToSolve = fileURL;
     connect(alignView, &FITSView::loaded, this, &Align::startSolving);
 

@@ -418,7 +418,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
     return false;
 }
 
-void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bool silent)
+void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter)
 {
     // check if the address points to an appropriate address
     if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo(imageURL.toLocalFile()).exists())
@@ -442,7 +442,7 @@ void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter, bo
 
     m_View->setFilter(filter);
 
-    m_View->loadFile(imageURL.toLocalFile(), silent);
+    m_View->loadFile(imageURL.toLocalFile());
 }
 
 bool FITSTab::shouldComputeHFR() const
@@ -684,15 +684,15 @@ bool FITSTab::saveFile()
 
     if (currentURL.isEmpty())
     {
-        #ifdef Q_OS_OSX //For some reason, the other code caused KStars to crash on MacOS
-                currentURL =
-                    QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
-                                                "Images (*.fits *.fits.gz *.fit *.jpg *.jpeg *.png)");
-        #else
-                currentURL =
-                    QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
-                                                "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
-        #endif
+#ifdef Q_OS_OSX //For some reason, the other code caused KStars to crash on MacOS
+        currentURL =
+            QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
+                                        "Images (*.fits *.fits.gz *.fit *.jpg *.jpeg *.png)");
+#else
+        currentURL =
+            QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
+                                        "FITS (*.fits *.fits.gz *.fit);;JPEG (*.jpg *.jpeg);;PNG (*.png)");
+#endif
         // if user presses cancel
         if (currentURL.isEmpty())
         {

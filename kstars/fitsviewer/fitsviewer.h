@@ -54,13 +54,13 @@ class FITSViewer : public KXmlGuiWindow
         ~FITSViewer();
 
         void loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
-                      const QString &previewText = QString(), bool silent = true);
+                      const QString &previewText = QString());
 
         bool loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid,
                       FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                       const QString &previewText = QString());
 
-        void updateFile(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE, bool silent = true);
+        void updateFile(const QUrl &imageName, int fitsUID, FITSScale filter = FITS_NONE);
         bool updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
                         FITSScale filter = FITS_NONE, FITSMode mode = FITS_UNKNOWN);
         bool removeFITS(int fitsUID);
@@ -149,6 +149,5 @@ class FITSViewer : public KXmlGuiWindow
         void trackingStarSelected(int x, int y);
         void loaded(int tabUID);
         void closed(int tabUID);
-        //void terminated();
-        void failed();
+        void failed(const QString &errorMessage);
 };
