@@ -8,7 +8,7 @@ endif(APPLE)
 
 install(FILES
     kstars.png
-    geomap.png
+    geomap.jpg
     citydb.sqlite
     skycultures/skycultures.sqlite
     stars.dat

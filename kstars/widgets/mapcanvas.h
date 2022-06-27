@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QPaintEvent>
+#include <geolocation.h>
 
 /** @class MapCanvas
 	*Used in LocationDialog for displaying a map of the Earth.
@@ -78,11 +79,21 @@ class MapCanvas : public QFrame
          */
     void mousePressEvent(QMouseEvent *e) override;
 
+    /**Convert geo co-ordinates to a scaled position on the map*/
+    void convertAndScale(QPoint &o, GeoLocation &g);
+
   private:
     LocationDialog *ld;
     QPixmap *bgImage;
     QString BGColor;
     QPoint origin;
+    double xsize;
+    double ysize;
+    double ximage;
+    double yimage;
+    double ratio;
+    double xscale;
+    double yscale;
 };
 
 #endif
