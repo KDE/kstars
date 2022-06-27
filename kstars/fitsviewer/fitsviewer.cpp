@@ -435,14 +435,14 @@ bool FITSViewer::addFITSCommon(FITSTab *tab, const QUrl &imageName,
     return true;
 }
 
-void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
+void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText)
 {
     led.setColor(Qt::yellow);
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     FITSTab *tab = new FITSTab(this);
 
-    connect(tab, &FITSTab::failed, [&]()
+    connect(tab, &FITSTab::failed, this, [&](const QString & errorMessage)
     {
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
@@ -452,16 +452,16 @@ void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter
             close();
         }
 
-        emit failed();
+        emit failed(errorMessage);
     });
 
-    connect(tab, &FITSTab::loaded, [ = ]()
+    connect(tab, &FITSTab::loaded, this, [ = ]()
     {
         if (addFITSCommon(tab, imageName, mode, previewText))
             emit loaded(fitsID++);
     });
 
-    tab->loadFile(imageName, mode, filter, silent);
+    tab->loadFile(imageName, mode, filter);
 }
 
 bool FITSViewer::loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid, FITSMode mode,
@@ -474,6 +474,7 @@ bool FITSViewer::loadData(const QSharedPointer<FITSData> &data, const QUrl &imag
 
     if (!tab->loadData(data, mode, filter))
     {
+        auto errorMessage = tab->getView()->imageData()->getLastError();
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
         if (fitsTabs.size() == 0)
@@ -481,7 +482,7 @@ bool FITSViewer::loadData(const QSharedPointer<FITSData> &data, const QUrl &imag
             // Close FITS Viewer and let KStars know it is no longer needed in memory.
             close();
         }
-        emit failed();
+        emit failed(errorMessage);
         return false;
     }
 
@@ -513,14 +514,14 @@ bool FITSViewer::removeFITS(int fitsUID)
     return false;
 }
 
-void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter, bool silent)
+void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter)
 {
     FITSTab *tab = fitsMap.value(fitsUID);
 
     if (tab == nullptr)
     {
-        qCWarning(KSTARS_FITS) << "Cannot find tab with UID " << fitsUID << " in the FITS Viewer";
-        emit failed();
+        QString message = i18n("Cannot find tab with UID %1 in the FITS Viewer", fitsUID);
+        emit failed(message);
         return;
     }
 
@@ -538,7 +539,7 @@ void FITSViewer::updateFile(const QUrl &imageName, int fitsUID, FITSScale filter
         }
     });
 
-    tab->loadFile(imageName, tab->getView()->getMode(), filter, silent);
+    tab->loadFile(imageName, tab->getView()->getMode(), filter);
 }
 
 bool FITSViewer::updateFITSCommon(FITSTab *tab, const QUrl &imageName)
@@ -676,7 +677,7 @@ void FITSViewer::openFile()
         }
     }
 
-    loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString(), false);
+    loadFile(fileURL, FITS_NORMAL, FITS_NONE, QString());
 }
 
 void FITSViewer::saveFile()

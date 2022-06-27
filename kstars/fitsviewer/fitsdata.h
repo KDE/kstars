@@ -104,21 +104,18 @@ class FITSData : public QObject
         /**
          * @brief loadFITS Loading FITS file asynchronously.
          * @param inFilename Path to FITS file (or compressed fits.gz)
-         * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return A QFuture that can be watched until the async operation is complete.
          */
-        QFuture<bool> loadFromFile(const QString &inFilename, bool silent = true);
+        QFuture<bool> loadFromFile(const QString &inFilename);
 
         /**
          * @brief loadFITSFromMemory Loading FITS from memory buffer.
          * @param buffer The memory buffer containing the fits data.
          * @param extension file extension (e.g. "jpg", "fits", "cr2"...etc)
          * @param inFilename Set filename metadata, does not load from file.
-         * @param silent If set, error messages are ignored. If set to false, the error message will get displayed in a popup.
          * @return bool indicating success or failure.
          */
-        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename = QString(),
-                            bool silent = true);
+        bool loadFromBuffer(const QByteArray &buffer, const QString &extension, const QString &inFilename = QString());
 
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.
@@ -568,17 +565,16 @@ class FITSData : public QObject
         /**
          * @brief privateLoad Load an image (FITS, RAW, or images supported by Qt like jpeg, png).
          * @param Buffer pointer to image data. If buffer is emtpy, read from disk (m_Filename).
-         * @param silent If true, suppress any messages.
          * @return true if successfully loaded, false otherwise.
          */
-        bool privateLoad(const QByteArray &buffer, const QString &extension, bool silent);
+        bool privateLoad(const QByteArray &buffer, const QString &extension);
 
         // Load Qt-supported images.
-        bool loadCanonicalImage(const QByteArray &buffer, const QString &extension, bool silent);
+        bool loadCanonicalImage(const QByteArray &buffer, const QString &extension);
         // Load FITS images.
-        bool loadFITSImage(const QByteArray &buffer, const QString &extension, bool silent);
+        bool loadFITSImage(const QByteArray &buffer, const QString &extension);
         // Load RAW images.
-        bool loadRAWImage(const QByteArray &buffer, const QString &extension, bool silent);
+        bool loadRAWImage(const QByteArray &buffer, const QString &extension);
 
         void rotWCSFITS(int angle, int mirror);
         void calculateMinMax(bool refresh = false);
@@ -587,7 +583,6 @@ class FITSData : public QObject
         void readWCSKeys();
 
         // Record last FITS error
-        void recordLastError(int errorCode);
         void logOOMError(uint32_t requiredMemory = 0);
 
         // FITS Record

@@ -57,7 +57,7 @@ class FITSTab : public QWidget
 
         void clearRecentFITS();
         void selectRecentFITS(int i);
-        void loadFile(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE, bool silent = true);
+        void loadFile(const QUrl &imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
         bool loadData(const QSharedPointer<FITSData> &data, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE);
 
         bool saveImage(const QString &filename);
@@ -172,5 +172,5 @@ class FITSTab : public QWidget
         void newStatus(const QString &msg, FITSBar id);
         void changeStatus(bool clean, const QUrl &imageUrl);
         void loaded();
-        void failed();
+        void failed(const QString &errorMessage);
 };

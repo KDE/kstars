@@ -305,7 +305,7 @@ void FITSView::resizeEvent(QResizeEvent * event)
 }
 
 
-void FITSView::loadFile(const QString &inFilename, bool silent)
+void FITSView::loadFile(const QString &inFilename)
 {
     if (floatingToolBar != nullptr)
     {
@@ -339,7 +339,7 @@ void FITSView::loadFile(const QString &inFilename, bool silent)
     if (setBayerParams)
         m_ImageData->setBayerParams(&param);
 
-    fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename, silent));
+    fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename));
 }
 
 void FITSView::clearData()
@@ -485,11 +485,12 @@ bool FITSView::processData()
 
 void FITSView::loadInFrame()
 {
+    m_LastError = m_ImageData->getLastError();
+
     // Check if the loading was OK
     if (fitsWatcher.result() == false)
     {
-        m_LastError = m_ImageData->getLastError();
-        emit failed();
+        emit failed(m_LastError);
         return;
     }
 
@@ -499,7 +500,7 @@ void FITSView::loadInFrame()
     if (processData())
         emit loaded();
     else
-        emit failed();
+        emit failed(m_LastError);
 }
 
 bool FITSView::saveImage(const QString &newFilename)

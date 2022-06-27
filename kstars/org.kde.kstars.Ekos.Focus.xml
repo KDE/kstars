@@ -30,6 +30,10 @@
     <method name="focusOut">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="checkFocus">
+      <arg name="requiredHFR" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="canAutoFocus">
       <arg type="b" direction="out"/>
     </method>    
