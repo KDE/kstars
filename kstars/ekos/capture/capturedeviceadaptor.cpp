@@ -39,20 +39,23 @@ void CaptureDeviceAdaptor::setCurrentSequenceJobState(SequenceJobState *jobState
 
 void CaptureDeviceAdaptor::setLightBox(ISD::LightBox *device)
 {
-    m_lightBox = device;
+    if (m_ActiveLightBox == device)
+        return;
+
+    m_ActiveLightBox = device;
     if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureState.isNull())
         currentSequenceJobState->m_CaptureState->hasLightBox = (device != nullptr);
 }
 
 void CaptureDeviceAdaptor::setDustCap(ISD::DustCap *device)
 {
-    m_dustCap = device;
+    m_ActiveDustCap = device;
 }
 
 void CaptureDeviceAdaptor::connectDustCap()
 {
-    if (m_dustCap != nullptr)
-        connect(m_dustCap, &ISD::DustCap::newStatus, this, &CaptureDeviceAdaptor::dustCapStatusChanged);
+    if (m_ActiveDustCap != nullptr)
+        connect(m_ActiveDustCap, &ISD::DustCap::newStatus, this, &CaptureDeviceAdaptor::dustCapStatusChanged);
 
     connect(currentSequenceJobState, &SequenceJobState::askManualScopeLightCover, this,
             &CaptureDeviceAdaptor::askManualScopeLightCover);
@@ -74,8 +77,8 @@ void CaptureDeviceAdaptor::connectDustCap()
 
 void CaptureDeviceAdaptor::disconnectDustCap()
 {
-    if (m_dustCap != nullptr)
-        disconnect(m_dustCap, nullptr, this, nullptr);
+    if (m_ActiveDustCap != nullptr)
+        disconnect(m_ActiveDustCap, nullptr, this, nullptr);
 
     disconnect(currentSequenceJobState, &SequenceJobState::askManualScopeLightCover, this,
                &CaptureDeviceAdaptor::askManualScopeLightCover);
@@ -97,9 +100,12 @@ void CaptureDeviceAdaptor::disconnectDustCap()
 
 void CaptureDeviceAdaptor::setTelescope(ISD::Telescope *device)
 {
+    if (m_ActiveTelescope == device)
+        return;
+
     // clean up old connections
-    if (m_telescope != nullptr)
-        disconnect(m_telescope, nullptr, this, nullptr);
+    if (m_ActiveTelescope != nullptr)
+        disconnect(m_ActiveTelescope, nullptr, this, nullptr);
     // connect new device
     if (device != nullptr)
     {
@@ -107,7 +113,7 @@ void CaptureDeviceAdaptor::setTelescope(ISD::Telescope *device)
         connect(device, &ISD::Telescope::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
     }
 
-    m_telescope = device;
+    m_ActiveTelescope = device;
 }
 
 void CaptureDeviceAdaptor::connectTelescope()
@@ -138,27 +144,33 @@ void CaptureDeviceAdaptor::disconnectTelescope()
 
 void CaptureDeviceAdaptor::setDome(ISD::Dome *device)
 {
+    if (m_ActiveDome == device)
+        return;
+
     // clean up old connections
-    if (m_dome != nullptr)
-        disconnect(m_dome, nullptr, this, nullptr);
+    if (m_ActiveDome != nullptr)
+        disconnect(m_ActiveDome, nullptr, this, nullptr);
     // connect new device
     if (device != nullptr)
         connect(device, &ISD::Dome::newStatus, this, &CaptureDeviceAdaptor::domeStatusChanged);
 
-    m_dome = device;
+    m_ActiveDome = device;
 }
 
 void CaptureDeviceAdaptor::setRotator(ISD::GDInterface *device)
 {
-    // clean up old connections
-    if (activeRotator != nullptr)
-        disconnect(activeRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber);
+    if (m_ActiveRotator == device)
+        return;
 
-    activeRotator = device;
+    // clean up old connections
+    if (m_ActiveRotator != nullptr)
+        disconnect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber);
+
+    m_ActiveRotator = device;
 
     // connect new device
-    if (activeRotator != nullptr)
-        connect(activeRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber, Qt::UniqueConnection);
+    if (m_ActiveRotator != nullptr)
+        connect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber, Qt::UniqueConnection);
 
 }
 
@@ -180,15 +192,15 @@ void CaptureDeviceAdaptor::disconnectRotator()
 
 void CaptureDeviceAdaptor::setRotatorAngle(double *rawAngle)
 {
- if (activeRotator != nullptr)
-     activeRotator->runCommand(INDI_SET_ROTATOR_ANGLE, rawAngle);
+    if (m_ActiveRotator != nullptr)
+     m_ActiveRotator->runCommand(INDI_SET_ROTATOR_ANGLE, rawAngle);
 }
 
 void CaptureDeviceAdaptor::readRotatorAngle()
 {
-    if (activeRotator != nullptr)
+    if (m_ActiveRotator != nullptr)
     {
-        auto nvp = activeRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+        auto nvp = m_ActiveRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
         emit newRotatorAngle(nvp->at(0)->getValue(), nvp->s);
     }
 }
@@ -201,21 +213,24 @@ void CaptureDeviceAdaptor::updateRotatorNumber(INumberVectorProperty *nvp)
 
 void CaptureDeviceAdaptor::setActiveCCD(ISD::CCD *device)
 {
+    if (m_ActiveCamera == device)
+        return;
+
     // disconnect device events if the new device is not empty
-    if (activeCCD != nullptr)
+    if (m_ActiveCamera != nullptr)
     {
-        disconnect(activeCCD, &ISD::CCD::newTemperatureValue, this,
+        disconnect(m_ActiveCamera, &ISD::CCD::newTemperatureValue, this,
                    &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue);
     }
 
     // store the link to the new device
-    activeCCD = device;
+    m_ActiveCamera = device;
 
     // connect device events if the new device is not empty
-    if (activeCCD != nullptr)
+    if (m_ActiveCamera != nullptr)
     {
         // publish device events
-        connect(activeCCD, &ISD::CCD::newTemperatureValue, this,
+        connect(m_ActiveCamera, &ISD::CCD::newTemperatureValue, this,
                 &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
     }
 }
@@ -259,10 +274,10 @@ void CaptureDeviceAdaptor::readCurrentState(Ekos::CaptureState state)
     switch(state)
     {
     case CAPTURE_SETTING_TEMPERATURE:
-        if (activeCCD != nullptr)
+        if (m_ActiveCamera != nullptr)
         {
             double currentTemperature;
-            activeCCD->getTemperature(&currentTemperature);
+            m_ActiveCamera->getTemperature(&currentTemperature);
             emit newCCDTemperatureValue(currentTemperature);
         }
         break;
@@ -281,24 +296,24 @@ void CaptureDeviceAdaptor::readCurrentState(Ekos::CaptureState state)
 
 void CaptureDeviceAdaptor::setCCDTemperature(double temp)
 {
-    if (activeCCD != nullptr)
-        activeCCD->setTemperature(temp);
+    if (m_ActiveCamera != nullptr)
+        m_ActiveCamera->setTemperature(temp);
 }
 
 void CaptureDeviceAdaptor::enableCCDBatchMode(bool enable)
 {
-    if (activeChip != nullptr)
-        activeChip->setBatchMode(enable);
+    if (m_ActiveChip != nullptr)
+        m_ActiveChip->setBatchMode(enable);
 }
 
 void CaptureDeviceAdaptor::setActiveChip(ISD::CCDChip *device)
 {
-    activeChip = device;
+    m_ActiveChip = device;
 }
 
 void CaptureDeviceAdaptor::setFilterWheel(ISD::GDInterface *device)
 {
-    activeFilterWheel = device;
+    m_ActiveFilterWheel = device;
 }
 
 void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString title)
@@ -352,7 +367,7 @@ void CaptureDeviceAdaptor::askManualScopeLightOpen()
 
 void CaptureDeviceAdaptor::setLightBoxLight(bool on)
 {
-    m_lightBox->SetLightEnabled(on);
+    m_ActiveLightBox->SetLightEnabled(on);
     emit lightBoxLight(on);
 }
 
@@ -360,13 +375,13 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
 {
     // park
     if (park == true)
-        if (m_dustCap->Park())
+        if (m_ActiveDustCap->Park())
             emit dustCapStatusChanged(ISD::DustCap::CAP_PARKING);
         else
             emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
     // unpark
     else
-        if (m_dustCap->UnPark())
+        if (m_ActiveDustCap->UnPark())
             emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
         else
             emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
@@ -375,45 +390,45 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
 void CaptureDeviceAdaptor::setDustCapLight(bool on)
 {
     // If light is not on, set it.
-    if (m_dustCap->hasLight())
+    if (m_ActiveDustCap->hasLight())
     {
-        m_dustCap->SetLightEnabled(on);
+        m_ActiveDustCap->SetLightEnabled(on);
         emit dustCapLight(on);
     }
 }
 
 void CaptureDeviceAdaptor::slewTelescope(SkyPoint &target)
 {
-    if (m_telescope != nullptr)
+    if (m_ActiveTelescope != nullptr)
     {
-        m_telescope->Slew(&target);
+        m_ActiveTelescope->Slew(&target);
         emit scopeStatusChanged(ISD::Telescope::MOUNT_SLEWING);
     }
 }
 
 void CaptureDeviceAdaptor::setScopeTracking(bool on)
 {
-    if (m_telescope != nullptr)
+    if (m_ActiveTelescope != nullptr)
     {
-        m_telescope->setTrackEnabled(on);
+        m_ActiveTelescope->setTrackEnabled(on);
         emit scopeStatusChanged(on ? ISD::Telescope::MOUNT_TRACKING : ISD::Telescope::MOUNT_IDLE);
     }
 }
 
 void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
 {
-    if (m_telescope != nullptr)
+    if (m_ActiveTelescope != nullptr)
     {
         if (parked == true)
         {
-            if (m_telescope->Park())
+            if (m_ActiveTelescope->Park())
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_PARKING);
             else
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
         }
         else
         {
-            if (m_telescope->UnPark() == false)
+            if (m_ActiveTelescope->UnPark() == false)
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
         }
     }
@@ -421,18 +436,18 @@ void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
 
 void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
 {
-    if (m_dome != nullptr)
+    if (m_ActiveDome != nullptr)
     {
         if (parked == true)
         {
-            if (m_dome->Park())
+            if (m_ActiveDome->Park())
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_PARKING);
             else
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
         }
         else
         {
-            if (m_telescope->UnPark() == false)
+            if (m_ActiveTelescope->UnPark() == false)
                 emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
         }
     }
@@ -449,14 +464,14 @@ void CaptureDeviceAdaptor::flatSyncFocus(int targetFilterID)
 
 void CaptureDeviceAdaptor::queryHasShutter()
 {
-    if (activeCCD == nullptr)
+    if (m_ActiveCamera == nullptr)
     {
         emit hasShutter(false);
         return;
     }
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
-    QString deviceName = activeCCD->getDeviceName();
+    QString deviceName = m_ActiveCamera->getDeviceName();
 
     bool shutterFound   = shutterfulCCDs.contains(deviceName);
     // FIXME: what about || (captureISOS && captureISOS->count() > 0?
@@ -469,13 +484,13 @@ void CaptureDeviceAdaptor::queryHasShutter()
     else
     {
         // If we have no information, we ask before we proceed.
-        QString deviceName = activeCCD->getDeviceName();
+        QString deviceName = m_ActiveCamera->getDeviceName();
         // Yes, has shutter
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterfulCCDs  = Options::shutterfulCCDs();
-            shutterfulCCDs.append(activeCCD->getDeviceName());
+            shutterfulCCDs.append(m_ActiveCamera->getDeviceName());
             Options::setShutterfulCCDs(shutterfulCCDs);
             emit hasShutter(true);
         });
@@ -484,7 +499,7 @@ void CaptureDeviceAdaptor::queryHasShutter()
         {
             KSMessageBox::Instance()->disconnect(this);
             QStringList shutterlessCCDs = Options::shutterlessCCDs();
-            shutterlessCCDs.append(activeCCD->getDeviceName());
+            shutterlessCCDs.append(m_ActiveCamera->getDeviceName());
             Options::setShutterlessCCDs(shutterlessCCDs);
             emit hasShutter(false);
         });
