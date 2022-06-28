@@ -773,7 +773,7 @@ void Capture::start()
     if (m_LimitsUI->limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
-    if (m_captureDeviceAdaptor->getActiveCCD()->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
+    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
@@ -857,12 +857,14 @@ void Capture::stop(CaptureState targetState)
         {
             activeJob->disconnect(this);
             activeJob->setCoreProperty(SequenceJob::SJ_Preview, false);
-            m_captureDeviceAdaptor->getActiveCCD()->setUploadMode(activeJob->getUploadMode());
+            if (m_captureDeviceAdaptor->getActiveCCD())
+                m_captureDeviceAdaptor->getActiveCCD()->setUploadMode(activeJob->getUploadMode());
         }
         // or regular preview job
         else
         {
-            m_captureDeviceAdaptor->getActiveCCD()->setUploadMode(activeJob->getUploadMode());
+            if (m_captureDeviceAdaptor->getActiveCCD())
+                m_captureDeviceAdaptor->getActiveCCD()->setUploadMode(activeJob->getUploadMode());
             jobs.removeOne(activeJob);
             // Delete preview job
             activeJob->deleteLater();
@@ -1267,6 +1269,9 @@ void Capture::resetFrameToZero()
 
 void Capture::updateFrameProperties(int reset)
 {
+    if (!m_captureDeviceAdaptor->getActiveCCD())
+        return;
+
     int binx = 1, biny = 1;
     double min, max, step;
     int xstep = 0, ystep = 0;
@@ -1741,7 +1746,7 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
     }
 
     // If image is client or both, let's process it.
-    if (m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
         //        if (data.isNull())
         //        {
@@ -6180,7 +6185,7 @@ bool Capture::processPostCaptureCalibrationStage()
                     // Must update sequence prefix as this step is only done in prepareJob
                     // but since the duration has now been updated, we must take care to update signature
                     // since it may include a placeholder for duration which would affect it.
-                    if (m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+                    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
                         updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
                                              QFileInfo(activeJob->getSignature()).path());
 
@@ -6948,9 +6953,10 @@ void Capture::createDSLRDialog()
 {
     dslrInfoDialog.reset(new DSLRInfo(this, m_captureDeviceAdaptor->getActiveCCD()));
 
-    connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, [this]()
+    connect(dslrInfoDialog.get(), &DSLRInfo::infoChanged, this, [this]()
     {
-        addDSLRInfo(QString(m_captureDeviceAdaptor->getActiveCCD()->getDeviceName()),
+        if (m_captureDeviceAdaptor->getActiveCCD())
+            addDSLRInfo(QString(m_captureDeviceAdaptor->getActiveCCD()->getDeviceName()),
                     dslrInfoDialog->sensorMaxWidth,
                     dslrInfoDialog->sensorMaxHeight,
                     dslrInfoDialog->sensorPixelW,
@@ -7044,6 +7050,9 @@ void Capture::removeDevice(ISD::GDInterface *device)
 
 void Capture::setGain(double value)
 {
+    if (!m_captureDeviceAdaptor->getActiveCCD())
+        return;
+
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
@@ -7068,6 +7077,9 @@ void Capture::setGain(double value)
 
 double Capture::getGain()
 {
+    if (!m_captureDeviceAdaptor->getActiveCCD())
+        return -1;
+
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
@@ -7088,6 +7100,9 @@ double Capture::getGain()
 
 void Capture::setOffset(double value)
 {
+    if (!m_captureDeviceAdaptor->getActiveCCD())
+        return;
+
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Offset is manifested in two forms
@@ -7112,6 +7127,9 @@ void Capture::setOffset(double value)
 
 double Capture::getOffset()
 {
+    if (!m_captureDeviceAdaptor->getActiveCCD())
+        return -1;
+
     QMap<QString, QMap<QString, QVariant> > customProps = customPropertiesDialog->getCustomProperties();
 
     // Gain is manifested in two forms
@@ -7361,7 +7379,8 @@ void Capture::showTemperatureRegulation()
 
     if (dialog->exec() == QDialog::Accepted)
     {
-        m_captureDeviceAdaptor->getActiveCCD()->setTemperatureRegulation(rampSpin.value(), thresholdSpin.value());
+        if (m_captureDeviceAdaptor->getActiveCCD())
+            m_captureDeviceAdaptor->getActiveCCD()->setTemperatureRegulation(rampSpin.value(), thresholdSpin.value());
     }
 }
 
