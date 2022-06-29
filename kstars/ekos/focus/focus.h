@@ -765,7 +765,12 @@ class Focus : public QWidget, public Ui::Focus
         bool inAutoFocus { false };
         bool inFocusLoop { false };
         //bool inSequenceFocus { false };
-        bool restartFocus { false };
+        /// Keep track of request to retry or abort an AutoFocus run after focus position has been reset
+        /// RESTART_NONE = normal operation, no restart
+        /// RESTART_NOW = restart the autofocus routine
+        /// RESTART_ABORT = when autofocus has been tried MAXIMUM_RESET_ITERATIONS times, abort the routine
+        typedef enum { RESTART_NONE = 0, RESTART_NOW, RESTART_ABORT } FocusRestartState;
+        FocusRestartState m_RestartState { RESTART_NONE };
         /// Did we reverse direction?
         bool reverseDir { false };
         /// Did the user or the auto selection process finish selecting our focus star?
