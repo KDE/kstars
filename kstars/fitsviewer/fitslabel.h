@@ -29,7 +29,7 @@ class FITSLabel : public QLabel
         void setSize(double w, double h);
         void centerTelescope(double raJ2000, double decJ2000);
         bool getMouseButtonDown();
-        void updateRoiToolTip(const QPoint p);
+        void updateROIToolTip(const QPoint p);
 
     public slots:
         void setRubberBand(QRect rect);

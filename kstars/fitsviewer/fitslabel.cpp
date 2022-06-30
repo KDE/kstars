@@ -87,13 +87,13 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
         {
             QRect roiRaw = roiRB->geometry();
             emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-            updateRoiToolTip(e->globalPos());
+            updateROIToolTip(e->globalPos());
         }
         if( e->modifiers () == Qt::ShiftModifier && view->isSelectionRectShown())
         {
             QRect roiRaw = roiRB->geometry();
             emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-            updateRoiToolTip(e->globalPos());
+            updateROIToolTip(e->globalPos());
         }
         isRoiSelected = false;
     }
@@ -102,7 +102,7 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
 
 void FITSLabel::leaveEvent(QEvent *e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     view->updateMagnifyingGlass(-1, -1);
 }
 
@@ -147,7 +147,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if(!view->isLargeImage())
             {
                 emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-                updateRoiToolTip(e->globalPos());
+                updateROIToolTip(e->globalPos());
             }
         }
         //Stretching of ROI
@@ -160,7 +160,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if(!view->isLargeImage())
             {
                 emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-                updateRoiToolTip(e->globalPos());
+                updateROIToolTip(e->globalPos());
             }
         }
     }
@@ -232,17 +232,19 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     }
 
-    if(view->isSelectionRectShown() && roiRB->geometry().contains(e->pos()))
+    if(view->isSelectionRectShown())
     {
-        updateRoiToolTip(e->globalPos());
+        if (roiRB->geometry().contains(e->pos()))
+            updateROIToolTip(e->globalPos());
+        else
+            QToolTip::hideText();
     }
-    else
-    {
-        QToolTip::hideText();
-    }
+
     emit newStatus(stringValue, FITS_VALUE);
 
-    if (view_data->hasWCS() && view->getCursorMode() != FITSView::selectCursor)
+    if (view_data->hasWCS() &&
+            !view->isSelectionRectShown() &&
+            view->getCursorMode() != FITSView::selectCursor)
     {
         QPointF wcsPixelPoint(x, y);
         SkyPoint wcsCoord;
@@ -479,7 +481,6 @@ void FITSLabel::zoomRubberBand(float scale)
     r.setBottomRight(r.bottomRight()*scale / prevscale);
     roiRB->setGeometry(r);
     prevscale = scale;
-    qDebug() << r << '\n';
 }
 
 void FITSLabel::setRubberBand(QRect rect)
@@ -488,10 +489,10 @@ void FITSLabel::setRubberBand(QRect rect)
     roiRB->setGeometry(QRect(rect.topLeft()*scale, rect.bottomRight()*scale));
 }
 
-void FITSLabel::updateRoiToolTip(const QPoint p)
+void FITSLabel::updateROIToolTip(const QPoint p)
 {
-    QString result;
-    result = "Average Std.Dev : " + QString::number(view->imageData()->getAverageStdDev(true)) + '\n';
-    result += "Average Median : " + QString::number(view->imageData()->getAverageMedian(true));
+    auto result = QString("σ %1").arg(QString::number(view->imageData()->getAverageStdDev(true), 'f', 2));
+    result += "\nx̄ " + QString::number(view->imageData()->getAverageMean(true), 'f', 2);
+    result += "\nM " + QString::number(view->imageData()->getAverageMedian(true), 'f', 2);
     QToolTip::showText(p, result, this);
 }
