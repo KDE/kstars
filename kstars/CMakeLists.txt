@@ -172,6 +172,8 @@ if (INDI_FOUND)
             ekos/manager/guidemanager.cpp
             ekos/profileeditor.cpp
             ekos/profilewizard.cpp
+            ekos/profilescript.cpp
+            ekos/profilescriptdialog.cpp
             ekos/qMDNS.cpp
             ekos/opsekos.cpp
 

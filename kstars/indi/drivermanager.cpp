@@ -30,6 +30,7 @@
 #endif
 
 #include <QTcpServer>
+#include <QtConcurrent>
 #include <indi_debug.h>
 
 #define INDI_MAX_TRIES 2
@@ -191,12 +192,12 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, ui->serverMode);
                         if (manager)
-                            item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
+                            item->setText(LOCAL_PORT_COLUMN, QString::number(manager->getPort()));
                     }
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        item->setText(LOCAL_PORT_COLUMN, dv->getUserPort());
+                        item->setText(LOCAL_PORT_COLUMN, QString::number(dv->getUserPort()));
                     }
 
                     break;
@@ -225,8 +226,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        item->setText(LOCAL_PORT_COLUMN,
-                                      dv->getUserPort() == "-1" ? "" : dv->getUserPort());
+                        item->setText(LOCAL_PORT_COLUMN, dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort()));
                     }
 
                     break;
@@ -261,8 +261,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
     }
 }
 
-void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList,
-                                   QList<QList<DriverInfo *>> &uHosts)
+void DriverManager::getUniqueHosts(const QList<DriverInfo *> &dList,  QList<QList<DriverInfo *>> &uHosts)
 {
     bool found = false;
 
@@ -319,16 +318,12 @@ void DriverManager::getUniqueHosts(QList<DriverInfo *> &dList,
     }
 }
 
-bool DriverManager::startDevices(QList<DriverInfo *> &dList)
+void DriverManager::startDevices(QList<DriverInfo *> &dList)
 {
     ServerManager *serverManager = nullptr;
-    ClientManager *clientManager = nullptr;
-    int port                     = -1;
+    int port = -1;
 
     QList<QList<DriverInfo *>> uHosts;
-
-    bool connectionToServer = false;
-
     getUniqueHosts(dList, uHosts);
 
     qCDebug(KSTARS_INDI) << "INDI: Starting local drivers...";
@@ -338,7 +333,8 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
         if (qdv.empty())
             continue;
 
-        port = qdv.at(0)->getPort().toInt();
+        port = qdv.at(0)->getPort();
+        auto host = qdv.at(0)->getHost();
 
         // Select random port within range is none specified.
         if (port == -1)
@@ -346,115 +342,94 @@ bool DriverManager::startDevices(QList<DriverInfo *> &dList)
 
         if (port <= 0)
         {
-            KSNotification::error(i18n("Cannot start INDI server: port error."));
-            return false;
+            emit serverFailed(host, port, i18n("Cannot start INDI server: port error."));
+            return;
         }
 
-        serverManager = new ServerManager(qdv.at(0)->getHost(), port);
+        serverManager = new ServerManager(host, port);
 
         if (serverManager == nullptr)
         {
-            qWarning() << "Warning: device manager has not been established properly";
-            return false;
+            emit serverFailed(host, port, i18n("Failed to create local INDI server"));
+            return;
         }
 
+        serverManager->setPendingDrivers(qdv);
         serverManager->setMode(connectionMode);
 
-        connect(serverManager, SIGNAL(newServerLog()), this, SLOT(updateLocalTab()));
-        connect(serverManager, &ServerManager::started, [&]()
-        {
-            emit serverStarted(qdv.at(0)->getHost(), QString::number(port));
-        });
+        connect(serverManager, &ServerManager::newServerLog, this, &DriverManager::updateLocalTab, Qt::UniqueConnection);
+        connect(serverManager, &ServerManager::started, this, &DriverManager::setServerStarted, Qt::UniqueConnection);
+        connect(serverManager, &ServerManager::failed, this, &DriverManager::setServerFailed, Qt::UniqueConnection);
+        connect(serverManager, &ServerManager::terminated, this, &DriverManager::setServerTerminated, Qt::UniqueConnection);
 
-        if (serverManager->start())
-            servers.append(serverManager);
-        else
-        {
-            delete serverManager;
-            return false;
-        }
+        serverManager->start();
+    }
+}
 
-        qCDebug(KSTARS_INDI) << "INDI: INDI Server started locally on port " << port;
+void DriverManager::startLocalDrivers(ServerManager *serverManager)
+{
+    connect(serverManager, &ServerManager::driverStarted, this, &DriverManager::processDriverStartup, Qt::UniqueConnection);
+    connect(serverManager, &ServerManager::driverFailed, this, &DriverManager::processDriverFailure, Qt::UniqueConnection);
+    QtConcurrent::run(serverManager, &ServerManager::startDriver, serverManager->pendingDrivers().first());
+}
 
-        for (DriverInfo *dv : qdv)
-        {
-            if (serverManager->startDriver(dv) == false)
-            {
-                servers.removeOne(serverManager);
-                serverManager->stop();
-                emit serverTerminated(serverManager->getHost(), serverManager->getPort());
-                delete serverManager;
-                return false;
-            }
-        }
+void DriverManager::processDriverStartup(DriverInfo *dv)
+{
+    emit driverStarted(dv);
 
-        // Nothing to do more if SERVER ONLY
-        if (connectionMode == SERVER_ONLY)
-            continue;
-
-        clientManager = new ClientManager();
-
-        for (DriverInfo *dv : qdv)
-            clientManager->appendManagedDriver(dv);
-
-        connect(clientManager, &ClientManager::connectionFailure, this,
-                &DriverManager::processClientTermination);
-
-        clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), port);
-
-        GUIManager::Instance()->addClient(clientManager);
-        INDIListener::Instance()->addClient(clientManager);
-
-        for (int i = 0; i < INDI_MAX_TRIES; i++)
-        {
-            qCDebug(KSTARS_INDI)
-                    << "INDI: Connecting to local INDI server on port " << port << " ...";
-
-            connectionToServer = clientManager->connectServer();
-
-            if (connectionToServer)
-                break;
-
-            qApp->processEvents();
-
-            //usleep(100000);
-            QThread::usleep(100000);
-        }
-
-        if (connectionToServer)
-        {
-            qCDebug(KSTARS_INDI) << "Connection to INDI server is successful";
-
-            clients.append(clientManager);
-            updateMenuActions();
-        }
-        else
-        {
-            qCDebug(KSTARS_INDI)
-                    << "INDI: Connection to local INDI server on port " << port << " failed!";
-
-            KNotification::beep();
-            QPointer<QMessageBox> msgBox = new QMessageBox();
-            msgBox->setAttribute(Qt::WA_DeleteOnClose);
-            msgBox->setStandardButtons(QMessageBox::Ok);
-            msgBox->setWindowTitle(i18nc("@title:window", "Error"));
-            msgBox->setText(
-                i18n("Connection to INDI server locally on port %1 failed.", port));
-            msgBox->setModal(false);
-            msgBox->setIcon(QMessageBox::Critical);
-            msgBox->show();
-
-            for (DriverInfo *dv : qdv)
-                processDeviceStatus(dv);
-
-            GUIManager::Instance()->removeClient(clientManager);
-            INDIListener::Instance()->removeClient(clientManager);
-
-            return false;
-        }
+    auto manager = dv->getServerManager();
+    // Do we have more pending drivers?
+    if (manager->pendingDrivers().count() > 0)
+    {
+        QtConcurrent::run(manager, &ServerManager::startDriver, manager->pendingDrivers().first());
+        return;
     }
 
-    return true;
+    // Nothing to do more if SERVER ONLY
+    if (connectionMode == SERVER_ONLY)
+    {
+        return;
+    }
+
+    // Otherwise proceed to start Client Manager
+    startClientManager(manager->managedDrivers(), manager->getHost(), manager->getPort());
+}
+
+void DriverManager::processDriverFailure(DriverInfo *dv, const QString &message)
+{
+    emit driverFailed(dv, message);
+
+    qCWarning(KSTARS_INDI) << "Driver" << dv->getName() << "failed to start. Retrying in 5 seconds...";
+
+    QTimer::singleShot(5000, this, [dv]()
+    {
+        auto manager = dv->getServerManager();
+        // Do we have more pending drivers?
+        if (manager->pendingDrivers().count() > 0)
+        {
+            QtConcurrent::run(manager, &ServerManager::startDriver, manager->pendingDrivers().first());
+            return;
+        }
+    });
+}
+
+void DriverManager::startClientManager(const QList<DriverInfo *> &qdv, const QString &host, int port)
+{
+    auto clientManager = new ClientManager();
+
+    for (DriverInfo *dv : qdv)
+        clientManager->appendManagedDriver(dv);
+
+    connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
+    connect(clientManager, &ClientManager::failed, this, &DriverManager::setClientFailed, Qt::UniqueConnection);
+    connect(clientManager, &ClientManager::terminated, this, &DriverManager::setClientTerminated, Qt::UniqueConnection);
+
+    clientManager->setServer(host.toLatin1().constData(), port);
+
+    GUIManager::Instance()->addClient(clientManager);
+    INDIListener::Instance()->addClient(clientManager);
+
+    clientManager->establishConnection();
 }
 
 void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
@@ -510,7 +485,7 @@ void DriverManager::stopDevices(const QList<DriverInfo *> &dList)
 
 void DriverManager::disconnectClients()
 {
-    for (auto clientManager : clients)
+    for (auto &clientManager : clients)
     {
         clientManager->disconnectAll();
         clientManager->disconnect();
@@ -519,8 +494,8 @@ void DriverManager::disconnectClients()
 
 void DriverManager::clearServers()
 {
-    for (auto serverManager : servers)
-        serverManager->terminate();
+    for (auto &serverManager : servers)
+        serverManager->stop();
 
     qDeleteAll(servers);
 }
@@ -557,14 +532,12 @@ void DriverManager::updateLocalTab()
 
     QString currentDriver = ui->localTreeWidget->currentItem()->text(LOCAL_NAME_COLUMN);
 
-    foreach (DriverInfo *device, driversList)
+    auto device = std::find_if(driversList.begin(), driversList.end(), [currentDriver](const auto & oneDriver)
     {
-        if (currentDriver == device->getLabel())
-        {
-            processDeviceStatus(device);
-            break;
-        }
-    }
+        return currentDriver == oneDriver->getLabel();
+    });
+    if (device != driversList.end())
+        processDeviceStatus(*device);
 }
 
 void DriverManager::updateClientTab()
@@ -577,28 +550,26 @@ void DriverManager::updateClientTab()
     QString hostname = item->text(HOST_NAME_COLUMN);
     QString hostport = item->text(HOST_PORT_COLUMN);
 
-    for (auto &dv : driversList)
+    auto device = std::find_if(driversList.begin(), driversList.end(), [hostname, hostport](const auto & oneDriver)
     {
-        if (hostname == dv->getName() && hostport == dv->getPort())
-        {
-            processDeviceStatus(dv);
-            break;
-        }
-    }
+        return hostname == oneDriver->getName() && hostport == oneDriver->getPort();
+    });
+    if (device != driversList.end())
+        processDeviceStatus(*device);
 }
 
 void DriverManager::processLocalTree(bool dState)
 {
     QList<DriverInfo *> processed_devices;
 
-    int port    = -1;
+    int port;
     bool portOK = false;
 
     connectionMode = ui->localR->isChecked() ? SERVER_CLIENT : SERVER_ONLY;
 
-    foreach (QTreeWidgetItem *item, ui->localTreeWidget->selectedItems())
+    for (auto &item : ui->localTreeWidget->selectedItems())
     {
-        foreach (DriverInfo *device, driversList)
+        for (auto &device : driversList)
         {
             port = -1;
 
@@ -617,13 +588,12 @@ void DriverManager::processLocalTree(bool dState)
                     // If we encounter conversion error, we abort
                     if (portOK == false)
                     {
-                        KSNotification::error(i18n("Invalid port entry: %1",
-                                                   item->text(LOCAL_PORT_COLUMN)));
+                        KSNotification::error(i18n("Invalid port entry: %1", item->text(LOCAL_PORT_COLUMN)));
                         return;
                     }
                 }
 
-                device->setHostParameters("localhost", QString("%1").arg(port));
+                device->setHostParameters("localhost", port);
             }
         }
     }
@@ -637,56 +607,110 @@ void DriverManager::processLocalTree(bool dState)
         stopDevices(processed_devices);
 }
 
-void DriverManager::processClientTermination(ClientManager *client)
+void DriverManager::setClientFailed(const QString &message)
 {
+    auto client = qobject_cast<ClientManager*>(sender());
+
     if (client == nullptr)
         return;
 
-    ServerManager *manager = client->getServerManager();
+    auto host = client->getHost();
+    auto port = client->getPort();
 
-    if (manager)
-    {
-        servers.removeOne(manager);
-        delete manager;
-    }
+    KNotification::beep();
 
-    emit serverTerminated(client->getHost(), QString("%1").arg(client->getPort()));
+    emit clientFailed(host, port, message);
 
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::event(
-        QLatin1String("IndiServerMessage"),
-        i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.",
-             client->getHost(), client->getPort()),
-        KSNotification::EVENT_ALERT);
+    KSNotification::event(QLatin1String("IndiServerMessage"), message);
 
     clients.removeOne(client);
     client->deleteLater();
 
     updateMenuActions();
-    updateLocalTab();
+    updateLocalTab();    
 }
 
-void DriverManager::processServerTermination(ServerManager *server)
+void DriverManager::setClientTerminated(const QString &message)
 {
+    auto client = qobject_cast<ClientManager*>(sender());
+
+    if (client == nullptr)
+        return;
+
+    auto host = client->getHost();
+    auto port = client->getPort();
+
+    KNotification::beep();
+
+    emit clientTerminated(host, port, message);
+
+    GUIManager::Instance()->removeClient(client);
+    INDIListener::Instance()->removeClient(client);
+
+    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_ALERT);
+
+    clients.removeOne(client);
+    client->deleteLater();
+
+    updateMenuActions();
+    updateLocalTab();    
+}
+
+void DriverManager::setServerStarted()
+{
+    auto manager = qobject_cast<ServerManager*>(sender());
+    qCDebug(KSTARS_INDI) << "INDI: INDI Server started locally on port " << manager->getPort();
+    startLocalDrivers(manager);
+    emit serverStarted(manager->getHost(), manager->getPort());
+}
+
+void DriverManager::setServerFailed(const QString &message)
+{
+    auto server = qobject_cast<ServerManager *>(sender());
+
     if (server == nullptr)
         return;
 
     for (auto &dv : driversList)
+    {
         if (dv->getServerManager() == server)
         {
             dv->reset();
         }
-
-    if (server->getMode() == SERVER_ONLY)
-    {
-        KSNotification::error(
-            i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.",
-                 server->getHost(), server->getPort(), server->errorString()));
     }
 
-    emit serverTerminated(server->getHost(), server->getPort());
+    if (server->getMode() == SERVER_ONLY)
+        KSNotification::error(message);
+
+    emit serverFailed(server->getHost(), server->getPort(), message);
+    servers.removeOne(server);
+    server->deleteLater();
+
+    updateLocalTab();
+}
+
+void DriverManager::setServerTerminated(const QString &message)
+{
+    auto server = qobject_cast<ServerManager *>(sender());
+
+    if (server == nullptr)
+        return;
+
+    for (auto &dv : driversList)
+    {
+        if (dv->getServerManager() == server)
+        {
+            dv->reset();
+        }
+    }
+
+    if (server->getMode() == SERVER_ONLY)
+        KSNotification::error(message);
+
+    emit serverTerminated(server->getHost(), server->getPort(), message);
     servers.removeOne(server);
     server->deleteLater();
 
@@ -724,64 +748,41 @@ void DriverManager::processRemoteTree(bool dState)
     }
 }
 
-bool DriverManager::connectRemoteHost(DriverInfo *dv)
+void DriverManager::connectRemoteHost(DriverInfo *dv)
 {
-    bool hostPortOk              = false;
-    bool connectionToServer      = false;
-    ClientManager *clientManager = nullptr;
+    auto host = dv->getHost();
+    auto port = dv->getPort();
 
-    dv->getPort().toInt(&hostPortOk);
-
-    if (hostPortOk == false)
-    {
-        KSNotification::error(i18n("Invalid host port %1", dv->getPort()));
-        return false;
-    }
-
-    clientManager = new ClientManager();
+    auto clientManager = new ClientManager();
 
     clientManager->appendManagedDriver(dv);
 
-    connect(clientManager, &ClientManager::connectionFailure, this,
-            &DriverManager::processClientTermination);
+    connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
+    connect(clientManager, &ClientManager::failed, this, &DriverManager::setClientFailed, Qt::UniqueConnection);
+    connect(clientManager, &ClientManager::terminated, this, &DriverManager::setClientTerminated, Qt::UniqueConnection);
 
-    clientManager->setServer(dv->getHost().toLatin1().constData(),
-                             static_cast<uint>(dv->getPort().toInt()));
+    clientManager->setServer(host.toLatin1().constData(), port);
 
     GUIManager::Instance()->addClient(clientManager);
     INDIListener::Instance()->addClient(clientManager);
 
-    for (int i = 0; i < INDI_MAX_TRIES; i++)
-    {
-        connectionToServer = clientManager->connectServer();
+    clientManager->establishConnection();
+}
 
-        if (connectionToServer)
-            break;
+void DriverManager::setClientStarted()
+{
+    auto clientManager = qobject_cast<ClientManager *>(sender());
+    if (clientManager == nullptr)
+        return;
 
-        QThread::usleep(100000);
-    }
+    clients.append(clientManager);
+    updateMenuActions();
 
-    if (connectionToServer)
-    {
-        clients.append(clientManager);
-        updateMenuActions();
+    KSNotification::event(QLatin1String("ConnectionSuccessful"),
+                          i18n("Connected to INDI server"),
+                          KSNotification::EVENT_INFO);
 
-        KSNotification::event(QLatin1String("ConnectionSuccessful"),
-                              i18n("Connected to INDI server"),
-                              KSNotification::EVENT_INFO);
-    }
-    else
-    {
-        GUIManager::Instance()->removeClient(clientManager);
-        INDIListener::Instance()->removeClient(clientManager);
-
-        KSNotification::error(i18n("Connection to INDI server at host %1 with port %2 failed.",
-                                   dv->getHost(), dv->getPort()), i18nc("@title:window", "Error"), 30);
-        processDeviceStatus(dv);
-        return false;
-    }
-
-    return true;
+    emit clientStarted(clientManager->getHost(), clientManager->getPort());
 }
 
 bool DriverManager::disconnectRemoteHost(DriverInfo *dv)
@@ -926,7 +927,7 @@ bool DriverManager::readINDIHosts()
             hPort = QString(valuXMLAtt(ap));
 
             DriverInfo *dv = new DriverInfo(hName);
-            dv->setHostParameters(hHost, hPort);
+            dv->setHostParameters(hHost, hPort.toInt());
             dv->setDriverSource(HOST_SOURCE);
 
             connect(dv, &DriverInfo::deviceStateChanged, this, &DriverManager::processDeviceStatus);
@@ -1247,7 +1248,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
     dv->setSkeletonFile(skel);
     dv->setType(groupType);
     dv->setDriverSource(driverSource);
-    dv->setUserPort(port);
+    dv->setUserPort(port.isEmpty() ? 7624 : port.toInt());
     dv->setAuxInfo(vMap);
 
     connect(dv, &DriverInfo::deviceStateChanged, this, &DriverManager::processDeviceStatus);
@@ -1416,7 +1417,7 @@ void DriverManager::addINDIHost()
         }
 
         hostItem->setHostParameters(hostConf.hostname->text(),
-                                    hostConf.portnumber->text());
+                                    hostConf.portnumber->text().toInt());
 
         //search for duplicates
         //for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
@@ -1464,14 +1465,14 @@ void DriverManager::modifyINDIHost()
         {
             hostConf.nameIN->setText(host->getName());
             hostConf.hostname->setText(host->getHost());
-            hostConf.portnumber->setText(host->getPort());
+            hostConf.portnumber->setText(QString::number(host->getPort()));
 
             if (hostConfDialog.exec() == QDialog::Accepted)
             {
                 //INDIHostsInfo *hostItem = new INDIHostsInfo;
                 host->setName(hostConf.nameIN->text());
                 host->setHostParameters(hostConf.hostname->text(),
-                                        hostConf.portnumber->text());
+                                        hostConf.portnumber->text().toInt());
 
                 currentItem->setText(HOST_NAME_COLUMN, hostConf.nameIN->text());
                 currentItem->setText(HOST_PORT_COLUMN, hostConf.portnumber->text());

@@ -13,6 +13,7 @@
 #include <QProcess>
 #include <QTcpSocket>
 #include <QTemporaryFile>
+#include <QFuture>
 
 #include <memory>
 
@@ -29,30 +30,43 @@ class ServerManager : public QObject
         Q_OBJECT
 
     public:
-        ServerManager(const QString &inHost, uint inPort);
-        ~ServerManager();
+        ServerManager(const QString &inHost, int inPort);
+        ~ServerManager() override;
 
         bool start();
         void stop();
-        void terminate();
 
         QString getLogBuffer();
-        const QString &getHost()
+        const QString &getHost() const
         {
             return host;
         }
-        const QString &getPort()
+        int getPort() const
         {
             return port;
         }
 
-        bool startDriver(DriverInfo *dv);
+        void setPendingDrivers(QList<DriverInfo *> drivers)
+        {
+            m_PendingDrivers = drivers;
+        }
+        const QList<DriverInfo *> &pendingDrivers() const
+        {
+            return m_PendingDrivers;
+        }
+
+        void startDriver(DriverInfo *dv);
         void stopDriver(DriverInfo *dv);
         bool restartDriver(DriverInfo *dv);
+
+        const QList<DriverInfo *> &managedDrivers() const
+        {
+            return m_ManagedDrivers;
+        }
         bool contains(DriverInfo *dv)
         {
-            return managedDrivers.contains(dv);
-        };
+            return m_ManagedDrivers.contains(dv);
+        }
 
         void setMode(ServerMode inMode)
         {
@@ -67,33 +81,42 @@ class ServerManager : public QObject
 
         int size()
         {
-            return managedDrivers.size();
+            return m_ManagedDrivers.size();
         }
 
     public slots:
-        void connectionSuccess();
         void processServerError(QProcess::ProcessError);
         void processStandardError();
 
     private:
         QTcpSocket serverSocket;
         QString host;
-        QString port;
+        int port;
         QTemporaryFile serverBuffer;
         std::unique_ptr<QProcess> serverProcess;
 
-        void insertEnvironmentPath(QProcessEnvironment *env, QString variable, QString relativePath);
+        void insertEnvironmentPath(QProcessEnvironment *env, const QString &variable, const QString &relativePath);
 
         ServerMode mode { SERVER_CLIENT };
-        //bool driverCrashed { false };
 
-        QList<DriverInfo *> managedDrivers;
+        QList<DriverInfo *> m_ManagedDrivers;
+
+        QList<DriverInfo *> m_PendingDrivers;
 
         QFile indiFIFO;
 
     signals:
-        void serverFailure(ServerManager *);
-        void newServerLog();
         void started();
-        void finished(int exit_code, QProcess::ExitStatus exit_status);
+        void stopped();
+        void failed(const QString &message);
+        void terminated(const QString &message);
+
+
+        void newServerLog();
+
+        // Driver Signals
+        void driverStarted(DriverInfo *driver);
+        void driverStopped(DriverInfo *driver);
+        void driverRestarted(DriverInfo *driver);
+        void driverFailed(DriverInfo *driver, const QString &message);
 };

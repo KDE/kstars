@@ -51,7 +51,7 @@ class Mount : public QWidget, public Ui::Mount
 
     public:
         Mount();
-        ~Mount();
+        ~Mount() override;
 
         //typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 

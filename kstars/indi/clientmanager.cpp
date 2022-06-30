@@ -14,16 +14,14 @@
 #include "servermanager.h"
 
 #include <indi_debug.h>
+#include <QTimer>
 
 bool ClientManager::isDriverManaged(DriverInfo *di)
 {
-    foreach (DriverInfo *dv, managedDrivers)
+    return std::any_of(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [di](const auto & oneDriver)
     {
-        if (dv == di)
-            return true;
-    }
-
-    return false;
+        return di == oneDriver;
+    });
 }
 
 void ClientManager::newDevice(INDI::BaseDevice *dp)
@@ -44,7 +42,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
     qCDebug(KSTARS_INDI) << "Received new device" << dp->getDeviceName();
 
     // First iteration find unique matches
-    for (auto &oneDriverInfo : managedDrivers)
+    for (auto &oneDriverInfo : m_ManagedDrivers)
     {
         if (oneDriverInfo->getUniqueLabel() == QString(dp->getDeviceName()))
         {
@@ -56,10 +54,9 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
     // Second iteration find partial matches
     if (deviceDriver == nullptr)
     {
-        for (auto &oneDriverInfo : managedDrivers)
+        for (auto &oneDriverInfo : m_ManagedDrivers)
         {
-            QString dvName = oneDriverInfo->getName();
-            dvName         = oneDriverInfo->getName().split(' ').first();
+            auto dvName = oneDriverInfo->getName().split(' ').first();
             if (dvName.isEmpty())
                 dvName = oneDriverInfo->getName();
             if (/*dv->getUniqueLabel() == dp->getDeviceName() ||*/
@@ -156,7 +153,7 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
         }
     }
 
-    for (auto &driverInfo : managedDrivers)
+    for (auto &driverInfo : m_ManagedDrivers)
     {
         for (auto &deviceInfo : driverInfo->getDevices())
         {
@@ -170,7 +167,7 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
 
                 if (driverInfo->isEmpty())
                 {
-                    managedDrivers.removeOne(driverInfo);
+                    m_ManagedDrivers.removeOne(driverInfo);
                     if (driverInfo->getDriverSource() == GENERATED_SOURCE)
                         driverInfo->deleteLater();
                 }
@@ -222,7 +219,7 @@ void ClientManager::appendManagedDriver(DriverInfo *dv)
 {
     qCDebug(KSTARS_INDI) << "Adding managed driver" << dv->getName();
 
-    managedDrivers.append(dv);
+    m_ManagedDrivers.append(dv);
 
     dv->setClientManager(this);
 
@@ -234,7 +231,7 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
     qCDebug(KSTARS_INDI) << "Removing managed driver" << dv->getName();
 
     dv->setClientState(false);
-    managedDrivers.removeOne(dv);
+    m_ManagedDrivers.removeOne(dv);
 
     for (auto &di : dv->getDevices())
     {
@@ -256,40 +253,78 @@ void ClientManager::serverConnected()
 {
     qCDebug(KSTARS_INDI) << "INDI server connected.";
 
-    for (auto &oneDriverInfo : managedDrivers)
+    for (auto &oneDriverInfo : m_ManagedDrivers)
     {
         oneDriverInfo->setClientState(true);
         if (sManager)
             oneDriverInfo->setHostParameters(sManager->getHost(), sManager->getPort());
     }
+
+    m_PendingConnection = false;
+    m_ConnectionRetries = MAX_RETRIES;
+
+    emit started();
 }
 
-void ClientManager::serverDisconnected(int exit_code)
+void ClientManager::serverDisconnected(int exitCode)
 {
-    qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exit_code;
+    qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exitCode;
 
-    for (auto &oneDriverInfo : managedDrivers)
+    for (auto &oneDriverInfo : m_ManagedDrivers)
     {
         oneDriverInfo->setClientState(false);
         oneDriverInfo->reset();
     }
 
-    if (exit_code < 0)
-        emit connectionFailure(this);
+    if (m_PendingConnection)
+    {
+        // Should we retry again?
+        if (m_ConnectionRetries-- > 0)
+        {
+            // Connect again in 1 second.
+            QTimer::singleShot(1000, this, [this]()
+            {
+                qCDebug(KSTARS_INDI) << "Retrying connection again";
+                connectServer();
+            });
+        }
+        // Nope cannot connect to server.
+        else
+        {
+            m_PendingConnection = false;
+            m_ConnectionRetries = MAX_RETRIES;
+            emit failed(i18n("Failed to connect to INDI server %1:%2", getHost(), getPort()));
+        }
+    }
+    // Did server disconnect abnormally?
+    else if (exitCode < 0)
+        emit terminated(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected: %3", getHost(), getPort(), exitCode));
 }
+
 QList<DriverInfo *> ClientManager::getManagedDrivers() const
 {
-    return managedDrivers;
+    return m_ManagedDrivers;
+}
+
+void ClientManager::establishConnection()
+{
+    qCDebug(KSTARS_INDI)
+            << "INDI: Connecting to local INDI server on port " << getPort() << " ...";
+
+    m_PendingConnection = true;
+    m_ConnectionRetries = 2;
+
+    connectServer();
 }
 
 DriverInfo *ClientManager::findDriverInfoByName(const QString &name)
 {
-    auto pos = std::find_if(managedDrivers.begin(), managedDrivers.end(), [name](DriverInfo * oneDriverInfo)
+    auto pos = std::find_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [name](DriverInfo * oneDriverInfo)
     {
         return oneDriverInfo->getName() == name;
     });
 
-    if (pos != managedDrivers.end())
+    if (pos != m_ManagedDrivers.end())
         return *pos;
     else
         return nullptr;
@@ -297,12 +332,12 @@ DriverInfo *ClientManager::findDriverInfoByName(const QString &name)
 
 DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 {
-    auto pos = std::find_if(managedDrivers.begin(), managedDrivers.end(), [label](DriverInfo * oneDriverInfo)
+    auto pos = std::find_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [label](DriverInfo * oneDriverInfo)
     {
         return oneDriverInfo->getLabel() == label;
     });
 
-    if (pos != managedDrivers.end())
+    if (pos != m_ManagedDrivers.end())
         return *pos;
     else
         return nullptr;
@@ -310,7 +345,7 @@ DriverInfo *ClientManager::findDriverInfoByLabel(const QString &label)
 
 void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QString &property)
 {
-    for(const auto &bm : blobManagers)
+    for(auto &bm : blobManagers)
     {
         if (bm->property("device") == device && (property.isEmpty() || bm->property("property") == property))
         {
@@ -322,7 +357,7 @@ void ClientManager::setBLOBEnabled(bool enabled, const QString &device, const QS
 
 bool ClientManager::isBLOBEnabled(const QString &device, const QString &property)
 {
-    for(const auto &bm : blobManagers)
+    for(auto &bm : blobManagers)
     {
         if (bm->property("device") == device && bm->property("property") == property)
             return bm->property("enabled").toBool();

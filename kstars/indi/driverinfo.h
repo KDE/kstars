@@ -50,7 +50,7 @@ class DriverInfo : public QObject
     public:
         explicit DriverInfo(const QString &inName);
         explicit DriverInfo(DriverInfo *di);
-        ~DriverInfo();
+        ~DriverInfo() override;
 
         DriverInfo *clone(bool resetClone = true);
 
@@ -164,8 +164,11 @@ class DriverInfo : public QObject
             return clientManager;
         }
 
-        void setUserPort(const QString &inUserPort);
-        const QString &getUserPort() const
+        void setUserPort(int inUserPort)
+        {
+            userPort = inUserPort;
+        }
+        int getUserPort() const
         {
             return userPort;
         }
@@ -191,12 +194,12 @@ class DriverInfo : public QObject
             return clientState;
         }
 
-        void setHostParameters(const QString &inHost, const QString &inPort)
+        void setHostParameters(const QString &inHost, int inPort)
         {
             hostname = inHost;
             port     = inPort;
         }
-        void setPort(const QString &inPort)
+        void setPort(int inPort)
         {
             port = inPort;
         }
@@ -208,7 +211,7 @@ class DriverInfo : public QObject
         {
             return hostname;
         }
-        const QString &getPort() const
+        int getPort() const
         {
             return port;
         }
@@ -248,6 +251,9 @@ class DriverInfo : public QObject
         QString manufacturer() const;
         void setManufacturer(const QString &Manufacturer);
 
+        QJsonObject startupRule() const;
+        void setStartupRule(const QJsonObject &value);
+
     private:
         /// Actual device name as defined by INDI server
         QString name;
@@ -260,11 +266,11 @@ class DriverInfo : public QObject
         /// Version of the driver (optional)
         QString version;
         /// INDI server port as the user wants it.
-        QString userPort;
+        int userPort;
         /// Skeleton file, if any;
         QString skelFile;
         /// INDI Host port
-        QString port;
+        int port;
         /// INDI Host hostname
         QString hostname;
         // INDI Remote Hostname (for remote drivers)
@@ -288,6 +294,7 @@ class DriverInfo : public QObject
         /// Any additional properties in key, value pairs
         QVariantMap auxInfo;
         QList<DeviceInfo *> devices;
+        QJsonObject m_StartupRule;
 
     signals:
         void deviceStateChanged(DriverInfo *);

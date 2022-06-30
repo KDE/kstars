@@ -20,8 +20,8 @@ DriverInfo::DriverInfo(const QString &inName)
 
     m_Manufacturer = "Others";
     hostname = "localhost";
-    port     = "-1";
-    userPort = "-1";
+    port     = -1;
+    userPort = -1;
 }
 
 DriverInfo::DriverInfo(DriverInfo *di)
@@ -110,14 +110,6 @@ void DriverInfo::setClientState(bool inState)
     emit deviceStateChanged(this);
 }
 
-void DriverInfo::setUserPort(const QString &inUserPort)
-{
-    if (inUserPort.isEmpty() == false)
-        userPort = inUserPort;
-    else
-        userPort = "-1";
-}
-
 void DriverInfo::addDevice(DeviceInfo *idv)
 {
     devices.append(idv);
@@ -171,4 +163,14 @@ void DriverInfo::setUniqueLabel(const QString &inUniqueLabel)
         return;
 
     uniqueLabel = inUniqueLabel;
+}
+
+QJsonObject DriverInfo::startupRule() const
+{
+    return m_StartupRule;
+}
+
+void DriverInfo::setStartupRule(const QJsonObject &value)
+{
+    m_StartupRule = value;
 }

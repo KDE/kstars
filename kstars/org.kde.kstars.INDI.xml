@@ -3,7 +3,7 @@
   <interface name="org.kde.kstars.INDI">
     <method name="start">
     <arg type="b" direction="out"/>
-    <arg name="port" type="s" direction="in"/>
+    <arg name="port" type="i" direction="in"/>
     <arg name="drivers" type="as" direction="in"/>
     </method>   
     <method name="stop">
@@ -13,12 +13,12 @@
     <method name="connect">
         <arg type="b" direction="out"/>
         <arg name="host" type="s" direction="in"/>
-        <arg name="port" type="s" direction="in"/>
+        <arg name="port" type="i" direction="in"/>
     </method>
     <method name="disconnect">
         <arg type="b" direction="out"/>
         <arg name="host" type="s" direction="in"/>
-        <arg name="port" type="s" direction="in"/>
+        <arg name="port" type="i" direction="in"/>
     </method>
     <method name="getDevices">
         <arg type="as" direction="out"/>

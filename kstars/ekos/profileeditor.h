@@ -62,6 +62,7 @@ class ProfileEditor : public QDialog
         void updateGuiderSelection(int id);
         void scanNetwork();
         void showINDIHub();
+        void executeScriptEditor();
 
     private:
         void populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver, bool isLocal,

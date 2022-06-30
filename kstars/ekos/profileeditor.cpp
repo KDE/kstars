@@ -14,6 +14,7 @@
 #include "indi/driverinfo.h"
 #include "indi/drivermanager.h"
 #include "oal/equipmentwriter.h"
+#include "profilescriptdialog.h"
 #include "ui_indihub.h"
 
 #include "ekos_debug.h"
@@ -54,16 +55,19 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));
 
+    connect(ui->scriptsB, &QPushButton::clicked, this, &ProfileEditor::executeScriptEditor);
+
     connect(ui->openWebManagerB, &QPushButton::clicked, this, [this]()
     {
         QUrl url(QString("http://" + ui->remoteHost->text() + ":8624"));
         QDesktopServices::openUrl(url);
     });
 
-    connect(ui->INDIWebManagerCheck, &QCheckBox::toggled, [&](bool enabled)
+    connect(ui->INDIWebManagerCheck, &QCheckBox::toggled, this, [&](bool enabled)
     {
         ui->openWebManagerB->setEnabled(enabled);
         ui->remoteDrivers->setEnabled(enabled || ui->localMode->isChecked());
+        ui->scriptsB->setEnabled(enabled || ui->localMode->isChecked());
     });
 
     connect(ui->guideTypeCombo, SIGNAL(activated(int)), this, SLOT(updateGuiderSelection(int)));
@@ -371,6 +375,8 @@ void ProfileEditor::setRemoteMode(bool enable)
     if (enable == false)
         ui->INDIWebManagerCheck->setChecked(false);
     ui->INDIWebManagerPort->setEnabled(enable);
+
+    ui->scriptsB->setEnabled(!enable || ui->INDIWebManagerCheck->isChecked());
 }
 
 void ProfileEditor::setPi(ProfileInfo *newProfile)
@@ -677,26 +683,7 @@ void ProfileEditor::loadDrivers()
         switch (dv->getType())
         {
             case KSTARS_CCD:
-            {
-                //                ui->ccdCombo->addItem(icon, dv->getLabel());
-                //                ui->ccdCombo->setItemData(ui->ccdCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->guiderCombo->addItem(icon, dv->getLabel());
-                //                ui->guiderCombo->setItemData(ui->guiderCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux1Combo->addItem(icon, dv->getLabel());
-                //                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux2Combo->addItem(icon, dv->getLabel());
-                //                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux3Combo->addItem(icon, dv->getLabel());
-                //                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux4Combo->addItem(icon, dv->getLabel());
-                //                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
+                break;
 
             case KSTARS_ADAPTIVE_OPTICS:
             {
@@ -706,40 +693,12 @@ void ProfileEditor::loadDrivers()
             break;
 
             case KSTARS_FOCUSER:
-            {
-                //                ui->focuserCombo->addItem(icon, dv->getLabel());
-                //                ui->focuserCombo->setItemData(ui->focuserCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux1Combo->addItem(icon, dv->getLabel());
-                //                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux2Combo->addItem(icon, dv->getLabel());
-                //                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux3Combo->addItem(icon, dv->getLabel());
-                //                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux4Combo->addItem(icon, dv->getLabel());
-                //                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
+                break;
 
             case KSTARS_FILTER:
             {
                 ui->filterCombo->addItem(icon, dv->getLabel());
                 ui->filterCombo->setItemData(ui->filterCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux1Combo->addItem(icon, dv->getLabel());
-                //                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux2Combo->addItem(icon, dv->getLabel());
-                //                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux3Combo->addItem(icon, dv->getLabel());
-                //                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux4Combo->addItem(icon, dv->getLabel());
-                //                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
@@ -754,38 +713,13 @@ void ProfileEditor::loadDrivers()
             {
                 ui->weatherCombo->addItem(icon, dv->getLabel());
                 ui->weatherCombo->setItemData(ui->weatherCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux1Combo->addItem(icon, dv->getLabel());
-                //                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux2Combo->addItem(icon, dv->getLabel());
-                //                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux3Combo->addItem(icon, dv->getLabel());
-                //                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux4Combo->addItem(icon, dv->getLabel());
-                //                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
             }
             break;
 
             case KSTARS_AUXILIARY:
             case KSTARS_SPECTROGRAPHS:
             case KSTARS_DETECTORS:
-            {
-                //                ui->aux1Combo->addItem(icon, dv->getLabel());
-                //                ui->aux1Combo->setItemData(ui->aux1Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux2Combo->addItem(icon, dv->getLabel());
-                //                ui->aux2Combo->setItemData(ui->aux2Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux3Combo->addItem(icon, dv->getLabel());
-                //                ui->aux3Combo->setItemData(ui->aux3Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-
-                //                ui->aux4Combo->addItem(icon, dv->getLabel());
-                //                ui->aux4Combo->setItemData(ui->aux4Combo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
+                break;
 
             default:
                 continue;
@@ -1250,4 +1184,20 @@ void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboB
         combo->setModel(model);
         combo->setCurrentText(selectedDriver);
     }
+}
+
+void ProfileEditor::executeScriptEditor()
+{
+    if (pi == nullptr)
+        return;
+    QStringList currentDrivers;
+    for (auto &oneCombo : ui->driversGroupBox->findChildren<QComboBox *>())
+        currentDrivers << oneCombo->currentText();
+    currentDrivers.removeAll("--");
+    currentDrivers.removeAll("");
+    currentDrivers.sort();
+    ProfileScriptDialog dialog(currentDrivers, pi->scripts, this);
+    dialog.exec();
+    auto settings = dialog.jsonSettings();
+    pi->scripts = QJsonDocument(settings).toJson(QJsonDocument::Compact);
 }

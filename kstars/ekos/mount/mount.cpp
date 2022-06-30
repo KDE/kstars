@@ -218,6 +218,7 @@ Mount::Mount()
 
 Mount::~Mount()
 {
+    autoParkTimer.stop();
     delete(m_Ctxt);
     delete(m_BaseObj);
     delete(currentTargetPosition);
@@ -250,7 +251,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     connect(currentTelescope, &ISD::Telescope::slewRateChanged, this, &Mount::slewRateChanged);
     connect(currentTelescope, &ISD::Telescope::pierSideChanged, this, &Mount::pierSideChanged);
     connect(currentTelescope, &ISD::Telescope::axisReversed, this, &Mount::syncAxisReversed);
-    connect(currentTelescope, &ISD::Telescope::Disconnected, [this]()
+    connect(currentTelescope, &ISD::Telescope::Disconnected, this, [this]()
     {
         m_BaseView->hide();
     });
@@ -276,8 +277,6 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     if (enableLimitsCheck->isChecked())
         currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
-
-
 
     syncTelescopeInfo();
 
@@ -402,11 +401,11 @@ void Mount::syncTelescopeInfo()
         trackingGroup->setEnabled(true);
         trackOnB->disconnect();
         trackOffB->disconnect();
-        connect(trackOnB, &QPushButton::clicked, [&]()
+        connect(trackOnB, &QPushButton::clicked, this, [&]()
         {
             currentTelescope->setTrackEnabled(true);
         });
-        connect(trackOffB, &QPushButton::clicked, [&]()
+        connect(trackOffB, &QPushButton::clicked, this, [&]()
         {
             if (KMessageBox::questionYesNo(KStars::Instance(),
                                            i18n("Are you sure you want to turn off mount tracking?"),
