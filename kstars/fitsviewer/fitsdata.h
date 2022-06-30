@@ -139,7 +139,7 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         // Calculate stats
-        void calculateStats(bool refresh = false);
+        void calculateStats(bool refresh = false , bool roi = false);
         void saveStatistics(FITSImage::Statistic &other);
         void restoreStatistics(FITSImage::Statistic &other);
         FITSImage::Statistic const &getStatistics() const
@@ -147,37 +147,38 @@ class FITSData : public QObject
             return m_Statistics;
         };
 
-        uint16_t width() const
+        uint16_t width(bool roi = false) const
         {
-            return m_Statistics.width;
+            return roi ?  m_RoiStatistics.width : m_Statistics.width;
         }
-        uint16_t height() const
+        uint16_t height(bool roi = false) const
         {
-            return m_Statistics.height;
+            return roi ?  m_RoiStatistics.height : m_Statistics.height;
         }
-        int64_t size() const
+        int64_t size(bool roi = false) const
         {
-            return m_Statistics.size;
+            return roi ?  m_RoiStatistics.size : m_Statistics.size;
         }
         int channels() const
         {
             return m_Statistics.channels;
         }
-        uint32_t samplesPerChannel() const
+        uint32_t samplesPerChannel(bool roi = false) const
         {
-            return m_Statistics.samples_per_channel;
+            return roi ?  m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel;
         }
         uint32_t dataType() const
         {
             return m_Statistics.dataType;
         }
-        double getMin(uint8_t channel = 0) const
+        double getMin(uint8_t channel = 0, bool roi =false) const
         {
-            return m_Statistics.min[channel];
+            return roi ?  m_RoiStatistics.min[channel]: m_Statistics.min[channel];
         }
-        double getMax(uint8_t channel = 0) const
+        double getMax(uint8_t channel = 0, bool roi = false) const
         {
-            return m_Statistics.max[channel];
+            return roi ?  m_RoiStatistics.max[channel]: m_Statistics.max[channel];
+
         }
         void setMinMax(double newMin, double newMax, uint8_t channel = 0);
         void getMinMax(double *min, double *max, uint8_t channel = 0) const
@@ -189,32 +190,32 @@ class FITSData : public QObject
         {
             m_Statistics.stddev[channel] = value;
         }
-        double getStdDev(uint8_t channel = 0) const
+        double getStdDev(uint8_t channel = 0, bool roi = false ) const
         {
-            return m_Statistics.stddev[channel];
+            return roi ? m_RoiStatistics.stddev[channel]:  m_Statistics.stddev[channel];
         }
-        double getAverageStdDev() const;
+        double getAverageStdDev(bool roi = false) const;
         void setMean(double value, uint8_t channel = 0)
         {
             m_Statistics.mean[channel] = value;
         }
-        double getMean(uint8_t channel = 0) const
+        double getMean(uint8_t channel = 0, bool roi = false) const
         {
-            return m_Statistics.mean[channel];
+            return roi ? m_RoiStatistics.mean[channel]:  m_Statistics.mean[channel];
         }
         // for single channel, just return the mean for channel zero
         // for color, return the average
-        double getAverageMean() const;
+        double getAverageMean(bool roi = false) const;
         void setMedian(double val, uint8_t channel = 0)
         {
             m_Statistics.median[channel] = val;
         }
         // for single channel, just return the median for channel zero
         // for color, return the average
-        double getAverageMedian() const;
-        double getMedian(uint8_t channel = 0) const
+        double getAverageMedian(bool roi = false) const;
+        double getMedian(uint8_t channel = 0, bool roi = false) const
         {
-            return m_Statistics.median[channel];
+            return roi ? m_RoiStatistics.median[channel]:  m_Statistics.median[channel];
         }
 
         int getBytesPerPixel() const
@@ -321,7 +322,7 @@ class FITSData : public QObject
         // Use SEP (Sextractor Library) to find stars
         template <typename T>
         void getFloatBuffer(float *buffer, int x, int y, int w, int h) const;
-        //int findSEPStars(QList<Edge*> &, const QRect &boundary = QRect()) const;
+        //int findSEPStars(QList<Edge*> &, const int8_t &boundary = int8_t()) const;
 
         // Apply ring filter to searched stars
         int filterStars(const float innerRadius, const float outerRadius);
@@ -353,6 +354,16 @@ class FITSData : public QObject
         void setDateTime(const KStarsDateTime &t)
         {
             m_DateTime = t;
+        }
+
+        const QPoint getRoiCenter() const
+        {
+            return roiCenter;
+        }
+
+        void setRoiCenter(QPoint c)
+        {
+            roiCenter = c;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -559,6 +570,8 @@ class FITSData : public QObject
          * @brief dataChanged Send signal when undelying raw data buffer data changed.
          */
         void dataChanged();
+    public slots:
+        void makeRoiBuffer(QRect roi);
 
     private:
         void loadCommon(const QString &inFilename);
@@ -577,12 +590,13 @@ class FITSData : public QObject
         bool loadRAWImage(const QByteArray &buffer, const QString &extension);
 
         void rotWCSFITS(int angle, int mirror);
-        void calculateMinMax(bool refresh = false);
-        void calculateMedian(bool refresh = false);
+        void calculateMinMax(bool refresh = false, bool roi = false);
+        void calculateMedian(bool refresh = false, bool roi = false);
         bool checkDebayer();
         void readWCSKeys();
 
         // Record last FITS error
+        void recordLastError(int errorCode);
         void logOOMError(uint32_t requiredMemory = 0);
 
         // FITS Record
@@ -601,12 +615,12 @@ class FITSData : public QObject
         void applyFilter(FITSScale type, uint8_t *targetImage, QVector<double> * min = nullptr, QVector<double> * max = nullptr);
 
         template <typename T>
-        void calculateMinMax();
+        void calculateMinMax(bool roi = false);
         template <typename T>
-        void calculateMedian();
+        void calculateMedian(bool roi = false);
 
         template <typename T>
-        QPair<T, T> getParitionMinMax(uint32_t start, uint32_t stride);
+        QPair<T, T> getParitionMinMax(uint32_t start, uint32_t stride, bool roi);
 
         /* Calculate the Gaussian blur matrix and apply it to the image using the convolution filter */
         QVector<double> createGaussianKernel(int size, double sigma);
@@ -617,9 +631,9 @@ class FITSData : public QObject
 
         /* Calculate running average & standard deviation using Welford’s method for computing variance */
         template <typename T>
-        void runningAverageStdDev();
+        void runningAverageStdDev( bool roi = false );
         template <typename T>
-        QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride);
+        QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride,bool roi = false);
 
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
@@ -637,6 +651,10 @@ class FITSData : public QObject
         uint8_t *m_ImageBuffer { nullptr };
         /// Above buffer size in bytes
         uint32_t m_ImageBufferSize { 0 };
+        /// Image Buffer if Selection is to be done
+        uint8_t *m_ImageRoiBuffer { nullptr };
+        /// Above buffer size in bytes
+        uint32_t m_ImageRoiBufferSize { 0 };
         /// Is this a temporary file or one loaded from disk?
         bool m_isTemporary { false };
         /// is this file compress (.fits.fz)?
@@ -691,6 +709,7 @@ class FITSData : public QObject
         /// 16bit can be either SHORT_IMG or USHORT_IMG, so m_FITSBITPIX specifies which is
         int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
+        FITSImage::Statistic m_RoiStatistics;
 
         // A list of header records
         QList<Record> m_HeaderRecords;
@@ -729,4 +748,5 @@ class FITSData : public QObject
         double cacheHFR { -1 };
         HFRType cacheHFRType { HFR_AVERAGE };
         double cacheEccentricity { -1 };
+        QPoint roiCenter;
 };

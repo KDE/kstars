@@ -133,12 +133,12 @@ class FITSView : public QScrollArea
         void drawObjectNames(QPainter *painter, double scale);
         void drawPixelGrid(QPainter *painter, double scale);
         void drawMagnifyingGlass(QPainter *painter, double scale);
-
         bool isImageStretched();
         bool isCrosshairShown();
         bool isClippingShown();
         bool areObjectsShown();
         bool isEQGridShown();
+        bool isSelectionRectShown();
         bool isPixelGridShown();
         bool imageHasWCS();
 
@@ -173,6 +173,10 @@ class FITSView : public QScrollArea
         double ZoomFactor() const
         {
             return m_ZoomFactor;
+        }
+        QPoint getRoiCenter() const
+        {
+            return roiCenter;
         }
 
 
@@ -279,6 +283,9 @@ class FITSView : public QScrollArea
         void togglePixelGrid();
         void toggleCrosshair();
 
+        //Selection Rectngle
+        void toggleSelectionMode();
+
         // Stars
         void toggleStars();
         void toggleStarProfile();
@@ -291,8 +298,11 @@ class FITSView : public QScrollArea
 
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
+
         void move3DTrackingBox(int x, int y);
         void resizeTrackingBox(int newSize);
+        void processRectangle(QPoint p1, QPoint p2, bool refreshCenter = false);
+        void processRectangleFixed(int s);
 
     protected slots:
         /**
@@ -317,6 +327,8 @@ class FITSView : public QScrollArea
 
         double getScale();
 
+        /// selectionRectangleRaw is used to do the calculations, this rectangle remains the same when user changes the zoom
+        QRect selectionRectangleRaw;
         /// Floating toolbar
         QToolBar *floatingToolBar { nullptr };
         /// WCS Future Watcher
@@ -332,6 +344,10 @@ class FITSView : public QScrollArea
         // The maximum percent zoom. The value is recalculated in the constructor
         // based on the amount of physical memory.
         int zoomMax { 400 };
+        /// Image Buffer if Selection is to be done
+        uint8_t *m_ImageRoiBuffer { nullptr };
+        /// Above buffer size in bytes
+        uint32_t m_ImageRoiBufferSize { 0 };
 
     private:
         bool processData();
@@ -368,7 +384,10 @@ class FITSView : public QScrollArea
         bool showPixelGrid { false };
         bool showStarsHFR { false };
         bool showClipping { false };
+
         int m_NumClipped { 0 };
+
+        bool showSelectionRect { false };
 
         // Should the image be displayed in linear (false) or stretched (true).
         // Initial value controlled by Options::autoStretch.
@@ -427,6 +446,7 @@ class FITSView : public QScrollArea
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
+        QPoint roiCenter;
 
         // State for the magnifying glass overlay.
         int magnifyingGlassX { -1 };
@@ -450,6 +470,11 @@ class FITSView : public QScrollArea
         void loaded();
         void failed(const QString &error);
         void starProfileWindowClosed();
+        void rectangleUpdated(QRect roi);
+        void updateSelectionStatsUi();
+        void setRubberBand(QRect rect);
+        void showRubberBand(bool on = false);
+        void zoomRubberBand(float scale);
 
         friend class FITSLabel;
 };

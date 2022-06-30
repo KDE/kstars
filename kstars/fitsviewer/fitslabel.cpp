@@ -34,10 +34,24 @@
 #define ZOOM_LOW_INCR  10
 #define ZOOM_HIGH_INCR 50
 
-FITSLabel::FITSLabel(FITSView *view, QWidget *parent) : QLabel(parent)
+FITSLabel::FITSLabel(FITSView *View, QWidget *parent) : QLabel(parent)
 {
-    this->view = view;
+    this->view = View;
+    prevscale = 0.0;
+    //Rubber Band options
+    roiRB = new QRubberBand( QRubberBand::Rectangle, this);
+    roiRB->setAttribute(Qt::WA_TransparentForMouseEvents, 1);
+    roiRB->setGeometry(QRect(QPoint(1, 1), QPoint(100, 100)));
+
+    QPalette pal;
+    QColor red70 = Qt::red;
+    red70.setAlphaF(0.7);
+
+    pal.setBrush(QPalette::Highlight, QBrush(red70));
+    roiRB->setPalette(pal);
+    QToolTip::showText(QPoint(1, 1), "Move Once to show selection stats", this);
 }
+
 
 void FITSLabel::setSize(double w, double h)
 {
@@ -57,12 +71,33 @@ If the mouse button is released, it resets mouseButtonDown variable and the mous
  */
 void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e)
+    float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
+
+    double x = round(e->x() / scale);
+    double y = round(e->y() / scale);
+
+    m_p2.setX(x);//record second point for selection Rectangle
+    m_p2.setY(y);
+
     if (view->getCursorMode() == FITSView::dragCursor)
     {
         mouseButtonDown = false;
         view->updateMouseCursor();
+        if( isRoiSelected && view->isSelectionRectShown())
+        {
+            QRect roiRaw = roiRB->geometry();
+            emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
+            updateRoiToolTip(e->globalPos());
+        }
+        if( e->modifiers () == Qt::ShiftModifier && view->isSelectionRectShown())
+        {
+            QRect roiRaw = roiRB->geometry();
+            emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
+            updateRoiToolTip(e->globalPos());
+        }
+        isRoiSelected = false;
     }
+
 }
 
 void FITSLabel::leaveEvent(QEvent *e)
@@ -82,7 +117,11 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
     float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
 
-    if (view->getCursorMode() == FITSView::dragCursor && mouseButtonDown)
+    double x = round(e->x() / scale);
+    double y = round(e->y() / scale);
+
+    //Panning
+    if (e->modifiers() != Qt::ShiftModifier  && view->getCursorMode() == FITSView::dragCursor && mouseButtonDown  )
     {
         QPoint newPoint = e->globalPos();
         int dx          = newPoint.x() - lastMousePoint.x();
@@ -92,8 +131,40 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
         lastMousePoint = newPoint;
     }
+    if( e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::dragCursor )
+    {
+        //Translation of ROI
+        if(isRoiSelected && !mouseButtonDown)
+        {
 
-    double x, y;
+            int xdiff = x - prevPoint.x();
+            int ydiff = y - prevPoint.y();
+            roiRB->setGeometry(roiRB->geometry().translated(round(xdiff * scale), round(ydiff * scale)));
+            prevPoint = QPoint(x, y);
+
+            QRect roiRaw = roiRB->geometry();
+            // Opting to update stats on the go is extremely laggy for large images, only update if small image
+            if(!view->isLargeImage())
+            {
+                emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
+                updateRoiToolTip(e->globalPos());
+            }
+        }
+        //Stretching of ROI
+        if(e->modifiers() == Qt::ShiftModifier && !isRoiSelected && view->isSelectionRectShown())
+        {
+            roiRB->setGeometry(QRect(m_p1 * scale, QPoint(x, y)*scale).normalized());
+
+            QRect roiRaw = roiRB->geometry();
+            // Opting to update stats on the go is extremely laggy for large images, only update if small image
+            if(!view->isLargeImage())
+            {
+                emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
+                updateRoiToolTip(e->globalPos());
+            }
+        }
+    }
+
     const QSharedPointer<FITSData> &view_data = view->imageData();
 
     uint8_t const *buffer = view_data->getImageBuffer();
@@ -158,8 +229,17 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
         default:
             break;
+
     }
 
+    if(view->isSelectionRectShown() && roiRB->geometry().contains(e->pos()))
+    {
+        updateRoiToolTip(e->globalPos());
+    }
+    else
+    {
+        QToolTip::hideText();
+    }
     emit newStatus(stringValue, FITS_VALUE);
 
     if (view_data->hasWCS() && view->getCursorMode() != FITSView::selectCursor)
@@ -179,7 +259,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
             {
                 QToolTip::showText(e->globalPos(),
-                                   listObject->skyObject()->name() + '\n' + listObject->skyObject()->longname(), this);
+                                   QToolTip::text() + '\n' + listObject->skyObject()->name() + '\n' + listObject->skyObject()->longname(), this);
                 objFound = true;
                 break;
             }
@@ -190,8 +270,10 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     double HFR = view->imageData()->getHFR(x, y);
 
+
     if (HFR > 0)
-        QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g', 3)), this);
+        QToolTip::showText(e->globalPos(), QToolTip::text() + '\n' + i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g',
+                           3)), this);
 
     //setCursor(Qt::CrossCursor);
 
@@ -213,10 +295,22 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     double x = round(e->x() / scale);
     double y = round(e->y() / scale);
 
+    m_p1.setX(x);//record first point for selection Rectangle
+    m_p1.setY(y);
+    prevPoint = QPoint(x, y);
+    prevscale = scale;
+    //qDebug() << m_p1;
     x = KSUtils::clamp(x, 1.0, m_Width);
     y = KSUtils::clamp(y, 1.0, m_Height);
 
-    if (view->getCursorMode() == FITSView::dragCursor)
+    if(e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::dragCursor)
+    {
+        //qDebug() << roiRB->geometry() << '\n' << x << y;
+        if(roiRB->geometry().contains(x * scale, y * scale))
+            isRoiSelected = true;
+    }
+
+    if (view->getCursorMode() == FITSView::dragCursor && !isRoiSelected)
     {
         mouseButtonDown = true;
         lastMousePoint  = e->globalPos();
@@ -359,4 +453,45 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
     Q_UNUSED(decJ2000);
 
 #endif
+}
+
+void FITSLabel::showRubberBand(bool on)
+{
+    if(on)
+    {
+        roiRB->show();
+    }
+    else
+    {
+        roiRB->hide();
+    }
+}
+
+
+void FITSLabel::zoomRubberBand(float scale)
+{
+    QRect r = roiRB->geometry() ;
+
+    if(prevscale == 0.0 )
+        prevscale = scale;
+
+    r.setTopLeft(r.topLeft()*scale / prevscale);
+    r.setBottomRight(r.bottomRight()*scale / prevscale);
+    roiRB->setGeometry(r);
+    prevscale = scale;
+    qDebug() << r << '\n';
+}
+
+void FITSLabel::setRubberBand(QRect rect)
+{
+    float scale = view->getCurrentZoom () / ZOOM_DEFAULT;
+    roiRB->setGeometry(QRect(rect.topLeft()*scale, rect.bottomRight()*scale));
+}
+
+void FITSLabel::updateRoiToolTip(const QPoint p)
+{
+    QString result;
+    result = "Average Std.Dev : " + QString::number(view->imageData()->getAverageStdDev(true)) + '\n';
+    result += "Average Median : " + QString::number(view->imageData()->getAverageMedian(true));
+    QToolTip::showText(p, result, this);
 }

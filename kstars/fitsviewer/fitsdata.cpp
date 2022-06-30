@@ -363,6 +363,12 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
     m_Statistics.width               = naxes[0];
     m_Statistics.height              = naxes[1];
     m_Statistics.samples_per_channel = m_Statistics.width * m_Statistics.height;
+    roiCenter.setX(m_Statistics.width / 2);
+    roiCenter.setY(m_Statistics.height / 2);
+    if(m_Statistics.width % 2)
+        roiCenter.setX(roiCenter.x() + 1);
+    if(m_Statistics.height % 2)
+        roiCenter.setY(roiCenter.y() + 1);
 
     clearImageBuffers();
 
@@ -419,10 +425,10 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
         }
 
         if (debayer())
-            calculateStats();
+            calculateStats(false, false);
     }
     else
-        calculateStats();
+        calculateStats(false, false);
 
     if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
         checkForWCS();
@@ -545,7 +551,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer, const QString &exten
         }
     }
 
-    calculateStats();
+    calculateStats(false, false);
     return true;
 }
 
@@ -662,7 +668,7 @@ bool FITSData::loadRAWImage(const QByteArray &buffer, const QString &extension)
     }
     libraw_dcraw_clear_mem(image);
 
-    calculateStats();
+    calculateStats(false, false);
     return true;
 #endif
 }
@@ -975,238 +981,425 @@ void FITSData::clearImageBuffers()
 {
     delete[] m_ImageBuffer;
     m_ImageBuffer = nullptr;
+    if(m_ImageRoiBuffer != nullptr )
+    {
+        delete[] m_ImageRoiBuffer;
+        m_ImageRoiBuffer = nullptr;
+
+    }
     //m_BayerBuffer = nullptr;
 }
 
-void FITSData::calculateStats(bool refresh)
+void FITSData::makeRoiBuffer(QRect roi)
+{
+    uint32_t channelSize = roi.height() * roi.width();
+    if(channelSize  > m_Statistics.samples_per_channel || channelSize == 1)
+    {
+        return;
+    }
+    if(m_ImageRoiBuffer != nullptr )
+    {
+        delete[] m_ImageRoiBuffer;
+        m_ImageRoiBuffer = nullptr;
+    }
+    int xoffset = roi.topLeft().x() - 1;
+    int yoffset = roi.topLeft().y() - 1;
+    uint32_t bpp = m_Statistics.bytesPerPixel;
+    m_ImageRoiBuffer = new uint8_t[roi.height()*roi.width()*m_Statistics.channels * m_Statistics.bytesPerPixel]();
+    for(int n = 0 ; n < m_Statistics.channels ; n++)
+    {
+        for(int i = 0; i < roi.height(); i++)
+        {
+            size_t i1 = n * channelSize * bpp +  i * roi.width() * bpp;
+            size_t i2 = n * m_Statistics.samples_per_channel * bpp + (yoffset + i) * width() * bpp + xoffset * bpp;
+            memcpy(&m_ImageRoiBuffer[i1],
+                   &m_ImageBuffer[i2],
+                   roi.width() * bpp);
+        }
+
+    }
+    memcpy(&m_RoiStatistics, &m_Statistics, sizeof(FITSImage::Statistic));
+    m_RoiStatistics.samples_per_channel = roi.height() * roi.width();
+    m_RoiStatistics.width = roi.width();
+    m_RoiStatistics.height = roi.height();
+    calculateStats(false, true);
+}
+void FITSData::calculateStats(bool refresh, bool roi)
 {
     // Calculate min max
-    calculateMinMax(refresh);
-    calculateMedian(refresh);
-
-    // Try to read mean/median/stddev if in file
-    if (refresh == false && fptr)
+    if(roi == false)
     {
-        int status = 0;
-        int nfound = 0;
-        if (fits_read_key_dbl(fptr, "MEAN1", &m_Statistics.mean[0], nullptr, &status) == 0)
-            nfound++;
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "MEAN2", & m_Statistics.mean[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "MEAN3", &m_Statistics.mean[2], nullptr, &status);
+        calculateMinMax(refresh);
+        calculateMedian(refresh);
 
-        status = 0;
-        if (fits_read_key_dbl(fptr, "STDDEV1", &m_Statistics.stddev[0], nullptr, &status) == 0)
-            nfound++;
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "STDDEV2", &m_Statistics.stddev[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "STDDEV3", &m_Statistics.stddev[2], nullptr, &status);
+        // Try to read mean/median/stddev if in file
+        if (refresh == false && fptr)
+        {
+            int status = 0;
+            int nfound = 0;
+            if (fits_read_key_dbl(fptr, "MEAN1", &m_Statistics.mean[0], nullptr, &status) == 0)
+                nfound++;
+            // NB. These could fail if missing, which is OK.
+            fits_read_key_dbl(fptr, "MEAN2", & m_Statistics.mean[1], nullptr, &status);
+            fits_read_key_dbl(fptr, "MEAN3", &m_Statistics.mean[2], nullptr, &status);
 
-        // If all is OK, we're done
-        if (nfound == 2)
-            return;
+            status = 0;
+            if (fits_read_key_dbl(fptr, "STDDEV1", &m_Statistics.stddev[0], nullptr, &status) == 0)
+                nfound++;
+            // NB. These could fail if missing, which is OK.
+            fits_read_key_dbl(fptr, "STDDEV2", &m_Statistics.stddev[1], nullptr, &status);
+            fits_read_key_dbl(fptr, "STDDEV3", &m_Statistics.stddev[2], nullptr, &status);
+
+            // If all is OK, we're done
+            if (nfound == 2)
+                return;
+        }
+
+        // Get standard deviation and mean in one run
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                runningAverageStdDev<uint8_t>();
+                break;
+
+            case TSHORT:
+                runningAverageStdDev<int16_t>();
+                break;
+
+            case TUSHORT:
+                runningAverageStdDev<uint16_t>();
+                break;
+
+            case TLONG:
+                runningAverageStdDev<int32_t>();
+                break;
+
+            case TULONG:
+                runningAverageStdDev<uint32_t>();
+                break;
+
+            case TFLOAT:
+                runningAverageStdDev<float>();
+                break;
+
+            case TLONGLONG:
+                runningAverageStdDev<int64_t>();
+                break;
+
+            case TDOUBLE:
+                runningAverageStdDev<double>();
+                break;
+
+            default:
+                return;
+        }
+
+        // FIXME That's not really SNR, must implement a proper solution for this value
+        m_Statistics.SNR = m_Statistics.mean[0] / m_Statistics.stddev[0];
     }
-
-    // Get standard deviation and mean in one run
-    switch (m_Statistics.dataType)
+    else
     {
-        case TBYTE:
-            runningAverageStdDev<uint8_t>();
-            break;
+        calculateMinMax(refresh, roi);
+        calculateMedian(refresh, roi);
 
-        case TSHORT:
-            runningAverageStdDev<int16_t>();
-            break;
+        switch (m_RoiStatistics.dataType)
+        {
+            case TBYTE:
+                runningAverageStdDev<uint8_t>(roi);
+                break;
 
-        case TUSHORT:
-            runningAverageStdDev<uint16_t>();
-            break;
+            case TSHORT:
+                runningAverageStdDev<int16_t>(roi);
+                break;
 
-        case TLONG:
-            runningAverageStdDev<int32_t>();
-            break;
+            case TUSHORT:
+                runningAverageStdDev<uint16_t>(roi);
+                break;
 
-        case TULONG:
-            runningAverageStdDev<uint32_t>();
-            break;
+            case TLONG:
+                runningAverageStdDev<int32_t>(roi);
+                break;
 
-        case TFLOAT:
-            runningAverageStdDev<float>();
-            break;
+            case TULONG:
+                runningAverageStdDev<uint32_t>(roi);
+                break;
 
-        case TLONGLONG:
-            runningAverageStdDev<int64_t>();
-            break;
+            case TFLOAT:
+                runningAverageStdDev<float>(roi);
+                break;
 
-        case TDOUBLE:
-            runningAverageStdDev<double>();
-            break;
+            case TLONGLONG:
+                runningAverageStdDev<int64_t>(roi);
+                break;
 
-        default:
-            return;
-    }
+            case TDOUBLE:
+                runningAverageStdDev<double>(roi);
+                break;
 
-    // FIXME That's not really SNR, must implement a proper solution for this value
-    m_Statistics.SNR = m_Statistics.mean[0] / m_Statistics.stddev[0];
-}
-
-void FITSData::calculateMinMax(bool refresh)
-{
-    int status, nfound = 0;
-
-    status = 0;
-
-    // Only fetch from header if we have a single channel
-    // Otherwise, calculate manually.
-    if (fptr != nullptr && !refresh)
-    {
-
-        status = 0;
-
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
-            nfound++;
-        else if (fits_read_key_dbl(fptr, "MIN1", &(m_Statistics.min[0]), nullptr, &status) == 0)
-            nfound++;
-
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "MIN2", &m_Statistics.min[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "MIN3", &m_Statistics.min[2], nullptr, &status);
-
-        status = 0;
-
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(m_Statistics.max[0]), nullptr, &status) == 0)
-            nfound++;
-        else if (fits_read_key_dbl(fptr, "MAX1", &(m_Statistics.max[0]), nullptr, &status) == 0)
-            nfound++;
-
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "MAX2", &m_Statistics.max[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "MAX3", &m_Statistics.max[2], nullptr, &status);
-
-        // If we found both keywords, no need to calculate them, unless they are both zeros
-        if (nfound == 2 && !(m_Statistics.min[0] == 0 && m_Statistics.max[0] == 0))
-            return;
-    }
-
-    m_Statistics.min[0] = 1.0E30;
-    m_Statistics.max[0] = -1.0E30;
-
-    m_Statistics.min[1] = 1.0E30;
-    m_Statistics.max[1] = -1.0E30;
-
-    m_Statistics.min[2] = 1.0E30;
-    m_Statistics.max[2] = -1.0E30;
-
-    switch (m_Statistics.dataType)
-    {
-        case TBYTE:
-            calculateMinMax<uint8_t>();
-            break;
-
-        case TSHORT:
-            calculateMinMax<int16_t>();
-            break;
-
-        case TUSHORT:
-            calculateMinMax<uint16_t>();
-            break;
-
-        case TLONG:
-            calculateMinMax<int32_t>();
-            break;
-
-        case TULONG:
-            calculateMinMax<uint32_t>();
-            break;
-
-        case TFLOAT:
-            calculateMinMax<float>();
-            break;
-
-        case TLONGLONG:
-            calculateMinMax<int64_t>();
-            break;
-
-        case TDOUBLE:
-            calculateMinMax<double>();
-            break;
-
-        default:
-            break;
+            default:
+                return;
+        }
     }
 }
 
-void FITSData::calculateMedian(bool refresh)
+void FITSData::calculateMinMax(bool refresh, bool roi)
 {
-    int status, nfound = 0;
-
-    status = 0;
-
-    // Only fetch from header if we have a single channel
-    // Otherwise, calculate manually.
-    if (fptr != nullptr && !refresh)
+    if(roi == false)
     {
+        int status, nfound = 0;
+
         status = 0;
-        if (fits_read_key_dbl(fptr, "MEDIAN1", &m_Statistics.median[0], nullptr, &status) == 0)
-            nfound++;
 
-        // NB. These could fail if missing, which is OK.
-        fits_read_key_dbl(fptr, "MEDIAN2", &m_Statistics.median[1], nullptr, &status);
-        fits_read_key_dbl(fptr, "MEDIAN3", &m_Statistics.median[2], nullptr, &status);
+        // Only fetch from header if we have a single channel
+        // Otherwise, calculate manually.
+        if (fptr != nullptr && !refresh)
+        {
 
-        if (nfound == 1)
-            return;
+            status = 0;
+
+            if (fits_read_key_dbl(fptr, "DATAMIN", &(m_Statistics.min[0]), nullptr, &status) == 0)
+                nfound++;
+            else if (fits_read_key_dbl(fptr, "MIN1", &(m_Statistics.min[0]), nullptr, &status) == 0)
+                nfound++;
+
+            // NB. These could fail if missing, which is OK.
+            fits_read_key_dbl(fptr, "MIN2", &m_Statistics.min[1], nullptr, &status);
+            fits_read_key_dbl(fptr, "MIN3", &m_Statistics.min[2], nullptr, &status);
+
+            status = 0;
+
+            if (fits_read_key_dbl(fptr, "DATAMAX", &(m_Statistics.max[0]), nullptr, &status) == 0)
+                nfound++;
+            else if (fits_read_key_dbl(fptr, "MAX1", &(m_Statistics.max[0]), nullptr, &status) == 0)
+                nfound++;
+
+            // NB. These could fail if missing, which is OK.
+            fits_read_key_dbl(fptr, "MAX2", &m_Statistics.max[1], nullptr, &status);
+            fits_read_key_dbl(fptr, "MAX3", &m_Statistics.max[2], nullptr, &status);
+
+            // If we found both keywords, no need to calculate them, unless they are both zeros
+            if (nfound == 2 && !(m_Statistics.min[0] == 0 && m_Statistics.max[0] == 0))
+                return;
+        }
+
+        m_Statistics.min[0] = 1.0E30;
+        m_Statistics.max[0] = -1.0E30;
+
+        m_Statistics.min[1] = 1.0E30;
+        m_Statistics.max[1] = -1.0E30;
+
+        m_Statistics.min[2] = 1.0E30;
+        m_Statistics.max[2] = -1.0E30;
+
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                calculateMinMax<uint8_t>();
+                break;
+
+            case TSHORT:
+                calculateMinMax<int16_t>();
+                break;
+
+            case TUSHORT:
+                calculateMinMax<uint16_t>();
+                break;
+
+            case TLONG:
+                calculateMinMax<int32_t>();
+                break;
+
+            case TULONG:
+                calculateMinMax<uint32_t>();
+                break;
+
+            case TFLOAT:
+                calculateMinMax<float>();
+                break;
+
+            case TLONGLONG:
+                calculateMinMax<int64_t>();
+                break;
+
+            case TDOUBLE:
+                calculateMinMax<double>();
+                break;
+
+            default:
+                break;
+        }
     }
-
-    m_Statistics.median[RED_CHANNEL] = 0;
-    m_Statistics.median[GREEN_CHANNEL] = 0;
-    m_Statistics.median[BLUE_CHANNEL] = 0;
-
-    switch (m_Statistics.dataType)
+    else
     {
-        case TBYTE:
-            calculateMedian<uint8_t>();
-            break;
+        m_RoiStatistics.min[0] = 1.0E30;
+        m_RoiStatistics.max[0] = -1.0E30;
 
-        case TSHORT:
-            calculateMedian<int16_t>();
-            break;
+        m_RoiStatistics.min[1] = 1.0E30;
+        m_RoiStatistics.max[1] = -1.0E30;
 
-        case TUSHORT:
-            calculateMedian<uint16_t>();
-            break;
+        m_RoiStatistics.min[2] = 1.0E30;
+        m_RoiStatistics.max[2] = -1.0E30;
 
-        case TLONG:
-            calculateMedian<int32_t>();
-            break;
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                calculateMinMax<uint8_t>(roi);
+                break;
 
-        case TULONG:
-            calculateMedian<uint32_t>();
-            break;
+            case TSHORT:
+                calculateMinMax<int16_t>(roi);
+                break;
 
-        case TFLOAT:
-            calculateMedian<float>();
-            break;
+            case TUSHORT:
+                calculateMinMax<uint16_t>(roi);
+                break;
 
-        case TLONGLONG:
-            calculateMedian<int64_t>();
-            break;
+            case TLONG:
+                calculateMinMax<int32_t>(roi);
+                break;
 
-        case TDOUBLE:
-            calculateMedian<double>();
-            break;
+            case TULONG:
+                calculateMinMax<uint32_t>(roi);
+                break;
 
-        default:
-            break;
+            case TFLOAT:
+                calculateMinMax<float>(roi);
+                break;
+
+            case TLONGLONG:
+                calculateMinMax<int64_t>(roi);
+                break;
+
+            case TDOUBLE:
+                calculateMinMax<double>(roi);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+}
+
+void FITSData::calculateMedian(bool refresh, bool roi)
+{
+    if(!roi)
+    {
+        int status, nfound = 0;
+
+        status = 0;
+
+        // Only fetch from header if we have a single channel
+        // Otherwise, calculate manually.
+        if (fptr != nullptr && !refresh)
+        {
+            status = 0;
+            if (fits_read_key_dbl(fptr, "MEDIAN1", &m_Statistics.median[0], nullptr, &status) == 0)
+                nfound++;
+
+            // NB. These could fail if missing, which is OK.
+            fits_read_key_dbl(fptr, "MEDIAN2", &m_Statistics.median[1], nullptr, &status);
+            fits_read_key_dbl(fptr, "MEDIAN3", &m_Statistics.median[2], nullptr, &status);
+
+            if (nfound == 1)
+                return;
+        }
+
+        m_Statistics.median[RED_CHANNEL] = 0;
+        m_Statistics.median[GREEN_CHANNEL] = 0;
+        m_Statistics.median[BLUE_CHANNEL] = 0;
+
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                calculateMedian<uint8_t>();
+                break;
+
+            case TSHORT:
+                calculateMedian<int16_t>();
+                break;
+
+            case TUSHORT:
+                calculateMedian<uint16_t>();
+                break;
+
+            case TLONG:
+                calculateMedian<int32_t>();
+                break;
+
+            case TULONG:
+                calculateMedian<uint32_t>();
+                break;
+
+            case TFLOAT:
+                calculateMedian<float>();
+                break;
+
+            case TLONGLONG:
+                calculateMedian<int64_t>();
+                break;
+
+            case TDOUBLE:
+                calculateMedian<double>();
+                break;
+
+            default:
+                break;
+        }
+    }
+    else
+    {
+        m_RoiStatistics.median[RED_CHANNEL] = 0;
+        m_RoiStatistics.median[GREEN_CHANNEL] = 0;
+        m_RoiStatistics.median[BLUE_CHANNEL] = 0;
+
+        switch (m_RoiStatistics.dataType)
+        {
+            case TBYTE:
+                calculateMedian<uint8_t>(roi);
+                break;
+
+            case TSHORT:
+                calculateMedian<int16_t>(roi);
+                break;
+
+            case TUSHORT:
+                calculateMedian<uint16_t>(roi);
+                break;
+
+            case TLONG:
+                calculateMedian<int32_t>(roi);
+                break;
+
+            case TULONG:
+                calculateMedian<uint32_t>(roi);
+                break;
+
+            case TFLOAT:
+                calculateMedian<float>(roi);
+                break;
+
+            case TLONGLONG:
+                calculateMedian<int64_t>(roi);
+                break;
+
+            case TDOUBLE:
+                calculateMedian<double>(roi);
+                break;
+
+            default:
+                break;
+        }
+
     }
 }
 
 template <typename T>
-void FITSData::calculateMedian()
+void FITSData::calculateMedian(bool roi)
 {
-    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
     const uint32_t maxMedianSize = 500000;
-    uint32_t medianSize = m_Statistics.samples_per_channel;
+    uint32_t medianSize = roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel;
     uint8_t downsample = 1;
     if (medianSize > maxMedianSize)
     {
@@ -1218,19 +1411,20 @@ void FITSData::calculateMedian()
 
     for (uint8_t n = 0; n < m_Statistics.channels; n++)
     {
-        auto *oneChannel = buffer + n * m_Statistics.samples_per_channel;
-        for (uint32_t upto = 0; upto < m_Statistics.samples_per_channel; upto += downsample)
+        auto *oneChannel = buffer + n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        for (uint32_t upto = 0; upto < (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+                upto += downsample)
             samples.push_back(oneChannel[upto]);
         const uint32_t middle = samples.size() / 2;
         std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
-        m_Statistics.median[n] = samples[middle];
+        roi ? m_RoiStatistics.median[n] = samples[middle] : m_Statistics.median[n] = samples[middle];
     }
 }
 
 template <typename T>
-QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
+QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride, bool roi)
 {
-    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
 
@@ -1250,7 +1444,7 @@ QPair<T, T> FITSData::getParitionMinMax(uint32_t start, uint32_t stride)
 }
 
 template <typename T>
-void FITSData::calculateMinMax()
+void FITSData::calculateMinMax(bool roi)
 {
     T min = std::numeric_limits<T>::max();
     T max = std::numeric_limits<T>::min();
@@ -1261,13 +1455,14 @@ void FITSData::calculateMinMax()
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * m_Statistics.samples_per_channel;
+        uint32_t cStart = n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+        uint32_t tStride = (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + ((roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
+                                      (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -1278,7 +1473,8 @@ void FITSData::calculateMinMax()
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
-            futures.append(QtConcurrent::run(this, &FITSData::getParitionMinMax<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride));
+            futures.append(QtConcurrent::run(this, &FITSData::getParitionMinMax<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride,
+                                             roi));
             tStart += tStride;
         }
 
@@ -1290,18 +1486,27 @@ void FITSData::calculateMinMax()
             max = qMax(result.second, max);
         }
 
-        m_Statistics.min[n] = min;
-        m_Statistics.max[n] = max;
+        if(!roi)
+        {
+            m_Statistics.min[n] = min;
+            m_Statistics.max[n] = max;
+        }
+        else
+        {
+            m_RoiStatistics.min[n] = min;
+            m_RoiStatistics.max[n] = max;
+        }
     }
+
 }
 
 template <typename T>
-QPair<double, double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t stride)
+QPair<double, double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t stride, bool roi)
 {
     uint32_t m_n       = 2;
     double m_oldM = 0, m_newM = 0, m_oldS = 0, m_newS = 0;
 
-    auto * buffer = reinterpret_cast<T *>(m_ImageBuffer);
+    auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
     uint32_t end = start + stride;
 
     for (uint32_t i = start; i < end; i++)
@@ -1318,20 +1523,21 @@ QPair<double, double> FITSData::getSquaredSumAndMean(uint32_t start, uint32_t st
 }
 
 template <typename T>
-void FITSData::runningAverageStdDev()
+void FITSData::runningAverageStdDev(bool roi )
 {
     // Create N threads
     const uint8_t nThreads = 16;
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * m_Statistics.samples_per_channel;
+        uint32_t cStart = n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = m_Statistics.samples_per_channel / nThreads;
+        uint32_t tStride = (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + (m_Statistics.samples_per_channel - (tStride * nThreads));
+        uint32_t fStride = tStride + ((roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
+                                      (tStride * nThreads));
 
         // Start location for inspecting elements
         uint32_t tStart = cStart;
@@ -1343,7 +1549,7 @@ void FITSData::runningAverageStdDev()
         {
             // Run threads
             futures.append(QtConcurrent::run(this, &FITSData::getSquaredSumAndMean<T>, tStart,
-                                             (i == (nThreads - 1)) ? fStride : tStride));
+                                             (i == (nThreads - 1)) ? fStride : tStride, roi));
             tStart += tStride;
         }
 
@@ -1357,10 +1563,17 @@ void FITSData::runningAverageStdDev()
             squared_sum += result.second;
         }
 
-        double variance = squared_sum / m_Statistics.samples_per_channel;
-
-        m_Statistics.mean[n]   = mean / nThreads;
-        m_Statistics.stddev[n] = sqrt(variance);
+        double variance = squared_sum / (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        if(!roi)
+        {
+            m_Statistics.mean[n]   = mean / nThreads;
+            m_Statistics.stddev[n] = sqrt(variance);
+        }
+        else
+        {
+            m_RoiStatistics.mean[n] = mean / nThreads;
+            m_RoiStatistics.stddev[n] = sqrt(variance);
+        }
     }
 }
 
@@ -2205,7 +2418,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
 #endif
         }
         if (calcStats)
-            calculateStats(true);
+            calculateStats(true, false);
         break;
 
         // Based on http://www.librow.com/articles/article-1
@@ -2278,7 +2491,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
         case FITS_GAUSSIAN:
             gaussianBlur<T>(Options::focusGaussianKernelSize(), Options::focusGaussianSigma());
             if (calcStats)
-                calculateStats(true);
+                calculateStats(true, false);
             break;
 
         case FITS_ROTATE_CW:
@@ -4122,26 +4335,36 @@ template <typename T> void FITSData::constructHistogramInternal()
     emit histogramReady();
 }
 
-double FITSData::getAverageMean() const
+void FITSData::recordLastError(int errorCode)
 {
-    if (m_Statistics.channels == 1)
-        return m_Statistics.mean[0];
-    else
-        return (m_Statistics.mean[0] + m_Statistics.mean[1] + m_Statistics.mean[2]) / 3.0;
+    char fitsErrorMessage[512] = {0};
+    fits_get_errstatus(errorCode, fitsErrorMessage);
+    m_LastError = fitsErrorMessage;
 }
 
-double FITSData::getAverageMedian() const
+double FITSData::getAverageMean(bool roi) const
 {
-    if (m_Statistics.channels == 1)
-        return m_Statistics.median[0];
+    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    if (ptr->channels == 1)
+        return ptr->mean[0];
     else
-        return (m_Statistics.median[0] + m_Statistics.median[1] + m_Statistics.median[2]) / 3.0;
+        return (ptr->mean[0] + ptr->mean[1] + ptr->mean[2]) / 3.0;
 }
 
-double FITSData::getAverageStdDev() const
+double FITSData::getAverageMedian(bool roi) const
 {
-    if (m_Statistics.channels == 1)
-        return m_Statistics.stddev[0];
+    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    if (ptr->channels == 1)
+        return ptr->median[0];
     else
-        return (m_Statistics.stddev[0] + m_Statistics.stddev[1] + m_Statistics.stddev[2]) / 3.0;
+        return (ptr->median[0] + ptr->median[1] + ptr->median[2]) / 3.0;
+}
+
+double FITSData::getAverageStdDev(bool roi) const
+{
+    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    if (ptr->channels == 1)
+        return ptr->stddev[0];
+    else
+        return (ptr->stddev[0] + ptr->stddev[1] + ptr->stddev[2]) / 3.0;
 }
