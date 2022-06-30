@@ -590,6 +590,100 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     // Connect geographical location - when it is available
     //connect(KStarsData::Instance()..., &LocationDialog::locationChanged..., this, &Scheduler::simClockTimeChanged);
 
+    // Restore values for scheduler checkboxes.
+    parkDomeCheck->setChecked(Options::schedulerParkDome());
+    parkMountCheck->setChecked(Options::schedulerParkMount());
+    capCheck->setChecked(Options::schedulerCloseDustCover());
+    warmCCDCheck->setChecked(Options::schedulerWarmCCD());
+    unparkDomeCheck->setChecked(Options::schedulerUnparkDome());
+    unparkMountCheck->setChecked(Options::schedulerUnparkMount());
+    uncapCheck->setChecked(Options::schedulerOpenDustCover());
+    trackStepCheck->setChecked(Options::schedulerTrackStep());
+    focusStepCheck->setChecked(Options::schedulerFocusStep());
+    guideStepCheck->setChecked(Options::schedulerGuideStep());
+    alignStepCheck->setChecked(Options::schedulerAlignStep());
+    altConstraintCheck->setChecked(Options::schedulerAltitude());
+    artificialHorizonCheck->setChecked(Options::schedulerHorizon());
+    moonSeparationCheck->setChecked(Options::schedulerMoonSeparation());
+    weatherCheck->setChecked(Options::schedulerWeather());
+    twilightCheck->setChecked(Options::schedulerTwilight());
+    minMoonSeparation->setValue(Options::schedulerMoonSeparationValue());
+    minAltitude->setValue(Options::schedulerAltitudeValue());
+
+    // Save new default values for scheduler checkboxes.
+    connect(parkDomeCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerParkDome(checked);
+    });
+    connect(parkMountCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerParkMount(checked);
+    });
+    connect(capCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerCloseDustCover(checked);
+    });
+    connect(warmCCDCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerWarmCCD(checked);
+    });
+    connect(unparkDomeCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerUnparkDome(checked);
+    });
+    connect(unparkMountCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerUnparkMount(checked);
+    });
+    connect(uncapCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerOpenDustCover(checked);
+    });
+    connect(trackStepCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerTrackStep(checked);
+    });
+    connect(focusStepCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerFocusStep(checked);
+    });
+    connect(guideStepCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerGuideStep(checked);
+    });
+    connect(alignStepCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerAlignStep(checked);
+    });
+    connect(altConstraintCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerAltitude(checked);
+    });
+    connect(artificialHorizonCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerHorizon(checked);
+    });
+    connect(moonSeparationCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerMoonSeparation(checked);
+    });
+    connect(weatherCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerWeather(checked);
+    });
+    connect(twilightCheck, &QPushButton::clicked, [](bool checked)
+    {
+        Options::setSchedulerTwilight(checked);
+    });
+    connect(minMoonSeparation, &QDoubleSpinBox::editingFinished, this, [this]()
+    {
+        Options::setSchedulerMoonSeparationValue(minMoonSeparation->value());
+    });
+    connect(minAltitude, &QDoubleSpinBox::editingFinished, this, [this]()
+    {
+        Options::setSchedulerAltitudeValue(minAltitude->value());
+    });
+
     // restore default values for error handling strategy
     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
     errorHandlingRescheduleErrorsCB->setChecked(Options::rescheduleErrors());
