@@ -22,7 +22,8 @@ ProfileScript::ProfileScript(QWidget *parent) : QWidget(parent)
     m_DriverCombo = new QComboBox(this);
     m_DriverCombo->setEditable(true);
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(m_DriverCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, [this](const QString & value)
+    connect(m_DriverCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
+            this, [this](const QString & value)
     {
         m_Driver = value;
     });
@@ -55,11 +56,19 @@ ProfileScript::ProfileScript(QWidget *parent) : QWidget(parent)
     m_PreScriptEdit->setMinimumWidth(100);
     m_PreScriptEdit->setToolTip(i18n("Select script to execute before starting the driver"));
     m_PreScriptEdit->setClearButtonEnabled(true);
+    connect(m_PreScriptEdit, &QLineEdit::editingFinished, this, [this]()
+    {
+        m_PreScript = m_PreScriptEdit->text();
+    });
 
     m_PostScriptEdit = new QLineEdit(this);
     m_PostScriptEdit->setMinimumWidth(100);
     m_PostScriptEdit->setToolTip(i18n("Select script to execute after starting the driver"));
     m_PostScriptEdit->setClearButtonEnabled(true);
+    connect(m_PostScriptEdit, &QLineEdit::editingFinished, this, [this]()
+    {
+        m_PostScript = m_PostScriptEdit->text();
+    });
 
     m_PreScriptB = new QPushButton(this);
     m_PreScriptB->setIcon(QIcon::fromTheme("document-open"));
