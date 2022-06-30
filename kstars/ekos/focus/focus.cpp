@@ -1737,6 +1737,13 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                                       << m_LastSourceAutofocusTemperature << ", filter," << filter()
                                       << ", HFR," << currentHFR << ", altitude," << mountAlt;
 
+            if (focusAlgorithm == FOCUS_POLYNOMIAL)
+            {
+                // Add the final polynomial values to the signal sent to Analyze.
+                hfr_position.append(currentPosition);
+                hfr_value.append(currentHFR);
+            }
+
             appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
                                .arg(QString::number(currentPosition))
                                .arg(QString::number(m_LastSourceAutofocusTemperature, 'f', 1))
