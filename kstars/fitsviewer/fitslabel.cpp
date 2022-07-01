@@ -301,13 +301,11 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     m_p1.setY(y);
     prevPoint = QPoint(x, y);
     prevscale = scale;
-    //qDebug() << m_p1;
     x = KSUtils::clamp(x, 1.0, m_Width);
     y = KSUtils::clamp(y, 1.0, m_Height);
 
     if(e->buttons() & Qt::LeftButton && view->getCursorMode() == FITSView::dragCursor)
     {
-        //qDebug() << roiRB->geometry() << '\n' << x << y;
         if(roiRB->geometry().contains(x * scale, y * scale))
             isRoiSelected = true;
     }
@@ -469,7 +467,7 @@ void FITSLabel::showRubberBand(bool on)
     }
 }
 
-
+/// Scales the rubberband on zoom
 void FITSLabel::zoomRubberBand(float scale)
 {
     QRect r = roiRB->geometry() ;
@@ -477,16 +475,34 @@ void FITSLabel::zoomRubberBand(float scale)
     if(prevscale == 0.0 )
         prevscale = scale;
 
-    r.setTopLeft(r.topLeft()*scale / prevscale);
-    r.setBottomRight(r.bottomRight()*scale / prevscale);
+    int rx, ry;
+    rx = round(r.topLeft().x() * scale / prevscale);
+    ry = round(r.topLeft().y() * scale / prevscale);
+    r.setTopLeft(QPoint(rx, ry));
+
+    rx = round(r.bottomRight().x() * scale / prevscale);
+    ry = round(r.bottomRight().y() * scale / prevscale);
+    r.setBottomRight(QPoint(rx, ry));
+
     roiRB->setGeometry(r);
     prevscale = scale;
 }
-
+/// Intended to take raw rect as input from FITSView context
 void FITSLabel::setRubberBand(QRect rect)
 {
-    float scale = view->getCurrentZoom () / ZOOM_DEFAULT;
-    roiRB->setGeometry(QRect(rect.topLeft()*scale, rect.bottomRight()*scale));
+    float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
+
+    int rx, ry;
+    rx = round(rect.topLeft().x() * scale );
+    ry = round(rect.topLeft().y() * scale );
+    rect.setTopLeft(QPoint(rx, ry));
+
+    rx = round(rect.bottomRight().x() * scale );
+    ry = round(rect.bottomRight().y() * scale );
+    rect.setBottomRight(QPoint(rx, ry));
+
+    roiRB->setGeometry(rect);
+    prevscale = scale;
 }
 
 void FITSLabel::updateROIToolTip(const QPoint p)

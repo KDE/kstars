@@ -1665,18 +1665,19 @@ void FITSView::processRectangleFixed(int s)
     if(s % 2)
         s++;
 
-    QPoint c = m_ImageData->getRoiCenter();
+
     int w = m_ImageData->width();
     int h = m_ImageData->height();
 
-    c.setX(qMax(s / 2, c.x()));
-    c.setX(qMin(w - s / 2, c.x()));
-    c.setY(qMax(s / 2, c.y()));
-    c.setY(qMin(h - s / 2, c.y()));
+    QPoint c = QPoint(round(1 + w) / 2, round(1 + h / 2));
+    c.setX(qMax((int)round(s / 2), c.x()));
+    c.setX(qMin(w - (int)round(s / 2), c.x()));
+    c.setY(qMax((int)round(s / 2), c.y()));
+    c.setY(qMin(h - (int)round(s / 2), c.y()));
 
     QPoint topLeft, botRight;
-    topLeft = QPoint(c.x() - s / 2, c.y() - s / 2);
-    botRight = QPoint(c.x() + s / 2, c.y() + s / 2);
+    topLeft = QPoint(c.x() - round(s / 2), c.y() - round(s / 2));
+    botRight = QPoint(c.x() + round(s / 2), c.y() + round(s / 2));
 
     emit setRubberBand(QRect(topLeft, botRight));
     processRectangle(topLeft, botRight, true);
@@ -1709,7 +1710,6 @@ void FITSView::processRectangle(QPoint p1, QPoint p2, bool calculate)
     if(calculate)
     {
         emit rectangleUpdated(selectionRectangleRaw);
-        emit updateSelectionStatsUi();
     }
     //updateFrameRoi();
 
@@ -2026,7 +2026,7 @@ void FITSView::wheelEvent(QWheelEvent * event)
         event->accept();
         cleanUpZoom(mouseCenter);
     }
-    emit zoomRubberBand(getCurrentZoom()/ZOOM_DEFAULT);
+    emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
 /**

@@ -410,7 +410,6 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
         // On Failure to load
         connect(m_View.get(), &FITSView::failed, this, &FITSTab::failed);
-        connect(m_View.get(), &FITSView::updateSelectionStatsUi, this, &FITSTab::evaluateStats );
 
         return true;
     }
