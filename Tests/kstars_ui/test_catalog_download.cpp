@@ -4,7 +4,6 @@
 #include "test_kstars_startup.h"
 
 #include "Options.h"
-#include <engine.h>
 #include <KNS3/DownloadWidget>
 #include <KNS3/Button>
 #include <KMessageBox>
@@ -43,12 +42,13 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
 {
     KTELL("Zoom in enough so that updates are frequent");
     double const previous_zoom = Options::zoomFactor();
-    KStars::Instance()->zoom(previous_zoom*50);
+    KStars::Instance()->zoom(previous_zoom * 50);
 
     // This timer looks for message boxes to close until stopped
     QTimer close_message_boxes;
     close_message_boxes.setInterval(500);
-    QObject::connect(&close_message_boxes, &QTimer::timeout, &close_message_boxes, [&]() {
+    QObject::connect(&close_message_boxes, &QTimer::timeout, &close_message_boxes, [&]()
+    {
         QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget());
         if (dialog)
         {
@@ -63,7 +63,8 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
         QString step = QString("[%1/%2] ").arg(i).arg(count);
         KTELL(step + "Open the Download Dialog, wait for plugins to load");
         volatile bool done = false;
-        QTimer::singleShot(5000, [&]() {
+        QTimer::singleShot(5000, [&]()
+        {
             KTELL(step + "Change the first four catalogs installation state");
             KNS3::DownloadWidget * d = KStars::Instance()->findChild<KNS3::DownloadWidget*>("DownloadWidget");
             QList<QToolButton*> wl = d->findChildren<QToolButton*>();
