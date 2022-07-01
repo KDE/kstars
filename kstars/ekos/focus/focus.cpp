@@ -1965,12 +1965,7 @@ void Focus::setCaptureComplete()
     // If we are asked to analyze _all_ the stars within the field
     // THEN let's find stars in the image and get current HFR
     if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
-    {
-        if (m_ImageData->areStarsSearched() == false)
-        {
-            analyzeSources();
-        }
-    }
+        analyzeSources();
     else
         setHFRComplete();
 }
