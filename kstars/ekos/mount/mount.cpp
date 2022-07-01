@@ -255,7 +255,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     {
         m_BaseView->hide();
     });
-    connect(currentTelescope, &ISD::Telescope::newParkStatus, [&](ISD::ParkStatus status)
+    connect(currentTelescope, &ISD::Telescope::newParkStatus, this, [&](ISD::ParkStatus status)
     {
         m_ParkStatus = status;
         emit newParkStatus(status);
@@ -2014,6 +2014,13 @@ bool Mount::meridianFlipEnabled()
 double Mount::meridianFlipValue()
 {
     return meridianFlipTimeBox->value();
+}
+
+void Mount::stopTimers()
+{
+    autoParkTimer.stop();
+    if (currentTelescope)
+        currentTelescope->stopTimers();
 }
 
 void Mount::startParkTimer()

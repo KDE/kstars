@@ -359,7 +359,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             icon        = QIcon(pix.transformed(trans));
             toolsWidget->setTabIcon(i, icon);
         }
-    }       
+    }
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -838,41 +838,41 @@ void Manager::start()
     }
 
 
-        // Prioritize profile script drivers over other drivers
-        QList<DriverInfo *> sortedList;
-        for (const auto &oneRule : qAsConst(profileScripts))
+    // Prioritize profile script drivers over other drivers
+    QList<DriverInfo *> sortedList;
+    for (const auto &oneRule : qAsConst(profileScripts))
+    {
+        auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule](const auto & oneDriver)
         {
-            auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule](const auto &oneDriver)
-            {
-                return oneDriver->getLabel() == oneRule.toObject()["Driver"].toString();
-            });
+            return oneDriver->getLabel() == oneRule.toObject()["Driver"].toString();
+        });
 
-            if (matchingDriver != managedDrivers.end())
-            {
-                (*matchingDriver)->setStartupRule(oneRule.toObject());
-                sortedList.append(*matchingDriver);
-            }
+        if (matchingDriver != managedDrivers.end())
+        {
+            (*matchingDriver)->setStartupRule(oneRule.toObject());
+            sortedList.append(*matchingDriver);
+        }
+    }
+
+    // If we have any profile scripts drivers, let's re-sort managed drivers
+    // so that profile script drivers
+    if (!sortedList.isEmpty())
+    {
+        for (auto &oneDriver : managedDrivers)
+        {
+            if (sortedList.contains(oneDriver) == false)
+                sortedList.append(oneDriver);
         }
 
-        // If we have any profile scripts drivers, let's re-sort managed drivers
-        // so that profile script drivers
-        if (!sortedList.isEmpty())
-        {
-            for (auto &oneDriver : managedDrivers)
-            {
-                if (sortedList.contains(oneDriver) == false)
-                    sortedList.append(oneDriver);
-            }
-
-            managedDrivers = sortedList;
-        }
+        managedDrivers = sortedList;
+    }
 
     connect(DriverManager::Instance(), &DriverManager::serverStarted, this,
             &Manager::setServerStarted, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::serverFailed, this,
             &Manager::setServerFailed, Qt::UniqueConnection);
-//    connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-//            &Manager::setServerTerminated, Qt::UniqueConnection);
+    //    connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
+    //            &Manager::setServerTerminated, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::clientStarted, this,
             &Manager::setClientStarted, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::clientFailed, this,
@@ -1067,8 +1067,8 @@ void Manager::setClientFailed(const QString &host, int port, const QString &erro
         appendLogText(i18n("Failed to connect to remote INDI server %1:%2", host, port));
 
     //INDIListener::Instance()->disconnect(this);
-//    qDeleteAll(managedDrivers);
-//    managedDrivers.clear();
+    //    qDeleteAll(managedDrivers);
+    //    managedDrivers.clear();
     m_ekosStatus = Ekos::Error;
     emit ekosStatusChanged(m_ekosStatus);
     KSNotification::error(errorMessage, i18n("Error"), 15);
@@ -1082,8 +1082,8 @@ void Manager::setClientTerminated(const QString &host, int port, const QString &
         appendLogText(i18n("Lost connection to remote INDI server %1:%2", host, port));
 
     //INDIListener::Instance()->disconnect(this);
-//    qDeleteAll(managedDrivers);
-//    managedDrivers.clear();
+    //    qDeleteAll(managedDrivers);
+    //    managedDrivers.clear();
     m_ekosStatus = Ekos::Error;
     emit ekosStatusChanged(m_ekosStatus);
     KSNotification::error(errorMessage, i18n("Error"), 15);
@@ -1271,6 +1271,9 @@ void Manager::cleanDevices(bool stopDrivers)
 {
     if (m_ekosStatus == Ekos::Idle)
         return;
+
+    if (mountProcess.get())
+        mountProcess->stopTimers();
 
     INDIListener::Instance()->disconnect(this);
     DriverManager::Instance()->disconnect(this);
@@ -2454,7 +2457,8 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     // connect signal/slot for adding a new position with errors to be shown as error bars
-    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPositionWithSigma, focusManager->hfrVPlot, &FocusHFRVPlot::addPositionWithSigma);
+    connect(focusProcess.get(), &Ekos::Focus::newHFRPlotPositionWithSigma, focusManager->hfrVPlot,
+            &FocusHFRVPlot::addPositionWithSigma);
     connect(focusProcess.get(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
     connect(focusProcess.get(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
     connect(focusProcess.get(), &Ekos::Focus::updateTitle, focusManager->hfrVPlot, &FocusHFRVPlot::updateTitle);

@@ -1585,6 +1585,13 @@ bool Telescope::setReversedEnabled(INDI_EQ_AXIS axis, bool enabled)
     return true;
 }
 
+void Telescope::stopTimers()
+{
+    updateCoordinatesTimer.stop();
+    centerLockTimer.stop();
+    readyTimer.stop();
+}
+
 }
 
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::Status &source)

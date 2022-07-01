@@ -205,6 +205,11 @@ class Telescope : public DeviceDecorator
             return currentCoords;
         }
 
+        /**
+         * @brief stopTimers Stop timers to prevent timing race condition when device is unavailable
+         * and timer is still invoked.
+         */
+        void stopTimers();
 
     protected:
         /**
