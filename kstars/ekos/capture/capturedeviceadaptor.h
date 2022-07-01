@@ -45,42 +45,42 @@ public:
     // Devices
     //////////////////////////////////////////////////////////////////////
     void setLightBox(ISD::LightBox *device);
-    ISD::LightBox *getLightBox() { return m_lightBox; }
+    ISD::LightBox *getLightBox() { return m_ActiveLightBox; }
     void connectLightBox();
     void disconnectLightBox();
 
     void setDustCap(ISD::DustCap *device);
-    ISD::DustCap *getDustCap() { return m_dustCap; }
+    ISD::DustCap *getDustCap() { return m_ActiveDustCap; }
     void connectDustCap();
     void disconnectDustCap();
 
     void setTelescope(ISD::Telescope *device);
-    ISD::Telescope *getTelescope() { return m_telescope; }
+    ISD::Telescope *getTelescope() { return m_ActiveTelescope; }
     void connectTelescope();
     void disconnectTelescope();
 
     void setDome(ISD::Dome *device);
-    ISD::Dome *getDome() { return m_dome; }
+    ISD::Dome *getDome() { return m_ActiveDome; }
     void connectDome();
     void disconnectDome();
 
     void setRotator(ISD::GDInterface *device);
-    ISD::GDInterface *getRotator() { return activeRotator; }
+    ISD::GDInterface *getRotator() { return m_ActiveRotator; }
     void connectRotator();
     void disconnectRotator();
 
     void setActiveCCD(ISD::CCD *device);
-    ISD::CCD *getActiveCCD() { return activeCCD; }
+    ISD::CCD *getActiveCCD() { return m_ActiveCamera; }
     void connectActiveCCD();
     void disconnectActiveCCD();
 
     void setActiveChip(ISD::CCDChip *device);
-    ISD::CCDChip *getActiveChip() { return activeChip; }
+    ISD::CCDChip *getActiveChip() { return m_ActiveChip; }
     // void connectActiveChip();
     // void disconnectActiveChip();
 
     void setFilterWheel(ISD::GDInterface *device);
-    ISD::GDInterface *getFilterWheel() { return activeFilterWheel; }
+    ISD::GDInterface *getFilterWheel() { return m_ActiveFilterWheel; }
     // void connectFilterWheel();
     // void disconnectFilterWheel();
 
@@ -237,21 +237,21 @@ public slots:
 
 private:
     // the light box device
-    ISD::LightBox *m_lightBox { nullptr };
+    ISD::LightBox *m_ActiveLightBox { nullptr };
     // the dust cap
-    ISD::DustCap *m_dustCap { nullptr };
+    ISD::DustCap *m_ActiveDustCap { nullptr };
     // the current telescope
-    ISD::Telescope *m_telescope { nullptr };
+    ISD::Telescope *m_ActiveTelescope { nullptr };
     // the current dome
-    ISD::Dome *m_dome { nullptr };
+    ISD::Dome *m_ActiveDome { nullptr };
     // active rotator device
-    ISD::GDInterface * activeRotator { nullptr };
+    ISD::GDInterface * m_ActiveRotator { nullptr };
     // active camera device
-    ISD::CCD * activeCCD { nullptr };
+    ISD::CCD * m_ActiveCamera { nullptr };
     // active CCD chip
-    ISD::CCDChip * activeChip { nullptr };
+    ISD::CCDChip * m_ActiveChip { nullptr };
     // currently active filter wheel device
-    ISD::GDInterface * activeFilterWheel { nullptr };
+    ISD::GDInterface * m_ActiveFilterWheel { nullptr };
     // Filter Manager
     QSharedPointer<FilterManager> filterManager;
 

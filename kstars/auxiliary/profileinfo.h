@@ -49,6 +49,7 @@ class ProfileInfo
         int indihub { 0 };
         QString remotedrivers;
         QString guiderhost;
+        QByteArray scripts;
         int id { 0 };
         int port { -1 };
         bool autoConnect { false };

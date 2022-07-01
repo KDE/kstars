@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>608</width>
+    <width>613</width>
     <height>417</height>
    </rect>
   </property>
@@ -429,21 +429,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="driversGroupBox">
      <property name="title">
       <string>Select Devices</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="3">
-       <widget class="QComboBox" name="AOCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item row="2" column="4">
+       <widget class="QLabel" name="aux3Label">
+        <property name="toolTip">
+         <string>Auxiliary #3</string>
         </property>
-        <property name="editable">
-         <bool>false</bool>
+        <property name="text">
+         <string>Aux 3:</string>
         </property>
        </widget>
       </item>
@@ -457,23 +454,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Focuser:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="filterLabel">
-        <property name="toolTip">
-         <string>Filter Wheel</string>
-        </property>
-        <property name="text">
-         <string>Filter:</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
@@ -481,8 +461,51 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="5">
-       <widget class="QComboBox" name="aux3Combo">
+      <item row="0" column="4">
+       <widget class="QLabel" name="aux1Label">
+        <property name="toolTip">
+         <string>Auxiliary #1</string>
+        </property>
+        <property name="text">
+         <string>Aux 1:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="remoteDriversLabel">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add remote INDI drivers to chain with the local INDI server configured by this profile. Format this field as a comma-separated list of quoted driver name, host name/address and optional port:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;ZWO ASI120MC&amp;quot;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to the named camera on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;EQMod Mount&amp;quot;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to the named mount on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;When omitted, host defaults to localhost and port defaults to 7624.&lt;br/&gt;Remote INDI drivers must be already running for the connection to succeed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Remote:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="guiderCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="domeLabel">
+        <property name="toolTip">
+         <string>Dome Controller</string>
+        </property>
+        <property name="text">
+         <string>Dome:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QComboBox" name="aux4Combo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -507,18 +530,18 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="4">
-       <widget class="QLabel" name="aux3Label">
+      <item row="1" column="2">
+       <widget class="QLabel" name="AOLabel">
         <property name="toolTip">
-         <string>Auxiliary #3</string>
+         <string>Adaptive Optics</string>
         </property>
         <property name="text">
-         <string>Aux 3:</string>
+         <string>AO:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="mountCombo">
+      <item row="2" column="5">
+       <widget class="QComboBox" name="aux3Combo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -532,138 +555,6 @@
       </item>
       <item row="3" column="3">
        <widget class="QComboBox" name="weatherCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
-       <widget class="QComboBox" name="aux2Combo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLabel" name="weatherLabel">
-        <property name="toolTip">
-         <string>Weather Station</string>
-        </property>
-        <property name="text">
-         <string>Weather:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QComboBox" name="aux1Combo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="domeLabel">
-        <property name="toolTip">
-         <string>Dome Controller</string>
-        </property>
-        <property name="text">
-         <string>Dome:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="AOLabel">
-        <property name="toolTip">
-         <string>Adaptive Optics</string>
-        </property>
-        <property name="text">
-         <string>AO:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="guiderCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Mount:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>CCD:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="focuserCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="aux1Label">
-        <property name="toolTip">
-         <string>Auxiliary #1</string>
-        </property>
-        <property name="text">
-         <string>Aux 1:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QComboBox" name="filterCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="editable">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="5">
-       <widget class="QComboBox" name="aux4Combo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -698,20 +589,136 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="remoteDriversLabel">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add remote INDI drivers to chain with the local INDI server configured by this profile. Format this field as a comma-separated list of quoted driver name, host name/address and optional port:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;ZWO ASI120MC&amp;quot;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to the named camera on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&amp;quot;EQMod Mount&amp;quot;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to the named mount on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50:8000&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 8000.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;@192.168.1.50&lt;/span&gt;&lt;br/&gt;Connect to all drivers found on 192.168.1.50, port 7624.&lt;/p&gt;&lt;p&gt;When omitted, host defaults to localhost and port defaults to 7624.&lt;br/&gt;Remote INDI drivers must be already running for the connection to succeed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <item row="0" column="5">
+       <widget class="QComboBox" name="aux1Combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="text">
-         <string>Remote:</string>
+        <property name="editable">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="4" column="1" colspan="5">
+      <item row="1" column="5">
+       <widget class="QComboBox" name="aux2Combo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>CCD:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="AOCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="filterLabel">
+        <property name="toolTip">
+         <string>Filter Wheel</string>
+        </property>
+        <property name="text">
+         <string>Filter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Focuser:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Mount:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="focuserCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QComboBox" name="filterCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="weatherLabel">
+        <property name="toolTip">
+         <string>Weather Station</string>
+        </property>
+        <property name="text">
+         <string>Weather:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="mountCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="4">
        <widget class="QLineEdit" name="remoteDrivers">
         <property name="placeholderText">
          <string>driver@host:port,driver@host,@host:port,@host,driver</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="5">
+       <widget class="QPushButton" name="scriptsB">
+        <property name="text">
+         <string>Scripts</string>
         </property>
        </widget>
       </item>

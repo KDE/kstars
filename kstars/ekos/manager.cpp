@@ -127,29 +127,29 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
 
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
-    connect(ekosLiveClient.get(), &EkosLive::Client::connected, [this]()
+    connect(ekosLiveClient.get(), &EkosLive::Client::connected, this, [this]()
     {
         emit ekosLiveStatusChanged(true);
     });
-    connect(ekosLiveClient.get(), &EkosLive::Client::disconnected, [this]()
+    connect(ekosLiveClient.get(), &EkosLive::Client::disconnected, this, [this]()
     {
         emit ekosLiveStatusChanged(false);
     });
 
     // INDI Control Panel
     //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
-    connect(ekosLiveB, &QPushButton::clicked, [&]()
+    connect(ekosLiveB, &QPushButton::clicked, this, [&]()
     {
         ekosLiveClient.get()->show();
         ekosLiveClient.get()->raise();
     });
 
     connect(this, &Manager::ekosStatusChanged, ekosLiveClient.get()->message(), &EkosLive::Message::setEkosStatingStatus);
-    connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, [&]()
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::connected, this, [&]()
     {
         ekosLiveB->setIcon(QIcon(":/icons/cloud-online.svg"));
     });
-    connect(ekosLiveClient.get()->message(), &EkosLive::Message::disconnected, [&]()
+    connect(ekosLiveClient.get()->message(), &EkosLive::Message::disconnected, this, [&]()
     {
         ekosLiveB->setIcon(QIcon::fromTheme("folder-cloud"));
     });
@@ -179,7 +179,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                 setPortSelectionComplete();
         }
     });
-    connect(portSelectorB, &QPushButton::clicked, [&]()
+    connect(portSelectorB, &QPushButton::clicked, this, [&]()
     {
         if (m_PortSelector)
         {
@@ -188,7 +188,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         }
     });
 
-    connect(this, &Ekos::Manager::ekosStatusChanged, [&](Ekos::CommunicationStatus status)
+    connect(this, &Ekos::Manager::ekosStatusChanged, this, [&](Ekos::CommunicationStatus status)
     {
         indiControlPanelB->setEnabled(status == Ekos::Success);
         connectB->setEnabled(false);
@@ -212,11 +212,11 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             processINDIB->setToolTip(i18n("Connection in progress. Click to abort."));
         }
     });
-    connect(indiControlPanelB, &QPushButton::clicked, [&]()
+    connect(indiControlPanelB, &QPushButton::clicked, this, [&]()
     {
         KStars::Instance()->actionCollection()->action("show_control_panel")->trigger();
     });
-    connect(optionsB, &QPushButton::clicked, [&]()
+    connect(optionsB, &QPushButton::clicked, this, [&]()
     {
         KStars::Instance()->actionCollection()->action("configure")->trigger();
     });
@@ -239,7 +239,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(addProfileB, &QPushButton::clicked, this, &Ekos::Manager::addProfile);
     connect(editProfileB, &QPushButton::clicked, this, &Ekos::Manager::editProfile);
     connect(deleteProfileB, &QPushButton::clicked, this, &Ekos::Manager::deleteProfile);
-    connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
+    connect(profileCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this,
             [ = ](const QString & text)
     {
         Options::setProfile(text);
@@ -258,7 +258,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // Settle timer
     // Debounce until property stream settles down for a second.
     settleTimer.setInterval(1000);
-    connect(&settleTimer, &QTimer::timeout, [&]()
+    connect(&settleTimer, &QTimer::timeout, this, [&]()
     {
         if (m_settleStatus != Ekos::Success)
         {
@@ -359,7 +359,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             icon        = QIcon(pix.transformed(trans));
             toolsWidget->setTabIcon(i, icon);
         }
-    }
+    }       
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -643,6 +643,14 @@ void Manager::start()
         Options::setLinGuiderPort(currentProfile->guiderport);
     }
 
+    // Parse script, if any
+    QJsonParseError jsonError;
+    QJsonArray profileScripts;
+    QJsonDocument doc = QJsonDocument::fromJson(currentProfile->scripts, &jsonError);
+
+    if (jsonError.error == QJsonParseError::NoError)
+        profileScripts = doc.array();
+
     // For locally running INDI server
     if (m_LocalMode)
     {
@@ -805,7 +813,7 @@ void Manager::start()
     {
         DriverInfo * remote_indi = new DriverInfo(QString("Ekos Remote Host"));
 
-        remote_indi->setHostParameters(currentProfile->host, QString::number(currentProfile->port));
+        remote_indi->setHostParameters(currentProfile->host, currentProfile->port);
 
         remote_indi->setDriverSource(GENERATED_SOURCE);
 
@@ -828,6 +836,49 @@ void Manager::start()
 
         nDevices = currentProfile->drivers.count();
     }
+
+
+        // Prioritize profile script drivers over other drivers
+        QList<DriverInfo *> sortedList;
+        for (const auto &oneRule : qAsConst(profileScripts))
+        {
+            auto matchingDriver = std::find_if(managedDrivers.begin(), managedDrivers.end(), [oneRule](const auto &oneDriver)
+            {
+                return oneDriver->getLabel() == oneRule.toObject()["Driver"].toString();
+            });
+
+            if (matchingDriver != managedDrivers.end())
+            {
+                (*matchingDriver)->setStartupRule(oneRule.toObject());
+                sortedList.append(*matchingDriver);
+            }
+        }
+
+        // If we have any profile scripts drivers, let's re-sort managed drivers
+        // so that profile script drivers
+        if (!sortedList.isEmpty())
+        {
+            for (auto &oneDriver : managedDrivers)
+            {
+                if (sortedList.contains(oneDriver) == false)
+                    sortedList.append(oneDriver);
+            }
+
+            managedDrivers = sortedList;
+        }
+
+    connect(DriverManager::Instance(), &DriverManager::serverStarted, this,
+            &Manager::setServerStarted, Qt::UniqueConnection);
+    connect(DriverManager::Instance(), &DriverManager::serverFailed, this,
+            &Manager::setServerFailed, Qt::UniqueConnection);
+//    connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
+//            &Manager::setServerTerminated, Qt::UniqueConnection);
+    connect(DriverManager::Instance(), &DriverManager::clientStarted, this,
+            &Manager::setClientStarted, Qt::UniqueConnection);
+    connect(DriverManager::Instance(), &DriverManager::clientFailed, this,
+            &Manager::setClientFailed, Qt::UniqueConnection);
+    connect(DriverManager::Instance(), &DriverManager::clientTerminated, this,
+            &Manager::setClientTerminated, Qt::UniqueConnection);
 
     connect(INDIListener::Instance(), &INDIListener::newDevice, this, &Ekos::Manager::processNewDevice);
     connect(INDIListener::Instance(), &INDIListener::newTelescope, this, &Ekos::Manager::setTelescope);
@@ -867,35 +918,10 @@ void Manager::start()
         {
             appendLogText(i18n("Starting INDI services..."));
 
-            connect(DriverManager::Instance(), &DriverManager::serverStarted, this,
-                    &Manager::processServerStarted, Qt::UniqueConnection);
-            connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-                    &Manager::processServerTerminated, Qt::UniqueConnection);
-
-            if (DriverManager::Instance()->startDevices(managedDrivers) == false)
-            {
-                INDIListener::Instance()->disconnect(this);
-                qDeleteAll(managedDrivers);
-                managedDrivers.clear();
-                m_ekosStatus = Ekos::Error;
-                emit ekosStatusChanged(m_ekosStatus);
-            }
-
-
-
             m_ekosStatus = Ekos::Pending;
             emit ekosStatusChanged(m_ekosStatus);
 
-            if (managedDrivers.size() > 0)
-            {
-                if (currentProfile->autoConnect)
-                    appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
-                else
-                    appendLogText(
-                        i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
-            }
-
-            QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
+            DriverManager::Instance()->startDevices(managedDrivers);
         };
 
         // If INDI server is already running, let's see if we need to shut it down first
@@ -913,7 +939,7 @@ void Manager::start()
                 p.start(program, arguments);
                 p.waitForFinished();
 
-                QTimer::singleShot(1000, executeStartINDIServices);
+                QTimer::singleShot(1000, this, executeStartINDIServices);
             });
             connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this, executeStartINDIServices]()
             {
@@ -940,26 +966,7 @@ void Manager::start()
             appendLogText(
                 i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
 
-            if (DriverManager::Instance()->connectRemoteHost(managedDrivers.first()))
-            {
-                connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-                        &Manager::processServerTerminated, Qt::UniqueConnection);
-
-                appendLogText(
-                    i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
-
-                QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
-            }
-            else
-            {
-                appendLogText(i18n("Failed to connect to remote INDI server."));
-                INDIListener::Instance()->disconnect(this);
-                qDeleteAll(managedDrivers);
-                managedDrivers.clear();
-                m_ekosStatus = Ekos::Error;
-                emit ekosStatusChanged(m_ekosStatus);
-                return;
-            }
+            DriverManager::Instance()->connectRemoteHost(managedDrivers.first());
         };
 
         auto runProfile = [this, runConnection]()
@@ -997,7 +1004,7 @@ void Manager::start()
             appendLogText(i18n("Establishing communication with remote INDI Web Manager..."));
             m_RemoteManagerStart = false;
             QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>();
-            connect(watcher, &QFutureWatcher<bool>::finished, [this, runConnection, runProfile, watcher]()
+            connect(watcher, &QFutureWatcher<bool>::finished, this, [this, runConnection, runProfile, watcher]()
             {
                 watcher->deleteLater();
 
@@ -1029,6 +1036,108 @@ void Manager::start()
         }
     }
 }
+
+void Manager::setClientStarted(const QString &host, int port)
+{
+    if (managedDrivers.size() > 0)
+    {
+        if (m_LocalMode)
+        {
+            if (currentProfile->autoConnect)
+                appendLogText(i18n("INDI services started on port %1.", port));
+            else
+                appendLogText(
+                    i18n("INDI services started on port %1. Please connect devices.", port));
+        }
+        else
+        {
+            appendLogText(
+                i18n("INDI services started. Connection to remote INDI server %1:%2 is successful. Waiting for devices...", host, port));
+        }
+    }
+
+    QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
+}
+
+void Manager::setClientFailed(const QString &host, int port, const QString &errorMessage)
+{
+    if (m_LocalMode)
+        appendLogText(i18n("Failed to connect to local INDI server %1:%2", host, port));
+    else
+        appendLogText(i18n("Failed to connect to remote INDI server %1:%2", host, port));
+
+    //INDIListener::Instance()->disconnect(this);
+//    qDeleteAll(managedDrivers);
+//    managedDrivers.clear();
+    m_ekosStatus = Ekos::Error;
+    emit ekosStatusChanged(m_ekosStatus);
+    KSNotification::error(errorMessage, i18n("Error"), 15);
+}
+
+void Manager::setClientTerminated(const QString &host, int port, const QString &errorMessage)
+{
+    if (m_LocalMode)
+        appendLogText(i18n("Lost connection to local INDI server %1:%2", host, port));
+    else
+        appendLogText(i18n("Lost connection to remote INDI server %1:%2", host, port));
+
+    //INDIListener::Instance()->disconnect(this);
+//    qDeleteAll(managedDrivers);
+//    managedDrivers.clear();
+    m_ekosStatus = Ekos::Error;
+    emit ekosStatusChanged(m_ekosStatus);
+    KSNotification::error(errorMessage, i18n("Error"), 15);
+}
+
+void Manager::setServerStarted(const QString &host, int port)
+{
+    if (m_LocalMode && currentProfile->indihub != INDIHub::None)
+    {
+        if (QFile(Options::iNDIHubAgent()).exists())
+        {
+            indiHubAgent = new QProcess();
+            QStringList args;
+
+            args << "--indi-server" << QString("%1:%2").arg(host).arg(port);
+            if (currentProfile->guidertype == Ekos::Guide::GUIDE_PHD2)
+                args << "--phd2-server" << QString("%1:%2").arg(currentProfile->guiderhost).arg(currentProfile->guiderport);
+            args << "--mode" << INDIHub::toString(currentProfile->indihub);
+            indiHubAgent->start(Options::iNDIHubAgent(), args);
+
+            qCDebug(KSTARS_EKOS) << "Started INDIHub agent.";
+        }
+    }
+}
+
+void Manager::setServerFailed(const QString &host, int port, const QString &message)
+{
+    Q_UNUSED(host)
+    Q_UNUSED(port)
+    //INDIListener::Instance()->disconnect(this);
+    qDeleteAll(managedDrivers);
+    managedDrivers.clear();
+    m_ekosStatus = Ekos::Error;
+    emit ekosStatusChanged(m_ekosStatus);
+    KSNotification::error(message, i18n("Error"), 15);
+}
+
+//void Manager::setServerTerminated(const QString &host, int port, const QString &message)
+//{
+//    if ((m_LocalMode && managedDrivers.first()->getPort() == port) ||
+//            (currentProfile->host == host && currentProfile->port == port))
+//    {
+//        cleanDevices(false);
+//        if (indiHubAgent)
+//            indiHubAgent->terminate();
+//    }
+
+//    INDIListener::Instance()->disconnect(this);
+//    qDeleteAll(managedDrivers);
+//    managedDrivers.clear();
+//    m_ekosStatus = Ekos::Error;
+//    emit ekosStatusChanged(m_ekosStatus);
+//    KSNotification::error(message, i18n("Error"), 15);
+//}
 
 void Manager::checkINDITimeout()
 {
@@ -1156,37 +1265,6 @@ void Manager::disconnectDevices()
     }
 
     appendLogText(i18n("Disconnecting INDI devices..."));
-}
-
-void Manager::processServerTerminated(const QString &host, const QString &port)
-{
-    if ((m_LocalMode && managedDrivers.first()->getPort() == port) ||
-            (currentProfile->host == host && currentProfile->port == port.toInt()))
-    {
-        cleanDevices(false);
-        if (indiHubAgent)
-            indiHubAgent->terminate();
-    }
-}
-
-void Manager::processServerStarted(const QString &host, const QString &port)
-{
-    if (m_LocalMode && currentProfile->indihub != INDIHub::None)
-    {
-        if (QFile(Options::iNDIHubAgent()).exists())
-        {
-            indiHubAgent = new QProcess();
-            QStringList args;
-
-            args << "--indi-server" << QString("%1:%2").arg(host).arg(port);
-            if (currentProfile->guidertype == Ekos::Guide::GUIDE_PHD2)
-                args << "--phd2-server" << QString("%1:%2").arg(currentProfile->guiderhost).arg(currentProfile->guiderport);
-            args << "--mode" << INDIHub::toString(currentProfile->indihub);
-            indiHubAgent->start(Options::iNDIHubAgent(), args);
-
-            qCDebug(KSTARS_EKOS) << "Started INDIHub agent.";
-        }
-    }
 }
 
 void Manager::cleanDevices(bool stopDrivers)

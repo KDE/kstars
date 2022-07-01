@@ -202,6 +202,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(m_ImageFrame, &FITSLabel::newStatus, this, &FITSView::newStatus);
     connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
     connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
+    connect(m_ImageFrame, &FITSLabel::rectangleSelected, this, &FITSView::processRectangle);
+    connect(this, &FITSView::setRubberBand, m_ImageFrame, &FITSLabel::setRubberBand);
+    connect(this, &FITSView::showRubberBand, m_ImageFrame, &FITSLabel::showRubberBand);
+    connect(this, &FITSView::zoomRubberBand, m_ImageFrame, &FITSLabel::zoomRubberBand);
+
+
 
     connect(&wcsWatcher, &QFutureWatcher<bool>::finished, this, &FITSView::syncWCSState);
 
@@ -340,6 +346,7 @@ void FITSView::loadFile(const QString &inFilename)
         m_ImageData->setBayerParams(&param);
 
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename));
+    roiCenter = QPoint(m_ImageData->width() / 2, m_ImageData->height() / 2);
 }
 
 void FITSView::clearData()
@@ -375,6 +382,7 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
     // Takes control of the objects passed in.
     m_ImageData = data;
 
+
     return processData();
 }
 
@@ -390,6 +398,13 @@ bool FITSView::processData()
         updateFrame();
     });
 
+    connect(this, &FITSView::rectangleUpdated, this, [this](const QRect roi)
+    {
+        if(m_ImageData)
+        {
+            m_ImageData->makeRoiBuffer(roi);
+        }
+    });
     currentWidth = m_ImageData->width();
     currentHeight = m_ImageData->height();
 
@@ -802,6 +817,7 @@ void FITSView::updateFrameSmallImage()
     m_ImageFrame->resize(currentWidth, currentHeight);
 }
 
+
 void FITSView::drawStarFilter(QPainter *painter, double scale)
 {
     if (!starFilter.used())
@@ -993,6 +1009,7 @@ void FITSView::drawOverlay(QPainter * painter, double scale)
 
     if (showMagnifyingGlass)
         drawMagnifyingGlass(painter, scale);
+
 }
 
 // Draws a 100% resolution image rectangle around the mouse position.
@@ -1330,7 +1347,6 @@ void FITSView::drawPixelGrid(QPainter * painter, double scale)
         painter->drawLine(0, cY - y, width, cY - y);
     }
 }
-
 bool FITSView::imageHasWCS()
 {
     if (m_ImageData != nullptr)
@@ -1644,6 +1660,63 @@ void FITSView::resizeTrackingBox(int newSize)
     setTrackingBox(QRect( x - delta, y - delta, newSize, newSize));
 }
 
+void FITSView::processRectangleFixed(int s)
+{
+    if(s % 2)
+        s++;
+
+    QPoint c = m_ImageData->getRoiCenter();
+    int w = m_ImageData->width();
+    int h = m_ImageData->height();
+
+    c.setX(qMax(s / 2, c.x()));
+    c.setX(qMin(w - s / 2, c.x()));
+    c.setY(qMax(s / 2, c.y()));
+    c.setY(qMin(h - s / 2, c.y()));
+
+    QPoint topLeft, botRight;
+    topLeft = QPoint(c.x() - s / 2, c.y() - s / 2);
+    botRight = QPoint(c.x() + s / 2, c.y() + s / 2);
+
+    emit setRubberBand(QRect(topLeft, botRight));
+    processRectangle(topLeft, botRight, true);
+}
+
+void FITSView::processRectangle(QPoint p1, QPoint p2, bool calculate)
+{
+    if(!isSelectionRectShown())
+        return;
+    //the user can draw a rectangle by dragging the mouse to any direction
+    //but we need to feed Rectangle(topleft, topright)
+    //hence we calculate topleft and topright for each case
+
+    //p1 is the the point where the user presses the mouse
+    //p2 is the point where the user releases the mouse
+    selectionRectangleRaw = QRect(p1, p2).normalized();
+    //Index out of bounds Check for raw Rectangle, this effectively works when user does shift + drag, other wise becomes redundant
+
+    QPoint topLeft = selectionRectangleRaw.topLeft();
+    QPoint botRight = selectionRectangleRaw.bottomRight();
+
+    topLeft.setX(qMax(1, topLeft.x()));
+    topLeft.setY(qMax(1, topLeft.y()));
+    botRight.setX(qMin((int)m_ImageData->width(), botRight.x()));
+    botRight.setY(qMin((int)m_ImageData->height(), botRight.y()));
+
+    selectionRectangleRaw.setTopLeft(topLeft);
+    selectionRectangleRaw.setBottomRight(botRight);
+
+    if(calculate)
+    {
+        emit rectangleUpdated(selectionRectangleRaw);
+        emit updateSelectionStatsUi();
+    }
+    //updateFrameRoi();
+
+    //emit raw rectangle for calculation
+    //update the stats pane after calculation; there should be ample time for calculation before showing the values
+}
+
 bool FITSView::isImageStretched()
 {
     return stretchImage;
@@ -1664,6 +1737,10 @@ bool FITSView::isEQGridShown()
     return showEQGrid;
 }
 
+bool FITSView::isSelectionRectShown()
+{
+    return showSelectionRect;
+}
 bool FITSView::areObjectsShown()
 {
     return showObjects;
@@ -1701,6 +1778,22 @@ void FITSView::toggleEQGrid()
         updateFrame();
 }
 
+void FITSView::toggleSelectionMode()
+{
+    showSelectionRect = !showSelectionRect;
+
+    if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
+    {
+        QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS, true);
+        wcsWatcher.setFuture(future);
+        return;
+    }
+    emit showRubberBand(showSelectionRect);
+
+    if (m_ImageFrame)
+        updateFrame();
+
+}
 void FITSView::toggleObjects()
 {
     showObjects = !showObjects;
@@ -1933,6 +2026,7 @@ void FITSView::wheelEvent(QWheelEvent * event)
         event->accept();
         cleanUpZoom(mouseCenter);
     }
+    emit zoomRubberBand(getCurrentZoom()/ZOOM_DEFAULT);
 }
 
 /**

@@ -566,14 +566,7 @@ void Analyze::addGuideStats(double raDrift, double decDrift, int raPulse, int de
             // this is the first sample in a series with a gap behind us.
             statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(lastCaptureRmsTime + .0001, qQNaN());
             statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time - .0001, qQNaN());
-            // I can go either way on this. E.g. resetting the filter will start the RMS
-            // average over again, e.g. after a autofocus where the guider was suspended
-            // for a couple minutes. Not having it will average the new capture's guide
-            // errors with the previous capture's. This is, of course, a display decision.
-            // The actual guiding is not affected. I went with not resetting the RMS filter
-            // that only uses guiding samples during capture, and resetting the one that
-            // uses all guider samples (guiderRms above).
-            // captureRms->resetFilter();
+            captureRms->resetFilter();
         }
         const double rmsC = captureRms->newSample(raDrift, decDrift);
         statsPlot->graph(CAPTURE_RMS_GRAPH)->addData(time, rmsC);
@@ -1885,7 +1878,7 @@ void Analyze::reset()
     alignSessions.clear();
     mountFlipSessions.clear();
     schedulerJobSessions.clear();
-    
+
     numStarsOut->setText("");
     skyBgOut->setText("");
     snrOut->setText("");
@@ -2958,7 +2951,7 @@ void Analyze::schedulerJobEnded(const QString &jobName, const QString &reason)
 // BatchMode would be true when reading from file.
 void Analyze::processSchedulerJobStarted(double time, const QString &jobName, bool batchMode)
 {
-    checkForMissingSchedulerJobEnd(time-1);
+    checkForMissingSchedulerJobEnd(time - 1);
     schedulerJobStartedTime = time;
     schedulerJobStartedJobName = jobName;
     updateMaxX(time);

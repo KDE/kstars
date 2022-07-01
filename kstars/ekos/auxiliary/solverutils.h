@@ -65,11 +65,12 @@ class SolverUtils : public QObject
 
         std::unique_ptr<StellarSolver> m_StellarSolver;
 
+        qint64 m_StartTime;
         QTimer m_SolverTimer;
         // Copy of parameters
         SSolver::Parameters m_Parameters;
-        // Solver timeout in seconds.
-        uint32_t m_Timeout {0};
+        // Solver timeout in milliseconds.
+        const uint32_t m_TimeoutMilliseconds {0};
         // Temporary file name in case of external solver.
         QString m_TemporaryFilename;
         QFutureWatcher<bool> m_Watcher;

@@ -29,7 +29,7 @@ class ServerManager;
  * This enables the class to communicate with INDI server and to receive notification of devices, properties, and messages.
  *
  * @author Jasem Mutlaq
- * @version 1.2
+ * @version 1.3
  */
 #ifdef USE_QT5_INDI
 class ClientManager : public INDI::BaseClientQt
@@ -64,7 +64,7 @@ class ClientManager : public QObject, public INDI::BaseClient
 
         int count()
         {
-            return managedDrivers.count();
+            return m_ManagedDrivers.count();
         }
 
         bool isBLOBEnabled(const QString &device, const QString &property);
@@ -81,6 +81,8 @@ class ClientManager : public QObject, public INDI::BaseClient
         bool isDriverManaged(DriverInfo *);
 
         QList<DriverInfo *> getManagedDrivers() const;
+
+        void establishConnection();
 
     protected:
         virtual void newDevice(INDI::BaseDevice *dp) override;
@@ -99,16 +101,20 @@ class ClientManager : public QObject, public INDI::BaseClient
 #endif
 
         virtual void serverConnected() override;
-        virtual void serverDisconnected(int exit_code) override;
+        virtual void serverDisconnected(int exitCode) override;
 
     private:
-        QList<DriverInfo *> managedDrivers;
+        QList<DriverInfo *> m_ManagedDrivers;
         QList<BlobManager *> blobManagers;
         ServerManager *sManager { nullptr };
 
     signals:
-        void connectionSuccessful();
-        void connectionFailure(ClientManager *);
+        // Client successfully connected to the server.
+        void started();
+        // Client failed to connect to the server.
+        void failed(const QString &message);
+        // Running client was abnormally disconnected from server.
+        void terminated(const QString &message);
 
         // @note If using INDI Posix client, the following newINDIDevice/Property and removeINDIDevice/Property signals
         // must be connected to slots using Qt::BlockingQueuedConnection to ensure operation is fully completed before
@@ -131,4 +137,9 @@ class ClientManager : public QObject, public INDI::BaseClient
 #if INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 5
         void newINDIUniversalMessage(const QString &message);
 #endif
+
+    private:
+        static constexpr uint8_t MAX_RETRIES {2};
+        uint8_t m_ConnectionRetries {MAX_RETRIES};
+        bool m_PendingConnection {false};
 };

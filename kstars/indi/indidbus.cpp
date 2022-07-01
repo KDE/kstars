@@ -25,7 +25,7 @@ INDIDBus::INDIDBus(QObject *parent) : QObject(parent)
     QDBusConnection::sessionBus().registerObject("/KStars/INDI", this);
 }
 
-bool INDIDBus::start(const QString &port, const QStringList &drivers)
+bool INDIDBus::start(int port, const QStringList &drivers)
 {
     QList<DriverInfo *> newDrivers;
 
@@ -37,7 +37,7 @@ bool INDIDBus::start(const QString &port, const QStringList &drivers)
             continue;
 
         DriverInfo *di = new DriverInfo(QString("%1").arg(driver));
-        di->setHostParameters("localhost", port.isEmpty() ? "7624" : port);
+        di->setHostParameters("localhost", port);
         di->setDriverSource(EM_XML);
         di->setExecutable(driver);
         di->setUniqueLabel(drv->getUniqueLabel().isEmpty() ? drv->getLabel() : drv->getUniqueLabel());
@@ -46,7 +46,8 @@ bool INDIDBus::start(const QString &port, const QStringList &drivers)
         newDrivers.append(di);
     }
 
-    return DriverManager::Instance()->startDevices(newDrivers);
+    DriverManager::Instance()->startDevices(newDrivers);
+    return true;
 }
 
 bool INDIDBus::stop(const QString &port)
@@ -75,7 +76,7 @@ bool INDIDBus::stop(const QString &port)
     return true;
 }
 
-bool INDIDBus::connect(const QString &host, const QString &port)
+bool INDIDBus::connect(const QString &host, int port)
 {
     DriverInfo *remote_indi = new DriverInfo(QString("INDI Remote Host"));
 
@@ -83,27 +84,28 @@ bool INDIDBus::connect(const QString &host, const QString &port)
 
     remote_indi->setDriverSource(GENERATED_SOURCE);
 
-    if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
-    {
-        delete (remote_indi);
-        remote_indi = nullptr;
-        return false;
-    }
+    // TODO migrate to event-based system.
+    DriverManager::Instance()->connectRemoteHost(remote_indi);
+    //    {
+    //        delete (remote_indi);
+    //        remote_indi = nullptr;
+    //        return false;
+    //    }
 
     DriverManager::Instance()->addDriver(remote_indi);
 
     return true;
 }
 
-bool INDIDBus::disconnect(const QString &host, const QString &port)
+bool INDIDBus::disconnect(const QString &host, int port)
 {
-    foreach (DriverInfo *di, DriverManager::Instance()->getDrivers())
+    for (auto &dv : DriverManager::Instance()->getDrivers())
     {
-        if (di->getHost() == host && di->getPort() == port && di->getDriverSource() == GENERATED_SOURCE)
+        if (dv->getHost() == host && dv->getPort() == port && dv->getDriverSource() == GENERATED_SOURCE)
         {
-            if (DriverManager::Instance()->disconnectRemoteHost(di))
+            if (DriverManager::Instance()->disconnectRemoteHost(dv))
             {
-                DriverManager::Instance()->removeDriver(di);
+                DriverManager::Instance()->removeDriver(dv);
                 return true;
             }
             else
@@ -118,7 +120,7 @@ QStringList INDIDBus::getDevices()
 {
     QStringList devices;
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         devices << oneDevice->getDeviceName();
     }
@@ -130,7 +132,7 @@ QStringList INDIDBus::getProperties(const QString &device)
 {
     QStringList properties;
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -182,7 +184,7 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 {
     QString status = "Invalid";
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -204,7 +206,7 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 
 bool INDIDBus::sendProperty(const QString &device, const QString &property)
 {
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         ClientManager *cm = oneDevice->getDeviceInfo()->getDriverInfo()->getClientManager();
 
@@ -251,7 +253,7 @@ QString INDIDBus::getLight(const QString &device, const QString &property, const
 {
     QString status = "Invalid";
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -288,7 +290,7 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
         return false;
     }
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -324,7 +326,7 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 {
     QString result("Invalid");
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -353,7 +355,7 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 
 bool INDIDBus::setText(const QString &device, const QString &property, const QString &textName, const QString &text)
 {
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -385,7 +387,7 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 {
     QString result("Invalid");
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -414,7 +416,7 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 
 bool INDIDBus::setNumber(const QString &device, const QString &property, const QString &numberName, double value)
 {
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -446,7 +448,7 @@ double INDIDBus::getNumber(const QString &device, const QString &property, const
 {
     double result = NaN::d;
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -479,7 +481,7 @@ QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property,
     QByteArray array;
     size = -1;
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -516,7 +518,7 @@ QString INDIDBus::getBLOBFile(const QString &device, const QString &property, co
     QString filename;
     size = -1;
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (oneDevice->getDeviceName() == device)
         {

@@ -12,7 +12,7 @@
 #include <QUuid>
 
 SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds) : m_Parameters(parameters),
-    m_Timeout(timeoutSeconds)
+    m_TimeoutMilliseconds(timeoutSeconds * 1000.0)
 {
     connect(&m_Watcher, &QFutureWatcher<bool>::finished, this, &SolverUtils::executeSolver, Qt::UniqueConnection);
     connect(&m_SolverTimer, &QTimer::timeout, this, &SolverUtils::solverTimeout, Qt::UniqueConnection);
@@ -133,14 +133,17 @@ void SolverUtils::prepareSolver()
 
 void SolverUtils::runSolver(const QSharedPointer<FITSData> &data)
 {
+    // Limit the time the solver can run.
+    m_SolverTimer.setSingleShot(true);
+    m_SolverTimer.setInterval(m_TimeoutMilliseconds);
+    m_SolverTimer.start();
+    // Somehow m_SolverTimer's elapsed time can be greater than the interval,
+    // so using this to get more exact times.
+    m_StartTime = QDateTime::currentMSecsSinceEpoch();
+
     m_ImageData = data;
     prepareSolver();
     m_StellarSolver->start();
-
-    // Limit the time the solver can run.
-    m_SolverTimer.setSingleShot(true);
-    m_SolverTimer.setInterval(m_Timeout * 1000);
-    m_SolverTimer.start();
 }
 
 SolverUtils &SolverUtils::useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel)
@@ -161,7 +164,7 @@ SolverUtils &SolverUtils::usePosition(bool useIt, double raDegrees, double decDe
 
 void SolverUtils::solverDone()
 {
-    const double elapsed = m_Timeout - m_SolverTimer.remainingTime() / 1000.0;
+    const double elapsed = (QDateTime::currentMSecsSinceEpoch() - m_StartTime) / 1000.0;
     m_SolverTimer.stop();
 
     FITSImage::Solution solution;
@@ -179,7 +182,7 @@ void SolverUtils::solverTimeout()
 {
     m_SolverTimer.stop();
     FITSImage::Solution empty;
-    emit done(true, false, empty, m_Timeout);
+    emit done(true, false, empty, m_TimeoutMilliseconds / 1000.0);
 
     if (!m_TemporaryFilename.isEmpty())
         QFile::remove(m_TemporaryFilename);

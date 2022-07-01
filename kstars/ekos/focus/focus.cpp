@@ -953,6 +953,9 @@ void Focus::start()
 
     lastHFR = 0;
 
+    // Reset state variable that deals with retrying and aborting aurofocus
+    m_RestartState = RESTART_NONE;
+
     // Keep the  last focus temperature, it can still be useful in case the autofocus fails
     // lastFocusTemperature
 
@@ -1734,6 +1737,13 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                                       << m_LastSourceAutofocusTemperature << ", filter," << filter()
                                       << ", HFR," << currentHFR << ", altitude," << mountAlt;
 
+            if (focusAlgorithm == FOCUS_POLYNOMIAL)
+            {
+                // Add the final polynomial values to the signal sent to Analyze.
+                hfr_position.append(currentPosition);
+                hfr_value.append(currentHFR);
+            }
+
             appendFocusLogText(QString("%1, %2, %3, %4, %5\n")
                                .arg(QString::number(currentPosition))
                                .arg(QString::number(m_LastSourceAutofocusTemperature, 'f', 1))
@@ -1748,12 +1758,12 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
         else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
         {
             // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
-            bool const retry_focusing = !restartFocus && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
+            bool const retry_focusing = m_RestartState != RESTART_NONE && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
 
             // If retrying, before moving, reset focus frame in case the star in subframe was lost
             if (retry_focusing)
             {
-                restartFocus = true;
+                m_RestartState = RESTART_NOW;
                 resetFrame();
             }
 
@@ -1763,6 +1773,19 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
             if (retry_focusing)
             {
                 emit autofocusAborted(filter(), "");
+                return;
+            }
+            else
+            {
+                // We're in Autofocus and we've hit our max retry limit, so...
+                // resetFocuser will have initiated a focuser reset back to its starting position
+                // so we need to wait for that move to complete before returning control.
+                // This is important if the scheduler is running autofocus as it will likely
+                // immediately retry. The startup process will take the current focuser position
+                // as the start position and so the focuser needs to have arrived at its starting
+                // position before this. So set m_RestartState to log this.
+                resetFocusIteration = 0;
+                m_RestartState = RESTART_ABORT;
                 return;
             }
         }
@@ -3003,12 +3026,22 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                 return;
             }
 
-            if (restartFocus && status() != Ekos::FOCUS_ABORTED)
+            if (m_RestartState == RESTART_NOW && status() != Ekos::FOCUS_ABORTED)
             {
-                restartFocus = false;
+                m_RestartState = RESTART_NONE;
                 inAutoFocus = false;
                 appendLogText(i18n("Restarting autofocus process..."));
                 start();
+            }
+            else if (m_RestartState == RESTART_ABORT)
+            {
+                // We are trying to abort an autofocus run
+                // This event means that the focuser has been reset and arrived at its starting point
+                // so we can finish processing the abort. Set inAutoFocus to avoid repeating
+                // processing already done in completeFocusProcedure
+                m_RestartState = RESTART_NONE;
+                inAutoFocus = false;
+                completeFocusProcedure(Ekos::FOCUS_ABORTED);
             }
         }
 
@@ -3045,12 +3078,19 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         }
 
         // restart if focus movement has finished
-        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            restartFocus = false;
+            m_RestartState = RESTART_NONE;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
+        }
+        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        {
+            // Abort the autofocus run now the focuser has finished moving to its start position
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = false;
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
         }
 
         if (canRelMove && inAutoFocus)
@@ -3087,12 +3127,19 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         }
 
         // restart if focus movement has finished
-        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            restartFocus = false;
+            m_RestartState = RESTART_NONE;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
+        }
+        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        {
+            // Abort the autofocus run now the focuser has finished moving to its start position
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = false;
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
         }
 
         if (canRelMove && inAutoFocus)
@@ -3112,12 +3159,19 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     {
         m_FocusMotionTimer.stop();
         // restart if focus movement has finished
-        if (restartFocus && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
+        if (m_RestartState == RESTART_NOW && nvp->s == IPS_OK && status() != Ekos::FOCUS_ABORTED)
         {
-            restartFocus = false;
+            m_RestartState = RESTART_NONE;
             inAutoFocus = false;
             appendLogText(i18n("Restarting autofocus process..."));
             start();
+        }
+        else if (m_RestartState == RESTART_ABORT && nvp->s == IPS_OK)
+        {
+            // Abort the autofocus run now the focuser has finished moving to its start position
+            m_RestartState = RESTART_NONE;
+            inAutoFocus = false;
+            completeFocusProcedure(Ekos::FOCUS_ABORTED);
         }
 
         if (canAbsMove == false && canRelMove == false && inAutoFocus)

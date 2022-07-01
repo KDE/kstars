@@ -89,7 +89,6 @@ class FITSTab : public QWidget
         void loadFITSHeader();
         void headerFITS();
         void histoFITS();
-        void evaluateStats();
         void statFITS();
 
         void setUID(int newID)
@@ -114,7 +113,7 @@ class FITSTab : public QWidget
         void ZoomIn();
         void ZoomOut();
         void ZoomDefault();
-
+        void evaluateStats();
     protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 

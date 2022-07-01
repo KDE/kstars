@@ -170,6 +170,63 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setText(i18n("Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 
+    action = actionCollection()->addAction("image_roi_stats");
+
+    roiActionMenu = new KActionMenu(QIcon(":/icons/select_stat"), "Selection Statistics", action );
+    roiActionMenu->setText(i18n("&Selection Statistics"));
+    roiActionMenu->setDelayed(false);
+    roiActionMenu->addSeparator();
+    connect(roiActionMenu, &QAction::triggered, this, &FITSViewer::toggleSelectionMode);
+
+    KToggleAction *ksa = actionCollection()->add<KToggleAction>("100x100");
+    ksa->setText("100x100");
+    ksa->setCheckable(false);
+    roiActionMenu->addAction(ksa);
+    ksa = actionCollection()->add<KToggleAction>("50x50");
+    ksa->setText("50x50");
+    ksa->setCheckable(false);
+    roiActionMenu->addAction(ksa);
+    ksa = actionCollection()->add<KToggleAction>("25x25");
+    ksa->setText("25x25");
+    ksa->setCheckable(false);
+    roiActionMenu->addAction(ksa);
+    ksa = actionCollection()->add<KToggleAction>("CustomRoi");
+    ksa->setText("Custom");
+    ksa->setCheckable(false);
+    roiActionMenu->addAction(ksa);
+
+    action->setMenu(roiActionMenu->menu());
+    action->setIcon(QIcon(":/icons/select_stat"));
+    action->setCheckable(true);
+
+    connect(roiActionMenu->menu()->actions().at(1), &QAction::triggered, this, [this] { roiFixedSize(100); });
+    connect(roiActionMenu->menu()->actions().at(2), &QAction::triggered, this, [this] { roiFixedSize(50); });
+    connect(roiActionMenu->menu()->actions().at(3), &QAction::triggered, this, [this] { roiFixedSize(25); });
+    connect(roiActionMenu->menu()->actions().at(4), &QAction::triggered, this, [this] { customRoiInputWindow();});
+    connect(action, &QAction::triggered, this, &FITSViewer::toggleSelectionMode);
+    //
+    //roiMenu = new QMenu;
+    //roiMenu->addAction("100x100");
+    //roiMenu->addAction("50x50");
+    //roiMenu->addAction("25x25");
+    //roiMenu->addAction("xy");
+
+    //action = actionCollection()->addAction("menu");
+    //action->setIcon(QIcon(":/icons/select_stat"));
+    //action->setMenu(roiMenu);
+    //action->setCheckable(true);
+    //connect(action, SIGNAL(triggered(bool)), SLOT(toggleSelectionMode()));
+    //connect(action->menu()->actions()[0], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(100)));
+    //connect(action->menu()->actions()[1], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(50)));
+    //connect(action->menu()->actions()[2], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(25)));
+    //connect(action->menu()->actions()[3], SIGNAL(&QAction::triggered), SLOT(customRoiInputWindow()));
+
+    //action = actionCollection()->addAction("image_roi_stats");
+    //action->setIcon(QIcon(":/icons/select_stat"));
+    //action->setText(i18n("Show Selection Statistics"));
+    //action->setCheckable(true);
+    //connect(action, SIGNAL(triggered(bool)), SLOT(toggleSelectionMode()));
+
     action = actionCollection()->addAction("view_crosshair");
     action->setIcon(QIcon::fromTheme("crosshairs"));
     action->setText(i18n("Show Cross Hairs"));
@@ -237,6 +294,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
         filterCounter++;
     }
 
+    this->setAttribute(Qt::WA_AlwaysShowToolTips);
     /* Create GUI */
     createGUI("fitsviewerui.rc");
 
@@ -953,6 +1011,73 @@ void FITSViewer::updateScopeButton()
     }
 }
 
+void FITSViewer::roiFixedSize(int s)
+{
+    if (fitsTabs.empty())
+        return;
+    if(!getCurrentView()->isSelectionRectShown())
+        return;
+    getCurrentView()->processRectangleFixed(s);
+}
+
+void FITSViewer::customRoiInputWindow()
+{
+    if(fitsTabs.empty())
+        return;
+    if(!getCurrentView()->isSelectionRectShown())
+        return;
+    int mh = getCurrentView()->imageData()->height();
+    int mw = getCurrentView()->imageData()->width();
+
+    if(mh % 2)
+        mh++;
+    if(mw % 2)
+        mw++;
+
+    QDialog customRoiDialog;
+    QFormLayout form(&customRoiDialog);
+    QDialogButtonBox buttonBox(QDialogButtonBox:: Ok | QDialogButtonBox:: Cancel, Qt::Horizontal, &customRoiDialog);
+
+    form.addRow(new QLabel("Input Width and Height"));
+
+    QLineEdit wle(&customRoiDialog);
+    QLineEdit hle(&customRoiDialog);
+
+    wle.setValidator(new QIntValidator(1, mw, &wle));
+    hle.setValidator(new QIntValidator(1, mh, &hle));
+
+    form.addRow("Width :", &wle);
+    form.addRow("Height :", &hle);
+    form.addRow(&buttonBox);
+
+    connect(&buttonBox, &QDialogButtonBox::accepted, &customRoiDialog, &QDialog::accept);
+    connect(&buttonBox, &QDialogButtonBox::rejected, &customRoiDialog, &QDialog::reject);
+
+    if(customRoiDialog.exec() == QDialog::Accepted)
+    {
+        QPoint resetCenter = QPoint(mw / 2, mh / 2);
+        getCurrentView()->imageData()->setRoiCenter(resetCenter);
+
+        int newheight = hle.text().toInt();
+        int newwidth = wle.text().toInt();
+
+        newheight = qMin(newheight, mh) ;
+        newheight = qMax(newheight, 1) ;
+        newwidth = qMin(newwidth, mw);
+        newwidth = qMax(newwidth, 1);
+
+        QPoint topLeft = resetCenter;
+        QPoint botRight = resetCenter;
+
+        topLeft.setX((topLeft.x() - newwidth / 2));
+        topLeft.setY((topLeft.y() - newheight / 2));
+        botRight.setX((botRight.x() + newwidth / 2));
+        botRight.setY((botRight.y() + newheight / 2));
+
+        emit getCurrentView()->setRubberBand(QRect(topLeft, botRight));
+        getCurrentView()->processRectangle(topLeft, botRight, true);
+    }
+}
 /**
  This method either enables or disables the scope mouse mode so you can slew your scope to coordinates
  just by clicking the mouse on a spot in the image.
@@ -997,6 +1122,14 @@ void FITSViewer::toggleEQGrid()
         return;
     getCurrentView()->toggleEQGrid();
     updateButtonStatus("view_eq_grid", i18n("Equatorial Gridlines"), getCurrentView()->isEQGridShown());
+}
+
+void FITSViewer::toggleSelectionMode()
+{
+    if (fitsTabs.empty())
+        return;
+    getCurrentView()->toggleSelectionMode();
+    updateButtonStatus("image_roi_stats", i18n("Selection Rectangle"), getCurrentView()->isSelectionRectShown());
 }
 
 void FITSViewer::toggleObjects()

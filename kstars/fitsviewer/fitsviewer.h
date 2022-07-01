@@ -13,6 +13,7 @@
 
 #include <KLed>
 #include <KXmlGui/KXmlGuiWindow>
+#include <KActionMenu>
 
 #include <QLabel>
 #include <QList>
@@ -95,6 +96,7 @@ class FITSViewer : public KXmlGuiWindow
         void saveFileAs();
         void copyFITS();
         void statFITS();
+        void toggleSelectionMode();
         void headerFITS();
         void debayerFITS();
         void histoFITS();
@@ -124,6 +126,9 @@ class FITSViewer : public KXmlGuiWindow
         void flipVertical();
         void setDebayerAction(bool);
         void updateScopeButton();
+        void roiFixedSize(int s);
+        void customRoiInputWindow();
+
 
     private:
         void updateButtonStatus(const QString &action, const QString &item, bool showing);
@@ -144,6 +149,8 @@ class FITSViewer : public KXmlGuiWindow
         bool markStars { false };
         QMap<int, FITSTab *> fitsMap;
         QUrl lastURL;
+        KActionMenu *roiActionMenu { nullptr };
+        KActionMenu* roiMenu { nullptr };
 
     signals:
         void trackingStarSelected(int x, int y);

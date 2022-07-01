@@ -402,8 +402,13 @@ class Manager : public QDialog, public Ui::Manager
 
         void processTabChange();
 
-        void processServerTerminated(const QString &host, const QString &port);
-        void processServerStarted(const QString &host, const QString &port);
+        void setServerStarted(const QString &host, int port);
+        void setServerFailed(const QString &host, int port, const QString &message);
+        //void setServerTerminated(const QString &host, int port, const QString &message);
+
+        void setClientStarted(const QString &host, int port);
+        void setClientFailed(const QString &host, int port, const QString &message);
+        void setClientTerminated(const QString &host, int port, const QString &message);
 
         void removeDevice(ISD::GDInterface *);
 
