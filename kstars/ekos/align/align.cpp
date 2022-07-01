@@ -3141,6 +3141,9 @@ void Align::setWCSEnabled(bool enable)
 
     auto wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
+    if (!wcsControl)
+        return;
+
     auto wcs_enable  = wcsControl->findWidgetByName("WCS_ENABLE");
     auto wcs_disable = wcsControl->findWidgetByName("WCS_DISABLE");
 
