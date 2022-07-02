@@ -192,7 +192,9 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, ui->serverMode);
                         if (manager)
+                        {
                             item->setText(LOCAL_PORT_COLUMN, QString::number(manager->getPort()));
+                        }
                     }
                     else
                     {
@@ -221,12 +223,15 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                         item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
 
                         if (manager)
-                            item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
+                        {
+                            item->setText(LOCAL_PORT_COLUMN, QString::number(manager->getPort()));
+                        }
                     }
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        item->setText(LOCAL_PORT_COLUMN, dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort()));
+                        const auto port = dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort());
+                        item->setText(LOCAL_PORT_COLUMN, port);
                     }
 
                     break;
@@ -776,6 +781,7 @@ void DriverManager::setClientStarted()
         return;
 
     clients.append(clientManager);
+    updateLocalTab();
     updateMenuActions();
 
     KSNotification::event(QLatin1String("ConnectionSuccessful"),
