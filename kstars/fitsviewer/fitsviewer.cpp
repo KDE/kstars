@@ -1015,8 +1015,12 @@ void FITSViewer::roiFixedSize(int s)
 {
     if (fitsTabs.empty())
         return;
+
     if(!getCurrentView()->isSelectionRectShown())
-        return;
+    {
+        toggleSelectionMode();
+        updateButtonStatus("image_roi_stats", i18n("Selection Rectangle"), getCurrentView()->isSelectionRectShown());
+    }
     getCurrentView()->processRectangleFixed(s);
 }
 

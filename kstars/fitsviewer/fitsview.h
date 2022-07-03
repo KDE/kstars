@@ -471,7 +471,6 @@ class FITSView : public QScrollArea
         void failed(const QString &error);
         void starProfileWindowClosed();
         void rectangleUpdated(QRect roi);
-        void updateSelectionStatsUi();
         void setRubberBand(QRect rect);
         void showRubberBand(bool on = false);
         void zoomRubberBand(float scale);

@@ -532,6 +532,13 @@ class Mount : public QWidget, public Ui::Mount
          */
         void syncAxisReversed(INDI_EQ_AXIS axis, bool reversed);
 
+        /**
+         * @brief stopTimers Need to stop update timers when profile is disconnected
+         * but due to timing and race conditions, the timers can trigger an invalid access
+         * to INDI device.
+         */
+        void stopTimers();
+
     private slots:
         void startParkTimer();
         void stopParkTimer();

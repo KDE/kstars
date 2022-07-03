@@ -192,7 +192,9 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, ui->serverMode);
                         if (manager)
+                        {
                             item->setText(LOCAL_PORT_COLUMN, QString::number(manager->getPort()));
+                        }
                     }
                     else
                     {
@@ -221,12 +223,15 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                         item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
 
                         if (manager)
-                            item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
+                        {
+                            item->setText(LOCAL_PORT_COLUMN, QString::number(manager->getPort()));
+                        }
                     }
                     else
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                        item->setText(LOCAL_PORT_COLUMN, dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort()));
+                        const auto port = dv->getUserPort() == -1 ? QString() : QString::number(dv->getUserPort());
+                        item->setText(LOCAL_PORT_COLUMN, port);
                     }
 
                     break;
@@ -547,12 +552,12 @@ void DriverManager::updateClientTab()
     if (item == nullptr)
         return;
 
-    QString hostname = item->text(HOST_NAME_COLUMN);
-    QString hostport = item->text(HOST_PORT_COLUMN);
+    auto hostname = item->text(HOST_NAME_COLUMN);
+    int port = item->text(HOST_PORT_COLUMN).toInt();
 
-    auto device = std::find_if(driversList.begin(), driversList.end(), [hostname, hostport](const auto & oneDriver)
+    auto device = std::find_if(driversList.begin(), driversList.end(), [hostname, port](const auto & oneDriver)
     {
-        return hostname == oneDriver->getName() && hostport == oneDriver->getPort();
+        return hostname == oneDriver->getName() && port == oneDriver->getPort();
     });
     if (device != driversList.end())
         processDeviceStatus(*device);
@@ -630,7 +635,7 @@ void DriverManager::setClientFailed(const QString &message)
     client->deleteLater();
 
     updateMenuActions();
-    updateLocalTab();    
+    updateLocalTab();
 }
 
 void DriverManager::setClientTerminated(const QString &message)
@@ -656,7 +661,7 @@ void DriverManager::setClientTerminated(const QString &message)
     client->deleteLater();
 
     updateMenuActions();
-    updateLocalTab();    
+    updateLocalTab();
 }
 
 void DriverManager::setServerStarted()
@@ -732,7 +737,7 @@ void DriverManager::processRemoteTree(bool dState)
         //qDebug() << "dState is : " << (dState ? "True" : "False") << Qt::endl;
 
         if (currentItem->text(HOST_NAME_COLUMN) == dv->getName() &&
-                currentItem->text(HOST_PORT_COLUMN) == dv->getPort())
+                currentItem->text(HOST_PORT_COLUMN).toInt() == dv->getPort())
         {
             // Nothing changed, return
             if (dv->getClientState() == dState)
@@ -776,6 +781,7 @@ void DriverManager::setClientStarted()
         return;
 
     clients.append(clientManager);
+    updateLocalTab();
     updateMenuActions();
 
     KSNotification::event(QLatin1String("ConnectionSuccessful"),
@@ -1458,10 +1464,10 @@ void DriverManager::modifyINDIHost()
     if (currentItem == nullptr)
         return;
 
-    foreach (DriverInfo *host, driversList)
+    for (auto &host : driversList)
     {
         if (currentItem->text(HOST_NAME_COLUMN) == host->getName() &&
-                currentItem->text(HOST_PORT_COLUMN) == host->getPort())
+                currentItem->text(HOST_PORT_COLUMN).toInt() == host->getPort())
         {
             hostConf.nameIN->setText(host->getName());
             hostConf.hostname->setText(host->getHost());
@@ -1469,15 +1475,12 @@ void DriverManager::modifyINDIHost()
 
             if (hostConfDialog.exec() == QDialog::Accepted)
             {
-                //INDIHostsInfo *hostItem = new INDIHostsInfo;
                 host->setName(hostConf.nameIN->text());
                 host->setHostParameters(hostConf.hostname->text(),
                                         hostConf.portnumber->text().toInt());
 
                 currentItem->setText(HOST_NAME_COLUMN, hostConf.nameIN->text());
                 currentItem->setText(HOST_PORT_COLUMN, hostConf.portnumber->text());
-
-                //ksw->data()->INDIHostsList.replace(i, hostItem);
 
                 saveHosts();
                 return;
@@ -1494,7 +1497,7 @@ void DriverManager::removeINDIHost()
     foreach (DriverInfo *host, driversList)
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) ==
                 host->getName() &&
-                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) ==
+                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN).toInt() ==
                 host->getPort())
         {
             if (host->getClientState())
