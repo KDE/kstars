@@ -346,7 +346,7 @@ void FITSView::loadFile(const QString &inFilename)
         m_ImageData->setBayerParams(&param);
 
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename));
-    roiCenter = QPoint(m_ImageData->width() / 2, m_ImageData->height() / 2);
+    m_ROICenter = QPoint(m_ImageData->width() / 2, m_ImageData->height() / 2);
 }
 
 void FITSView::clearData()

@@ -78,7 +78,7 @@ class FITSData : public QObject
     public:
         explicit FITSData(FITSMode fitsMode = FITS_NORMAL);
         explicit FITSData(const QSharedPointer<FITSData> &other);
-        ~FITSData();
+        ~FITSData() override;
 
         /** Structure to hold FITS Header records */
         typedef struct
@@ -139,25 +139,25 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         // Calculate stats
-        void calculateStats(bool refresh = false , bool roi = false);
+        void calculateStats(bool refresh = false, bool roi = false);
         void saveStatistics(FITSImage::Statistic &other);
         void restoreStatistics(FITSImage::Statistic &other);
         FITSImage::Statistic const &getStatistics() const
         {
             return m_Statistics;
-        };
+        }
 
         uint16_t width(bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.width : m_Statistics.width;
+            return roi ?  m_ROIStatistics.width : m_Statistics.width;
         }
         uint16_t height(bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.height : m_Statistics.height;
+            return roi ?  m_ROIStatistics.height : m_Statistics.height;
         }
         int64_t size(bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.size : m_Statistics.size;
+            return roi ?  m_ROIStatistics.size : m_Statistics.size;
         }
         int channels() const
         {
@@ -165,19 +165,19 @@ class FITSData : public QObject
         }
         uint32_t samplesPerChannel(bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel;
+            return roi ?  m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel;
         }
         uint32_t dataType() const
         {
             return m_Statistics.dataType;
         }
-        double getMin(uint8_t channel = 0, bool roi =false) const
+        double getMin(uint8_t channel = 0, bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.min[channel]: m_Statistics.min[channel];
+            return roi ?  m_ROIStatistics.min[channel] : m_Statistics.min[channel];
         }
         double getMax(uint8_t channel = 0, bool roi = false) const
         {
-            return roi ?  m_RoiStatistics.max[channel]: m_Statistics.max[channel];
+            return roi ?  m_ROIStatistics.max[channel] : m_Statistics.max[channel];
 
         }
         void setMinMax(double newMin, double newMax, uint8_t channel = 0);
@@ -192,7 +192,7 @@ class FITSData : public QObject
         }
         double getStdDev(uint8_t channel = 0, bool roi = false ) const
         {
-            return roi ? m_RoiStatistics.stddev[channel]:  m_Statistics.stddev[channel];
+            return roi ? m_ROIStatistics.stddev[channel] :  m_Statistics.stddev[channel];
         }
         double getAverageStdDev(bool roi = false) const;
         void setMean(double value, uint8_t channel = 0)
@@ -201,7 +201,7 @@ class FITSData : public QObject
         }
         double getMean(uint8_t channel = 0, bool roi = false) const
         {
-            return roi ? m_RoiStatistics.mean[channel]:  m_Statistics.mean[channel];
+            return roi ? m_ROIStatistics.mean[channel] :  m_Statistics.mean[channel];
         }
         // for single channel, just return the mean for channel zero
         // for color, return the average
@@ -215,7 +215,7 @@ class FITSData : public QObject
         double getAverageMedian(bool roi = false) const;
         double getMedian(uint8_t channel = 0, bool roi = false) const
         {
-            return roi ? m_RoiStatistics.median[channel]:  m_Statistics.median[channel];
+            return roi ? m_ROIStatistics.median[channel] :  m_Statistics.median[channel];
         }
 
         int getBytesPerPixel() const
@@ -236,20 +236,16 @@ class FITSData : public QObject
             {
                 case TBYTE:
                     return 8;
-                    break;
                 case TSHORT:
                 case TUSHORT:
                     return 16;
-                    break;
                 case TLONG:
                 case TULONG:
                 case TFLOAT:
                     return 32;
-                    break;
                 case TLONGLONG:
                 case TDOUBLE:
                     return 64;
-                    break;
                 default:
                     return 8;
             }
@@ -633,7 +629,7 @@ class FITSData : public QObject
         template <typename T>
         void runningAverageStdDev( bool roi = false );
         template <typename T>
-        QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride,bool roi = false);
+        QPair<double, double> getSquaredSumAndMean(uint32_t start, uint32_t stride, bool roi = false);
 
         template <typename T>
         void convertToQImage(double dataMin, double dataMax, double scale, double zero, QImage &image);
@@ -709,7 +705,7 @@ class FITSData : public QObject
         /// 16bit can be either SHORT_IMG or USHORT_IMG, so m_FITSBITPIX specifies which is
         int m_FITSBITPIX {USHORT_IMG};
         FITSImage::Statistic m_Statistics;
-        FITSImage::Statistic m_RoiStatistics;
+        FITSImage::Statistic m_ROIStatistics;
 
         // A list of header records
         QList<Record> m_HeaderRecords;

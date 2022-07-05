@@ -145,19 +145,20 @@ class FITSView : public QScrollArea
         // Setup the graphics.
         void updateFrame(bool now = false);
 
+        // Telescope
         bool isTelescopeActive();
-
-        void enterEvent(QEvent *event) override;
-        void leaveEvent(QEvent *event) override;
-        CursorMode getCursorMode();
-        void setCursorMode(CursorMode mode);
-        void updateMouseCursor();
-
         void updateScopeButton();
         void setScopeButton(QAction *action)
         {
             centerTelescopeAction = action;
         }
+
+        // Events Management
+        void enterEvent(QEvent *event) override;
+        void leaveEvent(QEvent *event) override;
+        CursorMode getCursorMode();
+        void setCursorMode(CursorMode mode);
+        void updateMouseCursor();
 
         // Zoom related
         void cleanUpZoom(QPoint viewCenter = QPoint());
@@ -174,11 +175,10 @@ class FITSView : public QScrollArea
         {
             return m_ZoomFactor;
         }
-        QPoint getRoiCenter() const
+        QPoint roiCenter() const
         {
-            return roiCenter;
+            return m_ROICenter;
         }
-
 
         // Star Detection
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
@@ -446,7 +446,7 @@ class FITSView : public QScrollArea
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
-        QPoint roiCenter;
+        QPoint m_ROICenter;
 
         // State for the magnifying glass overlay.
         int magnifyingGlassX { -1 };
