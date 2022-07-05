@@ -733,7 +733,10 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
     else if (command == commands[GUIDE_SET_SETTINGS])
+    {
         guide->setSettings(payload);
+        sendGuideSettings(m_Manager->guideModule()->getSettings());
+    }
 }
 
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
