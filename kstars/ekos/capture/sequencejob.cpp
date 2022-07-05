@@ -481,18 +481,22 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     }
 
     const auto gain = getCoreProperty(SJ_Gain).toDouble();
-    if (gain != -1)
+    if (gain >= 0)
     {
         captureDeviceAdaptor.data()->getActiveCCD()->setGain(gain);
     }
 
     const auto offset = getCoreProperty(SJ_Offset).toDouble();
-    if (offset != -1)
+    if (offset >= 0)
     {
         captureDeviceAdaptor.data()->getActiveCCD()->setOffset(offset);
     }
 
-    if (stateMachine->targetFilterID != -1 && captureDeviceAdaptor.data()->getFilterWheel() != nullptr)
+    const auto frameType = getFrameType();
+    // Only change filters for FLAT and LIGHT frames.
+    // TODO add support for setting a dark filter to block all light
+    if (stateMachine->targetFilterID != -1 && captureDeviceAdaptor.data()->getFilterWheel() != nullptr &&
+            (frameType == FRAME_FLAT || frameType == FRAME_LIGHT))
     {
         if (stateMachine->targetFilterID != stateMachine->m_CaptureState->currentFilterID)
         {
@@ -500,7 +504,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 
             FilterManager::FilterPolicy policy = FilterManager::ALL_POLICIES;
             // Don't perform autofocus on preview or calibration frames or if Autofocus is not ready yet.
-            if (getCoreProperty(SequenceJob::SJ_Preview).toBool() || getFrameType() != FRAME_LIGHT || autofocusReady == false)
+            if (getCoreProperty(SequenceJob::SJ_Preview).toBool() || frameType != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
             m_FilterManager->setFilterPosition(stateMachine->targetFilterID, policy);
@@ -709,7 +713,7 @@ void SequenceJob::prepareCapture()
     {
         case FRAME_LIGHT:
             stateMachine->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
-                                                   getCoreProperty(SJ_EnforceStartGuiderDrift).toBool() && getCoreProperty(SJ_GuiderActive).toBool() ,
+                                                   getCoreProperty(SJ_EnforceStartGuiderDrift).toBool() && getCoreProperty(SJ_GuiderActive).toBool(),
                                                    getCoreProperty(SJ_Preview).toBool());
             break;
         case FRAME_FLAT:

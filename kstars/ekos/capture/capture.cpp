@@ -3041,11 +3041,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
     jsonJob.insert("Filter", "--");
-    /*if (captureTypeS->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            captureTypeS->currentText().compare("Dark", Qt::CaseInsensitive) &&
-            captureFilterS->count() > 0)*/
-    if (captureFilterS->count() > 0 &&
-            (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT))
+    if (captureFilterS->count() > 0 && (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat))
     {
         filter->setText(captureFilterS->currentText());
         jsonJob.insert("Filter", captureFilterS->currentText());
@@ -3065,10 +3061,10 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     jsonJob.insert("Exp", exp->text());
 
     QTableWidgetItem * type = m_JobUnderEdit ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
-    type->setText(captureTypeS->currentText());
+    type->setText(isDarkFlat ? i18n("Dark Flat") : captureTypeS->currentText());
     type->setTextAlignment(Qt::AlignHCenter);
     type->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    jsonJob.insert("Type", type->text());
+    jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : type->text());
 
     QTableWidgetItem * bin = m_JobUnderEdit ? queueTable->item(currentRow, 5) : new QTableWidgetItem();
     bin->setText(QString("%1x%2").arg(captureBinHN->value()).arg(captureBinVN->value()));
@@ -6502,7 +6498,7 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
     }
            );
 
-    connect(m_captureDeviceAdaptor->getFilterManager().data(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    connect(m_captureDeviceAdaptor->getFilterManager().data(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         if (filterState != m_FilterManagerState)
             qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
@@ -6957,10 +6953,10 @@ void Capture::createDSLRDialog()
     {
         if (m_captureDeviceAdaptor->getActiveCCD())
             addDSLRInfo(QString(m_captureDeviceAdaptor->getActiveCCD()->getDeviceName()),
-                    dslrInfoDialog->sensorMaxWidth,
-                    dslrInfoDialog->sensorMaxHeight,
-                    dslrInfoDialog->sensorPixelW,
-                    dslrInfoDialog->sensorPixelH);
+                        dslrInfoDialog->sensorMaxWidth,
+                        dslrInfoDialog->sensorMaxHeight,
+                        dslrInfoDialog->sensorPixelW,
+                        dslrInfoDialog->sensorPixelH);
     });
 
     dslrInfoDialog->show();
