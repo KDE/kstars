@@ -874,7 +874,41 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
         mount->setAutoParkEnabled(enabled);
     }
+    else if (command == commands[MOUNT_GOTO_PIXEL])
+    {
+        const auto camera = payload["camera"].toString();
+        const auto xFactor = payload["x"].toDouble();
+        const auto yFactor = payload["y"].toDouble();
 
+        for(auto &oneDevice : m_Manager->findDevices(KSTARS_CCD))
+        {
+            auto oneCamera = dynamic_cast<ISD::CCD*>(oneDevice);
+            if (!oneCamera || oneCamera->getDeviceName() != camera)
+                continue;
+
+            auto primaryChip = oneCamera->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+            if (!primaryChip)
+                break;
+
+            auto imageData = primaryChip->getImageData();
+            if (!imageData || imageData->hasWCS() == false)
+                break;
+
+            auto x = xFactor * imageData->width();
+            auto y = yFactor * imageData->height();
+
+            QPointF point(x, y);
+            SkyPoint coord;
+            if (imageData->pixelToWCS(point, coord))
+            {
+                // J2000 -> JNow
+                coord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+                mount->gotoTarget(coord);
+                break;
+            }
+        }
+    }
 }
 
 void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
