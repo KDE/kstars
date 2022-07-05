@@ -52,7 +52,7 @@ class FITSViewer : public KXmlGuiWindow
     public:
         /** Constructor. */
         explicit FITSViewer(QWidget *parent);
-        ~FITSViewer();
+        ~FITSViewer() override;
 
         void loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                       const QString &previewText = QString());

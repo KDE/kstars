@@ -1018,10 +1018,10 @@ void FITSData::makeRoiBuffer(QRect roi)
         }
 
     }
-    memcpy(&m_RoiStatistics, &m_Statistics, sizeof(FITSImage::Statistic));
-    m_RoiStatistics.samples_per_channel = roi.height() * roi.width();
-    m_RoiStatistics.width = roi.width();
-    m_RoiStatistics.height = roi.height();
+    memcpy(&m_ROIStatistics, &m_Statistics, sizeof(FITSImage::Statistic));
+    m_ROIStatistics.samples_per_channel = roi.height() * roi.width();
+    m_ROIStatistics.width = roi.width();
+    m_ROIStatistics.height = roi.height();
     calculateStats(false, true);
 }
 void FITSData::calculateStats(bool refresh, bool roi)
@@ -1102,7 +1102,7 @@ void FITSData::calculateStats(bool refresh, bool roi)
         calculateMinMax(refresh, roi);
         calculateMedian(refresh, roi);
 
-        switch (m_RoiStatistics.dataType)
+        switch (m_ROIStatistics.dataType)
         {
             case TBYTE:
                 runningAverageStdDev<uint8_t>(roi);
@@ -1231,14 +1231,14 @@ void FITSData::calculateMinMax(bool refresh, bool roi)
     }
     else
     {
-        m_RoiStatistics.min[0] = 1.0E30;
-        m_RoiStatistics.max[0] = -1.0E30;
+        m_ROIStatistics.min[0] = 1.0E30;
+        m_ROIStatistics.max[0] = -1.0E30;
 
-        m_RoiStatistics.min[1] = 1.0E30;
-        m_RoiStatistics.max[1] = -1.0E30;
+        m_ROIStatistics.min[1] = 1.0E30;
+        m_ROIStatistics.max[1] = -1.0E30;
 
-        m_RoiStatistics.min[2] = 1.0E30;
-        m_RoiStatistics.max[2] = -1.0E30;
+        m_ROIStatistics.min[2] = 1.0E30;
+        m_ROIStatistics.max[2] = -1.0E30;
 
         switch (m_Statistics.dataType)
         {
@@ -1349,11 +1349,11 @@ void FITSData::calculateMedian(bool refresh, bool roi)
     }
     else
     {
-        m_RoiStatistics.median[RED_CHANNEL] = 0;
-        m_RoiStatistics.median[GREEN_CHANNEL] = 0;
-        m_RoiStatistics.median[BLUE_CHANNEL] = 0;
+        m_ROIStatistics.median[RED_CHANNEL] = 0;
+        m_ROIStatistics.median[GREEN_CHANNEL] = 0;
+        m_ROIStatistics.median[BLUE_CHANNEL] = 0;
 
-        switch (m_RoiStatistics.dataType)
+        switch (m_ROIStatistics.dataType)
         {
             case TBYTE:
                 calculateMedian<uint8_t>(roi);
@@ -1399,7 +1399,7 @@ void FITSData::calculateMedian(bool roi)
 {
     auto * buffer = reinterpret_cast<T *>(roi ? m_ImageRoiBuffer : m_ImageBuffer);
     const uint32_t maxMedianSize = 500000;
-    uint32_t medianSize = roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel;
+    uint32_t medianSize = roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel;
     uint8_t downsample = 1;
     if (medianSize > maxMedianSize)
     {
@@ -1411,13 +1411,13 @@ void FITSData::calculateMedian(bool roi)
 
     for (uint8_t n = 0; n < m_Statistics.channels; n++)
     {
-        auto *oneChannel = buffer + n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
-        for (uint32_t upto = 0; upto < (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        auto *oneChannel = buffer + n * (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        for (uint32_t upto = 0; upto < (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
                 upto += downsample)
             samples.push_back(oneChannel[upto]);
         const uint32_t middle = samples.size() / 2;
         std::nth_element(samples.begin(), samples.begin() + middle, samples.end());
-        roi ? m_RoiStatistics.median[n] = samples[middle] : m_Statistics.median[n] = samples[middle];
+        roi ? m_ROIStatistics.median[n] = samples[middle] : m_Statistics.median[n] = samples[middle];
     }
 }
 
@@ -1455,13 +1455,13 @@ void FITSData::calculateMinMax(bool roi)
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        uint32_t cStart = n * (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
+        uint32_t tStride = (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + ((roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
+        uint32_t fStride = tStride + ((roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
                                       (tStride * nThreads));
 
         // Start location for inspecting elements
@@ -1493,8 +1493,8 @@ void FITSData::calculateMinMax(bool roi)
         }
         else
         {
-            m_RoiStatistics.min[n] = min;
-            m_RoiStatistics.max[n] = max;
+            m_ROIStatistics.min[n] = min;
+            m_ROIStatistics.max[n] = max;
         }
     }
 
@@ -1530,13 +1530,13 @@ void FITSData::runningAverageStdDev(bool roi )
 
     for (int n = 0; n < m_Statistics.channels; n++)
     {
-        uint32_t cStart = n * (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        uint32_t cStart = n * (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
 
         // Calculate how many elements we process per thread
-        uint32_t tStride = (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
+        uint32_t tStride = (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel) / nThreads;
 
         // Calculate the final stride since we can have some left over due to division above
-        uint32_t fStride = tStride + ((roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
+        uint32_t fStride = tStride + ((roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel) -
                                       (tStride * nThreads));
 
         // Start location for inspecting elements
@@ -1563,7 +1563,7 @@ void FITSData::runningAverageStdDev(bool roi )
             squared_sum += result.second;
         }
 
-        double variance = squared_sum / (roi ? m_RoiStatistics.samples_per_channel : m_Statistics.samples_per_channel);
+        double variance = squared_sum / (roi ? m_ROIStatistics.samples_per_channel : m_Statistics.samples_per_channel);
         if(!roi)
         {
             m_Statistics.mean[n]   = mean / nThreads;
@@ -1571,8 +1571,8 @@ void FITSData::runningAverageStdDev(bool roi )
         }
         else
         {
-            m_RoiStatistics.mean[n] = mean / nThreads;
-            m_RoiStatistics.stddev[n] = sqrt(variance);
+            m_ROIStatistics.mean[n] = mean / nThreads;
+            m_ROIStatistics.stddev[n] = sqrt(variance);
         }
     }
 }
@@ -4344,7 +4344,7 @@ void FITSData::recordLastError(int errorCode)
 
 double FITSData::getAverageMean(bool roi) const
 {
-    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    const FITSImage::Statistic* ptr = (roi ? &m_ROIStatistics : &m_Statistics);
     if (ptr->channels == 1)
         return ptr->mean[0];
     else
@@ -4353,7 +4353,7 @@ double FITSData::getAverageMean(bool roi) const
 
 double FITSData::getAverageMedian(bool roi) const
 {
-    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    const FITSImage::Statistic* ptr = (roi ? &m_ROIStatistics : &m_Statistics);
     if (ptr->channels == 1)
         return ptr->median[0];
     else
@@ -4362,7 +4362,7 @@ double FITSData::getAverageMedian(bool roi) const
 
 double FITSData::getAverageStdDev(bool roi) const
 {
-    const FITSImage::Statistic* ptr = (roi ? &m_RoiStatistics : &m_Statistics);
+    const FITSImage::Statistic* ptr = (roi ? &m_ROIStatistics : &m_Statistics);
     if (ptr->channels == 1)
         return ptr->stddev[0];
     else
