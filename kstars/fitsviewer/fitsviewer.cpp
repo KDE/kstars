@@ -199,10 +199,10 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setIcon(QIcon(":/icons/select_stat"));
     action->setCheckable(true);
 
-    connect(roiActionMenu->menu()->actions().at(1), &QAction::triggered, this, [this] { roiFixedSize(100); });
-    connect(roiActionMenu->menu()->actions().at(2), &QAction::triggered, this, [this] { roiFixedSize(50); });
-    connect(roiActionMenu->menu()->actions().at(3), &QAction::triggered, this, [this] { roiFixedSize(25); });
-    connect(roiActionMenu->menu()->actions().at(4), &QAction::triggered, this, [this] { customRoiInputWindow();});
+    connect(roiActionMenu->menu()->actions().at(1), &QAction::triggered, this, [this] { ROIFixedSize(100); });
+    connect(roiActionMenu->menu()->actions().at(2), &QAction::triggered, this, [this] { ROIFixedSize(50); });
+    connect(roiActionMenu->menu()->actions().at(3), &QAction::triggered, this, [this] { ROIFixedSize(25); });
+    connect(roiActionMenu->menu()->actions().at(4), &QAction::triggered, this, [this] { customROIInputWindow();});
     connect(action, &QAction::triggered, this, &FITSViewer::toggleSelectionMode);
     //
     //roiMenu = new QMenu;
@@ -1011,7 +1011,7 @@ void FITSViewer::updateScopeButton()
     }
 }
 
-void FITSViewer::roiFixedSize(int s)
+void FITSViewer::ROIFixedSize(int s)
 {
     if (fitsTabs.empty())
         return;
@@ -1024,12 +1024,13 @@ void FITSViewer::roiFixedSize(int s)
     getCurrentView()->processRectangleFixed(s);
 }
 
-void FITSViewer::customRoiInputWindow()
+void FITSViewer::customROIInputWindow()
 {
     if(fitsTabs.empty())
         return;
     if(!getCurrentView()->isSelectionRectShown())
         return;
+
     int mh = getCurrentView()->imageData()->height();
     int mw = getCurrentView()->imageData()->width();
 
@@ -1042,7 +1043,7 @@ void FITSViewer::customRoiInputWindow()
     QFormLayout form(&customRoiDialog);
     QDialogButtonBox buttonBox(QDialogButtonBox:: Ok | QDialogButtonBox:: Cancel, Qt::Horizontal, &customRoiDialog);
 
-    form.addRow(new QLabel("Input Width and Height"));
+    form.addRow(new QLabel(i18n("Size")));
 
     QLineEdit wle(&customRoiDialog);
     QLineEdit hle(&customRoiDialog);
@@ -1050,8 +1051,8 @@ void FITSViewer::customRoiInputWindow()
     wle.setValidator(new QIntValidator(1, mw, &wle));
     hle.setValidator(new QIntValidator(1, mh, &hle));
 
-    form.addRow("Width :", &wle);
-    form.addRow("Height :", &hle);
+    form.addRow(i18n("Width"), &wle);
+    form.addRow(i18n("Height"), &hle);
     form.addRow(&buttonBox);
 
     connect(&buttonBox, &QDialogButtonBox::accepted, &customRoiDialog, &QDialog::accept);

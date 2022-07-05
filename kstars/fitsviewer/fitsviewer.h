@@ -126,8 +126,8 @@ class FITSViewer : public KXmlGuiWindow
         void flipVertical();
         void setDebayerAction(bool);
         void updateScopeButton();
-        void roiFixedSize(int s);
-        void customRoiInputWindow();
+        void ROIFixedSize(int s);
+        void customROIInputWindow();
 
 
     private:
