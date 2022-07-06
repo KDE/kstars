@@ -181,6 +181,7 @@ void ServerManager::startDriver(DriverInfo *dv)
     // Sleep for PreDelay seconds if required.
     if (PreDelay > 0)
     {
+        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing pre-driver delay for" << PreDelay << "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(PreDelay));
     }
 
@@ -192,6 +193,9 @@ void ServerManager::startDriver(DriverInfo *dv)
         QEventLoop loop;
         QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+
+        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing pre-driver script" << PreScript;
+
         script.start(PreScript, QStringList());
         loop.exec();
 
@@ -228,7 +232,7 @@ void ServerManager::startDriver(DriverInfo *dv)
             }
         }
 
-        qCDebug(KSTARS_INDI) << "Starting INDI Driver " << dv->getExecutable();
+        qCDebug(KSTARS_INDI) << "Starting INDI Driver" << dv->getExecutable();
 
         out << "start " << dv->getExecutable();
         if (dv->getUniqueLabel().isEmpty() == false)
@@ -248,6 +252,7 @@ void ServerManager::startDriver(DriverInfo *dv)
     // Sleep for PostDelay seconds if required.
     if (PostDelay > 0)
     {
+        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing post-driver delay for" << PreDelay << "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(PostDelay));
     }
 
@@ -259,6 +264,9 @@ void ServerManager::startDriver(DriverInfo *dv)
         QEventLoop loop;
         QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished), &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+
+        qCDebug(KSTARS_INDI) << dv->getUniqueLabel() << ": Executing post-driver script" << PreScript;
+
         script.start(PostScript, QStringList());
         loop.exec();
 
