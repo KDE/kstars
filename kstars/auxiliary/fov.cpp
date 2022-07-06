@@ -55,7 +55,7 @@ bool FOVManager::save()
 
     if (!f.open(QIODevice::WriteOnly))
     {
-        qDebug() << "Could not open fov.dat.";
+        qDebug() << Q_FUNC_INFO << "Could not open fov.dat.";
         return false;
     }
 

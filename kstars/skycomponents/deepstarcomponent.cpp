@@ -216,7 +216,7 @@ bool openIndexFile()
     // TODO: Work out the details
     /*
     if( hdidxReader.openFile( "Henry-Draper.idx" ) )
-        qDebug() << "Could not open HD Index file. Search by HD numbers for deep stars will not work.";
+        qDebug() << Q_FUNC_INFO << "Could not open HD Index file. Search by HD numbers for deep stars will not work.";
     */
     return 0;
 }
@@ -290,7 +290,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
 
     StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
     //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
-    //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
+    //    qDebug() << Q_FUNC_INFO << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
     QElapsedTimer t;
     int nTrixels = 0;
 
@@ -354,7 +354,7 @@ void DeepStarComponent::draw(SkyPainter *skyp)
 
         t_dynamicLoad += t.restart();
 
-        //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has "
+        //        qDebug() << Q_FUNC_INFO << "Drawing SBL for trixel " << currentRegion << ", SBL has "
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks";
 
         // REMARK: The following should never carry state, except for const parameters like updateID and maglim
@@ -374,13 +374,13 @@ void DeepStarComponent::draw(SkyPainter *skyp)
         for (int i = 0; i < m_starBlockList.at(currentRegion)->getBlockCount(); ++i)
         {
             std::shared_ptr<StarBlock> block = m_starBlockList.at(currentRegion)->block(i);
-            //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
+            //            qDebug() << Q_FUNC_INFO << "---> Drawing stars from block " << i << " of trixel " <<
             //                currentRegion << ". SB has " << block->getStarCount() << " stars";
             for (int j = 0; j < block->getStarCount(); j++)
             {
                 StarObject *curStar = block->star(j);
 
-                //                qDebug() << "We claim that he's from trixel " << currentRegion
+                //                qDebug() << Q_FUNC_INFO << "We claim that he's from trixel " << currentRegion
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
 
                 float mag = curStar->mag();
@@ -402,17 +402,17 @@ void DeepStarComponent::draw(SkyPainter *skyp)
     trig_calls_here += dms::trig_function_calls;
     trig_redundancy_here += dms::redundant_trig_function_calls;
     cachingdms_bad_uses += CachingDms::cachingdms_bad_uses;
-    qDebug() << "Spent " << dms::seconds_in_trig << " seconds doing " << trig_calls_here
+    qDebug() << Q_FUNC_INFO << "Spent " << dms::seconds_in_trig << " seconds doing " << trig_calls_here
              << " trigonometric function calls amounting to an average of "
              << 1000.0 * dms::seconds_in_trig / double(trig_calls_here) << " ms per call";
-    qDebug() << "Redundancy of trig calls in this draw: "
+    qDebug() << Q_FUNC_INFO << "Redundancy of trig calls in this draw: "
              << double(trig_redundancy_here) / double(trig_calls_here) * 100. << "%";
-    qDebug() << "CachedDms constructor calls so far: " << CachingDms::cachingdms_constructor_calls;
-    qDebug() << "Caching has prevented " << CachingDms::cachingdms_delta << " redundant trig function calls";
-    qDebug() << "Bad cache uses in this draw: " << cachingdms_bad_uses;
+    qDebug() << Q_FUNC_INFO << "CachedDms constructor calls so far: " << CachingDms::cachingdms_constructor_calls;
+    qDebug() << Q_FUNC_INFO << "Caching has prevented " << CachingDms::cachingdms_delta << " redundant trig function calls";
+    qDebug() << Q_FUNC_INFO << "Bad cache uses in this draw: " << cachingdms_bad_uses;
 #endif
 #ifdef PROFILE_UPDATECOORDS
-    qDebug() << "Spent " << StarObject::updateCoordsCpuTime << " seconds updating " << StarObject::starsUpdated
+    qDebug() << Q_FUNC_INFO << "Spent " << StarObject::updateCoordsCpuTime << " seconds updating " << StarObject::starsUpdated
              << " stars' coordinates (StarObject::updateCoords) for an average of "
              << double(StarObject::updateCoordsCpuTime) / double(StarObject::starsUpdated) * 1.e6 << " us per star.";
 #endif

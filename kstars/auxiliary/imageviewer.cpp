@@ -91,7 +91,7 @@ ImageViewer::ImageViewer(const QUrl &url, const QString &capText, QWidget *paren
 
     // check URL
     if (!m_ImageUrl.isValid())
-        qDebug() << "URL is malformed: " << m_ImageUrl;
+        qDebug() << Q_FUNC_INFO << "URL is malformed: " << m_ImageUrl;
 
     if (m_ImageUrl.isLocalFile())
     {
@@ -348,7 +348,7 @@ void ImageViewer::saveFile(QUrl &url)
 #ifndef KSTARS_LITE
         KSNotification::error(text);
 #else
-        qDebug() << text;
+        qDebug() << Q_FUNC_INFO << text;
 #endif
     }
 #ifndef KSTARS_LITE

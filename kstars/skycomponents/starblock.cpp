@@ -25,7 +25,7 @@ StarNode::~StarNode()
     if (starNode)
     {
         SkyMapLite::Instance()->deleteSkyNode(starNode);
-        qDebug() << "REAL NODE DESTRUCTOR";
+        qDebug() << Q_FUNC_INFO << "REAL NODE DESTRUCTOR";
     }
 }
 #endif

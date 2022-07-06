@@ -159,7 +159,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     if (!outimage.save(fileName, format))
     {
         m_lastErrorMessage = i18n("Error: Unable to save image: %1", fileName);
-        qDebug() << m_lastErrorMessage;
+        qDebug() << Q_FUNC_INFO << m_lastErrorMessage;
         return false;
     }
 

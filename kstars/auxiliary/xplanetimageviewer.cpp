@@ -738,7 +738,7 @@ void XPlanetImageViewer::startXplanet()
     xplanetProc->start(xPlanetLocation, args);
 
     //Uncomment to print the XPlanet commands to the console
-    // qDebug() << "Run:" << xplanetProc->program() << args.join(" ");
+    // qDebug() << Q_FUNC_INFO << "Run:" << xplanetProc->program() << args.join(" ");
 
     bool XPlanetSucceeded = xplanetProc->waitForFinished(timeout);
     m_XPlanetRunning = false;

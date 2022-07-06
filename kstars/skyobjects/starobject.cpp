@@ -163,7 +163,7 @@ void StarObject::init(const StarData *stardata)
     testStar = false;
     if( stardata->HD == 103095 && Trail.size() == 0 ) {
       // Populate Trail with various positions
-        qDebug() << "TEST STAR FOUND!";
+        qDebug() << Q_FUNC_INFO << "TEST STAR FOUND!";
         testStar = true;
         KSNumbers num( J2000 ); // Some estimate, doesn't matter.
         long double jy;
@@ -173,7 +173,7 @@ void StarObject::init(const StarData *stardata)
             getIndexCoords( &num, &ra, &dec );
             Trail.append( new SkyPoint( ra / 15.0, dec ) );
         }
-        qDebug() << "Populated the star's trail with " << Trail.size() << " entries.";
+        qDebug() << Q_FUNC_INFO << "Populated the star's trail with " << Trail.size() << " entries.";
     }
     */
     // END DEBUG.

@@ -91,7 +91,7 @@ void LinGuider::readLinGuider()
                 break;
 
             if (Options::guideLogging())
-                qDebug() << "Guide:" << rawBuffer;
+                qDebug() << Q_FUNC_INFO << "Guide:" << rawBuffer;
 
             qint16 magicNumber = *(reinterpret_cast<qint16 *>(rawBuffer.data()));
             if (magicNumber != 0x02)

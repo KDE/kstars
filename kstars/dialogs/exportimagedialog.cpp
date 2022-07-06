@@ -118,7 +118,7 @@ void ExportImageDialog::updateLegendSettings()
 
 void ExportImageDialog::exportImage()
 {
-    qDebug() << "Exporting sky image";
+    qDebug() << Q_FUNC_INFO << "Exporting sky image";
     updateLegendSettings();
     m_ImageExporter->includeLegend(m_DialogUI->addLegendCheckBox->isChecked());
     if (!m_ImageExporter->exportImage(m_Url))

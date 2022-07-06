@@ -166,7 +166,7 @@ void modCalcVlsr::slotCompute()
         }
 
         default: //oops
-            qDebug() << "Error: do not know which velocity to use for input.";
+            qDebug() << Q_FUNC_INFO << "Error: do not know which velocity to use for input.";
             break;
     }
 }

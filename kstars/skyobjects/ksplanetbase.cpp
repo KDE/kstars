@@ -214,7 +214,7 @@ void KSPlanetBase::setRearth(const KSPlanetBase *Earth)
 
     if (!Earth)
     {
-        qDebug() << "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" << name() << ")";
+        qDebug() << Q_FUNC_INFO << "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" << name() << ")";
         Rearth = 1.0;
         return;
     }

@@ -251,19 +251,19 @@ KStars::~KStars()
     Q_ASSERT(pinstance);
     pinstance = nullptr;
 #ifdef PROFILE_COORDINATE_CONVERSION
-    qDebug() << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls
+    qDebug() << Q_FUNC_INFO << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls
              << " calls to SkyPoint::EquatorialToHorizontal, for an average of "
              << 1000. * (SkyPoint::cpuTime_EqToHz / SkyPoint::eqToHzCalls) << " ms per call";
 #endif
 
 #ifdef COUNT_DMS_SINCOS_CALLS
-    qDebug() << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called
+    qDebug() << Q_FUNC_INFO << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called
              << " had trigonometric functions called on them = "
              << (float(dms::dms_with_sincos_called) / float(dms::dms_constructor_calls)) * 100. << "%";
-    qDebug() << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, "
+    qDebug() << Q_FUNC_INFO << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, "
              << dms::redundant_trig_function_calls << " were redundant = "
              << ((float(dms::redundant_trig_function_calls) / float(dms::trig_function_calls)) * 100.) << "%";
-    qDebug() << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to "
+    qDebug() << Q_FUNC_INFO << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to "
              << CachingDms::cachingdms_constructor_calls << " constructed CachingDms objects = "
              << (float(CachingDms::cachingdms_bad_uses) / float(CachingDms::cachingdms_constructor_calls)) * 100.
              << "% bad uses";

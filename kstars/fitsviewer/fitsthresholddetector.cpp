@@ -122,7 +122,7 @@ bool FITSThresholdDetector::findOneStar(const QRect &boundary) const
                     pass++;
             }
 
-            //qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
+            //qDebug() << Q_FUNC_INFO << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
             //if (pass >= 6)
             if (pass >= 5)
             {

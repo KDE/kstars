@@ -142,7 +142,7 @@ KSPlanet::KSPlanet(int n) : KSPlanetBase()
             KSPlanetBase::init(i18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572.);
             break;
         default:
-            qDebug() << "Error: Illegal identifier in KSPlanet constructor: " << n;
+            qDebug() << Q_FUNC_INFO << "Error: Illegal identifier in KSPlanet constructor: " << n;
             break;
     }
 }
@@ -218,13 +218,13 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
         {
             sum[i] += odc.Lon[i][j].A * cos(odc.Lon[i][j].B + odc.Lon[i][j].C * Tau);
             /*
-            qDebug() << "sum[" << i <<"] =" << sum[i] <<
+            qDebug() << Q_FUNC_INFO << "sum[" << i <<"] =" << sum[i] <<
                 " A = " << odc.Lon[i][j].A << " B = " << odc.Lon[i][j].B <<
                 " C = " << odc.Lon[i][j].C;
                 */
         }
         sum[i] *= Tpow[i];
-        //qDebug() << name() << " : sum[" << i << "] = " << sum[i];
+        //qDebug() << Q_FUNC_INFO << name() << " : sum[" << i << "] = " << sum[i];
     }
 
     epret.longitude.setRadians(sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5]);
@@ -257,7 +257,7 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const
     epret.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
 
     /*
-    qDebug() << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
+    qDebug() << Q_FUNC_INFO << name() << " pre: Lat = " << epret.latitude.toDMSString() << " Long = " <<
         epret.longitude.toDMSString() << " Dist = " << epret.radius;
     */
 }

@@ -158,9 +158,9 @@ void modCalcJD::processLines(QTextStream &istream, int inputData)
                 dt = KStarsDateTime(QDate::fromString(data[0]), QTime(0, 0, 0));
 
             //DEBUG
-            qDebug() << data[0];
+            qDebug() << Q_FUNC_INFO << data[0];
             if (dt.isValid())
-                qDebug() << dt.toString();
+                qDebug() << Q_FUNC_INFO << dt.toString();
 
             if (dt.isValid())
             {

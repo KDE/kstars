@@ -55,7 +55,7 @@ void ConstellationArtComponent::loadData()
         {
             if (!get_query.exec("SELECT * FROM western"))
             {
-                qDebug() << get_query.lastError();
+                qDebug() << Q_FUNC_INFO << get_query.lastError();
                 return;
             }
         }
@@ -63,7 +63,7 @@ void ConstellationArtComponent::loadData()
         {
             if (!get_query.exec("SELECT * FROM inuit"))
             {
-                qDebug() << get_query.lastError();
+                qDebug() << Q_FUNC_INFO << get_query.lastError();
                 return;
             }
         }
@@ -97,8 +97,8 @@ void ConstellationArtComponent::showList()
     int i = 0;
     for (i = 0; i < m_ConstList.size(); i++)
     {
-        qDebug() << m_ConstList[i]->getAbbrev() << m_ConstList[i]->getImageFileName();
-        qDebug() << m_ConstList[i]->pa();
+        qDebug() << Q_FUNC_INFO << m_ConstList[i]->getAbbrev() << m_ConstList[i]->getImageFileName();
+        qDebug() << Q_FUNC_INFO << m_ConstList[i]->pa();
     }
 }
 

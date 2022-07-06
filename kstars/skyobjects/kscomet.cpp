@@ -124,7 +124,7 @@ KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e,
                   fragment;                // Bits 0-15  (16)
         return;
     }
-    // qDebug() << "Didn't get it: " << _s;
+    // qDebug() << Q_FUNC_INFO << "Didn't get it: " << _s;
 }
 
 KSComet *KSComet::clone() const

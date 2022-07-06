@@ -50,8 +50,8 @@ void PixCache::setMaxCost(int maxCost)
 
 void PixCache::printCache()
 {
-  qDebug() << " -- cache ---------------";
-  qDebug() << m_cache.size() << m_cache.totalCost() << m_cache.maxCost();
+  qDebug() << Q_FUNC_INFO << " -- cache ---------------";
+  qDebug() << Q_FUNC_INFO << m_cache.size() << m_cache.totalCost() << m_cache.maxCost();
 }
 
 int PixCache::used()

@@ -1080,7 +1080,7 @@ void SkyMap::slewFocus()
             while (r > step)
             {
                 //DEBUG
-                //qDebug() << step << ": " << r << ": " << r0;
+                //qDebug() << Q_FUNC_INFO << step << ": " << r << ": " << r0;
                 double fX = dX / r;
                 double fY = dY / r;
 

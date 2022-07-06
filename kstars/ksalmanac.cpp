@@ -43,7 +43,7 @@ void KSAlmanac::update()
 {
     RiseSetTime(&m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT);
     RiseSetTime(&m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT);
-    //    qDebug() << "Sun rise: " << SunRiseT.toString() << " Sun set: " << SunSetT.toString() << " Moon rise: " << MoonRiseT.toString() << " Moon set: " << MoonSetT.toString();
+    //    qDebug() << Q_FUNC_INFO << "Sun rise: " << SunRiseT.toString() << " Sun set: " << SunSetT.toString() << " Moon rise: " << MoonRiseT.toString() << " Moon set: " << MoonSetT.toString();
     findDawnDusk();
     findMoonPhase();
 }

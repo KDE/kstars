@@ -26,7 +26,7 @@ KSParser::KSParser(const QString &filename, const char comment_char, const QList
     else
     {
         readFunctionPtr = &KSParser::ReadCSVRow;
-        qDebug() << "File opened: " << filename;
+        qDebug() << Q_FUNC_INFO << "File opened: " << filename;
     }
 }
 
@@ -42,7 +42,7 @@ KSParser::KSParser(const QString &filename, const char comment_char, const QList
     else
     {
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
-        qDebug() << "File opened: " << filename;
+        qDebug() << Q_FUNC_INFO << "File opened: " << filename;
     }
 }
 
@@ -98,7 +98,7 @@ QHash<QString, QVariant> KSParser::ReadCSVRow()
             newRow[name_type_sequence_[i].first] = ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
             if (!ok && parser_debug_mode_)
             {
-                qDebug() << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
+                qDebug() << Q_FUNC_INFO << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
                          << " & next_line : " << next_line;
             }
         }
@@ -180,7 +180,7 @@ QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
             newRow[name_type_sequence_[i].first] = ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
             if (!ok && parser_debug_mode_)
             {
-                qDebug() << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
+                qDebug() << Q_FUNC_INFO << name_type_sequence_[i].second << "Failed at field: " << name_type_sequence_[i].first
                          << " & next_line : " << next_line;
             }
         }
@@ -249,7 +249,7 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
 
     if (separated.length() == 0)
     {
-        qDebug() << "Cannot Combine empty list";
+        qDebug() << Q_FUNC_INFO << "Cannot Combine empty list";
     }
     else
     {

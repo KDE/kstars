@@ -638,10 +638,10 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     if (!visible || !m_proj->onScreen(constellationmidpoint))
         return false;
 
-    //qDebug() << "o->pa() " << obj->pa();
+    //qDebug() << Q_FUNC_INFO << "o->pa() " << obj->pa();
     float positionangle =
         m_proj->findPA(obj, constellationmidpoint.x(), constellationmidpoint.y());
-    //qDebug() << " final PA " << positionangle;
+    //qDebug() << Q_FUNC_INFO << " final PA " << positionangle;
 
     float w = obj->getWidth() * 60 * dms::PI * zoom / 10800;
     float h = obj->getHeight() * 60 * dms::PI * zoom / 10800;

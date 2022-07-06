@@ -100,7 +100,7 @@ void OptionsTreeView::resizeColumns()
     for (int icol = 0; icol < 3; ++icol)
     {
         //DEBUG
-        qDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]);
+        qDebug() << Q_FUNC_INFO << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]);
 
         optionsList()->setColumnWidth(icol, maxwidth[icol]);
     }
@@ -1007,7 +1007,7 @@ void ScriptBuilder::slotRunScript()
     p.start(f.fileName(), arguments);
 
     if (!p.waitForStarted())
-        qDebug() << "Process did not start.";
+        qDebug() << Q_FUNC_INFO << "Process did not start.";
 
     while (!p.waitForFinished(10))
     {

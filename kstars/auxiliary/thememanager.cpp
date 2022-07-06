@@ -180,8 +180,6 @@ void Manager::slotChangePalette()
 
     qApp->style()->polish(qApp);
 
-    qCDebug(KSTARS) << theme << " :: " << filename;
-
     emit signalThemeChanged();
 }
 

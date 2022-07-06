@@ -557,9 +557,9 @@ void DetailDialog::createPositionTab(const KStarsDateTime &ut, GeoLocation *geo)
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace('.', QLocale().decimalPoint()); // Is this necessary? -- asimha Oct 2016
 
-    /*qDebug() << (selectedObject->deprecess(data->updateNum())).ra0().toHMSString()
+    /*qDebug() << Q_FUNC_INFO << (selectedObject->deprecess(data->updateNum())).ra0().toHMSString()
              << (selectedObject->deprecess(data->updateNum())).dec0().toDMSString();*/
-    //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString();
+    //qDebug() << Q_FUNC_INFO << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString();
     Pos->RALabel->setText(i18n("RA (%1):", sEpoch));
     Pos->DecLabel->setText(i18n("DE (%1):", sEpoch));
     Pos->RA->setText(selectedObject->ra().toHMSString(false, true));

@@ -385,7 +385,7 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
             for (int k = rCenter->width / 2; k >= -(rCenter->width / 2); k--)
             {
                 FSum += buffer[cen_x - k + (cen_y * stats.width)] - min;
-                //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+                //qDebug() << Q_FUNC_INFO << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
             }
 
             // Half flux
@@ -438,7 +438,7 @@ bool FITSCentroidDetector::findSources(const QRect &boundary)
                 starCenters.removeOne(center);
 
         //foreach(Edge *center, starCenters)
-        //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << Qt::endl;
+        //qDebug() << Q_FUNC_INFO << center->x << "," << center->y << "," << center->width << "," << center->val << Qt::endl;
     }
 
     m_ImageData->setStarCenters(starCenters);

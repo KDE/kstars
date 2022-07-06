@@ -537,7 +537,7 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
         }
     } // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
 
-    //	qDebug() << "Using Valid Local Time = " << ValidLTime.toString();
+    //	qDebug() << Q_FUNC_INFO << "Using Valid Local Time = " << ValidLTime.toString();
 
     if (time_runs_forward)
     {

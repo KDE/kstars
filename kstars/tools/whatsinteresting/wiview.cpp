@@ -440,7 +440,7 @@ void WIView::onUpdateIconClicked()
         }
         else
         {
-            qDebug() << "No Objects in List!";
+            qDebug() << Q_FUNC_INFO << "No Objects in List!";
         }
     }
 }
@@ -636,7 +636,7 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
     {
         response->abort();
         response->deleteLater();
-        qDebug() << "Wikipedia Download Timed out.";
+        qDebug() << Q_FUNC_INFO << "Wikipedia Download Timed out.";
     });
     connect(response, &QNetworkReply::finished, this, [soitem, this, response, name]
     {
@@ -786,7 +786,7 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
     {
         response->abort();
         response->deleteLater();
-        qDebug() << "Wikipedia Download Timed out.";
+        qDebug() << Q_FUNC_INFO << "Wikipedia Download Timed out.";
     });
     connect(response, &QNetworkReply::finished, this, [name, response, soitem, this]
     {
@@ -914,7 +914,7 @@ void WIView::saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString tex
 
     if (file.open(QIODevice::WriteOnly) == false)
     {
-        qDebug() << "Image text cannot be saved for later.  file save error";
+        qDebug() << Q_FUNC_INFO << "Image text cannot be saved for later.  file save error";
         return;
     }
     else
@@ -950,7 +950,7 @@ void WIView::saveImageURL(SkyObjItem *soitem, QString imageURL)
 
     if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
     {
-        qDebug() << "Image URL cannot be saved for later.  image_url.dat error";
+        qDebug() << Q_FUNC_INFO << "Image URL cannot be saved for later.  image_url.dat error";
         return;
     }
     else
@@ -986,7 +986,7 @@ void WIView::saveInfoURL(SkyObjItem *soitem, QString infoURL)
 
     if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
     {
-        qDebug() << "Info URL cannot be saved for later.  info_url.dat error";
+        qDebug() << Q_FUNC_INFO << "Info URL cannot be saved for later.  info_url.dat error";
         return;
     }
     else
@@ -1011,7 +1011,7 @@ void WIView::downloadWikipediaImage(SkyObjItem *soitem, QString imageURL)
     {
         response->abort();
         response->deleteLater();
-        qDebug() << "Image Download Timed out.";
+        qDebug() << Q_FUNC_INFO << "Image Download Timed out.";
     });
     connect(response, &QNetworkReply::finished, this, [fileN, response, this]
     {
@@ -1026,6 +1026,6 @@ void WIView::downloadWikipediaImage(SkyObjItem *soitem, QString imageURL)
             refreshListView(); //This is to update the images displayed with the new image.
         }
         else
-            qDebug() << "image not downloaded";
+            qDebug() << Q_FUNC_INFO << "image not downloaded";
     });
 }

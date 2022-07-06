@@ -104,12 +104,12 @@ bool INDI_D::removeProperty(INDI::Property prop)
 
     if (strcmp(prop->getDeviceName(), m_BaseDevice->getDeviceName()))
     {
-        // qDebug() << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
+        // qDebug() << Q_FUNC_INFO << "Ignoring property " << prop->getName() << " for device " << prop->getgetDeviceName() << " because our device is "
         //     << dv->getDeviceName() << Qt::endl;
         return false;
     }
 
-    // qDebug() << "Received new property " << prop->getName() << " for our device " << dv->getDeviceName() << Qt::endl;
+    // qDebug() << Q_FUNC_INFO << "Received new property " << prop->getName() << " for our device " << dv->getDeviceName() << Qt::endl;
 
     INDI_G *pg = getGroup(groupName);
 
@@ -120,7 +120,7 @@ bool INDI_D::removeProperty(INDI::Property prop)
 
     if (pg->size() == 0 && removeResult)
     {
-        //qDebug() << "Removing tab for group " << pg->getName() << " with an index of " << groupsList.indexOf(pg) << Qt::endl;
+        //qDebug() << Q_FUNC_INFO << "Removing tab for group " << pg->getName() << " with an index of " << groupsList.indexOf(pg) << Qt::endl;
         groupContainer->removeTab(groupsList.indexOf(pg));
         groupsList.removeOne(pg);
         delete (pg);

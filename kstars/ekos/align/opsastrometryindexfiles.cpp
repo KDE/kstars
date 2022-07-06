@@ -442,7 +442,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     *cancelConnection = connect(indexDownloadCancel, &QPushButton::clicked,
                                 [ = ]()
     {
-        qDebug() << "Download Cancelled.";
+        qDebug() << Q_FUNC_INFO << "Download Cancelled.";
         timeoutTimer.stop();
         disconnectDownload(cancelConnection, replyConnection, percentConnection);
         if(response)
@@ -486,7 +486,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                     int downloadedFileSize = QFileInfo(file).size();
                     int dtime = downloadTime.elapsed();
                     actualdownloadSpeed = (actualdownloadSpeed + (downloadedFileSize / dtime)) / 2;
-                    qDebug() << "Filesize: " << downloadedFileSize << ", time: " << dtime << ", inst speed: " << downloadedFileSize / dtime <<
+                    qDebug() << Q_FUNC_INFO << "Filesize: " << downloadedFileSize << ", time: " << dtime << ", inst speed: " << downloadedFileSize / dtime <<
                              ", averaged speed: " << actualdownloadSpeed;
 
                 }

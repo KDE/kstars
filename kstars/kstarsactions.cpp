@@ -1709,7 +1709,7 @@ void KStars::slotColorScheme()
 
 void KStars::slotTargetSymbol(bool flag)
 {
-    qDebug() << QString("slotTargetSymbol: %1 %2").arg(sender()->objectName()).arg(flag);
+    qDebug() << Q_FUNC_INFO << QString("slotTargetSymbol: %1 %2").arg(sender()->objectName()).arg(flag);
 
     QStringList names = Options::fOVNames();
     if (flag)

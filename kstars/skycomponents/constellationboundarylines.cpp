@@ -240,7 +240,7 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(const SkyPoint *p) const
         PolyList *polyList = iter.key();
         iter++;
 
-        //qDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
+        //qDebug() << Q_FUNC_INFO << QString("checking %1 boundary\n").arg( polyList->name() );
 
         const QPolygonF *poly = polyList->poly();
         if (wrapRA && polyList->wrapRA())
