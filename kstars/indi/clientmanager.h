@@ -40,7 +40,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         Q_OBJECT
 
     public:
-        ClientManager() = default;
+        ClientManager();
         virtual ~ClientManager() override = default;
 
         /**
@@ -104,6 +104,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         virtual void serverDisconnected(int exitCode) override;
 
     private:
+        void processNewProperty(INDI::Property prop);
         QList<DriverInfo *> m_ManagedDrivers;
         QList<BlobManager *> blobManagers;
         ServerManager *sManager { nullptr };

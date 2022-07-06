@@ -16,6 +16,11 @@
 #include <indi_debug.h>
 #include <QTimer>
 
+ClientManager::ClientManager()
+{
+    connect(this, &ClientManager::newINDIProperty, this, &ClientManager::processNewProperty, Qt::UniqueConnection);
+}
+
 bool ClientManager::isDriverManaged(DriverInfo *di)
 {
     return std::any_of(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [di](const auto & oneDriver)
@@ -92,19 +97,6 @@ void ClientManager::newProperty(INDI::Property *pprop)
 
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
     emit newINDIProperty(prop);
-
-    // Only handle RW and RO BLOB properties
-    if (prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
-    {
-        BlobManager *bm = new BlobManager(this, getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
-        connect(bm, &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
-        connect(bm, &BlobManager::connected, this, [prop, this]()
-        {
-            if (prop && prop.getRegistered())
-                emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
-        });
-        blobManagers.append(bm);
-    }
 }
 
 void ClientManager::removeProperty(INDI::Property *prop)
@@ -128,6 +120,22 @@ void ClientManager::removeProperty(INDI::Property *prop)
                 break;
             }
         }
+    }
+}
+
+void ClientManager::processNewProperty(INDI::Property prop)
+{
+    // Only handle RW and RO BLOB properties
+    if (prop.getType() == INDI_BLOB && prop.getPermission() != IP_WO)
+    {
+        BlobManager *bm = new BlobManager(this, getHost(), getPort(), prop.getBaseDevice()->getDeviceName(), prop.getName());
+        connect(bm, &BlobManager::newINDIBLOB, this, &ClientManager::newINDIBLOB);
+        connect(bm, &BlobManager::connected, this, [prop, this]()
+        {
+            if (prop && prop.getRegistered())
+                emit newBLOBManager(prop->getBaseDevice()->getDeviceName(), prop);
+        });
+        blobManagers.append(bm);
     }
 }
 
