@@ -1758,7 +1758,7 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
         else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS)
         {
             // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
-            bool const retry_focusing = m_RestartState != RESTART_NONE && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
+            bool const retry_focusing = m_RestartState == RESTART_NONE && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
 
             // If retrying, before moving, reset focus frame in case the star in subframe was lost
             if (retry_focusing)
@@ -2465,16 +2465,14 @@ void Focus::autoFocusLinear()
             else if (R2Retries == 0)
             {
                 // Failed the R2 check for the first time so retry...
-                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check failed R2=%1 R2Limit=%2 retrying...").arg(R2).arg(
-                                               R2Limit->value());
+                appendLogText(i18n("Curve Fit check failed R2=%1 R2Limit=%2 retrying...", R2, R2Limit->value()));
                 completeFocusProcedure(Ekos::FOCUS_ABORTED, false);
                 R2Retries++;
             }
             else
             {
                 // Retried after an R2 check fail but failed again so... log msg and continue
-                qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check failed R2=%1 R2Limit=%2, but continuing...").arg(R2).arg(
-                                               R2Limit->value());
+                appendLogText(i18n("Curve Fit check failed again R2=%1 R2Limit=%2 but continuing...", R2, R2Limit->value()));
                 completeFocusProcedure(Ekos::FOCUS_COMPLETE, false);
                 R2Retries = 0;
             }
