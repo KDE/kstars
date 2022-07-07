@@ -51,7 +51,7 @@ ThumbnailEditor::ThumbnailEditor(ThumbnailPicker *_tp, double _w, double _h) : Q
     ui->ImageCanvas->setImage(tp->currentListImage());
 
     //DEBUG
-    //qDebug() << tp->currentListImage()->size();
+    //qDebug() << Q_FUNC_INFO << tp->currentListImage()->size();
 
     connect(ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT(slotUpdateCropLabel()));
     slotUpdateCropLabel();

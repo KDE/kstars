@@ -252,7 +252,7 @@ bool HIPSManager::parseProperties(hipsParams_t *param, const QString &filename, 
 
     if (!f.open(QFile::ReadOnly | QFile::Text))
     {
-        qDebug() << "nf" << f.fileName();
+        qDebug() << Q_FUNC_INFO << "nf" << f.fileName();
         return false;
     }
 
@@ -270,7 +270,7 @@ bool HIPSManager::parseProperties(hipsParams_t *param, const QString &filename, 
     }
 
     param->url = url;
-    qDebug() << url;
+    qDebug() << Q_FUNC_INFO << url;
 
     int count = 0;
     QString tmp;

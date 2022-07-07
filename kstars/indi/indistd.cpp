@@ -764,7 +764,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 {
     GDSetCommand *indiCommand = static_cast<GDSetCommand *>(setPropCommand);
 
-    //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue;
+    //qDebug() << Q_FUNC_INFO << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue;
 
     auto pp = baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
 
@@ -790,7 +790,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             sp->setState(indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON);
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
+            //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
             clientManager->sendNewSwitch(svp);
 
             return true;
@@ -815,7 +815,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
             np->setValue(value);
 
-            //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
+            //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
             clientManager->sendNewNumber(nvp);
         }
         break;
@@ -1257,7 +1257,7 @@ bool ST4::doPulse(GuideDirection dir, int msecs)
 
     clientManager->sendNewNumber(npulse);
 
-    //qDebug() << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms ";
+    //qDebug() << Q_FUNC_INFO << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms ";
 
     return true;
 }

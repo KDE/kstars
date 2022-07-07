@@ -173,7 +173,7 @@ void ThumbnailPicker::slotJobResult(KJob *job)
     //If there was a problem, just return silently without adding image to list.
     if (job->error())
     {
-        qDebug() << " error=" << job->error();
+        qDebug() << Q_FUNC_INFO << " error=" << job->error();
         job->kill();
         return;
     }

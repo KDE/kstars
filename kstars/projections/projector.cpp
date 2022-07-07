@@ -487,15 +487,15 @@ Eigen::Vector2f Projector::toScreenVec(const SkyPoint *o, bool oRefract, bool *o
         // JM: Enable this again later when trying to find a solution for it
         //     As it is now creating too much noise in the log file.
         /*
-        qDebug() << "Assert in Projector::toScreenVec failed!";
-        qDebug() << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
+        qDebug() << Q_FUNC_INFO << "Assert in Projector::toScreenVec failed!";
+        qDebug() << Q_FUNC_INFO << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
         const SkyObject *obj;
-        qDebug() << "Point supplied has RA0 = " << o->ra0().toHMSString() << " Dec0 = " << o->dec0().toDMSString() << "; alt = " << o->alt().toDMSString() << "; az = " << o->az().toDMSString();
+        qDebug() << Q_FUNC_INFO << "Point supplied has RA0 = " << o->ra0().toHMSString() << " Dec0 = " << o->dec0().toDMSString() << "; alt = " << o->alt().toDMSString() << "; az = " << o->az().toDMSString();
         if ( (obj = dynamic_cast<const SkyObject *>(o) ) ) {
-            qDebug() << "Point is object with name = " << obj->name() << " longname = " << obj->longname();
+            qDebug() << Q_FUNC_INFO << "Point is object with name = " << obj->name() << " longname = " << obj->longname();
         }
-        qDebug() << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
-        qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
+        qDebug() << Q_FUNC_INFO << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
+        qDebug() << Q_FUNC_INFO << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
 
         //Q_ASSERT( false );
         */

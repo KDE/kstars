@@ -178,12 +178,12 @@ void FovEditorDialog::slotSaveImage()
 
         if (!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
         {
-            qDebug() << "Error: Unable to save image: " << fname;
+            qDebug() << Q_FUNC_INFO << "Error: Unable to save image: " << fname;
         }
 
         else
         {
-            qDebug() << "Image saved to file: " << fname;
+            qDebug() << Q_FUNC_INFO << "Image saved to file: " << fname;
         }
     }
 

@@ -89,7 +89,7 @@ bool KSSun::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Ear
                 sum[i] += odc.Lon[i][j].A * cos(odc.Lon[i][j].B + odc.Lon[i][j].C * T);
             }
             sum[i] *= Tpow[i];
-            //qDebug() << name() << " : sum[" << i << "] = " << sum[i];
+            //qDebug() << Q_FUNC_INFO << name() << " : sum[" << i << "] = " << sum[i];
         }
 
         EarthLong.setRadians(sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5]);

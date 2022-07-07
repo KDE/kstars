@@ -485,7 +485,7 @@ bool KStarsData::readCityData()
 
             if (!get_query.exec("SELECT * FROM city"))
             {
-                qDebug() << get_query.lastError();
+                qDebug() << Q_FUNC_INFO << get_query.lastError();
                 return false;
             }
             while (get_query.next())
@@ -654,7 +654,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
             if (KSUtils::openDataFile(file, urlfile))
             {
                 if (QLocale().language() != QLocale::English)
-                    qDebug() << "No localized URL file; using default English file.";
+                    qDebug() << Q_FUNC_INFO << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
                 localeFile.setFileName(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(urlfile));
                 if (localeFile.open(QIODevice::WriteOnly))
@@ -673,7 +673,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 }
                 else
                 {
-                    qDebug() << "Failed to copy default URL file to locale folder, modifying default object links is "
+                    qDebug() << Q_FUNC_INFO << "Failed to copy default URL file to locale folder, modifying default object links is "
                              "not possible";
                 }
                 fileFound = true;
@@ -917,7 +917,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
     QFile f(scriptname);
     if (!f.open(QIODevice::ReadOnly))
     {
-        qDebug() << "Could not open file " << f.fileName();
+        qDebug() << Q_FUNC_INFO << "Could not open file " << f.fileName();
         return false;
     }
 
@@ -959,7 +959,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
             QStringList fn = line.mid(i).split(' ');
 
             //DEBUG
-            //qDebug() << fn;
+            //qDebug() << Q_FUNC_INFO << fn;
 
             if (fn[0] == "lookTowards" && fn.size() >= 2)
             {
@@ -1078,7 +1078,7 @@ bool KStarsData::executeScript(const QString &scriptname, SkyMap *map)
                     }
 
                     if (!ok)
-                        qDebug() << QString("Unable to load color scheme named %1. Also tried %2.")
+                        qDebug() << Q_FUNC_INFO << QString("Unable to load color scheme named %1. Also tried %2.")
                                  .arg(csName, filename);
                 }
             }

@@ -124,10 +124,10 @@ void JMoonTool::initPlotObjects()
         KSNumbers num(jd0 + t);
         jm.findPosition(&num, jup, ksun);
 
-        qDebug() << "Position [Io] : " << 0.5 * jup->angSize() * jm.x(0) << " at " << t << " arcmin";
-        qDebug() << "Position [Europa] : " << 0.5 * jup->angSize() * jm.x(1) << " at " << t << " arcmin";
-        qDebug() << "Position [Ganymede] : " << 0.5 * jup->angSize() * jm.x(2) << " at " << t << " arcmin";
-        qDebug() << "Position [Callisto] : " << 0.5 * jup->angSize() * jm.x(3) << " at " << t << " arcmin";
+        qDebug() << Q_FUNC_INFO << "Position [Io] : " << 0.5 * jup->angSize() * jm.x(0) << " at " << t << " arcmin";
+        qDebug() << Q_FUNC_INFO << "Position [Europa] : " << 0.5 * jup->angSize() * jm.x(1) << " at " << t << " arcmin";
+        qDebug() << Q_FUNC_INFO << "Position [Ganymede] : " << 0.5 * jup->angSize() * jm.x(2) << " at " << t << " arcmin";
+        qDebug() << Q_FUNC_INFO << "Position [Callisto] : " << 0.5 * jup->angSize() * jm.x(3) << " at " << t << " arcmin";
     }
     */
 

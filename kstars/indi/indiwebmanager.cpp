@@ -79,7 +79,7 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
 
             if (parseError.error != QJsonParseError::NoError)
             {
-                qDebug() << "INDI: JSon error during parsing " << parseError.errorString();
+                qDebug() << Q_FUNC_INFO << "INDI: JSon error during parsing " << parseError.errorString();
                 return false;
             }
         }
@@ -88,7 +88,7 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
     }
     else
     {
-        qDebug() << "INDI: Error communicating with INDI Web Manager: " << response->errorString();
+        qDebug() << Q_FUNC_INFO << "INDI: Error communicating with INDI Web Manager: " << response->errorString();
         return false;
     }
 }

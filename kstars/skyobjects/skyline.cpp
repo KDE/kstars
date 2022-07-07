@@ -31,7 +31,7 @@ void SkyLine::setPoint(int i, SkyPoint *p)
 {
     if (i < 0 || i >= m_pList.size())
     {
-        qDebug() << "SkyLine index error: no such point: " << i;
+        qDebug() << Q_FUNC_INFO << "SkyLine index error: no such point: " << i;
         return;
     }
     *m_pList[i] = *p;
@@ -41,7 +41,7 @@ dms SkyLine::angularSize(int i) const
 {
     if (i < 0 || i + 1 >= m_pList.size())
     {
-        qDebug() << "SkyLine index error: no such segment: " << i;
+        qDebug() << Q_FUNC_INFO << "SkyLine index error: no such segment: " << i;
         return dms();
     }
 

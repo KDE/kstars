@@ -37,7 +37,7 @@ SkyComponentsImport::get_objects(QSqlDatabase db, const std::list<int> &ids)
     QVector<QString> const placeholders(ids.size(), "?");
     if (!db.open())
     {
-        qDebug() << "here";
+        qDebug() << Q_FUNC_INFO << "here";
         return { false, {}, {} };
     }
 

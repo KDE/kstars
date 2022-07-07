@@ -325,7 +325,7 @@ void KSWizard::slotInstallGSC()
     *cancelConnection = connect(data->gscInstallCancel, &QPushButton::clicked,
                                 [ = ]()
     {
-        qDebug() << "Download Cancelled.";
+        qDebug() << Q_FUNC_INFO << "Download Cancelled.";
 
         if(cancelConnection)
             disconnect(*cancelConnection);

@@ -37,7 +37,6 @@ Message::Message(Ekos::Manager *manager): m_Manager(manager), m_DSOManager(Catal
             &Message::onError);
 
     connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
-    connect(manager->schedulerModule(), &Ekos::Scheduler::jobsUpdated, this, &Message::sendSchedulerJobList);
 
     m_ThrottleTS = QDateTime::currentDateTime();
 }

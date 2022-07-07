@@ -69,7 +69,7 @@ void SkyPoint::set(const dms &r, const dms &d)
 
 void SkyPoint::EquatorialToHorizontal(const dms *LST, const dms *lat)
 {
-    //    qDebug() << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
+    //    qDebug() << Q_FUNC_INFO << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
     CachingDms _LST(*LST), _lat(*lat);
     EquatorialToHorizontal(&_LST, &_lat);
 }
@@ -374,7 +374,7 @@ SkyPoint SkyPoint::moveAway(const SkyPoint &from, double dist) const
 
     if (dist == 0.0)
     {
-        qDebug() << "moveAway called with zero distance!";
+        qDebug() << Q_FUNC_INFO << "moveAway called with zero distance!";
         return *this;
     }
 

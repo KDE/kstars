@@ -617,14 +617,14 @@ bool Telescope::doPulse(GuideDirection dir, int msecs)
 
     clientManager->sendNewNumber(npulse);
 
-    //qDebug() << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms " << Qt::endl;
+    //qDebug() << Q_FUNC_INFO << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms " << Qt::endl;
 
     return true;
 }
 
 bool Telescope::runCommand(int command, void *ptr)
 {
-    //qDebug() << "Telescope run command is called!!!" << Qt::endl;
+    //qDebug() << Q_FUNC_INFO << "Telescope run command is called!!!" << Qt::endl;
 
     switch (command)
     {
@@ -717,7 +717,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
     if (HorProp && HorProp->getPermission() == IP_RO)
         HorProp = nullptr;
 
-    //qDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
+    //qDebug() << Q_FUNC_INFO << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
     if (EqProp)
     {

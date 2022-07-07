@@ -98,7 +98,7 @@ void MilkyWay::loadContours(QString fname, QString greeting)
 
         if (!okRA || !okDec)
         {
-            qDebug() << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
+            qDebug() << Q_FUNC_INFO << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
             continue;
         }
 

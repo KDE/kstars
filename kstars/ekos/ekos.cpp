@@ -70,7 +70,7 @@ std::vector<double> gsl_polynomial_fit(const double *const data_x, const double 
 
     if (status != GSL_SUCCESS)
     {
-        qDebug() << "GSL multifit error:" << gsl_strerror(status);
+        qDebug() << Q_FUNC_INFO << "GSL multifit error:" << gsl_strerror(status);
         return vc;
     }
 

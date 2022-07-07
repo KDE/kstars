@@ -50,7 +50,7 @@ void SimClock::tick()
         long double scaledsec = static_cast<long double>(mselapsed) * static_cast<long double>(m_Scale) / 1000.0;
         m_UTC.setDJD(m_JulianMark + scaledsec / (24. * 3600.));
 
-        // 		qDebug() << "tick() : JD = " << QLocale().toString( UTC.djd(), 7 ) <<
+        // 		qDebug() << Q_FUNC_INFO << "tick() : JD = " << QLocale().toString( UTC.djd(), 7 ) <<
         // 			" mselapsed = " << mselapsed << " scale = " << Scale <<
         // 			"  scaledsec = " << double(scaledsec);
 
@@ -143,8 +143,8 @@ void SimClock::start()
 void SimClock::setUTC(const KStarsDateTime &newtime)
 {
     //DEBUG
-    //qDebug() << newtime.toString();
-    //qDebug() << "is dateTime valid? " << newtime.isValid();
+    //qDebug() << Q_FUNC_INFO << newtime.toString();
+    //qDebug() << Q_FUNC_INFO << "is dateTime valid? " << newtime.isValid();
 
     if (newtime.isValid())
     {

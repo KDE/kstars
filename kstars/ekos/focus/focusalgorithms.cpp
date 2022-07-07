@@ -560,7 +560,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const QList
                 if (params.focusAlgorithm == Focus::FOCUS_LINEAR)
                     howFarToGo = kNumPolySolutionsRequired;
                 else
-                    howFarToGo = params.initialOutwardSteps - 1;
+                    howFarToGo = std::max(1, static_cast<int> (params.initialOutwardSteps) - 1);
 
                 if (numPolySolutionsFound >= howFarToGo)
                 {
@@ -650,7 +650,7 @@ int LinearFocusAlgorithm::setupSolution(int position, double value, double sigma
                 str.append(QString(". POOR result. If this happens repeatedly it may be a sign of poor backlash compensation."));
         }
 
-        qCDebug(KSTARS_EKOS_FOCUS) << str;
+        qCInfo(KSTARS_EKOS_FOCUS) << str;
     }
     debugLog();
     return -1;

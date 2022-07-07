@@ -343,14 +343,14 @@ void SkyMap::keyPressEvent(QKeyEvent *e)
         {
             // Toggle relativistic corrections
             Options::setUseRelativistic(!Options::useRelativistic());
-            qDebug() << "Relativistic corrections: " << Options::useRelativistic();
+            qDebug() << Q_FUNC_INFO << "Relativistic corrections: " << Options::useRelativistic();
             forceUpdate();
             break;
         }
 
         case Qt::Key_A:
             Options::setUseAntialias(!Options::useAntialias());
-            qDebug() << "Use Antialiasing: " << Options::useAntialias();
+            qDebug() << Q_FUNC_INFO << "Use Antialiasing: " << Options::useAntialias();
             forceUpdate();
             break;
 

@@ -28,7 +28,7 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Teles
     }
     setLimMagnitude();
 
-    qDebug() << "Aperture value being used:" << m_Aperture;
+    qDebug() << Q_FUNC_INFO << "Aperture value being used:" << m_Aperture;
 }
 
 QMap<int, double> ObsConditions::setLMMap()
@@ -107,5 +107,5 @@ void ObsConditions::setObsConditions(int bortle, double aperture, ObsConditions:
     m_Equip    = equip;
     m_TelType  = telType;
 
-    qDebug() << "Aperture value being used:" << m_Aperture;
+    qDebug() << Q_FUNC_INFO << "Aperture value being used:" << m_Aperture;
 }

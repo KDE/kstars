@@ -818,15 +818,15 @@ bool StarComponent::verifySBLIntegrity() {
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
             if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.016) {
-                qDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
+                qDebug() << Q_FUNC_INFO << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
                          << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if( i > 1 && ( !block->prev ) )
-                qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
+                qDebug() << Q_FUNC_INFO << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
             if( block->prev && block->prev->parent == m_starBlockList[ trixel ]
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
-                qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
+                qDebug() << Q_FUNC_INFO << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i;
                 integrity = false;
             }
             faintMag = block->getFaintMag();

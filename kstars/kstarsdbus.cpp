@@ -230,7 +230,7 @@ void KStars::waitForKey(const QString &k)
     }
     else
     {
-        qDebug() << "Error [D-Bus waitForKey()]: Invalid key requested.";
+        qDebug() << Q_FUNC_INFO << "Error [D-Bus waitForKey()]: Invalid key requested.";
     }
 }
 
@@ -315,7 +315,7 @@ bool KStars::setGeoLocation(const QString &city, const QString &province, const 
             qDebug()
                     << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city, country);
         else
-            qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.")
+            qDebug() << Q_FUNC_INFO << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.")
                      .arg(city, province, country);
     }
 
@@ -622,7 +622,7 @@ void KStars::loadColorScheme(const QString &name)
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
             //This is also in KStars.cpp.  If you change it, change it in BOTH places.
 #ifdef Q_OS_OSX
-            qDebug() << "setting dark stylesheet";
+            qDebug() << Q_FUNC_INFO << "setting dark stylesheet";
             qApp->setStyleSheet(
                 "QWidget { background-color: black; color:red; "
                 "selection-background-color:rgb(30,30,30);selection-color:white}"
@@ -652,7 +652,7 @@ void KStars::loadColorScheme(const QString &name)
                 "QHeaderView::Section { background-color:rgb(30,30,30) }"
                 "QTableCornerButton::section{ background-color:rgb(30,30,30) }"
                 "");
-            qDebug() << "stylesheet set";
+            qDebug() << Q_FUNC_INFO << "stylesheet set";
 #endif
         }
         else
@@ -661,9 +661,9 @@ void KStars::loadColorScheme(const QString &name)
                 KStars::Instance()->wiView()->setNightVisionOn(false);
             QApplication::setPalette(OriginalPalette);
 #ifdef Q_OS_OSX
-            qDebug() << "setting light stylesheet";
+            qDebug() << Q_FUNC_INFO << "setting light stylesheet";
             qApp->setStyleSheet("");
-            qDebug() << "stylesheet set";
+            qDebug() << Q_FUNC_INFO << "stylesheet set";
 #endif
         }
     }
@@ -922,7 +922,7 @@ void KStars::renderEyepieceView(const QString &objectName, const QString &destPa
                 loop.quit();
             };
             new KSDssDownloader(target, tempFile.fileName(), slot, this);
-            qDebug() << "DSS download requested. Waiting for download to complete...";
+            qDebug() << Q_FUNC_INFO << "DSS download requested. Waiting for download to complete...";
             loop.exec(); // wait for download to complete
             imagePath = tempFile.fileName();
         }

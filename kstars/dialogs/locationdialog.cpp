@@ -91,7 +91,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
 #ifdef HAVE_GEOCLUE_2
     source = QGeoPositionInfoSource::createDefaultSource(this);
     source->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
-    qDebug() << "Last known position" << source->lastKnownPosition().coordinate();
+    qDebug() << Q_FUNC_INFO << "Last known position" << source->lastKnownPosition().coordinate();
 
     connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
     connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this, SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
@@ -668,7 +668,7 @@ void LocationDialog::getNameFromCoordinates(double latitude, double longitude)
     QUrlQuery query;
     query.addQueryItem("latlng", latlng);
     url.setQuery(query);
-    qDebug() << "submitting request";
+    qDebug() << Q_FUNC_INFO << "submitting request";
 
     nam->get(QNetworkRequest(url));
     connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLocationNameData(QNetworkReply*)));
@@ -716,17 +716,17 @@ void LocationDialog::requestUpdate()
 
 void LocationDialog::positionUpdated(const QGeoPositionInfo &info)
 {
-    qDebug() << "Position updated:" << info;
+    qDebug() << Q_FUNC_INFO << "Position updated:" << info;
 }
 
 void LocationDialog::positionUpdateError(QGeoPositionInfoSource::Error error)
 {
-    qDebug() << "Position update error: " << error;
+    qDebug() << Q_FUNC_INFO << "Position update error: " << error;
 }
 
 void LocationDialog::positionUpdateTimeout()
 {
-    qDebug() << "Timed out!";
-    qDebug() << source->error();
+    qDebug() << Q_FUNC_INFO << "Timed out!";
+    qDebug() << Q_FUNC_INFO << source->error();
 }
 #endif

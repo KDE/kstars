@@ -30,7 +30,7 @@ public:
 
   ~pixCacheItem_t()
    {
-     //qDebug() << "delete";
+     //qDebug() << Q_FUNC_INFO << "delete";
      Q_ASSERT(image);
      delete image;
    }

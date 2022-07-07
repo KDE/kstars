@@ -316,6 +316,6 @@ void AsteroidsComponent::downloadReady()
 void AsteroidsComponent::downloadError(const QString &errorString)
 {
     KSNotification::error(i18n("Error downloading asteroids data: %1", errorString));
-    qDebug() << i18n("Error downloading asteroids data: %1", errorString);
+    qDebug() << Q_FUNC_INFO << i18n("Error downloading asteroids data: %1", errorString);
     downloadJob->deleteLater();
 }

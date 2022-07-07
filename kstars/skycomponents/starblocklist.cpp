@@ -28,7 +28,7 @@ StarBlockList::StarBlockList(const Trixel &tr, DeepStarComponent *parent)
 int StarBlockList::releaseBlock(StarBlock *block)
 {
     if (block != blocks[nBlocks - 1].get())
-        qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel;
+        qDebug() << Q_FUNC_INFO << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel;
 
     else if (blocks.size() > 0)
     {
@@ -80,7 +80,7 @@ bool StarBlockList::fillToMag(float maglim)
 
     if (!dataFile)
     {
-        qDebug() << "dataFile not opened!";
+        qDebug() << Q_FUNC_INFO << "dataFile not opened!";
         return false;
     }
 
@@ -95,7 +95,7 @@ bool StarBlockList::fillToMag(float maglim)
     BinFileHelper::unsigned_KDE_fseek(dataFile, readOffset, SEEK_SET);
 
     /*
-    qDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
+    qDebug() << Q_FUNC_INFO << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
              << ", record count =" << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount()
              << "to maglim =" << maglim << "with current faintMag =" << faintMag;
     */
@@ -143,7 +143,7 @@ bool StarBlockList::fillToMag(float maglim)
 
         /*
           if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
-          qDebug() << "Encountered a jump from mag" << faintMag << "to mag"
+          qDebug() << Q_FUNC_INFO << "Encountered a jump from mag" << faintMag << "to mag"
           << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
           }
         */

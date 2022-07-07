@@ -377,7 +377,7 @@ QVector<double> CurveFitting::polynomial_fit(const double *const data_x, const d
     status                              = gsl_multifit_linear(X, y, c, cov, &chisq, work);
 
     if (status != GSL_SUCCESS)
-        qDebug() << "GSL multifit error:" << gsl_strerror(status);
+        qDebug() << Q_FUNC_INFO << "GSL multifit error:" << gsl_strerror(status);
     else
     {
         gsl_multifit_linear_free(work);

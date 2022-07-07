@@ -2090,7 +2090,7 @@ void KSUserDB::GetProfileDrivers(ProfileInfo *pi)
     custom_driver.setTable("driver");
     custom_driver.setFilter("profile=" + QString::number(pi->id));
     if (custom_driver.select() == false)
-        qDebug() << "custom driver select error: " << custom_driver.query().lastQuery() << custom_driver.lastError().text();
+        qDebug() << Q_FUNC_INFO << "custom driver select error: " << custom_driver.query().lastQuery() << custom_driver.lastError().text();
 
     QSqlRecord record = custom_driver.record(0);
     pi->customDrivers   = record.value("drivers").toString();
@@ -2106,7 +2106,7 @@ void KSUserDB::DeleteProfileDrivers(ProfileInfo *pi)
     QSqlQuery query(m_UserDB);
 
     /*if (!query.exec("DELETE FROM custom_driver WHERE profile=" + QString::number(pi->id)))
-        qDebug() << query.lastQuery() << query.lastError().text();*/
+        qDebug() << Q_FUNC_INFO << query.lastQuery() << query.lastError().text();*/
 
     if (!query.exec("DELETE FROM driver WHERE profile=" + QString::number(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();

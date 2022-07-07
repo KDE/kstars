@@ -148,7 +148,7 @@ void StarHopperDialog::slotRefreshMetadata()
 {
     int row = m_lw->currentRow();
 
-    qDebug() << "Slot RefreshMetadata";
+    qDebug() << Q_FUNC_INFO << "Slot RefreshMetadata";
     if (row >= 0)
     {
         ui->directionsLabel->setText(m_Metadata->at(row));
@@ -157,5 +157,5 @@ void StarHopperDialog::slotRefreshMetadata()
     {
         ui->directionsLabel->setText(m_Metadata->at(0));
     }
-    qDebug() << "Slot RefreshMetadata";
+    qDebug() << Q_FUNC_INFO << "Slot RefreshMetadata";
 }
