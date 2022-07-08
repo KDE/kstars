@@ -103,23 +103,22 @@ Capture::Capture()
     });
     connect(rotatorSettings->setPAB, &QPushButton::clicked, this, [this]()
     {
-        // SLOT(rotatorSettings->setPA()
-        // PA = RawAngle * Multiplier + Offset
-        double rawAngle = (rotatorSettings->PASpin->value() - rotatorSettings->PAOffsetSpin->value()) /
+        // 1. PA = (RawAngle * Multiplier) - Offset
+        // 2. Offset = (RawAngle * Multiplier) - PA
+        // 3. RawAngle = (Offset + PA) / Multiplier
+        double rawAngle = (rotatorSettings->PAOffsetSpin->value() + rotatorSettings->PASpin->value()) /
                           rotatorSettings->PAMulSpin->value();
         // Get raw angle (0 to 360) from PA (-180 to +180)
-        if (rawAngle < 0)
+        while (rawAngle < 0)
             rawAngle += 360;
-        else if (rawAngle > 360)
+        while (rawAngle > 360)
             rawAngle -= 360;
 
-        //angleEdit->setText(QString::number(rawAngle, 'f', 3));
         rotatorSettings->angleSpin->setValue(rawAngle);
         m_captureDeviceAdaptor->setRotatorAngle(&rawAngle);
     });
 
     seqFileCount = 0;
-    //seqWatcher		= new KDirWatch();
     seqDelayTimer = new QTimer(this);
     connect(seqDelayTimer, &QTimer::timeout, this, &Ekos::Capture::captureImage);
     captureDelayTimer = new QTimer(this);
@@ -214,17 +213,17 @@ Capture::Capture()
     connect(queueTable->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &Ekos::Capture::selectedJobChanged);
     connect(queueTable, &QAbstractItemView::doubleClicked, this, &Ekos::Capture::editJob);
     connect(queueTable, &QTableWidget::itemSelectionChanged, this, &Ekos::Capture::resetJobEdit);
-    connect(setTemperatureB, &QPushButton::clicked, [&]()
+    connect(setTemperatureB, &QPushButton::clicked, this, [&]()
     {
         if (m_captureDeviceAdaptor->getActiveCCD())
             m_captureDeviceAdaptor->getActiveCCD()->setTemperature(cameraTemperatureN->value());
     });
-    connect(coolerOnB, &QPushButton::clicked, [&]()
+    connect(coolerOnB, &QPushButton::clicked, this, [&]()
     {
         if (m_captureDeviceAdaptor->getActiveCCD())
             m_captureDeviceAdaptor->getActiveCCD()->setCoolerControl(true);
     });
-    connect(coolerOffB, &QPushButton::clicked, [&]()
+    connect(coolerOffB, &QPushButton::clicked, this, [&]()
     {
         if (m_captureDeviceAdaptor->getActiveCCD())
             m_captureDeviceAdaptor->getActiveCCD()->setCoolerControl(false);
@@ -773,7 +772,8 @@ void Capture::start()
     if (m_LimitsUI->limitFocusDeltaTS->isChecked() && m_AutoFocusReady == false)
         appendLogText(i18n("Warning: temperature delta check is selected but autofocus process was not started."));
 
-    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
+    if (m_captureDeviceAdaptor->getActiveCCD()
+            && m_captureDeviceAdaptor->getActiveCCD()->getTelescopeType() != ISD::CCD::TELESCOPE_PRIMARY)
     {
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [ = ]()
         {
@@ -1746,7 +1746,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
     }
 
     // If image is client or both, let's process it.
-    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    if (m_captureDeviceAdaptor->getActiveCCD()
+            && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
     {
         //        if (data.isNull())
         //        {
@@ -3041,7 +3042,8 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     QTableWidgetItem * filter = m_JobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
     jsonJob.insert("Filter", "--");
-    if (captureFilterS->count() > 0 && (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat))
+    if (captureFilterS->count() > 0 && (captureTypeS->currentIndex() == FRAME_LIGHT
+                                        || captureTypeS->currentIndex() == FRAME_FLAT || isDarkFlat))
     {
         filter->setText(captureFilterS->currentText());
         jsonJob.insert("Filter", captureFilterS->currentText());
@@ -6181,7 +6183,8 @@ bool Capture::processPostCaptureCalibrationStage()
                     // Must update sequence prefix as this step is only done in prepareJob
                     // but since the duration has now been updated, we must take care to update signature
                     // since it may include a placeholder for duration which would affect it.
-                    if (m_captureDeviceAdaptor->getActiveCCD() && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+                    if (m_captureDeviceAdaptor->getActiveCCD()
+                            && m_captureDeviceAdaptor->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
                         updateSequencePrefix(activeJob->getCoreProperty(SequenceJob::SJ_FullPrefix).toString(),
                                              QFileInfo(activeJob->getSignature()).path());
 
@@ -6498,7 +6501,8 @@ void Capture::setFilterManager(const QSharedPointer<FilterManager> &manager)
     }
            );
 
-    connect(m_captureDeviceAdaptor->getFilterManager().data(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
+    connect(m_captureDeviceAdaptor->getFilterManager().data(), &FilterManager::newStatus,
+            this, [this](Ekos::FilterState filterState)
     {
         if (filterState != m_FilterManagerState)
             qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" << Ekos::getFilterStatusString(
