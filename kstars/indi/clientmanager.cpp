@@ -122,9 +122,9 @@ void ClientManager::processRemoveBLOBManager(const QString &device, const QStrin
 
     if (manager != blobManagers.end())
     {
-        blobManagers.removeOne(*manager);
         (*manager)->disconnectServer();
         (*manager)->deleteLater();
+        blobManagers.removeOne(*manager);
     }
 }
 
