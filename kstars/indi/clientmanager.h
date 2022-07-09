@@ -105,6 +105,7 @@ class ClientManager : public QObject, public INDI::BaseClient
 
     private:
         void processNewProperty(INDI::Property prop);
+        void processRemoveBLOBManager(const QString &device, const QString &property);
         QList<DriverInfo *> m_ManagedDrivers;
         QList<BlobManager *> blobManagers;
         ServerManager *sManager { nullptr };
@@ -128,6 +129,7 @@ class ClientManager : public QObject, public INDI::BaseClient
         void removeINDIProperty(const QString &device, const QString &name);
 
         void newBLOBManager(const char *device, INDI::Property prop);
+        void removeBLOBManager(const QString &device, const QString &property);
 
         void newINDIBLOB(IBLOB *bp);
         void newINDISwitch(ISwitchVectorProperty *svp);
