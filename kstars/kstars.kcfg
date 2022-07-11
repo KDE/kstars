@@ -847,6 +847,11 @@
          <whatsthis>If true, long names (common names) for deep-sky objects are shown in the labels.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="LabelFontScaling" type="Int">
+        <label>Label font size</label>
+        <whatsthis>Set this to adjust the font-size of labels placed on the sky map</whatsthis>
+        <default>0</default>
+      </entry>
       <entry name="MaxRadCometName" type="Double">
          <label>Maximum distance from Sun for labeling comets, in AU</label>
          <whatsthis>The maximum solar distance for drawing comets.</whatsthis>

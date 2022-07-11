@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>373</height>
+    <width>642</width>
+    <height>395</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -425,19 +425,6 @@
          <property name="spacing">
           <number>3</number>
          </property>
-         <item row="0" column="1" colspan="3">
-          <widget class="QCheckBox" name="kcfg_UseAutoLabel">
-           <property name="toolTip">
-            <string>Show name label of centered object?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, a name label will be temporarily attached to an object while it is centered in the display.  You can attach a more persistent label to any object using the right-click popup menu.</string>
-           </property>
-           <property name="text">
-            <string>Attach label to centered object</string>
-           </property>
-          </widget>
-         </item>
          <item row="5" column="0">
           <widget class="QLabel" name="label_2">
            <property name="toolTip">
@@ -445,88 +432,6 @@
            </property>
            <property name="text">
             <string>Zoom scroll speed:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="kcfg_UseAntialias">
-           <property name="toolTip">
-            <string>Select this for smoother (but slower) graphics</string>
-           </property>
-           <property name="text">
-            <string>Use antialiased drawing</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" colspan="3">
-          <widget class="QCheckBox" name="kcfg_UseHoverLabel">
-           <property name="toolTip">
-            <string>Show name label of centered object?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, a name label will be temporarily attached to an object while it is centered in the display.  You can attach a more persistent label to any object using the right-click popup menu.</string>
-           </property>
-           <property name="text">
-            <string>Attach temporary label when hovering mouse</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QComboBox" name="kcfg_DefaultCursor">
-           <item>
-            <property name="text">
-             <string>Arrow</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Cross</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Circle</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="kcfg_LeftClickSelectsObject">
-           <property name="text">
-            <string>Left click selects object</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Default cursor:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="kcfg_UseAnimatedSlewing">
-           <property name="toolTip">
-            <string>Show slewing motion when focus changes?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, changing the focus position will result in a visible animated &quot;slew&quot; to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
-           </property>
-           <property name="text">
-            <string>Use animated slewing</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
-           <property name="toolTip">
-            <string>Show inline images on the sky?</string>
-           </property>
-           <property name="whatsThis">
-            <string>If checked, inline images will be shown on the skymap.</string>
-           </property>
-           <property name="text">
-            <string>Show inline images</string>
            </property>
           </widget>
          </item>
@@ -554,6 +459,32 @@
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QCheckBox" name="kcfg_UseAutoLabel">
+           <property name="toolTip">
+            <string>Show name label of centered object?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, a name label will be temporarily attached to an object while it is centered in the display.  You can attach a more persistent label to any object using the right-click popup menu.</string>
+           </property>
+           <property name="text">
+            <string>Attach label to centered object</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="3">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item row="3" column="3">
           <spacer name="horizontalSpacer_4">
@@ -584,18 +515,110 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="3">
-          <spacer name="horizontalSpacer_5">
+         <item row="1" column="1" colspan="3">
+          <widget class="QCheckBox" name="kcfg_UseHoverLabel">
+           <property name="toolTip">
+            <string>Show name label of centered object?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, a name label will be temporarily attached to an object while it is centered in the display.  You can attach a more persistent label to any object using the right-click popup menu.</string>
+           </property>
+           <property name="text">
+            <string>Attach temporary label when hovering mouse</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="kcfg_ShowInlineImages">
+           <property name="toolTip">
+            <string>Show inline images on the sky?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, inline images will be shown on the skymap.</string>
+           </property>
+           <property name="text">
+            <string>Show inline images</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QComboBox" name="kcfg_DefaultCursor">
+           <item>
+            <property name="text">
+             <string>Arrow</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cross</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Circle</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="kcfg_UseAntialias">
+           <property name="toolTip">
+            <string>Select this for smoother (but slower) graphics</string>
+           </property>
+           <property name="text">
+            <string>Use antialiased drawing</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="kcfg_LeftClickSelectsObject">
+           <property name="text">
+            <string>Left click selects object</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Default cursor:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="kcfg_UseAnimatedSlewing">
+           <property name="toolTip">
+            <string>Show slewing motion when focus changes?</string>
+           </property>
+           <property name="whatsThis">
+            <string>If checked, changing the focus position will result in a visible animated &quot;slew&quot; to the new position.  Otherwise, the display will center on the new position instantaneously.</string>
+           </property>
+           <property name="text">
+            <string>Use animated slewing</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Font size of sky map labels:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QSlider" name="kcfg_LabelFontScaling">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1028,7 +1051,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="logbuttonGroup"/>
   <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="logbuttonGroup"/>
  </buttongroups>
 </ui>

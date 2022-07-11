@@ -138,12 +138,12 @@ class SkyMapComposite : public QObject, public SkyComposite
              * @note Overloaded from SkyComposite.  In this version, we search
              * the most likely object classes first to be more efficient.
              * @p name the name to be matched
-             * @p exact If true, it will return an exact match, otherwise (default) it can return
+             * @p exact If true, it will return an exact match (default), otherwise it can return
              * a partial match.
              * @return a pointer to the SkyObject whose name matches
              * the argument, or a nullptr pointer if no match was found.
              */
-        SkyObject *findByName(const QString &name, bool exact = false) override;
+        SkyObject *findByName(const QString &name, bool exact = true) override;
 
         /**
              * @return the list of objects in the region defined by skypoints

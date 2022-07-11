@@ -59,9 +59,11 @@ FindDialog *FindDialog::Instance()
 }
 
 FindDialog::FindDialog(QWidget *parent)
-    : QDialog(parent), timer(nullptr),
-      m_targetObject(nullptr), m_manager{ CatalogsDB::dso_db_path() }
-
+    : QDialog(parent)
+    , timer(nullptr)
+    , m_targetObject(nullptr)
+    , m_asyncDBManager(new CatalogsDB::AsyncDBManager(CatalogsDB::dso_db_path()))
+    , m_dbManager(CatalogsDB::dso_db_path())
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -148,7 +150,7 @@ FindDialog::FindDialog(QWidget *parent)
 
 void FindDialog::init()
 {
-    const auto &objs = m_manager.get_objects(Options::magLimitDrawDeepSky(), 100);
+    const auto &objs = m_dbManager.get_objects(Options::magLimitDrawDeepSky(), 100);
     for (const auto &obj : objs)
     {
         KStarsData::Instance()->skyComposite()->catalogsComponent()->insertStaticObject(
@@ -293,9 +295,24 @@ void FindDialog::filterByType()
 void FindDialog::filterList()
 {
     QString SearchText = processSearchText();
-    bool exactMatchExists = !(m_manager.find_objects_by_name(SearchText, 1, true).empty());
-    const auto &objs   = m_manager.find_objects_by_name(SearchText, 10);
-    for (const auto &obj : objs)
+    const std::size_t searchId = m_currentSearchSequence;
+
+    QEventLoop loop;
+    QMutexLocker {&dbCallMutex}; // To prevent re-entrant calls into this
+    connect(m_asyncDBManager.get(), &CatalogsDB::AsyncDBManager::resultReady, &loop, &QEventLoop::quit);
+    QMetaObject::invokeMethod(m_asyncDBManager.get(), [&](){
+        m_asyncDBManager->find_objects_by_name(SearchText, 10); });
+    loop.exec();
+    std::unique_ptr<CatalogsDB::CatalogObjectList> objs = m_asyncDBManager->result();
+    if (m_currentSearchSequence != searchId) {
+        return; // Ignore this search since the search text has changed
+    }
+
+    Q_ASSERT(bool(objs));
+
+    bool exactMatchExists = objs->size() > 0 ? QString::compare(objs->front().name(), SearchText, Qt::CaseInsensitive) : false;
+
+    for (const auto &obj : *objs)
     {
         KStarsData::Instance()->skyComposite()->catalogsComponent()->insertStaticObject(
             obj);
@@ -371,7 +388,10 @@ void FindDialog::enqueueSearch()
     {
         timer = new QTimer(this);
         timer->setSingleShot(true);
-        connect(timer, SIGNAL(timeout()), this, SLOT(filterList()));
+        connect(timer, &QTimer::timeout, [&]() {
+            this->m_currentSearchSequence++;
+            this->filterList();
+        });
     }
     timer->start(500);
 }
@@ -454,7 +474,7 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
-        selObj = resolveAndAdd(m_manager, processSearchText());
+        selObj = resolveAndAdd(m_dbManager, processSearchText());
     }
     m_targetObject = selObj;
     if (selObj == nullptr)

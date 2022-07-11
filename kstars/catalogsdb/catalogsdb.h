@@ -15,9 +15,11 @@
 #include <catalogsdb_debug.h>
 #include <QSqlQuery>
 #include <QMutex>
+#include <QObject>
 
 #include "polyfills/qstring_hash.h"
 #include <unordered_map>
+#include <queue>
 
 #include <unordered_set>
 #include <utility>
@@ -200,6 +202,8 @@ class DBManager
         swap(m_db, other.m_db);
         swap(m_q_cat_by_id, other.m_q_cat_by_id);
         swap(m_q_obj_by_trixel, other.m_q_obj_by_trixel);
+        swap(m_q_obj_by_trixel_no_nulls, other.m_q_obj_by_trixel_no_nulls);
+        swap(m_q_obj_by_trixel_null_mag, other.m_q_obj_by_trixel_null_mag);
         swap(m_q_obj_by_name, other.m_q_obj_by_name);
         swap(m_q_obj_by_name_exact, other.m_q_obj_by_name_exact);
         swap(m_q_obj_by_maglim, other.m_q_obj_by_maglim);
@@ -244,7 +248,23 @@ class DBManager
     /**
      * @return return a vector of objects in the trixel with \p id.
      */
-    CatalogObjectVector get_objects_in_trixel(const int trixel);
+    inline CatalogObjectVector get_objects_in_trixel(const int trixel) {
+        return _get_objects_in_trixel_generic(m_q_obj_by_trixel, trixel);
+    }
+
+    /**
+     * @return return a vector of objects of known mag in the trixel with \p id.
+     */
+    inline CatalogObjectVector get_objects_in_trixel_no_nulls(const int trixel) {
+        return _get_objects_in_trixel_generic(m_q_obj_by_trixel_no_nulls, trixel);
+    }
+
+    /**
+     * @return return a vector of objects of unknown mag in the trixel with \p id.
+     */
+    inline CatalogObjectVector get_objects_in_trixel_null_mag(const int trixel) {
+        return _get_objects_in_trixel_generic(m_q_obj_by_trixel_null_mag, trixel);
+    }
 
     /**
      * \brief Find an objects by name.
@@ -541,6 +561,8 @@ class DBManager
 
     QSqlQuery m_q_cat_by_id;
     QSqlQuery m_q_obj_by_trixel;
+    QSqlQuery m_q_obj_by_trixel_null_mag;
+    QSqlQuery m_q_obj_by_trixel_no_nulls;
     QSqlQuery m_q_obj_by_name;
     QSqlQuery m_q_obj_by_name_exact;
     QSqlQuery m_q_obj_by_maglim;
@@ -635,6 +657,11 @@ class DBManager
     std::pair<bool, QString> remove_catalog_force(const int id);
 
     /**
+     *
+     */
+    CatalogObjectVector _get_objects_in_trixel_generic(QSqlQuery &query, const int trixel);
+
+    /**
      * A list of database paths. The index gets stored in the
      * `CatalogObject` and can be used to retrieve the path to the
      * database.
@@ -689,4 +716,175 @@ QString dso_db_path();
 /** \returns true and a catalog if the catalog metadata (name, author,
     ...) can be read */
 std::pair<bool, Catalog> read_catalog_meta_from_file(const QString &path);
+
+
+
+
+/**
+ * A concurrent wrapper around \sa CatalogsDB::DBManager
+ *
+ * This wrapper can be instantiated from the main thread. It spawns
+ * its own thread and moves itself to the thread, allowing the main
+ * thread to call DB operations without blocking the user
+ * interface. It provides a generic wrapper interface, \sa
+ * AsyncDBManager::execute(), to call the methods of DBManager.
+ *
+ * Since it is hard to use signal-slot communication with a generic
+ * wrapper like \sa AsyncDBManager::execute(), a wrapper is provided
+ * for the two most likely overloads of \sa
+ * DBManager::find_objects_by_name, which are time-consuming and
+ * frequently used, and these can be directly invoked from
+ * QMetaObject::invokeMethod or an appropriate signal
+ *
+ * The void override of \sa AsyncDBManager::init() does the most
+ * commonly done thing, which is to open the DSO database
+ *
+ */
+class AsyncDBManager : public QObject {
+    // Note: Follows the active object pattern described here
+    // https://youtu.be/SncJ3D-fO7g?list=PL6CJYn40gN6jgr-Rpl3J4XDQYhmUnxb-g&t=272
+    Q_OBJECT
+
+private:
+    std::shared_ptr<DBManager> m_manager;
+    std::queue<std::unique_ptr<CatalogObjectList>> m_result;
+    std::shared_ptr<QThread> m_thread;
+    QMutex m_resultMutex;
+
+public:
+    template <typename... Args>
+    using DBManagerMethod = CatalogObjectList (DBManager::*)(Args...);
+
+    /**
+     * Constructor, does nothing. Call init() to do the actual setup after the QThread stars
+     */
+    template <typename... Args>
+    AsyncDBManager(Args... args)
+        : QObject(nullptr)
+        , m_manager(nullptr)
+        , m_thread(nullptr)
+    {
+        m_thread.reset(new QThread);
+        moveToThread(m_thread.get());
+        connect(m_thread.get(), &QThread::started, [&]() {
+            init(args...);
+        });
+        m_thread->start();
+    }
+
+    ~AsyncDBManager()
+    {
+        QMetaObject::invokeMethod(this, "cleanup");
+        m_thread->wait();
+    }
+
+    /**
+     * Return a pointer to the DBManager, for non-DB functionalities
+     */
+    inline std::shared_ptr<DBManager> manager() { return m_manager; }
+
+    /**
+     * Return a pointer to the QThread object
+     */
+    inline std::shared_ptr<QThread> thread() { return m_thread; }
+
+    /**
+     * Construct the DBManager object
+     *
+     * Should be done in the thread corresponding to this object
+     */
+    template <typename... Args> void init(Args&&... args)
+    {
+        m_manager = std::make_shared<DBManager>(std::forward<Args>(args)...);
+    }
+
+    /**
+     * A generic wrapper to call any method on DBManager that returns a CatalogObjectList
+     *
+     * For practical use examples, see \sa
+     * AsyncDBManager::find_objects_by_name below which uses this
+     * wrapper
+     */
+    template <typename... Args>
+    void execute(DBManagerMethod<Args...> dbManagerMethod, Args... args)
+    {
+        // c.f. https://stackoverflow.com/questions/25392935/wrap-a-function-pointer-in-c-with-variadic-template
+
+        // N.B. The perfect forwarding idiom is not used because we
+        // also want to be able to bind to lvalue references, whereas
+        // the types deduced for the arguments has to match the type
+        // deduced to identify the function overload to be used.
+        QMutexLocker _{&m_resultMutex};
+        m_result.emplace(
+            std::make_unique<CatalogObjectList>((m_manager.get()->*dbManagerMethod)(args...))
+            );
+        emit resultReady();
+    }
+
+signals:
+    void resultReady(void);
+    void threadReady(void);
+
+
+public slots:
+
+    void init()
+    {
+        m_manager = std::make_shared<DBManager>(dso_db_path());
+    }
+
+    /**
+     * Calls the given DBManager method, storing the result for later retrieval
+     *
+     * \p dbManagerMethod method to execute (must return a CatalogObjectList)
+     * \p args arguments to supply to the method
+     */
+
+    void find_objects_by_name(const QString& name, const int limit = -1)
+    {
+        // N.B. One cannot have a function pointer to a function with
+        // default arguments, so all arguments must be supplied here
+        execute<const QString&, const int, const bool>(
+            &DBManager::find_objects_by_name,
+            name, limit, false);
+    }
+
+    void find_objects_by_name_exact(const QString &name)
+    {
+        execute<const QString&, const int, const bool>(
+            &DBManager::find_objects_by_name,
+            name, 1, true);
+    }
+
+    /**
+     * Returns the result of the previous call, or a nullptr if none exists
+     */
+    std::unique_ptr<CatalogObjectList> result()
+    {
+        QMutexLocker _{&m_resultMutex};
+        if (m_result.empty())
+        {
+            return std::unique_ptr<CatalogObjectList>();
+        }
+        std::unique_ptr<CatalogObjectList> result = std::move(m_result.front());
+        m_result.pop();
+        return result;
+    }
+
+private slots:
+
+    void cleanup()
+    {
+        Q_ASSERT(m_manager.use_count() == 1);
+        m_manager.reset();
+        m_thread->quit();
+    }
+
+    void emitReady()
+    {
+        emit threadReady();
+    }
+
+};
+
 } // namespace CatalogsDB

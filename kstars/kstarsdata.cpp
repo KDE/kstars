@@ -430,7 +430,7 @@ SkyObject *KStarsData::objectNamed(const QString &name)
 {
     if ((name == "star") || (name == "nothing") || name.isEmpty())
         return nullptr;
-    return skyComposite()->findByName(name);
+    return skyComposite()->findByName(name, true); // objectNamed has to do an exact match
 }
 
 bool KStarsData::readCityData()

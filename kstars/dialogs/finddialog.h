@@ -149,6 +149,7 @@ class FindDialog : public QDialog
     QSortFilterProxyModel *sortModel { nullptr };
     QTimer *timer { nullptr };
     bool listFiltered { false };
+    std::size_t m_currentSearchSequence { 0 };
     QPushButton *okB { nullptr };
     SkyObject *m_targetObject { nullptr };
 
@@ -157,6 +158,7 @@ class FindDialog : public QDialog
     QList<SkyObject *> m_HistoryList;
 
     // DSO Database
-    CatalogsDB::DBManager m_manager;
+    std::unique_ptr<CatalogsDB::AsyncDBManager> m_asyncDBManager; // runs in another thread
+    CatalogsDB::DBManager m_dbManager; // runs in this thread
+    QMutex dbCallMutex;
 };
-
