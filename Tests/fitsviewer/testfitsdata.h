@@ -10,7 +10,9 @@
 #include <QObject>
 #include "fitsviewer/fitsdata.h"
 #include "ekos/auxiliary/solverutils.h"
+#include <QElapsedTimer>
 #include <QFutureWatcher>
+#include <QRandomGenerator>
 #include <memory>
 
 class TestFitsData : public QObject
@@ -68,12 +70,20 @@ class SolverLoop : public QObject
     public:
         SolverLoop(const QVector<QString> &files, const QString &dir, bool isDetecting, int numReps);
         void start();
-        bool done();
+        bool done() const;
+        int upto() const;
+        QString status() const;
+        void setRandomAbort(double secs)
+        {
+            randomAbortSecs = secs;
+        };
 
     private:
         void detectFinished();
         void startDetect(int index);
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+        void timeout();
+        void randomTimeout();
 
         QVector<QString> filenames;
         QString directory;
@@ -86,6 +96,19 @@ class SolverLoop : public QObject
 
         int currentIndex { 0 };
         QVector<QSharedPointer<FITSData>> images;
+        QSharedPointer<FITSData>thisImage;
+        // Timer to measure how long detections take.
+        QElapsedTimer dTimer;
+        // generate a random timeout between 0 and this many elapsed seconds.
+        double randomAbortSecs { 0 };
+        // Timer that can randomly interrupt detections.
+        QTimer randomAbortTimer;
+        QRandomGenerator rand;
+        // the random timeout being used now.
+        double thisRandomTimeout { 0 };
+
+        QTimer timer;
+        int timeoutSecs { 30 };
 };
 
 #endif // TESTFITSDATA_H

@@ -50,7 +50,18 @@ void SolverUtils::setHealpix(int indexToUse, int healpixToUse)
     m_HealpixToUse = healpixToUse;
 }
 
-void SolverUtils::getSolutionHealpix(int *indexUsed, int *healpixUsed)
+void SolverUtils::abort()
+{
+    if (m_StellarSolver.get()) m_StellarSolver->abort();
+}
+
+bool SolverUtils::isRunning() const
+{
+    if (!m_StellarSolver.get()) return false;
+    return m_StellarSolver->isRunning();
+}
+
+void SolverUtils::getSolutionHealpix(int *indexUsed, int *healpixUsed) const
 {
     *indexUsed = m_StellarSolver->getSolutionIndexNumber();
     *healpixUsed = m_StellarSolver->getSolutionHealpix();

@@ -408,6 +408,14 @@ void TestFitsData::testSEPAlgorithmBenchmark()
 #endif
 }
 
+QString SolverLoop::status() const
+{
+    return QString("%1/%2 %3% %4 %5")
+           .arg(upto()).arg(repetitions).arg(upto() * 100.0 / repetitions, 2, 'f', 0)
+           .arg(solver.get() && solver->isRunning() ? " running" : "")
+           .arg(done() ? " Done" : "");
+}
+
 SolverLoop::SolverLoop(const QVector<QString> &files, const QString &dir, bool isDetecting, int numReps)
 {
     filenames = files;
@@ -428,14 +436,32 @@ void SolverLoop::start()
     startDetect(numDetects % filenames.size());
 }
 
-bool SolverLoop::done()
+bool SolverLoop::done() const
 {
     return numDetects >= repetitions;
+}
+
+int SolverLoop::upto() const
+{
+    return numDetects;
+}
+
+void SolverLoop::timeout()
+{
+    qInfo() << QString("timed out on %1 %2 !!!!!!!!!!!!!!!!!!!!!").arg(currentIndex).arg(filenames[currentIndex]);
+    if (detecting)
+        watcher.cancel();
+    else
+        solver->abort();
+
+    startDetect(currentIndex);
 }
 
 void SolverLoop::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution,
                             double elapsedSeconds)
 {
+    disconnect(&timer, &QTimer::timeout, this, &SolverLoop::timeout);
+    timer.stop();
     disconnect(solver.get(), &SolverUtils::done, this, &SolverLoop::solverDone);
 
     const auto &filename = filenames[currentIndex];
@@ -456,15 +482,35 @@ void SolverLoop::solverDone(bool timedOut, bool success, const FITSImage::Soluti
     }
 }
 
+void SolverLoop::randomTimeout()
+{
+    disconnect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::detectFinished);
+    disconnect(&watcher, &QFutureWatcher<bool>::canceled, this, &SolverLoop::detectFinished);
+    disconnect(&randomAbortTimer, &QTimer::timeout, this, &SolverLoop::randomTimeout);
+    disconnect(&timer, &QTimer::timeout, this, &SolverLoop::timeout);
+    timer.stop();
+    randomAbortTimer.stop();
+    qInfo() << QString("#%1: %2 random timeout was %3s (%4s)").arg(numDetects).arg(filenames[currentIndex])
+            .arg(thisRandomTimeout, 3, 'f', 3).arg(dTimer.elapsed() / 1000.0, 3, 'f', 3);
+    thisImage.reset();
+    if (++numDetects < repetitions)
+    {
+        startDetect(numDetects % filenames.size());
+    }
+}
 
 void SolverLoop::detectFinished()
 {
-    disconnect(&watcher, &QFutureWatcher<bool>::finished, this,
-               &SolverLoop::detectFinished);
+    disconnect(&timer, &QTimer::timeout, this, &SolverLoop::timeout);
+    timer.stop();
+    randomAbortTimer.stop();
+    disconnect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::detectFinished);
+    disconnect(&watcher, &QFutureWatcher<bool>::canceled, this, &SolverLoop::detectFinished);
     bool result = watcher.result();
     if (result)
     {
-        qInfo() << QString("#%1: %2 HFR %3").arg(numDetects).arg(filenames[currentIndex]).arg(images[currentIndex]->getHFR());
+        qInfo() << QString("#%1: %2 HFR %3 (%4s)").arg(numDetects).arg(filenames[currentIndex])
+                .arg(thisImage->getHFR(), 4, 'f', 2).arg(dTimer.elapsed() / 1000.0, 3, 'f', 3);
         if (++numDetects < repetitions)
         {
             startDetect(numDetects % filenames.size());
@@ -478,13 +524,28 @@ void SolverLoop::detectFinished()
 
 void SolverLoop::startDetect(int index)
 {
+    connect(&timer, &QTimer::timeout, this, &SolverLoop::timeout, Qt::UniqueConnection);
+    timer.setSingleShot(true);
+    timer.start(timeoutSecs * 1000);
+
     currentIndex = index;
     if (detecting)
     {
-        auto &image = images[currentIndex];
+        thisImage.reset(new FITSData(images[currentIndex]));
         // detecting stars
         connect(&watcher, &QFutureWatcher<bool>::finished, this, &SolverLoop::detectFinished);
-        future = image->findStars(ALGORITHM_SEP);
+        connect(&watcher, &QFutureWatcher<bool>::canceled, this, &SolverLoop::detectFinished);
+
+        if (randomAbortSecs > 0)
+        {
+            randomAbortTimer.setSingleShot(true);
+            connect(&randomAbortTimer, &QTimer::timeout, this, &SolverLoop::randomTimeout, Qt::UniqueConnection);
+            thisRandomTimeout = rand.generateDouble() * randomAbortSecs;
+            randomAbortTimer.start(thisRandomTimeout * 1000);
+
+        }
+        dTimer.start();
+        future = thisImage->findStars(ALGORITHM_SEP);
         watcher.setFuture(future);
     }
     else
@@ -558,6 +619,15 @@ void TestFitsData::testParallelSolvers()
         "m5_Light_LPR_120_secs_2022-03-12T04-53-07_205.fits"
     };
 
+    const QString dir5 = dir;
+    const QVector<QString> files5 =
+    {
+        "m74_Light_LPR_60_secs_2021-10-11T04-48-41_301.fits",
+        "m74_Light_LPR_60_secs_2021-10-11T04-49-43_302.fits",
+        "m74_Light_LPR_60_secs_2021-10-11T04-50-55_303.fits",
+        "m74_Light_LPR_60_secs_2021-10-11T04-51-57_304.fits"
+    };
+
     // Set the number of iterations here. THe more the better, e.g. 10000.
     constexpr int numIterations = 10000;
 
@@ -566,24 +636,54 @@ void TestFitsData::testParallelSolvers()
 
     // Detect stars in guide files
     SolverLoop loop1(files1, dir1, true, numIterations);
+    loop1.setRandomAbort(1);
 
     // Detect stars in other guide files
     SolverLoop loop2(files2, dir2, true, numIterations);
+    loop2.setRandomAbort(1);
 
     // Detect stars in subs
     SolverLoop loop3(files3, dir3, true, numIterations / 15);
+    loop3.setRandomAbort(3);
 
     // This one solves the fits files
     SolverLoop loop4(files1, dir1, false, numIterations / 50);
+
+    // This one solves the fits files
+    SolverLoop loop5(files5, dir5, false, numIterations / 50);
 
     loop1.start();
     loop2.start();
     loop3.start();
     loop4.start();
+    loop5.start();
 
-    while(!loop1.done() || !loop2.done() || !loop3.done() || !loop4.done())
+    int iteration = 0;
+    while(!loop1.done()
+            || !loop2.done()
+            || !loop3.done()
+            || !loop4.done()
+            || !loop5.done())
+    {
         // The qWait is needed to allow message passing.
-        QTest::qWait(1000);
+        QTest::qWait(10);
+        if (iteration++ % 400 == 0)
+            qInfo() << QString("%1 -- %2 -- %3 -- %4 -- %5")
+                    .arg(loop1.status())
+                    .arg(loop2.status())
+                    .arg(loop3.status())
+                    .arg(loop4.status())
+                    .arg(loop5.status());
+    }
+
+    qInfo() << QString("%1 -- %2 -- %3 -- %4 -- %5")
+            .arg(loop1.status())
+            .arg(loop2.status())
+            .arg(loop3.status())
+            .arg(loop4.status())
+            .arg(loop5.status());
+
+    qInfo() << QString("Done!");
 #endif
 }
 
