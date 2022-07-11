@@ -79,6 +79,7 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
                 <listitem><para>Histogram: Toggle histogram view in the side panel.</para></listitem>
                 <listitem><para>Statistics: Toggle FITS Statistic view in the side panel.</para></listitem>
                 <listitem><para>Auto Stretch: Apply Auto Stretch filter to the image.</para></listitem>
+                <listitem><para>Toggle Selection Rectangle: Toggle selection rectangle for statistics of a region of interest.</para></listitem>
             </itemizedlist>
     </listitem>
     <listitem><para>Side Panel: The side panel can be opened by dragging the separator to the right. When dragged to the left, the side panel can also be closed.</para>
@@ -168,6 +169,11 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
         </listitem>
         <listitem>
             <para>
+                Statistics for a region of interest(Rectangle).
+            </para>
+        </listitem>
+        <listitem>
+            <para>
                 Rectangular and Equatorial Grids (if WCS info is present).
             </para>
         </listitem>
@@ -222,6 +228,30 @@ To open a FITS file, select the <menuchoice><guimenu>File</guimenu>
             <listitem>
                 <para>
                     Provides simple statistics for minimum and maximum pixel values and their respective locations. FITS depth, dimension, mean, and standard deviation.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term>Statistics of region of interest</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo>
+                      FITSViewer 
+                    </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase>Selection Statistics</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para>
+                Provides simple statistics average mean, average standard deviation and average median of the selected region by the user in a tooltip.
+                </para>
+                <para>
+                The user can either set the selection region by <keycombo>&Shift;<keycap>Left Click</keycap></keycombo> dragging or by choosing an entry from the drop down menu of the Toggle Selection Rectangle button. In addition to this, the user can translate the region by simple <keycap>Left Click</keycap> drag of the mouse. The statistics of the region are shown as a tooltip once the cursor is brought over the selection region. For smaller images, the statistics are updated instantly, and for larger images, the statistics are updated once the user releases the <keycap>Left Click</keycap> button after modification of the region.
                 </para>
             </listitem>
         </varlistentry>

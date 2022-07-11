@@ -175,10 +175,6 @@ class FITSView : public QScrollArea
         {
             return m_ZoomFactor;
         }
-        QPoint roiCenter() const
-        {
-            return m_ROICenter;
-        }
 
         // Star Detection
         QFuture<bool> findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID, const QRect &searchBox = QRect());
@@ -268,6 +264,12 @@ class FITSView : public QScrollArea
         {
             return m_NumClipped;
         }
+
+        QRect getSelectionRegion() const
+        {
+            return selectionRectangleRaw;
+        }
+
     public slots:
         void wheelEvent(QWheelEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
@@ -446,7 +448,6 @@ class FITSView : public QScrollArea
         QAction *toggleStarsAction { nullptr };
         QAction *toggleProfileAction { nullptr };
         QAction *toggleStretchAction { nullptr };
-        QPoint m_ROICenter;
 
         // State for the magnifying glass overlay.
         int magnifyingGlassX { -1 };
@@ -473,7 +474,7 @@ class FITSView : public QScrollArea
         void rectangleUpdated(QRect roi);
         void setRubberBand(QRect rect);
         void showRubberBand(bool on = false);
-        void zoomRubberBand(float scale);
+        void zoomRubberBand(double scale);
 
         friend class FITSLabel;
 };

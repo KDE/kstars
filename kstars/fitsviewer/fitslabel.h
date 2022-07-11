@@ -34,7 +34,7 @@ class FITSLabel : public QLabel
     public slots:
         void setRubberBand(QRect rect);
         void showRubberBand(bool on);
-        void zoomRubberBand(float scale);
+        void zoomRubberBand(double scale);
 
     protected:
         virtual void mouseMoveEvent(QMouseEvent *e) override;
