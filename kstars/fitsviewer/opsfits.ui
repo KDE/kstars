@@ -322,6 +322,19 @@
           </item>
          </layout>
         </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_StellarSolverPartition">
+          <property name="toolTip">
+            <string>Enable StellarSolver partition. Partitions the image in multiple threads to speed up detecting stars. This may significantly speed up source extraction but may result in unstable operation.</string>
+          </property>
+          <property name="text">
+           <string>StellarSolver Partitioning</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

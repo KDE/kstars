@@ -1927,7 +1927,10 @@ void Align::startSolving()
         m_StellarSolver->setProperty("SolverType", Options::solverType());
         connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
         m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
-        m_StellarSolver->setParameters(m_StellarSolverProfiles.at(Options::solveOptionsProfile()));
+
+        auto params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
+        params.partition = Options::stellarSolverPartition();
+        m_StellarSolver->setParameters(params);
 
         const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
         if(type == SSolver::SOLVER_LOCALASTROMETRY || type == SSolver::SOLVER_ASTAP || type == SSolver::SOLVER_WATNEYASTROMETRY)
