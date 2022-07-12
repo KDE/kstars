@@ -1082,38 +1082,23 @@ void ObservingList::slotLoadWishList()
     QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
     addingObjectsProgress->setWindowTitle(i18nc("@title:window", "Observing List Wizard"));
     addingObjectsProgress->setLabelText(i18n("Please wait while loading observing wishlist..."));
-    addingObjectsProgress->setMaximum(0);
+
+
+    // Read the entire file in one pass so we can show better progress indication
+    QStringList objects;
+    while (!istream.atEnd())
+    {
+        objects.append(istream.readLine());
+    }
+    addingObjectsProgress->setMaximum(objects.size());
     addingObjectsProgress->setMinimum(0);
     addingObjectsProgress->show();
 
     QStringList failedObjects;
+    for (std::size_t idx = 0; idx < objects.size(); ++idx) {
+        const auto &objectName = objects[idx];
 
-    while (!istream.atEnd())
-    {
-        line = istream.readLine();
-        //If the object is named "star", add it by coordinates
-        SkyObject *o;
-        /*if ( line.startsWith( QLatin1String( "star" ) ) ) {
-            QStringList fields = line.split( ' ', QString::SkipEmptyParts );
-            dms ra = dms::fromString( fields[1], false ); //false = hours
-            dms dc = dms::fromString( fields[2], true );  //true  = degrees
-            SkyPoint p( ra, dc );
-            double maxrad = 1000.0/Options::zoomFactor();
-            o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-        }
-        else {*/
-        o = KStarsData::Instance()->objectNamed(line);
-        //}
-        //If we haven't identified the object, try interpreting the
-        //name as a star's genetive name (with ascii letters)
-        if (!o)
-            o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName(line);
-        if (o)
-            slotAddObject(o, false, true);
-        else
-            failedObjects.append(line);
-
-        if (addingObjectsProgress->wasCanceled() && !istream.atEnd())
+        if (addingObjectsProgress->wasCanceled())
         {
             QMessageBox msgBox =
             {
@@ -1124,18 +1109,35 @@ void ObservingList::slotLoadWishList()
                 this
             };
             msgBox.setDefaultButton(QMessageBox::No);
-            auto pos = istream.pos();
-            msgBox.setDetailedText(istream.readAll());
-            istream.seek(pos);
+            msgBox.setDetailedText(objects.mid(idx).join("\n") + "\n");
             if (msgBox.exec() == QMessageBox::Yes)
                 break;
             else
             {
                 addingObjectsProgress->reset();
+                addingObjectsProgress->setValue(idx);
                 addingObjectsProgress->show();
             }
 
         }
+
+        SkyObject *o = KStarsData::Instance()->objectNamed(objectName);
+
+        //If we haven't identified the object, try interpreting the
+        //name as a star's genetive name (with ascii letters)
+        if (!o)
+            o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName(line);
+
+        if (o)
+        {
+            slotAddObject(o, false, true);
+        }
+        else
+        {
+            failedObjects.append(line);
+        }
+
+        addingObjectsProgress->setValue(idx + 1);
         qApp->processEvents();
     }
     delete (addingObjectsProgress);
@@ -1149,7 +1151,7 @@ void ObservingList::slotLoadWishList()
                               QMessageBox::Ok,
                               this
                              };
-        msgBox.setDetailedText(failedObjects.join("\n"));
+        msgBox.setDetailedText(failedObjects.join("\n") + "\n");
         msgBox.exec();
     }
 }

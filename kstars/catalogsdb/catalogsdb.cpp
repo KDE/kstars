@@ -173,6 +173,8 @@ DBManager::DBManager(const QString &filename)
 
     m_q_cat_by_id         = make_query(m_db, SqlStatements::get_catalog_by_id, true);
     m_q_obj_by_trixel     = make_query(m_db, SqlStatements::dso_by_trixel, false);
+    m_q_obj_by_trixel_no_nulls = make_query(m_db, SqlStatements::dso_by_trixel_no_nulls, false);
+    m_q_obj_by_trixel_null_mag = make_query(m_db, SqlStatements::dso_by_trixel_null_mag, false);
     m_q_obj_by_name       = make_query(m_db, SqlStatements::dso_by_name, true);
     m_q_obj_by_name_exact = make_query(m_db, SqlStatements::dso_by_name_exact, true);
     m_q_obj_by_maglim     = make_query(m_db, SqlStatements::dso_by_maglim, true);
@@ -434,35 +436,35 @@ CatalogObject DBManager::read_catalogobject(const QSqlQuery &query) const
              flux,       m_db_file };
 }
 
-CatalogObjectVector DBManager::get_objects_in_trixel(const int trixel)
+CatalogObjectVector DBManager::_get_objects_in_trixel_generic(QSqlQuery& query, const int trixel)
 {
     QMutexLocker _{ &m_mutex }; // this costs ~ .1ms which is ok
-    m_q_obj_by_trixel.bindValue(0, trixel);
+    query.bindValue(0, trixel);
 
-    if (!m_q_obj_by_trixel.exec()) // we throw because this is not recoverable
+    if (!query.exec()) // we throw because this is not recoverable
         throw DatabaseError(
-            QString("The query m_by_trixel_query for objects in trixel=%1 failed.")
+            QString("The by-trixel query for objects in trixel=%1 failed.")
                 .arg(trixel),
-            DatabaseError::ErrorType::UNKNOWN, m_q_obj_by_trixel.lastError());
+            DatabaseError::ErrorType::UNKNOWN, query.lastError());
 
     CatalogObjectVector objects;
     size_t count =
-        count_rows(m_q_obj_by_trixel); // this also moves the query head to the end
+        count_rows(query); // this also moves the query head to the end
 
     if (count == 0)
     {
-        m_q_obj_by_trixel.finish();
+        query.finish();
         return objects;
     }
 
     objects.reserve(count);
 
-    while (m_q_obj_by_trixel.previous())
+    while (query.previous())
     {
-        objects.push_back(read_catalogobject(m_q_obj_by_trixel));
+        objects.push_back(read_catalogobject(query));
     }
 
-    m_q_obj_by_trixel.finish();
+    query.finish();
 
     // move semantics baby!
     return objects;

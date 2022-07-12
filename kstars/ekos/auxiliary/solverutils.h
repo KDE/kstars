@@ -36,9 +36,11 @@ class SolverUtils : public QObject
         void runSolver(const QString &filename);
         SolverUtils &useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
+        bool isRunning() const;
+        void abort();
 
         void setHealpix(int indexToUse = -1, int healpixToUse = -1);
-        void getSolutionHealpix(int *indexUsed, int *healpixUsed);
+        void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;
 
         /**
          * @brief rotationToPositionAngle Convert from astrometry.net rotation to PA

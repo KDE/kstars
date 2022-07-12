@@ -19,6 +19,7 @@
 ClientManager::ClientManager()
 {
     connect(this, &ClientManager::newINDIProperty, this, &ClientManager::processNewProperty, Qt::UniqueConnection);
+    connect(this, &ClientManager::removeBLOBManager, this, &ClientManager::processRemoveBLOBManager, Qt::UniqueConnection);
 }
 
 bool ClientManager::isDriverManaged(DriverInfo *di)
@@ -107,19 +108,23 @@ void ClientManager::removeProperty(INDI::Property *prop)
 
     // If BLOB property is removed, remove its corresponding property if one exists.
     if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
+        emit removeBLOBManager(device, name);
+}
+
+void ClientManager::processRemoveBLOBManager(const QString &device, const QString &property)
+{
+    auto manager = std::find_if(blobManagers.begin(), blobManagers.end(), [device, property](auto & oneManager)
     {
-        for (auto &bm : blobManagers)
-        {
-            const QString bProperty = bm->property("property").toString();
-            const QString bDevice = bm->property("device").toString();
-            if (bDevice == device && bProperty == name)
-            {
-                blobManagers.removeOne(bm);
-                bm->disconnectServer();
-                bm->deleteLater();
-                break;
-            }
-        }
+        const auto bProperty = oneManager->property("property").toString();
+        const auto bDevice = oneManager->property("device").toString();
+        return (device == bDevice && property == bProperty);
+    });
+
+    if (manager != blobManagers.end())
+    {
+        (*manager)->disconnectServer();
+        (*manager)->deleteLater();
+        blobManagers.removeOne(*manager);
     }
 }
 
@@ -306,7 +311,8 @@ void ClientManager::serverDisconnected(int exitCode)
     }
     // Did server disconnect abnormally?
     else if (exitCode < 0)
-        emit terminated(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected: %3", getHost(), getPort(), exitCode));
+        emit terminated(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected: %3", getHost(), getPort(),
+                             exitCode));
 }
 
 QList<DriverInfo *> ClientManager::getManagedDrivers() const

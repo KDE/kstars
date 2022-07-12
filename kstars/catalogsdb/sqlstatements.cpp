@@ -322,9 +322,18 @@ inline const QString dso_by_catalog(int catalog_id)
 // Nulls last because we load the objects in reverse :P
 
 const QString _dso_by_trixel = "SELECT %1 FROM master WHERE trixel = "
-                               ":trixel ORDER BY %2, major_axis ASC";
+                               ":trixel ORDER BY %2";
 
 const QString dso_by_trixel = QString(_dso_by_trixel).arg(object_fields).arg(mag_desc);
+
+const QString _dso_by_trixel_null_mag = "SELECT %1 FROM master WHERE trixel = "
+                                        ":trixel AND magnitude IS NULL";
+const QString dso_by_trixel_null_mag = QString(_dso_by_trixel_null_mag).arg(object_fields);
+
+const QString _dso_by_trixel_no_nulls = "SELECT %1 FROM master WHERE trixel = "
+                                        ":trixel AND magnitude IS NOT NULL ORDER"
+                                        " BY magnitude DESC";
+const QString dso_by_trixel_no_nulls = QString(_dso_by_trixel_no_nulls).arg(object_fields);
 
 const QString _dso_by_oid = "SELECT %1 FROM master WHERE oid = :id LIMIT 1";
 
@@ -338,21 +347,21 @@ inline const QString dso_by_oid_and_catalog(const int id)
 };
 
 const QString _dso_by_name =
-    "SELECT %1, instr(lower(name), lower(:name)) AS in_name, instr(lower(long_name), "
-    "lower(:name)) AS in_lname FROM master WHERE in_name "
+    "SELECT %1, name like \"%\" || :name || \"%\" AS in_name, long_name like "
+    "\"%\" || :name || \"%\" AS in_lname FROM master WHERE in_name "
     "OR in_lname "
     "ORDER BY name, long_name, "
     "%2 LIMIT :limit";
 
-const QString _dso_by_name_exact = "SELECT %1 FROM master WHERE lower(name) = lower(:name) LIMIT 1";
+const QString _dso_by_name_exact = "SELECT %1 FROM master WHERE name = :name LIMIT 1";
 
 const QString dso_by_name       = QString(_dso_by_name).arg(object_fields).arg(mag_asc);
 const QString dso_by_name_exact = QString(_dso_by_name_exact).arg(object_fields);
 
 inline const QString dso_by_name_and_catalog(const int id)
 {
-    return QString("SELECT %1 FROM cat_%2 WHERE instr(name, :name) "
-                   "OR instr(long_name, :name) OR instr(catalog_identifier, :name)"
+    return QString("SELECT %1 FROM cat_%2 WHERE name like \"%\" || :name || \"%\" "
+                   "OR long_name like \"%\" || :name || \"%\" OR catalog_identifier like \"%\" || :name || \"%\""
                    "ORDER BY %3 LIMIT :limit")
            .arg(object_fields)
            .arg(id)
@@ -360,7 +369,7 @@ inline const QString dso_by_name_and_catalog(const int id)
 }
 
 const QString _dso_by_wildcard = "SELECT %1 FROM master WHERE name LIKE :wildcard LIMIT "
-                                 ":limit ODRER BY CAST(name AS INTEGER)";
+                                 ":limit ORDER BY CAST(name AS INTEGER)";
 
 inline const QString dso_by_wildcard()
 {

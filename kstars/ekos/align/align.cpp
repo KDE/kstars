@@ -2229,9 +2229,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
-                // PA = RawAngle * Multiplier + Offset
+                // 1. PA = (RawAngle * Multiplier) - Offset
+                // 2. Offset = (RawAngle * Multiplier) - PA
+                // 3. RawAngle = (Offset + PA) / Multiplier
                 double rawAngle = absAngle->at(0)->getValue();
-                double offset   = range360(currentRotatorPA - (rawAngle * Options::pAMultiplier()));
+                double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
                                            << "Rotator Offset:" << offset;
@@ -2241,7 +2243,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (absAngle && std::isnan(loadSlewTargetPA) == false
                     && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
-                double rawAngle = range360((loadSlewTargetPA - Options::pAOffset()) / Options::pAMultiplier());
+                // 3. RawAngle = (Offset + PA) / Multiplier
+                double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
                 absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
@@ -2772,8 +2775,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
     }
     else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
-        // PA = RawAngle * Multiplier + Offset
-        currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) + Options::pAOffset();
+        // 1. PA = (RawAngle * Multiplier) - Offset
+        currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset();
         while (currentRotatorPA > 180)
             currentRotatorPA -= 360;
         while (currentRotatorPA < -180)

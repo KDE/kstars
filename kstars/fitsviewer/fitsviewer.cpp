@@ -204,28 +204,6 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(roiActionMenu->menu()->actions().at(3), &QAction::triggered, this, [this] { ROIFixedSize(25); });
     connect(roiActionMenu->menu()->actions().at(4), &QAction::triggered, this, [this] { customROIInputWindow();});
     connect(action, &QAction::triggered, this, &FITSViewer::toggleSelectionMode);
-    //
-    //roiMenu = new QMenu;
-    //roiMenu->addAction("100x100");
-    //roiMenu->addAction("50x50");
-    //roiMenu->addAction("25x25");
-    //roiMenu->addAction("xy");
-
-    //action = actionCollection()->addAction("menu");
-    //action->setIcon(QIcon(":/icons/select_stat"));
-    //action->setMenu(roiMenu);
-    //action->setCheckable(true);
-    //connect(action, SIGNAL(triggered(bool)), SLOT(toggleSelectionMode()));
-    //connect(action->menu()->actions()[0], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(100)));
-    //connect(action->menu()->actions()[1], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(50)));
-    //connect(action->menu()->actions()[2], SIGNAL(&QAction::triggered), SLOT(roiFixedSize(25)));
-    //connect(action->menu()->actions()[3], SIGNAL(&QAction::triggered), SLOT(customRoiInputWindow()));
-
-    //action = actionCollection()->addAction("image_roi_stats");
-    //action->setIcon(QIcon(":/icons/select_stat"));
-    //action->setText(i18n("Show Selection Statistics"));
-    //action->setCheckable(true);
-    //connect(action, SIGNAL(triggered(bool)), SLOT(toggleSelectionMode()));
 
     action = actionCollection()->addAction("view_crosshair");
     action->setIcon(QIcon::fromTheme("crosshairs"));
@@ -1060,9 +1038,7 @@ void FITSViewer::customROIInputWindow()
 
     if(customRoiDialog.exec() == QDialog::Accepted)
     {
-        QPoint resetCenter = QPoint(mw / 2, mh / 2);
-        getCurrentView()->imageData()->setRoiCenter(resetCenter);
-
+        QPoint resetCenter = getCurrentView()->getSelectionRegion().center();
         int newheight = hle.text().toInt();
         int newwidth = wle.text().toInt();
 

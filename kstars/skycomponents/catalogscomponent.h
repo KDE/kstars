@@ -73,7 +73,8 @@ class CatalogsComponent : public SkyComponent
          */
         void resizeCache(const int percentage)
         {
-            m_cache.set_size(calculateCacheSize(percentage));
+            m_mainCache.set_size(calculateCacheSize(percentage));
+            m_unknownMagCache.set_size(calculateCacheSize(percentage));
         };
 
         /**
@@ -109,7 +110,8 @@ class CatalogsComponent : public SkyComponent
          */
         void dropCache()
         {
-            m_cache.clear();
+            m_mainCache.clear();
+            m_unknownMagCache.clear();
             m_catalog_colors = m_db_manager.get_catalog_colors();
         };
 
@@ -141,9 +143,14 @@ class CatalogsComponent : public SkyComponent
         ObjectList m_objects;
 
         /**
-         * The cache holding the DSOs
+         * The cache holding the DSOs of known magnitude
          */
-        TrixelCache<ObjectList> m_cache;
+        TrixelCache<ObjectList> m_mainCache;
+
+        /**
+         * The cache holding the DSOs of unknown magnitude
+         */
+        TrixelCache<ObjectList> m_unknownMagCache;
 
         /**
          * A trixel indexed map of lists containing manually loaded
@@ -176,7 +183,7 @@ class CatalogsComponent : public SkyComponent
         void updateSkyMesh(SkyMap &map, MeshBufNum_t buf = DRAW_BUF);
         size_t calculateCacheSize(const unsigned int percentage)
         {
-            return m_skyMesh->size() * percentage / 100;
+            return m_skyMesh->size() * percentage / 100.f;
         }
 
         /**

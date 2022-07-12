@@ -31,7 +31,7 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     PAOffsetSpin->setValue(Options::pAOffset());
 
     syncFOVPA->setChecked(Options::syncFOVPA());
-    connect(syncFOVPA, &QCheckBox::toggled, [this](bool toggled)
+    connect(syncFOVPA, &QCheckBox::toggled, this, [this](bool toggled)
     {
         Options::setSyncFOVPA(toggled);
         if (toggled) syncPA(targetPASpin->value());
@@ -63,7 +63,10 @@ void RotatorSettings::setCurrentAngle(double angle)
 
 void RotatorSettings::updatePA()
 {
-    double PA = rotatorGauge->value() * PAMulSpin->value() + PAOffsetSpin->value();
+    // 1. PA = (RawAngle * Multiplier) - Offset
+    // 2. Offset = (RawAngle * Multiplier) - PA
+    // 3. RawAngle = (Offset + PA) / Multiplier
+    double PA = (rotatorGauge->value() * PAMulSpin->value()) - PAOffsetSpin->value();
     // Limit PA to -180 to +180
     while (PA > 180)
         PA -= 360;

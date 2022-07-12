@@ -175,7 +175,7 @@ bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p,
     else
     {
         double factor       = log(Options::zoomFactor() / 750.0);
-        double newPointSize = qBound(12.0, factor * m_stdFont.pointSizeF(), 18.0);
+        double newPointSize = qBound(12.0, factor * m_stdFont.pointSizeF(), 18.0) * (1.0 + 0.7 * Options::labelFontScaling()/100.0);
         QFont zoomFont(m_p.font());
         zoomFont.setPointSizeF(newPointSize);
         m_p.setFont(zoomFont);
@@ -407,7 +407,7 @@ void SkyLabeler::draw(QPainter &p)
 
 bool SkyLabeler::markText(const QPointF &p, const QString &text, qreal padding_factor)
 {
-    static const auto ramp_zoom = log10(MINZOOM) + log10(MAXZOOM) * .3;
+    static const auto ramp_zoom = log10(MAXZOOM) + log10(0.3);
 
     if (padding_factor != 1)
     {

@@ -266,7 +266,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
                 break;
             }
         }
-        if (!objFound)
+        if (!objFound && !view->isSelectionRectShown())
             QToolTip::hideText();
     }
 
@@ -468,12 +468,16 @@ void FITSLabel::showRubberBand(bool on)
 }
 
 /// Scales the rubberband on zoom
-void FITSLabel::zoomRubberBand(float scale)
+void FITSLabel::zoomRubberBand(double scale)
 {
     QRect r = roiRB->geometry() ;
 
     if(prevscale == 0.0 )
         prevscale = scale;
+
+    double ap = r.width() / r.height();
+    double ow = r.width() * scale / prevscale;
+    double oh = r.height() * scale / prevscale;
 
     int rx, ry;
     rx = round(r.topLeft().x() * scale / prevscale);
@@ -483,6 +487,11 @@ void FITSLabel::zoomRubberBand(float scale)
     rx = round(r.bottomRight().x() * scale / prevscale);
     ry = round(r.bottomRight().y() * scale / prevscale);
     r.setBottomRight(QPoint(rx, ry));
+
+    if (ap != r.width() / r.height())
+    {
+        r.setSize(QSize(ow, oh));
+    }
 
     roiRB->setGeometry(r);
     prevscale = scale;

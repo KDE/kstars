@@ -346,7 +346,6 @@ void FITSView::loadFile(const QString &inFilename)
         m_ImageData->setBayerParams(&param);
 
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename));
-    m_ROICenter = QPoint(m_ImageData->width() / 2, m_ImageData->height() / 2);
 }
 
 void FITSView::clearData()
@@ -669,6 +668,7 @@ void FITSView::ZoomIn()
     updateFrame(true);
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
 void FITSView::ZoomOut()
@@ -697,6 +697,7 @@ void FITSView::ZoomOut()
     updateFrame(true);
 
     emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
 void FITSView::ZoomToFit()
@@ -709,6 +710,7 @@ void FITSView::ZoomToFit()
         rescale(ZOOM_FIT_WINDOW);
         updateFrame(true);
     }
+    emit zoomRubberBand(getCurrentZoom() / ZOOM_DEFAULT);
 }
 
 void FITSView::setStarFilterRange(float const innerRadius, float const outerRadius)
@@ -1662,22 +1664,18 @@ void FITSView::resizeTrackingBox(int newSize)
 
 void FITSView::processRectangleFixed(int s)
 {
-    if(s % 2)
-        s++;
-
-
     int w = m_ImageData->width();
     int h = m_ImageData->height();
 
-    QPoint c = QPoint(round(1 + w) / 2, round(1 + h / 2));
-    c.setX(qMax((int)round(s / 2), c.x()));
-    c.setX(qMin(w - (int)round(s / 2), c.x()));
-    c.setY(qMax((int)round(s / 2), c.y()));
-    c.setY(qMin(h - (int)round(s / 2), c.y()));
+    QPoint c = selectionRectangleRaw.center();
+    c.setX(qMax((int)round(s / 2.0), c.x()));
+    c.setX(qMin(w - (int)round(s / 2.0), c.x()));
+    c.setY(qMax((int)round(s / 2.0), c.y()));
+    c.setY(qMin(h - (int)round(s / 2.0), c.y()));
 
     QPoint topLeft, botRight;
-    topLeft = QPoint(c.x() - round(s / 2), c.y() - round(s / 2));
-    botRight = QPoint(c.x() + round(s / 2), c.y() + round(s / 2));
+    topLeft = QPoint(c.x() - round(s / 2.0), c.y() - round(s / 2.0));
+    botRight = QPoint(c.x() + round(s / 2.0), c.y() + round(s / 2.0));
 
     emit setRubberBand(QRect(topLeft, botRight));
     processRectangle(topLeft, botRight, true);
