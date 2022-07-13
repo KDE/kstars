@@ -99,7 +99,10 @@ void SolverUtils::prepareSolver()
 
     //No need for a conf file this way.
     m_StellarSolver->setProperty("AutoGenerateAstroConfig", true);
-    m_StellarSolver->setParameters(m_Parameters);
+
+    auto params = m_Parameters;
+    params.partition = Options::stellarSolverPartition();
+    m_StellarSolver->setParameters(params);
 
     m_TemporaryFilename.clear();
 

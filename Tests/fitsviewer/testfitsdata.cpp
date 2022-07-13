@@ -20,6 +20,7 @@ TestFitsData::TestFitsData(QObject *parent) : QObject(parent)
 
 void TestFitsData::initTestCase()
 {
+    Options::setStellarSolverPartition(true);
 }
 
 void TestFitsData::cleanupTestCase()

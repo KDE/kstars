@@ -114,11 +114,17 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     }
     if (optionsProfileIndex >= 0 && optionsList.count() > optionsProfileIndex)
     {
-        solver->setParameters(optionsList[optionsProfileIndex]);
+        auto params = optionsList[optionsProfileIndex];
+        params.partition = Options::stellarSolverPartition();
+        solver->setParameters(params);
         qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList[optionsProfileIndex].listName;
     }
     else
-        solver->setParameters(SSolver::Parameters()); // This is default
+    {
+        auto params = SSolver::Parameters();  // This is default
+        params.partition = Options::stellarSolverPartition();
+        solver->setParameters(params);
+    }
 
     QList<FITSImage::Star> stars;
     const bool runHFR = group != Ekos::AlignProfiles;
