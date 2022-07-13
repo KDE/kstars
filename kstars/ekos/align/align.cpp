@@ -29,7 +29,7 @@
 // FITS
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
-f
+
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
