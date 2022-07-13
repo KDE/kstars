@@ -7,6 +7,7 @@
 
 #include "rotatorsettings.h"
 #include "Options.h"
+#include "ekos/auxiliary/solverutils.h"
 #include "fov.h"
 #include "kstarsdata.h"
 
@@ -66,14 +67,7 @@ void RotatorSettings::updatePA()
     // 1. PA = (RawAngle * Multiplier) - Offset
     // 2. Offset = (RawAngle * Multiplier) - PA
     // 3. RawAngle = (Offset + PA) / Multiplier
-    double PA = (rotatorGauge->value() * PAMulSpin->value()) - PAOffsetSpin->value();
-    // Limit PA to -180 to +180
-    while (PA > 180)
-        PA -= 360;
-    while (PA < -180)
-        PA += 360;
-
-    //PASpin->setValue(PA);
+    double PA = SolverUtils::rangePA((rotatorGauge->value() * PAMulSpin->value()) - PAOffsetSpin->value());
     PAOut->setText(QString::number(PA, 'f', 3));
 }
 

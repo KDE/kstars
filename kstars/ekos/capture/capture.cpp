@@ -108,7 +108,6 @@ Capture::Capture()
         // 3. RawAngle = (Offset + PA) / Multiplier
         double rawAngle = (rotatorSettings->PAOffsetSpin->value() + rotatorSettings->PASpin->value()) /
                           rotatorSettings->PAMulSpin->value();
-        // Get raw angle (0 to 360) from PA (-180 to +180)
         while (rawAngle < 0)
             rawAngle += 360;
         while (rawAngle > 360)

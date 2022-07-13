@@ -29,7 +29,7 @@
 // FITS
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
-
+f
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
@@ -2246,9 +2246,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (absAngle && std::isnan(loadSlewTargetPA) == false
                     && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
-                // 3. RawAngle = (Offset + PA) / Multiplier
-                double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
-                absAngle->at(0)->setValue(rawAngle);
+                auto targetAngle = range360((currentRotatorPA - loadSlewTargetPA) * (Options::pAOffset() > 0 ? 1 : -1) + absAngle->at(
+                                                0)->getValue());
+                absAngle->at(0)->setValue(targetAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
