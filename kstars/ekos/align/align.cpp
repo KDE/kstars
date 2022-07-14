@@ -2246,9 +2246,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (absAngle && std::isnan(loadSlewTargetPA) == false
                     && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
             {
-                auto targetAngle = range360((currentRotatorPA - loadSlewTargetPA) * (Options::pAOffset() > 0 ? 1 : -1) + absAngle->at(
-                                                0)->getValue());
-                absAngle->at(0)->setValue(targetAngle);
+                // 3. RawAngle = (Offset + PA) / Multiplier
+                double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
+                absAngle->at(0)->setValue(rawAngle);
                 ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
@@ -2260,12 +2260,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             double current = currentRotatorPA;
             double target = loadSlewTargetPA;
 
-            double diff = current - target;
-            while (diff > 180)
-                diff -= 360;
-            while (diff < -180)
-                diff += 360;
-
+            double diff = SolverUtils::rangePA(current - target);
             double threshold = Options::astrometryRotatorThreshold() / 60.0;
 
             appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
@@ -2779,18 +2774,27 @@ void Align::processNumber(INumberVectorProperty *nvp)
     else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
         // 1. PA = (RawAngle * Multiplier) - Offset
-        currentRotatorPA = (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset();
-        while (currentRotatorPA > 180)
-            currentRotatorPA -= 360;
-        while (currentRotatorPA < -180)
-            currentRotatorPA += 360;
-        if (std::isnan(loadSlewTargetPA) == false
-                && fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
+        currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
+        if (std::isnan(loadSlewTargetPA) == false && nvp->s == IPS_OK)
         {
-            appendLogText(i18n("Rotator reached target position angle."));
-            targetAccuracyNotMet = true;
-            loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
-            QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
+            if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
+            {
+                appendLogText(i18n("Rotator reached target position angle."));
+                targetAccuracyNotMet = true;
+                loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+                QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
+            }
+            // If close, but not quite there
+            else if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold() * 2)
+            {
+                appendLogText(i18n("Rotator failed to arrive at the requested position angle. Check power, backlash, or obstructions."));
+            }
+            // If very far off, then we might need to reverse direction
+            else
+            {
+                appendLogText(
+                    i18n("Rotator failed to arrive at the requested position angle. Try to reverse rotation direction in INDI Control Panel."));
+            }
         }
     }
 
