@@ -1032,51 +1032,6 @@ void Capture::checkCCD(int ccdNum)
             coolerOffB->setChecked(false);
         }
 
-
-        if (currentCCD->hasCooler())
-        {
-            cameraTemperatureS->setEnabled(true);
-            cameraTemperatureN->setEnabled(true);
-
-            if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
-            {
-                double min, max, step;
-                setTemperatureB->setEnabled(true);
-                cameraTemperatureN->setReadOnly(false);
-                cameraTemperatureS->setEnabled(true);
-                currentCCD->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
-                cameraTemperatureN->setMinimum(min);
-                cameraTemperatureN->setMaximum(max);
-                cameraTemperatureN->setSingleStep(1);
-                bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()),
-                                 false).toBool();
-                cameraTemperatureS->setChecked(isChecked);
-            }
-            else
-            {
-                setTemperatureB->setEnabled(false);
-                cameraTemperatureN->setReadOnly(true);
-                cameraTemperatureS->setEnabled(false);
-                cameraTemperatureS->setChecked(false);
-            }
-
-            double temperature = 0;
-            if (currentCCD->getTemperature(&temperature))
-            {
-                temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
-                if (cameraTemperatureN->cleanText().isEmpty())
-                    cameraTemperatureN->setValue(temperature);
-            }
-        }
-        else
-        {
-            cameraTemperatureS->setEnabled(false);
-            cameraTemperatureN->setEnabled(false);
-            cameraTemperatureN->clear();
-            temperatureOUT->clear();
-            setTemperatureB->setEnabled(false);
-        }
-
         updateFrameProperties();
 
         QStringList frameTypes = m_captureDeviceAdaptor->getActiveChip()->getFrameTypes();
@@ -1106,113 +1061,6 @@ void Capture::checkCCD(int ccdNum)
         captureEncodingS->setCurrentText(currentCCD->getEncodingFormat());
         captureEncodingS->blockSignals(false);
 
-        QStringList isoList = m_captureDeviceAdaptor->getActiveChip()->getISOList();
-        captureISOS->blockSignals(true);
-        captureISOS->clear();
-
-        // No ISO range available
-        if (isoList.isEmpty())
-        {
-            captureISOS->setEnabled(false);
-        }
-        else
-        {
-            captureISOS->setEnabled(true);
-            captureISOS->addItems(isoList);
-            captureISOS->setCurrentIndex(m_captureDeviceAdaptor->getActiveChip()->getISOIndex());
-
-            uint16_t w, h;
-            uint8_t bbp {8};
-            double pixelX = 0, pixelY = 0;
-            bool rc = m_captureDeviceAdaptor->getActiveChip()->getImageInfo(w, h, pixelX, pixelY, bbp);
-            bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
-            // If rc == true, then the property has been defined by the driver already
-            // Only then we check if the pixels are zero
-            if (rc == true && (pixelX == 0.0 || pixelY == 0.0 || isModelInDB == false))
-            {
-                // If model is already in database, no need to show dialog
-                // The zeros above are the initial packets so we can safely ignore them
-                if (isModelInDB == false)
-                {
-                    createDSLRDialog();
-                }
-                else
-                {
-                    QString model = QString(currentCCD->getDeviceName());
-                    syncDSLRToTargetChip(model);
-                }
-            }
-        }
-        captureISOS->blockSignals(false);
-
-        // Gain Check
-        if (currentCCD->hasGain())
-        {
-            double min, max, step, value, targetCustomGain;
-            currentCCD->getGainMinMaxStep(&min, &max, &step);
-
-            // Allow the possibility of no gain value at all.
-            GainSpinSpecialValue = min - step;
-            captureGainN->setRange(GainSpinSpecialValue, max);
-            captureGainN->setSpecialValueText(i18n("--"));
-            captureGainN->setEnabled(true);
-            captureGainN->setSingleStep(step);
-            currentCCD->getGain(&value);
-
-            targetCustomGain = getGain();
-
-            // Set the custom gain if we have one
-            // otherwise it will not have an effect.
-            if (targetCustomGain > 0)
-                captureGainN->setValue(targetCustomGain);
-            else
-                captureGainN->setValue(GainSpinSpecialValue);
-
-            captureGainN->setReadOnly(currentCCD->getGainPermission() == IP_RO);
-
-            connect(captureGainN, &QDoubleSpinBox::editingFinished, [this]()
-            {
-                if (captureGainN->value() != GainSpinSpecialValue)
-                    setGain(captureGainN->value());
-            });
-        }
-        else
-            captureGainN->setEnabled(false);
-
-        // Offset checks
-        if (currentCCD->hasOffset())
-        {
-            double min, max, step, value, targetCustomOffset;
-            currentCCD->getOffsetMinMaxStep(&min, &max, &step);
-
-            // Allow the possibility of no Offset value at all.
-            OffsetSpinSpecialValue = min - step;
-            captureOffsetN->setRange(OffsetSpinSpecialValue, max);
-            captureOffsetN->setSpecialValueText(i18n("--"));
-            captureOffsetN->setEnabled(true);
-            captureOffsetN->setSingleStep(step);
-            currentCCD->getOffset(&value);
-
-            targetCustomOffset = getOffset();
-
-            // Set the custom Offset if we have one
-            // otherwise it will not have an effect.
-            if (targetCustomOffset > 0)
-                captureOffsetN->setValue(targetCustomOffset);
-            else
-                captureOffsetN->setValue(OffsetSpinSpecialValue);
-
-            captureOffsetN->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
-
-            connect(captureOffsetN, &QDoubleSpinBox::editingFinished, [this]()
-            {
-                if (captureOffsetN->value() != OffsetSpinSpecialValue)
-                    setOffset(captureOffsetN->value());
-            });
-        }
-        else
-            captureOffsetN->setEnabled(false);
-
         customPropertiesDialog->setCCD(currentCCD);
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
@@ -1228,11 +1076,171 @@ void Capture::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::ready, this, &Ekos::Capture::ready);
         connect(currentCCD, &ISD::CCD::error, this, &Ekos::Capture::processCaptureError);
 
+        syncCCDControls();
+
         // update values received by the device adaptor
         // connect(currentCCD, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
 
         DarkLibrary::Instance()->checkCamera();
     }
+}
+
+void Capture::syncCCDControls()
+{
+    auto currentCCD = m_captureDeviceAdaptor->getActiveCCD();
+    if (!currentCCD)
+        return;
+
+    if (currentCCD->hasCooler())
+    {
+        cameraTemperatureS->setEnabled(true);
+        cameraTemperatureN->setEnabled(true);
+
+        if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
+        {
+            double min, max, step;
+            setTemperatureB->setEnabled(true);
+            cameraTemperatureN->setReadOnly(false);
+            cameraTemperatureS->setEnabled(true);
+            currentCCD->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
+            cameraTemperatureN->setMinimum(min);
+            cameraTemperatureN->setMaximum(max);
+            cameraTemperatureN->setSingleStep(1);
+            bool isChecked = currentCCD->getDriverInfo()->getAuxInfo().value(QString("%1_TC").arg(currentCCD->getDeviceName()),
+                             false).toBool();
+            cameraTemperatureS->setChecked(isChecked);
+        }
+        else
+        {
+            setTemperatureB->setEnabled(false);
+            cameraTemperatureN->setReadOnly(true);
+            cameraTemperatureS->setEnabled(false);
+            cameraTemperatureS->setChecked(false);
+        }
+
+        double temperature = 0;
+        if (currentCCD->getTemperature(&temperature))
+        {
+            temperatureOUT->setText(QString("%L1").arg(temperature, 0, 'f', 2));
+            if (cameraTemperatureN->cleanText().isEmpty())
+                cameraTemperatureN->setValue(temperature);
+        }
+    }
+    else
+    {
+        cameraTemperatureS->setEnabled(false);
+        cameraTemperatureN->setEnabled(false);
+        cameraTemperatureN->clear();
+        temperatureOUT->clear();
+        setTemperatureB->setEnabled(false);
+    }
+
+    auto isoList = m_captureDeviceAdaptor->getActiveChip()->getISOList();
+    captureISOS->blockSignals(true);
+    captureISOS->clear();
+
+    // No ISO range available
+    if (isoList.isEmpty())
+    {
+        captureISOS->setEnabled(false);
+    }
+    else
+    {
+        captureISOS->setEnabled(true);
+        captureISOS->addItems(isoList);
+        captureISOS->setCurrentIndex(m_captureDeviceAdaptor->getActiveChip()->getISOIndex());
+
+        uint16_t w, h;
+        uint8_t bbp {8};
+        double pixelX = 0, pixelY = 0;
+        bool rc = m_captureDeviceAdaptor->getActiveChip()->getImageInfo(w, h, pixelX, pixelY, bbp);
+        bool isModelInDB = isModelinDSLRInfo(QString(currentCCD->getDeviceName()));
+        // If rc == true, then the property has been defined by the driver already
+        // Only then we check if the pixels are zero
+        if (rc == true && (pixelX == 0.0 || pixelY == 0.0 || isModelInDB == false))
+        {
+            // If model is already in database, no need to show dialog
+            // The zeros above are the initial packets so we can safely ignore them
+            if (isModelInDB == false)
+            {
+                createDSLRDialog();
+            }
+            else
+            {
+                QString model = QString(currentCCD->getDeviceName());
+                syncDSLRToTargetChip(model);
+            }
+        }
+    }
+    captureISOS->blockSignals(false);
+
+    // Gain Check
+    if (currentCCD->hasGain())
+    {
+        double min, max, step, value, targetCustomGain;
+        currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        GainSpinSpecialValue = min - step;
+        captureGainN->setRange(GainSpinSpecialValue, max);
+        captureGainN->setSpecialValueText(i18n("--"));
+        captureGainN->setEnabled(true);
+        captureGainN->setSingleStep(step);
+        currentCCD->getGain(&value);
+
+        targetCustomGain = getGain();
+
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        if (targetCustomGain > 0)
+            captureGainN->setValue(targetCustomGain);
+        else
+            captureGainN->setValue(GainSpinSpecialValue);
+
+        captureGainN->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+        connect(captureGainN, &QDoubleSpinBox::editingFinished, this, [this]()
+        {
+            if (captureGainN->value() != GainSpinSpecialValue)
+                setGain(captureGainN->value());
+        });
+    }
+    else
+        captureGainN->setEnabled(false);
+
+    // Offset checks
+    if (currentCCD->hasOffset())
+    {
+        double min, max, step, value, targetCustomOffset;
+        currentCCD->getOffsetMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no Offset value at all.
+        OffsetSpinSpecialValue = min - step;
+        captureOffsetN->setRange(OffsetSpinSpecialValue, max);
+        captureOffsetN->setSpecialValueText(i18n("--"));
+        captureOffsetN->setEnabled(true);
+        captureOffsetN->setSingleStep(step);
+        currentCCD->getOffset(&value);
+
+        targetCustomOffset = getOffset();
+
+        // Set the custom Offset if we have one
+        // otherwise it will not have an effect.
+        if (targetCustomOffset > 0)
+            captureOffsetN->setValue(targetCustomOffset);
+        else
+            captureOffsetN->setValue(OffsetSpinSpecialValue);
+
+        captureOffsetN->setReadOnly(currentCCD->getOffsetPermission() == IP_RO);
+
+        connect(captureOffsetN, &QDoubleSpinBox::editingFinished, this, [this]()
+        {
+            if (captureOffsetN->value() != OffsetSpinSpecialValue)
+                setOffset(captureOffsetN->value());
+        });
+    }
+    else
+        captureOffsetN->setEnabled(false);
 }
 
 void Capture::setGuideChip(ISD::CCDChip * guideChip)

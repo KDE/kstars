@@ -306,58 +306,68 @@ void Focus::checkCCD(int ccdNum)
             else
                 activeBin = 1;
 
-            QStringList isoList = targetChip->getISOList();
-            ISOCombo->clear();
-
-            if (isoList.isEmpty())
-            {
-                ISOCombo->setEnabled(false);
-                ISOLabel->setEnabled(false);
-            }
-            else
-            {
-                ISOCombo->setEnabled(true);
-                ISOLabel->setEnabled(true);
-                ISOCombo->addItems(isoList);
-                ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-            }
-
             connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
-
             liveVideoB->setEnabled(currentCCD->hasVideoStream());
             if (currentCCD->hasVideoStream())
                 setVideoStreamEnabled(currentCCD->isStreamingEnabled());
             else
                 liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
-
-            bool hasGain = currentCCD->hasGain();
-            gainLabel->setEnabled(hasGain);
-            gainIN->setEnabled(hasGain && currentCCD->getGainPermission() != IP_RO);
-            if (hasGain)
-            {
-                double gain = 0, min = 0, max = 0, step = 1;
-                currentCCD->getGainMinMaxStep(&min, &max, &step);
-                if (currentCCD->getGain(&gain))
-                {
-                    gainIN->setMinimum(min);
-                    gainIN->setMaximum(max);
-                    if (step > 0)
-                        gainIN->setSingleStep(step);
-
-                    double defaultGain = Options::focusGain();
-                    if (defaultGain > 0)
-                        gainIN->setValue(defaultGain);
-                    else
-                        gainIN->setValue(gain);
-                }
-            }
-            else
-                gainIN->clear();
         }
     }
 
+    syncCCDControls();
     syncCCDInfo();
+}
+
+void Focus::syncCCDControls()
+{
+    if (currentCCD == nullptr)
+        return;
+
+    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
+        return;
+
+    auto isoList = targetChip->getISOList();
+    ISOCombo->clear();
+
+    if (isoList.isEmpty())
+    {
+        ISOCombo->setEnabled(false);
+        ISOLabel->setEnabled(false);
+    }
+    else
+    {
+        ISOCombo->setEnabled(true);
+        ISOLabel->setEnabled(true);
+        ISOCombo->addItems(isoList);
+        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+    }
+
+    bool hasGain = currentCCD->hasGain();
+    gainLabel->setEnabled(hasGain);
+    gainIN->setEnabled(hasGain && currentCCD->getGainPermission() != IP_RO);
+    if (hasGain)
+    {
+        double gain = 0, min = 0, max = 0, step = 1;
+        currentCCD->getGainMinMaxStep(&min, &max, &step);
+        if (currentCCD->getGain(&gain))
+        {
+            gainIN->setMinimum(min);
+            gainIN->setMaximum(max);
+            if (step > 0)
+                gainIN->setSingleStep(step);
+
+            double defaultGain = Options::focusGain();
+            if (defaultGain > 0)
+                gainIN->setValue(defaultGain);
+            else
+                gainIN->setValue(gain);
+        }
+    }
+    else
+        gainIN->clear();
 }
 
 void Focus::syncCCDInfo()
@@ -365,7 +375,9 @@ void Focus::syncCCDInfo()
     if (currentCCD == nullptr)
         return;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
+        return;
 
     useSubFrame->setEnabled(targetChip->canSubframe());
 

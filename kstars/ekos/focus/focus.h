@@ -306,6 +306,11 @@ class Focus : public QWidget, public Ui::Focus
         void syncCCDInfo();
 
         /**
+         * @brief Update camera controls like Gain, ISO, Offset...etc
+         */
+        void syncCCDControls();
+
+        /**
              * @brief Check Focuser and make sure information is updated accordingly.
              * @param FocuserNum By default, we check the already selected focuser in the dropdown menu. If FocuserNum is specified, the check is made against this specific focuser in the dropdown menu.
              *  FocuserNum is the index of the focuser in the dropdown menu.

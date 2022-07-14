@@ -143,7 +143,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 #endif
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
 
-    connect(loadSlewB, &QPushButton::clicked, [&]()
+    connect(loadSlewB, &QPushButton::clicked, this, [this]()
     {
         loadAndSlew();
     });
@@ -804,66 +804,15 @@ void Align::checkCCD(int ccdNum)
 
     currentCCD = CCDs.at(ccdNum);
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    if (targetChip && targetChip->isCapturing())
+    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
 
     if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
         (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
 
     syncCCDInfo();
-
-    QStringList isoList = targetChip->getISOList();
-    ISOCombo->clear();
-
-    if (isoList.isEmpty())
-    {
-        ISOCombo->setEnabled(false);
-    }
-    else
-    {
-        ISOCombo->setEnabled(true);
-        ISOCombo->addItems(isoList);
-        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
-    }
-
-    // Gain Check
-    if (currentCCD->hasGain())
-    {
-        double min, max, step, value;
-        currentCCD->getGainMinMaxStep(&min, &max, &step);
-
-        // Allow the possibility of no gain value at all.
-        GainSpinSpecialValue = min - step;
-        GainSpin->setRange(GainSpinSpecialValue, max);
-        GainSpin->setSpecialValueText(i18n("--"));
-        GainSpin->setEnabled(true);
-        GainSpin->setSingleStep(step);
-        currentCCD->getGain(&value);
-
-        // Set the custom gain if we have one
-        // otherwise it will not have an effect.
-        TargetCustomGainValue = Options::solverCameraGain();
-        if (TargetCustomGainValue > 0)
-            GainSpin->setValue(TargetCustomGainValue);
-        else
-            GainSpin->setValue(GainSpinSpecialValue);
-
-        GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
-
-        connect(GainSpin, &QDoubleSpinBox::editingFinished, [this]()
-        {
-            if (GainSpin->value() > GainSpinSpecialValue)
-            {
-                TargetCustomGainValue = GainSpin->value();
-                // Save custom gain
-                Options::setSolverCameraGain(TargetCustomGainValue);
-            }
-        });
-    }
-    else
-        GainSpin->setEnabled(false);
-
+    syncCCDControls();
     syncTelescopeInfo();
 }
 
@@ -1134,6 +1083,67 @@ void Align::syncCCDInfo()
     {
         calculateFOV();
     }
+}
+
+void Align::syncCCDControls()
+{
+    if (currentCCD == nullptr)
+        return;
+
+    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
+        return;
+
+    auto isoList = targetChip->getISOList();
+    ISOCombo->clear();
+
+    if (isoList.isEmpty())
+    {
+        ISOCombo->setEnabled(false);
+    }
+    else
+    {
+        ISOCombo->setEnabled(true);
+        ISOCombo->addItems(isoList);
+        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+    }
+
+    // Gain Check
+    if (currentCCD->hasGain())
+    {
+        double min, max, step, value;
+        currentCCD->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        GainSpinSpecialValue = min - step;
+        GainSpin->setRange(GainSpinSpecialValue, max);
+        GainSpin->setSpecialValueText(i18n("--"));
+        GainSpin->setEnabled(true);
+        GainSpin->setSingleStep(step);
+        currentCCD->getGain(&value);
+
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        TargetCustomGainValue = Options::solverCameraGain();
+        if (TargetCustomGainValue > 0)
+            GainSpin->setValue(TargetCustomGainValue);
+        else
+            GainSpin->setValue(GainSpinSpecialValue);
+
+        GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+
+        connect(GainSpin, &QDoubleSpinBox::editingFinished, this, [this]()
+        {
+            if (GainSpin->value() > GainSpinSpecialValue)
+            {
+                TargetCustomGainValue = GainSpin->value();
+                // Save custom gain
+                Options::setSolverCameraGain(TargetCustomGainValue);
+            }
+        });
+    }
+    else
+        GainSpin->setEnabled(false);
 }
 
 void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
@@ -1849,7 +1859,7 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
     targetChip->setBinning(bin, bin);
 
     // Set gain if applicable
-    if (currentCCD->hasGain() && GainSpin->value() > GainSpinSpecialValue)
+    if (currentCCD->hasGain() && GainSpin->isEnabled() && GainSpin->value() > GainSpinSpecialValue)
         currentCCD->setGain(GainSpin->value());
     // Set ISO if applicable
     if (ISOCombo->currentIndex() >= 0)
