@@ -116,6 +116,10 @@ Capture::Capture()
         rotatorSettings->angleSpin->setValue(rawAngle);
         m_captureDeviceAdaptor->setRotatorAngle(&rawAngle);
     });
+    connect(rotatorSettings->ReverseDirectionCheck, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        m_captureDeviceAdaptor->reverseRotator(toggled);
+    });
 
     seqFileCount = 0;
     seqDelayTimer = new QTimer(this);
@@ -4169,15 +4173,25 @@ void Capture::setRotator(ISD::GDInterface * newRotator)
 {
     m_captureDeviceAdaptor->setRotator(newRotator);
     m_captureDeviceAdaptor->readRotatorAngle();
+    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::newRotatorReversed, this, &Capture::setRotatorReversed,
+            Qt::UniqueConnection);
     rotatorB->setEnabled(true);
+}
+
+void Capture::setRotatorReversed(bool toggled)
+{
+    rotatorSettings->ReverseDirectionCheck->setEnabled(true);
+
+    rotatorSettings->ReverseDirectionCheck->blockSignals(true);
+    rotatorSettings->ReverseDirectionCheck->setChecked(toggled);
+    rotatorSettings->ReverseDirectionCheck->blockSignals(false);
+
 }
 
 void Capture::setTelescope(ISD::GDInterface * newTelescope)
 {
     // forward it to the command processor
-    if (! m_captureDeviceAdaptor.isNull())
-        m_captureDeviceAdaptor->setTelescope(static_cast<ISD::Telescope *>(newTelescope));
-
+    m_captureDeviceAdaptor->setTelescope(static_cast<ISD::Telescope *>(newTelescope));
     m_captureDeviceAdaptor->getTelescope()->disconnect(this);
     connect(m_captureDeviceAdaptor->getTelescope(), &ISD::GDInterface::numberUpdated, this,
             &Ekos::Capture::processTelescopeNumber);

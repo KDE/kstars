@@ -755,6 +755,30 @@ bool GenericDevice::runCommand(int command, void *ptr)
         }
         break;
 
+        case INDI_REVERSE_ROTATOR:
+        {
+            if (ptr == nullptr)
+                return false;
+
+            auto svp = baseDevice->getSwitch("ROTATOR_REVERSE");
+
+            if (!svp)
+                return false;
+
+            auto enabled = *(static_cast<bool *>(ptr));
+
+            if ( (enabled && svp->sp[0].s == ISS_ON) ||
+                    (!enabled && svp->sp[1].s == ISS_ON))
+                break;
+
+            svp->reset();
+            svp->at(0)->setState(enabled ? ISS_ON : ISS_OFF);
+            svp->at(1)->setState(enabled ? ISS_OFF : ISS_ON);
+
+            clientManager->sendNewSwitch(svp);
+        }
+        break;
+
     }
 
     return true;

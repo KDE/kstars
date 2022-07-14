@@ -44,8 +44,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     {
         Options::setPAMultiplier(PAMulSpin->value());
         updatePA();
-    }
-           );
+    });
+
     connect(PAOffsetSpin, &QSpinBox::editingFinished, this, [this]()
     {
         Options::setPAOffset(PAOffsetSpin->value());

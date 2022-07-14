@@ -2793,7 +2793,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             else
             {
                 appendLogText(
-                    i18n("Rotator failed to arrive at the requested position angle. Try to reverse rotation direction in INDI Control Panel."));
+                    i18n("Rotator failed to arrive at the requested position angle. Try to reverse rotation direction in Rotator Settings."));
             }
         }
     }

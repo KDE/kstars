@@ -392,6 +392,19 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="5" colspan="3">
+       <widget class="QCheckBox" name="ReverseDirectionCheck">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Reverse rotator direction</string>
+        </property>
+        <property name="text">
+         <string>Reverse Direction</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
