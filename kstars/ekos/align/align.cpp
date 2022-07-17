@@ -2787,7 +2787,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
         currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
         if (std::isnan(loadSlewTargetPA) == false && nvp->s == IPS_OK)
         {
-            if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
+            auto diff = fabs(currentRotatorPA - loadSlewTargetPA) * 60;
+            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
+                                       << "Target PA:" << loadSlewTargetPA << "Diff (arcmin):" << diff << "Offset:" << Options::pAOffset();
+
+            if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached target position angle."));
                 targetAccuracyNotMet = true;
@@ -2795,7 +2799,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
             }
             // If close, but not quite there
-            else if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold() * 2)
+            else if (diff <= Options::astrometryRotatorThreshold() * 2)
             {
                 appendLogText(i18n("Rotator failed to arrive at the requested position angle. Check power, backlash, or obstructions."));
             }
