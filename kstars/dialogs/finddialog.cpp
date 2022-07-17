@@ -418,6 +418,15 @@ QString FindDialog::processSearchText(QString searchText)
         searchText.remove(re);
     }
 
+    // If it is a comet, and starts with c20## or c 20## make it c/20## (or similar with p).
+    re.setPattern("^(c|p)\\s*((19|20).*)");
+    if (searchText.contains(re))
+    {
+        if (searchText.at(0) == 'c' || searchText.at(0) == 'C')
+            searchText.replace(re, "c/\\2");
+        else searchText.replace(re, "p/\\2");
+    }
+    
     // TODO after KDE 4.1 release:
     // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
