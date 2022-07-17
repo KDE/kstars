@@ -2248,8 +2248,18 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 double rawAngle = absAngle->at(0)->getValue();
                 double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
 
+                auto reverseStatus = "Unknown";
+                auto reverseProperty = currentRotator->getBaseDevice()->getSwitch("REVERSE_ROTATOR");
+                if (reverseProperty)
+                {
+                    if (reverseProperty->at(0)->getState() == ISS_ON)
+                        reverseStatus = "Reversed Direction";
+                    else
+                        reverseStatus = "Normal Direction";
+                }
+
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
-                                           << "Rotator Offset:" << offset;
+                                           << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
                 Options::setPAOffset(offset);
             }
 
