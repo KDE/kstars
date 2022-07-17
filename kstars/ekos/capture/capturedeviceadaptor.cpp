@@ -164,13 +164,18 @@ void CaptureDeviceAdaptor::setRotator(ISD::GDInterface *device)
 
     // clean up old connections
     if (m_ActiveRotator != nullptr)
-        disconnect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber);
+        m_ActiveRotator->disconnect(this);
 
     m_ActiveRotator = device;
 
     // connect new device
     if (m_ActiveRotator != nullptr)
-        connect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber, Qt::UniqueConnection);
+    {
+        connect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber,
+                Qt::UniqueConnection);
+        connect(m_ActiveRotator, &ISD::GDInterface::switchUpdated, this, &CaptureDeviceAdaptor::updateRotatorSwitch,
+                Qt::UniqueConnection);
+    }
 
 }
 
@@ -187,13 +192,22 @@ void CaptureDeviceAdaptor::disconnectRotator()
     disconnect(currentSequenceJobState, &SequenceJobState::setRotatorAngle, this,
                &CaptureDeviceAdaptor::setRotatorAngle);
     disconnect(this, &CaptureDeviceAdaptor::newRotatorAngle, currentSequenceJobState,
-            &SequenceJobState::setCurrentRotatorPositionAngle);
+               &SequenceJobState::setCurrentRotatorPositionAngle);
 }
 
 void CaptureDeviceAdaptor::setRotatorAngle(double *rawAngle)
 {
     if (m_ActiveRotator != nullptr)
-     m_ActiveRotator->runCommand(INDI_SET_ROTATOR_ANGLE, rawAngle);
+        m_ActiveRotator->runCommand(INDI_SET_ROTATOR_ANGLE, rawAngle);
+}
+
+void CaptureDeviceAdaptor::reverseRotator(bool toggled)
+{
+    if (m_ActiveRotator != nullptr)
+    {
+        m_ActiveRotator->runCommand(INDI_REVERSE_ROTATOR, &toggled);
+        m_ActiveRotator->setConfig(SAVE_CONFIG);
+    }
 }
 
 void CaptureDeviceAdaptor::readRotatorAngle()
@@ -205,10 +219,28 @@ void CaptureDeviceAdaptor::readRotatorAngle()
     }
 }
 
+bool CaptureDeviceAdaptor::isRotatorReversed()
+{
+    if (m_ActiveRotator != nullptr)
+    {
+        auto svp = m_ActiveRotator->getBaseDevice()->getSwitch("ROTATOR_REVERSE");
+        if (svp)
+            return svp->sp[0].s == ISS_ON;
+    }
+
+    return false;
+}
+
 void CaptureDeviceAdaptor::updateRotatorNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
         emit newRotatorAngle(nvp->np[0].value, nvp->s);
+}
+
+void CaptureDeviceAdaptor::updateRotatorSwitch(ISwitchVectorProperty *svp)
+{
+    if (!strcmp(svp->name, "ROTATOR_REVERSE"))
+        emit newRotatorReversed(svp->sp[0].s == ISS_ON);
 }
 
 void CaptureDeviceAdaptor::setActiveCCD(ISD::CCD *device)
@@ -273,24 +305,24 @@ void CaptureDeviceAdaptor::readCurrentState(Ekos::CaptureState state)
 {
     switch(state)
     {
-    case CAPTURE_SETTING_TEMPERATURE:
-        if (m_ActiveCamera != nullptr)
-        {
-            double currentTemperature;
-            m_ActiveCamera->getTemperature(&currentTemperature);
-            emit newCCDTemperatureValue(currentTemperature);
-        }
-        break;
-    case CAPTURE_SETTING_ROTATOR:
-        readRotatorAngle();
-        break;
-    case CAPTURE_GUIDER_DRIFT:
-        // intentionally left empty since the guider regularly updates the drift
-        break;
-    default:
-        // this should not happen!
-        qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
-        break;
+        case CAPTURE_SETTING_TEMPERATURE:
+            if (m_ActiveCamera != nullptr)
+            {
+                double currentTemperature;
+                m_ActiveCamera->getTemperature(&currentTemperature);
+                emit newCCDTemperatureValue(currentTemperature);
+            }
+            break;
+        case CAPTURE_SETTING_ROTATOR:
+            readRotatorAngle();
+            break;
+        case CAPTURE_GUIDER_DRIFT:
+            // intentionally left empty since the guider regularly updates the drift
+            break;
+        default:
+            // this should not happen!
+            qWarning(KSTARS_EKOS_CAPTURE) << "Reading device state " << state << " not implemented!";
+            break;
     }
 }
 
@@ -380,11 +412,10 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
         else
             emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
     // unpark
+    else if (m_ActiveDustCap->UnPark())
+        emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
     else
-        if (m_ActiveDustCap->UnPark())
-            emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
-        else
-            emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
+        emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
 }
 
 void CaptureDeviceAdaptor::setDustCapLight(bool on)

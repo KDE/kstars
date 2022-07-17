@@ -222,3 +222,12 @@ double SolverUtils::positionAngleToRotation(double value)
         rotation += 360;
     return rotation;
 }
+
+double SolverUtils::rangePA(double pa)
+{
+    while (pa > 180)
+        pa -= 360;
+    while (pa < -180)
+        pa += 360;
+    return pa;
+}

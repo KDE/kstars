@@ -298,8 +298,10 @@ class Capture : public QWidget, public Ui::Capture
         void syncFrameType(ISD::GDInterface *ccd);
         void setTelescope(ISD::GDInterface *newTelescope);
         void setRotator(ISD::GDInterface *newRotator);
+        void setRotatorReversed(bool toggled);
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
         void syncTelescopeInfo();
+        void syncCCDControls();
         void syncFilterInfo();
 
         // Restart driver

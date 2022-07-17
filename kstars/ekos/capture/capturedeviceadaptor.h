@@ -98,15 +98,31 @@ public:
     void setRotatorAngle(double *rawAngle);
 
     /**
+     * @brief reverseRotator Toggle rotation reverse
+     * @param toggled If true, reverse rotator normal direction. If false, use rotator normal direction.
+     */
+    void reverseRotator(bool toggled);
+
+    /**
      * @brief Read the current rotator's angle from the rotator device
      *        and emit it as {@see newRotatorAngle()}
      */
     void readRotatorAngle();
 
     /**
+     * @brief Check if rotator is currently reversed.
+     */
+    bool isRotatorReversed();
+
+    /**
      * @brief Slot reading updates from the rotator device
      */
     void updateRotatorNumber(INumberVectorProperty *nvp);
+
+    /**
+     * @brief Slot reading updates from the rotator device
+     */
+    void updateRotatorSwitch(ISwitchVectorProperty *svp);
 
     //////////////////////////////////////////////////////////////////////
     // Camera commands
@@ -191,6 +207,10 @@ signals:
      * @brief Update for the rotator's angle
      */
     void newRotatorAngle(double value, IPState state);
+    /**
+     * @brief Update for the rotator reverse status
+     */
+    void newRotatorReversed(bool enabled);
     /**
      * @brief Cover for the scope with a flats light source
      */

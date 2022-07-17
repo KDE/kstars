@@ -1779,15 +1779,7 @@ void FITSView::toggleEQGrid()
 void FITSView::toggleSelectionMode()
 {
     showSelectionRect = !showSelectionRect;
-
-    if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
-    {
-        QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS, true);
-        wcsWatcher.setFuture(future);
-        return;
-    }
     emit showRubberBand(showSelectionRect);
-
     if (m_ImageFrame)
         updateFrame();
 

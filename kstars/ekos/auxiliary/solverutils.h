@@ -55,6 +55,13 @@ class SolverUtils : public QObject
          */
         static double positionAngleToRotation(double value);
 
+        /**
+         * @brief rangePA Limit any angle to fall between -180 to +180 degrees for position angle
+         * @param value angle
+         * @return angle limited to -180 to +180
+         */
+        static double rangePA(double value);
+
     signals:
         void done(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
         void newLog(const QString &logText);

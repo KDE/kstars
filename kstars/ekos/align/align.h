@@ -255,6 +255,11 @@ class Align : public QWidget, public Ui::Align
         void syncCCDInfo();
 
         /**
+         * @brief syncCCDControls Update camera controls like gain, offset, ISO..etc.
+         */
+        void syncCCDControls();
+
+        /**
              * @brief Generate arguments we pass to the remote solver.
              */
         QStringList generateRemoteArgs(const QSharedPointer<FITSData> &imageData);

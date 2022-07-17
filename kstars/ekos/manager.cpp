@@ -1947,6 +1947,7 @@ void Manager::processNewProperty(INDI::Property prop)
         m_PortSelectorTimer.start();
         portSelectorB->setEnabled(true);
         m_PortSelector->addDevice(deviceInterface);
+        return;
     }
 
     // Check if we need to turn on DEBUG for logging purposes
@@ -1961,6 +1962,7 @@ void Manager::processNewProperty(INDI::Property prop)
             debugSP->at(1)->setState(ISS_OFF);
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugSP);
         }
+        return;
     }
 
     // Handle debug levels for logging purposes
@@ -1977,12 +1979,15 @@ void Manager::processNewProperty(INDI::Property prop)
 
             deviceInterface->getDriverInfo()->getClientManager()->sendNewSwitch(debugLevel);
         }
+        return;
     }
 
     if (prop->isNameMatch("ACTIVE_DEVICES"))
     {
         if (deviceInterface->getDriverInterface() > 0)
             syncActiveDevices();
+
+        return;
     }
 
     if (prop->isNameMatch("TELESCOPE_INFO") || prop->isNameMatch("TELESCOPE_SLEW_RATE")
@@ -1998,6 +2003,15 @@ void Manager::processNewProperty(INDI::Property prop)
     {
         ekosLiveClient.get()->message()->sendCameras();
         ekosLiveClient.get()->media()->registerCameras();
+
+        if (captureProcess.get() != nullptr)
+            captureProcess->syncCCDControls();
+
+        if (focusProcess.get() != nullptr)
+            focusProcess->syncCCDControls();
+
+        if (alignProcess.get() != nullptr)
+            alignProcess->syncCCDControls();
     }
 
     if (prop->isNameMatch("CCD_TEMPERATURE") || prop->isNameMatch("FOCUSER_TEMPERATURE")
@@ -2013,18 +2027,20 @@ void Manager::processNewProperty(INDI::Property prop)
             prop->isNameMatch("DOME_PARK"))
     {
         ekosLiveClient.get()->message()->sendDomes();
+        return;
     }
 
     if (prop->isNameMatch("CAP_PARK") || prop->isNameMatch("FLAT_LIGHT_CONTROL"))
     {
         ekosLiveClient.get()->message()->sendCaps();
+        return;
     }
 
     if (prop->isNameMatch("FILTER_NAME"))
+    {
         ekosLiveClient.get()->message()->sendFilterWheels();
-
-    if (prop->isNameMatch("FILTER_NAME"))
         filterManager.data()->initFilterProperties();
+    }
 
     if (prop->isNameMatch("CONFIRM_FILTER_SET"))
         filterManager.data()->initFilterProperties();
@@ -2041,6 +2057,7 @@ void Manager::processNewProperty(INDI::Property prop)
             alignProcess->syncCCDInfo();
 
         return;
+
     }
 
     if (prop->isNameMatch("TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
@@ -2107,14 +2124,6 @@ void Manager::processNewProperty(INDI::Property prop)
         return;
     }
 
-    if (prop->isNameMatch("CCD_ISO"))
-    {
-        if (captureProcess.get() != nullptr)
-            captureProcess->checkCCD();
-
-        return;
-    }
-
     if (prop->isNameMatch("TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (captureProcess.get() != nullptr)
@@ -2125,23 +2134,6 @@ void Manager::processNewProperty(INDI::Property prop)
 
         return;
     }
-
-    /*
-    if (prop->isNameMatch("FILTER_NAME"))
-    {
-        if (captureProcess.get() != nullptr)
-            captureProcess->checkFilter();
-
-        if (focusProcess.get() != nullptr)
-            focusProcess->checkFilter();
-
-        if (alignProcess.get() != nullptr)
-            alignProcess->checkFilter();
-
-
-        return;
-    }
-    */
 
     if (prop->isNameMatch("ASTROMETRY_SOLVER"))
     {
@@ -2154,6 +2146,8 @@ void Manager::processNewProperty(INDI::Property prop)
                 break;
             }
         }
+
+        return;
     }
 
     if (prop->isNameMatch("ABS_ROTATOR_ANGLE"))
@@ -2163,6 +2157,8 @@ void Manager::processNewProperty(INDI::Property prop)
             captureProcess->setRotator(deviceInterface);
         if (alignProcess.get() != nullptr)
             alignProcess->setRotator(deviceInterface);
+
+        return;
     }
 
     if (prop->isNameMatch("GPS_REFRESH"))
@@ -2170,11 +2166,14 @@ void Manager::processNewProperty(INDI::Property prop)
         managedDevices.insert(KSTARS_AUXILIARY, deviceInterface);
         if (mountProcess.get() != nullptr)
             mountProcess->setGPS(deviceInterface);
+
+        return;
     }
 
     if (focusProcess.get() != nullptr && strstr(prop->getName(), "FOCUS_"))
     {
         focusProcess->checkFocuser();
+        return;
     }
 }
 
