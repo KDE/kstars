@@ -7,9 +7,9 @@
 
 #include "rotatorsettings.h"
 #include "Options.h"
-#include "ekos/auxiliary/solverutils.h"
 #include "fov.h"
 #include "kstarsdata.h"
+#include "ekos/auxiliary/solverutils.h"
 
 #include <indicom.h>
 #include <basedevice.h>
