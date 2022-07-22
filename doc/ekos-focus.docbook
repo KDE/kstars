@@ -485,7 +485,7 @@
         option is not allowed, all datapoints are given equal weight in the
         curve fitting process. </para>
 
-        <para> See the <link linkend="Levenberg–Marquardt">Levenburg-Marquardt
+        <para> See the <link linkend="Levenberg-Marquardt">Levenberg-Marquardt
         Solver</link> for more details.</para>
       </listitem>
 
@@ -632,7 +632,7 @@
 
             <para> This algorithm supports the older style Quadratic curve
             type as well as the newer <link
-            linkend="Levenberg–Marquardt">Levenburg-Marquardt Solver</link>
+            linkend="Levenberg-Marquardt">Levenberg-Marquardt Solver</link>
             for Hyperbolic and Parabolic curves. It will also weight the
             datapoints in the curve fitting process if Use Weights is
             checked.</para>
@@ -707,7 +707,7 @@
             <para> <emphasis role="bold">Hyperbola</emphasis>: Fits a
             Hyperbola using a non-linear least squares algorithm supplied by
             GSL (GNU Science Library). See <link
-            linkend="Levenberg–Marquardt">Levenburg-Marquardt Solver</link>
+            linkend="Levenberg-Marquardt">Levenberg-Marquardt Solver</link>
             for more details.</para>
           </listitem>
 
@@ -715,7 +715,7 @@
             <para> <emphasis role="bold">Parabola</emphasis>: Fits a Parabola
             using a non-linear least squares algorithm supplied by GSL (GNU
             Science Library). See <link
-            linkend="Levenberg–Marquardt">Levenburg-Marquardt Solver</link>
+            linkend="Levenberg-Marquardt">Levenberg-Marquardt Solver</link>
             for more details.</para>
           </listitem>
         </itemizedlist>
@@ -1181,10 +1181,10 @@
     <para> This feature is turned off by setting the R2 Limit to 0.</para>
   </sect3>
 
-  <sect3 id="Levenberg–Marquardt">
+  <sect3 id="Levenberg-Marquardt">
     <title>Levenberg–Marquardt Solver</title>
 
-    <para> The Levenburg-Marquardt (LM) algorithm is used to solve non-linear
+    <para> The Levenberg-Marquardt (LM) algorithm is used to solve non-linear
     least squares problems. The GNU Science Library provides an implementation
     of the solver. These resources provide more details: </para>
 
