@@ -91,7 +91,7 @@
 
           <listitem>
             <para> The algorithm works on a "good enough" paradigm whereby it
-            stops when the HFR is within % Tolerance of the perceived mimimum.
+            stops when the HFR is within % Tolerance of the perceived minimum.
             </para>
           </listitem>
         </itemizedlist>
@@ -275,7 +275,7 @@
     it is best to start from a position of being approximately in focus. For
     first time setup, <guibutton>Start Framing</guibutton> can be used along
     with the <guibutton>In</guibutton> and <guibutton>Out</guibutton> buttons
-    to adjust the focus position to roughly minimise the HFR of the stars in
+    to adjust the focus position to roughly minimize the HFR of the stars in
     the captured images. When Framing is used in this way, the <link
     linkend="focus-v-curve">V-Curve</link> graph changes to show a time series
     of frames and their associated HFRs. This makes the framing process much
@@ -666,7 +666,7 @@
       </listitem>
 
       <listitem>
-        <para> <guilabel>Kernal Size</guilabel>: The kernal size of the
+        <para> <guilabel>Kernel Size</guilabel>: The kernel size of the
         gaussian blur applied to the image before applying Bahtinov edge
         detection. Used when <emphasis role="bold">Detection</emphasis> is
         Bahtinov.</para>
@@ -1071,7 +1071,7 @@
         <itemizedlist>
           <listitem>
             <para> Setup Backlash. See the Backlash section for more details
-            but if you don’tknow the value for your equipment then set to
+            but if you do not know the value for your equipment then set to
             0.</para>
           </listitem>
 
@@ -1202,7 +1202,7 @@
       </listitem>
     </itemizedlist>
 
-    <para> The Levenberg-Marquart algorithm is a new feature added for the
+    <para> The Levenberg-Marquardt algorithm is a new feature added for the
     Linear 1 Pass focus algorithm. It is a non-linear least-squares solver and
     thus suitable for many different equations. The basic idea is to adjust
     the equation y = f(x,P) so that the computed y values are as close as
@@ -1210,7 +1210,7 @@
     curve fits the data as best as it can. P is a set of parameters that are
     varied by the solver in order to find the best fit. The solver measures
     how far away the curve is at each data point, squares the result and adds
-    them all up. This is the number to be minimised, lets call is S. The
+    them all up. This is the number to be minimized, lets call is S. The
     solver is supplied with an initial guess for the parameters, P. It
     calculates S, makes an adjustment to P and calculates a new S1. Provided
     S1 &lt; S then we are moving in the right direction. It iterates through
