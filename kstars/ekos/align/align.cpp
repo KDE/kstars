@@ -2134,7 +2134,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     alignCoord.setRA0(ra / 15.0);
     alignCoord.setDec0(dec);
-    RotOut->setText(QString::number(orientation, 'f', 5));
 
     // Convert to JNow
     alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
@@ -2157,6 +2156,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
     // Sensor FOV as well
     sensorFOV->setPA(solverPA);
+
+    PAOut->setText(QString::number(solverPA, 'f', 5));
 
     QString ra_dms, dec_dms;
     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -2312,7 +2313,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"dDE", m_TargetDiffDE},
         {"targetDiff", m_TargetDiffTotal},
         {"pix", pixscale},
-        {"rot", orientation},
+        {"PA", solverPA},
         {"fov", FOVOut->text()},
     };
     emit newSolution(solution.toVariantMap());

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>786</width>
-    <height>612</height>
+    <height>613</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="primaryLayout" stretch="1,3">
@@ -408,14 +408,14 @@
            <string>Image rotation angle, East of North</string>
           </property>
           <property name="text">
-           <string>Rot:</string>
+           <string>PA:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="3">
-         <widget class="QLineEdit" name="RotOut">
+         <widget class="QLineEdit" name="PAOut">
           <property name="toolTip">
-           <string>Image rotation angle, East of North</string>
+           <string>Position angle in degrees, East of North</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -679,7 +679,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="screen-rotate-auto-on"/>
+           <iconset theme="screen-rotate-auto-on">
+            <normaloff>.</normaloff>.</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -869,48 +870,30 @@
                <property name="text">
                 <string>RA</string>
                </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
               </column>
               <column>
                <property name="text">
                 <string>DEC</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
                </property>
               </column>
               <column>
                <property name="text">
                 <string>Obj Name</string>
                </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
               </column>
               <column>
                <property name="text">
                 <string>~~</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
                </property>
               </column>
               <column>
                <property name="text">
                 <string>dRA</string>
                </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
-               </property>
               </column>
               <column>
                <property name="text">
                 <string>dDE</string>
-               </property>
-               <property name="textAlignment">
-                <set>AlignCenter</set>
                </property>
               </column>
              </widget>
@@ -1087,7 +1070,7 @@
   <tabstop>SolverDecOut</tabstop>
   <tabstop>errOut</tabstop>
   <tabstop>pixScaleOut</tabstop>
-  <tabstop>RotOut</tabstop>
+  <tabstop>PAOut</tabstop>
   <tabstop>FOVOut</tabstop>
   <tabstop>FOVScopeCombo</tabstop>
   <tabstop>tabWidget</tabstop>
