@@ -495,7 +495,7 @@
         of Hyperbola and Parabola. As part of the Linear 1 Pass algorithm, the
         degree to which the curve fits the datapoints, or <link
         linkend="Coefficient_of_Determination">Coefficient of Determination,
-        R2</link>, is calculated. This option allow a minimum acceptable value
+        R2</link>, is calculated. This option allows a minimum acceptable value
         of R2 to be defined that is compared to the value obtained from the
         curve fitting process. If the minimum value has not been achieved then
         Autofocus will rerun. Only one rerun will be performed and even if the
@@ -609,7 +609,7 @@
 
           <listitem>
             <para> <emphasis role="bold">Linear</emphasis>: This algorithm
-            build a V-Curve with approximately <emphasis role="bold">Out step
+            builds a V-Curve with approximately <emphasis role="bold">Out step
             Multiple</emphasis> steps on each side of the minimum. Having
             built the V-Curve it then fits a quadratic equation to the curve
             (parabolic shape) and uses this to calculate the focuser position
@@ -625,7 +625,7 @@
             algorithm starts in the same way as <emphasis
             role="bold">Linear</emphasis> building a V-Curve. Having built the
             V-Curve it then fits the <emphasis role="bold">Curve
-            Fit</emphasis>type to the datapoints and then calculates the
+            Fit</emphasis> type to the datapoints and then calculates the
             focuser position giving the minimum HFR. Having identified the
             minimum it then moves directly to that point in a way designed to
             neutralise backlash.</para>
