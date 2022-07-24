@@ -93,6 +93,9 @@ class Message : public QObject
         // Focus
         void sendFocusSettings(const QJsonObject &settings);
 
+        //Scheduler
+        void sendSchedulerSettings(const QJsonObject &settings);
+
         // Polar
         void setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage);
         void setPAHMessage(const QString &message);

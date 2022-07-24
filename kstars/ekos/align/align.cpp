@@ -2134,7 +2134,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     alignCoord.setRA0(ra / 15.0);
     alignCoord.setDec0(dec);
-    RotOut->setText(QString::number(orientation, 'f', 5));
 
     // Convert to JNow
     alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
@@ -2157,6 +2156,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
     // Sensor FOV as well
     sensorFOV->setPA(solverPA);
+
+    PAOut->setText(QString::number(solverPA, 'f', 5));
 
     QString ra_dms, dec_dms;
     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -2248,8 +2249,18 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 double rawAngle = absAngle->at(0)->getValue();
                 double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
 
+                auto reverseStatus = "Unknown";
+                auto reverseProperty = currentRotator->getBaseDevice()->getSwitch("REVERSE_ROTATOR");
+                if (reverseProperty)
+                {
+                    if (reverseProperty->at(0)->getState() == ISS_ON)
+                        reverseStatus = "Reversed Direction";
+                    else
+                        reverseStatus = "Normal Direction";
+                }
+
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
-                                           << "Rotator Offset:" << offset;
+                                           << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
                 Options::setPAOffset(offset);
             }
 
@@ -2302,7 +2313,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"dDE", m_TargetDiffDE},
         {"targetDiff", m_TargetDiffTotal},
         {"pix", pixscale},
-        {"rot", orientation},
+        {"PA", solverPA},
         {"fov", FOVOut->text()},
     };
     emit newSolution(solution.toVariantMap());
@@ -2787,7 +2798,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
         currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
         if (std::isnan(loadSlewTargetPA) == false && nvp->s == IPS_OK)
         {
-            if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold())
+            auto diff = fabs(currentRotatorPA - loadSlewTargetPA) * 60;
+            qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
+                                       << "Target PA:" << loadSlewTargetPA << "Diff (arcmin):" << diff << "Offset:" << Options::pAOffset();
+
+            if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached target position angle."));
                 targetAccuracyNotMet = true;
@@ -2795,7 +2810,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
             }
             // If close, but not quite there
-            else if (fabs(currentRotatorPA - loadSlewTargetPA) * 60 <= Options::astrometryRotatorThreshold() * 2)
+            else if (diff <= Options::astrometryRotatorThreshold() * 2)
             {
                 appendLogText(i18n("Rotator failed to arrive at the requested position angle. Check power, backlash, or obstructions."));
             }

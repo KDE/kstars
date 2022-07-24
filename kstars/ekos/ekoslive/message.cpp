@@ -709,6 +709,11 @@ void Message::sendFocusSettings(const QJsonObject &settings)
     sendResponse(commands[FOCUS_SET_SETTINGS], settings);
 }
 
+void Message::sendSchedulerSettings(const QJsonObject &settings)
+{
+    sendResponse(commands[SCHEDULER_GET_SETTINGS], settings);
+}
+
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
@@ -1024,26 +1029,32 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     else if (command == commands[SCHEDULER_SET_JOB_STARTUP_CONDITIONS])
     {
         scheduler->setJobStartupConditions(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_SET_JOB_CONSTRAINTS])
     {
         scheduler->setJobConstraints(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_SET_JOB_COMPLETION_SETTINGS])
     {
         scheduler->setJobCompletionConditions(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_SET_OBSERVATORY_STARTUP_PROCEDURE])
     {
         scheduler->setObservatoryStartupProcedure(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_SET_ABORTED_JOB_MANAGEMENT])
     {
         scheduler->setAbortedJobManagementSettings(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_SET_OBSERVATORY_SHUTDOWN_PROCEDURE])
     {
         scheduler->setObservatoryShutdownProcedure(payload);
+        sendSchedulerSettings(m_Manager->schedulerModule()->getSchedulerSettings());
     }
     else if (command == commands[SCHEDULER_GET_JOBS])
     {

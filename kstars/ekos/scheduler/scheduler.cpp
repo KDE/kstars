@@ -3119,6 +3119,7 @@ bool Scheduler::executeJob(SchedulerJob *job)
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << currentJob->getName();
 
     currentJob->setState(SchedulerJob::JOB_BUSY);
+    emit jobsUpdated(getJSONJobs());
 
     KNotification::event(QLatin1String("EkosSchedulerJobStart"),
                          i18n("Ekos job started (%1)", currentJob->getName()));
@@ -8582,6 +8583,55 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
 
 QJsonObject Scheduler::getSchedulerSettings()
 {
+    QJsonObject jobStartupSettings = {
+        {"asap", asapConditionR->isChecked()},
+        {"culmination", culminationConditionR->isChecked()},
+        {"culminationOffset", culminationOffset->value()},
+        {"startupTimeConditionR", startupTimeConditionR->isChecked()},
+        {"startupTimeEdit", startupTimeEdit->text()},
+    };
+
+    QJsonObject jobConstraintSettings = {
+        {"altConstraintCheck", altConstraintCheck->isChecked()},
+        {"minAltitude", minAltitude->value()},
+        {"moonSeparationCheck", moonSeparationCheck->isChecked()},
+        {"minMoonSeparation", minMoonSeparation->value()},
+        {"weatherCheck", weatherCheck->isChecked()},
+        {"twilightCheck", twilightCheck->isChecked()},
+        {"nightTime", nightTime->text()},
+        {"artificialHorizonCheck", artificialHorizonCheck->isChecked()}
+    };
+
+    QJsonObject jobCompletionSettings = {
+      {"sequenceCompletionR", sequenceCompletionR->isChecked()},
+        {"repeatCompletionR", repeatCompletionR->isChecked()},
+        {"repeatsSpin", repeatsSpin->value()},
+        {"loopCompletionR", loopCompletionR->isChecked()},
+        {"timeCompletionR", timeCompletionR->isChecked()}
+    };
+
+    QJsonObject observatoryStartupSettings = {
+       {"unparkDomeCheck", unparkDomeCheck->isChecked()},
+       {"unparkMountCheck", unparkMountCheck->isChecked()},
+       {"uncapCheck", uncapCheck->isChecked()},
+       {"startupScript", startupScript->text()}
+    };
+    QJsonObject abortJobSettings = {
+        {"none", errorHandlingDontRestartButton->isChecked() },
+        {"queue", errorHandlingRestartQueueButton->isChecked()},
+        {"immediate", errorHandlingRestartImmediatelyButton->isChecked()},
+        {"rescheduleCheck", errorHandlingRescheduleErrorsCB->isChecked()},
+        {"errorHandlingDelaySB", errorHandlingDelaySB->value()}
+
+    };
+    QJsonObject shutdownSettings = {
+        {"warmCCDCheck", warmCCDCheck->isChecked()},
+        {"capCheck", capCheck->isChecked()},
+        {"parkMountCheck", parkMountCheck->isChecked()},
+        {"parkDomeCheck", parkDomeCheck->isChecked()},
+        {"shutdownScript", shutdownScript->text()}
+    };
+
     QJsonObject schedulerSettings =
     {
         {"algorithm", schedulerAlgorithmCombo->currentIndex()},
@@ -8595,6 +8645,12 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"sequence", sequenceEdit->text()},
         {"fits", fitsEdit->text()},
         {"profile", profile()},
+        {"jobStartup", jobStartupSettings},
+        {"jobConstraint", jobConstraintSettings},
+        {"jobCompletion", jobCompletionSettings},
+        {"observatoryStartup", observatoryStartupSettings},
+        {"abortJob", abortJobSettings},
+        {"shutdownProcedure", shutdownSettings}
     };
     return schedulerSettings;
 

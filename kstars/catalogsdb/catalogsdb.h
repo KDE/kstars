@@ -821,6 +821,22 @@ public:
         emit resultReady();
     }
 
+    /**
+     * execute(), but specialized to find_objects_by_name
+     *
+     * @fixme Code duplication needed to support older compilers
+     */
+    void _find_objects_by_name(const QString& name, const int limit, const bool exactMatchOnly)
+    {
+        // FIXME: Remove this and use execute() once C++1x compilers
+        // support variadic template type deduction properly
+        QMutexLocker _{&m_resultMutex};
+        m_result.emplace(
+            std::make_unique<CatalogObjectList>((m_manager.get()->find_objects_by_name)(name, limit, exactMatchOnly))
+            );
+        emit resultReady();
+    }
+
 signals:
     void resultReady(void);
     void threadReady(void);
@@ -844,16 +860,25 @@ public slots:
     {
         // N.B. One cannot have a function pointer to a function with
         // default arguments, so all arguments must be supplied here
-        execute<const QString&, const int, const bool>(
-            &DBManager::find_objects_by_name,
-            name, limit, false);
+
+        // FIXME: Uncomment to use generic wrapper execute() once
+        // compilers gain proper type-deduction support
+        // execute<const QString&, const int, const bool>(
+        //     &DBManager::find_objects_by_name,
+        //     name, limit, false);
+
+        _find_objects_by_name(name, limit, false);
     }
 
     void find_objects_by_name_exact(const QString &name)
     {
-        execute<const QString&, const int, const bool>(
-            &DBManager::find_objects_by_name,
-            name, 1, true);
+        // FIXME: Uncomment to use generic wrapper execute() once
+        // compilers gain proper type-deduction support
+        // execute<const QString&, const int, const bool>(
+        //     &DBManager::find_objects_by_name,
+        //     name, 1, true);
+
+        _find_objects_by_name(name, 1, true);
     }
 
     /**

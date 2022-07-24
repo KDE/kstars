@@ -252,20 +252,30 @@ bool syncProfile(ProfileInfo *pi)
 {
     QUrl url;
     QJsonDocument jsonDoc;
+    QJsonParseError jsonError;
     QByteArray data;
+    QJsonArray profileScripts;
 
     //Add Profile
     url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
     getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 
-    QJsonArray profileScripts = QJsonDocument::fromJson(pi->scripts).array();
+    // If we have scripts, let's try to parse and send them.
+    if (pi->scripts.isEmpty() == false)
+    {
+        auto doc = QJsonDocument::fromJson(pi->scripts, &jsonError);
 
-    // Update profile info
-    url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
-    QJsonObject profileObject{ { "port", pi->port }, {"scripts", profileScripts} };
-    jsonDoc = QJsonDocument(profileObject);
-    data    = jsonDoc.toJson();
-    getWebManagerResponse(QNetworkAccessManager::PutOperation, url, nullptr, &data);
+        if (jsonError.error == QJsonParseError::NoError)
+        {
+            profileScripts = doc.array();
+            // Update profile info
+            url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
+            QJsonObject profileObject{ { "port", pi->port }, {"scripts", profileScripts} };
+            jsonDoc = QJsonDocument(profileObject);
+            data    = jsonDoc.toJson();
+            getWebManagerResponse(QNetworkAccessManager::PutOperation, url, nullptr, &data);
+        }
+    }
 
     // Add drivers
     url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
