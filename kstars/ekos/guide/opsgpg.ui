@@ -278,7 +278,15 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_gpgas0a">
           <property name="toolTip">
-           <string>Length scale of the long range kernel.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Length scale of the long range kernel in seconds.&lt;/p&gt;&lt;p&gt;This 
+          parameter accounts for the long-term drift in periodic error, on the scale of several major periods. This might be due to, for
+          example:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent:
+          1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Harmonic interaction between the gears in the whole gear train,&lt;/li&gt;&lt;li style=&quot;
+          margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Change in
+          loading due to gravity,&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px;
+          -qt-block-indent:0; text-indent:0px;&quot;&gt;Thermal variations.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This should probably be several
+          times larger than the major period.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Long-range Length Scale</string>
@@ -288,7 +296,15 @@
         <item row="0" column="1">
          <widget class="QSpinBox" name="kcfg_GPGSE0KLengthScale">
           <property name="toolTip">
-           <string>Length scale of the long range kernel.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Length scale of the long range kernel in seconds.&lt;/p&gt;&lt;p&gt;This 
+          parameter accounts for the long-term drift in periodic error, on the scale of several major periods. This might be due to, for
+          example:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent:
+          1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Harmonic interaction between the gears in the whole gear train,&lt;/li&gt;&lt;li style=&quot;
+          margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Change in
+          loading due to gravity,&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px;
+          -qt-block-indent:0; text-indent:0px;&quot;&gt;Thermal variations.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This should probably be several
+          times larger than the major period.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <number>0</number>
@@ -308,7 +324,9 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_gpgas1a">
           <property name="toolTip">
-           <string>Long-range kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Long-range kernel signal variance.&lt;/p&gt;&lt;p&gt;This describes how 
+          much the error changes over the long-term time scale. A higher variance means a larger change in error, on
+          average.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Long-range Variance</string>
@@ -318,7 +336,9 @@
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_GPGSE0KSignalVariance">
           <property name="toolTip">
-           <string>Long-range kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Long-range kernel signal variance.&lt;/p&gt;&lt;p&gt;This describes how 
+          much the error changes over the long-term time scale. A higher variance means a larger change in error, on
+          average.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <double>0.000000000000000</double>
@@ -341,7 +361,10 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_gpgas2a">
           <property name="toolTip">
-           <string>Periodic Kernel length scale</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Periodic Kernel length scale, in seconds.&lt;/p&gt;&lt;p&gt;This 
+          describes how quickly the error changes within a single period. It can be thought of as the wavelength of the noise component
+          above which the noise becomes unpredictable. A higher length scale means the predictable error has less high-frequency
+          components; a shorter length-scale means it has more.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Periodic Length Scale</string>
@@ -351,7 +374,10 @@
         <item row="2" column="1">
          <widget class="QSpinBox" name="kcfg_GPGPKLengthScale">
           <property name="toolTip">
-           <string>Periodic Kernel length scale</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Periodic Kernel length scale, in seconds.&lt;/p&gt;&lt;p&gt;This 
+          describes how quickly the error changes within a single period. It can be thought of as the wavelength of the noise component
+          above which the noise becomes unpredictable. A higher length scale means the predictable error has less high-frequency
+          components; a shorter length-scale means it has more.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <number>0</number>
@@ -371,7 +397,8 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_gpgas3a">
           <property name="toolTip">
-           <string>Periodic kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Periodic kernel signal variance.&lt;/p&gt;&lt;p&gt;This describes how 
+          much the error changes during the periodic length scale.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Periodic Variance</string>
@@ -381,7 +408,8 @@
         <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_GPGPKSignalVariance">
           <property name="toolTip">
-           <string>Periodic kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Periodic kernel signal variance.&lt;/p&gt;&lt;p&gt;This describes how 
+          much the error changes during the periodic length scale.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <double>0.000000000000000</double>
@@ -404,7 +432,16 @@
         <item row="4" column="0">
          <widget class="QLabel" name="label_gpgas4a">
           <property name="toolTip">
-           <string>Length scale of the short-range kernel</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Length scale of the short-range kernel in 
+          seconds.&lt;/p&gt;&lt;p&gt;This is a measure of the scale of the non-periodic short-term noise, caused by things such
+          as:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent:
+          1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Grit in the gearchain,&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px;
+          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wind gusts,&lt;/li&gt;&lt;li style=&quot;
+          margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Structural vibrations, such as footsteps or traffic,&lt;/li&gt;&lt;li style=&quot; margin-top:12px;
+          margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Swinging or dragging
+          cables.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Short-range Length Scale</string>
@@ -414,7 +451,16 @@
         <item row="4" column="1">
          <widget class="QSpinBox" name="kcfg_GPGSE1KLengthScale">
           <property name="toolTip">
-           <string>Length scale of the short-range kernel</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Length scale of the short-range kernel in 
+          seconds.&lt;/p&gt;&lt;p&gt;This is a measure of the scale of the non-periodic short-term noise, caused by things such
+          as:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent:
+          1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Grit in the gearchain,&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px;
+          margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wind gusts,&lt;/li&gt;&lt;li style=&quot;
+          margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+          text-indent:0px;&quot;&gt;Structural vibrations, such as footsteps or traffic,&lt;/li&gt;&lt;li style=&quot; margin-top:12px;
+          margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Swinging or dragging
+          cables.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <number>0</number>
@@ -434,7 +480,9 @@
         <item row="5" column="0">
          <widget class="QLabel" name="label_gpgas5a">
           <property name="toolTip">
-           <string>Short-range kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Short-range kernel signal 
+          variance.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;How much the short-range noise changes in the short-term length
+          scale.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Short-range Variance</string>
@@ -444,7 +492,9 @@
         <item row="5" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_GPGSE1KSignalVariance">
           <property name="toolTip">
-           <string>Short-range kernel signal variance</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Short-range kernel signal 
+          variance.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;How much the short-range noise changes in the short-term length
+          scale.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="minimum">
            <double>0.000000000000000</double>
