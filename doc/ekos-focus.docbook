@@ -1122,7 +1122,7 @@
           </listitem>
 
           <listitem>
-            <para> In contract, the next picture shows an Initial Step Size
+            <para> In contrast, the next picture shows an Initial Step Size
             that has been set too low. The HFR varies from about 0.78 to 0.72.
             Which gives a max / min just over 1. The other clue that this is a
             poor setup is that the Error Bar range is very large compared to
@@ -1165,7 +1165,7 @@
     obtain, but as a guide, a value above, say 0.8 would be a good fit.</para>
 
     <para> There is an option to set an “R² Limit” in the Settings tab of the
-    Focus window that is compared to the calculated R² after the auto focu run
+    Focus window that is compared to the calculated R² after the auto focus run
     has completed. If the limit value has not been achieved, then the auto
     focus is rerun.</para>
 
@@ -1210,7 +1210,7 @@
     curve fits the data as best as it can. P is a set of parameters that are
     varied by the solver in order to find the best fit. The solver measures
     how far away the curve is at each data point, squares the result and adds
-    them all up. This is the number to be minimized, lets call is S. The
+    them all up. This is the number to be minimized, let's call it S. The
     solver is supplied with an initial guess for the parameters, P. It
     calculates S, makes an adjustment to P and calculates a new S1. Provided
     S1 &lt; S then we are moving in the right direction. It iterates through
