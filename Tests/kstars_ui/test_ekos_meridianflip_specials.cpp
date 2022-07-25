@@ -163,12 +163,24 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
     QVERIFY(checkPostMFBehavior());
 }
 
+void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
+{
+    // setup the scheduler
+    QVERIFY(prepareSchedulerTestcase(15, false, Ekos::Scheduler::ALGORITHM_GREEDY, SchedulerJob::FINISH_LOOP, 1));
+    // start the scheduled procedure
+    QVERIFY(startScheduler());
+    // check if meridian flip runs and completes successfully
+    QVERIFY(checkMFExecuted(120));
+    // Now check if everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
+}
+
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
 {
     // select suspend guiding
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(30, true, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(30, true, Ekos::Scheduler::ALGORITHM_CLASSIC, SchedulerJob::FINISH_LOOP, 1));
     // update the initial focuser position
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     initialFocusPosition = absTicksLabel->text().toInt();
@@ -230,32 +242,37 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
 {
-    prepareTestData(45.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {true}, {false, true});
+    prepareTestData(45.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {true}, {true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Red,Green,Blue,Red,Green,Blue", 1}}, {false}, {false}, {true}, {true});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false, true}, {false, true}, {true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF_data()
 {
-    prepareTestData(25.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {false}, {false});
+    prepareTestData(25.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {true}, {false}, {false}, {false});
+}
+
+void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF_data()
+{
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 1}}, {false}, {false}, {true, false}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF_data()
 {
-    prepareTestData(30.0, {"Greenwich"}, {true}, {"Luminance"}, {true}, {false}, {true, false}, {false});
+    prepareTestData(30.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {true}, {false}, {true, false}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
 }
 
 

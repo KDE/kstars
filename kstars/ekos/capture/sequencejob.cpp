@@ -755,8 +755,6 @@ IPState SequenceJob::checkFlatFramePendingTasksCompleted()
 
 void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
 {
-    m_CoreProperties[id] = value;
-
     // Handle special cases
     switch (id)
     {
@@ -774,11 +772,24 @@ void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
                 m_CoreProperties[id] = remoteDir;
             }
         }
-        break;
+            break;
 
+        case SJ_GuiderActive:
+        // Inform the state machine if guiding is running. This is necessary during the preparation phase
+        // where the state machine might wait for guide deviations if enforcing initial guiding drift is selected.
+        // If guiding aborts after the preparation has started, the state machine might wait infinitely for an
+        // updated guide drift.
+        if (m_CoreProperties[SJ_GuiderActive] != value)
+        {
+            stateMachine->setEnforceInitialGuidingDrift(value.toBool() &&
+                                                        m_CoreProperties[SJ_EnforceStartGuiderDrift].toBool());
+        }
+            break;
         default:
             break;
     }
+    // store value
+    m_CoreProperties[id] = value;
 }
 
 QVariant SequenceJob::getCoreProperty(PropertyID id) const

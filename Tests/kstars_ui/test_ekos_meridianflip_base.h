@@ -22,6 +22,7 @@
 #include "ekos/align/align.h"
 #include "ekos/guide/guide.h"
 #include "ekos/mount/mount.h"
+#include "ekos/scheduler/scheduler.h"
 #include "ekos/profileeditor.h"
 
 #include "test_ekos_simulator.h"
@@ -61,6 +62,12 @@ protected:
     bool positionMountForMF(int secsToMF, bool fast = true);
 
     /**
+     * @brief Check if meridian flip has been started
+     * @param startDelay upper limit for expected time in seconds that are expected the flip to start
+     */
+    bool checkMFStarted (int startDelay);
+
+    /**
      * @brief Check if meridian flip runs and completes
      * @param startDelay upper limit for expected time in seconds that are expected the flip to start
      */
@@ -72,6 +79,20 @@ protected:
      * @return
      */
     int secondsToMF();
+
+    /**
+     * @brief Determine the target close to the meridian
+     * @param secsToMF seconds to meridian flip
+     * @param set to true if a sync close to the target should be executed
+     */
+    void findMFTestTarget(int secsToMF, bool fast);
+
+    /**
+     * @brief General preparations used both for pure capturing test cases as well as those with the scheduler.
+     * @param initialFocus execute upfront focusing
+     * @param guideDeviation select "Abort if Guide Deviation"
+     */
+    bool prepareMFTestcase(bool initialFocus, bool guideDeviation);
 
     /**
      * @brief Helper function that reads capture sequence test data, creates entries in the capture module,
@@ -91,7 +112,7 @@ protected:
      * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
      * @return true iff preparation was successful
      */
-    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, SchedulerJob::CompletionCondition completionCondition, int iterations);
+    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, Ekos::Scheduler::SchedulerAlgorithm algorithm, SchedulerJob::CompletionCondition completionCondition, int iterations);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.
@@ -104,7 +125,7 @@ protected:
      * @param guideList variants with/without guiding tests
      * @param ditherList variants with/without dithering tests
      */
-    void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<QString> filterList,
+    void prepareTestData(double exptime, QList<QString> locationList, QList<bool> culminationList, QList<std::pair<QString, int> > filterList,
                          QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList);
 
     /**

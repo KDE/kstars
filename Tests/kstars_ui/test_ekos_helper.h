@@ -61,7 +61,7 @@ do {\
 { bool passed = false; \
     [&]() { statement; passed = true;}(); \
     if (!passed) return false; \
-} while (false)
+} while (false);
 
 /**
   * @brief Subroutine version of QTRY_TIMEOUT_DEBUG_IMPL

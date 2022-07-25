@@ -5412,7 +5412,7 @@ bool Capture::checkGuidingAfterFlip()
     }
 
     // if we are waiting for a calibration, start it
-    if (m_State < CAPTURE_CALIBRATING)
+    if (meridianFlipStage >= MF_COMPLETED && meridianFlipStage < MF_GUIDING)
     {
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
 
@@ -5650,6 +5650,9 @@ void Capture::setGuideStatus(GuideState state)
     }
 
     m_GuideState = state;
+    // forward it to the currently active sequence job
+    if (activeJob != nullptr)
+        activeJob->setCoreProperty(SequenceJob::SJ_GuiderActive, isActivelyGuiding());
 }
 
 
@@ -6020,7 +6023,7 @@ IPState Capture::checkLightFramePendingTasks()
 
     // step 5: check if post flip guiding is running
     // MF_NONE is set as soon as guiding is running and the guide deviation is below the limit
-    if ((m_State == CAPTURE_CALIBRATING && m_GuideState != GUIDE_GUIDING) || checkGuidingAfterFlip())
+    if (meridianFlipStage >= MF_COMPLETED && m_GuideState != GUIDE_GUIDING && checkGuidingAfterFlip())
         return IPS_BUSY;
 
     // step 6: check guide deviation for non meridian flip stages if the initial guide limit is set.

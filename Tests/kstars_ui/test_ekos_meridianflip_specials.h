@@ -57,6 +57,12 @@ private slots:
     /** @brief Test data for @see testCaptureRefocusMF() */
     void testAbortRefocusMF_data();
 
+    /** @brief Simple scheduler test case with capturing */
+    void testSchedulerCaptureMF();
+
+    /** @brief Test data for @see testSchedulerCaptureMF() */
+    void testSchedulerCaptureMF_data();
+
     /** @brief Test if a meridian flip within a scheduler job takes place while re-focusing and consequently
      * leads to abort the refocusing and the scheduler recovers afterwards */
     void testAbortSchedulerRefocusMF();
