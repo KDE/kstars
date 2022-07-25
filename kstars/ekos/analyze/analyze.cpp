@@ -265,7 +265,7 @@ class IntervalFinder
         QList<T> find(double t)
         {
             QList<T> result;
-            for (const auto i : intervals)
+            for (const auto &i : intervals)
             {
                 if (t >= i.start && t <= i.end)
                     result.push_back(i);
