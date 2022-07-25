@@ -243,7 +243,7 @@ QString LinearFocusAlgorithm::getTextStatus(double R2) const
                     return text.append(" Solution: %1").arg(focusSolution);
                 else
                     // Add R2 to 2 decimal places. Round down to be conservative
-                    return text.append(" Solution: %1, R2=%2").arg(focusSolution).arg(trunc(R2 * 100.0) / 100.0, 0, 'f', 2);
+                    return text.append(" Solution: %1, R²=%2").arg(focusSolution).arg(trunc(R2 * 100.0) / 100.0, 0, 'f', 2);
             }
             else
                 return text.append(" Failed");
