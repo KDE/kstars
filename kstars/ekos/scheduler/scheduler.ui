@@ -1197,7 +1197,7 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: Start jobs that meet the constraints by priority and score.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Always attempt to run a job. It picks the highest priority job that can run according to its constraints. It will interrupt running jobs if a higher priority job can run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Classic&lt;/span&gt;: Start jobs that meet the constraints by priority and score.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Greedy&lt;/span&gt;: Always attempt to run a job. It picks the highest priority job that can run according to its constraints. Priority is assigned according to row in table above. Higher row has higher priority. It will interrupt running jobs if a higher priority job can run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <item>
              <property name="text">
