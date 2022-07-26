@@ -490,16 +490,16 @@
       </listitem>
 
       <listitem>
-        <para> <guilabel>R2 Limit</guilabel>: This is an experimental option
+        <para> <guilabel>R² Limit</guilabel>: This is an experimental option
         only available with the Linear 1 Pass focus algorithm and Curve Types
         of Hyperbola and Parabola. As part of the Linear 1 Pass algorithm, the
         degree to which the curve fits the datapoints, or <link
         linkend="Coefficient_of_Determination">Coefficient of Determination,
-        R2</link>, is calculated. This option allow a minimum acceptable value
-        of R2 to be defined that is compared to the value obtained from the
+        R²</link>, is calculated. This option allows a minimum acceptable value
+        of R² to be defined that is compared to the value obtained from the
         curve fitting process. If the minimum value has not been achieved then
         Autofocus will rerun. Only one rerun will be performed and even if the
-        minimum R2 has not been met the second time, the Autofocus run will
+        minimum R² has not been met the second time, the Autofocus run will
         still be deemed successful.</para>
 
         <para> Experiment to find an appropriate value but a good starting
@@ -609,7 +609,7 @@
 
           <listitem>
             <para> <emphasis role="bold">Linear</emphasis>: This algorithm
-            build a V-Curve with approximately <emphasis role="bold">Out step
+            builds a V-Curve with approximately <emphasis role="bold">Out step
             Multiple</emphasis> steps on each side of the minimum. Having
             built the V-Curve it then fits a quadratic equation to the curve
             (parabolic shape) and uses this to calculate the focuser position
@@ -625,7 +625,7 @@
             algorithm starts in the same way as <emphasis
             role="bold">Linear</emphasis> building a V-Curve. Having built the
             V-Curve it then fits the <emphasis role="bold">Curve
-            Fit</emphasis>type to the datapoints and then calculates the
+            Fit</emphasis> type to the datapoints and then calculates the
             focuser position giving the minimum HFR. Having identified the
             minimum it then moves directly to that point in a way designed to
             neutralise backlash.</para>
@@ -1122,7 +1122,7 @@
           </listitem>
 
           <listitem>
-            <para> In contract, the next picture shows an Initial Step Size
+            <para> In contrast, the next picture shows an Initial Step Size
             that has been set too low. The HFR varies from about 0.78 to 0.72.
             Which gives a max / min just over 1. The other clue that this is a
             poor setup is that the Error Bar range is very large compared to
@@ -1151,34 +1151,34 @@
   </sect3>
 
   <sect3 id="Coefficient_of_Determination">
-    <title>Coefficient of Determination, R2</title>
+    <title>Coefficient of Determination, R²</title>
 
-    <para> The Coefficient of Determination, or R2, is calculated in order to
+    <para> The Coefficient of Determination, or R², is calculated in order to
     give a measure of how well the fitted curve matches the datapoints. More
     information is available <ulink
     url="https://en.wikipedia.org/wiki/Coefficient_of_determination">here</ulink>.
     This is an experimental feature that is available for the Linear 1 Pass
-    focus algorithm. In essence, R2 gives a value between 0 and 1, with 1
+    focus algorithm. In essence, R² gives a value between 0 and 1, with 1
     meaning a perfect fit where all datapoints sit on the curve, and 0 meaning
     that there is no correlation between the datapoints and the curve. The
     user should experiment with their equipment to see what values they can
     obtain, but as a guide, a value above, say 0.8 would be a good fit.</para>
 
-    <para> There is an option to set an “R2 Limit” in the Settings tab of the
-    Focus window that is compared to the calculated R2 after the auto focu run
+    <para> There is an option to set an “R² Limit” in the Settings tab of the
+    Focus window that is compared to the calculated R² after the auto focus run
     has completed. If the limit value has not been achieved, then the auto
     focus is rerun.</para>
 
-    <para> Setting an R2 Limit could be useful for unattended observation if
+    <para> Setting an R² Limit could be useful for unattended observation if
     the focus run produces a bad result for a 1-off reason. Obviously if the
     reason is not transitory then rerunning will not improve anything.</para>
 
-    <para> If the R2 Limit is not achieved and the focus process is rerun, and
-    again fails to achieve the R2 Limit, then the focus run is marked as
+    <para> If the R² Limit is not achieved and the focus process is rerun, and
+    again fails to achieve the R² Limit, then the focus run is marked as
     successful to avoid the process getting stuck rerunning auto focus
     forever.</para>
 
-    <para> This feature is turned off by setting the R2 Limit to 0.</para>
+    <para> This feature is turned off by setting the R² Limit to 0.</para>
   </sect3>
 
   <sect3 id="Levenberg-Marquardt">
@@ -1210,7 +1210,7 @@
     curve fits the data as best as it can. P is a set of parameters that are
     varied by the solver in order to find the best fit. The solver measures
     how far away the curve is at each data point, squares the result and adds
-    them all up. This is the number to be minimized, lets call is S. The
+    them all up. This is the number to be minimized, let's call it S. The
     solver is supplied with an initial guess for the parameters, P. It
     calculates S, makes an adjustment to P and calculates a new S1. Provided
     S1 &lt; S then we are moving in the right direction. It iterates through

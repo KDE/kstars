@@ -871,6 +871,15 @@ void SequenceJobState::hasShutter(bool present)
     checkAllActionsReady();
 }
 
+void SequenceJobState::setEnforceInitialGuidingDrift(bool enforceInitialGuidingDrift)
+{
+    m_enforceInitialGuiding = enforceInitialGuidingDrift;
+    // update the preparation action
+    prepareActions[ACTION_GUIDER_DRIFT] = !enforceInitialGuidingDrift || m_isPreview;
+    // re-run checks
+    checkAllActionsReady();
+}
+
 SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
 {
     return m_PreparationState;

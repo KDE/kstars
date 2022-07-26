@@ -1136,7 +1136,7 @@
              <item row="4" column="1">
               <widget class="QLabel" name="label_32">
                <property name="text">
-                <string>R2 Limit:</string>
+                <string>R² Limit:</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1152,10 +1152,16 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R2 when performing an Auto Focus run. If the minimum is not met, Auto Focus will rerun once to try to improve the R2. Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R² when performing an Auto Focus run. If the minimum is not met, Auto Focus will rerun once to try to improve the R². Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="minimum">
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
                 <double>1.000000000000000</double>
+               </property>
+              <property name="value">
+                <number>0.9</number>
                </property>
                <property name="singleStep">
                 <double>0.010000000000000</double>

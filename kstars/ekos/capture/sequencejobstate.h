@@ -208,6 +208,11 @@ public:
     void prepareBiasFrameCapture(bool enforceCCDTemp, bool isPreview);
 
     /**
+     * @brief Set the flag if a maximal initial guiding deviation is required
+     */
+    void setEnforceInitialGuidingDrift(bool enforceInitialGuidingDrift);
+
+    /**
      * @brief The current capture sequence job status
      */
     JOBStatus getStatus() { return m_status; }

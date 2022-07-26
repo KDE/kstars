@@ -413,6 +413,9 @@ bool TestEkosHelper::stopGuiding()
 
     // stop guiding
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, stopB);
+    // check if guiding could be stopped
+    if (stopB->isEnabled() == false)
+        return true;
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), stopB);
     KTRY_VERIFY_WITH_TIMEOUT_SUB(getGuidingStatus() == Ekos::GUIDE_IDLE || getGuidingStatus() == Ekos::GUIDE_ABORTED, 15000);
     qCInfo(KSTARS_EKOS_TEST) << "Guiding stopped.";

@@ -115,6 +115,10 @@ Then it stores the current point so next time it can do it again.
  */
 void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
+    const QSharedPointer<FITSData> &imageData = view->imageData();
+    if (imageData.isNull())
+        return;
+
     float scale = (view->getCurrentZoom() / ZOOM_DEFAULT);
 
     double x = round(e->x() / scale);
@@ -165,9 +169,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         }
     }
 
-    const QSharedPointer<FITSData> &view_data = view->imageData();
-
-    uint8_t const *buffer = view_data->getImageBuffer();
+    uint8_t const *buffer = imageData->getImageBuffer();
 
     if (buffer == nullptr)
         return;
@@ -192,7 +194,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     int index = y * m_Width + x;
     QString stringValue;
 
-    switch (view_data->getStatistics().dataType)
+    switch (imageData->getStatistics().dataType)
     {
         case TBYTE:
             stringValue = QLocale().toString(buffer[index]);
@@ -242,13 +244,13 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     emit newStatus(stringValue, FITS_VALUE);
 
-    if (view_data->hasWCS() &&
+    if (imageData->hasWCS() &&
             !view->isSelectionRectShown() &&
             view->getCursorMode() != FITSView::selectCursor)
     {
         QPointF wcsPixelPoint(x, y);
         SkyPoint wcsCoord;
-        if(view_data->pixelToWCS(wcsPixelPoint, wcsCoord))
+        if(imageData->pixelToWCS(wcsPixelPoint, wcsCoord))
         {
             m_RA = wcsCoord.ra0();
             m_DE = wcsCoord.dec0();
@@ -256,7 +258,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         }
 
         bool objFound = false;
-        for (auto &listObject : view_data->getSkyObjects())
+        for (auto &listObject : imageData->getSkyObjects())
         {
             if ((std::abs(listObject->x() - x) < 5 / scale) && (std::abs(listObject->y() - y) < 5 / scale))
             {

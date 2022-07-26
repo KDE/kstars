@@ -658,6 +658,26 @@ QString FilterManager::getFilterLock(const QString &name) const
     return "--";
 }
 
+bool FilterManager::setFilterLock(int index, QString name)
+{
+    if (m_currentFilterLabels.empty())
+        return false;
+
+    QString color = m_currentFilterLabels[index];
+    for (int i = 0; i < m_ActiveFilters.count(); i++)
+    {
+        if (color == m_ActiveFilters[i]->color())
+        {
+            filterModel->setData(filterModel->index(i, 8), name);
+            filterModel->submitAll();
+            refreshFilterModel();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void FilterManager::removeDevice(ISD::GDInterface *device)
 {
     if (m_currentFilterDevice && (m_currentFilterDevice->getDeviceName() == device->getDeviceName()))

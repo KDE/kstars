@@ -95,6 +95,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          *
          */
         QString getFilterLock(const QString &name) const;
+        bool setFilterLock(int index, QString name);
 
         /**
          * @brief setCurrentFilterWheel Set the FilterManager active filter wheel.

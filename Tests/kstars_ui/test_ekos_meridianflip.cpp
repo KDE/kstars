@@ -60,7 +60,7 @@ void TestEkosMeridianFlip::testSimpleMF()
     QVERIFY(positionMountForMF(7.0));
 
     // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFExecuted(10));
+    QVERIFY(checkMFStarted(10));
 }
 
 
@@ -82,12 +82,15 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
     QTRY_VERIFY(delay < distance && distance < delay + 7);
 
     // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFExecuted(static_cast<int>(delay) + 7));
+    QVERIFY(checkMFStarted(static_cast<int>(delay) + 7));
 }
 
 
 void TestEkosMeridianFlip::testGuidingMF()
 {
+    // prepare the test case and calibrate
+    QVERIFY(prepareMFTestcase(false, false));
+
     // slew close to the meridian
     QVERIFY(positionMountForMF(75.0));
 
@@ -231,7 +234,7 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 21000);
 
     // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFExecuted(25));
+    QVERIFY(checkMFExecuted(39));
 
     // Now check if everything continues as it should be
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
@@ -264,7 +267,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 21000);
 
     // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFExecuted(25));
+    QVERIFY(checkMFExecuted(60));
 
     // Now check if everything continues as it should be
     QVERIFY(checkPostMFBehavior());
@@ -280,7 +283,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
 void TestEkosMeridianFlip::testSimpleMF_data()
 {
-    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {"Luminance"}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testSimpleMFDelay_data()
@@ -290,18 +293,18 @@ void TestEkosMeridianFlip::testSimpleMFDelay_data()
 
 void TestEkosMeridianFlip::testGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance"}, {false}, {false}, {true}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {true}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false, true}, {false, true}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting_data()
 {
     // no tests for focusing and dithering
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
@@ -311,7 +314,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping_data()
 
 void TestEkosMeridianFlip::testCaptureGuidingMF_data()
 {
-    prepareTestData(18.0, {"Greenwich"}, {true}, {"Luminance", "Red,Green,Blue,Red,Green,Blue"}, {false, true}, {false, true}, {true}, {false, true});
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false, true}, {false, true}, {true}, {false, true});
 }
 
 void TestEkosMeridianFlip::testCaptureAlignMF_data()
