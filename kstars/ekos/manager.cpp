@@ -976,7 +976,7 @@ void Manager::start()
                 return;
 
             INDI::WebManager::syncCustomDrivers(currentProfile);
-            currentProfile->isStellarMate = INDI::WebManager::isStellarMate(currentProfile);
+            INDI::WebManager::checkVersion(currentProfile);
 
             if (INDI::WebManager::areDriversRunning(currentProfile) == false)
             {

@@ -21,7 +21,7 @@ namespace WebManager
 {
 bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply, QByteArray *data = nullptr);
 bool isOnline(ProfileInfo *pi);
-bool isStellarMate(ProfileInfo *pi);
+bool checkVersion(ProfileInfo *pi);
 bool syncCustomDrivers(ProfileInfo *pi);
 bool areDriversRunning(ProfileInfo *pi);
 bool startProfile(ProfileInfo *pi);

@@ -132,7 +132,7 @@ bool isOnline(ProfileInfo *pi)
     return false;
 }
 
-bool isStellarMate(ProfileInfo *pi)
+bool checkVersion(ProfileInfo *pi)
 {
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(pi->INDIWebManagerPort));
@@ -143,7 +143,7 @@ bool isStellarMate(ProfileInfo *pi)
         QJsonObject version = json.object();
         if (version.contains("version") == false)
             return false;
-        qInfo(KSTARS_EKOS) << "Detect StellarMate version" << version["version"].toString();
+        qInfo(KSTARS_EKOS) << "Detected Web Manager version" << version["version"].toString();
         return true;
     }
     return false;
@@ -397,7 +397,7 @@ QFuture<bool> isOnline(ProfileInfo *pi)
 
 QFuture<bool> isStellarMate(ProfileInfo *pi)
 {
-    return QtConcurrent::run(WebManager::isStellarMate, pi);
+    return QtConcurrent::run(WebManager::checkVersion, pi);
 }
 
 QFuture<bool> syncCustomDrivers(ProfileInfo *pi)
