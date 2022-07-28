@@ -3977,6 +3977,12 @@ void Align::initManualRotator()
 
     m_ManualRotator = new ManualRotator(this);
     connect(m_ManualRotator, &Ekos::ManualRotator::captureAndSolve, this, &Ekos::Align::captureAndSolve);
+    // If user cancel manual rotator, reset load slew target PA, otherwise it will keep popping up
+    // for any subsequent solves.
+    connect(m_ManualRotator, &Ekos::ManualRotator::rejected, this, [this]()
+    {
+        loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+    });
 }
 
 void Align::initDarkProcessor()
