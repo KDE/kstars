@@ -47,7 +47,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         Q_OBJECT
 
     public:
-        explicit PolarAlignmentAssistant(Align *parent, AlignView *view);
+        explicit PolarAlignmentAssistant(Align *parent, const QSharedPointer<AlignView> &view);
         ~PolarAlignmentAssistant();
 
         typedef enum
@@ -207,7 +207,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Request to set alignment table result
         void newAlignTableResult(Align::AlignResult result);
         // Report that the align view was updated.
-        void newFrame(FITSView *view);
+        void newFrame(const QSharedPointer<FITSView> &view);
 
     private:
         void updateDisplay(PAHStage stage, const QString &message);
@@ -261,7 +261,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         ISD::Telescope *m_CurrentTelescope { nullptr };
 
         // Reference to align view
-        AlignView *alignView { nullptr };
+        QSharedPointer<AlignView> m_AlignView;
 
         // PAH Stage Map
         static const QMap<PAHStage, const char *> PAHStages;

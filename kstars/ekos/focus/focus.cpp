@@ -142,11 +142,11 @@ Focus::Focus()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         darkFrameCheck->setChecked(completed);
-        focusView->setProperty("suspended", false);
+        m_FocusView->setProperty("suspended", false);
         if (completed)
         {
-            focusView->rescale(ZOOM_KEEP_LEVEL);
-            focusView->updateFrame();
+            m_FocusView->rescale(ZOOM_KEEP_LEVEL);
+            m_FocusView->updateFrame();
         }
         setCaptureComplete();
         resetButtons();
@@ -215,7 +215,7 @@ void Focus::resetFrame()
             starCenter   = QVector3D();
             subFramed    = false;
 
-            focusView->setTrackingBox(QRect());
+            m_FocusView->setTrackingBox(QRect());
         }
     }
 }
@@ -288,8 +288,6 @@ void Focus::checkCCD(int ccdNum)
 
         if (targetChip)
         {
-            targetChip->setImageView(focusView, FITS_FOCUS);
-
             binningCombo->setEnabled(targetChip->canBin());
             useSubFrame->setEnabled(targetChip->canSubframe());
             if (targetChip->canBin())
@@ -1323,7 +1321,7 @@ void Focus::capture(double settleTime)
         }
     }
 
-    focusView->setProperty("suspended", darkFrameCheck->isChecked());
+    m_FocusView->setProperty("suspended", darkFrameCheck->isChecked());
     prepareCapture(targetChip);
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
@@ -1346,7 +1344,7 @@ void Focus::capture(double settleTime)
         emit newStatus(state);
     }
 
-    focusView->setBaseSize(focusingWidget->size());
+    m_FocusView->setBaseSize(focusingWidget->size());
 
     if (targetChip->capture(exposureIN->value()))
     {
@@ -1514,7 +1512,10 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
         return;
 
     if (data)
+    {
+        m_FocusView->loadData(data);
         m_ImageData = data;
+    }
     else
         m_ImageData.reset();
 
@@ -1555,16 +1556,16 @@ void Focus::calculateHFR()
     {
         if (Options::focusUseFullField())
         {
-            focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                          static_cast <float> (fullFieldOuterRing->value() / 100.0));
-            focusView->filterStars();
+            m_FocusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                            static_cast <float> (fullFieldOuterRing->value() / 100.0));
+            m_FocusView->filterStars();
 
             // Get the average HFR of the whole frame
             hfr = m_ImageData->getHFR(HFR_AVERAGE);
         }
         else
         {
-            focusView->setTrackingBoxEnabled(true);
+            m_FocusView->setTrackingBoxEnabled(true);
 
             // JM 2020-10-08: Try to get first the same HFR star already selected before
             // so that it doesn't keep jumping around
@@ -1597,7 +1598,7 @@ void Focus::analyzeSources()
     // a bounding box for them to be effective in near real-time application.
     if (Options::focusUseFullField())
     {
-        focusView->setTrackingBoxEnabled(false);
+        m_FocusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
             m_StarFinderWatcher.setFuture(m_ImageData->findStars(ALGORITHM_CENTROID));
@@ -1606,7 +1607,7 @@ void Focus::analyzeSources()
     }
     else
     {
-        QRect searchBox = focusView->isTrackingBoxEnabled() ? focusView->getTrackingBox() : QRect();
+        QRect searchBox = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
         // If star is already selected then use whatever algorithm currently selected.
         if (starSelected)
         {
@@ -1615,7 +1616,7 @@ void Focus::analyzeSources()
         else
         {
             // Disable tracking box
-            focusView->setTrackingBoxEnabled(false);
+            m_FocusView->setTrackingBoxEnabled(false);
 
             // If algorithm is set something other than Centeroid or SEP, then force Centroid
             // Since it is the most reliable detector when nothing was selected before.
@@ -1939,7 +1940,7 @@ void Focus::setCurrentHFR(double value)
 
     // First check that we haven't already search for stars
     // Since star-searching algorithm are time-consuming, we should only search when necessary
-    focusView->updateFrame();
+    m_FocusView->updateFrame();
 
     setHFRComplete();
 }
@@ -1968,15 +1969,15 @@ void Focus::setCaptureComplete()
 
 
     // Emit the whole image
-    emit newImage(focusView);
+    emit newImage(m_FocusView);
     // Emit the tracking (bounding) box view. Used in Summary View
-    emit newStarPixmap(focusView->getTrackingBoxPixmap(10));
+    emit newStarPixmap(m_FocusView->getTrackingBoxPixmap(10));
 
     // If we are not looping; OR
     // If we are looping but we already have tracking box enabled; OR
     // If we are asked to analyze _all_ the stars within the field
     // THEN let's find stars in the image and get current HFR
-    if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
+    if (inFocusLoop == false || (inFocusLoop && (m_FocusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
         analyzeSources();
     else
         setHFRComplete();
@@ -2032,10 +2033,10 @@ void Focus::setHFRComplete()
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
                 // Center the tracking box in the frame and display it
-                focusView->setTrackingBox(QRect(w - focusBoxSize->value() / (subBinX * 2),
-                                                h - focusBoxSize->value() / (subBinY * 2),
-                                                focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
-                focusView->setTrackingBoxEnabled(true);
+                m_FocusView->setTrackingBox(QRect(w - focusBoxSize->value() / (subBinX * 2),
+                                                  h - focusBoxSize->value() / (subBinY * 2),
+                                                  focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
+                m_FocusView->setTrackingBoxEnabled(true);
 
                 // Use can now move it to select the desired star
                 state = Ekos::FOCUS_WAITING;
@@ -2103,7 +2104,7 @@ void Focus::setHFRComplete()
 
                 subFramed = true;
 
-                focusView->setFirstLoad(true);
+                m_FocusView->setFirstLoad(true);
 
                 // Now let's capture again for the actual requested subframed image.
                 capture();
@@ -2136,10 +2137,10 @@ void Focus::setHFRComplete()
             int subBinX = 1, subBinY = 1;
             targetChip->getBinning(&subBinX, &subBinY);
 
-            focusView->setTrackingBox(QRect((w - focusBoxSize->value()) / (subBinX * 2),
-                                            (h - focusBoxSize->value()) / (2 * subBinY),
-                                            focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
-            focusView->setTrackingBoxEnabled(true);
+            m_FocusView->setTrackingBox(QRect((w - focusBoxSize->value()) / (subBinX * 2),
+                                              (h - focusBoxSize->value()) / (2 * subBinY),
+                                              focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
+            m_FocusView->setTrackingBoxEnabled(true);
 
             // Now we wait
             state = Ekos::FOCUS_WAITING;
@@ -3343,13 +3344,13 @@ void Focus::updateBoxSize(int value)
     int subBinX, subBinY;
     targetChip->getBinning(&subBinX, &subBinY);
 
-    QRect trackBox = focusView->getTrackingBox();
+    QRect trackBox = m_FocusView->getTrackingBox();
     QPoint center(trackBox.x() + (trackBox.width() / 2), trackBox.y() + (trackBox.height() / 2));
 
     trackBox =
         QRect(center.x() - value / (2 * subBinX), center.y() - value / (2 * subBinY), value / subBinX, value / subBinY);
 
-    focusView->setTrackingBox(trackBox);
+    m_FocusView->setTrackingBox(trackBox);
 }
 
 void Focus::selectFocusStarFraction(double x, double y)
@@ -3361,7 +3362,7 @@ void Focus::selectFocusStarFraction(double x, double y)
     // Focus view timer takes 50ms second to update, so let's emit afterwards.
     QTimer::singleShot(250, this, [this]()
     {
-        emit newImage(focusView);
+        emit newImage(m_FocusView);
     });
 }
 
@@ -3438,7 +3439,7 @@ void Focus::focusStarSelected(int x, int y)
         qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX <<
                                    "binY:" << subBinY;
 
-        focusView->setFirstLoad(true);
+        m_FocusView->setFirstLoad(true);
 
         capture();
 
@@ -3458,7 +3459,7 @@ void Focus::focusStarSelected(int x, int y)
         starRect = QRect(starCenter.x() - focusBoxSize->value() / (2 * subBinX),
                          starCenter.y() - focusBoxSize->value() / (2 * subBinY), focusBoxSize->value() / subBinX,
                          focusBoxSize->value() / subBinY);
-        focusView->setTrackingBox(starRect);
+        m_FocusView->setTrackingBox(starRect);
     }
 
     starsHFR.clear();
@@ -3690,8 +3691,8 @@ void Focus::syncTrackingBoxPosition()
 
         QRect starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
                                boxSize / subBinX, boxSize / subBinY);
-        focusView->setTrackingBoxEnabled(true);
-        focusView->setTrackingBox(starRect);
+        m_FocusView->setTrackingBoxEnabled(true);
+        m_FocusView->setTrackingBox(starRect);
     }
 }
 
@@ -4464,7 +4465,7 @@ void Focus::initConnections()
         else
         {
             // Disable the overlay
-            focusView->setStarFilterRange(0, 1);
+            m_FocusView->setStarFilterRange(0, 1);
             if (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA)
             {
                 useWeights->setEnabled(false);
@@ -4540,7 +4541,7 @@ void Focus::initConnections()
         {
             starCenter   = QVector3D();
             starSelected = false;
-            focusView->setTrackingBox(QRect());
+            m_FocusView->setTrackingBox(QRect());
         }
     });
 }
@@ -4616,16 +4617,16 @@ void Focus::setCurveFit(CurveFitting::CurveFit curve)
 
 void Focus::initView()
 {
-    focusView = new FITSView(focusingWidget, FITS_FOCUS);
-    focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    focusView->setBaseSize(focusingWidget->size());
-    focusView->createFloatingToolBar();
+    m_FocusView.reset(new FITSView(focusingWidget, FITS_FOCUS));
+    m_FocusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_FocusView->setBaseSize(focusingWidget->size());
+    m_FocusView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(focusView);
+    vlayout->addWidget(m_FocusView.get());
     focusingWidget->setLayout(vlayout);
-    connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
-    focusView->setStarsEnabled(true);
-    focusView->setStarsHFREnabled(true);
+    connect(m_FocusView.get(), &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
+    m_FocusView->setStarsEnabled(true);
+    m_FocusView->setStarsHFREnabled(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

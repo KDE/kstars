@@ -115,13 +115,13 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, &QPushButton::clicked, this, &Ekos::Align::toggleAlignWidgetFullScreen);
 
-    alignView = new AlignView(alignWidget, FITS_ALIGN);
-    alignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    alignView->setBaseSize(alignWidget->size());
-    alignView->createFloatingToolBar();
+    m_AlignView.reset(new AlignView(alignWidget, FITS_ALIGN));
+    m_AlignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_AlignView->setBaseSize(alignWidget->size());
+    m_AlignView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
 
-    vlayout->addWidget(alignView);
+    vlayout->addWidget(m_AlignView.get());
     alignWidget->setLayout(vlayout);
 
     connect(solveB, &QPushButton::clicked, [this]()
@@ -1052,8 +1052,6 @@ void Align::syncCCDInfo()
 
     setWCSEnabled(Options::astrometrySolverWCS());
 
-    targetChip->setImageView(alignView, FITS_ALIGN);
-
     // In case ROI is different (smaller) than maximum resolution, let's use that.
     int roiW = 0, roiH = 0;
     targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &roiW, nullptr, &roiH);
@@ -1660,9 +1658,9 @@ bool Align::captureAndSolve()
         return false;
     }
 
-    alignView->setBaseSize(alignWidget->size());
-    alignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
-                                         && alignDarkFrameCheck->isChecked()));
+    m_AlignView->setBaseSize(alignWidget->size());
+    m_AlignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
+                                           && alignDarkFrameCheck->isChecked()));
 
     connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
     connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
@@ -1798,7 +1796,10 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
 
     if (data)
+    {
+        m_AlignView->loadData(data);
         m_ImageData = data;
+    }
     else
         m_ImageData.reset();
 
@@ -1871,14 +1872,14 @@ void Align::setCaptureComplete()
 {
     if (matchPAHStage(PAA::PAH_REFRESH))
     {
-        emit newFrame(alignView);
+        emit newFrame(m_AlignView);
         m_PolarAlignmentAssistant->processPAHRefresh();
         return;
     }
 
-    emit newImage(alignView);
+    emit newImage(m_AlignView);
 
-    solverFOV->setImage(alignView->getDisplayImage());
+    solverFOV->setImage(m_AlignView->getDisplayImage());
 
     startSolving();
 }
@@ -1896,7 +1897,7 @@ void Align::startSolving()
     // This is needed because they might have directories stored in the config file.
     // So we can't just use the options folder list.
     QStringList astrometryDataDirs = KSUtils::getAstrometryDataDirs();
-    disconnect(alignView, &FITSView::loaded, this, &Align::startSolving);
+    disconnect(m_AlignView.get(), &FITSView::loaded, this, &Align::startSolving);
 
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
@@ -1930,7 +1931,7 @@ void Align::startSolving()
         if (m_StellarSolver->isRunning())
             m_StellarSolver->abort();
         if (!m_ImageData)
-            m_ImageData = alignView->imageData();
+            m_ImageData = m_AlignView->imageData();
         m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
         m_StellarSolver->setProperty("ProcessType", SSolver::SOLVE);
         m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
@@ -1947,7 +1948,7 @@ void Align::startSolving()
         {
             QString filename = QDir::tempPath() + QString("/solver%1.fits").arg(QUuid::createUuid().toString().remove(
                                    QRegularExpression("[-{}]")));
-            alignView->saveImage(filename);
+            m_AlignView->saveImage(filename);
             m_StellarSolver->setProperty("FileToProcess", filename);
             ExternalProgramPaths externalPaths;
             externalPaths.sextractorBinaryPath = Options::sextractorBinary();
@@ -1965,7 +1966,7 @@ void Align::startSolving()
         {
             QString filename = QDir::tempPath() + QString("/solver%1.jpg").arg(QUuid::createUuid().toString().remove(
                                    QRegularExpression("[-{}]")));
-            alignView->saveImage(filename);
+            m_AlignView->saveImage(filename);
 
             m_StellarSolver->setProperty("FileToProcess", filename);
             m_StellarSolver->setProperty("AstrometryAPIKey", Options::astrometryAPIKey());
@@ -2047,7 +2048,7 @@ void Align::startSolving()
     else
     {
         if (m_ImageData.isNull())
-            m_ImageData = alignView->imageData();
+            m_ImageData = m_AlignView->imageData();
         // This should run only for load&slew. For regular solve, we don't get here
         // as the image is read and solved server-side.
         remoteParser->startSolver(m_ImageData->filename(), generateRemoteArgs(m_ImageData), false);
@@ -3004,9 +3005,9 @@ bool Align::loadAndSlew(QString fileURL)
 
     m_ImageData.clear();
 
-    alignView->loadFile(fileURL);
+    m_AlignView->loadFile(fileURL);
     //m_FileToSolve = fileURL;
-    connect(alignView, &FITSView::loaded, this, &Align::startSolving);
+    connect(m_AlignView.get(), &FITSView::loaded, this, &Align::startSolving);
 
     return true;
 }
@@ -3028,7 +3029,7 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
     QSharedPointer<FITSData> data;
     data.reset(new FITSData(), &QObject::deleteLater);
     data->loadFromBuffer(image, extension);
-    alignView->loadData(data);
+    m_AlignView->loadData(data);
     startSolving();
     return true;
 }
@@ -3558,19 +3559,19 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 
 void Align::zoomAlignView()
 {
-    alignView->ZoomDefault();
+    m_AlignView->ZoomDefault();
 
-    emit newFrame(alignView);
+    emit newFrame(m_AlignView);
 }
 
 void Align::setAlignZoom(double scale)
 {
     if (scale > 1)
-        alignView->ZoomIn();
+        m_AlignView->ZoomIn();
     else if (scale < 1)
-        alignView->ZoomOut();
+        m_AlignView->ZoomOut();
 
-    emit newFrame(alignView);
+    emit newFrame(m_AlignView);
 }
 
 QJsonObject Align::getSettings() const
@@ -3960,7 +3961,7 @@ void Align::exportSolutionPoints()
 void Align::initPolarAlignmentAssistant()
 {
     // Create PAA instance
-    m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, alignView);
+    m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, m_AlignView);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::captureAndSolve, this, &Ekos::Align::captureAndSolve);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newAlignTableResult, this, &Ekos::Align::setAlignTableResult);
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newFrame, this, &Ekos::Align::newFrame);
@@ -3995,11 +3996,11 @@ void Align::initDarkProcessor()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         alignDarkFrameCheck->setChecked(completed);
-        alignView->setProperty("suspended", false);
+        m_AlignView->setProperty("suspended", false);
         if (completed)
         {
-            alignView->rescale(ZOOM_KEEP_LEVEL);
-            alignView->updateFrame();
+            m_AlignView->rescale(ZOOM_KEEP_LEVEL);
+            m_AlignView->updateFrame();
         }
         setCaptureComplete();
     });

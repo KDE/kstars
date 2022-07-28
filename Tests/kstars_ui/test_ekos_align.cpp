@@ -543,7 +543,7 @@ void TestEkosAlign::captureStatusChanged(Ekos::CaptureState status)
         expectedCaptureStates.dequeue();
 }
 
-void TestEkosAlign::imageReceived(FITSView *view)
+void TestEkosAlign::imageReceived(const QSharedPointer<FITSView> &view)
 {
     Q_UNUSED(view);
     captureStatusChanged(Ekos::CAPTURE_COMPLETE);

@@ -84,7 +84,7 @@ Guide::Guide() : QWidget()
 
     // #4 Init View
     initView();
-    internalGuider->setGuideView(guideView);
+    internalGuider->setGuideView(m_GuideView);
 
     // #5 Load all settings
     loadSettings();
@@ -175,13 +175,13 @@ Guide::Guide() : QWidget()
     {
         if (completed != darkFrameCheck->isChecked())
             setDarkFrameEnabled(completed);
-        guideView->setProperty("suspended", false);
+        m_GuideView->setProperty("suspended", false);
         if (completed)
         {
-            guideView->rescale(ZOOM_KEEP_LEVEL);
-            guideView->updateFrame();
+            m_GuideView->rescale(ZOOM_KEEP_LEVEL);
+            m_GuideView->updateFrame();
         }
-        guideView->updateFrame();
+        m_GuideView->updateFrame();
         setCaptureComplete();
     });
 }
@@ -209,7 +209,7 @@ void Guide::guideAfterMeridianFlip()
 {
     //This will clear the tracking box selection
     //The selected guide star is no longer valid due to the flip
-    guideView->setTrackingBoxEnabled(false);
+    m_GuideView->setTrackingBoxEnabled(false);
     starCenter = QVector3D();
 
     if (Options::resetGuideCalibration())
@@ -549,8 +549,6 @@ void Guide::checkCCD(int ccdNum)
         connect(currentCCD, &ISD::CCD::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
         connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
-        targetChip->setImageView(guideView, FITS_GUIDE);
-
         syncCCDInfo();
     }
 }
@@ -854,7 +852,7 @@ bool Guide::captureOneFrame()
 
     prepareCapture(targetChip);
 
-    guideView->setBaseSize(guideWidget->size());
+    m_GuideView->setBaseSize(guideWidget->size());
     setBusy(true);
 
     // Check if we have a valid frame setting
@@ -878,7 +876,7 @@ bool Guide::captureOneFrame()
         finalExposure *= 3;
 
     // Prevent flicker when processing dark frame by suspending updates
-    guideView->setProperty("suspended", operationStack.contains(GUIDE_DARK));
+    m_GuideView->setProperty("suspended", operationStack.contains(GUIDE_DARK));
 
     // Timeout is exposure duration + timeout threshold in seconds
     captureTimeout.start(finalExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
@@ -985,7 +983,7 @@ void Guide::setBusy(bool enable)
         stopB->setEnabled(false);
         pi->stopAnimation();
 
-        connect(guideView, &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar, Qt::UniqueConnection);
+        connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar, Qt::UniqueConnection);
     }
 }
 
@@ -1099,7 +1097,10 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
     }
 
     if (data)
+    {
+        m_GuideView->loadData(data);
         m_ImageData = data;
+    }
     else
         m_ImageData.reset();
 
@@ -1143,8 +1144,8 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
 
 void Guide::setCaptureComplete()
 {
-    if (guideView != nullptr)
-        guideView->clearNeighbors();
+    if (!m_GuideView.isNull())
+        m_GuideView->clearNeighbors();
 
     DarkLibrary::Instance()->disconnect(this);
 
@@ -1212,8 +1213,8 @@ void Guide::setCaptureComplete()
             break;
     }
 
-    emit newImage(guideView);
-    emit newStarPixmap(guideView->getTrackingBoxPixmap(10));
+    emit newImage(m_GuideView);
+    emit newStarPixmap(m_GuideView->getTrackingBoxPixmap(10));
 }
 
 void Guide::appendLogText(const QString &text)
@@ -1338,7 +1339,7 @@ bool Guide::guide()
         //This gets around that by noting the position of the tracking box, and enforcing it after the state switches to guide.
         if(!Options::guideAutoStarEnabled())
         {
-            if(guiderType == GUIDE_PHD2 && guideView->isTrackingBoxEnabled())
+            if(guiderType == GUIDE_PHD2 && m_GuideView->isTrackingBoxEnabled())
             {
                 double x = starCenter.x();
                 double y = starCenter.y();
@@ -1880,7 +1881,7 @@ void Guide::syncTrackingBoxPosition()
         {
             if(m_ImageData->width() < 50)
             {
-                guideView->setTrackingBoxEnabled(false);
+                m_GuideView->setTrackingBoxEnabled(false);
                 return;
             }
         }
@@ -1920,8 +1921,8 @@ void Guide::syncTrackingBoxPosition()
 
         QRect starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
                                boxSize / subBinX, boxSize / subBinY);
-        guideView->setTrackingBoxEnabled(true);
-        guideView->setTrackingBox(starRect);
+        m_GuideView->setTrackingBoxEnabled(true);
+        m_GuideView->setTrackingBox(starRect);
     }
 }
 
@@ -2008,7 +2009,7 @@ bool Guide::setGuiderType(int type)
                 phd2Guider = new PHD2();
 
             guider = phd2Guider;
-            phd2Guider->setGuideView(guideView);
+            phd2Guider->setGuideView(m_GuideView);
 
             connect(phd2Guider, SIGNAL(newStarPixmap(QPixmap &)), this, SIGNAL(newStarPixmap(QPixmap &)));
 
@@ -2534,8 +2535,7 @@ bool Guide::executeOperationStack()
             if (guider->calibrate())
             {
                 if (guiderType == GUIDE_INTERNAL)
-                    disconnect(guideView, SIGNAL(trackingStarSelected(int, int)), this,
-                               SLOT(setTrackingStar(int, int)));
+                    disconnect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Guide::setTrackingStar);
                 setBusy(true);
             }
             else
@@ -2763,13 +2763,9 @@ void Guide::setExternalGuiderBLOBEnabled(bool enable)
         else
             useGuideHead = false;
 
-        ISD::CCDChip *targetChip =
-            currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        auto targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
-        {
-            targetChip->setImageView(guideView, FITS_GUIDE);
             targetChip->setCaptureMode(FITS_GUIDE);
-        }
         syncCCDInfo();
     }
 
@@ -3050,14 +3046,14 @@ void Guide::initView()
     guideStateWidget = new GuideStateWidget();
     guideInfoLayout->insertWidget(0, guideStateWidget);
 
-    guideView = new GuideView(guideWidget, FITS_GUIDE);
-    guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    guideView->setBaseSize(guideWidget->size());
-    guideView->createFloatingToolBar();
+    m_GuideView.reset(new GuideView(guideWidget, FITS_GUIDE));
+    m_GuideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_GuideView->setBaseSize(guideWidget->size());
+    m_GuideView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(guideView);
+    vlayout->addWidget(m_GuideView.get());
     guideWidget->setLayout(vlayout);
-    connect(guideView, &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar);
+    connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar);
 }
 
 void Guide::initConnections()
@@ -3071,13 +3067,13 @@ void Guide::initConnections()
             &Ekos::Guide::updateTrackingBoxSize);
 
     // Guider CCD Selection
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
             &Ekos::Guide::setDefaultCCD);
-    #else
+#else
     connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
             &Ekos::Guide::setDefaultCCD);
-    #endif
+#endif
     connect(guiderCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
             [&](int index)
     {
@@ -3099,11 +3095,11 @@ void Guide::initConnections()
     if(guiderType != GUIDE_PHD2) //For PHD2, this is handled in the configurePHD2Camera method
         connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
     // ST4 Selection
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString & text)
-    #else
+#else
     connect(ST4Combo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), [&](const QString & text)
-    #endif
+#endif
     {
         setDefaultST4(text);
         setST4(text);

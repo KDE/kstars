@@ -863,7 +863,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
 
                 //This is needed so that PHD2 sends the new star pixmap when
                 //remote images are enabled.
-                emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+                emit newStarPixmap(m_GuideFrame->getTrackingBoxPixmap());
             }
             break;
         }
@@ -1001,9 +1001,9 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError, const QByteArray &line
 
 //These methods process the Star Images the PHD2 provides
 
-void PHD2::setGuideView(FITSView *guideView)
+void PHD2::setGuideView(const QSharedPointer<FITSView> &guideView)
 {
-    guideFrame = guideView;
+    m_GuideFrame = guideView;
 }
 
 void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
@@ -1082,11 +1082,11 @@ void PHD2::processStarImage(const QJsonObject &jsonStarFrame)
     fdata.reset(new FITSData(), &QObject::deleteLater);
     fdata->loadFromBuffer(buffer, "fits");
     free(fits_buffer);
-    guideFrame->loadData(fdata);
+    m_GuideFrame->loadData(fdata);
 
-    guideFrame->updateFrame();
-    guideFrame->setTrackingBox(QRect(0, 0, width, height));
-    emit newStarPixmap(guideFrame->getTrackingBoxPixmap());
+    m_GuideFrame->updateFrame();
+    m_GuideFrame->setTrackingBox(QRect(0, 0, width, height));
+    emit newStarPixmap(m_GuideFrame->getTrackingBoxPixmap());
 }
 
 void PHD2::setEquipmentConnected()

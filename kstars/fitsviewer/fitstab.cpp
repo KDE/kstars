@@ -346,7 +346,7 @@ QHBoxLayout* FITSTab::setupStretchBar()
 
 bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 {
-    if (m_View.get() == nullptr)
+    if (m_View.isNull())
     {
         m_View.reset(new FITSView(this, mode, filter));
         m_View->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -451,7 +451,7 @@ bool FITSTab::shouldComputeHFR() const
         return true;
     if (!Options::autoHFR())
         return false;
-    return (m_View != nullptr) && (m_View->getMode() == FITS_NORMAL);
+    return ((!m_View.isNull()) && (m_View->getMode() == FITS_NORMAL));
 }
 
 void FITSTab::processData()

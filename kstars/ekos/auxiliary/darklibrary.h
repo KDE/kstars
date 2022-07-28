@@ -113,7 +113,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
     signals:
         void newLog(const QString &message);
         void newImage(const QSharedPointer<FITSData> &data);
-        void newFrame(FITSView *view);
+        void newFrame(const QSharedPointer<FITSView> &view);
 
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
@@ -247,7 +247,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QJsonObject m_PresetSettings, m_FileSettings;
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QStringList m_DarkCameras, m_DefectCameras;
-        QPointer<DarkView> m_DarkView;
+        QSharedPointer<DarkView> m_DarkView;
         QPointer<QStatusBar> m_StatusBar;
         QPointer<QLabel> m_StatusLabel, m_FileLabel;
         QSharedPointer<DefectMap> m_CurrentDefectMap;

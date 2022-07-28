@@ -141,7 +141,7 @@ private:
      * @brief slot to track captured images from the align process
      * @param view
      */
-    void imageReceived(FITSView *view);
+    void imageReceived(const QSharedPointer<FITSView> &view);
 
     // counter for images taken in a single test run
     int image_count;

@@ -327,14 +327,14 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     // FIXME
     //resize(1000,750);
 
-    summaryPreview.reset(new SummaryFITSView(capturePreview->previewWidget));
-    summaryPreview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_SummaryView.reset(new SummaryFITSView(capturePreview->previewWidget));
+    m_SummaryView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // sterne-jaeger 2021-08-08: Do not set base size here, otherwise the zoom will be incorrect
     // summaryPreview->setBaseSize(capturePreview->previewWidget->size());
-    summaryPreview->createFloatingToolBar();
-    summaryPreview->setCursorMode(FITSView::dragCursor);
-    summaryPreview->showProcessInfo(false);
-    capturePreview->setSummaryFITSView(summaryPreview.get());
+    m_SummaryView->createFloatingToolBar();
+    m_SummaryView->setCursorMode(FITSView::dragCursor);
+    m_SummaryView->showProcessInfo(false);
+    capturePreview->setSummaryFITSView(m_SummaryView.get());
 
     // JM 2019-01-19: Why cloud images depend on summary preview?
     //    connect(summaryPreview.get(), &FITSView::loaded, [&]()
@@ -3124,9 +3124,9 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
         uuid = uuid.remove(QRegularExpression("[-{}]"));
 
         if (Options::useSummaryPreview())
-            ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
+            ekosLiveClient.get()->media()->sendView(m_SummaryView, uuid);
         else
-            ekosLiveClient.get()->media()->sendPreviewImage(data, uuid);
+            ekosLiveClient.get()->media()->sendData(data, uuid);
 
         if (job->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
             ekosLiveClient.get()->cloud()->upload(data, uuid);
@@ -3334,7 +3334,7 @@ void Manager::connectModules()
     DarkLibrary::Instance()->disconnect(this);
     connect(DarkLibrary::Instance(), &DarkLibrary::newImage, this, [this](const QSharedPointer<FITSData> &data)
     {
-        ekosLiveClient.get()->media()->sendPreviewImage(data, "+D");
+        ekosLiveClient.get()->media()->sendData(data, "+D");
     });
     connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame);
 

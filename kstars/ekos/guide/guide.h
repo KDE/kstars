@@ -455,7 +455,7 @@ class Guide : public QWidget, public Ui::Guide
         void newLog(const QString &text);
         void newStatus(Ekos::GuideState status);
 
-        void newImage(FITSView *view);
+        void newImage(const QSharedPointer<FITSView> &view);
         void newStarPixmap(QPixmap &);
 
         // Immediate deviations in arcsecs
@@ -601,7 +601,7 @@ class Guide : public QWidget, public Ui::Guide
         OpsGPG *opsGPG { nullptr };
 
         // Guide Frame
-        GuideView *guideView { nullptr };
+        QSharedPointer<GuideView> m_GuideView;
 
         // Calibration done already?
         bool calibrationComplete { false };

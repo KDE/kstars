@@ -462,7 +462,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void suspendGuiding();
         void resumeGuiding();
-        void newImage(FITSView *view);
+        void newImage(const QSharedPointer<FITSView> &view);
         void newStarPixmap(QPixmap &);
         void settingsUpdated(const QJsonObject &settings);
 
@@ -839,7 +839,7 @@ class Focus : public QWidget, public Ui::Focus
         QVector3D rememberStarCenter;
 
         /// Focus Frame
-        FITSView *focusView { nullptr };
+        QSharedPointer<FITSView> m_FocusView;
 
         /// Star Select Timer
         QTimer waitStarSelectTimer;

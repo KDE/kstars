@@ -41,12 +41,11 @@ class Media : public QObject
         void registerCameras();
 
         // Ekos Media Message to User
-        //void sendPreviewJPEG(const QString &filename, QJsonObject metadata);
-        void sendPreviewImage(const QString &filename, const QString &uuid);
-        void sendPreviewImage(const QSharedPointer<FITSData> &data, const QString &uuid);
-        void sendPreviewImage(FITSView * view, const QString &uuid);
-        void sendUpdatedFrame(FITSView * view);
-        void sendModuleFrame(FITSView * view);
+        void sendFile(const QString &filename, const QString &uuid);
+        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);
+        void sendView(const QSharedPointer<FITSView> &view, const QString &uuid);
+        void sendUpdatedFrame(const QSharedPointer<FITSView> &view);
+        void sendModuleFrame(const QSharedPointer<FITSView> &view);
 
     signals:
         void connected();
@@ -90,15 +89,12 @@ class Media : public QObject
         void onTextReceived(const QString &message);
         void onBinaryReceived(const QByteArray &message);
 
-        // Send image
-        void sendImage();
-
         // Metadata and Image upload
         void uploadMetadata(const QByteArray &metadata);
         void uploadImage(const QByteArray &image);
 
     private:
-        void upload(FITSView * view);
+        void upload(const QSharedPointer<FITSView> &view);
 
         QWebSocket m_WebSocket;
         QJsonObject m_AuthResponse;
@@ -108,11 +104,11 @@ class Media : public QObject
         QString m_UUID;
 
         QMap<int, bool> m_Options;
-        std::unique_ptr<FITSView> previewImage;
 
         QString extension;
         QStringList temporaryFiles;
         QLineF correctionVector;
+        QSharedPointer<FITSView> m_TemporaryView;
 
         bool m_isConnected { false };
         bool m_sendBlobs { true};

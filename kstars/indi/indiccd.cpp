@@ -50,64 +50,6 @@ CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
     type          = cType;
 }
 
-FITSView *CCDChip::getImageView(FITSMode imageType)
-{
-    switch (imageType)
-    {
-        case FITS_NORMAL:
-            return normalImage;
-
-        case FITS_FOCUS:
-            return focusImage;
-
-        case FITS_GUIDE:
-            return guideImage;
-
-        case FITS_CALIBRATE:
-            return calibrationImage;
-
-        case FITS_ALIGN:
-            return alignImage;
-
-        default:
-            break;
-    }
-
-    return nullptr;
-}
-
-void CCDChip::setImageView(FITSView *image, FITSMode imageType)
-{
-    switch (imageType)
-    {
-        case FITS_NORMAL:
-            normalImage = image;
-            break;
-
-        case FITS_FOCUS:
-            focusImage = image;
-            break;
-
-        case FITS_GUIDE:
-            guideImage = image;
-            break;
-
-        case FITS_CALIBRATE:
-            calibrationImage = image;
-            break;
-
-        case FITS_ALIGN:
-            alignImage = image;
-            break;
-
-        default:
-            break;
-    }
-
-    if (image)
-        imageData = image->imageData();
-}
-
 bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
 {
     INumberVectorProperty *frameProp = nullptr;
@@ -495,11 +437,6 @@ bool CCDChip::canAbort() const
 void CCDChip::setCanAbort(bool value)
 {
     CanAbort = value;
-}
-
-const QSharedPointer<FITSData> &CCDChip::getImageData() const
-{
-    return imageData;
 }
 
 int CCDChip::getISOIndex() const
@@ -1669,16 +1606,16 @@ void CCD::processBLOB(IBLOB *bp)
         return;
     }
 
-    QSharedPointer<FITSData> blob_data;
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
-    blob_data.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
-    if (!blob_data->loadFromBuffer(buffer, shortFormat, filename))
+    QSharedPointer<FITSData> imageData;
+    imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
+    if (!imageData->loadFromBuffer(buffer, shortFormat, filename))
     {
         emit error(ERROR_LOAD);
         return;
     }
 
-    handleImage(targetChip, filename, bp, blob_data);
+    handleImage(targetChip, filename, bp, imageData);
 }
 
 void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)
@@ -1739,59 +1676,20 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
                     return;
                 }
                 *tabID = tabIndex;
-                targetChip->setImageView(getFITSViewer()->getView(tabIndex), captureMode);
                 if (Options::focusFITSOnNewImage())
                     getFITSViewer()->raise();
-            }
-            else
-            {
-                emit BLOBUpdated(bp);
-                emit newImage(data);
+
+                return;
             }
         }
         break;
-
-        case FITS_FOCUS:
-        case FITS_GUIDE:
-        case FITS_ALIGN:
-        case FITS_UNKNOWN:
-            loadImageInView(targetChip, data);
-            emit BLOBUpdated(bp);
-            emit newImage(data);
+        default:
             break;
     }
+
+    emit BLOBUpdated(bp);
+    emit newImage(data);
 }
-
-void CCD::loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data)
-{
-    FITSMode mode = targetChip->getCaptureMode();
-    FITSView *view = targetChip->getImageView(mode);
-    //QString filename = QString(static_cast<const char *>(bp->aux2));
-
-    if (view)
-    {
-        view->setFilter(targetChip->getCaptureFilter());
-        //if (!view->loadFITSFromData(data, filename))
-        if (!view->loadData(data))
-        {
-            emit error(ERROR_LOAD);
-            return;
-
-        }
-        // FITSViewer is shown if:
-        // useFITSViewer is true; AND
-        // Image type is either NORMAL or CALIBRATION since the rest have their dedicated windows.
-        // NORMAL is used for raw INDI drivers without Ekos.
-        if ( (Options::useFITSViewer()) &&
-                (mode == FITS_NORMAL || mode == FITS_CALIBRATE))
-            getFITSViewer()->show();
-    }
-}
-
-//void CCD::FITSViewerDestroyed()
-//{
-//    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
-//}
 
 void CCD::StreamWindowHidden()
 {

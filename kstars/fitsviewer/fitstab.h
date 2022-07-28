@@ -70,9 +70,9 @@ class FITSTab : public QWidget
         {
             return &currentURL;
         }
-        inline FITSView *getView()
+        inline const QSharedPointer<FITSView> &getView()
         {
-            return m_View.get();
+            return m_View;
         }
         inline QPointer<FITSHistogramEditor> getHistogram()
         {
@@ -146,7 +146,7 @@ class FITSTab : public QWidget
         QPointer<QListWidget> recentImages;
 
         /// FITS image object
-        std::unique_ptr<FITSView> m_View;
+        QSharedPointer<FITSView> m_View;
 
         /// History for undo/redo
         QUndoStack *undoStack { nullptr };

@@ -30,14 +30,13 @@ FITSDebayer::FITSDebayer(FITSViewer *parent) : QDialog(parent)
 
 void FITSDebayer::applyDebayer()
 {
-    FITSView *view = viewer->getCurrentView();
-
-    if (view)
+    QSharedPointer<FITSView> view;
+    if (viewer->getCurrentView(view))
     {
-        const QSharedPointer<FITSData> &image_data = view->imageData();
+        auto image_data = view->imageData();
 
-        dc1394bayer_method_t method = (dc1394bayer_method_t)ui->methodCombo->currentIndex();
-        dc1394color_filter_t filter = (dc1394color_filter_t)(ui->filterCombo->currentIndex() + 512);
+        dc1394bayer_method_t method = static_cast<dc1394bayer_method_t>(ui->methodCombo->currentIndex());
+        dc1394color_filter_t filter = static_cast<dc1394color_filter_t>(ui->filterCombo->currentIndex() + 512);
 
         int offsetX = ui->XOffsetSpin->value();
         int offsetY = ui->YOffsetSpin->value();

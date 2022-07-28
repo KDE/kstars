@@ -86,7 +86,7 @@ class InternalGuider : public GuideInterface
         }
 
         // Guide View
-        void setGuideView(GuideView *guideView);
+        void setGuideView(const QSharedPointer<GuideView> &guideView);
         // Image Data
         void setImageData(const QSharedPointer<FITSData> &data);
 
@@ -140,7 +140,7 @@ class InternalGuider : public GuideInterface
         void fillGuideInfo(GuideLog::GuideInfo *info);
 
         std::unique_ptr<cgmath> pmath;
-        QPointer<GuideView> guideFrame;
+        QSharedPointer<GuideView> m_GuideFrame;
         QSharedPointer<FITSData> m_ImageData;
         bool m_isStarted { false };
         bool m_isSubFramed { false };

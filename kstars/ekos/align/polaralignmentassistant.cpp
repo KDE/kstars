@@ -43,14 +43,14 @@ const QMap<PolarAlignmentAssistant::PAHStage, const char *> PolarAlignmentAssist
     {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete")},
 };
 
-PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, AlignView *view) : QWidget(parent)
+PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPointer<AlignView> &view) : QWidget(parent)
 {
     setupUi(this);
     polarAlignWidget = new PolarAlignWidget();
     mainPALayout->insertWidget(0, polarAlignWidget);
 
     m_AlignInstance = parent;
-    alignView = view;
+    m_AlignView = view;
 
     connect(PAHSlewRateCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&](int index)
     {
@@ -227,7 +227,7 @@ void PolarAlignmentAssistant::solverDone(bool timedOut, bool success, const FITS
             const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
             // The 2nd false means don't block. The code below doesn't work if we block
             // because wcsToPixel in updateTriangle() depends on the injectWCS being finished.
-            alignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false, false);
+            m_AlignView->injectWCS(solution.orientation, ra, dec, solution.pixscale, eastToTheRight, false, false);
             updatePlateSolveTriangle(m_ImageData);
         }
         else
@@ -255,8 +255,8 @@ void PolarAlignmentAssistant::updatePlateSolveTriangle(const QSharedPointer<FITS
             image->wcsToPixel(refreshSolution, solutionPixel, dummy) &&
             image->wcsToPixel(altOnlyRefreshSolution, altOnlyPixel, dummy))
     {
-        alignView->setCorrectionParams(originalPixel, solutionPixel, altOnlyPixel);
-        alignView->setStarCircle(centerPixel);
+        m_AlignView->setCorrectionParams(originalPixel, solutionPixel, altOnlyPixel);
+        m_AlignView->setStarCircle(centerPixel);
     }
     else
     {
@@ -432,7 +432,7 @@ void PolarAlignmentAssistant::updateRefreshDisplay(double azE, double altE)
 
 void PolarAlignmentAssistant::processPAHRefresh()
 {
-    alignView->setStarCircle();
+    m_AlignView->setStarCircle();
     PAHUpdatedErrorTotal->clear();
     PAHIteration->clear();
     PAHUpdatedErrorAlt->clear();
@@ -494,7 +494,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
                 {
                     setupCorrectionGraphics(QPointF(stars[clickedStarIndex].x, stars[clickedStarIndex].y));
                     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
-                    emit newFrame(alignView);
+                    emit newFrame(m_AlignView);
                 }
             }
             else
@@ -533,13 +533,13 @@ void PolarAlignmentAssistant::processPAHRefresh()
             if (starIndex >= 0)
             {
                 // Annotate the user's star on the alignview.
-                alignView->setStarCircle(QPointF(stars[starIndex].x, stars[starIndex].y));
+                m_AlignView->setStarCircle(QPointF(stars[starIndex].x, stars[starIndex].y));
                 debugString = QString("PAA Refresh(%1): User's star is now at %2,%3, with movement = %4,%5").arg(refreshIteration)
                               .arg(stars[starIndex].x, 4, 'f', 0).arg(stars[starIndex].y, 4, 'f', 0).arg(dx).arg(dy);
                 qCDebug(KSTARS_EKOS_ALIGN) << debugString;
 
                 double azE, altE;
-                if (polarAlign.pixelError(alignView->keptImage(), QPointF(stars[starIndex].x, stars[starIndex].y),
+                if (polarAlign.pixelError(m_AlignView->keptImage(), QPointF(stars[starIndex].x, stars[starIndex].y),
                                           correctionTo, &azE, &altE))
                 {
                     updateRefreshDisplay(azE, altE);
@@ -778,7 +778,7 @@ void PolarAlignmentAssistant::startPAHProcess()
 
         updateDisplay(m_PAHStage, getPAHMessage());
 
-        alignView->setCorrectionParams(QPointF(), QPointF(), QPointF());
+        m_AlignView->setCorrectionParams(QPointF(), QPointF(), QPointF());
 
         m_PAHRetrySolveCounter = 0;
         emit captureAndSolve();
@@ -832,12 +832,12 @@ void PolarAlignmentAssistant::stopPAHProcess()
     PAHWidgets->setCurrentWidget(PAHIntroPage);
     emit newPAHMessage(introText->text());
 
-    alignView->reset();
-    alignView->setRefreshEnabled(false);
+    m_AlignView->reset();
+    m_AlignView->setRefreshEnabled(false);
 
-    emit newFrame(alignView);
-    disconnect(alignView, &AlignView::trackingStarSelected, this, &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
-    disconnect(alignView, &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector);
+    emit newFrame(m_AlignView);
+    disconnect(m_AlignView.get(), &AlignView::trackingStarSelected, this, &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
+    disconnect(m_AlignView.get(), &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector);
 
     if (Options::pAHAutoPark())
     {
@@ -893,7 +893,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
     // We use the previously stored image (the 3rd PAA image)
     // so we can continue to estimate the correction even after
     // capturing new images during the refresh stage.
-    const QSharedPointer<FITSData> &imageData = alignView->keptImage();
+    const QSharedPointer<FITSData> &imageData = m_AlignView->keptImage();
 
     // Just the altitude correction
     if (!polarAlign.findCorrectedPixel(imageData, pixel, &correctionAltTo, true))
@@ -917,7 +917,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
     if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
         updatePlateSolveTriangle(imageData);
     else
-        alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+        m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 
     return;
 }
@@ -926,7 +926,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
 bool PolarAlignmentAssistant::calculatePAHError()
 {
     // Hold on to the imageData so we can use it during the refresh phase.
-    alignView->holdOnToImage();
+    m_AlignView->holdOnToImage();
 
     if (!polarAlign.findAxis())
     {
@@ -941,8 +941,8 @@ bool PolarAlignmentAssistant::calculatePAHError()
     dms polarError(hypot(altitudeError, azimuthError));
     dms azError(azimuthError), altError(altitudeError);
 
-    if (alignView->isEQGridShown() == false && !Options::limitedResourcesMode())
-        alignView->toggleEQGrid();
+    if (m_AlignView->isEQGridShown() == false && !Options::limitedResourcesMode())
+        m_AlignView->toggleEQGrid();
 
     QString msg = QString("%1. Azimuth: %2  Altitude: %3")
                   .arg(polarError.toDMSString()).arg(azError.toDMSString())
@@ -964,19 +964,19 @@ bool PolarAlignmentAssistant::calculatePAHError()
     m_ImageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
     if (m_ImageData->contains(celestialPolePoint))
     {
-        alignView->setCelestialPole(celestialPolePoint);
+        m_AlignView->setCelestialPole(celestialPolePoint);
         QPointF raAxis;
         if (polarAlign.findCorrectedPixel(m_ImageData, celestialPolePoint, &raAxis))
-            alignView->setRaAxis(raAxis);
+            m_AlignView->setRaAxis(raAxis);
     }
 
-    connect(alignView, &AlignView::trackingStarSelected, this, &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
+    connect(m_AlignView.get(), &AlignView::trackingStarSelected, this, &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
     emit polarResultUpdated(QLineF(correctionFrom, correctionTo), polarError.Degrees(), azError.Degrees(), altError.Degrees());
 
-    connect(alignView, &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector,
+    connect(m_AlignView.get(), &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector,
             Qt::UniqueConnection);
     syncCorrectionVector();
-    emit newFrame(alignView);
+    emit newFrame(m_AlignView);
 
     return true;
 }
@@ -986,13 +986,13 @@ void PolarAlignmentAssistant::syncCorrectionVector()
     if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
         return;
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
-    alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+    m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 }
 
 void PolarAlignmentAssistant::setPAHCorrectionOffsetPercentage(double dx, double dy)
 {
-    double x = dx * alignView->zoomedWidth();
-    double y = dy * alignView->zoomedHeight();
+    double x = dx * m_AlignView->zoomedWidth();
+    double y = dy * m_AlignView->zoomedHeight();
     setPAHCorrectionOffset(static_cast<int>(round(x)), static_cast<int>(round(y)));
 }
 
@@ -1006,7 +1006,7 @@ void PolarAlignmentAssistant::setPAHCorrectionOffset(int x, int y)
     {
         setupCorrectionGraphics(QPointF(x, y));
         emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
-        emit newFrame(alignView);
+        emit newFrame(m_AlignView);
     }
 }
 
@@ -1049,10 +1049,10 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
     PAHRefreshB->setEnabled(false);
 
     // Hide EQ Grids if shown
-    if (alignView->isEQGridShown())
-        alignView->toggleEQGrid();
+    if (m_AlignView->isEQGridShown())
+        m_AlignView->toggleEQGrid();
 
-    alignView->setRefreshEnabled(true);
+    m_AlignView->setRefreshEnabled(true);
 
     Options::setAstrometrySolverWCS(false);
     Options::setAutoWCS(false);
@@ -1091,8 +1091,8 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
                 : (m_PAHStage == PAH_SECOND_SOLVE ? "Calculating WCS for the second image...</p>"
                    : "Calculating WCS for the third image...</p>"));
         }
-        connect(alignView, &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled, Qt::UniqueConnection);
-        alignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
+        connect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled, Qt::UniqueConnection);
+        m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
         return;
     }
 }
@@ -1139,7 +1139,7 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
 {
     emit newLog(i18n("WCS data processing is complete."));
 
-    disconnect(alignView, &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled);
+    disconnect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled);
 
     if (m_PAHStage == PAH_FIRST_CAPTURE || m_PAHStage == PAH_FIRST_SOLVE)
     {
@@ -1296,7 +1296,7 @@ void PolarAlignmentAssistant::setPAHRefreshAlgorithm(PAHRefreshAlgorithm value)
     if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
         updatePlateSolveTriangle(m_ImageData);
     else
-        alignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
+        m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
 
 }
 

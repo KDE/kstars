@@ -25,7 +25,7 @@
 #include <qtendl.h>
 
 GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-        GuideView *guideView, bool firstFrame)
+        QSharedPointer<GuideView> &guideView, bool firstFrame)
 {
     GuiderUtils::Vector position;
     if (usingSEPMultiStar())
@@ -413,7 +413,7 @@ void cgmath::calculatePulses(Ekos::GuideState state)
 }
 
 void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> &imageData,
-                               GuideView *guideView, GuideLog *logger)
+                               QSharedPointer<GuideView> &guideView, GuideLog *logger)
 {
     if (suspended)
     {

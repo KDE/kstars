@@ -25,7 +25,6 @@
 #include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QStatusBar>
-#include <QtConcurrent>
 #include <algorithm>
 #include <array>
 
@@ -66,13 +65,13 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_DarkCameras = Options::darkCameras();
     m_DefectCameras = Options::defectCameras();
 
-    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
             this, [this]()
-    #else
+#else
     connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled),
             this, [this]()
-    #endif
+#endif
     {
         const QString device = m_CurrentCamera->getDeviceName();
         if (preferDarksRadio->isChecked())
@@ -150,13 +149,13 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     });
 
     connect(countSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
-    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(binningButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
             this, [this](int, bool)
-    #else
+#else
     connect(binningButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled),
             this, [this](int, bool)
-    #endif
+#endif
     {
         countDarkTotalTime();
     });
@@ -908,7 +907,7 @@ void DarkLibrary::loadCurrentMasterDefectMap()
     else
     {
         m_CurrentDefectMap.reset(new DefectMap());
-        connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, [this](uint32_t hot, uint32_t cold)
+        connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, this, [this](uint32_t hot, uint32_t cold)
         {
             hotPixelsCount->setValue(hot);
             coldPixelsCount->setValue(cold);
@@ -1278,14 +1277,14 @@ void DarkLibrary::stop()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::initView()
 {
-    m_DarkView = new DarkView(darkWidget);
+    m_DarkView.reset(new DarkView(darkWidget));
     m_DarkView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_DarkView->setBaseSize(darkWidget->size());
     m_DarkView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(m_DarkView);
+    vlayout->addWidget(m_DarkView.get());
     darkWidget->setLayout(vlayout);
-    connect(m_DarkView, &DarkView::loaded, this, [this]()
+    connect(m_DarkView.get(), &DarkView::loaded, this, [this]()
     {
         emit newImage(m_DarkView->imageData());
     });

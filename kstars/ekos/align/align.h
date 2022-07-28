@@ -602,9 +602,9 @@ class Align : public QWidget, public Ui::Align
         void newSolution(const QVariantMap &solution);
 
         // This is sent when we load an image in the view
-        void newImage(FITSView *view);
+        void newImage(const QSharedPointer<FITSView> &view);
         // This is sent when the pixmap is updated within the view
-        void newFrame(FITSView *view);
+        void newFrame(const QSharedPointer<FITSView> &view);
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
@@ -826,7 +826,7 @@ class Align : public QWidget, public Ui::Align
         QTimer m_AlignTimer;
 
         // Align Frame
-        AlignView *alignView { nullptr };
+        QSharedPointer<AlignView> m_AlignView;
 
         // FITS Viewer in case user want to display in it instead of internal view
         QPointer<FITSViewer> fv;

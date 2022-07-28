@@ -47,8 +47,6 @@ class CCDChip
 
         CCDChip(ISD::CCD *ccd, ChipType cType);
 
-        FITSView *getImageView(FITSMode imageType);
-        void setImageView(FITSView *image, FITSMode imageType);
         void setCaptureMode(FITSMode mode)
         {
             captureMode = mode;
@@ -129,22 +127,23 @@ class CCDChip
 
         bool canAbort() const;
         void setCanAbort(bool value);
-
-        const QSharedPointer<FITSData> &getImageData() const;
-        void setImageData(const QSharedPointer<FITSData> &data)
-        {
-            imageData = data;
-        }
-
         int getISOIndex() const;
         bool getISOValue(QString &value) const;
         bool setISOIndex(int value);
 
         QStringList getISOList() const;
 
+        void setImageData(const QSharedPointer<FITSData> &data)
+        {
+            m_ImageData = data;
+        }
+        const QSharedPointer<FITSData> getImageData() const
+        {
+            return m_ImageData;
+        }
+
     private:
-        QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
-        QSharedPointer<FITSData> imageData { nullptr };
+        QSharedPointer<FITSData> m_ImageData;
         FITSMode captureMode { FITS_NORMAL };
         FITSScale captureFilter { FITS_NONE };
         INDI::BaseDevice *baseDevice { nullptr };
@@ -377,7 +376,6 @@ class CCD : public DeviceDecorator
 
     private:
         void processStream(IBLOB *bp);
-        void loadImageInView(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &data);
         bool generateFilename(bool batch_mode, const QString &extension, QString *filename);
         // Saves an image to disk on a separate thread.
         bool writeImageFile(const QString &filename, IBLOB *bp, bool is_fits);

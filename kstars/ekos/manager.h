@@ -148,7 +148,7 @@ class Manager : public QDialog, public Ui::Manager
         }
         FITSView *getSummaryPreview()
         {
-            return summaryPreview.get();
+            return m_SummaryView.get();
         }
         FilterManager *getFilterManager()
         {
@@ -574,7 +574,7 @@ class Manager : public QDialog, public Ui::Manager
         QTimer m_CountdownTimer;
         QTimer settleTimer;
         // Preview Frame
-        std::unique_ptr<SummaryFITSView> summaryPreview;
+        QSharedPointer<SummaryFITSView> m_SummaryView;
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };

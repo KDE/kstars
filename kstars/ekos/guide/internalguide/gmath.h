@@ -119,14 +119,14 @@ class cgmath : public QObject
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
         GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                GuideView *guideView, bool firstFrame);
+                QSharedPointer<GuideView> &guideView, bool firstFrame);
         bool isStarLost() const;
         void setLostStar(bool is_lost);
 
         // Main processing function
         void performProcessing(Ekos::GuideState state,
                                QSharedPointer<FITSData> &imageData,
-                               GuideView *guideView,
+                               QSharedPointer<GuideView> &guideView,
                                GuideLog *logger = nullptr);
 
         bool calibrate1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
