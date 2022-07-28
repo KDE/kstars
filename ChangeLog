@@ -4,6 +4,138 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.0 (Contact):
+
+5764593a0 2022-07-28 Yuri Chornoivan      Fix minor typo: Conver -> Cover
+812db5041 2022-07-28 Yuri Chornoivan      Fix minor typos
+25acbb39e 2022-07-27 Jasem Mutlaq         Add profile scripts editor section and mosaic planner section
+1cdfd279b 2022-07-27 Jasem Mutlaq         Check web manager version
+3cd8bcb6a 2022-07-26 Hy Murveit           Improve tooltip for greedy algorithm
+10e2ae66d 2022-07-26 Jasem Mutlaq         Add extra check for imageData
+922b8d538 2022-07-25 Yuri Chornoivan      Fix minor typos
+e818dfd3a 2022-07-25 Sophie Taylor        Use reference type to avoid copying in analyze.cpp
+f32a8abaa 2022-07-25 Sophie Taylor        Improve tooltips for GPG expert settings
+c1bf845d2 2022-07-25 Wolfgang Reissenberger Bugfix capturing does not continue after a meridian flip
+e34a73104 2022-07-25 Sophie Taylor        Correct nomenclature for Linear1 focus algorithm with "R2" -> "R²", and add a default and minimum value for R² limit
+05d35802c 2022-07-24 Yuri Chornoivan      Fix minor glitches
+3b2f187b4 2022-07-24 John Evans           Focus update to Kstars User Manual
+4f17f38ae 2022-07-23 Jasem Mutlaq         Use PA instead of rotation to be consistent with rest of KStars notations
+072640687 2022-07-22 Yuri Chornoivan      Fix minor typos
+8d1f894fa 2022-07-22 Yuri Chornoivan      Fix links in docs
+8b1833fc1 2022-07-22 John Evans           Update focus section of user manual including Linear 1 Pass
+4fb60642f 2022-07-20 Akarsh Simha         For some strange reason, changing this include order fixes my compile
+68f5eb38a 2022-07-18 Akarsh Simha         Fix compile on old compilers
+8cd7a0dfc 2022-07-17 Salman Naheed        Update Scheduler Module
+4b69fb22d 2022-07-17 Jasem Mutlaq         Fix crash when sending scripts to remote INDI Web Manager
+043570675 2022-07-17 Jasem Mutlaq         Add reverse logging
+8fe9d9d17 2022-07-17 Hy Murveit           add regexp for comets in FindDialog
+8d5206617 2022-07-17 Jasem Mutlaq         Add more logging when rotator stops moving
+0ef8382d4 2022-07-15 Jasem Mutlaq         WCS not related at all to toggling selection mode
+90a77b64b 2022-07-15 Jasem Mutlaq         Fix issue where some modules might not have updated camera controls value like gain and offset
+a2549a72c 2022-07-14 Jasem Mutlaq         Add reverse rotator in the GUI
+4bf37d271 2022-07-14 Jasem Mutlaq         Add more check for current rotator PA
+21bd6bd90 2022-07-14 Jasem Mutlaq         Remove rouge character
+100ef8747 2022-07-14 Jasem Mutlaq         Add helper function to limit PA range. Fix target angle when going to specific position angle
+80206d718 2022-07-12 Hy Murveit           Add checkbox (defaulting to false) that enables partitioning in StellarSolver...
+6eab46a64 2022-07-11 Madhav  Prabhu       Added documentation for measure fits background, some bug fixes, merge conflicts
+5a2ba9f8e 2022-07-11 Akarsh Simha         A number of changes to make the PGC experience smooth (+ a couple bugfixes)
+7b8bb9f9f 2022-07-11 Hy Murveit           Improve testfitsdata::testParallelSolvers test.
+15f3ae122 2022-07-09 Jasem Mutlaq         Remove last
+85178f058 2022-07-09 Jasem Mutlaq         process BLOB managers removal at the main thread
+874255301 2022-07-09 Jasem Mutlaq         Fix position angle and rotator raw angle calculations
+77aa41ad6 2022-07-07 John Evans           L1P Bug Fixes 1
+adbae37b6 2022-07-06 Jasem Mutlaq         Use Q_FUNC_INFO with generic qDebug to including function info until they are migrated to qCDebug
+6d60a7d02 2022-07-06 Jasem Mutlaq         Fix error where we cannot create children for a parent in a different thread
+2a0626007 2022-07-06 Jasem Mutlaq         Add driver delay and script logging
+1f9608158 2022-07-06 Jasem Mutlaq         Remove invalid connect
+55a1925fd 2022-07-05 Jasem Mutlaq         Send back guide settings after setting them
+9a17d54e9 2022-07-05 Jasem Mutlaq         Add support for GOTO from pixel coordinates
+8495c7c4d 2022-07-05 Jasem Mutlaq         Refactor roi --> ROI and fix a few warnings
+f1e2d67c5 2022-07-05 Jasem Mutlaq         Fix untranslated strings and refactor roi --> ROI
+1024c75e9 2022-07-05 Jasem Mutlaq         Improve Dark Flats visibility in job sequence and do not change filter unless frame is LIGHT or FLAT. Should probably add support for dark filter se..
+3f36bb17d 2022-07-02 Jasem Mutlaq         Fix port conversion issue.
+f60573464 2022-07-02 Jasem Mutlaq         Fix string to int comparision
+77f16d707 2022-07-01 Madhav Prabhu        bug fixes for MR 621
+bd7a8998d 2022-07-01 Jasem Mutlaq         Stop mount timers to prevent possible race crash on stopping devices
+f44ef2bab 2022-07-01 Jasem Mutlaq         Double check the wcsControl exists
+bc8009335 2022-07-01 Jasem Mutlaq         engine.h no longer available with latest KF5
+57f3223e0 2022-07-01 Hy Murveit           fix focuser hanging bug
+8cd464f6a 2022-07-01 Jasem Mutlaq         Save script after manually editing the field
+2f81968e7 2022-06-30 Hy Murveit           improve SolverUtils timing
+4c8e55f1c 2022-06-29 Hy Murveit           fix analyze report of polynomial focus solution
+bc274ba20 2022-06-30 Jasem Mutlaq         Add support for profile scripts
+febaf5828 2022-06-30 Hy Murveit           Save checkboxes on the scheduler tab
+2411064da 2022-06-30 Jasem Mutlaq         Add mean and use symbols instead of text. Fix tooltip issues with WCS image
+904f7a8c9 2022-06-30 Madhav  Prabhu       Measure FITSImage Background for a region of interest(Rectangle)
+40f4e87f3 2022-06-29 Hy Murveit           reset guide rms calc in analyze after break
+f47377435 2022-06-29 John Evans           DRAFT Fixed focus restart bug
+2d4a6e1f2 2022-06-28 Jasem Mutlaq         Refactor variable for more consistent naming. Do not reset devcices if nothing changed
+30bad87df 2022-06-28 Jasem Mutlaq         Add more checks for activeCCD to prevent possible crashes
+5db980ef3 2022-06-27 Ed Lee               Geographic map update
+00dfafd73 2022-06-27 Jasem Mutlaq         Remove all GUI notifications from FITSXXX classes and let the calling class deal with how to handle errors.
+2fa0ec40a 2022-06-26 Jasem Mutlaq         Make checkFocus callable from DBus
+db266b753 2022-06-24 Hy Murveit           bugfix--scheduler was not stopping when saving remotely
+408f7863e 2022-06-24 Jasem Mutlaq         Fix asteroid JPL dataset by changing epoch.mjd to epoch_mjd and per.y to per_y as proposed by Thoman Sitbor in the INDI forum. It is confirmed to wo..
+edf1a9019 2022-06-22 Jasem Mutlaq         Add more checks to ensure all INDI related signals are disconnected on shutdown
+fc96812f5 2022-06-22 Hy Murveit           Fix SolverUtil memory issue, update testParallelSolvers, update testfitsdata to pass and enable it.
+ff8ad3140 2022-06-21 Hy Murveit           Improve parallel solver test, correct SolverUtils issue
+c6500d367 2022-06-21 Jasem Mutlaq         Check if activeCCD is still there on timeout
+d3a74f73f 2022-06-20 Jasem Mutlaq         Remove PlaceholderText role as it does not compile on older Qt version
+11846aa76 2022-06-20 Jasem Mutlaq         Send updated error to EkosLive
+b6035d478 2022-06-20 Jasem Mutlaq         Ignore generated Options.kcfgc
+ba4a326f4 2022-06-20 Jasem Mutlaq         Depending on KF5 version, enable support for generating properties for Options
+f6b43f299 2022-06-19 Jasem Mutlaq         Add capability to set and get any option by using QProperty system
+14be948e7 2022-06-19 Jasem Mutlaq         Make rotator settings more prominent
+78bc28c10 2022-06-19 Jasem Mutlaq         Fix clang warnings
+9f6400b5c 2022-06-19 Jasem Mutlaq         Set position angle initial value to -181 which means it is invalid by default and must be set explicitly by the user for it to have any affect on th..
+b3fce7908 2022-06-18 Jasem Mutlaq         Ensure current rotator is connected as well
+592308dfb 2022-06-18 Jasem Mutlaq         Check explicitly if the image is grayscale 8bit for single channel
+c81a04c7c 2022-06-17 Jasem Mutlaq         Enable support for fast blob access with INDI v1.9.7
+51dcfa391 2022-06-17 Jasem Mutlaq         Do not return after manual align, status must be updated correctly
+b23bfcc4a 2022-06-17 Jasem Mutlaq         Must reset m_ImageData when we receive a buffer for load and slew
+8a0ee517d 2022-06-17 Yuri Chornoivan      Fix minor typos
+6f1909d91 2022-06-16 Jasem Mutlaq         Add EkosLive messages for manual rotator
+4e45c9d32 2022-06-16 John Evans           Linear1Pass 1st attempt part 2
+a95ec55a5 2022-06-15 Jasem Mutlaq         Searching for nearby objects while performing a telescope GOTO should NOT depend on zoom level since this a non-interactive action
+6f6393ac7 2022-06-15 Jasem Mutlaq         Report more settings
+25ebbd68f 2022-06-15 Jasem Mutlaq         Enable slider transparency depending on mosaic auto check
+ab1a00198 2022-06-15 Jasem Mutlaq         Make sure slotAboutToQuit is not called twice
+1d0616afc 2022-06-15 Jasem Mutlaq         Move dedicated rotation <--> position angle conversion functions to SolverUtil class. Block signals when setting values after fetching INDI informat..
+613d37539 2022-06-15 Jasem Mutlaq         When KStars is closed down by clicking on the X button, config file was never saved so all uncached changes to settings were lost. This is not fixed..
+e6e0cc1b8 2022-06-15 Jasem Mutlaq         Remove all instances of dmsBox setDegType and replace them with explicit setUnits
+3322e439c 2022-06-15 Jasem Mutlaq         Popup the Ekos scheduler manager after creating jobs
+e8786ed7c 2022-06-14 Jasem Mutlaq         Use while in case the results are larger than 360
+5e68a975c 2022-06-14 Jasem Mutlaq         Use rotator should be on by default
+eb25f3a72 2022-06-14 Jasem Mutlaq         Small fix to keep range with PA limits
+bd2d42c08 2022-06-14 Jasem Mutlaq         Add ra0 and de0 to mount info packet
+44c10ec54 2022-06-14 Jasem Mutlaq         Move limits to its own dialog box to give more space to capture GUI since it...
+4a0725efc 2022-06-14 Salman Naheed        Update getSchedulerSettings
+41ba058ca 2022-06-14 Jasem Mutlaq         Mount control panel should reflect reversed states of mount axis when updated directly via the INDI Control Panel
+6ec7ed784 2022-06-13 Jasem Mutlaq         Ask user to change axis direction since this is the most likely culprit and not speed
+f88ac4dff 2022-06-13 Jasem Mutlaq         Do not create framing assistant dialog if there is an existing instance
+c111dea45 2022-06-13 Akarsh Simha         Various fixes and improvements related to DSO catalogs and visibility
+0457a026c 2022-06-12 Jasem Mutlaq         Refactor member variable to be more descriptive. Get camera resolution before checking for ROI
+7b1410fe1 2022-06-11 Jasem Mutlaq         Fix compile on Windows
+b194adc01 2022-06-11 Salman Naheed        Scheduler Module
+332c8b735 2022-06-10 Akarsh Simha         Further improvements to Add Catalog Object UI, including auto-filling data from text
+63bc10769 2022-06-10 Akarsh Simha         Improve the manual focus dialog for the SkyMap
+c7965d2e3 2022-06-10 Yuri Chornoivan      Fix minor typos
+ceede41b5 2022-06-09 Hy Murveit           fix polar-alignment messages
+87473ae1b 2022-06-09 Antoni Bella Pérez   l10n Improves: comments added for gender change
+441a8bd5e 2022-06-09 Hy Murveit           Polar-alignment V3. Use plate solving during refresh phase. Update UI.
+87986bde3 2022-06-08 Salman Naheed        Scheduler Module
+406db34c9 2022-06-08 Hy Murveit           Show number of clipped pixels on fitsviewer status bar if show-clipping is enabled
+531398e3b 2022-06-08 Ed Lee               Corrected comment formatting for C as opposed to C++
+41220bfb4 2022-06-08 Hy Murveit           Analyze bugfix and complete unfinished scheduler job
+ec5c439a0 2022-06-07 Jasem Mutlaq         For lightbox, we must check target state since for dark frame it must turned off and not kept on which results in infinite loop
+ba2bc4f0e 2022-06-06 Jasem Mutlaq         Do not override user directory selection unless it is to append the target postfix
+a541ab914 2022-06-06 Jasem Mutlaq         Fix crash on driver restart
+4011db0a2 2022-05-24 Heiko Becker         Use Config mode for finding Eigen3
+d63af8786 2022-06-06 Akarsh Simha         Refactor `DmsBox` widget and improve the Add Catalog Object form
+de4dad5d3 2022-06-06 Ed Lee               Issue#103
+809ee311d 2022-05-29 Érico Nogueira       Check for sicons() availability properly.
+4418d810c 2022-05-29 Jasem Mutlaq         KStars v3.6.0 development cycle
+
 3.5.8 (Arrakis):
 
 907bc629b 2022-03-15 Jasem Mutlaq         Replace repeated message with just a label update
