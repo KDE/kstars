@@ -352,7 +352,7 @@ exit(0)
             </listitem>
             <listitem>
                 <para>
-                    <emphasis role="bold">Adjust Grid</emphasis>: Select the mosaic panel dimension and overlap percentage. The Mosaic Panel is updated accordingly on the sky map. Adjust the Position Angle to match the desired mosaic orientation in the sky. If the Position Angle is different from your camera's usual orientation, you may need to rotate the camera either manually or via a mechanized rotator when the scheduler jobs are executed. Tile transparency is automatically calculated by default but may be turned off and adjusted manually. To compute the mosaic field from the number of tiles, click the <guibutton>Conver FOV</guibutton> button. The mosaic panel can be centered in the sky map by clicking on the <guibutton>Recenter</guibutton> button.
+                    <emphasis role="bold">Adjust Grid</emphasis>: Select the mosaic panel dimension and overlap percentage. The Mosaic Panel is updated accordingly on the sky map. Adjust the Position Angle to match the desired mosaic orientation in the sky. If the Position Angle is different from your camera's usual orientation, you may need to rotate the camera either manually or via a mechanized rotator when the scheduler jobs are executed. Tile transparency is automatically calculated by default but may be turned off and adjusted manually. To compute the mosaic field from the number of tiles, click the <guibutton>Cover FOV</guibutton> button. The mosaic panel can be centered in the sky map by clicking on the <guibutton>Recenter</guibutton> button.
                 </para>
                 <screenshot>
             <screeninfo>
