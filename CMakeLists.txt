@@ -1,12 +1,12 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 6)
-set (KStars_VERSION_REVISION 0)
-set (KSTARS_BUILD_RELEASE "Stable")
-set (CMAKE_CXX_STANDARD 14)
+set (KStars_VERSION_REVISION 1)
+set (KSTARS_BUILD_RELEASE "Beta")
+set (CMAKE_CXX_STANDARD 17)
 
-set(QT_MIN_VERSION 5.9.0)
-set(KF5_MIN_VERSION 5.44.0)
+set(QT_MIN_VERSION 5.12.8)
+set(KF5_MIN_VERSION 5.68.0)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -21,7 +21,7 @@ option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
 
 # minimal requirements
-cmake_minimum_required (VERSION 3.10.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.16.0 FATAL_ERROR)
 
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
