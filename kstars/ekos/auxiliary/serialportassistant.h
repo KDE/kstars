@@ -20,31 +20,29 @@
 
 class SerialPortAssistant : public QDialog, public Ui::SerialPortAssistant
 {
-public:
-    explicit SerialPortAssistant(ProfileInfo *profile, QWidget *parent = nullptr);
+    public:
+        explicit SerialPortAssistant(ProfileInfo *profile, QWidget *parent = nullptr);
 
-    void addDevice(ISD::GDInterface *device);
-
-
-private:
-    bool loadRules();
-    bool removeActiveRule();
-    bool addRule(const QJsonObject &rule);
-    void addDevicePage(ISD::GDInterface *device);
-    void gotoDevicePage(ISD::GDInterface *device);
-    void resetCurrentPage();
-
-    void scanDevices();
-    void parseDevices();
+        void addDevice(ISD::GenericDevice *device);
 
 
-    void discoverDevice();
+    private:
+        bool loadRules();
+        bool removeActiveRule();
+        bool addRule(const QJsonObject &rule);
+        void addDevicePage(ISD::GenericDevice *device);
+        void gotoDevicePage(ISD::GenericDevice *device);
+        void resetCurrentPage();
 
-    QList<ISD::GDInterface *> devices;
+        void scanDevices();
+        void parseDevices();
+        void discoverDevice();
 
-    std::unique_ptr<QStandardItemModel> model;
-    ISD::GDInterface *m_CurrentDevice { nullptr };
-    const ProfileInfo *m_Profile;
+        QList<ISD::GenericDevice *> devices;
 
-    QNetworkAccessManager manager;
+        std::unique_ptr<QStandardItemModel> model;
+        ISD::GenericDevice *m_CurrentDevice { nullptr };
+        const ProfileInfo *m_Profile;
+
+        QNetworkAccessManager manager;
 };

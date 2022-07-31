@@ -556,7 +556,7 @@ void InternalGuider::iterateCalibration()
     int pulseMsecs;
     calibrationProcess->getPulse(&pulseDirection, &pulseMsecs);
     if (pulseDirection != NO_DIR)
-        emit newPulse(pulseDirection, pulseMsecs);
+        emit newSinglePulse(pulseDirection, pulseMsecs);
 
     if (status == GUIDE_CALIBRATION_ERROR)
     {
@@ -763,23 +763,11 @@ bool InternalGuider::processGuiding()
         return true;
     }
 
-    if (sendPulses)
+    // Send pulse if we have one active direction at least.
+    if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
     {
-        emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                      out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
-
-        // Wait until pulse is over before capturing an image
-        const int waitMS = qMax(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
-        // If less than MAX_IMMEDIATE_CAPTURE ms, then capture immediately
-        if (waitMS > MAX_IMMEDIATE_CAPTURE)
-            // Issue frame requests MAX_IMMEDIATE_CAPTURE ms before timeout to account for
-            // propagation delays
-            QTimer::singleShot(waitMS - PROPAGATION_DELAY, [&]()
-        {
-            emit frameCaptureRequested();
-        });
-        else
-            emit frameCaptureRequested();
+        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
+                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
     }
     else
         emit frameCaptureRequested();

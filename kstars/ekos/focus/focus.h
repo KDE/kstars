@@ -14,11 +14,11 @@
 #include "ekos/auxiliary/darkprocessor.h"
 #include "ekos/mount/mount.h"
 #include "fitsviewer/fitsviewer.h"
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 #include "indi/indifocuser.h"
 #include "indi/indistd.h"
 #include "indi/indiweather.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 #include <QtDBus/QtDBus>
 #include <parameters.h>
@@ -177,32 +177,32 @@ class Focus : public QWidget, public Ui::Focus
              * @brief Add CCD to the list of available CCD.
              * @param newCCD pointer to CCD device.
              */
-        void addCCD(ISD::GDInterface *newCCD);
+        void addCamera(ISD::Camera *device);
 
         /**
              * @brief addFocuser Add focuser to the list of available focusers.
              * @param newFocuser pointer to focuser device.
              */
-        void addFocuser(ISD::GDInterface *newFocuser);
+        void addFocuser(ISD::Focuser *newFocuser);
 
         /**
              * @brief addFilter Add filter to the list of available filters.
              * @param newFilter pointer to filter device.
              */
-        void addFilter(ISD::GDInterface *newFilter);
+        void addFilterWheel(ISD::FilterWheel *filterWheel);
 
 
         /**
              * @brief addTemperatureSource Add temperature source to the list of available sources.
              * @param newSource Device with temperature reporting capability
              */
-        void addTemperatureSource(ISD::GDInterface *newSource);
+        void addTemperatureSource(ISD::GenericDevice *device);
 
         /**
          * @brief removeDevice Remove device from Focus module
          * @param deviceRemoved pointer to device
          */
-        void removeDevice(ISD::GDInterface *deviceRemoved);
+        void removeDevice(ISD::GenericDevice *deviceRemoved);
 
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
@@ -294,16 +294,16 @@ class Focus : public QWidget, public Ui::Focus
         void meridianFlipStarted();
 
         /**
-             * @brief Check CCD and make sure information is updated accordingly. This simply calls syncCCDInfo for the current CCD.
+             * @brief Check CCD and make sure information is updated accordingly. This simply calls syncCameraInfo for the current CCD.
              * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu.
              *  CCDNum is the index of the CCD in the dropdown menu.
              */
-        void checkCCD(int CCDNum = -1);
+        void checkCamera(int CCDNum = -1);
 
         /**
-             * @brief syncCCDInfo Read current CCD information and update settings accordingly.
+             * @brief syncCameraInfo Read current CCD information and update settings accordingly.
              */
-        void syncCCDInfo();
+        void syncCameraInfo();
 
         /**
          * @brief Update camera controls like Gain, ISO, Offset...etc
@@ -388,10 +388,10 @@ class Focus : public QWidget, public Ui::Focus
         void adjustFocusOffset(int value, bool useAbsoluteOffset);
 
         // Update Mount module status
-        void setMountStatus(ISD::Telescope::Status newState);
+        void setMountStatus(ISD::Mount::Status newState);
 
         // Update Altitude From Mount
-        void setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
+        void setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha);
 
         /**
          * @brief toggleVideo Turn on and off video streaming if supported by the camera.
@@ -436,7 +436,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void processCaptureTimeout();
 
-        void processCaptureError(ISD::CCD::ErrorType type);
+        void processCaptureError(ISD::Camera::ErrorType type);
 
         void setCaptureComplete();
 
@@ -600,7 +600,7 @@ class Focus : public QWidget, public Ui::Focus
          * @brief prepareCapture Set common settings for capture for focus module
          * @param targetChip target Chip
          */
-        void prepareCapture(ISD::CCDChip *targetChip);
+        void prepareCapture(ISD::CameraChip *targetChip);
         ////////////////////////////////////////////////////////////////////
         /// HFR
         ////////////////////////////////////////////////////////////////////
@@ -656,11 +656,8 @@ class Focus : public QWidget, public Ui::Focus
          */
         void settle(const FocusState completionState, const bool autoFocusUsed);
 
-        //        void initializeFocuserTemperature();
         void setLastFocusTemperature();
-        bool findTemperatureElement(ISD::GDInterface *device);
-        //        void updateTemperature(TemperatureSource source, double newTemperature);
-        //        void emitTemperatureEvents(TemperatureSource source, double newTemperature);
+        bool findTemperatureElement(ISD::GenericDevice *device);
 
         bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
 
@@ -671,11 +668,11 @@ class Focus : public QWidget, public Ui::Focus
         void handleFocusMotionTimeout();
 
         /// Focuser device needed for focus operation
-        ISD::Focuser *currentFocuser { nullptr };
+        ISD::Focuser *m_Focuser { nullptr };
         /// CCD device needed for focus operation
-        ISD::CCD *currentCCD { nullptr };
+        ISD::Camera *m_Camera { nullptr };
         /// Optional device filter
-        ISD::GDInterface *currentFilter { nullptr };
+        ISD::FilterWheel *m_FilterWheel { nullptr };
         /// Optional temperature source element
         INumber *currentTemperatureSourceElement {nullptr};
 
@@ -687,13 +684,13 @@ class Focus : public QWidget, public Ui::Focus
         bool fallbackFilterPending { false };
 
         /// List of Focusers
-        QList<ISD::Focuser *> Focusers;
+        QList<ISD::Focuser *> m_Focusers;
         /// List of CCDs
-        QList<ISD::CCD *> CCDs;
-        /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
-        QList<ISD::GDInterface *> Filters;
-        /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter or ISD::Weather
-        QList<ISD::GDInterface *> TemperatureSources;
+        QList<ISD::Camera *> m_Cameras;
+        /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel
+        QList<ISD::FilterWheel *> m_FilterWheels;
+        /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel or ISD::Weather
+        QList<ISD::GenericDevice *> m_TemperatureSources;
 
         /// As the name implies
         FocusDirection m_LastFocusDirection { FOCUS_NONE };
@@ -787,7 +784,7 @@ class Focus : public QWidget, public Ui::Focus
         /// If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
         int noStarCount { 0 };
         /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
-        ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
+        ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
         /// Previous binning setting
         int activeBin { 0 };
         /// HFR values for captured frames before averages
@@ -830,7 +827,7 @@ class Focus : public QWidget, public Ui::Focus
         FITSScale defaultScale;
 
         /// CCD Chip frame settings
-        QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+        QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
         /// Selected star coordinates
         QVector3D starCenter;
@@ -874,7 +871,7 @@ class Focus : public QWidget, public Ui::Focus
         bool m_GuidingSuspended { false };
 
         // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
+        QSharedPointer<FilterManager> m_FilterManager;
 
         // Data
         QSharedPointer<FITSData> m_ImageData;

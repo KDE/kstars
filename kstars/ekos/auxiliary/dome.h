@@ -108,26 +108,20 @@ class Dome : public QObject
         /** @}*/
 
         /**
-         * @brief setDome set the dome device
-         * @param newDome pointer to Dome device.
+         * @brief addDome set the dome device
+         * @param device pointer to Dome device.
          */
-        void setDome(ISD::GDInterface *newDome);
+        void addDome(ISD::Dome *device);
 
-        /**
-         * @brief setTelescope Set the telescope device. This is only used to sync ACTIVE_TELESCOPE to the current active telescope.
-         * @param newTelescope pointer to telescope device.
-         */
-        //void setTelescope(ISD::GDInterface *newTelescope);
-
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
 
         ISD::Dome::Status status()
         {
-            return currentDome->status();
+            return m_Dome->status();
         }
         ISD::Dome::ShutterStatus shutterStatus()
         {
-            return currentDome->shutterStatus();
+            return m_Dome->shutterStatus();
         }
         ISD::ParkStatus parkStatus()
         {
@@ -146,7 +140,8 @@ class Dome : public QObject
 
     private:
         // Devices needed for Dome operation
-        ISD::Dome *currentDome { nullptr };
+        ISD::Dome *m_Dome { nullptr };
+        QList<ISD::Dome *> m_Domes;
         ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
         ISD::Dome::ShutterStatus m_ShutterStatus { ISD::Dome::SHUTTER_UNKNOWN };
         void setStatus(ISD::Dome::Status status);

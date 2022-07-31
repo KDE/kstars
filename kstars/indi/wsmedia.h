@@ -11,13 +11,13 @@
 
 namespace ISD
 {
-class CCD;
+class Camera;
 class WSMedia : public QObject
 {
         Q_OBJECT
 
     public:
-        WSMedia(CCD *manager);
+        WSMedia(Camera *manager);
         virtual ~WSMedia() = default;
 
         void setURL(const QUrl &url)
@@ -48,7 +48,7 @@ class WSMedia : public QObject
     private:
         QWebSocket m_WebSocket;
         uint16_t m_ReconnectTries {0};
-        CCD *m_Manager { nullptr };
+        Camera *m_Manager { nullptr };
         QUrl m_URL;
 
         bool m_isConnected { false };

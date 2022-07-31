@@ -68,7 +68,7 @@ void GuideInterface::setStarPosition(QVector3D &starCenter)
     INDI_UNUSED(starCenter);
 }
 
-void GuideInterface::setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide side)
+void GuideInterface::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide side)
 {
     mountRA = position.ra();
     mountDEC = position.dec();
@@ -77,7 +77,7 @@ void GuideInterface::setMountCoords(const SkyPoint &position, ISD::Telescope::Pi
     pierSide = side;
 }
 
-void GuideInterface::setPierSide(ISD::Telescope::PierSide newSide)
+void GuideInterface::setPierSide(ISD::Mount::PierSide newSide)
 {
     pierSide = newSide;
 }

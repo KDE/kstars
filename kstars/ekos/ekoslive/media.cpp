@@ -457,10 +457,12 @@ void Media::registerCameras()
     if (m_isConnected == false)
         return;
 
-    for(ISD::GDInterface * gd : m_Manager->findDevices(KSTARS_CCD))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::CCD * oneCCD = dynamic_cast<ISD::CCD *>(gd);
-        connect(oneCCD, &ISD::CCD::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
+        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        if (!camera)
+            continue;
+        connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
     }
 }
 

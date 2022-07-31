@@ -243,7 +243,7 @@ void DarkLibrary::refreshFromDB()
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
+bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
 {
     QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
@@ -382,7 +382,7 @@ bool DarkLibrary::findDarkFrame(ISD::CCDChip *m_TargetChip, double duration, QSh
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-bool DarkLibrary::findDefectMap(ISD::CCDChip *m_TargetChip, double duration, QSharedPointer<DefectMap> &defectMap)
+bool DarkLibrary::findDefectMap(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<DefectMap> &defectMap)
 {
     QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
@@ -977,10 +977,10 @@ void DarkLibrary::loadIndexInView(int row)
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::addCamera(ISD::GDInterface * newCCD)
+void DarkLibrary::addCamera(ISD::Camera * camera)
 {
-    m_Cameras.append(static_cast<ISD::CCD*>(newCCD));
-    cameraS->addItem(newCCD->getDeviceName());
+    m_Cameras.append(camera);
+    cameraS->addItem(camera->getDeviceName());
 
     checkCamera();
 
@@ -990,10 +990,16 @@ void DarkLibrary::addCamera(ISD::GDInterface * newCCD)
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::removeCamera(ISD::GDInterface * newCCD)
+void DarkLibrary::removeDevice(ISD::GenericDevice * device)
 {
-    m_Cameras.removeOne(static_cast<ISD::CCD*>(newCCD));
-    cameraS->removeItem(cameraS->findText(newCCD->getDeviceName()));
+    for (auto &oneCamera : m_Cameras)
+    {
+        if (oneCamera->getDeviceName() == device->getDeviceName())
+        {
+            m_Cameras.removeOne(oneCamera);
+            cameraS->removeItem(cameraS->findText(oneCamera->getDeviceName()));
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1024,30 +1030,19 @@ void DarkLibrary::checkCamera(int ccdNum)
         if (cameraS->itemText(ccdNum).right(6) == QString("Guider"))
         {
             m_UseGuideHead = true;
-            m_TargetChip   = m_CurrentCamera->getChip(ISD::CCDChip::GUIDE_CCD);
+            m_TargetChip   = m_CurrentCamera->getChip(ISD::CameraChip::GUIDE_CCD);
         }
 
         if (m_TargetChip == nullptr)
         {
             m_UseGuideHead = false;
-            m_TargetChip   = m_CurrentCamera->getChip(ISD::CCDChip::PRIMARY_CCD);
+            m_TargetChip   = m_CurrentCamera->getChip(ISD::CameraChip::PRIMARY_CCD);
         }
 
         // Make sure we have a valid chip and valid base device.
         // Make sure we are not in capture process.
-        if (!m_TargetChip || !m_TargetChip->getCCD() || !m_TargetChip->getCCD()->getBaseDevice() ||
-                m_TargetChip->isCapturing())
+        if (!m_TargetChip || !m_TargetChip->getCCD() || m_TargetChip->isCapturing())
             return;
-
-        //        for (auto &ccd : m_Cameras)
-        //        {
-        //            disconnect(ccd, &ISD::CCD::numberUpdated, this, &Ekos::Capture::processCCDNumber);
-        //            disconnect(ccd, &ISD::CCD::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature);
-        //            disconnect(ccd, &ISD::CCD::coolerToggled, this, &Ekos::Capture::setCoolerToggled);
-        //            disconnect(ccd, &ISD::CCD::newRemoteFile, this, &Ekos::Capture::setNewRemoteFile);
-        //            disconnect(ccd, &ISD::CCD::videoStreamToggled, this, &Ekos::Capture::setVideoStreamEnabled);
-        //            disconnect(ccd, &ISD::CCD::ready, this, &Ekos::Capture::ready);
-        //        }
 
         if (m_CurrentCamera->hasCoolerControl())
         {
@@ -1250,7 +1245,7 @@ void DarkLibrary::execute()
     darkProgress->setTextVisible(true);
     connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
     connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
-    connect(m_CurrentCamera, &ISD::CCD::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
+    connect(m_CurrentCamera, &ISD::Camera::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
 
     Options::setUseFITSViewer(false);
     Options::setUseSummaryPreview(false);

@@ -220,7 +220,7 @@ void DarkProcessor::subtractInternal(const QSharedPointer<FITSData> &darkData, c
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkProcessor::denoise(ISD::CCDChip *m_TargetChip, const QSharedPointer<FITSData> &targetData,
+void DarkProcessor::denoise(ISD::CameraChip *m_TargetChip, const QSharedPointer<FITSData> &targetData,
                             double duration, uint16_t offsetX, uint16_t offsetY)
 {
     info = {m_TargetChip, targetData, duration, offsetX, offsetY};

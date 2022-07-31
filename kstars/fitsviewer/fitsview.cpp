@@ -2307,7 +2307,7 @@ bool FITSView::isTelescopeActive()
 
     for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (oneDevice->getType() != KSTARS_TELESCOPE)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
         return oneDevice->isConnected();
     }

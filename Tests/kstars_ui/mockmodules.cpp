@@ -28,8 +28,8 @@ MockFocus::MockFocus()
 const QString MockMount::mockPath = "/MockKStars/MockEkos/MockMount";
 MockMount::MockMount()
 {
-    qRegisterMetaType<ISD::Telescope::Status>("ISD::Telescope::Status");
-    qDBusRegisterMetaType<ISD::Telescope::Status>();
+    qRegisterMetaType<ISD::Mount::Status>("ISD::Mount::Status");
+    qDBusRegisterMetaType<ISD::Mount::Status>();
     qRegisterMetaType<ISD::ParkStatus>("ISD::ParkStatus");
     qDBusRegisterMetaType<ISD::ParkStatus>();
     new MockMountAdaptor(this);

@@ -46,7 +46,8 @@
 #include "ekos/manager.h"
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
-#include "indi/indifilter.h"
+#include "indi/indifilterwheel.h"
+#include "indi/indiauxiliary.h"
 #include "profileinfo.h"
 
 // System Includes
@@ -141,7 +142,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
             &Ekos::Align::setDefaultCCD);
 #endif
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCamera);
 
     connect(loadSlewB, &QPushButton::clicked, this, [this]()
     {
@@ -198,7 +199,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
         }
         else
         {
-            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
             if (targetChip->isCapturing())
             {
                 appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval() / 500));
@@ -667,8 +668,8 @@ void Align::slotMountModel()
         connect(m_MountModel, &Ekos::MountModel::newLog, this, &Ekos::Align::appendLogText, Qt::UniqueConnection);
         connect(m_MountModel, &Ekos::MountModel::aborted, this, [this]()
         {
-            if (currentTelescope && currentTelescope->isSlewing())
-                currentTelescope->Abort();
+            if (m_Mount && m_Mount->isSlewing())
+                m_Mount->Abort();
             abort();
         });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);
@@ -730,8 +731,8 @@ void Align::setSolverMode(int mode)
         remoteParser.reset(new Ekos::RemoteAstrometryParser());
         parser = remoteParser.get();
         (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
-        if (currentCCD)
-            (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(currentCCD->getDeviceName());
+        if (m_Camera)
+            (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(m_Camera->getDeviceName());
 
         parser->setAlign(this);
         if (parser->init())
@@ -751,7 +752,7 @@ bool Align::setCamera(const QString &device)
         if (device == CCDCaptureCombo->itemText(i))
         {
             CCDCaptureCombo->setCurrentIndex(i);
-            checkCCD(i);
+            checkCamera(i);
             return true;
         }
 
@@ -760,8 +761,8 @@ bool Align::setCamera(const QString &device)
 
 QString Align::camera()
 {
-    if (currentCCD)
-        return currentCCD->getDeviceName();
+    if (m_Camera)
+        return m_Camera->getDeviceName();
 
     return QString();
 }
@@ -772,7 +773,7 @@ void Align::setDefaultCCD(QString ccd)
     Options::setDefaultAlignCCD(ccd);
 }
 
-void Align::checkCCD(int ccdNum)
+void Align::checkCamera(int ccdNum)
 {
     // Do NOT perform checks if align is in progress as this may result
     // in signals/slots getting disconnected.
@@ -794,7 +795,7 @@ void Align::checkCCD(int ccdNum)
     }
 
 
-    if (ccdNum == -1 || ccdNum >= CCDs.count())
+    if (ccdNum == -1 || ccdNum >= m_Cameras.count())
     {
         ccdNum = CCDCaptureCombo->currentIndex();
 
@@ -802,47 +803,62 @@ void Align::checkCCD(int ccdNum)
             return;
     }
 
-    currentCCD = CCDs.at(ccdNum);
+    m_Camera = m_Cameras.at(ccdNum);
 
-    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
 
     if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
-        (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(currentCCD->getDeviceName());
+        (dynamic_cast<RemoteAstrometryParser *>(remoteParser.get()))->setCCD(m_Camera->getDeviceName());
 
-    syncCCDInfo();
-    syncCCDControls();
+    syncCameraInfo();
+    syncCameraControls();
     syncTelescopeInfo();
 }
 
-void Align::addCCD(ISD::GDInterface *newCCD)
+void Align::addCamera(ISD::Camera *device)
 {
-    if (CCDs.contains(static_cast<ISD::CCD *>(newCCD)))
+    // No duplicates
+    for (auto &oneCamera : m_Cameras)
     {
-        syncCCDInfo();
-        return;
+        if (oneCamera->getDeviceName() == device->getDeviceName())
+            return;
     }
 
-    CCDs.append(static_cast<ISD::CCD *>(newCCD));
+    for (auto &oneCamera : m_Cameras)
+        oneCamera->disconnect(this);
 
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+    m_Camera = device;
+    m_Cameras.append(device);
 
-    checkCCD();
+    CCDCaptureCombo->addItem(device->getDeviceName());
+
+    checkCamera();
 
     syncSettings();
 }
 
-void Align::setTelescope(ISD::GDInterface *newTelescope)
+void Align::addMount(ISD::Mount *device)
 {
-    currentTelescope = static_cast<ISD::Telescope *>(newTelescope);
-    currentTelescope->disconnect(this);
+    // No duplicates
+    for (auto &oneMount : m_Mounts)
+    {
+        if (oneMount->getDeviceName() == device->getDeviceName())
+            return;
+    }
 
-    RUN_PAH(setCurrentTelescope(currentTelescope));
+    for (auto &oneMount : m_Mounts)
+        oneMount->disconnect(this);
 
-    connect(currentTelescope, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
-    connect(currentTelescope, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
-    connect(currentTelescope, &ISD::GDInterface::Disconnected, this, [this]()
+    m_Mount = device;
+    m_Mounts.append(device);
+
+    RUN_PAH(setCurrentTelescope(m_Mount));
+
+    connect(m_Mount, &ISD::Mount::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    connect(m_Mount, &ISD::Mount::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
+    connect(m_Mount, &ISD::Mount::Disconnected, this, [this]()
     {
         m_isRateSynced = false;
     });
@@ -851,73 +867,112 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
     if (m_isRateSynced == false)
     {
         RUN_PAH(syncMountSpeed());
-        m_isRateSynced = !currentTelescope->slewRates().empty();
+        m_isRateSynced = !m_Mount->slewRates().empty();
     }
 
     syncTelescopeInfo();
 }
 
-void Align::setDome(ISD::GDInterface *newDome)
+void Align::addDome(ISD::Dome *device)
 {
-    currentDome = static_cast<ISD::Dome *>(newDome);
-    connect(currentDome, &ISD::GDInterface::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
+    // No duplicates
+    for (auto &oneDome : m_Domes)
+    {
+        if (oneDome->getDeviceName() == device->getDeviceName())
+            return;
+    }
+
+    for (auto &oneDome : m_Domes)
+        oneDome->disconnect(this);
+
+    m_Dome = device;
+    m_Domes.append(device);
+    connect(m_Dome, &ISD::Dome::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
 }
 
-void Align::removeDevice(ISD::GDInterface *device)
+void Align::removeDevice(ISD::GenericDevice *device)
 {
     auto name = device->getDeviceName();
     device->disconnect(this);
-    if (currentTelescope && currentTelescope->getDeviceName() == name)
+
+    // Check mounts
+    for (auto &oneMount : m_Mounts)
     {
-        currentTelescope = nullptr;
-        m_isRateSynced = false;
-    }
-    else if (currentDome && currentDome->getDeviceName() == name)
-    {
-        currentDome = nullptr;
-    }
-    else if (currentRotator && currentRotator->getDeviceName() == name)
-    {
-        currentRotator = nullptr;
+        if (oneMount->getDeviceName() == name)
+        {
+            m_Mounts.removeOne(oneMount);
+            if (m_Mount && m_Mount->getDeviceName() == name)
+            {
+                m_Mount = nullptr;
+                m_isRateSynced = false;
+            }
+            break;
+        }
     }
 
-    for (auto &oneCCD : CCDs)
+    // Check domes
+    for (auto &oneDome : m_Domes)
+    {
+        if (oneDome->getDeviceName() == name)
+        {
+            m_Domes.removeOne(oneDome);
+            if (m_Dome && m_Dome->getDeviceName() == name)
+                m_Dome = nullptr;
+            break;
+        }
+    }
+
+    // Check rotators
+    for (auto &oneRotator : m_Rotators)
+    {
+        if (oneRotator->getDeviceName() == name)
+        {
+            m_Rotators.removeOne(oneRotator);
+            if (m_Rotator && m_Rotator->getDeviceName() == name)
+                m_Rotator = nullptr;
+            break;
+        }
+    }
+
+    // Check cameras
+    for (auto &oneCCD : m_Cameras)
     {
         if (oneCCD->getDeviceName() == name)
         {
-            CCDs.removeAll(oneCCD);
+            m_Cameras.removeAll(oneCCD);
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name + " Guider"));
-            if (CCDs.empty())
+            if (m_Cameras.empty())
             {
-                currentCCD = nullptr;
+                m_Camera = nullptr;
                 CCDCaptureCombo->setCurrentIndex(-1);
             }
             else
             {
-                currentCCD = CCDs[0];
+                m_Camera = m_Cameras[0];
                 CCDCaptureCombo->setCurrentIndex(0);
             }
 
             QTimer::singleShot(1000, this, [this]()
             {
-                checkCCD();
+                checkCamera();
             });
 
             break;
         }
     }
 
-    for (auto &oneFilter : Filters)
+    // Check Filter Wheels
+    for (auto &oneFilter : m_FilterWheels)
     {
         if (oneFilter->getDeviceName() == name)
         {
-            Filters.removeAll(oneFilter);
+            m_FilterWheels.removeAll(oneFilter);
             filterManager->removeDevice(device);
             FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(name));
-            if (Filters.empty())
+            if (m_FilterWheels.empty())
             {
-                currentFilter = nullptr;
+                m_FilterWheel = nullptr;
                 FilterDevicesCombo->setCurrentIndex(-1);
             }
             else
@@ -935,10 +990,10 @@ void Align::removeDevice(ISD::GDInterface *device)
 
 bool Align::syncTelescopeInfo()
 {
-    if (currentTelescope == nullptr || currentTelescope->isConnected() == false)
+    if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
 
-    canSync = currentTelescope->canSync();
+    canSync = m_Mount->canSync();
 
     if (canSync == false && syncR->isEnabled())
     {
@@ -948,7 +1003,7 @@ bool Align::syncTelescopeInfo()
 
     syncR->setEnabled(canSync);
 
-    auto nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+    auto nvp = m_Mount->getNumber("TELESCOPE_INFO");
 
     if (nvp)
     {
@@ -963,8 +1018,8 @@ bool Align::syncTelescopeInfo()
 
         m_TelescopeAperture = primaryAperture;
 
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
+        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
+        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
             m_TelescopeAperture = guideAperture;
 
         np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
@@ -977,8 +1032,8 @@ bool Align::syncTelescopeInfo()
 
         m_TelescopeFocalLength = primaryFL;
 
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_GUIDE)
+        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
+        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
             m_TelescopeFocalLength = guideFL;
     }
 
@@ -988,14 +1043,14 @@ bool Align::syncTelescopeInfo()
     if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1 && m_TelescopeFocalLength != -1 && m_TelescopeAperture != -1)
     {
         FOVScopeCombo->setItemData(
-            ISD::CCD::TELESCOPE_PRIMARY,
+            ISD::Camera::TELESCOPE_PRIMARY,
             i18nc("F-Number, Focal length, Aperture",
                   "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
                   QString::number(primaryAperture, 'f', 2)),
             Qt::ToolTipRole);
         FOVScopeCombo->setItemData(
-            ISD::CCD::TELESCOPE_GUIDE,
+            ISD::Camera::TELESCOPE_GUIDE,
             i18nc("F-Number, Focal length, Aperture",
                   "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
                   QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
@@ -1027,23 +1082,23 @@ void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, 
 
     m_TelescopeFocalLength = primaryFL;
 
-    if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+    if (m_Camera && m_Camera->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
         m_TelescopeFocalLength = guideFL;
 
     m_TelescopeAperture = primaryAperture;
 
-    if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
+    if (m_Camera && m_Camera->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
         m_TelescopeAperture = guideAperture;
 
     syncTelescopeInfo();
 }
 
-void Align::syncCCDInfo()
+void Align::syncCameraInfo()
 {
-    if (!currentCCD)
+    if (!m_Camera)
         return;
 
-    auto targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     Q_ASSERT(targetChip);
 
     // Get Maximum resolution and pixel size
@@ -1083,12 +1138,12 @@ void Align::syncCCDInfo()
     }
 }
 
-void Align::syncCCDControls()
+void Align::syncCameraControls()
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
-    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
 
@@ -1107,10 +1162,10 @@ void Align::syncCCDControls()
     }
 
     // Gain Check
-    if (currentCCD->hasGain())
+    if (m_Camera->hasGain())
     {
         double min, max, step, value;
-        currentCCD->getGainMinMaxStep(&min, &max, &step);
+        m_Camera->getGainMinMaxStep(&min, &max, &step);
 
         // Allow the possibility of no gain value at all.
         GainSpinSpecialValue = min - step;
@@ -1118,7 +1173,7 @@ void Align::syncCCDControls()
         GainSpin->setSpecialValueText(i18n("--"));
         GainSpin->setEnabled(true);
         GainSpin->setSingleStep(step);
-        currentCCD->getGain(&value);
+        m_Camera->getGain(&value);
 
         // Set the custom gain if we have one
         // otherwise it will not have an effect.
@@ -1128,7 +1183,7 @@ void Align::syncCCDControls()
         else
             GainSpin->setValue(GainSpinSpecialValue);
 
-        GainSpin->setReadOnly(currentCCD->getGainPermission() == IP_RO);
+        GainSpin->setReadOnly(m_Camera->getGainPermission() == IP_RO);
 
         connect(GainSpin, &QDoubleSpinBox::editingFinished, this, [this]()
         {
@@ -1202,7 +1257,7 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
 
     if (focal_diff > 1)
     {
-        if (FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_PRIMARY)
+        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_PRIMARY)
             primaryEffectiveFL = new_focal_length;
         else
             guideEffectiveFL = new_focal_length;
@@ -1239,7 +1294,7 @@ void Align::calculateFOV()
         return;
     }
 
-    double effectiveFocalLength = FOVScopeCombo->currentIndex() == ISD::CCD::TELESCOPE_PRIMARY ? primaryEffectiveFL :
+    double effectiveFocalLength = FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_PRIMARY ? primaryEffectiveFL :
                                   guideEffectiveFL;
 
     FocalLengthOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength, 0, 'f', 1).
@@ -1282,8 +1337,8 @@ void Align::calculateFOV()
 
     solverFOV->setSize(m_FOVWidth, m_FOVHeight);
     sensorFOV->setSize(m_FOVWidth, m_FOVHeight);
-    if (currentCCD)
-        sensorFOV->setName(currentCCD->getDeviceName());
+    if (m_Camera)
+        sensorFOV->setName(m_Camera->getDeviceName());
 
     FOVOut->setText(QString("%1' x %2'").arg(m_FOVWidth, 0, 'f', 1).arg(m_FOVHeight, 0, 'f', 1));
 
@@ -1503,10 +1558,10 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
             }
         }
 
-        if (Options::astrometryUsePosition() && currentTelescope != nullptr)
+        if (Options::astrometryUsePosition() && m_Mount != nullptr)
         {
             double ra = 0, dec = 0;
-            currentTelescope->getEqCoords(&ra, &dec);
+            m_Mount->getEqCoords(&ra, &dec);
 
             optionsMap["ra"]     = ra * 15.0;
             optionsMap["de"]     = dec;
@@ -1558,30 +1613,30 @@ bool Align::captureAndSolve()
     m_AlignTimer.stop();
     m_CaptureTimer.stop();
 
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
     {
         appendLogText(i18n("Error: No camera detected."));
         return false;
     }
 
-    if (currentCCD->isConnected() == false)
+    if (m_Camera->isConnected() == false)
     {
         appendLogText(i18n("Error: lost connection to camera."));
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
         return false;
     }
 
-    if (currentCCD->isBLOBEnabled() == false)
+    if (m_Camera->isBLOBEnabled() == false)
     {
-        currentCCD->setBLOBEnabled(true);
+        m_Camera->setBLOBEnabled(true);
     }
 
     // If CCD Telescope Type does not match desired scope type, change it
     // but remember current value so that it can be reset once capture is complete or is aborted.
-    if (currentCCD->getTelescopeType() != FOVScopeCombo->currentIndex())
+    if (m_Camera->getTelescopeType() != FOVScopeCombo->currentIndex())
     {
-        rememberTelescopeType = currentCCD->getTelescopeType();
-        currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(FOVScopeCombo->currentIndex()));
+        rememberTelescopeType = m_Camera->getTelescopeType();
+        m_Camera->setTelescopeType(static_cast<ISD::Camera::TelescopeType>(FOVScopeCombo->currentIndex()));
     }
 
     //if (parser->init() == false)
@@ -1600,9 +1655,9 @@ bool Align::captureAndSolve()
         return false;
     }
 
-    if (currentFilter != nullptr)
+    if (m_FilterWheel != nullptr)
     {
-        if (currentFilter->isConnected() == false)
+        if (m_FilterWheel->isConnected() == false)
         {
             appendLogText(i18n("Error: lost connection to filter wheel."));
             return false;
@@ -1621,16 +1676,16 @@ bool Align::captureAndSolve()
         }
     }
 
-    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName().toLatin1().constData(),
+    if (m_Camera->getDriverInfo()->getClientManager()->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(),
             "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
                 KMessageBox::Yes)
         {
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName().toLatin1().constData(),
+            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
                     "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, currentCCD->getDeviceName().toLatin1().constData(),
+            m_Camera->getDriverInfo()->getClientManager()->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(),
                     "CCD2");
         }
         else
@@ -1641,7 +1696,7 @@ bool Align::captureAndSolve()
 
     double seqExpose = exposureIN->value();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
     if (m_FocusState >= FOCUS_PROGRESS)
     {
@@ -1662,8 +1717,8 @@ bool Align::captureAndSolve()
     m_AlignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
                                            && alignDarkFrameCheck->isChecked()));
 
-    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
-    connect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
+    connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
+    connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
 
     // In case of remote solver, check if we need to update active CCD
     if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
@@ -1684,7 +1739,7 @@ bool Align::captureAndSolve()
                 {
                     activeCCD->setText(CCDCaptureCombo->currentText().toLatin1().data());
 
-                    remoteParserDevice->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    remoteParserDevice->getClientManager()->sendNewText(activeDevices);
                 }
             }
 
@@ -1731,7 +1786,7 @@ bool Align::captureAndSolve()
     //This block of code will create the row in the solution table and populate RA, DE, and object name.
     //It also starts the progress indicator.
     double ra, dec;
-    currentTelescope->getEqCoords(&ra, &dec);
+    m_Mount->getEqCoords(&ra, &dec);
     if (!m_SolveFromFile)
     {
         int currentRow = solutionTable->rowCount();
@@ -1789,11 +1844,11 @@ bool Align::captureAndSolve()
 
 void Align::processData(const QSharedPointer<FITSData> &data)
 {
-    if (data->property("chip").toInt() == ISD::CCDChip::GUIDE_CCD)
+    if (data->property("chip").toInt() == ISD::CameraChip::GUIDE_CCD)
         return;
 
-    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
-    disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
+    disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
+    disconnect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
 
     if (data)
     {
@@ -1821,7 +1876,7 @@ void Align::processData(const QSharedPointer<FITSData> &data)
         if (alignDarkFrameCheck->isChecked())
         {
             int x, y, w, h, binx = 1, biny = 1;
-            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
             targetChip->getFrame(&x, &y, &w, &h);
             targetChip->getBinning(&binx, &biny);
 
@@ -1836,21 +1891,21 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     }
 }
 
-void Align::prepareCapture(ISD::CCDChip *targetChip)
+void Align::prepareCapture(ISD::CameraChip *targetChip)
 {
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
     {
-        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        rememberUploadMode = ISD::Camera::UPLOAD_LOCAL;
+        m_Camera->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
 
-    if (currentCCD->isFastExposureEnabled())
+    if (m_Camera->isFastExposureEnabled())
     {
         m_RememberCameraFastExposure = true;
-        currentCCD->setFastExposureEnabled(false);
+        m_Camera->setFastExposureEnabled(false);
     }
 
-    currentCCD->setEncodingFormat("FITS");
+    m_Camera->setEncodingFormat("FITS");
     targetChip->resetFrame();
     targetChip->setBatchMode(false);
     targetChip->setCaptureMode(FITS_ALIGN);
@@ -1860,8 +1915,8 @@ void Align::prepareCapture(ISD::CCDChip *targetChip)
     targetChip->setBinning(bin, bin);
 
     // Set gain if applicable
-    if (currentCCD->hasGain() && GainSpin->isEnabled() && GainSpin->value() > GainSpinSpecialValue)
-        currentCCD->setGain(GainSpin->value());
+    if (m_Camera->hasGain() && GainSpin->isEnabled() && GainSpin->value() > GainSpinSpecialValue)
+        m_Camera->setGain(GainSpin->value());
     // Set ISO if applicable
     if (ISOCombo->currentIndex() >= 0)
         targetChip->setISOIndex(ISOCombo->currentIndex());
@@ -2094,10 +2149,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     appendLogText(i18n("Solver completed after %1 seconds.", QString::number(elapsed, 'f', 2)));
 
     // Reset Telescope Type to remembered value
-    if (rememberTelescopeType != ISD::CCD::TELESCOPE_UNKNOWN)
+    if (rememberTelescopeType != ISD::Camera::TELESCOPE_UNKNOWN)
     {
-        currentCCD->setTelescopeType(rememberTelescopeType);
-        rememberTelescopeType = ISD::CCD::TELESCOPE_UNKNOWN;
+        m_Camera->setTelescopeType(rememberTelescopeType);
+        rememberTelescopeType = ISD::Camera::TELESCOPE_UNKNOWN;
     }
 
     m_AlignTimer.stop();
@@ -2108,7 +2163,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     }
 
     int binx, biny;
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
     if (Options::alignmentLogging())
@@ -2169,13 +2224,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     if (Options::astrometrySolverWCS())
     {
-        auto ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
+        auto ccdRotation = m_Camera->getNumber("CCD_ROTATION");
         if (ccdRotation)
         {
             auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
-                ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+                ClientManager *clientManager = m_Camera->getDriverInfo()->getClientManager();
                 rotation->setValue(orientation);
                 clientManager->sendNewNumber(ccdRotation);
 
@@ -2185,7 +2240,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
 
                     // Just send telescope info in case the CCD driver did not pick up before.
-                    auto telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+                    auto telescopeInfo = m_Mount->getNumber("TELESCOPE_INFO");
                     if (telescopeInfo)
                         clientManager->sendNewNumber(telescopeInfo);
 
@@ -2208,14 +2263,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
     }
 
-    if (rememberUploadMode != currentCCD->getUploadMode())
-        currentCCD->setUploadMode(rememberUploadMode);
+    if (rememberUploadMode != m_Camera->getUploadMode())
+        m_Camera->setUploadMode(rememberUploadMode);
 
     // Remember to reset fast exposure
     if (m_RememberCameraFastExposure)
     {
         m_RememberCameraFastExposure = false;
-        currentCCD->setFastExposureEnabled(true);
+        m_Camera->setFastExposureEnabled(true);
     }
 
     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
@@ -2238,10 +2293,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         currentRotatorPA = solverPA;
 
         // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-        if (currentRotator != nullptr && currentRotator->isConnected())
+        if (m_Rotator != nullptr && m_Rotator->isConnected())
         {
             // Update Rotator offsets
-            auto absAngle = currentRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
+            auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE");
             if (absAngle)
             {
                 // 1. PA = (RawAngle * Multiplier) - Offset
@@ -2251,7 +2306,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
 
                 auto reverseStatus = "Unknown";
-                auto reverseProperty = currentRotator->getBaseDevice()->getSwitch("REVERSE_ROTATOR");
+                auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
                 if (reverseProperty)
                 {
                     if (reverseProperty->at(0)->getState() == ISS_ON)
@@ -2271,7 +2326,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 // 3. RawAngle = (Offset + PA) / Multiplier
                 double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
                 absAngle->at(0)->setValue(rawAngle);
-                ClientManager *clientManager = currentRotator->getDriverInfo()->getClientManager();
+                ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
                 clientManager->sendNewNumber(absAngle);
                 appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
                 return;
@@ -2307,7 +2362,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     emit newSolverResults(orientation, ra, dec, pixscale);
     QJsonObject solution =
     {
-        {"camera", currentCCD->getDeviceName()},
+        {"camera", m_Camera->getDeviceName()},
         {"ra", SolverRAOut->text()},
         {"de", SolverDecOut->text()},
         {"dRA", m_TargetDiffRA},
@@ -2473,10 +2528,10 @@ void Align::stop(Ekos::AlignState mode)
     loadSlewB->setEnabled(true);
 
     // Reset Telescope Type to remembered value
-    if (rememberTelescopeType != ISD::CCD::TELESCOPE_UNKNOWN)
+    if (rememberTelescopeType != ISD::Camera::TELESCOPE_UNKNOWN)
     {
-        currentCCD->setTelescopeType(rememberTelescopeType);
-        rememberTelescopeType = ISD::CCD::TELESCOPE_UNKNOWN;
+        m_Camera->setTelescopeType(rememberTelescopeType);
+        rememberTelescopeType = ISD::Camera::TELESCOPE_UNKNOWN;
     }
 
     m_SolveFromFile = false;
@@ -2486,20 +2541,20 @@ void Align::stop(Ekos::AlignState mode)
     m_SlewErrorCounter = 0;
     m_AlignTimer.stop();
 
-    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Align::processData);
-    disconnect(currentCCD, &ISD::CCD::newExposureValue, this, &Ekos::Align::checkCCDExposureProgress);
+    disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
+    disconnect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
 
-    if (rememberUploadMode != currentCCD->getUploadMode())
-        currentCCD->setUploadMode(rememberUploadMode);
+    if (rememberUploadMode != m_Camera->getUploadMode())
+        m_Camera->setUploadMode(rememberUploadMode);
 
     // Remember to reset fast exposure
     if (m_RememberCameraFastExposure)
     {
         m_RememberCameraFastExposure = false;
-        currentCCD->setFastExposureEnabled(true);
+        m_Camera->setFastExposureEnabled(true);
     }
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
     if (matchPAHStage(PAA::PAH_POST_REFRESH))
@@ -2646,7 +2701,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 }
 
                 // If dome is syncing, wait until it stops
-                if (currentDome && currentDome->isMoving())
+                if (m_Dome && m_Dome->isMoving())
                 {
                     domeReady = false;
                     return;
@@ -2823,10 +2878,6 @@ void Align::processNumber(INumberVectorProperty *nvp)
             }
         }
     }
-
-    // N.B. Ekos::Manager already manages TELESCOPE_INFO, why here again?
-    //if (!strcmp(coord->name, "TELESCOPE_INFO"))
-    //syncTelescopeInfo();
 }
 
 void Align::handleMountMotion()
@@ -2851,8 +2902,8 @@ void Align::handleMountMotion()
 
 void Align::handleMountStatus()
 {
-    auto nvp = currentTelescope->getBaseDevice()->getNumber(currentTelescope->isJ2000() ? "EQUATORIAL_COORD" :
-               "EQUATORIAL_EOD_COORD");
+    auto nvp = m_Mount->getNumber(m_Mount->isJ2000() ? "EQUATORIAL_COORD" :
+                                  "EQUATORIAL_EOD_COORD");
 
     if (nvp)
         processNumber(nvp);
@@ -2876,7 +2927,7 @@ void Align::Sync()
 {
     state = ALIGN_SYNCING;
 
-    if (currentTelescope->Sync(&alignCoord))
+    if (m_Mount->Sync(&alignCoord))
     {
         emit newStatus(state);
         appendLogText(
@@ -2901,7 +2952,7 @@ void Align::Slew()
 
     // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
     // from Goto
-    currentTelescope->Slew(&m_targetCoord);
+    m_Mount->Slew(&m_targetCoord);
     slewStartTimer.start();
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_targetCoord.ra().toHMSString(),
                        m_targetCoord.dec().toDMSString()));
@@ -3065,11 +3116,11 @@ void Align::setFOVTelescopeType(int index)
     FOVScopeCombo->setCurrentIndex(index);
 }
 
-void Align::addFilter(ISD::GDInterface *newFilter)
+void Align::addFilterWheel(ISD::FilterWheel *device)
 {
-    for (auto filter : Filters)
+    for (auto filter : m_FilterWheels)
     {
-        if (filter->getDeviceName() == newFilter->getDeviceName())
+        if (filter->getDeviceName() == device->getDeviceName())
             return;
     }
 
@@ -3078,9 +3129,9 @@ void Align::addFilter(ISD::GDInterface *newFilter)
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
 
-    FilterDevicesCombo->addItem(newFilter->getDeviceName());
+    FilterDevicesCombo->addItem(device->getDeviceName());
 
-    Filters.append(static_cast<ISD::Filter *>(newFilter));
+    m_FilterWheels.append(static_cast<ISD::FilterWheel *>(device));
 
     int filterWheelIndex = 1;
     if (Options::defaultAlignFilterWheel().isEmpty() == false)
@@ -3150,14 +3201,14 @@ void Align::checkFilter(int filterNum)
     // "--" is no filter
     if (filterNum == 0)
     {
-        currentFilter = nullptr;
+        m_FilterWheel = nullptr;
         currentFilterPosition = -1;
         FilterPosCombo->clear();
         return;
     }
 
-    if (filterNum <= Filters.count())
-        currentFilter = Filters.at(filterNum - 1);
+    if (filterNum <= m_FilterWheels.count())
+        m_FilterWheel = m_FilterWheels.at(filterNum - 1);
 
     FilterPosCombo->clear();
 
@@ -3172,10 +3223,10 @@ void Align::checkFilter(int filterNum)
 
 void Align::setWCSEnabled(bool enable)
 {
-    if (!currentCCD)
+    if (!m_Camera)
         return;
 
-    auto wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    auto wcsControl = m_Camera->getSwitch("WCS_CONTROL");
 
     if (!wcsControl)
         return;
@@ -3202,12 +3253,12 @@ void Align::setWCSEnabled(bool enable)
         m_wcsSynced    = false;
     }
 
-    auto clientManager = currentCCD->getDriverInfo()->getClientManager();
+    auto clientManager = m_Camera->getDriverInfo()->getClientManager();
     if (clientManager)
         clientManager->sendNewSwitch(wcsControl);
 }
 
-void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)
+void Align::checkCameraExposureProgress(ISD::CameraChip *targetChip, double remaining, IPState state)
 {
     INDI_UNUSED(targetChip);
     INDI_UNUSED(remaining);
@@ -3298,7 +3349,7 @@ void Align::setCaptureStatus(CaptureState newState)
         {
             // Only reset m_targetCoord if capture wasn't suspended then resumed due to error duing ongoing
             // capture
-            if (currentTelescope && m_CaptureState != CAPTURE_SUSPENDED)
+            if (m_Mount && m_CaptureState != CAPTURE_SUSPENDED)
             {
                 updateTargetCoords();
             }
@@ -3306,9 +3357,9 @@ void Align::setCaptureStatus(CaptureState newState)
         }
         break;
         case CAPTURE_ALIGNING:
-            if (currentTelescope && currentTelescope->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
+            if (m_Mount && m_Mount->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
             {
-                qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (currentTelescope->clearAlignmentModel() ?
+                qCDebug(KSTARS_EKOS_ALIGN) << "Post meridian flip mount model reset" << (m_Mount->clearAlignmentModel() ?
                                            "successful." : "failed.");
             }
 
@@ -3360,7 +3411,7 @@ void Align::toggleAlignWidgetFullScreen()
 
 void Align::updateTelescopeType(int index)
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
     // Reset style sheet.
@@ -3368,8 +3419,8 @@ void Align::updateTelescopeType(int index)
 
     syncSettings();
 
-    m_TelescopeFocalLength = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
-    m_TelescopeAperture = (index == ISD::CCD::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
+    m_TelescopeFocalLength = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
+    m_TelescopeAperture = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
 
     Options::setSolverScopeType(index);
 
@@ -3384,16 +3435,16 @@ void Align::updateTelescopeType(int index)
 //    mountHa = dms(haStr, false);
 //    mountAz = dms(azStr, true);
 //    mountAlt = dms(altStr, true);
-//    mountPierSide = static_cast<ISD::Telescope::PierSide>(pierSide);
+//    mountPierSide = static_cast<ISD::Mount::PierSide>(pierSide);
 //}
 
-void Align::setMountStatus(ISD::Telescope::Status newState)
+void Align::setMountStatus(ISD::Mount::Status newState)
 {
     switch (newState)
     {
-        case ISD::Telescope::MOUNT_PARKING:
-        case ISD::Telescope::MOUNT_SLEWING:
-        case ISD::Telescope::MOUNT_MOVING:
+        case ISD::Mount::MOUNT_PARKING:
+        case ISD::Mount::MOUNT_SLEWING:
+        case ISD::Mount::MOUNT_MOVING:
             solveB->setEnabled(false);
             loadSlewB->setEnabled(false);
             break;
@@ -3413,9 +3464,9 @@ void Align::setMountStatus(ISD::Telescope::Status newState)
     RUN_PAH(setMountStatus(newState));
 }
 
-void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
+void Align::setAstrometryDevice(ISD::GenericDevice *device)
 {
-    remoteParserDevice = newAstrometry;
+    remoteParserDevice = device;
 
     remoteSolverR->setEnabled(true);
     if (remoteParser.get() != nullptr)
@@ -3426,10 +3477,10 @@ void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
     }
 }
 
-void Align::setRotator(ISD::GDInterface *newRotator)
+void Align::addRotator(ISD::Rotator *device)
 {
-    currentRotator = newRotator;
-    connect(currentRotator, &ISD::GDInterface::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    m_Rotator = device;
+    connect(m_Rotator, &ISD::Rotator::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
 }
 
 void Align::refreshAlignOptions()
@@ -3581,8 +3632,8 @@ QJsonObject Align::getSettings() const
     double gain = -1;
     if (GainSpinSpecialValue > INVALID_VALUE && GainSpin->value() > GainSpinSpecialValue)
         gain = GainSpin->value();
-    else if (currentCCD && currentCCD->hasGain())
-        currentCCD->getGain(&gain);
+    else if (m_Camera && m_Camera->hasGain())
+        m_Camera->getGain(&gain);
 
     settings.insert("camera", CCDCaptureCombo->currentText());
     settings.insert("fw", FilterDevicesCombo->currentText());
@@ -3657,7 +3708,7 @@ void Align::setSettings(const QJsonObject &settings)
 
     // Camera. If camera changed, check CCD.
     if (syncControl("camera", CCDCaptureCombo) || init == false)
-        checkCCD();
+        checkCamera();
     // Filter Wheel
     if (syncControl("fw", FilterDevicesCombo) || init == false)
         checkFilter();
@@ -3687,7 +3738,7 @@ void Align::setSettings(const QJsonObject &settings)
     FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain
-    if (currentCCD->hasGain())
+    if (m_Camera->hasGain())
     {
         syncControl("gain", GainSpin);
     }

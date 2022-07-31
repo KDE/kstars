@@ -701,9 +701,9 @@ bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
     // or on the west side (pointing east) and will slew east, and is within 2 slews of HA=0
     // then warn and give the user a chance to cancel.
     bool wouldCrossMeridian =
-        ((m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_EAST && !goingWest && closeToMeridian) ||
-         (m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_WEST && goingWest && closeToMeridian) ||
-         (m_CurrentTelescope->pierSide() == ISD::Telescope::PIER_UNKNOWN && closeToMeridian));
+        ((m_CurrentTelescope->pierSide() == ISD::Mount::PIER_EAST && !goingWest && closeToMeridian) ||
+         (m_CurrentTelescope->pierSide() == ISD::Mount::PIER_WEST && goingWest && closeToMeridian) ||
+         (m_CurrentTelescope->pierSide() == ISD::Mount::PIER_UNKNOWN && closeToMeridian));
 
     return wouldCrossMeridian;
 }
@@ -879,8 +879,8 @@ void PolarAlignmentAssistant::rotatePAH()
     if (PAHSlewRateCombo->currentIndex() >= 0)
         m_CurrentTelescope->setSlewRate(PAHSlewRateCombo->currentIndex());
     // Go to direction
-    m_CurrentTelescope->MoveWE(westMeridian ? ISD::Telescope::MOTION_WEST : ISD::Telescope::MOTION_EAST,
-                               ISD::Telescope::MOTION_START);
+    m_CurrentTelescope->MoveWE(westMeridian ? ISD::Mount::MOTION_WEST : ISD::Mount::MOTION_EAST,
+                               ISD::Mount::MOTION_START);
 
     emit newLog(i18n("Please wait until mount completes rotating to RA (%1) DE (%2)", targetPAH.ra().toHMSString(),
                      targetPAH.dec().toDMSString()));
@@ -1212,13 +1212,13 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
     }
 }
 
-void PolarAlignmentAssistant::setMountStatus(ISD::Telescope::Status newState)
+void PolarAlignmentAssistant::setMountStatus(ISD::Mount::Status newState)
 {
     switch (newState)
     {
-        case ISD::Telescope::MOUNT_PARKING:
-        case ISD::Telescope::MOUNT_SLEWING:
-        case ISD::Telescope::MOUNT_MOVING:
+        case ISD::Mount::MOUNT_PARKING:
+        case ISD::Mount::MOUNT_SLEWING:
+        case ISD::Mount::MOUNT_MOVING:
             PAHStartB->setEnabled(false);
             break;
 

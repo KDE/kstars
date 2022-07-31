@@ -33,7 +33,7 @@ protected:
     // sequence of alignment states that are expected
     QQueue<Ekos::AlignState> expectedAlignStates;
     // sequence of telescope states that are expected
-    QQueue<ISD::Telescope::Status> expectedTelescopeStates;
+    QQueue<ISD::Mount::Status> expectedTelescopeStates;
     // sequence of capture states that are expected
     QQueue<Ekos::CaptureState> expectedCaptureStates;
 
@@ -114,7 +114,7 @@ private:
     Ekos::AlignState m_AlignStatus { Ekos::ALIGN_IDLE };
 
     // current scope status
-    ISD::Telescope::Status m_TelescopeStatus { ISD::Telescope::MOUNT_IDLE };
+    ISD::Mount::Status m_TelescopeStatus { ISD::Mount::MOUNT_IDLE };
 
     // current capture status
     Ekos::CaptureState m_CaptureStatus { Ekos::CAPTURE_IDLE };
@@ -129,7 +129,7 @@ private:
      * @brief Slot to track the mount status
      * @param status new mount state
      */
-    void telescopeStatusChanged(ISD::Telescope::Status status);
+    void telescopeStatusChanged(ISD::Mount::Status status);
 
     /**
      * @brief Slot to track the capture status

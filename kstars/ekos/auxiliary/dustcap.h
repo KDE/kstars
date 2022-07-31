@@ -7,7 +7,7 @@
 #pragma once
 
 #include "indi/indistd.h"
-#include "indi/indicap.h"
+#include "indi/indidustcap.h"
 
 #include <QtDBus>
 
@@ -97,13 +97,13 @@ class DustCap : public QObject
          * @brief setDustCap set the DustCap device
          * @param newDustCap pointer to DustCap device.
          */
-        void setDustCap(ISD::GDInterface *newDustCap);
+        void addDustCap(ISD::DustCap *device);
 
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
 
         ISD::DustCap::Status status()
         {
-            return currentDustCap->status();
+            return m_DustCap->status();
         }
 
     signals:
@@ -118,7 +118,8 @@ class DustCap : public QObject
         void processSwitch(ISwitchVectorProperty *svp);
         void processNumber(INumberVectorProperty *nvp);
         // Devices needed for DustCap operation
-        ISD::DustCap *currentDustCap { nullptr };
+        ISD::DustCap *m_DustCap { nullptr };
+        QList<ISD::DustCap *> m_DustCaps;
         ISD::ParkStatus m_ParkStatus { ISD::PARK_UNKNOWN };
         bool m_LightEnabled { false };
         uint16_t m_lightIntensity { 0 };

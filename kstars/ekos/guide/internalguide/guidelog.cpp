@@ -60,15 +60,15 @@ QString directionStringLong(GuideDirection direction)
     return "";
 }
 
-QString pierSideString(ISD::Telescope::PierSide side)
+QString pierSideString(ISD::Mount::PierSide side)
 {
     switch(side)
     {
-        case ISD::Telescope::PierSide::PIER_WEST:
+        case ISD::Mount::PierSide::PIER_WEST:
             return QString("West");
-        case ISD::Telescope::PierSide::PIER_EAST:
+        case ISD::Mount::PierSide::PIER_EAST:
             return QString("East");
-        case ISD::Telescope::PierSide::PIER_UNKNOWN:
+        case ISD::Mount::PierSide::PIER_UNKNOWN:
             return QString("Unknown");
     }
     return QString("");

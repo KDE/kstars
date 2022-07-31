@@ -276,28 +276,29 @@ void KStars::slotINDIToolBar()
     }
     else if (a == actionCollection()->action("lock_telescope"))
     {
-        for (auto oneDevice : INDIListener::Instance()->getDevices())
+        for (auto &oneDevice : INDIListener::Instance()->getDevices())
         {
-            if (oneDevice->getType() != KSTARS_TELESCOPE)
+            if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
                 continue;
 
             if (oneDevice->isConnected() == false)
             {
-                KMessageBox::error(
-                    nullptr,
-                    i18n("Telescope %1 is offline. Please connect and retry again.",
-                         oneDevice->getDeviceName()));
+                KSNotification::error(i18n("Mount %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
                 return;
             }
 
+            auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+            if (!mount)
+                continue;
+
             if (a->isChecked())
-                oneDevice->runCommand(INDI_CENTER_LOCK);
+                mount->centerLock();
             else
-                oneDevice->runCommand(INDI_CENTER_UNLOCK);
+                mount->centerUnlock();
             return;
         }
 
-        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("No connected mounts found."));
         return;
     }
     else if (a == actionCollection()->action("show_fits_viewer"))
@@ -335,7 +336,7 @@ void KStars::slotINDIToolBar()
     else if (a == actionCollection()->action("show_sensor_fov"))
     {
         Options::setShowSensorFOV(a->isChecked());
-        for (auto oneFOV : data()->getTransientFOVs())
+        for (auto &oneFOV : data()->getTransientFOVs())
         {
             if (oneFOV->objectName() == "sensor_fov")
                 oneFOV->setProperty("visible", a->isChecked());
@@ -808,7 +809,7 @@ void KStars::slotINDITelescopeTrack()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
@@ -832,7 +833,7 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
@@ -867,7 +868,7 @@ void KStars::slotINDITelescopeSync(bool focused_object)
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
         {
@@ -902,7 +903,7 @@ void KStars::slotINDITelescopeAbort()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected())
         {
@@ -921,7 +922,7 @@ void KStars::slotINDITelescopePark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
         {
@@ -940,7 +941,7 @@ void KStars::slotINDITelescopeUnpark()
 
     for (auto *gd : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *telescope = dynamic_cast<ISD::Telescope *>(gd);
+        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
 
         if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
         {

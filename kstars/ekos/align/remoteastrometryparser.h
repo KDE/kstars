@@ -8,7 +8,7 @@
 
 #include "astrometryparser.h"
 #include "fitsviewer/fitsdata.h"
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 
 namespace Ekos
 {
@@ -38,7 +38,7 @@ class RemoteAstrometryParser : public AstrometryParser
         virtual bool startSolver(const QString &filename, const QStringList &args, bool generated = true) override;
         virtual bool stopSolver() override;
 
-        void setAstrometryDevice(ISD::GDInterface *device);
+        void setAstrometryDevice(ISD::GenericDevice *device);
         void setEnabled(bool enable);
         bool sendArgs(const QStringList &args);
         bool setCCD(const QString &ccd);
@@ -48,7 +48,7 @@ class RemoteAstrometryParser : public AstrometryParser
         void checkResults(INumberVectorProperty *nvp);
 
     private:
-        ISD::GDInterface *remoteAstrometry { nullptr };
+        ISD::GenericDevice *remoteAstrometry { nullptr };
         bool solverRunning { false };
         bool captureRunning { false };
         Align *align { nullptr };

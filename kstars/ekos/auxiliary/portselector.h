@@ -38,7 +38,7 @@ class Device : public QObject
         Q_OBJECT
 
     public:
-        explicit Device(ISD::GDInterface *device, QGridLayout *grid, uint8_t row);
+        explicit Device(ISD::GenericDevice *device, QGridLayout *grid, uint8_t row);
 
         const QString name() const
         {
@@ -87,7 +87,7 @@ class Device : public QObject
 
 
         QString m_Name;
-        ISD::GDInterface *m_Device {nullptr};
+        ISD::GenericDevice *m_Device {nullptr};
         QGridLayout *m_Grid{nullptr};
         uint8_t m_Row {0};
         ConnectionMode m_ActiveConnectionMode {CONNECTION_NONE};
@@ -102,7 +102,7 @@ class Dialog : public QDialog
         explicit Dialog(QWidget *parent = nullptr);
 
         // Initialize device
-        void addDevice(ISD::GDInterface * devices);
+        void addDevice(ISD::GenericDevice * devices);
         void removeDevice(const QString &name);
 
         bool shouldShow() const;

@@ -160,7 +160,7 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
-            setUploadMode(static_cast<ISD::CCD::UploadMode>(atoi(pcdataXMLEle(ep))));
+            setUploadMode(static_cast<ISD::Camera::UploadMode>(atoi(pcdataXMLEle(ep))));
         }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
@@ -371,7 +371,7 @@ void SequenceJob::connectDeviceAdaptor()
 {
     captureDeviceAdaptor->setCurrentSequenceJobState(stateMachine);
     captureDeviceAdaptor->connectRotator();
-    captureDeviceAdaptor->connectActiveCCD();
+    captureDeviceAdaptor->connectActiveCamera();
     captureDeviceAdaptor->connectTelescope();
     captureDeviceAdaptor->connectDome();
     captureDeviceAdaptor->connectDustCap();
@@ -385,7 +385,7 @@ void SequenceJob::connectDeviceAdaptor()
 void SequenceJob::disconnectDeviceAdaptor()
 {
     captureDeviceAdaptor->disconnectRotator();
-    captureDeviceAdaptor->disconnectActiveCCD();
+    captureDeviceAdaptor->disconnectActiveCamera();
     captureDeviceAdaptor->disconnectTelescope();
     captureDeviceAdaptor->disconnectDome();
     captureDeviceAdaptor->disconnectDustCap();
@@ -397,26 +397,26 @@ void SequenceJob::disconnectDeviceAdaptor()
 CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 {
     captureDeviceAdaptor.data()->getActiveChip()->setBatchMode(!getCoreProperty(SequenceJob::SJ_Preview).toBool());
-    captureDeviceAdaptor.data()->getActiveCCD()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
-    captureDeviceAdaptor.data()->getActiveCCD()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
+    captureDeviceAdaptor.data()->getActiveCamera()->setISOMode(getCoreProperty(SJ_TimeStampPrefixEnabled).toBool());
+    captureDeviceAdaptor.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
 
     auto placeholderPath = Ekos::PlaceholderPath(getCoreProperty(SJ_LocalDirectory).toString() + "/sequence.esq");
     placeholderPath.setGenerateFilenameSettings(*this);
-    captureDeviceAdaptor.data()->getActiveCCD()->setPlaceholderPath(placeholderPath);
+    captureDeviceAdaptor.data()->getActiveCamera()->setPlaceholderPath(placeholderPath);
 
     if (getCoreProperty(SequenceJob::SJ_Preview).toBool())
     {
-        if (captureDeviceAdaptor.data()->getActiveCCD()->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
-            captureDeviceAdaptor.data()->getActiveCCD()->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        if (captureDeviceAdaptor.data()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+            captureDeviceAdaptor.data()->getActiveCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
     else
-        captureDeviceAdaptor.data()->getActiveCCD()->setUploadMode(m_UploadMode);
+        captureDeviceAdaptor.data()->getActiveCamera()->setUploadMode(m_UploadMode);
 
     QMapIterator<QString, QMap<QString, QVariant>> i(m_CustomProperties);
     while (i.hasNext())
     {
         i.next();
-        INDI::Property *customProp = captureDeviceAdaptor.data()->getActiveCCD()->getProperty(i.key());
+        INDI::Property *customProp = captureDeviceAdaptor.data()->getActiveCamera()->getProperty(i.key());
         if (customProp)
         {
             QMap<QString, QVariant> elements = i.value();
@@ -434,7 +434,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneSwitch)
                             oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
                     }
-                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
                 }
                 break;
                 case INDI_TEXT:
@@ -447,7 +447,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneText)
                             oneText->setText(j.value().toString().toLatin1().constData());
                     }
-                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewText(tp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewText(tp);
                 }
                 break;
                 case INDI_NUMBER:
@@ -460,7 +460,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneNumber)
                             oneNumber->setValue(j.value().toDouble());
                     }
-                    captureDeviceAdaptor.data()->getActiveCCD()->getDriverInfo()->getClientManager()->sendNewNumber(np);
+                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewNumber(np);
                 }
                 break;
                 default:
@@ -471,7 +471,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
     if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
-        captureDeviceAdaptor.data()->getActiveCCD()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
+        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
@@ -483,13 +483,13 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     const auto gain = getCoreProperty(SJ_Gain).toDouble();
     if (gain >= 0)
     {
-        captureDeviceAdaptor.data()->getActiveCCD()->setGain(gain);
+        captureDeviceAdaptor.data()->getActiveCamera()->setGain(gain);
     }
 
     const auto offset = getCoreProperty(SJ_Offset).toDouble();
     if (offset >= 0)
     {
-        captureDeviceAdaptor.data()->getActiveCCD()->setOffset(offset);
+        captureDeviceAdaptor.data()->getActiveCamera()->setOffset(offset);
     }
 
     const auto frameType = getFrameType();
@@ -513,7 +513,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     }
 
     // Only attempt to set ROI and Binning if CCD transfer format is FITS
-    if (captureDeviceAdaptor.data()->getActiveCCD()->getEncodingFormat() == QLatin1String("FITS"))
+    if (captureDeviceAdaptor.data()->getActiveCamera()->getEncodingFormat() == QLatin1String("FITS"))
     {
         int currentBinX = 1, currentBinY = 1;
         captureDeviceAdaptor.data()->getActiveChip()->getBinning(&currentBinX, &currentBinY);
@@ -543,8 +543,8 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
         }
     }
 
-    captureDeviceAdaptor.data()->getActiveCCD()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
-    captureDeviceAdaptor.data()->getActiveCCD()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
+    captureDeviceAdaptor.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
+    captureDeviceAdaptor.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
     captureDeviceAdaptor.data()->getActiveChip()->setFrameType(getFrameType());
 
     // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
@@ -603,12 +603,12 @@ void SequenceJob::setCurrentFilter(int value)
 }
 
 // Setter: Set upload mode
-void SequenceJob::setUploadMode(ISD::CCD::UploadMode value)
+void SequenceJob::setUploadMode(ISD::Camera::UploadMode value)
 {
     m_UploadMode = value;
 }
 // Getter: get upload mode
-ISD::CCD::UploadMode SequenceJob::getUploadMode() const
+ISD::Camera::UploadMode SequenceJob::getUploadMode() const
 {
     return m_UploadMode;
 }
@@ -666,7 +666,7 @@ void SequenceJob::setDustCap(ISD::DustCap *dustCap)
     stateMachine->m_CaptureState->hasDustCap = (dustCap != nullptr);
 }
 
-void SequenceJob::setTelescope(ISD::Telescope *scope)
+void SequenceJob::addMount(ISD::Mount *scope)
 {
     stateMachine->m_CaptureState->hasTelescope = (scope != nullptr);
 }

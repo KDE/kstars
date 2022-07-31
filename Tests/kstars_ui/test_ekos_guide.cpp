@@ -375,7 +375,7 @@ void TestEkosGuide::testPHD2Calibration()
 #if 0
     // Slew the telescope somewhere else, PHD2 will notify guiding abort
     QVERIFY(Ekos::Manager::Instance()->mountModule()->slew(3.1, 0));
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 10000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_TRACKING, 10000);
     QTRY_VERIFY_WITH_TIMEOUT((dynamic_cast <KLed*> (runningStateLed))->color() == Qt::red, 10000);
 
     // We can restart, and there will be no calibration to wait for

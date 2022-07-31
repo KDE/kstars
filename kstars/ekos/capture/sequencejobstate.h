@@ -10,8 +10,8 @@
 #include "indi/indistd.h"
 #include "indi/indicommon.h"
 #include "indiapi.h"
-#include "indi/indicap.h"
-#include "indi/inditelescope.h"
+#include "indi/indidustcap.h"
+#include "indi/indimount.h"
 #include "indi/indidome.h"
 #include "skypoint.h"
 
@@ -283,7 +283,7 @@ public slots:
     /**
      * @brief telescope status change
      */
-    void scopeStatusChanged(ISD::Telescope::Status status);
+    void scopeStatusChanged(ISD::Mount::Status status);
     /**
      * @brief telescope status change
      */
@@ -378,7 +378,7 @@ private:
     // dust cap status
     CapState dustCapStatus { CAP_UNKNOWN };
     // telescope status
-    ISD::Telescope::Status scopeStatus { ISD::Telescope::MOUNT_IDLE };
+    ISD::Mount::Status scopeStatus { ISD::Mount::MOUNT_IDLE };
     ISD::ParkStatus scopeParkStatus { ISD::PARK_UNKNOWN };
     // status of the focuser synchronisation
     FlatSyncStatus flatSyncStatus { FS_NONE };

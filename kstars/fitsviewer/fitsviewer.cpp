@@ -65,15 +65,15 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     setCentralWidget(fitsTabWidget);
 
-    connect(fitsTabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
-    connect(fitsTabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect(fitsTabWidget, &QTabWidget::currentChanged, this, &FITSViewer::tabFocusUpdated);
+    connect(fitsTabWidget, &QTabWidget::tabCloseRequested, this, &FITSViewer::closeTab);
 
     //These two connections will enable or disable the scope button if a scope is available or not.
     //Of course this is also dependent on the presence of WCS data in the image.
 
 #ifdef HAVE_INDI
-    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface*)), this, SLOT(updateWCSFunctions()));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(updateWCSFunctions()));
+    connect(INDIListener::Instance(), &INDIListener::newDevice, this, &FITSViewer::updateWCSFunctions);
+    connect(INDIListener::Instance(), &INDIListener::newDevice, this, &FITSViewer::updateWCSFunctions);
 #endif
 
     led.setColor(Qt::green);
@@ -962,7 +962,6 @@ void FITSViewer::updateWCSFunctions()
         if (currentView->isTelescopeActive())
         {
             actionCollection()->action("center_telescope")->setDisabled(false);
-
             actionCollection()->action("center_telescope")->setText(i18n("Center Telescope\n*Ready*"));
         }
         else

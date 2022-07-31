@@ -199,7 +199,7 @@ void Message::onTextReceived(const QString &message)
         sendCameras();
         // Try to trigger any signals based on current camera list
         if (m_Manager->captureModule())
-            m_Manager->captureModule()->checkCCD();
+            m_Manager->captureModule()->checkCamera();
     }
     else if (command == commands[GET_MOUNTS])
         sendMounts();
@@ -247,25 +247,26 @@ void Message::sendCameras()
 
     QJsonArray cameraList;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
-        //connect(oneCCD, &ISD::CCD::newTemperatureValue, this, &Message::sendTemperature, Qt::UniqueConnection);
-        //connect(oneCCD, &ISD::CCD::previewJPEGGenerated, this, &Message::previewJPEGGenerated, Qt::UniqueConnection);
-        ISD::CCDChip *primaryChip = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        if (!camera)
+            continue;
+
+        auto primaryChip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
         double temperature = Ekos::INVALID_VALUE;
-        oneCCD->getTemperature(&temperature);
+        camera->getTemperature(&temperature);
 
         QJsonObject oneCamera =
         {
-            {"name", oneCCD->getDeviceName()},
+            {"name", camera->getDeviceName()},
             {"canBin", primaryChip->canBin()},
-            {"hasTemperature", oneCCD->hasCooler()},
-            {"canCool", oneCCD->canCool()},
-            {"isoList", QJsonArray::fromStringList(oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOList())},
-            {"hasVideo", oneCCD->hasVideoStream()},
-            {"hasGain", oneCCD->hasGain()}
+            {"hasTemperature", camera->hasCooler()},
+            {"canCool", camera->canCool()},
+            {"isoList", QJsonArray::fromStringList(primaryChip->getISOList())},
+            {"hasVideo", camera->hasVideoStream()},
+            {"hasGain", camera->hasGain()}
         };
 
         cameraList.append(oneCamera);
@@ -274,25 +275,28 @@ void Message::sendCameras()
     sendResponse(commands[GET_CAMERAS], cameraList);
 
     // Send initial state as well.
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_CCD))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(gd);
-        QJsonObject state = {{"name", oneCCD->getDeviceName()}};
+        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        if (!camera)
+            continue;
+
+        QJsonObject state = {{"name", camera->getDeviceName()}};
         double value = 0;
 
-        if (oneCCD->canCool())
+        if (camera->canCool())
         {
-            oneCCD->getTemperature(&value);
+            camera->getTemperature(&value);
             state["temperature"] = value;
         }
-        if (oneCCD->hasGain())
+        if (camera->hasGain())
         {
-            oneCCD->getGain(&value);
+            camera->getGain(&value);
             state["gain"] = value;
         }
-        if (oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex() >= 0)
+        if (camera->getChip(ISD::CameraChip::PRIMARY_CCD)->getISOIndex() >= 0)
         {
-            state["iso"] = oneCCD->getChip(ISD::CCDChip::PRIMARY_CCD)->getISOIndex();
+            state["iso"] = camera->getChip(ISD::CameraChip::PRIMARY_CCD)->getISOIndex();
         }
 
         sendResponse(commands[NEW_CAMERA_STATE], state);
@@ -320,18 +324,20 @@ void Message::sendMounts()
 
     QJsonArray mountList;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_TELESCOPE))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+        auto mount = dynamic_cast<ISD::Mount*>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
 
         QJsonObject oneMount =
         {
-            {"name", oneTelescope->getDeviceName()},
-            {"canPark", oneTelescope->canPark()},
-            {"canSync", oneTelescope->canSync()},
-            {"canControlTrack", oneTelescope->canControlTrack()},
-            {"hasSlewRates", oneTelescope->hasSlewRates()},
-            {"slewRates", QJsonArray::fromStringList(oneTelescope->slewRates())},
+            {"name", mount->getDeviceName()},
+            {"canPark", mount->canPark()},
+            {"canSync", mount->canSync()},
+            {"canControlTrack", mount->canControlTrack()},
+            {"hasSlewRates", mount->hasSlewRates()},
+            {"slewRates", QJsonArray::fromStringList(mount->slewRates())},
         };
 
         mountList.append(oneMount);
@@ -340,15 +346,17 @@ void Message::sendMounts()
     sendResponse(commands[GET_MOUNTS], mountList);
 
     // Also send initial slew rate
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_TELESCOPE))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::Telescope *oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
+        auto mount = dynamic_cast<ISD::Mount*>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
 
         QJsonObject slewRate =
         {
-            {"name", oneTelescope->getDeviceName() },
-            {"slewRate", oneTelescope->getSlewRate() },
-            {"pierSide", oneTelescope->pierSide() },
+            {"name", mount->getDeviceName() },
+            {"slewRate", mount->getSlewRate() },
+            {"pierSide", mount->pierSide() },
         };
 
         sendResponse(commands[NEW_MOUNT_STATE], slewRate);
@@ -380,9 +388,11 @@ void Message::sendDomes()
 
     QJsonArray domeList;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_DOME))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::Dome *dome = dynamic_cast<ISD::Dome*>(gd);
+        auto dome = dynamic_cast<ISD::Dome*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        if (!dome)
+            continue;
 
         QJsonObject oneDome =
         {
@@ -398,23 +408,23 @@ void Message::sendDomes()
     sendResponse(commands[GET_DOMES], domeList);
 
     // Also send initial azimuth
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_DOME))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        ISD::Dome *oneDome = dynamic_cast<ISD::Dome*>(gd);
+        auto dome = dynamic_cast<ISD::Dome*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        if (!dome)
+            continue;
 
-        if (oneDome)
+        QJsonObject status =
         {
-            QJsonObject status =
-            {
-                { "name", oneDome->getDeviceName()},
-                { "status", ISD::Dome::getStatusString(oneDome->status())}
-            };
+            { "name", dome->getDeviceName()},
+            { "status", ISD::Dome::getStatusString(dome->status())}
+        };
 
-            if (oneDome->canAbsMove())
-                status["az"] = oneDome->azimuthPosition();
+        if (dome->canAbsMove())
+            status["az"] = dome->azimuthPosition();
 
-            sendResponse(commands[NEW_DOME_STATE], status);
-        }
+        sendResponse(commands[NEW_DOME_STATE], status);
+
     }
 }
 
@@ -425,44 +435,41 @@ void Message::sendCaps()
 
     QJsonArray capList;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_AUXILIARY))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        if (gd->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+        auto dustcap = dynamic_cast<ISD::DustCap*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
+        if (!dustcap)
+            continue;
+
+        QJsonObject oneCap =
         {
-            ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
+            {"name", dustcap->getDeviceName()},
+            {"canPark", dustcap->canPark()},
+            {"hasLight", dustcap->hasLight()},
+        };
 
-            if (dustCap)
-            {
-                QJsonObject oneCap =
-                {
-                    {"name", dustCap->getDeviceName()},
-                    {"canPark", dustCap->canPark()},
-                    {"hasLight", dustCap->hasLight()},
-                };
-
-                capList.append(oneCap);
-            }
-        }
+        capList.append(oneCap);
     }
 
     sendResponse(commands[GET_CAPS], capList);
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_AUXILIARY))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        if (gd->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
-        {
-            ISD::DustCap *dustCap = dynamic_cast<ISD::DustCap*>(gd);
-            QJsonObject status =
-            {
-                { "name", dustCap->getDeviceName()},
-                { "status", ISD::DustCap::getStatusString(dustCap->status())},
-                { "lightS", dustCap->isLightOn()}
-            };
+        auto dustcap = dynamic_cast<ISD::DustCap*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
+        if (!dustcap)
+            continue;
 
-            updateCapStatus(status);
-        }
+        QJsonObject status =
+        {
+            { "name", dustcap->getDeviceName()},
+            { "status", ISD::DustCap::getStatusString(dustcap->status())},
+            { "lightS", dustcap->isLightOn()}
+        };
+
+        updateCapStatus(status);
     }
 }
+
 
 void Message::sendStellarSolverProfiles()
 {
@@ -532,7 +539,7 @@ void Message::sendScopes()
 
 void Message::sendTemperature(double value)
 {
-    ISD::CCD *oneCCD = dynamic_cast<ISD::CCD*>(sender());
+    ISD::Camera *oneCCD = dynamic_cast<ISD::Camera*>(sender());
 
     if (oneCCD)
     {
@@ -553,9 +560,13 @@ void Message::sendFilterWheels()
 
     QJsonArray filterList;
 
-    for(ISD::GDInterface *gd : m_Manager->findDevices(KSTARS_FILTER))
+    for(auto &oneDevice : m_Manager->getAllDevices())
     {
-        auto prop = gd->getProperty("FILTER_NAME");
+        auto filterwheel = dynamic_cast<ISD::FilterWheel*>(oneDevice->getConcreteDevice(INDI::BaseDevice::FILTER_INTERFACE));
+        if (!filterwheel)
+            continue;
+
+        auto prop = filterwheel->getProperty("FILTER_NAME");
         if (!prop)
             break;
 
@@ -569,7 +580,7 @@ void Message::sendFilterWheels()
 
         QJsonObject oneFilter =
         {
-            {"name", gd->getDeviceName()},
+            {"name", filterwheel->getDeviceName()},
             {"filters", filters}
         };
 
@@ -837,17 +848,17 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[MOUNT_SET_MOTION])
     {
         QString direction = payload["direction"].toString();
-        ISD::Telescope::TelescopeMotionCommand action = payload["action"].toBool(false) ?
-                ISD::Telescope::MOTION_START : ISD::Telescope::MOTION_STOP;
+        ISD::Mount::MotionCommand action = payload["action"].toBool(false) ?
+                                           ISD::Mount::MOTION_START : ISD::Mount::MOTION_STOP;
 
         if (direction == "N")
-            mount->motionCommand(action, ISD::Telescope::MOTION_NORTH, -1);
+            mount->motionCommand(action, ISD::Mount::MOTION_NORTH, -1);
         else if (direction == "S")
-            mount->motionCommand(action, ISD::Telescope::MOTION_SOUTH, -1);
+            mount->motionCommand(action, ISD::Mount::MOTION_SOUTH, -1);
         else if (direction == "E")
-            mount->motionCommand(action, -1, ISD::Telescope::MOTION_EAST);
+            mount->motionCommand(action, -1, ISD::Mount::MOTION_EAST);
         else if (direction == "W")
-            mount->motionCommand(action, -1, ISD::Telescope::MOTION_WEST);
+            mount->motionCommand(action, -1, ISD::Mount::MOTION_WEST);
     }
     else if (command == commands[MOUNT_SET_ALTITUDE_LIMITS])
     {
@@ -883,17 +894,17 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_GOTO_PIXEL])
     {
-        const auto camera = payload["camera"].toString();
+        const auto name = payload["camera"].toString();
         const auto xFactor = payload["x"].toDouble();
         const auto yFactor = payload["y"].toDouble();
 
-        for(auto &oneDevice : m_Manager->findDevices(KSTARS_CCD))
+        for(auto &oneDevice : m_Manager->getAllDevices())
         {
-            auto oneCamera = dynamic_cast<ISD::CCD*>(oneDevice);
-            if (!oneCamera || oneCamera->getDeviceName() != camera)
+            auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+            if (!camera  || camera->getDeviceName() != name)
                 continue;
 
-            auto primaryChip = oneCamera->getChip(ISD::CCDChip::PRIMARY_CCD);
+            auto primaryChip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
             if (!primaryChip)
                 break;
@@ -1506,7 +1517,7 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
 
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
-    QList<ISD::GDInterface *> devices = m_Manager->getAllDevices();
+    QList<ISD::GenericDevice *> devices = m_Manager->getAllDevices();
     QString device = payload["device"].toString();
 
     // In case we want to UNSUBSCRIBE from all at once
@@ -1518,9 +1529,9 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     }
 
     // For the device
-    auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GDInterface * oneDevice)
+    auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GenericDevice * oneDevice)
     {
-        return (QString(oneDevice->getDeviceName()) == device);
+        return (oneDevice->getDeviceName() == device);
     });
 
     if (pos == devices.end())

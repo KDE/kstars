@@ -379,7 +379,7 @@ class Manager : public QDialog, public Ui::Manager
         void processINDI();
         void cleanDevices(bool stopDrivers = true);
 
-        void processNewDevice(ISD::GDInterface *);
+        void processNewDevice(ISD::GenericDevice *device);
         void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
 
@@ -410,7 +410,12 @@ class Manager : public QDialog, public Ui::Manager
         void setClientFailed(const QString &host, int port, const QString &message);
         void setClientTerminated(const QString &host, int port, const QString &message);
 
-        void removeDevice(ISD::GDInterface *);
+        void removeDevice(ISD::GenericDevice *device);
+
+        const QList<ISD::GenericDevice *> getAllDevices() const
+        {
+            return m_GenericDevices;
+        }
 
         void deviceConnected();
         void deviceDisconnected();
@@ -422,15 +427,17 @@ class Manager : public QDialog, public Ui::Manager
         void updateDebugInterfaces();
         void watchDebugProperty(ISwitchVectorProperty *svp);
 
-        void setTelescope(ISD::GDInterface *);
-        void setCCD(ISD::GDInterface *);
-        void setFilter(ISD::GDInterface *);
-        void setFocuser(ISD::GDInterface *);
-        void setDome(ISD::GDInterface *);
-        void setWeather(ISD::GDInterface *);
-        void setDustCap(ISD::GDInterface *);
-        void setLightBox(ISD::GDInterface *);
-        void setST4(ISD::ST4 *);
+        void addMount(ISD::Mount *device);
+        void addCamera(ISD::Camera *device);
+        void addFilterWheel(ISD::FilterWheel *device);
+        void addFocuser(ISD::Focuser *device);
+        void addRotator(ISD::Rotator *device);
+        void addDome(ISD::Dome *device);
+        void addWeather(ISD::Weather *device);
+        void addDustCap(ISD::DustCap *device);
+        void addLightBox(ISD::LightBox *device);
+        void addGuider(ISD::Guider *device);
+        void addGPS(ISD::GPS *device);
 
         // Profiles
         void addProfile();
@@ -439,8 +446,8 @@ class Manager : public QDialog, public Ui::Manager
         void wizardProfile();
 
         // Mount Summary
-        void updateMountCoords(const SkyPoint position, ISD::Telescope::PierSide pierSide, const dms &ha);
-        void updateMountStatus(ISD::Telescope::Status status);
+        void updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pierSide, const dms &ha);
+        void updateMountStatus(ISD::Mount::Status status);
         void setTarget(SkyObject *o);
 
         // Capture Summary
@@ -489,13 +496,6 @@ class Manager : public QDialog, public Ui::Manager
         // Check if INDI server is already running
         bool isRunning(const QString &process);
 
-        // Find List of devices of specific family type
-        QList<ISD::GDInterface *> findDevices(DeviceFamily type);
-        // Find list of devices by device interface
-        QList<ISD::GDInterface *> findDevicesByInterface(uint32_t interface);
-        // Get all detected devices
-        const QList<ISD::GDInterface *> &getAllDevices() const;
-
         ProfileInfo *getCurrentProfile();
         void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength,
                                             double &guideAperture);
@@ -511,8 +511,7 @@ class Manager : public QDialog, public Ui::Manager
         // so we only need to start a single instance to handle them all.
         bool checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver);
 
-        bool useGuideHead { false };
-        bool useST4 { false };
+        QList<ISD::GenericDevice *> findDevicesByInterface(uint32_t interface);
 
         // Containers
 
@@ -523,13 +522,7 @@ class Manager : public QDialog, public Ui::Manager
         QList<DriverInfo *> managedDrivers;
 
         // All generic devices (i.e. those define by INDI server)
-        QList<ISD::GDInterface *> genericDevices;
-
-        // All proxy devices (generated devices by Ekos Manager for specific interfaces)
-        QList<ISD::GDInterface *> proxyDevices;
-
-        // All Managed devices (ie. those explicitly defined in the profile)
-        QMultiMap<DeviceFamily, ISD::GDInterface *> managedDevices;
+        QList<ISD::GenericDevice *> m_GenericDevices;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;

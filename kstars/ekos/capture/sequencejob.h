@@ -9,7 +9,7 @@
 #include "sequencejobstate.h"
 #include "capturedeviceadaptor.h"
 #include "indi/indistd.h"
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "skyobjects/skypoint.h"
 
@@ -176,9 +176,9 @@ class SequenceJob : public QObject
         CCDFrameType getFrameType() const;
 
         // Setter: Set upload mode
-        void setUploadMode(ISD::CCD::UploadMode value);
+        void setUploadMode(ISD::Camera::UploadMode value);
         // Getter: get upload mode
-        ISD::CCD::UploadMode getUploadMode() const;
+        ISD::Camera::UploadMode getUploadMode() const;
 
         // Setter: Set flat field source
         void setFlatFieldSource(FlatFieldSource value);
@@ -212,7 +212,7 @@ class SequenceJob : public QObject
         /**
          * @brief Set the telescope device
          */
-        void setTelescope(ISD::Telescope *scope);
+        void addMount(ISD::Mount *scope);
 
         /**
          * @brief Set the dome device
@@ -368,7 +368,7 @@ private:
         // Capture Scripts
         QMap<ScriptTypes, QString> m_Scripts;
         // Upload Mode
-        ISD::CCD::UploadMode m_UploadMode { ISD::CCD::UPLOAD_CLIENT };
+        ISD::Camera::UploadMode m_UploadMode { ISD::Camera::UPLOAD_CLIENT };
         // Transfer Format
         QString m_TransferFormat { "FITS" };
         // capture frame type (light, flat, dark, bias)

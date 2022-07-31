@@ -15,7 +15,7 @@
 namespace ISD
 {
 
-WSMedia::WSMedia(CCD *manager): m_Manager(manager)
+WSMedia::WSMedia(Camera *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &WSMedia::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &WSMedia::onDisconnected);

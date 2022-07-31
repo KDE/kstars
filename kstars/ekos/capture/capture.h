@@ -13,11 +13,11 @@
 #include "oal/filter.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
-#include "indi/indiccd.h"
-#include "indi/indicap.h"
+#include "indi/indicamera.h"
+#include "indi/indidustcap.h"
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/auxiliary/darkprocessor.h"
@@ -288,20 +288,21 @@ class Capture : public QWidget, public Ui::Capture
 
         /** @}*/
 
-        void addCCD(ISD::GDInterface *newCCD);
-        void addFilter(ISD::GDInterface *newFilter);
-        void setDome(ISD::GDInterface *device);
-        void setDustCap(ISD::GDInterface *device);
-        void setLightBox(ISD::GDInterface *device);
-        void removeDevice(ISD::GDInterface *device);
-        void addGuideHead(ISD::GDInterface *newCCD);
-        void syncFrameType(ISD::GDInterface *ccd);
-        void setTelescope(ISD::GDInterface *newTelescope);
-        void setRotator(ISD::GDInterface *newRotator);
+        void addCamera(ISD::Camera *device);
+        void addFilterWheel(ISD::FilterWheel *device);
+        void addDome(ISD::Dome *device);
+        void addDustCap(ISD::DustCap *device);
+        void addLightBox(ISD::LightBox *device);
+        void addMount(ISD::Mount *device);
+        void addRotator(ISD::Rotator *device);
+
+        void removeDevice(ISD::GenericDevice *device);
+        void addGuideHead(ISD::Camera *device);
+        void syncFrameType(const QString &name);
         void setRotatorReversed(bool toggled);
         void setFilterManager(const QSharedPointer<FilterManager> &manager);
         void syncTelescopeInfo();
-        void syncCCDControls();
+        void syncCameraInfo();
         void syncFilterInfo();
 
         // Restart driver
@@ -550,10 +551,10 @@ class Capture : public QWidget, public Ui::Capture
         void processData(const QSharedPointer<FITSData> &data);
 
         /**
-             * @brief checkCCD Refreshes the CCD information in the capture module.
+             * @brief checkCamera Refreshes the CCD information in the capture module.
              * @param CCDNum The CCD index in the CCD combo box to select as the active CCD.
              */
-        void checkCCD(int CCDNum = -1);
+        void checkCamera(int CCDNum = -1);
 
         /**
              * @brief checkFilter Refreshes the filter wheel information in the capture module.
@@ -680,9 +681,9 @@ class Capture : public QWidget, public Ui::Capture
         void setAlignStatus(Ekos::AlignState state);
         void setAlignResults(double orientation, double ra, double de, double pixscale);
         // Update Mount module status
-        void setMountStatus(ISD::Telescope::Status newState);
+        void setMountStatus(ISD::Mount::Status newState);
 
-        void setGuideChip(ISD::CCDChip *guideChip);
+        void setGuideChip(ISD::CameraChip *guideChip);
         //void setGeneratedPreviewFITS(const QString &previewFITS);
 
         // Clear Camera Configuration
@@ -712,7 +713,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void checkFrameType(int index);
         void resetFrame();
-        void setExposureProgress(ISD::CCDChip *tChip, double value, IPState state);
+        void setExposureProgress(ISD::CameraChip *tChip, double value, IPState state);
         void updateCaptureCountDown(int deltaMillis);
         void checkSeqBoundary(const QString &path);
         void saveFITSDirectory();
@@ -766,7 +767,7 @@ class Capture : public QWidget, public Ui::Capture
         IPState checkLightFramePendingTasks();
 
         // Send image info
-        //void sendNewImage(const QString &filename, ISD::CCDChip *myChip);
+        //void sendNewImage(const QString &filename, ISD::CameraChip *myChip);
 
         // Capture
         IPState setCaptureComplete();
@@ -821,7 +822,7 @@ class Capture : public QWidget, public Ui::Capture
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
 
-        // Signals for the Analyze tab.        
+        // Signals for the Analyze tab.
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
 
@@ -951,7 +952,7 @@ class Capture : public QWidget, public Ui::Capture
          * @brief processCaptureError Handle when image capture fails
          * @param type error type
          */
-        void processCaptureError(ISD::CCD::ErrorType type);
+        void processCaptureError(ISD::Camera::ErrorType type);
 
         /**
          * @brief setDarkFlatExposure Given a dark flat job, find the exposure suitable from it by searching for
@@ -1007,10 +1008,13 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<SequenceJobState::CaptureState> m_captureState;
 
-        QList<ISD::CCD *> CCDs;
-
-        // They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
-        QList<ISD::GDInterface *> Filters;
+        QList<ISD::Camera *> m_Cameras;
+        QList<ISD::Mount *> m_Mounts;
+        QList<ISD::Rotator *> m_Rotators;
+        QList<ISD::FilterWheel *> m_FilterWheels;
+        QList<ISD::Dome *> m_Domes;
+        QList<ISD::DustCap *> m_DustCaps;
+        QList<ISD::LightBox *> m_LightBoxes;
 
         QList<SequenceJob *> jobs;
 
@@ -1097,7 +1101,7 @@ class Capture : public QWidget, public Ui::Capture
         PauseFunctionPointer pauseFunction;
 
         // CCD Chip frame settings
-        QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+        QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
         // Post capture script
         QProcess m_CaptureScript;

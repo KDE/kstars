@@ -69,14 +69,14 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     });
 }
 
-void SerialPortAssistant::addDevice(ISD::GDInterface *device)
+void SerialPortAssistant::addDevice(ISD::GenericDevice *device)
 {
     qCDebug(KSTARS_EKOS) << "Serial Port Assistant new device" << device->getDeviceName();
 
     addDevicePage(device);
 }
 
-void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
+void SerialPortAssistant::addDevicePage(ISD::GenericDevice *device)
 {
     devices.append(device);
 
@@ -172,7 +172,7 @@ void SerialPortAssistant::addDevicePage(ISD::GDInterface *device)
     });
 }
 
-void SerialPortAssistant::gotoDevicePage(ISD::GDInterface *device)
+void SerialPortAssistant::gotoDevicePage(ISD::GenericDevice *device)
 {
     int index = devices.indexOf(device);
 

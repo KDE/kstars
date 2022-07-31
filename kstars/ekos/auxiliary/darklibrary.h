@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "indi/indiccd.h"
-#include "indi/indicap.h"
+#include "indi/indicamera.h"
+#include "indi/indidustcap.h"
 #include "darkview.h"
 #include "defectmap.h"
 #include "ekos/ekos.h"
@@ -63,7 +63,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @param darkData If a frame is found, load it from disk and store it in a shared FITSData pointer.
          * @return True if a suitable frame was found the loaded successfully, false otherwise.
          */
-        bool findDarkFrame(ISD::CCDChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
+        bool findDarkFrame(ISD::CameraChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
 
         /**
          * @brief findDefectMap Search for a defect map that matches the passed paramters.
@@ -72,7 +72,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @param defectMap If a frame is found, load it from disk and store it in a shared DefectMap pointer.
          * @return True if a suitable frame was found the loaded successfully, false otherwise.
          */
-        bool findDefectMap(ISD::CCDChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
+        bool findDefectMap(ISD::CameraChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
 
         /**
          * @brief cameraHasDefectMaps Check if camera has any defect maps available.
@@ -85,8 +85,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         }
 
         void refreshFromDB();
-        void addCamera(ISD::GDInterface * newCCD);
-        void removeCamera(ISD::GDInterface * newCCD);
+        void addCamera(ISD::Camera *camera);
+        void removeDevice(ISD::GenericDevice *device);
         void checkCamera(int ccdNum = -1);
         //void reset();
         void setCaptureModule(Capture *instance);
@@ -229,9 +229,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QMap<QString, QSharedPointer<FITSData>> m_CachedDarkFrames;
         QMap<QString, QSharedPointer<DefectMap>> m_CachedDefectMaps;
 
-        ISD::CCD *m_CurrentCamera {nullptr};
-        ISD::CCDChip *m_TargetChip {nullptr};
-        QList<ISD::CCD *> m_Cameras;
+        ISD::Camera *m_CurrentCamera {nullptr};
+        ISD::CameraChip *m_TargetChip {nullptr};
+        QList<ISD::Camera *> m_Cameras;
         bool m_UseGuideHead {false};
         double GainSpinSpecialValue { INVALID_VALUE };
 

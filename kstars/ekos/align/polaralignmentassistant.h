@@ -13,7 +13,7 @@
 #include "polaralign.h"
 #include "alignview.h"
 #include "align.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 class QProgressIndicator;
 class SolverUtils;
@@ -87,7 +87,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
         // Set the mount used in Align class.
-        void setCurrentTelescope(ISD::Telescope *scope)
+        void setCurrentTelescope(ISD::Mount *scope)
         {
             m_CurrentTelescope = scope;
         }
@@ -123,7 +123,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Otherwise, we abort the operation.
         void setWCSToggled(bool result);
         // Update GUI to reflect mount status.
-        void setMountStatus(ISD::Telescope::Status newState);
+        void setMountStatus(ISD::Mount::Status newState);
         // Update the correction offset by this percentage in order to move the triangle around when clicking on
         // for example.
         void setPAHCorrectionOffsetPercentage(double dx, double dy);
@@ -258,7 +258,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         Align *m_AlignInstance {nullptr};
 
         // Reference to current active telescope
-        ISD::Telescope *m_CurrentTelescope { nullptr };
+        ISD::Mount *m_CurrentTelescope { nullptr };
 
         // Reference to align view
         QSharedPointer<AlignView> m_AlignView;

@@ -367,7 +367,7 @@ bool TestEkosHelper::slewTo(double RA, double DEC, bool fast)
     // wait a certain time until the mount slews
     QTest::qWait(3000);
     // wait until the mount is tracking
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 10000);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_TRACKING, 10000);
 
     // everything succeeded
     return true;
@@ -548,7 +548,7 @@ void TestEkosHelper::alignStatusChanged(Ekos::AlignState status)
         expectedAlignStates.dequeue();
 }
 
-void TestEkosHelper::mountStatusChanged(ISD::Telescope::Status status)
+void TestEkosHelper::mountStatusChanged(ISD::Mount::Status status)
 {
     m_MountStatus = status;
     // check if the new state is the next one expected, then remove it from the stack

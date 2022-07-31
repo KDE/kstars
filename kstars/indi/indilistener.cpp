@@ -10,14 +10,6 @@
 
 #include "clientmanager.h"
 #include "deviceinfo.h"
-#include "indicap.h"
-#include "indiccd.h"
-#include "indidome.h"
-#include "indifilter.h"
-#include "indifocuser.h"
-#include "indilightbox.h"
-#include "inditelescope.h"
-#include "indiweather.h"
 #include "kstars.h"
 #include "Options.h"
 
@@ -28,46 +20,6 @@
 #include <basedevice.h>
 #include <indi_debug.h>
 
-#define NINDI_STD 35
-
-/* INDI standard property used across all clients to enable interoperability. */
-static const char *indi_std[NINDI_STD] = { "CONNECTION",
-                                           "DEVICE_PORT",
-                                           "TIME_UTC",
-                                           "TIME_LST",
-                                           "GEOGRAPHIC_COORD",
-                                           "EQUATORIAL_COORD",
-                                           "EQUATORIAL_EOD_COORD",
-                                           "EQUATORIAL_EOD_COORD_REQUEST",
-                                           "HORIZONTAL_COORD",
-                                           "TELESCOPE_ABORT_MOTION",
-                                           "ON_COORD_SET",
-                                           "SOLAR_SYSTEM",
-                                           "TELESCOPE_MOTION_NS",
-                                           "TELESCOPE_MOTION_WE",
-                                           "TELESCOPE_PARK",
-                                           "DOME_PARK",
-                                           "GPS_REFRESH",
-                                           "WEATHER_STATUS",
-                                           "CCD_EXPOSURE",
-                                           "CCD_TEMPERATURE",
-                                           "CCD_FRAME",
-                                           "CCD_FRAME_TYPE",
-                                           "CCD_BINNING",
-                                           "CCD_INFO",
-                                           "CCD_VIDEO_STREAM",
-                                           "RAW_STREAM",
-                                           "IMAGE_STREAM",
-                                           "FOCUS_SPEED",
-                                           "FOCUS_MOTION",
-                                           "FOCUS_TIMER",
-                                           "FILTER_SLOT",
-                                           "WATCHDOG_HEARTBEAT",
-                                           "CAP_PARK",
-                                           "FLAT_LIGHT_CONTROL",
-                                           "FLAT_LIGHT_INTENSITY"
-                                         };
-
 INDIListener *INDIListener::_INDIListener = nullptr;
 
 INDIListener *INDIListener::Instance()
@@ -76,17 +28,17 @@ INDIListener *INDIListener::Instance()
     {
         _INDIListener = new INDIListener(KStars::Instance());
 
-        connect(_INDIListener, &INDIListener::newTelescope,
-                [&]()
-        {
-            KStars::Instance()->slotSetTelescopeEnabled(true);
-        });
+        //        connect(_INDIListener, &INDIListener::newTelescope,
+        //                [&]()
+        //        {
+        //            KStars::Instance()->slotSetTelescopeEnabled(true);
+        //        });
 
-        connect(_INDIListener, &INDIListener::newDome,
-                [&]()
-        {
-            KStars::Instance()->slotSetDomeEnabled(true);
-        });
+        //        connect(_INDIListener, &INDIListener::newDome,
+        //                [&]()
+        //        {
+        //            KStars::Instance()->slotSetDomeEnabled(true);
+        //        });
     }
 
     return _INDIListener;
@@ -97,22 +49,11 @@ INDIListener::INDIListener(QObject *parent) : QObject(parent) {}
 INDIListener::~INDIListener()
 {
     qDeleteAll(devices);
-    qDeleteAll(st4Devices);
 }
 
-bool INDIListener::isStandardProperty(const QString &name) const
+ISD::GenericDevice *INDIListener::getDevice(const QString &name) const
 {
-    for (auto &item : indi_std)
-    {
-        if (!strcmp(name.toLatin1().constData(), item))
-            return true;
-    }
-    return false;
-}
-
-ISD::GDInterface *INDIListener::getDevice(const QString &name) const
-{
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == name)
             return oneDevice;
@@ -147,7 +88,7 @@ void INDIListener::removeClient(ClientManager *cm)
     qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server"
                          << cm->getHost() << "@" << cm->getPort();
 
-    QList<ISD::GDInterface *>::iterator it = devices.begin();
+    QList<ISD::GenericDevice *>::iterator it = devices.begin();
     clients.removeOne(cm);
 
     while (it != devices.end())
@@ -158,22 +99,6 @@ void INDIListener::removeClient(ClientManager *cm)
 
         if (cm->isDriverManaged(dv))
         {
-            //            // If we have multiple devices per driver, we need to remove them all
-            //            if (dv->getAuxInfo().value("mdpd", false).toBool() == true)
-            //            {
-            //                while (it != devices.end())
-            //                {
-            //                    if (dv->getDevice((*it)->getDeviceName()) != nullptr)
-            //                    {
-            //                        it = devices.erase(it);
-            //                    }
-            //                    else
-            //                        break;
-            //                }
-            //            }
-            //            else
-            //                it = devices.erase(it);
-
             cm->removeManagedDriver(dv);
             cm->disconnect(this);
             if (hostSource)
@@ -191,7 +116,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
-    ISD::GDInterface *gd = new ISD::GenericDevice(*dv, cm);
+    auto gd = new ISD::GenericDevice(*dv, cm);
     devices.append(gd);
 
     // Register all existing properties
@@ -228,147 +153,19 @@ void INDIListener::registerProperty(INDI::Property prop)
     qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
                          << ">";
 
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
-            if (prop.isNameMatch("ON_COORD_SET") ||
-                    prop.isNameMatch("EQUATORIAL_EOD_COORD") ||
-                    prop.isNameMatch("EQUATORIAL_COORD") ||
-                    prop.isNameMatch("HORIZONTAL_COORD"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::Telescope(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newTelescope(oneDevice);
-            }
-            else if (prop.isNameMatch("CCD_EXPOSURE"))
-            {
-                // Only register a CCD device if the interface explicitly contains CCD_INTERFACE
-                // and only if the device type is not already known.
-                // If the device type is alredy KSTARS_CCD then no need to remove and re-parent
-                // this happens in the case of disconnect/reconnect
-                if (oneDevice->getType() == KSTARS_UNKNOWN &&
-                        (oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::CCD(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newCCD(oneDevice);
-            }
-            else if (prop.isNameMatch("FILTER_NAME"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN &&
-                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::Filter(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newFilter(oneDevice);
-            }
-            else if (prop.isNameMatch("FOCUS_MOTION"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN &&
-                        !(oneDevice->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE))
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::Focuser(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newFocuser(oneDevice);
-            }
-
-            else if (prop.isNameMatch("DOME_SHUTTER") || prop.isNameMatch("DOME_MOTION"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::Dome(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newDome(oneDevice);
-            }
-            else if (prop.isNameMatch("WEATHER_STATUS"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::Weather(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newWeather(oneDevice);
-            }
-            else if (prop.isNameMatch("CAP_PARK"))
-            {
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
-                {
-                    devices.removeOne(oneDevice);
-                    oneDevice = new ISD::DustCap(oneDevice);
-                    devices.append(oneDevice);
-                }
-
-                emit newDustCap(oneDevice);
-            }
-            else if (prop.isNameMatch("FLAT_LIGHT_CONTROL"))
-            {
-                // If light box part of dust cap
-                if (oneDevice->getType() == KSTARS_UNKNOWN)
-                {
-                    if (oneDevice->getBaseDevice()->getDriverInterface() &
-                            INDI::BaseDevice::DUSTCAP_INTERFACE)
-                    {
-                        devices.removeOne(oneDevice);
-                        oneDevice = new ISD::DustCap(oneDevice);
-                        devices.append(oneDevice);
-
-                        emit newDustCap(oneDevice);
-                    }
-                    // If stand-alone light box
-                    else
-                    {
-                        devices.removeOne(oneDevice);
-                        oneDevice = new ISD::LightBox(oneDevice);
-                        devices.append(oneDevice);
-
-                        emit newLightBox(oneDevice);
-                    }
-                }
-            }
-
-            if (prop.isNameMatch("TELESCOPE_TIMED_GUIDE_WE"))
-            {
-                ISD::ST4 *st4Driver =  new ISD::ST4(oneDevice->getBaseDevice(), oneDevice->getDriverInfo()->getClientManager());
-                if (st4Driver == nullptr)
-                {
-                    qCCritical(KSTARS_INDI) << "Failed to allocate ST4 driver";
-                }
-                else
-                {
-                    st4Devices.append(st4Driver);
-                    emit newST4(st4Driver);
-                }
-            }
-
             oneDevice->registerProperty(prop);
-            break;
+            return;
         }
     }
 }
 
 void INDIListener::removeProperty(const QString &device, const QString &name)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -380,7 +177,7 @@ void INDIListener::removeProperty(const QString &device, const QString &name)
 
 void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == svp->device)
         {
@@ -392,7 +189,7 @@ void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 
 void INDIListener::processNumber(INumberVectorProperty *nvp)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == nvp->device)
         {
@@ -404,7 +201,7 @@ void INDIListener::processNumber(INumberVectorProperty *nvp)
 
 void INDIListener::processText(ITextVectorProperty *tvp)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == tvp->device)
         {
@@ -416,7 +213,7 @@ void INDIListener::processText(ITextVectorProperty *tvp)
 
 void INDIListener::processLight(ILightVectorProperty *lvp)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == lvp->device)
         {
@@ -428,7 +225,7 @@ void INDIListener::processLight(ILightVectorProperty *lvp)
 
 void INDIListener::processBLOB(IBLOB *bp)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == bp->bvp->device)
         {
@@ -440,7 +237,7 @@ void INDIListener::processBLOB(IBLOB *bp)
 
 void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
 {
-    for (auto oneDevice : qAsConst(devices))
+    for (auto &oneDevice : devices)
     {
         if (oneDevice->getDeviceName() == dp->getDeviceName())
         {

@@ -34,6 +34,7 @@
 #ifdef HAVE_INDI
 #include <basedevice.h>
 #include "indi/indilistener.h"
+#include "indi/indimount.h"
 #endif
 
 WIView::WIView(QWidget *parent) : QWidget(parent)
@@ -335,32 +336,32 @@ void WIView::onSlewTelescopeButtonClicked()
 
         if (INDIListener::Instance()->size() == 0)
         {
-            KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+            KSNotification::sorry(i18n("No connected mounts found."));
             return;
         }
 
-        for (auto oneDevice : INDIListener::Instance()->getDevices())
+        for (auto &oneDevice : INDIListener::Instance()->getDevices())
         {
-            if (oneDevice->getType() != KSTARS_TELESCOPE)
+            if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
                 continue;
 
             if (oneDevice->isConnected() == false)
             {
-                KSNotification::error(i18n("Telescope %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
+                KSNotification::error(i18n("Mount %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
                 return;
             }
 
-            ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
-
-            oneDevice->setProperty(&SlewCMD);
-            oneDevice->runCommand(INDI_SEND_COORDS, m_CurSoItem->getSkyObject());
+            auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+            if (!mount)
+                continue;
+            mount->Slew(m_CurSoItem->getSkyObject());
 
             /// Slew map to selected sky-object
             onCenterButtonClicked();
             return;
         }
 
-        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("No connected mounts found."));
 
 #endif
     }

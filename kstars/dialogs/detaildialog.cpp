@@ -32,6 +32,7 @@
 #ifdef HAVE_INDI
 #include <basedevice.h>
 #include "indi/indilistener.h"
+#include "indi/indimount.h"
 #endif
 
 #include <QDesktopServices>
@@ -1096,21 +1097,24 @@ void DetailDialog::centerTelescope()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("No connected mounts found."));
         return;
     }
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (oneDevice->getType() != KSTARS_TELESCOPE)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
 
         if (oneDevice->isConnected() == false)
         {
-            KSNotification::error(
-                i18n("Telescope %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
+            KSNotification::error(i18n("Mount %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
             return;
         }
+
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
 
         // Display Sun warning on slew
         if (selectedObject && selectedObject->name() == i18n("Sun"))
@@ -1120,14 +1124,11 @@ void DetailDialog::centerTelescope()
                 return;
         }
 
-        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
-
-        oneDevice->setProperty(&SlewCMD);
-        oneDevice->runCommand(INDI_SEND_COORDS, selectedObject);
+        mount->Slew(selectedObject);
         return;
     }
 
-    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("No connected mounts found."));
 
 #endif
 }
@@ -1194,7 +1195,7 @@ void DetailDialog::updateThumbnail()
         //If the image was unset, delete the old image on disk.
         if (tp->imageFound())
         {
-            #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             bool rc = Data->Image->pixmap()->save(fname, "PNG");
             if (rc == false)
             {
@@ -1203,7 +1204,7 @@ void DetailDialog::updateThumbnail()
             }
             else
                 *Thumbnail = *(Data->Image->pixmap());
-            #else
+#else
             bool rc = Data->Image->pixmap(Qt::ReturnByValue).save(fname, "PNG");
             if (rc == false)
             {
@@ -1212,7 +1213,7 @@ void DetailDialog::updateThumbnail()
             }
             else
                 *Thumbnail = (Data->Image->pixmap(Qt::ReturnByValue));
-            #endif
+#endif
         }
         else
         {

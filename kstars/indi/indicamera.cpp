@@ -4,7 +4,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "indiccd.h"
+#include "indicamera.h"
+#include "indicamerachip.h"
 
 #include "config-kstars.h"
 
@@ -42,763 +43,19 @@ const QString &getFITSModeStringString(FITSMode mode)
 
 namespace ISD
 {
-CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
+
+Camera::Camera(GenericDevice *parent) : ConcreteDevice(parent)
 {
-    baseDevice    = ccd->getBaseDevice();
-    clientManager = ccd->getDriverInfo()->getClientManager();
-    parentCCD     = ccd;
-    type          = cType;
-}
-
-bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
-{
-    INumberVectorProperty *frameProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            frameProp = baseDevice->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = baseDevice->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
-        return false;
-
-    INumber *arg = IUFindNumber(frameProp, "X");
-
-    if (arg == nullptr)
-        return false;
-
-    if (minX)
-        *minX = arg->min;
-    if (maxX)
-        *maxX = arg->max;
-
-    arg = IUFindNumber(frameProp, "Y");
-
-    if (arg == nullptr)
-        return false;
-
-    if (minY)
-        *minY = arg->min;
-    if (maxY)
-        *maxY = arg->max;
-
-    arg = IUFindNumber(frameProp, "WIDTH");
-
-    if (arg == nullptr)
-        return false;
-
-    if (minW)
-        *minW = arg->min;
-    if (maxW)
-        *maxW = arg->max;
-
-    arg = IUFindNumber(frameProp, "HEIGHT");
-
-    if (arg == nullptr)
-        return false;
-
-    if (minH)
-        *minH = arg->min;
-    if (maxH)
-        *maxH = arg->max;
-
-    return true;
-}
-
-bool CCDChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth)
-{
-    INumberVectorProperty *ccdInfoProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            ccdInfoProp = baseDevice->getNumber("CCD_INFO");
-            break;
-
-        case GUIDE_CCD:
-            ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
-            break;
-    }
-
-    if (ccdInfoProp == nullptr)
-        return false;
-
-    ccdInfoProp->np[0].value = width;
-    ccdInfoProp->np[1].value = height;
-    ccdInfoProp->np[2].value = std::hypotf(pixelX, pixelY);
-    ccdInfoProp->np[3].value = pixelX;
-    ccdInfoProp->np[4].value = pixelY;
-    ccdInfoProp->np[5].value = bitdepth;
-
-    clientManager->sendNewNumber(ccdInfoProp);
-
-    return true;
-}
-
-bool CCDChip::getImageInfo(uint16_t &width, uint16_t &height, double &pixelX, double &pixelY, uint8_t &bitdepth)
-{
-    INumberVectorProperty *ccdInfoProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            ccdInfoProp = baseDevice->getNumber("CCD_INFO");
-            break;
-
-        case GUIDE_CCD:
-            ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
-            break;
-    }
-
-    if (ccdInfoProp == nullptr)
-        return false;
-
-    width    = ccdInfoProp->np[0].value;
-    height   = ccdInfoProp->np[1].value;
-    pixelX   = ccdInfoProp->np[2].value;
-    pixelY   = ccdInfoProp->np[3].value;
-    bitdepth = ccdInfoProp->np[5].value;
-
-    return true;
-}
-
-bool CCDChip::getBayerInfo(uint16_t &offsetX, uint16_t &offsetY, QString &pattern)
-{
-    ITextVectorProperty * bayerTP = baseDevice->getText("CCD_CFA");
-    if (!bayerTP)
-        return false;
-
-    offsetX = QString(bayerTP->tp[0].text).toInt();
-    offsetY = QString(bayerTP->tp[1].text).toInt();
-    pattern = QString(bayerTP->tp[2].text);
-
-    return true;
-}
-
-bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
-{
-    INumberVectorProperty *frameProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            frameProp = baseDevice->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = baseDevice->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
-        return false;
-
-    INumber *arg = IUFindNumber(frameProp, "X");
-
-    if (arg == nullptr)
-        return false;
-
-    *x = arg->value;
-
-    arg = IUFindNumber(frameProp, "Y");
-    if (arg == nullptr)
-        return false;
-
-    *y = arg->value;
-
-    arg = IUFindNumber(frameProp, "WIDTH");
-    if (arg == nullptr)
-        return false;
-
-    *w = arg->value;
-
-    arg = IUFindNumber(frameProp, "HEIGHT");
-    if (arg == nullptr)
-        return false;
-
-    *h = arg->value;
-
-    return true;
-}
-
-bool CCDChip::resetFrame()
-{
-    INumberVectorProperty *frameProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            frameProp = baseDevice->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = baseDevice->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
-        return false;
-
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
-
-    if (xarg && yarg && warg && harg)
-    {
-        if (!std::fabs(xarg->value - xarg->min) &&
-                !std::fabs(yarg->value - yarg->min) &&
-                !std::fabs(warg->value - warg->max) &&
-                !std::fabs(harg->value - harg->max))
-            return false;
-
-        xarg->value = xarg->min;
-        yarg->value = yarg->min;
-        warg->value = warg->max;
-        harg->value = harg->max;
-
-        clientManager->sendNewNumber(frameProp);
-        return true;
-    }
-
-    return false;
-}
-
-bool CCDChip::setFrame(int x, int y, int w, int h, bool force)
-{
-    INumberVectorProperty *frameProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            frameProp = baseDevice->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = baseDevice->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
-        return false;
-
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
-
-    if (xarg && yarg && warg && harg)
-    {
-        if (!force &&
-                !std::fabs(xarg->value - x) &&
-                !std::fabs(yarg->value - y) &&
-                !std::fabs(warg->value - w) &&
-                !std::fabs(harg->value - h))
-            return true;
-
-        xarg->value = x;
-        yarg->value = y;
-        warg->value = w;
-        harg->value = h;
-
-        clientManager->sendNewNumber(frameProp);
-        return true;
-    }
-
-    return false;
-}
-
-bool CCDChip::capture(double exposure)
-{
-    //qCDebug(KSTARS_INDI) << "IndiCCD: capture()" << (type==PRIMARY_CCD?"CCD":"Guide");
-    INumberVectorProperty *expProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            expProp = baseDevice->getNumber("CCD_EXPOSURE");
-            break;
-
-        case GUIDE_CCD:
-            expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
-            break;
-    }
-
-    if (expProp == nullptr)
-        return false;
-
-    // If we have exposure presets, let's limit the exposure value
-    // to the preset values if it falls within their range of max/min
-    if (Options::forceDSLRPresets())
-    {
-        QMap<QString, double> exposurePresets = parentCCD->getExposurePresets();
-        if (!exposurePresets.isEmpty())
-        {
-            double min, max;
-            QPair<double, double> minmax = parentCCD->getExposurePresetsMinMax();
-            min = minmax.first;
-            max = minmax.second;
-            if (exposure > min && exposure < max)
-            {
-                double diff = 1e6;
-                double closestMatch = exposure;
-                for (const auto &oneValue : exposurePresets.values())
-                {
-                    double newDiff = std::fabs(exposure - oneValue);
-                    if (newDiff < diff)
-                    {
-                        closestMatch = oneValue;
-                        diff = newDiff;
-                    }
-                }
-
-                qCDebug(KSTARS_INDI) << "Requested exposure" << exposure << "closes match is" << closestMatch;
-                exposure = closestMatch;
-            }
-        }
-    }
-
-    // clone the INumberVectorProperty, to avoid modifications to the same
-    // property from two threads
-    INumber n;
-    strcpy(n.name, expProp->np[0].name);
-    n.value = exposure;
-
-    std::unique_ptr<INumberVectorProperty> newExpProp(new INumberVectorProperty());
-    strncpy(newExpProp->device, expProp->device, MAXINDIDEVICE);
-    strncpy(newExpProp->name, expProp->name, MAXINDINAME);
-    strncpy(newExpProp->label, expProp->label, MAXINDILABEL);
-    newExpProp->np = &n;
-    newExpProp->nnp = 1;
-
-    clientManager->sendNewNumber(newExpProp.get());
-
-    return true;
-}
-
-bool CCDChip::abortExposure()
-{
-    ISwitchVectorProperty *abortProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
-            break;
-
-        case GUIDE_CCD:
-            abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
-            break;
-    }
-
-    if (abortProp == nullptr)
-        return false;
-
-    ISwitch *abort = IUFindSwitch(abortProp, "ABORT");
-
-    if (abort == nullptr)
-        return false;
-
-    abort->s = ISS_ON;
-
-    clientManager->sendNewSwitch(abortProp);
-
-    return true;
-}
-bool CCDChip::canBin() const
-{
-    return CanBin;
-}
-
-void CCDChip::setCanBin(bool value)
-{
-    CanBin = value;
-}
-bool CCDChip::canSubframe() const
-{
-    return CanSubframe;
-}
-
-void CCDChip::setCanSubframe(bool value)
-{
-    CanSubframe = value;
-}
-bool CCDChip::canAbort() const
-{
-    return CanAbort;
-}
-
-void CCDChip::setCanAbort(bool value)
-{
-    CanAbort = value;
-}
-
-int CCDChip::getISOIndex() const
-{
-    auto isoProp = baseDevice->getSwitch("CCD_ISO");
-
-    if (!isoProp)
-        return -1;
-
-    return isoProp->findOnSwitchIndex();
-}
-
-bool CCDChip::getISOValue(QString &value) const
-{
-    auto index = getISOIndex();
-    auto list = getISOList();
-    if (!list.isEmpty() && index >= 0 && index < list.count())
-    {
-        value = list[index];
-        return true;
-    }
-
-    return false;
-}
-
-bool CCDChip::setISOIndex(int value)
-{
-    auto isoProp = baseDevice->getSwitch("CCD_ISO");
-
-    if (!isoProp)
-        return false;
-
-    isoProp->reset();
-    isoProp->at(value)->setState(ISS_ON);
-
-    clientManager->sendNewSwitch(isoProp);
-
-    return true;
-}
-
-QStringList CCDChip::getISOList() const
-{
-    QStringList isoList;
-
-    auto isoProp = baseDevice->getSwitch("CCD_ISO");
-
-    if (!isoProp)
-        return isoList;
-
-    for (const auto &it : *isoProp)
-        isoList << it.getLabel();
-
-    return isoList;
-}
-
-bool CCDChip::isCapturing()
-{
-    INumberVectorProperty *expProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            expProp = baseDevice->getNumber("CCD_EXPOSURE");
-            break;
-
-        case GUIDE_CCD:
-            expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
-            break;
-    }
-
-    if (expProp == nullptr)
-        return false;
-
-    return (expProp->s == IPS_BUSY);
-}
-
-bool CCDChip::setFrameType(const QString &name)
-{
-    CCDFrameType fType = FRAME_LIGHT;
-
-    if (name == "FRAME_LIGHT" || name == "Light")
-        fType = FRAME_LIGHT;
-    else if (name == "FRAME_DARK" || name == "Dark")
-        fType = FRAME_DARK;
-    else if (name == "FRAME_BIAS" || name == "Bias")
-        fType = FRAME_BIAS;
-    else if (name == "FRAME_FLAT" || name == "Flat")
-        fType = FRAME_FLAT;
-    else
-    {
-        qCWarning(KSTARS_INDI) << name << " frame type is unknown." ;
-        return false;
-    }
-
-    return setFrameType(fType);
-}
-
-bool CCDChip::setFrameType(CCDFrameType fType)
-{
-    ISwitchVectorProperty *frameProp = nullptr;
-
-    if (type == PRIMARY_CCD)
-        frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
-    else
-        frameProp = baseDevice->getSwitch("GUIDER_FRAME_TYPE");
-    if (frameProp == nullptr)
-        return false;
-
-    ISwitch *ccdFrame = nullptr;
-
-    if (fType == FRAME_LIGHT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
-    else if (fType == FRAME_DARK)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
-    else if (fType == FRAME_BIAS)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
-    else if (fType == FRAME_FLAT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
-
-    if (ccdFrame == nullptr)
-        return false;
-
-    if (ccdFrame->s == ISS_ON)
-        return true;
-
-    if (fType != FRAME_LIGHT)
-        captureMode = FITS_CALIBRATE;
-
-    IUResetSwitch(frameProp);
-    ccdFrame->s = ISS_ON;
-
-    clientManager->sendNewSwitch(frameProp);
-
-    return true;
-}
-
-CCDFrameType CCDChip::getFrameType()
-{
-    CCDFrameType fType               = FRAME_LIGHT;
-    ISwitchVectorProperty *frameProp = nullptr;
-
-    if (type == PRIMARY_CCD)
-        frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
-    else
-        frameProp = baseDevice->getSwitch("GUIDER_FRAME_TYPE");
-
-    if (frameProp == nullptr)
-        return fType;
-
-    ISwitch *ccdFrame = nullptr;
-
-    ccdFrame = IUFindOnSwitch(frameProp);
-
-    if (ccdFrame == nullptr)
-    {
-        qCWarning(KSTARS_INDI) << "ISD:CCD Cannot find active frame in CCD!";
-        return fType;
-    }
-
-    if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
-        fType = FRAME_LIGHT;
-    else if (!strcmp(ccdFrame->name, "FRAME_DARK"))
-        fType = FRAME_DARK;
-    else if (!strcmp(ccdFrame->name, "FRAME_FLAT"))
-        fType = FRAME_FLAT;
-    else if (!strcmp(ccdFrame->name, "FRAME_BIAS"))
-        fType = FRAME_BIAS;
-
-    return fType;
-}
-
-bool CCDChip::setBinning(CCDBinType binType)
-{
-    switch (binType)
-    {
-        case SINGLE_BIN:
-            return setBinning(1, 1);
-        case DOUBLE_BIN:
-            return setBinning(2, 2);
-        case TRIPLE_BIN:
-            return setBinning(3, 3);
-        case QUADRAPLE_BIN:
-            return setBinning(4, 4);
-    }
-
-    return false;
-}
-
-CCDBinType CCDChip::getBinning()
-{
-    CCDBinType binType             = SINGLE_BIN;
-    INumberVectorProperty *binProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            binProp = baseDevice->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = baseDevice->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
-        return binType;
-
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return binType;
-
-    switch (static_cast<int>(horBin->value))
-    {
-        case 2:
-            binType = DOUBLE_BIN;
-            break;
-
-        case 3:
-            binType = TRIPLE_BIN;
-            break;
-
-        case 4:
-            binType = QUADRAPLE_BIN;
-            break;
-
-        default:
-            break;
-    }
-
-    return binType;
-}
-
-bool CCDChip::getBinning(int *bin_x, int *bin_y)
-{
-    INumberVectorProperty *binProp = nullptr;
-    *bin_x = *bin_y = 1;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            binProp = baseDevice->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = baseDevice->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
-        return false;
-
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return false;
-
-    *bin_x = horBin->value;
-    *bin_y = verBin->value;
-
-    return true;
-}
-
-bool CCDChip::getMaxBin(int *max_xbin, int *max_ybin)
-{
-    if (!max_xbin || !max_ybin)
-        return false;
-
-    INumberVectorProperty *binProp = nullptr;
-
-    *max_xbin = *max_ybin = 1;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            binProp = baseDevice->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = baseDevice->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
-        return false;
-
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return false;
-
-    *max_xbin = horBin->max;
-    *max_ybin = verBin->max;
-
-    return true;
-}
-
-bool CCDChip::setBinning(int bin_x, int bin_y)
-{
-    INumberVectorProperty *binProp = nullptr;
-
-    switch (type)
-    {
-        case PRIMARY_CCD:
-            binProp = baseDevice->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = baseDevice->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
-        return false;
-
-    INumber *horBin = IUFindNumber(binProp, "HOR_BIN");
-    INumber *verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return false;
-
-    if (!std::fabs(horBin->value - bin_x) && !std::fabs(verBin->value - bin_y))
-        return true;
-
-    if (bin_x > horBin->max || bin_y > verBin->max)
-        return false;
-
-    horBin->value = bin_x;
-    verBin->value = bin_y;
-
-    clientManager->sendNewNumber(binProp);
-
-    return true;
-}
-
-CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
-{
-    dType = KSTARS_CCD;
-    primaryChip.reset(new CCDChip(this, CCDChip::PRIMARY_CCD));
-
-    readyTimer.reset(new QTimer());
-    readyTimer.get()->setInterval(250);
-    readyTimer.get()->setSingleShot(true);
-    connect(readyTimer.get(), &QTimer::timeout, this, &CCD::ready);
+    primaryChip.reset(new CameraChip(this, CameraChip::PRIMARY_CCD));
 
     m_Media.reset(new WSMedia(this));
-    connect(m_Media.get(), &WSMedia::newFile, this, &CCD::setWSBLOB);
+    connect(m_Media.get(), &WSMedia::newFile, this, &Camera::setWSBLOB);
 
-    connect(clientManager, &ClientManager::newBLOBManager, this, &CCD::setBLOBManager, Qt::UniqueConnection);
+    connect(m_Parent->getClientManager(), &ClientManager::newBLOBManager, this, &Camera::setBLOBManager, Qt::UniqueConnection);
     m_LastNotificationTS = QDateTime::currentDateTime();
 }
 
-CCD::~CCD()
+Camera::~Camera()
 {
     if (m_ImageViewerWindow)
         m_ImageViewerWindow->close();
@@ -808,24 +65,21 @@ CCD::~CCD()
         delete [] fileWriteBuffer;
 }
 
-void CCD::setBLOBManager(const char *device, INDI::Property prop)
+void Camera::setBLOBManager(const char *device, INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;
 
-    if (device == getDeviceName())
+    if (getDeviceName() == device)
         emit newBLOBManager(prop);
 }
 
-void CCD::registerProperty(INDI::Property prop)
+void Camera::registerProperty(INDI::Property prop)
 {
-    if (isConnected())
-        readyTimer.get()->start();
-
     if (prop->isNameMatch("GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
-        guideChip.reset(new CCDChip(this, CCDChip::GUIDE_CCD));
+        guideChip.reset(new CameraChip(this, CameraChip::GUIDE_CCD));
     }
     else if (prop->isNameMatch("CCD_FRAME_TYPE"))
     {
@@ -979,7 +233,7 @@ void CCD::registerProperty(INDI::Property prop)
     else if (prop->isNameMatch("CCD_WEBSOCKET_SETTINGS"))
     {
         auto np = prop->getNumber();
-        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(clientManager->getHost()).arg(np->at(0)->getValue())));
+        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(m_Parent->getClientManager()->getHost()).arg(np->at(0)->getValue())));
         m_Media->connectServer();
     }
     else if (prop->isNameMatch("CCD1"))
@@ -1015,25 +269,18 @@ void CCD::registerProperty(INDI::Property prop)
         }
     }
 
-    DeviceDecorator::registerProperty(prop);
+    ConcreteDevice::registerProperty(prop);
 }
 
-void CCD::removeProperty(const QString &name)
+void Camera::removeProperty(const QString &name)
 {
     if (name == "CCD_WEBSOCKET_SETTINGS")
     {
         m_Media->disconnectServer();
     }
-
-    DeviceDecorator::removeProperty(name);
 }
 
-void CCD::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
-}
-
-void CCD::processNumber(INumberVectorProperty *nvp)
+void Camera::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
@@ -1110,11 +357,9 @@ void CCD::processNumber(INumberVectorProperty *nvp)
                 emit newGuideStarData(guideChip.get(), dx, dy, fit);
         }
     }
-
-    DeviceDecorator::processNumber(nvp);
 }
 
-void CCD::processSwitch(ISwitchVectorProperty *svp)
+void Camera::processSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "CCD_COOLER"))
     {
@@ -1134,7 +379,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow.reset(new StreamWG(this));
 
-            INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+            INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
             INumber *w = nullptr, *h = nullptr;
 
             if (streamFrame)
@@ -1151,7 +396,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             else
             {
                 // Only use CCD dimensions if we are receiving raw stream and not stream of images (i.e. mjpeg..etc)
-                auto rawBP = baseDevice->getBLOB("CCD1");
+                auto rawBP = getBLOB("CCD1");
                 if (rawBP)
                 {
                     int x = 0, y = 0, w = 0, h = 0;
@@ -1169,8 +414,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
         if (streamWindow)
         {
-            connect(streamWindow.get(), &StreamWG::hidden, this, &CCD::StreamWindowHidden, Qt::UniqueConnection);
-            connect(streamWindow.get(), &StreamWG::imageChanged, this, &CCD::newVideoFrame, Qt::UniqueConnection);
+            connect(streamWindow.get(), &StreamWG::hidden, this, &Camera::StreamWindowHidden, Qt::UniqueConnection);
+            connect(streamWindow.get(), &StreamWG::imageChanged, this, &Camera::newVideoFrame, Qt::UniqueConnection);
 
             streamWindow->enableStream(svp->sp[0].s == ISS_ON);
             emit videoStreamToggled(svp->sp[0].s == ISS_ON);
@@ -1239,11 +484,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             primaryCCDBLOB = nullptr;
         }
     }
-
-    DeviceDecorator::processSwitch(svp);
 }
 
-void CCD::processText(ITextVectorProperty *tvp)
+void Camera::processText(ITextVectorProperty *tvp)
 {
     if (!strcmp(tvp->name, "CCD_FILE_PATH"))
     {
@@ -1251,11 +494,9 @@ void CCD::processText(ITextVectorProperty *tvp)
         if (filepath)
             emit newRemoteFile(QString(filepath->text));
     }
-
-    DeviceDecorator::processText(tvp);
 }
 
-void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
+void Camera::setWSBLOB(const QByteArray &message, const QString &extension)
 {
     if (!primaryCCDBLOB)
         return;
@@ -1269,12 +510,12 @@ void CCD::setWSBLOB(const QByteArray &message, const QString &extension)
     primaryCCDBLOB->blob = nullptr;
 }
 
-void CCD::processStream(IBLOB *bp)
+void Camera::processStream(IBLOB *bp)
 {
     if (!streamWindow || streamWindow->isStreamEnabled() == false)
         return;
 
-    INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+    INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
     INumber *w = nullptr, *h = nullptr;
 
     if (streamFrame)
@@ -1305,7 +546,7 @@ void CCD::processStream(IBLOB *bp)
     streamWindow->newFrame(bp);
 }
 
-bool CCD::generateFilename(bool batch_mode, const QString &extension, QString *filename)
+bool Camera::generateFilename(bool batch_mode, const QString &extension, QString *filename)
 {
 
     placeholderPath.generateFilename("%p1/%t/%T/%F/%t_%T_%F_%e_%D_%s3", ISOMode,
@@ -1323,7 +564,7 @@ bool CCD::generateFilename(bool batch_mode, const QString &extension, QString *f
     return true;
 }
 
-bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
+bool Camera::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
 {
     // TODO: Not yet threading the writes for non-fits files.
     // Would need to deal with the raw conversion, etc.
@@ -1354,7 +595,8 @@ bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
         memcpy(fileWriteBuffer, bp->blob, bp->size);
-        fileWriteThread = QtConcurrent::run(this, &ISD::CCD::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer, bp->size);
+        fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer,
+                                            bp->size);
     }
     else
     {
@@ -1367,7 +609,7 @@ bool CCD::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
 // Get or Create FITSViewer if we are using FITSViewer
 // or if capture mode is calibrate since for now we are forced to open the file in the viewer
 // this should be fixed in the future and should only use FITSData
-QPointer<FITSViewer> CCD::getFITSViewer()
+QPointer<FITSViewer> Camera::getFITSViewer()
 {
     // if the FITS viewer exists, return it
     if (m_FITSViewerWindow != nullptr && ! m_FITSViewerWindow.isNull())
@@ -1407,7 +649,7 @@ QPointer<FITSViewer> CCD::getFITSViewer()
     return m_FITSViewerWindow;
 }
 
-void CCD::processBLOB(IBLOB *bp)
+void Camera::processBLOB(IBLOB *bp)
 {
     // Ignore write-only BLOBs since we only receive it for state-change
     if (bp->bvp->p == IP_WO || bp->size == 0)
@@ -1437,12 +679,12 @@ void CCD::processBLOB(IBLOB *bp)
 
     if (BType == BLOB_OTHER)
     {
-        DeviceDecorator::processBLOB(bp);
+        m_Parent->processBLOB(bp);
         emit newImage(nullptr);
         return;
     }
 
-    CCDChip *targetChip = nullptr;
+    CameraChip *targetChip = nullptr;
 
     if (!strcmp(bp->name, "CCD2"))
         targetChip = guideChip.get();
@@ -1618,7 +860,7 @@ void CCD::processBLOB(IBLOB *bp)
     handleImage(targetChip, filename, bp, imageData);
 }
 
-void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)
+void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)
 {
     FITSMode captureMode = targetChip->getCaptureMode();
 
@@ -1691,39 +933,39 @@ void CCD::handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, Q
     emit newImage(data);
 }
 
-void CCD::StreamWindowHidden()
+void Camera::StreamWindowHidden()
 {
     if (isConnected())
     {
         // We can have more than one *_VIDEO_STREAM property active so disable them all
-        auto streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+        auto streamSP = getSwitch("CCD_VIDEO_STREAM");
         if (streamSP)
         {
             streamSP->reset();
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            clientManager->sendNewSwitch(streamSP);
+            sendNewSwitch(streamSP);
         }
 
-        streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        streamSP = getSwitch("VIDEO_STREAM");
         if (streamSP)
         {
             streamSP->reset();
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            clientManager->sendNewSwitch(streamSP);
+            sendNewSwitch(streamSP);
         }
 
-        streamSP = baseDevice->getSwitch("AUX_VIDEO_STREAM");
+        streamSP = getSwitch("AUX_VIDEO_STREAM");
         if (streamSP)
         {
             streamSP->reset();
             streamSP->at(0)->setState(ISS_OFF);
             streamSP->at(1)->setState(ISS_ON);
             streamSP->setState(IPS_IDLE);
-            clientManager->sendNewSwitch(streamSP);
+            sendNewSwitch(streamSP);
         }
     }
 
@@ -1731,27 +973,27 @@ void CCD::StreamWindowHidden()
         streamWindow->disconnect();
 }
 
-bool CCD::hasGuideHead()
+bool Camera::hasGuideHead()
 {
     return HasGuideHead;
 }
 
-bool CCD::hasCooler()
+bool Camera::hasCooler()
 {
     return HasCooler;
 }
 
-bool CCD::hasCoolerControl()
+bool Camera::hasCoolerControl()
 {
     return HasCoolerControl;
 }
 
-bool CCD::setCoolerControl(bool enable)
+bool Camera::setCoolerControl(bool enable)
 {
     if (HasCoolerControl == false)
         return false;
 
-    auto coolerSP = baseDevice->getSwitch("CCD_COOLER");
+    auto coolerSP = getSwitch("CCD_COOLER");
 
     if (!coolerSP)
         return false;
@@ -1764,34 +1006,34 @@ bool CCD::setCoolerControl(bool enable)
 
     coolerON->setState(enable ? ISS_ON : ISS_OFF);
     coolerOFF->setState(enable ? ISS_OFF : ISS_ON);
-    clientManager->sendNewSwitch(coolerSP);
+    sendNewSwitch(coolerSP);
 
     return true;
 }
 
-CCDChip *CCD::getChip(CCDChip::ChipType cType)
+CameraChip *Camera::getChip(CameraChip::ChipType cType)
 {
     switch (cType)
     {
-        case CCDChip::PRIMARY_CCD:
+        case CameraChip::PRIMARY_CCD:
             return primaryChip.get();
 
-        case CCDChip::GUIDE_CCD:
+        case CameraChip::GUIDE_CCD:
             return guideChip.get();
     }
 
     return nullptr;
 }
 
-bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
+bool Camera::setRapidGuide(CameraChip *targetChip, bool enable)
 {
     ISwitchVectorProperty *rapidSP = nullptr;
     ISwitch *enableS               = nullptr;
 
     if (targetChip == primaryChip.get())
-        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE");
+        rapidSP = getSwitch("CCD_RAPID_GUIDE");
     else
-        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE");
+        rapidSP = getSwitch("GUIDER_RAPID_GUIDE");
 
     if (rapidSP == nullptr)
         return false;
@@ -1809,20 +1051,20 @@ bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
     rapidSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
     rapidSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
 
-    clientManager->sendNewSwitch(rapidSP);
+    sendNewSwitch(rapidSP);
 
     return true;
 }
 
-bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
+bool Camera::configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
 {
     ISwitchVectorProperty *rapidSP = nullptr;
     ISwitch *autoLoopS = nullptr, *sendImageS = nullptr, *showMarkerS = nullptr;
 
     if (targetChip == primaryChip.get())
-        rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE_SETUP");
+        rapidSP = getSwitch("CCD_RAPID_GUIDE_SETUP");
     else
-        rapidSP = baseDevice->getSwitch("GUIDER_RAPID_GUIDE_SETUP");
+        rapidSP = getSwitch("GUIDER_RAPID_GUIDE_SETUP");
 
     if (rapidSP == nullptr)
         return false;
@@ -1844,19 +1086,19 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
     sendImageS->s  = sendImage ? ISS_ON : ISS_OFF;
     showMarkerS->s = showMarker ? ISS_ON : ISS_OFF;
 
-    clientManager->sendNewSwitch(rapidSP);
+    sendNewSwitch(rapidSP);
 
     return true;
 }
 
-void CCD::updateUploadSettings(const QString &remoteDir)
+void Camera::updateUploadSettings(const QString &remoteDir)
 {
     QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("XXX");
 
     ITextVectorProperty *uploadSettingsTP = nullptr;
     IText *uploadT                        = nullptr;
 
-    uploadSettingsTP = baseDevice->getText("UPLOAD_SETTINGS");
+    uploadSettingsTP = getText("UPLOAD_SETTINGS");
     if (uploadSettingsTP)
     {
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
@@ -1867,15 +1109,15 @@ void CCD::updateUploadSettings(const QString &remoteDir)
         if (uploadT)
             IUSaveText(uploadT, filename.toLatin1().constData());
 
-        clientManager->sendNewText(uploadSettingsTP);
+        sendNewText(uploadSettingsTP);
     }
 }
 
-CCD::UploadMode CCD::getUploadMode()
+Camera::UploadMode Camera::getUploadMode()
 {
     ISwitchVectorProperty *uploadModeSP = nullptr;
 
-    uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+    uploadModeSP = getSwitch("UPLOAD_MODE");
 
     if (uploadModeSP == nullptr)
     {
@@ -1902,11 +1144,11 @@ CCD::UploadMode CCD::getUploadMode()
     return UPLOAD_CLIENT;
 }
 
-bool CCD::setUploadMode(UploadMode mode)
+bool Camera::setUploadMode(UploadMode mode)
 {
     ISwitch *modeS = nullptr;
 
-    auto uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
+    auto uploadModeSP = getSwitch("UPLOAD_MODE");
 
     if (!uploadModeSP)
     {
@@ -1944,17 +1186,17 @@ bool CCD::setUploadMode(UploadMode mode)
     uploadModeSP->reset();
     modeS->s = ISS_ON;
 
-    clientManager->sendNewSwitch(uploadModeSP);
+    sendNewSwitch(uploadModeSP);
 
     return true;
 }
 
-bool CCD::getTemperature(double *value)
+bool Camera::getTemperature(double *value)
 {
     if (HasCooler == false)
         return false;
 
-    auto temperatureNP = baseDevice->getNumber("CCD_TEMPERATURE");
+    auto temperatureNP = getNumber("CCD_TEMPERATURE");
 
     if (!temperatureNP)
         return false;
@@ -1964,9 +1206,9 @@ bool CCD::getTemperature(double *value)
     return true;
 }
 
-bool CCD::setTemperature(double value)
+bool Camera::setTemperature(double value)
 {
-    auto nvp = baseDevice->getNumber("CCD_TEMPERATURE");
+    auto nvp = getNumber("CCD_TEMPERATURE");
 
     if (!nvp)
         return false;
@@ -1978,17 +1220,17 @@ bool CCD::setTemperature(double value)
 
     np->setValue(value);
 
-    clientManager->sendNewNumber(nvp);
+    sendNewNumber(nvp);
 
     return true;
 }
 
-bool CCD::setEncodingFormat(const QString &value)
+bool Camera::setEncodingFormat(const QString &value)
 {
     if (value == m_EncodingFormat)
         return true;
 
-    auto svp = baseDevice->getSwitch("CCD_TRANSFER_FORMAT");
+    auto svp = getSwitch("CCD_TRANSFER_FORMAT");
 
     if (!svp)
         return false;
@@ -2004,16 +1246,16 @@ bool CCD::setEncodingFormat(const QString &value)
     }
 
     m_EncodingFormat = value;
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
     return true;
 }
 
-bool CCD::setTelescopeType(TelescopeType type)
+bool Camera::setTelescopeType(TelescopeType type)
 {
     if (type == telescopeType)
         return true;
 
-    auto svp = baseDevice->getSwitch("TELESCOPE_TYPE");
+    auto svp = getSwitch("TELESCOPE_TYPE");
 
     if (!svp)
         return false;
@@ -2031,19 +1273,19 @@ bool CCD::setTelescopeType(TelescopeType type)
     {
         typePrimary->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_ON : ISS_OFF);
         typeGuide->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_OFF : ISS_ON);
-        clientManager->sendNewSwitch(svp);
+        sendNewSwitch(svp);
         setConfig(SAVE_CONFIG);
     }
 
     return true;
 }
 
-bool CCD::setVideoStreamEnabled(bool enable)
+bool Camera::setVideoStreamEnabled(bool enable)
 {
     if (HasVideoStream == false)
         return false;
 
-    auto svp = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+    auto svp = getSwitch("CCD_VIDEO_STREAM");
 
     if (!svp)
         return false;
@@ -2055,14 +1297,14 @@ bool CCD::setVideoStreamEnabled(bool enable)
     svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
     svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::resetStreamingFrame()
+bool Camera::resetStreamingFrame()
 {
-    auto frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+    auto frameProp = getNumber("CCD_STREAM_FRAME");
 
     if (!frameProp)
         return false;
@@ -2085,16 +1327,16 @@ bool CCD::resetStreamingFrame()
         warg->setValue(warg->getMax());
         harg->setValue(harg->getMax());
 
-        clientManager->sendNewNumber(frameProp);
+        sendNewNumber(frameProp);
         return true;
     }
 
     return false;
 }
 
-bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
+bool Camera::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 {
-    auto limitsProp = baseDevice->getNumber("LIMITS");
+    auto limitsProp = getNumber("LIMITS");
 
     if (!limitsProp)
         return false;
@@ -2108,7 +1350,7 @@ bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
         {
             bufferMax->setValue(maxBufferSize);
             previewFPS->setValue(maxPreviewFPS);
-            clientManager->sendNewNumber(limitsProp);
+            sendNewNumber(limitsProp);
         }
 
         return true;
@@ -2117,9 +1359,9 @@ bool CCD::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
     return false;
 }
 
-bool CCD::setStreamingFrame(int x, int y, int w, int h)
+bool Camera::setStreamingFrame(int x, int y, int w, int h)
 {
-    auto frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+    auto frameProp = getNumber("CCD_STREAM_FRAME");
 
     if (!frameProp)
         return false;
@@ -2143,14 +1385,14 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
         warg->value = qBound(warg->getMin(), static_cast<double>(w), warg->getMax());
         harg->value = qBound(harg->getMin(), static_cast<double>(h), harg->getMax());
 
-        clientManager->sendNewNumber(frameProp);
+        sendNewNumber(frameProp);
         return true;
     }
 
     return false;
 }
 
-bool CCD::isStreamingEnabled()
+bool Camera::isStreamingEnabled()
 {
     if (HasVideoStream == false || !streamWindow)
         return false;
@@ -2158,9 +1400,9 @@ bool CCD::isStreamingEnabled()
     return streamWindow->isStreamEnabled();
 }
 
-bool CCD::setSERNameDirectory(const QString &filename, const QString &directory)
+bool Camera::setSERNameDirectory(const QString &filename, const QString &directory)
 {
-    auto tvp = baseDevice->getText("RECORD_FILE");
+    auto tvp = getText("RECORD_FILE");
 
     if (!tvp)
         return false;
@@ -2174,14 +1416,14 @@ bool CCD::setSERNameDirectory(const QString &filename, const QString &directory)
     filenameT->setText(filename.toLatin1().data());
     dirT->setText(directory.toLatin1().data());
 
-    clientManager->sendNewText(tvp);
+    sendNewText(tvp);
 
     return true;
 }
 
-bool CCD::getSERNameDirectory(QString &filename, QString &directory)
+bool Camera::getSERNameDirectory(QString &filename, QString &directory)
 {
-    auto tvp = baseDevice->getText("RECORD_FILE");
+    auto tvp = getText("RECORD_FILE");
 
     if (!tvp)
         return false;
@@ -2198,9 +1440,9 @@ bool CCD::getSERNameDirectory(QString &filename, QString &directory)
     return true;
 }
 
-bool CCD::startRecording()
+bool Camera::startRecording()
 {
-    auto svp = baseDevice->getSwitch("RECORD_STREAM");
+    auto svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
@@ -2216,14 +1458,14 @@ bool CCD::startRecording()
     svp->reset();
     recordON->setState(ISS_ON);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::startDurationRecording(double duration)
+bool Camera::startDurationRecording(double duration)
 {
-    auto nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    auto nvp = getNumber("RECORD_OPTIONS");
 
     if (!nvp)
         return false;
@@ -2233,7 +1475,7 @@ bool CCD::startDurationRecording(double duration)
     if (!durationN)
         return false;
 
-    auto svp = baseDevice->getSwitch("RECORD_STREAM");
+    auto svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
@@ -2247,25 +1489,25 @@ bool CCD::startDurationRecording(double duration)
         return true;
 
     durationN->setValue(duration);
-    clientManager->sendNewNumber(nvp);
+    sendNewNumber(nvp);
 
     svp->reset();
     recordON->setState(ISS_ON);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::startFramesRecording(uint32_t frames)
+bool Camera::startFramesRecording(uint32_t frames)
 {
-    auto nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    auto nvp = getNumber("RECORD_OPTIONS");
 
     if (!nvp)
         return false;
 
     auto frameN = nvp->findWidgetByName("RECORD_FRAME_TOTAL");
-    auto svp = baseDevice->getSwitch("RECORD_STREAM");
+    auto svp = getSwitch("RECORD_STREAM");
 
     if (!frameN || !svp)
         return false;
@@ -2279,19 +1521,19 @@ bool CCD::startFramesRecording(uint32_t frames)
         return true;
 
     frameN->setValue(frames);
-    clientManager->sendNewNumber(nvp);
+    sendNewNumber(nvp);
 
     svp->reset();
     recordON->setState(ISS_ON);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::stopRecording()
+bool Camera::stopRecording()
 {
-    auto svp = baseDevice->getSwitch("RECORD_STREAM");
+    auto svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
@@ -2308,14 +1550,14 @@ bool CCD::stopRecording()
     svp->reset();
     recordOFF->setState(ISS_ON);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::setFITSHeader(const QMap<QString, QString> &values)
+bool Camera::setFITSHeader(const QMap<QString, QString> &values)
 {
-    auto tvp = baseDevice->getText("FITS_HEADER");
+    auto tvp = getText("FITS_HEADER");
 
     if (!tvp)
         return false;
@@ -2334,22 +1576,22 @@ bool CCD::setFITSHeader(const QMap<QString, QString> &values)
         headerT->setText(i.value().toLatin1().data());
     }
 
-    clientManager->sendNewText(tvp);
+    sendNewText(tvp);
 
     return true;
 }
 
-bool CCD::setGain(double value)
+bool Camera::setGain(double value)
 {
     if (!gainN)
         return false;
 
     gainN->value = value;
-    clientManager->sendNewNumber(gainN->nvp);
+    sendNewNumber(gainN->nvp);
     return true;
 }
 
-bool CCD::getGain(double *value)
+bool Camera::getGain(double *value)
 {
     if (!gainN)
         return false;
@@ -2359,7 +1601,7 @@ bool CCD::getGain(double *value)
     return true;
 }
 
-bool CCD::getGainMinMaxStep(double *min, double *max, double *step)
+bool Camera::getGainMinMaxStep(double *min, double *max, double *step)
 {
     if (!gainN)
         return false;
@@ -2371,17 +1613,17 @@ bool CCD::getGainMinMaxStep(double *min, double *max, double *step)
     return true;
 }
 
-bool CCD::setOffset(double value)
+bool Camera::setOffset(double value)
 {
     if (!offsetN)
         return false;
 
     offsetN->value = value;
-    clientManager->sendNewNumber(offsetN->nvp);
+    sendNewNumber(offsetN->nvp);
     return true;
 }
 
-bool CCD::getOffset(double *value)
+bool Camera::getOffset(double *value)
 {
     if (!offsetN)
         return false;
@@ -2391,7 +1633,7 @@ bool CCD::getOffset(double *value)
     return true;
 }
 
-bool CCD::getOffsetMinMaxStep(double *min, double *max, double *step)
+bool Camera::getOffsetMinMaxStep(double *min, double *max, double *step)
 {
     if (!offsetN)
         return false;
@@ -2403,79 +1645,79 @@ bool CCD::getOffsetMinMaxStep(double *min, double *max, double *step)
     return true;
 }
 
-bool CCD::isBLOBEnabled()
+bool Camera::isBLOBEnabled()
 {
-    return (clientManager->isBLOBEnabled(getDeviceName(), "CCD1"));
+    return (m_Parent->getClientManager()->isBLOBEnabled(getDeviceName(), "CCD1"));
 }
 
-bool CCD::setBLOBEnabled(bool enable, const QString &prop)
+bool Camera::setBLOBEnabled(bool enable, const QString &prop)
 {
-    clientManager->setBLOBEnabled(enable, getDeviceName(), prop);
+    m_Parent->getClientManager()->setBLOBEnabled(enable, getDeviceName(), prop);
 
     return true;
 }
 
-bool CCD::setFastExposureEnabled(bool enable)
+bool Camera::setFastExposureEnabled(bool enable)
 {
     // Set value immediately
     m_FastExposureEnabled = enable;
 
-    auto svp = baseDevice->getSwitch("CCD_FAST_TOGGLE");
+    auto svp = getSwitch("CCD_FAST_TOGGLE");
 
     if (!svp)
         return false;
 
     svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
     svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
 
     return true;
 }
 
-bool CCD::setCaptureFormat(const QString &format)
+bool Camera::setCaptureFormat(const QString &format)
 {
-    auto svp = baseDevice->getSwitch("CCD_CAPTURE_FORMAT");
+    auto svp = getSwitch("CCD_CAPTURE_FORMAT");
     if (!svp)
         return false;
 
     for (auto &oneSwitch : *svp)
         oneSwitch.setState(oneSwitch.label == format ? ISS_ON : ISS_OFF);
 
-    clientManager->sendNewSwitch(svp);
+    sendNewSwitch(svp);
     return true;
 }
 
-bool CCD::setFastCount(uint32_t count)
+bool Camera::setFastCount(uint32_t count)
 {
-    auto nvp = baseDevice->getNumber("CCD_FAST_COUNT");
+    auto nvp = getNumber("CCD_FAST_COUNT");
 
     if (!nvp)
         return false;
 
     nvp->at(0)->setValue(count);
 
-    clientManager->sendNewNumber(nvp);
+    sendNewNumber(nvp);
 
     return true;
 }
 
-bool CCD::setStreamExposure(double duration)
+bool Camera::setStreamExposure(double duration)
 {
-    auto nvp = baseDevice->getNumber("STREAMING_EXPOSURE");
+    auto nvp = getNumber("STREAMING_EXPOSURE");
 
     if (!nvp)
         return false;
 
     nvp->at(0)->setValue(duration);
 
-    clientManager->sendNewNumber(nvp);
+    sendNewNumber(nvp);
 
     return true;
 }
 
-bool CCD::getStreamExposure(double *duration)
+bool Camera::getStreamExposure(double *duration)
 {
-    auto nvp = baseDevice->getNumber("STREAMING_EXPOSURE");
+    auto nvp = getNumber("STREAMING_EXPOSURE");
 
     if (!nvp)
         return false;
@@ -2485,9 +1727,9 @@ bool CCD::getStreamExposure(double *duration)
     return true;
 }
 
-bool CCD::isCoolerOn()
+bool Camera::isCoolerOn()
 {
-    auto svp = baseDevice->getSwitch("CCD_COOLER");
+    auto svp = getSwitch("CCD_COOLER");
 
     if (!svp)
         return false;
@@ -2495,9 +1737,9 @@ bool CCD::isCoolerOn()
     return (svp->at(0)->getState() == ISS_ON);
 }
 
-bool CCD::getTemperatureRegulation(double &ramp, double &threshold)
+bool Camera::getTemperatureRegulation(double &ramp, double &threshold)
 {
-    auto regulation = baseDevice->getProperty("CCD_TEMP_RAMP");
+    auto regulation = getProperty("CCD_TEMP_RAMP");
     if (!regulation->isValid())
         return false;
 
@@ -2506,20 +1748,20 @@ bool CCD::getTemperatureRegulation(double &ramp, double &threshold)
     return true;
 }
 
-bool CCD::setTemperatureRegulation(double ramp, double threshold)
+bool Camera::setTemperatureRegulation(double ramp, double threshold)
 {
-    auto regulation = baseDevice->getProperty("CCD_TEMP_RAMP");
+    auto regulation = getProperty("CCD_TEMP_RAMP");
     if (!regulation->isValid())
         return false;
 
     regulation.getNumber()->at(0)->setValue(ramp);
     regulation.getNumber()->at(1)->setValue(threshold);
-    clientManager->sendNewNumber(regulation->getNumber());
+    sendNewNumber(regulation->getNumber());
     return true;
 }
 
 // Internal function to write an image blob to disk.
-bool CCD::WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
+bool Camera::WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
 {
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
@@ -2549,7 +1791,7 @@ bool CCD::WriteImageFileInternal(const QString &filename, char *buffer, const si
     return ok;
 }
 
-QString CCD::getCaptureFormat() const
+QString Camera::getCaptureFormat() const
 {
     if (m_CaptureFormatIndex < 0 || m_CaptureFormats.isEmpty() || m_CaptureFormatIndex > m_CaptureFormats.size())
         return QLatin1String("NA");

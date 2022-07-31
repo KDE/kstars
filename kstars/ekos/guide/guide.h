@@ -10,8 +10,8 @@
 #include "guideinterface.h"
 #include "guidestatewidget.h"
 #include "ekos/ekos.h"
-#include "indi/indiccd.h"
-#include "indi/inditelescope.h"
+#include "indi/indicamera.h"
+#include "indi/indimount.h"
 #include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
@@ -54,7 +54,7 @@ class Guide : public QWidget, public Ui::Guide
         Q_PROPERTY(Ekos::GuideState status READ status NOTIFY newStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QString camera READ camera WRITE setCamera)
-        Q_PROPERTY(QString st4 READ st4 WRITE setST4)
+        Q_PROPERTY(QString guider READ guider WRITE setGuider)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
         Q_PROPERTY(QList<double> axisDelta READ axisDelta NOTIFY newAxisDelta)
         Q_PROPERTY(QList<double> axisSigma READ axisSigma NOTIFY newAxisSigma)
@@ -94,13 +94,13 @@ class Guide : public QWidget, public Ui::Guide
              * @param device The ST4 device name
              * @return Returns true if ST4 device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setST4(const QString &device);
-        Q_SCRIPTABLE QString st4();
+        Q_SCRIPTABLE bool setGuider(const QString &device);
+        Q_SCRIPTABLE QString guider();
 
         /** DBUS interface function.
              * @return Returns List of registered ST4 devices.
              */
-        Q_SCRIPTABLE QStringList getST4Devices();
+        Q_SCRIPTABLE QStringList getGuiders();
 
         /** DBUS interface function.
          * @brief connectGuider Establish connection to guider application. For internal guider, this always returns true.
@@ -132,12 +132,6 @@ class Guide : public QWidget, public Ui::Guide
         {
             return exposureIN->value();
         }
-
-        /** DBUS interface function.
-             * Set image filter to apply to the image after capture.
-             * @param value Image filter (Auto Stretch, High Contrast, Equalize, High Pass)
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString &value);
 
         /** DBUS interface function.
              * Set calibration Use Two Axis option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
@@ -190,18 +184,17 @@ class Guide : public QWidget, public Ui::Guide
 
         /** @}*/
 
-        void addCamera(ISD::GDInterface *newCCD);
+        void addCamera(ISD::Camera *device);
+        void addGuideHead(ISD::Camera *device);
+        void addMount(ISD::Mount *device);
+        void addGuider(ISD::Guider *device);
+        void addAdaptiveOptics(ISD::AdaptiveOptics *device);
+        void removeDevice(ISD::GenericDevice *device);
         void configurePHD2Camera();
-        void setTelescope(ISD::GDInterface *newTelescope);
-        void addST4(ISD::ST4 *setST4);
-        void setAO(ISD::ST4 *newAO);
-        void removeDevice(ISD::GDInterface *device);
 
         bool isDithering();
-
-        void addGuideHead(ISD::GDInterface *newCCD);
         void syncTelescopeInfo();
-        void syncCCDInfo();
+        void syncCameraInfo();
 
         /**
              * @brief clearLog As the name suggests
@@ -235,9 +228,9 @@ class Guide : public QWidget, public Ui::Guide
             return boxSizeCombo->currentText().toInt();
         }
 
-        GuideInterface *getGuider()
+        GuideInterface *getGuiderInstance()
         {
-            return guider;
+            return m_GuiderInstance;
         }
 
         QJsonObject getSettings() const;
@@ -323,10 +316,10 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE QList<double> axisSigma();
 
         /**
-              * @brief checkCCD Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
+              * @brief checkCamera Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
               * @param ccdNum CCD index number in the CCD selection combo box
               */
-        void checkCCD(int ccdNum = -1);
+        void checkCamera(int ccdNum = -1);
 
         /**
              * @brief checkExposureValue This function is called by the INDI framework whenever there is a new exposure value. We use it to know if there is a problem with the exposure
@@ -334,7 +327,7 @@ class Guide : public QWidget, public Ui::Guide
              * @param exposure numbers of seconds left in the exposure
              * @param expState State of the exposure property
              */
-        void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState);
+        void checkExposureValue(ISD::CameraChip *targetChip, double exposure, IPState expState);
 
         /**
              * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
@@ -345,7 +338,7 @@ class Guide : public QWidget, public Ui::Guide
              * @brief setST4 Sets a new ST4 device from the combobox index
              * @param index Index of selected ST4 in the combobox
              */
-        void setST4(int index);
+        void setGuider(int index);
 
         /**
              * @brief Set telescope and guide scope info. All measurements is in millimeters.
@@ -368,11 +361,11 @@ class Guide : public QWidget, public Ui::Guide
         // Update Capture Module status
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
-        void setMountStatus(ISD::Telescope::Status newState);
-        void setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
+        void setMountStatus(ISD::Mount::Status newState);
+        void setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha);
 
         // Update Pier Side
-        void setPierSide(ISD::Telescope::PierSide newSide);
+        void setPierSide(ISD::Mount::PierSide newSide);
 
         // Star Position
         void setStarPosition(const QVector3D &newCenter, bool updateNow);
@@ -381,8 +374,8 @@ class Guide : public QWidget, public Ui::Guide
         void setCaptureComplete();
 
         // Send pulse to ST4 driver
-        bool sendPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-        bool sendPulse(GuideDirection dir, int msecs);
+        bool sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
+        bool sendSinglePulse(GuideDirection dir, int msecs);
 
         /**
              * @brief setDECSwap Change ST4 declination pulse direction. +DEC pulses increase DEC if swap is OFF. When on +DEC pulses result in decreasing DEC.
@@ -466,12 +459,12 @@ class Guide : public QWidget, public Ui::Guide
         void guideStats(double raError, double decError, int raPulse, int decPulse,
                         double snr, double skyBg, int numStars);
 
-        void guideChipUpdated(ISD::CCDChip *);
+        void guideChipUpdated(ISD::CameraChip *);
         void settingsUpdated(const QJsonObject &settings);
         void driverTimedout(const QString &deviceName);
 
     private slots:
-        void setDefaultST4(const QString &driver);
+        void setDefaultGuider(const QString &driver);
         void setDefaultCCD(const QString &ccd);
 
     private:
@@ -515,7 +508,7 @@ class Guide : public QWidget, public Ui::Guide
          * @brief prepareCapture Set common settings for capture for guide module
          * @param targetChip target Chip
          */
-        void prepareCapture(ISD::CCDChip *targetChip);
+        void prepareCapture(ISD::CameraChip *targetChip);
 
 
         void handleManualDither();
@@ -541,18 +534,19 @@ class Guide : public QWidget, public Ui::Guide
         QStack<GuideState> operationStack;
 
         // Devices
-        ISD::CCD *currentCCD { nullptr };
-        QString lastPHD2CameraName; //This is for the configure PHD2 camera method.
-        ISD::Telescope *currentTelescope { nullptr };
-        ISD::ST4 *ST4Driver { nullptr };
-        ISD::ST4 *GuideDriver { nullptr };
+        ISD::Camera *m_Camera { nullptr };
+        //This is for the configure PHD2 camera method.
+        QString lastPHD2CameraName;
+        ISD::Mount *m_Mount { nullptr };
+        ISD::Guider *m_Guider { nullptr };
 
         // Device Containers
-        QList<ISD::ST4 *> ST4List;
-        QList<ISD::CCD *> CCDs;
+        QList<ISD::Camera *> m_Cameras;
+        QList<ISD::Mount *> m_Mounts;
+        QList<ISD::Guider *> m_Guiders;
 
         // Guider process
-        GuideInterface *guider { nullptr };
+        GuideInterface *m_GuiderInstance { nullptr };
         GuiderType guiderType { GUIDE_INTERNAL };
 
         // Star
@@ -560,7 +554,6 @@ class Guide : public QWidget, public Ui::Guide
 
         // Guide Params
         int guideBinIndex { 0 };    // Selected or saved binning for guiding
-        int guideFilterIndex { 0 }; // Selected or saved filter for post-treatment
         double ccdPixelSizeX { -1 };
         double ccdPixelSizeY { -1 };
         double aperture { -1 };
@@ -583,7 +576,7 @@ class Guide : public QWidget, public Ui::Guide
         uint8_t m_DeviceRestartCounter { 0 };
 
         // Pulse Timer
-        QTimer pulseTimer;
+        QTimer m_PulseTimer;
 
         // Log
         QStringList m_LogText;
@@ -610,7 +603,7 @@ class Guide : public QWidget, public Ui::Guide
         bool subFramed { false };
 
         // CCD Chip frame settings
-        QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+        QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
         // Profile Pixmap
         QPixmap profilePixmap;
@@ -631,7 +624,7 @@ class Guide : public QWidget, public Ui::Guide
         QPointer<DarkProcessor> m_DarkProcessor;
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
-        ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
+        ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
 
         bool graphOnLatestPt = true;
 

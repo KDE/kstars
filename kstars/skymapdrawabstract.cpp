@@ -41,7 +41,7 @@
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -264,13 +264,16 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
     psky.setBrush(Qt::NoBrush);
     float pxperdegree = Options::zoomFactor() / 57.3;
 
-    for (auto gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (gd->getType() != KSTARS_TELESCOPE || gd->isConnected() == false)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE) || oneDevice->isConnected() == false)
             continue;
 
-        auto oneTelescope = dynamic_cast<ISD::Telescope*>(gd);
-        auto coordNP = oneTelescope->currentCoordinates();
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
+
+        auto coordNP = mount->currentCoordinates();
 
         QPointF P = m_SkyMap->m_proj->toScreen(&coordNP);
         if (Options::useAntialias())
@@ -297,7 +300,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             psky.drawEllipse(QRectF(x1, y1, s1, s1));
             psky.drawEllipse(QRectF(x2, y2, s2, s2));
 
-            psky.drawText(QPointF(x0 + s2 + 2., y0), oneTelescope->getDeviceName());
+            psky.drawText(QPointF(x0 + s2 + 2., y0), mount->getDeviceName());
         }
         else
         {
@@ -323,7 +326,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             psky.drawEllipse(QRect(x1, y1, s1, s1));
             psky.drawEllipse(QRect(x2, y2, s2, s2));
 
-            psky.drawText(QPoint(x0 + s2 + 2, y0), oneTelescope->getDeviceName());
+            psky.drawText(QPoint(x0 + s2 + 2, y0), mount->getDeviceName());
         }
     }
 #endif

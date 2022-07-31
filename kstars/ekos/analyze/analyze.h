@@ -12,7 +12,7 @@
 
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include "ui_analyze.h"
 #include "ekos/scheduler/scheduler.h"
 
@@ -115,8 +115,8 @@ class Analyze : public QWidget, public Ui::Analyze
         class MountSession : public Session
         {
             public:
-                ISD::Telescope::Status state;
-                MountSession(double start_, double end_, QCPItemRect *rect, ISD::Telescope::Status state_)
+                ISD::Mount::Status state;
+                MountSession(double start_, double end_, QCPItemRect *rect, ISD::Mount::Status state_)
                     : Session(start_, end_, MOUNT_Y, rect), state(state_) {}
                 MountSession() : Session(0, 0, MOUNT_Y, nullptr) {}
         };
@@ -176,8 +176,8 @@ class Analyze : public QWidget, public Ui::Analyze
         void alignState(Ekos::AlignState state);
 
         // From Mount
-        void mountState(ISD::Telescope::Status status);
-        void mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &haValue);
+        void mountState(ISD::Mount::Status status);
+        void mountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &haValue);
         void mountFlipStatus(Ekos::Mount::MeridianFlipStatus status);
 
         void schedulerJobStarted(const QString &jobName);
@@ -472,7 +472,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // MountState state-machine variables.
         double mountStateStartedTime { -1 };
-        ISD::Telescope::Status lastMountState { ISD::Telescope::Status::MOUNT_IDLE };
+        ISD::Mount::Status lastMountState { ISD::Mount::Status::MOUNT_IDLE };
 
         // Mount coords state machine variables.
         // Used to filter out mount Coords messages--we only process ones

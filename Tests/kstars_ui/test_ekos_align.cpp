@@ -75,7 +75,7 @@ void TestEkosAlign::testFitsAlign()
     // slew somewhere close to the target
     QVERIFY(slewToTarget(findTargetByName("Pherkab")));
     // wait until the slew has finished
-    QTRY_VERIFY_WITH_TIMEOUT(m_TelescopeStatus == ISD::Telescope::MOUNT_TRACKING, 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_TelescopeStatus == ISD::Mount::MOUNT_TRACKING, 60000);
 
     // ensure that we wait until alignment completion
     expectedAlignStates.append(Ekos::ALIGN_PROGRESS);
@@ -376,7 +376,7 @@ bool TestEkosAlign::runMountModelTool(int points, bool moveMount)
 
 bool TestEkosAlign::trackSingleAlignment(bool lastPoint, bool moveMount)
 {
-    expectedTelescopeStates.append(ISD::Telescope::MOUNT_TRACKING);
+    expectedTelescopeStates.append(ISD::Mount::MOUNT_TRACKING);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedTelescopeStates, 60000);
 
     // wait one second ensuring that capturing starts
@@ -412,7 +412,7 @@ bool TestEkosAlign::trackSingleAlignment(bool lastPoint, bool moveMount)
 
 bool TestEkosAlign::slewToTarget(SkyPoint *target)
 {
-    expectedTelescopeStates.append(ISD::Telescope::MOUNT_TRACKING);
+    expectedTelescopeStates.append(ISD::Mount::MOUNT_TRACKING);
     // slew to given target
     KVERIFY_SUB(m_test_ekos_helper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
     // ensure that slewing has started
@@ -479,8 +479,8 @@ bool TestEkosAlign::alignWithScheduler(SkyObject *targetObject, QString fitsTarg
     KTRY_CLICK_SUB(scheduler, startB);
 
     // expect a slew
-    expectedTelescopeStates.append(ISD::Telescope::MOUNT_SLEWING);
-    expectedTelescopeStates.append(ISD::Telescope::MOUNT_TRACKING);
+    expectedTelescopeStates.append(ISD::Mount::MOUNT_SLEWING);
+    expectedTelescopeStates.append(ISD::Mount::MOUNT_TRACKING);
     // ensure that we wait until alignment completion
     expectedAlignStates.append(Ekos::ALIGN_PROGRESS);
     expectedAlignStates.append(Ekos::ALIGN_COMPLETE);
@@ -527,7 +527,7 @@ void TestEkosAlign::alignStatusChanged(Ekos::AlignState status)
         expectedAlignStates.dequeue();
 }
 
-void TestEkosAlign::telescopeStatusChanged(ISD::Telescope::Status status)
+void TestEkosAlign::telescopeStatusChanged(ISD::Mount::Status status)
 {
     m_TelescopeStatus = status;
     // check if the new state is the next one expected, then remove it from the stack

@@ -9,7 +9,7 @@
 #include <memory>
 #include <QTimer>
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
 
 namespace ISD
 {
@@ -19,12 +19,12 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class DustCap : public DeviceDecorator
+class DustCap : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit DustCap(GDInterface *iPtr);
+        explicit DustCap(GenericDevice *parent);
         virtual ~DustCap() override = default;
         typedef enum
         {
@@ -35,16 +35,7 @@ class DustCap : public DeviceDecorator
             CAP_ERROR
         } Status;
 
-        void registerProperty(INDI::Property prop) override;
         void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
-        void processNumber(INumberVectorProperty *nvp) override;
-        void processLight(ILightVectorProperty *lvp) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         virtual bool hasLight();
         virtual bool canPark();
@@ -90,10 +81,8 @@ class DustCap : public DeviceDecorator
 
     signals:
         void newStatus(Status status);
-        void ready();
 
     private:
-        std::unique_ptr<QTimer> readyTimer;
         Status m_Status { CAP_IDLE };
         static const QList<const char *> capStates;
 };

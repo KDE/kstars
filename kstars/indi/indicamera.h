@@ -6,7 +6,9 @@
 
 #pragma once
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
+#include "indicamerachip.h"
+
 #include "wsmedia.h"
 #include "auxiliary/imageviewer.h"
 #include "fitsviewer/fitscommon.h"
@@ -33,144 +35,22 @@ class StreamWG;
  */
 namespace ISD
 {
-class CCD;
+class CameraChip;
 
 /**
- * @class CCDChip
- * CCDChip class controls a particular chip in CCD device. While most amateur CCDs only have a single chip on the CCD, some
- * CCDs have additional chips targetted for guiding purposes.
- */
-class CCDChip
-{
-    public:
-        typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
-
-        CCDChip(ISD::CCD *ccd, ChipType cType);
-
-        void setCaptureMode(FITSMode mode)
-        {
-            captureMode = mode;
-        }
-        void setCaptureFilter(FITSScale fType)
-        {
-            captureFilter = fType;
-        }
-
-        // Common commands
-        bool getFrame(int *x, int *y, int *w, int *h);
-        bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
-        bool setFrame(int x, int y, int w, int h, bool force = false);
-
-        bool resetFrame();
-        bool capture(double exposure);
-        bool setFrameType(CCDFrameType fType);
-        bool setFrameType(const QString &name);
-        CCDFrameType getFrameType();
-        bool setBinning(int bin_x, int bin_y);
-        bool setBinning(CCDBinType binType);
-        CCDBinType getBinning();
-        bool getBinning(int *bin_x, int *bin_y);
-        bool getMaxBin(int *max_xbin, int *max_ybin);
-        ChipType getType() const
-        {
-            return type;
-        }
-        ISD::CCD *getCCD()
-        {
-            return parentCCD;
-        }
-
-        // Set Image Info
-        bool setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth);
-        // Get Image Info
-        bool getImageInfo(uint16_t &width, uint16_t &height, double &pixelX, double &pixelY, uint8_t &bitdepth);
-        // Bayer Info
-        bool getBayerInfo(uint16_t &offsetX, uint16_t &offsetY, QString &pattern);
-
-        bool isCapturing();
-        bool abortExposure();
-
-        FITSMode getCaptureMode() const
-        {
-            return captureMode;
-        }
-        FITSScale getCaptureFilter() const
-        {
-            return captureFilter;
-        }
-        bool isBatchMode() const
-        {
-            return batchMode;
-        }
-        void setBatchMode(bool enable)
-        {
-            batchMode = enable;
-        }
-        QStringList getFrameTypes() const
-        {
-            return frameTypes;
-        }
-        void addFrameLabel(const QString &label)
-        {
-            frameTypes << label;
-        }
-        void clearFrameTypes()
-        {
-            frameTypes.clear();
-        }
-
-        bool canBin() const;
-        void setCanBin(bool value);
-
-        bool canSubframe() const;
-        void setCanSubframe(bool value);
-
-        bool canAbort() const;
-        void setCanAbort(bool value);
-        int getISOIndex() const;
-        bool getISOValue(QString &value) const;
-        bool setISOIndex(int value);
-
-        QStringList getISOList() const;
-
-        void setImageData(const QSharedPointer<FITSData> &data)
-        {
-            m_ImageData = data;
-        }
-        const QSharedPointer<FITSData> getImageData() const
-        {
-            return m_ImageData;
-        }
-
-    private:
-        QSharedPointer<FITSData> m_ImageData;
-        FITSMode captureMode { FITS_NORMAL };
-        FITSScale captureFilter { FITS_NONE };
-        INDI::BaseDevice *baseDevice { nullptr };
-        ClientManager *clientManager { nullptr };
-        ChipType type;
-        bool batchMode { false };
-        QStringList frameTypes;
-        bool CanBin { false };
-        bool CanSubframe { false };
-        bool CanAbort { false };
-        ISD::CCD *parentCCD { nullptr };
-};
-
-/**
- * @class CCD
- * CCD class controls an INDI CCD device. It can be used to issue and abort capture commands, receive and process BLOBs,
- * and return information on the capabilities of the CCD.
+ * @class Camera
+ * Camera class controls an INDI Camera device. It can be used to issue and abort capture commands, receive and process BLOBs,
+ * and return information on the capabilities of the camera.
  *
  * @author Jasem Mutlaq
  */
-class CCD : public DeviceDecorator
+class Camera : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit CCD(GDInterface *iPtr);
-        virtual ~CCD() override;
+        explicit Camera(GenericDevice *parent);
+        virtual ~Camera() override;
 
         typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
         enum BlobType
@@ -194,13 +74,7 @@ class CCD : public DeviceDecorator
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
-        void processLight(ILightVectorProperty *lvp) override;
         void processBLOB(IBLOB *bp) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         // Does it an on-chip dedicated guide head?
         bool hasGuideHead();
@@ -274,8 +148,8 @@ class CCD : public DeviceDecorator
         bool getOffsetMinMaxStep(double *min, double *max, double *step);
 
         // Rapid Guide
-        bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage = false, bool showMarker = false);
-        bool setRapidGuide(CCDChip *targetChip, bool enable);
+        bool configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sendImage = false, bool showMarker = false);
+        bool setRapidGuide(CameraChip *targetChip, bool enable);
 
         // Upload Settings
         void updateUploadSettings(const QString &remoteDir);
@@ -332,7 +206,7 @@ class CCD : public DeviceDecorator
         // Update FITS Header
         bool setFITSHeader(const QMap<QString, QString> &values);
 
-        CCDChip *getChip(CCDChip::ChipType cType);
+        CameraChip *getChip(CameraChip::ChipType cType);
 
         bool setFastExposureEnabled(bool enable);
         bool isFastExposureEnabled() const
@@ -361,8 +235,8 @@ class CCD : public DeviceDecorator
 
     signals:
         void newTemperatureValue(double value);
-        void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
-        void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
+        void newExposureValue(ISD::CameraChip *chip, double value, IPState state);
+        void newGuideStarData(ISD::CameraChip *chip, double dx, double dy, double fit);
         void newBLOBManager(INDI::Property prop);
         void newRemoteFile(QString);
         void videoStreamToggled(bool enabled);
@@ -370,7 +244,6 @@ class CCD : public DeviceDecorator
         void newFPS(double instantFPS, double averageFPS);
         void newVideoFrame(const QSharedPointer<QImage> &frame);
         void coolerToggled(bool enabled);
-        void ready();
         void error(ErrorType type);
         void newImage(const QSharedPointer<FITSData> &data);
 
@@ -382,7 +255,7 @@ class CCD : public DeviceDecorator
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
         // Creates or finds the FITSViewer.
         QPointer<FITSViewer> getFITSViewer();
-        void handleImage(CCDChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
+        void handleImage(CameraChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data);
 
         bool ISOMode { true };
         bool HasGuideHead { false };
@@ -407,9 +280,8 @@ class CCD : public DeviceDecorator
         //char BLOBFilename[MAXINDIFILENAME + 1];
         IBLOB *primaryCCDBLOB { nullptr };
 
-        std::unique_ptr<QTimer> readyTimer;
-        std::unique_ptr<CCDChip> primaryChip;
-        std::unique_ptr<CCDChip> guideChip;
+        std::unique_ptr<CameraChip> primaryChip;
+        std::unique_ptr<CameraChip> guideChip;
         std::unique_ptr<WSMedia> m_Media;
         QString m_EncodingFormat {"FITS"};
         QStringList m_EncodingFormats;

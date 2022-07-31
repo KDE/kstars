@@ -11,7 +11,7 @@
 
 #include "Options.h"
 
-DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
+DSLRInfo::DSLRInfo(QWidget *parent, ISD::Camera *ccd) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -40,7 +40,7 @@ void DSLRInfo::save()
         return;
     }
 
-    ISD::CCDChip *primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *primaryChip = currentCCD->getChip(ISD::CameraChip::PRIMARY_CCD);
     primaryChip->setImageInfo(sensorMaxWidth, sensorMaxHeight, sensorPixelW, sensorPixelH, 8);
     primaryChip->setFrame(0, 0, sensorMaxWidth, sensorMaxHeight);
 

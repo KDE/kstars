@@ -8,7 +8,7 @@
 #include <KLocalizedString>
 #include <QtDBus/qdbusmetatype.h>
 
-#include "indicap.h"
+#include "indidustcap.h"
 #include "clientmanager.h"
 
 namespace ISD
@@ -18,38 +18,10 @@ const QList<const char *> DustCap::capStates = { I18N_NOOP("Idle"), I18N_NOOP("P
                                                  I18N_NOOP("Parked"), I18N_NOOP("Error")
                                                };
 
-DustCap::DustCap(GDInterface *iPtr): DeviceDecorator(iPtr)
+DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
 {
-    dType = KSTARS_AUXILIARY;
-
     qRegisterMetaType<ISD::DustCap::Status>("ISD::DustCap::Status");
     qDBusRegisterMetaType<ISD::DustCap::Status>();
-
-    readyTimer.reset(new QTimer());
-    readyTimer.get()->setInterval(250);
-    readyTimer.get()->setSingleShot(true);
-    connect(readyTimer.get(), &QTimer::timeout, this, &DustCap::ready);
-}
-
-void DustCap::registerProperty(INDI::Property prop)
-{
-    if (!prop->getRegistered())
-        return;
-
-    if (isConnected())
-        readyTimer.get()->start();
-
-    DeviceDecorator::registerProperty(prop);
-}
-
-void DustCap::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
-}
-
-void DustCap::processNumber(INumberVectorProperty *nvp)
-{
-    DeviceDecorator::processNumber(nvp);
 }
 
 void DustCap::processSwitch(ISwitchVectorProperty *svp)
@@ -91,18 +63,11 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
             emit newStatus(m_Status);
         }
     }
-
-    DeviceDecorator::processSwitch(svp);
-}
-
-void DustCap::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
 }
 
 bool DustCap::canPark()
 {
-    auto parkSP = baseDevice->getSwitch("CAP_PARK");
+    auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
         return false;
     else
@@ -111,7 +76,7 @@ bool DustCap::canPark()
 
 bool DustCap::isParked()
 {
-    auto parkSP = baseDevice->getSwitch("CAP_PARK");
+    auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
         return false;
 
@@ -120,7 +85,7 @@ bool DustCap::isParked()
 
 bool DustCap::isUnParked()
 {
-    auto parkSP = baseDevice->getSwitch("CAP_PARK");
+    auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
         return false;
 
@@ -129,7 +94,7 @@ bool DustCap::isUnParked()
 
 bool DustCap::Park()
 {
-    auto parkSP = baseDevice->getSwitch("CAP_PARK");
+    auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
         return false;
 
@@ -139,14 +104,14 @@ bool DustCap::Park()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(parkSP);
+    sendNewSwitch(parkSP);
 
     return true;
 }
 
 bool DustCap::UnPark()
 {
-    auto parkSP = baseDevice->getSwitch("CAP_PARK");
+    auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
         return false;
 
@@ -156,14 +121,14 @@ bool DustCap::UnPark()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(parkSP);
+    sendNewSwitch(parkSP);
 
     return true;
 }
 
 bool DustCap::hasLight()
 {
-    auto lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
+    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
     if (!lightSP)
         return false;
     else
@@ -172,7 +137,7 @@ bool DustCap::hasLight()
 
 bool DustCap::isLightOn()
 {
-    auto lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
+    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
     if (!lightSP)
         return false;
 
@@ -185,7 +150,7 @@ bool DustCap::isLightOn()
 
 bool DustCap::SetLightEnabled(bool enable)
 {
-    auto lightSP = baseDevice->getSwitch("FLAT_LIGHT_CONTROL");
+    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
 
     if (!lightSP)
         return false;
@@ -203,19 +168,19 @@ bool DustCap::SetLightEnabled(bool enable)
     else
         lightOFF->setState(ISS_ON);
 
-    clientManager->sendNewSwitch(lightSP);
+    sendNewSwitch(lightSP);
 
     return true;
 }
 
 bool DustCap::SetBrightness(uint16_t val)
 {
-    auto lightIntensity = baseDevice->getNumber("FLAT_LIGHT_INTENSITY");
+    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
     if (!lightIntensity)
         return false;
 
     lightIntensity->at(0)->setValue(val);
-    clientManager->sendNewNumber(lightIntensity);
+    sendNewNumber(lightIntensity);
     return true;
 }
 

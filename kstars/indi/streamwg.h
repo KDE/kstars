@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "indi/indiccd.h"
+#include "indicamera.h"
 #include "ui_streamform.h"
 #include "ui_recordingoptions.h"
 #include "fitsviewer/bayer.h"
@@ -43,7 +43,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         Q_OBJECT
 
     public:
-        explicit StreamWG(ISD::CCD *ccd);
+        explicit StreamWG(ISD::Camera *ccd);
         virtual ~StreamWG() override = default;
 
         void setColorFrame(bool color);
@@ -92,7 +92,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         int streamWidth, streamHeight;
         bool colorFrame, isRecording;
         QIcon recordIcon, stopIcon;
-        ISD::CCD *currentCCD {nullptr};
+        ISD::Camera *m_Camera {nullptr};
 
         // Debayer
         BayerParams m_DebayerParams;

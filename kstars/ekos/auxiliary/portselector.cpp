@@ -26,19 +26,17 @@ const QString Device::ACTIVE_STYLESHEET = "background-color: #004400;";
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-Device::Device(ISD::GDInterface *device, QGridLayout *grid, uint8_t row) :  m_Device(device), m_Grid(grid), m_Row(row)
+Device::Device(ISD::GenericDevice *device, QGridLayout *grid, uint8_t row) :  m_Name(device->getDeviceName()), m_Device(device), m_Grid(grid), m_Row(row)
 {
     ColorCode[IPS_IDLE] = Qt::gray;
     ColorCode[IPS_OK] = Qt::green;
     ColorCode[IPS_BUSY] = Qt::yellow;
     ColorCode[IPS_ALERT] = Qt::red;
 
-    m_Name = device->getDeviceName();
-
-    connect(m_Device, &ISD::GDInterface::switchUpdated, this, &Device::processSwitch);
-    connect(m_Device, &ISD::GDInterface::textUpdated, this, &Device::processText);
-    connect(m_Device, &ISD::GDInterface::Connected, this, &Device::setConnected);
-    connect(m_Device, &ISD::GDInterface::Disconnected, this, &Device::setDisconnected);
+    connect(m_Device, &ISD::GenericDevice::switchUpdated, this, &Device::processSwitch);
+    connect(m_Device, &ISD::GenericDevice::textUpdated, this, &Device::processText);
+    connect(m_Device, &ISD::GenericDevice::Connected, this, &Device::setConnected);
+    connect(m_Device, &ISD::GenericDevice::Disconnected, this, &Device::setDisconnected);
 
     if (initGUI())
         syncGUI();
@@ -192,14 +190,14 @@ bool Device::initGUI()
     m_ConnectB->setToolTip(i18n("Connect"));
     m_ConnectB->setIcon(QIcon::fromTheme("network-connect"));
     m_Grid->addWidget(m_ConnectB, m_Row, 8);
-    connect(m_ConnectB, &QPushButton::clicked, m_Device, &ISD::GDInterface::Connect);
+    connect(m_ConnectB, &QPushButton::clicked, m_Device, &ISD::GenericDevice::Connect);
 
     m_DisconnectB = new QPushButton;
     m_DisconnectB->setFixedSize(QSize(28, 28));
     m_DisconnectB->setToolTip(i18n("Disconnect"));
     m_DisconnectB->setIcon(QIcon::fromTheme("network-disconnect"));
     m_Grid->addWidget(m_DisconnectB, m_Row, 9);
-    connect(m_DisconnectB, &QPushButton::clicked, m_Device, &ISD::GDInterface::Disconnect);
+    connect(m_DisconnectB, &QPushButton::clicked, m_Device, &ISD::GenericDevice::Disconnect);
 
     setConnectionMode(static_cast<ConnectionMode>(connectionMode.findOnSwitchIndex()));
 
@@ -400,7 +398,7 @@ Dialog::Dialog(QWidget *parent) : QDialog(parent)
 //////////////////////////////////////////////////////////////////////////////////////////
 ///
 //////////////////////////////////////////////////////////////////////////////////////////
-void Dialog::addDevice(ISD::GDInterface *device)
+void Dialog::addDevice(ISD::GenericDevice *device)
 {
     auto pos = std::find_if(m_Devices.begin(), m_Devices.end(), [device](std::unique_ptr<Device> &oneDevice)
     {

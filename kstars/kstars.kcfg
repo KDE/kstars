@@ -2217,12 +2217,16 @@
       <entry name="DefaultGuideCCD" type="String">
          <label>Default guide module CCD.</label>
       </entry>
-      <entry name="DefaultST4Driver" type="String">
-         <label>Default guide module ST4 Driver.</label>
+      <entry name="DefaultGuideGuider" type="String">
+         <label>Default guide module guider Driver.</label>
       </entry>
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
          <default>2.0</default>
+      </entry>
+      <entry name="GuideDelay" type="Double">
+         <label>Delay next exposure by this many seconds.</label>
+         <default>0</default>
       </entry>
       <entry name="GuiderType" type="UInt">
          <label>Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 lin_guider)</label>

@@ -23,48 +23,61 @@ Weather::Weather()
     qDBusRegisterMetaType<ISD::Weather::Status>();
 }
 
-void Weather::setWeather(ISD::GDInterface *newWeather)
+void Weather::addWeather(ISD::Weather *device)
 {
-    if (newWeather == currentWeather)
-        return;
+    // No duplicates.
+    for (auto &oneWeatherStation : m_WeatherSources)
+    {
+        if (oneWeatherStation->getDeviceName() == device->getDeviceName())
+            return;
+    }
 
-    currentWeather = static_cast<ISD::Weather *>(newWeather);
-    currentWeather->disconnect(this);
-    connect(currentWeather, &ISD::Weather::newStatus, this, &Weather::newStatus);
-    connect(currentWeather, &ISD::Weather::newWeatherData, this, &Weather::newWeatherData);
-    connect(currentWeather, &ISD::Weather::ready, this, &Weather::ready);
-    connect(currentWeather, &ISD::Weather::Connected, this, &Weather::ready);
-    connect(currentWeather, &ISD::Weather::Disconnected, this, &Weather::disconnected);
+    for (auto &oneWeatherStation : m_WeatherSources)
+        oneWeatherStation->disconnect(this);
+
+    // TODO add method to select active weather source
+    m_WeatherSources.append(device);
+    m_WeatherSource = device;
+    connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Weather::newStatus);
+    connect(m_WeatherSource, &ISD::Weather::newWeatherData, this, &Weather::newWeatherData);
+    connect(m_WeatherSource, &ISD::Weather::ready, this, &Weather::ready);
+    connect(m_WeatherSource, &ISD::Weather::Connected, this, &Weather::ready);
+    connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Weather::disconnected);
 }
 
-void Weather::removeDevice(ISD::GDInterface *device)
+void Weather::removeDevice(ISD::GenericDevice *device)
 {
     device->disconnect(this);
-    if (currentWeather && (currentWeather->getDeviceName() == device->getDeviceName()))
+    for (auto &oneWeatherSource : m_WeatherSources)
     {
-        currentWeather = nullptr;
+        if (oneWeatherSource->getDeviceName() == device->getDeviceName())
+        {
+            m_WeatherSource = nullptr;
+            m_WeatherSources.removeOne(oneWeatherSource);
+            break;
+        }
     }
 }
 
 ISD::Weather::Status Weather::status()
 {
-    if (currentWeather == nullptr)
+    if (m_WeatherSource == nullptr)
         return ISD::Weather::WEATHER_IDLE;
 
-    return currentWeather->getWeatherStatus();
+    return m_WeatherSource->getWeatherStatus();
 }
 
 quint16 Weather::getUpdatePeriod()
 {
-    if (currentWeather == nullptr)
+    if (m_WeatherSource == nullptr)
         return 0;
 
-    return currentWeather->getUpdatePeriod();
+    return m_WeatherSource->getUpdatePeriod();
 }
 
 bool Weather::refresh()
 {
-    return currentWeather->refresh();
+    return m_WeatherSource->refresh();
 
 }
 
