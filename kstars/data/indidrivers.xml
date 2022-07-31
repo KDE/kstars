@@ -1172,257 +1172,238 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Focusers">
-        <device label="Moonduino Focuser" manufacturer="DIY">
-            <driver name="Moonduino Focuser">indi_moonduino</driver>
-            <version>1.2</version>
+    <devGroup group="Domes">
+        <device label="NexDome">
+            <driver name="NexDome">indi_nexdome</driver>
+            <version>1.6</version>
         </device>
     </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Nightscape 8300 CCD" mdpd="true" manufacturer="Celestron">
+            <driver name="Nightscape CCD">indi_nightscape_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Orion StarShoot G3/G4" mdpd="true" manufacturer="Orion">
+            <driver name="Orion SSG3">indi_orion_ssg3_ccd</driver>
+            <version>0.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Pentax DSLR Native" mdpd="true" manufacturer="DSLRs">
+            <driver name="Pentax DSLR">indi_pentax</driver>
+            <version>1.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
+            <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
+            <version>0.7</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="QHY CCD" mdpd="true" manufacturer="QHY">
+            <driver name="QHY CCD">indi_qhy_ccd</driver>
+            <version>2.8</version>
+        </device>
+        <device label="Orion SSAG" mdpd="true" manufacturer="Orion">
+            <driver name="QHY CCD">indi_qhy_ccd</driver>
+            <version>2.8</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="QSI CCD" manufacturer="QSI">
+            <driver name="QSI CCD">indi_qsi_ccd</driver>
+            <version>0.9</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="RPI Camera">
+            <driver name="RPI Camera">indi_rpicam</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="Auxiliary">
-        <device label="Moonduino Dustcap" manufacturer="DIY">
-            <driver name="Moonduino Dustcap">indi_moonduino</driver>
-            <version>1.2</version>
+        <device label="RPi GPIO">
+            <driver name="RPi GPIO">indi_rpi_gpio</driver>
+            <version>0.4</version>
         </device>
     </devGroup>
-    <devGroup group="Weather">
-        <device label="Moonduino MeteoStation" manufacturer="DIY">
-            <driver name="Moonduino MeteoStation">indi_moonduino</driver>
-            <version>1.2</version>
+</driversList>
+<driversList>
+    <devGroup group="Auxiliary">
+        <device label="RTKLIB Precise Positioning">
+            <driver name="RTKLIB Precise Positioning">indi_rtklib</driver>
+            <version>0.1</version>
         </device>
-    </driversList>
-    <driversList>
-        <devGroup group="Domes">
-            <device label="NexDome">
-                <driver name="NexDome">indi_nexdome</driver>
-                <version>1.6</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="Nightscape 8300 CCD" mdpd="true" manufacturer="Celestron">
-                <driver name="Nightscape CCD">indi_nightscape_ccd</driver>
-                <version>1.0</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="Orion StarShoot G3/G4" mdpd="true" manufacturer="Orion">
-                <driver name="Orion SSG3">indi_orion_ssg3_ccd</driver>
-                <version>0.1</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="Pentax DSLR Native" mdpd="true" manufacturer="DSLRs">
-                <driver name="Pentax DSLR">indi_pentax</driver>
-                <version>1.1</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
-                <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-                <version>0.7</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="QHY CCD" mdpd="true" manufacturer="QHY">
-                <driver name="QHY CCD">indi_qhy_ccd</driver>
-                <version>2.8</version>
-            </device>
-            <device label="Orion SSAG" mdpd="true" manufacturer="Orion">
-                <driver name="QHY CCD">indi_qhy_ccd</driver>
-                <version>2.8</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="QSI CCD" manufacturer="QSI">
-                <driver name="QSI CCD">indi_qsi_ccd</driver>
-                <version>0.9</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="RPI Camera">
-                <driver name="RPI Camera">indi_rpicam</driver>
-                <version>1.0</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Auxiliary">
-            <device label="RPi GPIO">
-                <driver name="RPi GPIO">indi_rpi_gpio</driver>
-                <version>0.4</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Auxiliary">
-            <device label="RTKLIB Precise Positioning">
-                <driver name="RTKLIB Precise Positioning">indi_rtklib</driver>
-                <version>0.1</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Spectrographs">
-            <device label="RTL-SDR" mdpd="false">
-                <driver name="RTL-SDR">indi_rtlsdr</driver>
-                <version>1.0</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="SBIG CCD" manufacturer="Diffraction Limited">
-                <driver name="SBIG CCD">indi_sbig_ccd</driver>
-                <version>2.1</version>
-            </device>
-            <device label="SBIG ST-I" manufacturer="Diffraction Limited">
-                <driver name="SBIG CCD">indi_sbig_ccd</driver>
-                <version>2.1</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Spectrographs">
-            <device label="Shelyak eShel">
-                <driver name="Shelyak eShel">indi_shelyakeshel_spectrograph</driver>
-                <version>1.0</version>
-            </device>
-            <device label="Shelyak SPOX">
-                <driver name="Shelyak SPOX">indi_shelyakspox_spectrograph</driver>
-                <version>1.0</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Spectrographs">
-            <device label="SpectraCyber">
-                <driver name='SpectraCyber'>indi_spectracyber</driver>
-                <version>1.3</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Telescopes">
-            <device label="Starbook" manufacturer="Vixen">
-                <driver name="Starbook">indi_starbook_telescope</driver>
-                <version>0.8</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Telescopes">
-            <device label="Starbook Ten" manufacturer="Vixen">
-                <driver name="Starbook Ten">indi_starbook_ten</driver>
-                <version>0.1</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="SVBONY SV305" mdpd="true" manufacturer="SVBONY">
-                <driver name="SVBONY SV305">indi_sv305_ccd</driver>
-                <version>1.3</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="SX CCD" mdpd="true" manufacturer="Starlight XPress">
-                <driver name="SX CCD">indi_sx_ccd</driver>
-                <version>1.15</version>
-            </device>
-        </devGroup>
-        <devGroup group="Filter Wheels">
-            <device label="SX Wheel" manufacturer="Starlight XPress">
-                <driver name="SX Wheel">indi_sx_wheel</driver>
-                <version>1.15</version>
-            </device>
-        </devGroup>
-        <devGroup group="Adaptive Optics">
-            <device label="SX AO" manufacturer="Starlight XPress">
-                <driver name="SX AO">indi_sx_ao</driver>
-                <version>1.15</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Domes">
-            <device label="Talon6" manufacturer="MONFRAGÜE">
-                <driver name="Talon6">indi_talon6</driver>
-                <version>2.0</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="Toupcam" mdpd="true" manufacturer="Toupcam">
-                <driver name="Toupcam">indi_toupcam_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Omegon Pro" mdpd="true" manufacturer="Omegon">
-                <driver name="Toupcam">indi_toupcam_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Omegon Pro/GUIDE" mdpd="true" manufacturer="Omegon">
-                <driver name="Omegonprocam">indi_omegonprocam_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Meade Toupcam" mdpd="true" manufacturer="Meade">
-                <driver name="Toupcam">indi_toupcam_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Altair" mdpd="true" manufacturer="Altair">
-                <driver name="Altair">indi_altair_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="StartshootG" mdpd="true" manufacturer="Orion">
-                <driver name="StartshootG">indi_starshootg_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Levenhuk" mdpd="true" manufacturer="Levenhuk">
-                <driver name="Levenhuk">indi_nncam_ccd</driver>
-                <version>0.9</version>
-            </device>
-            <device label="Mallincam" mdpd="true" manufacturer="Mallincam">
-                <driver name="Mallincam">indi_mallincam_ccd</driver>
-                <version>0.9</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Weather">
-            <device label="Weather Radio" manufacturer="DIY">
-                <driver name="Weather Radio">indi_weatherradio</driver>
-                <version>1.17</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="CCDs">
-            <device label="INDI Webcam">
-                <driver name="INDI Webcam">indi_webcam_ccd</driver>
-                <version>0.2</version>
-            </device>
-        </devGroup>
-    </driversList>
-    <driversList>
-        <devGroup group="Weather">
-            <device label="WeewxJSON" manufacturer="Others">
-                <driver name="WeewxJSON">indi_weewx_json</driver>
-                <version>1.0</version>
-            </device>
-        </devGroup>
-    </driversList>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Spectrographs">
+        <device label="RTL-SDR" mdpd="false">
+            <driver name="RTL-SDR">indi_rtlsdr</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="SBIG CCD" manufacturer="Diffraction Limited">
+            <driver name="SBIG CCD">indi_sbig_ccd</driver>
+            <version>2.1</version>
+        </device>
+        <device label="SBIG ST-I" manufacturer="Diffraction Limited">
+            <driver name="SBIG CCD">indi_sbig_ccd</driver>
+            <version>2.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Spectrographs">
+        <device label="Shelyak eShel">
+            <driver name="Shelyak eShel">indi_shelyakeshel_spectrograph</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Shelyak SPOX">
+            <driver name="Shelyak SPOX">indi_shelyakspox_spectrograph</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Spectrographs">
+        <device label="SpectraCyber">
+            <driver name='SpectraCyber'>indi_spectracyber</driver>
+            <version>1.3</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Telescopes">
+        <device label="Starbook" manufacturer="Vixen">
+            <driver name="Starbook">indi_starbook_telescope</driver>
+            <version>0.8</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Telescopes">
+        <device label="Starbook Ten" manufacturer="Vixen">
+            <driver name="Starbook Ten">indi_starbook_ten</driver>
+            <version>0.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="SVBONY SV305" mdpd="true" manufacturer="SVBONY">
+            <driver name="SVBONY SV305">indi_sv305_ccd</driver>
+            <version>1.3</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="SX CCD" mdpd="true" manufacturer="Starlight XPress">
+            <driver name="SX CCD">indi_sx_ccd</driver>
+            <version>1.15</version>
+        </device>
+    </devGroup>
+    <devGroup group="Filter Wheels">
+        <device label="SX Wheel" manufacturer="Starlight XPress">
+            <driver name="SX Wheel">indi_sx_wheel</driver>
+            <version>1.15</version>
+        </device>
+    </devGroup>
+    <devGroup group="Adaptive Optics">
+        <device label="SX AO" manufacturer="Starlight XPress">
+            <driver name="SX AO">indi_sx_ao</driver>
+            <version>1.15</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Domes">
+        <device label="Talon6" manufacturer="MONFRAGÜE">
+            <driver name="Talon6">indi_talon6</driver>
+            <version>2.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Toupcam" mdpd="true" manufacturer="Toupcam">
+            <driver name="Toupcam">indi_toupcam_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Omegon Pro" mdpd="true" manufacturer="Omegon">
+            <driver name="Toupcam">indi_toupcam_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Omegon Pro/GUIDE" mdpd="true" manufacturer="Omegon">
+            <driver name="Omegonprocam">indi_omegonprocam_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Meade Toupcam" mdpd="true" manufacturer="Meade">
+            <driver name="Toupcam">indi_toupcam_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Altair" mdpd="true" manufacturer="Altair">
+            <driver name="Altair">indi_altair_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="StartshootG" mdpd="true" manufacturer="Orion">
+            <driver name="StartshootG">indi_starshootg_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Levenhuk" mdpd="true" manufacturer="Levenhuk">
+            <driver name="Levenhuk">indi_nncam_ccd</driver>
+            <version>0.9</version>
+        </device>
+        <device label="Mallincam" mdpd="true" manufacturer="Mallincam">
+            <driver name="Mallincam">indi_mallincam_ccd</driver>
+            <version>0.9</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Weather">
+        <device label="Weather Radio" manufacturer="DIY">
+            <driver name="Weather Radio">indi_weatherradio</driver>
+            <version>1.17</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="INDI Webcam">
+            <driver name="INDI Webcam">indi_webcam_ccd</driver>
+            <version>0.2</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Weather">
+        <device label="WeewxJSON" manufacturer="Others">
+            <driver name="WeewxJSON">indi_weewx_json</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
