@@ -10,11 +10,12 @@
 #include "ekos/ekos.h"
 #include "indi/indicommon.h"
 #include "indiapi.h"
-#include "indi/indiccd.h"
-#include "indi/indicap.h"
+#include "indi/indicamera.h"
+#include "indi/indidustcap.h"
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
+#include "indi/indirotator.h"
 #include "ekos/auxiliary/filtermanager.h"
 
 #include "sequencejobstate.h"
@@ -23,259 +24,270 @@ namespace Ekos
 {
 class CaptureDeviceAdaptor: public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    CaptureDeviceAdaptor();
+    public:
+        CaptureDeviceAdaptor();
 
-    //////////////////////////////////////////////////////////////////////
-    // current sequence job's state machine
-    //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // current sequence job's state machine
+        //////////////////////////////////////////////////////////////////////
 
-    SequenceJobState *currentSequenceJobState = nullptr;
+        SequenceJobState *currentSequenceJobState = nullptr;
 
-    /**
-     * @brief Set the state machine for the current sequence job and attach
-     *        all active devices to it.
-     */
-    void setCurrentSequenceJobState(SequenceJobState *jobState);
+        /**
+         * @brief Set the state machine for the current sequence job and attach
+         *        all active devices to it.
+         */
+        void setCurrentSequenceJobState(SequenceJobState *jobState);
 
 
-    //////////////////////////////////////////////////////////////////////
-    // Devices
-    //////////////////////////////////////////////////////////////////////
-    void setLightBox(ISD::LightBox *device);
-    ISD::LightBox *getLightBox() { return m_ActiveLightBox; }
-    void connectLightBox();
-    void disconnectLightBox();
+        //////////////////////////////////////////////////////////////////////
+        // Devices
+        //////////////////////////////////////////////////////////////////////
+        void setLightBox(ISD::LightBox *device);
+        ISD::LightBox *getLightBox()
+        {
+            return m_ActiveLightBox;
+        }
+        void connectLightBox();
+        void disconnectLightBox();
 
-    void setDustCap(ISD::DustCap *device);
-    ISD::DustCap *getDustCap() { return m_ActiveDustCap; }
-    void connectDustCap();
-    void disconnectDustCap();
+        void setDustCap(ISD::DustCap *device);
+        ISD::DustCap *getDustCap()
+        {
+            return m_ActiveDustCap;
+        }
+        void connectDustCap();
+        void disconnectDustCap();
 
-    void setTelescope(ISD::Telescope *device);
-    ISD::Telescope *getTelescope() { return m_ActiveTelescope; }
-    void connectTelescope();
-    void disconnectTelescope();
+        void setMount(ISD::Mount *device);
+        ISD::Mount *getMount()
+        {
+            return m_ActiveTelescope;
+        }
+        void connectTelescope();
+        void disconnectTelescope();
 
-    void setDome(ISD::Dome *device);
-    ISD::Dome *getDome() { return m_ActiveDome; }
-    void connectDome();
-    void disconnectDome();
+        void setDome(ISD::Dome *device);
+        ISD::Dome *getDome()
+        {
+            return m_ActiveDome;
+        }
+        void connectDome();
+        void disconnectDome();
 
-    void setRotator(ISD::GDInterface *device);
-    ISD::GDInterface *getRotator() { return m_ActiveRotator; }
-    void connectRotator();
-    void disconnectRotator();
+        void setRotator(ISD::Rotator *device);
+        ISD::Rotator *getRotator()
+        {
+            return m_ActiveRotator;
+        }
+        void connectRotator();
+        void disconnectRotator();
 
-    void setActiveCCD(ISD::CCD *device);
-    ISD::CCD *getActiveCCD() { return m_ActiveCamera; }
-    void connectActiveCCD();
-    void disconnectActiveCCD();
+        void setActiveCamera(ISD::Camera *device);
+        ISD::Camera *getActiveCamera()
+        {
+            return m_ActiveCamera;
+        }
+        void connectActiveCamera();
+        void disconnectActiveCamera();
 
-    void setActiveChip(ISD::CCDChip *device);
-    ISD::CCDChip *getActiveChip() { return m_ActiveChip; }
-    // void connectActiveChip();
-    // void disconnectActiveChip();
+        void setActiveChip(ISD::CameraChip *device);
+        ISD::CameraChip *getActiveChip()
+        {
+            return m_ActiveChip;
+        }
 
-    void setFilterWheel(ISD::GDInterface *device);
-    ISD::GDInterface *getFilterWheel() { return m_ActiveFilterWheel; }
-    // void connectFilterWheel();
-    // void disconnectFilterWheel();
+        void setFilterWheel(ISD::FilterWheel *device);
+        ISD::FilterWheel *getFilterWheel()
+        {
+            return m_ActiveFilterWheel;
+        }
 
-    void setFilterManager(const QSharedPointer<FilterManager> &value) { filterManager = value; }
-    const QSharedPointer<FilterManager> getFilterManager() { return filterManager; }
-    void connectFilterManager();
-    void disconnectFilterManager();
+        void setFilterManager(const QSharedPointer<FilterManager> &value)
+        {
+            filterManager = value;
+        }
+        const QSharedPointer<FilterManager> getFilterManager()
+        {
+            return filterManager;
+        }
+        void connectFilterManager();
+        void disconnectFilterManager();
 
-    //////////////////////////////////////////////////////////////////////
-    // Rotator commands
-    //////////////////////////////////////////////////////////////////////
-    /**
-     * @brief Set the rotator's angle
-     */
-    void setRotatorAngle(double *rawAngle);
+        //////////////////////////////////////////////////////////////////////
+        // Rotator commands
+        //////////////////////////////////////////////////////////////////////
+        /**
+         * @brief Set the rotator's angle
+         */
+        void setRotatorAngle(double *rawAngle);
 
-    /**
-     * @brief reverseRotator Toggle rotation reverse
-     * @param toggled If true, reverse rotator normal direction. If false, use rotator normal direction.
-     */
-    void reverseRotator(bool toggled);
+        /**
+         * @brief reverseRotator Toggle rotation reverse
+         * @param toggled If true, reverse rotator normal direction. If false, use rotator normal direction.
+         */
+        void reverseRotator(bool toggled);
 
-    /**
-     * @brief Read the current rotator's angle from the rotator device
-     *        and emit it as {@see newRotatorAngle()}
-     */
-    void readRotatorAngle();
+        /**
+         * @brief Read the current rotator's angle from the rotator device
+         *        and emit it as {@see newRotatorAngle()}
+         */
+        void readRotatorAngle();
 
-    /**
-     * @brief Check if rotator is currently reversed.
-     */
-    bool isRotatorReversed();
+        //////////////////////////////////////////////////////////////////////
+        // Camera commands
+        //////////////////////////////////////////////////////////////////////
 
-    /**
-     * @brief Slot reading updates from the rotator device
-     */
-    void updateRotatorNumber(INumberVectorProperty *nvp);
+        /**
+         * @brief Set the CCD target temperature
+         * @param temp
+         */
+        void setCCDTemperature(double temp);
 
-    /**
-     * @brief Slot reading updates from the rotator device
-     */
-    void updateRotatorSwitch(ISwitchVectorProperty *svp);
+        /**
+         * @brief Set CCD to batch mode
+         * @param enable true iff batch mode
+         */
+        void enableCCDBatchMode(bool enable);
 
-    //////////////////////////////////////////////////////////////////////
-    // Camera commands
-    //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // Filter wheel commands
+        //////////////////////////////////////////////////////////////////////
 
-    /**
-     * @brief Set the CCD target temperature
-     * @param temp
-     */
-    void setCCDTemperature(double temp);
+        //////////////////////////////////////////////////////////////////////
+        // Flat capturing commands
+        //////////////////////////////////////////////////////////////////////
 
-    /**
-     * @brief Set CCD to batch mode
-     * @param enable true iff batch mode
-     */
-    void enableCCDBatchMode(bool enable);
+        /**
+         * @brief Ask for covering the scope manually with a flats light source
+         */
+        void askManualScopeLightCover(QString question, QString title);
+        /**
+         * @brief Ask for opening the scope cover manually
+         */
+        void askManualScopeLightOpen();
+        /**
+         * @brief Turn light on in the light box
+         */
+        void setLightBoxLight(bool on);
+        /**
+         * @brief park the dust cap
+         */
+        void parkDustCap(bool park);
+        /**
+         * @brief Turn light on in the dust cap
+         */
+        void setDustCapLight(bool on);
+        /**
+         * @brief Slew the telescope to a target
+         */
+        void slewTelescope(SkyPoint &target);
+        /**
+         * @brief Turn scope tracking on and off
+         */
+        void setScopeTracking(bool on);
+        /**
+         * @brief Park / unpark telescope
+         */
+        void setScopeParked(bool parked);
+        /**
+         * @brief Park / unpark dome
+         */
+        void setDomeParked(bool parked);
+        /**
+         * @brief Check if the the focuser needs to be moved to the focus position.
+         */
+        void flatSyncFocus(int targetFilterID);
 
-    //////////////////////////////////////////////////////////////////////
-    // Filter wheel commands
-    //////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
+        // Dark capturing commands
+        //////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////
-    // Flat capturing commands
-    //////////////////////////////////////////////////////////////////////
+        /**
+         * @brief Check whether the CCD has a shutter
+         */
+        void queryHasShutter();
 
-    /**
-     * @brief Ask for covering the scope manually with a flats light source
-     */
-    void askManualScopeLightCover(QString question, QString title);
-    /**
-     * @brief Ask for opening the scope cover manually
-     */
-    void askManualScopeLightOpen();
-    /**
-     * @brief Turn light on in the light box
-     */
-    void setLightBoxLight(bool on);
-    /**
-     * @brief park the dust cap
-     */
-    void parkDustCap(bool park);
-    /**
-     * @brief Turn light on in the dust cap
-     */
-    void setDustCapLight(bool on);
-    /**
-     * @brief Slew the telescope to a target
-     */
-    void slewTelescope(SkyPoint &target);
-    /**
-     * @brief Turn scope tracking on and off
-     */
-    void setScopeTracking(bool on);
-    /**
-     * @brief Park / unpark telescope
-     */
-    void setScopeParked(bool parked);
-    /**
-     * @brief Park / unpark dome
-     */
-    void setDomeParked(bool parked);
-    /**
-     * @brief Check if the the focuser needs to be moved to the focus position.
-     */
-    void flatSyncFocus(int targetFilterID);
+    signals:
+        /**
+         * @brief Update for the CCD temperature
+         */
+        void newCCDTemperatureValue(double value);
+        /**
+         * @brief Update for the rotator's angle
+         */
+        void newRotatorAngle(double value, IPState state);
+        /**
+         * @brief Update for the rotator reverse status
+         */
+        void rotatorReverseToggled(bool enabled);
+        /**
+         * @brief Cover for the scope with a flats light source
+         */
+        void manualScopeLightCover(bool closed, bool success);
+        /**
+         * @brief Light box light is on.
+         */
+        void lightBoxLight(bool on);
+        /**
+         * @brief dust cap light is on.
+         */
+        void dustCapLight(bool on);
+        /**
+         * @brief dust cap status change
+         */
+        void dustCapStatusChanged(ISD::DustCap::Status status);
+        /**
+         * @brief telescope status change
+         */
+        void scopeStatusChanged(ISD::Mount::Status status);
+        /**
+         * @brief telescope status change
+         */
+        void scopeParkStatusChanged(ISD::ParkStatus status);
+        /**
+         * @brief dome status change
+         */
+        void domeStatusChanged(ISD::Dome::Status status);
+        /**
+         * @brief flat sync focus status change
+         */
+        void flatSyncFocusChanged(bool completed);
+        /**
+         * @brief CCD has a shutter
+         */
+        void hasShutter(bool present);
 
-    //////////////////////////////////////////////////////////////////////
-    // Dark capturing commands
-    //////////////////////////////////////////////////////////////////////
+    public slots:
+        /**
+         * @brief Slot that reads the requested device state and publishes the corresponding event
+         * @param state device state that needs to be read directly
+         */
+        void readCurrentState(Ekos::CaptureState state);
 
-    /**
-     * @brief Check whether the CCD has a shutter
-     */
-    void queryHasShutter();
+    private:
+        // the light box device
+        ISD::LightBox *m_ActiveLightBox { nullptr };
+        // the dust cap
+        ISD::DustCap *m_ActiveDustCap { nullptr };
+        // the current telescope
+        ISD::Mount *m_ActiveTelescope { nullptr };
+        // the current dome
+        ISD::Dome *m_ActiveDome { nullptr };
+        // active rotator device
+        ISD::Rotator * m_ActiveRotator { nullptr };
+        // active camera device
+        ISD::Camera * m_ActiveCamera { nullptr };
+        // active CCD chip
+        ISD::CameraChip * m_ActiveChip { nullptr };
+        // currently active filter wheel device
+        ISD::FilterWheel * m_ActiveFilterWheel { nullptr };
+        // Filter Manager
+        QSharedPointer<FilterManager> filterManager;
 
-signals:
-    /**
-     * @brief Update for the CCD temperature
-     */
-    void newCCDTemperatureValue(double value);
-    /**
-     * @brief Update for the rotator's angle
-     */
-    void newRotatorAngle(double value, IPState state);
-    /**
-     * @brief Update for the rotator reverse status
-     */
-    void newRotatorReversed(bool enabled);
-    /**
-     * @brief Cover for the scope with a flats light source
-     */
-    void manualScopeLightCover(bool closed, bool success);
-    /**
-     * @brief Light box light is on.
-     */
-    void lightBoxLight(bool on);
-    /**
-     * @brief dust cap light is on.
-     */
-    void dustCapLight(bool on);
-    /**
-     * @brief dust cap status change
-     */
-    void dustCapStatusChanged(ISD::DustCap::Status status);
-    /**
-     * @brief telescope status change
-     */
-    void scopeStatusChanged(ISD::Telescope::Status status);
-    /**
-     * @brief telescope status change
-     */
-    void scopeParkStatusChanged(ISD::ParkStatus status);
-    /**
-     * @brief dome status change
-     */
-    void domeStatusChanged(ISD::Dome::Status status);
-    /**
-     * @brief flat sync focus status change
-     */
-    void flatSyncFocusChanged(bool completed);
-    /**
-     * @brief CCD has a shutter
-     */
-    void hasShutter(bool present);
-
-public slots:
-    /**
-     * @brief Slot that reads the requested device state and publishes the corresponding event
-     * @param state device state that needs to be read directly
-     */
-    void readCurrentState(Ekos::CaptureState state);
-
-private:
-    // the light box device
-    ISD::LightBox *m_ActiveLightBox { nullptr };
-    // the dust cap
-    ISD::DustCap *m_ActiveDustCap { nullptr };
-    // the current telescope
-    ISD::Telescope *m_ActiveTelescope { nullptr };
-    // the current dome
-    ISD::Dome *m_ActiveDome { nullptr };
-    // active rotator device
-    ISD::GDInterface * m_ActiveRotator { nullptr };
-    // active camera device
-    ISD::CCD * m_ActiveCamera { nullptr };
-    // active CCD chip
-    ISD::CCDChip * m_ActiveChip { nullptr };
-    // currently active filter wheel device
-    ISD::GDInterface * m_ActiveFilterWheel { nullptr };
-    // Filter Manager
-    QSharedPointer<FilterManager> filterManager;
-
-    // flag if manual cover has been asked
-    bool m_ManualCoveringAsked { false };
+        // flag if manual cover has been asked
+        bool m_ManualCoveringAsked { false };
 };
 }; // namespace

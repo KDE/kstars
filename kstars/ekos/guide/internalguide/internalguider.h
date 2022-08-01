@@ -86,7 +86,7 @@ class InternalGuider : public GuideInterface
         }
 
         // Guide View
-        void setGuideView(GuideView *guideView);
+        void setGuideView(const QSharedPointer<GuideView> &guideView);
         // Image Data
         void setImageData(const QSharedPointer<FITSData> &data);
 
@@ -123,8 +123,8 @@ class InternalGuider : public GuideInterface
         void setDitherSettled();
 
     signals:
-        void newPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-        void newPulse(GuideDirection dir, int msecs);
+        void newMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
+        void newSinglePulse(GuideDirection dir, int msecs);
         //void newStarPosition(QVector3D, bool);
         void DESwapChanged(bool enable);
 
@@ -140,7 +140,7 @@ class InternalGuider : public GuideInterface
         void fillGuideInfo(GuideLog::GuideInfo *info);
 
         std::unique_ptr<cgmath> pmath;
-        QPointer<GuideView> guideFrame;
+        QSharedPointer<GuideView> m_GuideFrame;
         QSharedPointer<FITSData> m_ImageData;
         bool m_isStarted { false };
         bool m_isSubFramed { false };

@@ -9,7 +9,7 @@
 #include <memory>
 #include <QTimer>
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
 
 namespace ISD
 {
@@ -19,12 +19,12 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class Weather : public DeviceDecorator
+class Weather : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit Weather(GDInterface *iPtr);
+        explicit Weather(GenericDevice *parent);
 
         typedef enum
         {
@@ -41,16 +41,8 @@ class Weather : public DeviceDecorator
             double value;
         } WeatherData;
 
-        void registerProperty(INDI::Property prop) override;
-        void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
         void processLight(ILightVectorProperty *lvp) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         Status getWeatherStatus();
         quint16 getUpdatePeriod();
@@ -59,12 +51,10 @@ class Weather : public DeviceDecorator
     signals:
         void newStatus(Status status);
         void newWeatherData(const std::vector<WeatherData> &data);
-        void ready();
 
     private:
         Status m_WeatherStatus { WEATHER_IDLE };
         std::vector<WeatherData> m_WeatherData;
-        std::unique_ptr<QTimer> readyTimer;
 };
 }
 

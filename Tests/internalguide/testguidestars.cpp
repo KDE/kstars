@@ -64,7 +64,7 @@ void TestGuideStars::basicTest()
     dms ra, dec;
     ra.setFromString("120:30:40");
     dec.setFromString("10:20:30");
-    ISD::Telescope::PierSide side = ISD::Telescope::PIER_EAST;
+    ISD::Mount::PierSide side = ISD::Mount::PIER_EAST;
 
     Calibration cal;
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, dec);
@@ -260,7 +260,7 @@ void TestGuideStars::calibrationTest()
     dms ra, dec;
     ra.setFromString("120:30:40");
     dec.setFromString("10:20:30");
-    ISD::Telescope::PierSide side = ISD::Telescope::PIER_EAST;
+    ISD::Mount::PierSide side = ISD::Mount::PIER_EAST;
 
     cal.setParameters(pixel_size, pixel_size, focal_length, binning, binning, side, ra, dec);
 
@@ -419,7 +419,7 @@ void TestGuideStars::calibrationTest()
 
     // Test restoring with a pier side.
     // This is same as above, as the encoded pier side was east.
-    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_EAST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_EAST, reverseDecOnPierChange, binning, binning));
     QCOMPARE(cal2.getAngle(), angle);
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     // This tests that the rotation matrix got adjusted with the angle.
@@ -428,7 +428,7 @@ void TestGuideStars::calibrationTest()
     CompareFloat(px.x, rdy);
 
     // If we are now west, the angle should change by 180 degrees and dec-swap should invert.
-    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_WEST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
     QCOMPARE(cal2.getAngle(), angle - 180.0);
     QCOMPARE(cal2.declinationSwapEnabled(), true);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
@@ -437,7 +437,7 @@ void TestGuideStars::calibrationTest()
 
     // Set the user option to reverse DEC on pier-side change.
     reverseDecOnPierChange = true;
-    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_WEST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
     QCOMPARE(cal2.getAngle(), angle - 180.0);
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
@@ -446,7 +446,7 @@ void TestGuideStars::calibrationTest()
     reverseDecOnPierChange = false;
 
     // If we go back east, the angle and decSwap should revert to their original values.
-    QVERIFY(cal2.restore(encodedCal, ISD::Telescope::PIER_EAST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_EAST, reverseDecOnPierChange, binning, binning));
     QCOMPARE(cal2.getAngle(), angle);
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
@@ -454,7 +454,7 @@ void TestGuideStars::calibrationTest()
     CompareFloat(px.x, rdy);
 
     // Should not restore if the pier is unknown.
-    QVERIFY(!cal2.restore(encodedCal, ISD::Telescope::PIER_UNKNOWN, reverseDecOnPierChange, binning, binning));
+    QVERIFY(!cal2.restore(encodedCal, ISD::Mount::PIER_UNKNOWN, reverseDecOnPierChange, binning, binning));
 
     // Calculate the rotation.
     // Compute the angle the coordinates passed in make with the x-axis.
@@ -488,7 +488,7 @@ void TestGuideStars::calibrationTest()
 
     x = 3.0, y = -4.0;
     int pulseLength = 10000;
-    side = ISD::Telescope::PIER_WEST;
+    side = ISD::Mount::PIER_WEST;
     cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
     cal.calculate1D(x, y, pulseLength);
     CompareFloat(cal.getAngle(), toDegrees(atan2(-y, x)));
@@ -525,7 +525,7 @@ void TestGuideStars::calibrationTest()
     CompareFloat(rdy, -size1side);
 
     // If we restored this on the EAST side
-    QVERIFY(cal.restore(cal.serialize(), ISD::Telescope::PIER_EAST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal.restore(cal.serialize(), ISD::Mount::PIER_EAST, reverseDecOnPierChange, binning, binning));
     // ...RA moves should be inverted
     cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
     CompareFloat(rdx, size1side);
@@ -536,7 +536,7 @@ void TestGuideStars::calibrationTest()
     CompareFloat(rdy, size1side);
 
     // If we then move back to the WEST side, we should get the original results.
-    QVERIFY(cal.restore(cal.serialize(), ISD::Telescope::PIER_WEST, reverseDecOnPierChange, binning, binning));
+    QVERIFY(cal.restore(cal.serialize(), ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
     cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
     CompareFloat(rdx, -size1side);
     CompareFloat(rdy, size1side);

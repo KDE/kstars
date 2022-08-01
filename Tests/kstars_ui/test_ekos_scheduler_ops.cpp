@@ -459,9 +459,9 @@ void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleep
     WithInterval interval(1000, scheduler);
     QVERIFY(iterateScheduler("Wait for MountTracking", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
-        if (mount->status() == ISD::Telescope::MOUNT_SLEWING)
-            mount->setStatus(ISD::Telescope::MOUNT_TRACKING);
-        else if (mount->status() == ISD::Telescope::MOUNT_TRACKING)
+        if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+        else if (mount->status() == ISD::Mount::MOUNT_TRACKING)
             return true;
         return false;
     }));
@@ -698,9 +698,9 @@ void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startU
 
     QVERIFY(iterateScheduler("Wait for MountTracking", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
-        if (mount->status() == ISD::Telescope::MOUNT_SLEWING)
-            mount->setStatus(ISD::Telescope::MOUNT_TRACKING);
-        else if (mount->status() == ISD::Telescope::MOUNT_TRACKING)
+        if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+        else if (mount->status() == ISD::Mount::MOUNT_TRACKING)
             return true;
         return false;
     }));

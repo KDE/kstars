@@ -58,7 +58,7 @@ class GuideStars
         // Finds the guide star previously selected with selectGuideStar()
         // in a new image. This sets up internal structures for getDrift().
         GuiderUtils::Vector findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
-                                          GuideView *guideView, bool firstFrame);
+                                          QSharedPointer<GuideView> &guideView, bool firstFrame);
 
         // Finds the drift of the star positions in arc-seconds for RA and DEC.
         // Must be called after findGuideStar().
@@ -128,13 +128,13 @@ class GuideStars
         double findMinDistance(int index, const QList<Edge*> &stars);
 
         // Plot the positions of the neighbor stars on the guideView display.
-        void plotStars(GuideView *guideView, const QRect &trackingBox);
+        void plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox);
 
         // These three methods are useful for testing.
         void setDetectedStars(const QList<Edge> &stars)
         {
             detectedStars = stars;
-        };
+        }
         void setSkyBackground(const SkyBackground &background)
         {
             skyBackground = background;

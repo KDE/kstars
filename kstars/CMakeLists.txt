@@ -77,22 +77,31 @@ if (INDI_FOUND)
         indi/deviceinfo.cpp
         indi/indidevice.cpp
         indi/indigroup.cpp
+        indi/wsmedia.cpp
         indi/indiproperty.cpp
         indi/indielement.cpp
         indi/indistd.cpp
         indi/indilistener.cpp
-        indi/inditelescope.cpp
-        indi/indiccd.cpp
-        indi/wsmedia.cpp
+        indi/indiconcretedevice.cpp
+        indi/indiguider.cpp
+        indi/indimount.cpp
+        indi/indicamera.cpp
+        indi/indicamerachip.cpp
         indi/indifocuser.cpp
-        indi/indifilter.cpp
+        indi/indifilterwheel.cpp
         indi/indidome.cpp
+        indi/indigps.cpp
         indi/indiweather.cpp
-        indi/indicap.cpp
+        indi/indidustcap.cpp
         indi/indilightbox.cpp
+        indi/indiauxiliary.cpp
+        indi/indidetector.cpp
+        indi/indirotator.cpp
+        indi/indiadaptiveoptics.cpp
+        indi/indicorrelator.cpp
+        indi/indispectrograph.cpp
         indi/indidbus.cpp
         indi/opsindi.cpp
-        #indi/telescopewizardprocess.cpp
         indi/streamwg.cpp
         indi/videowg.cpp
         indi/indiwebmanager.cpp

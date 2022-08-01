@@ -69,7 +69,7 @@
         if(dialog != nullptr) emit dialog->accept(); }); \
     Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); \
     if (track) \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::Status::MOUNT_TRACKING, 30000); \
+        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::Status::MOUNT_TRACKING, 30000); \
     } while (false)
 
 /** @brief Helper to sync the mount at the meridian for focus tests.
@@ -95,7 +95,7 @@
         if(dialog != nullptr) emit dialog->accept(); }); \
     Ekos::Manager::Instance()->mountModule()->setTrackEnabled(track); \
     if (track) \
-        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::Status::MOUNT_TRACKING, 30000); \
+        QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::Status::MOUNT_TRACKING, 30000); \
     } while (false)
 
 class TestEkosMount : public QObject

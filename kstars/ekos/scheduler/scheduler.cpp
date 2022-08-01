@@ -4141,7 +4141,7 @@ void Scheduler::checkJobStageEplogue()
             {
                 // Send the slew status periodically to avoid the situation where the mount is already at location and does not send any event
                 // FIXME: in that case, filter TRACKING events only?
-                ISD::Telescope::Status const status = static_cast<ISD::Telescope::Status>(slewStatus.toInt());
+                ISD::Mount::Status const status = static_cast<ISD::Mount::Status>(slewStatus.toInt());
                 setMountStatus(status);
             }
             else
@@ -5112,7 +5112,7 @@ bool Scheduler::canCountCaptures(const SchedulerJob &job)
 
     for (const SequenceJob *oneSeqJob : seqjobs)
     {
-        if (oneSeqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
             return false;
     }
     return true;
@@ -5821,7 +5821,7 @@ void Scheduler::updateCompletedJobsCount(bool forced)
         {
             /* Only consider captures stored on client (Ekos) side */
             /* FIXME: ask the remote for the file count */
-            if (oneSeqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+            if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
                 continue;
 
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */
@@ -5913,7 +5913,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint
                                seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                                seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
 
-        if (seqJob->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        if (seqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) <<
                                           QString("%1 duration cannot be estimated time since the sequence saves the files remotely.").arg(seqName);
@@ -7520,7 +7520,7 @@ void Scheduler::registerNewModule(const QString &name)
                                               QDBusConnection::sessionBus(), this);
 
         connect(mountInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(mountInterface, SIGNAL(newStatus(ISD::Telescope::Status)), this, SLOT(setMountStatus(ISD::Telescope::Status)),
+        connect(mountInterface, SIGNAL(newStatus(ISD::Mount::Status)), this, SLOT(setMountStatus(ISD::Mount::Status)),
                 Qt::UniqueConnection);
 
         checkInterfaceReady(mountInterface);
@@ -8010,7 +8010,7 @@ void Scheduler::setFocusStatus(Ekos::FocusState status)
     }
 }
 
-void Scheduler::setMountStatus(ISD::Telescope::Status status)
+void Scheduler::setMountStatus(ISD::Mount::Status status)
 {
     TEST_PRINT(stderr, "sch%d @@@setMountStatus(%d)%s\n", __LINE__, static_cast<int>(status), (state == SCHEDULER_PAUSED
                || currentJob == nullptr) ? "IGNORED" : "OK");
@@ -8030,19 +8030,19 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
         {
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
 
-            if (status == ISD::Telescope::MOUNT_TRACKING)
+            if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' slew is complete.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_SLEW_COMPLETE);
                 /* getNextAction is deferred to checkJobStage for dome support */
             }
-            else if (status == ISD::Telescope::MOUNT_ERROR)
+            else if (status == ISD::Mount::MOUNT_ERROR)
             {
                 appendLogText(i18n("Warning: job '%1' slew failed, marking terminated due to errors.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ERROR);
                 findNextJob();
             }
-            else if (status == ISD::Telescope::MOUNT_IDLE)
+            else if (status == ISD::Mount::MOUNT_IDLE)
             {
                 appendLogText(i18n("Warning: job '%1' found not slewing, restarting.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);
@@ -8055,19 +8055,19 @@ void Scheduler::setMountStatus(ISD::Telescope::Status status)
         {
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Re-slewing stage...";
 
-            if (status == ISD::Telescope::MOUNT_TRACKING)
+            if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' repositioning is complete.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_RESLEWING_COMPLETE);
                 /* getNextAction is deferred to checkJobStage for dome support */
             }
-            else if (status == ISD::Telescope::MOUNT_ERROR)
+            else if (status == ISD::Mount::MOUNT_ERROR)
             {
                 appendLogText(i18n("Warning: job '%1' repositioning failed, marking terminated due to errors.", currentJob->getName()));
                 currentJob->setState(SchedulerJob::JOB_ERROR);
                 findNextJob();
             }
-            else if (status == ISD::Telescope::MOUNT_IDLE)
+            else if (status == ISD::Mount::MOUNT_IDLE)
             {
                 appendLogText(i18n("Warning: job '%1' found not repositioning, restarting.", currentJob->getName()));
                 currentJob->setStage(SchedulerJob::STAGE_IDLE);

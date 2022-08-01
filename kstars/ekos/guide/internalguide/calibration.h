@@ -11,7 +11,7 @@
 #include <QString>
 #include "ekos/ekos.h"
 #include "indi/indicommon.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 class Calibration
 {
@@ -22,7 +22,7 @@ class Calibration
         // Initialize the parameters needed to convert from pixels to arc-seconds,
         // the current pier side, and the current pointing position.
         void setParameters(double ccd_pix_width, double ccd_pix_height, double focalLengthMm,
-                           int binX, int binY, ISD::Telescope::PierSide pierSide,
+                           int binX, int binY, ISD::Mount::PierSide pierSide,
                            const dms &mountRA, const dms &mountDec);
 
         // Set the current binning, which may be different from what was used during calibration.
@@ -94,11 +94,11 @@ class Calibration
         void save() const;
         // Restore the saved calibration. If the pier side is different than
         // when was calibrated, adjust the angle accordingly.
-        bool restore(ISD::Telescope::PierSide currentPierSide, bool reverseDecOnPierChange,
+        bool restore(ISD::Mount::PierSide currentPierSide, bool reverseDecOnPierChange,
                      int currentBinX, int currentBinY,
                      const dms *declination = nullptr);
         // As above, but for testing.
-        bool restore(const QString &encoding, ISD::Telescope::PierSide currentPierSide,
+        bool restore(const QString &encoding, ISD::Mount::PierSide currentPierSide,
                      bool reverseDecOnPierChange, int currentBinX, int currentBinY,
                      const dms *declination = nullptr);
 
@@ -199,7 +199,7 @@ class Calibration
         dms calibrationDEC;
 
         // The side of the pier where the current calibration was calculated.
-        ISD::Telescope::PierSide calibrationPierSide { ISD::Telescope::PIER_UNKNOWN };
+        ISD::Mount::PierSide calibrationPierSide { ISD::Mount::PIER_UNKNOWN };
 
         bool initialized { false };
         friend class TestGuideStars;

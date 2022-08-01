@@ -22,25 +22,16 @@ const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Mov
                                                I18N_NOOP("Error")
                                              };
 
-Dome::Dome(GDInterface *iPtr) : DeviceDecorator(iPtr)
+Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 {
-    dType = KSTARS_DOME;
     qRegisterMetaType<ISD::Dome::Status>("ISD::Dome::Status");
     qDBusRegisterMetaType<ISD::Dome::Status>();
-
-    readyTimer.reset(new QTimer());
-    readyTimer.get()->setInterval(250);
-    readyTimer.get()->setSingleShot(true);
-    connect(readyTimer.get(), &QTimer::timeout, this, &Dome::ready);
 }
 
 void Dome::registerProperty(INDI::Property prop)
 {
     if (!prop->getRegistered())
         return;
-
-    if (isConnected())
-        readyTimer.get()->start();
 
     if (prop->isNameMatch("DOME_PARK"))
     {
@@ -99,12 +90,7 @@ void Dome::registerProperty(INDI::Property prop)
         m_HasShutter = true;
     }
 
-    DeviceDecorator::registerProperty(prop);
-}
-
-void Dome::processLight(ILightVectorProperty *lvp)
-{
-    DeviceDecorator::processLight(lvp);
+    ConcreteDevice::registerProperty(prop);
 }
 
 void Dome::processNumber(INumberVectorProperty *nvp)
@@ -113,8 +99,6 @@ void Dome::processNumber(INumberVectorProperty *nvp)
     {
         emit azimuthPositionChanged(nvp->np[0].value);
     }
-
-    DeviceDecorator::processNumber(nvp);
 }
 
 void Dome::processSwitch(ISwitchVectorProperty *svp)
@@ -266,7 +250,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             // then we set status to closed since it did not successfully complete opening.
             if (m_ShutterStatus == SHUTTER_CLOSING)
                 m_ShutterStatus = SHUTTER_OPEN;
-            else if (m_ShutterStatus == SHUTTER_CLOSING)
+            else
                 m_ShutterStatus = SHUTTER_CLOSED;
 
             emit newShutterStatus(m_ShutterStatus);
@@ -321,12 +305,6 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         if (sp != nullptr)
             emit newAutoSyncStatus(sp->s == ISS_ON);
     }
-    DeviceDecorator::processSwitch(svp);
-}
-
-void Dome::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
 }
 
 bool Dome::Abort()
@@ -334,7 +312,7 @@ bool Dome::Abort()
     if (m_CanAbort == false)
         return false;
 
-    auto motionSP = baseDevice->getSwitch("DOME_ABORT_MOTION");
+    auto motionSP = getSwitch("DOME_ABORT_MOTION");
 
     if (!motionSP)
         return false;
@@ -345,14 +323,14 @@ bool Dome::Abort()
         return false;
 
     abortSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(motionSP);
+    sendNewSwitch(motionSP);
 
     return true;
 }
 
 bool Dome::Park()
 {
-    auto parkSP = baseDevice->getSwitch("DOME_PARK");
+    auto parkSP = getSwitch("DOME_PARK");
 
     if (!parkSP)
         return false;
@@ -364,14 +342,14 @@ bool Dome::Park()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(parkSP);
+    sendNewSwitch(parkSP);
 
     return true;
 }
 
 bool Dome::UnPark()
 {
-    auto parkSP = baseDevice->getSwitch("DOME_PARK");
+    auto parkSP = getSwitch("DOME_PARK");
 
     if (!parkSP)
         return false;
@@ -383,14 +361,14 @@ bool Dome::UnPark()
 
     parkSP->reset();
     parkSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(parkSP);
+    sendNewSwitch(parkSP);
 
     return true;
 }
 
 bool Dome::isMoving() const
 {
-    auto motionSP = baseDevice->getSwitch("DOME_MOTION");
+    auto motionSP = getSwitch("DOME_MOTION");
 
     if (motionSP && motionSP->getState() == IPS_BUSY)
         return true;
@@ -400,7 +378,7 @@ bool Dome::isMoving() const
 
 double Dome::azimuthPosition() const
 {
-    auto az = baseDevice->getNumber("ABS_DOME_POSITION");
+    auto az = getNumber("ABS_DOME_POSITION");
 
     if (!az)
         return -1;
@@ -410,35 +388,35 @@ double Dome::azimuthPosition() const
 
 bool Dome::setAzimuthPosition(double position)
 {
-    auto az = baseDevice->getNumber("ABS_DOME_POSITION");
+    auto az = getNumber("ABS_DOME_POSITION");
 
     if (!az)
         return false;
 
     az->at(0)->setValue(position);
-    clientManager->sendNewNumber(az);
+    sendNewNumber(az);
     return true;
 }
 
 bool Dome::setRelativePosition(double position)
 {
-    auto azDiff = baseDevice->getNumber("REL_DOME_POSITION");
+    auto azDiff = getNumber("REL_DOME_POSITION");
     if (!azDiff)
         return false;
 
     azDiff->at(0)->setValue(position);
-    clientManager->sendNewNumber(azDiff);
+    sendNewNumber(azDiff);
     return true;
 }
 
 bool Dome::isAutoSync()
 {
-    auto autosync = baseDevice->getSwitch("DOME_AUTOSYNC");
+    auto autosync = getSwitch("DOME_AUTOSYNC");
     if (!autosync)
         return false;
 
     auto autosyncSW = autosync->findWidgetByName("DOME_AUTOSYNC_ENABLE");
-    if (!autosync)
+    if (!autosyncSW)
         return false;
     else
         return (autosyncSW->s == ISS_ON);
@@ -446,7 +424,7 @@ bool Dome::isAutoSync()
 
 bool Dome::setAutoSync(bool activate)
 {
-    auto autosync = baseDevice->getSwitch("DOME_AUTOSYNC");
+    auto autosync = getSwitch("DOME_AUTOSYNC");
     if (!autosync)
         return false;
 
@@ -456,14 +434,14 @@ bool Dome::setAutoSync(bool activate)
 
     autosync->reset();
     autosyncSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(autosync);
+    sendNewSwitch(autosync);
 
     return true;
 }
 
 bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
 {
-    auto domeMotion = baseDevice->getSwitch("DOME_MOTION");
+    auto domeMotion = getSwitch("DOME_MOTION");
     if (!domeMotion)
         return false;
 
@@ -473,15 +451,13 @@ bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
 
     domeMotion->reset();
     opSwitch->setState(operation == DomeMotionCommand::MOTION_START ? ISS_ON : ISS_OFF);
-
-    clientManager->sendNewSwitch(domeMotion);
-
+    sendNewSwitch(domeMotion);
     return true;
 }
 
 bool Dome::ControlShutter(bool open)
 {
-    auto shutterSP = baseDevice->getSwitch("DOME_SHUTTER");
+    auto shutterSP = getSwitch("DOME_SHUTTER");
     if (!shutterSP)
         return false;
 
@@ -491,14 +467,14 @@ bool Dome::ControlShutter(bool open)
 
     shutterSP->reset();
     shutterSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(shutterSP);
+    sendNewSwitch(shutterSP);
 
     return true;
 }
 
 Dome::ShutterStatus Dome::shutterStatus()
 {
-    auto shutterSP = baseDevice->getSwitch("DOME_SHUTTER");
+    auto shutterSP = getSwitch("DOME_SHUTTER");
 
     return shutterStatus(shutterSP);
 }

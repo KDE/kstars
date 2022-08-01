@@ -12,7 +12,7 @@
 #include <QStringList>
 #include <QtDBus/QtDBus>
 #include "ekos/ekos.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 // These classes mock Ekos modules for use in testing the scheduler
 // in test_ekos_scheduler_ops.cpp.  They perform minimal functions
@@ -104,13 +104,13 @@ class MockMount : public QObject
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockMount")
-        Q_PROPERTY(ISD::Telescope::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(ISD::Mount::Status status READ status NOTIFY newStatus)
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(bool canPark READ canPark)
     public:
         MockMount();
 
-        ISD::Telescope::Status status() const
+        ISD::Mount::Status status() const
         {
             return m_Status;
         }
@@ -121,7 +121,7 @@ class MockMount : public QObject
         Q_INVOKABLE Q_SCRIPTABLE bool slew(double RaHours, double DecDegrees)
         {
             fprintf(stderr, "%d @@@MockMount::slew(%f,%f)\n", __LINE__, RaHours, DecDegrees);
-            setStatus(ISD::Telescope::MOUNT_SLEWING);
+            setStatus(ISD::Mount::MOUNT_SLEWING);
             lastRaHoursSlew = RaHours;
             lastDecDegreesSlew = DecDegrees;
             return true;
@@ -129,7 +129,7 @@ class MockMount : public QObject
         Q_INVOKABLE Q_SCRIPTABLE bool abort()
         {
             fprintf(stderr, "%d @@@MockMount::abort()\n", __LINE__);
-            setStatus(ISD::Telescope::MOUNT_IDLE);
+            setStatus(ISD::Mount::MOUNT_IDLE);
             return true;
         }
         Q_INVOKABLE Q_SCRIPTABLE bool resetModel()
@@ -157,7 +157,7 @@ class MockMount : public QObject
         {
             emit ready();
         }
-        void setStatus(ISD::Telescope::Status status)
+        void setStatus(ISD::Mount::Status status)
         {
             m_Status = status;
             emit newStatus(m_Status);
@@ -173,7 +173,7 @@ class MockMount : public QObject
         static const QString mockPath;
 
     signals:
-        void newStatus(ISD::Telescope::Status status);
+        void newStatus(ISD::Mount::Status status);
         void ready();
         void newParkStatus(ISD::ParkStatus status);
 
@@ -184,7 +184,7 @@ class MockMount : public QObject
             Q_UNUSED(hours);
         }
     private:
-        ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;
+        ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNPARKED;
 };
 

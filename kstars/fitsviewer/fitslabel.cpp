@@ -22,6 +22,8 @@
 #ifdef HAVE_INDI
 #include "basedevice.h"
 #include "indi/indilistener.h"
+#include "indi/indiconcretedevice.h"
+#include "indi/indimount.h"
 #endif
 
 #include <QScrollBar>
@@ -417,37 +419,35 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("KStars did not find any active mounts."));
         return;
     }
 
-
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (oneDevice->getType() != KSTARS_TELESCOPE)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
 
         if (oneDevice->isConnected() == false)
         {
-            KSNotification::error(i18n("Telescope %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
+            KSNotification::error(i18n("Mount %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
             return;
         }
 
-        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
 
-        SkyObject selectedObject;
-
+        SkyPoint selectedObject;
         selectedObject.setRA0(raJ2000);
         selectedObject.setDec0(decJ2000);
-
         selectedObject.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
-
-        oneDevice->setProperty(&SlewCMD);
-        oneDevice->runCommand(INDI_SEND_COORDS, &selectedObject);
+        mount->Slew(&selectedObject);
         return;
+
     }
 
-    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("KStars did not find any active mounts."));
 
 #else
 

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "indicap.h"
+#include "indidustcap.h"
 #include "indistd.h"
 
 namespace ISD
@@ -22,7 +22,7 @@ class LightBox : public DustCap
         Q_OBJECT
 
     public:
-        explicit LightBox(GDInterface *iPtr) : DustCap(iPtr) {}
+        explicit LightBox(GenericDevice *parent) : DustCap(parent) {}
 
         virtual bool hasLight() override;
         virtual bool canPark() override;

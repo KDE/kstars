@@ -2,7 +2,7 @@
 <node>
   <interface name="org.kde.kstars.Ekos.Guide">
   <property name="camera" type="s" access="readwrite"/>
-  <property name="st4" type="s" access="readwrite"/>
+  <property name="guider" type="s" access="readwrite"/>
   <property name="logText" type="as" access="read"/>
   <property name="exposure" type="d" access="readwrite"/>
   <property name="status" type="i" access="read">
@@ -47,12 +47,8 @@
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="getST4Devices">
+    <method name="getGuiders">
       <arg type="as" direction="out"/>
-    </method>
-    <method name="setImageFilter">
-      <arg name="value" type="s" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCalibrationTwoAxis">
       <arg name="enable" type="b" direction="in"/>
@@ -85,13 +81,7 @@
     <method name="setSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <!--
-    <method name="setGuideRapidEnabled">
-      <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    !-->
+    </method>    
     <method name="setDitherSettings">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>

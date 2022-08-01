@@ -98,7 +98,7 @@ void CaptureDeviceAdaptor::disconnectDustCap()
                &SequenceJobState::dustCapStatusChanged);
 }
 
-void CaptureDeviceAdaptor::setTelescope(ISD::Telescope *device)
+void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
 {
     if (m_ActiveTelescope == device)
         return;
@@ -109,8 +109,8 @@ void CaptureDeviceAdaptor::setTelescope(ISD::Telescope *device)
     // connect new device
     if (device != nullptr)
     {
-        connect(device, &ISD::Telescope::newStatus, this, &CaptureDeviceAdaptor::scopeStatusChanged);
-        connect(device, &ISD::Telescope::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
+        connect(device, &ISD::Mount::newStatus, this, &CaptureDeviceAdaptor::scopeStatusChanged);
+        connect(device, &ISD::Mount::newParkStatus, this, &CaptureDeviceAdaptor::scopeParkStatusChanged);
     }
 
     m_ActiveTelescope = device;
@@ -157,7 +157,7 @@ void CaptureDeviceAdaptor::setDome(ISD::Dome *device)
     m_ActiveDome = device;
 }
 
-void CaptureDeviceAdaptor::setRotator(ISD::GDInterface *device)
+void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
 {
     if (m_ActiveRotator == device)
         return;
@@ -171,9 +171,9 @@ void CaptureDeviceAdaptor::setRotator(ISD::GDInterface *device)
     // connect new device
     if (m_ActiveRotator != nullptr)
     {
-        connect(m_ActiveRotator, &ISD::GDInterface::numberUpdated, this, &CaptureDeviceAdaptor::updateRotatorNumber,
+        connect(m_ActiveRotator, &ISD::Rotator::newAbsoluteAngle, this, &CaptureDeviceAdaptor::newRotatorAngle,
                 Qt::UniqueConnection);
-        connect(m_ActiveRotator, &ISD::GDInterface::switchUpdated, this, &CaptureDeviceAdaptor::updateRotatorSwitch,
+        connect(m_ActiveRotator, &ISD::Rotator::reverseToggled, this, &CaptureDeviceAdaptor::rotatorReverseToggled,
                 Qt::UniqueConnection);
     }
 
@@ -198,14 +198,14 @@ void CaptureDeviceAdaptor::disconnectRotator()
 void CaptureDeviceAdaptor::setRotatorAngle(double *rawAngle)
 {
     if (m_ActiveRotator != nullptr)
-        m_ActiveRotator->runCommand(INDI_SET_ROTATOR_ANGLE, rawAngle);
+        m_ActiveRotator->setAbsoluteAngle(*rawAngle);
 }
 
 void CaptureDeviceAdaptor::reverseRotator(bool toggled)
 {
     if (m_ActiveRotator != nullptr)
     {
-        m_ActiveRotator->runCommand(INDI_REVERSE_ROTATOR, &toggled);
+        m_ActiveRotator->setReversed(toggled);
         m_ActiveRotator->setConfig(SAVE_CONFIG);
     }
 }
@@ -213,37 +213,10 @@ void CaptureDeviceAdaptor::reverseRotator(bool toggled)
 void CaptureDeviceAdaptor::readRotatorAngle()
 {
     if (m_ActiveRotator != nullptr)
-    {
-        auto nvp = m_ActiveRotator->getBaseDevice()->getNumber("ABS_ROTATOR_ANGLE");
-        emit newRotatorAngle(nvp->at(0)->getValue(), nvp->s);
-    }
+        emit newRotatorAngle(m_ActiveRotator->absoluteAngle(), m_ActiveRotator->absoluteAngleState());
 }
 
-bool CaptureDeviceAdaptor::isRotatorReversed()
-{
-    if (m_ActiveRotator != nullptr)
-    {
-        auto svp = m_ActiveRotator->getBaseDevice()->getSwitch("ROTATOR_REVERSE");
-        if (svp)
-            return svp->sp[0].s == ISS_ON;
-    }
-
-    return false;
-}
-
-void CaptureDeviceAdaptor::updateRotatorNumber(INumberVectorProperty *nvp)
-{
-    if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
-        emit newRotatorAngle(nvp->np[0].value, nvp->s);
-}
-
-void CaptureDeviceAdaptor::updateRotatorSwitch(ISwitchVectorProperty *svp)
-{
-    if (!strcmp(svp->name, "ROTATOR_REVERSE"))
-        emit newRotatorReversed(svp->sp[0].s == ISS_ON);
-}
-
-void CaptureDeviceAdaptor::setActiveCCD(ISD::CCD *device)
+void CaptureDeviceAdaptor::setActiveCamera(ISD::Camera *device)
 {
     if (m_ActiveCamera == device)
         return;
@@ -251,7 +224,7 @@ void CaptureDeviceAdaptor::setActiveCCD(ISD::CCD *device)
     // disconnect device events if the new device is not empty
     if (m_ActiveCamera != nullptr)
     {
-        disconnect(m_ActiveCamera, &ISD::CCD::newTemperatureValue, this,
+        disconnect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
                    &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue);
     }
 
@@ -262,12 +235,12 @@ void CaptureDeviceAdaptor::setActiveCCD(ISD::CCD *device)
     if (m_ActiveCamera != nullptr)
     {
         // publish device events
-        connect(m_ActiveCamera, &ISD::CCD::newTemperatureValue, this,
+        connect(m_ActiveCamera, &ISD::Camera::newTemperatureValue, this,
                 &Ekos::CaptureDeviceAdaptor::newCCDTemperatureValue, Qt::UniqueConnection);
     }
 }
 
-void CaptureDeviceAdaptor::connectActiveCCD()
+void CaptureDeviceAdaptor::connectActiveCamera()
 {
     //connect state machine to device adaptor
     connect(currentSequenceJobState, &SequenceJobState::setCCDTemperature, this,
@@ -285,7 +258,7 @@ void CaptureDeviceAdaptor::connectActiveCCD()
             &Ekos::SequenceJobState::setCurrentCCDTemperature, Qt::UniqueConnection);
 }
 
-void CaptureDeviceAdaptor::disconnectActiveCCD()
+void CaptureDeviceAdaptor::disconnectActiveCamera()
 {
     disconnect(currentSequenceJobState, &SequenceJobState::setCCDTemperature, this,
                &CaptureDeviceAdaptor::setCCDTemperature);
@@ -338,12 +311,12 @@ void CaptureDeviceAdaptor::enableCCDBatchMode(bool enable)
         m_ActiveChip->setBatchMode(enable);
 }
 
-void CaptureDeviceAdaptor::setActiveChip(ISD::CCDChip *device)
+void CaptureDeviceAdaptor::setActiveChip(ISD::CameraChip *device)
 {
     m_ActiveChip = device;
 }
 
-void CaptureDeviceAdaptor::setFilterWheel(ISD::GDInterface *device)
+void CaptureDeviceAdaptor::setFilterWheel(ISD::FilterWheel *device)
 {
     m_ActiveFilterWheel = device;
 }
@@ -433,7 +406,7 @@ void CaptureDeviceAdaptor::slewTelescope(SkyPoint &target)
     if (m_ActiveTelescope != nullptr)
     {
         m_ActiveTelescope->Slew(&target);
-        emit scopeStatusChanged(ISD::Telescope::MOUNT_SLEWING);
+        emit scopeStatusChanged(ISD::Mount::MOUNT_SLEWING);
     }
 }
 
@@ -442,7 +415,7 @@ void CaptureDeviceAdaptor::setScopeTracking(bool on)
     if (m_ActiveTelescope != nullptr)
     {
         m_ActiveTelescope->setTrackEnabled(on);
-        emit scopeStatusChanged(on ? ISD::Telescope::MOUNT_TRACKING : ISD::Telescope::MOUNT_IDLE);
+        emit scopeStatusChanged(on ? ISD::Mount::MOUNT_TRACKING : ISD::Mount::MOUNT_IDLE);
     }
 }
 
@@ -453,14 +426,14 @@ void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
         if (parked == true)
         {
             if (m_ActiveTelescope->Park())
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_PARKING);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_PARKING);
             else
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
         else
         {
             if (m_ActiveTelescope->UnPark() == false)
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
     }
 }
@@ -472,14 +445,14 @@ void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
         if (parked == true)
         {
             if (m_ActiveDome->Park())
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_PARKING);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_PARKING);
             else
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
         else
         {
             if (m_ActiveTelescope->UnPark() == false)
-                emit scopeStatusChanged(ISD::Telescope::MOUNT_ERROR);
+                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
     }
 

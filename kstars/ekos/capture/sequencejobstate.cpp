@@ -817,16 +817,16 @@ void SequenceJobState::dustCapStatusChanged(ISD::DustCap::Status status)
     checkAllActionsReady();
 }
 
-void SequenceJobState::scopeStatusChanged(ISD::Telescope::Status status)
+void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
 {
     // handle wall position
     switch (status)
     {
-        case ISD::Telescope::MOUNT_TRACKING:
+        case ISD::Mount::MOUNT_TRACKING:
             if (wpScopeStatus == WP_SLEWING)
                 wpScopeStatus = WP_SLEW_COMPLETED;
             break;
-        case ISD::Telescope::MOUNT_IDLE:
+        case ISD::Mount::MOUNT_IDLE:
             if (wpScopeStatus == WP_SLEWING || wpScopeStatus == WP_TRACKING_BUSY)
                 wpScopeStatus = WP_TRACKING_OFF;
             break;

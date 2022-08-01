@@ -35,7 +35,7 @@
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include <basedevice.h>
 #endif
 
@@ -658,7 +658,7 @@ void KSPopupMenu::addINDI()
 
         if (telescope != nullptr && menuDevice != nullptr)
         {
-            if (dynamic_cast<ISD::Telescope*>(telescope)->canCustomPark())
+            if (dynamic_cast<ISD::Mount*>(telescope)->canCustomPark())
             {
                 menuDevice->addSeparator();
                 QAction *a = menuDevice->addAction(i18n("Slew && Set As Parking Position"));
@@ -690,13 +690,17 @@ void KSPopupMenu::addINDI()
     if (INDIListener::Instance()->size() == 0)
         return;
 
-    for (auto device : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Telescope *mount = dynamic_cast<ISD::Telescope *>(device);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
+
+
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
         if (!mount)
             continue;
 
-        QMenu *mountMenu = new QMenu(device->getDeviceName());
+        QMenu *mountMenu = new QMenu(mount->getDeviceName());
         mountMenu->setIcon(QIcon::fromTheme("kstars"));
         addMenu(mountMenu);
 
@@ -772,13 +776,13 @@ void KSPopupMenu::addINDI()
                                               i18n("Goto && Set As Parking Position"));
             a->setEnabled(!mount->isParked());
             connect(a, &QAction::triggered,
-                    [mount] { mount->runCommand(INDI_CUSTOM_PARKING); });
+                    [mount] { mount->setCustomParking(); });
         }
 
         QAction *a =
             mountMenu->addAction(QIcon::fromTheme("edit-find"), i18n("Find Telescope"));
         connect(a, &QAction::triggered,
-                [mount] { mount->runCommand(INDI_FIND_TELESCOPE); });
+                [mount] { mount->find(); });
     }
 #endif
 }

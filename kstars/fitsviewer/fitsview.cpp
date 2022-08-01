@@ -391,7 +391,7 @@ bool FITSView::processData()
     if (!m_ImageData)
         return false;
 
-    connect(m_ImageData.data(), &FITSData::dataChanged, [this]()
+    connect(m_ImageData.data(), &FITSData::dataChanged, this, [this]()
     {
         rescale(ZOOM_KEEP_LEVEL);
         updateFrame();
@@ -414,9 +414,9 @@ bool FITSView::processData()
     {
         m_ImageFrame = new FITSLabel(this);
         m_ImageFrame->setMouseTracking(true);
-        connect(m_ImageFrame, SIGNAL(newStatus(QString, FITSBar)), this, SIGNAL(newStatus(QString, FITSBar)));
-        connect(m_ImageFrame, SIGNAL(pointSelected(int, int)), this, SLOT(processPointSelection(int, int)));
-        connect(m_ImageFrame, SIGNAL(markerSelected(int, int)), this, SLOT(processMarkerSelection(int, int)));
+        connect(m_ImageFrame, &FITSLabel::newStatus, this, &FITSView::newStatus);
+        connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
+        connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
     }
     m_ImageFrame->setSize(image_width, image_height);
 
@@ -2307,7 +2307,7 @@ bool FITSView::isTelescopeActive()
 
     for (auto oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (oneDevice->getType() != KSTARS_TELESCOPE)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
         return oneDevice->isConnected();
     }

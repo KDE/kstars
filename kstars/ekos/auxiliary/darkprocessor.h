@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "indi/indiccd.h"
-#include "indi/indicap.h"
+#include "indi/indicamera.h"
+#include "indi/indidustcap.h"
 #include "darkview.h"
 #include "defectmap.h"
 #include "ekos/ekos.h"
@@ -40,7 +40,7 @@ class DarkProcessor : public QObject
         explicit DarkProcessor(QObject *parent = nullptr);
 
         // Perform defect correction or dark subtraction
-        void denoise(ISD::CCDChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
+        void denoise(ISD::CameraChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
                      uint16_t offsetX, uint16_t offsetY);
 
 
@@ -105,7 +105,7 @@ class DarkProcessor : public QObject
         QFutureWatcher<bool> m_Watcher;
         struct
         {
-            ISD::CCDChip *targetChip;
+            ISD::CameraChip *targetChip;
             QSharedPointer<FITSData> targetData;
             double duration;
             uint16_t offsetX;

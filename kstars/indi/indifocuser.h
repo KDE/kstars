@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
 
 namespace ISD
 {
@@ -17,10 +17,9 @@ namespace ISD
  * @author Jasem Mutlaq
  */
 
-class Focuser : public DeviceDecorator
+class Focuser : public ConcreteDevice
 {
         Q_OBJECT
-
 
     public:
         enum FocusDirection
@@ -33,21 +32,10 @@ class Focuser : public DeviceDecorator
             NIKONZ6
         };
 
-        explicit Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr)
-        {
-            dType = KSTARS_FOCUSER;
-        }
+        explicit Focuser(GenericDevice *parent) : ConcreteDevice(parent) {}
 
         void registerProperty(INDI::Property prop) override;
-        void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
-        void processLight(ILightVectorProperty *lvp) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         bool focusIn();
         bool focusOut();
@@ -74,7 +62,7 @@ class Focuser : public DeviceDecorator
         {
             return m_maxPosition;
         }
-        bool setmaxPosition(uint32_t steps);
+        bool setMaxPosition(uint32_t steps);
 
     private:
         uint32_t m_maxPosition {0};

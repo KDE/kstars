@@ -22,154 +22,162 @@ Dome::Dome()
     new DomeAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Dome", this);
 
-    currentDome = nullptr;
+    m_Dome = nullptr;
 }
 
-void Dome::setDome(ISD::GDInterface *newDome)
+void Dome::addDome(ISD::Dome *device)
 {
-    if (newDome == currentDome)
-        return;
+    // No Duplicates
+    for (auto &oneDome : m_Domes)
+    {
+        if (oneDome->getDeviceName() == device->getDeviceName())
+            return;
+    }
 
-    currentDome = static_cast<ISD::Dome *>(newDome);
+    for (auto &oneDome : m_Domes)
+        oneDome->disconnect(this);
 
-    currentDome->disconnect(this);
+    m_Dome = device;
+    m_Domes.append(device);
 
-    connect(currentDome, &ISD::Dome::newStatus, this, &Dome::newStatus);
-    connect(currentDome, &ISD::Dome::newStatus, this, &Dome::setStatus);
-    connect(currentDome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status)
+    // TODO find a way to select active dome.
+    // Probably not required in 99.9% of situations but to be consistent.
+    connect(m_Dome, &ISD::Dome::newStatus, this, &Dome::newStatus);
+    connect(m_Dome, &ISD::Dome::newStatus, this, &Dome::setStatus);
+    connect(m_Dome, &ISD::Dome::newParkStatus, [&](ISD::ParkStatus status)
     {
         m_ParkStatus = status;
         emit newParkStatus(status);
     });
-    connect(currentDome, &ISD::Dome::newShutterStatus, this, &Dome::newShutterStatus);
-    connect(currentDome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status)
+    connect(m_Dome, &ISD::Dome::newShutterStatus, this, &Dome::newShutterStatus);
+    connect(m_Dome, &ISD::Dome::newShutterStatus, [&](ISD::Dome::ShutterStatus status)
     {
         m_ShutterStatus = status;
     });
-    connect(currentDome, &ISD::Dome::newAutoSyncStatus, this, &Dome::newAutoSyncStatus);
-    connect(currentDome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
-    connect(currentDome, &ISD::Dome::ready, this, &Dome::ready);
-    connect(currentDome, &ISD::Dome::Disconnected, this, &Dome::disconnected);
+    connect(m_Dome, &ISD::Dome::newAutoSyncStatus, this, &Dome::newAutoSyncStatus);
+    connect(m_Dome, &ISD::Dome::azimuthPositionChanged, this, &Dome::azimuthPositionChanged);
+    connect(m_Dome, &ISD::Dome::ready, this, &Dome::ready);
+    connect(m_Dome, &ISD::Dome::Disconnected, this, &Dome::disconnected);
 }
 
 
 bool Dome::canPark()
 {
-    if (currentDome == nullptr)
+    if (m_Dome == nullptr)
         return false;
 
-    return currentDome->canPark();
+    return m_Dome->canPark();
 }
 
 bool Dome::park()
 {
-    if (currentDome == nullptr || currentDome->canPark() == false)
+    if (m_Dome == nullptr || m_Dome->canPark() == false)
         return false;
 
     qCDebug(KSTARS_EKOS) << "Parking dome...";
-    return currentDome->Park();
+    return m_Dome->Park();
 }
 
 bool Dome::unpark()
 {
-    if (currentDome == nullptr || currentDome->canPark() == false)
+    if (m_Dome == nullptr || m_Dome->canPark() == false)
         return false;
 
     qCDebug(KSTARS_EKOS) << "Unparking dome...";
-    return currentDome->UnPark();
+    return m_Dome->UnPark();
 }
 
 bool Dome::abort()
 {
-    if (currentDome == nullptr)
+    if (m_Dome == nullptr)
         return false;
 
     qCDebug(KSTARS_EKOS) << "Aborting...";
-    return currentDome->Abort();
+    return m_Dome->Abort();
 }
 
 bool Dome::isMoving()
 {
-    if (currentDome == nullptr)
+    if (m_Dome == nullptr)
         return false;
 
-    return currentDome->isMoving();
+    return m_Dome->isMoving();
 }
 
 bool Dome::isRolloffRoof()
 {
     // a rolloff roof is a dome that can move neither absolutely nor relatively
-    return (currentDome && !currentDome->canAbsMove() && !currentDome->canRelMove());
+    return (m_Dome && !m_Dome->canAbsMove() && !m_Dome->canRelMove());
 }
 
 bool Dome::canAbsoluteMove()
 {
-    if (currentDome)
-        return currentDome->canAbsMove();
+    if (m_Dome)
+        return m_Dome->canAbsMove();
 
     return false;
 }
 
 bool Dome::canRelativeMove()
 {
-    if (currentDome)
-        return currentDome->canRelMove();
+    if (m_Dome)
+        return m_Dome->canRelMove();
 
     return false;
 }
 
 double Dome::azimuthPosition()
 {
-    if (currentDome)
-        return currentDome->azimuthPosition();
+    if (m_Dome)
+        return m_Dome->azimuthPosition();
     return -1;
 }
 
 void Dome::setAzimuthPosition(double position)
 {
-    if (currentDome)
-        currentDome->setAzimuthPosition(position);
+    if (m_Dome)
+        m_Dome->setAzimuthPosition(position);
 }
 
 void Dome::setRelativePosition(double position)
 {
-    if (currentDome)
-        currentDome->setRelativePosition(position);
+    if (m_Dome)
+        m_Dome->setRelativePosition(position);
 }
 
 bool Dome::moveDome(bool moveCW, bool start)
 {
-    if (currentDome == nullptr)
+    if (m_Dome == nullptr)
         return false;
 
     if (isRolloffRoof())
         qCDebug(KSTARS_EKOS) << (moveCW ? "Opening" : "Closing") << "rolloff roof" << (start ? "started." : "stopped.");
     else
         qCDebug(KSTARS_EKOS) << "Moving dome" << (moveCW ? "" : "counter") << "clockwise" << (start ? "started." : "stopped.");
-    return currentDome->moveDome(moveCW ? ISD::Dome::DOME_CW : ISD::Dome::DOME_CCW,
-                                 start  ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
+    return m_Dome->moveDome(moveCW ? ISD::Dome::DOME_CW : ISD::Dome::DOME_CCW,
+                            start  ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
 }
 
 bool Dome::isAutoSync()
 {
-    if (currentDome)
-        return currentDome->isAutoSync();
+    if (m_Dome)
+        return m_Dome->isAutoSync();
     // value could not be determined
     return false;
 }
 
 bool Dome::setAutoSync(bool activate)
 {
-    if (currentDome)
-        return currentDome->setAutoSync(activate);
+    if (m_Dome)
+        return m_Dome->setAutoSync(activate);
     // not succeeded
     return false;
 }
 
 bool Dome::hasShutter()
 {
-    if (currentDome)
-        return currentDome->hasShutter();
+    if (m_Dome)
+        return m_Dome->hasShutter();
     // no dome, no shutter
     return false;
 }
@@ -177,21 +185,27 @@ bool Dome::hasShutter()
 bool Dome::controlShutter(bool open)
 {
 
-    if (currentDome)
+    if (m_Dome)
     {
         qCDebug(KSTARS_EKOS) << (open ? "Opening" : "Closing") << " shutter...";
-        return currentDome->ControlShutter(open);
+        return m_Dome->ControlShutter(open);
     }
     // no dome, no shutter control
     return false;
 }
 
-void Dome::removeDevice(ISD::GDInterface *device)
+void Dome::removeDevice(ISD::GenericDevice *device)
 {
     device->disconnect(this);
-    if (currentDome && (currentDome->getDeviceName() == device->getDeviceName()))
+    for (auto &oneDome : m_Domes)
     {
-        currentDome = nullptr;
+        if (oneDome->getDeviceName() == device->getDeviceName())
+        {
+            m_Dome = nullptr;
+            m_Domes.removeOne(oneDome);
+            break;
+        }
+
     }
 }
 

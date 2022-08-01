@@ -9,7 +9,7 @@
 #include "ekos_guide_debug.h"
 #include <QStringRef>
 #include <QDateTime>
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 Calibration::Calibration()
 {
@@ -25,7 +25,7 @@ void Calibration::setAngle(double rotationAngle)
 void Calibration::setParameters(double ccd_pix_width, double ccd_pix_height,
                                 double focalLengthMm,
                                 int binX, int binY,
-                                ISD::Telescope::PierSide currentPierSide,
+                                ISD::Mount::PierSide currentPierSide,
                                 const dms &mountRa, const dms &mountDec)
 {
     focalMm             = focalLengthMm;
@@ -433,7 +433,7 @@ bool Calibration::restore(const QString &encoding)
     if (!parseString(items[++i], "dec=", &tempStr)) return false;
     calibrationDEC = tempStr.size() == 0 ? nullDms : dms::fromString(tempStr, false);
     if (!parseInt(items[++i], "side=", &tempInt)) return false;
-    calibrationPierSide = static_cast<ISD::Telescope::PierSide>(tempInt);
+    calibrationPierSide = static_cast<ISD::Mount::PierSide>(tempInt);
     if (!parseString(items[++i], "when=", &tempStr)) return false;
     // Don't keep the time. It's just for reference.
     if (items[++i] != "calEnd") return false;
@@ -448,7 +448,7 @@ void Calibration::save() const
     qCDebug(KSTARS_EKOS_GUIDE) << QString("Saved calibration: %1").arg(encoding);
 }
 
-bool Calibration::restore(ISD::Telescope::PierSide currentPierSide,
+bool Calibration::restore(ISD::Mount::PierSide currentPierSide,
                           bool reverseDecOnPierChange, int currentBinX, int currentBinY,
                           const dms *declination)
 {
@@ -488,7 +488,7 @@ double Calibration::correctRA(double raMsPerArcsec, const dms &calibrationDec, c
     return adjustedMsPerArcsecond;
 }
 
-bool Calibration::restore(const QString &encoding, ISD::Telescope::PierSide currentPierSide,
+bool Calibration::restore(const QString &encoding, ISD::Mount::PierSide currentPierSide,
                           bool reverseDecOnPierChange, int currentBinX, int currentBinY,
                           const dms *currentDeclination)
 {
@@ -500,8 +500,8 @@ bool Calibration::restore(const QString &encoding, ISD::Telescope::PierSide curr
     }
     // We don't restore calibrations where either the calibration or the current pier side
     // is unknown.
-    if (calibrationPierSide == ISD::Telescope::PIER_UNKNOWN ||
-            currentPierSide == ISD::Telescope::PIER_UNKNOWN)
+    if (calibrationPierSide == ISD::Mount::PIER_UNKNOWN ||
+            currentPierSide == ISD::Mount::PIER_UNKNOWN)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Could not restore calibration--pier side unknown.";
         return false;

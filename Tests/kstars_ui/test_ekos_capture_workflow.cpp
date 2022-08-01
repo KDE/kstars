@@ -634,8 +634,8 @@ void TestEkosCaptureWorkflow::testWallSource()
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IDLE);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
-    m_CaptureHelper->expectedMountStates.append(ISD::Telescope::MOUNT_SLEWING);
-    m_CaptureHelper->expectedMountStates.append(ISD::Telescope::MOUNT_IDLE);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_SLEWING);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_IDLE);
     KTRY_CLICK(capture, startB);
     // check if mount has reached the expected position
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMountStates, 60000);
@@ -671,7 +671,7 @@ void TestEkosCaptureWorkflow::testFlatPreMountAndDomePark()
 
     // start the sequence
     m_CaptureHelper->expectedDomeStates.append(ISD::Dome::DOME_PARKED);
-    m_CaptureHelper->expectedMountStates.append(ISD::Telescope::MOUNT_PARKED);
+    m_CaptureHelper->expectedMountStates.append(ISD::Mount::MOUNT_PARKED);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_COMPLETE);
     KTRY_CLICK(capture, startB);
@@ -1024,7 +1024,7 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_GuiderDevice);
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_MountDevice);
     // select primary scope (higher focal length seems better for the guiding simulator)
-    KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::CCD::TELESCOPE_PRIMARY);
+    KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::Camera::TELESCOPE_PRIMARY);
     // disable guiding restrictions by default
     KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), startGuiderDriftS, false);
     KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), limitGuideDeviationS, false);

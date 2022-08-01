@@ -9,7 +9,7 @@
 #include <memory>
 #include <QTimer>
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
 
 namespace ISD
 {
@@ -19,12 +19,12 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class Dome : public DeviceDecorator
+class Dome : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit Dome(GDInterface *iPtr);
+        explicit Dome(GenericDevice *parent);
         typedef enum
         {
             DOME_IDLE,
@@ -61,15 +61,8 @@ class Dome : public DeviceDecorator
 
 
         void processSwitch(ISwitchVectorProperty *svp) override;
-        void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
-        void processLight(ILightVectorProperty *lvp) override;
         void registerProperty(INDI::Property prop) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         bool canPark() const
         {
@@ -129,7 +122,6 @@ class Dome : public DeviceDecorator
         void newShutterStatus(ShutterStatus status);
         void newAutoSyncStatus(bool enabled);
         void azimuthPositionChanged(double Az);
-        void ready();
 
     private:
         ParkStatus m_ParkStatus { PARK_UNKNOWN };
@@ -140,7 +132,6 @@ class Dome : public DeviceDecorator
         bool m_CanPark { false };
         bool m_CanAbort { false };
         bool m_HasShutter { false };
-        std::unique_ptr<QTimer> readyTimer;
         static const QList<const char *> domeStates;
 };
 }

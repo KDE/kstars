@@ -60,8 +60,8 @@ void GuideManager::init(Guide *guideProcess)
 
 
     // establish connections to receive guiding data
-    driftGraph->connectGuider(guideProcess->getGuider());
-    targetPlot->connectGuider(guideProcess->getGuider());
+    driftGraph->connectGuider(guideProcess->getGuiderInstance());
+    targetPlot->connectGuider(guideProcess->getGuiderInstance());
 
     // connect to Guide UI controls
     //This connects all the buttons and slider below the guide plots.

@@ -228,7 +228,7 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
 
 // Find the current target positions for the guide-star neighbors, and add them
 // to the guideView.
-void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
+void GuideStars::plotStars(QSharedPointer<GuideView> &guideView, const QRect &trackingBox)
 {
     if (guideView == nullptr) return;
     guideView->clearNeighbors();
@@ -271,7 +271,7 @@ void GuideStars::plotStars(GuideView *guideView, const QRect &trackingBox)
 // the other reference stars in the same relative position as when the guide star was selected).
 // If this method fails, it backs off to looking in the tracking box for the highest scoring star.
 GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
-        GuideView *guideView, bool firstFrame)
+        QSharedPointer<GuideView> &guideView, bool firstFrame)
 {
     // We fall-back to single star guiding if multistar isn't working,
     // but limit this for a number of iterations.

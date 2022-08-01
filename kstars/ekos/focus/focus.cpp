@@ -19,7 +19,7 @@
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
-#include "indi/indifilter.h"
+#include "indi/indifilterwheel.h"
 #include "ksnotification.h"
 #include "kconfigdialog.h"
 
@@ -142,11 +142,11 @@ Focus::Focus()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
         darkFrameCheck->setChecked(completed);
-        focusView->setProperty("suspended", false);
+        m_FocusView->setProperty("suspended", false);
         if (completed)
         {
-            focusView->rescale(ZOOM_KEEP_LEVEL);
-            focusView->updateFrame();
+            m_FocusView->rescale(ZOOM_KEEP_LEVEL);
+            m_FocusView->updateFrame();
         }
         setCaptureComplete();
         resetButtons();
@@ -187,9 +187,9 @@ Focus::~Focus()
 
 void Focus::resetFrame()
 {
-    if (currentCCD && currentCCD->isConnected())
+    if (m_Camera && m_Camera->isConnected())
     {
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
         if (targetChip)
         {
@@ -215,7 +215,7 @@ void Focus::resetFrame()
             starCenter   = QVector3D();
             subFramed    = false;
 
-            focusView->setTrackingBox(QRect());
+            m_FocusView->setTrackingBox(QRect());
         }
     }
 }
@@ -226,7 +226,7 @@ bool Focus::setCamera(const QString &device)
         if (device == CCDCaptureCombo->itemText(i))
         {
             CCDCaptureCombo->setCurrentIndex(i);
-            checkCCD(i);
+            checkCamera(i);
             return true;
         }
 
@@ -235,13 +235,13 @@ bool Focus::setCamera(const QString &device)
 
 QString Focus::camera()
 {
-    if (currentCCD)
-        return currentCCD->getDeviceName();
+    if (m_Camera)
+        return m_Camera->getDeviceName();
 
     return QString();
 }
 
-void Focus::checkCCD(int ccdNum)
+void Focus::checkCamera(int ccdNum)
 {
     // Do NOT perform checks when the camera is capturing or busy as this may result
     // in signals/slots getting disconnected.
@@ -270,17 +270,17 @@ void Focus::checkCCD(int ccdNum)
             return;
     }
 
-    if (ccdNum >= 0 && ccdNum < CCDs.count())
+    if (ccdNum >= 0 && ccdNum < m_Cameras.count())
     {
-        currentCCD = CCDs.at(ccdNum);
+        m_Camera = m_Cameras.at(ccdNum);
 
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
         if (targetChip && targetChip->isCapturing())
             return;
 
-        for (ISD::CCD *oneCCD : CCDs)
+        for (ISD::Camera *oneCCD : m_Cameras)
         {
-            if (oneCCD == currentCCD)
+            if (oneCCD == m_Camera)
                 continue;
             if (captureInProgress == false)
                 oneCCD->disconnect(this);
@@ -288,8 +288,6 @@ void Focus::checkCCD(int ccdNum)
 
         if (targetChip)
         {
-            targetChip->setImageView(focusView, FITS_FOCUS);
-
             binningCombo->setEnabled(targetChip->canBin());
             useSubFrame->setEnabled(targetChip->canSubframe());
             if (targetChip->canBin())
@@ -306,10 +304,10 @@ void Focus::checkCCD(int ccdNum)
             else
                 activeBin = 1;
 
-            connect(currentCCD, &ISD::CCD::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
-            liveVideoB->setEnabled(currentCCD->hasVideoStream());
-            if (currentCCD->hasVideoStream())
-                setVideoStreamEnabled(currentCCD->isStreamingEnabled());
+            connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
+            liveVideoB->setEnabled(m_Camera->hasVideoStream());
+            if (m_Camera->hasVideoStream())
+                setVideoStreamEnabled(m_Camera->isStreamingEnabled());
             else
                 liveVideoB->setIcon(QIcon::fromTheme("camera-off"));
 
@@ -317,15 +315,15 @@ void Focus::checkCCD(int ccdNum)
     }
 
     syncCCDControls();
-    syncCCDInfo();
+    syncCameraInfo();
 }
 
 void Focus::syncCCDControls()
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
-    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
 
@@ -345,14 +343,14 @@ void Focus::syncCCDControls()
         ISOCombo->setCurrentIndex(targetChip->getISOIndex());
     }
 
-    bool hasGain = currentCCD->hasGain();
+    bool hasGain = m_Camera->hasGain();
     gainLabel->setEnabled(hasGain);
-    gainIN->setEnabled(hasGain && currentCCD->getGainPermission() != IP_RO);
+    gainIN->setEnabled(hasGain && m_Camera->getGainPermission() != IP_RO);
     if (hasGain)
     {
         double gain = 0, min = 0, max = 0, step = 1;
-        currentCCD->getGainMinMaxStep(&min, &max, &step);
-        if (currentCCD->getGain(&gain))
+        m_Camera->getGainMinMaxStep(&min, &max, &step);
+        if (m_Camera->getGain(&gain))
         {
             gainIN->setMinimum(min);
             gainIN->setMaximum(max);
@@ -370,12 +368,12 @@ void Focus::syncCCDControls()
         gainIN->clear();
 }
 
-void Focus::syncCCDInfo()
+void Focus::syncCameraInfo()
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
-    auto targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
 
@@ -408,11 +406,11 @@ void Focus::syncCCDInfo()
     }
 }
 
-void Focus::addFilter(ISD::GDInterface *newFilter)
+void Focus::addFilterWheel(ISD::FilterWheel *filterWheel)
 {
-    for (auto &oneFilter : Filters)
+    for (auto &oneFilter : m_FilterWheels)
     {
-        if (oneFilter->getDeviceName() == newFilter->getDeviceName())
+        if (oneFilter->getDeviceName() == filterWheel->getDeviceName())
             return;
     }
 
@@ -422,9 +420,9 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     FilterPosCombo->setEnabled(true);
     filterManagerB->setEnabled(true);
 
-    FilterDevicesCombo->addItem(newFilter->getDeviceName());
+    FilterDevicesCombo->addItem(filterWheel->getDeviceName());
 
-    Filters.append(static_cast<ISD::Filter *>(newFilter));
+    m_FilterWheels.append(static_cast<ISD::FilterWheel *>(filterWheel));
 
     int filterWheelIndex = 1;
     if (Options::defaultFocusFilterWheel().isEmpty() == false)
@@ -439,23 +437,23 @@ void Focus::addFilter(ISD::GDInterface *newFilter)
     emit settingsUpdated(getSettings());
 }
 
-void Focus::addTemperatureSource(ISD::GDInterface *newSource)
+void Focus::addTemperatureSource(ISD::GenericDevice *device)
 {
-    if (!newSource)
+    if (!device)
         return;
 
-    for (const auto &oneSource : TemperatureSources)
+    for (auto &oneSource : m_TemperatureSources)
     {
-        if (oneSource->getDeviceName() == newSource->getDeviceName())
+        if (oneSource->getDeviceName() == device->getDeviceName())
             return;
     }
 
-    TemperatureSources.append(newSource);
-    temperatureSourceCombo->addItem(newSource->getDeviceName());
+    m_TemperatureSources.append(device);
+    temperatureSourceCombo->addItem(device->getDeviceName());
 
     int temperatureSourceIndex = temperatureSourceCombo->currentIndex();
     if (Options::defaultFocusTemperatureSource().isEmpty())
-        Options::setDefaultFocusTemperatureSource(newSource->getDeviceName());
+        Options::setDefaultFocusTemperatureSource(device->getDeviceName());
     else
         temperatureSourceIndex = temperatureSourceCombo->findText(Options::defaultFocusTemperatureSource());
     if (temperatureSourceIndex < 0)
@@ -474,12 +472,12 @@ void Focus::checkTemperatureSource(int index)
     }
 
     QString deviceName;
-    if (index < TemperatureSources.count())
+    if (index < m_TemperatureSources.count())
         deviceName = temperatureSourceCombo->itemText(index);
 
-    ISD::GDInterface *currentSource = nullptr;
+    ISD::GenericDevice *currentSource = nullptr;
 
-    for (auto &oneSource : TemperatureSources)
+    for (auto &oneSource : m_TemperatureSources)
     {
         if (oneSource->getDeviceName() == deviceName)
         {
@@ -494,10 +492,10 @@ void Focus::checkTemperatureSource(int index)
 
     QStringList deviceNames;
     // Disconnect all existing signals
-    for (const auto &oneSource : TemperatureSources)
+    for (const auto &oneSource : m_TemperatureSources)
     {
         deviceNames << oneSource->getDeviceName();
-        disconnect(oneSource, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+        disconnect(oneSource, &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
     }
 
     if (findTemperatureElement(currentSource))
@@ -508,14 +506,14 @@ void Focus::checkTemperatureSource(int index)
     }
     else
         m_LastSourceAutofocusTemperature = INVALID_VALUE;
-    connect(currentSource, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
+    connect(currentSource, &ISD::GenericDevice::numberUpdated, this, &Ekos::Focus::processTemperatureSource);
 
     temperatureSourceCombo->clear();
     temperatureSourceCombo->addItems(deviceNames);
     temperatureSourceCombo->setCurrentIndex(index);
 }
 
-bool Focus::findTemperatureElement(ISD::GDInterface *device)
+bool Focus::findTemperatureElement(ISD::GenericDevice *device)
 {
     INDI::Property *temperatureProperty = device->getProperty("FOCUS_TEMPERATURE");
     if (!temperatureProperty)
@@ -596,44 +594,40 @@ void Focus::checkFilter(int filterNum)
     // "--" is no filter
     if (filterNum == 0)
     {
-        currentFilter = nullptr;
+        m_FilterWheel = nullptr;
         currentFilterPosition = -1;
         FilterPosCombo->clear();
         return;
     }
 
-    if (filterNum <= Filters.count())
-        currentFilter = Filters.at(filterNum - 1);
+    if (filterNum <= m_FilterWheels.count())
+        m_FilterWheel = m_FilterWheels.at(filterNum - 1);
 
-    //Options::setDefaultFocusFilterWheel(currentFilter->getDeviceName());
-
-    filterManager->setCurrentFilterWheel(currentFilter);
+    m_FilterManager->setCurrentFilterWheel(m_FilterWheel);
 
     FilterPosCombo->clear();
 
-    FilterPosCombo->addItems(filterManager->getFilterLabels());
+    FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
 
-    currentFilterPosition = filterManager->getFilterPosition();
+    currentFilterPosition = m_FilterManager->getFilterPosition();
 
     FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
 
-    //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
-
-    exposureIN->setValue(filterManager->getFilterExposure());
+    exposureIN->setValue(m_FilterManager->getFilterExposure());
 }
 
-void Focus::addFocuser(ISD::GDInterface *newFocuser)
+void Focus::addFocuser(ISD::Focuser *newFocuser)
 {
     ISD::Focuser *oneFocuser = static_cast<ISD::Focuser *>(newFocuser);
 
-    if (Focusers.contains(oneFocuser))
+    if (m_Focusers.contains(oneFocuser))
         return;
 
     focuserCombo->addItem(oneFocuser->getDeviceName());
 
-    Focusers.append(oneFocuser);
+    m_Focusers.append(oneFocuser);
 
-    currentFocuser = oneFocuser;
+    m_Focuser = oneFocuser;
 
     checkFocuser();
 }
@@ -653,8 +647,8 @@ bool Focus::setFocuser(const QString &device)
 
 QString Focus::focuser()
 {
-    if (currentFocuser)
-        return currentFocuser->getDeviceName();
+    if (m_Focuser)
+        return m_Focuser->getDeviceName();
 
     return QString();
 }
@@ -666,24 +660,24 @@ void Focus::checkFocuser(int FocuserNum)
 
     if (FocuserNum == -1)
     {
-        currentFocuser = nullptr;
+        m_Focuser = nullptr;
         return;
     }
 
-    if (FocuserNum < Focusers.count())
-        currentFocuser = Focusers.at(FocuserNum);
+    if (FocuserNum < m_Focusers.count())
+        m_Focuser = m_Focusers.at(FocuserNum);
 
-    filterManager->setFocusReady(currentFocuser->isConnected());
+    m_FilterManager->setFocusReady(m_Focuser->isConnected());
 
     // Disconnect all focusers
-    for (auto &oneFocuser : Focusers)
+    for (auto &oneFocuser : m_Focusers)
     {
-        disconnect(oneFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber);
+        disconnect(oneFocuser, &ISD::FilterWheel::numberUpdated, this, &Ekos::Focus::processFocusNumber);
     }
 
-    hasDeviation = currentFocuser->hasDeviation();
+    hasDeviation = m_Focuser->hasDeviation();
 
-    canAbsMove = currentFocuser->canAbsMove();
+    canAbsMove = m_Focuser->canAbsMove();
 
     if (canAbsMove)
     {
@@ -702,7 +696,7 @@ void Focus::checkFocuser(int FocuserNum)
         startGotoB->setEnabled(false);
     }
 
-    canRelMove = currentFocuser->canRelMove();
+    canRelMove = m_Focuser->canRelMove();
 
     // In case we have a purely relative focuser, we pretend
     // it is an absolute focuser with initial point set at 50,000.
@@ -714,7 +708,7 @@ void Focus::checkFocuser(int FocuserNum)
         absMotionMin    = 0;
     }
 
-    canTimerMove = currentFocuser->canTimerMove();
+    canTimerMove = m_Focuser->canTimerMove();
 
     // In case we have a timer-based focuser and using the linear focus algorithm,
     // we pretend it is an absolute focuser with initial point set at 50,000.
@@ -730,28 +724,28 @@ void Focus::checkFocuser(int FocuserNum)
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
     profilePlot->setFocusAuto(focusType == FOCUS_AUTO);
 
-    bool hasBacklash = currentFocuser->hasBacklash();
+    bool hasBacklash = m_Focuser->hasBacklash();
     focusBacklashSpin->setEnabled(hasBacklash);
     focusBacklashSpin->disconnect(this);
     if (hasBacklash)
     {
         double min = 0, max = 0, step = 0;
-        currentFocuser->getMinMaxStep("FOCUS_BACKLASH_STEPS", "FOCUS_BACKLASH_VALUE", &min, &max, &step);
+        m_Focuser->getMinMaxStep("FOCUS_BACKLASH_STEPS", "FOCUS_BACKLASH_VALUE", &min, &max, &step);
         focusBacklashSpin->setMinimum(min);
         focusBacklashSpin->setMaximum(max);
         focusBacklashSpin->setSingleStep(step);
-        focusBacklashSpin->setValue(currentFocuser->getBacklash());
+        focusBacklashSpin->setValue(m_Focuser->getBacklash());
         connect(focusBacklashSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int value)
         {
-            if (currentFocuser)
+            if (m_Focuser)
             {
-                if (currentFocuser->getBacklash() == value)
+                if (m_Focuser->getBacklash() == value)
                     // Prevent an event storm where a fast update of the backlash field, e.g. changing
                     // the value to "12" results in 2 events; "1", "12". As these events get
                     // processed in the driver and persisted, they in turn update backlash and start
                     // to conflict with this callback, getting stuck forever: "1", "12", "1', "12"
                     return;
-                currentFocuser->setBacklash(value);
+                m_Focuser->setBacklash(value);
                 syncSettings();
             }
         });
@@ -763,27 +757,29 @@ void Focus::checkFocuser(int FocuserNum)
         focusBacklashSpin->setValue(0);
     }
 
-    //initializeFocuserTemperature();
-
-    connect(currentFocuser, &ISD::GDInterface::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
-    //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, &Ekos::Focus::(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
+    connect(m_Focuser, &ISD::Focuser::numberUpdated, this, &Ekos::Focus::processFocusNumber, Qt::UniqueConnection);
 
     resetButtons();
-
-    //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-    //  emit autoFocusFinished(true, -1);
 }
 
-void Focus::addCCD(ISD::GDInterface *newCCD)
+void Focus::addCamera(ISD::Camera *device)
 {
-    if (CCDs.contains(static_cast<ISD::CCD *>(newCCD)))
-        return;
+    // No duplicates
+    for (auto &oneCamera : m_Cameras)
+    {
+        if (oneCamera->getDeviceName() == device->getDeviceName())
+            return;
+    }
 
-    CCDs.append(static_cast<ISD::CCD *>(newCCD));
+    for (auto &oneCamera : m_Cameras)
+        oneCamera->disconnect(this);
 
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+    m_Camera = device;
+    m_Cameras.append(device);
 
-    checkCCD();
+    CCDCaptureCombo->addItem(device->getDeviceName());
+
+    checkCamera();
 }
 
 void Focus::getAbsFocusPosition()
@@ -791,7 +787,7 @@ void Focus::getAbsFocusPosition()
     if (!canAbsMove)
         return;
 
-    auto absMove = currentFocuser->getBaseDevice()->getNumber("ABS_FOCUS_POSITION");
+    auto absMove = m_Focuser->getNumber("ABS_FOCUS_POSITION");
 
     if (absMove)
     {
@@ -928,14 +924,14 @@ void Focus::emitTemperatureEvents(TemperatureSource source, double newTemperatur
 
 void Focus::start()
 {
-    if (currentFocuser == nullptr)
+    if (m_Focuser == nullptr)
     {
         appendLogText(i18n("No Focuser connected."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
         return;
     }
 
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -1009,18 +1005,6 @@ void Focus::start()
     clearDataPoints();
     profilePlot->clear();
 
-    //    Options::setFocusTicks(stepIN->value());
-    //    Options::setFocusTolerance(toleranceIN->value());
-    //    Options::setFocusExposure(exposureIN->value());
-    //    Options::setFocusMaxTravel(maxTravelIN->value());
-    //    Options::setFocusBoxSize(focusBoxSize->value());
-    //    Options::setFocusSubFrame(useSubFrame->isChecked());
-    //    Options::setFocusAutoStarEnabled(useAutoStar->isChecked());
-    //    Options::setSuspendGuiding(suspendGuideCheck->isChecked());
-    //    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
-    //    Options::setFocusFramesCount(focusFramesSpin->value());
-    //    Options::setFocusUseFullField(useFullField->isChecked());
-
     qCInfo(KSTARS_EKOS_FOCUS)  << "Starting focus with Detection: " << focusDetectionCombo->currentText()
                                << " Algorithm: " << focusAlgorithmCombo->currentText()
                                << " Box size: " << focusBoxSize->value()
@@ -1049,7 +1033,7 @@ void Focus::start()
     // Only suspend when we have Off-Axis Guider
     // If the guide camera is operating on a different OTA
     // then no need to suspend.
-    const bool isOAG = currentCCD->getTelescopeType() == Options::guideScopeType();
+    const bool isOAG = m_Camera->getTelescopeType() == Options::guideScopeType();
     if (isOAG && m_GuidingSuspended == false && suspendGuideCheck->isChecked())
     {
         m_GuidingSuspended = true;
@@ -1198,22 +1182,22 @@ void Focus::stop(Ekos::FocusState completionState)
     HFRFrames.clear();
 
     // Check if CCD was not removed due to crash or other reasons.
-    if (currentCCD)
+    if (m_Camera)
     {
-        disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-        disconnect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
+        disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData);
+        disconnect(m_Camera, &ISD::Camera::error, this, &Ekos::Focus::processCaptureError);
 
-        if (rememberUploadMode != currentCCD->getUploadMode())
-            currentCCD->setUploadMode(rememberUploadMode);
+        if (rememberUploadMode != m_Camera->getUploadMode())
+            m_Camera->setUploadMode(rememberUploadMode);
 
         // Remember to reset fast exposure if it was enabled before.
         if (m_RememberCameraFastExposure)
         {
             m_RememberCameraFastExposure = false;
-            currentCCD->setFastExposureEnabled(true);
+            m_Camera->setFastExposureEnabled(true);
         }
 
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
         targetChip->abortExposure();
     }
 
@@ -1253,14 +1237,14 @@ void Focus::capture(double settleTime)
         return;
     }
 
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
     {
         appendLogText(i18n("Error: No Camera detected."));
         checkStopFocus(true);
         return;
     }
 
-    if (currentCCD->isConnected() == false)
+    if (m_Camera->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Camera."));
         checkStopFocus(true);
@@ -1272,22 +1256,22 @@ void Focus::capture(double settleTime)
     // reset timeout for focus star selection
     waitStarSelectTimer.stop();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
-    if (currentCCD->isBLOBEnabled() == false)
+    if (m_Camera->isBLOBEnabled() == false)
     {
-        currentCCD->setBLOBEnabled(true);
+        m_Camera->setBLOBEnabled(true);
     }
 
     if (FilterPosCombo->currentIndex() != -1)
     {
-        if (currentFilter == nullptr)
+        if (m_FilterWheel == nullptr)
         {
             appendLogText(i18n("Error: No Filter Wheel detected."));
             checkStopFocus(true);
             return;
         }
-        if (currentFilter->isConnected() == false)
+        if (m_FilterWheel->isConnected() == false)
         {
             appendLogText(i18n("Error: Lost connection to Filter Wheel."));
             checkStopFocus(true);
@@ -1295,7 +1279,7 @@ void Focus::capture(double settleTime)
         }
 
         int targetPosition = FilterPosCombo->currentIndex() + 1;
-        QString lockedFilter = filterManager->getFilterLock(FilterPosCombo->currentText());
+        QString lockedFilter = m_FilterManager->getFilterLock(FilterPosCombo->currentText());
 
         // We change filter if:
         // 1. Target position is not equal to current position.
@@ -1317,17 +1301,17 @@ void Focus::capture(double settleTime)
         if (filterPositionPending)
         {
             // Apply all policies except autofocus since we are already in autofocus module doh.
-            filterManager->setFilterPosition(targetPosition,
-                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+            m_FilterManager->setFilterPosition(targetPosition,
+                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
     }
 
-    focusView->setProperty("suspended", darkFrameCheck->isChecked());
+    m_FocusView->setProperty("suspended", darkFrameCheck->isChecked());
     prepareCapture(targetChip);
 
-    connect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-    connect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
+    connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData);
+    connect(m_Camera, &ISD::Camera::error, this, &Ekos::Focus::processCaptureError);
 
     if (frameSettings.contains(targetChip))
     {
@@ -1346,7 +1330,7 @@ void Focus::capture(double settleTime)
         emit newStatus(state);
     }
 
-    focusView->setBaseSize(focusingWidget->size());
+    m_FocusView->setBaseSize(focusingWidget->size());
 
     if (targetChip->capture(exposureIN->value()))
     {
@@ -1365,22 +1349,22 @@ void Focus::capture(double settleTime)
     }
 }
 
-void Focus::prepareCapture(ISD::CCDChip *targetChip)
+void Focus::prepareCapture(ISD::CameraChip *targetChip)
 {
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
     {
-        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+        rememberUploadMode = ISD::Camera::UPLOAD_LOCAL;
+        m_Camera->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
 
     // We cannot use fast exposure in focus.
-    if (currentCCD->isFastExposureEnabled())
+    if (m_Camera->isFastExposureEnabled())
     {
         m_RememberCameraFastExposure = true;
-        currentCCD->setFastExposureEnabled(false);
+        m_Camera->setFastExposureEnabled(false);
     }
 
-    currentCCD->setEncodingFormat("FITS");
+    m_Camera->setEncodingFormat("FITS");
     targetChip->setBatchMode(false);
     targetChip->setBinning(activeBin, activeBin);
     targetChip->setCaptureMode(FITS_FOCUS);
@@ -1397,7 +1381,7 @@ void Focus::prepareCapture(ISD::CCDChip *targetChip)
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
     if (gainIN->isEnabled())
-        currentCCD->setGain(gainIN->value());
+        m_Camera->setGain(gainIN->value());
 }
 
 bool Focus::focusIn(int ms)
@@ -1427,14 +1411,14 @@ bool Focus::changeFocus(int amount)
         return true;
     }
 
-    if (currentFocuser == nullptr)
+    if (m_Focuser == nullptr)
     {
         appendLogText(i18n("Error: No Focuser detected."));
         checkStopFocus(true);
         return false;
     }
 
-    if (currentFocuser->isConnected() == false)
+    if (m_Focuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
         checkStopFocus(true);
@@ -1446,9 +1430,9 @@ bool Focus::changeFocus(int amount)
     m_LastFocusDirection = focusingOut ? FOCUS_OUT : FOCUS_IN;
 
     if (focusingOut)
-        currentFocuser->focusOut();
+        m_Focuser->focusOut();
     else
-        currentFocuser->focusIn();
+        m_Focuser->focusIn();
 
     // Keep track of motion in case it gets stuck.
     m_FocusMotionTimerCounter = 0;
@@ -1457,19 +1441,19 @@ bool Focus::changeFocus(int amount)
     if (canAbsMove)
     {
         m_LastFocusSteps = currentPosition + amount;
-        currentFocuser->moveAbs(currentPosition + amount);
+        m_Focuser->moveAbs(currentPosition + amount);
         appendLogText(i18n("Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else if (canRelMove)
     {
         m_LastFocusSteps = absAmount;
-        currentFocuser->moveRel(absAmount);
+        m_Focuser->moveRel(absAmount);
         appendLogText(i18np("Focusing %2 by %1 step...", "Focusing %2 by %1 steps...", absAmount, dirStr));
     }
     else
     {
         m_LastFocusSteps = absAmount;
-        currentFocuser->moveByTimer(absAmount);
+        m_Focuser->moveByTimer(absAmount);
         appendLogText(i18n("Focusing %2 by %1 ms...", absAmount, dirStr));
     }
 
@@ -1490,18 +1474,18 @@ void Focus::handleFocusMotionTimeout()
     const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
     if (canAbsMove)
     {
-        currentFocuser->moveAbs(m_LastFocusSteps);
+        m_Focuser->moveAbs(m_LastFocusSteps);
         appendLogText(i18n("Focus motion timed out. Focusing to %1 steps...", m_LastFocusSteps));
     }
     else if (canRelMove)
     {
-        currentFocuser->moveRel(m_LastFocusSteps);
+        m_Focuser->moveRel(m_LastFocusSteps);
         appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 steps...", m_LastFocusSteps,
                            dirStr));
     }
     else
     {
-        currentFocuser->moveByTimer(m_LastFocusSteps);
+        m_Focuser->moveByTimer(m_LastFocusSteps);
         appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 ms...",
                            m_LastFocusSteps, dirStr));
     }
@@ -1510,20 +1494,23 @@ void Focus::handleFocusMotionTimeout()
 void Focus::processData(const QSharedPointer<FITSData> &data)
 {
     // Ignore guide head if there is any.
-    if (data->property("chip").toInt() == ISD::CCDChip::GUIDE_CCD)
+    if (data->property("chip").toInt() == ISD::CameraChip::GUIDE_CCD)
         return;
 
     if (data)
+    {
+        m_FocusView->loadData(data);
         m_ImageData = data;
+    }
     else
         m_ImageData.reset();
 
     captureTimeout.stop();
     captureTimeoutCounter = 0;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    disconnect(currentCCD, &ISD::CCD::newImage, this, &Ekos::Focus::processData);
-    disconnect(currentCCD, &ISD::CCD::error, this, &Ekos::Focus::processCaptureError);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Focus::processData);
+    disconnect(m_Camera, &ISD::Camera::error, this, &Ekos::Focus::processCaptureError);
 
     if (m_ImageData && darkFrameCheck->isChecked())
     {
@@ -1555,16 +1542,16 @@ void Focus::calculateHFR()
     {
         if (Options::focusUseFullField())
         {
-            focusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
-                                          static_cast <float> (fullFieldOuterRing->value() / 100.0));
-            focusView->filterStars();
+            m_FocusView->setStarFilterRange(static_cast <float> (fullFieldInnerRing->value() / 100.0),
+                                            static_cast <float> (fullFieldOuterRing->value() / 100.0));
+            m_FocusView->filterStars();
 
             // Get the average HFR of the whole frame
             hfr = m_ImageData->getHFR(HFR_AVERAGE);
         }
         else
         {
-            focusView->setTrackingBoxEnabled(true);
+            m_FocusView->setTrackingBoxEnabled(true);
 
             // JM 2020-10-08: Try to get first the same HFR star already selected before
             // so that it doesn't keep jumping around
@@ -1597,7 +1584,7 @@ void Focus::analyzeSources()
     // a bounding box for them to be effective in near real-time application.
     if (Options::focusUseFullField())
     {
-        focusView->setTrackingBoxEnabled(false);
+        m_FocusView->setTrackingBoxEnabled(false);
 
         if (focusDetection != ALGORITHM_CENTROID && focusDetection != ALGORITHM_SEP)
             m_StarFinderWatcher.setFuture(m_ImageData->findStars(ALGORITHM_CENTROID));
@@ -1606,7 +1593,7 @@ void Focus::analyzeSources()
     }
     else
     {
-        QRect searchBox = focusView->isTrackingBoxEnabled() ? focusView->getTrackingBox() : QRect();
+        QRect searchBox = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
         // If star is already selected then use whatever algorithm currently selected.
         if (starSelected)
         {
@@ -1615,7 +1602,7 @@ void Focus::analyzeSources()
         else
         {
             // Disable tracking box
-            focusView->setTrackingBoxEnabled(false);
+            m_FocusView->setTrackingBoxEnabled(false);
 
             // If algorithm is set something other than Centeroid or SEP, then force Centroid
             // Since it is the most reliable detector when nothing was selected before.
@@ -1721,8 +1708,8 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
     {
-        filterManager->setFilterPosition(fallbackFilterPosition,
-                                         static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+        m_FilterManager->setFilterPosition(fallbackFilterPosition,
+                                           static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
     }
     else
         emit newStatus(state);
@@ -1833,14 +1820,14 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
 void Focus::resetFocuser()
 {
     // If we are able to and need to, move the focuser back to the initial position and let the procedure restart from its termination
-    if (currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
+    if (m_Focuser && m_Focuser->isConnected() && initialFocuserAbsPosition >= 0)
     {
         // HACK: If the focuser will not move, cheat a little to get the notification - see processNumber
         if (currentPosition == initialFocuserAbsPosition)
             currentPosition--;
 
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));
-        currentFocuser->moveAbs(initialFocuserAbsPosition);
+        m_Focuser->moveAbs(initialFocuserAbsPosition);
         /* Restart will be executed by the end-of-move notification from the device if needed by resetFocus */
     }
 }
@@ -1939,7 +1926,7 @@ void Focus::setCurrentHFR(double value)
 
     // First check that we haven't already search for stars
     // Since star-searching algorithm are time-consuming, we should only search when necessary
-    focusView->updateFrame();
+    m_FocusView->updateFrame();
 
     setHFRComplete();
 }
@@ -1956,27 +1943,27 @@ void Focus::setCaptureComplete()
         appendLogText(i18n("Image received."));
 
     if (captureInProgress && inFocusLoop == false && inAutoFocus == false)
-        currentCCD->setUploadMode(rememberUploadMode);
+        m_Camera->setUploadMode(rememberUploadMode);
 
     if (m_RememberCameraFastExposure && inFocusLoop == false && inAutoFocus == false)
     {
         m_RememberCameraFastExposure = false;
-        currentCCD->setFastExposureEnabled(true);
+        m_Camera->setFastExposureEnabled(true);
     }
 
     captureInProgress = false;
 
 
     // Emit the whole image
-    emit newImage(focusView);
+    emit newImage(m_FocusView);
     // Emit the tracking (bounding) box view. Used in Summary View
-    emit newStarPixmap(focusView->getTrackingBoxPixmap(10));
+    emit newStarPixmap(m_FocusView->getTrackingBoxPixmap(10));
 
     // If we are not looping; OR
     // If we are looping but we already have tracking box enabled; OR
     // If we are asked to analyze _all_ the stars within the field
     // THEN let's find stars in the image and get current HFR
-    if (inFocusLoop == false || (inFocusLoop && (focusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
+    if (inFocusLoop == false || (inFocusLoop && (m_FocusView->isTrackingBoxEnabled() || Options::focusUseFullField())))
         analyzeSources();
     else
         setHFRComplete();
@@ -1992,7 +1979,7 @@ void Focus::setHFRComplete()
     }
 
     // Get target chip
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
     // Get target chip binning
     int subBinX = 1, subBinY = 1;
@@ -2032,10 +2019,10 @@ void Focus::setHFRComplete()
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
                 // Center the tracking box in the frame and display it
-                focusView->setTrackingBox(QRect(w - focusBoxSize->value() / (subBinX * 2),
-                                                h - focusBoxSize->value() / (subBinY * 2),
-                                                focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
-                focusView->setTrackingBoxEnabled(true);
+                m_FocusView->setTrackingBox(QRect(w - focusBoxSize->value() / (subBinX * 2),
+                                                  h - focusBoxSize->value() / (subBinY * 2),
+                                                  focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
+                m_FocusView->setTrackingBoxEnabled(true);
 
                 // Use can now move it to select the desired star
                 state = Ekos::FOCUS_WAITING;
@@ -2103,7 +2090,7 @@ void Focus::setHFRComplete()
 
                 subFramed = true;
 
-                focusView->setFirstLoad(true);
+                m_FocusView->setFirstLoad(true);
 
                 // Now let's capture again for the actual requested subframed image.
                 capture();
@@ -2136,10 +2123,10 @@ void Focus::setHFRComplete()
             int subBinX = 1, subBinY = 1;
             targetChip->getBinning(&subBinX, &subBinY);
 
-            focusView->setTrackingBox(QRect((w - focusBoxSize->value()) / (subBinX * 2),
-                                            (h - focusBoxSize->value()) / (2 * subBinY),
-                                            focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
-            focusView->setTrackingBoxEnabled(true);
+            m_FocusView->setTrackingBox(QRect((w - focusBoxSize->value()) / (subBinX * 2),
+                                              (h - focusBoxSize->value()) / (2 * subBinY),
+                                              focusBoxSize->value() / subBinX, focusBoxSize->value() / subBinY));
+            m_FocusView->setTrackingBoxEnabled(true);
 
             // Now we wait
             state = Ekos::FOCUS_WAITING;
@@ -2973,11 +2960,11 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
-    if (currentFocuser == nullptr)
+    if (m_Focuser == nullptr)
         return;
 
     // Return if it is not our current focuser
-    if (nvp->device != currentFocuser->getDeviceName())
+    if (nvp->device != m_Focuser->getDeviceName())
         return;
 
     // Only process focus properties
@@ -3247,7 +3234,7 @@ void Focus::appendFocusLogText(const QString &lines)
 
 void Focus::startFraming()
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
     {
         appendLogText(i18n("No CCD connected."));
         return;
@@ -3308,7 +3295,7 @@ void Focus::resetButtons()
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
 
-    if (currentFocuser)
+    if (m_Focuser)
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
@@ -3332,10 +3319,10 @@ void Focus::resetButtons()
 
 void Focus::updateBoxSize(int value)
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
     if (targetChip == nullptr)
         return;
@@ -3343,13 +3330,13 @@ void Focus::updateBoxSize(int value)
     int subBinX, subBinY;
     targetChip->getBinning(&subBinX, &subBinY);
 
-    QRect trackBox = focusView->getTrackingBox();
+    QRect trackBox = m_FocusView->getTrackingBox();
     QPoint center(trackBox.x() + (trackBox.width() / 2), trackBox.y() + (trackBox.height() / 2));
 
     trackBox =
         QRect(center.x() - value / (2 * subBinX), center.y() - value / (2 * subBinY), value / subBinX, value / subBinY);
 
-    focusView->setTrackingBox(trackBox);
+    m_FocusView->setTrackingBox(trackBox);
 }
 
 void Focus::selectFocusStarFraction(double x, double y)
@@ -3361,7 +3348,7 @@ void Focus::selectFocusStarFraction(double x, double y)
     // Focus view timer takes 50ms second to update, so let's emit afterwards.
     QTimer::singleShot(250, this, [this]()
     {
-        emit newImage(focusView);
+        emit newImage(m_FocusView);
     });
 }
 
@@ -3376,7 +3363,7 @@ void Focus::focusStarSelected(int x, int y)
         rememberStarCenter.setY(y);
     }
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
 
     int subBinX, subBinY;
     targetChip->getBinning(&subBinX, &subBinY);
@@ -3438,7 +3425,7 @@ void Focus::focusStarSelected(int x, int y)
         qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX <<
                                    "binY:" << subBinY;
 
-        focusView->setFirstLoad(true);
+        m_FocusView->setFirstLoad(true);
 
         capture();
 
@@ -3458,7 +3445,7 @@ void Focus::focusStarSelected(int x, int y)
         starRect = QRect(starCenter.x() - focusBoxSize->value() / (2 * subBinX),
                          starCenter.y() - focusBoxSize->value() / (2 * subBinY), focusBoxSize->value() / subBinX,
                          focusBoxSize->value() / subBinY);
-        focusView->setTrackingBox(starRect);
+        m_FocusView->setTrackingBox(starRect);
     }
 
     starsHFR.clear();
@@ -3625,14 +3612,14 @@ void Focus::checkAutoStarTimeout()
 
 void Focus::setAbsoluteFocusTicks()
 {
-    if (currentFocuser == nullptr)
+    if (m_Focuser == nullptr)
     {
         appendLogText(i18n("Error: No Focuser detected."));
         checkStopFocus(true);
         return;
     }
 
-    if (currentFocuser->isConnected() == false)
+    if (m_Focuser->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to Focuser."));
         checkStopFocus(true);
@@ -3641,7 +3628,7 @@ void Focus::setAbsoluteFocusTicks()
 
     qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus ticks to " << absTicksSpin->value();
 
-    currentFocuser->moveAbs(absTicksSpin->value());
+    m_Focuser->moveAbs(absTicksSpin->value());
 }
 
 //void Focus::setActiveBinning(int bin)
@@ -3658,7 +3645,7 @@ void Focus::setAbsoluteFocusTicks()
 
 void Focus::syncTrackingBoxPosition()
 {
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     Q_ASSERT(targetChip);
 
     int subBinX = 1, subBinY = 1;
@@ -3690,8 +3677,8 @@ void Focus::syncTrackingBoxPosition()
 
         QRect starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
                                boxSize / subBinX, boxSize / subBinY);
-        focusView->setTrackingBoxEnabled(true);
-        focusView->setTrackingBox(starRect);
+        m_FocusView->setTrackingBoxEnabled(true);
+        m_FocusView->setTrackingBox(starRect);
     }
 }
 
@@ -3745,13 +3732,13 @@ void Focus::toggleFocusingWidgetFullScreen()
     }
 }
 
-void Focus::setMountStatus(ISD::Telescope::Status newState)
+void Focus::setMountStatus(ISD::Mount::Status newState)
 {
     switch (newState)
     {
-        case ISD::Telescope::MOUNT_PARKING:
-        case ISD::Telescope::MOUNT_SLEWING:
-        case ISD::Telescope::MOUNT_MOVING:
+        case ISD::Mount::MOUNT_PARKING:
+        case ISD::Mount::MOUNT_SLEWING:
+        case ISD::Mount::MOUNT_MOVING:
             captureB->setEnabled(false);
             startFocusB->setEnabled(false);
             startLoopB->setEnabled(false);
@@ -3769,23 +3756,23 @@ void Focus::setMountStatus(ISD::Telescope::Status newState)
     }
 }
 
-void Focus::setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha)
+void Focus::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha)
 {
-    Q_UNUSED(pierSide);
-    Q_UNUSED(ha);
+    Q_UNUSED(pierSide)
+    Q_UNUSED(ha)
     mountAlt = position.alt().Degrees();
 }
 
-void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
+void Focus::removeDevice(ISD::GenericDevice *deviceRemoved)
 {
     auto name = deviceRemoved->getDeviceName();
 
     // Check in Focusers
-    for (auto &focuser : Focusers)
+    for (auto &focuser : m_Focusers)
     {
         if (focuser->getDeviceName() == name)
         {
-            Focusers.removeAll(focuser);
+            m_Focusers.removeAll(focuser);
             focuserCombo->removeItem(focuserCombo->findText(name));
             QTimer::singleShot(1000, this, [this]()
             {
@@ -3798,11 +3785,11 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     }
 
     // Check in Temperature Sources.
-    for (auto &oneSource : TemperatureSources)
+    for (auto &oneSource : m_TemperatureSources)
     {
         if (oneSource->getDeviceName() == name)
         {
-            TemperatureSources.removeAll(oneSource);
+            m_TemperatureSources.removeAll(oneSource);
             temperatureSourceCombo->removeItem(temperatureSourceCombo->findText(name));
             QTimer::singleShot(1000, this, [this]()
             {
@@ -3814,28 +3801,28 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     }
 
     // Check in CCDs
-    for (auto &ccd : CCDs)
+    for (auto &ccd : m_Cameras)
     {
         if (ccd->getDeviceName() == name)
         {
-            CCDs.removeAll(ccd);
+            m_Cameras.removeAll(ccd);
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name));
             CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name + " Guider"));
 
-            if (CCDs.empty())
+            if (m_Cameras.empty())
             {
-                currentCCD = nullptr;
+                m_Camera = nullptr;
                 CCDCaptureCombo->setCurrentIndex(-1);
             }
             else
             {
-                currentCCD = CCDs[0];
+                m_Camera = m_Cameras[0];
                 CCDCaptureCombo->setCurrentIndex(0);
             }
 
             QTimer::singleShot(1000, this, [this]()
             {
-                checkCCD();
+                checkCamera();
                 resetButtons();
             });
 
@@ -3844,15 +3831,15 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
     }
 
     // Check in Filters
-    for (auto &filter : Filters)
+    for (auto &filter : m_FilterWheels)
     {
         if (filter->getDeviceName() == name)
         {
-            Filters.removeAll(filter);
+            m_FilterWheels.removeAll(filter);
             FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(name));
-            if (Filters.empty())
+            if (m_FilterWheels.empty())
             {
-                currentFilter = nullptr;
+                m_FilterWheel = nullptr;
                 FilterDevicesCombo->setCurrentIndex(-1);
             }
             else
@@ -3871,14 +3858,14 @@ void Focus::removeDevice(ISD::GDInterface *deviceRemoved)
 
 void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
 {
-    filterManager = manager;
+    m_FilterManager = manager;
     connect(filterManagerB, &QPushButton::clicked, [this]()
     {
-        filterManager->show();
-        filterManager->raise();
+        m_FilterManager->show();
+        m_FilterManager->raise();
     });
 
-    connect(filterManager.data(), &FilterManager::ready, [this]()
+    connect(m_FilterManager.data(), &FilterManager::ready, [this]()
     {
         if (filterPositionPending)
         {
@@ -3893,7 +3880,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     }
            );
 
-    connect(filterManager.data(), &FilterManager::failed, [this]()
+    connect(m_FilterManager.data(), &FilterManager::failed, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -3904,7 +3891,7 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     {
         if (FilterPosCombo->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
         {
-            filterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
+            m_FilterManager->setFilterAbsoluteFocusPosition(FilterPosCombo->currentIndex(), currentPosition);
         }
     });
 
@@ -3922,10 +3909,10 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
     });
 
     // Suspend guiding if filter offset is change with OAG
-    connect(filterManager.data(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
+    connect(m_FilterManager.data(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
-        const bool isOAG = currentCCD->getTelescopeType() == Options::guideScopeType();
+        const bool isOAG = m_Camera->getTelescopeType() == Options::guideScopeType();
         if (isOAG && filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && suspendGuideCheck->isChecked())
@@ -3938,62 +3925,62 @@ void Focus::setFilterManager(const QSharedPointer<FilterManager> &manager)
 
     connect(exposureIN, &QDoubleSpinBox::editingFinished, [this]()
     {
-        if (currentFilter)
-            filterManager->setFilterExposure(FilterPosCombo->currentIndex(), exposureIN->value());
+        if (m_FilterWheel)
+            m_FilterManager->setFilterExposure(FilterPosCombo->currentIndex(), exposureIN->value());
         else
             Options::setFocusExposure(exposureIN->value());
     });
 
-    connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
+    connect(m_FilterManager.data(), &FilterManager::labelsChanged, this, [this]()
     {
         FilterPosCombo->clear();
-        FilterPosCombo->addItems(filterManager->getFilterLabels());
-        currentFilterPosition = filterManager->getFilterPosition();
+        FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
+        currentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
         //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
     });
-    connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
+    connect(m_FilterManager.data(), &FilterManager::positionChanged, this, [this]()
     {
-        currentFilterPosition = filterManager->getFilterPosition();
+        currentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(currentFilterPosition - 1);
         //Options::setDefaultFocusFilterWheelFilter(FilterPosCombo->currentText());
     });
-    connect(filterManager.data(), &FilterManager::exposureChanged, this, [this]()
+    connect(m_FilterManager.data(), &FilterManager::exposureChanged, this, [this]()
     {
-        exposureIN->setValue(filterManager->getFilterExposure());
+        exposureIN->setValue(m_FilterManager->getFilterExposure());
     });
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             [ = ](const QString & text)
     {
-        exposureIN->setValue(filterManager->getFilterExposure(text));
+        exposureIN->setValue(m_FilterManager->getFilterExposure(text));
         //Options::setDefaultFocusFilterWheelFilter(text);
     });
 }
 
 void Focus::toggleVideo(bool enabled)
 {
-    if (currentCCD == nullptr)
+    if (m_Camera == nullptr)
         return;
 
-    if (currentCCD->isBLOBEnabled() == false)
+    if (m_Camera->isBLOBEnabled() == false)
     {
 
         if (Options::guiderType() != Ekos::Guide::GUIDE_INTERNAL)
-            currentCCD->setBLOBEnabled(true);
+            m_Camera->setBLOBEnabled(true);
         else
         {
             connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
             {
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
-                currentCCD->setVideoStreamEnabled(enabled);
+                m_Camera->setVideoStreamEnabled(enabled);
             });
             KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"));
         }
     }
     else
-        currentCCD->setVideoStreamEnabled(enabled);
+        m_Camera->setVideoStreamEnabled(enabled);
 }
 
 //void Focus::setWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
@@ -4037,7 +4024,7 @@ void Focus::processCaptureTimeout()
     else
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-        ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
         targetChip->abortExposure();
 
         prepareCapture(targetChip);
@@ -4060,9 +4047,9 @@ void Focus::processCaptureTimeout()
     }
 }
 
-void Focus::processCaptureError(ISD::CCD::ErrorType type)
+void Focus::processCaptureError(ISD::Camera::ErrorType type)
 {
-    if (type == ISD::CCD::ERROR_SAVE)
+    if (type == ISD::Camera::ERROR_SAVE)
     {
         appendLogText(i18n("Failed to save image. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
@@ -4080,7 +4067,7 @@ void Focus::processCaptureError(ISD::CCD::ErrorType type)
     }
 
     appendLogText(i18n("Exposure failure. Restarting exposure..."));
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     targetChip->abortExposure();
     targetChip->capture(exposureIN->value());
 }
@@ -4464,7 +4451,7 @@ void Focus::initConnections()
         else
         {
             // Disable the overlay
-            focusView->setStarFilterRange(0, 1);
+            m_FocusView->setStarFilterRange(0, 1);
             if (curveFit == CurveFitting::FOCUS_HYPERBOLA || curveFit == CurveFitting::FOCUS_PARABOLA)
             {
                 useWeights->setEnabled(false);
@@ -4475,7 +4462,7 @@ void Focus::initConnections()
 
 
     // Sync settings if the CCD selection is updated.
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCCD);
+    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkCamera);
     // Sync settings if the Focuser selection is updated.
     connect(focuserCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::checkFocuser);
     // Sync settings if the filter selection is updated.
@@ -4488,8 +4475,8 @@ void Focus::initConnections()
     connect(startGotoB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
     connect(stopGotoB, &QPushButton::clicked, [this]()
     {
-        if (currentFocuser)
-            currentFocuser->stop();
+        if (m_Focuser)
+            m_Focuser->stop();
     });
     // Update the focuser box size used to enclose a star
     connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Ekos::Focus::updateBoxSize);
@@ -4540,7 +4527,7 @@ void Focus::initConnections()
         {
             starCenter   = QVector3D();
             starSelected = false;
-            focusView->setTrackingBox(QRect());
+            m_FocusView->setTrackingBox(QRect());
         }
     });
 }
@@ -4616,16 +4603,16 @@ void Focus::setCurveFit(CurveFitting::CurveFit curve)
 
 void Focus::initView()
 {
-    focusView = new FITSView(focusingWidget, FITS_FOCUS);
-    focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    focusView->setBaseSize(focusingWidget->size());
-    focusView->createFloatingToolBar();
+    m_FocusView.reset(new FITSView(focusingWidget, FITS_FOCUS));
+    m_FocusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_FocusView->setBaseSize(focusingWidget->size());
+    m_FocusView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
-    vlayout->addWidget(focusView);
+    vlayout->addWidget(m_FocusView.get());
     focusingWidget->setLayout(vlayout);
-    connect(focusView, &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
-    focusView->setStarsEnabled(true);
-    focusView->setStarsHFREnabled(true);
+    connect(m_FocusView.get(), &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
+    m_FocusView->setStarsEnabled(true);
+    m_FocusView->setStarsHFREnabled(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -4655,7 +4642,7 @@ void Focus::setSettings(const QJsonObject &settings)
 
     // Camera
     if (syncControl(settings, "camera", CCDCaptureCombo) || init == false)
-        checkCCD();
+        checkCamera();
     // Focuser
     if (syncControl(settings, "focuser", focuserCombo) || init == false)
         checkFocuser();
@@ -4673,7 +4660,7 @@ void Focus::setSettings(const QJsonObject &settings)
         binningCombo->setCurrentIndex(bin);
 
     // Gain
-    if (currentCCD->hasGain())
+    if (m_Camera->hasGain())
         syncControl(settings, "gain", gainIN);
     // ISO
     if (ISOCombo->count() > 1)

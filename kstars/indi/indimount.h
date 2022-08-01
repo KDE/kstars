@@ -9,7 +9,7 @@
 #include <QDBusArgument>
 #include <QTimer>
 
-#include "indistd.h"
+#include "indiconcretedevice.h"
 #include "skypoint.h"
 
 class SkyObject;
@@ -17,23 +17,23 @@ class SkyObject;
 namespace ISD
 {
 /**
- * @class Telescope
- * device handle controlling telescope. It can slew and sync to a specific sky point and supports all standard properties with INDI
+ * @class Mount
+ * device handle controlling Mounts. It can slew and sync to a specific sky point and supports all standard properties with INDI
  * telescope device.
  *
  * @author Jasem Mutlaq
  */
-class Telescope : public DeviceDecorator
+class Mount : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit Telescope(GDInterface *iPtr);
-        virtual ~Telescope() override = default;
+        explicit Mount(GenericDevice *parent);
+        virtual ~Mount() override = default;
 
-        typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
-        typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
-        typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
+        typedef enum { MOTION_NORTH, MOTION_SOUTH } VerticalMotion;
+        typedef enum { MOTION_WEST, MOTION_EAST } HorizontalMotion;
+        typedef enum { MOTION_START, MOTION_STOP } MotionCommand;
         typedef enum { PIER_UNKNOWN = -1, PIER_WEST = 0, PIER_EAST = 1 } PierSide;
         typedef enum
         {
@@ -55,11 +55,6 @@ class Telescope : public DeviceDecorator
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
-
-        DeviceFamily getType() override
-        {
-            return dType;
-        }
 
         // Coordinates
         bool getEqCoords(double *ra, double *dec);
@@ -106,9 +101,9 @@ class Telescope : public DeviceDecorator
         bool getCustomTrackRate(double &raRate, double &deRate);
 
         // Motion
-        bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
+        bool MoveNS(VerticalMotion dir, MotionCommand cmd);
         bool StopNS();
-        bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
+        bool MoveWE(HorizontalMotion dir, MotionCommand cmd);
         bool StopWE();
         bool isReversed(INDI_EQ_AXIS axis);
         bool setReversedEnabled(INDI_EQ_AXIS axis, bool enabled);
@@ -211,6 +206,11 @@ class Telescope : public DeviceDecorator
          */
         void stopTimers();
 
+        void centerLock();
+        void centerUnlock();
+        void find();
+        void setCustomParking(SkyPoint *coords = nullptr);
+
     protected:
         /**
          * @brief Send the coordinates to the mount's INDI driver. Due to the INDI implementation, this
@@ -234,7 +234,6 @@ class Telescope : public DeviceDecorator
         void updateJ2000Coordinates(SkyPoint *coords);
 
     public slots:
-        virtual bool runCommand(int command, void *ptr = nullptr) override;
         bool Abort();
         bool Park();
         bool UnPark();
@@ -258,7 +257,7 @@ class Telescope : public DeviceDecorator
         /**
          * @brief Change in the mount status.
          */
-        void newStatus(ISD::Telescope::Status status);
+        void newStatus(ISD::Mount::Status status);
         /**
          * @brief Update event with the current telescope position
          * @param position mount position. Independent from the mount type,
@@ -272,15 +271,13 @@ class Telescope : public DeviceDecorator
         void slewRateChanged(int rate);
         void pierSideChanged(PierSide side);
         void axisReversed(INDI_EQ_AXIS axis, bool reversed);
-        void ready();
 
     private:
         SkyPoint currentCoords;
-        double minAlt = 0, maxAlt = 90;
+        double minAlt {0}, maxAlt = 90;
         ParkStatus m_ParkStatus = PARK_UNKNOWN;
-        IPState EqCoordPreviousState;
+        IPState EqCoordPreviousState {IPS_IDLE};
         QTimer centerLockTimer;
-        QTimer readyTimer;
         QTimer updateCoordinatesTimer;
         SkyObject *currentObject = nullptr;
         bool inManualMotion      = false;
@@ -313,10 +310,10 @@ class Telescope : public DeviceDecorator
 };
 }
 
-Q_DECLARE_METATYPE(ISD::Telescope::Status)
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::Status &source);
-const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::Status &dest);
+Q_DECLARE_METATYPE(ISD::Mount::Status)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Mount::Status &source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Mount::Status &dest);
 
-Q_DECLARE_METATYPE(ISD::Telescope::PierSide)
-QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Telescope::PierSide &source);
-const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Telescope::PierSide &dest);
+Q_DECLARE_METATYPE(ISD::Mount::PierSide)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Mount::PierSide &source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Mount::PierSide &dest);

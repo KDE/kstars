@@ -67,10 +67,10 @@ void RecordOptions::selectRecordDirectory()
     recordDirectoryEdit->setText(dir);
 }
 
-StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
+StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
 {
     setupUi(this);
-    currentCCD  = ccd;
+    m_Camera  = ccd;
     streamWidth = streamHeight = -1;
     processStream = colorFrame = isRecording = false;
 
@@ -82,7 +82,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     ccd->getSERNameDirectory(filename, directory);
 
     double duration = 0.1;
-    bool hasStreamExposure = currentCCD->getStreamExposure(&duration);
+    bool hasStreamExposure = m_Camera->getStreamExposure(&duration);
     if (hasStreamExposure)
         targetFrameDurationSpin->setValue(duration);
     else
@@ -119,7 +119,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
-    eoszoom = currentCCD->getProperty("eoszoom");
+    eoszoom = m_Camera->getProperty("eoszoom");
     if (eoszoom == nullptr)
     {
         zoomLevelCombo->hide();
@@ -135,16 +135,16 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
             NSSlider->setEnabled(true);
             WESlider->setEnabled(true);
             // Set it twice!
-            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+            m_Camera->sendNewText(tvp);
             QTimer::singleShot(1000, this, [ &, tvp]()
             {
-                currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+                m_Camera->sendNewText(tvp);
             });
 
         });
     }
 
-    eoszoomposition = currentCCD->getProperty("eoszoomposition");
+    eoszoomposition = m_Camera->getProperty("eoszoomposition");
     if (eoszoomposition == nullptr)
     {
         handLabel->hide();
@@ -160,7 +160,7 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
             auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             tvp->at(0)->setText(pos.toLatin1().constData());
-            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+            m_Camera->sendNewText(tvp);
         });
 
         connect(WESlider, &QSlider::sliderReleased, [&]()
@@ -168,27 +168,27 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
             auto tvp = eoszoomposition->getText();
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
             tvp->at(0)->setText(pos.toLatin1().constData());
-            currentCCD->getDriverInfo()->getClientManager()->sendNewText(tvp);
+            m_Camera->sendNewText(tvp);
         });
 
         horizontalSpacer->changeSize(1, 1, QSizePolicy::Preferred);
     }
 
-    connect(currentCCD, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
-    connect(currentCCD, &ISD::CCD::numberUpdated, this, [this](INumberVectorProperty * nvp)
+    connect(m_Camera, SIGNAL(newFPS(double, double)), this, SLOT(updateFPS(double, double)));
+    connect(m_Camera, &ISD::Camera::numberUpdated, this, [this](INumberVectorProperty * nvp)
     {
         if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "CCD_CFA"))
             syncDebayerParameters();
     });
     connect(changeFPSB, &QPushButton::clicked, this, [&]()
     {
-        if (currentCCD)
+        if (m_Camera)
         {
-            currentCCD->setStreamExposure(targetFrameDurationSpin->value());
-            currentCCD->setVideoStreamEnabled(false);
+            m_Camera->setStreamExposure(targetFrameDurationSpin->value());
+            m_Camera->setVideoStreamEnabled(false);
             QTimer::singleShot(1000, this, [&]()
             {
-                currentCCD->setVideoStreamEnabled(true);
+                m_Camera->setVideoStreamEnabled(true);
             });
         }
     });
@@ -210,10 +210,10 @@ void StreamWG::syncDebayerParameters()
 
 bool StreamWG::queryDebayerParameters()
 {
-    if (!currentCCD)
+    if (!m_Camera)
         return false;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (!targetChip)
         return false;
 
@@ -258,7 +258,7 @@ QSize StreamWG::sizeHint() const
 
 void StreamWG::showEvent(QShowEvent *ev)
 {
-    if (currentCCD)
+    if (m_Camera)
     {
         // Always reset to 1x for DSLRs since they reset whenever they are triggered again.
         if (eoszoom)
@@ -350,31 +350,31 @@ void StreamWG::toggleRecord()
         isRecording = false;
         recordB->setToolTip(i18n("Start recording"));
 
-        currentCCD->stopRecording();
+        m_Camera->stopRecording();
     }
     else
     {
         QString directory, filename;
-        currentCCD->getSERNameDirectory(filename, directory);
+        m_Camera->getSERNameDirectory(filename, directory);
         if (filename != options->recordFilenameEdit->text() ||
                 directory != options->recordDirectoryEdit->text())
         {
-            currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
+            m_Camera->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
             // Save config in INDI so the filename and directory templates are reloaded next time
-            currentCCD->setConfig(SAVE_CONFIG);
+            m_Camera->setConfig(SAVE_CONFIG);
         }
 
         if (options->recordUntilStoppedR->isChecked())
         {
-            isRecording = currentCCD->startRecording();
+            isRecording = m_Camera->startRecording();
         }
         else if (options->recordDurationR->isChecked())
         {
-            isRecording = currentCCD->startDurationRecording(options->durationSpin->value());
+            isRecording = m_Camera->startDurationRecording(options->durationSpin->value());
         }
         else
         {
-            isRecording = currentCCD->startFramesRecording(options->framesSpin->value());
+            isRecording = m_Camera->startFramesRecording(options->framesSpin->value());
         }
 
         if (isRecording)
@@ -396,7 +396,7 @@ void StreamWG::newFrame(IBLOB *bp)
 
 void StreamWG::resetFrame()
 {
-    currentCCD->resetStreamingFrame();
+    m_Camera->resetStreamingFrame();
 }
 
 void StreamWG::setStreamingFrame(QRect newFrame)
@@ -417,7 +417,7 @@ void StreamWG::setStreamingFrame(QRect newFrame)
         w++;
     }
 
-    currentCCD->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
+    m_Camera->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
 }
 
 void StreamWG::updateFPS(double instantFPS, double averageFPS)

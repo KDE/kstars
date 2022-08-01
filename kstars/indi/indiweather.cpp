@@ -11,25 +11,8 @@
 namespace ISD
 {
 
-Weather::Weather(GDInterface *iPtr) : DeviceDecorator(iPtr)
+Weather::Weather(GenericDevice *parent) : ConcreteDevice(parent)
 {
-    dType = KSTARS_WEATHER;
-
-    readyTimer.reset(new QTimer());
-    readyTimer.get()->setInterval(250);
-    readyTimer.get()->setSingleShot(true);
-    connect(readyTimer.get(), &QTimer::timeout, this, &Weather::ready);
-}
-
-void Weather::registerProperty(INDI::Property prop)
-{
-    if (!prop->getRegistered())
-        return;
-
-    if (isConnected())
-        readyTimer.get()->start();
-
-    DeviceDecorator::registerProperty(prop);
 }
 
 void Weather::processLight(ILightVectorProperty *lvp)
@@ -43,8 +26,6 @@ void Weather::processLight(ILightVectorProperty *lvp)
             emit newStatus(m_WeatherStatus);
         }
     }
-
-    DeviceDecorator::processLight(lvp);
 }
 
 void Weather::processNumber(INumberVectorProperty *nvp)
@@ -64,24 +45,11 @@ void Weather::processNumber(INumberVectorProperty *nvp)
         }
         emit newWeatherData(m_WeatherData);
     }
-
-    // and now continue with the standard behavior
-    DeviceDecorator::processNumber(nvp);
-}
-
-void Weather::processSwitch(ISwitchVectorProperty *svp)
-{
-    DeviceDecorator::processSwitch(svp);
-}
-
-void Weather::processText(ITextVectorProperty *tvp)
-{
-    DeviceDecorator::processText(tvp);
 }
 
 Weather::Status Weather::getWeatherStatus()
 {
-    auto weatherLP = baseDevice->getLight("WEATHER_STATUS");
+    auto weatherLP = getLight("WEATHER_STATUS");
 
     if (!weatherLP)
         return WEATHER_IDLE;
@@ -93,7 +61,7 @@ Weather::Status Weather::getWeatherStatus()
 
 quint16 Weather::getUpdatePeriod()
 {
-    auto updateNP = baseDevice->getNumber("WEATHER_UPDATE");
+    auto updateNP = getNumber("WEATHER_UPDATE");
 
     if (!updateNP)
         return 0;
@@ -103,7 +71,7 @@ quint16 Weather::getUpdatePeriod()
 
 bool Weather::refresh()
 {
-    auto refreshSP = baseDevice->getSwitch("WEATHER_REFRESH");
+    auto refreshSP = getSwitch("WEATHER_REFRESH");
 
     if (refreshSP == nullptr)
         return false;
@@ -115,7 +83,7 @@ bool Weather::refresh()
 
     refreshSP->reset();
     refreshSW->setState(ISS_ON);
-    clientManager->sendNewSwitch(refreshSP);
+    sendNewSwitch(refreshSP);
 
     return true;
 

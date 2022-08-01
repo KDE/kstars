@@ -84,10 +84,10 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
 
 void FilterManager::refreshFilterModel()
 {
-    if (m_currentFilterDevice == nullptr || m_currentFilterLabels.empty())
+    if (m_FilterWheel == nullptr || m_currentFilterLabels.empty())
         return;
 
-    QString vendor(m_currentFilterDevice->getDeviceName());
+    QString vendor(m_FilterWheel->getDeviceName());
 
     //QSqlDatabase::removeDatabase("filter_db");
     //QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
@@ -202,19 +202,19 @@ void FilterManager::reloadFilters()
     }
 }
 
-void FilterManager::setCurrentFilterWheel(ISD::GDInterface *filter)
+void FilterManager::setCurrentFilterWheel(ISD::FilterWheel *filter)
 {
-    if (m_currentFilterDevice == filter)
+    if (m_FilterWheel == filter)
         return;
-    else if (m_currentFilterDevice)
-        m_currentFilterDevice->disconnect(this);
+    else if (m_FilterWheel)
+        m_FilterWheel->disconnect(this);
 
-    m_currentFilterDevice = filter;
+    m_FilterWheel = filter;
 
-    connect(filter, &ISD::GenericDevice::textUpdated, this, &FilterManager::processText);
-    connect(filter, &ISD::GenericDevice::numberUpdated, this, &FilterManager::processNumber);
-    connect(filter, &ISD::GenericDevice::switchUpdated, this, &FilterManager::processSwitch);
-    connect(filter, &ISD::GDInterface::Disconnected, [&]()
+    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, [&]()
     {
         m_currentFilterLabels.clear();
         m_currentFilterPosition = -1;
@@ -234,17 +234,17 @@ void FilterManager::initFilterProperties()
     if (m_FilterNameProperty && m_FilterPositionProperty)
     {
         if (m_FilterConfirmSet == nullptr)
-            m_FilterConfirmSet = m_currentFilterDevice->getBaseDevice()->getSwitch("CONFIRM_FILTER_SET");
+            m_FilterConfirmSet = m_FilterWheel->getSwitch("CONFIRM_FILTER_SET");
         return;
     }
 
-    filterNameLabel->setText(m_currentFilterDevice->getDeviceName());
+    filterNameLabel->setText(m_FilterWheel->getDeviceName());
 
     m_currentFilterLabels.clear();
 
-    m_FilterNameProperty = m_currentFilterDevice->getBaseDevice()->getText("FILTER_NAME");
-    m_FilterPositionProperty = m_currentFilterDevice->getBaseDevice()->getNumber("FILTER_SLOT");
-    m_FilterConfirmSet = m_currentFilterDevice->getBaseDevice()->getSwitch("CONFIRM_FILTER_SET");
+    m_FilterNameProperty = m_FilterWheel->getText("FILTER_NAME");
+    m_FilterPositionProperty = m_FilterWheel->getNumber("FILTER_SLOT");
+    m_FilterConfirmSet = m_FilterWheel->getSwitch("CONFIRM_FILTER_SET");
 
     m_currentFilterPosition = getFilterPosition(true);
     m_currentFilterLabels = getFilterLabels(true);
@@ -313,8 +313,8 @@ bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
 
 void FilterManager::processNumber(INumberVectorProperty *nvp)
 {
-    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_currentFilterDevice == nullptr
-            || (nvp->device != m_currentFilterDevice->getDeviceName()))
+    if (nvp->s != IPS_OK || strcmp(nvp->name, "FILTER_SLOT") || m_FilterWheel == nullptr
+            || (nvp->device != m_FilterWheel->getDeviceName()))
         return;
 
     m_FilterPositionProperty = nvp;
@@ -412,8 +412,8 @@ void FilterManager::processNumber(INumberVectorProperty *nvp)
 
 void FilterManager::processText(ITextVectorProperty *tvp)
 {
-    if (strcmp(tvp->name, "FILTER_NAME") || m_currentFilterDevice == nullptr
-            || (tvp->device != m_currentFilterDevice->getDeviceName())            )
+    if (strcmp(tvp->name, "FILTER_NAME") || m_FilterWheel == nullptr
+            || (tvp->device != m_FilterWheel->getDeviceName())            )
         return;
 
     m_FilterNameProperty = tvp;
@@ -432,7 +432,7 @@ void FilterManager::processText(ITextVectorProperty *tvp)
 
 void FilterManager::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (m_currentFilterDevice == nullptr || (svp->device != m_currentFilterDevice->getDeviceName()))
+    if (m_FilterWheel == nullptr || (svp->device != m_FilterWheel->getDeviceName()))
         return;
 
 }
@@ -490,26 +490,19 @@ bool FilterManager::executeOperationQueue()
             state = FILTER_CHANGE;
             if (m_useTargetFilter)
                 targetFilterPosition = m_ActiveFilters.indexOf(targetFilter) + 1;
-            m_currentFilterDevice->runCommand(INDI_SET_FILTER, &targetFilterPosition);
+            m_FilterWheel->setPosition(targetFilterPosition);
             emit newStatus(state);
 
             if (m_FilterConfirmSet)
             {
-                //                if (KMessageBox::questionYesNo(KStars::Instance(),
-                //                        i18n("Set filter to %1. Is filter set?", targetFilter->color()),
-                //                        i18n("Confirm Filter")) == KMessageBox::Yes)
-                //                    m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
-
                 connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_ConfirmationPending = false;
-                    m_currentFilterDevice->runCommand(INDI_CONFIRM_FILTER);
+                    m_FilterWheel->confirmFilter();
                 });
                 connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
                 {
-                    //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                     KSMessageBox::Instance()->disconnect(this);
                     m_ConfirmationPending = false;
                 });
@@ -678,13 +671,13 @@ bool FilterManager::setFilterLock(int index, QString name)
     return false;
 }
 
-void FilterManager::removeDevice(ISD::GDInterface *device)
+void FilterManager::removeDevice(ISD::GenericDevice *device)
 {
-    if (m_currentFilterDevice && (m_currentFilterDevice->getDeviceName() == device->getDeviceName()))
+    if (m_FilterWheel && (m_FilterWheel->getDeviceName() == device->getDeviceName()))
     {
         m_FilterNameProperty = nullptr;
         m_FilterPositionProperty = nullptr;
-        m_currentFilterDevice = nullptr;
+        m_FilterWheel = nullptr;
         m_currentFilterLabels.clear();
         m_currentFilterPosition = 0;
         qDeleteAll(m_ActiveFilters);
@@ -748,16 +741,16 @@ bool FilterManager::syncAbsoluteFocusPosition(int index)
 
 bool FilterManager::setFilterNames(const QStringList &newLabels)
 {
-    if (m_currentFilterDevice == nullptr || m_currentFilterLabels.empty())
+    if (m_FilterWheel == nullptr || m_currentFilterLabels.empty())
         return false;
 
-    m_currentFilterDevice->runCommand(INDI_SET_FILTER_NAMES, const_cast<QStringList*>(&newLabels));
+    m_FilterWheel->setLabels(newLabels);
     return true;
 }
 
 QJsonObject FilterManager::toJSON()
 {
-    if (!m_currentFilterDevice)
+    if (!m_FilterWheel)
         return QJsonObject();
 
     QJsonArray filters;
@@ -780,7 +773,7 @@ QJsonObject FilterManager::toJSON()
 
     QJsonObject data =
     {
-        {"device", m_currentFilterDevice->getDeviceName()},
+        {"device", m_FilterWheel->getDeviceName()},
         {"filters", filters}
     };
 
@@ -790,10 +783,10 @@ QJsonObject FilterManager::toJSON()
 
 void FilterManager::setFilterData(const QJsonObject &settings)
 {
-    if (!m_currentFilterDevice)
+    if (!m_FilterWheel)
         return;
 
-    if (settings["device"].toString() != m_currentFilterDevice->getDeviceName())
+    if (settings["device"].toString() != m_FilterWheel->getDeviceName())
         return;
 
     QJsonArray filters = settings["filters"].toArray();

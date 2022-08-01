@@ -1,11 +1,10 @@
 /*
-    SPDX-FileCopyrightText: 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    SPDX-FileCopyrightText: 2012-2022 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef INDICOMMON_H
-#define INDICOMMON_H
+#pragma once
 
 #include <QString>
 #include <QMap>
@@ -47,20 +46,15 @@ The user may also choose to only start an INDI server without a client manager a
 <li>ClientManager: Manages sending and receiving data from and to an INDI server. The ClientManager sends notifications (signals) when a new device or property is defined, updated, or deleted.</li>
 <li>GUIManager: Handles creation of GUI interface for devices (INDI_D) and their properties and updates the interface in accord with any data emitted by the associated ClientManager. The GUI manager supports
 multiple ClientManagers and consolidate all devices from all the ClientManagers into a single INDI Control Panel where each device is created as a tab.</li>
-<li>INDIListener: Once a ClientManager is created in DriverManager after successfully connecting to an INDI server, it is added to INDIListener where it monitors any new devices and if a new
-device is detected, it creates an ISD::GenericDevice to hold the data of the device. It also monitors new properties and registers them. If it detects an INDI standard property associated with a particular device family
-(e.g. Property EQUATORIAL_EOD_COORD is a standard property of a Telescope device), then it extends the ISD::GenericDevice to the particular specialized device type using the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">
-Decorator Pattern</a>. All updated properties from INDI server are delegated to their respective devices.</li>
+<li>INDIListener: Once a ClientManager is created in DriverManager after successfully connecting to an INDI server, it is added to INDIListener which creates an ISD::Generic device instance for each and passes down any property events to the device instance.</li>
 <li>ServerManager</li> Manages establishment and shutdown of local INDI servers.</li>
 <li>DriverInfo</li>: Simple class that holds information on INDI drivers such as name, version, device type..etc.</li>
-<li>ISD::GDInterface: Abstract class where the ISD::DeviceDecorator and ISD::GenericDevice are derived.</li>
-<li>ISD::DeviceDecorator: Base class of all specialized decorators such as ISD::Telescope, ISD::Filter, and ISD::CCD devices.</li>
+<li>ISD::GDInterface: Abstract class where the ISD::GenericDevice and ISD::ConcreteDevice are derived.</li>
 <li>ISD::GenericDevice: Base class for all INDI devices. It implements processes shared across all INDI devices such as handling connection/disconnection, setting of configuration..etc.. When a
-specialized decorator is created (e.g. ISD::Telescope), the decorator is passed an ISD::GenericDevice pointer. Since ISD::Telescope is a child of ISD::DeviceDecorator, it can override some or all
- the device specific functions as defined in ISD::GDInterface (e.g. ProcessNumber(INumberVectorProperty *nvp)). For any function that is not overridden, the parent ISD::DeviceDecorator will invoke
- the function in ISD::GenericDevice instead. Moreover, The specialized decorator device can explicitly call DeviceDecorator::ProcessNumber(INumberVectorProperty *nvp) for example to cause the ISD::DeviceDecorator to invoke
- the same function but as defined in ISD::GenericDevice.</li>
- </ul>
+After properties are defined, it checks the driver interface and defined a device subtype using ISD::ConcreteDevice for each subtype.</li>
+<li>ISD::ConcreteDevice: Base class for concrete device implementations such as ISD::Mount and ISD::Camera. The parent class ISD::GenericDevice passes property events down to the ConcreteDevice class so it may
+process the properties relevant to this device type. For example, ISD::Mount would process EOD_EQUATORIAL_EOD coord property while ISD::Camera would process CCD_EXPOSURE property..etc.</li>
+</ul>
 
 \section Example Example
 
@@ -74,12 +68,12 @@ INDIListener holds a list of all INDI devices in KStars regardless of their orig
 It also creates a separate tab for each property group received. The user is presented with a basic GUI to set the connection port of EQMod and to connect/disconnect to/from the telescope. If the
 user clicks connect, the status of the connection property is updated, and INDI_P sends the new switch status (CONNECT=ON) to INDI server via the ClientManager. If the connection is successful
 at the driver side, it will start defining new properties to cover the complete functionality of the EQMod driver, one of the standard properties is EQUATORIAL_EOD_COORD which will be detected
-in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Telescope device while passing to it the ISD::GenericDevice instance created earlier.
+in INDIListener. Upon detection of this key signature property, INDIListener creates a new ISD::Mount device while passing to it the ISD::GenericDevice instance created earlier.
 
 Now suppose an updated Number property arrives from INDI server, the ClientManager emits a signal indicating a number property has a new updated value and INDIListener delegates the INDI Number
-property to the device, which is now of type ISD::Telescope. The ISD::Telescope overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
+property to the device, which is now of type ISD::Mount. The ISD::Mount overridden the processNumber(INumberVectorProperty *nvp) function in ISD::DeviceDecorator because it wants to handle some telescope
 specific numbers such as EQUATORIAL_EOD_COORD in order to move the telescope marker on the sky map as it changes. If the received property was indeed EQUATORIAL_EOD_COORD or any property handled
-by the ISD::Telescope ProcessNumber() function, then there is no further action needed. But what if the property is not processed in ISD::Telescope ProcessNumber() function? In this case, the
+by the ISD::Mount ProcessNumber() function, then there is no further action needed. But what if the property is not processed in ISD::Mount ProcessNumber() function? In this case, the
 ProcessNumber() function simply calls DeviceDecorator::ProcessNumber() and it will delgate the call to ISD::GenericDevice ProcessNumber() to process. This is how the Decorator pattern work,
 the decorator classes implements extended functionality, but the basic class is still responsible for handling all of the basic functions.
 
@@ -114,39 +108,6 @@ typedef enum { PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS, PG_RADIO, PG_MENU, 
 
 /* new versions of glibc define TIME_UTC as a macro */
 #undef TIME_UTC
-
-/* INDI std properties */
-enum stdProperties
-{
-    CONNECTION,
-    DEVICE_PORT,
-    TIME_UTC,
-    TIME_LST,
-    TIME_UTC_OFFSET,
-    GEOGRAPHIC_COORD, /* General */
-    EQUATORIAL_COORD,
-    EQUATORIAL_EOD_COORD,
-    EQUATORIAL_EOD_COORD_REQUEST,
-    HORIZONTAL_COORD, /* Telescope */
-    TELESCOPE_ABORT_MOTION,
-    ON_COORD_SET,
-    SOLAR_SYSTEM,
-    TELESCOPE_MOTION_NS, /* Telescope */
-    TELESCOPE_MOTION_WE,
-    TELESCOPE_PARK, /* Telescope */
-    CCD_EXPOSURE,
-    CCD_TEMPERATURE_REQUEST,
-    CCD_FRAME, /* CCD */
-    CCD_FRAME_TYPE,
-    CCD_BINNING,
-    CCD_INFO,
-    CCD_VIDEO_STREAM, /* Video */
-    FOCUS_SPEED,
-    FOCUS_MOTION,
-    FOCUS_TIMER, /* Focuser */
-    FILTER_SLOT, /* Filter */
-    WATCHDOG_HEARTBEAT
-}; /* Watchdog */
 
 /* Devices families that we explicitly support (i.e. with std properties) */
 typedef enum
@@ -197,26 +158,7 @@ const QMap<CCDFrameType, QString> CCDFrameTypeNames =
 
 typedef enum { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN, QUADRAPLE_BIN } CCDBinType;
 
-typedef enum
-{
-    INDI_SEND_COORDS,
-    INDI_FIND_TELESCOPE,
-    INDI_CENTER_LOCK,
-    INDI_CENTER_UNLOCK,
-    INDI_CUSTOM_PARKING,
-    INDI_SET_PORT,
-    INDI_CONNECT,
-    INDI_DISCONNECT,
-    INDI_SET_FILTER,
-    INDI_SET_FILTER_NAMES,
-    INDI_CONFIRM_FILTER,
-    INDI_SET_ROTATOR_TICKS,
-    INDI_SET_ROTATOR_ANGLE,
-    INDI_REVERSE_ROTATOR
-} DeviceCommand;
-
 typedef enum { SOURCE_MANUAL, SOURCE_FLATCAP, SOURCE_WALL, SOURCE_DAWN_DUSK, SOURCE_DARKCAP } FlatFieldSource;
 
 typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
-#endif // INDICOMMON_H

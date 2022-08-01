@@ -574,7 +574,7 @@ void FramingAssistantUI::goAndSolve()
 {
     // If user click again before solver did not start while GOTO is pending
     // let's start solver immediately if the mount is already tracking.
-    if (m_GOTOSolvePending && m_MountState == ISD::Telescope::MOUNT_TRACKING)
+    if (m_GOTOSolvePending && m_MountState == ISD::Mount::MOUNT_TRACKING)
     {
         m_GOTOSolvePending = false;
         ui->goSolveB->setStyleSheet("border: 1px outset yellow");
@@ -656,10 +656,10 @@ void FramingAssistantUI::createJobs()
 
 }
 
-void FramingAssistantUI::setMountState(ISD::Telescope::Status value)
+void FramingAssistantUI::setMountState(ISD::Mount::Status value)
 {
     m_MountState = value;
-    if (m_GOTOSolvePending && m_MountState == ISD::Telescope::MOUNT_TRACKING)
+    if (m_GOTOSolvePending && m_MountState == ISD::Mount::MOUNT_TRACKING)
     {
         m_GOTOSolvePending = false;
         ui->goSolveB->setStyleSheet("border: 1px outset yellow");

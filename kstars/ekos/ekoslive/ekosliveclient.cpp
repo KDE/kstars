@@ -19,8 +19,8 @@
 #include "QProgressIndicator.h"
 
 #include "indi/indilistener.h"
-#include "indi/indiccd.h"
-#include "indi/indifilter.h"
+#include "indi/indicamera.h"
+#include "indi/indifilterwheel.h"
 
 #include <config-kstars.h>
 

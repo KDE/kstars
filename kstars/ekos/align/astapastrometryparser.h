@@ -7,7 +7,7 @@
 #pragma once
 
 #include "astrometryparser.h"
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 
 #include <QPointer>
 #include <QProcess>

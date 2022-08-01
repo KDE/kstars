@@ -684,30 +684,29 @@ void ObservingList::slotSlewToObject()
 
     if (INDIListener::Instance()->size() == 0)
     {
-        KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+        KSNotification::sorry(i18n("No connected mounts found."));
         return;
     }
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        if (oneDevice->getType() != KSTARS_TELESCOPE)
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
 
         if (oneDevice->isConnected() == false)
         {
-            KSNotification::error(
-                i18n("Telescope %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
+            KSNotification::error(i18n("Mount %1 is offline. Please connect and retry again.", oneDevice->getDeviceName()));
             return;
         }
 
-        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
-
-        oneDevice->setProperty(&SlewCMD);
-        oneDevice->runCommand(INDI_SEND_COORDS, currentObject());
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount)
+            continue;
+        mount->Slew(currentObject());
         return;
     }
 
-    KSNotification::sorry(i18n("KStars did not find any active telescopes."));
+    KSNotification::sorry(i18n("No connected mounts found."));
 
 #endif
 }
@@ -1095,7 +1094,8 @@ void ObservingList::slotLoadWishList()
     addingObjectsProgress->show();
 
     QStringList failedObjects;
-    for (std::size_t idx = 0; idx < objects.size(); ++idx) {
+    for (std::size_t idx = 0; idx < objects.size(); ++idx)
+    {
         const auto &objectName = objects[idx];
 
         if (addingObjectsProgress->wasCanceled())

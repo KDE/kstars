@@ -8,7 +8,7 @@
 
 #include <QDialog>
 
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 
 #include "ui_customproperties.h"
 
@@ -19,7 +19,7 @@ class CustomProperties : public QDialog, public Ui::CustomProperties
     public:
         CustomProperties();
 
-        void setCCD(ISD::CCD *ccd);
+        void setCCD(ISD::Camera *ccd);
 
         QMap<QString, QMap<QString, QVariant> > getCustomProperties() const;
         void setCustomProperties(const QMap<QString, QMap<QString, QVariant> > &value);
@@ -37,6 +37,6 @@ class CustomProperties : public QDialog, public Ui::CustomProperties
 
         void syncProperties();
 
-        ISD::CCD *currentCCD = { nullptr };
+        ISD::Camera *currentCCD = { nullptr };
         QMap<QString, QMap<QString, QVariant>> customProperties;
 };

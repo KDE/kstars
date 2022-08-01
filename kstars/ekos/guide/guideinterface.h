@@ -7,7 +7,7 @@
 #pragma once
 
 #include "ekos/ekos.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include <QObject>
 #include <QVector3D>
 
@@ -58,8 +58,8 @@ class GuideInterface : public QObject
 
         virtual void setStarPosition(QVector3D &starCenter);
 
-        virtual void setMountCoords(const SkyPoint &position, ISD::Telescope::PierSide side);
-        virtual void setPierSide(ISD::Telescope::PierSide newSide);
+        virtual void setMountCoords(const SkyPoint &position, ISD::Mount::PierSide side);
+        virtual void setPierSide(ISD::Mount::PierSide newSide);
         virtual void resetGPG() {};
 
         enum CalibrationUpdateType
@@ -102,6 +102,6 @@ class GuideInterface : public QObject
 
         // Recent mount position.
         dms mountRA, mountDEC, mountAzimuth, mountAltitude;
-        ISD::Telescope::PierSide pierSide { ISD::Telescope::PIER_UNKNOWN };
+        ISD::Mount::PierSide pierSide { ISD::Mount::PIER_UNKNOWN };
 };
 }

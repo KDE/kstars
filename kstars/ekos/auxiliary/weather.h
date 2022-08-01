@@ -64,9 +64,9 @@ class Weather : public QObject
          * @brief setWeather set the Weather device
          * @param newWeather pointer to Weather device.
          */
-        void setWeather(ISD::GDInterface *newWeather);
+        void addWeather(ISD::Weather *device);
 
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
 
     signals:
         /**
@@ -81,6 +81,7 @@ class Weather : public QObject
 
     private:
         // Devices needed for Weather operation
-        ISD::Weather *currentWeather { nullptr };
+        ISD::Weather *m_WeatherSource { nullptr };
+        QList<ISD::Weather*> m_WeatherSources;
 };
 }

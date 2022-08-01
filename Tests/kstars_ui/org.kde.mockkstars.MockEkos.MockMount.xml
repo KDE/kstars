@@ -2,7 +2,7 @@
 <node>
   <interface name="org.kde.mockkstars.MockEkos.MockMount">
     <property name="status" type="i" access="read">
-      <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Telescope::Status"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Mount::Status"/>
     </property>
     <property name="parkStatus" type="i" access="read">
         <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
@@ -27,8 +27,8 @@
     </method>
     <signal name="newStatus">
       <arg name="status" type="(i)" direction="out"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Telescope::Status"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Telescope::Status"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Mount::Status"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Mount::Status"/>
     </signal>
     <signal name="newParkStatus">
       <arg name="status" type="(i)" direction="out"/>

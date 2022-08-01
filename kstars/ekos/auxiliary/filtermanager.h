@@ -9,7 +9,7 @@
 #include "ui_filtersettings.h"
 #include "ekos/ekos.h"
 
-#include <indi/indistd.h>
+#include <indi/indifilterwheel.h>
 #include <indi/indifocuser.h>
 #include <oal/filter.h>
 
@@ -101,7 +101,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          * @brief setCurrentFilterWheel Set the FilterManager active filter wheel.
          * @param filter pointer to filter wheel device
          */
-        void setCurrentFilterWheel(ISD::GDInterface *filter);
+        void setCurrentFilterWheel(ISD::FilterWheel *filter);
 
         /**
          * @brief setFocusReady Set whether a focuser device is active and in use.
@@ -126,7 +126,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Offset Request completed
         void setFocusOffsetComplete();
         // Remove Device
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
         // Refresh Filters after model update
         void reloadFilters();
         // Focus Status
@@ -165,7 +165,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
     private:
 
         // Filter Wheel Devices
-        ISD::GDInterface *m_currentFilterDevice = { nullptr };
+        ISD::FilterWheel *m_FilterWheel = { nullptr };
 
         // Position and Labels
         QStringList m_currentFilterLabels;

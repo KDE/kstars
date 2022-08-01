@@ -8,7 +8,7 @@
 
 #include "skypoint.h"
 #include "ekos/ekos.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -79,7 +79,7 @@ class FramingAssistantUI : public QDialog
         void resetFOV();
         void fetchINDIInformation();
         void rewordStepEvery(int v);
-        void setMountState(ISD::Telescope::Status value);
+        void setMountState(ISD::Mount::Status value);
         void setAlignState(AlignState value);
 
     private:
@@ -94,7 +94,7 @@ class FramingAssistantUI : public QDialog
         // Go and solve
         bool m_GOTOSolvePending {false};
         AlignState m_AlignState {ALIGN_IDLE};
-        ISD::Telescope::Status m_MountState {ISD::Telescope::MOUNT_IDLE};
+        ISD::Mount::Status m_MountState {ISD::Mount::MOUNT_IDLE};
 
         // Equipment
         double m_FocalLength {0};

@@ -56,7 +56,7 @@ bool InternalGuider::guide()
     {
         return true;
     }
-    guideFrame->disconnect(this);
+    m_GuideFrame->disconnect(this);
 
     pmath->start();
 
@@ -207,7 +207,7 @@ bool InternalGuider::dither(double pixels)
     // Instead we call findLocalStarPosition() which does the analysis from the image.
     // Unfortunately, processGuiding() will repeat that computation.
     // We currently don't cache it.
-    GuiderUtils::Vector star_position = pmath->findLocalStarPosition(m_ImageData, guideFrame, false);
+    GuiderUtils::Vector star_position = pmath->findLocalStarPosition(m_ImageData, m_GuideFrame, false);
     if (pmath->isStarLost() || (star_position.x == -1) || (star_position.y == -1))
     {
         // If the star position is lost, just lose this iteration.
@@ -499,7 +499,7 @@ bool InternalGuider::calibrate()
 
     calibrationProcess->useCalibration(pmath->getMutableCalibration());
 
-    guideFrame->disconnect(this);
+    m_GuideFrame->disconnect(this);
 
     // Must reset dec swap before we run any calibration procedure!
     emit DESwapChanged(false);
@@ -522,7 +522,7 @@ void InternalGuider::iterateCalibration()
 {
     if (calibrationProcess->inProgress())
     {
-        pmath->performProcessing(GUIDE_CALIBRATING, m_ImageData, guideFrame);
+        pmath->performProcessing(GUIDE_CALIBRATING, m_ImageData, m_GuideFrame);
         if (pmath->isStarLost())
         {
             emit newLog(i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
@@ -556,7 +556,7 @@ void InternalGuider::iterateCalibration()
     int pulseMsecs;
     calibrationProcess->getPulse(&pulseDirection, &pulseMsecs);
     if (pulseDirection != NO_DIR)
-        emit newPulse(pulseDirection, pulseMsecs);
+        emit newSinglePulse(pulseDirection, pulseMsecs);
 
     if (status == GUIDE_CALIBRATION_ERROR)
     {
@@ -574,9 +574,9 @@ void InternalGuider::iterateCalibration()
     }
 }
 
-void InternalGuider::setGuideView(GuideView *guideView)
+void InternalGuider::setGuideView(const QSharedPointer<GuideView> &guideView)
 {
-    guideFrame = guideView;
+    m_GuideFrame = guideView;
 }
 
 void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
@@ -601,8 +601,7 @@ void InternalGuider::reset()
 {
     state = GUIDE_IDLE;
 
-    connect(guideFrame, SIGNAL(trackingStarSelected(int, int)), this, SLOT(trackingStarSelected(int, int)),
-            Qt::UniqueConnection);
+    connect(m_GuideFrame.get(), &FITSView::trackingStarSelected, this, &InternalGuider::trackingStarSelected, Qt::UniqueConnection);
     calibrationProcess.reset();
 }
 
@@ -704,7 +703,7 @@ bool InternalGuider::processGuiding()
         m_isFirstFrame = false;
         if (state == GUIDE_GUIDING)
         {
-            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, guideFrame, true);
+            GuiderUtils::Vector star_pos = pmath->findLocalStarPosition(m_ImageData, m_GuideFrame, true);
             if (star_pos.x != -1 && star_pos.y != -1)
                 pmath->setTargetPosition(star_pos.x, star_pos.y);
             else
@@ -717,7 +716,7 @@ bool InternalGuider::processGuiding()
     }
 
     if (process)
-        pmath->performProcessing(state, m_ImageData, guideFrame, &guideLog);
+        pmath->performProcessing(state, m_ImageData, m_GuideFrame, &guideLog);
 
     if (state == GUIDE_SUSPENDED)
     {
@@ -764,23 +763,11 @@ bool InternalGuider::processGuiding()
         return true;
     }
 
-    if (sendPulses)
+    // Send pulse if we have one active direction at least.
+    if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
     {
-        emit newPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                      out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
-
-        // Wait until pulse is over before capturing an image
-        const int waitMS = qMax(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
-        // If less than MAX_IMMEDIATE_CAPTURE ms, then capture immediately
-        if (waitMS > MAX_IMMEDIATE_CAPTURE)
-            // Issue frame requests MAX_IMMEDIATE_CAPTURE ms before timeout to account for
-            // propagation delays
-            QTimer::singleShot(waitMS - PROPAGATION_DELAY, [&]()
-        {
-            emit frameCaptureRequested();
-        });
-        else
-            emit frameCaptureRequested();
+        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
+                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
     }
     else
         emit frameCaptureRequested();
@@ -823,7 +810,7 @@ bool InternalGuider::processGuiding()
 
 bool InternalGuider::selectAutoStarSEPMultistar()
 {
-    guideFrame->updateFrame();
+    m_GuideFrame->updateFrame();
     m_DitherOrigin = QVector3D(0, 0, 0);
     QVector3D newStarCenter = pmath->selectGuideStar(m_ImageData);
     if (newStarCenter.x() >= 0)
@@ -850,7 +837,7 @@ bool InternalGuider::selectAutoStar()
     QList<Edge *> starCenters;
 
     if (Options::guideAlgorithm() != SEP_THRESHOLD)
-        starCenters = GuideAlgorithms::detectStars(m_ImageData, guideFrame->getTrackingBox());
+        starCenters = GuideAlgorithms::detectStars(m_ImageData, m_GuideFrame->getTrackingBox());
 
     if (starCenters.empty())
     {
@@ -882,8 +869,8 @@ bool InternalGuider::selectAutoStar()
             return a->width > b->width;
         });
 
-        guideFrame->setStarsEnabled(true);
-        guideFrame->updateFrame();
+        m_GuideFrame->setStarsEnabled(true);
+        m_GuideFrame->updateFrame();
     }
 
     int maxX = m_ImageData->width();

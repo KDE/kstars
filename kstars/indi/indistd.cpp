@@ -18,6 +18,23 @@
 #include "Options.h"
 #include "skymap.h"
 
+#include "indimount.h"
+#include "indicamera.h"
+#include "indiguider.h"
+#include "indifocuser.h"
+#include "indifilterwheel.h"
+#include "indidome.h"
+#include "indigps.h"
+#include "indiweather.h"
+#include "indiadaptiveoptics.h"
+#include "indidustcap.h"
+#include "indilightbox.h"
+#include "indidetector.h"
+#include "indirotator.h"
+#include "indispectrograph.h"
+#include "indicorrelator.h"
+#include "indiauxiliary.h"
+
 #include <indicom.h>
 #include <QImageReader>
 #include <QStatusBar>
@@ -31,19 +48,17 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
 {
 }
 
-GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
+GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent) : GDInterface(parent)
 {
-    deviceInfo    = &idv;
-    driverInfo    = idv.getDriverInfo();
-    baseDevice    = idv.getBaseDevice();
-    clientManager = cm;
+    m_DeviceInfo    = &idv;
+    m_DriverInfo    = idv.getDriverInfo();
+    m_BaseDevice    = idv.getBaseDevice();
+    m_ClientManager = cm;
 
-    Q_ASSERT_X(baseDevice, __FUNCTION__, "Base device is invalid.");
-    Q_ASSERT_X(clientManager, __FUNCTION__, "Client manager is invalid.");
+    Q_ASSERT_X(m_BaseDevice, __FUNCTION__, "Base device is invalid.");
+    Q_ASSERT_X(m_ClientManager, __FUNCTION__, "Client manager is invalid.");
 
-    m_Name        = baseDevice->getDeviceName();
-
-    dType = KSTARS_UNKNOWN;
+    m_Name        = m_BaseDevice->getDeviceName();
 
     registerDBusType();
 
@@ -52,13 +67,23 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm)
     {
         if (Options::useTimeUpdate() && Options::useKStarsSource())
         {
-            if (dType != KSTARS_UNKNOWN && baseDevice != nullptr && isConnected())
+            if (m_BaseDevice != nullptr && isConnected())
             {
-                auto tvp = baseDevice->getText("TIME_UTC");
+                auto tvp = m_BaseDevice->getText("TIME_UTC");
                 if (tvp && tvp->getPermission() != IP_RO)
                     updateTime();
             }
         }
+    });
+
+    m_ReadyTimer = new QTimer(this);
+    m_ReadyTimer->setInterval(250);
+    m_ReadyTimer->setSingleShot(true);
+    connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::ready);
+    connect(this, &GenericDevice::ready, this, [this]()
+    {
+        if (m_ConcreteDevices.empty())
+            generateDevices();
     });
 }
 
@@ -92,11 +117,10 @@ void GenericDevice::registerProperty(INDI::Property prop)
     if (!prop->getRegistered())
         return;
 
-    const QString name = prop->getName();
-    //    if (properties.contains(name))
-    //        return;
+    if (isConnected())
+        m_ReadyTimer->start();
 
-    //    properties[name] = prop;
+    const QString name = prop->getName();
 
     emit propertyDefined(prop);
 
@@ -119,9 +143,10 @@ void GenericDevice::registerProperty(INDI::Property prop)
 
         if (svp->getState() == IPS_OK && conSP->getState() == ISS_ON)
         {
-            connected = true;
+            m_Connected = true;
             emit Connected();
             createDeviceInit();
+
         }
     }
     else if (name == "DRIVER_INFO")
@@ -132,14 +157,14 @@ void GenericDevice::registerProperty(INDI::Property prop)
             auto tp = tvp->findWidgetByName("DRIVER_INTERFACE");
             if (tp)
             {
-                driverInterface = static_cast<uint32_t>(atoi(tp->getText()));
+                m_DriverInterface = static_cast<uint32_t>(atoi(tp->getText()));
                 emit interfaceDefined();
             }
 
             tp = tvp->findWidgetByName("DRIVER_VERSION");
             if (tp)
             {
-                driverVersion = QString(tp->getText());
+                m_DriverVersion = QString(tp->getText());
             }
         }
     }
@@ -148,7 +173,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
         // Check if our current port is set to one of the system ports. This indicates that the port
         // is not mapped yet to a permenant designation
         auto svp = prop->getSwitch();
-        auto port = baseDevice->getText("DEVICE_PORT");
+        auto port = m_BaseDevice->getText("DEVICE_PORT");
         if (svp && port)
         {
             for (const auto &it : *svp)
@@ -184,10 +209,10 @@ void GenericDevice::registerProperty(INDI::Property prop)
                 connect(watchDogTimer, SIGNAL(timeout()), this, SLOT(resetWatchdog()));
             }
 
-            if (connected && nvp->at(0)->getValue() > 0)
+            if (m_Connected && nvp->at(0)->getValue() > 0)
             {
                 // Send immediately a heart beat
-                clientManager->sendNewNumber(nvp);
+                m_ClientManager->sendNewNumber(nvp);
             }
         }
     }
@@ -213,23 +238,23 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
 
         if (svp->s == IPS_OK && conSP->s == ISS_ON)
         {
-            connected = true;
+            m_Connected = true;
             emit Connected();
             createDeviceInit();
 
             if (watchDogTimer != nullptr)
             {
-                auto nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+                auto nvp = m_BaseDevice->getNumber("WATCHDOG_HEARTBEAT");
                 if (nvp && nvp->at(0)->getValue() > 0)
                 {
                     // Send immediately
-                    clientManager->sendNewNumber(nvp);
+                    m_ClientManager->sendNewNumber(nvp);
                 }
             }
         }
         else
         {
-            connected = false;
+            m_Connected = false;
             emit Disconnected();
         }
     }
@@ -313,7 +338,7 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
             connect(watchDogTimer, &QTimer::timeout, this, &GenericDevice::resetWatchdog);
         }
 
-        if (connected && nvp->np[0].value > 0)
+        if (m_Connected && nvp->np[0].value > 0)
         {
             // Reset timer 5 seconds before it is due
             // To account for any networking delays
@@ -494,7 +519,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
 
 bool GenericDevice::setConfig(INDIConfig tConfig)
 {
-    auto svp = baseDevice->getSwitch("CONFIG_PROCESS");
+    auto svp = m_BaseDevice->getSwitch("CONFIG_PROCESS");
 
     if (!svp)
         return false;
@@ -529,7 +554,7 @@ bool GenericDevice::setConfig(INDIConfig tConfig)
         sp->setState(ISS_ON);
     }
 
-    clientManager->sendNewSwitch(svp);
+    m_ClientManager->sendNewSwitch(svp);
 
     return true;
 }
@@ -559,7 +584,7 @@ void GenericDevice::updateTime()
     isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove('Z');
 
     /* Update Date/Time */
-    auto timeUTC = baseDevice->getText("TIME_UTC");
+    auto timeUTC = m_BaseDevice->getText("TIME_UTC");
 
     if (timeUTC)
     {
@@ -572,7 +597,7 @@ void GenericDevice::updateTime()
             offsetEle->setText(offset.toLatin1().constData());
 
         if (timeEle && offsetEle)
-            clientManager->sendNewText(timeUTC);
+            m_ClientManager->sendNewText(timeUTC);
     }
 }
 
@@ -589,7 +614,7 @@ void GenericDevice::updateLocation()
     else
         longNP = dms(geo->lng()->Degrees() + 360.0).Degrees();
 
-    auto nvp = baseDevice->getNumber("GEOGRAPHIC_COORD");
+    auto nvp = m_BaseDevice->getNumber("GEOGRAPHIC_COORD");
 
     if (!nvp)
         return;
@@ -613,174 +638,18 @@ void GenericDevice::updateLocation()
 
     np->setValue(geo->elevation());
 
-    clientManager->sendNewNumber(nvp);
+    m_ClientManager->sendNewNumber(nvp);
 }
 
 bool GenericDevice::Connect()
 {
-    return runCommand(INDI_CONNECT, nullptr);
+    m_ClientManager->connectDevice(m_Name.toLatin1().constData());
+    return true;
 }
 
 bool GenericDevice::Disconnect()
 {
-    return runCommand(INDI_DISCONNECT, nullptr);
-}
-
-bool GenericDevice::runCommand(int command, void *ptr)
-{
-    switch (command)
-    {
-        case INDI_CONNECT:
-            clientManager->connectDevice(m_Name.toLatin1().constData());
-            break;
-
-        case INDI_DISCONNECT:
-            clientManager->disconnectDevice(m_Name.toLatin1().constData());
-            break;
-
-        case INDI_SET_PORT:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto tvp = baseDevice->getText("DEVICE_PORT");
-
-            if (!tvp)
-                return false;
-
-            auto tp = tvp->findWidgetByName("PORT");
-
-            tp->setText((static_cast<QString *>(ptr))->toLatin1().constData());
-
-            clientManager->sendNewText(tvp);
-        }
-        break;
-
-        // We do it here because it could be either CCD or FILTER interfaces, so no need to duplicate code
-        case INDI_SET_FILTER:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto nvp = baseDevice->getNumber("FILTER_SLOT");
-
-            if (!nvp)
-                return false;
-
-            int requestedFilter = *(static_cast<int *>(ptr));
-
-            if (requestedFilter == nvp->np[0].value)
-                break;
-
-            nvp->at(0)->setValue(requestedFilter);
-
-            clientManager->sendNewNumber(nvp);
-        }
-        break;
-
-        // We do it here because it could be either CCD or FILTER interfaces, so no need to duplicate code
-        case INDI_SET_FILTER_NAMES:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto tvp = baseDevice->getText("FILTER_NAME");
-
-            if (!tvp)
-                return false;
-
-            QStringList *requestedFilters = static_cast<QStringList*>(ptr);
-
-            if (requestedFilters->count() != tvp->count())
-                return false;
-
-            for (uint8_t i = 0; i < tvp->ntp; i++)
-                tvp->at(i)->setText(requestedFilters->at(i).toLatin1().constData());
-            clientManager->sendNewText(tvp);
-        }
-        break;
-
-        case INDI_CONFIRM_FILTER:
-        {
-            auto svp = baseDevice->getSwitch("CONFIRM_FILTER_SET");
-            if (!svp)
-                return false;
-
-            svp->at(0)->setState(ISS_ON);
-            clientManager->sendNewSwitch(svp);
-        }
-        break;
-
-        // We do it here because it could be either FOCUSER or ROTATOR interfaces, so no need to duplicate code
-        case INDI_SET_ROTATOR_ANGLE:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto nvp = baseDevice->getNumber("ABS_ROTATOR_ANGLE");
-
-            if (!nvp)
-                return false;
-
-            double requestedAngle = *(static_cast<double *>(ptr));
-
-            if (requestedAngle == nvp->at(0)->getValue())
-                break;
-
-            nvp->at(0)->setValue(requestedAngle);
-
-            clientManager->sendNewNumber(nvp);
-        }
-        break;
-
-        // We do it here because it could be either FOCUSER or ROTATOR interfaces, so no need to duplicate code
-        case INDI_SET_ROTATOR_TICKS:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto nvp = baseDevice->getNumber("ABS_ROTATOR_POSITION");
-
-            if (!nvp)
-                return false;
-
-            int32_t requestedTicks = *(static_cast<int32_t *>(ptr));
-
-            if (requestedTicks == nvp->at(0)->getValue())
-                break;
-
-            nvp->at(0)->setValue(requestedTicks);
-
-            clientManager->sendNewNumber(nvp);
-        }
-        break;
-
-        case INDI_REVERSE_ROTATOR:
-        {
-            if (ptr == nullptr)
-                return false;
-
-            auto svp = baseDevice->getSwitch("ROTATOR_REVERSE");
-
-            if (!svp)
-                return false;
-
-            auto enabled = *(static_cast<bool *>(ptr));
-
-            if ( (enabled && svp->sp[0].s == ISS_ON) ||
-                    (!enabled && svp->sp[1].s == ISS_ON))
-                break;
-
-            svp->reset();
-            svp->at(0)->setState(enabled ? ISS_ON : ISS_OFF);
-            svp->at(1)->setState(enabled ? ISS_OFF : ISS_ON);
-
-            clientManager->sendNewSwitch(svp);
-        }
-        break;
-
-    }
-
+    m_ClientManager->disconnectDevice(m_Name.toLatin1().constData());
     return true;
 }
 
@@ -790,7 +659,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 
     //qDebug() << Q_FUNC_INFO << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue;
 
-    auto pp = baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
+    auto pp = m_BaseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
 
     if (!pp)
         return false;
@@ -815,7 +684,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
             sp->setState(indiCommand->elementValue.toInt() == 0 ? ISS_OFF : ISS_ON);
 
             //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
-            clientManager->sendNewSwitch(svp);
+            m_ClientManager->sendNewSwitch(svp);
 
             return true;
         }
@@ -840,7 +709,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
             np->setValue(value);
 
             //qDebug() << Q_FUNC_INFO << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off");
-            clientManager->sendNewNumber(nvp);
+            m_ClientManager->sendNewNumber(nvp);
         }
         break;
         // TODO: Add set property for other types of properties
@@ -854,7 +723,7 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 bool GenericDevice::getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
                                   double *step)
 {
-    auto nvp = baseDevice->getNumber(propName.toLatin1());
+    auto nvp = m_BaseDevice->getNumber(propName.toLatin1());
 
     if (!nvp)
         return false;
@@ -873,22 +742,22 @@ bool GenericDevice::getMinMaxStep(const QString &propName, const QString &elemen
 
 IPState GenericDevice::getState(const QString &propName)
 {
-    return baseDevice->getPropertyState(propName.toLatin1().constData());
+    return m_BaseDevice->getPropertyState(propName.toLatin1().constData());
 }
 
 IPerm GenericDevice::getPermission(const QString &propName)
 {
-    return baseDevice->getPropertyPermission(propName.toLatin1().constData());
+    return m_BaseDevice->getPropertyPermission(propName.toLatin1().constData());
 }
 
 INDI::Property GenericDevice::getProperty(const QString &propName)
 {
-    return baseDevice->getProperty(propName.toLatin1().constData());
+    return m_BaseDevice->getProperty(propName.toLatin1().constData());
 }
 
 bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &propElements)
 {
-    for (auto &oneProp : * (baseDevice->getProperties()))
+    for (auto &oneProp : * (m_BaseDevice->getProperties()))
     {
         if (propName == QString(oneProp->getName()))
         {
@@ -910,7 +779,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                         }
                     }
 
-                    clientManager->sendNewSwitch(svp);
+                    m_ClientManager->sendNewSwitch(svp);
                     return true;
                 }
 
@@ -932,7 +801,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                         }
                     }
 
-                    clientManager->sendNewNumber(nvp);
+                    m_ClientManager->sendNewNumber(nvp);
                     return true;
                 }
 
@@ -947,7 +816,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
                             tp->setText(oneElementObject["text"].toString().toLatin1().constData());
                     }
 
-                    clientManager->sendNewText(tvp);
+                    m_ClientManager->sendNewText(tvp);
                     return true;
                 }
 
@@ -966,7 +835,7 @@ bool GenericDevice::setJSONProperty(const QString &propName, const QJsonArray &p
 
 bool GenericDevice::getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact)
 {
-    for (auto &oneProp : * (baseDevice->getProperties()))
+    for (auto &oneProp : * (m_BaseDevice->getProperties()))
     {
         if (propName == QString(oneProp->getName()))
         {
@@ -1003,7 +872,7 @@ bool GenericDevice::getJSONProperty(const QString &propName, QJsonObject &propOb
 
 bool GenericDevice::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
 {
-    auto blobProperty = baseDevice->getProperty(propName.toLatin1().constData());
+    auto blobProperty = m_BaseDevice->getProperty(propName.toLatin1().constData());
     if (blobProperty == nullptr)
         return false;
 
@@ -1025,265 +894,165 @@ bool GenericDevice::getJSONBLOB(const QString &propName, const QString &elementN
 
 void GenericDevice::resetWatchdog()
 {
-    auto nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
+    auto nvp = m_BaseDevice->getNumber("WATCHDOG_HEARTBEAT");
 
     if (nvp)
         // Send heartbeat to driver
-        clientManager->sendNewNumber(nvp);
+        m_ClientManager->sendNewNumber(nvp);
 }
 
-DeviceDecorator::DeviceDecorator(GDInterface * iPtr)
+ConcreteDevice *GenericDevice::getConcreteDevice(uint32_t interface)
 {
-    interfacePtr = iPtr;
-    baseDevice    = interfacePtr->getBaseDevice();
-    clientManager = interfacePtr->getDriverInfo()->getClientManager();
-    m_isProxy = iPtr->getType() != KSTARS_UNKNOWN;
-
-    connect(iPtr, &GDInterface::Connected, this, &DeviceDecorator::Connected);
-    connect(iPtr, &GDInterface::Disconnected, this, &DeviceDecorator::Disconnected);
-    connect(iPtr, &GDInterface::propertyDefined, this, &DeviceDecorator::propertyDefined);
-    connect(iPtr, &GDInterface::propertyDeleted, this, &DeviceDecorator::propertyDeleted);
-    connect(iPtr, &GDInterface::messageUpdated, this, &DeviceDecorator::messageUpdated);
-    connect(iPtr, &GDInterface::switchUpdated, this, &DeviceDecorator::switchUpdated);
-    connect(iPtr, &GDInterface::numberUpdated, this, &DeviceDecorator::numberUpdated);
-    connect(iPtr, &GDInterface::textUpdated, this, &DeviceDecorator::textUpdated);
-    connect(iPtr, &GDInterface::BLOBUpdated, this, &DeviceDecorator::BLOBUpdated);
-    connect(iPtr, &GDInterface::lightUpdated, this, &DeviceDecorator::lightUpdated);
+    if (m_ConcreteDevices.contains(interface))
+        return m_ConcreteDevices[interface].get();
+    return nullptr;
 }
 
-DeviceDecorator::~DeviceDecorator()
+void GenericDevice::generateDevices()
 {
-    if (m_isProxy == false)
-        delete (interfacePtr);
-}
-
-bool DeviceDecorator::runCommand(int command, void *ptr)
-{
-    return interfacePtr->runCommand(command, ptr);
-}
-
-bool DeviceDecorator::setProperty(QObject * setPropCommand)
-{
-    return interfacePtr->setProperty(setPropCommand);
-}
-
-void DeviceDecorator::processBLOB(IBLOB * bp)
-{
-    interfacePtr->processBLOB(bp);
-}
-
-void DeviceDecorator::processLight(ILightVectorProperty * lvp)
-{
-    interfacePtr->processLight(lvp);
-}
-
-void DeviceDecorator::processNumber(INumberVectorProperty * nvp)
-{
-    interfacePtr->processNumber(nvp);
-}
-
-void DeviceDecorator::processSwitch(ISwitchVectorProperty * svp)
-{
-    interfacePtr->processSwitch(svp);
-}
-
-void DeviceDecorator::processText(ITextVectorProperty * tvp)
-{
-    interfacePtr->processText(tvp);
-}
-
-void DeviceDecorator::processMessage(int messageID)
-{
-    interfacePtr->processMessage(messageID);
-}
-
-void DeviceDecorator::registerProperty(INDI::Property prop)
-{
-    interfacePtr->registerProperty(prop);
-}
-
-void DeviceDecorator::removeProperty(const QString &name)
-{
-    interfacePtr->removeProperty(name);
-}
-
-bool DeviceDecorator::setConfig(INDIConfig tConfig)
-{
-    return interfacePtr->setConfig(tConfig);
-}
-
-DeviceFamily DeviceDecorator::getType()
-{
-    return interfacePtr->getType();
-}
-
-DriverInfo *DeviceDecorator::getDriverInfo()
-{
-    return interfacePtr->getDriverInfo();
-}
-
-DeviceInfo *DeviceDecorator::getDeviceInfo()
-{
-    return interfacePtr->getDeviceInfo();
-}
-
-const QString &DeviceDecorator::getDeviceName() const
-{
-    return interfacePtr->getDeviceName();
-}
-
-INDI::BaseDevice *DeviceDecorator::getBaseDevice()
-{
-    return interfacePtr->getBaseDevice();
-}
-
-uint32_t DeviceDecorator::getDriverInterface()
-{
-    return interfacePtr->getDriverInterface();
-}
-
-QString DeviceDecorator::getDriverVersion()
-{
-    return interfacePtr->getDriverVersion();
-}
-
-Properties DeviceDecorator::getProperties()
-{
-    return interfacePtr->getProperties();
-}
-
-INDI::Property DeviceDecorator::getProperty(const QString &propName)
-{
-    return interfacePtr->getProperty(propName);
-}
-
-bool DeviceDecorator::getJSONProperty(const QString &propName, QJsonObject &propObject, bool compact)
-{
-    return interfacePtr->getJSONProperty(propName, propObject, compact);
-}
-
-bool DeviceDecorator::getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject)
-{
-    return interfacePtr->getJSONBLOB(propName, elementName, blobObject);
-}
-
-bool DeviceDecorator::setJSONProperty(const QString &propName, const QJsonArray &propElements)
-{
-    return interfacePtr->setJSONProperty(propName, propElements);
-}
-
-bool DeviceDecorator::isConnected()
-{
-    return interfacePtr->isConnected();
-}
-
-bool DeviceDecorator::Connect()
-{
-    return interfacePtr->Connect();
-}
-
-bool DeviceDecorator::Disconnect()
-{
-    return interfacePtr->Disconnect();
-}
-
-bool DeviceDecorator::getMinMaxStep(const QString &propName, const QString &elementName, double * min, double * max,
-                                    double * step)
-{
-    return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
-}
-
-IPState DeviceDecorator::getState(const QString &propName)
-{
-    return interfacePtr->getState(propName);
-}
-
-IPerm DeviceDecorator::getPermission(const QString &propName)
-{
-    return interfacePtr->getPermission(propName);
-}
-
-ST4::ST4(INDI::BaseDevice * bdv, ClientManager * cm)
-{
-    baseDevice    = bdv;
-    clientManager = cm;
-    m_Name = baseDevice->getDeviceName();
-}
-
-const QString &ST4::getDeviceName()
-{
-    return m_Name;
-}
-
-void ST4::setDECSwap(bool enable)
-{
-    swapDEC = enable;
-}
-
-bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
-{
-    bool raOK  = doPulse(ra_dir, ra_msecs);
-    bool decOK = doPulse(dec_dir, dec_msecs);
-    return (raOK && decOK);
-}
-
-bool ST4::doPulse(GuideDirection dir, int msecs)
-{
-    auto raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    auto decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INDI::PropertyView<INumber> *npulse   = nullptr;
-    INDI::WidgetView<INumber> *dirPulse   = nullptr;
-
-    if (!raPulse || !decPulse)
-        return false;
-
-    if (dir == RA_INC_DIR || dir == RA_DEC_DIR)
+    // Mount
+    if (m_DriverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
     {
-        raPulse->at(0)->setValue(0);
-        raPulse->at(1)->setValue(0);
-    }
-    else
-    {
-        decPulse->at(0)->setValue(0);
-        decPulse->at(1)->setValue(0);
+        auto mount = new ISD::Mount(this);
+        m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].reset(mount);
+        mount->makeReady();
+        emit newMount(mount);
     }
 
-    switch (dir)
+    // Camera
+    if (m_DriverInterface & INDI::BaseDevice::CCD_INTERFACE)
     {
-        case RA_INC_DIR:
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_W");
-            break;
-
-        case RA_DEC_DIR:
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_E");
-            break;
-
-        case DEC_INC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName(swapDEC ? "TIMED_GUIDE_S" : "TIMED_GUIDE_N");
-            break;
-
-        case DEC_DEC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName(swapDEC ? "TIMED_GUIDE_N" : "TIMED_GUIDE_S");
-            break;
-
-        default:
-            return false;
+        auto camera = new ISD::Camera(this);
+        m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].reset(camera);
+        camera->makeReady();
+        emit newCamera(camera);
     }
 
-    if (!dirPulse)
-        return false;
+    // Guider
+    if (m_DriverInterface & INDI::BaseDevice::GUIDER_INTERFACE)
+    {
+        auto guider = new ISD::Guider(this);
+        m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].reset(guider);
+        guider->makeReady();
+        emit newGuider(guider);
+    }
 
-    dirPulse->setValue(msecs);
+    // Focuser
+    if (m_DriverInterface & INDI::BaseDevice::FOCUSER_INTERFACE)
+    {
+        auto focuser = new ISD::Focuser(this);
+        m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].reset(focuser);
+        focuser->makeReady();
+        emit newFocuser(focuser);
+    }
 
-    clientManager->sendNewNumber(npulse);
+    // Filter Wheel
+    if (m_DriverInterface & INDI::BaseDevice::FILTER_INTERFACE)
+    {
+        auto filterWheel = new ISD::FilterWheel(this);
+        m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].reset(filterWheel);
+        filterWheel->makeReady();
+        emit newFilterWheel(filterWheel);
+    }
 
-    //qDebug() << Q_FUNC_INFO << "Sending pulse for " << npulse->getName() << " in direction " << dirPulse->getName() << " for " << msecs << " ms ";
+    // Dome
+    if (m_DriverInterface & INDI::BaseDevice::DOME_INTERFACE)
+    {
+        auto dome = new ISD::Dome(this);
+        m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(dome);
+        dome->makeReady();
+        emit newDome(dome);
+    }
 
-    return true;
+    // GPS
+    if (m_DriverInterface & INDI::BaseDevice::GPS_INTERFACE)
+    {
+        auto gps = new ISD::GPS(this);
+        m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(gps);
+        gps->makeReady();
+        emit newGPS(gps);
+    }
+
+    // Weather
+    if (m_DriverInterface & INDI::BaseDevice::WEATHER_INTERFACE)
+    {
+        auto weather = new ISD::Weather(this);
+        m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(weather);
+        weather->makeReady();
+        emit newWeather(weather);
+    }
+
+    // Adaptive Optics
+    if (m_DriverInterface & INDI::BaseDevice::AO_INTERFACE)
+    {
+        auto ao = new ISD::AdaptiveOptics(this);
+        m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].reset(ao);
+        ao->makeReady();
+        emit newAdaptiveOptics(ao);
+    }
+
+    // Dust Cap
+    if (m_DriverInterface & INDI::BaseDevice::DUSTCAP_INTERFACE)
+    {
+        auto dustCap = new ISD::DustCap(this);
+        m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].reset(dustCap);
+        dustCap->makeReady();
+        emit newDustCap(dustCap);
+    }
+
+    // Light box
+    if (m_DriverInterface & INDI::BaseDevice::LIGHTBOX_INTERFACE)
+    {
+        auto lightBox = new ISD::LightBox(this);
+        m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].reset(lightBox);
+        lightBox->makeReady();
+        emit newLightBox(lightBox);
+    }
+
+    // Rotator
+    if (m_DriverInterface & INDI::BaseDevice::ROTATOR_INTERFACE)
+    {
+        auto rotator = new ISD::Rotator(this);
+        m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].reset(rotator);
+        rotator->makeReady();
+        emit newRotator(rotator);
+    }
+
+    // Detector
+    if (m_DriverInterface & INDI::BaseDevice::DETECTOR_INTERFACE)
+    {
+        auto detector = new ISD::Detector(this);
+        m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].reset(detector);
+        detector->makeReady();
+        emit newDetector(detector);
+    }
+
+    // Spectrograph
+    if (m_DriverInterface & INDI::BaseDevice::SPECTROGRAPH_INTERFACE)
+    {
+        auto spectrograph = new ISD::Spectrograph(this);
+        m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].reset(spectrograph);
+        spectrograph->makeReady();
+        emit newSpectrograph(spectrograph);
+    }
+
+    // Correlator
+    if (m_DriverInterface & INDI::BaseDevice::CORRELATOR_INTERFACE)
+    {
+        auto correlator = new ISD::Correlator(this);
+        m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].reset(correlator);
+        correlator->makeReady();
+        emit newCorrelator(correlator);
+    }
+
+    // Auxiliary
+    if (m_DriverInterface & INDI::BaseDevice::AUX_INTERFACE)
+    {
+        auto aux = new ISD::Auxiliary(this);
+        m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].reset(aux);
+        aux->makeReady();
+        emit newAuxiliary(aux);
+    }
 }
 
 void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact)

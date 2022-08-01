@@ -110,44 +110,44 @@ bool fileExists(const QString &path)
 
 // Utilities to go between a mount status and a string.
 // Move to inditelescope.h/cpp?
-const QString mountStatusString(ISD::Telescope::Status status)
+const QString mountStatusString(ISD::Mount::Status status)
 {
     switch (status)
     {
-        case ISD::Telescope::MOUNT_IDLE:
+        case ISD::Mount::MOUNT_IDLE:
             return i18n("Idle");
-        case ISD::Telescope::MOUNT_PARKED:
+        case ISD::Mount::MOUNT_PARKED:
             return i18n("Parked");
-        case ISD::Telescope::MOUNT_PARKING:
+        case ISD::Mount::MOUNT_PARKING:
             return i18n("Parking");
-        case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Mount::MOUNT_SLEWING:
             return i18n("Slewing");
-        case ISD::Telescope::MOUNT_MOVING:
+        case ISD::Mount::MOUNT_MOVING:
             return i18n("Moving");
-        case ISD::Telescope::MOUNT_TRACKING:
+        case ISD::Mount::MOUNT_TRACKING:
             return i18n("Tracking");
-        case ISD::Telescope::MOUNT_ERROR:
+        case ISD::Mount::MOUNT_ERROR:
             return i18n("Error");
     }
     return i18n("Error");
 }
 
-ISD::Telescope::Status toMountStatus(const QString &str)
+ISD::Mount::Status toMountStatus(const QString &str)
 {
     if (str == i18n("Idle"))
-        return ISD::Telescope::MOUNT_IDLE;
+        return ISD::Mount::MOUNT_IDLE;
     else if (str == i18n("Parked"))
-        return ISD::Telescope::MOUNT_PARKED;
+        return ISD::Mount::MOUNT_PARKED;
     else if (str == i18n("Parking"))
-        return ISD::Telescope::MOUNT_PARKING;
+        return ISD::Mount::MOUNT_PARKING;
     else if (str == i18n("Slewing"))
-        return ISD::Telescope::MOUNT_SLEWING;
+        return ISD::Mount::MOUNT_SLEWING;
     else if (str == i18n("Moving"))
-        return ISD::Telescope::MOUNT_MOVING;
+        return ISD::Mount::MOUNT_MOVING;
     else if (str == i18n("Tracking"))
-        return ISD::Telescope::MOUNT_TRACKING;
+        return ISD::Mount::MOUNT_TRACKING;
     else
-        return ISD::Telescope::MOUNT_ERROR;
+        return ISD::Mount::MOUNT_ERROR;
 }
 
 // Returns the stripe color used when drawing the capture timeline for various filters.
@@ -2674,22 +2674,22 @@ void Analyze::resetAlignState()
 namespace
 {
 
-const QBrush mountBrush(ISD::Telescope::Status state)
+const QBrush mountBrush(ISD::Mount::Status state)
 {
     switch (state)
     {
-        case ISD::Telescope::MOUNT_IDLE:
+        case ISD::Mount::MOUNT_IDLE:
             return offBrush;
-        case ISD::Telescope::MOUNT_ERROR:
+        case ISD::Mount::MOUNT_ERROR:
             return failureBrush;
-        case ISD::Telescope::MOUNT_MOVING:
-        case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Mount::MOUNT_MOVING:
+        case ISD::Mount::MOUNT_SLEWING:
             return progressBrush;
-        case ISD::Telescope::MOUNT_TRACKING:
+        case ISD::Mount::MOUNT_TRACKING:
             return successBrush;
-        case ISD::Telescope::MOUNT_PARKING:
+        case ISD::Mount::MOUNT_PARKING:
             return stoppedBrush;
-        case ISD::Telescope::MOUNT_PARKED:
+        case ISD::Mount::MOUNT_PARKED:
             return stopped2Brush;
     }
     // Shouldn't get here.
@@ -2700,7 +2700,7 @@ const QBrush mountBrush(ISD::Telescope::Status state)
 
 // Mount status can be:
 // MOUNT_IDLE, MOUNT_MOVING, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR
-void Analyze::mountState(ISD::Telescope::Status state)
+void Analyze::mountState(ISD::Mount::Status state)
 {
     QString statusString = mountStatusString(state);
     saveMessage("MountState", statusString);
@@ -2710,17 +2710,17 @@ void Analyze::mountState(ISD::Telescope::Status state)
 
 void Analyze::processMountState(double time, const QString &statusString, bool batchMode)
 {
-    ISD::Telescope::Status state = toMountStatus(statusString);
-    if (mountStateStartedTime >= 0 && lastMountState != ISD::Telescope::MOUNT_IDLE)
+    ISD::Mount::Status state = toMountStatus(statusString);
+    if (mountStateStartedTime >= 0 && lastMountState != ISD::Mount::MOUNT_IDLE)
     {
         addSession(mountStateStartedTime, time, MOUNT_Y, mountBrush(lastMountState));
         mountSessions.add(MountSession(mountStateStartedTime, time, nullptr, lastMountState));
     }
 
-    if (state != ISD::Telescope::MOUNT_IDLE && !batchMode)
+    if (state != ISD::Mount::MOUNT_IDLE && !batchMode)
     {
         addTemporarySession(&temporaryMountSession, time, 1, MOUNT_Y,
-                            (state == ISD::Telescope::MOUNT_TRACKING) ? successBrush : temporaryBrush);
+                            (state == ISD::Mount::MOUNT_TRACKING) ? successBrush : temporaryBrush);
         temporaryMountSession.state = state;
     }
     else
@@ -2736,11 +2736,11 @@ void Analyze::processMountState(double time, const QString &statusString, bool b
 void Analyze::resetMountState()
 {
     mountStateStartedTime = -1;
-    lastMountState = ISD::Telescope::Status::MOUNT_IDLE;
+    lastMountState = ISD::Mount::Status::MOUNT_IDLE;
 }
 
 // This message comes from the mount module
-void Analyze::mountCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &haValue)
+void Analyze::mountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &haValue)
 {
     double ra = position.ra().Degrees();
     double dec = position.dec().Degrees();

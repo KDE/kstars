@@ -552,7 +552,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void setGuideStatus(Ekos::GuideState status);
         void setCaptureStatus(Ekos::CaptureState status);
         void setFocusStatus(Ekos::FocusState status);
-        void setMountStatus(ISD::Telescope::Status status);
+        void setMountStatus(ISD::Mount::Status status);
         void setWeatherStatus(ISD::Weather::Status status);
 
         /**

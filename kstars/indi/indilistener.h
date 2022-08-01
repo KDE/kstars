@@ -41,8 +41,8 @@ class INDIListener : public QObject
         void addClient(ClientManager *cm);
         void removeClient(ClientManager *cm);
 
-        ISD::GDInterface *getDevice(const QString &name) const;
-        const QList<ISD::GDInterface *> getDevices() const
+        ISD::GenericDevice *getDevice(const QString &name) const;
+        const QList<ISD::GenericDevice *> getDevices() const
         {
             return devices;
         }
@@ -51,8 +51,6 @@ class INDIListener : public QObject
         {
             return devices.size();
         }
-
-        bool isStandardProperty(const QString &name) const;
 
     public slots:
 
@@ -75,19 +73,9 @@ class INDIListener : public QObject
         static INDIListener *_INDIListener;
 
         QList<ClientManager *> clients;
-        QList<ISD::GDInterface *> devices;
-        QList<ISD::ST4 *> st4Devices;
+        QList<ISD::GenericDevice *> devices;
 
     signals:
-        void newDevice(ISD::GDInterface *);
-        void newTelescope(ISD::GDInterface *);
-        void newCCD(ISD::GDInterface *);
-        void newFilter(ISD::GDInterface *);
-        void newFocuser(ISD::GDInterface *);
-        void newDome(ISD::GDInterface *);
-        void newWeather(ISD::GDInterface *);
-        void newDustCap(ISD::GDInterface *);
-        void newLightBox(ISD::GDInterface *);
-        void newST4(ISD::ST4 *);
-        void deviceRemoved(ISD::GDInterface *);
+        void newDevice(ISD::GenericDevice *);
+        void deviceRemoved(ISD::GenericDevice *);
 };

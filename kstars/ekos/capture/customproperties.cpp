@@ -26,7 +26,7 @@ CustomProperties::CustomProperties()
     connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
 }
 
-void CustomProperties::setCCD(ISD::CCD *ccd)
+void CustomProperties::setCCD(ISD::Camera *ccd)
 {
     currentCCD = ccd;
     syncProperties();

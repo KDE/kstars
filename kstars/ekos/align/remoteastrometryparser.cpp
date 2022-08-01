@@ -13,6 +13,7 @@
 #include "indi/driverinfo.h"
 #include "indi/guimanager.h"
 #include "indi/indidevice.h"
+#include "indi/indiauxiliary.h"
 
 #include <indicom.h>
 
@@ -225,7 +226,7 @@ bool RemoteAstrometryParser::stopSolver()
     return true;
 }
 
-void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
+void RemoteAstrometryParser::setAstrometryDevice(ISD::GenericDevice *device)
 {
     if (device == remoteAstrometry)
         return;
@@ -234,10 +235,8 @@ void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
 
     remoteAstrometry->disconnect(this);
 
-    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this,
-            SLOT(checkStatus(ISwitchVectorProperty*)));
-    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty*)), this,
-            SLOT(checkResults(INumberVectorProperty*)));
+    connect(remoteAstrometry, &ISD::GenericDevice::switchUpdated, this, &RemoteAstrometryParser::checkStatus);
+    connect(remoteAstrometry, &ISD::GenericDevice::numberUpdated, this, &RemoteAstrometryParser::checkResults);
 
     if (targetCCD.isEmpty() == false)
         setCCD(targetCCD);

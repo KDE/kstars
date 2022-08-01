@@ -195,7 +195,7 @@ class PHD2 : public GuideInterface
         bool abort() override;                  //stop_capture
 
         bool calibrate() override; //Note PHD2 does not have a separate calibrate command.  This is unused.
-        void setGuideView(FITSView *guideView);
+        void setGuideView(const QSharedPointer<FITSView> &guideView);
 
         QString getCurrentCamera()
         {
@@ -225,7 +225,7 @@ class PHD2 : public GuideInterface
         void displayError(QAbstractSocket::SocketError socketError);
 
     private:
-        QPointer<FITSView> guideFrame;
+        QSharedPointer<FITSView> m_GuideFrame;
 
         QVector<QPointF> errorLog;
 

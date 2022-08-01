@@ -383,7 +383,7 @@ public:
     // sequence of guiding states that are expected
     QQueue<Ekos::GuideState> expectedGuidingStates;
     // sequence of mount states that are expected
-    QQueue<ISD::Telescope::Status> expectedMountStates;
+    QQueue<ISD::Mount::Status> expectedMountStates;
     // sequence of dome states that are expected
     QQueue<ISD::Dome::Status> expectedDomeStates;
     // sequence of meridian flip states that are expected
@@ -538,7 +538,7 @@ public:
 
 private:
     // current mount status
-    ISD::Telescope::Status m_MountStatus { ISD::Telescope::MOUNT_IDLE };
+    ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
 
     // current mount meridian flip status
     Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
@@ -574,7 +574,7 @@ private:
      * @brief Slot to track the mount status
      * @param status new mount status
      */
-    void mountStatusChanged(ISD::Telescope::Status status);
+    void mountStatusChanged(ISD::Mount::Status status);
 
     /**
      * @brief Slot to track the meridian flip stage of the mount

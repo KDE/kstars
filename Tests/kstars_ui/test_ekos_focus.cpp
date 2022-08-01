@@ -398,11 +398,11 @@ void TestEkosFocus::testFocusWhenMountFlips()
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 5000);
 
     KTELL("Wait for the meridian flip to occur.\nCheck procedure aborts while flipping.");
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_SLEWING, 15000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_SLEWING, 15000);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 5000);
 
     KTELL("Wait for the flip to end.");
-    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Telescope::MOUNT_TRACKING, 120000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_TRACKING, 120000);
 
     KTELL("Start the procedure again.\nExpect the procedure to succeed.");
     autofocus.started = false;

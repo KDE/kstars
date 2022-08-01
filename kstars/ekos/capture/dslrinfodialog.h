@@ -13,7 +13,7 @@
 
 #include "ui_dslrinfo.h"
 
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 
 namespace Ekos
 {
@@ -25,7 +25,7 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
         Q_OBJECT
 
     public:
-        explicit DSLRInfo(QWidget *parent, ISD::CCD *ccd);
+        explicit DSLRInfo(QWidget *parent, ISD::Camera *ccd);
 
     protected slots:
         void save();
@@ -34,7 +34,7 @@ class DSLRInfo : public QDialog, public Ui::DSLRInfo
         void infoChanged();
 
     private:
-        ISD::CCD *currentCCD = nullptr;
+        ISD::Camera *currentCCD = nullptr;
         int sensorMaxWidth = 0, sensorMaxHeight = 0;
         double sensorPixelW = 0, sensorPixelH = 0;
 

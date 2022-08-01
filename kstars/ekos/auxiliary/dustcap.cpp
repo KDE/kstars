@@ -20,28 +20,40 @@ DustCap::DustCap()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/DustCap", this);
 }
 
-void DustCap::setDustCap(ISD::GDInterface *newDustCap)
+void DustCap::addDustCap(ISD::DustCap *device)
 {
-    if (newDustCap == currentDustCap)
-        return;
+    // No duplicates
+    for (auto &oneDustCap : m_DustCaps)
+    {
+        if (oneDustCap->getDeviceName() == device->getDeviceName())
+            return;
+    }
 
-    currentDustCap = static_cast<ISD::DustCap *>(newDustCap);
+    for (auto &oneDustCap : m_DustCaps)
+        oneDustCap->disconnect(this);
 
-    currentDustCap->disconnect(this);
+    m_DustCap = device;
+    m_DustCaps.append(device);
 
-    connect(currentDustCap, &ISD::GDInterface::propertyDefined, this, &DustCap::processProp);
-    connect(currentDustCap, &ISD::GDInterface::switchUpdated, this, &DustCap::processSwitch);
-    connect(currentDustCap, &ISD::GDInterface::numberUpdated, this, &DustCap::processNumber);
-    connect(currentDustCap, &ISD::DustCap::newStatus, this, &DustCap::newStatus);
-    connect(currentDustCap, &ISD::DustCap::ready, this, &DustCap::ready);
+    // TODO add method to select active dust cap
+    connect(m_DustCap, &ISD::DustCap::propertyDefined, this, &DustCap::processProp);
+    connect(m_DustCap, &ISD::DustCap::switchUpdated, this, &DustCap::processSwitch);
+    connect(m_DustCap, &ISD::DustCap::numberUpdated, this, &DustCap::processNumber);
+    connect(m_DustCap, &ISD::DustCap::newStatus, this, &DustCap::newStatus);
+    connect(m_DustCap, &ISD::DustCap::ready, this, &DustCap::ready);
 }
 
-void DustCap::removeDevice(ISD::GDInterface *device)
+void DustCap::removeDevice(ISD::GenericDevice *device)
 {
     device->disconnect(this);
-    if (currentDustCap && (currentDustCap->getDeviceName() == device->getDeviceName()))
+    for (auto &oneDustCap : m_DustCaps)
     {
-        currentDustCap = nullptr;
+        if (oneDustCap->getDeviceName() == device->getDeviceName())
+        {
+            m_DustCap = nullptr;
+            m_DustCaps.removeOne(oneDustCap);
+            break;
+        }
     }
 }
 
@@ -136,49 +148,49 @@ void DustCap::processNumber(INumberVectorProperty *nvp)
 
 bool DustCap::park()
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->Park();
+    return m_DustCap->Park();
 }
 
 bool DustCap::unpark()
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->UnPark();
+    return m_DustCap->UnPark();
 }
 
 bool DustCap::canPark()
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->canPark();
+    return m_DustCap->canPark();
 }
 
 bool DustCap::hasLight()
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->hasLight();
+    return m_DustCap->hasLight();
 }
 
 bool DustCap::setLightEnabled(bool enable)
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->SetLightEnabled(enable);
+    return m_DustCap->SetLightEnabled(enable);
 }
 
 bool DustCap::setBrightness(uint16_t val)
 {
-    if (currentDustCap == nullptr)
+    if (m_DustCap == nullptr)
         return false;
 
-    return currentDustCap->SetBrightness(val);
+    return m_DustCap->SetBrightness(val);
 }
 }

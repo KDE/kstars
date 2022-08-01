@@ -79,8 +79,8 @@ class FITSViewer : public KXmlGuiWindow
         {
             return fitsTabs;
         }
-        FITSView *getView(int fitsUID);
-        FITSView *getCurrentView();
+        bool getView(int fitsUID, QSharedPointer<FITSView> &view);
+        bool getCurrentView(QSharedPointer<FITSView> &view);
 
         static QStringList filterTypes;
 

@@ -13,7 +13,7 @@
 
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include "ekos/align/polaralignmentassistant.h"
 
 class QQuickView;
@@ -32,7 +32,7 @@ class Mount : public QWidget, public Ui::Mount
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Mount")
-        Q_PROPERTY(ISD::Telescope::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(ISD::Mount::Status status READ status NOTIFY newStatus)
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QList<double> altitudeLimits READ altitudeLimits WRITE setAltitudeLimits)
@@ -47,7 +47,7 @@ class Mount : public QWidget, public Ui::Mount
         Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
         Q_PROPERTY(int slewStatus READ slewStatus)
         Q_PROPERTY(bool canPark READ canPark)
-        Q_PROPERTY(ISD::Telescope::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
+        Q_PROPERTY(ISD::Mount::PierSide pierSide READ pierSide NOTIFY pierSideChanged)
 
     public:
         Mount();
@@ -76,14 +76,14 @@ class Mount : public QWidget, public Ui::Mount
         } MeridianFlipStatus;
 
         /**
-             * @brief setTelescope Sets the mount module telescope interface
-             * @param newTelescope pointer to telescope interface object
+             * @brief addMount Sets the mount module telescope interface
+             * @param device pointer to telescope interface object
              */
-        void setTelescope(ISD::GDInterface *newTelescope);
+        void addMount(ISD::Mount *device);
 
-        void setGPS(ISD::GDInterface *newGPS);
+        void addGPS(ISD::GPS *device);
 
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
 
         // Log functions
         void appendLogText(const QString &);
@@ -97,23 +97,27 @@ class Mount : public QWidget, public Ui::Mount
             return m_LogText.join("\n");
         }
 
-        ISD::Telescope::Status status() const
+        ISD::Mount::Status status() const
         {
             return m_Status;
         }
-        QString statusString(bool translated) const
+        ISD::Mount *activeMount() const
         {
-            if (currentTelescope)
-                return currentTelescope->statusString(m_Status, translated);
+            return m_Mount;
+        }
+        QString statusString(bool translated = true) const
+        {
+            if (m_Mount)
+                return m_Mount->statusString(m_Status, translated);
             else
                 return "NA";
         }
-        ISD::Telescope::PierSide pierSide() const
+        ISD::Mount::PierSide pierSide() const
         {
-            if (currentTelescope)
-                return currentTelescope->pierSide();
+            if (m_Mount)
+                return m_Mount->pierSide();
             else
-                return ISD::Telescope::PIER_UNKNOWN;
+                return ISD::Mount::PIER_UNKNOWN;
         }
         ISD::ParkStatus parkStatus() const
         {
@@ -424,20 +428,20 @@ class Mount : public QWidget, public Ui::Mount
         void updateLog(int messageID);
 
         /**
-             * @brief updateTelescopeCoords is triggered by the ISD::Telescope::newCoord() event and updates the displayed
+             * @brief updateTelescopeCoords is triggered by the ISD::Mount::newCoord() event and updates the displayed
              * coordinates of the mount and to ensure mount is within altitude limits if the altitude limits are enabled.
              * The frequency of this update depends on the REFRESH parameter of the INDI mount device.
              * @param position latest coordinates the mount reports it is pointing to
              * @param pierSide pierSide
              * @param ha hour angle of the latest coordinates
              */
-        void updateTelescopeCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
+        void updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha);
 
         /**
              * @brief move Issues motion command to the mount to move in a particular direction based the request NS and WE values
-             * @param command Either ISD::Telescope::MOTION_START (0) or ISD::Telescope::MOTION_STOP (1)
-             * @param NS is either -1 for no direction, or ISD::Telescope::MOTION_NORTH (0), or ISD::Telescope::MOTION_SOUTH (1)
-             * @param WE is either -1 for no direction, or ISD::Telescope::MOTION_WEST (0), or ISD::Telescope::MOTION_EAST (1)
+             * @param command Either ISD::Mount::MOTION_START (0) or ISD::Mount::MOTION_STOP (1)
+             * @param NS is either -1 for no direction, or ISD::Mount::MOTION_NORTH (0), or ISD::Mount::MOTION_SOUTH (1)
+             * @param WE is either -1 for no direction, or ISD::Mount::MOTION_WEST (0), or ISD::Mount::MOTION_EAST (1)
              */
         void motionCommand(int command, int NS, int WE);
 
@@ -556,7 +560,7 @@ class Mount : public QWidget, public Ui::Mount
          * the mount is on the western side of the pier pointing east of the meridian).
          * @param ha current hour angle
          */
-        void newCoords(const SkyPoint &position, ISD::Telescope::PierSide pierSide, const dms &ha);
+        void newCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha);
         /**
          * @brief The mount has finished the slew to a new target.
          * @param currentCoords exact position where the mount is positioned
@@ -571,9 +575,9 @@ class Mount : public QWidget, public Ui::Mount
         /**
          * @brief Change in the mount status.
          */
-        void newStatus(ISD::Telescope::Status status);
+        void newStatus(ISD::Mount::Status status);
         void newParkStatus(ISD::ParkStatus status);
-        void pierSideChanged(ISD::Telescope::PierSide side);
+        void pierSideChanged(ISD::Mount::PierSide side);
         void slewRateChanged(int index);
         void ready();
         void newMeridianFlipStatus(MeridianFlipStatus status);
@@ -581,7 +585,7 @@ class Mount : public QWidget, public Ui::Mount
 
     private:
         void syncGPS();
-        void setScopeStatus(ISD::Telescope::Status status);
+        void setScopeStatus(ISD::Mount::Status status);
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
         void setMeridianFlipStatus(MeridianFlipStatus status);
         void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
@@ -597,10 +601,13 @@ class Mount : public QWidget, public Ui::Mount
 
         QPointer<QDBusInterface> captureInterface { nullptr };
 
-        ISD::Telescope *currentTelescope = nullptr;
-        ISD::GDInterface *currentGPS = nullptr;
+        ISD::Mount *m_Mount {nullptr};
+        QList<ISD::Mount *> m_Mounts;
+        ISD::GPS *m_GPS {nullptr};
+        QList<ISD::GPS*> m_GPSes;
+
         QStringList m_LogText;
-        SkyPoint *currentTargetPosition = nullptr;
+        SkyPoint *currentTargetPosition {nullptr};
         SkyPoint telescopeCoord;
         QString lastNotificationMessage;
 
@@ -617,7 +624,7 @@ class Mount : public QWidget, public Ui::Mount
         // GPS
         bool GPSInitialized = {false};
 
-        ISD::Telescope::Status m_Status = ISD::Telescope::MOUNT_IDLE;
+        ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNKNOWN;
 
         QQuickView *m_BaseView = nullptr;

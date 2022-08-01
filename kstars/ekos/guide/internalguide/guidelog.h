@@ -10,7 +10,7 @@
 #include <QFile>
 
 #include "indi/indicommon.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 
 // This class will help write guide log files, using the PHD2 guide log format.
 
@@ -25,7 +25,7 @@ class GuideLog
                 double focalLength = 0;                            // millimeters
                 // Recent mount position.
                 double ra = 0, dec = 0, azimuth = 0, altitude = 0; // degrees
-                ISD::Telescope::PierSide pierSide = ISD::Telescope::PierSide::PIER_UNKNOWN;
+                ISD::Mount::PierSide pierSide = ISD::Mount::PierSide::PIER_UNKNOWN;
                 double xangle = 0.0, yangle = 0.0;                 // degrees, x,y axis vs ra,dec.
                 double xrate = 1.0, yrate = 1.0;                   // pixels/second of pulsing.
         };

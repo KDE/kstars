@@ -11,9 +11,9 @@
 
 #include "ui_align.h"
 #include "ekos/ekos.h"
-#include "indi/indiccd.h"
+#include "indi/indicamera.h"
 #include "indi/indistd.h"
-#include "indi/inditelescope.h"
+#include "indi/indimount.h"
 #include "indi/indidome.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/filtermanager.h"
@@ -207,32 +207,32 @@ class Align : public QWidget, public Ui::Align
         /** @}*/
 
         /**
-             * @brief Add CCD to the list of available CCD.
-             * @param newCCD pointer to CCD device.
+             * @brief Add Camera to the list of available Cameras.
+             * @param device pointer to camera device.
              */
-        void addCCD(ISD::GDInterface *newCCD);
+        void addCamera(ISD::Camera *device);
 
         /**
              * @brief addFilter Add filter to the list of available filters.
              * @param newFilter pointer to filter device.
              */
-        void addFilter(ISD::GDInterface *newFilter);
+        void addFilterWheel(ISD::FilterWheel *device);
 
         /**
              * @brief Set the current telescope
              * @param newTelescope pointer to telescope device.
              */
-        void setTelescope(ISD::GDInterface *newTelescope);
+        void addMount(ISD::Mount *device);
 
         /**
              * @brief Set the current dome
              * @param newDome pointer to telescope device.
              */
-        void setDome(ISD::GDInterface *newDome);
+        void addDome(ISD::Dome *device);
 
-        void setRotator(ISD::GDInterface *newRotator);
+        void addRotator(ISD::Rotator *device);
 
-        void removeDevice(ISD::GDInterface *device);
+        void removeDevice(ISD::GenericDevice *device);
 
         /**
              * @brief Set telescope and guide scope info. All measurements is in millimeters.
@@ -247,17 +247,17 @@ class Align : public QWidget, public Ui::Align
              * @brief setAstrometryDevice
              * @param newAstrometry
              */
-        void setAstrometryDevice(ISD::GDInterface *newAstrometry);
+        void setAstrometryDevice(ISD::GenericDevice *device);
 
         /**
              * @brief CCD information is updated, sync them.
              */
-        void syncCCDInfo();
+        void syncCameraInfo();
 
         /**
          * @brief syncCCDControls Update camera controls like gain, offset, ISO..etc.
          */
-        void syncCCDControls();
+        void syncCameraControls();
 
         /**
              * @brief Generate arguments we pass to the remote solver.
@@ -367,7 +367,7 @@ class Align : public QWidget, public Ui::Align
              * @brief Check CCD and make sure information is updated and FOV is re-calculated.
              * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu. CCDNum is the index of the CCD in the dropdown menu.
              */
-        void checkCCD(int CCDNum = -1);
+        void checkCamera(int CCDNum = -1);
 
         /**
              * @brief Check Filter and make sure information is updated accordingly.
@@ -377,12 +377,12 @@ class Align : public QWidget, public Ui::Align
         void checkFilter(int filterNum = -1);
 
         /**
-             * @brief checkCCDExposureProgress Track the progress of CCD exposure
+             * @brief checkCameraExposureProgress Track the progress of CCD exposure
              * @param targetChip Target chip under exposure
              * @param remaining how many seconds remaining
              * @param state status of exposure
              */
-        void checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state);
+        void checkCameraExposureProgress(ISD::CameraChip *targetChip, double remaining, IPState state);
         /**
              * @brief Process new FITS received from CCD.
              * @param bp pointer to blob property
@@ -533,7 +533,7 @@ class Align : public QWidget, public Ui::Align
         // Update Capture Module status
         void setCaptureStatus(Ekos::CaptureState newState);
         // Update Mount module status
-        void setMountStatus(ISD::Telescope::Status newState);
+        void setMountStatus(ISD::Mount::Status newState);
 
         // Align Settings
         QJsonObject getSettings() const;
@@ -565,7 +565,7 @@ class Align : public QWidget, public Ui::Align
          * @brief prepareCapture Set common settings for capture for align module
          * @param targetChip target Chip
          */
-        void prepareCapture(ISD::CCDChip *targetChip);
+        void prepareCapture(ISD::CameraChip *targetChip);
 
         //Solutions Display slots
         void buildTarget();
@@ -602,9 +602,9 @@ class Align : public QWidget, public Ui::Align
         void newSolution(const QVariantMap &solution);
 
         // This is sent when we load an image in the view
-        void newImage(FITSView *view);
+        void newImage(const QSharedPointer<FITSView> &view);
         // This is sent when the pixmap is updated within the view
-        void newFrame(FITSView *view);
+        void newFrame(const QSharedPointer<FITSView> &view);
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
@@ -776,19 +776,22 @@ class Align : public QWidget, public Ui::Align
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
         std::unique_ptr<RemoteAstrometryParser> remoteParser;
-        ISD::GDInterface *remoteParserDevice { nullptr };
+        ISD::GenericDevice *remoteParserDevice { nullptr };
 
         // Pointers to our devices
-        ISD::Telescope *currentTelescope { nullptr };
-        ISD::Dome *currentDome { nullptr };
-        ISD::CCD *currentCCD { nullptr };
-        ISD::GDInterface *currentRotator { nullptr };
-        QList<ISD::CCD *> CCDs;
+        ISD::Mount *m_Mount { nullptr };
+        ISD::Dome *m_Dome { nullptr };
+        ISD::Camera *m_Camera { nullptr };
+        ISD::Rotator *m_Rotator { nullptr };
+        ISD::FilterWheel *m_FilterWheel { nullptr };
 
-        /// Optional device filter
-        ISD::GDInterface *currentFilter { nullptr };
-        /// They're generic GDInterface because they could be either ISD::CCD or ISD::Filter
-        QList<ISD::GDInterface *> Filters;
+        // Containers
+        QList<ISD::Mount *> m_Mounts;
+        QList<ISD::Camera *> m_Cameras;
+        QList<ISD::Dome *> m_Domes;
+        QList<ISD::Rotator *> m_Rotators;
+        QList<ISD::FilterWheel *> m_FilterWheels;
+
         int currentFilterPosition { -1 };
         /// True if we need to change filter position and wait for result before continuing capture
         bool filterPositionPending { false };
@@ -816,7 +819,7 @@ class Align : public QWidget, public Ui::Align
         CaptureState m_CaptureState { CAPTURE_IDLE };
 
         // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
-        ISD::CCD::UploadMode rememberUploadMode { ISD::CCD::UPLOAD_CLIENT };
+        ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
 
         GotoMode m_CurrentGotoMode;
 
@@ -826,7 +829,7 @@ class Align : public QWidget, public Ui::Align
         QTimer m_AlignTimer;
 
         // Align Frame
-        AlignView *alignView { nullptr };
+        QSharedPointer<AlignView> m_AlignView;
 
         // FITS Viewer in case user want to display in it instead of internal view
         QPointer<FITSViewer> fv;
@@ -857,7 +860,7 @@ class Align : public QWidget, public Ui::Align
         QCPCurve *concentricRings { nullptr };
 
         // Telescope Settings
-        ISD::CCD::TelescopeType rememberTelescopeType = { ISD::CCD::TELESCOPE_UNKNOWN };
+        ISD::Camera::TelescopeType rememberTelescopeType = { ISD::Camera::TELESCOPE_UNKNOWN };
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         double primaryEffectiveFL = -1, guideEffectiveFL = -1;
         bool m_isRateSynced = false;
