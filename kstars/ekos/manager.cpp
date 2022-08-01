@@ -1318,6 +1318,7 @@ void Manager::processNewDevice(ISD::GenericDevice * device)
     connect(device, &ISD::GenericDevice::newFilterWheel, this, &Ekos::Manager::addFilterWheel);
     connect(device, &ISD::GenericDevice::newFocuser, this, &Ekos::Manager::addFocuser);
     connect(device, &ISD::GenericDevice::newDome, this, &Ekos::Manager::addDome);
+    connect(device, &ISD::GenericDevice::newRotator, this, &Ekos::Manager::addRotator);
     connect(device, &ISD::GenericDevice::newWeather, this, &Ekos::Manager::addWeather);
     connect(device, &ISD::GenericDevice::newDustCap, this, &Ekos::Manager::addDustCap);
     connect(device, &ISD::GenericDevice::newLightBox, this, &Ekos::Manager::addLightBox);
@@ -1505,8 +1506,6 @@ void Manager::deviceDisconnected()
 
 void Manager::addMount(ISD::Mount * device)
 {
-    appendLogText(i18n("%1 is online.", device->getDeviceName()));
-
     initMount();
 
     mountProcess->addMount(device);
@@ -1517,20 +1516,18 @@ void Manager::addMount(ISD::Mount * device)
     mountProcess->setTelescopeInfo(QList<double>() << primaryScopeFL << primaryScopeAperture << guideScopeFL <<
                                    guideScopeAperture);
 
-    if (guideProcess.get() != nullptr)
-    {
-        guideProcess->addMount(device);
-        guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
-    }
+    initGuide();
+    guideProcess->addMount(device);
+    guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
 
-    if (alignProcess.get() != nullptr)
-    {
-        alignProcess->addMount(device);
-        alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
-    }
+    initAlign();
+    alignProcess->addMount(device);
+    alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
 
     ekosLiveClient->message()->sendMounts();
     ekosLiveClient->message()->sendScopes();
+
+    appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addCamera(ISD::Camera * device)
@@ -1597,22 +1594,11 @@ void Manager::addCamera(ISD::Camera * device)
     ekosLiveClient.get()->message()->sendCameras();
     ekosLiveClient.get()->media()->registerCameras();
 
-    if (captureProcess.get() != nullptr)
-        captureProcess->syncCameraInfo();
-
-    if (focusProcess.get() != nullptr)
-        focusProcess->syncCCDControls();
-
-    if (alignProcess.get() != nullptr)
-        alignProcess->syncCameraControls();
-
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addFilterWheel(ISD::FilterWheel * device)
 {
-    appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
-
     initCapture();
 
     captureProcess->addFilterWheel(device);
@@ -1627,6 +1613,8 @@ void Manager::addFilterWheel(ISD::FilterWheel * device)
 
     ekosLiveClient.get()->message()->sendFilterWheels();
     filterManager.data()->initFilterProperties();
+
+    appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
 }
 
 void Manager::addFocuser(ISD::Focuser *device)
@@ -1647,11 +1635,11 @@ void Manager::addFocuser(ISD::Focuser *device)
 
 void Manager::addRotator(ISD::Rotator *device)
 {
-    if (captureProcess.get() != nullptr)
-        captureProcess->addRotator(device);
+    initCapture();
+    captureProcess->addRotator(device);
 
-    if (alignProcess.get() != nullptr)
-        alignProcess->addRotator(device);
+    initAlign();
+    alignProcess->addRotator(device);
 
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
 }
@@ -1662,15 +1650,15 @@ void Manager::addDome(ISD::Dome * device)
 
     domeProcess->addDome(device);
 
-    if (captureProcess.get() != nullptr)
-        captureProcess->addDome(device);
+    initCapture();
+    captureProcess->addDome(device);
 
-    if (alignProcess.get() != nullptr)
-        alignProcess->addDome(device);
-
-    appendLogText(i18n("%1 is online.", device->getDeviceName()));
+    initAlign();
+    alignProcess->addDome(device);
 
     ekosLiveClient.get()->message()->sendDomes();
+
+    appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addWeather(ISD::Weather * device)
@@ -1679,18 +1667,18 @@ void Manager::addWeather(ISD::Weather * device)
 
     weatherProcess->addWeather(device);
 
-    if (focusProcess)
-        focusProcess->addTemperatureSource(device->genericDevice());
+    initFocus();
+    focusProcess->addTemperatureSource(device->genericDevice());
 
-    appendLogText(i18n("%1 is online.", device->getDeviceName()));
+    appendLogText(i18n("%1 Weather is online.", device->getDeviceName()));
 }
 
 void Manager::addGPS(ISD::GPS * device)
 {
-    appendLogText(i18n("%1 GPS is online.", device->getDeviceName()));
+    initMount();
+    mountProcess->addGPS(device);
 
-    if (mountProcess.get() != nullptr)
-        mountProcess->addGPS(device);
+    appendLogText(i18n("%1 GPS is online.", device->getDeviceName()));
 }
 
 void Manager::addDustCap(ISD::DustCap * device)
@@ -1699,19 +1687,21 @@ void Manager::addDustCap(ISD::DustCap * device)
 
     dustCapProcess->addDustCap(device);
 
-    appendLogText(i18n("%1 is online.", device->getDeviceName()));
-
-    if (captureProcess.get() != nullptr)
-        captureProcess->addDustCap(device);
+    initCapture();
+    captureProcess->addDustCap(device);
 
     ekosLiveClient.get()->message()->sendCaps();
     ekosLiveClient.get()->message()->sendDomes();
+
+    appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
 }
 
 void Manager::addLightBox(ISD::LightBox * device)
 {
-    if (captureProcess.get() != nullptr)
-        captureProcess->addLightBox(device);
+    initCapture();
+    captureProcess->addLightBox(device);
+
+    appendLogText(i18n("%1 Light box is online.", device->getDeviceName()));
 }
 
 void Manager::removeDevice(ISD::GenericDevice * device)
@@ -1909,7 +1899,8 @@ void Manager::processTabChange()
 
     if (alignProcess.get() && alignProcess.get() == currentWidget)
     {
-        if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && mountProcess->isEnabled() && alignProcess->isParserOK())
+        if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && mountProcess->isEnabled()
+                && alignProcess->isParserOK())
             alignProcess->setEnabled(true);
 
         alignProcess->checkCamera();
@@ -2000,7 +1991,6 @@ void Manager::initCapture()
 
     captureProcess.reset(new Capture());
     emit newModule("Capture");
-
 
     captureProcess->setEnabled(false);
     capturePreview->shareCaptureProcess(captureProcess.get());
