@@ -175,8 +175,11 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
                 Qt::UniqueConnection);
         connect(m_ActiveRotator, &ISD::Rotator::reverseToggled, this, &CaptureDeviceAdaptor::rotatorReverseToggled,
                 Qt::UniqueConnection);
-    }
 
+        emit newRotatorAngle(device->absoluteAngle(), device->absoluteAngleState());
+        emit rotatorReverseToggled(device->isReversed());
+
+    }
 }
 
 void CaptureDeviceAdaptor::connectRotator()

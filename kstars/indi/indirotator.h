@@ -23,16 +23,17 @@ class Rotator : public ConcreteDevice
     public:
         explicit Rotator(GenericDevice *parent) : ConcreteDevice(parent) {}
 
+        virtual void registerProperty(INDI::Property prop) override;
         virtual void processNumber(INumberVectorProperty *nvp) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
 
-    bool setAbsoluteAngle(double angle);
-    bool setAbsoluteSteps(uint32_t steps);
-    bool setReversed(bool enabled);
+        bool setAbsoluteAngle(double angle);
+        bool setAbsoluteSteps(uint32_t steps);
+        bool setReversed(bool enabled);
 
-    bool isReversed() const {return m_Reversed;}
-    double absoluteAngle() const {return m_AbsoluteAngle;}
-    IPState absoluteAngleState() const {return m_AbsoluteAngleState;}
+        bool isReversed() const {return m_Reversed;}
+        double absoluteAngle() const {return m_AbsoluteAngle;}
+        IPState absoluteAngleState() const {return m_AbsoluteAngleState;}
 
     signals:
         void newAbsoluteAngle(double value, IPState state);
