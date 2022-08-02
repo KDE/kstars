@@ -129,6 +129,9 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     QList<FITSImage::Star> stars;
     const bool runHFR = group != Ekos::AlignProfiles;
 
+    solver->setLogLevel(SSolver::LOG_NONE);
+    solver->setSSLogLevel(SSolver::LOG_OFF);
+    
     if (boundary.isValid())
         solver->extract(runHFR, boundary);
     else
