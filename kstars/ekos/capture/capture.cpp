@@ -2562,9 +2562,11 @@ void Capture::captureImage()
     }
 
     // If using DSLR, make sure it is set to correct transfer format
-    m_captureDeviceAdaptor->getActiveCamera()->setEncodingFormat(activeJob->getCoreProperty(SequenceJob::SJ_Encoding).toString());
+    m_captureDeviceAdaptor->getActiveCamera()->setEncodingFormat(activeJob->getCoreProperty(
+                SequenceJob::SJ_Encoding).toString());
 
-    connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this, &Ekos::Capture::setExposureProgress,
+    connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
+            &Ekos::Capture::setExposureProgress,
             Qt::UniqueConnection);
 
     // necessary since the status widget doesn't store the calibration stage
@@ -3716,7 +3718,8 @@ void Capture::executeJob()
     if (activeJob->getCoreProperty(SequenceJob::SJ_DarkFlat).toBool())
     {
         // If we found a prior exposure, and current upload more is not local, then update full prefix
-        if (setDarkFlatExposure(activeJob) && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+        if (setDarkFlatExposure(activeJob)
+                && m_captureDeviceAdaptor->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
         {
             auto placeholderPath = Ekos::PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
@@ -4205,10 +4208,11 @@ int Capture::getTotalFramesCount(QString signature)
 
 void Capture::addRotator(ISD::Rotator * device)
 {
-    m_captureDeviceAdaptor->setRotator(device);
     connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::rotatorReverseToggled, this,
             &Capture::setRotatorReversed,
             Qt::UniqueConnection);
+
+    m_captureDeviceAdaptor->setRotator(device);
     rotatorB->setEnabled(true);
 }
 
