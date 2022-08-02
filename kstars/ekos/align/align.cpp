@@ -417,6 +417,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 
 Align::~Align()
 {
+    if (m_StellarSolver.get() != nullptr)
+        disconnect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
+
     if (alignWidget->parent() == nullptr)
         toggleAlignWidgetFullScreen();
 
@@ -2028,8 +2031,11 @@ void Align::startSolving()
 
         if(Options::alignmentLogging())
         {
-            m_StellarSolver->setLogLevel(static_cast<SSolver::logging_level>(Options::loggerLevel()));
-            m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
+            // Not trusting SSolver logging right now (Hy Aug 1, 2021)
+            // m_StellarSolver->setLogLevel(static_cast<SSolver::logging_level>(Options::loggerLevel()));
+            // m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
+            m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
+            m_StellarSolver->setSSLogLevel(SSolver::LOG_OFF);
             if(Options::astrometryLogToFile())
             {
                 m_StellarSolver->setProperty("LogToFile", true);
