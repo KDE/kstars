@@ -2086,7 +2086,7 @@ void Align::startSolving()
 
         if(Options::alignmentLogging())
         {
-            // Not trusting SSolver logging right now (Hy Aug 1, 2021)
+            // Not trusting SSolver logging right now (Hy Aug 1, 2022)
             // m_StellarSolver->setLogLevel(static_cast<SSolver::logging_level>(Options::loggerLevel()));
             // m_StellarSolver->setSSLogLevel(SSolver::LOG_NORMAL);
             m_StellarSolver->setLogLevel(SSolver::LOG_NONE);
