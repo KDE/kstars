@@ -3812,10 +3812,10 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         }
     }
 
-    // We don't enforce limit on previews
+    // We don't enforce limit on previews or non-LIGHT frames
     if (m_LimitsUI->limitGuideDeviationS->isChecked() == false || (activeJob
             && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
-                || activeJob->getExposeLeft() == 0.0)))
+                || activeJob->getExposeLeft() == 0.0 || activeJob->getFrameType() != FRAME_LIGHT)))
         return;
 
     // If we have an active busy job, let's abort it if guiding deviation is exceeded.
@@ -3854,7 +3854,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     // Find the first aborted job
     SequenceJob * abortedJob = nullptr;
-    for(SequenceJob * job : jobs)
+    for(auto &job : jobs)
     {
         if (job->getStatus() == JOB_ABORTED)
         {
@@ -5664,7 +5664,8 @@ void Capture::processGuidingFailed()
     }
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
     else if (isGuidingOn() && meridianFlipStage == MF_NONE &&
-             ((activeJob && activeJob->getStatus() == JOB_BUSY) ||
+             // JM 2022.08.03: Only abort if the current job is LIGHT. For calibration frames, we can ignore guide failures.
+             ((activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT) ||
               this->m_State == CAPTURE_SUSPENDED || this->m_State == CAPTURE_PAUSED))
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
