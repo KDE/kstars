@@ -288,13 +288,55 @@ class Capture : public QWidget, public Ui::Capture
 
         /** @}*/
 
-        void addCamera(ISD::Camera *device);
-        void addFilterWheel(ISD::FilterWheel *device);
-        void addDome(ISD::Dome *device);
-        void addDustCap(ISD::DustCap *device);
-        void addLightBox(ISD::LightBox *device);
-        void addMount(ISD::Mount *device);
-        void addRotator(ISD::Rotator *device);
+
+        /**
+         * @brief Add new Camera
+         * @param device pointer to camera device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addCamera(ISD::Camera *device);
+
+        /**
+         * @brief Add new Filter Wheel
+         * @param device pointer to filter wheel device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addFilterWheel(ISD::FilterWheel *device);
+
+        /**
+         * @brief Add new Dome
+         * @param device pointer to Dome device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addDome(ISD::Dome *device);
+
+        /**
+         * @brief Add new Dust Cap
+         * @param device pointer to Dust Cap device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addDustCap(ISD::DustCap *device);
+
+        /**
+         * @brief Add new Light Box
+         * @param device pointer to Light Box device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addLightBox(ISD::LightBox *device);
+
+        /**
+         * @brief Add new Mount
+         * @param device pointer to Mount device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addMount(ISD::Mount *device);
+
+        /**
+         * @brief Add new Rotator
+         * @param device pointer to rotator device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addRotator(ISD::Rotator *device);
 
         void removeDevice(ISD::GenericDevice *device);
         void addGuideHead(ISD::Camera *device);

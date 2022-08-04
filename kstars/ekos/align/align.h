@@ -209,28 +209,37 @@ class Align : public QWidget, public Ui::Align
         /**
              * @brief Add Camera to the list of available Cameras.
              * @param device pointer to camera device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addCamera(ISD::Camera *device);
+        bool addCamera(ISD::Camera *device);
 
         /**
-             * @brief addFilter Add filter to the list of available filters.
-             * @param newFilter pointer to filter device.
+             * @brief addFilterWheel Add new filter wheel filter device.
+             * @param device pointer to filter device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addFilterWheel(ISD::FilterWheel *device);
+        bool addFilterWheel(ISD::FilterWheel *device);
 
         /**
-             * @brief Set the current telescope
-             * @param newTelescope pointer to telescope device.
+             * @brief Add new mount
+             * @param device pointer to mount device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addMount(ISD::Mount *device);
+        bool addMount(ISD::Mount *device);
 
         /**
-             * @brief Set the current dome
-             * @param newDome pointer to telescope device.
+             * @brief Add new Dome
+             * @param device pointer to dome device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addDome(ISD::Dome *device);
+        bool addDome(ISD::Dome *device);
 
-        void addRotator(ISD::Rotator *device);
+        /**
+             * @brief Add new Rotator
+             * @param device pointer to rotator device.
+             * @return True if added successfully, false if duplicate or failed to add.
+             */
+        bool addRotator(ISD::Rotator *device);
 
         void removeDevice(ISD::GenericDevice *device);
 

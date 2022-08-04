@@ -16,7 +16,14 @@ ConcreteDevice::ConcreteDevice(GenericDevice *parent) : GDInterface(parent), m_P
     m_Name(parent->getDeviceName())
 {
     // Signal --> Signal
-    connect(parent, &GenericDevice::Connected, this, &ConcreteDevice::Connected);
+    connect(parent, &GenericDevice::Connected, this, [this]()
+    {
+        m_ReadyTimer.reset(new QTimer(this));
+        m_ReadyTimer->setInterval(250);
+        m_ReadyTimer->setSingleShot(true);
+        connect(m_ReadyTimer.get(), &QTimer::timeout, this, &ConcreteDevice::ready);
+        emit Connected();
+    });
     connect(parent, &GenericDevice::Disconnected, this, &ConcreteDevice::Disconnected);
 
     // Signal --> Signal
@@ -31,25 +38,51 @@ ConcreteDevice::ConcreteDevice(GenericDevice *parent) : GDInterface(parent), m_P
     connect(parent, &GenericDevice::BLOBUpdated, this, &ConcreteDevice::BLOBUpdated);
 
     // Signal --> Slots
-    connect(parent, &GenericDevice::propertyDefined, this, &ConcreteDevice::registerProperty);
+    connect(parent, &GenericDevice::propertyDefined, this, [this](INDI::Property value)
+    {
+        if (m_ReadyTimer)
+            m_ReadyTimer->start();
+        registerProperty(value);
+    });
     connect(parent, &GenericDevice::propertyDeleted, this, &ConcreteDevice::removeProperty);
     connect(parent, &GenericDevice::switchUpdated, this, &ConcreteDevice::processSwitch);
     connect(parent, &GenericDevice::textUpdated, this, &ConcreteDevice::processText);
     connect(parent, &GenericDevice::numberUpdated, this, &ConcreteDevice::processNumber);
     connect(parent, &GenericDevice::lightUpdated, this, &ConcreteDevice::processLight);
-    connect(parent, &GenericDevice::BLOBUpdated, this, &ConcreteDevice::processBLOB);
 }
 
-void ConcreteDevice::makeReady()
+void ConcreteDevice::registeProperties()
+{
+    // Register all properties first
+    for (auto &oneProperty : m_Parent->getProperties())
+        registerProperty(oneProperty);
+}
+
+void ConcreteDevice::processProperties()
 {
     // Register all properties first
     for (auto &oneProperty : m_Parent->getProperties())
     {
-        registerProperty(oneProperty);
+        switch (oneProperty.getType())
+        {
+            case INDI_SWITCH:
+                processSwitch(oneProperty.getSwitch());
+                break;
+            case INDI_NUMBER:
+                processNumber(oneProperty.getNumber());
+                break;
+            case INDI_TEXT:
+                processText(oneProperty.getText());
+                break;
+            case INDI_LIGHT:
+                processLight(oneProperty.getLight());
+                break;
+            default:
+                break;
+        }
     }
-    // Now we're ready
-    emit ready();
 }
+
 INDI::PropertyView<INumber> *ConcreteDevice::getNumber(const QString &name) const
 {
     return m_Parent->getBaseDevice()->getNumber(name.toLatin1().constData());

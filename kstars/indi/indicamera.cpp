@@ -649,11 +649,11 @@ QPointer<FITSViewer> Camera::getFITSViewer()
     return m_FITSViewerWindow;
 }
 
-void Camera::processBLOB(IBLOB *bp)
+bool Camera::processBLOB(IBLOB *bp)
 {
     // Ignore write-only BLOBs since we only receive it for state-change
     if (bp->bvp->p == IP_WO || bp->size == 0)
-        return;
+        return false;
 
     BType = BLOB_OTHER;
 
@@ -663,7 +663,7 @@ void Camera::processBLOB(IBLOB *bp)
     if (format.contains("stream") && streamWindow)
     {
         processStream(bp);
-        return;
+        return true;
     }
 
     // Format without leading . (.jpg --> jpg)
@@ -679,9 +679,8 @@ void Camera::processBLOB(IBLOB *bp)
 
     if (BType == BLOB_OTHER)
     {
-        m_Parent->processBLOB(bp);
         emit newImage(nullptr);
-        return;
+        return false;
     }
 
     CameraChip *targetChip = nullptr;
@@ -731,7 +730,7 @@ void Camera::processBLOB(IBLOB *bp)
                                             i18n("Image Write Failed"), 30);
 
             emit BLOBUpdated(nullptr);
-            return;
+            return true;
         }
     }
     else
@@ -845,7 +844,7 @@ void Camera::processBLOB(IBLOB *bp)
     {
         emit BLOBUpdated(bp);
         emit newImage(nullptr);
-        return;
+        return true;
     }
 
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->blob), bp->size);
@@ -854,10 +853,11 @@ void Camera::processBLOB(IBLOB *bp)
     if (!imageData->loadFromBuffer(buffer, shortFormat, filename))
     {
         emit error(ERROR_LOAD);
-        return;
+        return true;
     }
 
     handleImage(targetChip, filename, bp, imageData);
+    return true;
 }
 
 void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB *bp, QSharedPointer<FITSData> data)

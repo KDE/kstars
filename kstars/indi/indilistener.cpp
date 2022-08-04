@@ -119,11 +119,35 @@ void INDIListener::processDevice(DeviceInfo *dv)
     auto gd = new ISD::GenericDevice(*dv, cm);
     devices.append(gd);
 
-    // Register all existing properties
-    for (const auto &oneProperty : dv->getBaseDevice()->getProperties())
-        gd->registerProperty(oneProperty);
-
     emit newDevice(gd);
+
+    // If already connected, we need to process all the properties as well
+    auto isConnected = gd->isConnected();
+    // Register all existing properties
+    for (auto &oneProperty : dv->getBaseDevice()->getProperties())
+    {
+        gd->registerProperty(oneProperty);
+        if (isConnected)
+        {
+            switch (oneProperty.getType())
+            {
+                case INDI_SWITCH:
+                    gd->processSwitch(oneProperty.getSwitch());
+                    break;
+                case INDI_NUMBER:
+                    gd->processNumber(oneProperty.getNumber());
+                    break;
+                case INDI_TEXT:
+                    gd->processText(oneProperty.getText());
+                    break;
+                case INDI_LIGHT:
+                    gd->processLight(oneProperty.getLight());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 void INDIListener::removeDevice(const QString &deviceName)

@@ -117,23 +117,17 @@ void GenericDevice::registerProperty(INDI::Property prop)
     if (!prop->getRegistered())
         return;
 
-    if (isConnected())
-        m_ReadyTimer->start();
+    m_ReadyTimer->start();
 
     const QString name = prop->getName();
-
-    emit propertyDefined(prop);
 
     // In case driver already started
     if (name == "CONNECTION")
     {
         auto svp = prop->getSwitch();
 
-        if (!svp)
-            return;
-
         // Still connecting/disconnecting...
-        if (svp->getState() == IPS_BUSY)
+        if (!svp || svp->getState() == IPS_BUSY)
             return;
 
         auto conSP = svp->findWidgetByName("CONNECT");
@@ -141,12 +135,16 @@ void GenericDevice::registerProperty(INDI::Property prop)
         if (!conSP)
             return;
 
-        if (svp->getState() == IPS_OK && conSP->getState() == ISS_ON)
+        if (m_Connected == false && svp->getState() == IPS_OK && conSP->getState() == ISS_ON)
         {
             m_Connected = true;
             emit Connected();
             createDeviceInit();
-
+        }
+        else if (m_Connected && conSP->getState() == ISS_OFF)
+        {
+            m_Connected = false;
+            emit Disconnected();
         }
     }
     else if (name == "DRIVER_INFO")
@@ -216,6 +214,8 @@ void GenericDevice::registerProperty(INDI::Property prop)
             }
         }
     }
+
+    emit propertyDefined(prop);
 }
 
 void GenericDevice::removeProperty(const QString &name)
@@ -236,7 +236,7 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
         if (svp->s == IPS_BUSY)
             return;
 
-        if (svp->s == IPS_OK && conSP->s == ISS_ON)
+        if (m_Connected == false && svp->s == IPS_OK && conSP->s == ISS_ON)
         {
             m_Connected = true;
             emit Connected();
@@ -252,7 +252,7 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
                 }
             }
         }
-        else
+        else if (m_Connected && conSP->s == ISS_OFF)
         {
             m_Connected = false;
             emit Disconnected();
@@ -415,11 +415,18 @@ void GenericDevice::processMessage(int messageID)
     emit messageUpdated(messageID);
 }
 
-void GenericDevice::processBLOB(IBLOB *bp)
+bool GenericDevice::processBLOB(IBLOB *bp)
 {
     // Ignore write-only BLOBs since we only receive it for state-change
     if (bp->bvp->p == IP_WO)
-        return;
+        return false;
+
+    // If any concrete device processed the blob then we return
+    for (auto oneConcreteDevice : m_ConcreteDevices)
+    {
+        if (oneConcreteDevice->processBLOB(bp))
+            return true;
+    }
 
     INDIDataTypes dataType;
 
@@ -489,7 +496,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
         if (!fits_temp_file.open(QIODevice::WriteOnly))
         {
             qCCritical(KSTARS_INDI) << "GenericDevice Error: Unable to open " << fits_temp_file.fileName();
-            return;
+            return false;
         }
 
         QDataStream out(&fits_temp_file);
@@ -515,6 +522,7 @@ void GenericDevice::processBLOB(IBLOB *bp)
         KStars::Instance()->statusBar()->showMessage(i18n("Data file saved to %1", filename), 0);
 
     emit BLOBUpdated(bp);
+    return true;
 }
 
 bool GenericDevice::setConfig(INDIConfig tConfig)
@@ -915,8 +923,20 @@ void GenericDevice::generateDevices()
     {
         auto mount = new ISD::Mount(this);
         m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].reset(mount);
-        mount->makeReady();
-        emit newMount(mount);
+        mount->registeProperties();
+        if (m_Connected)
+        {
+            mount->processProperties();
+            emit newMount(mount);
+        }
+        else
+        {
+            connect(mount, &ISD::ConcreteDevice::ready, this, [this, mount]()
+            {
+                emit newMount(mount);
+            });
+        }
+
     }
 
     // Camera
@@ -924,8 +944,19 @@ void GenericDevice::generateDevices()
     {
         auto camera = new ISD::Camera(this);
         m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].reset(camera);
-        camera->makeReady();
-        emit newCamera(camera);
+        camera->registeProperties();
+        if (m_Connected)
+        {
+            camera->processProperties();
+            emit newCamera(camera);
+        }
+        else
+        {
+            connect(camera, &ISD::ConcreteDevice::ready, this, [this, camera]()
+            {
+                emit newCamera(camera);
+            });
+        }
     }
 
     // Guider
@@ -933,8 +964,19 @@ void GenericDevice::generateDevices()
     {
         auto guider = new ISD::Guider(this);
         m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].reset(guider);
-        guider->makeReady();
-        emit newGuider(guider);
+        guider->registeProperties();
+        if (m_Connected)
+        {
+            guider->processProperties();
+            emit newGuider(guider);
+        }
+        else
+        {
+            connect(guider, &ISD::ConcreteDevice::ready, this, [this, guider]()
+            {
+                emit newGuider(guider);
+            });
+        }
     }
 
     // Focuser
@@ -942,8 +984,19 @@ void GenericDevice::generateDevices()
     {
         auto focuser = new ISD::Focuser(this);
         m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].reset(focuser);
-        focuser->makeReady();
-        emit newFocuser(focuser);
+        focuser->registeProperties();
+        if (m_Connected)
+        {
+            focuser->processProperties();
+            emit newFocuser(focuser);
+        }
+        else
+        {
+            connect(focuser, &ISD::ConcreteDevice::ready, this, [this, focuser]()
+            {
+                emit newFocuser(focuser);
+            });
+        }
     }
 
     // Filter Wheel
@@ -951,8 +1004,19 @@ void GenericDevice::generateDevices()
     {
         auto filterWheel = new ISD::FilterWheel(this);
         m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].reset(filterWheel);
-        filterWheel->makeReady();
-        emit newFilterWheel(filterWheel);
+        filterWheel->registeProperties();
+        if (m_Connected)
+        {
+            filterWheel->processProperties();
+            emit newFilterWheel(filterWheel);
+        }
+        else
+        {
+            connect(filterWheel, &ISD::ConcreteDevice::ready, this, [this, filterWheel]()
+            {
+                emit newFilterWheel(filterWheel);
+            });
+        }
     }
 
     // Dome
@@ -960,8 +1024,19 @@ void GenericDevice::generateDevices()
     {
         auto dome = new ISD::Dome(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(dome);
-        dome->makeReady();
-        emit newDome(dome);
+        dome->registeProperties();
+        if (m_Connected)
+        {
+            dome->processProperties();
+            emit newDome(dome);
+        }
+        else
+        {
+            connect(dome, &ISD::ConcreteDevice::ready, this, [this, dome]()
+            {
+                emit newDome(dome);
+            });
+        }
     }
 
     // GPS
@@ -969,8 +1044,19 @@ void GenericDevice::generateDevices()
     {
         auto gps = new ISD::GPS(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(gps);
-        gps->makeReady();
-        emit newGPS(gps);
+        gps->registeProperties();
+        if (m_Connected)
+        {
+            gps->processProperties();
+            emit newGPS(gps);
+        }
+        else
+        {
+            connect(gps, &ISD::ConcreteDevice::ready, this, [this, gps]()
+            {
+                emit newGPS(gps);
+            });
+        }
     }
 
     // Weather
@@ -978,8 +1064,19 @@ void GenericDevice::generateDevices()
     {
         auto weather = new ISD::Weather(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(weather);
-        weather->makeReady();
-        emit newWeather(weather);
+        weather->registeProperties();
+        if (m_Connected)
+        {
+            weather->processProperties();
+            emit newWeather(weather);
+        }
+        else
+        {
+            connect(weather, &ISD::ConcreteDevice::ready, this, [this, weather]()
+            {
+                emit newWeather(weather);
+            });
+        }
     }
 
     // Adaptive Optics
@@ -987,8 +1084,19 @@ void GenericDevice::generateDevices()
     {
         auto ao = new ISD::AdaptiveOptics(this);
         m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].reset(ao);
-        ao->makeReady();
-        emit newAdaptiveOptics(ao);
+        ao->registeProperties();
+        if (m_Connected)
+        {
+            ao->processProperties();
+            emit newAdaptiveOptics(ao);
+        }
+        else
+        {
+            connect(ao, &ISD::ConcreteDevice::ready, this, [this, ao]()
+            {
+                emit newAdaptiveOptics(ao);
+            });
+        }
     }
 
     // Dust Cap
@@ -996,8 +1104,19 @@ void GenericDevice::generateDevices()
     {
         auto dustCap = new ISD::DustCap(this);
         m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].reset(dustCap);
-        dustCap->makeReady();
-        emit newDustCap(dustCap);
+        dustCap->registeProperties();
+        if (m_Connected)
+        {
+            dustCap->processProperties();
+            emit newDustCap(dustCap);
+        }
+        else
+        {
+            connect(dustCap, &ISD::ConcreteDevice::ready, this, [this, dustCap]()
+            {
+                emit newDustCap(dustCap);
+            });
+        }
     }
 
     // Light box
@@ -1005,8 +1124,19 @@ void GenericDevice::generateDevices()
     {
         auto lightBox = new ISD::LightBox(this);
         m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].reset(lightBox);
-        lightBox->makeReady();
-        emit newLightBox(lightBox);
+        lightBox->registeProperties();
+        if (m_Connected)
+        {
+            lightBox->processProperties();
+            emit newLightBox(lightBox);
+        }
+        else
+        {
+            connect(lightBox, &ISD::ConcreteDevice::ready, this, [this, lightBox]()
+            {
+                emit newLightBox(lightBox);
+            });
+        }
     }
 
     // Rotator
@@ -1014,8 +1144,19 @@ void GenericDevice::generateDevices()
     {
         auto rotator = new ISD::Rotator(this);
         m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].reset(rotator);
-        rotator->makeReady();
-        emit newRotator(rotator);
+        rotator->registeProperties();
+        if (m_Connected)
+        {
+            rotator->processProperties();
+            emit newRotator(rotator);
+        }
+        else
+        {
+            connect(rotator, &ISD::ConcreteDevice::ready, this, [this, rotator]()
+            {
+                emit newRotator(rotator);
+            });
+        }
     }
 
     // Detector
@@ -1023,8 +1164,19 @@ void GenericDevice::generateDevices()
     {
         auto detector = new ISD::Detector(this);
         m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].reset(detector);
-        detector->makeReady();
-        emit newDetector(detector);
+        detector->registeProperties();
+        if (m_Connected)
+        {
+            detector->processProperties();
+            emit newDetector(detector);
+        }
+        else
+        {
+            connect(detector, &ISD::ConcreteDevice::ready, this, [this, detector]()
+            {
+                emit newDetector(detector);
+            });
+        }
     }
 
     // Spectrograph
@@ -1032,8 +1184,19 @@ void GenericDevice::generateDevices()
     {
         auto spectrograph = new ISD::Spectrograph(this);
         m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].reset(spectrograph);
-        spectrograph->makeReady();
-        emit newSpectrograph(spectrograph);
+        spectrograph->registeProperties();
+        if (m_Connected)
+        {
+            spectrograph->processProperties();
+            emit newSpectrograph(spectrograph);
+        }
+        else
+        {
+            connect(spectrograph, &ISD::ConcreteDevice::ready, this, [this, spectrograph]()
+            {
+                emit newSpectrograph(spectrograph);
+            });
+        }
     }
 
     // Correlator
@@ -1041,8 +1204,19 @@ void GenericDevice::generateDevices()
     {
         auto correlator = new ISD::Correlator(this);
         m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].reset(correlator);
-        correlator->makeReady();
-        emit newCorrelator(correlator);
+        correlator->registeProperties();
+        if (m_Connected)
+        {
+            correlator->processProperties();
+            emit newCorrelator(correlator);
+        }
+        else
+        {
+            connect(correlator, &ISD::ConcreteDevice::ready, this, [this, correlator]()
+            {
+                emit newCorrelator(correlator);
+            });
+        }
     }
 
     // Auxiliary
@@ -1050,8 +1224,19 @@ void GenericDevice::generateDevices()
     {
         auto aux = new ISD::Auxiliary(this);
         m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].reset(aux);
-        aux->makeReady();
-        emit newAuxiliary(aux);
+        aux->registeProperties();
+        if (m_Connected)
+        {
+            aux->processProperties();
+            emit newAuxiliary(aux);
+        }
+        else
+        {
+            connect(aux, &ISD::ConcreteDevice::ready, this, [this, aux]()
+            {
+                emit newAuxiliary(aux);
+            });
+        }
     }
 }
 

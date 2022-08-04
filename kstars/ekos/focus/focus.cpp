@@ -406,12 +406,12 @@ void Focus::syncCameraInfo()
     }
 }
 
-void Focus::addFilterWheel(ISD::FilterWheel *filterWheel)
+bool Focus::addFilterWheel(ISD::FilterWheel *device)
 {
     for (auto &oneFilter : m_FilterWheels)
     {
-        if (oneFilter->getDeviceName() == filterWheel->getDeviceName())
-            return;
+        if (oneFilter->getDeviceName() == device->getDeviceName())
+            return false;
     }
 
     FilterCaptureLabel->setEnabled(true);
@@ -420,9 +420,9 @@ void Focus::addFilterWheel(ISD::FilterWheel *filterWheel)
     FilterPosCombo->setEnabled(true);
     filterManagerB->setEnabled(true);
 
-    FilterDevicesCombo->addItem(filterWheel->getDeviceName());
+    FilterDevicesCombo->addItem(device->getDeviceName());
 
-    m_FilterWheels.append(static_cast<ISD::FilterWheel *>(filterWheel));
+    m_FilterWheels.append(device);
 
     int filterWheelIndex = 1;
     if (Options::defaultFocusFilterWheel().isEmpty() == false)
@@ -435,17 +435,18 @@ void Focus::addFilterWheel(ISD::FilterWheel *filterWheel)
     FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
 
     emit settingsUpdated(getSettings());
+    return true;
 }
 
-void Focus::addTemperatureSource(ISD::GenericDevice *device)
+bool Focus::addTemperatureSource(ISD::GenericDevice *device)
 {
     if (!device)
-        return;
+        return false;
 
     for (auto &oneSource : m_TemperatureSources)
     {
         if (oneSource->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     m_TemperatureSources.append(device);
@@ -460,6 +461,7 @@ void Focus::addTemperatureSource(ISD::GenericDevice *device)
         temperatureSourceIndex = 0;
 
     checkTemperatureSource(temperatureSourceIndex);
+    return true;
 }
 
 void Focus::checkTemperatureSource(int index)
@@ -616,20 +618,22 @@ void Focus::checkFilter(int filterNum)
     exposureIN->setValue(m_FilterManager->getFilterExposure());
 }
 
-void Focus::addFocuser(ISD::Focuser *newFocuser)
+bool Focus::addFocuser(ISD::Focuser *device)
 {
-    ISD::Focuser *oneFocuser = static_cast<ISD::Focuser *>(newFocuser);
+    for (auto &oneFocuser : m_Focusers)
+    {
+        if (oneFocuser->getDeviceName() == device->getDeviceName())
+            return false;
+    }
 
-    if (m_Focusers.contains(oneFocuser))
-        return;
+    focuserCombo->addItem(device->getDeviceName());
 
-    focuserCombo->addItem(oneFocuser->getDeviceName());
+    m_Focusers.append(device);
 
-    m_Focusers.append(oneFocuser);
-
-    m_Focuser = oneFocuser;
+    m_Focuser = device;
 
     checkFocuser();
+    return true;
 }
 
 bool Focus::setFocuser(const QString &device)
@@ -762,13 +766,13 @@ void Focus::checkFocuser(int FocuserNum)
     resetButtons();
 }
 
-void Focus::addCamera(ISD::Camera *device)
+bool Focus::addCamera(ISD::Camera *device)
 {
     // No duplicates
     for (auto &oneCamera : m_Cameras)
     {
         if (oneCamera->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneCamera : m_Cameras)
@@ -780,6 +784,7 @@ void Focus::addCamera(ISD::Camera *device)
     CCDCaptureCombo->addItem(device->getDeviceName());
 
     checkCamera();
+    return true;
 }
 
 void Focus::getAbsFocusPosition()

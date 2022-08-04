@@ -225,13 +225,13 @@ Mount::~Mount()
     delete(currentTargetPosition);
 }
 
-void Mount::addMount(ISD::Mount *device)
+bool Mount::addMount(ISD::Mount *device)
 {
     // No duplicates
     for (auto &oneMount : m_Mounts)
     {
         if (oneMount->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneMount : m_Mounts)
@@ -296,15 +296,16 @@ void Mount::addMount(ISD::Mount *device)
 
     m_ParkStatus = m_Mount->parkStatus();
     emit newParkStatus(m_ParkStatus);
+    return true;
 }
 
-void Mount::addGPS(ISD::GPS * device)
+bool Mount::addGPS(ISD::GPS * device)
 {
     // No duplicates
     for (auto &oneGPS : m_GPSes)
     {
         if (oneGPS->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneGPS : m_GPSes)
@@ -336,6 +337,8 @@ void Mount::addGPS(ISD::GPS * device)
     }
     else
         executeSetGPS();
+
+    return true;
 }
 
 void Mount::syncGPS()

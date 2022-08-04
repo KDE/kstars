@@ -382,6 +382,7 @@ class Manager : public QDialog, public Ui::Manager
         void processNewDevice(ISD::GenericDevice *device);
         void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
+        void setDeviceReady();
 
         void processNewNumber(INumberVectorProperty *nvp);
         void processNewText(ITextVectorProperty *tvp);
@@ -438,6 +439,7 @@ class Manager : public QDialog, public Ui::Manager
         void addLightBox(ISD::LightBox *device);
         void addGuider(ISD::Guider *device);
         void addGPS(ISD::GPS *device);
+        void syncModuleDevices();
 
         // Profiles
         void addProfile();
@@ -477,7 +479,7 @@ class Manager : public QDialog, public Ui::Manager
         void initMount();
         void initDome();
         void initWeather();
-        void initObservatory(Weather *weather, Dome *dome);
+        void initObservatory();
         void initDustCap();
 
         void loadDrivers();
@@ -571,6 +573,7 @@ class Manager : public QDialog, public Ui::Manager
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };
+        QString m_PrimaryCamera, m_GuideCamera;
 
         // Port Selector
         std::unique_ptr<Selector::Dialog> m_PortSelector;

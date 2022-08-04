@@ -35,7 +35,6 @@ class DustCap : public ConcreteDevice
             CAP_ERROR
         } Status;
 
-        virtual void registerProperty(INDI::Property prop) override;
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
 
         virtual bool hasLight();

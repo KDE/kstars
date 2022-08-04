@@ -74,7 +74,7 @@ class Camera : public ConcreteDevice
         void processSwitch(ISwitchVectorProperty *svp) override;
         void processText(ITextVectorProperty *tvp) override;
         void processNumber(INumberVectorProperty *nvp) override;
-        void processBLOB(IBLOB *bp) override;
+        bool processBLOB(IBLOB *bp) override;
 
         // Does it an on-chip dedicated guide head?
         bool hasGuideHead();

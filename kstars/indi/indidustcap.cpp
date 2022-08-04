@@ -24,12 +24,6 @@ DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
     qDBusRegisterMetaType<ISD::DustCap::Status>();
 }
 
-void DustCap::registerProperty(INDI::Property prop)
-{
-    if (!strcmp(prop->getName(), "CAP_PARK"))
-        processSwitch(prop.getSwitch());
-}
-
 void DustCap::processSwitch(ISwitchVectorProperty *svp)
 {
     if (!strcmp(svp->name, "CAP_PARK"))

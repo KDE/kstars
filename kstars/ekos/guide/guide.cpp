@@ -17,6 +17,7 @@
 #include "opsgpg.h"
 #include "Options.h"
 #include "indi/indiguider.h"
+#include "indi/indiadaptiveoptics.h"
 #include "auxiliary/QProgressIndicator.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -302,13 +303,13 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
     return exposureIN->getRecommendedValuesString();
 }
 
-void Guide::addCamera(ISD::Camera *device)
+bool Guide::addCamera(ISD::Camera *device)
 {
     // No duplicates
     for (auto &oneCamera : m_Cameras)
     {
         if (oneCamera->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneCamera : m_Cameras)
@@ -350,6 +351,7 @@ void Guide::addCamera(ISD::Camera *device)
 
     checkCamera();
     configurePHD2Camera();
+    return true;
 }
 
 void Guide::configurePHD2Camera()
@@ -428,10 +430,10 @@ void Guide::configurePHD2Camera()
     subFrameCheck->setChecked(Options::guideSubframeEnabled());
 }
 
-void Guide::addGuideHead(ISD::Camera *device)
+bool Guide::addGuideHead(ISD::Camera *device)
 {
     if (guiderType != GUIDE_INTERNAL)
-        return;
+        return false;
 
     m_Cameras.append(device);
 
@@ -441,15 +443,17 @@ void Guide::addGuideHead(ISD::Camera *device)
     {
         cameraCombo->addItem(guiderName);
     }
+
+    return true;
 }
 
-void Guide::addMount(ISD::Mount *device)
+bool Guide::addMount(ISD::Mount *device)
 {
     // No duplicates
     for (auto &oneMount : m_Mounts)
     {
         if (oneMount->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneMount : m_Mounts)
@@ -458,6 +462,7 @@ void Guide::addMount(ISD::Mount *device)
     m_Mount = device;
     m_Mounts.append(device);
     syncTelescopeInfo();
+    return true;
 }
 
 bool Guide::setCamera(const QString &device)
@@ -790,16 +795,16 @@ void Guide::updateGuideParams()
     }
 }
 
-void Guide::addGuider(ISD::Guider *device)
+bool Guide::addGuider(ISD::Guider *device)
 {
     if (guiderType != GUIDE_INTERNAL)
-        return;
+        return false;
 
     // No duplicates
     for (auto &oneGuider : m_Guiders)
     {
         if (oneGuider->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneGuider : m_Guiders)
@@ -810,6 +815,28 @@ void Guide::addGuider(ISD::Guider *device)
     guiderCombo->addItem(device->getDeviceName());
 
     setGuider(0);
+    return true;
+}
+
+bool Guide::addAdaptiveOptics(ISD::AdaptiveOptics *device)
+{
+    if (guiderType != GUIDE_INTERNAL)
+        return false;
+
+    // No duplicates
+    for (auto &oneAO : m_AdaptiveOptics)
+    {
+        if (oneAO->getDeviceName() == device->getDeviceName())
+            return false;
+    }
+
+    for (auto &oneAO : m_AdaptiveOptics)
+        oneAO->disconnect(this);
+
+    // FIXME AO are not yet utilized property in Guide module
+    m_AO = device;
+    m_AdaptiveOptics.append(device);
+    return true;
 }
 
 bool Guide::setGuider(const QString &device)
@@ -3284,6 +3311,18 @@ void Guide::removeDevice(ISD::GenericDevice *device)
                 m_Guider = nullptr;
             else
                 setGuider(guiderCombo->currentText());
+            break;
+        }
+    }
+
+    // Adaptive Optics
+    // FIXME AO are not yet utilized property in Guide module
+    for (auto &oneAO : m_AdaptiveOptics)
+    {
+        if (oneAO->getDeviceName() == name)
+        {
+            m_AdaptiveOptics.removeAll(oneAO);
+            m_AO = nullptr;
             break;
         }
     }

@@ -820,13 +820,13 @@ void Align::checkCamera(int ccdNum)
     syncTelescopeInfo();
 }
 
-void Align::addCamera(ISD::Camera *device)
+bool Align::addCamera(ISD::Camera *device)
 {
     // No duplicates
     for (auto &oneCamera : m_Cameras)
     {
         if (oneCamera->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneCamera : m_Cameras)
@@ -840,15 +840,17 @@ void Align::addCamera(ISD::Camera *device)
     checkCamera();
 
     syncSettings();
+
+    return true;
 }
 
-void Align::addMount(ISD::Mount *device)
+bool Align::addMount(ISD::Mount *device)
 {
     // No duplicates
     for (auto &oneMount : m_Mounts)
     {
         if (oneMount->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneMount : m_Mounts)
@@ -874,15 +876,16 @@ void Align::addMount(ISD::Mount *device)
     }
 
     syncTelescopeInfo();
+    return true;
 }
 
-void Align::addDome(ISD::Dome *device)
+bool Align::addDome(ISD::Dome *device)
 {
     // No duplicates
     for (auto &oneDome : m_Domes)
     {
         if (oneDome->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     for (auto &oneDome : m_Domes)
@@ -891,6 +894,7 @@ void Align::addDome(ISD::Dome *device)
     m_Dome = device;
     m_Domes.append(device);
     connect(m_Dome, &ISD::Dome::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
+    return true;
 }
 
 void Align::removeDevice(ISD::GenericDevice *device)
@@ -3122,12 +3126,12 @@ void Align::setFOVTelescopeType(int index)
     FOVScopeCombo->setCurrentIndex(index);
 }
 
-void Align::addFilterWheel(ISD::FilterWheel *device)
+bool Align::addFilterWheel(ISD::FilterWheel *device)
 {
     for (auto filter : m_FilterWheels)
     {
         if (filter->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     FilterCaptureLabel->setEnabled(true);
@@ -3137,7 +3141,7 @@ void Align::addFilterWheel(ISD::FilterWheel *device)
 
     FilterDevicesCombo->addItem(device->getDeviceName());
 
-    m_FilterWheels.append(static_cast<ISD::FilterWheel *>(device));
+    m_FilterWheels.append(device);
 
     int filterWheelIndex = 1;
     if (Options::defaultAlignFilterWheel().isEmpty() == false)
@@ -3150,6 +3154,7 @@ void Align::addFilterWheel(ISD::FilterWheel *device)
     FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
 
     emit settingsUpdated(getSettings());
+    return true;
 }
 
 bool Align::setFilterWheel(const QString &device)
@@ -3483,10 +3488,18 @@ void Align::setAstrometryDevice(ISD::GenericDevice *device)
     }
 }
 
-void Align::addRotator(ISD::Rotator *device)
+bool Align::addRotator(ISD::Rotator *device)
 {
+    for (auto &oneRotator : m_Rotators)
+    {
+        if (oneRotator->getDeviceName() == device->getDeviceName())
+            return false;
+    }
+
+    m_Rotators.append(device);
     m_Rotator = device;
     connect(m_Rotator, &ISD::Rotator::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
+    return true;
 }
 
 void Align::refreshAlignOptions()

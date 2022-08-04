@@ -11,6 +11,8 @@
 #include "indistd.h"
 #include "indipropertyswitch.h"
 
+#include <QTimer>
+
 namespace ISD
 {
 
@@ -100,9 +102,10 @@ class ConcreteDevice : public GDInterface
         {
             Q_UNUSED(lvp)
         }
-        virtual void processBLOB(IBLOB *bp) override
+        virtual bool processBLOB(IBLOB *bp) override
         {
             Q_UNUSED(bp)
+            return false;
         }
         virtual void processMessage(int messageID) override
         {
@@ -110,9 +113,14 @@ class ConcreteDevice : public GDInterface
         }
 
         /**
-         * @brief makeReady Register all properties and emit the ready() signal.
+         * @brief Register all properties.
          */
-        void makeReady();
+        void registeProperties();
+
+        /**
+         * @brief processProperties Process all properties
+         */
+        void processProperties();
 
     signals:
         // Connection
@@ -135,6 +143,7 @@ class ConcreteDevice : public GDInterface
     protected:
         GenericDevice *m_Parent;
         QString m_Name;
+        QScopedPointer<QTimer> m_ReadyTimer;
 };
 
 }
