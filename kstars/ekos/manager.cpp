@@ -1525,7 +1525,7 @@ void Manager::addMount(ISD::Mount * device)
     ekosLiveClient->message()->sendMounts();
     ekosLiveClient->message()->sendScopes();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
@@ -1543,7 +1543,7 @@ void Manager::addCamera(ISD::Camera * device)
     ekosLiveClient.get()->message()->sendCameras();
     ekosLiveClient.get()->media()->registerCameras();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
@@ -1552,7 +1552,7 @@ void Manager::addFilterWheel(ISD::FilterWheel * device)
 {
     ekosLiveClient.get()->message()->sendFilterWheels();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
 }
@@ -1561,14 +1561,14 @@ void Manager::addFocuser(ISD::Focuser *device)
 {
     initFocus();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 focuser is online.", device->getDeviceName()));
 }
 
 void Manager::addRotator(ISD::Rotator *device)
 {
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
 }
@@ -1580,7 +1580,7 @@ void Manager::addDome(ISD::Dome * device)
 
     ekosLiveClient.get()->message()->sendDomes();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
@@ -1590,14 +1590,14 @@ void Manager::addWeather(ISD::Weather * device)
     initWeather();
     initObservatory();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 Weather is online.", device->getDeviceName()));
 }
 
 void Manager::addGPS(ISD::GPS * device)
 {
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 GPS is online.", device->getDeviceName()));
 }
@@ -1608,212 +1608,210 @@ void Manager::addDustCap(ISD::DustCap * device)
 
     ekosLiveClient.get()->message()->sendCaps();
 
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
 }
 
 void Manager::addLightBox(ISD::LightBox * device)
 {
-    syncModuleDevices();
+    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 Light box is online.", device->getDeviceName()));
 }
 
-void Manager::syncModuleDevices()
+void Manager::syncGenericDevice(ISD::GenericDevice *device)
 {
-    for(auto &oneDevice : m_GenericDevices)
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Cameras
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto camera = dynamic_cast<ISD::Camera*>(device->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+    if (camera)
     {
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Cameras
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
-        if (camera)
+        // Capture Module
+        if (captureProcess && captureProcess->addCamera(camera))
         {
-            // Capture Module
-            if (captureProcess && captureProcess->addCamera(camera))
-            {
-                bool rc = false;
-                if (Options::defaultCaptureCCD().isEmpty() == false)
-                    rc = captureProcess->setCamera(Options::defaultCaptureCCD());
-                if (rc == false && m_PrimaryCamera.isEmpty() == false)
-                    captureProcess->setCamera(m_PrimaryCamera);
-            }
-
-            // Focus Module
-            if (focusProcess && focusProcess->addCamera(camera))
-            {
-                if (camera->hasCooler())
-                    focusProcess->addTemperatureSource(camera->genericDevice());
-
-                bool rc = false;
-                if (Options::defaultFocusCCD().isEmpty() == false)
-                    rc = focusProcess->setCamera(Options::defaultFocusCCD());
-                if (rc == false && m_PrimaryCamera.isEmpty() == false)
-                    focusProcess->setCamera(m_PrimaryCamera);
-            }
-
-            // Align Module
-            if (alignProcess && alignProcess->addCamera(camera))
-            {
-                bool rc = false;
-                if (Options::defaultAlignCCD().isEmpty() == false)
-                    rc = alignProcess->setCamera(Options::defaultAlignCCD());
-                if (rc == false && m_PrimaryCamera.isEmpty() == false)
-                    alignProcess->setCamera(m_PrimaryCamera);
-
-            }
-
-            // Guide Module
-            if (guideProcess && guideProcess->addCamera(camera))
-            {
-                bool rc = false;
-                if (Options::defaultGuideCCD().isEmpty() == false)
-                    rc = guideProcess->setCamera(Options::defaultGuideCCD());
-                if (rc == false && m_GuideCamera.isEmpty() == false)
-                    guideProcess->setCamera(m_GuideCamera);
-            }
+            bool rc = false;
+            if (Options::defaultCaptureCCD().isEmpty() == false)
+                rc = captureProcess->setCamera(Options::defaultCaptureCCD());
+            if (rc == false && m_PrimaryCamera.isEmpty() == false)
+                captureProcess->setCamera(m_PrimaryCamera);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Mount
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto mount = dynamic_cast<ISD::Mount*>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
-        if (mount)
+        // Focus Module
+        if (focusProcess && focusProcess->addCamera(camera))
         {
-            double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
-            getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
-            if (mountProcess && mountProcess->addMount(mount))
-            {
-                // Save telescope info in mount driver
-                mountProcess->setTelescopeInfo(QList<double>() << primaryScopeFL << primaryScopeAperture << guideScopeFL <<
-                                               guideScopeAperture);
-            }
+            if (camera->hasCooler())
+                focusProcess->addTemperatureSource(camera->genericDevice());
 
-            if (captureProcess)
-                captureProcess->addMount(mount);
-
-            if (guideProcess && guideProcess->addMount(mount))
-                guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
-
-            if (alignProcess && alignProcess->addMount(mount))
-                alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+            bool rc = false;
+            if (Options::defaultFocusCCD().isEmpty() == false)
+                rc = focusProcess->setCamera(Options::defaultFocusCCD());
+            if (rc == false && m_PrimaryCamera.isEmpty() == false)
+                focusProcess->setCamera(m_PrimaryCamera);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Focuser
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto focuser = dynamic_cast<ISD::Focuser*>(oneDevice->getConcreteDevice(INDI::BaseDevice::FOCUSER_INTERFACE));
-        if (focuser)
+        // Align Module
+        if (alignProcess && alignProcess->addCamera(camera))
         {
-            if (focusProcess && focusProcess->addFocuser(focuser))
-            {
-                if (Options::defaultFocusFocuser().isEmpty() == false)
-                    focusProcess->setFocuser(Options::defaultFocusFocuser());
+            bool rc = false;
+            if (Options::defaultAlignCCD().isEmpty() == false)
+                rc = alignProcess->setCamera(Options::defaultAlignCCD());
+            if (rc == false && m_PrimaryCamera.isEmpty() == false)
+                alignProcess->setCamera(m_PrimaryCamera);
 
-                // Temperature sources.
-                focusProcess->addTemperatureSource(focuser->genericDevice());
-            }
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Filter Wheel
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto filterWheel = dynamic_cast<ISD::FilterWheel*>(oneDevice->getConcreteDevice(INDI::BaseDevice::FILTER_INTERFACE));
-        if (filterWheel)
+        // Guide Module
+        if (guideProcess && guideProcess->addCamera(camera))
         {
-            if (captureProcess)
-                captureProcess->addFilterWheel(filterWheel);
+            bool rc = false;
+            if (Options::defaultGuideCCD().isEmpty() == false)
+                rc = guideProcess->setCamera(Options::defaultGuideCCD());
+            if (rc == false && m_GuideCamera.isEmpty() == false)
+                guideProcess->setCamera(m_GuideCamera);
+        }
+    }
 
-            if (focusProcess)
-                focusProcess->addFilterWheel(filterWheel);
-
-            if (alignProcess)
-                alignProcess->addFilterWheel(filterWheel);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Mount
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto mount = dynamic_cast<ISD::Mount*>(device->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+    if (mount)
+    {
+        double primaryScopeFL = 0, primaryScopeAperture = 0, guideScopeFL = 0, guideScopeAperture = 0;
+        getCurrentProfileTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+        if (mountProcess && mountProcess->addMount(mount))
+        {
+            // Save telescope info in mount driver
+            mountProcess->setTelescopeInfo(QList<double>() << primaryScopeFL << primaryScopeAperture << guideScopeFL <<
+                                           guideScopeAperture);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Rotators
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto rotator = dynamic_cast<ISD::Rotator*>(oneDevice->getConcreteDevice(INDI::BaseDevice::ROTATOR_INTERFACE));
-        if (rotator)
-        {
-            if (captureProcess)
-                captureProcess->addRotator(rotator);
+        if (captureProcess)
+            captureProcess->addMount(mount);
 
-            if (alignProcess)
-                alignProcess->addRotator(rotator);
+        if (guideProcess && guideProcess->addMount(mount))
+            guideProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+
+        if (alignProcess && alignProcess->addMount(mount))
+            alignProcess->setTelescopeInfo(primaryScopeFL, primaryScopeAperture, guideScopeFL, guideScopeAperture);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Focuser
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto focuser = dynamic_cast<ISD::Focuser*>(device->getConcreteDevice(INDI::BaseDevice::FOCUSER_INTERFACE));
+    if (focuser)
+    {
+        if (focusProcess && focusProcess->addFocuser(focuser))
+        {
+            if (Options::defaultFocusFocuser().isEmpty() == false)
+                focusProcess->setFocuser(Options::defaultFocusFocuser());
+
+            // Temperature sources.
+            focusProcess->addTemperatureSource(focuser->genericDevice());
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Filter Wheel
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto filterWheel = dynamic_cast<ISD::FilterWheel*>(device->getConcreteDevice(INDI::BaseDevice::FILTER_INTERFACE));
+    if (filterWheel)
+    {
+        if (captureProcess)
+            captureProcess->addFilterWheel(filterWheel);
+
+        if (focusProcess)
+            focusProcess->addFilterWheel(filterWheel);
+
+        if (alignProcess)
+            alignProcess->addFilterWheel(filterWheel);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Rotators
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto rotator = dynamic_cast<ISD::Rotator*>(device->getConcreteDevice(INDI::BaseDevice::ROTATOR_INTERFACE));
+    if (rotator)
+    {
+        if (captureProcess)
+            captureProcess->addRotator(rotator);
+
+        if (alignProcess)
+            alignProcess->addRotator(rotator);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Domes
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto dome = dynamic_cast<ISD::Dome*>(device->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+    if (dome)
+    {
+        if (domeProcess)
+        {
+            domeProcess->addDome(dome);
+            if (observatoryProcess && observatoryProcess->getDomeModel())
+                observatoryProcess->getDomeModel()->initModel(domeProcess.get());
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Domes
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto dome = dynamic_cast<ISD::Dome*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
-        if (dome)
+        if (captureProcess)
+            captureProcess->addDome(dome);
+
+        if (alignProcess)
+            alignProcess->addDome(dome);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Weather
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto weather = dynamic_cast<ISD::Weather*>(device->getConcreteDevice(INDI::BaseDevice::WEATHER_INTERFACE));
+    if (weather)
+    {
+        if (weatherProcess)
         {
-            if (domeProcess)
-            {
-                domeProcess->addDome(dome);
-                if (observatoryProcess && observatoryProcess->getDomeModel())
-                    observatoryProcess->getDomeModel()->initModel(domeProcess.get());
-            }
-
-            if (captureProcess)
-                captureProcess->addDome(dome);
-
-            if (alignProcess)
-                alignProcess->addDome(dome);
+            weatherProcess->addWeather(weather);
+            if (observatoryProcess && observatoryProcess->getWeatherModel())
+                observatoryProcess->getWeatherModel()->initModel(weatherProcess.get());
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Weather
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto weather = dynamic_cast<ISD::Weather*>(oneDevice->getConcreteDevice(INDI::BaseDevice::WEATHER_INTERFACE));
-        if (weather)
-        {
-            if (weatherProcess)
-            {
-                weatherProcess->addWeather(weather);
-                if (observatoryProcess && observatoryProcess->getWeatherModel())
-                    observatoryProcess->getWeatherModel()->initModel(weatherProcess.get());
-            }
+        if (focusProcess)
+            focusProcess->addTemperatureSource(weather->genericDevice());
+    }
 
-            if (focusProcess)
-                focusProcess->addTemperatureSource(weather->genericDevice());
-        }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// GPS
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto gps = dynamic_cast<ISD::GPS*>(device->getConcreteDevice(INDI::BaseDevice::GPS_INTERFACE));
+    if (gps)
+    {
+        if (mountProcess)
+            mountProcess->addGPS(gps);
+    }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// GPS
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto gps = dynamic_cast<ISD::GPS*>(oneDevice->getConcreteDevice(INDI::BaseDevice::GPS_INTERFACE));
-        if (gps)
-        {
-            if (mountProcess)
-                mountProcess->addGPS(gps);
-        }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Dust Cap
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto dustCap = dynamic_cast<ISD::DustCap*>(device->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
+    if (dustCap)
+    {
+        if (dustCapProcess)
+            dustCapProcess->addDustCap(dustCap);
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Dust Cap
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto dustCap = dynamic_cast<ISD::DustCap*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
-        if (dustCap)
-        {
-            if (dustCapProcess)
-                dustCapProcess->addDustCap(dustCap);
+        if (captureProcess)
+            captureProcess->addDustCap(dustCap);
+    }
 
-            if (captureProcess)
-                captureProcess->addDustCap(dustCap);
-        }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// Light Box
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
-        auto lightBox = dynamic_cast<ISD::LightBox*>(oneDevice->getConcreteDevice(INDI::BaseDevice::LIGHTBOX_INTERFACE));
-        if (lightBox)
-        {
-            if (captureProcess)
-                captureProcess->addLightBox(lightBox);
-        }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Light Box
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    auto lightBox = dynamic_cast<ISD::LightBox*>(device->getConcreteDevice(INDI::BaseDevice::LIGHTBOX_INTERFACE));
+    if (lightBox)
+    {
+        if (captureProcess)
+            captureProcess->addLightBox(lightBox);
     }
 }
 
@@ -2004,23 +2002,25 @@ void Manager::processTabChange()
 {
     auto currentWidget = toolsWidget->currentWidget();
 
-    if (alignProcess.get() && alignProcess.get() == currentWidget)
+    if (alignProcess && alignProcess.get() == currentWidget)
     {
-        if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && mountProcess->isEnabled()
-                && alignProcess->isParserOK())
+        auto alignReady = alignProcess->isEnabled() == false && alignProcess->isParserOK();
+        auto captureReady = captureProcess && captureProcess->isEnabled();
+        auto mountReady = mountProcess && mountProcess->isEnabled();
+        if (alignReady && captureReady && mountReady)
             alignProcess->setEnabled(true);
 
         alignProcess->checkCamera();
     }
-    else if (captureProcess.get() != nullptr && currentWidget == captureProcess.get())
+    else if (captureProcess && currentWidget == captureProcess.get())
     {
         captureProcess->checkCamera();
     }
-    else if (focusProcess.get() != nullptr && currentWidget == focusProcess.get())
+    else if (focusProcess && currentWidget == focusProcess.get())
     {
         focusProcess->checkCamera();
     }
-    else if (guideProcess.get() != nullptr && currentWidget == guideProcess.get())
+    else if (guideProcess && currentWidget == guideProcess.get())
     {
         guideProcess->checkCamera();
     }

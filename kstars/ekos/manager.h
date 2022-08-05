@@ -439,7 +439,12 @@ class Manager : public QDialog, public Ui::Manager
         void addLightBox(ISD::LightBox *device);
         void addGuider(ISD::Guider *device);
         void addGPS(ISD::GPS *device);
-        void syncModuleDevices();
+
+        /**
+         * @brief syncGenericDevice Check if this device needs to be added to any Ekos module.
+         * @param device pointer to generic device.
+         */
+        void syncGenericDevice(ISD::GenericDevice *device);
 
         // Profiles
         void addProfile();
