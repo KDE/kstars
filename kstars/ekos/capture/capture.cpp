@@ -965,11 +965,6 @@ void Capture::stop(CaptureState targetState)
     m_State = targetState;
 
     // Turn off any calibration light, IF they were turned on by Capture module
-    if (m_captureDeviceAdaptor->getDustCap() && dustCapLightEnabled)
-    {
-        dustCapLightEnabled = false;
-        m_captureDeviceAdaptor->getDustCap()->SetLightEnabled(false);
-    }
     if (m_captureDeviceAdaptor->getLightBox() && lightBoxLightEnabled)
     {
         lightBoxLightEnabled = false;

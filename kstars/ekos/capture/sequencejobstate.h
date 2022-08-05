@@ -273,10 +273,6 @@ public slots:
      */
     void lightBoxLight(bool on);
     /**
-     * @brief dust cap light is on.
-     */
-    void dustCapLight(bool on);
-    /**
      * @brief dust cap status change
      */
     void dustCapStatusChanged(ISD::DustCap::Status status);
@@ -373,8 +369,6 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // light box light status
     LightStatus lightBoxLightStatus { CAP_LIGHT_UNKNOWN };
-    // dust cap flat light status
-    LightStatus dustCapLightStatus { CAP_LIGHT_UNKNOWN };
     // dust cap status
     CapState dustCapStatus { CAP_UNKNOWN };
     // telescope status

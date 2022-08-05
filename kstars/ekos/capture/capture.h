@@ -1120,8 +1120,7 @@ class Capture : public QWidget, public Ui::Capture
         bool preMountPark { false };
         bool preDomePark { false };
         FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
-        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
-        bool dustCapLightEnabled { false };
+        FlatFieldSource flatFieldSource { SOURCE_MANUAL };        
         bool lightBoxLightEnabled { false };
         QMap<ScriptTypes, QString> m_Scripts;
 

@@ -519,12 +519,9 @@ void Manager::reset()
     captureProcess.reset();
     focusProcess.reset();
     guideProcess.reset();
-    domeProcess.reset();
     alignProcess.reset();
     mountProcess.reset();
-    weatherProcess.reset();
-    observatoryProcess.reset();
-    dustCapProcess.reset();
+    //observatoryProcess.reset();
 
     DarkLibrary::Release();
     m_PortSelector.reset();
@@ -1575,8 +1572,7 @@ void Manager::addRotator(ISD::Rotator *device)
 
 void Manager::addDome(ISD::Dome * device)
 {
-    initDome();
-    initObservatory();
+    //initObservatory();
 
     ekosLiveClient.get()->message()->sendDomes();
 
@@ -1587,8 +1583,7 @@ void Manager::addDome(ISD::Dome * device)
 
 void Manager::addWeather(ISD::Weather * device)
 {
-    initWeather();
-    initObservatory();
+    //initObservatory();
 
     syncGenericDevice(device->genericDevice());
 
@@ -1604,8 +1599,6 @@ void Manager::addGPS(ISD::GPS * device)
 
 void Manager::addDustCap(ISD::DustCap * device)
 {
-    initDustCap();
-
     ekosLiveClient.get()->message()->sendCaps();
 
     syncGenericDevice(device->genericDevice());
@@ -1750,12 +1743,12 @@ void Manager::syncGenericDevice(ISD::GenericDevice *device)
     auto dome = dynamic_cast<ISD::Dome*>(device->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
     if (dome)
     {
-        if (domeProcess)
-        {
-            domeProcess->addDome(dome);
-            if (observatoryProcess && observatoryProcess->getDomeModel())
-                observatoryProcess->getDomeModel()->initModel(domeProcess.get());
-        }
+        //        if (domeProcess)
+        //        {
+        //            domeProcess->addDome(dome);
+        //            if (observatoryProcess && observatoryProcess->getDomeModel())
+        //                observatoryProcess->getDomeModel()->initModel(domeProcess.get());
+        //        }
 
         if (captureProcess)
             captureProcess->addDome(dome);
@@ -1770,12 +1763,12 @@ void Manager::syncGenericDevice(ISD::GenericDevice *device)
     auto weather = dynamic_cast<ISD::Weather*>(device->getConcreteDevice(INDI::BaseDevice::WEATHER_INTERFACE));
     if (weather)
     {
-        if (weatherProcess)
-        {
-            weatherProcess->addWeather(weather);
-            if (observatoryProcess && observatoryProcess->getWeatherModel())
-                observatoryProcess->getWeatherModel()->initModel(weatherProcess.get());
-        }
+        //        if (weatherProcess)
+        //        {
+        //            weatherProcess->addWeather(weather);
+        //            if (observatoryProcess && observatoryProcess->getWeatherModel())
+        //                observatoryProcess->getWeatherModel()->initModel(weatherProcess.get());
+        //        }
 
         if (focusProcess)
             focusProcess->addTemperatureSource(weather->genericDevice());
@@ -1797,9 +1790,6 @@ void Manager::syncGenericDevice(ISD::GenericDevice *device)
     auto dustCap = dynamic_cast<ISD::DustCap*>(device->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
     if (dustCap)
     {
-        if (dustCapProcess)
-            dustCapProcess->addDustCap(dustCap);
-
         if (captureProcess)
             captureProcess->addDustCap(dustCap);
     }
@@ -1827,12 +1817,7 @@ void Manager::removeDevice(ISD::GenericDevice * device)
         mountProcess->removeDevice(device);
     if (guideProcess)
         guideProcess->removeDevice(device);
-    if (domeProcess)
-        domeProcess->removeDevice(device);
-    if (weatherProcess)
-        weatherProcess->removeDevice(device);
-    if (dustCapProcess)
-        dustCapProcess->removeDevice(device);
+    // TODO add Observatory
     if (m_PortSelector)
         m_PortSelector->removeDevice(device->getDeviceName());
 
@@ -2046,8 +2031,8 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(mountProcess->getLogText());
     else if (currentWidget == schedulerProcess.get())
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
-    else if (currentWidget == observatoryProcess.get())
-        ekosLogOut->setPlainText(observatoryProcess->getLogText());
+    //    else if (currentWidget == observatoryProcess.get())
+    //        ekosLogOut->setPlainText(observatoryProcess->getLogText());
 
 #ifdef Q_OS_OSX
     repaint(); //This is a band-aid for a bug in QT 5.10.0
@@ -2087,8 +2072,8 @@ void Manager::clearLog()
         mountProcess->clearLog();
     else if (currentWidget == schedulerProcess.get())
         schedulerProcess->clearLog();
-    else if (currentWidget == observatoryProcess.get())
-        observatoryProcess->clearLog();
+    //    else if (currentWidget == observatoryProcess.get())
+    //        observatoryProcess->clearLog();
 }
 
 void Manager::initCapture()
@@ -2373,90 +2358,20 @@ void Manager::initGuide()
     connectModules();
 }
 
-void Manager::initDome()
-{
-    if (domeProcess.get() != nullptr)
-        return;
+//void Manager::initObservatory()
+//{
+//    if (observatoryProcess.get() == nullptr)
+//    {
+//        // Initialize the Observatory Module
+//        observatoryProcess.reset(new Ekos::Observatory());
 
-    domeProcess.reset(new Ekos::Dome());
+//        emit newModule("Observatory");
 
-    emit newModule("Dome");
-
-    connect(domeProcess.get(), &Ekos::Dome::newStatus, [&](ISD::Dome::Status newStatus)
-    {
-        // For roll-off domes
-        // cw ---> unparking
-        // ccw --> parking
-        if (domeProcess->isRolloffRoof() &&
-                (newStatus == ISD::Dome::DOME_MOVING_CW || newStatus == ISD::Dome::DOME_MOVING_CCW))
-        {
-            newStatus = (newStatus == ISD::Dome::DOME_MOVING_CW) ? ISD::Dome::DOME_UNPARKING :
-                        ISD::Dome::DOME_PARKING;
-        }
-        QJsonObject status = { { "status", ISD::Dome::getStatusString(newStatus, false)} };
-        ekosLiveClient.get()->message()->updateDomeStatus(status);
-    });
-
-    connect(domeProcess.get(), &Ekos::Dome::azimuthPositionChanged, [&](double pos)
-    {
-        QJsonObject status = { { "az", pos} };
-        ekosLiveClient.get()->message()->updateDomeStatus(status);
-    });
-
-    ekosLiveClient->message()->sendDomes();
-}
-
-void Manager::initWeather()
-{
-    if (weatherProcess.get() != nullptr)
-        return;
-
-    weatherProcess.reset(new Ekos::Weather());
-    emit newModule("Weather");
-}
-
-void Manager::initObservatory()
-{
-    if (observatoryProcess.get() == nullptr)
-    {
-        // Initialize the Observatory Module
-        observatoryProcess.reset(new Ekos::Observatory());
-
-        emit newModule("Observatory");
-
-        int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
-        toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
-        connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
-    }
-}
-
-void Manager::initDustCap()
-{
-    if (dustCapProcess.get() != nullptr)
-        return;
-
-    dustCapProcess.reset(new Ekos::DustCap());
-
-    emit newModule("DustCap");
-
-    connect(dustCapProcess.get(), &Ekos::DustCap::newStatus, [&](ISD::DustCap::Status newStatus)
-    {
-        QJsonObject status = { { "status", ISD::DustCap::getStatusString(newStatus, false)} };
-        ekosLiveClient.get()->message()->updateCapStatus(status);
-    });
-    connect(dustCapProcess.get(), &Ekos::DustCap::lightToggled, [&](bool enabled)
-    {
-        QJsonObject status = { { "lightS", enabled} };
-        ekosLiveClient.get()->message()->updateCapStatus(status);
-    });
-    connect(dustCapProcess.get(), &Ekos::DustCap::lightIntensityChanged, [&](uint16_t value)
-    {
-        QJsonObject status = { { "lightB", value} };
-        ekosLiveClient.get()->message()->updateCapStatus(status);
-    });
-
-    ekosLiveClient->message()->sendCaps();
-}
+//        int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
+//        toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
+//        connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
+//    }
+//}
 
 void Manager::addGuider(ISD::Guider * device)
 {
@@ -2482,10 +2397,7 @@ void Manager::removeTabs()
     focusProcess.reset();
     guideProcess.reset();
     mountProcess.reset();
-    domeProcess.reset();
-    weatherProcess.reset();
-    observatoryProcess.reset();
-    dustCapProcess.reset();
+    //observatoryProcess.reset();
 
     connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange, Qt::UniqueConnection);
 }
