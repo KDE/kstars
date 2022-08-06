@@ -20,7 +20,8 @@
 #define SHUTTER_YES      1
 
 
-TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QObject *parent) : TestEkosCaptureWorkflow::TestEkosCaptureWorkflow("Internal", parent){}
+TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QObject *parent) :
+    TestEkosCaptureWorkflow::TestEkosCaptureWorkflow("Internal", parent) {}
 
 TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QString guider, QObject *parent) : QObject(parent)
 {
@@ -59,7 +60,8 @@ void TestEkosCaptureWorkflow::testCaptureRefocus()
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_FOCUSING);
     KTRY_CLICK(capture, startB);
     // focusing must have started 60 secs + exposure time + 10 secs delay
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000 + 10000 + 1000*capture->captureExposureN->value());
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
+                                     60000 + 10000 + 1000 * capture->captureExposureN->value());
 }
 
 void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
@@ -78,7 +80,8 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
     KTRY_CLICK(capture, startB);
     // focusing must have started 60 secs + exposure time + 10 secs delay
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 60000 + 10000 + 1000*capture->captureExposureN->value());
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
+                                     60000 + 10000 + 1000 * capture->captureExposureN->value());
     // now abort capturing
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_ABORTED);
     capture->abort();
@@ -332,7 +335,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
     // check if the temperature is at the expected level
     QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+                     targetTemp).toLocal8Bit());
 
     // stop capturing
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
@@ -347,7 +351,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
     // check if the temperature is at the expected level
     QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+                     targetTemp).toLocal8Bit());
 
     // stop capturing
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
@@ -366,7 +371,8 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForTemperature()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
     // check if the temperature is at the expected level
     QTRY_VERIFY2(std::abs(capture->temperatureOUT->text().toDouble() - targetTemp) <= Options::maxTemperatureDiff(),
-                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(targetTemp).toLocal8Bit());
+                 QString("Temperature %1°C not at the expected level of %2°C").arg(capture->temperatureOUT->text()).arg(
+                     targetTemp).toLocal8Bit());
 
 }
 
@@ -403,7 +409,7 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForRotator()
     // expect capturing state
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
 
-   // start capturing
+    // start capturing
     KTRY_CLICK(capture, startB);
     // check if capturing has started
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
@@ -700,11 +706,11 @@ void TestEkosCaptureWorkflow::testFlatSyncFocus()
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     int focusPosition = absTicksLabel->text().toInt();
     // move the focuser 100 steps out
-    KTRY_SET_SPINBOX(focus, absTicksSpin, focusPosition+100);
+    KTRY_SET_SPINBOX(focus, absTicksSpin, focusPosition + 100);
     // click goto
     KTRY_CLICK(focus, startGotoB);
     // check if new position has been reached
-    QTRY_VERIFY_WITH_TIMEOUT(absTicksLabel->text().toInt() == focusPosition+100, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(absTicksLabel->text().toInt() == focusPosition + 100, 5000);
 
     // capture flats with light panel source (simplest way to test)
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
@@ -1037,14 +1043,14 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     KTRY_VERIFY_WITH_TIMEOUT_SUB(mount->parkStatus() == ISD::PARK_UNPARKED, 30000);
 
     // ensure that the dome is unparked
-    if (m_CaptureHelper->m_DomeDevice != nullptr)
-    {
-        Ekos::Dome *dome = Ekos::Manager::Instance()->domeModule();
-        KVERIFY_SUB(dome != nullptr);
-        if (dome->parkStatus() == ISD::PARK_PARKED)
-            dome->unpark();
-        KTRY_VERIFY_WITH_TIMEOUT_SUB(dome->parkStatus() == ISD::PARK_UNPARKED, 30000);
-    }
+    //    if (m_CaptureHelper->m_DomeDevice != nullptr)
+    //    {
+    //        Ekos::Dome *dome = Ekos::Manager::Instance()->domeModule();
+    //        KVERIFY_SUB(dome != nullptr);
+    //        if (dome->parkStatus() == ISD::PARK_PARKED)
+    //            dome->unpark();
+    //        KTRY_VERIFY_WITH_TIMEOUT_SUB(dome->parkStatus() == ISD::PARK_UNPARKED, 30000);
+    //    }
 
     // close INDI window
     GUIManager::Instance()->close();
@@ -1053,7 +1059,8 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     return true;
 }
 
-void TestEkosCaptureWorkflow::init() {
+void TestEkosCaptureWorkflow::init()
+{
     // reset counters
     image_count  = 0;
 
@@ -1063,7 +1070,8 @@ void TestEkosCaptureWorkflow::init() {
     m_CaptureHelper->m_LightPanelDevice = nullptr;
 }
 
-void TestEkosCaptureWorkflow::cleanup() {
+void TestEkosCaptureWorkflow::cleanup()
+{
     if (Ekos::Manager::Instance()->focusModule() != nullptr)
         Ekos::Manager::Instance()->focusModule()->abort();
 

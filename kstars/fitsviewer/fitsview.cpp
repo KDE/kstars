@@ -2305,7 +2305,7 @@ bool FITSView::isTelescopeActive()
         return false;
     }
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
         if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;

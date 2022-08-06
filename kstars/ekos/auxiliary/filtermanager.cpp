@@ -214,7 +214,7 @@ void FilterManager::setCurrentFilterWheel(ISD::FilterWheel *filter)
     connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
     connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
     connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, [&]()
+    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
     {
         m_currentFilterLabels.clear();
         m_currentFilterPosition = -1;
@@ -282,7 +282,7 @@ QStringList FilterManager::getFilterLabels(bool forceRefresh)
 
 int FilterManager::getFilterPosition(bool forceRefresh)
 {
-    if (forceRefresh == false)
+    if (forceRefresh == false || m_FilterPositionProperty == nullptr)
         return m_currentFilterPosition;
 
     return static_cast<int>(m_FilterPositionProperty->np[0].value);

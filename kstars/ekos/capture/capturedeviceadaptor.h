@@ -177,10 +177,6 @@ class CaptureDeviceAdaptor: public QObject
          */
         void parkDustCap(bool park);
         /**
-         * @brief Turn light on in the dust cap
-         */
-        void setDustCapLight(bool on);
-        /**
          * @brief Slew the telescope to a target
          */
         void slewTelescope(SkyPoint &target);
@@ -231,10 +227,6 @@ class CaptureDeviceAdaptor: public QObject
          * @brief Light box light is on.
          */
         void lightBoxLight(bool on);
-        /**
-         * @brief dust cap light is on.
-         */
-        void dustCapLight(bool on);
         /**
          * @brief dust cap status change
          */

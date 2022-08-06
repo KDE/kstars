@@ -121,43 +121,6 @@ void Mount::registerProperty(INDI::Property prop)
         m_canGoto = IUFindSwitch(prop->getSwitch(), "TRACK") != nullptr;
         m_canSync = IUFindSwitch(prop->getSwitch(), "SYNC") != nullptr;
     }
-    // Telescope Park
-    else if (prop->isNameMatch("TELESCOPE_PARK"))
-    {
-        auto svp = prop->getSwitch();
-
-        if (svp)
-        {
-            auto sp = svp->findWidgetByName("PARK");
-            if (sp)
-            {
-                if ((sp->getState() == ISS_ON) && svp->getState() == IPS_OK)
-                {
-                    m_ParkStatus = PARK_PARKED;
-                    emit newParkStatus(m_ParkStatus);
-
-                    QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
-                    if (parkAction)
-                        parkAction->setEnabled(false);
-                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
-                    if (unParkAction)
-                        unParkAction->setEnabled(true);
-                }
-                else if ((sp->getState() == ISS_OFF) && svp->getState() == IPS_OK)
-                {
-                    m_ParkStatus = PARK_UNPARKED;
-                    emit newParkStatus(m_ParkStatus);
-
-                    QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
-                    if (parkAction)
-                        parkAction->setEnabled(true);
-                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
-                    if (unParkAction)
-                        unParkAction->setEnabled(false);
-                }
-            }
-        }
-    }
     else if (prop->isNameMatch("TELESCOPE_PIER_SIDE"))
     {
         auto svp = prop->getSwitch();
@@ -217,8 +180,6 @@ void Mount::registerProperty(INDI::Property prop)
         m_isJ2000 = true;
         m_hasEquatorialCoordProperty = true;
     }
-
-    ConcreteDevice::registerProperty(prop);
 }
 
 void Mount::updateJ2000Coordinates(SkyPoint *coords)
@@ -330,9 +291,9 @@ void Mount::processSwitch(ISwitchVectorProperty *svp)
             // TODO We must allow for multiple mount drivers to be online, not just one
             // For the actions taken, the user should be able to specify which mounts shall receive the commands. It could be one
             // or more. For now, we enable/disable telescope group on the assumption there is only one mount present.
-            if (isConnected() == false && conSP->s == ISS_ON)
+            if (conSP->s == ISS_ON)
                 KStars::Instance()->slotSetTelescopeEnabled(true);
-            else if (isConnected() && conSP->s == ISS_OFF)
+            else
             {
                 KStars::Instance()->slotSetTelescopeEnabled(false);
                 centerLockTimer.stop();

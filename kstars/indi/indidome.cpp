@@ -33,47 +33,7 @@ void Dome::registerProperty(INDI::Property prop)
     if (!prop->getRegistered())
         return;
 
-    if (prop->isNameMatch("DOME_PARK"))
-    {
-        auto svp = prop->getSwitch();
-
-        m_CanPark = true;
-
-        if (svp)
-        {
-            auto sp = svp->findWidgetByName("PARK");
-            if (sp)
-            {
-                if ((sp->getState() == ISS_ON) && svp->getState() == IPS_OK)
-                {
-                    m_ParkStatus = PARK_PARKED;
-                    m_Status = DOME_PARKED;
-                    emit newParkStatus(m_ParkStatus);
-
-                    QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
-                    if (parkAction)
-                        parkAction->setEnabled(false);
-                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("dome_unpark");
-                    if (unParkAction)
-                        unParkAction->setEnabled(true);
-                }
-                else if ((sp->s == ISS_OFF) && svp->s == IPS_OK)
-                {
-                    m_ParkStatus = PARK_UNPARKED;
-                    m_Status = DOME_IDLE;
-                    emit newParkStatus(m_ParkStatus);
-
-                    QAction *parkAction = KStars::Instance()->actionCollection()->action("dome_park");
-                    if (parkAction)
-                        parkAction->setEnabled(true);
-                    QAction *unParkAction = KStars::Instance()->actionCollection()->action("dome_unpark");
-                    if (unParkAction)
-                        unParkAction->setEnabled(false);
-                }
-            }
-        }
-    }
-    else if (prop->isNameMatch("ABS_DOME_POSITION"))
+    if (prop->isNameMatch("ABS_DOME_POSITION"))
     {
         m_CanAbsMove = true;
     }
@@ -108,9 +68,9 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
         ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
         if (conSP)
         {
-            if (isConnected() == false && conSP->s == ISS_ON)
+            if (conSP->s == ISS_ON)
                 KStars::Instance()->slotSetDomeEnabled(true);
-            else if (isConnected() && conSP->s == ISS_OFF)
+            else
             {
                 KStars::Instance()->slotSetDomeEnabled(false);
 

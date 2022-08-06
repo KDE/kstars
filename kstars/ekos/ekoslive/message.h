@@ -169,12 +169,6 @@ class Message : public QObject
         // Polar
         void processPolarCommands(const QString &command, const QJsonObject &payload);
 
-        // Dome
-        void processDomeCommands(const QString &command, const QJsonObject &payload);
-
-        // Cap
-        void processCapCommands(const QString &command, const QJsonObject &payload);
-
         // Profile
         void processProfileCommands(const QString &command, const QJsonObject &payload);
 

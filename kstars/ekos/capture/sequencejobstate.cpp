@@ -348,11 +348,10 @@ IPState SequenceJobState::checkManualFlatsCoverReady()
 IPState SequenceJobState::checkFlatCapReady()
 {
     // flat light is on
-    if (lightBoxLightStatus == CAP_LIGHT_ON || dustCapLightStatus == CAP_LIGHT_ON)
+    if (lightBoxLightStatus == CAP_LIGHT_ON)
         return IPS_OK;
     // turning on flat light running
-    if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapStatus == CAP_PARKING
-            || dustCapLightStatus == CAP_LIGHT_BUSY)
+    if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapStatus == CAP_PARKING)
         return IPS_BUSY;
     // error occured
     if (dustCapStatus == CAP_ERROR)
@@ -381,13 +380,6 @@ IPState SequenceJobState::checkFlatCapReady()
         emit newLog(i18n("Parking dust cap..."));
         return IPS_BUSY;
     }
-    // if the dust cap is parked, turn the light on
-    else if (dustCapLightStatus != CAP_LIGHT_ON)
-    {
-        dustCapLightStatus = CAP_LIGHT_BUSY;
-        emit setDustCapLight(true);
-        emit newLog(i18n("Turn dust cap light on..."));
-    }
     // nothing more to do
     return IPS_OK;
 }
@@ -395,8 +387,7 @@ IPState SequenceJobState::checkFlatCapReady()
 IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 {
     // turning on flat light running
-    if (lightBoxLightStatus == CAP_LIGHT_BUSY  || dustCapLightStatus == CAP_LIGHT_BUSY ||
-            dustCapStatus == CAP_PARKING || dustCapStatus == CAP_UNPARKING)
+    if (lightBoxLightStatus == CAP_LIGHT_BUSY  || dustCapStatus == CAP_PARKING || dustCapStatus == CAP_UNPARKING)
         return IPS_BUSY;
     // error occured
     if (dustCapStatus == CAP_ERROR)
@@ -433,15 +424,6 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
         return IPS_BUSY;
     }
 
-    // turn the light on for flats and off otherwise
-    LightStatus targetLightStatus = (frameType == FRAME_FLAT) ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
-    if (dustCapLightStatus != targetLightStatus)
-    {
-        dustCapLightStatus = CAP_LIGHT_BUSY;
-        emit setDustCapLight(captureFlats);
-        emit newLog(captureFlats ? i18n("Turn dust cap light on...") : i18n("Turn dust cap light off..."));
-        return IPS_BUSY;
-    }
     // nothing more to do
     return IPS_OK;
 }
@@ -623,8 +605,7 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
         case SOURCE_FLATCAP:
         case SOURCE_DARKCAP:
             // if no state update happened, wait.
-            if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapLightStatus == CAP_LIGHT_BUSY ||
-                    dustCapStatus == CAP_UNPARKING)
+            if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapStatus == CAP_UNPARKING)
                 return IPS_BUSY;
 
             // Account for light box only (no dust cap)
@@ -640,15 +621,6 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
             {
                 emit newLog("Skipping flat/dark cap since it is not connected.");
                 return IPS_OK;
-            }
-
-            // If dust cap HAS light and light is ON, then turn it off.
-            if (dustCapLightStatus != CAP_LIGHT_OFF)
-            {
-                dustCapLightStatus = CAP_LIGHT_BUSY;
-                emit setDustCapLight(false);
-                emit newLog(i18n("Turn dust cap light off..."));
-                return IPS_BUSY;
             }
 
             // If cap is parked, we need to unpark it
@@ -777,14 +749,6 @@ void SequenceJobState::lightBoxLight(bool on)
 {
     lightBoxLightStatus = on ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
     emit newLog(i18n(on ? "Light box on." : "Light box off."));
-    // re-run checks
-    checkAllActionsReady();
-}
-
-void SequenceJobState::dustCapLight(bool on)
-{
-    dustCapLightStatus = on ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
-    emit newLog(i18n(on ? "Dust cap light on." : "Dust cap light off."));
     // re-run checks
     checkAllActionsReady();
 }

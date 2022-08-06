@@ -513,10 +513,13 @@ void Capture::setDefaultFilterWheel(QString filterWheel)
     Options::setDefaultCaptureFilterWheel(filterWheel);
 }
 
-void Capture::addCamera(ISD::Camera *device)
+bool Capture::addCamera(ISD::Camera *device)
 {
-    if (m_Cameras.contains(device))
-        return;
+    for (auto &oneCamera : m_Cameras)
+    {
+        if (oneCamera->getDeviceName() == device->getDeviceName())
+            return false;
+    }
 
     m_Cameras.append(device);
 
@@ -533,6 +536,8 @@ void Capture::addCamera(ISD::Camera *device)
 
     if (device->hasGuideHead())
         addGuideHead(device);
+
+    return true;
 }
 
 void Capture::addGuideHead(ISD::Camera * device)
@@ -546,12 +551,12 @@ void Capture::addGuideHead(ISD::Camera * device)
     }
 }
 
-void Capture::addFilterWheel(ISD::FilterWheel * device)
+bool Capture::addFilterWheel(ISD::FilterWheel * device)
 {
     for (auto &oneFilterWheel : m_FilterWheels)
     {
         if (oneFilterWheel->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     filterWheelS->addItem(device->getDeviceName());
@@ -571,14 +576,16 @@ void Capture::addFilterWheel(ISD::FilterWheel * device)
     filterWheelS->setCurrentIndex(filterWheelIndex);
 
     emit settingsUpdated(getPresetSettings());
+
+    return true;
 }
 
-void Capture::addDome(ISD::Dome *device)
+bool Capture::addDome(ISD::Dome *device)
 {
     for (auto &oneDome : m_Domes)
     {
         if (oneDome->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     m_Domes.append(device);
@@ -586,14 +593,16 @@ void Capture::addDome(ISD::Dome *device)
     // forward it to the command processor
     if (! m_captureDeviceAdaptor.isNull())
         m_captureDeviceAdaptor->setDome(device);
+
+    return true;
 }
 
-void Capture::addDustCap(ISD::DustCap *device)
+bool Capture::addDustCap(ISD::DustCap *device)
 {
     for (auto &oneDustCap : m_DustCaps)
     {
         if (oneDustCap->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     m_DustCaps.append(device);
@@ -603,14 +612,53 @@ void Capture::addDustCap(ISD::DustCap *device)
         m_captureDeviceAdaptor->setDustCap(dynamic_cast<ISD::DustCap *>(device));
 
     syncFilterInfo();
+    return true;
 }
 
-void Capture::addLightBox(ISD::LightBox *device)
+bool Capture::addMount(ISD::Mount *device)
+{
+    for (auto &oneMount : m_Mounts)
+    {
+        if (oneMount->getDeviceName() == device->getDeviceName())
+            return false;
+    }
+
+    m_Mounts.append(device);
+
+    // forward it to the command processor
+    m_captureDeviceAdaptor->setMount(static_cast<ISD::Mount *>(device));
+    m_captureDeviceAdaptor->getMount()->disconnect(this);
+    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::numberUpdated, this,
+            &Ekos::Capture::processTelescopeNumber);
+    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Ekos::Capture::processNewTargetName);
+    syncTelescopeInfo();
+    return true;
+}
+
+bool Capture::addRotator(ISD::Rotator * device)
+{
+    for (auto &oneRotator : m_Rotators)
+    {
+        if (oneRotator->getDeviceName() == device->getDeviceName())
+            return false;
+    }
+
+    m_Rotators.append(device);
+    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::rotatorReverseToggled, this,
+            &Capture::setRotatorReversed,
+            Qt::UniqueConnection);
+
+    m_captureDeviceAdaptor->setRotator(device);
+    rotatorB->setEnabled(true);
+    return true;
+}
+
+bool Capture::addLightBox(ISD::LightBox *device)
 {
     for (auto &oneLightBox : m_LightBoxes)
     {
         if (oneLightBox->getDeviceName() == device->getDeviceName())
-            return;
+            return false;
     }
 
     m_LightBoxes.append(device);
@@ -618,6 +666,8 @@ void Capture::addLightBox(ISD::LightBox *device)
     // forward it to the command processor
     if (! m_captureDeviceAdaptor.isNull())
         m_captureDeviceAdaptor->setLightBox(device);
+
+    return true;
 }
 
 void Capture::pause()
@@ -915,11 +965,6 @@ void Capture::stop(CaptureState targetState)
     m_State = targetState;
 
     // Turn off any calibration light, IF they were turned on by Capture module
-    if (m_captureDeviceAdaptor->getDustCap() && dustCapLightEnabled)
-    {
-        dustCapLightEnabled = false;
-        m_captureDeviceAdaptor->getDustCap()->SetLightEnabled(false);
-    }
     if (m_captureDeviceAdaptor->getLightBox() && lightBoxLightEnabled)
     {
         lightBoxLightEnabled = false;
@@ -4205,17 +4250,6 @@ int Capture::getTotalFramesCount(QString signature)
         return -1;
 }
 
-
-void Capture::addRotator(ISD::Rotator * device)
-{
-    connect(m_captureDeviceAdaptor.data(), &Ekos::CaptureDeviceAdaptor::rotatorReverseToggled, this,
-            &Capture::setRotatorReversed,
-            Qt::UniqueConnection);
-
-    m_captureDeviceAdaptor->setRotator(device);
-    rotatorB->setEnabled(true);
-}
-
 void Capture::setRotatorReversed(bool toggled)
 {
     rotatorSettings->ReverseDirectionCheck->setEnabled(true);
@@ -4224,17 +4258,6 @@ void Capture::setRotatorReversed(bool toggled)
     rotatorSettings->ReverseDirectionCheck->setChecked(toggled);
     rotatorSettings->ReverseDirectionCheck->blockSignals(false);
 
-}
-
-void Capture::addMount(ISD::Mount *device)
-{
-    // forward it to the command processor
-    m_captureDeviceAdaptor->setMount(static_cast<ISD::Mount *>(device));
-    m_captureDeviceAdaptor->getMount()->disconnect(this);
-    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::numberUpdated, this,
-            &Ekos::Capture::processTelescopeNumber);
-    connect(m_captureDeviceAdaptor->getMount(), &ISD::Mount::newTargetName, this, &Ekos::Capture::processNewTargetName);
-    syncTelescopeInfo();
 }
 
 void Capture::processNewTargetName(const QString &name)

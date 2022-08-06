@@ -19,9 +19,6 @@
 #include "manager/guidemanager.h"
 #include "fitsviewer/summaryfitsview.h"
 #include "align/align.h"
-#include "auxiliary/dome.h"
-#include "auxiliary/weather.h"
-#include "auxiliary/dustcap.h"
 #include "capture/capture.h"
 #include "focus/focus.h"
 #include "guide/guide.h"
@@ -29,7 +26,7 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "analyze/analyze.h"
-#include "observatory/observatory.h"
+//#include "observatory/observatory.h"
 #include "auxiliary/filtermanager.h"
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
@@ -133,14 +130,6 @@ class Manager : public QDialog, public Ui::Manager
         Focus *focusModule()
         {
             return focusProcess.get();
-        }
-        Dome  *domeModule()
-        {
-            return domeProcess.get();
-        }
-        DustCap *capModule()
-        {
-            return dustCapProcess.get();
         }
         Capture *captureModule()
         {
@@ -382,6 +371,7 @@ class Manager : public QDialog, public Ui::Manager
         void processNewDevice(ISD::GenericDevice *device);
         void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
+        void setDeviceReady();
 
         void processNewNumber(INumberVectorProperty *nvp);
         void processNewText(ITextVectorProperty *tvp);
@@ -439,6 +429,13 @@ class Manager : public QDialog, public Ui::Manager
         void addGuider(ISD::Guider *device);
         void addGPS(ISD::GPS *device);
 
+        /**
+         * @brief syncGenericDevice Check if this device needs to be added to any Ekos module.
+         * @param device pointer to generic device.
+         */
+        void syncGenericDevice(ISD::GenericDevice *device);
+        void createModules(ISD::GenericDevice *device);
+
         // Profiles
         void addProfile();
         void editProfile();
@@ -475,10 +472,7 @@ class Manager : public QDialog, public Ui::Manager
         void initGuide();
         void initAlign();
         void initMount();
-        void initDome();
-        void initWeather();
-        void initObservatory(Weather *weather, Dome *dome);
-        void initDustCap();
+        //void initObservatory();
 
         void loadDrivers();
         void loadProfiles();
@@ -532,10 +526,8 @@ class Manager : public QDialog, public Ui::Manager
         std::unique_ptr<Mount> mountProcess;
         std::unique_ptr<Analyze> analyzeProcess;
         std::unique_ptr<Scheduler> schedulerProcess;
-        std::unique_ptr<Observatory> observatoryProcess;
-        std::unique_ptr<Dome> domeProcess;
-        std::unique_ptr<Weather> weatherProcess;
-        std::unique_ptr<DustCap> dustCapProcess;
+        // FIXME migrate
+        //std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<EkosLive::Client> ekosLiveClient;
 
         bool m_LocalMode { true };
@@ -571,6 +563,7 @@ class Manager : public QDialog, public Ui::Manager
 
         ProfileInfo *currentProfile { nullptr };
         bool profileWizardLaunched { false };
+        QString m_PrimaryCamera, m_GuideCamera;
 
         // Port Selector
         std::unique_ptr<Selector::Dialog> m_PortSelector;

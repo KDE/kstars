@@ -76,12 +76,18 @@ class Mount : public QWidget, public Ui::Mount
         } MeridianFlipStatus;
 
         /**
-             * @brief addMount Sets the mount module telescope interface
-             * @param device pointer to telescope interface object
+             * @brief addMount Add a new Mount device
+             * @param device pointer to mount device
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addMount(ISD::Mount *device);
+        bool addMount(ISD::Mount *device);
 
-        void addGPS(ISD::GPS *device);
+        /**
+             * @brief addGPS Add a new GPS device
+             * @param device pointer to gps device
+             * @return True if added successfully, false if duplicate or failed to add.
+             */
+        bool addGPS(ISD::GPS *device);
 
         void removeDevice(ISD::GenericDevice *device);
 

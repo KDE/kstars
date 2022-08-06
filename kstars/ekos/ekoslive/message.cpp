@@ -225,10 +225,6 @@ void Message::onTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
-    else if (command.startsWith("dome_"))
-        processDomeCommands(command, payload);
-    else if (command.startsWith("cap_"))
-        processCapCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
     else if (command.startsWith("fm_"))
@@ -927,44 +923,6 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             }
         }
     }
-}
-
-void Message::processDomeCommands(const QString &command, const QJsonObject &payload)
-{
-    Ekos::Dome *dome = m_Manager->domeModule();
-
-    if (dome == nullptr)
-    {
-        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as dome module is not available";
-        return;
-    }
-
-    if (command == commands[DOME_PARK])
-        dome->park();
-    else if (command == commands[DOME_UNPARK])
-        dome->unpark();
-    else if (command == commands[DOME_STOP])
-        dome->abort();
-    else if (command == commands[DOME_GOTO])
-        dome->setAzimuthPosition(payload["az"].toDouble());
-}
-
-void Message::processCapCommands(const QString &command, const QJsonObject &payload)
-{
-    Ekos::DustCap *cap = m_Manager->capModule();
-
-    if (cap == nullptr)
-    {
-        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as cap module is not available";
-        return;
-    }
-
-    if (command == commands[CAP_PARK])
-        cap->park();
-    else if (command == commands[CAP_UNPARK])
-        cap->unpark();
-    else if (command == commands[CAP_SET_LIGHT])
-        cap->setLightEnabled(payload["enabled"].toBool());
 }
 
 void Message::processAlignCommands(const QString &command, const QJsonObject &payload)

@@ -176,27 +176,31 @@ class Focus : public QWidget, public Ui::Focus
         /**
              * @brief Add CCD to the list of available CCD.
              * @param newCCD pointer to CCD device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addCamera(ISD::Camera *device);
+        bool addCamera(ISD::Camera *device);
 
         /**
              * @brief addFocuser Add focuser to the list of available focusers.
              * @param newFocuser pointer to focuser device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addFocuser(ISD::Focuser *newFocuser);
+        bool addFocuser(ISD::Focuser *device);
 
         /**
              * @brief addFilter Add filter to the list of available filters.
              * @param newFilter pointer to filter device.
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addFilterWheel(ISD::FilterWheel *filterWheel);
+        bool addFilterWheel(ISD::FilterWheel *device);
 
 
         /**
              * @brief addTemperatureSource Add temperature source to the list of available sources.
              * @param newSource Device with temperature reporting capability
+             * @return True if added successfully, false if duplicate or failed to add.
              */
-        void addTemperatureSource(ISD::GenericDevice *device);
+        bool addTemperatureSource(ISD::GenericDevice *device);
 
         /**
          * @brief removeDevice Remove device from Focus module

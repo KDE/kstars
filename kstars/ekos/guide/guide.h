@@ -184,11 +184,42 @@ class Guide : public QWidget, public Ui::Guide
 
         /** @}*/
 
-        void addCamera(ISD::Camera *device);
-        void addGuideHead(ISD::Camera *device);
-        void addMount(ISD::Mount *device);
-        void addGuider(ISD::Guider *device);
-        void addAdaptiveOptics(ISD::AdaptiveOptics *device);
+        /**
+         * @brief Add new Camera
+         * @param device pointer to camera device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addCamera(ISD::Camera *device);
+
+        /**
+         * @brief Add new Camera
+         * @param device pointer to camera device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addGuideHead(ISD::Camera *device);
+
+
+        /**
+         * @brief Add new Mount
+         * @param device pointer to Mount device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addMount(ISD::Mount *device);
+
+        /**
+         * @brief Add new Guider
+         * @param device pointer to Guider device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addGuider(ISD::Guider *device);
+
+        /**
+         * @brief Add new Adaptive Optics
+         * @param device pointer to AO device.
+         * @return True if added successfully, false if duplicate or failed to add.
+        */
+        bool addAdaptiveOptics(ISD::AdaptiveOptics *device);
+
         void removeDevice(ISD::GenericDevice *device);
         void configurePHD2Camera();
 
@@ -539,11 +570,13 @@ class Guide : public QWidget, public Ui::Guide
         QString lastPHD2CameraName;
         ISD::Mount *m_Mount { nullptr };
         ISD::Guider *m_Guider { nullptr };
+        ISD::AdaptiveOptics *m_AO { nullptr };
 
         // Device Containers
         QList<ISD::Camera *> m_Cameras;
         QList<ISD::Mount *> m_Mounts;
         QList<ISD::Guider *> m_Guiders;
+        QList<ISD::AdaptiveOptics *> m_AdaptiveOptics;
 
         // Guider process
         GuideInterface *m_GuiderInstance { nullptr };

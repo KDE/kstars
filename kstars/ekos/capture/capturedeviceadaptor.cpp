@@ -63,14 +63,11 @@ void CaptureDeviceAdaptor::connectDustCap()
             &CaptureDeviceAdaptor::askManualScopeLightOpen);
     connect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
             &CaptureDeviceAdaptor::setLightBoxLight);
-    connect(currentSequenceJobState, &SequenceJobState::setDustCapLight, this,
-            &CaptureDeviceAdaptor::setDustCapLight);
     connect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
 
     connect(this, &CaptureDeviceAdaptor::manualScopeLightCover, currentSequenceJobState,
             &SequenceJobState::manualScopeLightCover);
     connect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
-    connect(this, &CaptureDeviceAdaptor::dustCapLight, currentSequenceJobState, &SequenceJobState::dustCapLight);
     connect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
             &SequenceJobState::dustCapStatusChanged);
 }
@@ -86,14 +83,11 @@ void CaptureDeviceAdaptor::disconnectDustCap()
                &CaptureDeviceAdaptor::askManualScopeLightOpen);
     disconnect(currentSequenceJobState, &SequenceJobState::setLightBoxLight, this,
                &CaptureDeviceAdaptor::setLightBoxLight);
-    disconnect(currentSequenceJobState, &SequenceJobState::setDustCapLight, this,
-               &CaptureDeviceAdaptor::setDustCapLight);
     disconnect(currentSequenceJobState, &SequenceJobState::parkDustCap, this, &CaptureDeviceAdaptor::parkDustCap);
 
     disconnect(this, &CaptureDeviceAdaptor::manualScopeLightCover, currentSequenceJobState,
                &SequenceJobState::manualScopeLightCover);
     disconnect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
-    disconnect(this, &CaptureDeviceAdaptor::dustCapLight, currentSequenceJobState, &SequenceJobState::dustCapLight);
     disconnect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
                &SequenceJobState::dustCapStatusChanged);
 }
@@ -392,16 +386,6 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
         emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
     else
         emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
-}
-
-void CaptureDeviceAdaptor::setDustCapLight(bool on)
-{
-    // If light is not on, set it.
-    if (m_ActiveDustCap->hasLight())
-    {
-        m_ActiveDustCap->SetLightEnabled(on);
-        emit dustCapLight(on);
-    }
 }
 
 void CaptureDeviceAdaptor::slewTelescope(SkyPoint &target)

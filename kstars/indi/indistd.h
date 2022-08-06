@@ -96,7 +96,7 @@ class GDInterface : public QObject
         virtual void processText(ITextVectorProperty *tvp) = 0;
         virtual void processNumber(INumberVectorProperty *nvp) = 0;
         virtual void processLight(ILightVectorProperty *lvp) = 0;
-        virtual void processBLOB(IBLOB *bp) = 0;
+        virtual bool processBLOB(IBLOB *bp) = 0;
 
         // Messages
         virtual void processMessage(int messageID) = 0;
@@ -126,7 +126,14 @@ class GenericDevice : public GDInterface
         virtual void processText(ITextVectorProperty *tvp) override;
         virtual void processNumber(INumberVectorProperty *nvp) override;
         virtual void processLight(ILightVectorProperty *lvp) override;
-        virtual void processBLOB(IBLOB *bp) override;
+
+    /**
+         * @brief processBLOB Process Binary BLOB
+         * @param bp pointer to binary blob.
+         * @return Return true of BLOB was successfully processed. If a concrete device does not process the blob, it should
+         * return false to allow sibling or parent devices to process the blob.
+         */
+        virtual bool processBLOB(IBLOB *bp) override;
         virtual void processMessage(int messageID) override;
 
         virtual const QString &getDeviceName() const;

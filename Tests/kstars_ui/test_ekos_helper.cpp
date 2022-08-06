@@ -9,7 +9,8 @@
 #include "test_ekos_helper.h"
 #include "ksutils.h"
 
-TestEkosHelper::TestEkosHelper(QString guider) {
+TestEkosHelper::TestEkosHelper(QString guider)
+{
     m_Guider = guider;
     m_MountDevice = "Telescope Simulator";
     m_CCDDevice   = "CCD Simulator";
@@ -46,49 +47,56 @@ void TestEkosHelper::fillProfile(bool *isDone)
     ProfileEditor* profileEditor = Ekos::Manager::Instance()->findChild<ProfileEditor*>("profileEditorDialog");
 
     // Select the mount device
-    if (m_MountDevice != nullptr) {
+    if (m_MountDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, mountCombo);
         setTreeviewCombo(mountCombo, m_MountDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Mount selected.";
     }
 
     // Selet the CCD device
-    if (m_CCDDevice != nullptr) {
+    if (m_CCDDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
         setTreeviewCombo(ccdCombo, m_CCDDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: CCD selected.";
     }
 
     // Select the focuser device
-    if (m_FocuserDevice != nullptr) {
+    if (m_FocuserDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, focuserCombo);
         setTreeviewCombo(focuserCombo, m_FocuserDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Focuser selected.";
     }
 
     // Select the guider device
-    if (m_GuiderDevice != nullptr) {
+    if (m_GuiderDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, guiderCombo);
         setTreeviewCombo(guiderCombo, m_GuiderDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Guider selected.";
     }
 
     // Select the light panel device for flats capturing
-    if (m_LightPanelDevice != nullptr) {
+    if (m_LightPanelDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, aux1Combo);
         setTreeviewCombo(aux1Combo, m_LightPanelDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Light panel selected.";
     }
 
     // Select the dome device
-    if (m_DomeDevice != nullptr) {
+    if (m_DomeDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, domeCombo);
         setTreeviewCombo(domeCombo, m_DomeDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Dome selected.";
     }
 
     // Select the rotator device
-    if (m_RotatorDevice != nullptr) {
+    if (m_RotatorDevice != nullptr)
+    {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, aux2Combo);
         setTreeviewCombo(aux2Combo, m_RotatorDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Rotator selected.";
@@ -124,7 +132,7 @@ bool TestEkosHelper::setupEkosProfile(QString name, bool isPHD2)
         if (editProfileB->isEnabled())
         {
             // start with a delay of 1 sec a new thread that edits the profile
-            QTimer::singleShot(1000, ekos, [&]{fillProfile(&isDone);});
+            QTimer::singleShot(1000, ekos, [&] {fillProfile(&isDone);});
             KTRY_CLICK_SUB(ekos, editProfileB);
         }
         else
@@ -138,7 +146,7 @@ bool TestEkosHelper::setupEkosProfile(QString name, bool isPHD2)
     {
         // start with a delay of 1 sec a new thread that edits the profile
         qCInfo(KSTARS_EKOS_TEST) << "Creating new profile " << name << " ...";
-        QTimer::singleShot(1000, ekos, [&]{createEkosProfile(name, isPHD2, &isDone);});
+        QTimer::singleShot(1000, ekos, [&] {createEkosProfile(name, isPHD2, &isDone);});
         // create new profile addProfileB
         KTRY_CLICK_SUB(ekos, addProfileB);
     }
@@ -205,8 +213,8 @@ void TestEkosHelper::connectModules()
             Qt::UniqueConnection);
 
     // connect to the dome process to receive dome status changes
-    connect(ekos->domeModule(), &Ekos::Dome::newStatus, this, &TestEkosHelper::domeStatusChanged,
-            Qt::UniqueConnection);
+    //    connect(ekos->domeModule(), &Ekos::Dome::newStatus, this, &TestEkosHelper::domeStatusChanged,
+    //            Qt::UniqueConnection);
 }
 
 bool TestEkosHelper::startEkosProfile()
@@ -240,8 +248,8 @@ bool TestEkosHelper::startEkosProfile()
 bool TestEkosHelper::shutdownEkosProfile()
 {
     // disconnect to the dome process to receive dome status changes
-    disconnect(Ekos::Manager::Instance()->domeModule(), &Ekos::Dome::newStatus, this,
-               &TestEkosHelper::domeStatusChanged);
+    //    disconnect(Ekos::Manager::Instance()->domeModule(), &Ekos::Dome::newStatus, this,
+    //               &TestEkosHelper::domeStatusChanged);
     // disconnect to the focus process to receive focus status changes
     disconnect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this,
                &TestEkosHelper::focusStatusChanged);
@@ -290,7 +298,7 @@ void TestEkosHelper::startPHD2()
 {
     phd2 = new QProcess(this);
     QStringList arguments;
-        // Start PHD2 with the proper configuration
+    // Start PHD2 with the proper configuration
     phd2->start(QString("phd2"), arguments);
     QVERIFY(phd2->waitForStarted(3000));
     QTest::qWait(2000);
@@ -465,7 +473,8 @@ bool TestEkosHelper::checkAstrometryFiles()
     return false;
 }
 
-void TestEkosHelper::init() {
+void TestEkosHelper::init()
+{
     // initialize the recorded states
     m_AlignStatus   = Ekos::ALIGN_IDLE;
     m_CaptureStatus = Ekos::CAPTURE_IDLE;
@@ -487,7 +496,8 @@ void TestEkosHelper::init() {
     // disable by default
     use_guiding = false;
 }
-void TestEkosHelper::cleanup() {
+void TestEkosHelper::cleanup()
+{
 
 }
 
@@ -499,7 +509,8 @@ void TestEkosHelper::cleanup() {
 void TestEkosHelper::setTreeviewCombo(QComboBox *combo, QString lookup)
 {
     // Match the text recursively in the model, this results in a model index with a parent
-    QModelIndexList const list = combo->model()->match(combo->model()->index(0, 0), Qt::DisplayRole, QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
+    QModelIndexList const list = combo->model()->match(combo->model()->index(0, 0), Qt::DisplayRole,
+                                 QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
     QVERIFY(0 < list.count());
     QModelIndex const &index = list.first();
     QCOMPARE(list.value(0).data().toString(), lookup);

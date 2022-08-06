@@ -187,9 +187,6 @@ if (INDI_FOUND)
             ekos/opsekos.cpp
 
             # Auxiliary
-            ekos/auxiliary/dome.cpp
-            ekos/auxiliary/weather.cpp
-            ekos/auxiliary/dustcap.cpp
             ekos/auxiliary/darklibrary.cpp
             ekos/auxiliary/darkprocessor.cpp
             ekos/auxiliary/darkview.cpp
@@ -292,10 +289,11 @@ if (INDI_FOUND)
             ekos/guide/externalguide/linguider.cpp
 
             #Observatory
-            ekos/observatory/observatory.cpp
-            ekos/observatory/observatorymodel.cpp
-            ekos/observatory/observatorydomemodel.cpp
-            ekos/observatory/observatoryweathermodel.cpp
+            # Needs to migrate Observatory
+#            ekos/observatory/observatory.cpp
+#            ekos/observatory/observatorymodel.cpp
+#            ekos/observatory/observatorydomemodel.cpp
+#            ekos/observatory/observatoryweathermodel.cpp
 
             # Ekos Live
             ekos/ekoslive/ekosliveclient.cpp
@@ -1142,11 +1140,9 @@ IF (NOT ANDROID)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
+        # TODO enable back observatory
+        #qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
     ENDIF ()
 
     ki18n_wrap_ui(kstars_SRCS

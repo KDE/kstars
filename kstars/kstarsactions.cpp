@@ -807,19 +807,21 @@ void KStars::slotINDITelescopeTrack()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected())
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false)
+            continue;
+
+        KToggleAction *a = qobject_cast<KToggleAction *>(sender());
+
+        if (a != nullptr)
         {
-            KToggleAction *a = qobject_cast<KToggleAction *>(sender());
-
-            if (a != nullptr)
-            {
-                telescope->setTrackEnabled(a->isChecked());
-                return;
-            }
+            mount->setTrackEnabled(a->isChecked());
+            return;
         }
     }
 #endif
@@ -831,22 +833,23 @@ void KStars::slotINDITelescopeSlew(bool focused_object)
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected())
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false)
+            continue;
+        if (focused_object)
         {
-            if (focused_object)
-            {
-                if (m_SkyMap->focusObject() != nullptr)
-                    telescope->Slew(m_SkyMap->focusObject());
-            }
-            else
-                telescope->Slew(m_SkyMap->mousePoint());
-
-            return;
+            if (m_SkyMap->focusObject() != nullptr)
+                mount->Slew(m_SkyMap->focusObject());
         }
+        else
+            mount->Slew(m_SkyMap->mousePoint());
+
+        return;
     }
 #else
     Q_UNUSED(focused_object)
@@ -866,22 +869,24 @@ void KStars::slotINDITelescopeSync(bool focused_object)
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected() && telescope->canSync())
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false)
+            continue;
+
+        if (focused_object)
         {
-            if (focused_object)
-            {
-                if (m_SkyMap->focusObject() != nullptr)
-                    telescope->Sync(m_SkyMap->focusObject());
-            }
-            else
-                telescope->Sync(m_SkyMap->mousePoint());
-
-            return;
+            if (m_SkyMap->focusObject() != nullptr)
+                mount->Sync(m_SkyMap->focusObject());
         }
+        else
+            mount->Sync(m_SkyMap->mousePoint());
+
+        return;
     }
 #else
     Q_UNUSED(focused_object)
@@ -901,15 +906,17 @@ void KStars::slotINDITelescopeAbort()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected())
-        {
-            telescope->Abort();
-            return;
-        }
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false)
+            continue;
+
+        mount->Abort();
+        return;
     }
 #endif
 }
@@ -920,15 +927,17 @@ void KStars::slotINDITelescopePark()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
-        {
-            telescope->Park();
-            return;
-        }
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false || mount->canPark() == false)
+            continue;
+
+        mount->Park();
+        return;
     }
 #endif
 }
@@ -939,15 +948,17 @@ void KStars::slotINDITelescopeUnpark()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Mount *telescope = dynamic_cast<ISD::Mount *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
 
-        if (telescope != nullptr && telescope->isConnected() && telescope->canPark())
-        {
-            telescope->UnPark();
-            return;
-        }
+        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        if (!mount || mount->isConnected() == false || mount->canPark() == false)
+            continue;
+
+        mount->UnPark();
+        return;
     }
 #endif
 }
@@ -958,11 +969,15 @@ void KStars::slotINDIDomePark()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Dome *dome = dynamic_cast<ISD::Dome *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::DOME_INTERFACE))
+            continue;
 
-        if (dome != nullptr && dome->isConnected() && dome->canPark())
+        auto dome = dynamic_cast<ISD::Dome *>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        if (!dome || dome->isConnected() == false)
+            continue;
+        if (dome->canPark())
         {
             dome->Park();
             return;
@@ -977,11 +992,15 @@ void KStars::slotINDIDomeUnpark()
     if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
         return;
 
-    for (auto *gd : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::Instance()->getDevices())
     {
-        ISD::Dome *dome = dynamic_cast<ISD::Dome *>(gd);
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::DOME_INTERFACE))
+            continue;
 
-        if (dome != nullptr && dome->isConnected() && dome->canPark())
+        auto dome = dynamic_cast<ISD::Dome *>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        if (!dome || dome->isConnected() == false)
+            continue;
+        if (dome->canPark())
         {
             dome->UnPark();
             return;
