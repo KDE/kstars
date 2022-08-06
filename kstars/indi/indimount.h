@@ -233,6 +233,11 @@ class Mount : public ConcreteDevice
          */
         void updateJ2000Coordinates(SkyPoint *coords);
 
+        /**
+         * @brief updateParkStatus Updating parking status by checking the TELESCOPE_PARK property.
+         */
+        void updateParkStatus();
+
     public slots:
         bool Abort();
         bool Park();

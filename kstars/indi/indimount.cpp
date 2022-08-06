@@ -131,6 +131,8 @@ void Mount::registerProperty(INDI::Property prop)
             emit pierSideChanged(m_PierSide);
         }
     }
+    else if (prop->isNameMatch("TELESCOPE_PARK"))
+        updateParkStatus();
     else if (prop->isNameMatch("TELESCOPE_TRACK_STATE"))
         m_canControlTrack = true;
     else if (prop->isNameMatch("TELESCOPE_TRACK_MODE"))
@@ -301,68 +303,7 @@ void Mount::processSwitch(ISwitchVectorProperty *svp)
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_PARK"))
-    {
-        ISwitch *sp = IUFindSwitch(svp, "PARK");
-        if (sp)
-        {
-            if (svp->s == IPS_ALERT)
-            {
-                // First, inform everyone watch this that an error occurred.
-                emit newParkStatus(PARK_ERROR);
-                // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
-                // Whatever the current switch is set to
-                m_ParkStatus = (sp->s == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
-                KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
-            }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
-            {
-                m_ParkStatus = PARK_PARKING;
-                KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"));
-                currentObject = nullptr;
-
-                emit newParkStatus(m_ParkStatus);
-            }
-            else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
-            {
-                m_ParkStatus = PARK_UNPARKING;
-                KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"));
-
-                emit newParkStatus(m_ParkStatus);
-            }
-            else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
-            {
-                m_ParkStatus = PARK_PARKED;
-                KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
-                currentObject = nullptr;
-
-                emit newParkStatus(m_ParkStatus);
-
-                QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
-                if (parkAction)
-                    parkAction->setEnabled(false);
-                QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
-                if (unParkAction)
-                    unParkAction->setEnabled(true);
-
-                emit newTarget(currentCoords);
-            }
-            else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
-            {
-                m_ParkStatus = PARK_UNPARKED;
-                KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
-                currentObject = nullptr;
-
-                emit newParkStatus(m_ParkStatus);
-
-                QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
-                if (parkAction)
-                    parkAction->setEnabled(true);
-                QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
-                if (unParkAction)
-                    unParkAction->setEnabled(false);
-            }
-        }
-    }
+        updateParkStatus();
     else if (!strcmp(svp->name, "TELESCOPE_ABORT_MOTION"))
     {
         if (svp->s == IPS_OK)
@@ -471,6 +412,73 @@ void Mount::processText(ITextVectorProperty *tvp)
     }
 }
 
+void Mount::updateParkStatus()
+{
+    auto svp = getSwitch("TELESCOPE_PARK");
+    if (!svp)
+        return;
+
+    ISwitch *sp = IUFindSwitch(svp, "PARK");
+    if (sp)
+    {
+        if (svp->s == IPS_ALERT)
+        {
+            // First, inform everyone watch this that an error occurred.
+            emit newParkStatus(PARK_ERROR);
+            // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
+            // Whatever the current switch is set to
+            m_ParkStatus = (sp->s == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
+            KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
+        }
+        else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
+        {
+            m_ParkStatus = PARK_PARKING;
+            KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"));
+            currentObject = nullptr;
+
+            emit newParkStatus(m_ParkStatus);
+        }
+        else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
+        {
+            m_ParkStatus = PARK_UNPARKING;
+            KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"));
+
+            emit newParkStatus(m_ParkStatus);
+        }
+        else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
+        {
+            m_ParkStatus = PARK_PARKED;
+            KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
+            currentObject = nullptr;
+
+            emit newParkStatus(m_ParkStatus);
+
+            QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+            if (parkAction)
+                parkAction->setEnabled(false);
+            QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+            if (unParkAction)
+                unParkAction->setEnabled(true);
+
+            emit newTarget(currentCoords);
+        }
+        else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
+        {
+            m_ParkStatus = PARK_UNPARKED;
+            KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
+            currentObject = nullptr;
+
+            emit newParkStatus(m_ParkStatus);
+
+            QAction *parkAction = KStars::Instance()->actionCollection()->action("telescope_park");
+            if (parkAction)
+                parkAction->setEnabled(true);
+            QAction *unParkAction = KStars::Instance()->actionCollection()->action("telescope_unpark");
+            if (unParkAction)
+                unParkAction->setEnabled(false);
+        }
+    }
+}
 bool Mount::canGuide()
 {
     auto raPulse  = getNumber("TELESCOPE_TIMED_GUIDE_WE");
