@@ -434,6 +434,7 @@ class Manager : public QDialog, public Ui::Manager
          * @param device pointer to generic device.
          */
         void syncGenericDevice(ISD::GenericDevice *device);
+        void createModules(ISD::GenericDevice *device);
 
         // Profiles
         void addProfile();

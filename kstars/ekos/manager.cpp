@@ -1309,30 +1309,30 @@ void Manager::processNewDevice(ISD::GenericDevice * device)
 
     nDevices--;
 
-    connect(device, &ISD::GenericDevice::ready, this, &Ekos::Manager::setDeviceReady);
-    connect(device, &ISD::GenericDevice::newMount, this, &Ekos::Manager::addMount);
-    connect(device, &ISD::GenericDevice::newCamera, this, &Ekos::Manager::addCamera);
-    connect(device, &ISD::GenericDevice::newGuider, this, &Ekos::Manager::addGuider);
-    connect(device, &ISD::GenericDevice::newFilterWheel, this, &Ekos::Manager::addFilterWheel);
-    connect(device, &ISD::GenericDevice::newFocuser, this, &Ekos::Manager::addFocuser);
-    connect(device, &ISD::GenericDevice::newDome, this, &Ekos::Manager::addDome);
-    connect(device, &ISD::GenericDevice::newRotator, this, &Ekos::Manager::addRotator);
-    connect(device, &ISD::GenericDevice::newWeather, this, &Ekos::Manager::addWeather);
-    connect(device, &ISD::GenericDevice::newDustCap, this, &Ekos::Manager::addDustCap);
-    connect(device, &ISD::GenericDevice::newLightBox, this, &Ekos::Manager::addLightBox);
-    connect(device, &ISD::GenericDevice::newGPS, this, &Ekos::Manager::addGPS);
+    connect(device, &ISD::GenericDevice::ready, this, &Ekos::Manager::setDeviceReady, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newMount, this, &Ekos::Manager::addMount, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newCamera, this, &Ekos::Manager::addCamera, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newGuider, this, &Ekos::Manager::addGuider, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newFilterWheel, this, &Ekos::Manager::addFilterWheel, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newFocuser, this, &Ekos::Manager::addFocuser, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newDome, this, &Ekos::Manager::addDome, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newRotator, this, &Ekos::Manager::addRotator, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newWeather, this, &Ekos::Manager::addWeather, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newDustCap, this, &Ekos::Manager::addDustCap, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newLightBox, this, &Ekos::Manager::addLightBox, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::newGPS, this, &Ekos::Manager::addGPS, Qt::UniqueConnection);
 
-    connect(device, &ISD::GenericDevice::Connected, this, &Ekos::Manager::deviceConnected);
-    connect(device, &ISD::GenericDevice::Disconnected, this, &Ekos::Manager::deviceDisconnected);
-    connect(device, &ISD::GenericDevice::propertyDefined, this, &Ekos::Manager::processNewProperty);
-    connect(device, &ISD::GenericDevice::propertyDeleted, this, &Ekos::Manager::processDeleteProperty);
-    connect(device, &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices);
+    connect(device, &ISD::GenericDevice::Connected, this, &Ekos::Manager::deviceConnected, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::Disconnected, this, &Ekos::Manager::deviceDisconnected, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::propertyDefined, this, &Ekos::Manager::processNewProperty, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::propertyDeleted, this, &Ekos::Manager::processDeleteProperty, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::interfaceDefined, this, &Ekos::Manager::syncActiveDevices, Qt::UniqueConnection);
 
-    connect(device, &ISD::GenericDevice::numberUpdated, this, &Ekos::Manager::processNewNumber);
-    connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::processNewSwitch);
-    connect(device, &ISD::GenericDevice::textUpdated, this, &Ekos::Manager::processNewText);
-    connect(device, &ISD::GenericDevice::lightUpdated, this, &Ekos::Manager::processNewLight);
-    connect(device, &ISD::GenericDevice::BLOBUpdated, this, &Ekos::Manager::processNewBLOB);
+    connect(device, &ISD::GenericDevice::numberUpdated, this, &Ekos::Manager::processNewNumber, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::processNewSwitch, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::textUpdated, this, &Ekos::Manager::processNewText, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::lightUpdated, this, &Ekos::Manager::processNewLight, Qt::UniqueConnection);
+    connect(device, &ISD::GenericDevice::BLOBUpdated, this, &Ekos::Manager::processNewBLOB, Qt::UniqueConnection);
 
     // Only look for primary & guider CCDs if we can tell a difference between them
     // otherwise rely on saved options
@@ -1517,47 +1517,38 @@ void Manager::deviceDisconnected()
 
 void Manager::addMount(ISD::Mount * device)
 {
-    initMount();
+    syncGenericDevice(device->genericDevice());
 
     ekosLiveClient->message()->sendMounts();
     ekosLiveClient->message()->sendScopes();
-
-    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addCamera(ISD::Camera * device)
 {
-    initCapture();
+    syncGenericDevice(device->genericDevice());
+
     captureProcess->setEnabled(true);
     capturePreview->setEnabled(true);
 
-    initFocus();
-    initAlign();
-    initGuide();
-
     ekosLiveClient.get()->message()->sendCameras();
     ekosLiveClient.get()->media()->registerCameras();
-
-    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addFilterWheel(ISD::FilterWheel * device)
 {
-    ekosLiveClient.get()->message()->sendFilterWheels();
-
     syncGenericDevice(device->genericDevice());
+
+    ekosLiveClient.get()->message()->sendFilterWheels();
 
     appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
 }
 
 void Manager::addFocuser(ISD::Focuser *device)
 {
-    initFocus();
-
     syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 focuser is online.", device->getDeviceName()));
@@ -1572,19 +1563,15 @@ void Manager::addRotator(ISD::Rotator *device)
 
 void Manager::addDome(ISD::Dome * device)
 {
-    //initObservatory();
+    syncGenericDevice(device->genericDevice());
 
     ekosLiveClient.get()->message()->sendDomes();
-
-    syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
 void Manager::addWeather(ISD::Weather * device)
 {
-    //initObservatory();
-
     syncGenericDevice(device->genericDevice());
 
     appendLogText(i18n("%1 Weather is online.", device->getDeviceName()));
@@ -1599,9 +1586,9 @@ void Manager::addGPS(ISD::GPS * device)
 
 void Manager::addDustCap(ISD::DustCap * device)
 {
-    ekosLiveClient.get()->message()->sendCaps();
-
     syncGenericDevice(device->genericDevice());
+
+    ekosLiveClient.get()->message()->sendCaps();
 
     appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
 }
@@ -1615,6 +1602,7 @@ void Manager::addLightBox(ISD::LightBox * device)
 
 void Manager::syncGenericDevice(ISD::GenericDevice *device)
 {
+    createModules(device);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Cameras
@@ -3519,13 +3507,64 @@ void Manager::activateModule(const QString &name, bool popup)
     }
 }
 
+void Manager::createModules(ISD::GenericDevice *device)
+{
+    if (device->isConnected())
+    {
+        if (device->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+        {
+            initCapture();
+            initFocus();
+            initAlign();
+            initGuide();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::FILTER_INTERFACE)
+        {
+            initCapture();
+            initFocus();
+            initAlign();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+            initFocus();
+        if (device->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
+        {
+            initCapture();
+            initAlign();
+            initGuide();
+            initMount();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::DOME_INTERFACE)
+        {
+            initCapture();
+            initAlign();
+            //initObservatory();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::WEATHER_INTERFACE)
+        {
+            initAlign();
+            //initObservatory();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+        {
+            initCapture();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::LIGHTBOX_INTERFACE)
+        {
+            initCapture();
+        }
+    }
+}
+
 void Manager::setDeviceReady()
 {
+    auto device = static_cast<ISD::GenericDevice*>(sender());
+
+    if (device->isConnected())
+        createModules(device);
     // Check if we need to perform autoconnect
     // After a device is declared ready. i.e. when all properties arrived.
-    if (currentProfile->autoConnect && currentProfile->portSelector == false)
+    else if (currentProfile->autoConnect && currentProfile->portSelector == false)
     {
-        auto device = static_cast<ISD::GenericDevice*>(sender());
         if (device)
             device->Connect();
     }

@@ -82,8 +82,8 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::ready);
     connect(this, &GenericDevice::ready, this, [this]()
     {
-        if (m_ConcreteDevices.empty())
-            generateDevices();
+        generateDevices();
+        m_ReadyTimer->disconnect(this);
     });
 }
 
