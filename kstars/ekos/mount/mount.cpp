@@ -225,6 +225,45 @@ Mount::~Mount()
     delete(currentTargetPosition);
 }
 
+void Mount::setupParkUI()
+{
+    if (m_Mount == nullptr)
+        return;
+
+    if (m_Mount->canPark())
+    {
+        switch(m_Mount->parkStatus())
+        {
+            case ISD::PARK_PARKED:
+                parkingTitle->setTitle("Parked");
+                break;
+            case ISD::PARK_PARKING:
+                parkingTitle->setTitle("Parking");
+                break;
+            case ISD::PARK_UNPARKING:
+                parkingTitle->setTitle("Unparking");
+                break;
+            case ISD::PARK_UNPARKED:
+                parkingTitle->setTitle("Unparked");
+                break;
+            case ISD::PARK_ERROR:
+                parkingTitle->setTitle("Park Error");
+                break;
+            case ISD::PARK_UNKNOWN:
+                parkingTitle->setTitle("Park Status Unknown");
+                break;
+        }
+        parkB->setEnabled(m_Mount->parkStatus() == ISD::PARK_UNPARKED);
+        unparkB->setEnabled(m_Mount->parkStatus() == ISD::PARK_PARKED);
+    }
+    else
+    {
+        parkB->setEnabled(false);
+        unparkB->setEnabled(false);
+        parkingTitle->setTitle("");
+    }
+}
+
 bool Mount::addMount(ISD::Mount *device)
 {
     // No duplicates
@@ -270,11 +309,8 @@ bool Mount::addMount(ISD::Mount *device)
         m_ParkStatus = status;
         emit newParkStatus(status);
 
-        if (m_Mount->canPark())
-        {
-            parkB->setEnabled(status != ISD::PARK_PARKED);
-            unparkB->setEnabled(status == ISD::PARK_PARKED);
-        }
+        setupParkUI();
+
         // If mount is unparked AND every day auto-paro check is ON
         // AND auto park timer is not yet started, we try to initiate it.
         if (status == ISD::PARK_UNPARKED && everyDayCheck->isChecked() && autoParkTimer.isActive() == false)
@@ -459,8 +495,6 @@ void Mount::syncTelescopeInfo()
 
     if (m_Mount->canPark())
     {
-        parkB->setEnabled(!m_Mount->isParked());
-        unparkB->setEnabled(m_Mount->isParked());
         connect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::Park, Qt::UniqueConnection);
         connect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::UnPark, Qt::UniqueConnection);
 
@@ -470,8 +504,6 @@ void Mount::syncTelescopeInfo()
     }
     else
     {
-        parkB->setEnabled(false);
-        unparkB->setEnabled(false);
         disconnect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::Park);
         disconnect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::UnPark);
 
@@ -479,6 +511,7 @@ void Mount::syncTelescopeInfo()
         m_Park->setEnabled(false);
         m_Unpark->setEnabled(false);
     }
+    setupParkUI();
 
     // Configs
     svp = m_Mount->getSwitch("APPLY_SCOPE_CONFIG");
@@ -737,9 +770,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         // forward
         emit newStatus(m_Status);
 
-        parkB->setEnabled(!m_Mount->isParked());
-        unparkB->setEnabled(m_Mount->isParked());
-
+        setupParkUI();
         m_Park->setEnabled(!m_Mount->isParked());
         m_Unpark->setEnabled(m_Mount->isParked());
 
@@ -924,15 +955,6 @@ void Mount::updateSwitch(ISwitchVectorProperty * svp)
         m_SpeedSlider->setProperty("value", index);
         m_SpeedLabel->setProperty("text", i18nc(libindi_strings_context, svp->sp[index].label));
     }
-    /*else if (!strcmp(svp->name, "TELESCOPE_PARK"))
-    {
-        ISwitch *sp = IUFindSwitch(svp, "PARK");
-        if (sp)
-        {
-            parkB->setEnabled((sp->s == ISS_OFF));
-            unparkB->setEnabled((sp->s == ISS_ON));
-        }
-    }*/
 }
 
 void Mount::appendLogText(const QString &text)
