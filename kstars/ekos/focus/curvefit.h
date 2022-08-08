@@ -6,7 +6,7 @@
 #include <gsl/gsl_min.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_multifit.h>
-#include <gsl/gsl_multifit_nlin.h>
+#include <gsl/gsl_multifit_nlinear.h>
 #include <gsl/gsl_blas.h>
 
 namespace Ekos
@@ -35,7 +35,6 @@ class CurveFitting
         {
             double x;            // focuser position
             double y;            // star HFR
-            double sigma;        // standard deviation of star HFR
         };
 
         struct DataPointT        // This is the data strcture passed into GSL LM routines
@@ -44,9 +43,9 @@ class CurveFitting
             QVector<DataPT> dps; // Vector of DataPT
 
             // Helper function to operate on the data structure
-            void push_back(double x, double y, double sigma)
+            void push_back(double x, double y)
             {
-                dps.push_back({x, y, sigma});
+                dps.push_back({x, y});
             }
         };
 
