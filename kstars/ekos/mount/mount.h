@@ -596,6 +596,7 @@ class Mount : public QWidget, public Ui::Mount
         void setMeridianFlipStatus(MeridianFlipStatus status);
         void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
         QString pierSideStateString();
+        void setupParkUI();
 
         // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least
         // the time for that, currently set to 20 seconds
