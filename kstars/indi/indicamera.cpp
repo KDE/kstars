@@ -869,6 +869,8 @@ void Camera::handleImage(CameraChip *targetChip, const QString &filename, IBLOB 
     data->setProperty("blobVector", bp->bvp->name);
     data->setProperty("blobElement", bp->name);
     data->setProperty("chip", targetChip->getType());
+    // Retain a copy
+    targetChip->setImageData(data);
 
     switch (captureMode)
     {
