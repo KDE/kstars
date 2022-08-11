@@ -1026,9 +1026,9 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     Options::setReuseGuideCalibration(false);
     // 4 guide calibration steps are sufficient
     Options::setAutoModeIterations(4);
-    // Set the guiding and ST4 device
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_GuiderDevice);
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_MountDevice);
+    // Set the guiding and camera device
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), cameraCombo, m_CaptureHelper->m_GuiderDevice);
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_MountDevice);
     // select primary scope (higher focal length seems better for the guiding simulator)
     KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::Camera::TELESCOPE_PRIMARY);
     // disable guiding restrictions by default

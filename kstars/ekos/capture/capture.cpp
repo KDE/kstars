@@ -3665,12 +3665,6 @@ void Capture::preparePreCaptureActions()
         return;
     }
 
-    // Update position
-    if (m_CurrentFilterPosition > 0)
-        activeJob->setCurrentFilter(m_CurrentFilterPosition);
-
-    // update temperature or guider drift not necessary, the state machine will request it if unknown
-
     setBusy(true);
 
     if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())

@@ -595,8 +595,6 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
                 if (coverQueryState == CAL_CHECK_CONFIRMATION)
                     return IPS_BUSY;
 
-                // Otherwise, we ask user to confirm manually
-                coverQueryState = CAL_CHECK_CONFIRMATION;
                 emit askManualScopeLightOpen();
 
                 return IPS_BUSY;
@@ -739,6 +737,7 @@ void SequenceJobState::manualScopeLightCover(bool closed, bool success)
     // cancelled
     else
     {
+        m_CaptureState->shutterStatus = SHUTTER_UNKNOWN;
         coverQueryState = CAL_CHECK_TASK;
         // abort, no further checks
         emit abortCapture();

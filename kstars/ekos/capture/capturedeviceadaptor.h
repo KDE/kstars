@@ -281,5 +281,6 @@ class CaptureDeviceAdaptor: public QObject
 
         // flag if manual cover has been asked
         bool m_ManualCoveringAsked { false };
+        bool m_ManualOpeningAsked { false };
 };
 }; // namespace

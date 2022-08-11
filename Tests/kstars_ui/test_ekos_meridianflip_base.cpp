@@ -146,9 +146,9 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
         KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->guideModule(), autoStarCheck, true);
         // set the guide star box to size 32
         KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "32");
-        // Set the guiding and ST4 device
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, "CCD Simulator Guider");
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), ST4Combo, m_CaptureHelper->m_MountDevice);
+        // Set the guiding and camera device
+        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), cameraCombo, m_CaptureHelper->m_GuiderDevice);
+        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_MountDevice);
         // select primary scope (higher focal length seems better for the guiding simulator)
         KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::Camera::TELESCOPE_PRIMARY);
         // use two steps in each direction for calibration
