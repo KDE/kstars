@@ -3443,8 +3443,10 @@ void Guide::setSettings(const QJsonObject &settings)
         FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
     syncControl("ra_gain", opsGuide->kcfg_RAProportionalGain);
+    Options::setRAProportionalGain(opsGuide->kcfg_RAProportionalGain->value());
     // DE Gain
     syncControl("de_gain", opsGuide->kcfg_DECProportionalGain);
+    Options::setDECProportionalGain(opsGuide->kcfg_DECProportionalGain->value());
     // Options
     const bool ditherEnabled = settings["dither_enabled"].toBool(Options::ditherEnabled());
     Options::setDitherEnabled(ditherEnabled);
