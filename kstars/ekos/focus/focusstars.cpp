@@ -61,7 +61,8 @@ int matchStars(const QList<Edge> &stars1, const QList<Edge> &stars2, int mainSta
     QVector<int> starMap;
     StarCorrespondence corr(stars1, mainStar1);
     corr.setAllowMissingGuideStar(true);
-    auto gsPosition = corr.find(stars2, maxDistance, &starMap, false, minFraction);
+    Edge gStar = corr.find(stars2, maxDistance, &starMap, false, minFraction);
+    GuiderUtils::Vector gsPosition(gStar.x, gStar.y, 0);
 
     // Grab the two sets of stars.
     const int s2Size = starMap.size();

@@ -46,8 +46,7 @@ class StarCorrespondence
         // not correspond to any input stars. There will be no star-reference mapping with
         // distance longer than maxDistance. If adapt is true, the input positions are used
         // to incrementally adapt the reference positions.
-        GuiderUtils::Vector find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt = true,
-                                 double minFraction = 0.5);
+        Edge find(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap, bool adapt = true, double minFraction = 0.5);
 
         // Returns the number of reference stars.
         int size() const
@@ -120,8 +119,8 @@ class StarCorrespondence
         // Offsets are offsets that were created for a new "substitude guide star".
         // StarMap is the map made for that substitude by findInternal().
         // Offset is the offset from the original guide star to that substitute guide star.
-        GuiderUtils::Vector inventStarPosition(const QList<Edge> &stars, QVector<int> &starMap,
-                                               QVector<Offsets> offsets, Offsets offset) const;
+        Edge inventStarPosition(const QList<Edge> &stars, const QVector<int> &starMap,
+                                QVector<Offsets> offsets, Offsets offset) const;
 
         // Finds the star closest to x,y. Returns the index in sortedStars.
         // sortedStars should be sorted in x, which allows for a speedup in search.
@@ -130,6 +129,10 @@ class StarCorrespondence
 
         // The offsets of the reference stars relative to the guide star.
         QVector<Offsets> guideStarOffsets;
+
+        // Size stats for the reference stars.
+        QVector<float> referenceSums;
+        QVector<float> referenceNumPixels;
 
         QList<Edge> references;    // The original reference stars.
         int guideStarIndex;        // The index of the guide star in references.

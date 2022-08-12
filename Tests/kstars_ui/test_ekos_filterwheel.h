@@ -54,13 +54,21 @@
  * @note This is a contrived method to set a text into a QComboBox programmatically *and* emit the "activated" message.
  * @warning Fails the test if the name does not exist in the Capture UI or if the text cannot be set in the gadget.
  */
-#define KTRY_CAPTURE_COMBO_SET(combobox, text) do { \
-    KTRY_CAPTURE_GADGET(QComboBox, combobox); \
-    int const cbIndex = combobox->findText(text); \
-    QVERIFY(0 <= cbIndex); \
-    combobox->setCurrentIndex(cbIndex); \
-    combobox->activated(cbIndex); \
-    QCOMPARE(combobox->currentText(), QString(text)); } while(false);
+#define KTRY_CAPTURE_COMBO_SET(combobox, text) { \
+    int __ktry_combo_iter__=0; \
+    do { \
+      KTRY_CAPTURE_GADGET(QComboBox, combobox); \
+      int const cbIndex = combobox->findText(text); \
+      if (cbIndex >= 0) { \
+        combobox->setCurrentIndex(cbIndex); \
+        combobox->activated(cbIndex); \
+        QCOMPARE(combobox->currentText(), QString(text)); \
+        break; \
+      } else { \
+        QVERIFY(__ktry_combo_iter__++ < 3); \
+        QTest::qWait(2000); \
+      } \
+    } while(true);}
 
 /** @brief Helper to add a Light frame to a Capture job.
  * @param exposure is the exposure duration.
