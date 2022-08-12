@@ -444,6 +444,8 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // Capture state-machine variables.
         double captureStartedTime { -1 };
+        double previousCaptureStartedTime { 1 };
+        double previousCaptureCompletedTime { 1 };
         QString captureStartedFilter { "" };
 
         // Autofocus state-machine variables.
