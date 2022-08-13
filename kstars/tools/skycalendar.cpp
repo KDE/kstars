@@ -69,10 +69,10 @@ SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
     scUI->CalendarView->setHorizon();
 
     plotButtonText = scUI->CreateButton->text();
-    connect(scUI->CreateButton, &QPushButton::clicked, [this]()
+    connect(scUI->CreateButton, &QPushButton::clicked, this, [this]()
     {
         scUI->CreateButton->setText(i18n("Please Wait") + "...");
-        QtConcurrent::run(this, &SkyCalendar::slotFillCalendar);
+        slotFillCalendar();
     });
 
     connect(scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
@@ -91,35 +91,22 @@ void SkyCalendar::slotFillCalendar()
     scUI->CalendarView->setHorizon();
 
     if (scUI->checkBox_Mercury->isChecked())
-        addPlanetEvents(KSPlanetBase::MERCURY);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::MERCURY);
     if (scUI->checkBox_Venus->isChecked())
-        addPlanetEvents(KSPlanetBase::VENUS);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::VENUS);
     if (scUI->checkBox_Mars->isChecked())
-        addPlanetEvents(KSPlanetBase::MARS);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::MARS);
     if (scUI->checkBox_Jupiter->isChecked())
-        addPlanetEvents(KSPlanetBase::JUPITER);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::JUPITER);
     if (scUI->checkBox_Saturn->isChecked())
-        addPlanetEvents(KSPlanetBase::SATURN);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::SATURN);
     if (scUI->checkBox_Uranus->isChecked())
-        addPlanetEvents(KSPlanetBase::URANUS);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::URANUS);
     if (scUI->checkBox_Neptune->isChecked())
-        addPlanetEvents(KSPlanetBase::NEPTUNE);
+        QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::NEPTUNE);
 
     scUI->CreateButton->setText(i18n("Plot Planetary Almanac"));
     scUI->CreateButton->setEnabled(true);
-
-    //if ( scUI->checkBox_Pluto->isChecked() )
-    //addPlanetEvents( KSPlanetBase::PLUTO );
-
-    /*
-      {
-        QMutexLocker locker(&calculationMutex);
-
-        calculating = false;
-        scUI->CreateButton->setEnabled(true);
-        scUI->CalendarView->update();
-      }
-      */
 }
 
 #if 0
