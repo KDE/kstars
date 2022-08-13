@@ -2309,7 +2309,7 @@
          <default>1</default>
       </entry>
       <entry name="MaxMultistarReferenceStars" type="UInt">
-         <label>Maxmimum number of SEP MultiStar number of stars used as references.</label>
+         <label>Maximum number of SEP MultiStar number of stars used as references.</label>
          <default>10</default>
       </entry>
       <entry name="TwoAxisEnabled" type="Bool">
