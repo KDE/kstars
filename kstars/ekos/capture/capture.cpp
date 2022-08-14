@@ -608,8 +608,8 @@ bool Capture::addDustCap(ISD::DustCap *device)
     m_DustCaps.append(device);
 
     // forward it to the command processor
-    if (! m_captureDeviceAdaptor.isNull())
-        m_captureDeviceAdaptor->setDustCap(dynamic_cast<ISD::DustCap *>(device));
+    if (!m_captureDeviceAdaptor.isNull())
+        m_captureDeviceAdaptor->setDustCap(device);
 
     syncFilterInfo();
     return true;
