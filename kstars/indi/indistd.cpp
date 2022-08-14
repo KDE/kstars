@@ -354,10 +354,33 @@ void GenericDevice::processNumber(INumberVectorProperty *nvp)
 
 void GenericDevice::processText(ITextVectorProperty *tvp)
 {
+    // If DRIVER_INFO is updated after being defined, make sure to re-generate concrete devices accordingly.
+    if (!strcmp(tvp->name, "DRIVER_INFO"))
+    {
+        auto tp = IUFindText(tvp, "DRIVER_INTERFACE");
+        if (tp)
+        {
+            m_DriverInterface = static_cast<uint32_t>(atoi(tp->text));
+            emit interfaceDefined();
+
+            // If devices were already created but we receieved an update to DRIVER_INTERFACE
+            // then we need to re-generate the concrete devices to account for the change.
+            // TODO maybe be smart about it and only regenerate interfaces that were not previously defined?
+            if (m_ConcreteDevices.isEmpty() == false)
+                generateDevices();
+        }
+
+        tp = IUFindText(tvp, "DRIVER_VERSION");
+        if (tp)
+        {
+            m_DriverVersion = QString(tp->text);
+        }
+
+    }
     // Update KStars time once we receive update from INDI, if the source is set to DEVICE
-    if (!strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK &&
-            ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
-              (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
+    else if (!strcmp(tvp->name, "TIME_UTC") && tvp->s == IPS_OK &&
+             ( (Options::useMountSource() && (getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)) ||
+               (Options::useGPSSource() && (getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE))))
     {
         int d, m, y, min, sec, hour;
         float utcOffset;
