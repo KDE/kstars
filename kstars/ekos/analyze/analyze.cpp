@@ -1490,7 +1490,7 @@ void Analyze::updateStatsValues()
     updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
 
     auto asFcn = [](double d) -> QString { return QString("%1\"").arg(d, 0, 'f', 0); };
-    updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn);
+    updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn, true);
 
     auto hmsFcn = [](double d) -> QString
     {
