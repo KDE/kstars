@@ -615,7 +615,16 @@ void Analyze::addTemperature(double temperature, double time)
 
 void Analyze::addTargetDistance(double targetDistance, double time)
 {
-    statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(time, targetDistance);
+    // The target distance corresponds to the last capture
+    if (previousCaptureStartedTime >= 0 && previousCaptureCompletedTime >= 0 &&
+            previousCaptureStartedTime < previousCaptureCompletedTime &&
+            previousCaptureCompletedTime <= time)
+    {
+        statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(previousCaptureStartedTime - .0001, qQNaN());
+        statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(previousCaptureStartedTime, targetDistance);
+        statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(previousCaptureCompletedTime, targetDistance);
+        statsPlot->graph(TARGET_DISTANCE_GRAPH)->addData(previousCaptureCompletedTime + .0001, qQNaN());
+    }
 }
 
 // Add the HFR values to the Stats graph, as a constant value between startTime and time.
@@ -2210,6 +2219,8 @@ void Analyze::processCaptureComplete(double time, const QString &filename,
             captureSessionClicked(session, false);
         replot();
     }
+    previousCaptureStartedTime = captureStartedTime;
+    previousCaptureCompletedTime = time;
     captureStartedTime = -1;
 }
 
@@ -2244,6 +2255,8 @@ void Analyze::processCaptureAborted(double time, double exposureSeconds, bool ba
         }
         captureStartedTime = -1;
     }
+    previousCaptureStartedTime = -1;
+    previousCaptureCompletedTime = -1;
 }
 
 void Analyze::resetCaptureState()
@@ -2252,6 +2265,8 @@ void Analyze::resetCaptureState()
     captureStartedFilter = "";
     medianMax = 1;
     numCaptureStarsMax = 1;
+    previousCaptureStartedTime = -1;
+    previousCaptureCompletedTime = -1;
 }
 
 void Analyze::autofocusStarting(double temperature, const QString &filter)

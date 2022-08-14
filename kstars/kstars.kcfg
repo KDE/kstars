@@ -2308,6 +2308,10 @@
          <label>Minimum number of stars detected for SEP MultiStar to initialize.</label>
          <default>1</default>
       </entry>
+      <entry name="MaxMultistarReferenceStars" type="UInt">
+         <label>Maximum number of SEP MultiStar number of stars used as references.</label>
+         <default>10</default>
+      </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>
          <default>true</default>

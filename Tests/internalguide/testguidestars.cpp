@@ -53,6 +53,7 @@ Edge makeEdge(float x, float y)
 void TestGuideStars::basicTest()
 {
     Options::setMinDetectionsSEPMultistar(5);
+    Options::setMaxMultistarReferenceStars(10);
     GuideStars g;
 
     // Test setCalibration() and calibration in general.

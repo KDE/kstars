@@ -63,9 +63,9 @@ void runTest(int guideStar)
     QVector<int> output;
 
     // Identity test.
-    GuiderUtils::Vector position = c.find(stars, maxDistanceToStar, &output, false);
-    QVERIFY2(position.x == stars[guideStar].x, "Identity");
-    QVERIFY2(position.y == stars[guideStar].y, "Identity");
+    Edge gStar = c.find(stars, maxDistanceToStar, &output, false);
+    QVERIFY2(gStar.x == stars[guideStar].x, "Identity");
+    QVERIFY2(gStar.y == stars[guideStar].y, "Identity");
     for (int i = 0; i < stars.size(); ++i)
     {
         QVERIFY2(output[i] == i, "Identity");
@@ -82,9 +82,9 @@ void runTest(int guideStar)
         double y = stars[i].y + rand_fraction;
         stars2.append(makeEdge(x, y));
     }
-    position = c.find(stars2, maxDistanceToStar, &output, false);
-    QVERIFY2(position.x == stars2[guideStar].x, "small move");
-    QVERIFY2(position.y == stars2[guideStar].y, "small move");
+    gStar = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(gStar.x == stars2[guideStar].x, "small move");
+    QVERIFY2(gStar.y == stars2[guideStar].y, "small move");
     for (int i = 0; i < stars.size(); ++i)
     {
         QVERIFY2(output[i] == i, "small move");
@@ -92,9 +92,9 @@ void runTest(int guideStar)
 
     // Remove one of the stars (not the guide star which is 0-5).
     stars2.removeAt(8);
-    position = c.find(stars2, maxDistanceToStar, &output, false);
-    QVERIFY2(position.x == stars2[guideStar].x, "one removed");
-    QVERIFY2(position.y == stars2[guideStar].y, "one removed");
+    gStar = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(gStar.x == stars2[guideStar].x, "one removed");
+    QVERIFY2(gStar.y == stars2[guideStar].y, "one removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         if (i < 8) QVERIFY2(output[i] == i, "one removed");
@@ -106,9 +106,9 @@ void runTest(int guideStar)
     double guideY = stars2[guideStar].y;
     stars2.removeAt(guideStar);
     c.setAllowMissingGuideStar(false);
-    position = c.find(stars2, maxDistanceToStar, &output, false);
-    QVERIFY2(position.x == -1, "guide removed");
-    QVERIFY2(position.y == -1, "guide removed");
+    gStar = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY2(gStar.x == -1, "guide removed");
+    QVERIFY2(gStar.y == -1, "guide removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         QVERIFY2(output[i] == -1, "guide removed");
@@ -116,10 +116,10 @@ void runTest(int guideStar)
 
     // Allow it to be resilient to missing guide stars.
     c.setAllowMissingGuideStar(true);
-    position = c.find(stars2, maxDistanceToStar, &output, false);
+    gStar = c.find(stars2, maxDistanceToStar, &output, false);
     // There's been noise added so it won't recover the guide star exactly.
-    QVERIFY2(fabs(position.x - guideX) < 2, "guide and 8 removed");
-    QVERIFY2(fabs(position.y - guideY) < 2, "guide and 8 removed");
+    QVERIFY2(fabs(gStar.x - guideX) < 2, "guide and 8 removed");
+    QVERIFY2(fabs(gStar.y - guideY) < 2, "guide and 8 removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         // previously we removed 8, but also removing the guide star moves the index for star 8 to 7.
@@ -137,9 +137,9 @@ void runTest(int guideStar)
     guideY = stars[guideStar].y;
     stars.removeAt(guideStar);
     c.setAllowMissingGuideStar(true);
-    position = c.find(stars, maxDistanceToStar, &output, false);
-    QVERIFY2(position.x == guideX, "guide removed and recovered");
-    QVERIFY2(position.y == guideY, "guide removed and recovered");
+    gStar = c.find(stars, maxDistanceToStar, &output, false);
+    QVERIFY2(gStar.x == guideX, "guide removed and recovered");
+    QVERIFY2(gStar.y == guideY, "guide removed and recovered");
     for (int i = 0; i < stars2.size(); ++i)
     {
         if (i < guideStar)
@@ -223,9 +223,9 @@ void runNoCorrespondenceTest()
     stars2.append(makeEdge(695.4, 97.6));
 
     c.setAllowMissingGuideStar(true);
-    GuiderUtils::Vector position = c.find(stars2, maxDistanceToStar, &output, false);
-    QVERIFY(position.x == -1);
-    QVERIFY(position.y == -1);
+    Edge gStar = c.find(stars2, maxDistanceToStar, &output, false);
+    QVERIFY(gStar.x == -1);
+    QVERIFY(gStar.y == -1);
     for (int i = 0; i < output.size(); ++i)
         QVERIFY(output[i] == -1);
 }

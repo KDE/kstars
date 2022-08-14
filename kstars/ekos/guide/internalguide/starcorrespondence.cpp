@@ -105,6 +105,8 @@ void StarCorrespondence::initialize(const QList<Edge> &stars, int guideStar)
     float guideX = references[guideStarIndex].x;
     float guideY = references[guideStarIndex].y;
     guideStarOffsets.clear();
+    referenceSums.clear();
+    referenceNumPixels.clear();
 
     // Compute the x and y offsets from the guide star to all reference stars
     // and store them in guideStarOffsets.
@@ -113,6 +115,8 @@ void StarCorrespondence::initialize(const QList<Edge> &stars, int guideStar)
     {
         const auto &ref = references[i];
         guideStarOffsets.push_back(Offsets(ref.x - guideX, ref.y - guideY));
+        referenceSums.push_back(ref.sum);
+        referenceNumPixels.push_back(ref.numPixels);
     }
 
     initializeAdaptation();
@@ -124,6 +128,8 @@ void StarCorrespondence::reset()
 {
     references.clear();
     guideStarOffsets.clear();
+    referenceSums.clear();
+    referenceNumPixels.clear();
     initialized = false;
 }
 
@@ -233,10 +239,14 @@ void StarCorrespondence::makeOffsets(const QVector<Offsets> &offsets, QVector<Of
 }
 
 // We create an imaginary star from the ones we did find.
-GuiderUtils::Vector StarCorrespondence::inventStarPosition(const QList<Edge> &stars, QVector<int> &starMap,
+Edge StarCorrespondence::inventStarPosition(const QList<Edge> &stars, const QVector<int> &starMap,
         QVector<Offsets> offsets, Offsets offset) const
 {
+    Edge inventedStar;
+    inventedStar.invalidate();
+
     QVector<double> xPositions, yPositions;
+    float refSum = 0, origSum = 0, refNumPixels = 0, origNumPixels = 0;
     for (int i = 0; i < starMap.size(); ++i)
     {
         int reference = starMap[i];
@@ -244,10 +254,25 @@ GuiderUtils::Vector StarCorrespondence::inventStarPosition(const QList<Edge> &st
         {
             xPositions.push_back(stars[i].x - offsets[reference].x);
             yPositions.push_back(stars[i].y - offsets[reference].y);
+
+            // These are used to help invent the SNR.
+            refSum += stars[i].sum;
+            refNumPixels += stars[i].numPixels;
+            origSum += referenceSums[reference];
+            origNumPixels += referenceNumPixels[reference];
         }
     }
+    float inventedSum = 0;
+    float inventedNumPixels = 0;
+    if (origSum > 0 && origNumPixels > 0)
+    {
+        // If possible, interpolate to estimate the invented star's flux and number of pixels.
+        inventedSum = (refSum / origSum) * referenceSums[guideStarIndex];
+        inventedNumPixels = (refNumPixels / origNumPixels) * referenceNumPixels[guideStarIndex];
+    }
+
     if (xPositions.size() == 0)
-        return GuiderUtils::Vector(-1, -1, -1);
+        return inventedStar;
 
     // Compute the median x and y values. After gathering the values above,
     // we sort them and use the middle positions.
@@ -273,7 +298,11 @@ GuiderUtils::Vector StarCorrespondence::inventStarPosition(const QList<Edge> &st
         xVal = xPositions[middle];
         yVal = yPositions[middle];
     }
-    return GuiderUtils::Vector(xVal - offset.x, yVal - offset.y, -1);
+    inventedStar.x = xVal - offset.x;
+    inventedStar.y = yVal - offset.y;
+    inventedStar.sum = inventedSum;
+    inventedStar.numPixels = inventedNumPixels;
+    return inventedStar;
 }
 
 namespace
@@ -287,11 +316,13 @@ void unmapStarMap(const QVector<int> &sortedStarMap, const QVector<int> &sortedT
 }
 }
 
-GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
-        QVector<int> *starMap, bool adapt, double minFraction)
+Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
+                              QVector<int> *starMap, bool adapt, double minFraction)
 {
     *starMap = QVector<int>(stars.size(), -1);
-    if (!initialized)  return GuiderUtils::Vector(-1, -1, -1);
+    Edge foundStar;
+    foundStar.invalidate();
+    if (!initialized)  return foundStar;
     int numFound, numNotFound;
 
     // findClosestStar needs an input with stars sorted by their x.
@@ -304,14 +335,13 @@ GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double ma
     int bestStarIndex = findInternal(sortedStars, maxDistance, &sortedStarMap, guideStarIndex,
                                      guideStarOffsets, &numFound, &numNotFound, minFraction);
 
-    GuiderUtils::Vector starPosition(-1, -1, -1);
     if (bestStarIndex > -1)
     {
         // Convert back to the unsorted index value.
         bestStarIndex = sortedToOriginal[bestStarIndex];
         unmapStarMap(sortedStarMap, sortedToOriginal, starMap);
 
-        starPosition = GuiderUtils::Vector(stars[bestStarIndex].x, stars[bestStarIndex].y, -1);
+        foundStar = stars[bestStarIndex];
         qCDebug(KSTARS_EKOS_GUIDE)
                 << " StarCorrespondence found guideStar at " << bestStarIndex << "found/not"
                 << numFound << numNotFound;
@@ -319,11 +349,15 @@ GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double ma
     else if (allowMissingGuideStar && bestStarIndex == -1 &&
              stars.size() >= minFraction * guideStarOffsets.size())
     {
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << "Trying in invent. StarCorrespondence did NOT find guideStar. Found/not"
+                << numFound << numNotFound << "minFraction" << minFraction << "maxDistance" << maxDistance;
         // If we didn't find a good solution, perhaps the guide star was not detected.
         // See if we can get a reasonable solution from the other stars.
         int bestNumFound = 0;
         int bestNumNotFound = 0;
-        GuiderUtils::Vector bestPosition(-1, -1, -1);
+        Edge bestInvented;
+        bestInvented.invalidate();
         for (int gStarIndex = 0; gStarIndex < guideStarOffsets.size(); gStarIndex++)
         {
             if (gStarIndex == guideStarIndex)
@@ -336,12 +370,12 @@ GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double ma
                                                  &numFound, &numNotFound, minFraction);
             if (detectedStarIndex >= 0 && numFound > bestNumFound)
             {
-                GuiderUtils::Vector position = inventStarPosition(sortedStars, newStarMap, gStarOffsets,
-                                               guideStarOffsets[gStarIndex]);
-                if (position.x < 0 || position.y < 0)
+                Edge invented = inventStarPosition(sortedStars, newStarMap, gStarOffsets,
+                                                   guideStarOffsets[gStarIndex]);
+                if (invented.x < 0 || invented.y < 0)
                     continue;
 
-                bestPosition = position;
+                bestInvented = invented;
                 bestNumFound = numFound;
                 bestNumNotFound = numNotFound;
                 sortedStarMap = newStarMap;
@@ -357,8 +391,8 @@ GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double ma
             unmapStarMap(sortedStarMap, sortedToOriginal, starMap);
             qCDebug(KSTARS_EKOS_GUIDE)
                     << "StarCorrespondence found guideStar (invented) at "
-                    << bestPosition.x << bestPosition.y << "found/not" << bestNumFound << bestNumNotFound;
-            return bestPosition;
+                    << bestInvented.x << bestInvented.y << "found/not" << bestNumFound << bestNumNotFound;
+            return bestInvented;
         }
         else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not invent guideStar.";
     }
@@ -366,7 +400,7 @@ GuiderUtils::Vector StarCorrespondence::find(const QList<Edge> &stars, double ma
 
     if (adapt && (bestStarIndex != -1))
         adaptOffsets(stars, *starMap);
-    return starPosition;
+    return foundStar;
 }
 
 // Compute the alpha cooeficient for a simple IIR filter used in adaptOffsets()

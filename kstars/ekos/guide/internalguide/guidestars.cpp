@@ -15,9 +15,6 @@
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <QTime>
 
-// Keeps at most this many reference "neighbor" stars
-#define MAX_GUIDE_STARS 10
-
 // Then when looking for the guide star, gets this many candidates.
 #define STARS_TO_SEARCH 250
 
@@ -100,7 +97,7 @@ int GuideStars::getStarMap(int index)
 
 void GuideStars::setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex)
 {
-    qCDebug(KSTARS_EKOS_GUIDE) << "setupStarCorrespondence: " << neighbors.size() << guideIndex;
+    qCDebug(KSTARS_EKOS_GUIDE) << "setupStarCorrespondence: neighbors " << neighbors.size() << "guide index" << guideIndex;
     if (neighbors.size() >= MIN_STAR_CORRESPONDENCE_SIZE)
     {
         starMap.clear();
@@ -128,7 +125,7 @@ QVector3D GuideStars::selectGuideStar(const QSharedPointer<FITSData> &imageData)
     QList<double> sepScores;
     QList<double> minDistances;
     const double maxHFR = Options::guideMaxHFR();
-    findTopStars(imageData, MAX_GUIDE_STARS, &detectedStars, maxHFR,
+    findTopStars(imageData, Options::maxMultistarReferenceStars(), &detectedStars, maxHFR,
                  nullptr, &sepScores, &minDistances);
 
     int maxX = imageData->width();
@@ -148,12 +145,13 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
 
     if ((uint) stars.size() < Options::minDetectionsSEPMultistar())
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << "Too few stars detected.";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Too few stars detected: " << stars.size();
         return QVector3D(-1, -1, -1);
     }
 
-    int maxIndex = MAX_GUIDE_STARS < stars.count() ? MAX_GUIDE_STARS : stars.count();
-    int scores[MAX_GUIDE_STARS];
+    int maxIndex = Options::maxMultistarReferenceStars() < stars.count() ? Options::maxMultistarReferenceStars() :
+                   stars.count();
+    QVector<int> scores(Options::maxMultistarReferenceStars());
     QList<Edge> guideStarNeighbors;
     for (int i = 0; i < maxIndex; i++)
     {
@@ -312,7 +310,14 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
 
         // Star correspondence can run quicker if it knows the image size.
         starCorrespondence.setImageSize(imageData->width(), imageData->height());
-        GuiderUtils::Vector position = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap);
+
+        // When using large star-correspondence sets and filtering with a StellarSolver profile,
+        // the stars at the edge of detection can be lost. Best not to filter, but...
+        double minFraction = 0.5;
+        if (starCorrespondence.size() > 25) minFraction =  0.33;
+        else if (starCorrespondence.size() > 15) minFraction =  0.4;
+
+        Edge foundStar = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap, true, minFraction);
 
         // Is there a correspondence to the guide star
         // Should we also weight distance to the tracking box?
@@ -333,17 +338,15 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         }
         // None of the stars matched the guide star, but it's possible star correspondence
         // invented a guide star position.
-        if (position.x >= 0 && position.y >= 0)
+        if (foundStar.x >= 0 && foundStar.y >= 0)
         {
-            // For now we're returning an snr of 0
-            double SNR = 0;
-            guideStarSNR = SNR;
-            guideStarMass = 0;
+            guideStarSNR = skyBackground.SNR(foundStar.sum, foundStar.numPixels);
+            guideStarMass = foundStar.sum;
             unreliableDectionCounter = 0;  // debating this
-            qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << position.x << position.y << "SNR" << SNR;
+            qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << foundStar.x << foundStar.y << "SNR" << guideStarSNR;
             if (guideView != nullptr)
                 plotStars(guideView, trackingBox);
-            return position;
+            return GuiderUtils::Vector(foundStar.x, foundStar.y, 0);
         }
     }
 
@@ -358,7 +361,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
     {
         return detectedStars[i];
     },
-    "score", [&](int i) -> QString
+    "assoc", [&](int i) -> QString
     {
         return QString("%1").arg(getStarMap(i));
     });
@@ -444,6 +447,7 @@ int GuideStars::findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList
         for (int i = 0; i < starCount; i++)
             sepStars->append(edges[i]);
     }
+    qCDebug(KSTARS_EKOS_GUIDE) << "Multistar: SEP detected" << edges.count() << "stars, keeping" << sepStars->size();
 
     edges.clear();
     return sepStars->count();

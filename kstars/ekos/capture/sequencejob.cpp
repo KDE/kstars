@@ -376,10 +376,12 @@ void SequenceJob::connectDeviceAdaptor()
     captureDeviceAdaptor->connectDome();
     captureDeviceAdaptor->connectDustCap();
     // connect state machine with device adaptor
-    connect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::readCurrentState);
+    connect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+            &CaptureDeviceAdaptor::readCurrentState);
     connect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
     // connect device adaptor with state machine
-    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine, &SequenceJobState::flatSyncFocusChanged);
+    connect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+            &SequenceJobState::flatSyncFocusChanged);
 }
 
 void SequenceJob::disconnectDeviceAdaptor()
@@ -389,9 +391,12 @@ void SequenceJob::disconnectDeviceAdaptor()
     captureDeviceAdaptor->disconnectTelescope();
     captureDeviceAdaptor->disconnectDome();
     captureDeviceAdaptor->disconnectDustCap();
-    disconnect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::readCurrentState);
-    disconnect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocus);
-    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine, &SequenceJobState::flatSyncFocusChanged);
+    disconnect(stateMachine, &SequenceJobState::readCurrentState, captureDeviceAdaptor.data(),
+               &CaptureDeviceAdaptor::readCurrentState);
+    disconnect(stateMachine, &SequenceJobState::flatSyncFocus, captureDeviceAdaptor.data(),
+               &CaptureDeviceAdaptor::flatSyncFocus);
+    disconnect(captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::flatSyncFocusChanged, stateMachine,
+               &SequenceJobState::flatSyncFocusChanged);
 }
 
 CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
@@ -471,7 +476,8 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
 
     const auto remoteDirectory = getCoreProperty(SJ_RemoteDirectory).toString();
     if (captureDeviceAdaptor.data()->getActiveChip()->isBatchMode() && remoteDirectory.isEmpty() == false)
-        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(SJ_DirectoryPostfix).toString());
+        captureDeviceAdaptor.data()->getActiveCamera()->updateUploadSettings(remoteDirectory + getCoreProperty(
+                    SJ_DirectoryPostfix).toString());
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
@@ -772,18 +778,18 @@ void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
                 m_CoreProperties[id] = remoteDir;
             }
         }
-            break;
+        break;
 
         case SJ_GuiderActive:
-        // Inform the state machine if guiding is running. This is necessary during the preparation phase
-        // where the state machine might wait for guide deviations if enforcing initial guiding drift is selected.
-        // If guiding aborts after the preparation has started, the state machine might wait infinitely for an
-        // updated guide drift.
-        if (m_CoreProperties[SJ_GuiderActive] != value)
-        {
-            stateMachine->setEnforceInitialGuidingDrift(value.toBool() &&
-                                                        m_CoreProperties[SJ_EnforceStartGuiderDrift].toBool());
-        }
+            // Inform the state machine if guiding is running. This is necessary during the preparation phase
+            // where the state machine might wait for guide deviations if enforcing initial guiding drift is selected.
+            // If guiding aborts after the preparation has started, the state machine might wait infinitely for an
+            // updated guide drift.
+            if (m_CoreProperties[SJ_GuiderActive] != value)
+            {
+                stateMachine->setEnforceInitialGuidingDrift(value.toBool() &&
+                        m_CoreProperties[SJ_EnforceStartGuiderDrift].toBool());
+            }
             break;
         default:
             break;

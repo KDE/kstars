@@ -349,6 +349,13 @@
           </property>
          </widget>
         </item>
+        <item row="8" column="3">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>stars</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="2">
          <widget class="QSpinBox" name="kcfg_GuideLostStarTimeout">
           <property name="maximum">
@@ -459,6 +466,9 @@
           <property name="value">
            <double>4.500000000000000</double>
           </property>
+          <property name="toolTip">
+           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
+          </property>
          </widget>
         </item>
         <item row="7" column="2">
@@ -472,9 +482,31 @@
           <property name="singleStep">
            <number>1</number>
           </property>
+          <property name="toolTip">
+           <string>Minimum number of stars detected for SEP MultiStar to initialize.</string>
+          </property>
          </widget>
         </item>
-        <item row="8" column="0" colspan="4">
+        <item row="8" column="2">
+         <widget class="QSpinBox" name="kcfg_MaxMultistarReferenceStars">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+          <property name="toolTip">
+           <string>Maximum number of reference stars used by SEP MultiStar.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0" colspan="4">
          <widget class="QCheckBox" name="kcfg_SaveGuideLog">
           <property name="enabled">
            <bool>true</bool>
@@ -511,6 +543,16 @@
           </property>
           <property name="text">
            <string>Min MultiStar Star Detections</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="2">
+         <widget class="QLabel" name="label_24">
+          <property name="toolTip">
+           <string>Maximum number of reference stars used by SEP MultiStar.</string>
+          </property>
+          <property name="text">
+           <string>Max MultiStar Ref Stars</string>
           </property>
          </widget>
         </item>

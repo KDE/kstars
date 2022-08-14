@@ -333,11 +333,13 @@ void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString ti
         emit manualScopeLightCover(true, true);
         KSMessageBox::Instance()->disconnect(this);
         m_ManualCoveringAsked = true;
+        m_ManualOpeningAsked = false;
     });
 
     // Cancel
     connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
     {
+        m_ManualCoveringAsked = false;
         emit manualScopeLightCover(true, false);
         KSMessageBox::Instance()->disconnect(this);
     });
@@ -348,9 +350,18 @@ void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString ti
 
 void CaptureDeviceAdaptor::askManualScopeLightOpen()
 {
+    // do not ask again
+    if (m_ManualOpeningAsked == true)
+    {
+        emit manualScopeLightCover(false, true);
+        return;
+    }
+
     // Continue
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
     {
+        m_ManualOpeningAsked = true;
+        m_ManualCoveringAsked = false;
         emit manualScopeLightCover(false, true);
         KSMessageBox::Instance()->disconnect(this);
     });
@@ -358,6 +369,7 @@ void CaptureDeviceAdaptor::askManualScopeLightOpen()
     // Cancel
     connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
     {
+        m_ManualOpeningAsked = false;
         emit manualScopeLightCover(false, false);
         KSMessageBox::Instance()->disconnect(this);
     });
