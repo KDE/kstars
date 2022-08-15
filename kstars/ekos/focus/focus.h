@@ -593,7 +593,7 @@ class Focus : public QWidget, public Ui::Focus
          */
         bool isPositionBased()
         {
-            return (canAbsMove || canRelMove || (focusAlgorithm == FOCUS_LINEAR) || (focusAlgorithm == FOCUS_LINEAR1PASS));
+            return (canAbsMove || canRelMove || (m_FocusAlgorithm == FOCUS_LINEAR) || (m_FocusAlgorithm == FOCUS_LINEAR1PASS));
         }
         void resetButtons();
         void stop(FocusState completionState = FOCUS_ABORTED);
@@ -705,7 +705,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Focus HFR & Centeroid algorithms
         StarAlgorithm focusDetection { ALGORITHM_GRADIENT };
         /// Focus Process Algorithm
-        FocusAlgorithm focusAlgorithm { FOCUS_ITERATIVE };
+        FocusAlgorithm m_FocusAlgorithm { FOCUS_ITERATIVE };
         /// Curve fit, default to Quadratic
         CurveFitting::CurveFit curveFit { CurveFitting::FOCUS_QUADRATIC };
 

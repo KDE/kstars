@@ -119,11 +119,6 @@ Focus::Focus()
 
     loadStellarSolverProfiles();
 
-    connect(focusOptionsProfiles, QOverload<int>::of(&QComboBox::activated), this, [](int index)
-    {
-        Options::setFocusOptionsProfile(index);
-    });
-
     // connect HFR plot widget
     connect(this, &Ekos::Focus::initHFRPlot, HFRPlot, &FocusHFRVPlot::init);
     connect(this, &Ekos::Focus::redrawHFRPlot, HFRPlot, &FocusHFRVPlot::redraw);
@@ -1056,7 +1051,7 @@ void Focus::start()
     KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
 
     // Used for all the focuser types.
-    if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
+    if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
         const int position = static_cast<int>(currentPosition);
         FocusAlgorithmInterface::FocusParams params(
@@ -1064,7 +1059,7 @@ void Focus::start()
             MAXIMUM_ABS_ITERATIONS, toleranceIN->value() / 100.0, filter(),
             currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
             Options::initialFocusOutSteps(),
-            focusAlgorithm, focusBacklashSpin->value(), curveFit, useWeights->isChecked());
+            m_FocusAlgorithm, focusBacklashSpin->value(), curveFit, useWeights->isChecked());
         if (canAbsMove)
             initialFocuserAbsPosition = position;
         linearFocuser.reset(MakeLinearFocuser(params));
@@ -1092,7 +1087,7 @@ int Focus::adjustLinearPosition(int position, int newPosition, int backlash)
         int adjustment;
 
         // If user has set a backlash value then for Linear 1 Pass use that, otherwise use 5 * step size
-        if (focusAlgorithm == FOCUS_LINEAR1PASS && backlash > 0)
+        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && backlash > 0)
         {
             adjustment = backlash;
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: extending outward movement by backlash %1").arg(adjustment);
@@ -1741,7 +1736,7 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
                                       << m_LastSourceAutofocusTemperature << ", filter," << filter()
                                       << ", HFR," << currentHFR << ", altitude," << mountAlt;
 
-            if (focusAlgorithm == FOCUS_POLYNOMIAL)
+            if (m_FocusAlgorithm == FOCUS_POLYNOMIAL)
             {
                 // Add the final polynomial values to the signal sent to Analyze.
                 hfr_position.append(currentPosition);
@@ -1804,7 +1799,7 @@ void Focus::completeFocusProcedure(FocusState completionState, bool plot)
     stop(completionState);
 
     // Refresh display if needed
-    if (focusAlgorithm == FOCUS_POLYNOMIAL && plot)
+    if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && plot)
         emit drawPolynomial(polynomialFit.get(), isVShapeSolution, true);
 
     // Enforce settling duration
@@ -1873,7 +1868,7 @@ void Focus::setCurrentHFR(double value)
     if (currentHFR > 0)
     {
         // Check if we're done from polynomial fitting algorithm
-        if (focusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
+        if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
         {
             completeFocusProcedure(Ekos::FOCUS_COMPLETE);
             return;
@@ -2228,7 +2223,7 @@ void Focus::setHFRComplete()
 
     // Now let's kick in the algorithms
 
-    if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
+    if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         autoFocusLinear();
     else if (canAbsMove || canRelMove)
         // Position-based algorithms
@@ -2267,7 +2262,7 @@ bool Focus::autoFocusChecks()
             capture();
             return false;
         }
-        else if (focusAlgorithm == FOCUS_LINEAR)
+        else if (m_FocusAlgorithm == FOCUS_LINEAR)
         {
             // JEE TODO: Linear currently continues if there are no stars
             // For L1P I think its better to Abort and give control back either to the user or the scheduler
@@ -2355,7 +2350,7 @@ void Focus::plotLinearFocus()
         double searchMax = std::min(params.maxPositionAllowed, params.startPosition + params.maxTravel);
 
         linearFocuser->getPass1Measurements(&pass1Positions, &pass1HFRs, &pass1Sigmas);
-        if (focusAlgorithm == FOCUS_LINEAR)
+        if (m_FocusAlgorithm == FOCUS_LINEAR)
         {
             // TODO: Need to determine whether to change LINEAR over to the LM solver in CurveFitting
             // This will be determined after L1P's first release has been deemed successful.
@@ -2438,11 +2433,11 @@ void Focus::autoFocusLinear()
 
     // Only use the relativeHFR algorithm if full field is enabled with one capture/measurement.
     bool useFocusStarsHFR = Options::focusUseFullField() && focusFramesSpin->value() == 1;
-    auto focusStars = useFocusStarsHFR || (focusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
+    auto focusStars = useFocusStarsHFR || (m_FocusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
     int nextPosition;
 
     linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, currentHFR, focusStars);
-    if (focusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone())
+    if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone())
         // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph title.
         plotLinearFinalUpdates();
     else
@@ -2680,7 +2675,7 @@ void Focus::autoFocusAbs()
                         qCDebug(KSTARS_EKOS_FOCUS) << "Setting focus OUT limit to " << focusOutLimit;
                     }
 
-                    if (focusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 4)
+                    if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 4)
                     {
                         polynomialFit.reset(new PolynomialFit(2, 5, hfr_position, hfr_value));
                         double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
@@ -2874,7 +2869,7 @@ void Focus::autoFocusRel()
             capture();
             return;
         }
-        else if (focusAlgorithm == FOCUS_LINEAR || focusAlgorithm == FOCUS_LINEAR1PASS)
+        else if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         {
             appendLogText(i18n("Failed to detect any stars at position %1. Continuing...", currentPosition));
             noStarCount = 0;
@@ -4257,7 +4252,7 @@ void Focus::loadSettings()
     // Focus Algorithm
     setFocusAlgorithm(static_cast<FocusAlgorithm>(Options::focusAlgorithm()));
     // This must go below the above line (which sets focusAlgorithm from options).
-    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+    focusAlgorithmCombo->setCurrentIndex(m_FocusAlgorithm);
     // Frames Count
     focusFramesSpin->setValue(Options::focusFramesCount());
     // Focus Detection
@@ -4303,69 +4298,21 @@ void Focus::loadSettings()
 
 void Focus::initSettingsConnections()
 {
-    ///////////////////////////////////////////////////////////////////////////
-    /// Focuser Group
-    ///////////////////////////////////////////////////////////////////////////
-    connect(focuserCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-    connect(FocusSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 
-    ///////////////////////////////////////////////////////////////////////////
-    /// CCD & Filter Wheel Group
-    ///////////////////////////////////////////////////////////////////////////
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
-    connect(gainIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-    connect(temperatureSourceCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
 
-    ///////////////////////////////////////////////////////////////////////////
-    /// Settings Group
-    ///////////////////////////////////////////////////////////////////////////
-    connect(useAutoStar, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
-    connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
-    connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
-    connect(useFullField, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
-    connect(fullFieldInnerRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(fullFieldOuterRing, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(suspendGuideCheck, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
-    connect(GuideSettleTime, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
 
-    connect(focusBoxSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(maxTravelIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(stepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(maxSingleStepIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(focusBacklashSpin, &QSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(initialFocusOutStepsIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(toleranceIN, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(thresholdSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(gaussianSigmaSpin, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(gaussianKernelSizeSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(multiRowAverageSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(captureTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(motionTimeoutSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Focus::syncSettings);
-#else
-    connect(focusAlgorithmCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-    connect(focusDetectionCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Focus::syncSettings);
-#endif
-    connect(focusFramesSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Focus::syncSettings);
-    connect(curveFitCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this,
-            &Ekos::Focus::syncSettings);
-    connect(R2Limit, &QDoubleSpinBox::editingFinished, this, &Focus::syncSettings);
-    connect(useWeights, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
 }
 
 void Focus::initPlots()
@@ -4409,7 +4356,7 @@ void Focus::initConnections()
 
     // delayed capturing for waiting the scope to settle
     captureTimer.setSingleShot(true);
-    connect(&captureTimer, &QTimer::timeout, this, [&]()
+    connect(&captureTimer, &QTimer::timeout, this, [this]()
     {
         capture();
     });
@@ -4423,14 +4370,8 @@ void Focus::initConnections()
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::abort);
 
     // Focus IN/OUT
-    connect(focusOutB, &QPushButton::clicked, [&]()
-    {
-        focusOut();
-    });
-    connect(focusInB, &QPushButton::clicked, [&]()
-    {
-        focusIn();
-    });
+    connect(focusOutB, &QPushButton::clicked, this, &Ekos::Focus::focusOut);
+    connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::focusIn);
 
     // Capture a single frame
     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
@@ -4441,7 +4382,7 @@ void Focus::initConnections()
     // Reset frame dimensions to default
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Focus::resetFrame);
     // Sync setting if full field setting is toggled.
-    connect(useFullField, &QCheckBox::toggled, [&](bool toggled)
+    connect(useFullField, &QCheckBox::toggled, this, [&](bool toggled)
     {
         fullFieldInnerRing->setEnabled(toggled);
         fullFieldOuterRing->setEnabled(toggled);
@@ -4478,7 +4419,7 @@ void Focus::initConnections()
 
     // Set focuser absolute position
     connect(startGotoB, &QPushButton::clicked, this, &Ekos::Focus::setAbsoluteFocusTicks);
-    connect(stopGotoB, &QPushButton::clicked, [this]()
+    connect(stopGotoB, &QPushButton::clicked, this, [this]()
     {
         if (m_Focuser)
             m_Focuser->stop();
@@ -4513,7 +4454,7 @@ void Focus::initConnections()
     });
 
     // Update the focuser solution algorithm if the selection changes.
-    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index)
+    connect(focusAlgorithmCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&](int index)
     {
         setFocusAlgorithm(static_cast<FocusAlgorithm>(index));
     });
@@ -4539,7 +4480,7 @@ void Focus::initConnections()
 
 void Focus::setFocusAlgorithm(FocusAlgorithm algorithm)
 {
-    focusAlgorithm = algorithm;
+    m_FocusAlgorithm = algorithm;
     switch(algorithm)
     {
         case FOCUS_ITERATIVE:
