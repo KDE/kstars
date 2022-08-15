@@ -1114,21 +1114,12 @@ void Align::syncCameraInfo()
 
     setWCSEnabled(Options::astrometrySolverWCS());
 
-    // In case ROI is different (smaller) than maximum resolution, let's use that.
-    int roiW = 0, roiH = 0;
-    targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &roiW, nullptr, &roiH);
-    if ( (roiW > 0 && roiW < m_CameraWidth) || (roiH > 0 && roiH < m_CameraHeight))
-    {
-        m_CameraWidth = roiW;
-        m_CameraHeight = roiH;
-    }
-
+    int binx = 1, biny = 1;
     binningCombo->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
         binningCombo->blockSignals(true);
 
-        int binx = 1, biny = 1;
         targetChip->getMaxBin(&binx, &biny);
         binningCombo->clear();
 
@@ -1137,6 +1128,18 @@ void Align::syncCameraInfo()
 
         binningCombo->setCurrentIndex(Options::solverBinningIndex());
         binningCombo->blockSignals(false);
+    }
+
+    // In case ROI is different (smaller) than maximum resolution, let's use that.
+    // N.B. 2022.08.14 JM: We must account for binning since this value is used for FOV calculations.
+    int roiW = 0, roiH = 0;
+    targetChip->getFrameMinMax(nullptr, nullptr, nullptr, nullptr, nullptr, &roiW, nullptr, &roiH);
+    roiW *= binx;
+    roiH *= biny;
+    if ( (roiW > 0 && roiW < m_CameraWidth) || (roiH > 0 && roiH < m_CameraHeight))
+    {
+        m_CameraWidth = roiW;
+        m_CameraHeight = roiH;
     }
 
     if (m_CameraPixelWidth > 0 && m_CameraPixelHeight > 0 && m_TelescopeFocalLength > 0 && m_TelescopeAperture > 0)
