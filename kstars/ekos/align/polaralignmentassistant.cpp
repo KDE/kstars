@@ -52,16 +52,13 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPoi
     m_AlignInstance = parent;
     m_AlignView = view;
 
-    connect(PAHSlewRateCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&](int index)
-    {
-        Options::setPAHMountSpeedIndex(index);
-    });
+    connect(PAHSlewRateCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), Options::self(), &Options::setPAHMountSpeedIndex);
 
     showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
                      (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
 
     PAHRefreshAlgorithmCombo->setCurrentIndex(Options::pAHRefreshAlgorithm());
-    connect(PAHRefreshAlgorithmCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index)
+    connect(PAHRefreshAlgorithmCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         setPAHRefreshAlgorithm(static_cast<PAHRefreshAlgorithm>(index));
     });
