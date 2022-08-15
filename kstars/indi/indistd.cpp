@@ -942,7 +942,8 @@ ConcreteDevice *GenericDevice::getConcreteDevice(uint32_t interface)
 void GenericDevice::generateDevices()
 {
     // Mount
-    if (m_DriverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].isNull())
     {
         auto mount = new ISD::Mount(this);
         m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].reset(mount);
@@ -963,7 +964,8 @@ void GenericDevice::generateDevices()
     }
 
     // Camera
-    if (m_DriverInterface & INDI::BaseDevice::CCD_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::CCD_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].isNull())
     {
         auto camera = new ISD::Camera(this);
         m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].reset(camera);
@@ -983,7 +985,8 @@ void GenericDevice::generateDevices()
     }
 
     // Guider
-    if (m_DriverInterface & INDI::BaseDevice::GUIDER_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::GUIDER_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].isNull())
     {
         auto guider = new ISD::Guider(this);
         m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].reset(guider);
@@ -1003,7 +1006,8 @@ void GenericDevice::generateDevices()
     }
 
     // Focuser
-    if (m_DriverInterface & INDI::BaseDevice::FOCUSER_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::FOCUSER_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].isNull())
     {
         auto focuser = new ISD::Focuser(this);
         m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].reset(focuser);
@@ -1023,7 +1027,8 @@ void GenericDevice::generateDevices()
     }
 
     // Filter Wheel
-    if (m_DriverInterface & INDI::BaseDevice::FILTER_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::FILTER_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].isNull())
     {
         auto filterWheel = new ISD::FilterWheel(this);
         m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].reset(filterWheel);
@@ -1043,7 +1048,8 @@ void GenericDevice::generateDevices()
     }
 
     // Dome
-    if (m_DriverInterface & INDI::BaseDevice::DOME_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::DOME_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].isNull())
     {
         auto dome = new ISD::Dome(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(dome);
@@ -1063,7 +1069,8 @@ void GenericDevice::generateDevices()
     }
 
     // GPS
-    if (m_DriverInterface & INDI::BaseDevice::GPS_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::GPS_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].isNull())
     {
         auto gps = new ISD::GPS(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(gps);
@@ -1083,7 +1090,8 @@ void GenericDevice::generateDevices()
     }
 
     // Weather
-    if (m_DriverInterface & INDI::BaseDevice::WEATHER_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::WEATHER_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].isNull())
     {
         auto weather = new ISD::Weather(this);
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(weather);
@@ -1103,7 +1111,8 @@ void GenericDevice::generateDevices()
     }
 
     // Adaptive Optics
-    if (m_DriverInterface & INDI::BaseDevice::AO_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::AO_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].isNull())
     {
         auto ao = new ISD::AdaptiveOptics(this);
         m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].reset(ao);
@@ -1123,7 +1132,8 @@ void GenericDevice::generateDevices()
     }
 
     // Dust Cap
-    if (m_DriverInterface & INDI::BaseDevice::DUSTCAP_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::DUSTCAP_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].isNull())
     {
         auto dustCap = new ISD::DustCap(this);
         m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].reset(dustCap);
@@ -1143,7 +1153,8 @@ void GenericDevice::generateDevices()
     }
 
     // Light box
-    if (m_DriverInterface & INDI::BaseDevice::LIGHTBOX_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::LIGHTBOX_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].isNull())
     {
         auto lightBox = new ISD::LightBox(this);
         m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].reset(lightBox);
@@ -1163,7 +1174,8 @@ void GenericDevice::generateDevices()
     }
 
     // Rotator
-    if (m_DriverInterface & INDI::BaseDevice::ROTATOR_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::ROTATOR_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].isNull())
     {
         auto rotator = new ISD::Rotator(this);
         m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].reset(rotator);
@@ -1183,7 +1195,8 @@ void GenericDevice::generateDevices()
     }
 
     // Detector
-    if (m_DriverInterface & INDI::BaseDevice::DETECTOR_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::DETECTOR_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].isNull())
     {
         auto detector = new ISD::Detector(this);
         m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].reset(detector);
@@ -1203,7 +1216,8 @@ void GenericDevice::generateDevices()
     }
 
     // Spectrograph
-    if (m_DriverInterface & INDI::BaseDevice::SPECTROGRAPH_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::SPECTROGRAPH_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].isNull())
     {
         auto spectrograph = new ISD::Spectrograph(this);
         m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].reset(spectrograph);
@@ -1223,7 +1237,8 @@ void GenericDevice::generateDevices()
     }
 
     // Correlator
-    if (m_DriverInterface & INDI::BaseDevice::CORRELATOR_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::CORRELATOR_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].isNull())
     {
         auto correlator = new ISD::Correlator(this);
         m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].reset(correlator);
@@ -1243,7 +1258,8 @@ void GenericDevice::generateDevices()
     }
 
     // Auxiliary
-    if (m_DriverInterface & INDI::BaseDevice::AUX_INTERFACE)
+    if (m_DriverInterface & INDI::BaseDevice::AUX_INTERFACE &&
+            m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].isNull())
     {
         auto aux = new ISD::Auxiliary(this);
         m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].reset(aux);
