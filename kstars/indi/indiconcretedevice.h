@@ -24,6 +24,8 @@ namespace ISD
 class ConcreteDevice : public GDInterface
 {
         Q_OBJECT
+        Q_PROPERTY(QString name READ getDeviceName)
+        Q_PROPERTY(bool connected READ isConnected)
 
     public:
         ConcreteDevice(GenericDevice *parent);
@@ -37,6 +39,21 @@ class ConcreteDevice : public GDInterface
         bool isConnected() const
         {
             return m_Parent->isConnected();
+        }
+
+        void Connect()
+        {
+            m_Parent->Connect();
+        }
+
+        void Disconnect()
+        {
+            m_Parent->Disconnect();
+        }
+
+        uint32_t getDriverInterface()
+        {
+            return m_Parent->getDriverInterface();
         }
 
         GenericDevice *genericDevice() const

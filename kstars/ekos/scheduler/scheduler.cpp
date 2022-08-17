@@ -451,6 +451,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newModule", this,
                                           SLOT(registerNewModule(QString)));
+    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newDevice", this,
+                                          SLOT(registerNewDevice(QString, uint32_t)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "indiStatusChanged",
                                           this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "ekosStatusChanged",
@@ -7488,6 +7490,11 @@ void Scheduler::simClockTimeChanged()
     }
 }
 
+void Scheduler::registerNewDevice(const QString &name, uint32_t interface)
+{
+
+}
+
 void Scheduler::registerNewModule(const QString &name)
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Registering new Module (" << name << ")";
@@ -8583,7 +8590,8 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
 
 QJsonObject Scheduler::getSchedulerSettings()
 {
-    QJsonObject jobStartupSettings = {
+    QJsonObject jobStartupSettings =
+    {
         {"asap", asapConditionR->isChecked()},
         {"culmination", culminationConditionR->isChecked()},
         {"culminationOffset", culminationOffset->value()},
@@ -8591,7 +8599,8 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"startupTimeEdit", startupTimeEdit->text()},
     };
 
-    QJsonObject jobConstraintSettings = {
+    QJsonObject jobConstraintSettings =
+    {
         {"altConstraintCheck", altConstraintCheck->isChecked()},
         {"minAltitude", minAltitude->value()},
         {"moonSeparationCheck", moonSeparationCheck->isChecked()},
@@ -8602,21 +8611,24 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"artificialHorizonCheck", artificialHorizonCheck->isChecked()}
     };
 
-    QJsonObject jobCompletionSettings = {
-      {"sequenceCompletionR", sequenceCompletionR->isChecked()},
+    QJsonObject jobCompletionSettings =
+    {
+        {"sequenceCompletionR", sequenceCompletionR->isChecked()},
         {"repeatCompletionR", repeatCompletionR->isChecked()},
         {"repeatsSpin", repeatsSpin->value()},
         {"loopCompletionR", loopCompletionR->isChecked()},
         {"timeCompletionR", timeCompletionR->isChecked()}
     };
 
-    QJsonObject observatoryStartupSettings = {
-       {"unparkDomeCheck", unparkDomeCheck->isChecked()},
-       {"unparkMountCheck", unparkMountCheck->isChecked()},
-       {"uncapCheck", uncapCheck->isChecked()},
-       {"startupScript", startupScript->text()}
+    QJsonObject observatoryStartupSettings =
+    {
+        {"unparkDomeCheck", unparkDomeCheck->isChecked()},
+        {"unparkMountCheck", unparkMountCheck->isChecked()},
+        {"uncapCheck", uncapCheck->isChecked()},
+        {"startupScript", startupScript->text()}
     };
-    QJsonObject abortJobSettings = {
+    QJsonObject abortJobSettings =
+    {
         {"none", errorHandlingDontRestartButton->isChecked() },
         {"queue", errorHandlingRestartQueueButton->isChecked()},
         {"immediate", errorHandlingRestartImmediatelyButton->isChecked()},
@@ -8624,7 +8636,8 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"errorHandlingDelaySB", errorHandlingDelaySB->value()}
 
     };
-    QJsonObject shutdownSettings = {
+    QJsonObject shutdownSettings =
+    {
         {"warmCCDCheck", warmCCDCheck->isChecked()},
         {"capCheck", capCheck->isChecked()},
         {"parkMountCheck", parkMountCheck->isChecked()},

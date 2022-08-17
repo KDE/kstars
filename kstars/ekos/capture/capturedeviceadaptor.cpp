@@ -424,14 +424,14 @@ void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
     {
         if (parked == true)
         {
-            if (m_ActiveTelescope->Park())
+            if (m_ActiveTelescope->park())
                 emit scopeStatusChanged(ISD::Mount::MOUNT_PARKING);
             else
                 emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
         else
         {
-            if (m_ActiveTelescope->UnPark() == false)
+            if (m_ActiveTelescope->unPark() == false)
                 emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
     }
@@ -443,15 +443,15 @@ void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
     {
         if (parked == true)
         {
-            if (m_ActiveDome->Park())
-                emit scopeStatusChanged(ISD::Mount::MOUNT_PARKING);
+            if (m_ActiveDome->park())
+                emit domeStatusChanged(ISD::Dome::DOME_PARKING);
             else
-                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
+                emit domeStatusChanged(ISD::Dome::DOME_ERROR);
         }
         else
         {
-            if (m_ActiveTelescope->UnPark() == false)
-                emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
+            if (m_ActiveDome->unPark() == false)
+                emit domeStatusChanged(ISD::Dome::DOME_ERROR);
         }
     }
 

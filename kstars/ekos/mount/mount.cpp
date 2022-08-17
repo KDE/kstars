@@ -495,8 +495,8 @@ void Mount::syncTelescopeInfo()
 
     if (m_Mount->canPark())
     {
-        connect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::Park, Qt::UniqueConnection);
-        connect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::UnPark, Qt::UniqueConnection);
+        connect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::park, Qt::UniqueConnection);
+        connect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unPark, Qt::UniqueConnection);
 
         // QtQuick
         m_Park->setEnabled(!m_Mount->isParked());
@@ -504,8 +504,8 @@ void Mount::syncTelescopeInfo()
     }
     else
     {
-        disconnect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::Park);
-        disconnect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::UnPark);
+        disconnect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::park);
+        disconnect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unPark);
 
         // QtQuick
         m_Park->setEnabled(false);
@@ -659,7 +659,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
             {
                 appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
                                    QString::number(minAltLimit->value(), 'g', 3)));
-                m_Mount->Abort();
+                m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
                 KNotification::beep();
@@ -675,7 +675,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
             {
                 appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
                                    QString::number(maxAltLimit->value(), 'g', 3)));
-                m_Mount->Abort();
+                m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
                 KNotification::beep();
@@ -727,7 +727,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
             // moved past the limit, so stop
             appendLogText(i18n("Telescope hour angle is more than the maximum hour angle of %1. Aborting motion...",
                                QString::number(maxHaLimit->value(), 'g', 3)));
-            m_Mount->Abort();
+            m_Mount->abort();
             m_Mount->setTrackEnabled(false);
             //KNotification::event( QLatin1String( "OperationFailed" ));
             KNotification::beep();
@@ -1666,7 +1666,7 @@ bool Mount::sync(double RA, double DEC)
 
 bool Mount::abort()
 {
-    return m_Mount->Abort();
+    return m_Mount->abort();
 }
 
 IPState Mount::slewStatus()
@@ -1758,7 +1758,7 @@ bool Mount::park()
     if (m_Mount == nullptr || m_Mount->canPark() == false)
         return false;
 
-    return m_Mount->Park();
+    return m_Mount->park();
 }
 
 bool Mount::unpark()
@@ -1766,7 +1766,7 @@ bool Mount::unpark()
     if (m_Mount == nullptr || m_Mount->canPark() == false)
         return false;
 
-    return m_Mount->UnPark();
+    return m_Mount->unPark();
 }
 
 

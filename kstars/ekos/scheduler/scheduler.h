@@ -535,6 +535,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void registerNewModule(const QString &name);
 
         /**
+           * @brief registerNewDevice register interfaces associated with devices
+           * @param name Device name
+           * @param interface Device driver interface
+           */
+        void registerNewDevice(const QString &name, uint32_t interface);
+
+        /**
          * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
          * like the ability to park/unpark..etc
          */
@@ -1051,12 +1058,14 @@ class Scheduler : public QWidget, public Ui::Scheduler
             guidePathString = interface;
         }
 
-        QString domeInterfaceString { "org.kde.kstars.Ekos.Dome" };
+        QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
         void setDomeInterfaceString(const QString &interface)
         {
             domeInterfaceString = interface;
         }
-        QString domePathString { "/KStars/Ekos/Dome" };
+        // Only access first detected dome
+        // TODO provide selection? Unlikely to be ever needed.
+        QString domePathString { "/KStars/INDI/Dome/1" };
         void setDomePathString(const QString &interface)
         {
             domePathString = interface;
@@ -1073,12 +1082,16 @@ class Scheduler : public QWidget, public Ui::Scheduler
             weatherPathString = interface;
         }
 
-        QString dustCapInterfaceString { "org.kde.kstars.Ekos.DustCap" };
+        QString dustCapInterfaceString { "org.kde.kstars.INDI.DustCap" };
         void setDustCapInterfaceString(const QString &interface)
         {
             dustCapInterfaceString = interface;
         }
-        QString dustCapPathString { "/KStars/Ekos/DustCap" };
+        // Only watch first dust cap
+        // TODO add selection in case we have several?
+        // Ideally, we shouldn't have dust control here
+        // Let modules manage the dust cap
+        QString dustCapPathString { "/KStars/INDI/DustCap/1" };
         void setDustCapPathString(const QString &interface)
         {
             dustCapPathString = interface;

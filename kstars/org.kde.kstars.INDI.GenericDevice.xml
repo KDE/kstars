@@ -1,0 +1,18 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kstars.INDI.GenericDevice">
+  <property name="name" type="s" access="read"/>
+  <property name="driverInterface" type="i" access="read"/>
+  <property name="driverVersion" type="s" access="read"/>
+  <property name="connected" type="b" access="read"/>
+    <method name="Connect">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="Disconnect">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <signal name="Connected"/>
+    <signal name="Disconnected"/>
+    <signal name="ready"/>
+  </interface>
+</node>

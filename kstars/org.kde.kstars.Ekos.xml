@@ -69,5 +69,9 @@
     <signal name="newModule">
         <arg name="name" type="s" direction="out"/>
     </signal>
+    <signal name="newDevice">
+        <arg name="name" type="s" direction="out"/>
+        <arg name="interface" type="u" direction="out"/>
+    </signal>
   </interface>
 </node>
