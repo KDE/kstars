@@ -77,6 +77,39 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     QVERIFY(checkDithering());
 }
 
+void TestEkosMeridianFlipSpecials::testCaptureGuidingRecalibrationMF()
+{
+    // use three steps in each direction for calibration
+    Options::setAutoModeIterations(3);
+
+    // set up the capture sequence
+    QVERIFY(prepareCaptureTestcase(30, false, false));
+
+    // start guiding
+    QVERIFY(m_CaptureHelper->startGuiding(2.0));
+
+    // now enable resetting guiding calibration
+    Options::setResetGuideCalibration(true);
+    Options::setReuseGuideCalibration(false);
+
+    // start capturing
+    QVERIFY(startCapturing());
+
+    // check if meridian flip runs and completes successfully
+    QVERIFY(checkMFExecuted(45));
+
+    // check if guiding calibration is executed
+    m_CaptureHelper->expectedGuidingStates.enqueue(Ekos::GUIDE_CALIBRATING);
+    m_CaptureHelper->expectedGuidingStates.enqueue(Ekos::GUIDE_CALIBRATION_SUCCESS);
+    m_CaptureHelper->expectedGuidingStates.enqueue(Ekos::GUIDE_GUIDING);
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
+    // check if capturing starts right now
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 120000);
+    // check if calibration was finished
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedGuidingStates.isEmpty(), 30000);
+}
+
+
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 {
     // set up the capture sequence
@@ -243,6 +276,11 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF_data()
 {
     prepareTestData(45.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false, true}, {false, true}, {true}, {false, true});
+}
+
+void TestEkosMeridianFlipSpecials::testCaptureGuidingRecalibrationMF_data()
+{
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}, {"Red,Green,Blue,Red,Green,Blue", 1}}, {false}, {false}, {true}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF_data()
