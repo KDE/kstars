@@ -661,7 +661,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
             // If for some reason we didn't stop, let's stop if we get too far
             else if (deltaAngle > PAHRotationSpin->value() * 1.25)
             {
-                m_CurrentTelescope->Abort();
+                m_CurrentTelescope->abort();
                 emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
                 stopPAHProcess();
             }
@@ -756,7 +756,7 @@ void PolarAlignmentAssistant::startPAHProcess()
         }
 
         // Unpark
-        m_CurrentTelescope->UnPark();
+        m_CurrentTelescope->unPark();
 
         // Set tracking ON if not already
         if (m_CurrentTelescope->canControlTrack() && m_CurrentTelescope->isTracking() == false)
@@ -818,7 +818,7 @@ void PolarAlignmentAssistant::stopPAHProcess()
         return;
 
     if (m_CurrentTelescope && m_CurrentTelescope->isInMotion())
-        m_CurrentTelescope->Abort();
+        m_CurrentTelescope->abort();
 
     setPAHStage(PAH_IDLE);
     polarAlignWidget->updatePAHStage(m_PAHStage);
@@ -838,7 +838,7 @@ void PolarAlignmentAssistant::stopPAHProcess()
 
     if (Options::pAHAutoPark())
     {
-        m_CurrentTelescope->Park();
+        m_CurrentTelescope->park();
         emit newLog(i18n("Parking the mount..."));
     }
 }

@@ -3568,6 +3568,8 @@ void Manager::setDeviceReady()
         if (device)
             device->Connect();
     }
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 }

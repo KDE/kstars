@@ -115,6 +115,11 @@ class GDInterface : public QObject
 class GenericDevice : public GDInterface
 {
         Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.GenericDevice")
+        Q_PROPERTY(QString name READ getDeviceName)
+        Q_PROPERTY(uint32_t driverInterface READ getDriverInterface)
+        Q_PROPERTY(QString driverVersion READ getDriverVersion)
+        Q_PROPERTY(bool connected READ isConnected)
 
     public:
         explicit GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent = nullptr);
@@ -127,12 +132,12 @@ class GenericDevice : public GDInterface
         virtual void processNumber(INumberVectorProperty *nvp) override;
         virtual void processLight(ILightVectorProperty *lvp) override;
 
-    /**
-         * @brief processBLOB Process Binary BLOB
-         * @param bp pointer to binary blob.
-         * @return Return true of BLOB was successfully processed. If a concrete device does not process the blob, it should
-         * return false to allow sibling or parent devices to process the blob.
-         */
+        /**
+             * @brief processBLOB Process Binary BLOB
+             * @param bp pointer to binary blob.
+             * @return Return true of BLOB was successfully processed. If a concrete device does not process the blob, it should
+             * return false to allow sibling or parent devices to process the blob.
+             */
         virtual bool processBLOB(IBLOB *bp) override;
         virtual void processMessage(int messageID) override;
 
@@ -182,10 +187,9 @@ class GenericDevice : public GDInterface
 
         ConcreteDevice *getConcreteDevice(uint32_t interface);
 
-    public slots:
-        virtual bool Connect();
-        virtual bool Disconnect();
-        virtual bool setProperty(QObject *);
+        Q_SCRIPTABLE Q_NOREPLY void Connect();
+        Q_SCRIPTABLE Q_NOREPLY void Disconnect();
+        bool setProperty(QObject *);
 
     protected slots:
         virtual void resetWatchdog();
@@ -256,6 +260,12 @@ class GenericDevice : public GDInterface
         QTimer *watchDogTimer { nullptr };
         QTimer *m_ReadyTimer {nullptr};
         QList<StreamFileMetadata> streamFileMetadata;
+
+        static uint8_t getID()
+        {
+            return m_ID++;
+        }
+        static uint8_t m_ID;
 };
 
 void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact = true);

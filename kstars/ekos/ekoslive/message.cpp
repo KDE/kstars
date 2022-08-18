@@ -417,7 +417,7 @@ void Message::sendDomes()
         };
 
         if (dome->canAbsMove())
-            status["az"] = dome->azimuthPosition();
+            status["az"] = dome->position();
 
         sendResponse(commands[NEW_DOME_STATE], status);
 

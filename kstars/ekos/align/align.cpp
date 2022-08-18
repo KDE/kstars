@@ -664,7 +664,7 @@ void Align::slotMountModel()
         connect(m_MountModel, &Ekos::MountModel::aborted, this, [this]()
         {
             if (m_Mount && m_Mount->isSlewing())
-                m_Mount->Abort();
+                m_Mount->abort();
             abort();
         });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);

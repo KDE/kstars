@@ -22,9 +22,31 @@ namespace ISD
 class Dome : public ConcreteDevice
 {
         Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.Dome")
+        Q_PROPERTY(bool canPark READ canPark)
+        Q_PROPERTY(bool canAbsMove READ canAbsMove)
+        Q_PROPERTY(bool canRelMove READ canRelMove)
+        Q_PROPERTY(bool canAbort READ canAbort)
+        Q_PROPERTY(bool isMoving READ isMoving)
+        Q_PROPERTY(ISD::Dome::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(ISD::Dome::ShutterStatus shutterStatus READ shutterStatus NOTIFY newShutterStatus)
+        Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
+        Q_PROPERTY(double position READ position WRITE setPosition NOTIFY positionChanged)
 
     public:
         explicit Dome(GenericDevice *parent);
+
+        // DBUS
+        const QString &name()
+        {
+            return m_Parent->getDeviceName();
+        }
+        // DBus
+        bool connected()
+        {
+            return m_Parent->isConnected();
+        }
+
         typedef enum
         {
             DOME_IDLE,
@@ -64,35 +86,62 @@ class Dome : public ConcreteDevice
         void processNumber(INumberVectorProperty *nvp) override;
         void registerProperty(INDI::Property prop) override;
 
-        bool canPark() const
+        Q_SCRIPTABLE bool canPark() const
         {
             return m_CanPark;
         }
-        bool canAbsMove() const
+        Q_SCRIPTABLE bool canAbsMove() const
         {
             return m_CanAbsMove;
         }
-        bool canRelMove() const
+        Q_SCRIPTABLE bool canRelMove() const
         {
             return m_CanRelMove;
         }
-        bool canAbort() const
+        Q_SCRIPTABLE bool canAbort() const
         {
             return m_CanAbort;
         }
-        bool isParked() const
+        Q_SCRIPTABLE bool isParked() const
         {
             return m_ParkStatus == PARK_PARKED;
         }
         bool isMoving() const;
 
-        double azimuthPosition() const;
-        bool setAzimuthPosition(double position);
+        /**
+         * @return position Dome Azimuth position in degrees
+         */
+        Q_SCRIPTABLE double position() const;
+        /**
+         * @brief setPosition Set azimuth absolute position.
+         * @param position Position in degrees 0 to +360
+         * @return true if successful, false otherwise
+         */
+        Q_SCRIPTABLE bool setPosition(double position);
+
         bool setRelativePosition(double position);
 
         bool moveDome(DomeDirection dir, DomeMotionCommand operation);
 
-        bool hasShutter() const
+        /** DBus Interface Function
+         * @brief moveCW Start motion in clock-wise direction.
+         * @return True if command is successful, false otherwise.
+         */
+        Q_SCRIPTABLE bool moveCW()
+        {
+            return moveDome(DOME_CW, MOTION_START);
+        }
+
+        /** DBus Interface Function
+         * @brief moveCCW Start motion in counter-clock-wise direction.
+         * @return True if command is successful, false otherwise.
+         */
+        Q_SCRIPTABLE bool moveCCW()
+        {
+            return moveDome(DOME_CCW, MOTION_START);
+        }
+
+        Q_SCRIPTABLE bool hasShutter() const
         {
             return m_HasShutter;
         }
@@ -105,23 +154,26 @@ class Dome : public ConcreteDevice
         {
             return m_Status;
         }
+        ISD::ParkStatus parkStatus() const
+        {
+            return m_ParkStatus;
+        }
         static const QString getStatusString (Status status, bool translated = true);
 
         ShutterStatus shutterStatus();
-        ShutterStatus shutterStatus(ISwitchVectorProperty *svp);
+        ShutterStatus parseShutterStatus(ISwitchVectorProperty *svp);
 
-    public slots:
-        bool Abort();
-        bool Park();
-        bool UnPark();
-        bool ControlShutter(bool open);
+        Q_SCRIPTABLE bool abort();
+        Q_SCRIPTABLE bool park();
+        Q_SCRIPTABLE bool unPark();
+        Q_SCRIPTABLE bool controlShutter(bool open);
 
     signals:
         void newStatus(Status status);
         void newParkStatus(ParkStatus status);
         void newShutterStatus(ShutterStatus status);
         void newAutoSyncStatus(bool enabled);
-        void azimuthPositionChanged(double Az);
+        void positionChanged(double degrees);
 
     private:
         ParkStatus m_ParkStatus { PARK_UNKNOWN };
@@ -133,6 +185,12 @@ class Dome : public ConcreteDevice
         bool m_CanAbort { false };
         bool m_HasShutter { false };
         static const QList<const char *> domeStates;
+
+        static uint8_t getID()
+        {
+            return m_ID++;
+        }
+        static uint8_t m_ID;
 };
 }
 
@@ -140,3 +198,6 @@ Q_DECLARE_METATYPE(ISD::Dome::Status)
 QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::Status &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Status &dest);
 
+Q_DECLARE_METATYPE(ISD::Dome::ShutterStatus)
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::ShutterStatus &source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::ShutterStatus &dest);

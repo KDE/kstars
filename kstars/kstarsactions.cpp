@@ -915,7 +915,7 @@ void KStars::slotINDITelescopeAbort()
         if (!mount || mount->isConnected() == false)
             continue;
 
-        mount->Abort();
+        mount->abort();
         return;
     }
 #endif
@@ -936,7 +936,7 @@ void KStars::slotINDITelescopePark()
         if (!mount || mount->isConnected() == false || mount->canPark() == false)
             continue;
 
-        mount->Park();
+        mount->park();
         return;
     }
 #endif
@@ -957,7 +957,7 @@ void KStars::slotINDITelescopeUnpark()
         if (!mount || mount->isConnected() == false || mount->canPark() == false)
             continue;
 
-        mount->UnPark();
+        mount->unPark();
         return;
     }
 #endif
@@ -979,7 +979,7 @@ void KStars::slotINDIDomePark()
             continue;
         if (dome->canPark())
         {
-            dome->Park();
+            dome->park();
             return;
         }
     }
@@ -1002,7 +1002,7 @@ void KStars::slotINDIDomeUnpark()
             continue;
         if (dome->canPark())
         {
-            dome->UnPark();
+            dome->unPark();
             return;
         }
     }

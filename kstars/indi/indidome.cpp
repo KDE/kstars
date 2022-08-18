@@ -13,6 +13,7 @@
 #include "indidome.h"
 #include "kstars.h"
 #include "clientmanager.h"
+#include "domeadaptor.h"
 
 namespace ISD
 {
@@ -22,10 +23,18 @@ const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Mov
                                                I18N_NOOP("Error")
                                              };
 
+uint8_t Dome::m_ID = 1;
+
 Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 {
     qRegisterMetaType<ISD::Dome::Status>("ISD::Dome::Status");
     qDBusRegisterMetaType<ISD::Dome::Status>();
+
+    qRegisterMetaType<ISD::Dome::ShutterStatus>("ISD::Dome::ShutterStatus");
+    qDBusRegisterMetaType<ISD::Dome::ShutterStatus>();
+
+    new DomeAdaptor(this);
+    QDBusConnection::sessionBus().registerObject(QString("/KStars/INDI/Dome/%1").arg(getID()), this);
 }
 
 void Dome::registerProperty(INDI::Property prop)
@@ -57,7 +66,7 @@ void Dome::processNumber(INumberVectorProperty *nvp)
 {
     if (!strcmp(nvp->name, "ABS_DOME_POSITION"))
     {
-        emit azimuthPositionChanged(nvp->np[0].value);
+        emit positionChanged(nvp->np[0].value);
     }
 }
 
@@ -216,7 +225,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             emit newShutterStatus(m_ShutterStatus);
         }
 
-        ShutterStatus status = shutterStatus(svp);
+        ShutterStatus status = parseShutterStatus(svp);
 
         switch (status)
         {
@@ -267,7 +276,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
     }
 }
 
-bool Dome::Abort()
+bool Dome::abort()
 {
     if (m_CanAbort == false)
         return false;
@@ -288,7 +297,7 @@ bool Dome::Abort()
     return true;
 }
 
-bool Dome::Park()
+bool Dome::park()
 {
     auto parkSP = getSwitch("DOME_PARK");
 
@@ -307,7 +316,7 @@ bool Dome::Park()
     return true;
 }
 
-bool Dome::UnPark()
+bool Dome::unPark()
 {
     auto parkSP = getSwitch("DOME_PARK");
 
@@ -336,7 +345,7 @@ bool Dome::isMoving() const
     return false;
 }
 
-double Dome::azimuthPosition() const
+double Dome::position() const
 {
     auto az = getNumber("ABS_DOME_POSITION");
 
@@ -346,7 +355,7 @@ double Dome::azimuthPosition() const
         return az->at(0)->getValue();
 }
 
-bool Dome::setAzimuthPosition(double position)
+bool Dome::setPosition(double position)
 {
     auto az = getNumber("ABS_DOME_POSITION");
 
@@ -415,7 +424,7 @@ bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
     return true;
 }
 
-bool Dome::ControlShutter(bool open)
+bool Dome::controlShutter(bool open)
 {
     auto shutterSP = getSwitch("DOME_SHUTTER");
     if (!shutterSP)
@@ -436,10 +445,10 @@ Dome::ShutterStatus Dome::shutterStatus()
 {
     auto shutterSP = getSwitch("DOME_SHUTTER");
 
-    return shutterStatus(shutterSP);
+    return parseShutterStatus(shutterSP);
 }
 
-Dome::ShutterStatus Dome::shutterStatus(ISwitchVectorProperty *svp)
+Dome::ShutterStatus Dome::parseShutterStatus(ISwitchVectorProperty *svp)
 {
     if (svp == nullptr)
         return SHUTTER_UNKNOWN;
@@ -481,6 +490,24 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Status
     argument >> a;
     argument.endStructure();
     dest = static_cast<ISD::Dome::Status>(a);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const ISD::Dome::ShutterStatus &source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::ShutterStatus &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<ISD::Dome::ShutterStatus>(a);
     return argument;
 }
 

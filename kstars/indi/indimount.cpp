@@ -945,7 +945,7 @@ bool Mount::Sync(SkyPoint * ScopeTarget)
     return sendCoords(ScopeTarget);
 }
 
-bool Mount::Abort()
+bool Mount::abort()
 {
     auto motionSP = getSwitch("TELESCOPE_ABORT_MOTION");
 
@@ -967,7 +967,7 @@ bool Mount::Abort()
     return true;
 }
 
-bool Mount::Park()
+bool Mount::park()
 {
     auto parkSP = getSwitch("TELESCOPE_PARK");
 
@@ -988,7 +988,7 @@ bool Mount::Park()
     return true;
 }
 
-bool Mount::UnPark()
+bool Mount::unPark()
 {
     auto parkSP = getSwitch("TELESCOPE_PARK");
 

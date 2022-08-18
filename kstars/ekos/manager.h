@@ -342,6 +342,7 @@ class Manager : public QDialog, public Ui::Manager
 
         void newLog(const QString &text);
         void newModule(const QString &name);
+        void newDevice(const QString &name, int interface);
 
     protected:
         void closeEvent(QCloseEvent *event) override;

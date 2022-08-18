@@ -451,6 +451,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     //connect(ekosInterface, SIGNAL(newModule(QString)), this, SLOT(registerNewModule(QString)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newModule", this,
                                           SLOT(registerNewModule(QString)));
+    QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newDevice", this,
+                                          SLOT(registerNewDevice(QString, int)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "indiStatusChanged",
                                           this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "ekosStatusChanged",
@@ -7488,6 +7490,36 @@ void Scheduler::simClockTimeChanged()
     }
 }
 
+void Scheduler::registerNewDevice(const QString &name, int interface)
+{
+    Q_UNUSED(name)
+
+    if (interface & INDI::BaseDevice::DOME_INTERFACE)
+    {
+        delete domeInterface;
+        domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
+                                              QDBusConnection::sessionBus(), this);
+        checkInterfaceReady(domeInterface);
+    }
+
+    if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
+    {
+        delete weatherInterface;
+        weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
+                                              QDBusConnection::sessionBus(), this);
+        connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
+        checkInterfaceReady(weatherInterface);
+    }
+
+    if (interface & INDI::BaseDevice::DUSTCAP_INTERFACE)
+    {
+        delete capInterface;
+        capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
+                                          QDBusConnection::sessionBus(), this);
+        checkInterfaceReady(capInterface);
+    }
+}
+
 void Scheduler::registerNewModule(const QString &name)
 {
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Registering new Module (" << name << ")";
@@ -7541,34 +7573,6 @@ void Scheduler::registerNewModule(const QString &name)
         connect(guideInterface, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setGuideStatus(Ekos::GuideState)),
                 Qt::UniqueConnection);
     }
-    else if (name == "Dome")
-    {
-        delete domeInterface;
-        domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
-                                              QDBusConnection::sessionBus(), this);
-
-        connect(domeInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
-        checkInterfaceReady(domeInterface);
-    }
-    else if (name == "Weather")
-    {
-        delete weatherInterface;
-        weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
-                                              QDBusConnection::sessionBus(), this);
-
-        connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
-        checkInterfaceReady(weatherInterface);
-    }
-    else if (name == "DustCap")
-    {
-        delete capInterface;
-        capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
-                                          QDBusConnection::sessionBus(), this);
-
-        connect(capInterface, SIGNAL(ready()), this, SLOT(syncProperties()), Qt::UniqueConnection);
-        checkInterfaceReady(capInterface);
-    }
 }
 
 void Scheduler::syncProperties()
@@ -7602,43 +7606,6 @@ void Scheduler::syncProperties()
             capCheck->setEnabled(false);
             uncapCheck->setEnabled(false);
         }
-    }
-    else if (iface == weatherInterface)
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "weatherInterface:property", "updatePeriod");
-        QVariant updatePeriod = weatherInterface->property("updatePeriod");
-        TEST_PRINT(stderr, "  @@@dbus received %d\n", !updatePeriod.isValid() ? -1 : updatePeriod.toInt());
-
-        if (updatePeriod.isValid())
-        {
-            weatherCheck->setEnabled(true);
-
-            TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "weatherInterface:property", "status");
-            QVariant status = weatherInterface->property("status");
-            TEST_PRINT(stderr, "  @@@dbus received %d\n", !status.isValid() ? -1 : status.toInt());
-            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
-
-            //            if (updatePeriod.toInt() > 0)
-            //            {
-            //                weatherTimer.setInterval(updatePeriod.toInt() * 1000);
-            //                connect(&weatherTimer, &QTimer::timeout, this, &Scheduler::checkWeather, Qt::UniqueConnection);
-            //                weatherTimer.start();
-
-            //                // Check weather initially
-            //                checkWeather();
-            //            }
-        }
-        else
-            weatherCheck->setEnabled(true);
-    }
-    else if (iface == domeInterface)
-    {
-        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:property", "canPark");
-        QVariant canDomePark = domeInterface->property("canPark");
-        TEST_PRINT(stderr, "  @@@dbus received %s\n", !canDomePark.isValid() ? "invalid" : (canDomePark.toBool() ? "T" : "F"));
-        unparkDomeCheck->setEnabled(canDomePark.toBool());
-        parkDomeCheck->setEnabled(canDomePark.toBool());
-        m_DomeReady = true;
     }
     else if (iface == captureInterface)
     {
@@ -8583,7 +8550,8 @@ bool Scheduler::syncControl(const QJsonObject &settings, const QString &key, QWi
 
 QJsonObject Scheduler::getSchedulerSettings()
 {
-    QJsonObject jobStartupSettings = {
+    QJsonObject jobStartupSettings =
+    {
         {"asap", asapConditionR->isChecked()},
         {"culmination", culminationConditionR->isChecked()},
         {"culminationOffset", culminationOffset->value()},
@@ -8591,7 +8559,8 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"startupTimeEdit", startupTimeEdit->text()},
     };
 
-    QJsonObject jobConstraintSettings = {
+    QJsonObject jobConstraintSettings =
+    {
         {"altConstraintCheck", altConstraintCheck->isChecked()},
         {"minAltitude", minAltitude->value()},
         {"moonSeparationCheck", moonSeparationCheck->isChecked()},
@@ -8602,21 +8571,24 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"artificialHorizonCheck", artificialHorizonCheck->isChecked()}
     };
 
-    QJsonObject jobCompletionSettings = {
-      {"sequenceCompletionR", sequenceCompletionR->isChecked()},
+    QJsonObject jobCompletionSettings =
+    {
+        {"sequenceCompletionR", sequenceCompletionR->isChecked()},
         {"repeatCompletionR", repeatCompletionR->isChecked()},
         {"repeatsSpin", repeatsSpin->value()},
         {"loopCompletionR", loopCompletionR->isChecked()},
         {"timeCompletionR", timeCompletionR->isChecked()}
     };
 
-    QJsonObject observatoryStartupSettings = {
-       {"unparkDomeCheck", unparkDomeCheck->isChecked()},
-       {"unparkMountCheck", unparkMountCheck->isChecked()},
-       {"uncapCheck", uncapCheck->isChecked()},
-       {"startupScript", startupScript->text()}
+    QJsonObject observatoryStartupSettings =
+    {
+        {"unparkDomeCheck", unparkDomeCheck->isChecked()},
+        {"unparkMountCheck", unparkMountCheck->isChecked()},
+        {"uncapCheck", uncapCheck->isChecked()},
+        {"startupScript", startupScript->text()}
     };
-    QJsonObject abortJobSettings = {
+    QJsonObject abortJobSettings =
+    {
         {"none", errorHandlingDontRestartButton->isChecked() },
         {"queue", errorHandlingRestartQueueButton->isChecked()},
         {"immediate", errorHandlingRestartImmediatelyButton->isChecked()},
@@ -8624,7 +8596,8 @@ QJsonObject Scheduler::getSchedulerSettings()
         {"errorHandlingDelaySB", errorHandlingDelaySB->value()}
 
     };
-    QJsonObject shutdownSettings = {
+    QJsonObject shutdownSettings =
+    {
         {"warmCCDCheck", warmCCDCheck->isChecked()},
         {"capCheck", capCheck->isChecked()},
         {"parkMountCheck", parkMountCheck->isChecked()},

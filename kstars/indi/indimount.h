@@ -239,9 +239,9 @@ class Mount : public ConcreteDevice
         void updateParkStatus();
 
     public slots:
-        bool Abort();
-        bool Park();
-        bool UnPark();
+        bool abort();
+        bool park();
+        bool unPark();
         bool setSlewRate(int index);
         bool setTrackEnabled(bool enable);
         bool setCustomTrackRate(double raRate, double deRate);

@@ -644,7 +644,7 @@ void KSPopupMenu::addINDI()
             QAction *a =
                 mountMenu->addAction(QIcon::fromTheme("process-stop"), i18n("Abort"));
             a->setEnabled(!mount->isParked());
-            connect(a, &QAction::triggered, [mount] { mount->Abort(); });
+            connect(a, &QAction::triggered, [mount] { mount->abort(); });
             mountMenu->addSeparator();
         }
 
@@ -653,12 +653,12 @@ void KSPopupMenu::addINDI()
             QAction *park =
                 mountMenu->addAction(QIcon::fromTheme("flag-red"), i18n("Park"));
             park->setEnabled(!mount->isParked());
-            connect(park, &QAction::triggered, [mount] { mount->Park(); });
+            connect(park, &QAction::triggered, [mount] { mount->park(); });
 
             QAction *unpark =
                 mountMenu->addAction(QIcon::fromTheme("flag-green"), i18n("UnPark"));
             unpark->setEnabled(mount->isParked());
-            connect(unpark, &QAction::triggered, [mount] { mount->UnPark(); });
+            connect(unpark, &QAction::triggered, [mount] { mount->unPark(); });
 
             mountMenu->addSeparator();
         }
