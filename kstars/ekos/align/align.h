@@ -476,22 +476,13 @@ class Align : public QWidget, public Ui::Align
         void setTarget(const SkyPoint &targetCoord);
 
         /**
-         * @brief Clear the target, make it invalid.
-         */
-        Q_SCRIPTABLE Q_NOREPLY void clearTarget()
-        {
-            m_targetCoordValid = false;
-        }
-
-        /**
          * @brief Set the coordinates that the mount reports as its position
          * @param position current mount position
          */
         void setTelescopeCoordinates(const SkyPoint &position)
         {
-            telescopeCoord = position;
+            m_TelescopeCoord = position;
         }
-
 
         Q_SCRIPTABLE Q_NOREPLY void setTargetPositionAngle(double value);
 
@@ -514,12 +505,6 @@ class Align : public QWidget, public Ui::Align
         void solverFinished(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
         void solverComplete();
-
-        /**
-         * @brief If the target is valid (see m_targetCoordValid), simply return. If the target is not valid,
-         * use thecurrent mount coordinates as target coordinates.
-         */
-        void updateTargetCoords();
 
         /**
              * @brief Process solver failure.
@@ -748,15 +733,11 @@ class Align : public QWidget, public Ui::Align
         double sDEC { INVALID_VALUE };
 
         /// Solver alignment coordinates
-        SkyPoint alignCoord;
+        SkyPoint m_AlignCoord;
         /// Target coordinates we need to slew to
-        SkyPoint m_targetCoord;
-        /// do we have valid target coordinates?
-        bool m_targetCoordValid = false;
+        SkyPoint m_TargetCoord;
         /// Current telescope coordinates
-        SkyPoint telescopeCoord;
-        /// Coord from Load & Slew
-        SkyPoint loadSlewCoord;
+        SkyPoint m_TelescopeCoord;
         /// Difference between solution and target coordinate
         double m_TargetDiffTotal { 1e6 };
         double m_TargetDiffRA { 1e6 };
