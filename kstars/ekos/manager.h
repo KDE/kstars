@@ -342,7 +342,7 @@ class Manager : public QDialog, public Ui::Manager
 
         void newLog(const QString &text);
         void newModule(const QString &name);
-        void newDevice(const QString &name, uint32_t interface);
+        void newDevice(const QString &name, int interface);
 
     protected:
         void closeEvent(QCloseEvent *event) override;
@@ -372,7 +372,6 @@ class Manager : public QDialog, public Ui::Manager
         void processNewDevice(ISD::GenericDevice *device);
         void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
-        void processInterfaceDefined();
         void setDeviceReady();
 
         void processNewNumber(INumberVectorProperty *nvp);

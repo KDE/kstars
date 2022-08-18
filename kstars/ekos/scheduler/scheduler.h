@@ -539,7 +539,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
            * @param name Device name
            * @param interface Device driver interface
            */
-        void registerNewDevice(const QString &name, uint32_t interface);
+        void registerNewDevice(const QString &name, int interface);
 
         /**
          * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
@@ -1065,6 +1065,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         }
         // Only access first detected dome
         // TODO provide selection? Unlikely to be ever needed.
+        // TODO: Whichever dome selected in Observatory module should be used
+        // Long term might be better to interface with observatory module.
         QString domePathString { "/KStars/INDI/Dome/1" };
         void setDomePathString(const QString &interface)
         {
@@ -1076,7 +1078,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             weatherInterfaceString = interface;
         }
-        QString weatherPathString { "/KStars/Ekos/Weather" };
+        // Only access first detected weather
+        // TODO: Need to provide selection
+        // Or just connect to Observatory Module and get whatever weather is selected there?
+        // That is probably the best long-term solution.
+        QString weatherPathString { "/KStars/Ekos/Weather/1" };
         void setWeatherPathString(const QString &interface)
         {
             weatherPathString = interface;
@@ -1090,7 +1096,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Only watch first dust cap
         // TODO add selection in case we have several?
         // Ideally, we shouldn't have dust control here
-        // Let modules manage the dust cap
+        // In case we have several dust cap, we need to assign cameras that are covered by this dust cap
+        // in some sort of selection. Perhaps an optical train GUI.
         QString dustCapPathString { "/KStars/INDI/DustCap/1" };
         void setDustCapPathString(const QString &interface)
         {
