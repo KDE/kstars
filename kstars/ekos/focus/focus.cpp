@@ -2193,7 +2193,7 @@ void Focus::setHFRComplete()
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + ".fits";
-        QString filename = path + QStringLiteral("/") + name;
+        QString filename = path + QStringLiteral("/") + name + QStringLiteral("[compress R 100,100]");
         m_ImageData->saveImage(filename);
     }
 

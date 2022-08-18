@@ -30,6 +30,11 @@ private slots:
     /** @brief Test data for @see testSchedulerGuidingDeviationMF() */
     void testCaptureGuidingDeviationMF_data();
 
+    /** @brief Test if capturing waits after a MF until the recalibration has succeeded */
+    void testCaptureGuidingRecalibrationMF();
+
+    /** @brief Test data for @see testCaptureGuidingRecalibrationMF() */
+    void testCaptureGuidingRecalibrationMF_data();
 
     /** @brief Test a meridian flip where the dithering counter after the last capture before the flip is already 0.
      * Since dithering after the meridian flip is postponed, this checks whether after dithering takes place after

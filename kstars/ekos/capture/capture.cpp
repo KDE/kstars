@@ -5470,12 +5470,21 @@ bool Capture::checkGuidingAfterFlip()
         emit meridianFlipCompleted();
         return true;
     }
-    else if (m_State == CAPTURE_CALIBRATING && (m_GuideState == GUIDE_CALIBRATION_ERROR || m_GuideState == GUIDE_ABORTED))
+    else if (m_State == CAPTURE_CALIBRATING)
     {
-        // restart guiding after failure
-        appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
-        emit meridianFlipCompleted();
-        return true;
+        if (m_GuideState == GUIDE_CALIBRATION_ERROR || m_GuideState == GUIDE_ABORTED)
+        {
+            // restart guiding after failure
+            appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
+            emit meridianFlipCompleted();
+            return true;
+        }
+        else if (m_GuideState != GUIDE_GUIDING)
+            // waiting for guiding to start
+            return true;
+        else
+            // guiding is running
+            return false;
     }
     else
         // in all other cases, do not touch

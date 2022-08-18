@@ -180,6 +180,16 @@ void TestEkosHelper::connectModules()
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
+    // wait for modules startup
+    if (m_MountDevice != nullptr)
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 10000);
+    if (m_CCDDevice != nullptr)
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 10000);
+    if (m_GuiderDevice != nullptr)
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->guideModule() != nullptr, 10000);
+    if (m_FocuserDevice != nullptr)
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->focusModule() != nullptr, 10000);
+
     // connect to the alignment process to receive align status changes
     connect(ekos->alignModule(), &Ekos::Align::newStatus, this, &TestEkosHelper::alignStatusChanged,
             Qt::UniqueConnection);
