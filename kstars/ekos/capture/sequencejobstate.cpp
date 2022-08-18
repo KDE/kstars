@@ -290,8 +290,8 @@ void SequenceJobState::prepareRotatorCheck()
         if (isInitialized(ACTION_ROTATOR) == false)
         {
             prepareActions[ACTION_ROTATOR] = false;
-            // PA = RawAngle * Multiplier + Offset
-            double rawAngle = (targetPositionAngle - Options::pAOffset()) / Options::pAMultiplier();
+            // RawAngle = PA + Offset / Multiplier -> see Capture::Capture()
+            double rawAngle = (targetPositionAngle + Options::pAOffset()) / Options::pAMultiplier();
             emit prepareState(CAPTURE_SETTING_ROTATOR);
             emit setRotatorAngle(&rawAngle);
         }
@@ -722,9 +722,8 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 
 void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPState state)
 {
-    // position angle = rotatorAngle * paMul + paOffset
-    // -180 < position angle <= 180
-    double currentPositionAngle = range360(rotatorAngle * Options::pAMultiplier() + Options::pAOffset());
+    // PA = RawAngle * Multiplier - Offset -> see Capture::Capture()
+    double currentPositionAngle = range360(rotatorAngle * Options::pAMultiplier() - Options::pAOffset());
     if (currentPositionAngle > 180)
         currentPositionAngle -= 360.0;
 
