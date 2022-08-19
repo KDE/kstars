@@ -189,14 +189,14 @@ bool FITSData::privateLoad(const QByteArray &buffer, const QString &extension)
     return false;
 }
 
-bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
+bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension, const bool isCompressed)
 {
     int status = 0, anynull = 0;
     long naxes[3];
 
     m_HistogramConstructed = false;
 
-    if (extension.contains(".fz"))
+    if (extension.contains(".fz") || isCompressed)
     {
         fpstate fpvar;
         fp_init (&fpvar);
@@ -273,7 +273,6 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
         {
             m_LastError = i18n("Error reading fits buffer: %1", fitsErrorToString(status));
             return false;
-
         }
 
         m_Statistics.size = temp_size;
@@ -293,6 +292,14 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const QString &extension)
         m_PackBuffer = nullptr;
         m_LastError = i18n("FITS file open error (fits_get_img_param): %1", fitsErrorToString(status));
         return false;
+    }
+
+    // Reload if it is transparently compressed.
+    if ((fits_is_compressed_image(fptr, &status) || m_Statistics.ndim <= 0) && !isCompressed)
+    {
+        loadCommon(m_Filename);
+        qCDebug(KSTARS_FITS) << "Image is compressed. Reloading...";
+        return loadFITSImage(buffer, extension, true);
     }
 
     if (m_Statistics.ndim < 2)
