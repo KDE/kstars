@@ -1406,7 +1406,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
                    ".fits");
 
     data->calculateStats(true);
-    if (!data->saveImage(path))
+    if (!data->saveImage(path + QStringLiteral("[compress R]")))
     {
         m_FileLabel->setText(i18n("Failed to save master frame: %1", data->getLastError()));
         return;
