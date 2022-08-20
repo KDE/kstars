@@ -770,6 +770,15 @@ public:
             init(args...);
         });
         m_thread->start();
+
+        /*
+         * This is an attempt to fix a bug introduced in 5a2ba9f8e8b275f44b7593a50ca66f09cb2f985d
+         * where KStars Crashes on MacOS when launched by double clicking (NOT by Terminal or QT Creator)
+         * and then the find dialog is accessed.  For some reason, this fixes it?
+         */
+        #ifdef Q_OS_OSX
+            QThread::msleep(100);
+        #endif
     }
 
     ~AsyncDBManager()
