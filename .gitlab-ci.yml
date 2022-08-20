@@ -79,7 +79,7 @@ build-and-test-stable:
   artifacts:
     reports:
       junit:
-        kstars-build/junit_result.stable.xml
+        ./junit_result.stable.xml
 
 # Run the full validation in one step, unstable tests still in development
 build-and-test-unstable:
@@ -108,7 +108,7 @@ build-and-test-unstable:
   artifacts:
     reports:
       junit:
-        kstars-build/junit_result.unstable.xml
+        ./junit_result.unstable.xml
 
 build-appimage:
   stage: test
