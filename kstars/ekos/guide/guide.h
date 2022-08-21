@@ -463,6 +463,8 @@ class Guide : public QWidget, public Ui::Guide
         void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message = QString(""), double dx = 0,
                                double dy = 0);
 
+        void guideInfo(const QString &info);
+
         void processGuideOptions();
         void configSEPMultistarOptions();
 

@@ -43,6 +43,7 @@ InternalGuider::InternalGuider()
 
     state = GUIDE_IDLE;
     m_DitherOrigin = QVector3D(0, 0, 0);
+    emit guideInfo("");
 }
 
 bool InternalGuider::guide()
@@ -59,6 +60,7 @@ bool InternalGuider::guide()
     m_GuideFrame->disconnect(this);
 
     pmath->start();
+    emit guideInfo("");
 
     m_starLostCounter = 0;
     m_highRMSCounter = 0;
@@ -96,6 +98,7 @@ bool InternalGuider::abort()
 
     logFile.close();
     guideLog.endGuiding();
+    emit guideInfo("");
 
     if (state == GUIDE_CALIBRATING ||
             state == GUIDE_GUIDING ||
@@ -136,12 +139,14 @@ bool InternalGuider::suspend()
     emit newStatus(state);
 
     pmath->suspend(true);
+    emit guideInfo("");
 
     return true;
 }
 
 bool InternalGuider::resume()
 {
+    emit guideInfo("");
     guideLog.resumeInfo();
     state = GUIDE_GUIDING;
     emit newStatus(state);
@@ -523,6 +528,16 @@ void InternalGuider::iterateCalibration()
     if (calibrationProcess->inProgress())
     {
         pmath->performProcessing(GUIDE_CALIBRATING, m_ImageData, m_GuideFrame);
+        QString info = "";
+        if (pmath->usingSEPMultiStar())
+        {
+            auto gs = pmath->getGuideStars();
+            info = QString("%1 stars, %2/%3 refs")
+                   .arg(gs.getNumStarsDetected())
+                   .arg(gs.getNumReferencesFound())
+                   .arg(gs.getNumReferences());
+        }
+        emit guideInfo(info);
         if (pmath->isStarLost())
         {
             emit newLog(i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
@@ -601,7 +616,8 @@ void InternalGuider::reset()
 {
     state = GUIDE_IDLE;
 
-    connect(m_GuideFrame.get(), &FITSView::trackingStarSelected, this, &InternalGuider::trackingStarSelected, Qt::UniqueConnection);
+    connect(m_GuideFrame.get(), &FITSView::trackingStarSelected, this, &InternalGuider::trackingStarSelected,
+            Qt::UniqueConnection);
     calibrationProcess.reset();
 }
 
@@ -715,8 +731,20 @@ bool InternalGuider::processGuiding()
         }
     }
 
+    QString info = "";
     if (process)
+    {
         pmath->performProcessing(state, m_ImageData, m_GuideFrame, &guideLog);
+        if (pmath->usingSEPMultiStar())
+        {
+            auto gs = pmath->getGuideStars();
+            info = QString("%1 stars, %2/%3 refs")
+                   .arg(gs.getNumStarsDetected())
+                   .arg(gs.getNumReferencesFound())
+                   .arg(gs.getNumReferences());
+        }
+    }
+    emit guideInfo(info);
 
     if (state == GUIDE_SUSPENDED)
     {

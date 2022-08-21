@@ -441,6 +441,7 @@ int GuideStars::findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList
     // Let's sort edges, starting with widest
     std::sort(edges.begin(), edges.end(), [](const Edge * edge1, const Edge * edge2) -> bool { return edge1->HFR > edge2->HFR;});
 
+    m_NumStarsDetected = edges.count();
     // Take only the first num stars
     {
         int starCount = qMin(num, edges.count());

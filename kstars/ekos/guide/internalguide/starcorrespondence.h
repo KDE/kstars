@@ -88,6 +88,11 @@ class StarCorrespondence
             imageHeight = height;
         }
 
+        int getNumReferencesFound() const
+        {
+            return m_NumReferencesFound;
+        }
+
     private:
         // The Offsets structure is used to keep the positions of the reference stars
         // relative to the guide star.
@@ -148,6 +153,9 @@ class StarCorrespondence
         // by eliminating positions far outside the image.
         int imageWidth { 100000000 };
         int imageHeight { 100000000 };
+
+        // Number of references found in last call to find().
+        int m_NumReferencesFound { 0 };
 
         // A copy of the original reference offsets used so that the values don't move too far.
         QVector<Offsets> originalGuideStarOffsets;

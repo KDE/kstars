@@ -770,18 +770,18 @@ void Guide::updateGuideParams()
             m_GuiderInstance->setFrameParams(x, y, w, h, subBinX, subBinY);
         }
 
-        l_Focal->setText(QString::number(focal_length, 'f', 1));
-        l_Aperture->setText(QString::number(aperture, 'f', 1));
+        l_Focal->setText(QString("FL: %1mm").arg(focal_length, 0, 'f', 0));
+        l_Aperture->setText(QString("%1mm").arg(aperture, 0, 'f', 0));
         if (aperture == 0)
         {
-            l_FbyD->setText("0");
+            l_FbyD->setText("");
             // Pixel scale in arcsec/pixel
             pixScaleX = 0;
             pixScaleY = 0;
         }
         else
         {
-            l_FbyD->setText(QString::number(focal_length / aperture, 'f', 1));
+            l_FbyD->setText(QString("f/%1").arg(focal_length / aperture, 0, 'f', 1));
             // Pixel scale in arcsec/pixel
             pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / focal_length;
             pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / focal_length;
@@ -791,7 +791,7 @@ void Guide::updateGuideParams()
         double fov_w = (w * pixScaleX) / 60.0;
         double fov_h = (h * pixScaleY) / 60.0;
 
-        l_FOV->setText(QString("%1x%2").arg(QString::number(fov_w, 'f', 1), QString::number(fov_h, 'f', 1)));
+        l_FOV->setText(QString("%1' x %2'").arg(QString::number(fov_w, 'f', 1), QString::number(fov_h, 'f', 1)));
     }
 }
 
@@ -2029,10 +2029,6 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(true);
             label_6->setEnabled(true);
             FOVScopeCombo->setEnabled(true);
-            l_5->setEnabled(true);
-            l_6->setEnabled(true);
-            l_7->setEnabled(true);
-            l_8->setEnabled(true);
             l_Aperture->setEnabled(true);
             l_FOV->setEnabled(true);
             l_FbyD->setEnabled(true);
@@ -2073,10 +2069,6 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(true);
             label_6->setEnabled(false);
             FOVScopeCombo->setEnabled(false);
-            l_5->setEnabled(false);
-            l_6->setEnabled(false);
-            l_7->setEnabled(false);
-            l_8->setEnabled(false);
             l_Aperture->setEnabled(false);
             l_FOV->setEnabled(false);
             l_FbyD->setEnabled(false);
@@ -2138,6 +2130,7 @@ bool Guide::setGuiderType(int type)
         connect(m_GuiderInstance, &Ekos::GuideInterface::newAxisPulse, this, &Ekos::Guide::setAxisPulse);
         connect(m_GuiderInstance, &Ekos::GuideInterface::newAxisSigma, this, &Ekos::Guide::setAxisSigma);
         connect(m_GuiderInstance, &Ekos::GuideInterface::newSNR, this, &Ekos::Guide::setSNR);
+        connect(m_GuiderInstance, &Ekos::GuideInterface::guideInfo, this, &Ekos::Guide::guideInfo);
 
         driftGraph->connectGuider(m_GuiderInstance);
         targetPlot->connectGuider(m_GuiderInstance);
@@ -2160,6 +2153,20 @@ bool Guide::setGuiderType(int type)
         m_GuiderInstance->Connect();
 
     return true;
+}
+
+void Guide::guideInfo(const QString &info)
+{
+    if (info.size() == 0)
+    {
+        guideInfoLabel->setVisible(false);
+        guideInfoText->setVisible(false);
+        return;
+    }
+    guideInfoLabel->setVisible(true);
+    guideInfoLabel->setText("Detections");
+    guideInfoText->setVisible(true);
+    guideInfoText->setText(info);
 }
 
 void Guide::updateTrackingBoxSize(int currentIndex)
@@ -3084,7 +3091,7 @@ void Guide::initCalibrationPlot()
 void Guide::initView()
 {
     guideStateWidget = new GuideStateWidget();
-    guideInfoLayout->insertWidget(0, guideStateWidget);
+    guideInfoLayout->insertWidget(-1, guideStateWidget);
 
     m_GuideView.reset(new GuideView(guideWidget, FITS_GUIDE));
     m_GuideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -3094,6 +3101,8 @@ void Guide::initView()
     vlayout->addWidget(m_GuideView.get());
     guideWidget->setLayout(vlayout);
     connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar);
+    guideInfoLabel->setVisible(false);
+    guideInfoText->setVisible(false);
 }
 
 void Guide::initConnections()

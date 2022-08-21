@@ -85,6 +85,21 @@ class GuideStars
             return guideStarSNR;
         }
 
+        int getNumStarsDetected() const
+        {
+            return m_NumStarsDetected;
+        }
+
+        int getNumReferencesFound() const
+        {
+            return starCorrespondence.getNumReferencesFound();
+        }
+
+        int getNumReferences() const
+        {
+            return starCorrespondence.size();
+        }
+
         void reset()
         {
             starCorrespondence.reset();
@@ -169,6 +184,8 @@ class GuideStars
         bool allowMissingGuideStar { true };
 
         int unreliableDectionCounter { 0 };
+
+        int m_NumStarsDetected { 0 };
 
         friend class TestGuideStars;
 };
