@@ -584,23 +584,23 @@ bool Camera::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // memory, so copy it first.
 
         // Check buffer size.
-        if (fileWriteBufferSize != bp->size)
+        if (fileWriteBufferSize != bp->bloblen)
         {
             if (fileWriteBuffer != nullptr)
                 delete [] fileWriteBuffer;
-            fileWriteBufferSize = bp->size;
+            fileWriteBufferSize = bp->bloblen;
             fileWriteBuffer = new char[fileWriteBufferSize];
         }
 
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
-        memcpy(fileWriteBuffer, bp->blob, bp->size);
+        memcpy(fileWriteBuffer, bp->blob, bp->bloblen);
         fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer,
-                                            bp->size);
+                                            bp->bloblen);
     }
     else
     {
-        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->size))
+        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->bloblen))
             return false;
     }
     return true;
