@@ -535,6 +535,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void registerNewModule(const QString &name);
 
         /**
+           * @brief registerNewDevice register interfaces associated with devices
+           * @param name Device name
+           * @param interface Device driver interface
+           */
+        void registerNewDevice(const QString &name, int interface);
+
+        /**
          * @brief syncProperties Sync startup properties from the various device to enable/disable features in the scheduler
          * like the ability to park/unpark..etc
          */
@@ -1051,12 +1058,16 @@ class Scheduler : public QWidget, public Ui::Scheduler
             guidePathString = interface;
         }
 
-        QString domeInterfaceString { "org.kde.kstars.Ekos.Dome" };
+        QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
         void setDomeInterfaceString(const QString &interface)
         {
             domeInterfaceString = interface;
         }
-        QString domePathString { "/KStars/Ekos/Dome" };
+        // Only access first detected dome
+        // TODO provide selection? Unlikely to be ever needed.
+        // TODO: Whichever dome selected in Observatory module should be used
+        // Long term might be better to interface with observatory module.
+        QString domePathString { "/KStars/INDI/Dome/1" };
         void setDomePathString(const QString &interface)
         {
             domePathString = interface;
@@ -1067,18 +1078,27 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             weatherInterfaceString = interface;
         }
-        QString weatherPathString { "/KStars/Ekos/Weather" };
+        // Only access first detected weather
+        // TODO: Need to provide selection
+        // Or just connect to Observatory Module and get whatever weather is selected there?
+        // That is probably the best long-term solution.
+        QString weatherPathString { "/KStars/Ekos/Weather/1" };
         void setWeatherPathString(const QString &interface)
         {
             weatherPathString = interface;
         }
 
-        QString dustCapInterfaceString { "org.kde.kstars.Ekos.DustCap" };
+        QString dustCapInterfaceString { "org.kde.kstars.INDI.DustCap" };
         void setDustCapInterfaceString(const QString &interface)
         {
             dustCapInterfaceString = interface;
         }
-        QString dustCapPathString { "/KStars/Ekos/DustCap" };
+        // Only watch first dust cap
+        // TODO add selection in case we have several?
+        // Ideally, we shouldn't have dust control here
+        // In case we have several dust cap, we need to assign cameras that are covered by this dust cap
+        // in some sort of selection. Perhaps an optical train GUI.
+        QString dustCapPathString { "/KStars/INDI/DustCap/1" };
         void setDustCapPathString(const QString &interface)
         {
             dustCapPathString = interface;

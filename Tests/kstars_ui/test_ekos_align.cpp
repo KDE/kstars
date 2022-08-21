@@ -115,8 +115,6 @@ void TestEkosAlign::testFitsAlignTargetScheduledJob()
 void TestEkosAlign::testSyncOnlyAlign()
 {
     Ekos::Manager *ekos = Ekos::Manager::Instance();
-    // ensure that no target is set from other test runs
-    ekos->alignModule()->clearTarget();
     // select to Pherkab as target
     SkyObject *pherkab = findTargetByName("Pherkab");
 

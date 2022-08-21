@@ -23,18 +23,15 @@
 #include "mountmodel.h"
 #include "polaralignmentassistant.h"
 #include "remoteastrometryparser.h"
-#include "polaralign.h"
 #include "manualrotator.h"
 
 // FITS
 #include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fitstab.h"
 
 // Auxiliary
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
-#include "dialogs/finddialog.h"
 #include "ksnotification.h"
 #include "kspaths.h"
 #include "fov.h"
@@ -47,7 +44,6 @@
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/indifilterwheel.h"
-#include "indi/indiauxiliary.h"
 #include "profileinfo.h"
 
 // System Includes
@@ -125,11 +121,7 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     vlayout->addWidget(m_AlignView.get());
     alignWidget->setLayout(vlayout);
 
-    connect(solveB, &QPushButton::clicked, [this]()
-    {
-        updateTargetCoords();
-        captureAndSolve();
-    });
+    connect(solveB, &QPushButton::clicked, this, &Ekos::Align::captureAndSolve);
     connect(stopB, &QPushButton::clicked, this, &Ekos::Align::abort);
 
     // Effective FOV Edit
@@ -672,7 +664,7 @@ void Align::slotMountModel()
         connect(m_MountModel, &Ekos::MountModel::aborted, this, [this]()
         {
             if (m_Mount && m_Mount->isSlewing())
-                m_Mount->Abort();
+                m_Mount->abort();
             abort();
         });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);
@@ -2086,7 +2078,7 @@ void Align::startSolving()
                 m_StellarSolver->setProperty("UseScale", false);
             //Setting the initial search location settings
             if(useImagePosition)
-                m_StellarSolver->setSearchPositionInDegrees(telescopeCoord.ra().Degrees(), telescopeCoord.dec().Degrees());
+                m_StellarSolver->setSearchPositionInDegrees(m_TelescopeCoord.ra().Degrees(), m_TelescopeCoord.dec().Degrees());
             else
                 m_StellarSolver->setProperty("UsePosition", false);
         }
@@ -2201,13 +2193,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         m_EffectiveFOVPending = false;
     }
 
-    alignCoord.setRA0(ra / 15.0);
-    alignCoord.setDec0(dec);
+    m_AlignCoord.setRA0(ra / 15.0);
+    m_AlignCoord.setDec0(dec);
 
     // Convert to JNow
-    alignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
+    m_AlignCoord.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
     // Get horizontal coords
-    alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    m_AlignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
     // Do not update diff if we are performing load & slew.
     if (!m_SolveFromFile)
@@ -2220,7 +2212,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     // Because astrometry reads image upside-down (bottom to top), the orientation is rotated 180 degrees when compared to PA
     // PA = Orientation + 180
     double solverPA = SolverUtils::rotationToPositionAngle(orientation);
-    solverFOV->setCenter(alignCoord);
+    solverFOV->setCenter(m_AlignCoord);
     solverFOV->setPA(solverPA);
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
     // Sensor FOV as well
@@ -2229,7 +2221,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     PAOut->setText(QString::number(solverPA, 'f', 5));
 
     QString ra_dms, dec_dms;
-    getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
+    getFormattedCoords(m_AlignCoord.ra().Hours(), m_AlignCoord.dec().Degrees(), ra_dms, dec_dms);
 
     SolverRAOut->setText(ra_dms);
     SolverDecOut->setText(dec_dms);
@@ -2268,8 +2260,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     m_CaptureTimeoutCounter = 0;
 
     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)",
-                       alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(),
-                       telescopeCoord.dec().toDMSString()));
+                       m_AlignCoord.ra().toHMSString(), m_AlignCoord.dec().toDMSString(), m_TelescopeCoord.ra().toHMSString(),
+                       m_TelescopeCoord.dec().toDMSString()));
     if (!m_SolveFromFile && m_CurrentGotoMode == GOTO_SLEW)
     {
         dms diffDeg(m_TargetDiffTotal / 3600.0);
@@ -2680,7 +2672,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
     {
         QString ra_dms, dec_dms;
 
-        getFormattedCoords(telescopeCoord.ra().Hours(), telescopeCoord.dec().Degrees(), ra_dms, dec_dms);
+        getFormattedCoords(m_TelescopeCoord.ra().Hours(), m_TelescopeCoord.dec().Degrees(), ra_dms, dec_dms);
 
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
@@ -2859,7 +2851,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             }
         }
 
-        RUN_PAH(processMountRotation(telescopeCoord.ra(), delaySpin->value()));
+        RUN_PAH(processMountRotation(m_TelescopeCoord.ra(), delaySpin->value()));
     }
     else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
@@ -2927,7 +2919,7 @@ void Align::executeGOTO()
 {
     if (m_SolveFromFile)
     {
-        m_targetCoord = alignCoord;
+        m_TargetCoord = m_AlignCoord;
         SlewToTarget();
     }
     else if (m_CurrentGotoMode == GOTO_SYNC)
@@ -2940,11 +2932,11 @@ void Align::Sync()
 {
     state = ALIGN_SYNCING;
 
-    if (m_Mount->Sync(&alignCoord))
+    if (m_Mount->Sync(&m_AlignCoord))
     {
         emit newStatus(state);
         appendLogText(
-            i18n("Syncing to RA (%1) DEC (%2)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString()));
+            i18n("Syncing to RA (%1) DEC (%2)", m_AlignCoord.ra().toHMSString(), m_AlignCoord.dec().toDMSString()));
     }
     else
     {
@@ -2965,10 +2957,10 @@ void Align::Slew()
 
     // JM 2019-08-23: Do not assume that slew was started immediately. Wait until IPS_BUSY state is triggered
     // from Goto
-    m_Mount->Slew(&m_targetCoord);
+    m_Mount->Slew(&m_TargetCoord);
     slewStartTimer.start();
-    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_targetCoord.ra().toHMSString(),
-                       m_targetCoord.dec().toDMSString()));
+    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", m_TargetCoord.ra().toHMSString(),
+                       m_TargetCoord.dec().toDMSString()));
 }
 
 void Align::SlewToTarget()
@@ -2988,11 +2980,11 @@ void Align::SlewToTarget()
         // Do we perform a regular sync or use differential slewing?
         if (Options::astrometryDifferentialSlewing())
         {
-            dms m_TargetDiffRA = alignCoord.ra().deltaAngle(m_targetCoord.ra());
-            dms m_TargetDiffDE = alignCoord.dec().deltaAngle(m_targetCoord.dec());
+            dms m_TargetDiffRA = m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra());
+            dms m_TargetDiffDE = m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec());
 
-            m_targetCoord.setRA(m_targetCoord.ra() - m_TargetDiffRA);
-            m_targetCoord.setDec(m_targetCoord.dec() - m_TargetDiffDE);
+            m_TargetCoord.setRA(m_TargetCoord.ra() - m_TargetDiffRA);
+            m_TargetCoord.setDec(m_TargetCoord.dec() - m_TargetDiffDE);
 
             differentialSlewingActivated = true;
 
@@ -3359,17 +3351,6 @@ void Align::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
     {
-        case CAPTURE_PROGRESS:
-        {
-            // Only reset m_targetCoord if capture wasn't suspended then resumed due to error duing ongoing
-            // capture
-            if (m_Mount && m_CaptureState != CAPTURE_SUSPENDED)
-            {
-                updateTargetCoords();
-            }
-
-        }
-        break;
         case CAPTURE_ALIGNING:
             if (m_Mount && m_Mount->hasAlignmentModel() && Options::resetMountModelAfterMeridian())
             {
@@ -3833,22 +3814,14 @@ void Align::setTargetCoords(double ra0, double de0)
 
 void Align::setTarget(const SkyPoint &targetCoord)
 {
-    m_targetCoord = targetCoord;
-    m_targetCoordValid = true;
-    qCInfo(KSTARS_EKOS_ALIGN) << "Target updated to JNow RA:" << m_targetCoord.ra().toHMSString()
-                              << "DE:" << m_targetCoord.dec().toDMSString();
+    m_TargetCoord = targetCoord;
+    qCInfo(KSTARS_EKOS_ALIGN) << "Target coordinates updated to JNow RA:" << m_TargetCoord.ra().toHMSString()
+                              << "DE:" << m_TargetCoord.dec().toDMSString();
 }
 
 QList<double> Align::getTargetCoords()
 {
-    QList<double> coord;
-    // if a target has been set, take the target coordinates. Otherwise, take the coordinates the scope is pointing to currently
-    if (m_targetCoordValid)
-        coord << m_targetCoord.ra0().Hours() << m_targetCoord.dec0().Degrees();
-    else
-        coord << telescopeCoord.ra0().Hours() << telescopeCoord.dec0().Degrees();
-
-    return coord;
+    return QList<double>() << m_TargetCoord.ra0().Hours() << m_TargetCoord.dec0().Degrees();
 }
 
 void Align::setTargetPositionAngle(double value)
@@ -3866,12 +3839,10 @@ void Align::calculateAlignTargetDiff()
             matchPAHStage(PAA::PAH_SECOND_SOLVE) ||
             matchPAHStage(PAA::PAH_THIRD_SOLVE))
         return;
-    m_TargetDiffRA = (alignCoord.ra().deltaAngle(m_targetCoord.ra())).Degrees() * 3600;
-    m_TargetDiffDE = (alignCoord.dec().deltaAngle(m_targetCoord.dec())).Degrees() * 3600;
+    m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;
+    m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;
 
     dms RADiff(fabs(m_TargetDiffRA) / 3600.0), DEDiff(m_TargetDiffDE / 3600.0);
-    QString dRAText = QString("%1%2").arg((m_TargetDiffRA > 0 ? "+" : "-"), RADiff.toHMSString());
-    QString dDEText = DEDiff.toDMSString(true);
 
     m_TargetDiffTotal = sqrt(m_TargetDiffRA * m_TargetDiffRA + m_TargetDiffDE * m_TargetDiffDE);
 
@@ -3933,21 +3904,6 @@ void Align::calculateAlignTargetDiff()
         alignPlot->xAxis->setScaleRatio(alignPlot->yAxis, 1.0);
     }
     alignPlot->replot();
-}
-
-void Align::updateTargetCoords()
-{
-    // if target has already been set, we're done
-    if (m_targetCoordValid)
-        return;
-    else
-    {
-        // otherwise, the best guess is the position the mount reports
-        m_targetCoord = telescopeCoord;
-        m_targetCoordValid = true;
-        qCDebug(KSTARS_EKOS_ALIGN) << "No target set, using mount Coordinates JNow RA:" << telescopeCoord.ra().toHMSString()
-                                   << "DE:" << telescopeCoord.dec().toDMSString();
-    }
 }
 
 QStringList Align::getStellarSolverProfiles()

@@ -35,6 +35,7 @@
 #include "indicorrelator.h"
 #include "indiauxiliary.h"
 
+#include "genericdeviceadaptor.h"
 #include <indicom.h>
 #include <QImageReader>
 #include <QStatusBar>
@@ -48,8 +49,13 @@ GDSetCommand::GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString &inP
 {
 }
 
+uint8_t GenericDevice::m_ID = 1;
 GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent) : GDInterface(parent)
 {
+    // Register DBus
+    new GenericDeviceAdaptor(this);
+    QDBusConnection::sessionBus().registerObject(QString("/KStars/INDI/GenericDevice/%1").arg(getID()), this);
+
     m_DeviceInfo    = &idv;
     m_DriverInfo    = idv.getDriverInfo();
     m_BaseDevice    = idv.getBaseDevice();
@@ -672,16 +678,14 @@ void GenericDevice::updateLocation()
     m_ClientManager->sendNewNumber(nvp);
 }
 
-bool GenericDevice::Connect()
+void GenericDevice::Connect()
 {
     m_ClientManager->connectDevice(m_Name.toLatin1().constData());
-    return true;
 }
 
-bool GenericDevice::Disconnect()
+void GenericDevice::Disconnect()
 {
     m_ClientManager->disconnectDevice(m_Name.toLatin1().constData());
-    return true;
 }
 
 bool GenericDevice::setProperty(QObject *setPropCommand)

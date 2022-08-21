@@ -417,7 +417,7 @@ void Message::sendDomes()
         };
 
         if (dome->canAbsMove())
-            status["az"] = dome->azimuthPosition();
+            status["az"] = dome->position();
 
         sendResponse(commands[NEW_DOME_STATE], status);
 
@@ -937,7 +937,6 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
 
     if (command == commands[ALIGN_SOLVE])
     {
-        align->updateTargetCoords();
         align->captureAndSolve();
     }
     else if (command == commands[ALIGN_SET_SETTINGS])
