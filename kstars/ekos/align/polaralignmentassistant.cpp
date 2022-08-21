@@ -197,6 +197,7 @@ void PolarAlignmentAssistant::solverDone(bool timedOut, bool success, const FITS
     else if (!success)
     {
         emit newLog(i18n("Refresh solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+        emit updatedErrorsChanged(-1, -1, -1);
         emit captureAndSolve();
     }
     else
@@ -565,6 +566,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
         {
             debugString = QString("PAA Refresh(%1): Too few stars detected (%2)").arg(refreshIteration).arg(stars.size());
             qCDebug(KSTARS_EKOS_ALIGN) << debugString;
+            emit updatedErrorsChanged(-1, -1, -1);
         }
     }
     // Finally start the next capture
