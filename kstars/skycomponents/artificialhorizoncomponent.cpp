@@ -451,7 +451,7 @@ void ArtificialHorizon::drawPolygons(int entity, SkyPainter *painter, QList<Line
             maxAzAlt = p1.alt().Degrees();
         }
         const bool wrapAround = !inBetween(dms((minAz + maxAz) / 2.0), dms(minAz), dms(maxAz));
-        constexpr double sampling = 0.1;  // Draw a polygon for every degree in Azimuth
+        constexpr double sampling = 1.0;  // Draw a polygon for every degree in Azimuth
         if (wrapAround)
         {
             // We've detected that the line segment crosses 0 degrees.

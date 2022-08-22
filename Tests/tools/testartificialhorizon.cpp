@@ -167,8 +167,8 @@ void TestArtificialHorizon::artificialHorizonTest()
 
     QVERIFY(checkHorizon(horizon, 18, 51, false, polygons));
     QVERIFY(checkHorizon(horizon, 18, 60, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22, 51, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22, 60, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 51, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
     QVERIFY(checkHorizon(horizon, 18, 49, true, polygons));
     // but it doesn't affect things to its side
     QVERIFY(checkHorizon(horizon, 13, 51, true, polygons));
@@ -192,8 +192,8 @@ void TestArtificialHorizon::artificialHorizonTest()
     horizon.drawPolygons(nullptr, &polygons);
     QVERIFY(checkHorizon(horizon, 18, 51, false, polygons));
     QVERIFY(checkHorizon(horizon, 18, 60, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22, 51, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22, 60, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 51, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
 
     // Add another horizon line above the ceiling again makes that visible.
     QList<double> az3  = {10.0, 20.0};
@@ -206,8 +206,8 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(checkHorizon(horizon, 18, 51, true, polygons));
     QVERIFY(checkHorizon(horizon, 18, 60, true, polygons));
     // but it shouldn't affect other az values
-    QVERIFY(checkHorizon(horizon, 22, 51, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22, 60, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 51, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
 
 }
 
