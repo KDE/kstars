@@ -57,7 +57,7 @@
     <number>4</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="guideStatusLayout" stretch="1">
+    <layout class="QHBoxLayout" name="guideStatusLayout" stretch="0">
      <property name="spacing">
       <number>1</number>
      </property>
@@ -149,26 +149,94 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="guideDataLayout" stretch="0,0,0,0,1">
+        <layout class="QHBoxLayout" name="guideDataLayout" stretch="0,0,0,0,0,0,0">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="label_15">
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>20</height>
+             <width>30</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>250</width>
-             <height>20</height>
+             <height>24</height>
             </size>
            </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
            <property name="text">
-            <string> σRA:</string>
+            <string>Total RMS: </string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::RichText</enum>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="errRMS">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::RichText</enum>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_11">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="text">
+            <string> σRA: </string>
            </property>
            <property name="textFormat">
             <enum>Qt::RichText</enum>
@@ -184,7 +252,7 @@
          <item>
           <widget class="QLabel" name="errRA">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -192,14 +260,20 @@
            <property name="minimumSize">
             <size>
              <width>30</width>
-             <height>20</height>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>250</width>
-             <height>20</height>
+             <height>24</height>
             </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
            </property>
            <property name="text">
             <string/>
@@ -219,18 +293,21 @@
           <widget class="QLabel" name="label_14">
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>20</height>
+             <width>30</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>250</width>
-             <height>20</height>
+             <height>24</height>
             </size>
            </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
            <property name="text">
-            <string>σDEC:</string>
+            <string>σDEC: </string>
            </property>
            <property name="textFormat">
             <enum>Qt::RichText</enum>
@@ -246,7 +323,7 @@
          <item>
           <widget class="QLabel" name="errDEC">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -254,14 +331,20 @@
            <property name="minimumSize">
             <size>
              <width>30</width>
-             <height>30</height>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>250</width>
-             <height>30</height>
+             <height>24</height>
             </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
            </property>
            <property name="text">
             <string/>
@@ -285,7 +368,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>20</height>
+             <height>24</height>
             </size>
            </property>
           </spacer>
