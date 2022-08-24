@@ -139,6 +139,7 @@ enum COMMANDS
     GUIDE_CLEAR,
     GUIDE_REPORT,
     GUIDE_SET_SETTINGS,
+    GUIDE_SET_CALIBRATION_SETTINGS,
 
     // Align
     ALIGN_SOLVE,
@@ -146,6 +147,7 @@ enum COMMANDS
     ALIGN_LOAD_AND_SLEW,
     ALIGN_SET_FILE_EXTENSION,
     ALIGN_SET_SETTINGS,
+    ALIGN_SET_ASTROMETRY_SETTINGS,
     ALIGN_MANUAL_ROTATOR_STATUS,
     ALIGN_MANUAL_ROTATOR_TOGGLE,
 
@@ -369,12 +371,14 @@ static QMap<COMMANDS, QString> const commands =
     {GUIDE_CLEAR, "guide_clear"},
     {GUIDE_REPORT, "guide_report"},
     {GUIDE_SET_SETTINGS, "guide_set_settings"},
+    {GUIDE_SET_CALIBRATION_SETTINGS, "guide_set_calibration_settings"},
 
     {ALIGN_SOLVE, "align_solve"},
     {ALIGN_STOP, "align_stop"},
     {ALIGN_LOAD_AND_SLEW, "align_load_and_slew"},
     {ALIGN_SET_FILE_EXTENSION, "align_set_file_extension"},
     {ALIGN_SET_SETTINGS, "align_set_settings"},
+    {ALIGN_SET_ASTROMETRY_SETTINGS, "align_set_astrometry_settings"},
     {ALIGN_MANUAL_ROTATOR_STATUS, "align_manual_rotator_status"},
     {ALIGN_MANUAL_ROTATOR_TOGGLE, "align_manual_rotator_toggle"},
 

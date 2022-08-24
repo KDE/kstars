@@ -3337,7 +3337,8 @@ void Guide::removeDevice(ISD::GenericDevice *device)
     }
 }
 
-QJsonObject Guide::getSettings() const
+QJsonObject Guide::
+getSettings() const
 {
     QJsonObject settings;
 
@@ -3361,6 +3362,16 @@ QJsonObject Guide::getSettings() const
     settings.insert("dither_pixels", Options::ditherPixels());
     settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
     settings.insert("gpg_enabled", Options::gPGEnabled());
+
+    settings.insert("pulse", static_cast<int>(Options::calibrationPulseDuration()));
+    settings.insert("max_move", static_cast<int>(Options::calibrationMaxMove()));
+    settings.insert("two_axis", Options::twoAxisEnabled());
+    settings.insert("auto_square_size", Options::guideAutoSquareSizeEnabled());
+
+    settings.insert("calibration_backlash", Options::guideCalibrationBacklash());
+    settings.insert("reset_calibration", Options::resetGuideCalibration());
+    settings.insert("reuse_calibration", Options::reuseGuideCalibration());
+    settings.insert("reverse_calibration", Options::reverseDecOnPierSideChange());
 
     return settings;
 }

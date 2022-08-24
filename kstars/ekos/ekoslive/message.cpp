@@ -709,6 +709,7 @@ void Message::sendAlignSettings(const QJsonObject &settings)
 void Message::sendGuideSettings(const QJsonObject &settings)
 {
     sendResponse(commands[GUIDE_SET_SETTINGS], settings);
+
 }
 
 void Message::sendFocusSettings(const QJsonObject &settings)
@@ -747,6 +748,20 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     {
         guide->setSettings(payload);
         sendGuideSettings(m_Manager->guideModule()->getSettings());
+    }
+    else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
+    {
+
+       Options::setCalibrationPulseDuration(payload["pulse"].toInt());
+       Options::setGuideCalibrationBacklash(payload["max_move"].toInt());
+       Options::setTwoAxisEnabled(payload["two_axis"].toBool());
+       Options::setGuideAutoSquareSizeEnabled(payload["square_size"].toBool());
+
+       Options::setGuideCalibrationBacklash(payload["calibrationBacklash"].toBool());
+       Options::setResetGuideCalibration(payload["resetCalibration"].toBool());
+       Options::setReuseGuideCalibration(payload["reuseCalibration"].toBool());
+       Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
+       sendGuideSettings(m_Manager->guideModule()->getSettings());
     }
 }
 
@@ -941,6 +956,14 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[ALIGN_SET_SETTINGS])
         align->setSettings(payload);
+    else if(command== commands[ALIGN_SET_ASTROMETRY_SETTINGS])
+    {
+        Options::setAstrometryRotatorThreshold(payload["threshold"].toInt());
+        Options::setAstrometryUseRotator(payload["rotator_control"].toBool());
+        Options::setAstrometryUseImageScale(payload["scale"].toBool());
+        Options::setAstrometryUsePosition(payload["position"].toBool());
+        sendAlignSettings(m_Manager->alignModule()->getSettings());
+    }
     else if (command == commands[ALIGN_STOP])
         align->abort();
     else if (command == commands[ALIGN_LOAD_AND_SLEW])

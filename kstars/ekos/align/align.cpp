@@ -3651,6 +3651,11 @@ QJsonObject Align::getSettings() const
     settings.insert("settle", delaySpin->value());
     settings.insert("dark", alignDarkFrameCheck->isChecked());
 
+    settings.insert("threshold", Options::astrometryRotatorThreshold());
+    settings.insert("rotator_control", Options::astrometryUseRotator());
+    settings.insert("scale", Options::astrometryUseImageScale());
+    settings.insert("position", Options::astrometryUsePosition());
+
     return settings;
 }
 
