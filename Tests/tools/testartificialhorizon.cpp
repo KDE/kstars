@@ -158,8 +158,8 @@ void TestArtificialHorizon::artificialHorizonTest()
 
     // Now add a ceiling above the first horizon line.
     // Above the ceiling should not be visible
-    QList<double> az2  = {14.0, 24.0};
-    QList<double> alt2 = {50.0, 50.0};
+    QList<double> az2  = {14.0, 20.0, 24.0};
+    QList<double> alt2 = {40.0, 46.0, 50.0};
     auto list2 = setupHorizonEntities(az2, alt2);
     horizon.addRegion("R2", true, list2, true);
     polygons.clear();
@@ -167,9 +167,9 @@ void TestArtificialHorizon::artificialHorizonTest()
 
     QVERIFY(checkHorizon(horizon, 18, 51, false, polygons));
     QVERIFY(checkHorizon(horizon, 18, 60, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22.5, 51, false, polygons));
-    QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
-    QVERIFY(checkHorizon(horizon, 18, 49, true, polygons));
+    QVERIFY(checkHorizon(horizon, 22, 51, false, polygons));
+    QVERIFY(checkHorizon(horizon, 22, 60, false, polygons));
+    QVERIFY(checkHorizon(horizon, 18, 42, true, polygons));
     // but it doesn't affect things to its side
     QVERIFY(checkHorizon(horizon, 13, 51, true, polygons));
     QVERIFY(checkHorizon(horizon, 13, 49, true, polygons));
@@ -196,7 +196,7 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
 
     // Add another horizon line above the ceiling again makes that visible.
-    QList<double> az3  = {10.0, 20.0};
+    QList<double> az3  = {10.0, 19.0};
     QList<double> alt3 = {50.5, 50.2};
     auto list3 = setupHorizonEntities(az3, alt3);
     horizon.addRegion("R3", true, list3, false);

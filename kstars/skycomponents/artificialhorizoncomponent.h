@@ -108,7 +108,7 @@ class ArtificialHorizon
         void drawSampledPolygons(int entity, double az1, double alt1, double az2, double alt2,
                                  double sampling, SkyPainter *painter, QList<LineList> *regions);
         bool computePolygon(int entity, double az1, double alt1, double az2, double alt2,
-                            LineList *region);
+                            double sampling, LineList *region);
 
         QList<ArtificialHorizonEntity *> m_HorizonList;
         bool testing { false };

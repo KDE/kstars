@@ -270,6 +270,11 @@ void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, L
     const double maxAngleDiff = std::max(fabs(az1 - az2), fabs(alt1 - alt2));
     const int numSamples = maxAngleDiff / sampling;
 
+    std::shared_ptr<SkyPoint> sp0(new SkyPoint());
+    sp0->setAz(az1);
+    sp0->setAlt(alt1);
+    region->append(sp0);
+
     if (numSamples > 1)
     {
         GreatCircle gc(az1, alt1, az2, alt2);
@@ -302,12 +307,83 @@ void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, L
 // It figures out the opposite side depending on the type of the constraint for this entity
 // (horizon line or ceiling) and the other contraints that are enabled.
 bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, double az2, double alt2,
-                                       LineList *region)
+                                       double sampling, LineList *region)
 {
     const bool ceiling = horizonList()->at(entity)->ceiling();
     const ArtificialHorizonEntity *thisOne = horizonList()->at(entity);
     double alt1b = 0, alt2b = 0;
     bool exists = false;
+    LineList left, top, right, bottom;
+
+    double lastAz = az1;
+    double lastAlt = alt1;
+    const double azRange = az2 - az1, altRange = alt2 - alt1;
+
+    if (az1 >= az2)
+        return false;
+
+    if (az1 + sampling > az2)
+        sampling = (az2 - az1) - 1e-6;
+
+    for (double az = az1 + sampling; az <= az2; az += sampling)
+    {
+        // Put it at the end, if we're close.
+        if (az + sampling > az2)
+            az = az2;
+
+        double alt = alt1 + altRange * (az - az1) / azRange;
+        double alt1b = 0, alt2b = 0;
+
+        if (!ceiling)
+        {
+            // For standard horizon lines, the polygon is drawn down to the next lower-altitude
+            // enabled line, or to the horizon if a lower line doesn't exist.
+            const ArtificialHorizonEntity *constraint = getConstraintBelow(lastAz, lastAlt, thisOne);
+            if (constraint != nullptr)
+            {
+                double altTemp = constraint->altitudeConstraint(lastAz, &exists);
+                if (exists)
+                    alt1b = altTemp;
+            }
+            constraint = getConstraintBelow(az, alt, thisOne);
+            if (constraint != nullptr)
+            {
+                double altTemp = constraint->altitudeConstraint(az, &exists);
+                if (exists)
+                    alt2b = altTemp;
+            }
+            appendGreatCirclePoints(lastAz, lastAlt,   az, alt, &top, testing);
+            appendGreatCirclePoints(lastAz, alt1b,   az, alt2b, &bottom, testing);
+        }
+        else
+        {
+            // For ceiling lines, the polygon is drawn up to the next higher-altitude enabled line
+            // but only if that line is another cieling, otherwise it not drawn at all (because that
+            // horizon line will do the drawing).
+            const ArtificialHorizonEntity *constraint = getConstraintAbove(lastAz, lastAlt, thisOne);
+            alt1b = 90;
+            alt2b = 90;
+            if (constraint != nullptr)
+            {
+                if (constraint->ceiling()) return false;
+                double altTemp = constraint->altitudeConstraint(lastAz, &exists);
+                if (exists) alt1b = altTemp;
+            }
+            constraint = getConstraintAbove(az, alt, thisOne);
+            if (constraint != nullptr)
+            {
+                if (constraint->ceiling()) return false;
+                double altTemp = constraint->altitudeConstraint(az, &exists);
+                if (exists) alt2b = altTemp;
+            }
+            appendGreatCirclePoints(lastAz, lastAlt,   az, alt, &top, testing);
+            // Note that "bottom" for a ceiling is above.
+            appendGreatCirclePoints(lastAz, alt1b,   az, alt2b, &bottom, testing);
+        }
+        lastAz = az;
+        lastAlt = alt;
+    }
+
     if (!ceiling)
     {
         // For standard horizon lines, the polygon is drawn down to the next lower-altitude
@@ -315,17 +391,20 @@ bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, doub
         const ArtificialHorizonEntity *constraint = getConstraintBelow(az1, alt1, thisOne);
         if (constraint != nullptr)
         {
-            double alt = constraint->altitudeConstraint(az1, &exists);
+            double altTemp = constraint->altitudeConstraint(az1, &exists);
             if (exists)
-                alt1b = alt;
+                alt1b = altTemp;
         }
-        constraint = getConstraintBelow(az2, alt2, thisOne);
-        if (constraint != nullptr)
+        appendGreatCirclePoints(az1, alt1b,   az1, alt1, &left, testing);
+
+        const ArtificialHorizonEntity *constraint2 = getConstraintBelow(az2, alt2, thisOne);
+        if (constraint2 != nullptr)
         {
-            double alt = constraint->altitudeConstraint(az2, &exists);
+            double altTemp = constraint2->altitudeConstraint(az2, &exists);
             if (exists)
-                alt2b = alt;
+                alt2b = altTemp;
         }
+        appendGreatCirclePoints(az2, alt2,   az2, alt2b, &right, testing);
     }
     else
     {
@@ -338,28 +417,32 @@ bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, doub
         if (constraint != nullptr)
         {
             if (!constraint->ceiling()) return false;
-            double alt = constraint->altitudeConstraint(az1, &exists);
-            if (exists) alt1b = alt;
+            double altTemp = constraint->altitudeConstraint(az1, &exists);
+            if (exists) alt1b = altTemp;
         }
-        constraint = getConstraintAbove(az2, alt2, thisOne);
-        if (constraint != nullptr)
+        appendGreatCirclePoints(az1, alt1b,   az1, alt1, &left, testing);
+
+        const ArtificialHorizonEntity *constraint2 = getConstraintAbove(az2, alt2, thisOne);
+        if (constraint2 != nullptr)
         {
-            if (!constraint->ceiling()) return false;
-            double alt = constraint->altitudeConstraint(az2, &exists);
-            if (exists) alt2b = alt;
+            if (!constraint2->ceiling()) return false;
+            double altTemp = constraint2->altitudeConstraint(az2, &exists);
+            if (exists) alt2b = altTemp;
         }
+        appendGreatCirclePoints(az2, alt2,   az2, alt2b, &right, testing);
     }
 
-    std::shared_ptr<SkyPoint> sp(new SkyPoint());
-    sp->setAz(az1);
-    sp->setAlt(alt1b);
-    if (!testing)
-        sp->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
-    region->append(sp);
+    // Now we have all the sides: left, top, right, bottom, but the order of bottom is reversed.
+    // Make a polygon with all the points.
+    for (const auto &p : * (left.points()))
+        region->append(p);
+    for (const auto &p : * (top.points()))
+        region->append(p);
+    for (const auto &p : * (right.points()))
+        region->append(p);
+    for (int i = bottom.points()->size() - 1; i >= 0; i--)
+        region->append(bottom.points()->at(i));
 
-    appendGreatCirclePoints(az1, alt1b,  az1, alt1, region, testing);
-    appendGreatCirclePoints(az1, alt1,   az2, alt2, region, testing);
-    appendGreatCirclePoints(az2, alt2,   az2, alt2b, region, testing);
     return true;
 }
 
@@ -373,31 +456,13 @@ void ArtificialHorizon::drawSampledPolygons(int entity, double az1, double alt1,
 {
     if (az1 > az2)
     {
-        // Should not happen.
-        fprintf(stderr, "Bad input to artificialhorizoncomponent.cpp::DrawSampledPolygons\n");
+        // Should not generally happen. Possibility e.g. az 0 -> 0.01 in a wrap around.
+        // OK to ignore.
         return;
     }
-    double lastAz = az1;
-    double lastAlt = alt1;
-    const double azRange = az2 - az1, altRange = alt2 - alt1;
-    if (azRange == 0) return;
-    for (double az = az1 + sampling; az < az2; az += sampling)
-    {
-        double alt = alt1 + altRange * (az - az1) / azRange;
 
-        LineList region;
-        if (computePolygon(entity, lastAz, lastAlt, az, alt, &region))
-        {
-            if (painter != nullptr)
-                painter->drawSkyPolygon(&region, false);
-            if (regions != nullptr)
-                regions->append(region);
-        }
-        lastAz = az;
-        lastAlt = alt;
-    }
     LineList region;
-    if (computePolygon(entity, lastAz, lastAlt, az2, alt2, &region))
+    if (computePolygon(entity, az1, alt1, az2, alt2, sampling, &region))
     {
         if (painter != nullptr)
             painter->drawSkyPolygon(&region, false);
@@ -424,6 +489,7 @@ void ArtificialHorizon::drawPolygons(int entity, SkyPainter *painter, QList<Line
         if (!qIsNaN(p.az().Degrees()) && !qIsNaN(p.alt().Degrees()))
             break;
     }
+
     for (int i = start + 1; i < points.size(); ++i)
     {
         const SkyPoint &p2 = *points[i];
@@ -461,7 +527,7 @@ void ArtificialHorizon::drawPolygons(int entity, SkyPainter *painter, QList<Line
                                          p1.az().deltaAngle(p2.az()).Degrees());
             const double midAlt = minAzAlt + fraction * (maxAzAlt - minAzAlt);
             // Draw polygons form maxAz upto 0 degrees, then again from 0 to minAz.
-            drawSampledPolygons(entity, maxAz, maxAzAlt, 360.0, midAlt, sampling, painter, regions);
+            drawSampledPolygons(entity, maxAz, maxAzAlt, 360, midAlt, sampling, painter, regions);
             drawSampledPolygons(entity, 0, midAlt, minAz, minAzAlt, sampling, painter, regions);
         }
         else
@@ -666,7 +732,6 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintBelow(double azim
 
     foreach (ArtificialHorizonEntity *horizon, m_HorizonList)
     {
-
         if (!horizon->enabled()) continue;
         if (horizon == ignore) continue;
         bool constraintExists = false;
