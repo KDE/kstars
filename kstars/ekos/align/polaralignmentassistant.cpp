@@ -52,7 +52,8 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPoi
     m_AlignInstance = parent;
     m_AlignView = view;
 
-    connect(PAHSlewRateCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), Options::self(), &Options::setPAHMountSpeedIndex);
+    connect(PAHSlewRateCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), Options::self(),
+            &Options::setPAHMountSpeedIndex);
 
     showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
                      (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
@@ -134,9 +135,7 @@ void PolarAlignmentAssistant::setEnabled(bool enabled)
     }
     else
     {
-        PAHWidgets->setToolTip(i18n(
-                                   "<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. FOV &gt;"
-                                   " 0.5 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
+        PAHWidgets->setToolTip(i18n("<p>Polar Alignment tool requires a German Equatorial Mount.</p>"));
         FOVDisabledLabel->show();
     }
 
@@ -833,7 +832,8 @@ void PolarAlignmentAssistant::stopPAHProcess()
     m_AlignView->setRefreshEnabled(false);
 
     emit newFrame(m_AlignView);
-    disconnect(m_AlignView.get(), &AlignView::trackingStarSelected, this, &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
+    disconnect(m_AlignView.get(), &AlignView::trackingStarSelected, this,
+               &Ekos::PolarAlignmentAssistant::setPAHCorrectionOffset);
     disconnect(m_AlignView.get(), &AlignView::newCorrectionVector, this, &Ekos::PolarAlignmentAssistant::newCorrectionVector);
 
     if (Options::pAHAutoPark())
@@ -1088,7 +1088,8 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
                 : (m_PAHStage == PAH_SECOND_SOLVE ? "Calculating WCS for the second image...</p>"
                    : "Calculating WCS for the third image...</p>"));
         }
-        connect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled, Qt::UniqueConnection);
+        connect(m_AlignView.get(), &AlignView::wcsToggled, this, &Ekos::PolarAlignmentAssistant::setWCSToggled,
+                Qt::UniqueConnection);
         m_AlignView->injectWCS(orientation, ra, dec, pixscale, eastToTheRight, doWcs);
         return;
     }
