@@ -2278,6 +2278,10 @@ IPState Capture::resumeSequence()
             }
         }
 
+        // set state to capture preparation
+        m_State = CAPTURE_PROGRESS;
+        emit newStatus(CAPTURE_PROGRESS);
+
         const QString preCaptureScript = activeJob->getScript(SCRIPT_PRE_CAPTURE);
         // JM 2020-12-06: Check if we need to execute pre-capture script first.
         if (!preCaptureScript.isEmpty())
@@ -2929,7 +2933,7 @@ void Capture::setActiveJob(SequenceJob *value)
         connect(this, &Capture::newGuiderDrift, activeJob, &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
         connect(activeJob, &SequenceJob::prepareState, this, &Capture::updatePrepareState);
-        connect(activeJob, &SequenceJob::prepareComplete, this, &Capture::executeJob);
+        connect(activeJob, &SequenceJob::prepareComplete, this, [this]() {m_State = CAPTURE_PROGRESS; executeJob();});
         connect(activeJob, &SequenceJob::abortCapture, this, &Capture::abort);
         connect(activeJob, &SequenceJob::newLog, this, &Capture::newLog);
         // forward the devices and attributes
@@ -3841,9 +3845,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         if (m_LimitsUI->startGuiderDriftS->isChecked() == false || deviation_rms < m_LimitsUI->startGuiderDriftN->value())
         {
             m_State = CAPTURE_CALIBRATING;
-            if (m_DeviationDetected == true)
-                appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
-                                   deviationText, m_LimitsUI->startGuiderDriftN->value()));
+            appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
+                               deviationText, m_LimitsUI->startGuiderDriftN->value()));
             m_DeviationDetected = false;
         }
         else
@@ -6083,12 +6086,7 @@ IPState Capture::checkLightFramePendingTasks()
     if (meridianFlipStage >= MF_COMPLETED && m_GuideState != GUIDE_GUIDING && checkGuidingAfterFlip())
         return IPS_BUSY;
 
-    // step 6: check guide deviation for non meridian flip stages if the initial guide limit is set.
-    //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
-    if (m_State == CAPTURE_PROGRESS && m_GuideState == GUIDE_GUIDING && m_LimitsUI->startGuiderDriftS->isChecked())
-        return IPS_BUSY;
-
-    // step 7: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
+    // step 6: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
     //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
     //         Otherwise the meridian flip is complete
     if (m_State == CAPTURE_CALIBRATING && meridianFlipStage == MF_GUIDING)
@@ -6098,6 +6096,11 @@ IPState Capture::checkLightFramePendingTasks()
         else
             setMeridianFlipStage(MF_NONE);
     }
+
+    // step 7: check guide deviation for non meridian flip stages if the initial guide limit is set.
+    //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
+    if (m_State == CAPTURE_PROGRESS && m_GuideState == GUIDE_GUIDING && m_LimitsUI->startGuiderDriftS->isChecked())
+        return IPS_BUSY;
 
     // step 8: check if dithering is required or running
     if ((m_State == CAPTURE_DITHERING && m_DitheringState != IPS_OK) || checkDithering())
