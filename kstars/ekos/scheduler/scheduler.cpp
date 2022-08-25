@@ -3944,16 +3944,15 @@ bool Scheduler::checkJobStageClassic()
         p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
 
         /* FIXME: find a way to use altitude cutoff here, because the job can be scheduled when evaluating, then aborted when running */
-        const double altitudeConstraint = currentJob->getMinAltitudeConstraint(p.az().Degrees());
-        if (p.alt().Degrees() < altitudeConstraint)
+        const bool altitudeOK = currentJob->satisfiesAltitudeConstraint(p.az().Degrees(), p.alt().Degrees());
+        if (!altitudeOK)
         {
             // Only terminate job due to altitude limitation if mount is NOT parked.
             if (isMountParked() == false)
             {
-                appendLogText(i18n("Job '%1' current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), "
+                appendLogText(i18n("Job '%1' current altitude (%2 degrees) fails constraints, "
                                    "marking idle.", currentJob->getName(),
-                                   QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals()),
-                                   QString("%L1").arg(altitudeConstraint, 0, 'f', minAltitude->decimals())));
+                                   QString("%L1").arg(p.alt().Degrees(), 0, 'f', minAltitude->decimals())));
                 currentJob->setState(SchedulerJob::JOB_IDLE);
                 stopCurrentJobAction();
                 findNextJob();

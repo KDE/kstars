@@ -79,7 +79,9 @@ class ArtificialHorizon
         bool altitudeConstraintsExist() const;
 
         // Returns true if the azimuth/altitude point is not blocked by the artificial horzon entities.
-        bool isVisible(double azimuthDegrees, double altitudeDegrees) const;
+        bool isVisible(double azimuthDegrees, double altitudeDegrees, QString *reason = nullptr) const;
+        // Like isVisible, but uses the cache if there are no ceiling constraints.
+        bool isAltitudeOK(double azimuthDegrees, double altitudeDegrees, QString *reason) const;
 
         // returns the (highest) altitude constraint at the given azimuth.
         // If there are no constraints, then it returns -90.
@@ -121,7 +123,8 @@ class ArtificialHorizon
         double precomputedConstraint(double azimuth) const;
         double altitudeConstraintInternal(double azimuthDegrees) const;
         mutable QVector<double> precomputedConstraints;
-
+        bool noCeilingConstraints { true };
+        void checkForCeilings();
         friend TestArtificialHorizon;
 };
 

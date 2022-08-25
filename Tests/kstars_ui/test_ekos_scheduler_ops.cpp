@@ -915,7 +915,7 @@ void TestEkosSchedulerOps::testTwilightStartup()
 }
 
 void addHorizonConstraint(ArtificialHorizon *horizon, const QString &name, bool enabled,
-                          const QVector<double> &azimuths, const QVector<double> &altitudes)
+                          const QVector<double> &azimuths, const QVector<double> &altitudes, bool ceiling = false)
 {
     std::shared_ptr<LineList> pointList(new LineList);
     for (int i = 0; i < azimuths.size(); ++i)
@@ -925,7 +925,7 @@ void addHorizonConstraint(ArtificialHorizon *horizon, const QString &name, bool 
         skyp1->setAz(azimuths[i]);
         pointList->append(skyp1);
     }
-    horizon->addRegion(name, enabled, pointList, false);
+    horizon->addRegion(name, enabled, pointList, ceiling);
 }
 
 void TestEkosSchedulerOps::testArtificialHorizonConstraints()
@@ -1132,13 +1132,13 @@ void TestEkosSchedulerOps::loadGreedySchedule(
     const TestEkosSchedulerHelper::StartupCondition &startupCondition,
     const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
     QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude,
-    const TestEkosSchedulerHelper::ScheduleSteps steps)
+    const TestEkosSchedulerHelper::ScheduleSteps steps, bool enforceTwilight, bool enforceHorizon)
 {
     SkyObject *object = KStars::Instance()->data()->skyComposite()->findByName(targetName);
     QVERIFY(object != nullptr);
     const QString schedulerXML =
         TestEkosSchedulerHelper::getSchedulerFile(
-            object, startupCondition, completionCondition, steps, true, true, minAltitude);
+            object, startupCondition, completionCondition, steps, enforceTwilight, enforceHorizon, minAltitude);
 
     // Write the scheduler and sequence files.
     QString f1 = writeFiles(targetName, dir, captureJob, schedulerXML);
@@ -1424,6 +1424,56 @@ void TestEkosSchedulerOps::testGreedyAborts()
     QVERIFY(newSchedule[0].job->getName() == "M 104");
     QVERIFY(std::abs(newSchedule[0].startTime.secsTo(
                          QDateTime(QDate(2022, 2, 28), QTime(2, 00, 00), Qt::LocalTime))) < 200);
+}
+
+void TestEkosSchedulerOps::testArtificialCeiling()
+{
+    constexpr int checkScheduleTolerance = 300;
+    Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_GREEDY);
+
+    ArtificialHorizon horizon;
+    QVector<double> az1  = {259.0, 260.0, 299.0, 300.0, 330.0,   0.0,  30.0,  70.0,  71.0,  90.0, 120.0, 150.0, 180.0, 210.0, 240.0, 259.99};
+    QVector<double> alt1 = { 90.0,  26.0,  26.0,  26.0,  26.0,  26.0,  26.0,  26.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0};
+    addHorizonConstraint(&horizon, "floor", true, az1, alt1);
+
+    QVector<double> az2  = {260.0, 300.0, 330.0,  0.0,  30.0,  70.0};
+    QVector<double> alt2 = { 66.0,  66.0,  66.0, 66.0,  66.0,  66.0};
+    addHorizonConstraint(&horizon, "ceiling", true, az2, alt2, true); // last true --> ceiling
+
+    // Setup geo and an artificial horizon.
+    GeoLocation geo(dms(-75, 40), dms(45, 40), "New York", "NY", "USA", -5);
+    SchedulerJob::setHorizon(&horizon);
+    // Start the scheduler about 9pm local
+    const QDateTime startUTime = QDateTime(QDate(2022, 8, 21), QTime(16, 0, 0), Qt::UTC);
+    initTimeGeo(geo, startUTime);
+
+    auto schedJob200x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {200, 60, "Red", "."});
+    auto schedJob400x60 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {400, 60, "Red", "."});
+
+    TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
+    TestEkosSchedulerHelper::CompletionCondition loopCompletionCondition;
+    asapStartupCondition.type = SchedulerJob::START_ASAP;
+    loopCompletionCondition.type = SchedulerJob::FINISH_LOOP;
+
+    // Write the scheduler and sequence files.
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    loadGreedySchedule(true, "theta Bootis", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 0,
+    {true, true, true, true}, false, true); // min alt = 0, don't enforce twilight
+    scheduler->evaluateJobs(false);
+
+    // There are no altitude constraints, just an artificial horizon with 2 lines, the top a ceiling.
+    // It should scheduler from "now" until the star reaches the ceiling, then shut off until it lowers
+    // back into the window, then shutoff again when the star goes below the artificial horizon, and
+    // then start-up again when it once again raises above the artificial horizon into the window.
+    QVERIFY(checkSchedule(
+    {
+        {"HD 126660", "2022/08/21 12:00", "2022/08/21 15:05"},
+        {"HD 126660", "2022/08/21 19:50", "2022/08/22 00:34"},
+        {"HD 126660", "2022/08/22 10:19", "2022/08/22 15:03"},
+        {"HD 126660", "2022/08/22 19:46", "2022/08/23 00:30"},
+        {"HD 126660", "2022/08/23 10:15", "2022/08/23 14:59"}},
+    scheduler->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
 void TestEkosSchedulerOps::testSettingAltitudeBug()

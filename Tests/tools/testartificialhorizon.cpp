@@ -29,6 +29,7 @@ class TestArtificialHorizon : public QObject
 
     private slots:
         void artificialHorizonTest();
+        void artificialCeilingTest();
 
     private:
 };
@@ -84,6 +85,11 @@ bool checkHorizon(const ArtificialHorizon &horizon, double az, double alt,
             break;
         }
     }
+    if (horizon.isVisible(az, alt) != visibility)
+        qInfo() << QString("isVisible test failed for az %1 alt %2 vis %3").arg(az, 0, 'f', 1).arg(alt, 0, 'f', 1).arg(visibility);
+    if (azAltInPolygon == visibility)
+        qInfo() << QString("inPolygon test failed for az %1 alt %2 vis %3\n").arg(az, 0, 'f', 1).arg(alt, 0, 'f',
+                1).arg(visibility);
     return (horizon.isVisible(az, alt) == visibility) && (azAltInPolygon != visibility);
 }
 
@@ -209,6 +215,40 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(checkHorizon(horizon, 22.5, 51, false, polygons));
     QVERIFY(checkHorizon(horizon, 22.5, 60, false, polygons));
 
+}
+
+void TestArtificialHorizon::artificialCeilingTest()
+{
+    ArtificialHorizon horizon;
+
+    // This removes a call to KStars::Instance() that's not needed in testing.
+    horizon.setTesting();
+
+    QList<double> az1  = {259.0, 260.0, 299.0, 300.0, 330.0,   0.0,  30.0,  60.0,  61.0,  90.0, 120.0, 150.0, 180.0, 210.0, 240.0, 259.99};
+    QList<double> alt1 = { 90.0,  26.0,  26.0,  26.0,  26.0,  26.0,  26.0,  26.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0,  90.0};
+    auto list1 = setupHorizonEntities(az1, alt1);
+    horizon.addRegion("horizon", true, list1, false);
+
+    QList<double> az2  = {260.0, 300.0, 330.0,  0.0,  30.0,  60.0};
+    QList<double> alt2 = { 66.0,  66.0,  66.0, 66.0,  66.0,  66.0};
+    auto list2 = setupHorizonEntities(az2, alt2);
+    horizon.addRegion("ceiling", true, list2, true);
+
+    QVERIFY(horizon.altitudeConstraintsExist());
+    QList<LineList> polygons;
+    horizon.drawPolygons(nullptr, &polygons);
+
+    // Check points above and below the first horizon line.
+    QVERIFY(checkHorizon(horizon, 54, 50, true, polygons));
+    QVERIFY(checkHorizon(horizon, 54, 60, true, polygons));
+    QVERIFY(checkHorizon(horizon, 49, 68, false, polygons));
+    QVERIFY(checkHorizon(horizon, 21, 77, false, polygons));
+    QVERIFY(checkHorizon(horizon, 321, 74, false, polygons));
+    QVERIFY(checkHorizon(horizon, 310, 68, false, polygons));
+    QVERIFY(checkHorizon(horizon, 305, 60, true, polygons));
+    QVERIFY(checkHorizon(horizon, 306, 48, true, polygons));
+    QVERIFY(checkHorizon(horizon, 328, 14, false, polygons));
+    QVERIFY(checkHorizon(horizon, 351, 3, false, polygons));
 }
 
 QTEST_GUILESS_MAIN(TestArtificialHorizon)

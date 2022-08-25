@@ -156,6 +156,7 @@ void ArtificialHorizon::load(const QList<ArtificialHorizonEntity *> &list)
 {
     m_HorizonList = list;
     resetPrecomputeConstraints();
+    checkForCeilings();
 }
 
 bool ArtificialHorizonComponent::load()
@@ -609,6 +610,7 @@ void ArtificialHorizon::removeRegion(const QString &regionName, bool lineOnly)
         delete (regionHorizon);
     }
     resetPrecomputeConstraints();
+    checkForCeilings();
 }
 
 void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool lineOnly)
@@ -617,6 +619,19 @@ void ArtificialHorizonComponent::removeRegion(const QString &regionName, bool li
     if (regionHorizon != nullptr && regionHorizon->list())
         removeLine(regionHorizon->list());
     horizon.removeRegion(regionName, lineOnly);
+}
+
+void ArtificialHorizon::checkForCeilings()
+{
+    noCeilingConstraints = true;
+    for (const auto &r : m_HorizonList)
+    {
+        if (r->ceiling() && r->enabled())
+        {
+            noCeilingConstraints = false;
+            break;
+        }
+    }
 }
 
 void ArtificialHorizon::addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list,
@@ -631,6 +646,7 @@ void ArtificialHorizon::addRegion(const QString &regionName, bool enabled, const
 
     m_HorizonList.append(horizon);
     resetPrecomputeConstraints();
+    checkForCeilings();
 }
 
 void ArtificialHorizonComponent::addRegion(const QString &regionName, bool enabled, const std::shared_ptr<LineList> &list,
@@ -749,14 +765,47 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintBelow(double azim
     return entity;
 }
 
+bool ArtificialHorizon::isAltitudeOK(double azimuthDegrees, double altitudeDegrees, QString *reason) const
+{
+    if (noCeilingConstraints)
+    {
+        const double constraint = altitudeConstraint(azimuthDegrees);
+        if (altitudeDegrees >= constraint)
+            return true;
+        if (reason != nullptr)
+            *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+        return false;
+    }
+    else
+        return isVisible(azimuthDegrees, altitudeDegrees, reason);
+}
+
 // An altitude is blocked (not visible) if either:
 // - there are constraints above and the closest above constraint is not a ceiling, or
 // - there are constraints below and the closest below constraint is a ceiling.
-bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees) const
+bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees, QString *reason) const
 {
     const ArtificialHorizonEntity *above = getConstraintAbove(azimuthDegrees, altitudeDegrees);
-    if (above != nullptr && !above->ceiling()) return false;
+    if (above != nullptr && !above->ceiling())
+    {
+        if (reason != nullptr)
+        {
+            bool ignoreMe;
+            double constraint = above->altitudeConstraint(azimuthDegrees, &ignoreMe);
+            *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+        }
+        return false;
+    }
     const ArtificialHorizonEntity *below = getConstraintBelow(azimuthDegrees, altitudeDegrees);
-    if (below != nullptr && below->ceiling()) return false;
+    if (below != nullptr && below->ceiling())
+    {
+        if (reason != nullptr)
+        {
+            bool ignoreMe;
+            double constraint = below->altitudeConstraint(azimuthDegrees, &ignoreMe);
+            *reason = QString("altitude %1 > ceiling %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+        }
+        return false;
+    }
     return true;
 }
