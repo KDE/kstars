@@ -281,6 +281,15 @@ class JPLParser
     public:
         JPLParser(const QString &path);
 
+        const QJsonArray &data() const
+        {
+            return m_data;
+        }
+        const std::unordered_map<QString, int> &fieldMap() const
+        {
+            return m_field_map;
+        }
+
         template <typename Lambda>
         void for_each(const Lambda &fct)
         {
