@@ -295,24 +295,26 @@ void FindDialog::filterByType()
 void FindDialog::filterList()
 {
     QString SearchText = processSearchText();
-    const std::size_t searchId = m_currentSearchSequence;
+    //const std::size_t searchId = m_currentSearchSequence;
 
-    QEventLoop loop;
-    QMutexLocker {&dbCallMutex}; // To prevent re-entrant calls into this
-    connect(m_asyncDBManager.get(), &CatalogsDB::AsyncDBManager::resultReady, &loop, &QEventLoop::quit);
-    QMetaObject::invokeMethod(m_asyncDBManager.get(), [&](){
-        m_asyncDBManager->find_objects_by_name(SearchText, 10); });
-    loop.exec();
-    std::unique_ptr<CatalogsDB::CatalogObjectList> objs = m_asyncDBManager->result();
-    if (m_currentSearchSequence != searchId) {
-        return; // Ignore this search since the search text has changed
-    }
+    // JM 2022.08.28: Disabling use of async DB manager until further notice since it appears to cause a crash
+    // on MacOS and some embedded systems.
+    //    QEventLoop loop;
+    //    QMutexLocker {&dbCallMutex}; // To prevent re-entrant calls into this
+    //    connect(m_asyncDBManager.get(), &CatalogsDB::AsyncDBManager::resultReady, &loop, &QEventLoop::quit);
+    //    QMetaObject::invokeMethod(m_asyncDBManager.get(), [&](){
+    //        m_asyncDBManager->find_objects_by_name(SearchText, 10); });
+    //    loop.exec();
+    //    std::unique_ptr<CatalogsDB::CatalogObjectList> objs = m_asyncDBManager->result();
+    //    if (m_currentSearchSequence != searchId) {
+    //        return; // Ignore this search since the search text has changed
+    //    }
 
-    Q_ASSERT(bool(objs));
+    auto objs = m_dbManager.find_objects_by_name(SearchText, 10);
 
-    bool exactMatchExists = objs->size() > 0 ? QString::compare(objs->front().name(), SearchText, Qt::CaseInsensitive) : false;
+    bool exactMatchExists = objs.size() > 0 ? QString::compare(objs.front().name(), SearchText, Qt::CaseInsensitive) : false;
 
-    for (const auto &obj : *objs)
+    for (const auto &obj : objs)
     {
         KStarsData::Instance()->skyComposite()->catalogsComponent()->insertStaticObject(
             obj);
@@ -388,7 +390,8 @@ void FindDialog::enqueueSearch()
     {
         timer = new QTimer(this);
         timer->setSingleShot(true);
-        connect(timer, &QTimer::timeout, [&]() {
+        connect(timer, &QTimer::timeout, [&]()
+        {
             this->m_currentSearchSequence++;
             this->filterList();
         });
@@ -426,7 +429,7 @@ QString FindDialog::processSearchText(QString searchText)
             searchText.replace(re, "c/\\2");
         else searchText.replace(re, "p/\\2");
     }
-    
+
     // TODO after KDE 4.1 release:
     // If it is a IAU standard three letter abbreviation for a constellation, then go to that constellation
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
