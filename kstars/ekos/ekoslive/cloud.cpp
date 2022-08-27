@@ -192,17 +192,7 @@ void Cloud::asyncUpload()
     if (m_ImageData->isCompressed() == false)
     {
         compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
-
-        int isLossLess = 0;
-        fpstate	fpvar;
-        fp_init (&fpvar);
-        if (fp_pack(filepath.toLatin1().data(), compressedFile.toLatin1().data(), fpvar, &isLossLess) < 0)
-        {
-            if (filepath.startsWith(QDir::tempPath()))
-                QFile::remove(filepath);
-            qCCritical(KSTARS_EKOS) << "Cloud upload failed. Failed to compress" << filepath;
-            return;
-        }
+        m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
     }
 
     // Upload the compressed image
