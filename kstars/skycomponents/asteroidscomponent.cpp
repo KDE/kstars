@@ -89,17 +89,12 @@ void AsteroidsComponent::loadDataFromText()
 
     emitProgressText(i18n("Loading asteroids"));
     qCInfo(KSTARS) << "Loading asteroids";
-    auto isString = true;
-
-    {
-        KSUtils::JPLParser ast_parser(filepath_txt);
-        auto fieldMap = ast_parser.fieldMap();
-        isString = fieldMap.count("epoch_mjd") == 1;
-    }
 
     try
     {
         KSUtils::JPLParser ast_parser(filepath_txt);
+        auto fieldMap = ast_parser.fieldMap();
+        bool isString = fieldMap.count("epoch_mjd") == 1;
 
         ast_parser.for_each(
             [&](const auto & get)
