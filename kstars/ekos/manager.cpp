@@ -3533,6 +3533,11 @@ void Manager::createModules(ISD::GenericDevice *device)
             initGuide();
             initMount();
         }
+        if (device->getDriverInterface() & INDI::BaseDevice::ROTATOR_INTERFACE)
+        {
+            initCapture();
+            initAlign();
+        }
         if (device->getDriverInterface() & INDI::BaseDevice::DOME_INTERFACE)
         {
             initCapture();
@@ -3541,7 +3546,7 @@ void Manager::createModules(ISD::GenericDevice *device)
         }
         if (device->getDriverInterface() & INDI::BaseDevice::WEATHER_INTERFACE)
         {
-            initAlign();
+            initFocus();
             //initObservatory();
         }
         if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
@@ -3551,6 +3556,10 @@ void Manager::createModules(ISD::GenericDevice *device)
         if (device->getDriverInterface() & INDI::BaseDevice::LIGHTBOX_INTERFACE)
         {
             initCapture();
+        }
+        if (device->getDriverInterface() & INDI::BaseDevice::GPS_INTERFACE)
+        {
+            initMount();
         }
     }
 }
