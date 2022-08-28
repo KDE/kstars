@@ -287,7 +287,7 @@ void SequenceJobState::prepareRotatorCheck()
 {
     if (targetPositionAngle > Ekos::INVALID_VALUE)
     {
-        if (isInitialized(ACTION_ROTATOR) == false)
+        if (isInitialized(ACTION_ROTATOR))
         {
             prepareActions[ACTION_ROTATOR] = false;
             // RawAngle = PA + Offset / Multiplier -> see Capture::Capture()
@@ -740,7 +740,16 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
     else
     {
         setInitialized(ACTION_ROTATOR, true);
-        prepareRotatorCheck();
+        if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
+                && state != IPS_BUSY)
+        {
+            prepareActions[SequenceJobState::ACTION_ROTATOR] = true;
+            checkAllActionsReady();
+        }
+        else
+        {
+            prepareRotatorCheck();
+        }
     }
 }
 
