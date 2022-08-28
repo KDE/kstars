@@ -19,9 +19,11 @@ void TestSequenceJobState::testPrepareLightFrames()
     QFETCH(bool, enforce_rotate);
     QFETCH(bool, enforce_temperature);
     QFETCH(bool, enforce_guiding);
+    QFETCH(double, temperature_delta);
+    QFETCH(double, angle_delta);
 
-    double current_temp = 10.0, target_temp = -10.0;
-    double current_angle = 10.0, target_angle = 50;
+    double current_temp = 10.0;
+    double current_angle = 10.0;
     double current_guide_dev = 100.0, target_guide_dev = 2.0;
 
     // initialize the test processor, but do not inform the state machine
@@ -29,9 +31,9 @@ void TestSequenceJobState::testPrepareLightFrames()
 
     // set target values
     if (enforce_temperature)
-        m_stateMachine->setTargetCCDTemperature(target_temp);
+        m_stateMachine->setTargetCCDTemperature(current_temp + temperature_delta);
     if (enforce_rotate)
-        m_stateMachine->setTargetRotatorAngle(target_angle);
+        m_stateMachine->setTargetRotatorAngle(current_angle + angle_delta);
     if (enforce_guiding)
         m_stateMachine->setTargetStartGuiderDrift(target_guide_dev);
 
@@ -60,14 +62,19 @@ void TestSequenceJobState::testPrepareLightFrames_data()
     QTest::addColumn<bool>("enforce_rotate");      /*!< enforce rotating? */
     QTest::addColumn<bool>("enforce_temperature"); /*!< enforce temperature? */
     QTest::addColumn<bool>("enforce_guiding");     /*!< enforce maximal initial guiding deviation? */
+    QTest::addColumn<double>("temperature_delta"); /*!< difference between current and target temperature */
+    QTest::addColumn<double>("angle_delta");     /*!< difference between current and target rotator angle */
 
     // iterate over all combinations
     for (bool preview : {false, true})
         for (bool rotate : {false, true})
             for (bool temperature : {false, true})
                 for (bool guiding : {false, true})
-                QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3").arg(rotate).arg(temperature).arg(guiding).arg(preview).toLocal8Bit())
-                        << preview << rotate << temperature << guiding;
+                    for (double delta_t : {-21.0, 0.0})
+                        for (double delta_r : {45.0, 0.0})
+                            QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3, delta_t=%5, delta_rot=%6")
+                                          .arg(rotate).arg(temperature).arg(guiding).arg(preview).arg(delta_t).arg(delta_r).toLocal8Bit())
+                                    << preview << rotate << temperature << guiding << delta_t << delta_r;
 }
 
 /* *********************************************************************************
