@@ -29,6 +29,7 @@ OAL::Log::~Log()
     qDeleteAll(m_siteList);
     qDeleteAll(m_sessionList);
     qDeleteAll(m_scopeList);
+    qDeleteAll(m_dslrLensList);
     qDeleteAll(m_observationList);
 }
 
@@ -58,6 +59,7 @@ QString OAL::Log::writeLog(bool _native)
     writeSessions();
     writeTargets();
     writeScopes();
+    writeDSLRLenses();
     writeEyepieces();
     writeLenses();
     writeFilters();
@@ -113,6 +115,14 @@ void OAL::Log::writeScopes()
     writer->writeStartElement("scopes");
     foreach (OAL::Scope *o, m_scopeList)
         writeScope(o);
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeDSLRLenses()
+{
+    writer->writeStartElement("dslrlenses");
+    for (const auto &o : m_dslrLensList)
+        writeDSLRLenses(o);
     writer->writeEndElement();
 }
 
@@ -244,9 +254,9 @@ void OAL::Log::writeTarget(SkyObject *o)
     }
     writer->writeStartElement("constellation");
     writer->writeCDATA(KStarsData::Instance()
-                           ->skyComposite()
-                           ->constellationBoundary()
-                           ->constellationName(o));
+                       ->skyComposite()
+                       ->constellationBoundary()
+                       ->constellationName(o));
     writer->writeEndElement();
     writer->writeStartElement("notes");
     writer->writeCDATA(KStarsData::Instance()->getUserData(o->name()).userLog);
@@ -325,17 +335,31 @@ void OAL::Log::writeScope(OAL::Scope *s)
     writer->writeStartElement("vendor");
     writer->writeCDATA(s->vendor());
     writer->writeEndElement();
-    if (s->driver() != i18n("None"))
-    {
-        writer->writeStartElement("driver");
-        writer->writeCharacters(s->driver());
-        writer->writeEndElement();
-    }
     writer->writeStartElement("aperture");
     writer->writeCharacters(QString::number(s->aperture()));
     writer->writeEndElement();
     writer->writeStartElement("focalLength");
     writer->writeCharacters(QString::number(s->focalLength()));
+    writer->writeEndElement();
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeDSLRLenses(OAL::DSLRLens *s)
+{
+    writer->writeStartElement("dslrlens");
+    writer->writeAttribute("id", s->id());
+    writer->writeStartElement("model");
+    writer->writeCDATA(s->model());
+    writer->writeEndElement();
+    writer->writeStartElement("vendor");
+    writer->writeCDATA(s->vendor());
+    writer->writeEndElement();
+    writer->writeStartElement("focalLength");
+    writer->writeCharacters(QString::number(s->focalLength()));
+    writer->writeEndElement();
+    writer->writeStartElement("focalRatio");
+    writer->writeCharacters(QString::number(s->focalRatio()));
     writer->writeEndElement();
     writer->writeEndElement();
 }
@@ -392,7 +416,7 @@ void OAL::Log::writeFilter(OAL::Filter *f)
     // Type
     writer->writeStartElement("type");
     writer->writeCDATA(f->type());
-    writer->writeEndElement();    
+    writer->writeEndElement();
     // Color
     writer->writeStartElement("color");
     writer->writeCDATA(f->color());
@@ -603,6 +627,11 @@ void OAL::Log::readScopes()
     KStars::Instance()->data()->userdb()->GetAllScopes(m_scopeList);
 }
 
+void OAL::Log::readDSLRLenses()
+{
+    KStars::Instance()->data()->userdb()->GetAllDSLRLenses(m_dslrLensList);
+}
+
 void OAL::Log::readEyepieces()
 {
     KStars::Instance()->data()->userdb()->GetAllEyepieces(m_eyepieceList);
@@ -641,8 +670,8 @@ void OAL::Log::readTarget()
                     o = KStarsData::Instance()->objectNamed(name);
                     if (!o)
                         o = KStarsData::Instance()
-                                ->skyComposite()
-                                ->findStarByGenetiveName(name);
+                            ->skyComposite()
+                            ->findStarByGenetiveName(name);
                     if (o)
                         targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
@@ -656,7 +685,7 @@ void OAL::Log::readTarget()
                     while (!o && maxrd <= 2.0)
                     {
                         o = KStarsData::Instance()->skyComposite()->starNearest(&pos,
-                                                                                maxrd);
+                                maxrd);
                         if (!o)
                             maxrd += 0.5;
                     }
@@ -680,11 +709,11 @@ void OAL::Log::readTarget()
                 }
             }
             //   else  if( reader->name() == "datasource" )
-            //         qDebug() << Q_FUNC_INFO << reader->readElementText();
+            //         qDebug() << reader->readElementText();
             //     else if( reader->name() == "position" )
             //         readPosition();
             //     else if( reader->name() == "constellation" )
-            //         qDebug() << Q_FUNC_INFO << reader->readElementText();
+            //         qDebug() << reader->readElementText();
             else
                 readUnknownElement();
         }
@@ -787,7 +816,7 @@ SkyPoint OAL::Log::readPosition(bool &OK)
         {
             if (reader->name() == "ra")
             {
-                qDebug() << Q_FUNC_INFO << reader->readElementText() << reader->attributes().value("unit");
+                qDebug() << reader->readElementText() << reader->attributes().value("unit");
                 dms ra;
                 if (reader->attributes().value("unit") == "rad")
                     ra.setRadians(reader->readElementText().toDouble(&RAOK));
@@ -798,7 +827,7 @@ SkyPoint OAL::Log::readPosition(bool &OK)
             }
             else if (reader->name() == "dec")
             {
-                qDebug() << Q_FUNC_INFO << reader->readElementText() << reader->attributes().value("unit");
+                qDebug() << reader->readElementText() << reader->attributes().value("unit");
                 dms de;
                 if (reader->attributes().value("unit") == "rad")
                     de.setRadians(reader->readElementText().toDouble(&DEOK));
@@ -860,7 +889,7 @@ void OAL::Log::readObservation(const QString &id)
         }
     }
     OAL::Observation *o = new OAL::Observation(id, observer, site, session, target, begin, faintestStar.toDouble(),
-                                               seeing.toDouble(), scope, eyepiece, lens, filter, result, lang);
+            seeing.toDouble(), scope, eyepiece, lens, filter, result, lang);
     m_observationList.append(o);
 }
 
@@ -914,7 +943,7 @@ void OAL::Log::readGeoDate()
     if (geo == nullptr)
     {
         qCWarning(KSTARS) << "Location " << name << ", " << province << ", " << country
-                 << " not found in KStars. Using current location.";
+                          << " not found in KStars. Using current location.";
         geo = KStarsData::Instance()->geo();
     }
     dt.setDate(QDate::fromString(date, "ddMMyyyy"));
@@ -1015,6 +1044,26 @@ OAL::Scope *OAL::Log::findScopeByName(const QString &name)
     foreach (OAL::Scope *s, *scopeList())
     {
         if (s->name() == name)
+            return s;
+    }
+    return nullptr;
+}
+
+OAL::DSLRLens *OAL::Log::findDSLRLensByName(const QString &name)
+{
+    for (const auto &s : *dslrLensList())
+    {
+        if (s->name() == name)
+            return s;
+    }
+    return nullptr;
+}
+
+OAL::DSLRLens *OAL::Log::findDSLRLensById(const QString &id)
+{
+    for (const auto &s : *dslrLensList())
+    {
+        if (s->id() == id)
             return s;
     }
     return nullptr;

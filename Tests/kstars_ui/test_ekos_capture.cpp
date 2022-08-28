@@ -60,7 +60,7 @@ void TestEkosCapture::testAddCaptureJob()
     KTRY_CAPTURE_GADGET(QDoubleSpinBox, captureExposureN);
     KTRY_CAPTURE_GADGET(QSpinBox, captureCountN);
     KTRY_CAPTURE_GADGET(QSpinBox, captureDelayN);
-    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS);
+    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo);
     KTRY_CAPTURE_GADGET(QComboBox, captureTypeS);
     KTRY_CAPTURE_GADGET(QPushButton, addToQueueB);
     KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
@@ -80,9 +80,9 @@ void TestEkosCapture::testAddCaptureJob()
     int const filterTypeCount = sizeof(filterTypes) / sizeof(filterTypes[0]);
 
     // Verify our assumption about those filters is correct - but wait for properties to be read from the device
-    QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->count(), filterTypeCount, 5000);
+    QTRY_COMPARE_WITH_TIMEOUT(FilterPosCombo->count(), filterTypeCount, 5000);
     for (QString &filterType : filterTypes)
-        if(captureFilterS->findText(filterType) < 0)
+        if(FilterPosCombo->findText(filterType) < 0)
             QFAIL(qPrintable(QString("Filter '%1' expected by the test is not in the Capture filter list").arg(filterType)));
 
     // Add a few capture jobs
@@ -94,7 +94,7 @@ void TestEkosCapture::testAddCaptureJob()
         captureCountN->setValue(i);
         captureDelayN->setValue(i);
         KTRY_CAPTURE_COMBO_SET(captureTypeS, frameTypes[i % frameTypeCount]);
-        KTRY_CAPTURE_COMBO_SET(captureFilterS, filterTypes[i % filterTypeCount]);
+        KTRY_CAPTURE_COMBO_SET(FilterPosCombo, filterTypes[i % filterTypeCount]);
         KTRY_CAPTURE_CLICK(addToQueueB);
         // Wait for the job to be added, else the next loop will overwrite the current job
         QTRY_COMPARE_WITH_TIMEOUT(queueTable->rowCount(), i + 1, 100);
@@ -113,7 +113,7 @@ void TestEkosCapture::testAddCaptureJob()
     QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), 1, 1000);
     QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), 0, 1000);
     QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[0], 1000);
-    QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->currentText(), filterTypes[0], 1000);
+    QTRY_COMPARE_WITH_TIMEOUT(FilterPosCombo->currentText(), filterTypes[0], 1000);
 
     // Select a few cells and verify the feedback on the left side UI
     srand(42);
@@ -128,7 +128,7 @@ void TestEkosCapture::testAddCaptureJob()
         QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), index, 1000);
         QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), index, 1000);
         QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[index % frameTypeCount], 1000);
-        QTRY_COMPARE_WITH_TIMEOUT(captureFilterS->currentText(), filterTypes[index % filterTypeCount], 1000);
+        QTRY_COMPARE_WITH_TIMEOUT(FilterPosCombo->currentText(), filterTypes[index % filterTypeCount], 1000);
     }
 
     // Remove all the rows

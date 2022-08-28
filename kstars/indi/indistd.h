@@ -185,7 +185,25 @@ class GenericDevice : public GDInterface
         virtual bool getJSONBLOB(const QString &propName, const QString &elementName, QJsonObject &blobObject);
         virtual bool setJSONProperty(const QString &propName, const QJsonArray &propElements);
 
-        ConcreteDevice *getConcreteDevice(uint32_t interface);
+        bool findConcreteDevice(uint32_t interface, QSharedPointer<ConcreteDevice> &device);
+
+        // Convinence functions
+        ISD::Mount *getMount();
+        ISD::Camera *getCamera();
+        ISD::Guider *getGuider();
+        ISD::Focuser *getFocuser();
+        ISD::FilterWheel *getFilterWheel();
+        ISD::Dome *getDome();
+        ISD::GPS *getGPS();
+        ISD::Weather *getWeather();
+        ISD::AdaptiveOptics *getAdaptiveOptics();
+        ISD::DustCap *getDustCap();
+        ISD::LightBox *getLightBox();
+        ISD::Detector *getDetector();
+        ISD::Rotator *getRotator();
+        ISD::Spectrograph *getSpectrograph();
+        ISD::Correlator *getCorrelator();
+        ISD::Auxiliary *getAuxiliary();
 
         Q_SCRIPTABLE Q_NOREPLY void Connect();
         Q_SCRIPTABLE Q_NOREPLY void Disconnect();

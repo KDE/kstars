@@ -120,7 +120,7 @@ QStringList INDIDBus::getDevices()
 {
     QStringList devices;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         devices << oneDevice->getDeviceName();
     }
@@ -132,7 +132,7 @@ QStringList INDIDBus::getProperties(const QString &device)
 {
     QStringList properties;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -184,7 +184,7 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 {
     QString status = "Invalid";
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -206,7 +206,7 @@ QString INDIDBus::getPropertyState(const QString &device, const QString &propert
 
 bool INDIDBus::sendProperty(const QString &device, const QString &property)
 {
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         ClientManager *cm = oneDevice->getDeviceInfo()->getDriverInfo()->getClientManager();
 
@@ -253,7 +253,7 @@ QString INDIDBus::getLight(const QString &device, const QString &property, const
 {
     QString status = "Invalid";
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -290,7 +290,7 @@ bool INDIDBus::setSwitch(const QString &device, const QString &property, const Q
         return false;
     }
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -326,7 +326,7 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 {
     QString result("Invalid");
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -355,7 +355,7 @@ QString INDIDBus::getSwitch(const QString &device, const QString &property, cons
 
 bool INDIDBus::setText(const QString &device, const QString &property, const QString &textName, const QString &text)
 {
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -387,7 +387,7 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 {
     QString result("Invalid");
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -416,7 +416,7 @@ QString INDIDBus::getText(const QString &device, const QString &property, const 
 
 bool INDIDBus::setNumber(const QString &device, const QString &property, const QString &numberName, double value)
 {
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -448,7 +448,7 @@ double INDIDBus::getNumber(const QString &device, const QString &property, const
 {
     double result = NaN::d;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -481,7 +481,7 @@ QByteArray INDIDBus::getBLOBData(const QString &device, const QString &property,
     QByteArray array;
     size = -1;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -518,7 +518,7 @@ QString INDIDBus::getBLOBFile(const QString &device, const QString &property, co
     QString filename;
     size = -1;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (oneDevice->getDeviceName() == device)
         {

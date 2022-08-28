@@ -15,8 +15,6 @@
 #include "ui_manager.h"
 
 #include "ekos.h"
-#include "manager/focusmanager.h"
-#include "manager/guidemanager.h"
 #include "fitsviewer/summaryfitsview.h"
 #include "align/align.h"
 #include "capture/capture.h"
@@ -26,11 +24,8 @@
 #include "mount/mount.h"
 #include "scheduler/scheduler.h"
 #include "analyze/analyze.h"
-//#include "observatory/observatory.h"
-#include "auxiliary/filtermanager.h"
 #include "auxiliary/portselector.h"
 #include "ksnotification.h"
-// Can't use forward declaration with QPointer. QTBUG-29588
 #include "auxiliary/opslogs.h"
 
 #include <QDialog>
@@ -138,10 +133,6 @@ class Manager : public QDialog, public Ui::Manager
         FITSView *getSummaryPreview()
         {
             return m_SummaryView.get();
-        }
-        FilterManager *getFilterManager()
-        {
-            return filterManager.data();
         }
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventType event);
@@ -369,7 +360,7 @@ class Manager : public QDialog, public Ui::Manager
         void processINDI();
         void cleanDevices(bool stopDrivers = true);
 
-        void processNewDevice(ISD::GenericDevice *device);
+        void processNewDevice(const QSharedPointer<ISD::GenericDevice> &device);
         void processNewProperty(INDI::Property);
         void processDeleteProperty(const QString &name);
         void setDeviceReady();
@@ -401,12 +392,7 @@ class Manager : public QDialog, public Ui::Manager
         void setClientFailed(const QString &host, int port, const QString &message);
         void setClientTerminated(const QString &host, int port, const QString &message);
 
-        void removeDevice(ISD::GenericDevice *device);
-
-        const QList<ISD::GenericDevice *> getAllDevices() const
-        {
-            return m_GenericDevices;
-        }
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
         void deviceConnected();
         void deviceDisconnected();
@@ -434,8 +420,8 @@ class Manager : public QDialog, public Ui::Manager
          * @brief syncGenericDevice Check if this device needs to be added to any Ekos module.
          * @param device pointer to generic device.
          */
-        void syncGenericDevice(ISD::GenericDevice *device);
-        void createModules(ISD::GenericDevice *device);
+        void syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device);
+        void createModules(const QSharedPointer<ISD::GenericDevice> &device);
 
         // Profiles
         void addProfile();
@@ -491,10 +477,8 @@ class Manager : public QDialog, public Ui::Manager
         // Check if INDI server is already running
         bool isRunning(const QString &process);
 
-        ProfileInfo *getCurrentProfile();
-        void getCurrentProfileTelescopeInfo(double &primaryFocalLength, double &primaryAperture, double &guideFocalLength,
-                                            double &guideAperture);
-        void updateProfileLocation(ProfileInfo *pi);
+        bool getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const;
+        void updateProfileLocation(const QSharedPointer<ProfileInfo> &profile);
         void setProfileMapping(const QJsonObject &payload)
         {
             m_ProfileMapping = payload;
@@ -506,8 +490,6 @@ class Manager : public QDialog, public Ui::Manager
         // so we only need to start a single instance to handle them all.
         bool checkUniqueBinaryDriver(DriverInfo * primaryDriver, DriverInfo * secondaryDriver);
 
-        QList<ISD::GenericDevice *> findDevicesByInterface(uint32_t interface);
-
         // Containers
 
         // All Drivers
@@ -515,9 +497,6 @@ class Manager : public QDialog, public Ui::Manager
 
         // All managed drivers
         QList<DriverInfo *> managedDrivers;
-
-        // All generic devices (i.e. those define by INDI server)
-        QList<ISD::GenericDevice *> m_GenericDevices;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;
@@ -535,7 +514,8 @@ class Manager : public QDialog, public Ui::Manager
         bool m_isStarted { false };
         bool m_RemoteManagerStart { false };
 
-        int nDevices { 0 };
+        int m_DriverDevicesCount { 0 };
+        int m_ReadyDevicesCount {0};
 
         QStringList m_LogText;
         KPageWidgetItem *ekosOptionsWidget { nullptr };
@@ -547,11 +527,8 @@ class Manager : public QDialog, public Ui::Manager
         CommunicationStatus m_settleStatus { Ekos::Idle };
 
         std::unique_ptr<QStandardItemModel> profileModel;
-        QList<std::shared_ptr<ProfileInfo>> profiles;
+        QList<QSharedPointer<ProfileInfo>> profiles;
         QJsonObject m_ProfileMapping;
-
-        // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
 
         // Mount Summary
         QPointer<QProcess> indiHubAgent;
@@ -562,7 +539,7 @@ class Manager : public QDialog, public Ui::Manager
         // Preview Frame
         QSharedPointer<SummaryFITSView> m_SummaryView;
 
-        ProfileInfo *currentProfile { nullptr };
+        QSharedPointer<ProfileInfo> m_CurrentProfile;
         bool profileWizardLaunched { false };
         QString m_PrimaryCamera, m_GuideCamera;
 

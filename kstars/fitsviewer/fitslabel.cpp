@@ -423,7 +423,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         return;
     }
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
@@ -434,7 +434,7 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
             return;
         }
 
-        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        auto mount = oneDevice->getMount();
         if (!mount)
             continue;
 
@@ -444,7 +444,6 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
         selectedObject.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
         mount->Slew(&selectedObject);
         return;
-
     }
 
     KSNotification::sorry(i18n("KStars did not find any active mounts."));

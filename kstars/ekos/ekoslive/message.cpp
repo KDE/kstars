@@ -11,7 +11,9 @@
 #include "commands.h"
 #include "profileinfo.h"
 #include "indi/drivermanager.h"
+#include "indi/indilistener.h"
 #include "auxiliary/ksmessagebox.h"
+#include "ekos/auxiliary/filtermanager.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -243,9 +245,9 @@ void Message::sendCameras()
 
     QJsonArray cameraList;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        auto camera = oneDevice->getCamera();
         if (!camera)
             continue;
 
@@ -271,9 +273,9 @@ void Message::sendCameras()
     sendResponse(commands[GET_CAMERAS], cameraList);
 
     // Send initial state as well.
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        auto camera = oneDevice->getCamera();
         if (!camera)
             continue;
 
@@ -320,9 +322,9 @@ void Message::sendMounts()
 
     QJsonArray mountList;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto mount = dynamic_cast<ISD::Mount*>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        auto mount = oneDevice->getMount();
         if (!mount)
             continue;
 
@@ -342,9 +344,9 @@ void Message::sendMounts()
     sendResponse(commands[GET_MOUNTS], mountList);
 
     // Also send initial slew rate
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto mount = dynamic_cast<ISD::Mount*>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        auto mount = oneDevice->getMount();
         if (!mount)
             continue;
 
@@ -384,9 +386,9 @@ void Message::sendDomes()
 
     QJsonArray domeList;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto dome = dynamic_cast<ISD::Dome*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        auto dome = oneDevice->getDome();
         if (!dome)
             continue;
 
@@ -404,9 +406,9 @@ void Message::sendDomes()
     sendResponse(commands[GET_DOMES], domeList);
 
     // Also send initial azimuth
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto dome = dynamic_cast<ISD::Dome*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DOME_INTERFACE));
+        auto dome = oneDevice->getDome();
         if (!dome)
             continue;
 
@@ -431,9 +433,9 @@ void Message::sendCaps()
 
     QJsonArray capList;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto dustcap = dynamic_cast<ISD::DustCap*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
+        auto dustcap = oneDevice->getDustCap();
         if (!dustcap)
             continue;
 
@@ -449,9 +451,9 @@ void Message::sendCaps()
 
     sendResponse(commands[GET_CAPS], capList);
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto dustcap = dynamic_cast<ISD::DustCap*>(oneDevice->getConcreteDevice(INDI::BaseDevice::DUSTCAP_INTERFACE));
+        auto dustcap = oneDevice->getDustCap();
         if (!dustcap)
             continue;
 
@@ -501,7 +503,7 @@ void Message::sendDevices()
 
     QJsonArray deviceList;
 
-    for(auto &gd : m_Manager->getAllDevices())
+    for(auto &gd : INDIListener::devices())
     {
         QJsonObject oneDevice =
         {
@@ -556,9 +558,9 @@ void Message::sendFilterWheels()
 
     QJsonArray filterList;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto filterwheel = dynamic_cast<ISD::FilterWheel*>(oneDevice->getConcreteDevice(INDI::BaseDevice::FILTER_INTERFACE));
+        auto filterwheel = oneDevice->getFilterWheel();
         if (!filterwheel)
             continue;
 
@@ -606,16 +608,16 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         setCapturePresetSettings(payload);
         capture->captureOne();
     }
-    else if (command == commands[CAPTURE_TOGGLE_CAMERA])
-    {
-        capture->setCamera(payload["camera"].toString());
-        sendCaptureSettings(capture->getPresetSettings());
-    }
-    else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
-    {
-        capture->setFilterWheel(payload["fw"].toString());
-        sendCaptureSettings(capture->getPresetSettings());
-    }
+    //    else if (command == commands[CAPTURE_TOGGLE_CAMERA])
+    //    {
+    //        capture->setCamera(payload["camera"].toString());
+    //        sendCaptureSettings(capture->getPresetSettings());
+    //    }
+    //    else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
+    //    {
+    //        capture->setFilterWheel(payload["fw"].toString());
+    //        sendCaptureSettings(capture->getPresetSettings());
+    //    }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
         capture->setVideoLimits(payload["maxBufferSize"].toInt(512), payload["maxPreviewFPS"].toInt(10));
@@ -752,16 +754,16 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
     {
 
-       Options::setCalibrationPulseDuration(payload["pulse"].toInt());
-       Options::setGuideCalibrationBacklash(payload["max_move"].toInt());
-       Options::setTwoAxisEnabled(payload["two_axis"].toBool());
-       Options::setGuideAutoSquareSizeEnabled(payload["square_size"].toBool());
+        Options::setCalibrationPulseDuration(payload["pulse"].toInt());
+        Options::setGuideCalibrationBacklash(payload["max_move"].toInt());
+        Options::setTwoAxisEnabled(payload["two_axis"].toBool());
+        Options::setGuideAutoSquareSizeEnabled(payload["square_size"].toBool());
 
-       Options::setGuideCalibrationBacklash(payload["calibrationBacklash"].toBool());
-       Options::setResetGuideCalibration(payload["resetCalibration"].toBool());
-       Options::setReuseGuideCalibration(payload["reuseCalibration"].toBool());
-       Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
-       sendGuideSettings(m_Manager->guideModule()->getSettings());
+        Options::setGuideCalibrationBacklash(payload["calibrationBacklash"].toBool());
+        Options::setResetGuideCalibration(payload["resetCalibration"].toBool());
+        Options::setReuseGuideCalibration(payload["reuseCalibration"].toBool());
+        Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
+        sendGuideSettings(m_Manager->guideModule()->getSettings());
     }
 }
 
@@ -909,9 +911,9 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         const auto xFactor = payload["x"].toDouble();
         const auto yFactor = payload["y"].toDouble();
 
-        for(auto &oneDevice : m_Manager->getAllDevices())
+        for(auto &oneDevice : INDIListener::devices())
         {
-            auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+            auto camera = oneDevice->getCamera();
             if (!camera  || camera->getDeviceName() != name)
                 continue;
 
@@ -956,7 +958,7 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[ALIGN_SET_SETTINGS])
         align->setSettings(payload);
-    else if(command== commands[ALIGN_SET_ASTROMETRY_SETTINGS])
+    else if(command == commands[ALIGN_SET_ASTROMETRY_SETTINGS])
     {
         Options::setAstrometryRotatorThreshold(payload["threshold"].toInt());
         Options::setAstrometryUseRotator(payload["rotator_control"].toBool());
@@ -1302,12 +1304,16 @@ void Message::sendProfiles()
 {
     QJsonArray profileArray;
 
-    for (const auto &oneProfile : m_Manager->profiles)
+    QSharedPointer<ProfileInfo> profile;
+    if (!m_Manager->getCurrentProfile(profile))
+        return;
+
+    for (auto &oneProfile : m_Manager->profiles)
         profileArray.append(oneProfile->toJson());
 
     QJsonObject profiles =
     {
-        {"selectedProfile", m_Manager->getCurrentProfile()->name},
+        {"selectedProfile", profile->name},
         {"profiles", profileArray}
     };
     sendResponse(commands[GET_PROFILES], profiles);
@@ -1386,13 +1392,11 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     if (command == commands[ADD_SCOPE])
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
-                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
     }
     else if (command == commands[UPDATE_SCOPE])
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
-                payload["driver"].toString(),
                 payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble(), payload["id"].toString());
     }
     else if (command == commands[DELETE_SCOPE])
@@ -1422,12 +1426,12 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
 {
     if (command == commands[FM_GET_DATA])
     {
-        QJsonObject data = m_Manager->getFilterManager()->toJSON();
+        QJsonObject data = Ekos::FilterManager::Instance()->toJSON();
         sendResponse(commands[FM_GET_DATA], data);
     }
     else if (command == commands[FM_SET_DATA])
     {
-        m_Manager->getFilterManager()->setFilterData(payload);
+        Ekos::FilterManager::Instance()->setFilterData(payload);
     }
 }
 
@@ -1497,7 +1501,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
 
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
-    QList<ISD::GenericDevice *> devices = m_Manager->getAllDevices();
     QString device = payload["device"].toString();
 
     // In case we want to UNSUBSCRIBE from all at once
@@ -1508,15 +1511,9 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
         return;
     }
 
-    // For the device
-    auto pos = std::find_if(devices.begin(), devices.end(), [device](ISD::GenericDevice * oneDevice)
-    {
-        return (oneDevice->getDeviceName() == device);
-    });
-
-    if (pos == devices.end())
+    QSharedPointer<ISD::GenericDevice> oneDevice;
+    if (!INDIListener::findDevice(device, oneDevice))
         return;
-    auto oneDevice = *pos;
 
     // Get specific property
     if (command == commands[DEVICE_PROPERTY_GET])

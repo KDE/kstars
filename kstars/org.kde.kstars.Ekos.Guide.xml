@@ -1,8 +1,9 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Guide">
-  <property name="camera" type="s" access="readwrite"/>
-  <property name="guider" type="s" access="readwrite"/>
+  <property name="opticalTrain" type="s" access="readwrite"/>
+  <property name="camera" type="s" access="read"/>
+  <property name="guider" type="s" access="read"/>
   <property name="logText" type="as" access="read"/>
   <property name="exposure" type="d" access="readwrite"/>
   <property name="status" type="i" access="read">
@@ -46,9 +47,6 @@
     </method>
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="getGuiders">
-      <arg type="as" direction="out"/>
     </method>
     <method name="setCalibrationTwoAxis">
       <arg name="enable" type="b" direction="in"/>

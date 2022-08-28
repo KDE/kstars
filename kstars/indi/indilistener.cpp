@@ -44,21 +44,33 @@ INDIListener *INDIListener::Instance()
     return _INDIListener;
 }
 
-INDIListener::INDIListener(QObject *parent) : QObject(parent) {}
-
-INDIListener::~INDIListener()
+bool INDIListener::findDevice(const QString &name, QSharedPointer<ISD::GenericDevice> &device)
 {
-    qDeleteAll(devices);
+    auto all = devices();
+    auto it = std::find_if(all.begin(), all.end(), [name](auto & oneDevice)
+    {
+        return oneDevice->getDeviceName() == name;
+    });
+    if (it == all.end())
+        return false;
+
+    device = *it;
+    return true;
 }
 
-ISD::GenericDevice *INDIListener::getDevice(const QString &name) const
+INDIListener::INDIListener(QObject *parent) : QObject(parent) {}
+
+bool INDIListener::getDevice(const QString &name, QSharedPointer<ISD::GenericDevice> &device) const
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == name)
-            return oneDevice;
+        {
+            device = oneDevice;
+            return true;
+        }
     }
-    return nullptr;
+    return false;
 }
 
 void INDIListener::addClient(ClientManager *cm)
@@ -88,10 +100,10 @@ void INDIListener::removeClient(ClientManager *cm)
     qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server"
                          << cm->getHost() << "@" << cm->getPort();
 
-    QList<ISD::GenericDevice *>::iterator it = devices.begin();
+    QList<QSharedPointer<ISD::GenericDevice>>::iterator it = m_Devices.begin();
     clients.removeOne(cm);
 
-    while (it != devices.end())
+    while (it != m_Devices.end())
     {
         DriverInfo *dv  = (*it)->getDriverInfo();
         bool hostSource = (dv->getDriverSource() == HOST_SOURCE) ||
@@ -116,8 +128,9 @@ void INDIListener::processDevice(DeviceInfo *dv)
 
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
-    auto gd = new ISD::GenericDevice(*dv, cm);
-    devices.append(gd);
+    QSharedPointer<ISD::GenericDevice> gd;
+    gd.reset(new ISD::GenericDevice(*dv, cm));
+    m_Devices.append(std::move(gd));
 
     emit newDevice(gd);
 
@@ -154,12 +167,12 @@ void INDIListener::removeDevice(const QString &deviceName)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << deviceName;
 
-    for (auto oneDevice : qAsConst(devices))
+    for (auto oneDevice : qAsConst(m_Devices))
     {
         if (oneDevice->getDeviceName() == deviceName)
         {
             // Remove from list first
-            devices.removeOne(oneDevice);
+            m_Devices.removeOne(oneDevice);
             // Then emit a signal to inform subscribers that this device is removed.
             emit deviceRemoved(oneDevice);
             // Delete this device later.
@@ -177,7 +190,7 @@ void INDIListener::registerProperty(INDI::Property prop)
     qCDebug(KSTARS_INDI) << "<" << prop.getDeviceName() << ">: <" << prop.getName()
                          << ">";
 
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == prop.getDeviceName())
         {
@@ -189,7 +202,7 @@ void INDIListener::registerProperty(INDI::Property prop)
 
 void INDIListener::removeProperty(const QString &device, const QString &name)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == device)
         {
@@ -201,7 +214,7 @@ void INDIListener::removeProperty(const QString &device, const QString &name)
 
 void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == svp->device)
         {
@@ -213,7 +226,7 @@ void INDIListener::processSwitch(ISwitchVectorProperty *svp)
 
 void INDIListener::processNumber(INumberVectorProperty *nvp)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == nvp->device)
         {
@@ -225,7 +238,7 @@ void INDIListener::processNumber(INumberVectorProperty *nvp)
 
 void INDIListener::processText(ITextVectorProperty *tvp)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == tvp->device)
         {
@@ -237,7 +250,7 @@ void INDIListener::processText(ITextVectorProperty *tvp)
 
 void INDIListener::processLight(ILightVectorProperty *lvp)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == lvp->device)
         {
@@ -249,7 +262,7 @@ void INDIListener::processLight(ILightVectorProperty *lvp)
 
 void INDIListener::processBLOB(IBLOB *bp)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == bp->bvp->device)
         {
@@ -261,7 +274,7 @@ void INDIListener::processBLOB(IBLOB *bp)
 
 void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
 {
-    for (auto &oneDevice : devices)
+    for (auto &oneDevice : m_Devices)
     {
         if (oneDevice->getDeviceName() == dp->getDeviceName())
         {

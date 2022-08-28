@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>749</width>
-    <height>585</height>
+    <height>594</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
@@ -69,6 +69,12 @@
           </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="captureB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>Capture</string>
             </property>
@@ -79,6 +85,12 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>Stop</string>
             </property>
@@ -88,14 +100,8 @@
            <widget class="QPushButton" name="showFITSViewerB">
             <property name="minimumSize">
              <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -104,20 +110,20 @@
             <property name="text">
              <string/>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
            </widget>
           </item>
           <item row="2" column="2">
            <widget class="QPushButton" name="clearCalibrationB">
             <property name="minimumSize">
              <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -132,8 +138,8 @@
             </property>
             <property name="iconSize">
              <size>
-              <width>22</width>
-              <height>22</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
@@ -145,14 +151,8 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>22</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -167,8 +167,8 @@
             </property>
             <property name="iconSize">
              <size>
-              <width>22</width>
-              <height>22</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
@@ -196,7 +196,7 @@
              <bool>false</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -232,7 +232,47 @@
           <property name="verticalSpacing">
            <number>3</number>
           </property>
-          <item row="5" column="2">
+          <item row="5" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="eastControlCheck">
+              <property name="toolTip">
+               <string>East Direction Guiding</string>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="westControlCheck">
+              <property name="toolTip">
+               <string>West Direction Guiding</string>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <widget class="QPushButton" name="externalConnectB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Connect to external guiding application.</string>
+            </property>
+            <property name="text">
+             <string>Connect</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
            <widget class="QCheckBox" name="checkBox_DirDEC">
             <property name="toolTip">
              <string>Guide Declination Axis</string>
@@ -245,7 +285,126 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="2">
+          <item row="1" column="1">
+           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
+            <property name="decimals">
+             <number>3</number>
+            </property>
+            <property name="maximum">
+             <double>60.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="toolTip">
+             <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+            </property>
+            <property name="text">
+             <string>Box:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>Exposure time in seconds</string>
+            </property>
+            <property name="text">
+             <string>Exp:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QComboBox" name="binningCombo"/>
+          </item>
+          <item row="6" column="2" colspan="2">
+           <widget class="QPushButton" name="externalDisconnectB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Disconnect from external guiding application.</string>
+            </property>
+            <property name="text">
+             <string>Disconnect</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QCheckBox" name="swapCheck">
+            <property name="toolTip">
+             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Swap</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="label_8">
+            <property name="toolTip">
+             <string>Apply filter to image after capture to enhance it</string>
+            </property>
+            <property name="text">
+             <string>Bin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>Guide camera binning. It is recommended to set binning to 2x2 or higher.</string>
+            </property>
+            <property name="text">
+             <string>Delay:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QCheckBox" name="checkBox_DirRA">
+            <property name="toolTip">
+             <string>Guide Right Ascention Axis</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>RA</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Train:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="l_9">
+            <property name="text">
+             <string>Directions</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QDoubleSpinBox" name="GuideDelay">
+            <property name="toolTip">
+             <string>Delay next guide exposure this many seconds after a pulse is sent</string>
+            </property>
+            <property name="maximum">
+             <double>60.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <property name="spacing">
              <number>2</number>
@@ -272,43 +431,7 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QComboBox" name="guiderCombo"/>
-          </item>
-          <item row="7" column="2" colspan="2">
-           <widget class="QPushButton" name="externalDisconnectB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Disconnect from external guiding application.</string>
-            </property>
-            <property name="text">
-             <string>Disconnect</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>Guide camera binning. It is recommended to set binning to 2x2 or higher.</string>
-            </property>
-            <property name="text">
-             <string>Delay:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="3">
-           <widget class="QComboBox" name="cameraCombo"/>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Camera:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
+          <item row="2" column="1">
            <widget class="QComboBox" name="boxSizeCombo">
             <item>
              <property name="text">
@@ -337,142 +460,36 @@
             </item>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QCheckBox" name="checkBox_DirRA">
-            <property name="toolTip">
-             <string>Guide Right Ascention Axis</string>
+          <item row="0" column="1" colspan="2">
+           <widget class="QComboBox" name="opticalTrainCombo">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true"/>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="trainB">
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
             </property>
             <property name="text">
-             <string>RA</string>
+             <string/>
             </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="toolTip">
-             <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+            <property name="icon">
+             <iconset theme="document-edit">
+              <normaloff>.</normaloff>.</iconset>
             </property>
-            <property name="text">
-             <string>Box:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <property name="spacing">
-             <number>2</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="eastControlCheck">
-              <property name="toolTip">
-               <string>East Direction Guiding</string>
-              </property>
-              <property name="text">
-               <string>+</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="westControlCheck">
-              <property name="toolTip">
-               <string>West Direction Guiding</string>
-              </property>
-              <property name="text">
-               <string>-</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="1">
-           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="maximum">
-             <double>60.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="l_9">
-            <property name="text">
-             <string>Directions</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string>Exposure time in seconds</string>
-            </property>
-            <property name="text">
-             <string>Exp:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
-           <widget class="QCheckBox" name="swapCheck">
-            <property name="toolTip">
-             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Swap</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>Select which device receives the guiding correction commands.</string>
-            </property>
-            <property name="text">
-             <string>Guider:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_8">
-            <property name="toolTip">
-             <string>Apply filter to image after capture to enhance it</string>
-            </property>
-            <property name="text">
-             <string>Bin:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0" colspan="2">
-           <widget class="QPushButton" name="externalConnectB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Connect to external guiding application.</string>
-            </property>
-            <property name="text">
-             <string>Connect</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
-           <widget class="QComboBox" name="binningCombo"/>
-          </item>
-          <item row="2" column="3">
-           <widget class="QDoubleSpinBox" name="GuideDelay">
-            <property name="toolTip">
-             <string>Delay next guide exposure this many seconds after a pulse is sent</string>
-            </property>
-            <property name="maximum">
-             <double>60.000000000000000</double>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -484,12 +501,9 @@
      <item>
       <widget class="QGroupBox" name="infoGroupScope">
        <property name="title">
-        <string>Scope Info</string>
+        <string>Scope / Lens Info</string>
        </property>
-       <layout class="QVBoxLayout" name="guideInfoScopeLayout">
-        <property name="spacing">
-         <number>3</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout_2">
         <property name="leftMargin">
          <number>3</number>
         </property>
@@ -502,132 +516,181 @@
         <property name="bottomMargin">
          <number>3</number>
         </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <property name="spacing">
-           <number>3</number>
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="1" column="3" colspan="3">
+         <widget class="QLabel" name="l_FOV">
+          <property name="toolTip">
+           <string>Field of View (arcmin)</string>
           </property>
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Scope:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="FOVScopeCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which telescope to use when performing Field of View calculations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>Primary Scope</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Guide Scope</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
+          <property name="text">
+           <string>--</string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <property name="spacing">
-           <number>3</number>
+        <item row="0" column="0">
+         <widget class="QLabel" name="focalLengthIcon">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
           </property>
-          <item>
-           <widget class="QLabel" name="l_Focal">
-            <property name="toolTip">
-             <string>Focal Length (mm)</string>
-            </property>
-            <property name="text">
-             <string notr="true">xxx</string>
-            </property>
-            <property name="scaledContents">
-             <bool>false</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="l_Aperture">
-            <property name="toolTip">
-             <string>Aperture (mm)</string>
-            </property>
-            <property name="text">
-             <string notr="true">xxx</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
-            </property>
-            <property name="scaledContents">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="l_FbyD">
-            <property name="toolTip">
-             <string>Focal Ratio</string>
-            </property>
-            <property name="text">
-             <string notr="true">F/#</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
-            </property>
-            <property name="scaledContents">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="l_FOV">
-            <property name="toolTip">
-             <string>Field of View (arcmin)</string>
-            </property>
-            <property name="text">
-             <string>YYxYY</string>
-            </property>
-            <property name="scaledContents">
-             <bool>false</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="FOVIcon">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="l_Aperture">
+          <property name="toolTip">
+           <string>Aperture (mm)</string>
+          </property>
+          <property name="text">
+           <string notr="true">--</string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="apertureIcon">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="focalRatioIcon">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="l_Focal">
+          <property name="toolTip">
+           <string>Focal Length (mm)</string>
+          </property>
+          <property name="text">
+           <string notr="true">--</string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QLabel" name="l_Reducer">
+          <property name="toolTip">
+           <string>Reducer</string>
+          </property>
+          <property name="text">
+           <string>--</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="l_FbyD">
+          <property name="toolTip">
+           <string>Focal Ratio</string>
+          </property>
+          <property name="text">
+           <string notr="true">--</string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLabel" name="reducerIcon">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
      </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-          <height>10</height>
-        </size>
-       </property>
-      </spacer>
-     </item>   
      <item>
       <widget class="QGroupBox" name="infoGroup">
        <property name="title">
@@ -682,7 +745,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -695,7 +758,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -715,7 +778,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -728,7 +791,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -741,7 +804,7 @@
             </property>
             <property name="text">
              <string>RMS&quot; (RA/DEC)</string>
-           </property>
+            </property>
            </widget>
           </item>
           <item row="2" column="1">
@@ -758,7 +821,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -771,7 +834,7 @@
                <string notr="true">xxx</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignCenter|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -820,7 +883,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="guideInfoLabel">
             <property name="text">
-             <string></string>
+             <string/>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -829,11 +892,11 @@
           </item>
           <item row="5" column="1">
            <widget class="QLabel" name="guideInfoText">
+            <property name="text">
+             <string/>
+            </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
-            </property>
-            <property name="text">
-             <string></string>
             </property>
            </widget>
           </item>
@@ -908,7 +971,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string></string>
+          <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
@@ -1235,16 +1298,9 @@
                <height>24</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
              <property name="font">
               <font>
                <pointsize>16</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1253,6 +1309,12 @@
              </property>
              <property name="text">
               <string/>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -1264,16 +1326,9 @@
                <height>24</height>
               </size>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
              <property name="font">
               <font>
                <pointsize>16</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1282,6 +1337,12 @@
              </property>
              <property name="text">
               <string/>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -1339,14 +1400,8 @@
         <widget class="QPushButton" name="guideAutoScaleGraphB">
          <property name="minimumSize">
           <size>
-           <width>32</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
+           <width>24</width>
+           <height>24</height>
           </size>
          </property>
          <property name="toolTip">
@@ -1355,20 +1410,20 @@
          <property name="text">
           <string/>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="guideSaveDataB">
          <property name="minimumSize">
           <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
+           <width>24</width>
+           <height>24</height>
           </size>
          </property>
          <property name="toolTip">
@@ -1377,20 +1432,20 @@
          <property name="text">
           <string/>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="guideDataClearB">
          <property name="minimumSize">
           <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
+           <width>24</width>
+           <height>24</height>
           </size>
          </property>
          <property name="toolTip">
@@ -1398,6 +1453,12 @@
          </property>
          <property name="text">
           <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -1428,6 +1489,17 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>auxiliary/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>GuideDriftGraph</class>
    <extends>QWidget</extends>
    <header>ekos/guide/guidedriftgraph.h</header>
@@ -1439,17 +1511,6 @@
    <header>ekos/guide/guidetargetplot.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header>auxiliary/qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>captureB</tabstop>
@@ -1458,8 +1519,7 @@
   <tabstop>guideB</tabstop>
   <tabstop>clearCalibrationB</tabstop>
   <tabstop>stopB</tabstop>
-  <tabstop>cameraCombo</tabstop>
-  <tabstop>guiderCombo</tabstop>
+  <tabstop>opticalTrainCombo</tabstop>
   <tabstop>exposureIN</tabstop>
   <tabstop>boxSizeCombo</tabstop>
   <tabstop>checkBox_DirRA</tabstop>
@@ -1471,7 +1531,6 @@
   <tabstop>southControlCheck</tabstop>
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
-  <tabstop>FOVScopeCombo</tabstop>
   <tabstop>showRAPlotCheck</tabstop>
   <tabstop>showDECPlotCheck</tabstop>
   <tabstop>showRACorrectionsCheck</tabstop>

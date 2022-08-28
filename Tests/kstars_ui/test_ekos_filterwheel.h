@@ -90,8 +90,8 @@
     KTRY_CAPTURE_COMBO_SET(captureTypeS, "Light"); \
     KTRY_CAPTURE_GADGET(QComboBox, captureEncodingS); \
     KTRY_CAPTURE_COMBO_SET(captureEncodingS, "FITS"); \
-    KTRY_CAPTURE_GADGET(QComboBox, captureFilterS); \
-    KTRY_CAPTURE_COMBO_SET(captureFilterS, (filter)); \
+    KTRY_CAPTURE_GADGET(QComboBox, FilterPosCombo); \
+    KTRY_CAPTURE_COMBO_SET(FilterPosCombo, (filter)); \
     KTRY_CAPTURE_GADGET(QLineEdit, fileDirectoryT); \
     fileDirectoryT->setText(destination); \
     KTRY_CAPTURE_CLICK(addToQueueB); \

@@ -9,7 +9,6 @@
 #include "guideadaptor.h"
 #include "kstars.h"
 #include "ksmessagebox.h"
-#include "ksnotification.h"
 #include "kstarsdata.h"
 #include "opscalibration.h"
 #include "opsguide.h"
@@ -19,7 +18,8 @@
 #include "indi/indiguider.h"
 #include "indi/indiadaptiveoptics.h"
 #include "auxiliary/QProgressIndicator.h"
-#include "ekos/manager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "externalguide/linguider.h"
 #include "externalguide/phd2.h"
@@ -130,6 +130,12 @@ Guide::Guide() : QWidget()
     connect(guideZoomOutXB, &QPushButton::clicked, driftGraph, &GuideDriftGraph::zoomOutX);
     guideZoomOutXB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    // Icons
+    focalLengthIcon->setPixmap(QIcon::fromTheme("gnumeric-formulaguru").pixmap(32, 32));
+    apertureIcon->setPixmap(QIcon::fromTheme("lensautofix").pixmap(32, 32));
+    reducerIcon->setPixmap(QIcon::fromTheme("format-align-vertical-bottom").pixmap(32, 32));
+    FOVIcon->setPixmap(QIcon::fromTheme("timeline-use-zone-on").pixmap(32, 32));
+    focalRatioIcon->setPixmap(QIcon::fromTheme("node-type-symmetric").pixmap(32, 32));
 
     // Exposure
     //Should we set the range for the spin box here?
@@ -187,6 +193,8 @@ Guide::Guide() : QWidget()
         m_GuideView->updateFrame();
         setCaptureComplete();
     });
+
+    setupOpticalTrainManager();
 }
 
 Guide::~Guide()
@@ -303,50 +311,26 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
     return exposureIN->getRecommendedValuesString();
 }
 
-bool Guide::addCamera(ISD::Camera *device)
+bool Guide::setCamera(ISD::Camera *device)
 {
-    // No duplicates
-    for (auto &oneCamera : m_Cameras)
-    {
-        if (oneCamera->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (device == m_Camera)
+        return false;
 
-    for (auto &oneCamera : m_Cameras)
-        oneCamera->disconnect(this);
+    if (m_Camera)
+        m_Camera->disconnect(this);
 
     m_Camera = device;
-    m_Cameras.append(device);
+
+    // If camera was reset, return now.
+    if (!m_Camera)
+        return false;
 
     if(guiderType != GUIDE_INTERNAL)
-    {
-        //        connect(ccd, &ISD::Camera::newBLOBManager, [ccd, this](INDI::Property prop)
-        //        {
-        //            if (prop->isNameMatch("CCD1") ||  prop->isNameMatch("CCD2"))
-        //            {
-        //                ccd->setBLOBEnabled(false); //This will disable PHD2 external guide frames until it is properly connected.
-        //                m_Camera = ccd;
-        //            }
-        //        });
         m_Camera->setBLOBEnabled(false);
-        cameraCombo->clear();
-        cameraCombo->setEnabled(false);
-        if (guiderType == GUIDE_PHD2)
-            cameraCombo->addItem("PHD2");
-        else
-            cameraCombo->addItem("LinGuider");
-    }
     else
     {
-        cameraCombo->setEnabled(true);
-        cameraCombo->addItem(m_Camera->getDeviceName());
         if (device->hasGuideHead())
             addGuideHead(device);
-        //        bool rc = false;
-        //        if (Options::defaultGuideCCD().isEmpty() == false)
-        //            rc = setCamera(Options::defaultGuideCCD());
-        //        if (rc == false)
-        //            setCamera(QString(device->getDeviceName()) + QString(" Guider"));
     }
 
     checkCamera();
@@ -378,14 +362,10 @@ void Guide::configurePHD2Camera()
     //this checks to see if a CCD in the list matches the name of PHD2's camera
     ISD::Camera *ccdMatch = nullptr;
     QString currentPHD2CameraName = "None";
-    for(auto &oneCamera : m_Cameras)
+    if(m_Camera && phd2Guider->getCurrentCamera().contains(m_Camera->getDeviceName()))
     {
-        if(phd2Guider->getCurrentCamera().contains(oneCamera->getDeviceName()))
-        {
-            ccdMatch = oneCamera;
-            currentPHD2CameraName = (phd2Guider->getCurrentCamera());
-            break;
-        }
+        ccdMatch = m_Camera;
+        currentPHD2CameraName = (phd2Guider->getCurrentCamera());
     }
 
     //If this method gives the same result as last time, no need to update the Camera info again.
@@ -435,59 +415,25 @@ bool Guide::addGuideHead(ISD::Camera *device)
     if (guiderType != GUIDE_INTERNAL)
         return false;
 
-    m_Cameras.append(device);
-
     QString guiderName = device->getDeviceName() + QString(" Guider");
 
-    if (cameraCombo->findText(guiderName) == -1)
-    {
-        cameraCombo->addItem(guiderName);
-    }
+    // FIXME TODO
+    // Add checkbox for using Guide Head. If checked then we use it.
 
     return true;
 }
 
-bool Guide::addMount(ISD::Mount *device)
+bool Guide::setMount(ISD::Mount *device)
 {
-    // No duplicates
-    for (auto &oneMount : m_Mounts)
-    {
-        if (oneMount->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (m_Mount == device)
+        return false;
 
-    for (auto &oneMount : m_Mounts)
-        oneMount->disconnect(this);
+    if (m_Mount)
+        m_Mount->disconnect(this);
 
     m_Mount = device;
-    m_Mounts.append(device);
     syncTelescopeInfo();
     return true;
-}
-
-bool Guide::setCamera(const QString &device)
-{
-    if (guiderType != GUIDE_INTERNAL)
-        return true;
-
-    for (int i = 0; i < cameraCombo->count(); i++)
-        if (device == cameraCombo->itemText(i))
-        {
-            cameraCombo->setCurrentIndex(i);
-            checkCamera(i);
-            // Set requested binning in INDIDRiver of the camera selected for guiding
-            updateCCDBin(guideBinIndex);
-            return true;
-        }
-    // If we choose new profile with a new guider camera it will not be found because the default
-    // camera in 'kstarscfg' is still the old one and will be updated only if we select the new one
-    // in the 'Guider'pulldown menu. So we cannnot set binning in INDIDriver. As the default binning
-    // of the new camera is mostly 1x1 binning is set to 1x1 to prevent false error report of
-    // binning support in 'processCCDNumber'.
-    //pmneo: Do net reset stored bin setting, this should be solved in the processCCDNumber
-    //guideBinIndex = 0;
-
-    return false;
 }
 
 QString Guide::camera()
@@ -498,11 +444,11 @@ QString Guide::camera()
     return QString();
 }
 
-void Guide::checkCamera(int ccdNum)
+void Guide::checkCamera()
 {
     // Do NOT perform checks when the camera is capturing as this may result
     // in signals/slots getting disconnected.
-    if (guiderType != GUIDE_INTERNAL)
+    if (!m_Camera || guiderType != GUIDE_INTERNAL)
         return;
 
     switch (m_State)
@@ -534,48 +480,33 @@ void Guide::checkCamera(int ccdNum)
             return;
     }
 
-    if (ccdNum == -1)
-    {
-        ccdNum = cameraCombo->currentIndex();
 
-        if (ccdNum == -1)
-            return;
+    // FIXME add method to support enabling guidehead
+    //        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
+    //            useGuideHead = true;
+    //        else
+    //            useGuideHead = false;
+
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    if (!targetChip)
+    {
+        qCCritical(KSTARS_EKOS_GUIDE) << "Failed to retrieve active guide chip in camera";
+        return;
     }
 
-    if (ccdNum <= m_Cameras.count())
+    if (targetChip->isCapturing())
+        return;
+
+    if (guiderType != GUIDE_INTERNAL)
     {
-        m_Camera = m_Cameras.at(ccdNum);
-
-        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
-            useGuideHead = true;
-        else
-            useGuideHead = false;
-
-        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
-        if (!targetChip)
-        {
-            qCCritical(KSTARS_EKOS_GUIDE) << "Failed to retrieve active guide chip in camera";
-            return;
-        }
-
-        if (targetChip->isCapturing())
-            return;
-
-        if (guiderType != GUIDE_INTERNAL)
-        {
-            syncCameraInfo();
-            return;
-        }
-
-        // Make sure to disconnect all m_Cameras first from slots of Ekos::Guide
-        for (auto &oneCamera : m_Cameras)
-            oneCamera->disconnect(this);
-
-        connect(m_Camera, &ISD::Camera::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
-        connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
-
         syncCameraInfo();
+        return;
     }
+
+    connect(m_Camera, &ISD::Camera::numberUpdated, this, &Ekos::Guide::processCCDNumber, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
+
+    syncCameraInfo();
 }
 
 void Guide::syncCameraInfo()
@@ -603,60 +534,10 @@ void Guide::syncCameraInfo()
     updateGuideParams();
 }
 
-void Guide::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
-                             double guideAperture)
-{
-    if (primaryFocalLength > 0)
-        focal_length = primaryFocalLength;
-    if (primaryAperture > 0)
-        aperture = primaryAperture;
-    // If we have guide scope info, always prefer that over primary
-    if (guideFocalLength > 0)
-        focal_length = guideFocalLength;
-    if (guideAperture > 0)
-        aperture = guideAperture;
-
-    updateGuideParams();
-}
-
 void Guide::syncTelescopeInfo()
 {
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return;
-
-    auto nvp = m_Mount->getNumber("TELESCOPE_INFO");
-
-    if (nvp)
-    {
-        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
-
-        if (np && np->getValue() > 0)
-            primaryAperture = np->getValue();
-
-        np = nvp->findWidgetByName("GUIDER_APERTURE");
-        if (np && np->getValue() > 0)
-            guideAperture = np->getValue();
-
-        aperture = primaryAperture;
-
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
-            aperture = guideAperture;
-
-        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            primaryFL = np->getValue();
-
-        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            guideFL = np->getValue();
-
-        focal_length = primaryFL;
-
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
-            focal_length = guideFL;
-    }
 
     updateGuideParams();
 }
@@ -744,24 +625,10 @@ void Guide::updateGuideParams()
         frameSettings[targetChip] = settings;
     }
 
-    if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && aperture != -1 && focal_length != -1)
+    if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && m_FocalLength > 0)
     {
-        FOVScopeCombo->setItemData(
-            ISD::Camera::TELESCOPE_PRIMARY,
-            i18nc("F-Number, Focal length, Aperture",
-                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
-                  QString::number(primaryAperture, 'f', 2)),
-            Qt::ToolTipRole);
-        FOVScopeCombo->setItemData(
-            ISD::Camera::TELESCOPE_GUIDE,
-            i18nc("F-Number, Focal length, Aperture",
-                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
-                  QString::number(guideAperture, 'f', 2)),
-            Qt::ToolTipRole);
-
-        m_GuiderInstance->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, aperture, focal_length);
+        auto effectiveFocaLength = m_Reducer * m_FocalLength;
+        m_GuiderInstance->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, m_Aperture, effectiveFocaLength);
         emit guideChipUpdated(targetChip);
 
         int x, y, w, h;
@@ -770,22 +637,22 @@ void Guide::updateGuideParams()
             m_GuiderInstance->setFrameParams(x, y, w, h, subBinX, subBinY);
         }
 
-        l_Focal->setText(QString("FL: %1mm").arg(focal_length, 0, 'f', 0));
-        l_Aperture->setText(QString("%1mm").arg(aperture, 0, 'f', 0));
-        if (aperture == 0)
-        {
-            l_FbyD->setText("");
-            // Pixel scale in arcsec/pixel
-            pixScaleX = 0;
-            pixScaleY = 0;
-        }
+        l_Focal->setText(QString("%1mm").arg(m_FocalLength, 0, 'f', 0));
+        if (m_Aperture > 0)
+            l_Aperture->setText(QString("%1mm").arg(m_Aperture, 0, 'f', 0));
+        // FIXME is there a way to know aperture?
         else
-        {
-            l_FbyD->setText(QString("f/%1").arg(focal_length / aperture, 0, 'f', 1));
-            // Pixel scale in arcsec/pixel
-            pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / focal_length;
-            pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / focal_length;
-        }
+            l_Aperture->setText("DSLR");
+        l_Reducer->setText(QString("%1x").arg(QString::number(m_Reducer, 'f', 2)));
+
+        if (m_FocalRatio > 0)
+            l_FbyD->setText(QString("F/%1").arg(m_FocalRatio, 0, 'f', 1));
+        else if (m_Aperture > 0)
+            l_FbyD->setText(QString("F/%1").arg(m_FocalLength / m_Aperture, 0, 'f', 1));
+
+        // Pixel scale in arcsec/pixel
+        pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / effectiveFocaLength;
+        pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / effectiveFocaLength;
 
         // FOV in arcmin
         double fov_w = (w * pixScaleX) / 60.0;
@@ -795,80 +662,37 @@ void Guide::updateGuideParams()
     }
 }
 
-bool Guide::addGuider(ISD::Guider *device)
+bool Guide::setGuider(ISD::Guider *device)
 {
-    if (guiderType != GUIDE_INTERNAL)
+    if (guiderType != GUIDE_INTERNAL || device == m_Guider)
         return false;
 
-    // No duplicates
-    for (auto &oneGuider : m_Guiders)
-    {
-        if (oneGuider->getDeviceName() == device->getDeviceName())
-            return false;
-    }
-
-    for (auto &oneGuider : m_Guiders)
-        oneGuider->disconnect(this);
+    if (m_Guider)
+        m_Guider->disconnect(this);
 
     m_Guider = device;
-    m_Guiders.append(device);
-    guiderCombo->addItem(device->getDeviceName());
-
-    setGuider(0);
     return true;
 }
 
-bool Guide::addAdaptiveOptics(ISD::AdaptiveOptics *device)
+bool Guide::setAdaptiveOptics(ISD::AdaptiveOptics *device)
 {
-    if (guiderType != GUIDE_INTERNAL)
+    if (guiderType != GUIDE_INTERNAL || device == m_AO)
         return false;
 
-    // No duplicates
-    for (auto &oneAO : m_AdaptiveOptics)
-    {
-        if (oneAO->getDeviceName() == device->getDeviceName())
-            return false;
-    }
-
-    for (auto &oneAO : m_AdaptiveOptics)
-        oneAO->disconnect(this);
+    if (m_AO)
+        m_AO->disconnect(this);
 
     // FIXME AO are not yet utilized property in Guide module
     m_AO = device;
-    m_AdaptiveOptics.append(device);
     return true;
-}
-
-bool Guide::setGuider(const QString &device)
-{
-    if (guiderType != GUIDE_INTERNAL)
-        return true;
-
-    for (int i = 0; i < m_Guiders.count(); i++)
-        if (m_Guiders.at(i)->getDeviceName() == device)
-        {
-            guiderCombo->setCurrentIndex(i);
-            setGuider(i);
-            return true;
-        }
-
-    return false;
 }
 
 QString Guide::guider()
 {
-    if (guiderType != GUIDE_INTERNAL || guiderCombo->currentIndex() == -1)
+    if (guiderType != GUIDE_INTERNAL || m_Guider == nullptr)
         return QString();
 
-    return guiderCombo->currentText();
-}
-
-void Guide::setGuider(int index)
-{
-    if (m_Guiders.empty() || index >= m_Guiders.count() || guiderType != GUIDE_INTERNAL)
-        return;
-
-    m_Guider = m_Guiders.at(index);
+    return m_Guider->getDeviceName();
 }
 
 bool Guide::capture()
@@ -890,10 +714,6 @@ bool Guide::captureOneFrame()
         appendLogText(i18n("Error: lost connection to CCD."));
         return false;
     }
-
-    // If CCD Telescope Type does not match desired scope type, change it
-    if (m_Camera->getTelescopeType() != FOVScopeCombo->currentIndex())
-        m_Camera->setTelescopeType(static_cast<ISD::Camera::TelescopeType>(FOVScopeCombo->currentIndex()));
 
     double seqExpose = exposureIN->value();
 
@@ -1074,10 +894,10 @@ void Guide::processCaptureTimeout()
         ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         QVariantMap settings = frameSettings[targetChip];
         emit driverTimedout(camera);
-        QTimer::singleShot(5000, [ &, camera, via, settings]()
+        QTimer::singleShot(5000, [ &, camera, settings]()
         {
             m_DeviceRestartCounter++;
-            reconnectDriver(camera, via, settings);
+            reconnectDriver(camera, settings);
         });
         return;
     }
@@ -1086,40 +906,33 @@ void Guide::processCaptureTimeout()
         restartExposure();
 }
 
-void Guide::reconnectDriver(const QString &camera, const QString &via, const QVariantMap &settings)
+void Guide::reconnectDriver(const QString &camera, QVariantMap settings)
 {
-    for (auto &oneCamera : m_Cameras)
+    if (m_Camera && m_Camera->getDeviceName() == camera)
     {
-        if (oneCamera->getDeviceName() == camera)
+        // Set state to IDLE so that checkCamera is processed since it will not process GUIDE_GUIDING state.
+        Ekos::GuideState currentState = m_State;
+        m_State = GUIDE_IDLE;
+        checkCamera();
+        // Restore state to last state.
+        m_State = currentState;
+
+        if (guiderType == GUIDE_INTERNAL)
         {
-            // Set camera again to the one we restarted
-            cameraCombo->setCurrentIndex(cameraCombo->findText(camera));
-            guiderCombo->setCurrentIndex(guiderCombo->findText(via));
-
-            // Set state to IDLE so that checkCamera is processed since it will not process GUIDE_GUIDING state.
-            Ekos::GuideState currentState = m_State;
-            m_State = GUIDE_IDLE;
-            checkCamera();
-            // Restore state to last state.
-            m_State = currentState;
-
-            if (guiderType == GUIDE_INTERNAL)
-            {
-                // Reset the frame settings to the restarted camera once again before capture.
-                ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
-                frameSettings[targetChip] = settings;
-                // restart capture
-                m_CaptureTimeoutCounter = 0;
-                captureOneFrame();
-            }
-
-            return;
+            // Reset the frame settings to the restarted camera once again before capture.
+            ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+            frameSettings[targetChip] = settings;
+            // restart capture
+            m_CaptureTimeoutCounter = 0;
+            captureOneFrame();
         }
+
+        return;
     }
 
-    QTimer::singleShot(5000, this, [ &, camera, via, settings]()
+    QTimer::singleShot(5000, this, [ &, camera, settings]()
     {
-        reconnectDriver(camera, via, settings);
+        reconnectDriver(camera, settings);
     });
 }
 
@@ -1321,17 +1134,6 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs)
     return m_Guider->doPulse(dir, msecs);
 }
 
-QStringList Guide::getGuiders()
-{
-    QStringList devices;
-
-    for (auto &oneGuider : m_Guiders)
-        devices << oneGuider->getDeviceName();
-
-    return devices;
-}
-
-
 bool Guide::calibrate()
 {
     // Set status to idle and let the operations change it as they get executed
@@ -1364,8 +1166,11 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << m_Camera->getDeviceName() << "via" <<
-                               guiderCombo->currentText();
+    if (m_Camera && m_Guider)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Starting calibration using CCD:" << m_Camera->getDeviceName() << "via" <<
+                                   m_Guider->getDeviceName();
+    }
 
     return true;
 }
@@ -1414,21 +1219,6 @@ bool Guide::guide()
             }
         }
     };
-
-    //    if (Options::defaultCaptureCCD() == cameraCombo->currentText())
-    //    {
-    //        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, executeGuide]()
-    //        {
-    //            //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
-    //            KSMessageBox::Instance()->disconnect(this);
-    //            executeGuide();
-    //        });
-
-    //        KSMessageBox::Instance()->questionYesNo(
-    //            i18n("The guide camera is identical to the primary imaging camera. Are you sure you want to continue?"));
-
-    //        return false;
-    //    }
 
     if (m_MountStatus == ISD::Mount::MOUNT_PARKED)
     {
@@ -2016,8 +1806,6 @@ bool Guide::setGuiderType(int type)
             configSEPMultistarOptions();
             darkFrameCheck->setEnabled(true);
 
-            cameraCombo->setEnabled(true);
-            guiderCombo->setEnabled(true);
             exposureIN->setEnabled(true);
             binningCombo->setEnabled(true);
             boxSizeCombo->setEnabled(true);
@@ -2027,15 +1815,11 @@ bool Guide::setGuiderType(int type)
 
             opsGuide->controlGroup->setEnabled(true);
             infoGroup->setEnabled(true);
-            label_6->setEnabled(true);
-            FOVScopeCombo->setEnabled(true);
             l_Aperture->setEnabled(true);
             l_FOV->setEnabled(true);
             l_FbyD->setEnabled(true);
             l_Focal->setEnabled(true);
             driftGraphicsGroup->setEnabled(true);
-
-            cameraCombo->setToolTip(i18n("Select guide camera."));
 
             updateGuideParams();
         }
@@ -2067,19 +1851,15 @@ bool Guide::setGuiderType(int type)
 
             opsGuide->controlGroup->setEnabled(false);
             infoGroup->setEnabled(true);
-            label_6->setEnabled(false);
-            FOVScopeCombo->setEnabled(false);
             l_Aperture->setEnabled(false);
             l_FOV->setEnabled(false);
             l_FbyD->setEnabled(false);
             l_Focal->setEnabled(false);
             driftGraphicsGroup->setEnabled(true);
 
-            guiderCombo->setEnabled(false);
             exposureIN->setEnabled(true);
             binningCombo->setEnabled(false);
             boxSizeCombo->setEnabled(false);
-            cameraCombo->setEnabled(false);
 
             if (Options::resetGuideCalibration())
                 appendLogText(i18n("Warning: Reset Guiding Calibration is enabled. It is recommended to turn this option off for PHD2."));
@@ -2106,12 +1886,9 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(false);
 
-            guiderCombo->setEnabled(false);
             exposureIN->setEnabled(false);
             binningCombo->setEnabled(false);
             boxSizeCombo->setEnabled(false);
-
-            cameraCombo->setEnabled(false);
 
             updateGuideParams();
 
@@ -2804,10 +2581,11 @@ void Guide::setExternalGuiderBLOBEnabled(bool enable)
 
     if(m_Camera->isBLOBEnabled())
     {
-        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
-            useGuideHead = true;
-        else
-            useGuideHead = false;
+        // FIXME Enable guide heads
+        //        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
+        //            useGuideHead = true;
+        //        else
+        //            useGuideHead = false;
 
 
         auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
@@ -2887,8 +2665,8 @@ void Guide::updateTelescopeType(int index)
     if (m_Camera == nullptr)
         return;
 
-    focal_length = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
-    aperture = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
+    m_FocalLength = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
+    m_Aperture = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
 
     Options::setGuideScopeType(index);
 
@@ -3115,44 +2893,11 @@ void Guide::initConnections()
     connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Guide::updateTrackingBoxSize);
 
-    // Guider CCD Selection
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(cameraCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Guide::setDefaultCCD);
-#else
-    connect(cameraCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Guide::setDefaultCCD);
-#endif
-    connect(cameraCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
-            [&](int index)
-    {
-        if (guiderType == GUIDE_INTERNAL)
-        {
-            starCenter = QVector3D();
-            checkCamera(index);
-        }
-    }
-           );
-
-    FOVScopeCombo->setCurrentIndex(Options::guideScopeType());
-    connect(FOVScopeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Ekos::Guide::updateTelescopeType);
-
     // Dark Frame Check
     connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
     // Subframe check
     if(guiderType != GUIDE_PHD2) //For PHD2, this is handled in the configurePHD2Camera method
         connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
-    // ST4 Selection
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated), [&](const QString & text)
-#else
-    connect(guiderCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated), [&](const QString & text)
-#endif
-    {
-        setDefaultGuider(text);
-        setGuider(text);
-    });
 
     // Binning Combo Selection
     connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -3263,87 +3008,49 @@ void Guide::initConnections()
     connect(this, &Ekos::Guide::newStatus, guideStateWidget, &Ekos::GuideStateWidget::updateGuideStatus);
 }
 
-void Guide::removeDevice(ISD::GenericDevice *device)
+void Guide::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     auto name = device->getDeviceName();
 
     device->disconnect(this);
 
     // Mounts
-    for (auto &oneMount : m_Mounts)
+    if (m_Mount && m_Mount->getDeviceName() == name)
     {
-        if (oneMount->getDeviceName() == name)
-        {
-            m_Mounts.removeOne(oneMount);
-            if (m_Mount && (m_Mount->getDeviceName() == name))
-                m_Mount = nullptr;
-            break;
-        }
+        m_Mount->disconnect(this);
+        m_Mount = nullptr;
     }
+
 
     // Cameras
-    for (auto &oneCamera : m_Cameras)
+    if (m_Camera && m_Camera->getDeviceName() == name)
     {
-        if (oneCamera->getDeviceName() == name)
-        {
-            m_Cameras.removeAll(oneCamera);
-            cameraCombo->removeItem(cameraCombo->findText(name));
-            cameraCombo->removeItem(cameraCombo->findText(name + " Guider"));
-            if (m_Cameras.empty())
-            {
-                m_Camera = nullptr;
-                cameraCombo->setCurrentIndex(-1);
-            }
-            else
-            {
-                m_Camera = m_Cameras[0];
-                cameraCombo->setCurrentIndex(0);
-            }
-
-            QTimer::singleShot(1000, this, [this]()
-            {
-                checkCamera();
-            });
-
-            break;
-        }
+        m_Camera->disconnect(this);
+        m_Camera = nullptr;
     }
 
+
     // Guiders
-    for (auto &oneGuider : m_Guiders)
+    if (m_Guider && m_Guider->getDeviceName() == name)
     {
-        if (oneGuider->getDeviceName() == name)
-        {
-            m_Guiders.removeAll(oneGuider);
-            guiderCombo->removeItem(guiderCombo->findText(name));
-            if (m_Guiders.empty())
-                m_Guider = nullptr;
-            else
-                setGuider(guiderCombo->currentText());
-            break;
-        }
+        m_Guider->disconnect(this);
+        m_Guider = nullptr;
     }
 
     // Adaptive Optics
     // FIXME AO are not yet utilized property in Guide module
-    for (auto &oneAO : m_AdaptiveOptics)
+    if (m_AO && m_AO->getDeviceName() == name)
     {
-        if (oneAO->getDeviceName() == name)
-        {
-            m_AdaptiveOptics.removeAll(oneAO);
-            m_AO = nullptr;
-            break;
-        }
+        m_AO->disconnect(this);
+        m_AO = nullptr;
     }
+
 }
 
-QJsonObject Guide::
-getSettings() const
+QJsonObject Guide::getSettings() const
 {
     QJsonObject settings;
 
-    settings.insert("camera", cameraCombo->currentText());
-    settings.insert("via", guiderCombo->currentText());
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("dark", darkFrameCheck->isChecked());
@@ -3354,7 +3061,6 @@ getSettings() const
     settings.insert("west", westControlCheck->isChecked());
     settings.insert("north", northControlCheck->isChecked());
     settings.insert("south", southControlCheck->isChecked());
-    settings.insert("scope", qMax(0, FOVScopeCombo->currentIndex()));
     settings.insert("swap", swapCheck->isChecked());
     settings.insert("ra_gain", Options::rAProportionalGain());
     settings.insert("de_gain", Options::dECProportionalGain());
@@ -3431,11 +3137,8 @@ void Guide::setSettings(const QJsonObject &settings)
         return false;
     };
 
-    // Camera
-    if (syncControl("camera", cameraCombo) || init == false)
-        checkCamera();
-    // Via
-    syncControl("via", guiderCombo);
+    // Optical Train
+    syncControl("optical_train", opticalTrainCombo);
     // Exposure
     syncControl("exp", exposureIN);
     // Binning
@@ -3457,10 +3160,6 @@ void Guide::setSettings(const QJsonObject &settings)
     syncControl("west", westControlCheck);
     syncControl("north", northControlCheck);
     syncControl("south", southControlCheck);
-    // Scope
-    const int scope = settings["scope"].toInt(FOVScopeCombo->currentIndex());
-    if (scope >= 0 && scope != FOVScopeCombo->currentIndex())
-        FOVScopeCombo->setCurrentIndex(scope);
     // RA Gain
     syncControl("ra_gain", opsGuide->kcfg_RAProportionalGain);
     Options::setRAProportionalGain(opsGuide->kcfg_RAProportionalGain->value());
@@ -3503,4 +3202,68 @@ void Guide::loop()
     else if (guiderType == GUIDE_INTERNAL)
         capture();
 }
+
+void Guide::setupOpticalTrainManager()
+{
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Guide::refreshOpticalTrain);
+    connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
+    connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, opticalTrainCombo->itemText(index));
+        refreshOpticalTrain();
+    });
+    refreshOpticalTrain();
+}
+
+void Guide::refreshOpticalTrain()
+{
+    opticalTrainCombo->blockSignals(true);
+    opticalTrainCombo->clear();
+    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+
+    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
+
+    if (trainName.isValid())
+    {
+        auto name = trainName.toString();
+        opticalTrainCombo->setCurrentText(name);
+
+        auto scope = OpticalTrainManager::Instance()->getScope(name);
+        m_FocalLength = scope["focal_length"].toDouble(-1);
+        m_Aperture = scope["aperture"].toDouble(-1);
+        m_FocalRatio = scope["focal_ratio"].toDouble(-1);
+        m_Reducer = OpticalTrainManager::Instance()->getReducer(name);
+
+        // DSLR Lens Aperture
+        if (m_Aperture < 0 && m_FocalRatio > 0)
+            m_Aperture = m_FocalLength * m_FocalRatio;
+
+        auto mount = OpticalTrainManager::Instance()->getMount(name);
+        setMount(mount);
+
+        auto camera = OpticalTrainManager::Instance()->getCamera(name);
+        if (camera)
+        {
+            if (guiderType == GUIDE_INTERNAL)
+                starCenter = QVector3D();
+
+            camera->setScopeInfo(m_FocalLength * m_Reducer, m_Aperture);
+
+            auto scope = OpticalTrainManager::Instance()->getScope(name);
+            opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+        }
+        setCamera(camera);
+
+        syncTelescopeInfo();
+
+        auto guider = OpticalTrainManager::Instance()->getGuider(name);
+        setGuider(guider);
+
+        auto ao = OpticalTrainManager::Instance()->getAdaptiveOptics(name);
+        setAdaptiveOptics(ao);
+    }
+
+    opticalTrainCombo->blockSignals(false);
+}
+
 }

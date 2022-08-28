@@ -12,6 +12,7 @@
 #include "skymapcomposite.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
+#include "indi/indilistener.h"
 #include "hips/hipsfinder.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "kspaths.h"
@@ -457,9 +458,9 @@ void Media::registerCameras()
     if (m_isConnected == false)
         return;
 
-    for(auto &oneDevice : m_Manager->getAllDevices())
+    for(auto &oneDevice : INDIListener::devices())
     {
-        auto camera = dynamic_cast<ISD::Camera*>(oneDevice->getConcreteDevice(INDI::BaseDevice::CCD_INTERFACE));
+        auto camera = oneDevice->getCamera();
         if (!camera)
             continue;
         connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);

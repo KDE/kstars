@@ -104,15 +104,6 @@ class CaptureDeviceAdaptor: public QObject
         {
             return m_ActiveFilterWheel;
         }
-
-        void setFilterManager(const QSharedPointer<FilterManager> &value)
-        {
-            filterManager = value;
-        }
-        const QSharedPointer<FilterManager> getFilterManager()
-        {
-            return filterManager;
-        }
         void connectFilterManager();
         void disconnectFilterManager();
 

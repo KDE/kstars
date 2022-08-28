@@ -23,43 +23,41 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     rotatorGauge->setMinimum(0);
     rotatorGauge->setMaximum(360);
 
-    connect(angleSlider, &QSlider::valueChanged, this, [this](int angle)
+    connect(rawAngleSlider, &QSlider::valueChanged, this, [this](int angle)
     {
-        angleSpin->setValue(angle);
+        rawAngleSpin->setValue(angle);
     });
 
-    PAMulSpin->setValue(Options::pAMultiplier());
-    PAOffsetSpin->setValue(Options::pAOffset());
-
-    syncFOVPA->setChecked(Options::syncFOVPA());
-    connect(syncFOVPA, &QCheckBox::toggled, this, [this](bool toggled)
+    connect(positionAngleSlider, &QSlider::valueChanged, this, [this](int angle)
     {
-        Options::setSyncFOVPA(toggled);
-        if (toggled) syncPA(targetPASpin->value());
+        positionAngleSpin->setValue(angle);
     });
 
-    connect(enforceRotationCheck, SIGNAL(toggled(bool)), targetPASpin, SLOT(setEnabled(bool)));
-    connect(targetPASpin, SIGNAL(valueChanged(double)), this, SLOT(syncPA(double)));
-    connect(PAMulSpin, &QSpinBox::editingFinished, this, [this]()
-    {
-        Options::setPAMultiplier(PAMulSpin->value());
-        updatePA();
-    });
-
-    connect(PAOffsetSpin, &QSpinBox::editingFinished, this, [this]()
-    {
-        Options::setPAOffset(PAOffsetSpin->value());
-        updatePA();
-    });
+    connect(positionAngleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &RotatorSettings::syncPA);
 }
 
 
-void RotatorSettings::setCurrentAngle(double angle)
+void RotatorSettings::setCurrentRawAngle(double value)
 {
-    angleEdit->setText(QString::number(angle, 'f', 3));
-    rawAngle->setText(QString::number(angle, 'f', 3));
-    rotatorGauge->setValue(angle);
+    rawAngleOut->setText(QString::number(value, 'f', 3));
+    rotatorGauge->setValue(value);
+    if (m_RawAngleSynced == false)
+    {
+        rawAngleSlider->setValue(value);
+        m_RawAngleSynced = true;
+    }
     updatePA();
+}
+
+double RotatorSettings::adjustedOffset()
+{
+    auto offset = Options::pAOffset();
+    auto calibrationPierSide = static_cast<ISD::Mount::PierSide>(Options::pAPierSide());
+    if (calibrationPierSide != ISD::Mount::PIER_UNKNOWN &&
+            m_PierSide != ISD::Mount::PIER_UNKNOWN &&
+            calibrationPierSide != m_PierSide)
+        offset = range360(offset + 180);
+    return offset;
 }
 
 void RotatorSettings::updatePA()
@@ -67,43 +65,49 @@ void RotatorSettings::updatePA()
     // 1. PA = (RawAngle * Multiplier) - Offset
     // 2. Offset = (RawAngle * Multiplier) - PA
     // 3. RawAngle = (Offset + PA) / Multiplier
-    double PA = SolverUtils::rangePA((rotatorGauge->value() * PAMulSpin->value()) - PAOffsetSpin->value());
-    PAOut->setText(QString::number(PA, 'f', 3));
+    double PA = SolverUtils::rangePA((rotatorGauge->value() * Options::pAMultiplier()) - adjustedOffset());
+    positionAngleOut->setText(QString::number(PA, 'f', 3));
+    if (m_PositionAngleSynced == false)
+    {
+        positionAngleSlider->setValue(PA);
+        m_PositionAngleSynced = true;
+    }
 }
 
 void RotatorSettings::refresh()
 {
-    PAMulSpin->setValue(Options::pAMultiplier());
-    PAOffsetSpin->setValue(Options::pAOffset());
     updatePA();
 }
 
+void RotatorSettings::setCurrentPierSide(ISD::Mount::PierSide side)
+{
+    m_PierSide = side;
+    updatePA();
+};
+
 void RotatorSettings::syncPA(double PA)
 {
-    if (syncFOVPA->isChecked())
+    for (auto oneFOV : KStarsData::Instance()->getTransientFOVs())
     {
-        for (auto oneFOV : KStarsData::Instance()->getTransientFOVs())
+        // Only change the PA for the sensor FOV
+        if (oneFOV->objectName() == "sensor_fov")
         {
-            // Only change the PA for the sensor FOV
-            if (oneFOV->objectName() == "sensor_fov")
+            // Make sure that it is always displayed
+            if (!Options::showSensorFOV())
             {
-                // Make sure that it is always displayed
-                if (!Options::showSensorFOV())
-                {
-                    Options::setShowSensorFOV(true);
-                    oneFOV->setProperty("visible", true);
-                }
-
-                // JM 2020-10-15
-                // While we have the correct Position Angle
-                // Because Ekos reads frame TOP-BOTTOM instead of the BOTTOM-TOP approach
-                // used by astrometry, the PA is always 180 degree off. To avoid confusion to the user
-                // the PA is drawn REVERSED to show the *expected* frame. However, the final PA is
-                // the "correct" PA as expected by astrometry.
-                //double drawnPA = PA >= 0 ? (PA - 180) : (PA + 180);
-                oneFOV->setPA(PA);
-                break;
+                Options::setShowSensorFOV(true);
+                oneFOV->setProperty("visible", true);
             }
+
+            // JM 2020-10-15
+            // While we have the correct Position Angle
+            // Because Ekos reads frame TOP-BOTTOM instead of the BOTTOM-TOP approach
+            // used by astrometry, the PA is always 180 degree off. To avoid confusion to the user
+            // the PA is drawn REVERSED to show the *expected* frame. However, the final PA is
+            // the "correct" PA as expected by astrometry.
+            //double drawnPA = PA >= 0 ? (PA - 180) : (PA + 180);
+            oneFOV->setPA(PA);
+            break;
         }
     }
 }

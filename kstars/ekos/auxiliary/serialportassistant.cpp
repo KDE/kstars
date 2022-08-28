@@ -40,8 +40,8 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     {
         if (m_CurrentDevice)
             gotoDevicePage(m_CurrentDevice);
-        else if (!devices.empty())
-            gotoDevicePage(devices.first());
+        else if (!m_Devices.empty())
+            gotoDevicePage(m_Devices.first());
     });
 
     loadRules();
@@ -69,16 +69,16 @@ SerialPortAssistant::SerialPortAssistant(ProfileInfo *profile, QWidget *parent) 
     });
 }
 
-void SerialPortAssistant::addDevice(ISD::GenericDevice *device)
+void SerialPortAssistant::addDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     qCDebug(KSTARS_EKOS) << "Serial Port Assistant new device" << device->getDeviceName();
 
     addDevicePage(device);
 }
 
-void SerialPortAssistant::addDevicePage(ISD::GenericDevice *device)
+void SerialPortAssistant::addDevicePage(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    devices.append(device);
+    m_Devices.append(device);
 
     QWidget *devicePage = new QWidget(this);
     devicePage->setObjectName(device->getDeviceName());
@@ -113,10 +113,10 @@ void SerialPortAssistant::addDevicePage(ISD::GenericDevice *device)
         if (m_CurrentDevice)
         {
             // Check if next index is available
-            int nextIndex = devices.indexOf(m_CurrentDevice) + 1;
-            if (nextIndex < devices.count())
+            int nextIndex = m_Devices.indexOf(m_CurrentDevice) + 1;
+            if (nextIndex < m_Devices.count())
             {
-                gotoDevicePage(devices[nextIndex]);
+                gotoDevicePage(m_Devices[nextIndex]);
                 return;
             }
         }
@@ -172,9 +172,9 @@ void SerialPortAssistant::addDevicePage(ISD::GenericDevice *device)
     });
 }
 
-void SerialPortAssistant::gotoDevicePage(ISD::GenericDevice *device)
+void SerialPortAssistant::gotoDevicePage(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    int index = devices.indexOf(device);
+    int index = m_Devices.indexOf(device);
 
     // reset to home page
     if (index < 0)

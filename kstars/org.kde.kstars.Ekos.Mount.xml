@@ -1,6 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
     <interface name="org.kde.kstars.Ekos.Mount">
+        <property name="opticalTrain" type="s" access="readwrite"/>
         <property name="logText" type="as" access="read"/>
         <property name="canPark" type="b" access="read"/>
         <property name="slewStatus" type="i" access="read"/>
@@ -17,9 +18,6 @@
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
         </property>
         <property name="slewRate" type="i" access="readwrite"/>
-        <property name="telescopeInfo" type="ad" access="readwrite">
-            <annotation name="org.qtproject.QtDBus.QtTypeName" value="QList&lt;double&gt;"/>
-        </property>
         <property name="hourAngle" type="d" access="read"/>
         <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Mount::Status"/>

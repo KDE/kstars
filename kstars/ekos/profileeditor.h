@@ -40,10 +40,9 @@ class ProfileEditor : public QDialog
         /** @short Destructor */
         virtual ~ProfileEditor() override = default;
 
-        void setPi(ProfileInfo *newProfile);
+        void setPi(const QSharedPointer<ProfileInfo> &newProfile);
 
         void loadDrivers();
-        void loadScopeEquipment();
 
         void setProfileName(const QString &name);
         void setAuxDrivers(const QStringList &aux);
@@ -72,8 +71,7 @@ class ProfileEditor : public QDialog
         void clearAllRequests();
 
         ProfileEditorUI *ui { nullptr };
-        ProfileInfo *pi { nullptr };
-        QList<OAL::Scope *> m_scopeList;
+        QSharedPointer<ProfileInfo> pi;
         QStandardItemModel *m_MountModel { nullptr };
         QStandardItemModel *m_CameraModel { nullptr };
         QStandardItemModel *m_GuiderModel { nullptr };

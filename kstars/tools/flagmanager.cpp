@@ -266,7 +266,7 @@ void FlagManager::slotCenterTelescope()
         return;
     }
 
-    for (auto oneDevice : INDIListener::Instance()->getDevices())
+    for (auto oneDevice : INDIListener::devices())
     {
         if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
             continue;
@@ -278,7 +278,7 @@ void FlagManager::slotCenterTelescope()
             return;
         }
 
-        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        auto mount = oneDevice->getMount();
         if (!mount)
             continue;
 

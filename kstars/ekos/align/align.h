@@ -16,7 +16,6 @@
 #include "indi/indimount.h"
 #include "indi/indidome.h"
 #include "ksuserdb.h"
-#include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/darkprocessor.h"
 
 #include <QTime>
@@ -68,7 +67,7 @@ class ManualRotator;
  * Align module provide Polar Align Helper tool which enables easy-to-follow polar alignment procedure given wide FOVs (> 1.5 degrees)
  * Legacy polar aligment is deprecated.
  *@author Jasem Mutlaq
- *@version 1.5
+ *@version 2.0
  */
 class Align : public QWidget, public Ui::Align
 {
@@ -76,8 +75,9 @@ class Align : public QWidget, public Ui::Align
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Align")
         Q_PROPERTY(Ekos::AlignState status READ status NOTIFY newStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
-        Q_PROPERTY(QString camera READ camera WRITE setCamera)
-        Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
+        Q_PROPERTY(QString camera READ camera)
+        Q_PROPERTY(QString filterWheel READ filterWheel)
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
         Q_PROPERTY(QList<double> fov READ fov)
@@ -86,7 +86,7 @@ class Align : public QWidget, public Ui::Align
         //Q_PROPERTY(QString solverArguments READ solverArguments WRITE setSolverArguments)
 
     public:
-        explicit Align(ProfileInfo *activeProfile);
+        explicit Align(const QSharedPointer<ProfileInfo> &activeProfile);
         virtual ~Align() override;
 
         typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
@@ -116,7 +116,6 @@ class Align : public QWidget, public Ui::Align
              * @param device CCD device name
              * @return Returns true if device if found and selected, false otherwise.
              */
-        Q_SCRIPTABLE bool setCamera(const QString &device);
         Q_SCRIPTABLE QString camera();
 
         /** DBUS interface function.
@@ -124,7 +123,6 @@ class Align : public QWidget, public Ui::Align
              * @param device The filter device name
              * @return Returns true if filter device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setFilterWheel(const QString &device);
         Q_SCRIPTABLE QString filterWheel();
 
         /** DBUS interface function.
@@ -183,16 +181,6 @@ class Align : public QWidget, public Ui::Align
         }
 
         /** DBUS interface function.
-             * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
-             * @param index 0 for PRIMARY telescope, 1 for GUIDE telescope
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
-        int FOVTelescopeType()
-        {
-            return FOVScopeCombo->currentIndex();
-        }
-
-        /** DBUS interface function.
          * Get currently active camera info in this order:
          * width, height, pixel_size_x, pixel_size_y
          */
@@ -211,52 +199,43 @@ class Align : public QWidget, public Ui::Align
              * @param device pointer to camera device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addCamera(ISD::Camera *device);
+        bool setCamera(ISD::Camera *device);
 
         /**
              * @brief addFilterWheel Add new filter wheel filter device.
              * @param device pointer to filter device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addFilterWheel(ISD::FilterWheel *device);
+        bool setFilterWheel(ISD::FilterWheel *device);
 
         /**
              * @brief Add new mount
              * @param device pointer to mount device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addMount(ISD::Mount *device);
+        bool setMount(ISD::Mount *device);
 
         /**
              * @brief Add new Dome
              * @param device pointer to dome device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addDome(ISD::Dome *device);
+        bool setDome(ISD::Dome *device);
 
         /**
              * @brief Add new Rotator
              * @param device pointer to rotator device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addRotator(ISD::Rotator *device);
+        bool setRotator(ISD::Rotator *device);
 
-        void removeDevice(ISD::GenericDevice *device);
-
-        /**
-             * @brief Set telescope and guide scope info. All measurements is in millimeters.
-             * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
-             * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
-             * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
-             * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
-        */
-        void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
         /**
              * @brief setAstrometryDevice
              * @param newAstrometry
              */
-        void setAstrometryDevice(ISD::GenericDevice *device);
+        void setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
         /**
              * @brief CCD information is updated, sync them.
@@ -308,7 +287,7 @@ class Align : public QWidget, public Ui::Align
          */
         void getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale);
 
-        void setFilterManager(const QSharedPointer<FilterManager> &manager);
+        void setupFilterManager();
 
         /**
              * @brief Sync the telescope to the solved alignment coordinate.
@@ -376,14 +355,14 @@ class Align : public QWidget, public Ui::Align
              * @brief Check CCD and make sure information is updated and FOV is re-calculated.
              * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu. CCDNum is the index of the CCD in the dropdown menu.
              */
-        void checkCamera(int CCDNum = -1);
+        void checkCamera();
 
         /**
              * @brief Check Filter and make sure information is updated accordingly.
              * @param filterNum By default, we check the already selected filter in the dropdown menu. If filterNum is specified, the check is made against this specific filter in the dropdown menu.
              *  filterNum is the index of the filter in the dropdown menu.
              */
-        void checkFilter(int filterNum = -1);
+        void checkFilter();
 
         /**
              * @brief checkCameraExposureProgress Track the progress of CCD exposure
@@ -549,8 +528,6 @@ class Align : public QWidget, public Ui::Align
         void checkAlignmentTimeout();
         void setAlignTableResult(AlignResult result);
 
-        void updateTelescopeType(int index);
-
         // External View
         void showFITSViewer();
         void toggleAlignWidgetFullScreen();
@@ -609,6 +586,18 @@ class Align : public QWidget, public Ui::Align
         void manualRotatorChanged(double currentPA, double targetPA, double threshold);
 
     private:
+
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
         /**
          * @brief Retrieve the align status indicator
          */
@@ -719,13 +708,17 @@ class Align : public QWidget, public Ui::Align
         // FOV
         double m_CameraPixelWidth { -1 };
         double m_CameraPixelHeight { -1 };
-        double m_TelescopeFocalLength { -1 };
-        double m_TelescopeAperture { -1 };
+        uint16_t m_CameraWidth { 0 };
+        uint16_t m_CameraHeight { 0 };
+
+        double m_FocalLength {-1};
+        double m_Aperture {-1};
+        double m_FocalRatio {-1};
+        double m_Reducer = {-1};
+
         double m_FOVWidth { 0 };
         double m_FOVHeight { 0 };
         double m_FOVPixelScale { 0 };
-        uint16_t m_CameraWidth { 0 };
-        uint16_t m_CameraHeight { 0 };
 
         // Keep track of solver results
         double sOrientation { INVALID_VALUE };
@@ -766,7 +759,7 @@ class Align : public QWidget, public Ui::Align
         // Online and Offline parsers
         AstrometryParser* parser { nullptr };
         std::unique_ptr<RemoteAstrometryParser> remoteParser;
-        ISD::GenericDevice *remoteParserDevice { nullptr };
+        QSharedPointer<ISD::GenericDevice> m_RemoteParserDevice;
 
         // Pointers to our devices
         ISD::Mount *m_Mount { nullptr };
@@ -774,13 +767,6 @@ class Align : public QWidget, public Ui::Align
         ISD::Camera *m_Camera { nullptr };
         ISD::Rotator *m_Rotator { nullptr };
         ISD::FilterWheel *m_FilterWheel { nullptr };
-
-        // Containers
-        QList<ISD::Mount *> m_Mounts;
-        QList<ISD::Camera *> m_Cameras;
-        QList<ISD::Dome *> m_Domes;
-        QList<ISD::Rotator *> m_Rotators;
-        QList<ISD::FilterWheel *> m_FilterWheels;
 
         int currentFilterPosition { -1 };
         /// True if we need to change filter position and wait for result before continuing capture
@@ -850,9 +836,7 @@ class Align : public QWidget, public Ui::Align
         QCPCurve *concentricRings { nullptr };
 
         // Telescope Settings
-        ISD::Camera::TelescopeType rememberTelescopeType = { ISD::Camera::TELESCOPE_UNKNOWN };
-        double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
-        double primaryEffectiveFL = -1, guideEffectiveFL = -1;
+        double effectiveFocalLength = -1;
         bool m_isRateSynced = false;
         bool domeReady = true;
 
@@ -863,14 +847,11 @@ class Align : public QWidget, public Ui::Align
         double GainSpinSpecialValue {INVALID_VALUE};
         double TargetCustomGainValue {-1};
 
-        // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
-
         // Data
         QSharedPointer<FITSData> m_ImageData;
 
         // Active Profile
-        ProfileInfo *m_ActiveProfile { nullptr };
+        QSharedPointer<ProfileInfo> m_ActiveProfile;
 
         // Threshold to notify settle time is 3 seconds
         static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };

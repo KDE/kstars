@@ -264,12 +264,12 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
     psky.setBrush(Qt::NoBrush);
     float pxperdegree = Options::zoomFactor() / 57.3;
 
-    for (auto &oneDevice : INDIListener::Instance()->getDevices())
+    for (auto &oneDevice : INDIListener::devices())
     {
         if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE) || oneDevice->isConnected() == false)
             continue;
 
-        auto mount = dynamic_cast<ISD::Mount *>(oneDevice->getConcreteDevice(INDI::BaseDevice::TELESCOPE_INTERFACE));
+        auto mount = oneDevice->getMount();
         if (!mount)
             continue;
 

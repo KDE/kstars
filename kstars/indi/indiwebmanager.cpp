@@ -93,7 +93,7 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
     }
 }
 
-bool isOnline(ProfileInfo *pi)
+bool isOnline(const QSharedPointer<ProfileInfo> &pi)
 {
     QTimer timer;
     timer.setSingleShot(true);
@@ -132,7 +132,7 @@ bool isOnline(ProfileInfo *pi)
     return false;
 }
 
-bool checkVersion(ProfileInfo *pi)
+bool checkVersion(const QSharedPointer<ProfileInfo> &pi)
 {
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(pi->INDIWebManagerPort));
@@ -149,7 +149,7 @@ bool checkVersion(ProfileInfo *pi)
     return false;
 }
 
-bool syncCustomDrivers(ProfileInfo *pi)
+bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
     QNetworkAccessManager manager;
     QUrl url(QString("http://%1:%2/api/profiles/custom").arg(pi->host).arg(pi->INDIWebManagerPort));
@@ -190,7 +190,7 @@ bool syncCustomDrivers(ProfileInfo *pi)
     return true;
 }
 
-bool areDriversRunning(ProfileInfo *pi)
+bool areDriversRunning(const QSharedPointer<ProfileInfo> &pi)
 {
     QUrl url(QString("http://%1:%2/api/server/drivers").arg(pi->host).arg(pi->INDIWebManagerPort));
     QJsonDocument json;
@@ -248,7 +248,7 @@ bool areDriversRunning(ProfileInfo *pi)
     return false;
 }
 
-bool syncProfile(ProfileInfo *pi)
+bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     QUrl url;
     QJsonDocument jsonDoc;
@@ -352,7 +352,7 @@ bool syncProfile(ProfileInfo *pi)
     return true;
 }
 
-bool startProfile(ProfileInfo *pi)
+bool startProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     // First make sure profile is created and synced on web manager
     syncProfile(pi);
@@ -372,14 +372,14 @@ bool startProfile(ProfileInfo *pi)
     return false;
 }
 
-bool stopProfile(ProfileInfo *pi)
+bool stopProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     // Stop profile
     QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(pi->INDIWebManagerPort));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 
-bool restartDriver(ProfileInfo *pi, const QString &label)
+bool restartDriver(const QSharedPointer<ProfileInfo> &pi, const QString &label)
 {
     QUrl url(QString("http://%1:%2/api/drivers/restart/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(label));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
@@ -390,37 +390,37 @@ bool restartDriver(ProfileInfo *pi, const QString &label)
 namespace AsyncWebManager
 {
 
-QFuture<bool> isOnline(ProfileInfo *pi)
+QFuture<bool> isOnline(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::isOnline, pi);
 }
 
-QFuture<bool> isStellarMate(ProfileInfo *pi)
+QFuture<bool> isStellarMate(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::checkVersion, pi);
 }
 
-QFuture<bool> syncCustomDrivers(ProfileInfo *pi)
+QFuture<bool> syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::syncCustomDrivers, pi);
 }
 
-QFuture<bool> areDriversRunning(ProfileInfo *pi)
+QFuture<bool> areDriversRunning(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::areDriversRunning, pi);
 }
 
-QFuture<bool> syncProfile(ProfileInfo *pi)
+QFuture<bool> syncProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::syncProfile, pi);
 }
 
-QFuture<bool> startProfile(ProfileInfo *pi)
+QFuture<bool> startProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::startProfile, pi);
 }
 
-QFuture<bool> stopProfile(ProfileInfo *pi)
+QFuture<bool> stopProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     return QtConcurrent::run(WebManager::stopProfile, pi);
 }

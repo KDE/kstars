@@ -28,10 +28,13 @@ namespace Ekos
  *@version 1.5
  */
 
+class OpticalTrainManager;
+
 class Mount : public QWidget, public Ui::Mount
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Mount")
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
         Q_PROPERTY(ISD::Mount::Status status READ status NOTIFY newStatus)
         Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
@@ -42,7 +45,6 @@ class Mount : public QWidget, public Ui::Mount
         Q_PROPERTY(bool autoParkEnabled READ autoParkEnabled WRITE setAutoParkEnabled)
         Q_PROPERTY(QList<double> equatorialCoords READ equatorialCoords)
         Q_PROPERTY(QList<double> horizontalCoords READ horizontalCoords)
-        Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo WRITE setTelescopeInfo)
         Q_PROPERTY(double hourAngle READ hourAngle)
         Q_PROPERTY(int slewRate READ slewRate WRITE setSlewRate)
         Q_PROPERTY(int slewStatus READ slewStatus)
@@ -80,7 +82,7 @@ class Mount : public QWidget, public Ui::Mount
              * @param device pointer to mount device
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addMount(ISD::Mount *device);
+        bool setMount(ISD::Mount *device);
 
         /**
              * @brief addGPS Add a new GPS device
@@ -89,7 +91,18 @@ class Mount : public QWidget, public Ui::Mount
              */
         bool addGPS(ISD::GPS *device);
 
-        void removeDevice(ISD::GenericDevice *device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
+
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
 
         // Log functions
         void appendLogText(const QString &);
@@ -311,22 +324,6 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE Q_SCRIPTABLE bool setSlewRate(int index);
 
         /** DBUS interface function.
-             * Get telescope and guide scope info. An array of doubles is returned in order.
-             * Primary Telescope Focal Length (mm), Primary Telescope Aperture (mm), Guide Telescope Focal Length (mm), Guide Telescope Aperture (mm)
-             */
-        Q_INVOKABLE Q_SCRIPTABLE QList<double> telescopeInfo();
-
-        /** DBUS interface function.
-             * Set telescope and guide scope info and save them in INDI mount driver. All measurements is in millimeters.
-             * @param info An ordered 4-item list as following:
-             * primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
-             * primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
-             * guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
-             * guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setTelescopeInfo(const QList<double> &info);
-
-        /** DBUS interface function.
              * Reset mount model if supported by the mount.
              * @return true if the command is executed successfully, false otherwise.
              */
@@ -420,13 +417,6 @@ class Mount : public QWidget, public Ui::Mount
              */
         void updateSwitch(ISwitchVectorProperty *svp);
 
-
-        /**
-             * @brief updateText Update text properties under watch in the mount module
-             * @param tvp pointer to text property
-             */
-        void updateText(ITextVectorProperty *tvp);
-
         /**
              * @brief updateLog Update mount module log to include any messages arriving for the telescope driver
              * @param messageID ID of the new message
@@ -459,11 +449,6 @@ class Mount : public QWidget, public Ui::Mount
          * @param dec_msecs duration of the DEC guiding pulse in milliseconds
          */
         void doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-
-        /**
-             * @brief save Save telescope focal length and aperture in the INDI telescope driver configuration.
-             */
-        void save();
 
         /**
              * @brief saveLimits Saves altitude limit to the user options and updates the INDI telescope driver limits
@@ -501,8 +486,6 @@ class Mount : public QWidget, public Ui::Mount
              * @brief disableAltLimits calls enableHourAngleLimits(false). This function is mostly used to disable altitude limit once a meridial flip process is started.
              */
         void disableHaLimits();
-
-        bool setScopeConfig(int index);
 
         void toggleMountToolBox();
 
@@ -609,7 +592,6 @@ class Mount : public QWidget, public Ui::Mount
         QPointer<QDBusInterface> captureInterface { nullptr };
 
         ISD::Mount *m_Mount {nullptr};
-        QList<ISD::Mount *> m_Mounts;
         ISD::GPS *m_GPS {nullptr};
         QList<ISD::GPS*> m_GPSes;
 

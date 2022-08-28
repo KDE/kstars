@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>613</width>
-    <height>417</height>
+    <height>357</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -719,90 +719,6 @@
        <widget class="QPushButton" name="scriptsB">
         <property name="text">
          <string>Scripts</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Select Telescopes</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <property name="leftMargin">
-       <number>3</number>
-      </property>
-      <property name="topMargin">
-       <number>3</number>
-      </property>
-      <property name="rightMargin">
-       <number>3</number>
-      </property>
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Primary:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="primaryScopeCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Guide:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="guideScopeCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="addScopeB">
-        <property name="minimumSize">
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
-        </property>
-        <property name="icon">
-         <iconset theme="list-add">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>22</width>
-          <height>22</height>
-         </size>
         </property>
        </widget>
       </item>

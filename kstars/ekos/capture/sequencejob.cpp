@@ -513,7 +513,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
             if (getCoreProperty(SequenceJob::SJ_Preview).toBool() || frameType != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
-            m_FilterManager->setFilterPosition(stateMachine->targetFilterID, policy);
+            FilterManager::Instance()->setFilterPosition(stateMachine->targetFilterID, policy);
             return CAPTURE_FILTER_BUSY;
         }
     }
@@ -680,11 +680,6 @@ void SequenceJob::addMount(ISD::Mount *scope)
 void SequenceJob::setDome(ISD::Dome *dome)
 {
     stateMachine->m_CaptureState->hasDome = (dome != nullptr);
-}
-
-void SequenceJob::setFilterManager(const QSharedPointer<FilterManager> &manager)
-{
-    m_FilterManager = manager;
 }
 
 void SequenceJob::setFrameType(CCDFrameType value)

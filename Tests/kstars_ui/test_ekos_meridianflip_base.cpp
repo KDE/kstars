@@ -79,7 +79,7 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     // set exp time for current filter
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
     // set exposure times for all filters
-    Ekos::FilterManager *filtermanager = Ekos::Manager::Instance()->getFilterManager();
+    auto filtermanager = Ekos::FilterManager::Instance();
     for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
     {
         filtermanager->setFilterExposure(pos, 3.0);

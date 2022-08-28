@@ -38,7 +38,7 @@ class RemoteAstrometryParser : public AstrometryParser
         virtual bool startSolver(const QString &filename, const QStringList &args, bool generated = true) override;
         virtual bool stopSolver() override;
 
-        void setAstrometryDevice(ISD::GenericDevice *device);
+        void setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device);
         void setEnabled(bool enable);
         bool sendArgs(const QStringList &args);
         bool setCCD(const QString &ccd);
@@ -48,7 +48,7 @@ class RemoteAstrometryParser : public AstrometryParser
         void checkResults(INumberVectorProperty *nvp);
 
     private:
-        ISD::GenericDevice *remoteAstrometry { nullptr };
+        QSharedPointer<ISD::GenericDevice> m_RemoteAstrometry;
         bool solverRunning { false };
         bool captureRunning { false };
         Align *align { nullptr };

@@ -1,8 +1,9 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Align">
-  <property name="camera" type="s" access="readwrite"/>
-  <property name="filterWheel" type="s" access="readwrite"/>
+  <property name="opticalTrain" type="s" access="readwrite"/>
+  <property name="camera" type="s" access="read"/>
+  <property name="filterWheel" type="s" access="read"/>
   <property name="filter" type="s" access="readwrite"/>
   <property name="logText" type="as" access="read"/>
   <property name="status" type="i" access="read">
@@ -34,12 +35,7 @@
     <arg type="ad" direction="out"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
     <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
-    <method name="telescopeInfo">
-    <arg type="ad" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
-    </method>
+    </method>    
     <method name="getSolutionResult">
       <arg type="ad" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
@@ -51,11 +47,7 @@
     <method name="setBinningIndex">
       <arg name="binningIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setFOVTelescopeType">
-      <arg name="index" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
+    </method>    
     <method name="setTargetCoords">
       <arg name="ra" type="d" direction="in"/>
       <arg name="de" type="d" direction="in"/>

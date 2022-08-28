@@ -148,8 +148,6 @@ class SequenceJob : public QObject
         void setCurrentFilter(int value);
         // Getter: Get Current Filter Slot
         int getCurrentFilter() const;
-        // Setter: Set active filter manager.
-        void setFilterManager(const QSharedPointer<FilterManager> &manager);
 
         ////////////////////////////////////////////////////////////////////////
         /// GUI Related Functions
@@ -186,7 +184,7 @@ class SequenceJob : public QObject
         FlatFieldSource getFlatFieldSource() const;
 
         // Setter: Set Wall SkyPoint Azimuth coords
-        void setWallCoord(const SkyPoint& value);
+        void setWallCoord(const SkyPoint &value);
         // Getter: Get Flat field source wall coords
         const SkyPoint &getWallCoord() const;
 
@@ -331,7 +329,7 @@ class SequenceJob : public QObject
          */
         IPState checkFlatFramePendingTasksCompleted();
 
-signals:
+    signals:
         // All preparations necessary for capturing are completed
         void prepareComplete();
         // Abort capturing
@@ -347,7 +345,7 @@ signals:
         void updateGuiderDrift(double deviation_rms);
 
 
-private:
+    private:
         // should not be used from outside
         SequenceJob();
 
@@ -373,11 +371,6 @@ private:
         QString m_TransferFormat { "FITS" };
         // capture frame type (light, flat, dark, bias)
         CCDFrameType m_FrameType { FRAME_LIGHT };
-
-        //////////////////////////////////////////////////////////////
-        /// Filter Manager
-        //////////////////////////////////////////////////////////////
-        QSharedPointer<FilterManager> m_FilterManager;
 
         //////////////////////////////////////////////////////////////
         /// Status Variable

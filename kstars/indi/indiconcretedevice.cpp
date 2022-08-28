@@ -12,7 +12,7 @@
 namespace ISD
 
 {
-ConcreteDevice::ConcreteDevice(GenericDevice *parent) : GDInterface(parent), m_Parent(parent),
+ConcreteDevice::ConcreteDevice(ISD::GenericDevice *parent) : GDInterface(parent), m_Parent(parent),
     m_Name(parent->getDeviceName())
 {
     // Signal --> Signal

@@ -13,7 +13,6 @@
 #include "guide/guide.h"
 #include "indi/driverinfo.h"
 #include "indi/drivermanager.h"
-#include "oal/equipmentwriter.h"
 #include "profilescriptdialog.h"
 #include "ui_indihub.h"
 
@@ -72,15 +71,6 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     connect(ui->guideTypeCombo, SIGNAL(activated(int)), this, SLOT(updateGuiderSelection(int)));
 
-    connect(ui->addScopeB, &QPushButton::clicked, this, [this]()
-    {
-        QPointer<EquipmentWriter> equipmentdlg = new EquipmentWriter();
-        equipmentdlg->loadEquipment();
-        equipmentdlg->exec();
-        delete equipmentdlg;
-        loadScopeEquipment();
-    });
-
     connect(ui->scanB, &QPushButton::clicked, this, &ProfileEditor::scanNetwork);
 
 #ifdef Q_OS_WIN
@@ -95,8 +85,6 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     // Load all drivers
     loadDrivers();
-    // Load scope equipment
-    loadScopeEquipment();
 
     // Shared tooltips
     ui->remoteDrivers->setToolTip(ui->remoteDriversLabel->toolTip());
@@ -118,59 +106,9 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
     ui->externalGuideHostLabel->setToolTip(ui->externalGuideHost->toolTip());
 }
 
-void ProfileEditor::loadScopeEquipment()
-{
-    // Get all OAL equipment filter list
-    KStarsData::Instance()->userdb()->GetAllScopes(m_scopeList);
-
-    ui->primaryScopeCombo->clear();
-    ui->guideScopeCombo->clear();
-
-    ui->primaryScopeCombo->addItem(i18n("Default"));
-    ui->primaryScopeCombo->setItemData(0, i18n("Use scope data from INDI"), Qt::ToolTipRole);
-    ui->guideScopeCombo->addItem(i18n("Default"));
-    ui->guideScopeCombo->setItemData(0, i18n("Use scope data from INDI"), Qt::ToolTipRole);
-
-    int primaryScopeIndex = 0;
-    int guideScopeIndex = 0;
-
-    for (int i = 0; i < m_scopeList.count(); i++)
-    {
-        OAL::Scope *oneScope = m_scopeList[i];
-
-        ui->primaryScopeCombo->addItem(oneScope->name());
-        if (pi && oneScope->id().toInt() == pi->primaryscope)
-            primaryScopeIndex = i + 1;
-
-        ui->guideScopeCombo->addItem(oneScope->name());
-        if (pi && oneScope->id().toInt() == pi->guidescope)
-            guideScopeIndex = i + 1;
-
-        double FocalLength = oneScope->focalLength();
-        double Aperture = oneScope->aperture();
-
-        ui->primaryScopeCombo->setItemData(i + 1,
-                                           i18nc("F-Number, Focal length, Aperture",
-                                                   "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                                                   QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
-                                                   QString::number(Aperture, 'f', 2)),
-                                           Qt::ToolTipRole);
-
-        ui->guideScopeCombo->setItemData(i + 1,
-                                         i18nc("F-Number, Focal length, Aperture",
-                                               "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                                               QString::number(FocalLength / Aperture, 'f', 1), QString::number(FocalLength, 'f', 2),
-                                               QString::number(Aperture, 'f', 2)),
-                                         Qt::ToolTipRole);
-    }
-
-    ui->primaryScopeCombo->setCurrentIndex(primaryScopeIndex);
-    ui->guideScopeCombo->setCurrentIndex(guideScopeIndex);
-}
-
 void ProfileEditor::saveProfile()
 {
-    bool newProfile = (pi == nullptr);
+    bool newProfile = (pi.isNull());
 
     if (ui->profileIN->text().isEmpty())
     {
@@ -180,7 +118,7 @@ void ProfileEditor::saveProfile()
 
     if (newProfile)
     {
-        QList<std::shared_ptr<ProfileInfo>> existingProfiles;
+        QList<QSharedPointer<ProfileInfo>> existingProfiles;
         KStarsData::Instance()->userdb()->GetAllProfiles(existingProfiles);
         for (auto &profileInfo : existingProfiles)
         {
@@ -191,7 +129,7 @@ void ProfileEditor::saveProfile()
             }
         }
         int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
-        pi     = new ProfileInfo(id, ui->profileIN->text());
+        pi.reset(new ProfileInfo(id, ui->profileIN->text()));
     }
     else
         pi->name = ui->profileIN->text();
@@ -254,21 +192,6 @@ void ProfileEditor::saveProfile()
             Options::setLinGuiderHost(pi->guiderhost);
             Options::setLinGuiderPort(pi->guiderport);
         }
-    }
-
-    // Scope list
-    pi->primaryscope = 0;
-    pi->guidescope = 0;
-
-    QString selectedScope = ui->primaryScopeCombo->currentText();
-    QString selectedGuide = ui->guideScopeCombo->currentText();
-
-    foreach(OAL::Scope *oneScope, m_scopeList)
-    {
-        if (selectedScope == oneScope->name())
-            pi->primaryscope = oneScope->id().toInt();
-        if (selectedGuide == oneScope->name())
-            pi->guidescope = oneScope->id().toInt();
     }
 
     if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
@@ -337,7 +260,7 @@ void ProfileEditor::saveProfile()
 
     // Ekos manager will reload and new profiles will be created
     if (newProfile)
-        delete (pi);
+        pi.clear();
 
     accept();
 }
@@ -379,7 +302,7 @@ void ProfileEditor::setRemoteMode(bool enable)
     ui->scriptsB->setEnabled(!enable || ui->INDIWebManagerCheck->isChecked());
 }
 
-void ProfileEditor::setPi(ProfileInfo *newProfile)
+void ProfileEditor::setPi(const QSharedPointer<ProfileInfo> &newProfile)
 {
     pi = newProfile;
 
@@ -568,8 +491,6 @@ void ProfileEditor::setPi(ProfileInfo *newProfile)
     }
 
     m_INDIHub = pi->indihub;
-
-    loadScopeEquipment();
 }
 
 QString ProfileEditor::getTooltip(DriverInfo *dv)
@@ -889,37 +810,6 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
 
     m_INDIHub = profile["indihub"].toInt(m_INDIHub);
-
-    int primaryID = profile["primary_scope"].toInt(-1);
-    int guideID = profile["guide_scope"].toInt(-1);
-
-    if (primaryID <= 0)
-        ui->primaryScopeCombo->setCurrentIndex(0);
-    else
-    {
-        for (int i = 1; i < ui->primaryScopeCombo->count(); i++)
-        {
-            if (m_scopeList[i - 1]->id().toInt() == primaryID)
-            {
-                ui->primaryScopeCombo->setCurrentIndex(i);
-                break;
-            }
-        }
-    }
-
-    if (guideID <= 0)
-        ui->guideScopeCombo->setCurrentIndex(0);
-    else
-    {
-        for (int i = 1; i < ui->guideScopeCombo->count(); i++)
-        {
-            if (m_scopeList[i - 1]->id().toInt() == guideID)
-            {
-                ui->guideScopeCombo->setCurrentIndex(i);
-                break;
-            }
-        }
-    }
 
     // Drivers
     const QString mount = profile["mount"].toString("--");

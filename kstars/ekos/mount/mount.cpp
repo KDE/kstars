@@ -20,20 +20,19 @@
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
-#include "indi/indifilterwheel.h"
 #include "indi/indigps.h"
 
 
 #include "mountadaptor.h"
 
 #include "ekos/manager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/profilesettings.h"
 
 #include "kstars.h"
 #include "skymapcomposite.h"
-#include "kspaths.h"
 #include "dialogs/finddialog.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 
 #include <basedevice.h>
 
@@ -74,8 +73,6 @@ Mount::Mount()
     connect(maxHaLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
 
     connect(mountToolBoxB, &QPushButton::clicked, this, &Mount::toggleMountToolBox);
-
-    connect(saveB, &QPushButton::clicked, this, &Mount::save);
 
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
@@ -215,6 +212,8 @@ Mount::Mount()
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    setupOpticalTrainManager();
 }
 
 Mount::~Mount()
@@ -264,20 +263,25 @@ void Mount::setupParkUI()
     }
 }
 
-bool Mount::addMount(ISD::Mount *device)
+bool Mount::setMount(ISD::Mount *device)
 {
-    // No duplicates
-    for (auto &oneMount : m_Mounts)
-    {
-        if (oneMount->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (device == m_Mount)
+        return false;
 
-    for (auto &oneMount : m_Mounts)
-        oneMount->disconnect(this);
+    if (m_Mount)
+        m_Mount->disconnect(this);
 
     m_Mount = device;
-    m_Mounts.append(device);
+
+    if (!m_Mount)
+    {
+        mainLayout->setEnabled(false);
+        trainLabel->setEnabled(true);
+        opticalTrainCombo->setEnabled(true);
+        return false;
+    }
+
+    mainLayout->setEnabled(true);
 
     //    if (newTelescope == m_Mount)
     //    {
@@ -292,7 +296,6 @@ bool Mount::addMount(ISD::Mount *device)
 
     connect(m_Mount, &ISD::Mount::numberUpdated, this, &Mount::updateNumber);
     connect(m_Mount, &ISD::Mount::switchUpdated, this, &Mount::updateSwitch);
-    connect(m_Mount, &ISD::Mount::textUpdated, this, &Mount::updateText);
     connect(m_Mount, &ISD::Mount::newTarget, this, &Mount::newTarget);
     connect(m_Mount, &ISD::Mount::newTargetName, this, &Mount::newTargetName);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::newCoords);
@@ -415,19 +418,14 @@ void Mount::syncGPS()
     }
 }
 
-void Mount::removeDevice(ISD::GenericDevice *device)
+void Mount::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    for (auto &oneMount : m_Mounts)
+    if (m_Mount && m_Mount->getDeviceName() == device->getDeviceName())
     {
-        if (oneMount->getDeviceName() == device->getDeviceName())
-        {
-            oneMount->disconnect(this);
-            m_Mounts.removeOne(oneMount);
-            m_BaseView->hide();
-            qCDebug(KSTARS_EKOS_MOUNT) << "Removing mount driver" << oneMount->getDeviceName();
-            m_Mount = nullptr;
-            break;
-        }
+        m_Mount->disconnect(this);
+        m_BaseView->hide();
+        qCDebug(KSTARS_EKOS_MOUNT) << "Removing mount driver" << m_Mount->getDeviceName();
+        m_Mount = nullptr;
     }
 
     for (auto &oneGPS : m_GPSes)
@@ -446,31 +444,6 @@ void Mount::syncTelescopeInfo()
 {
     if (!m_Mount || m_Mount->isConnected() == false)
         return;
-
-    auto nvp = m_Mount->getNumber("TELESCOPE_INFO");
-
-    if (nvp)
-    {
-        primaryScopeGroup->setTitle(m_Mount->getDeviceName());
-        guideScopeGroup->setTitle(i18n("%1 guide scope", m_Mount->getDeviceName()));
-
-        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
-
-        if (np && np->getValue() > 0)
-            primaryScopeApertureIN->setValue(np->getValue());
-
-        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            primaryScopeFocalIN->setValue(np->getValue());
-
-        np = nvp->findWidgetByName("GUIDER_APERTURE");
-        if (np && np->getValue() > 0)
-            guideScopeApertureIN->setValue(np->getValue());
-
-        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            guideScopeFocalIN->setValue(np->getValue());
-    }
 
     auto svp = m_Mount->getSwitch("TELESCOPE_SLEW_RATE");
 
@@ -513,19 +486,6 @@ void Mount::syncTelescopeInfo()
     }
     setupParkUI();
 
-    // Configs
-    svp = m_Mount->getSwitch("APPLY_SCOPE_CONFIG");
-    if (svp)
-    {
-        scopeConfigCombo->disconnect();
-        scopeConfigCombo->clear();
-        for (const auto &it : *svp)
-            scopeConfigCombo->addItem(it.getLabel());
-
-        scopeConfigCombo->setCurrentIndex(IUFindOnSwitchIndex(svp));
-        connect(scopeConfigCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Mount::setScopeConfig);
-    }
-
     // Tracking State
     svp = m_Mount->getSwitch("TELESCOPE_TRACK_STATE");
     if (svp)
@@ -553,10 +513,6 @@ void Mount::syncTelescopeInfo()
         trackingGroup->setEnabled(false);
     }
 
-    auto tvp = m_Mount->getText("SCOPE_CONFIG_NAME");
-    if (tvp)
-        scopeConfigNameEdit->setText(tvp->at(0)->getText());
-
     m_leftRightCheck->setProperty("checked", m_Mount->isReversed(AXIS_RA));
     m_upDownCheck->setProperty("checked", m_Mount->isReversed(AXIS_DE));
 }
@@ -569,31 +525,6 @@ void Mount::registerNewModule(const QString &name)
                                               QDBusConnection::sessionBus(), this);
     }
 
-}
-
-
-void Mount::updateText(ITextVectorProperty *tvp)
-{
-    if (!strcmp(tvp->name, "SCOPE_CONFIG_NAME"))
-    {
-        scopeConfigNameEdit->setText(tvp->tp[0].text);
-    }
-}
-
-bool Mount::setScopeConfig(int index)
-{
-    auto svp = m_Mount->getSwitch("APPLY_SCOPE_CONFIG");
-    if (!svp)
-        return false;
-
-    svp->reset();
-    svp->at(index)->setState(ISS_ON);
-
-    // Clear scope config name so that it gets filled by INDI
-    scopeConfigNameEdit->clear();
-
-    m_Mount->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
-    return true;
 }
 
 void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha)
@@ -813,33 +744,6 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
 void Mount::updateNumber(INumberVectorProperty * nvp)
 {
-    if (!strcmp(nvp->name, "TELESCOPE_INFO"))
-    {
-        if (nvp->s == IPS_ALERT)
-        {
-            QString newMessage;
-            if (primaryScopeApertureIN->value() <= 1 || primaryScopeFocalIN->value() <= 1)
-                newMessage = i18n("Error syncing telescope info. Please fill telescope aperture and focal length.");
-            else
-                newMessage = i18n("Error syncing telescope info. Check INDI control panel for more details.");
-            if (newMessage != lastNotificationMessage)
-            {
-                appendLogText(newMessage);
-                lastNotificationMessage = newMessage;
-            }
-        }
-        else
-        {
-            syncTelescopeInfo();
-            QString newMessage = i18n("Telescope info updated successfully.");
-            if (newMessage != lastNotificationMessage)
-            {
-                appendLogText(newMessage);
-                lastNotificationMessage = newMessage;
-            }
-        }
-    }
-
     if (m_GPS != nullptr && (nvp->device == m_GPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
             && nvp->s == IPS_OK)
         syncGPS();
@@ -1000,66 +904,6 @@ void Mount::motionCommand(int command, int NS, int WE)
 void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
 {
     m_Mount->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
-}
-
-
-void Mount::save()
-{
-    if (m_Mount == nullptr)
-        return;
-
-    if (scopeConfigNameEdit->text().isEmpty() == false)
-    {
-        auto tvp = m_Mount->getText("SCOPE_CONFIG_NAME");
-        if (tvp)
-        {
-            tvp->at(0)->setText(scopeConfigNameEdit->text().toLatin1().constData());
-            m_Mount->getDriverInfo()->getClientManager()->sendNewText(tvp);
-        }
-    }
-
-    auto nvp = m_Mount->getNumber("TELESCOPE_INFO");
-
-    if (nvp)
-    {
-        bool dirty = false;
-        primaryScopeGroup->setTitle(m_Mount->getDeviceName());
-        guideScopeGroup->setTitle(i18n("%1 guide scope", m_Mount->getDeviceName()));
-
-        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
-        if (np && std::fabs(np->getValue() - primaryScopeApertureIN->value()) > 0)
-        {
-            dirty = true;
-            np->setValue(primaryScopeApertureIN->value());
-        }
-
-        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
-        if (np && std::fabs(np->getValue() - primaryScopeFocalIN->value()) > 0)
-            np->setValue(primaryScopeFocalIN->value());
-
-        np = nvp->findWidgetByName("GUIDER_APERTURE");
-        if (np && std::fabs(np->getValue() - guideScopeApertureIN->value()) > 0)
-        {
-            dirty = true;
-            np->setValue(guideScopeApertureIN->value() <= 1 ? primaryScopeApertureIN->value() : guideScopeApertureIN->value());
-        }
-
-        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
-        if (np && std::fabs(np->getValue() - guideScopeFocalIN->value()) > 0)
-        {
-            dirty = true;
-            np->setValue(guideScopeFocalIN->value() <= 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value());
-        }
-
-        ClientManager *clientManager = m_Mount->getDriverInfo()->getClientManager();
-
-        clientManager->sendNewNumber(nvp);
-
-        if (dirty)
-            m_Mount->setConfig(SAVE_CONFIG);
-    }
-    else
-        appendLogText(i18n("Failed to save telescope information."));
 }
 
 void Mount::saveLimits()
@@ -1707,42 +1551,7 @@ double Mount::hourAngle()
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     dms ha(lst.Degrees() - telescopeCoord.ra().Degrees());
-    double HA = rangeHA(ha.Hours());
-
-    return HA;
-    //    if (HA > 12.0)
-    //        return (HA - 24.0);
-    //    else
-    //        return HA;
-}
-
-QList<double> Mount::telescopeInfo()
-{
-    QList<double> info;
-
-    info.append(primaryScopeFocalIN->value());
-    info.append(primaryScopeApertureIN->value());
-    info.append(guideScopeFocalIN->value());
-    info.append(guideScopeApertureIN->value());
-
-    return info;
-}
-
-void Mount::setTelescopeInfo(const QList<double> &info)
-{
-    if (info[0] > 0)
-        primaryScopeFocalIN->setValue(info[0]);
-    if (info[1] > 0)
-        primaryScopeApertureIN->setValue(info[1]);
-    if (info[2] > 0)
-        guideScopeFocalIN->setValue(info[2]);
-    if (info[3] > 0)
-        guideScopeApertureIN->setValue(info[3]);
-
-    if (scopeConfigNameEdit->text().isEmpty() == false)
-        appendLogText(i18n("Warning: Overriding %1 configuration.", scopeConfigNameEdit->text()));
-
-    save();
+    return rangeHA(ha.Hours());
 }
 
 bool Mount::canPark()
@@ -2198,4 +2007,42 @@ void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
     else
         m_upDownCheck->setProperty("checked", reversed);
 }
+
+void Mount::setupOpticalTrainManager()
+{
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Mount::refreshOpticalTrain);
+    connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
+    connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, opticalTrainCombo->itemText(index));
+        refreshOpticalTrain();
+    });
+    refreshOpticalTrain();
+
+
+}
+
+void Mount::refreshOpticalTrain()
+{
+    opticalTrainCombo->blockSignals(true);
+    opticalTrainCombo->clear();
+    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+
+    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::MountOpticalTrain);
+
+    if (trainName.isValid())
+    {
+        auto name = trainName.toString();
+        opticalTrainCombo->setCurrentText(name);
+
+        auto mount = OpticalTrainManager::Instance()->getMount(name);
+        setMount(mount);
+
+        auto scope = OpticalTrainManager::Instance()->getScope(name);
+        opticalTrainCombo->setToolTip(scope["name"].toString());
+    }
+
+    opticalTrainCombo->blockSignals(false);
+}
+
 }

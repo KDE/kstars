@@ -1762,6 +1762,19 @@ bool Camera::setTemperatureRegulation(double ramp, double threshold)
     return true;
 }
 
+bool Camera::setScopeInfo(double focalLength, double aperture)
+{
+    auto scopeInfo = getProperty("SCOPE_INFO");
+    if (!scopeInfo.isValid())
+        return false;
+
+    auto nvp = scopeInfo.getNumber();
+    nvp->at(0)->setValue(focalLength);
+    nvp->at(1)->setValue(aperture);
+    sendNewNumber(nvp);
+    return true;
+}
+
 // Internal function to write an image blob to disk.
 bool Camera::WriteImageFileInternal(const QString &filename, char *buffer, const size_t size)
 {

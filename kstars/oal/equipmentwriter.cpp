@@ -12,6 +12,7 @@
 #include "kstarsdata.h"
 #include "oal/oal.h"
 #include "oal/scope.h"
+#include "oal/dslrlens.h"
 #include "oal/eyepiece.h"
 #include "oal/lens.h"
 #include "oal/filter.h"
@@ -42,15 +43,13 @@ EquipmentWriter::EquipmentWriter()
     nextEyepiece = 0;
     nextFilter   = 0;
     nextLens     = 0;
+    nextDSLRLens = 0;
     loadEquipment();
     newScope    = true;
     newEyepiece = true;
     newLens     = true;
     newFilter   = true;
-
-#ifdef HAVE_INDI
-    ui.driverComboBox->insertItems(1, DriverManager::Instance()->getDriversStringList());
-#endif
+    newDSLRLens = true;
 
     //make connections
     connect(ui.NewScope, SIGNAL(clicked()), this, SLOT(slotNewScope()));
@@ -69,18 +68,26 @@ EquipmentWriter::EquipmentWriter()
     connect(ui.RemoveEyepiece, SIGNAL(clicked()), this, SLOT(slotRemoveEyepiece()));
     connect(ui.RemoveLens, SIGNAL(clicked()), this, SLOT(slotRemoveLens()));
     connect(ui.RemoveFilter, SIGNAL(clicked()), this, SLOT(slotRemoveFilter()));
+
+    connect(ui.NewDSLRLens, &QPushButton::clicked, this, &EquipmentWriter::slotNewDSLRLens);
+    connect(ui.AddDSLRLens, &QPushButton::clicked, this, &EquipmentWriter::slotAddDSLRLens);
+    connect(ui.RemoveDSLRLens, &QPushButton::clicked, this, &EquipmentWriter::slotRemoveDSLRLens);
+    connect(ui.DSLRLensList,  &QListWidget::currentTextChanged, this, &EquipmentWriter::slotSetDSLRLens);
 }
 
 void EquipmentWriter::slotAddScope()
 {
-    KStarsData::Instance()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
-                                               ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
+    KStarsData::Instance()->userdb()->AddScope(ui.Model->text(),
+            ui.Vendor->text(),
+            ui.Type->currentText(),
+            ui.Aperture->value(),
+            ui.FocalLength->value());
+
     loadEquipment();
     ui.Model->clear();
     ui.Vendor->clear();
-    ui.FocalLength->setValue(0);
     ui.Aperture->setValue(0);
-    ui.driverComboBox->setCurrentIndex(0);
+    ui.FocalLength->setValue(0);
 }
 
 void EquipmentWriter::slotRemoveScope()
@@ -88,16 +95,19 @@ void EquipmentWriter::slotRemoveScope()
     KStarsData::Instance()->userdb()->DeleteEquipment("telescope", ui.Id->text().toInt());
     ui.Model->clear();
     ui.Vendor->clear();
-    ui.FocalLength->setValue(0);
     ui.Aperture->setValue(0);
+    ui.FocalLength->setValue(0);
     loadEquipment();
 }
 
 void EquipmentWriter::slotSaveScope()
 {
-    KStarsData::Instance()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
-                                               ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(),
-                                               ui.Id->text());
+    KStarsData::Instance()->userdb()->AddScope(ui.Model->text(),
+            ui.Vendor->text(),
+            ui.Type->currentText(),
+            ui.Aperture->value(),
+            ui.FocalLength->value(),
+            ui.Id->text());
 
     loadEquipment();
 }
@@ -112,9 +122,8 @@ void EquipmentWriter::slotSetScope(QString name)
         ui.Model->setText(s->model());
         ui.Vendor->setText(s->vendor());
         ui.Type->setCurrentIndex(ui.Type->findText(s->type()));
-        ui.FocalLength->setValue(s->focalLength());
         ui.Aperture->setValue(s->aperture());
-        ui.driverComboBox->setCurrentIndex(ui.driverComboBox->findText(s->driver()));
+        ui.FocalLength->setValue(s->focalLength());
         newScope = false;
     }
 }
@@ -124,15 +133,83 @@ void EquipmentWriter::slotNewScope()
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
-    ui.driverComboBox->setCurrentIndex(0);
     ui.ScopeList->selectionModel()->clear();
     newScope = true;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+/// DSLR lens
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void EquipmentWriter::slotAddDSLRLens()
+{
+    KStarsData::Instance()->userdb()->AddDSLRLens(
+        ui.DSLR_model->text(),
+        ui.DSLR_vendor->text(),
+        ui.DSLRFocalLength->value(),
+        ui.DSLRFocalRatio->value());
+    loadEquipment();
+    ui.DSLR_model->clear();
+    ui.DSLR_vendor->clear();
+    ui.DSLRFocalLength->setValue(24);
+    ui.DSLRFocalRatio->setValue(2.8);
+}
+
+void EquipmentWriter::slotRemoveDSLRLens()
+{
+    KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", ui.DSLR_id->text().toInt());
+    ui.DSLR_model->clear();
+    ui.DSLR_vendor->clear();
+    ui.DSLRFocalLength->setValue(24);
+    ui.DSLRFocalRatio->setValue(2.8);
+    loadEquipment();
+}
+
+void EquipmentWriter::slotSaveDSLRLens()
+{
+    KStarsData::Instance()->userdb()->AddDSLRLens(
+        ui.DSLR_model->text(),
+        ui.DSLR_vendor->text(),
+        ui.DSLRFocalLength->value(),
+        ui.DSLRFocalRatio->value(),
+        ui.DSLR_id->text());
+
+    loadEquipment();
+}
+
+void EquipmentWriter::slotSetDSLRLens(QString name)
+{
+    OAL::DSLRLens *s = KStarsData::Instance()->logObject()->findDSLRLensByName(name);
+    if (s)
+    {
+        ui.DSLR_id->setText(s->id());
+        ui.DSLR_model->setText(s->model());
+        ui.DSLR_vendor->setText(s->vendor());
+        ui.DSLRFocalLength->setValue(s->focalLength());
+        ui.DSLRFocalRatio->setValue(s->focalRatio());
+        newDSLRLens = false;
+    }
+}
+
+void EquipmentWriter::slotNewDSLRLens()
+{
+    ui.DSLR_id->clear();
+    ui.DSLR_model->clear();
+    ui.DSLR_vendor->clear();
+    ui.DSLRFocalLength->setValue(24);
+    ui.DSLRFocalRatio->setValue(2.8);
+    ui.DSLRLensList->selectionModel()->clear();
+    newDSLRLens = true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/// Eyepeices
+//////////////////////////////////////////////////////////////////////////////////////////
+
 void EquipmentWriter::slotAddEyepiece()
 {
     KStarsData::Instance()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), ui.e_focalLength->value(),
-                                                  ui.Fov->value(), ui.FovUnit->currentText());
+            ui.Fov->value(), ui.FovUnit->currentText());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -157,7 +234,7 @@ void EquipmentWriter::slotRemoveEyepiece()
 void EquipmentWriter::slotSaveEyepiece()
 {
     KStarsData::Instance()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), ui.e_focalLength->value(),
-                                                  ui.Fov->value(), ui.FovUnit->currentText(), ui.e_Id->text());
+            ui.Fov->value(), ui.FovUnit->currentText(), ui.e_Id->text());
     loadEquipment();
 }
 
@@ -213,7 +290,7 @@ void EquipmentWriter::slotRemoveLens()
 void EquipmentWriter::slotSaveLens()
 {
     KStarsData::Instance()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value(),
-                                              ui.l_Id->text());
+            ui.l_Id->text());
     loadEquipment();
 }
 
@@ -244,8 +321,8 @@ void EquipmentWriter::slotNewLens()
 void EquipmentWriter::slotAddFilter()
 {
     KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), 0);
+            ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+            ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), 0);
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
@@ -281,13 +358,13 @@ void EquipmentWriter::slotSaveFilter()
     // Add
     if (ui.f_Id->text().isEmpty())
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                    ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value());
+                ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value());
     // Update Existing
     else
         KStarsData::Instance()->userdb()->AddFilter(ui.f_Vendor->text(), ui.f_Model->text(), ui.f_Type->text(),
-                                                    ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
-                                                    ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value(), ui.f_Id->text());
+                ui.f_Color->text(), ui.f_Offset->value(), ui.f_Exposure->value(),
+                ui.f_UseAutoFocus->isChecked(), ui.f_LockedFilter->text(), ui.f_AbsoluteFocusPosition->value(), ui.f_Id->text());
 
     loadEquipment();
 }
@@ -335,10 +412,12 @@ void EquipmentWriter::loadEquipment()
     KStarsData::Instance()->logObject()->readEyepieces();
     KStarsData::Instance()->logObject()->readLenses();
     KStarsData::Instance()->logObject()->readFilters();
+    KStarsData::Instance()->logObject()->readDSLRLenses();
     ui.ScopeList->clear();
     ui.EyepieceList->clear();
     ui.LensList->clear();
     ui.FilterList->clear();
+    ui.DSLRLensList->clear();
     foreach (OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
         ui.ScopeList->addItem(s->name());
     foreach (OAL::Eyepiece *e, *(KStarsData::Instance()->logObject()->eyepieceList()))
@@ -347,6 +426,8 @@ void EquipmentWriter::loadEquipment()
         ui.LensList->addItem(l->name());
     foreach (OAL::Filter *f, *(KStarsData::Instance()->logObject()->filterList()))
         ui.FilterList->addItem(f->name());
+    foreach (OAL::DSLRLens *l, *(KStarsData::Instance()->logObject()->dslrLensList()))
+        ui.DSLRLensList->addItem(l->name());
 
 #ifdef HAVE_INDI
     DriverManager::Instance()->updateCustomDrivers();
@@ -381,6 +462,17 @@ void EquipmentWriter::slotSave()
         }
         case 2:
         {
+            if (newDSLRLens)
+                slotAddDSLRLens();
+            else
+                slotSaveDSLRLens();
+            ui.DSLRLensList->clear();
+            for (const auto &l : * (KStarsData::Instance()->logObject()->dslrLensList()))
+                ui.DSLRLensList->addItem(l->name());
+            break;
+        }
+        case 3:
+        {
             if (newLens)
                 slotAddLens();
             else
@@ -390,7 +482,7 @@ void EquipmentWriter::slotSave()
                 ui.LensList->addItem(l->name());
             break;
         }
-        case 3:
+        case 4:
         {
             if (newFilter)
                 slotAddFilter();

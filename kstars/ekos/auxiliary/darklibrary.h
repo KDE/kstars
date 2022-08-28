@@ -85,9 +85,9 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         }
 
         void refreshFromDB();
-        void addCamera(ISD::Camera *camera);
-        void removeDevice(ISD::GenericDevice *device);
-        void checkCamera(int ccdNum = -1);
+        bool setCamera(ISD::Camera *device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
+        void checkCamera();
         //void reset();
         void setCaptureModule(Capture *instance);
 
@@ -208,6 +208,12 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         double getGain();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////
+        /// Optical Train
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Defect Map Functions
         ////////////////////////////////////////////////////////////////////////////////////////////////
         void refreshDefectMastersList(const QString &camera);
@@ -229,9 +235,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QMap<QString, QSharedPointer<FITSData>> m_CachedDarkFrames;
         QMap<QString, QSharedPointer<DefectMap>> m_CachedDefectMaps;
 
-        ISD::Camera *m_CurrentCamera {nullptr};
+        ISD::Camera *m_Camera {nullptr};
         ISD::CameraChip *m_TargetChip {nullptr};
-        QList<ISD::Camera *> m_Cameras;
         bool m_UseGuideHead {false};
         double GainSpinSpecialValue { INVALID_VALUE };
 
