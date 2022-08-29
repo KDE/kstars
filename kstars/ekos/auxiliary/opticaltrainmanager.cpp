@@ -178,7 +178,7 @@ void OpticalTrainManager::refreshModel()
     m_OpticalTrainsModel->setHeaderData(Camera, Qt::Horizontal, i18n("Camera"));
 
     m_OpticalTrainsModel->setHeaderData(Guider, Qt::Horizontal, i18n("Guider"));
-    m_OpticalTrainsModel->setHeaderData(Guider, Qt::Horizontal, i18n("Device receving guiding correction pulses"),
+    m_OpticalTrainsModel->setHeaderData(Guider, Qt::Horizontal, i18n("Device receiving guiding correction pulses"),
                                         Qt::ToolTipRole);
 
     trainView->hideColumn(ID);
