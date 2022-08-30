@@ -121,7 +121,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(Ekos::Manager::Instance())
         removeB->setEnabled(false);
     });
 
-    connect(trainView, &QTableView::activated, this, [this](const QModelIndex & index)
+    connect(trainView, &QTableView::clicked, this, [this](const QModelIndex & index)
     {
         removeB->setEnabled(index.row() > 0);
     });
