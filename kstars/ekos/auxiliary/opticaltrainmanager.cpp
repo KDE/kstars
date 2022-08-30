@@ -222,6 +222,8 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         raise();
         emit configurationRequested();
     }
+    else
+        emit updated();
 }
 ////////////////////////////////////////////////////////////////////////////
 /// This method tries to guess possible optical train configuration
