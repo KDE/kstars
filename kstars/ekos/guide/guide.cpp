@@ -2673,17 +2673,6 @@ void Guide::updateTelescopeType(int index)
     syncTelescopeInfo();
 }
 
-void Guide::setDefaultGuider(const QString &driver)
-{
-    Options::setDefaultGuideGuider(driver);
-}
-
-void Guide::setDefaultCCD(const QString &ccd)
-{
-    if (guiderType == GUIDE_INTERNAL)
-        Options::setDefaultGuideCCD(ccd);
-}
-
 void Guide::handleManualDither()
 {
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);

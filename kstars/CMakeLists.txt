@@ -294,7 +294,7 @@ if (INDI_FOUND)
 
             #Observatory
             # Needs to migrate Observatory
-#            ekos/observatory/observatory.cpp
+            ekos/observatory/observatory.cpp
 #            ekos/observatory/observatorymodel.cpp
 #            ekos/observatory/observatorydomemodel.cpp
 #            ekos/observatory/observatoryweathermodel.cpp

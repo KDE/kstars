@@ -47,7 +47,7 @@ void Weather::processNumber(INumberVectorProperty *nvp)
     }
 }
 
-Weather::Status Weather::getWeatherStatus()
+Weather::Status Weather::status()
 {
     auto weatherLP = getLight("WEATHER_STATUS");
 

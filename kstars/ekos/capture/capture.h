@@ -769,8 +769,6 @@ class Capture : public QWidget, public Ui::Capture
         void updateCaptureCountDown(int deltaMillis);
         void checkSeqBoundary(const QString &path);
         void saveFITSDirectory();
-        void setDefaultCCD(QString ccd);
-        void setDefaultFilterWheel(QString filterWheel);
         void setNewRemoteFile(QString file);
 
         // Sequence Queue

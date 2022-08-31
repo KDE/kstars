@@ -396,7 +396,7 @@ void Message::sendDomes()
         {
             {"name", dome->getDeviceName()},
             {"canPark", dome->canPark()},
-            {"canGoto", dome->canAbsMove()},
+            {"canGoto", dome->canAbsoluteMove()},
             {"canAbort", dome->canAbort()},
         };
 
@@ -418,7 +418,7 @@ void Message::sendDomes()
             { "status", ISD::Dome::getStatusString(dome->status())}
         };
 
-        if (dome->canAbsMove())
+        if (dome->canAbsoluteMove())
             status["az"] = dome->position();
 
         sendResponse(commands[NEW_DOME_STATE], status);
