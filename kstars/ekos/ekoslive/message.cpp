@@ -2294,12 +2294,19 @@ void Message::sendStates()
     }
 }
 
-void Message::sendEvent(const QString &message, KSNotification::EventType event)
+void Message::sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
         return;
 
-    QJsonObject newEvent = {{ "severity", event}, {"message", message}, {"uuid", QUuid::createUuid().toString()}};
+    QJsonObject newEvent =
+    {
+        {"source", source},
+        {"severity", event},
+        {"message", message},
+        {"uuid", QUuid::createUuid().toString()}
+    };
+
     sendResponse(commands[NEW_NOTIFICATION], newEvent);
 }
 

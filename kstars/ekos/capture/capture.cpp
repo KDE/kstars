@@ -883,7 +883,7 @@ void Capture::stop(CaptureState targetState)
                     break;
             }
             emit captureAborted(activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
-            KSNotification::event(QLatin1String("CaptureFailed"), stopText);
+            KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, KSNotification::Alert);
             appendLogText(stopText);
             activeJob->abort();
             if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() == false)
@@ -1864,7 +1864,7 @@ IPState Capture::setCaptureComplete()
     // Do not display notifications for very short captures
     if (activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
-                              KSNotification::EVENT_INFO);
+                              KSNotification::Capture);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
     if (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool())
@@ -2055,7 +2055,7 @@ void Capture::processJobCompletionStage2()
     {
         //KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
         KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"),
-                              KSNotification::EVENT_INFO);
+                              KSNotification::Capture);
 
         abort();
 
@@ -4043,7 +4043,7 @@ void Capture::setMeridianFlipStage(MFStage stage)
                 meridianFlipStage = MF_INITIATED;
                 emit meridianFlipStarted();
                 captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
-                KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::EVENT_INFO);
+                KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::Capture);
                 break;
 
             case MF_REQUESTED:
@@ -5327,7 +5327,7 @@ void Capture::processFlipCompleted()
     appendLogText(i18n("Telescope completed the meridian flip."));
 
     KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"),
-                          KSNotification::EVENT_INFO);
+                          KSNotification::Capture);
 
 
     if (m_State == CAPTURE_IDLE || m_State == CAPTURE_ABORTED || m_State == CAPTURE_COMPLETE)

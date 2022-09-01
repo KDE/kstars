@@ -491,7 +491,7 @@ bool InternalGuider::calibrate()
         calibrationProcess.reset();
         emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
         KSNotification::event(QLatin1String("CalibrationRestored"),
-                              i18n("Guiding calibration restored"));
+                              i18n("Guiding calibration restored"), KSNotification::Guide);
         reset();
         return true;
     }
@@ -576,13 +576,13 @@ void InternalGuider::iterateCalibration()
     if (status == GUIDE_CALIBRATION_ERROR)
     {
         KSNotification::event(QLatin1String("CalibrationFailed"), i18n("Guiding calibration failed"),
-                              KSNotification::EVENT_ALERT);
+                              KSNotification::Guide, KSNotification::Alert);
         reset();
     }
     else if (status == GUIDE_CALIBRATION_SUCCESS)
     {
         KSNotification::event(QLatin1String("CalibrationSuccessful"),
-                              i18n("Guiding calibration completed successfully"));
+                              i18n("Guiding calibration completed successfully"), KSNotification::Guide);
         emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
         pmath->setTargetPosition(calibrationStartX, calibrationStartY);
         reset();

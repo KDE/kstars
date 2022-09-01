@@ -952,7 +952,7 @@ void Focus::start()
     // Denoise with median filter
     //defaultScale = FITS_MEDIAN;
 
-    KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"));
+    KSNotification::event(QLatin1String("FocusStarted"), i18n("Autofocus operation started"), KSNotification::Focus);
 
     // Used for all the focuser types.
     if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
@@ -1593,7 +1593,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
                                         .arg(QString::number(hfr_value[i], 'f', 3)));
             }
 
-            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"));
+            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"), KSNotification::Focus);
             emit autofocusComplete(filter(), analysis_results);
         }
     }
@@ -1602,7 +1602,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
         if (autoFocusUsed)
         {
             KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
-                                  KSNotification::EVENT_ALERT);
+                                  KSNotification::Focus, KSNotification::Alert);
             emit autofocusAborted(filter(), "");
         }
     }
@@ -2482,14 +2482,14 @@ void Focus::autoFocusAbs()
                 {
                     QString message = i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance.");
                     appendLogText(message);
-                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else if (noStarCount > 0)
                 {
                     QString message = i18n("Failed to detect focus star in frame. Capture and select a focus star.");
                     appendLogText(message);
-                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 else
@@ -2658,7 +2658,7 @@ void Focus::autoFocusAbs()
                 {
                     QString message = i18n("Focuser cannot move further, device limits reached. Autofocus aborted.");
                     appendLogText(message);
-                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 }
                 return;
@@ -2669,7 +2669,7 @@ void Focus::autoFocusAbs()
             {
                 QString message = i18n("Unstable fluctuations. Try increasing initial step size or exposure time.");
                 appendLogText(message);
-                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 return;
             }
@@ -2679,7 +2679,7 @@ void Focus::autoFocusAbs()
             {
                 QString message = i18n("Deadlock reached. Please try again with different settings.");
                 appendLogText(message);
-                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                 completeFocusProcedure(Ekos::FOCUS_ABORTED);
                 return;
             }
@@ -2708,7 +2708,7 @@ void Focus::autoFocusAbs()
 
                     QString message = i18n("Maximum travel limit reached. Autofocus aborted.");
                     appendLogText(message);
-                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::EVENT_ALERT);
+                    KSNotification::event(QLatin1String("FocusFailed"), message, KSNotification::Focus, KSNotification::Alert);
                     completeFocusProcedure(Ekos::FOCUS_ABORTED);
                     break;
                 }

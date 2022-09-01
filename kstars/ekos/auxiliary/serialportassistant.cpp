@@ -368,7 +368,7 @@ bool SerialPortAssistant::addRule(const QJsonObject &rule)
     QByteArray data = QJsonDocument(rule).toJson(QJsonDocument::Compact);
     if (INDI::WebManager::getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data))
     {
-        KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Mapping is successful."), KSNotification::EVENT_INFO);
+        KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Mapping is successful."));
         auto devicePort = m_CurrentDevice->getBaseDevice()->getText("DEVICE_PORT");
         if (devicePort)
         {

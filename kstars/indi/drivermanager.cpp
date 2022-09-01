@@ -629,7 +629,7 @@ void DriverManager::setClientFailed(const QString &message)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::event(QLatin1String("IndiServerMessage"), message);
+    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::INDI);
 
     clients.removeOne(client);
     client->deleteLater();
@@ -655,7 +655,7 @@ void DriverManager::setClientTerminated(const QString &message)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_ALERT);
+    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::INDI, KSNotification::Alert);
 
     clients.removeOne(client);
     client->deleteLater();
@@ -785,8 +785,7 @@ void DriverManager::setClientStarted()
     updateMenuActions();
 
     KSNotification::event(QLatin1String("ConnectionSuccessful"),
-                          i18n("Connected to INDI server"),
-                          KSNotification::EVENT_INFO);
+                          i18n("Connected to INDI server"));
 
     emit clientStarted(clientManager->getHost(), clientManager->getPort());
 }

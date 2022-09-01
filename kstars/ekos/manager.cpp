@@ -1152,7 +1152,7 @@ void Manager::checkINDITimeout()
             QString message = i18n("Unable to establish:\n%1\nPlease ensure the device is connected and powered on.",
                                    remainingDevices.at(0));
             appendLogText(message);
-            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
             KNotification::beep(i18n("Ekos startup error"));
         }
         else
@@ -1160,7 +1160,7 @@ void Manager::checkINDITimeout()
             QString message = i18n("Unable to establish the following devices:\n%1\nPlease ensure each device is connected "
                                    "and powered on.", remainingDevices.join("\n"));
             appendLogText(message);
-            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
             KNotification::beep(i18n("Ekos startup error"));
         }
     }
@@ -1190,7 +1190,7 @@ void Manager::checkINDITimeout()
             QString message = i18n("Unable to remotely establish:\n%1\nPlease ensure the device is connected and powered on.",
                                    remainingDevices.at(0));
             appendLogText(message);
-            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
             KNotification::beep(i18n("Ekos startup error"));
         }
         else
@@ -1198,7 +1198,7 @@ void Manager::checkINDITimeout()
             QString message = i18n("Unable to remotely establish the following devices:\n%1\nPlease ensure each device is connected "
                                    "and powered on.", remainingDevices.join("\n"));
             appendLogText(message);
-            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
             KNotification::beep(i18n("Ekos startup error"));
         }
     }
@@ -1495,7 +1495,7 @@ void Manager::deviceDisconnected()
             QString message = i18n("%1 failed to connect.\nPlease ensure the device is connected and powered on.",
                                    dev->getDeviceName());
             appendLogText(message);
-            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
         }
         else if (m_indiStatus == Ekos::Idle)
         {
@@ -2820,9 +2820,9 @@ void Manager::watchDebugProperty(ISwitchVectorProperty * svp)
     }
 }
 
-void Manager::announceEvent(const QString &message, KSNotification::EventType event)
+void Manager::announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event)
 {
-    ekosLiveClient.get()->message()->sendEvent(message, event);
+    ekosLiveClient.get()->message()->sendEvent(message, source, event);
 }
 
 void Manager::connectModules()

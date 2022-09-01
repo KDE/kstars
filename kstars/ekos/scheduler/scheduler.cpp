@@ -30,7 +30,6 @@
 #include "skyobjects/starobject.h"
 #include "greedyscheduler.h"
 
-#include <KNotifications/KNotification>
 #include <KConfigDialog>
 #include <KActionCollection>
 
@@ -1883,21 +1882,21 @@ void Scheduler::stop()
     if (!preemptiveShutdown())
     {
         bool wasAborted = false;
-        foreach (SchedulerJob *job, jobs)
+        for (auto &oneJob : jobs)
         {
-            if (job == currentJob)
+            if (oneJob == currentJob)
                 stopCurrentJobAction();
 
-            if (job->getState() <= SchedulerJob::JOB_BUSY)
+            if (oneJob->getState() <= SchedulerJob::JOB_BUSY)
             {
-                appendLogText(i18n("Job '%1' has not been processed upon scheduler stop, marking aborted.", job->getName()));
-                job->setState(SchedulerJob::JOB_ABORTED);
+                appendLogText(i18n("Job '%1' has not been processed upon scheduler stop, marking aborted.", oneJob->getName()));
+                oneJob->setState(SchedulerJob::JOB_ABORTED);
                 wasAborted = true;
             }
         }
 
         if (wasAborted)
-            KNotification::event(QLatin1String("SchedulerAborted"), i18n("Scheduler aborted."));
+            KSNotification::event(QLatin1String("SchedulerAborted"), i18n("Scheduler aborted."), KSNotification::Scheduler, KSNotification::Alert);
     }
 
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_NOTHING).toLatin1().data());
@@ -3123,8 +3122,8 @@ bool Scheduler::executeJob(SchedulerJob *job)
     currentJob->setState(SchedulerJob::JOB_BUSY);
     emit jobsUpdated(getJSONJobs());
 
-    KNotification::event(QLatin1String("EkosSchedulerJobStart"),
-                         i18n("Ekos job started (%1)", currentJob->getName()));
+    KSNotification::event(QLatin1String("EkosSchedulerJobStart"),
+                          i18n("Ekos job started (%1)", currentJob->getName()), KSNotification::Scheduler);
 
     // No need to continue evaluating jobs as we already have one.
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_JOBCHECK).toLatin1().data());
@@ -3400,7 +3399,7 @@ bool Scheduler::checkStartupState()
     {
         case STARTUP_IDLE:
         {
-            KNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"));
+            KSNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"), KSNotification::Scheduler);
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Startup Idle. Starting startup process...";
 
@@ -3509,7 +3508,7 @@ bool Scheduler::checkShutdownState()
     switch (shutdownState)
     {
         case SHUTDOWN_IDLE:
-            KNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"));
+            KSNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"), KSNotification::Scheduler);
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting shutdown process...";
 
@@ -5599,8 +5598,8 @@ void Scheduler::startCapture(bool restart)
 
     currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
 
-    KNotification::event(QLatin1String("EkosScheduledImagingStart"),
-                         i18n("Ekos job (%1) - Capture started", currentJob->getName()));
+    KSNotification::event(QLatin1String("EkosScheduledImagingStart"),
+                          i18n("Ekos job (%1) - Capture started", currentJob->getName()), KSNotification::Scheduler);
 
     if (captureBatch > 0)
         appendLogText(i18n("Job '%1' capture is in progress (batch #%2)...", currentJob->getName(), captureBatch + 1));
@@ -7895,8 +7894,8 @@ void Scheduler::setCaptureStatus(Ekos::CaptureState status)
         }
         else if (status == Ekos::CAPTURE_COMPLETE)
         {
-            KNotification::event(QLatin1String("EkosScheduledImagingFinished"),
-                                 i18n("Ekos job (%1) - Capture finished", currentJob->getName()));
+            KSNotification::event(QLatin1String("EkosScheduledImagingFinished"),
+                                  i18n("Ekos job (%1) - Capture finished", currentJob->getName()), KSNotification::Scheduler);
 
             currentJob->setState(SchedulerJob::JOB_COMPLETE);
             findNextJob();
@@ -8086,15 +8085,15 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-medium")
                 .pixmap(QSize(32, 32)));
-            KNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"));
+            KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"), KSNotification::Scheduler, KSNotification::Warn);
         }
         else if (weatherStatus == ISD::Weather::WEATHER_ALERT)
         {
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-low")
                 .pixmap(QSize(32, 32)));
-            KNotification::event(QLatin1String("WeatherAlert"),
-                                 i18n("Weather conditions are critical. Observatory shutdown is imminent"));
+            KSNotification::event(QLatin1String("WeatherAlert"),
+                                  i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler, KSNotification::Alert);
         }
         else
             weatherLabel->setPixmap(QIcon::fromTheme("chronometer")

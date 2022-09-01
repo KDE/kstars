@@ -47,7 +47,7 @@ class Message : public QObject
         void updateCapStatus(const QJsonObject &status);
 
         // Send devices as they come
-        void sendEvent(const QString &message, KSNotification::EventType event);
+        void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
         void sendCameras();
         void sendMounts();
         void sendScopes();

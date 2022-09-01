@@ -229,12 +229,12 @@ void Mount::processNumber(INumberVectorProperty *nvp)
         if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
             if (currentStatus == MOUNT_SLEWING)
-                KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"));
+                KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
         {
-            KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"));
+            KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
             emit newStatus(currentStatus);
             // Hint: we intentionally do not communicate the target here, since it has been communicated
             // at the beginning of the slew AND we cannot be sure that the position the INDI mount reports
@@ -309,7 +309,7 @@ void Mount::processSwitch(ISwitchVectorProperty *svp)
         if (svp->s == IPS_OK)
         {
             inCustomParking = false;
-            KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::EVENT_WARN);
+            KSNotification::event(QLatin1String("MountAborted"), i18n("Mount motion was aborted"), KSNotification::Mount, KSNotification::Warn);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_PIER_SIDE"))
@@ -428,12 +428,12 @@ void Mount::updateParkStatus()
             // JM 2021-03-08: Reset parking internal state to either PARKED or UNPARKED.
             // Whatever the current switch is set to
             m_ParkStatus = (sp->s == ISS_ON) ? PARK_PARKED : PARK_UNPARKED;
-            KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::EVENT_ALERT);
+            KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::Mount, KSNotification::Alert);
         }
         else if (svp->s == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
         {
             m_ParkStatus = PARK_PARKING;
-            KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"));
+            KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"), KSNotification::Mount);
             currentObject = nullptr;
 
             emit newParkStatus(m_ParkStatus);
@@ -441,14 +441,14 @@ void Mount::updateParkStatus()
         else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
         {
             m_ParkStatus = PARK_UNPARKING;
-            KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"));
+            KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"), KSNotification::Mount);
 
             emit newParkStatus(m_ParkStatus);
         }
         else if (svp->s == IPS_OK && sp->s == ISS_ON && m_ParkStatus != PARK_PARKED)
         {
             m_ParkStatus = PARK_PARKED;
-            KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"));
+            KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"), KSNotification::Mount);
             currentObject = nullptr;
 
             emit newParkStatus(m_ParkStatus);
@@ -465,7 +465,7 @@ void Mount::updateParkStatus()
         else if ( (svp->s == IPS_OK || svp->s == IPS_IDLE) && sp->s == ISS_OFF && m_ParkStatus != PARK_UNPARKED)
         {
             m_ParkStatus = PARK_UNPARKED;
-            KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"));
+            KSNotification::event(QLatin1String("MountUnparked"), i18n("Mount unparked"), KSNotification::Mount);
             currentObject = nullptr;
 
             emit newParkStatus(m_ParkStatus);
@@ -810,7 +810,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
         KSNotification::event(QLatin1String("IndiServerMessage"),
                               i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).",
                                    QString::number(targetAlt, 'g', 3), QString::number(minAlt, 'g', 3),
-                                   QString::number(maxAlt, 'g', 3)), KSNotification::EVENT_WARN);
+                                   QString::number(maxAlt, 'g', 3)), KSNotification::Mount, KSNotification::Warn);
         return false;
     }
 

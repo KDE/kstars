@@ -444,12 +444,12 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
         if (recordOFF && recordOFF->s == ISS_ON)
         {
             emit videoRecordToggled(false);
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::EVENT_INFO);
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::INDI);
         }
         else
         {
             emit videoRecordToggled(true);
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::EVENT_INFO);
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::INDI);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_TYPE"))

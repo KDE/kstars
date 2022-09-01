@@ -135,7 +135,7 @@ class Manager : public QDialog, public Ui::Manager
             return m_SummaryView.get();
         }
         QString getCurrentJobName();
-        void announceEvent(const QString &message, KSNotification::EventType event);
+        void announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
 
         /**
          * @brief activateModule Switch tab to specific module name (i.e. CCD) and raise Ekos screen to focus.

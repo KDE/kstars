@@ -1467,7 +1467,7 @@ bool Align::captureAndSolve()
     if (m_Camera->isConnected() == false)
     {
         appendLogText(i18n("Error: lost connection to camera."));
-        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
+        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align, KSNotification::Alert);
         return false;
     }
 
@@ -2280,7 +2280,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
     }
 
-    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
     state = ALIGN_COMPLETE;
     emit newStatus(state);
     solverIterations = 0;
@@ -2325,7 +2325,7 @@ void Align::solverFailed()
                 i18n("Please check you have sufficient stars in the image, the indicated FOV is correct, and the necessary index files are installed. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
 
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
-                              KSNotification::EVENT_ALERT);
+                              KSNotification::Align, KSNotification::Alert);
     }
 
     pi->stopAnimation();
@@ -2565,7 +2565,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         {
                             appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
                             KSNotification::event(QLatin1String("AlignSuccessful"),
-                                                  i18n("Astrometry alignment completed successfully"));
+                                                  i18n("Astrometry alignment completed successfully"), KSNotification::Align);
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
                             solverIterations = 0;
@@ -2599,7 +2599,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         else if (differentialSlewingActivated)
                         {
                             appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
-                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
                             solverIterations = 0;
