@@ -53,8 +53,9 @@ class Guide : public QWidget, public Ui::Guide
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Guide")
         Q_PROPERTY(Ekos::GuideState status READ status NOTIFY newStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
-        Q_PROPERTY(QString camera READ camera WRITE setCamera)
-        Q_PROPERTY(QString guider READ guider WRITE setGuider)
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
+        Q_PROPERTY(QString camera READ camera)
+        Q_PROPERTY(QString guider READ guider)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
         Q_PROPERTY(QList<double> axisDelta READ axisDelta NOTIFY newAxisDelta)
         Q_PROPERTY(QList<double> axisSigma READ axisSigma NOTIFY newAxisSigma)
@@ -86,7 +87,6 @@ class Guide : public QWidget, public Ui::Guide
              * @param device The CCD device name
              * @return Returns true if CCD device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setCamera(const QString &device);
         Q_SCRIPTABLE QString camera();
 
         /** DBUS interface function.
@@ -94,13 +94,7 @@ class Guide : public QWidget, public Ui::Guide
              * @param device The ST4 device name
              * @return Returns true if ST4 device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setGuider(const QString &device);
         Q_SCRIPTABLE QString guider();
-
-        /** DBUS interface function.
-             * @return Returns List of registered ST4 devices.
-             */
-        Q_SCRIPTABLE QStringList getGuiders();
 
         /** DBUS interface function.
          * @brief connectGuider Establish connection to guider application. For internal guider, this always returns true.
@@ -189,7 +183,7 @@ class Guide : public QWidget, public Ui::Guide
          * @param device pointer to camera device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addCamera(ISD::Camera *device);
+        bool setCamera(ISD::Camera *device);
 
         /**
          * @brief Add new Camera
@@ -204,23 +198,23 @@ class Guide : public QWidget, public Ui::Guide
          * @param device pointer to Mount device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addMount(ISD::Mount *device);
+        bool setMount(ISD::Mount *device);
 
         /**
          * @brief Add new Guider
          * @param device pointer to Guider device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addGuider(ISD::Guider *device);
+        bool setGuider(ISD::Guider *device);
 
         /**
          * @brief Add new Adaptive Optics
          * @param device pointer to AO device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addAdaptiveOptics(ISD::AdaptiveOptics *device);
+        bool setAdaptiveOptics(ISD::AdaptiveOptics *device);
 
-        void removeDevice(ISD::GenericDevice *device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
         void configurePHD2Camera();
 
         bool isDithering();
@@ -350,7 +344,7 @@ class Guide : public QWidget, public Ui::Guide
               * @brief checkCamera Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
               * @param ccdNum CCD index number in the CCD selection combo box
               */
-        void checkCamera(int ccdNum = -1);
+        void checkCamera();
 
         /**
              * @brief checkExposureValue This function is called by the INDI framework whenever there is a new exposure value. We use it to know if there is a problem with the exposure
@@ -364,21 +358,6 @@ class Guide : public QWidget, public Ui::Guide
              * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
              */
         void processData(const QSharedPointer<FITSData> &data);
-
-        /**
-             * @brief setST4 Sets a new ST4 device from the combobox index
-             * @param index Index of selected ST4 in the combobox
-             */
-        void setGuider(int index);
-
-        /**
-             * @brief Set telescope and guide scope info. All measurements is in millimeters.
-             * @param primaryFocalLength Primary Telescope Focal Length. Set to 0 to skip setting this value.
-             * @param primaryAperture Primary Telescope Aperture. Set to 0 to skip setting this value.
-             * @param guideFocalLength Guide Telescope Focal Length. Set to 0 to skip setting this value.
-             * @param guideAperture Guide Telescope Aperture. Set to 0 to skip setting this value.
-             */
-        void setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength, double guideAperture);
 
         // This Function will allow PHD2 to update the exposure values to the recommended ones.
         QString setRecommendedExposureValues(QList<double> values);
@@ -462,6 +441,8 @@ class Guide : public QWidget, public Ui::Guide
         void setSNR(double snr);
         void calibrationUpdate(GuideInterface::CalibrationUpdateType type, const QString &message = QString(""), double dx = 0,
                                double dy = 0);
+
+        void guideInfo(const QString &info);
 
         void processGuideOptions();
         void configSEPMultistarOptions();
@@ -558,28 +539,34 @@ class Guide : public QWidget, public Ui::Guide
 
         bool captureOneFrame();
 
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
         // Driver
-        void reconnectDriver(const QString &camera, const QString &via, const QVariantMap &settings);
+        void reconnectDriver(const QString &camera, QVariantMap settings);
 
         // Operation Stack
         QStack<GuideState> operationStack;
 
         // Devices
         ISD::Camera *m_Camera { nullptr };
-        //This is for the configure PHD2 camera method.
-        QString lastPHD2CameraName;
         ISD::Mount *m_Mount { nullptr };
         ISD::Guider *m_Guider { nullptr };
         ISD::AdaptiveOptics *m_AO { nullptr };
 
-        // Device Containers
-        QList<ISD::Camera *> m_Cameras;
-        QList<ISD::Mount *> m_Mounts;
-        QList<ISD::Guider *> m_Guiders;
-        QList<ISD::AdaptiveOptics *> m_AdaptiveOptics;
-
         // Guider process
         GuideInterface *m_GuiderInstance { nullptr };
+
+        //This is for the configure PHD2 camera method.
+        QString lastPHD2CameraName;
         GuiderType guiderType { GUIDE_INTERNAL };
 
         // Star
@@ -589,8 +576,13 @@ class Guide : public QWidget, public Ui::Guide
         int guideBinIndex { 0 };    // Selected or saved binning for guiding
         double ccdPixelSizeX { -1 };
         double ccdPixelSizeY { -1 };
-        double aperture { -1 };
-        double focal_length { -1 };
+
+        // Scope info
+        double m_Aperture { -1 };
+        double m_FocalLength { -1 };
+        double m_FocalRatio { -1 };
+        double m_Reducer {-1};
+
         double guideDeviationRA { 0 };
         double guideDeviationDEC { 0 };
         double pixScaleX { -1 };

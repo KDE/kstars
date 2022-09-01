@@ -37,19 +37,35 @@ class INDIListener : public QObject
 
     public:
         static INDIListener *Instance();
+        // Convenience function
+        static const QList<QSharedPointer<ISD::GenericDevice>> &devices()
+        {
+            return INDIListener::Instance()->getDevices();
+        }
+        static const QList<QSharedPointer<ISD::GenericDevice>> devicesByInterface(uint32_t interface)
+        {
+            QList<QSharedPointer<ISD::GenericDevice>> filteredDevices;
+            auto all = devices();
+            std::copy_if(all.begin(), all.end(), std::back_inserter(filteredDevices), [interface](auto & oneDevice)
+            {
+                return oneDevice->getDriverInterface() & interface;
+            });
+            return filteredDevices;
+        }
+        static bool findDevice(const QString &name, QSharedPointer<ISD::GenericDevice> &device);
 
         void addClient(ClientManager *cm);
         void removeClient(ClientManager *cm);
 
-        ISD::GenericDevice *getDevice(const QString &name) const;
-        const QList<ISD::GenericDevice *> getDevices() const
+        bool getDevice(const QString &name, QSharedPointer<ISD::GenericDevice> &device) const;
+        const QList<QSharedPointer<ISD::GenericDevice>> &getDevices() const
         {
-            return devices;
+            return m_Devices;
         }
 
         int size() const
         {
-            return devices.size();
+            return m_Devices.size();
         }
 
     public slots:
@@ -68,14 +84,14 @@ class INDIListener : public QObject
 
     private:
         explicit INDIListener(QObject *parent);
-        ~INDIListener() override;
 
         static INDIListener *_INDIListener;
 
         QList<ClientManager *> clients;
-        QList<ISD::GenericDevice *> devices;
+        QList<QSharedPointer<ISD::GenericDevice>> m_Devices;
+
 
     signals:
-        void newDevice(ISD::GenericDevice *);
-        void deviceRemoved(ISD::GenericDevice *);
+        void newDevice(const QSharedPointer<ISD::GenericDevice> &device);
+        void deviceRemoved(const QSharedPointer<ISD::GenericDevice> &device);
 };

@@ -6,6 +6,7 @@
 
 #include "oal/scope.h"
 #include <QJsonObject>
+
 void OAL::Scope::setScope(const QString &_id, const QString &_model, const QString &_vendor, const QString &_type,
                           double _focalLength, double _aperture)
 {
@@ -15,9 +16,9 @@ void OAL::Scope::setScope(const QString &_id, const QString &_model, const QStri
     m_Type        = _type;
     m_FocalLength = _focalLength;
     m_Aperture    = _aperture;
-    //m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ;
 
-    m_Name = _vendor + ' ' + _model + " (" + _id + ')';
+    m_Name = QString("%1 %2 %3@F/%4").arg(m_Vendor, m_Model, QString::number(m_FocalLength, 'f', 0),
+                                          QString::number(m_FocalLength / m_Aperture, 'f', 1));
 }
 
 QJsonObject OAL::Scope::toJson() const

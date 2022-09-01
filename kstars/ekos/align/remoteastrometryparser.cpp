@@ -27,7 +27,7 @@ RemoteAstrometryParser::RemoteAstrometryParser() : AstrometryParser()
 
 bool RemoteAstrometryParser::init()
 {
-    if (remoteAstrometry == nullptr)
+    if (m_RemoteAstrometry == nullptr)
     {
         align->appendLogText(
             i18n("Cannot set solver to remote. The Ekos equipment profile must include the astrometry Auxiliary driver."));
@@ -53,8 +53,8 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
         return false;
     }
 
-    auto solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-    auto solverBLOB   = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
+    auto solverSwitch = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto solverBLOB   = m_RemoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
 
     if (!solverSwitch || !solverBLOB)
     {
@@ -71,7 +71,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
     {
         IUResetSwitch(solverSwitch);
         enableSW->setState(ISS_ON);
-        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
     }
 
     // #PS: TODO
@@ -92,15 +92,15 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
     solverRunning = true;
 
-    remoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->device, solverBLOB->name, timestamp());
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->device, solverBLOB->name, timestamp());
 
 #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
-    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
 #else
     remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
 #endif
 
-    remoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
 
     align->appendLogText(i18n("Starting remote solver..."));
     solverTimer.start();
@@ -110,7 +110,7 @@ bool RemoteAstrometryParser::startSolver(const QString &filename, const QStringL
 
 bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 {
-    auto solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+    auto solverSettings = m_RemoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
 
     if (!solverSettings)
     {
@@ -137,8 +137,8 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
             it.setText(solverArgs.join(" ").toLatin1().constData());
     }
 
-    remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
-    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(remoteAstrometry->getDeviceName());
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
+    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(m_RemoteAstrometry->getDeviceName());
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
 
@@ -147,7 +147,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 
 void RemoteAstrometryParser::setEnabled(bool enable)
 {
-    auto solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto solverSwitch = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
 
     if (!solverSwitch)
         return;
@@ -162,7 +162,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         enableSW->setState(ISS_ON);
-        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = true;
         qCDebug(KSTARS_EKOS_ALIGN) << "Enabling remote solver...";
     }
@@ -170,7 +170,7 @@ void RemoteAstrometryParser::setEnabled(bool enable)
     {
         solverSwitch->reset();
         disableSW->setState(ISS_ON);
-        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
         solverRunning = false;
         qCDebug(KSTARS_EKOS_ALIGN) << "Disabling remote solver...";
     }
@@ -180,10 +180,10 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
 {
     targetCCD = ccd;
 
-    if (!remoteAstrometry)
+    if (!m_RemoteAstrometry)
         return false;
 
-    auto activeDevices = remoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
+    auto activeDevices = m_RemoteAstrometry->getBaseDevice()->getText("ACTIVE_DEVICES");
 
     if (!activeDevices)
         return false;
@@ -198,7 +198,7 @@ bool RemoteAstrometryParser::setCCD(const QString &ccd)
         return true;
 
     activeCCD->setText(ccd.toLatin1().data());
-    remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+    m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
 
     return true;
 }
@@ -209,7 +209,7 @@ bool RemoteAstrometryParser::stopSolver()
         return true;
 
     // Disable solver
-    auto svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    auto svp = m_RemoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (!svp)
         return false;
 
@@ -218,7 +218,7 @@ bool RemoteAstrometryParser::stopSolver()
     {
         svp->reset();
         disableSW->setState(ISS_ON);
-        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+        m_RemoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
     }
 
     solverRunning = false;
@@ -226,17 +226,17 @@ bool RemoteAstrometryParser::stopSolver()
     return true;
 }
 
-void RemoteAstrometryParser::setAstrometryDevice(ISD::GenericDevice *device)
+void RemoteAstrometryParser::setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    if (device == remoteAstrometry)
+    if (device == m_RemoteAstrometry)
         return;
 
-    remoteAstrometry = device;
+    m_RemoteAstrometry = device;
 
-    remoteAstrometry->disconnect(this);
+    m_RemoteAstrometry->disconnect(this);
 
-    connect(remoteAstrometry, &ISD::GenericDevice::switchUpdated, this, &RemoteAstrometryParser::checkStatus);
-    connect(remoteAstrometry, &ISD::GenericDevice::numberUpdated, this, &RemoteAstrometryParser::checkResults);
+    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::switchUpdated, this, &RemoteAstrometryParser::checkStatus);
+    connect(m_RemoteAstrometry.get(), &ISD::GenericDevice::numberUpdated, this, &RemoteAstrometryParser::checkResults);
 
     if (targetCCD.isEmpty() == false)
         setCCD(targetCCD);

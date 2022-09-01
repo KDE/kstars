@@ -319,6 +319,7 @@ void unmapStarMap(const QVector<int> &sortedStarMap, const QVector<int> &sortedT
 Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
                               QVector<int> *starMap, bool adapt, double minFraction)
 {
+    m_NumReferencesFound = 0;
     *starMap = QVector<int>(stars.size(), -1);
     Edge foundStar;
     foundStar.invalidate();
@@ -345,6 +346,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
         qCDebug(KSTARS_EKOS_GUIDE)
                 << " StarCorrespondence found guideStar at " << bestStarIndex << "found/not"
                 << numFound << numNotFound;
+        m_NumReferencesFound = numFound;
     }
     else if (allowMissingGuideStar && bestStarIndex == -1 &&
              stars.size() >= minFraction * guideStarOffsets.size())
@@ -392,6 +394,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
             qCDebug(KSTARS_EKOS_GUIDE)
                     << "StarCorrespondence found guideStar (invented) at "
                     << bestInvented.x << bestInvented.y << "found/not" << bestNumFound << bestNumNotFound;
+            m_NumReferencesFound = bestNumFound;
             return bestInvented;
         }
         else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not invent guideStar.";

@@ -23,25 +23,25 @@ class SerialPortAssistant : public QDialog, public Ui::SerialPortAssistant
     public:
         explicit SerialPortAssistant(ProfileInfo *profile, QWidget *parent = nullptr);
 
-        void addDevice(ISD::GenericDevice *device);
+        void addDevice(const QSharedPointer<ISD::GenericDevice> &device);
 
 
     private:
         bool loadRules();
         bool removeActiveRule();
         bool addRule(const QJsonObject &rule);
-        void addDevicePage(ISD::GenericDevice *device);
-        void gotoDevicePage(ISD::GenericDevice *device);
+        void addDevicePage(const QSharedPointer<ISD::GenericDevice> &device);
+        void gotoDevicePage(const QSharedPointer<ISD::GenericDevice> &device);
         void resetCurrentPage();
 
         void scanDevices();
         void parseDevices();
         void discoverDevice();
 
-        QList<ISD::GenericDevice *> devices;
+        QList<QSharedPointer<ISD::GenericDevice>> m_Devices;
 
         std::unique_ptr<QStandardItemModel> model;
-        ISD::GenericDevice *m_CurrentDevice { nullptr };
+        QSharedPointer<ISD::GenericDevice> m_CurrentDevice;
         const ProfileInfo *m_Profile;
 
         QNetworkAccessManager manager;

@@ -19,11 +19,11 @@
 #include <QPointer>
 
 class QSqlTableModel;
-class LockDelegate;
+class ComboDelegate;
 class NotEditableDelegate;
-class ExposureDelegate;
-class OffsetDelegate;
-class UseAutoFocusDelegate;
+class DoubleDelegate;
+class IntegerDelegate;
+class ToggleDelegate;
 
 namespace Ekos
 {
@@ -32,6 +32,9 @@ class FilterManager : public QDialog, public Ui::FilterSettings
 {
         Q_OBJECT
     public:
+
+        static FilterManager *Instance();
+        static void release();
 
         typedef enum
         {
@@ -52,7 +55,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             FM_FLAT_FOCUS
         };
 
-        FilterManager();
+
 
         QJsonObject toJSON();
         void setFilterData(const QJsonObject &settings);
@@ -126,7 +129,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Offset Request completed
         void setFocusOffsetComplete();
         // Remove Device
-        void removeDevice(ISD::GenericDevice *device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
         // Refresh Filters after model update
         void reloadFilters();
         // Focus Status
@@ -163,6 +166,9 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void processSwitch(ISwitchVectorProperty *svp);
 
     private:
+
+        FilterManager();
+        static FilterManager *m_Instance;
 
         // Filter Wheel Devices
         ISD::FilterWheel *m_FilterWheel = { nullptr };
@@ -213,11 +219,11 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         int m_FocusAbsPosition { -1 };
 
         // Delegates
-        QPointer<LockDelegate> lockDelegate;
+        QPointer<ComboDelegate> lockDelegate;
         QPointer<NotEditableDelegate> noEditDelegate;
-        QPointer<ExposureDelegate> exposureDelegate;
-        QPointer<OffsetDelegate> offsetDelegate;
-        QPointer<UseAutoFocusDelegate> useAutoFocusDelegate;
+        QPointer<DoubleDelegate> exposureDelegate;
+        QPointer<IntegerDelegate> offsetDelegate;
+        QPointer<ToggleDelegate> useAutoFocusDelegate;
 
         // Policies
         FilterPolicy m_Policy = { ALL_POLICIES };

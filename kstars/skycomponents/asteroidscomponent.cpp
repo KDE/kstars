@@ -93,6 +93,8 @@ void AsteroidsComponent::loadDataFromText()
     try
     {
         KSUtils::JPLParser ast_parser(filepath_txt);
+        auto fieldMap = ast_parser.fieldMap();
+        bool isString = fieldMap.count("epoch_mjd") == 1;
 
         ast_parser.for_each(
             [&](const auto & get)
@@ -108,7 +110,20 @@ void AsteroidsComponent::loadDataFromText()
                     name == i18nc("Asteroid name (optional)", "Asterope"))
                 name += i18n(" (Asteroid)");
 
-            mJD         = get("epoch_mjd").toString().toInt();
+            // JM 2022.08.26: Try to check if the file is in the new format
+            // where epoch_mjd field is a string
+            if (isString)
+            {
+                mJD         = get("epoch_mjd").toString().toInt();
+                period      = get("per_y").toString().toDouble();
+            }
+            // If not fall back to old behavior
+            else
+            {
+                mJD         = get("epoch.mjd").toInt();
+                period      = get("per.y").toDouble();
+            }
+
             q           = get("q").toString().toDouble();
             a           = get("a").toString().toDouble();
             e           = get("e").toString().toDouble();
@@ -124,7 +139,6 @@ void AsteroidsComponent::loadDataFromText()
             dimensions  = get("extent").toString();
             albedo      = get("albedo").toString().toFloat();
             rot_period  = get("rot_per").toString().toFloat();
-            period      = get("per_y").toString().toDouble();
             earth_moid  = get("moid").toString().toDouble();
             orbit_class = get("class").toString();
 

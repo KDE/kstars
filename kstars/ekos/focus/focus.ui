@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>899</width>
-    <height>552</height>
+    <width>826</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="layoutDirection">
@@ -55,36 +55,111 @@
            <number>3</number>
           </property>
           <property name="topMargin">
-           <number>6</number>
+           <number>3</number>
           </property>
           <property name="rightMargin">
            <number>3</number>
           </property>
           <property name="bottomMargin">
-           <number>6</number>
+           <number>3</number>
           </property>
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Train:</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1" colspan="2">
-           <widget class="QComboBox" name="focuserCombo">
+           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,0">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QComboBox" name="opticalTrainCombo">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>32</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="trainB">
+              <property name="minimumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="document-edit">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="focusInB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>0</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Focus In</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="format-align-vertical-bottom">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
           </item>
-          <item row="0" column="5">
+          <item row="0" column="4">
            <widget class="QPushButton" name="focusOutB">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="maximumSize">
+            <property name="minimumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -102,86 +177,16 @@
             </property>
             <property name="iconSize">
              <size>
-              <width>28</width>
-              <height>28</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="stopFocusB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Stop Auto Focus process</string>
-            </property>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_16">
             <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QSpinBox" name="absTicksSpin">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Desired absolute focus position</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>Focuser:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QPushButton" name="startGotoB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Go to an absolute focus position</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="run-build">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>28</width>
-              <height>28</height>
-             </size>
+             <string>Steps:</string>
             </property>
            </widget>
           </item>
@@ -207,22 +212,66 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Steps:</string>
+          <item row="1" column="2">
+           <widget class="QSpinBox" name="absTicksSpin">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Desired absolute focus position</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5">
+          <item row="1" column="3">
+           <widget class="QPushButton" name="startGotoB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Go to an absolute focus position</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="run-build">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>28</width>
+              <height>28</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
            <widget class="QPushButton" name="stopGotoB">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="maximumSize">
+            <property name="minimumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -240,6 +289,13 @@
               <width>28</width>
               <height>28</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Start:</string>
             </property>
            </widget>
           </item>
@@ -268,95 +324,34 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="4">
-           <widget class="QPushButton" name="focusInB">
+          <item row="2" column="2">
+           <widget class="QPushButton" name="stopFocusB">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="minimumSize">
              <size>
-              <width>29</width>
-              <height>29</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
+              <width>0</width>
               <height>32</height>
              </size>
             </property>
             <property name="toolTip">
-             <string>Focus In</string>
-            </property>
-            <property name="statusTip">
-             <string/>
+             <string>Stop Auto Focus process</string>
             </property>
             <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="format-align-vertical-bottom">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>28</width>
-              <height>28</height>
-             </size>
+             <string>Stop</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Start:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="5">
-           <widget class="QPushButton" name="startLoopB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Start framing</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="media-playlist-repeat">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>28</width>
-              <height>28</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
+          <item row="2" column="3">
            <widget class="QPushButton" name="captureB">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="maximumSize">
+            <property name="minimumSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
             <property name="toolTip">
@@ -371,8 +366,37 @@
             </property>
             <property name="iconSize">
              <size>
-              <width>28</width>
-              <height>28</height>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QPushButton" name="startLoopB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Start framing</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="media-playlist-repeat">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
@@ -413,42 +437,11 @@
              <number>1</number>
             </property>
             <item>
-             <widget class="QDoubleSpinBox" name="exposureIN">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>32</height>
-               </size>
-              </property>
-              <property name="decimals">
-               <number>3</number>
-              </property>
-              <property name="minimum">
-               <double>0.001000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>300.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.100000000000000</double>
-              </property>
-              <property name="value">
-               <double>0.500000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="toggleFullScreenB">
               <property name="minimumSize">
                <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
@@ -459,8 +452,8 @@
               </property>
               <property name="iconSize">
                <size>
-                <width>28</width>
-                <height>28</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
              </widget>
@@ -469,14 +462,8 @@
              <widget class="QPushButton" name="showFITSViewerB">
               <property name="minimumSize">
                <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
@@ -487,9 +474,41 @@
               </property>
               <property name="iconSize">
                <size>
-                <width>28</width>
-                <height>28</height>
+                <width>24</width>
+                <height>24</height>
                </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="liveVideoB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Live Video</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="camera-off">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -502,45 +521,6 @@
             </property>
             <property name="text">
              <string>ISO:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="temperatureSourceCombo">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Select focuser temperature source</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="temperatureSourceLabel">
-            <property name="toolTip">
-             <string>Focuser temperature source</string>
-            </property>
-            <property name="text">
-             <string>TS.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="FilterCaptureLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Filter Wheel</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>FW:</string>
             </property>
            </widget>
           </item>
@@ -606,50 +586,27 @@
              <number>1</number>
             </property>
             <item>
-             <widget class="QComboBox" name="CCDCaptureCombo">
+             <widget class="QDoubleSpinBox" name="exposureIN">
               <property name="minimumSize">
                <size>
                 <width>0</width>
                 <height>32</height>
                </size>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="liveVideoB">
-              <property name="enabled">
-               <bool>false</bool>
+              <property name="decimals">
+               <number>3</number>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
+              <property name="minimum">
+               <double>0.001000000000000</double>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
+              <property name="maximum">
+               <double>300.000000000000000</double>
               </property>
-              <property name="toolTip">
-               <string>Live Video</string>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
               </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset theme="camera-off">
-                <normaloff>.</normaloff>.</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>28</width>
-                <height>28</height>
-               </size>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
+              <property name="value">
+               <double>0.500000000000000</double>
               </property>
              </widget>
             </item>
@@ -718,18 +675,6 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
-              </property>
               <property name="toolTip">
                <string>Filter Settings</string>
               </property>
@@ -742,15 +687,15 @@
               </property>
               <property name="iconSize">
                <size>
-                <width>28</width>
-                <height>28</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="0" column="2">
+          <item row="0" column="0">
            <widget class="QLabel" name="label_7">
             <property name="toolTip">
              <string>Exposure time in seconds</string>
@@ -760,38 +705,30 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="FilterDevicesCombo">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="2" column="0">
+           <widget class="QLabel" name="temperatureSourceLabel">
+            <property name="toolTip">
+             <string>Focuser temperature source</string>
             </property>
+            <property name="text">
+             <string>TS.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="temperatureSourceCombo">
             <property name="minimumSize">
              <size>
               <width>0</width>
               <height>32</height>
              </size>
             </property>
-            <item>
-             <property name="text">
-              <string>--</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_6">
             <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>CCD:</string>
+             <string>Select focuser temperature source</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="3" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,1,0,1">
             <property name="spacing">
              <number>2</number>
@@ -1160,11 +1097,11 @@
                <property name="maximum">
                 <double>1.000000000000000</double>
                </property>
-              <property name="value">
-                <number>0.9</number>
-               </property>
                <property name="singleStep">
                 <double>0.010000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -2086,7 +2023,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>focuserCombo</tabstop>
+  <tabstop>opticalTrainCombo</tabstop>
   <tabstop>focusInB</tabstop>
   <tabstop>focusOutB</tabstop>
   <tabstop>absTicksLabel</tabstop>
@@ -2097,15 +2034,11 @@
   <tabstop>stopFocusB</tabstop>
   <tabstop>captureB</tabstop>
   <tabstop>startLoopB</tabstop>
-  <tabstop>CCDCaptureCombo</tabstop>
-  <tabstop>liveVideoB</tabstop>
-  <tabstop>exposureIN</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
   <tabstop>binningCombo</tabstop>
   <tabstop>gainIN</tabstop>
   <tabstop>ISOCombo</tabstop>
-  <tabstop>FilterDevicesCombo</tabstop>
   <tabstop>FilterPosCombo</tabstop>
   <tabstop>filterManagerB</tabstop>
   <tabstop>resetFrameB</tabstop>

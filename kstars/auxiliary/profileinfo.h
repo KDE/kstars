@@ -44,8 +44,6 @@ class ProfileInfo
         QString country;
         int guidertype { 0 };
         int guiderport { 0 };
-        int primaryscope { 0 };
-        int guidescope { 0 };
         int indihub { 0 };
         QString remotedrivers;
         QString guiderhost;

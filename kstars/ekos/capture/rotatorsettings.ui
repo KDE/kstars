@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
-    <height>387</height>
+    <width>368</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,80 +76,31 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the &lt;span style=&quot; font-weight:600;&quot;&gt;desired&lt;/span&gt; target position angle for a sequence job. Click OK then add the sequence job to the sequence queue. When the job is executed, the position angle is first set to this target value prior to capturing the image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
-        <string>Target Position Angle</string>
+        <string>Settings</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>3</number>
+         <widget class="QCheckBox" name="enforceRotationCheck">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set target position angle before sequence capture is started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
-          <item>
-           <widget class="QCheckBox" name="enforceRotationCheck">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set target position angle before capture is started.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>PA</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="targetPASpin">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="minimum">
-             <double>-180.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>180.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>10.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          <property name="text">
+           <string>Add to Job</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <property name="spacing">
-           <number>3</number>
+         <widget class="QCheckBox" name="ReverseDirectionCheck">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
-          <item>
-           <widget class="QCheckBox" name="syncFOVPA">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set FOV indicator Position Angle to match Target Position Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Sync FOV to PA</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="rotateAfterMeridianCheck">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Rotate camera 180 degrees after meridian flip</string>
-            </property>
-            <property name="text">
-             <string>Rotate After Meridian Flip</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          <property name="toolTip">
+           <string>Reverse rotator direction</string>
+          </property>
+          <property name="text">
+           <string>Reverse Direction</string>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer_2">
@@ -191,7 +142,13 @@
        <number>3</number>
       </property>
       <item row="0" column="2">
-       <widget class="QSlider" name="angleSlider">
+       <widget class="QSlider" name="rawAngleSlider">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximum">
          <number>360</number>
         </property>
@@ -204,7 +161,7 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QDoubleSpinBox" name="angleSpin">
+       <widget class="QDoubleSpinBox" name="rawAngleSpin">
         <property name="decimals">
          <number>3</number>
         </property>
@@ -217,14 +174,20 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="angleEdit">
+       <widget class="QLineEdit" name="rawAngleOut">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QPushButton" name="setAngleB">
+       <widget class="QPushButton" name="setRawAngleB">
         <property name="text">
          <string>Set</string>
         </property>
@@ -233,7 +196,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Angle:</string>
+         <string>Raw Angle:</string>
         </property>
        </widget>
       </item>
@@ -265,109 +228,43 @@
        <number>3</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>Current</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="rawAngle">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Raw Rotator Angle</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>x</string>
+         <string>Sky Angle:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QDoubleSpinBox" name="PAMulSpin">
-        <property name="toolTip">
-         <string>Rotator angle multiplier</string>
+       <widget class="QSlider" name="positionAngleSlider">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="minimum">
-         <double>0.010000000000000</double>
+         <number>-180</number>
         </property>
         <property name="maximum">
-         <double>10.000000000000000</double>
+         <number>180</number>
         </property>
-        <property name="value">
-         <double>1.000000000000000</double>
+        <property name="singleStep">
+         <number>10</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" colspan="2">
+       <widget class="QPushButton" name="setPositionAngleB">
+        <property name="text">
+         <string>Set</string>
         </property>
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>-</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QDoubleSpinBox" name="PAOffsetSpin">
-        <property name="toolTip">
-         <string>Rotator angle offset</string>
-        </property>
-        <property name="decimals">
-         <number>3</number>
-        </property>
-        <property name="minimum">
-         <double>-360.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>360.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>10.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>=</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7">
-       <widget class="QLineEdit" name="PAOut">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Position Angle (PA) is defined as degrees E of N. Zero degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points directly toward the celestial pole. 90 degrees indicate frame &lt;span style=&quot; font-weight:600;&quot;&gt;UP&lt;/span&gt; points 90 degrees counter-clockwise with respect to the celestial pole.&lt;/p&gt;&lt;p&gt;PA is calculated from raw rotator angle plus modifiers to match the rotation angle as measured by astrometry. Enter the modifiers manually or solve an image in the Align Module to generate them automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Target</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QDoubleSpinBox" name="PASpin">
+       <widget class="QDoubleSpinBox" name="positionAngleSpin">
         <property name="toolTip">
          <string>Target Position Angle</string>
         </property>
@@ -385,23 +282,16 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3" colspan="2">
-       <widget class="QPushButton" name="setPAB">
-        <property name="text">
-         <string>Set</string>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="positionAngleOut">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="5" colspan="3">
-       <widget class="QCheckBox" name="ReverseDirectionCheck">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string>Reverse rotator direction</string>
-        </property>
-        <property name="text">
-         <string>Reverse Direction</string>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

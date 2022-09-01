@@ -145,6 +145,11 @@ class cgmath : public QObject
         QVector3D selectGuideStar(const QSharedPointer<FITSData> &imageData);
         double getGuideStarSNR();
 
+        const GuideStars &getGuideStars()
+        {
+            return guideStars;
+        }
+
     signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);

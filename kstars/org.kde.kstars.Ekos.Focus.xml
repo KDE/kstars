@@ -1,6 +1,7 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Focus">
+  <property name="opticalTrain" type="s" access="readwrite"/>
   <property name="camera" type="s" access="readwrite"/>
   <property name="filterWheel" type="s" access="readwrite"/>
   <property name="filter" type="s" access="readwrite"/>

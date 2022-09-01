@@ -53,15 +53,15 @@ class KSUserDB
 
         int AddProfile(const QString &name);
 
-        bool DeleteProfile(ProfileInfo *pi);
+        bool DeleteProfile(const QSharedPointer<ProfileInfo> &pi);
 
-        void SaveProfile(ProfileInfo *pi);
+        void SaveProfile(const QSharedPointer<ProfileInfo> &pi);
 
         /**
          * @brief GetAllProfiles Return all profiles in a QList
          * @return QMap with the keys as profile names and values are profile ids.
          */
-        void GetAllProfiles(QList<std::shared_ptr<ProfileInfo>> &profiles);
+        void GetAllProfiles(QList<QSharedPointer<ProfileInfo> > &profiles);
 
         /************************************************************************
          ******************************* Dark Library****************************
@@ -208,15 +208,15 @@ class KSUserDB
          *
          * @return void
          **/
-        void AddScope(const QString &model, const QString &vendor, const QString &driver, const QString &type,
-                      const double &focalLength, const double &aperture);
+        void AddScope(const QString &model, const QString &vendor, const QString &type,
+                      const double &aperture, const double &focalLength);
         /**
          * @brief Replaces the scope with given ID with provided content
          *
          * @return void
          **/
-        void AddScope(const QString &model, const QString &vendor, const QString &driver, const QString &type,
-                      const double &focalLength, const double &aperture, const QString &id);
+        void AddScope(const QString &model, const QString &vendor, const QString &type, const double &aperture,
+                      const double &focalLength, const QString &id);
 #ifndef KSTARS_LITE
         /**
          * @brief updates the scope list with all scopes from database
@@ -227,6 +227,20 @@ class KSUserDB
          **/
         void GetAllScopes(QList<OAL::Scope *> &m_scopeList);
 #endif
+
+        /************************************************************************
+         ******************************* Optical Elements ***********************
+         ************************************************************************/
+        bool getOpticalElementByID(int id, QJsonObject &element);
+        bool getOpticalElementByName(const QString &name, QJsonObject &element);
+        /**
+         * @brief getLastOpticalElement Return last inserted scope or lens
+         * @param element JSON object to fill with scope or lens metadata
+         * @return True if found, false if none found.
+         */
+        bool getLastOpticalElement(QJsonObject &element);
+        QStringList getOpticalElementNames();
+
         /************************************************************************
          ******************************* Eye Piece ******************************
          ************************************************************************/
@@ -279,6 +293,34 @@ class KSUserDB
          **/
         void GetAllLenses(QList<OAL::Lens *> &m_lensList);
 #endif
+
+        /************************************************************************
+         ********************************** DSLR Lens ***************************
+         ************************************************************************/
+
+        /**
+         * @brief Appends the DSLR lens with given details in the database
+         *
+         * @return void
+         **/
+        void AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio);
+        /**
+         * @brief Replaces the scope with given ID with provided content
+         *
+         * @return void
+         **/
+        void AddDSLRLens(const QString &model, const QString &vendor, const double focalLength, const double focalRatio, const QString &id);
+#ifndef KSTARS_LITE
+        /**
+         * @brief updates the dslr list with all DSLR lenses from database
+         * List is cleared and then filled with content.
+         *
+         * @param dslrlens_list Reference to list to be updated
+         * @return void
+         **/
+        void GetAllDSLRLenses(QList<OAL::DSLRLens *> &dslrlens_list);
+#endif
+
         /************************************************************************
          ******************************** Filters *******************************
          ************************************************************************/
@@ -297,7 +339,6 @@ class KSUserDB
          **/
         void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
                        int offset, double exposure, bool useAutoFocus, const QString &lockedFilter, int absFocusPos, const QString &id);
-#ifndef KSTARS_LITE
         /**
          * @brief Populate the reference passed with all filters
          *
@@ -305,7 +346,72 @@ class KSUserDB
          * @return void
          **/
         void GetAllFilters(QList<OAL::Filter *> &m_filterList);
-#endif
+
+        /************************************************************************
+         ******************************** Optical Trains ************************
+         ************************************************************************/
+
+        /**
+         * @brief Add a new optical train to the database
+         * @param oneTrain optical train data         
+         **/
+        void AddOpticalTrain(const QVariantMap &oneTrain);
+
+        /**
+         * @brief Update an existing optical train
+         * @param oneTrain optical train data
+         * @param id ID of train to replace in database
+         **/
+        void UpdateOpticalTrain(const QVariantMap &oneTrain, int id);
+
+        void DeleteOpticalTrain(int id);
+        /**
+         * @brief Populate the reference passed with all optical trains
+         * @param opticalTrains Reference to all trains list
+         **/
+        void GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalTrains);
+
+
+        /************************************************************************
+         ******************************** Profile Settings **********************
+         ************************************************************************/
+
+        /**
+         * @brief Add new profile settings to the database
+         * @param settings JSON settings         
+         **/
+        void AddProfileSettings(uint32_t profile, const QByteArray &settings);
+
+        void UpdateProfileSettings(uint32_t profileID, const QByteArray &settings);
+
+        void DeleteProfileSettings(uint32_t profile);
+        /**
+         * @brief Populate the reference passed with settings for one paritcular profile
+         * @param profile id of profile
+         * @param settings populate settings with parsed profile settings.
+         **/
+        bool GetProfileSettings(uint32_t profile, QVariantMap &settings);
+
+        /************************************************************************
+         ******************************** Train Settings **********************
+         ************************************************************************/
+
+        /**
+         * @brief Add new Train settings to the database
+         * @param settings JSON settings
+         **/
+        void AddOpticalTrainSettings(uint32_t train, const QByteArray &settings);
+
+        void UpdateOpticalTrainSettings(uint32_t train, const QByteArray &settings);
+
+        void DeleteOpticalTrainSettings(uint32_t train);
+        /**
+         * @brief Populate the reference passed with settings for one paritcular Train
+         * @param TrainID id of Train
+         * @param settings populate settings with parsed Train settings.
+         **/
+        bool GetOpticalTrainSettings(uint32_t train, QVariantMap &settings);
+
     private:
         /**
          * @brief This function initializes a new database in the user's directory.
@@ -353,8 +459,8 @@ class KSUserDB
         void readFilters();
         void readFilter();
 
-        void DeleteProfileDrivers(ProfileInfo *pi);
-        void GetProfileDrivers(ProfileInfo *pi);
+        void DeleteProfileDrivers(const QSharedPointer<ProfileInfo> &pi);
+        void GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi);
         //void GetProfileCustomDrivers(ProfileInfo *pi);
 
         /**
@@ -369,5 +475,5 @@ class KSUserDB
         /** XML reader for importing old formats **/
         QXmlStreamReader *reader_ { nullptr };
 
-        static const uint16_t SCHEMA_VERSION = 310;
+        static const uint16_t SCHEMA_VERSION = 311;
 };

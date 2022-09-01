@@ -3,8 +3,9 @@
   <interface name="org.kde.kstars.Ekos.Capture">
     <property name="targetName" type="s" access="readwrite"/>
     <property name="observerName" type="s" access="readwrite"/>
-    <property name="camera" type="s" access="readwrite"/>
-    <property name="filterWheel" type="s" access="readwrite"/>
+    <property name="opticalTrain" type="s" access="readwrite"/>
+    <property name="camera" type="s" access="read"/>
+    <property name="filterWheel" type="s" access="read"/>
     <property name="filter" type="s" access="readwrite"/>
     <property name="coolerControl" type="b" access="readwrite"/>
     <property name="logText" type="as" access="read"/>

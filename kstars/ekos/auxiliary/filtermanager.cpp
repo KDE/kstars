@@ -13,7 +13,7 @@
 #include "Options.h"
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksmessagebox.h"
-#include "ekos/auxiliary/filterdelegate.h"
+#include "ekos/auxiliary/tabledelegate.h"
 
 #include <QTimer>
 #include <QSqlTableModel>
@@ -26,6 +26,22 @@
 
 namespace Ekos
 {
+
+FilterManager *FilterManager::m_Instance = nullptr;
+
+FilterManager *FilterManager::Instance()
+{
+    if (m_Instance == nullptr)
+        m_Instance = new FilterManager();
+
+    return m_Instance;
+}
+
+void FilterManager::release()
+{
+    delete (m_Instance);
+    m_Instance = nullptr;
+}
 
 FilterManager::FilterManager() : QDialog(KStars::Instance())
 {
@@ -55,20 +71,21 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     filterView->setItemDelegateForColumn(4, noEditDelegate);
 
     // Exposure delegate
-    exposureDelegate = new ExposureDelegate(filterView);
+    exposureDelegate = new DoubleDelegate(filterView, 0.001, 3600, 60);
     filterView->setItemDelegateForColumn(5, exposureDelegate);
 
     // Offset delegate
-    offsetDelegate = new OffsetDelegate(filterView);
+    offsetDelegate = new IntegerDelegate(filterView, -10000, 10000, 100);
     filterView->setItemDelegateForColumn(6, offsetDelegate);
 
     // Auto Focus delegate
-    useAutoFocusDelegate = new UseAutoFocusDelegate(filterView);
+    useAutoFocusDelegate = new ToggleDelegate(filterView);
     filterView->setItemDelegateForColumn(7, useAutoFocusDelegate);
 
     // Set Delegates
-    lockDelegate = new LockDelegate(m_currentFilterLabels, filterView);
+    lockDelegate = new ComboDelegate(filterView);
     filterView->setItemDelegateForColumn(8, lockDelegate);
+    lockDelegate->setValues(m_currentFilterLabels);
 
     // Absolute Focus Position
     filterView->setItemDelegateForColumn(9, noEditDelegate);
@@ -146,7 +163,7 @@ void FilterManager::refreshFilterModel()
         }
     }
 
-    lockDelegate->setCurrentFilterList(m_currentFilterLabels);
+    lockDelegate->setValues(m_currentFilterLabels);
 
     filterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
 
@@ -671,7 +688,7 @@ bool FilterManager::setFilterLock(int index, QString name)
     return false;
 }
 
-void FilterManager::removeDevice(ISD::GenericDevice *device)
+void FilterManager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     if (m_FilterWheel && (m_FilterWheel->getDeviceName() == device->getDeviceName()))
     {

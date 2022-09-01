@@ -168,6 +168,7 @@ if (INDI_FOUND)
             ekos/auxiliary/serialportassistant.ui
             ekos/auxiliary/stellarsolverprofileeditor.ui
             ekos/auxiliary/darklibrary.ui
+            ekos/auxiliary/opticaltrains.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -191,8 +192,11 @@ if (INDI_FOUND)
             ekos/auxiliary/darkprocessor.cpp
             ekos/auxiliary/darkview.cpp
             ekos/auxiliary/defectmap.cpp
+            ekos/auxiliary/opticaltrainmanager.cpp
+            ekos/auxiliary/profilesettings.cpp
+            ekos/auxiliary/opticaltrainsettings.cpp
             ekos/auxiliary/filtermanager.cpp
-            ekos/auxiliary/filterdelegate.cpp
+            ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
             ekos/auxiliary/stellarsolverprofileeditor.cpp
             ekos/auxiliary/stellarsolverprofile.cpp
@@ -653,6 +657,7 @@ set(oal_SRCS
     oal/site.cpp
     oal/session.cpp
     oal/scope.cpp
+    oal/dslrlens.cpp
     oal/eyepiece.cpp
     oal/filter.cpp
     oal/observation.cpp

@@ -124,8 +124,6 @@ QJsonObject ProfileInfo::toJson() const
         {"remote_guiding_host", guiderhost},
         {"remote_guiding_port", guiderport},
         {"use_web_manager", INDIWebManagerPort != -1},
-        {"primary_scope", primaryscope},
-        {"guide_scope", guidescope},
         {"mount", mount()},
         {"ccd", ccd()},
         {"guider", guider()},

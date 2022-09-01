@@ -629,7 +629,7 @@ void DriverManager::setClientFailed(const QString &message)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::event(QLatin1String("IndiServerMessage"), message);
+    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::INDI);
 
     clients.removeOne(client);
     client->deleteLater();
@@ -655,7 +655,7 @@ void DriverManager::setClientTerminated(const QString &message)
     GUIManager::Instance()->removeClient(client);
     INDIListener::Instance()->removeClient(client);
 
-    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::EVENT_ALERT);
+    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::INDI, KSNotification::Alert);
 
     clients.removeOne(client);
     client->deleteLater();
@@ -785,8 +785,7 @@ void DriverManager::setClientStarted()
     updateMenuActions();
 
     KSNotification::event(QLatin1String("ConnectionSuccessful"),
-                          i18n("Connected to INDI server"),
-                          KSNotification::EVENT_INFO);
+                          i18n("Connected to INDI server"));
 
     emit clientStarted(clientManager->getHost(), clientManager->getPort());
 }
@@ -966,14 +965,6 @@ bool DriverManager::readXMLDrivers()
     QDir indiDir;
     QString driverName;
 
-    // This is the XML file shipped with KStars that contains all supported INDI drivers.
-    /*QString indiDriversXML = KSPaths::locate(QStandardPaths::AppLocalDataLocation, "indidrivers.xml");
-    if (indiDriversXML.isEmpty() == false)
-        processXMLDriver(indiDriversXML);
-    */
-
-    processXMLDriver(QLatin1String(":/indidrivers.xml"));
-
     QString driversDir = Options::indiDriversDir();
 #ifdef Q_OS_OSX
     if (Options::indiDriversAreInternal())
@@ -997,25 +988,14 @@ bool DriverManager::readXMLDrivers()
 
     for (auto &fileInfo : list)
     {
-        // libindi 0.7.1: Skip skeleton files
         if (fileInfo.fileName().endsWith(QLatin1String("_sk.xml")))
             continue;
 
-        //        if (fileInfo.fileName() == "drivers.xml")
-        //        {
-        //            // Let first attempt to load the local version of drivers.xml
-        //            driverName = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("drivers.xml");
-
-        //            // If found, we continue, otherwise, we load the system file
-        //            if (driverName.isEmpty() == false && QFile(driverName).exists())
-        //            {
-        //                processXMLDriver(driverName);
-        //                continue;
-        //            }
-        //        }
-
         processXMLDriver(fileInfo.absoluteFilePath());
     }
+
+    // JM 2022.08.24: Process local source last as INDI sources should have higher priority than KStars own database.
+    processXMLDriver(QLatin1String(":/indidrivers.xml"));
 
     return true;
 }

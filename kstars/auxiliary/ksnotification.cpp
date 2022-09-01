@@ -77,7 +77,7 @@ void transient(const QString &message, const QString &title)
 #endif
 }
 
-void event(const QLatin1String &name, const QString &message, EventType type)
+void event(const QLatin1String &name, const QString &message, EventSource source, EventType type)
 {
     Q_UNUSED(name)
     Q_UNUSED(message)
@@ -87,7 +87,7 @@ void event(const QLatin1String &name, const QString &message, EventType type)
 
 #ifdef HAVE_INDI
 #ifdef HAVE_CFITSIO
-    Ekos::Manager::Instance()->announceEvent(message, type);
+    Ekos::Manager::Instance()->announceEvent(message, source, type);
 #endif
 #endif
 

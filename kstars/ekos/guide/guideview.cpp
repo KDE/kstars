@@ -7,6 +7,7 @@
 */
 
 #include "guideview.h"
+#include "fitsviewer/fitsdata.h"
 
 #include <QPainter>
 #include <math.h>
@@ -67,7 +68,12 @@ void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
     if (!neighbor.isGuideStar)
     {
         const QPointF center(neighbor.targetX * scale, neighbor.targetY * scale);
-        const double r = 10.0 * scale;
+
+        double rawRadius = 10;
+        if (imageData() != nullptr)
+            rawRadius = std::min(20.0, std::max(3.0, imageData()->width() / 150.0));
+
+        const double r = rawRadius * scale;
         painter->drawEllipse(center, r, r);
 
         const QRect &box = getTrackingBox();

@@ -302,8 +302,7 @@ QList<Edge*> GuideAlgorithms::detectStars(const QSharedPointer<FITSData> &imageD
 
     // run the PSF convolution
     {
-        float *tmp = new float[size];
-        memset(tmp, 0, size * sizeof(float));
+        float *tmp = new float[size]{};
         psf_conv(tmp, conv, subW, subH);
         delete [] conv;
         // Swap

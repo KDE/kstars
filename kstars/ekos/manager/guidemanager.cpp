@@ -159,8 +159,10 @@ void GuideManager::updateGuideStarPixmap(QPixmap &starPix)
 
 void GuideManager::updateSigmas(double ra, double de)
 {
-    errRA->setText(QString::number(ra, 'f', 2) + "\"");
-    errDEC->setText(QString::number(de, 'f', 2) + "\"");
+    errRA->setText(QString::number(ra, 'f', 2) + "\"  ");
+    errDEC->setText(QString::number(de, 'f', 2) + "\"  ");
+    const double total = std::hypot(ra, de);
+    errRMS->setText(QString::number(total, 'f', 2) + "\"  ");
 }
 
 void GuideManager::updateGuideDetailView()

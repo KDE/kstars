@@ -49,7 +49,7 @@ class Camera : public ConcreteDevice
         Q_OBJECT
 
     public:
-        explicit Camera(GenericDevice *parent);
+        explicit Camera(ISD::GenericDevice *parent);
         virtual ~Camera() override;
 
         typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
@@ -102,6 +102,8 @@ class Camera : public ConcreteDevice
         // Temperature Regulation
         bool getTemperatureRegulation(double &ramp, double &threshold);
         bool setTemperatureRegulation(double ramp, double threshold);
+
+        bool setScopeInfo(double focalLength, double aperture);
 
         // Utility functions
         void setISOMode(bool enable)

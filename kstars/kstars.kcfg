@@ -1642,6 +1642,9 @@
          <label>Position angle offset</label>
          <default>0</default>
       </entry>
+      <entry name="PAPierSide" type="UInt">
+         <label>Position angle calibration pier side</label>
+      </entry>
       <entry name="GuideDeviation" type="Double">
          <label>Default maximum permittable guide deviation</label>
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>

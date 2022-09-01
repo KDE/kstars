@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>790</width>
-    <height>761</height>
+    <width>700</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -71,7 +71,7 @@
       <enum>Qt::Vertical</enum>
      </property>
      <property name="childrenCollapsible">
-       <bool>false</bool>
+      <bool>false</bool>
      </property>
      <widget class="QTabWidget" name="toolsWidget">
       <property name="sizePolicy">

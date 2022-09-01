@@ -18,7 +18,6 @@
 #include "indi/indidome.h"
 #include "indi/indilightbox.h"
 #include "indi/indimount.h"
-#include "ekos/auxiliary/filtermanager.h"
 #include "ekos/scheduler/schedulerjob.h"
 #include "ekos/auxiliary/darkprocessor.h"
 #include "dslrinfodialog.h"
@@ -87,8 +86,9 @@ class Capture : public QWidget, public Ui::Capture
         Q_PROPERTY(Ekos::CaptureState status READ status NOTIFY newStatus)
         Q_PROPERTY(QString targetName MEMBER m_TargetName)
         Q_PROPERTY(QString observerName MEMBER m_ObserverName)
-        Q_PROPERTY(QString camera READ camera WRITE setCamera)
-        Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
+        Q_PROPERTY(QString camera READ camera)
+        Q_PROPERTY(QString filterWheel READ filterWheel)
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(bool coolerControl READ hasCoolerControl WRITE setCoolerControl)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
@@ -117,14 +117,12 @@ class Capture : public QWidget, public Ui::Capture
              * select the CCD device from the available CCD drivers.
              * @param device The CCD device name
              */
-        Q_SCRIPTABLE bool setCamera(const QString &device);
         Q_SCRIPTABLE QString camera();
 
         /** DBUS interface function.
              * select the filter device from the available filter drivers. The filter device can be the same as the CCD driver if the filter functionality was embedded within the driver.
              * @param device The filter device name
              */
-        Q_SCRIPTABLE bool setFilterWheel(const QString &device);
         Q_SCRIPTABLE QString filterWheel();
 
         /** DBUS interface function.
@@ -294,58 +292,70 @@ class Capture : public QWidget, public Ui::Capture
          * @param device pointer to camera device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addCamera(ISD::Camera *device);
+        bool setCamera(ISD::Camera *device);
 
         /**
          * @brief Add new Filter Wheel
          * @param device pointer to filter wheel device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addFilterWheel(ISD::FilterWheel *device);
+        bool setFilterWheel(ISD::FilterWheel *device);
 
         /**
          * @brief Add new Dome
          * @param device pointer to Dome device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addDome(ISD::Dome *device);
+        bool setDome(ISD::Dome *device);
 
         /**
          * @brief Add new Dust Cap
          * @param device pointer to Dust Cap device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addDustCap(ISD::DustCap *device);
+        bool setDustCap(ISD::DustCap *device);
 
         /**
          * @brief Add new Light Box
          * @param device pointer to Light Box device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addLightBox(ISD::LightBox *device);
+        bool setLightBox(ISD::LightBox *device);
 
         /**
          * @brief Add new Mount
          * @param device pointer to Mount device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addMount(ISD::Mount *device);
+        bool setMount(ISD::Mount *device);
 
         /**
          * @brief Add new Rotator
          * @param device pointer to rotator device.
          * @return True if added successfully, false if duplicate or failed to add.
         */
-        bool addRotator(ISD::Rotator *device);
+        bool setRotator(ISD::Rotator *device);
 
-        void removeDevice(ISD::GenericDevice *device);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
         void addGuideHead(ISD::Camera *device);
         void syncFrameType(const QString &name);
         void setRotatorReversed(bool toggled);
-        void setFilterManager(const QSharedPointer<FilterManager> &manager);
+        void setupFilterManager();
         void syncTelescopeInfo();
         void syncCameraInfo();
         void syncFilterInfo();
+
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
 
         // Restart driver
         void reconnectDriver(const QString &camera, const QString &filterWheel);
@@ -596,13 +606,13 @@ class Capture : public QWidget, public Ui::Capture
              * @brief checkCamera Refreshes the CCD information in the capture module.
              * @param CCDNum The CCD index in the CCD combo box to select as the active CCD.
              */
-        void checkCamera(int CCDNum = -1);
+        void checkCamera();
 
         /**
              * @brief checkFilter Refreshes the filter wheel information in the capture module.
              * @param filterNum The filter wheel index in the filter device combo box to set as the active filter.
              */
-        void checkFilter(int filterNum = -1);
+        void checkFilter();
 
         /**
              * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
@@ -1050,14 +1060,6 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
         QSharedPointer<SequenceJobState::CaptureState> m_captureState;
 
-        QList<ISD::Camera *> m_Cameras;
-        QList<ISD::Mount *> m_Mounts;
-        QList<ISD::Rotator *> m_Rotators;
-        QList<ISD::FilterWheel *> m_FilterWheels;
-        QList<ISD::Dome *> m_Domes;
-        QList<ISD::DustCap *> m_DustCaps;
-        QList<ISD::LightBox *> m_LightBoxes;
-
         QList<SequenceJob *> jobs;
 
         QPointer<QDBusInterface> mountInterface;
@@ -1120,7 +1122,7 @@ class Capture : public QWidget, public Ui::Capture
         bool preMountPark { false };
         bool preDomePark { false };
         FlatFieldDuration flatFieldDuration { DURATION_MANUAL };
-        FlatFieldSource flatFieldSource { SOURCE_MANUAL };        
+        FlatFieldSource flatFieldSource { SOURCE_MANUAL };
         bool lightBoxLightEnabled { false };
         QMap<ScriptTypes, QString> m_Scripts;
 
@@ -1144,12 +1146,27 @@ class Capture : public QWidget, public Ui::Capture
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;
 
+        /// CCD device needed for focus operation
+        ISD::Camera *m_Camera { nullptr };
+        /// Optional device filter
+        ISD::FilterWheel *m_FilterWheel { nullptr };
+        /// Dust Cap
+        ISD::DustCap *m_DustCap { nullptr };
+        /// LightBox
+        ISD::LightBox *m_LightBox { nullptr };
+        /// Rotator
+        ISD::Rotator *m_Rotator { nullptr };
+        /// Dome
+        ISD::Dome *m_Dome { nullptr };
+        /// Mount
+        ISD::Mount *m_Mount { nullptr };
+
         // Post capture script
         QProcess m_CaptureScript;
         uint8_t m_CaptureScriptType {0};
 
         // Rotator Settings
-        std::unique_ptr<RotatorSettings> rotatorSettings;
+        std::unique_ptr<RotatorSettings> m_RotatorControlPanel;
 
         // How many images to capture before dithering operation is executed?
         uint ditherCounter { 0 };

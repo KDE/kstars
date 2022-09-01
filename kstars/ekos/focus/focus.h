@@ -9,7 +9,6 @@
 #include "ui_focus.h"
 #include "focusprofileplot.h"
 #include "ekos/ekos.h"
-#include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/darkprocessor.h"
 #include "ekos/mount/mount.h"
@@ -42,9 +41,10 @@ class Focus : public QWidget, public Ui::Focus
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
         Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
-        Q_PROPERTY(QString camera READ camera WRITE setCamera)
-        Q_PROPERTY(QString focuser READ focuser WRITE setFocuser)
-        Q_PROPERTY(QString filterWheel READ filterWheel WRITE setFilterWheel)
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
+        Q_PROPERTY(QString camera READ camera)
+        Q_PROPERTY(QString focuser READ focuser)
+        Q_PROPERTY(QString filterWheel READ filterWheel)
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(double HFR READ getHFR NOTIFY newHFR)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
@@ -69,7 +69,6 @@ class Focus : public QWidget, public Ui::Focus
              * @param device The CCD device name
              * @return Returns true if CCD device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setCamera(const QString &device);
         Q_SCRIPTABLE QString camera();
 
         /** DBUS interface function.
@@ -77,7 +76,6 @@ class Focus : public QWidget, public Ui::Focus
              * @param device The focuser device name
              * @return Returns true if focuser device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setFocuser(const QString &device);
         Q_SCRIPTABLE QString focuser();
 
         /** DBUS interface function.
@@ -85,7 +83,6 @@ class Focus : public QWidget, public Ui::Focus
              * @param device The filter device name
              * @return Returns true if filter device is found and set, false otherwise.
              */
-        Q_SCRIPTABLE bool setFilterWheel(const QString &device);
         Q_SCRIPTABLE QString filterWheel();
 
         /** DBUS interface function.
@@ -178,21 +175,21 @@ class Focus : public QWidget, public Ui::Focus
              * @param newCCD pointer to CCD device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addCamera(ISD::Camera *device);
+        bool setCamera(ISD::Camera *device);
 
         /**
              * @brief addFocuser Add focuser to the list of available focusers.
              * @param newFocuser pointer to focuser device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addFocuser(ISD::Focuser *device);
+        bool setFocuser(ISD::Focuser *device);
 
         /**
              * @brief addFilter Add filter to the list of available filters.
              * @param newFilter pointer to filter device.
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addFilterWheel(ISD::FilterWheel *device);
+        bool setFilterWheel(ISD::FilterWheel *device);
 
 
         /**
@@ -200,15 +197,15 @@ class Focus : public QWidget, public Ui::Focus
              * @param newSource Device with temperature reporting capability
              * @return True if added successfully, false if duplicate or failed to add.
              */
-        bool addTemperatureSource(ISD::GenericDevice *device);
+        bool addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &device);
 
         /**
          * @brief removeDevice Remove device from Focus module
          * @param deviceRemoved pointer to device
          */
-        void removeDevice(ISD::GenericDevice *deviceRemoved);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved);
 
-        void setFilterManager(const QSharedPointer<FilterManager> &manager);
+        void setupFilterManager();
 
         void clearLog();
         QStringList logText()
@@ -302,7 +299,7 @@ class Focus : public QWidget, public Ui::Focus
              * @param CCDNum By default, we check the already selected CCD in the dropdown menu. If CCDNum is specified, the check is made against this specific CCD in the dropdown menu.
              *  CCDNum is the index of the CCD in the dropdown menu.
              */
-        void checkCamera(int CCDNum = -1);
+        void checkCamera();
 
         /**
              * @brief syncCameraInfo Read current CCD information and update settings accordingly.
@@ -319,14 +316,14 @@ class Focus : public QWidget, public Ui::Focus
              * @param FocuserNum By default, we check the already selected focuser in the dropdown menu. If FocuserNum is specified, the check is made against this specific focuser in the dropdown menu.
              *  FocuserNum is the index of the focuser in the dropdown menu.
              */
-        void checkFocuser(int FocuserNum = -1);
+        void checkFocuser();
 
         /**
              * @brief Check Filter and make sure information is updated accordingly.
              * @param filterNum By default, we check the already selected filter in the dropdown menu. If filterNum is specified, the check is made against this specific filter in the dropdown menu.
              *  filterNum is the index of the filter in the dropdown menu.
              */
-        void checkFilter(int filterNum = -1);
+        void checkFilter();
 
         /**
              * @brief Check temperature source and make sure information is updated accordingly.
@@ -661,9 +658,20 @@ class Focus : public QWidget, public Ui::Focus
         void settle(const FocusState completionState, const bool autoFocusUsed);
 
         void setLastFocusTemperature();
-        bool findTemperatureElement(ISD::GenericDevice *device);
+        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
 
         bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+
+        void setupOpticalTrainManager();
+        void refreshOpticalTrain();
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
 
         /**
          * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification
@@ -687,14 +695,8 @@ class Focus : public QWidget, public Ui::Focus
         bool filterPositionPending { false };
         bool fallbackFilterPending { false };
 
-        /// List of Focusers
-        QList<ISD::Focuser *> m_Focusers;
-        /// List of CCDs
-        QList<ISD::Camera *> m_Cameras;
-        /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel
-        QList<ISD::FilterWheel *> m_FilterWheels;
         /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel or ISD::Weather
-        QList<ISD::GenericDevice *> m_TemperatureSources;
+        QList<QSharedPointer<ISD::GenericDevice>> m_TemperatureSources;
 
         /// As the name implies
         FocusDirection m_LastFocusDirection { FOCUS_NONE };
@@ -873,9 +875,6 @@ class Focus : public QWidget, public Ui::Focus
 
         // Guide Suspend
         bool m_GuidingSuspended { false };
-
-        // Filter Manager
-        QSharedPointer<FilterManager> m_FilterManager;
 
         // Data
         QSharedPointer<FITSData> m_ImageData;

@@ -5,21 +5,18 @@
 */
 
 #include "darklibrary.h"
-#include "auxiliary/ksmessagebox.h"
-#include "auxiliary/ksnotification.h"
-
 #include "Options.h"
 
 #include "ekos/manager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/profilesettings.h"
 #include "kstars.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
 #include "fitsviewer/fitsdata.h"
 #include "fitsviewer/fitsview.h"
-
-#include "ekos_debug.h"
 
 #include <QDesktopServices>
 #include <QSqlRecord>
@@ -73,7 +70,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
             this, [this]()
 #endif
     {
-        const QString device = m_CurrentCamera->getDeviceName();
+        const QString device = m_Camera->getDeviceName();
         if (preferDarksRadio->isChecked())
         {
             m_DefectCameras.removeOne(device);
@@ -101,12 +98,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     connect(clearExpiredB, &QPushButton::clicked, this, &DarkLibrary::clearExpired);
     connect(refreshB, &QPushButton::clicked, this, &DarkLibrary::reloadDarksFromDatabase);
 
-    connect(cameraS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]()
-    {
-        checkCamera();
-        reloadDarksFromDatabase();
-    });
-
     connect(&m_DarkFrameFutureWatcher, &QFutureWatcher<bool>::finished, this, [this]()
     {
         // If loading is successful, then set it in current dark view
@@ -123,7 +114,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
 
     connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index)
     {
-        DarkLibrary::loadCurrentMasterDark(cameraS->currentText(), index);
+        if (m_Camera)
+            DarkLibrary::loadCurrentMasterDark(m_Camera->getDeviceName(), index);
     });
 
 
@@ -226,6 +218,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_RememberFITSViewer = Options::useFITSViewer();
     m_RememberSummaryView = Options::useSummaryPreview();
     initView();
+
+    setupOpticalTrainManager();
 }
 
 DarkLibrary::~DarkLibrary()
@@ -522,7 +516,7 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
     {
         QJsonObject metadata
         {
-            {"camera", m_CurrentCamera->getDeviceName()},
+            {"camera", m_Camera->getDeviceName()},
             {"chip", m_TargetChip->getType()},
             {"binx", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x()},
             {"biny", job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y()},
@@ -531,11 +525,11 @@ void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSDat
 
         // Record temperature
         double value = 0;
-        bool success = m_CurrentCamera->getTemperature(&value);
+        bool success = m_Camera->getTemperature(&value);
         if (success)
             metadata["temperature"] = value;
 
-        success = m_CurrentCamera->hasGain() && m_CurrentCamera->getGain(&value);
+        success = m_Camera->hasGain() && m_Camera->getGain(&value);
         if (success)
             metadata["gain"] = value;
 
@@ -626,7 +620,7 @@ void DarkLibrary::setCompleted()
         m_CaptureModule->setFileSettings(m_FileSettings);
     }
 
-    m_CurrentCamera->disconnect(this);
+    m_Camera->disconnect(this);
     m_CaptureModule->disconnect(this);
 }
 
@@ -647,7 +641,7 @@ void DarkLibrary::clearExpired()
     darkframe.setEditStrategy(QSqlTableModel::OnManualSubmit);
     darkframe.setTable("darkframe");
     // Select all those that already expired.
-    darkframe.setFilter("ccd LIKE \'" + m_CurrentCamera->getDeviceName() + "\' AND timestamp < \'" + expiredDate.toString(
+    darkframe.setFilter("ccd LIKE \'" + m_Camera->getDeviceName() + "\' AND timestamp < \'" + expiredDate.toString(
                             Qt::ISODate) + "\'");
 
     darkframe.select();
@@ -703,7 +697,7 @@ void DarkLibrary::clearAll()
     QSqlTableModel darkframe(nullptr, userdb);
     darkFramesModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
     darkframe.setTable("darkframe");
-    darkframe.setFilter("ccd LIKE \'" + m_CurrentCamera->getDeviceName() + "\'");
+    darkframe.setFilter("ccd LIKE \'" + m_Camera->getDeviceName() + "\'");
     darkFramesModel->select();
 
     // Now remove all the expired files from disk
@@ -820,7 +814,7 @@ void DarkLibrary::reloadDarksFromDatabase()
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     userdb.open();
 
-    const QString camera = m_CurrentCamera->getDeviceName();
+    const QString camera = m_Camera->getDeviceName();
 
     delete (darkFramesModel);
     delete (sortFilter);
@@ -977,140 +971,143 @@ void DarkLibrary::loadIndexInView(int row)
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::addCamera(ISD::Camera * camera)
+bool DarkLibrary::setCamera(ISD::Camera * device)
 {
-    m_Cameras.append(camera);
-    cameraS->addItem(camera->getDeviceName());
+    if (m_Camera == device)
+        return false;
 
-    checkCamera();
+    if (m_Camera)
+        m_Camera->disconnect(this);
 
-    reloadDarksFromDatabase();
-}
+    m_Camera = device;
 
-///////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::removeDevice(ISD::GenericDevice * device)
-{
-    for (auto &oneCamera : m_Cameras)
+    if (m_Camera)
     {
-        if (oneCamera->getDeviceName() == device->getDeviceName())
-        {
-            m_Cameras.removeOne(oneCamera);
-            cameraS->removeItem(cameraS->findText(oneCamera->getDeviceName()));
-        }
+        darkTabsWidget->setEnabled(true);
+        checkCamera();
+        reloadDarksFromDatabase();
+        return true;
+    }
+    else
+    {
+        darkTabsWidget->setEnabled(false);
+        return false;
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::checkCamera(int ccdNum)
+void DarkLibrary::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    if (ccdNum == -1)
+    if (m_Camera && m_Camera->getDeviceName() == device->getDeviceName())
     {
-        ccdNum = cameraS->currentIndex();
+        m_Camera->disconnect(this);
+        m_Camera = nullptr;
+    }
+}
 
-        if (ccdNum == -1)
-            return;
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::checkCamera()
+{
+    if (!m_Camera)
+        return;
+
+    auto device = m_Camera->getDeviceName();
+    if (m_DarkCameras.contains(device))
+        preferDarksRadio->setChecked(true);
+    else if (m_DefectCameras.contains(device))
+        preferDefectsRadio->setChecked(true);
+
+    m_TargetChip = nullptr;
+    // FIXME TODO
+    // Need to figure guide head
+    if (device.contains("Guider"))
+    {
+        m_UseGuideHead = true;
+        m_TargetChip   = m_Camera->getChip(ISD::CameraChip::GUIDE_CCD);
     }
 
-    if (ccdNum < m_Cameras.count())
+    if (m_TargetChip == nullptr)
     {
-        // Check whether main camera or guide head only
-        m_CurrentCamera = m_Cameras.at(ccdNum);
-
-        const QString device = m_CurrentCamera->getDeviceName();
-        if (m_DarkCameras.contains(device))
-            preferDarksRadio->setChecked(true);
-        else if (m_DefectCameras.contains(device))
-            preferDefectsRadio->setChecked(true);
-
-        m_TargetChip = nullptr;
-        if (cameraS->itemText(ccdNum).right(6) == QString("Guider"))
-        {
-            m_UseGuideHead = true;
-            m_TargetChip   = m_CurrentCamera->getChip(ISD::CameraChip::GUIDE_CCD);
-        }
-
-        if (m_TargetChip == nullptr)
-        {
-            m_UseGuideHead = false;
-            m_TargetChip   = m_CurrentCamera->getChip(ISD::CameraChip::PRIMARY_CCD);
-        }
-
-        // Make sure we have a valid chip and valid base device.
-        // Make sure we are not in capture process.
-        if (!m_TargetChip || !m_TargetChip->getCCD() || m_TargetChip->isCapturing())
-            return;
-
-        if (m_CurrentCamera->hasCoolerControl())
-        {
-            temperatureLabel->setEnabled(true);
-            temperatureStepLabel->setEnabled(true);
-            temperatureToLabel->setEnabled(true);
-            temperatureStepSpin->setEnabled(true);
-            minTemperatureSpin->setEnabled(true);
-            maxTemperatureSpin->setEnabled(true);
-
-        }
-        else
-        {
-            temperatureLabel->setEnabled(false);
-            temperatureStepLabel->setEnabled(false);
-            temperatureToLabel->setEnabled(false);
-            temperatureStepSpin->setEnabled(false);
-            minTemperatureSpin->setEnabled(false);
-            maxTemperatureSpin->setEnabled(false);
-        }
-
-        QStringList isoList = m_TargetChip->getISOList();
-        captureISOS->blockSignals(true);
-        captureISOS->clear();
-
-        // No ISO range available
-        if (isoList.isEmpty())
-        {
-            captureISOS->setEnabled(false);
-        }
-        else
-        {
-            captureISOS->setEnabled(true);
-            captureISOS->addItems(isoList);
-            captureISOS->setCurrentIndex(m_TargetChip->getISOIndex());
-        }
-        captureISOS->blockSignals(false);
-
-        // Gain Check
-        if (m_CurrentCamera->hasGain())
-        {
-            double min, max, step, value, targetCustomGain;
-            m_CurrentCamera->getGainMinMaxStep(&min, &max, &step);
-
-            // Allow the possibility of no gain value at all.
-            GainSpinSpecialValue = min - step;
-            captureGainN->setRange(GainSpinSpecialValue, max);
-            captureGainN->setSpecialValueText(i18n("--"));
-            captureGainN->setEnabled(true);
-            captureGainN->setSingleStep(step);
-            m_CurrentCamera->getGain(&value);
-
-            targetCustomGain = getGain();
-
-            // Set the custom gain if we have one
-            // otherwise it will not have an effect.
-            if (targetCustomGain > 0)
-                captureGainN->setValue(targetCustomGain);
-            else
-                captureGainN->setValue(GainSpinSpecialValue);
-
-            captureGainN->setReadOnly(m_CurrentCamera->getGainPermission() == IP_RO);
-        }
-        else
-            captureGainN->setEnabled(false);
-
-        countDarkTotalTime();
+        m_UseGuideHead = false;
+        m_TargetChip   = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     }
+
+    // Make sure we have a valid chip and valid base device.
+    // Make sure we are not in capture process.
+    if (!m_TargetChip || !m_TargetChip->getCCD() || m_TargetChip->isCapturing())
+        return;
+
+    if (m_Camera->hasCoolerControl())
+    {
+        temperatureLabel->setEnabled(true);
+        temperatureStepLabel->setEnabled(true);
+        temperatureToLabel->setEnabled(true);
+        temperatureStepSpin->setEnabled(true);
+        minTemperatureSpin->setEnabled(true);
+        maxTemperatureSpin->setEnabled(true);
+
+    }
+    else
+    {
+        temperatureLabel->setEnabled(false);
+        temperatureStepLabel->setEnabled(false);
+        temperatureToLabel->setEnabled(false);
+        temperatureStepSpin->setEnabled(false);
+        minTemperatureSpin->setEnabled(false);
+        maxTemperatureSpin->setEnabled(false);
+    }
+
+    QStringList isoList = m_TargetChip->getISOList();
+    captureISOS->blockSignals(true);
+    captureISOS->clear();
+
+    // No ISO range available
+    if (isoList.isEmpty())
+    {
+        captureISOS->setEnabled(false);
+    }
+    else
+    {
+        captureISOS->setEnabled(true);
+        captureISOS->addItems(isoList);
+        captureISOS->setCurrentIndex(m_TargetChip->getISOIndex());
+    }
+    captureISOS->blockSignals(false);
+
+    // Gain Check
+    if (m_Camera->hasGain())
+    {
+        double min, max, step, value, targetCustomGain;
+        m_Camera->getGainMinMaxStep(&min, &max, &step);
+
+        // Allow the possibility of no gain value at all.
+        GainSpinSpecialValue = min - step;
+        captureGainN->setRange(GainSpinSpecialValue, max);
+        captureGainN->setSpecialValueText(i18n("--"));
+        captureGainN->setEnabled(true);
+        captureGainN->setSingleStep(step);
+        m_Camera->getGain(&value);
+
+        targetCustomGain = getGain();
+
+        // Set the custom gain if we have one
+        // otherwise it will not have an effect.
+        if (targetCustomGain > 0)
+            captureGainN->setValue(targetCustomGain);
+        else
+            captureGainN->setValue(GainSpinSpecialValue);
+
+        captureGainN->setReadOnly(m_Camera->getGainPermission() == IP_RO);
+    }
+    else
+        captureGainN->setEnabled(false);
+
+    countDarkTotalTime();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -1121,7 +1118,7 @@ void DarkLibrary::countDarkTotalTime()
 
     //double exposureCount = (maxExposureSpin->value() - minExposureSpin->value()) / exposureStepSin->value();
     double temperatureCount = 1;
-    if (m_CurrentCamera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
+    if (m_Camera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
         temperatureCount = (std::abs((maxTemperatureSpin->value() - minTemperatureSpin->value())) / temperatureStepSpin->value()) +
                            1;
     int binnings = 0;
@@ -1163,7 +1160,7 @@ void DarkLibrary::generateDarkJobs()
     }
 
     QList<double> temperatures;
-    if (m_CurrentCamera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
+    if (m_Camera->hasCoolerControl() && std::fabs(maxTemperatureSpin->value() - minTemperatureSpin->value()) >= 0)
     {
         for (double oneTemperature = minTemperatureSpin->value(); oneTemperature <= maxTemperatureSpin->value();
                 oneTemperature += temperatureStepSpin->value())
@@ -1201,17 +1198,17 @@ void DarkLibrary::generateDarkJobs()
 
 
     int sequence = 0;
-    for (const auto oneTemperature : qAsConst(temperatures))
+    for (auto &oneTemperature : temperatures)
     {
-        for (const auto &oneExposure : qAsConst(exposures))
+        for (auto &oneExposure : exposures)
         {
-            for (const auto &oneBin : qAsConst(bins))
+            for (auto &oneBin : bins)
             {
                 sequence++;
 
                 QJsonObject settings;
 
-                settings["camera"] = cameraS->currentText();
+                settings["optical_train"] = opticalTrainCombo->currentText();
                 settings["exp"] = oneExposure;
                 settings["bin"] = oneBin;
                 settings["frameType"] = FRAME_DARK;
@@ -1245,7 +1242,7 @@ void DarkLibrary::execute()
     darkProgress->setTextVisible(true);
     connect(m_CaptureModule, &Capture::newImage, this, &DarkLibrary::processNewImage, Qt::UniqueConnection);
     connect(m_CaptureModule, &Capture::newStatus, this, &DarkLibrary::setCaptureState, Qt::UniqueConnection);
-    connect(m_CurrentCamera, &ISD::Camera::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
+    connect(m_Camera, &ISD::Camera::BLOBUpdated, this, &DarkLibrary::processNewBLOB, Qt::UniqueConnection);
 
     Options::setUseFITSViewer(false);
     Options::setUseSummaryPreview(false);
@@ -1479,7 +1476,7 @@ void DarkLibrary::saveDefectMap()
         newFile = true;
     }
 
-    if (m_CurrentDefectMap->save(filename, m_CurrentCamera->getDeviceName()))
+    if (m_CurrentDefectMap->save(filename, m_Camera->getDeviceName()))
     {
         m_FileLabel->setText(i18n("Defect map saved to %1", filename));
 
@@ -1516,7 +1513,7 @@ void DarkLibrary::start()
 
 void DarkLibrary::setDarkSettings(const QJsonObject &settings)
 {
-    const auto camera = settings["camera"].toString();
+    const auto opticalTrain = settings["optical_train"].toString();
     const auto minExposure = settings["minExposure"].toDouble(minExposureSpin->value());
     const auto maxExposure = settings["maxExposure"].toDouble(maxExposureSpin->value());
     const auto minTemperature = settings["minTemperature"].toDouble(minTemperatureSpin->value());
@@ -1528,7 +1525,7 @@ void DarkLibrary::setDarkSettings(const QJsonObject &settings)
     const auto gain = settings["gain"].toInt(-1);
     const auto iso = settings["iso"].toString();
 
-    cameraS->setCurrentText(camera);
+    opticalTrainCombo->setCurrentText(opticalTrain);
     bin1Check->setChecked(binOneCheck);
     bin2Check->setChecked(binTwoCheck);
     bin4Check->setChecked(binFourCheck);
@@ -1553,7 +1550,7 @@ QJsonObject DarkLibrary::getDarkSettings()
 {
     QJsonObject createDarks =
     {
-        {"camera", cameraS->currentText()},
+        {"optical_train", opticalTrainCombo->currentText()},
         {"minExposureValue", minExposureSpin->value()},
         {"maxExposureValue", maxExposureSpin->value()},
         {"minTemperatureValue", minTemperatureSpin->value()},
@@ -1580,10 +1577,10 @@ QJsonObject DarkLibrary::getDarkSettings()
 
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
-    const auto camera = settings["camera"].toString();
+    const auto opticalTrain = settings["optical_train"].toString();
     const auto isDarkPrefer = settings["isDarkPrefer"].toBool(preferDarksRadio->isChecked());
     const auto isDefectPrefer = settings["isDefectPrefer"].toBool(preferDefectsRadio->isChecked());
-    cameraS->setCurrentText(camera);
+    opticalTrainCombo->setCurrentText(opticalTrain);
     preferDarksRadio->setChecked(isDarkPrefer);
     preferDefectsRadio->setChecked(isDefectPrefer);
     checkCamera();
@@ -1594,7 +1591,7 @@ QJsonObject DarkLibrary::getCameraPresets()
 {
     QJsonObject cameraSettings =
     {
-        {"camera", cameraS->currentText()},
+        {"optical_train", opticalTrainCombo->currentText()},
         {"preferDarksRadio", preferDarksRadio->isChecked()},
         {"preferDefectsRadio", preferDefectsRadio->isChecked()},
         {"fileName", m_FileLabel->text()}
@@ -1694,12 +1691,12 @@ double DarkLibrary::getGain()
     // Property CCD_GAIN and
     // Part of CCD_CONTROLS properties.
     // Therefore, we have to find what the currently camera supports first.
-    auto gain = m_CurrentCamera->getProperty("CCD_GAIN");
+    auto gain = m_Camera->getProperty("CCD_GAIN");
     if (gain)
         return gain->getNumber()->at(0)->value;
 
 
-    auto controls = m_CurrentCamera->getProperty("CCD_CONTROLS");
+    auto controls = m_Camera->getProperty("CCD_CONTROLS");
     if (controls)
     {
         auto oneGain = controls->getNumber()->findWidgetByName("Gain");
@@ -1709,6 +1706,44 @@ double DarkLibrary::getGain()
 
     return -1;
 }
+
+void DarkLibrary::setupOpticalTrainManager()
+{
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &DarkLibrary::refreshOpticalTrain);
+    connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
+    connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain, opticalTrainCombo->itemText(index));
+        refreshOpticalTrain();
+    });
+    refreshOpticalTrain();
+}
+
+void DarkLibrary::refreshOpticalTrain()
+{
+    opticalTrainCombo->blockSignals(true);
+    opticalTrainCombo->clear();
+    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+
+    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::DarkLibraryOpticalTrain);
+
+    if (trainName.isValid())
+    {
+        auto name = trainName.toString();
+        opticalTrainCombo->setCurrentText(name);
+
+        auto camera = OpticalTrainManager::Instance()->getCamera(name);
+        if (camera)
+        {
+            auto scope = OpticalTrainManager::Instance()->getScope(name);
+            opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+        }
+        setCamera(camera);
+    }
+
+    opticalTrainCombo->blockSignals(false);
+}
+
 
 }
 

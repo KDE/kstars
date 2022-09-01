@@ -20,11 +20,24 @@ namespace KSNotification
 
 typedef enum
 {
-    EVENT_DBG,
-    EVENT_INFO,
-    EVENT_WARN,
-    EVENT_ALERT
+    Debug,
+    Info,
+    Warn,
+    Alert
 } EventType;
+
+typedef enum
+{
+    General,
+    INDI,
+    Capture,
+    Focus,
+    Align,
+    Mount,
+    Guide,
+    Observatory,
+    Scheduler
+} EventSource;
 
 void error(const QString &message, const QString &title = i18n("Error"), uint32_t timeout = 0);
 void sorry(const QString &message, const QString &title = i18n("Sorry"), uint32_t timeout = 0);
@@ -36,5 +49,5 @@ void info(const QString &message, const QString &title = i18n("Info"), uint32_t 
  */
 void transient(const QString &message, const QString &title);
 
-void event(const QLatin1String &name, const QString &message, EventType type = EVENT_INFO);
+void event(const QLatin1String &name, const QString &message, EventSource source = General, EventType type = Info);
 }

@@ -47,9 +47,15 @@ class EquipmentWriter : public QDialog
         void slotClose();
         void slotSave();
 
+        void slotNewDSLRLens();
+        void slotAddDSLRLens();
+        void slotSaveDSLRLens();
+        void slotRemoveDSLRLens();
+        void slotSetDSLRLens(QString);
+
     private:
         Ui::EquipmentWriter ui;
-        bool newScope, newEyepiece, newLens, newFilter;
-        int nextScope, nextEyepiece, nextLens, nextFilter;
+        bool newScope, newEyepiece, newLens, newFilter, newDSLRLens;
+        int nextScope, nextEyepiece, nextLens, nextFilter, nextDSLRLens;
 };
 

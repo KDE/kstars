@@ -31,6 +31,7 @@ class Observation;
 class Equipment;
 class Eyepiece;
 class Scope;
+class DSLRLens;
 class Filter;
 class Imager;
 class Site;

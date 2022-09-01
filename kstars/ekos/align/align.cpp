@@ -32,6 +32,8 @@
 #include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ksnotification.h"
 #include "kspaths.h"
 #include "fov.h"
@@ -68,7 +70,7 @@ namespace Ekos
 
 using PAA = PolarAlignmentAssistant;
 
-Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
+Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile(activeProfile)
 {
     setupUi(this);
 
@@ -127,42 +129,17 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     // Effective FOV Edit
     connect(FOVOut, &QLineEdit::editingFinished, this, &Align::syncFOV);
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this,
-            &Ekos::Align::setDefaultCCD);
-#else
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::textActivated), this,
-            &Ekos::Align::setDefaultCCD);
-#endif
-    connect(CCDCaptureCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkCamera);
-
     connect(loadSlewB, &QPushButton::clicked, this, [this]()
     {
         loadAndSlew();
     });
-
-    FilterDevicesCombo->addItem("--");
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::activated),
-            [ = ](const QString & text)
-#else
-    connect(FilterDevicesCombo, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::textActivated),
-            [ = ](const QString & text)
-#endif
-    {
-        syncSettings();
-        Options::setDefaultAlignFilterWheel(text);
-    });
-
-    connect(FilterDevicesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Align::checkFilter);
 
     connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             [ = ](int index)
     {
         syncSettings();
         Options::setLockAlignFilterIndex(index);
-    }
-           );
+    });
 
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
@@ -285,11 +262,6 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
 #endif
     setSolverMode(solverModeButtonGroup->checkedId());
 
-    // Which telescope info to use for FOV calculations
-    FOVScopeCombo->setCurrentIndex(Options::solverScopeType());
-    connect(FOVScopeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &Ekos::Align::updateTelescopeType);
-
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     connect(accuracySpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]()
     {
@@ -406,6 +378,9 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
     initPolarAlignmentAssistant();
     initManualRotator();
     initDarkProcessor();
+
+    setupFilterManager();
+    setupOpticalTrainManager();
 }
 
 Align::~Align()
@@ -716,16 +691,16 @@ void Align::setSolverMode(int mode)
 
     if (mode == SOLVER_REMOTE)
     {
-        if (remoteParser.get() != nullptr && remoteParserDevice != nullptr)
+        if (remoteParser.get() != nullptr && m_RemoteParserDevice != nullptr)
         {
             parser = remoteParser.get();
-            (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+            (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(m_RemoteParserDevice);
             return;
         }
 
         remoteParser.reset(new Ekos::RemoteAstrometryParser());
         parser = remoteParser.get();
-        (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+        (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(m_RemoteParserDevice);
         if (m_Camera)
             (dynamic_cast<RemoteAstrometryParser *>(parser))->setCCD(m_Camera->getDeviceName());
 
@@ -738,20 +713,6 @@ void Align::setSolverMode(int mode)
         else
             parser->disconnect();
     }
-}
-
-
-bool Align::setCamera(const QString &device)
-{
-    for (int i = 0; i < CCDCaptureCombo->count(); i++)
-        if (device == CCDCaptureCombo->itemText(i))
-        {
-            CCDCaptureCombo->setCurrentIndex(i);
-            checkCamera(i);
-            return true;
-        }
-
-    return false;
 }
 
 QString Align::camera()
@@ -768,8 +729,11 @@ void Align::setDefaultCCD(QString ccd)
     Options::setDefaultAlignCCD(ccd);
 }
 
-void Align::checkCamera(int ccdNum)
+void Align::checkCamera()
 {
+    if (!m_Camera)
+        return;
+
     // Do NOT perform checks if align is in progress as this may result
     // in signals/slots getting disconnected.
     switch (state)
@@ -789,17 +753,6 @@ void Align::checkCamera(int ccdNum)
             return;
     }
 
-
-    if (ccdNum == -1 || ccdNum >= m_Cameras.count())
-    {
-        ccdNum = CCDCaptureCombo->currentIndex();
-
-        if (ccdNum == -1)
-            return;
-    }
-
-    m_Camera = m_Cameras.at(ccdNum);
-
     auto targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     if (targetChip == nullptr || (targetChip && targetChip->isCapturing()))
         return;
@@ -812,22 +765,18 @@ void Align::checkCamera(int ccdNum)
     syncTelescopeInfo();
 }
 
-bool Align::addCamera(ISD::Camera *device)
+bool Align::setCamera(ISD::Camera *device)
 {
-    // No duplicates
-    for (auto &oneCamera : m_Cameras)
-    {
-        if (oneCamera->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (m_Camera == device)
+        return false;
 
-    for (auto &oneCamera : m_Cameras)
-        oneCamera->disconnect(this);
+    if (m_Camera)
+        m_Camera->disconnect(this);
 
     m_Camera = device;
-    m_Cameras.append(device);
 
-    CCDCaptureCombo->addItem(device->getDeviceName());
+    if (!m_Camera)
+        return false;
 
     checkCamera();
 
@@ -836,20 +785,18 @@ bool Align::addCamera(ISD::Camera *device)
     return true;
 }
 
-bool Align::addMount(ISD::Mount *device)
+bool Align::setMount(ISD::Mount *device)
 {
-    // No duplicates
-    for (auto &oneMount : m_Mounts)
-    {
-        if (oneMount->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (m_Mount == device)
+        return false;
 
-    for (auto &oneMount : m_Mounts)
-        oneMount->disconnect(this);
+    if (m_Mount)
+        m_Mount->disconnect(this);
 
     m_Mount = device;
-    m_Mounts.append(device);
+
+    if (!m_Mount)
+        return false;
 
     RUN_PAH(setCurrentTelescope(m_Mount));
 
@@ -859,7 +806,6 @@ bool Align::addMount(ISD::Mount *device)
     {
         m_isRateSynced = false;
     });
-
 
     if (m_isRateSynced == false)
     {
@@ -871,120 +817,67 @@ bool Align::addMount(ISD::Mount *device)
     return true;
 }
 
-bool Align::addDome(ISD::Dome *device)
+bool Align::setDome(ISD::Dome *device)
 {
-    // No duplicates
-    for (auto &oneDome : m_Domes)
-    {
-        if (oneDome->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (m_Dome == device)
+        return false;
 
-    for (auto &oneDome : m_Domes)
-        oneDome->disconnect(this);
+    if (m_Dome)
+        m_Dome->disconnect(this);
 
     m_Dome = device;
-    m_Domes.append(device);
+
+    if (!m_Dome)
+        return false;
+
     connect(m_Dome, &ISD::Dome::switchUpdated, this, &Ekos::Align::processSwitch, Qt::UniqueConnection);
     return true;
 }
 
-void Align::removeDevice(ISD::GenericDevice *device)
+void Align::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     auto name = device->getDeviceName();
     device->disconnect(this);
 
     // Check mounts
-    for (auto &oneMount : m_Mounts)
+    if (m_Mount && m_Mount->getDeviceName() == name)
     {
-        if (oneMount->getDeviceName() == name)
-        {
-            m_Mounts.removeOne(oneMount);
-            if (m_Mount && m_Mount->getDeviceName() == name)
-            {
-                m_Mount = nullptr;
-                m_isRateSynced = false;
-            }
-            break;
-        }
+        m_Mount->disconnect(this);
+        m_Mount = nullptr;
     }
 
     // Check domes
-    for (auto &oneDome : m_Domes)
+    if (m_Dome && m_Dome->getDeviceName() == name)
     {
-        if (oneDome->getDeviceName() == name)
-        {
-            m_Domes.removeOne(oneDome);
-            if (m_Dome && m_Dome->getDeviceName() == name)
-                m_Dome = nullptr;
-            break;
-        }
+        m_Dome->disconnect(this);
+        m_Dome = nullptr;
     }
 
     // Check rotators
-    for (auto &oneRotator : m_Rotators)
+    if (m_Rotator && m_Rotator->getDeviceName() == name)
     {
-        if (oneRotator->getDeviceName() == name)
-        {
-            m_Rotators.removeOne(oneRotator);
-            if (m_Rotator && m_Rotator->getDeviceName() == name)
-                m_Rotator = nullptr;
-            break;
-        }
+        m_Rotator->disconnect(this);
+        m_Rotator = nullptr;
     }
 
     // Check cameras
-    for (auto &oneCCD : m_Cameras)
+    if (m_Camera && m_Camera->getDeviceName() == name)
     {
-        if (oneCCD->getDeviceName() == name)
-        {
-            m_Cameras.removeAll(oneCCD);
-            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name));
-            CCDCaptureCombo->removeItem(CCDCaptureCombo->findText(name + " Guider"));
-            if (m_Cameras.empty())
-            {
-                m_Camera = nullptr;
-                CCDCaptureCombo->setCurrentIndex(-1);
-            }
-            else
-            {
-                m_Camera = m_Cameras[0];
-                CCDCaptureCombo->setCurrentIndex(0);
-            }
+        m_Camera->disconnect(this);
+        m_Camera = nullptr;
 
-            QTimer::singleShot(1000, this, [this]()
-            {
-                checkCamera();
-            });
-
-            break;
-        }
+        QTimer::singleShot(1000, this, &Align::checkCamera);
     }
 
     // Check Filter Wheels
-    for (auto &oneFilter : m_FilterWheels)
+    if (m_FilterWheel && m_FilterWheel->getDeviceName() == name)
     {
-        if (oneFilter->getDeviceName() == name)
-        {
-            m_FilterWheels.removeAll(oneFilter);
-            filterManager->removeDevice(device);
-            FilterDevicesCombo->removeItem(FilterDevicesCombo->findText(name));
-            if (m_FilterWheels.empty())
-            {
-                m_FilterWheel = nullptr;
-                FilterDevicesCombo->setCurrentIndex(-1);
-            }
-            else
-                FilterDevicesCombo->setCurrentIndex(0);
+        m_FilterWheel->disconnect(this);
+        m_FilterWheel = nullptr;
 
-            //checkFilter();
-            QTimer::singleShot(1000, this, [this]()
-            {
-                checkFilter();
-            });
-            break;
-        }
+        QTimer::singleShot(1000, this, &Align::checkFilter);
     }
+
 }
 
 bool Align::syncTelescopeInfo()
@@ -1002,94 +895,16 @@ bool Align::syncTelescopeInfo()
 
     syncR->setEnabled(canSync);
 
-    auto nvp = m_Mount->getNumber("TELESCOPE_INFO");
-
-    if (nvp)
-    {
-        auto np = nvp->findWidgetByName("TELESCOPE_APERTURE");
-
-        if (np && np->getValue() > 0)
-            primaryAperture = np->getValue();
-
-        np = nvp->findWidgetByName("GUIDER_APERTURE");
-        if (np && np->getValue() > 0)
-            guideAperture = np->getValue();
-
-        m_TelescopeAperture = primaryAperture;
-
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
-            m_TelescopeAperture = guideAperture;
-
-        np = nvp->findWidgetByName("TELESCOPE_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            primaryFL = np->getValue();
-
-        np = nvp->findWidgetByName("GUIDER_FOCAL_LENGTH");
-        if (np && np->getValue() > 0)
-            guideFL = np->getValue();
-
-        m_TelescopeFocalLength = primaryFL;
-
-        //if (currentCCD && currentCCD->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_GUIDE)
-            m_TelescopeFocalLength = guideFL;
-    }
-
-    if (m_TelescopeFocalLength == -1 || m_TelescopeAperture == -1)
+    if (m_FocalLength == -1 || m_Aperture == -1)
         return false;
 
-    if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1 && m_TelescopeFocalLength != -1 && m_TelescopeAperture != -1)
+    if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1 && m_FocalLength != -1 && m_Aperture != -1)
     {
-        FOVScopeCombo->setItemData(
-            ISD::Camera::TELESCOPE_PRIMARY,
-            i18nc("F-Number, Focal length, Aperture",
-                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(primaryFL / primaryAperture, 'f', 1), QString::number(primaryFL, 'f', 2),
-                  QString::number(primaryAperture, 'f', 2)),
-            Qt::ToolTipRole);
-        FOVScopeCombo->setItemData(
-            ISD::Camera::TELESCOPE_GUIDE,
-            i18nc("F-Number, Focal length, Aperture",
-                  "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                  QString::number(guideFL / guideAperture, 'f', 1), QString::number(guideFL, 'f', 2),
-                  QString::number(guideAperture, 'f', 2)),
-            Qt::ToolTipRole);
-
         calculateFOV();
-
-        //generateArgs();
-
         return true;
     }
 
     return false;
-}
-
-void Align::setTelescopeInfo(double primaryFocalLength, double primaryAperture, double guideFocalLength,
-                             double guideAperture)
-{
-    if (primaryFocalLength > 0)
-        primaryFL = primaryFocalLength;
-    if (guideFocalLength > 0)
-        guideFL = guideFocalLength;
-
-    if (primaryAperture > 0)
-        this->primaryAperture = primaryAperture;
-    if (guideAperture > 0)
-        this->guideAperture = guideAperture;
-
-    m_TelescopeFocalLength = primaryFL;
-
-    if (m_Camera && m_Camera->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        m_TelescopeFocalLength = guideFL;
-
-    m_TelescopeAperture = primaryAperture;
-
-    if (m_Camera && m_Camera->getTelescopeType() == ISD::Camera::TELESCOPE_GUIDE)
-        m_TelescopeAperture = guideAperture;
-
-    syncTelescopeInfo();
 }
 
 void Align::syncCameraInfo()
@@ -1134,7 +949,7 @@ void Align::syncCameraInfo()
         m_CameraHeight = roiH;
     }
 
-    if (m_CameraPixelWidth > 0 && m_CameraPixelHeight > 0 && m_TelescopeFocalLength > 0 && m_TelescopeAperture > 0)
+    if (m_CameraPixelWidth > 0 && m_CameraPixelHeight > 0 && m_FocalLength > 0 && m_Aperture > 0)
     {
         calculateFOV();
     }
@@ -1230,7 +1045,7 @@ QList<double> Align::telescopeInfo()
 {
     QList<double> result;
 
-    result << m_TelescopeFocalLength << m_TelescopeAperture;
+    result << m_FocalLength << m_Aperture;
 
     return result;
 }
@@ -1238,8 +1053,19 @@ QList<double> Align::telescopeInfo()
 void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale)
 {
     // FOV in arcsecs
-    fov_w = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / m_TelescopeFocalLength;
-    fov_h = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / m_TelescopeFocalLength;
+    // DSLR
+    auto reducedFocalLength = m_Reducer * m_FocalLength;
+    if (m_FocalRatio > 0)
+    {
+        fov_w = 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength));
+        fov_w = 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength));
+    }
+    // Telescope
+    else
+    {
+        fov_w = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / reducedFocalLength;
+        fov_h = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / reducedFocalLength;
+    }
 
     // Pix Scale
     fov_scale = (fov_w * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
@@ -1254,26 +1080,38 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
     if (newFOVW < 0 || newFOVW == m_FOVWidth)
         return;
 
-    double new_focal_length = ((m_CameraWidth * m_CameraPixelWidth / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
-    double focal_diff = std::fabs(new_focal_length - m_TelescopeFocalLength);
+    auto reducedFocalLength = m_Reducer * m_FocalLength;
+    double new_focal_length = 0;
+
+    if (m_FocalRatio > 0)
+        new_focal_length = ((m_CameraWidth * m_CameraPixelWidth / 1000.0) / tan(newFOVW / 2)) / 2;
+    else
+        new_focal_length = ((m_CameraWidth * m_CameraPixelWidth / 1000.0) * 206264.8062470963552) / (newFOVW * 60.0);
+    double focal_diff = std::fabs(new_focal_length - reducedFocalLength);
 
     if (focal_diff > 1)
     {
-        if (FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_PRIMARY)
-            primaryEffectiveFL = new_focal_length;
-        else
-            guideEffectiveFL = new_focal_length;
-        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", new_focal_length));
+        effectiveFocalLength = new_focal_length / m_Reducer;
+        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", effectiveFocalLength));
     }
 }
 
 void Align::calculateFOV()
 {
-    // Calculate FOV
+    auto reducedFocalLength = m_Reducer * m_FocalLength;
+    if (m_FocalRatio > 0)
+    {
+        m_FOVWidth = 2 * atan(m_CameraWidth * (m_CameraPixelWidth / 1000.0) / (2 * reducedFocalLength));
+        m_FOVHeight = 2 * atan(m_CameraHeight * (m_CameraPixelHeight / 1000.0) / (2 * reducedFocalLength));
+    }
+    // Telescope
+    else
+    {
+        m_FOVWidth = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / reducedFocalLength;
+        m_FOVHeight = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / reducedFocalLength;
+    }
 
-    // FOV in arcsecs
-    m_FOVWidth = 206264.8062470963552 * m_CameraWidth * m_CameraPixelWidth / 1000.0 / m_TelescopeFocalLength;
-    m_FOVHeight = 206264.8062470963552 * m_CameraHeight * m_CameraPixelHeight / 1000.0 / m_TelescopeFocalLength;
+    // Calculate FOV
 
     // Pix Scale
     m_FOVPixelScale = (m_FOVWidth * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
@@ -1296,18 +1134,23 @@ void Align::calculateFOV()
         return;
     }
 
-    double effectiveFocalLength = FOVScopeCombo->currentIndex() == ISD::Camera::TELESCOPE_PRIMARY ? primaryEffectiveFL :
-                                  guideEffectiveFL;
-
-    FocalLengthOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength, 0, 'f', 1).
-                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_TelescopeFocalLength, 0, 'f', 1));
-    FocalRatioOut->setText(QString("%1 (%2)").arg(m_TelescopeFocalLength / m_TelescopeAperture, 0, 'f', 1).
-                           arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_TelescopeAperture : m_TelescopeFocalLength / m_TelescopeAperture, 0,
-                               'f', 1));
+    FocalLengthOut->setText(QString("%1 (%2)").arg(m_FocalLength, 0, 'f', 1).
+                            arg(effectiveFocalLength > 0 ? effectiveFocalLength : m_FocalLength, 0, 'f', 1));
+    // DSLR
+    if (m_FocalRatio > 0)
+        FocalRatioOut->setText(QString("%1 (%2)").arg(m_FocalRatio, 0, 'f', 1).
+                               arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_Aperture : m_FocalRatio, 0,
+                                   'f', 1));
+    // Telescope
+    else if (m_Aperture > 0)
+        FocalRatioOut->setText(QString("%1 (%2)").arg(m_FocalLength / m_Aperture, 0, 'f', 1).
+                               arg(effectiveFocalLength > 0 ? effectiveFocalLength / m_Aperture : m_FocalLength / m_Aperture, 0,
+                                   'f', 1));
+    ReducerOut->setText(QString("%1x").arg(m_Reducer, 0, 'f', 2));
 
     if (effectiveFocalLength > 0)
     {
-        double focal_diff = std::fabs(effectiveFocalLength  - m_TelescopeFocalLength);
+        double focal_diff = std::fabs(effectiveFocalLength  - m_FocalLength);
         if (focal_diff < 5)
             FocalLengthOut->setStyleSheet("color:green");
         else if (focal_diff < 15)
@@ -1624,7 +1467,7 @@ bool Align::captureAndSolve()
     if (m_Camera->isConnected() == false)
     {
         appendLogText(i18n("Error: lost connection to camera."));
-        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::EVENT_ALERT);
+        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align, KSNotification::Alert);
         return false;
     }
 
@@ -1633,21 +1476,13 @@ bool Align::captureAndSolve()
         m_Camera->setBLOBEnabled(true);
     }
 
-    // If CCD Telescope Type does not match desired scope type, change it
-    // but remember current value so that it can be reset once capture is complete or is aborted.
-    if (m_Camera->getTelescopeType() != FOVScopeCombo->currentIndex())
-    {
-        rememberTelescopeType = m_Camera->getTelescopeType();
-        m_Camera->setTelescopeType(static_cast<ISD::Camera::TelescopeType>(FOVScopeCombo->currentIndex()));
-    }
-
     //if (parser->init() == false)
     //    return false;
 
-    if (m_TelescopeFocalLength == -1 || m_TelescopeAperture == -1)
+    if (m_FocalLength == -1 || m_Aperture == -1)
     {
         KSNotification::error(
-            i18n("Telescope aperture and focal length are missing. Please check your driver settings and try again."));
+            i18n("Telescope aperture and focal length are missing. Please check your optical train settings and try again."));
         return false;
     }
 
@@ -1671,7 +1506,7 @@ bool Align::captureAndSolve()
         {
             filterPositionPending    = true;
             // Disabling the autofocus policy for align.
-            filterManager->setFilterPosition(
+            FilterManager::Instance()->setFilterPosition(
                 targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
             state = ALIGN_PROGRESS;
             return true;
@@ -1725,7 +1560,7 @@ bool Align::captureAndSolve()
     // In case of remote solver, check if we need to update active CCD
     if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParser.get() != nullptr)
     {
-        if (remoteParserDevice == nullptr)
+        if (m_RemoteParserDevice == nullptr)
         {
             appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
             setSolverMode(SOLVER_LOCAL);
@@ -1733,15 +1568,14 @@ bool Align::captureAndSolve()
         else
         {
             // Update ACTIVE_CCD of the remote astrometry driver so it listens to BLOB emitted by the CCD
-            auto activeDevices = remoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
+            auto activeDevices = m_RemoteParserDevice->getBaseDevice()->getText("ACTIVE_DEVICES");
             if (activeDevices)
             {
                 auto activeCCD = activeDevices->findWidgetByName("ACTIVE_CCD");
-                if (QString(activeCCD->text) != CCDCaptureCombo->currentText())
+                if (QString(activeCCD->text) != m_Camera->getDeviceName())
                 {
-                    activeCCD->setText(CCDCaptureCombo->currentText().toLatin1().data());
-
-                    remoteParserDevice->getClientManager()->sendNewText(activeDevices);
+                    activeCCD->setText(m_Camera->getDeviceName().toLatin1().constData());
+                    m_RemoteParserDevice->getClientManager()->sendNewText(activeDevices);
                 }
             }
 
@@ -2153,15 +1987,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     double elapsed = solverTimer.elapsed() / 1000.0;
     appendLogText(i18n("Solver completed after %1 seconds.", QString::number(elapsed, 'f', 2)));
 
-    // Reset Telescope Type to remembered value
-    if (rememberTelescopeType != ISD::Camera::TELESCOPE_UNKNOWN)
-    {
-        m_Camera->setTelescopeType(rememberTelescopeType);
-        rememberTelescopeType = ISD::Camera::TELESCOPE_UNKNOWN;
-    }
-
     m_AlignTimer.stop();
-    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice && remoteParser.get())
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && m_RemoteParserDevice && remoteParser.get())
     {
         // Disable remote parse
         dynamic_cast<RemoteAstrometryParser *>(remoteParser.get())->setEnabled(false);
@@ -2322,6 +2149,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
                 qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
                                            << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
+
+                if (m_Mount)
+                    Options::setPAPierSide(m_Mount->pierSide());
                 Options::setPAOffset(offset);
             }
 
@@ -2450,7 +2280,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
     }
 
-    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
     state = ALIGN_COMPLETE;
     emit newStatus(state);
     solverIterations = 0;
@@ -2495,7 +2325,7 @@ void Align::solverFailed()
                 i18n("Please check you have sufficient stars in the image, the indicated FOV is correct, and the necessary index files are installed. Enable Alignment Logging in Setup Tab -> Logs to get detailed information on the failure."));
 
         KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"),
-                              KSNotification::EVENT_ALERT);
+                              KSNotification::Align, KSNotification::Alert);
     }
 
     pi->stopAnimation();
@@ -2531,13 +2361,6 @@ void Align::stop(Ekos::AlignState mode)
     stopB->setEnabled(false);
     solveB->setEnabled(true);
     loadSlewB->setEnabled(true);
-
-    // Reset Telescope Type to remembered value
-    if (rememberTelescopeType != ISD::Camera::TELESCOPE_UNKNOWN)
-    {
-        m_Camera->setTelescopeType(rememberTelescopeType);
-        rememberTelescopeType = ISD::Camera::TELESCOPE_UNKNOWN;
-    }
 
     m_SolveFromFile = false;
     solverIterations = 0;
@@ -2742,7 +2565,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         {
                             appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
                             KSNotification::event(QLatin1String("AlignSuccessful"),
-                                                  i18n("Astrometry alignment completed successfully"));
+                                                  i18n("Astrometry alignment completed successfully"), KSNotification::Align);
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
                             solverIterations = 0;
@@ -2776,7 +2599,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         else if (differentialSlewingActivated)
                         {
                             appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
-                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"));
+                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
                             solverIterations = 0;
@@ -3053,7 +2876,7 @@ bool Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && remoteParserDevice == nullptr)
+    if (solverModeButtonGroup->checkedId() == SOLVER_REMOTE && m_RemoteParserDevice == nullptr)
     {
         appendLogText(i18n("No remote astrometry driver detected, switching to StellarSolver."));
         setSolverMode(SOLVER_LOCAL);
@@ -3116,71 +2939,35 @@ void Align::setBinningIndex(int binIndex)
     }
 }
 
-void Align::setFOVTelescopeType(int index)
+bool Align::setFilterWheel(ISD::FilterWheel *device)
 {
-    FOVScopeCombo->setCurrentIndex(index);
-}
+    if (m_FilterWheel == device)
+        return false;
 
-bool Align::addFilterWheel(ISD::FilterWheel *device)
-{
-    for (auto filter : m_FilterWheels)
-    {
-        if (filter->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (m_FilterWheel)
+        m_FilterWheel->disconnect(this);
 
-    FilterCaptureLabel->setEnabled(true);
-    FilterDevicesCombo->setEnabled(true);
+    m_FilterWheel = device;
+
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
 
-    FilterDevicesCombo->addItem(device->getDeviceName());
-
-    m_FilterWheels.append(device);
-
-    int filterWheelIndex = 1;
-    if (Options::defaultAlignFilterWheel().isEmpty() == false)
-        filterWheelIndex = FilterDevicesCombo->findText(Options::defaultAlignFilterWheel());
-
-    if (filterWheelIndex < 1)
-        filterWheelIndex = 1;
-
-    checkFilter(filterWheelIndex);
-    FilterDevicesCombo->setCurrentIndex(filterWheelIndex);
-
+    checkFilter();
     emit settingsUpdated(getSettings());
-    return true;
-}
-
-bool Align::setFilterWheel(const QString &device)
-{
-    bool deviceFound = false;
-
-    for (int i = 1; i < FilterDevicesCombo->count(); i++)
-        if (device == FilterDevicesCombo->itemText(i))
-        {
-            checkFilter(i);
-            deviceFound = true;
-            break;
-        }
-
-    if (deviceFound == false)
-        return false;
-
     return true;
 }
 
 QString Align::filterWheel()
 {
-    if (FilterDevicesCombo->currentIndex() >= 1)
-        return FilterDevicesCombo->currentText();
+    if (m_FilterWheel)
+        return m_FilterWheel->getDeviceName();
 
     return QString();
 }
 
 bool Align::setFilter(const QString &filter)
 {
-    if (FilterDevicesCombo->currentIndex() >= 1)
+    if (m_FilterWheel)
     {
         FilterPosCombo->setCurrentText(filter);
         return true;
@@ -3189,38 +2976,31 @@ bool Align::setFilter(const QString &filter)
     return false;
 }
 
+
 QString Align::filter()
 {
     return FilterPosCombo->currentText();
 }
 
-
-void Align::checkFilter(int filterNum)
+void Align::checkFilter()
 {
-    if (filterNum == -1)
-    {
-        filterNum = FilterDevicesCombo->currentIndex();
-        if (filterNum == -1)
-            return;
-    }
+    FilterPosCombo->clear();
 
-    // "--" is no filter
-    if (filterNum == 0)
+    if (!m_FilterWheel)
     {
-        m_FilterWheel = nullptr;
-        currentFilterPosition = -1;
-        FilterPosCombo->clear();
+        FilterPosLabel->setEnabled(false);
+        FilterPosCombo->setEnabled(false);
         return;
     }
 
-    if (filterNum <= m_FilterWheels.count())
-        m_FilterWheel = m_FilterWheels.at(filterNum - 1);
+    FilterPosLabel->setEnabled(true);
+    FilterPosCombo->setEnabled(true);
 
-    FilterPosCombo->clear();
+    FilterManager::Instance()->setCurrentFilterWheel(m_FilterWheel);
 
-    FilterPosCombo->addItems(filterManager->getFilterLabels());
+    FilterPosCombo->addItems(FilterManager::Instance()->getFilterLabels());
 
-    currentFilterPosition = filterManager->getFilterPosition();
+    currentFilterPosition = FilterManager::Instance()->getFilterPosition();
 
     FilterPosCombo->setCurrentIndex(Options::lockAlignFilterIndex());
 
@@ -3404,35 +3184,6 @@ void Align::toggleAlignWidgetFullScreen()
     }
 }
 
-void Align::updateTelescopeType(int index)
-{
-    if (m_Camera == nullptr)
-        return;
-
-    // Reset style sheet.
-    FocalLengthOut->setStyleSheet(QString());
-
-    syncSettings();
-
-    m_TelescopeFocalLength = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
-    m_TelescopeAperture = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
-
-    Options::setSolverScopeType(index);
-
-    syncTelescopeInfo();
-}
-
-//void Align::setMountCoords(const QString &raStr, const QString &decStr, const QString &azStr,
-//                           const QString &altStr, int pierSide, const QString &haStr)
-//{
-//    mountRa = dms(raStr, false);
-//    mountDec = dms(decStr, true);
-//    mountHa = dms(haStr, false);
-//    mountAz = dms(azStr, true);
-//    mountAlt = dms(altStr, true);
-//    mountPierSide = static_cast<ISD::Mount::PierSide>(pierSide);
-//}
-
 void Align::setMountStatus(ISD::Mount::Status newState)
 {
     switch (newState)
@@ -3459,29 +3210,32 @@ void Align::setMountStatus(ISD::Mount::Status newState)
     RUN_PAH(setMountStatus(newState));
 }
 
-void Align::setAstrometryDevice(ISD::GenericDevice *device)
+void Align::setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
-    remoteParserDevice = device;
+    m_RemoteParserDevice = device;
 
     remoteSolverR->setEnabled(true);
     if (remoteParser.get() != nullptr)
     {
-        remoteParser->setAstrometryDevice(remoteParserDevice);
+        remoteParser->setAstrometryDevice(m_RemoteParserDevice);
         connect(remoteParser.get(), &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
         connect(remoteParser.get(), &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
     }
 }
 
-bool Align::addRotator(ISD::Rotator *device)
+bool Align::setRotator(ISD::Rotator *device)
 {
-    for (auto &oneRotator : m_Rotators)
-    {
-        if (oneRotator->getDeviceName() == device->getDeviceName())
-            return false;
-    }
+    if (device == m_Rotator)
+        return false;
 
-    m_Rotators.append(device);
+    if (m_Rotator)
+        m_Rotator->disconnect(this);
+
     m_Rotator = device;
+
+    if (!m_Rotator)
+        return false;
+
     connect(m_Rotator, &ISD::Rotator::numberUpdated, this, &Ekos::Align::processNumber, Qt::UniqueConnection);
     return true;
 }
@@ -3492,11 +3246,9 @@ void Align::refreshAlignOptions()
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }
 
-void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
+void Align::setupFilterManager()
 {
-    filterManager = manager;
-
-    connect(filterManager.data(), &FilterManager::ready, [this]()
+    connect(FilterManager::Instance(), &FilterManager::ready, [this]()
     {
         if (filterPositionPending)
         {
@@ -3507,26 +3259,26 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
     }
            );
 
-    connect(filterManager.data(), &FilterManager::failed, [this]()
+    connect(FilterManager::Instance(), &FilterManager::failed, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
         abort();
     }
            );
 
-    connect(filterManager.data(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    connect(FilterManager::Instance(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
     {
         if (filterPositionPending)
         {
             switch (filterState)
             {
                 case FILTER_OFFSET:
-                    appendLogText(i18n("Changing focus offset by %1 steps...", filterManager->getTargetFilterOffset()));
+                    appendLogText(i18n("Changing focus offset by %1 steps...", FilterManager::Instance()->getTargetFilterOffset()));
                     break;
 
                 case FILTER_CHANGE:
                 {
-                    const int filterComboIndex = filterManager->getTargetFilterPosition() - 1;
+                    const int filterComboIndex = FilterManager::Instance()->getTargetFilterPosition() - 1;
                     if (filterComboIndex >= 0 && filterComboIndex < FilterPosCombo->count())
                         appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterComboIndex)));
                 }
@@ -3542,11 +3294,11 @@ void Align::setFilterManager(const QSharedPointer<FilterManager> &manager)
         }
     });
 
-    connect(filterManager.data(), &FilterManager::labelsChanged, this, [this]()
+    connect(FilterManager::Instance(), &FilterManager::labelsChanged, this, [this]()
     {
         checkFilter();
     });
-    connect(filterManager.data(), &FilterManager::positionChanged, this, [this]()
+    connect(FilterManager::Instance(), &FilterManager::positionChanged, this, [this]()
     {
         checkFilter();
     });
@@ -3566,7 +3318,7 @@ QVariantMap Align::getEffectiveFOV()
                     map["Height"].toInt() == m_CameraHeight &&
                     map["PixelW"].toDouble() == m_CameraPixelWidth &&
                     map["PixelH"].toDouble() == m_CameraPixelHeight &&
-                    map["FocalLength"].toDouble() == m_TelescopeFocalLength)
+                    map["FocalLength"].toDouble() == m_FocalLength)
             {
                 m_FOVWidth = map["FovW"].toDouble();
                 m_FOVHeight = map["FovH"].toDouble();
@@ -3601,7 +3353,7 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     effectiveMap["Height"] = m_CameraHeight;
     effectiveMap["PixelW"] = m_CameraPixelWidth;
     effectiveMap["PixelH"] = m_CameraPixelHeight;
-    effectiveMap["FocalLength"] = m_TelescopeFocalLength;
+    effectiveMap["FocalLength"] = m_FocalLength;
     effectiveMap["FovW"] = newFOVW;
     effectiveMap["FovH"] = newFOVH;
 
@@ -3638,18 +3390,21 @@ QJsonObject Align::getSettings() const
     else if (m_Camera && m_Camera->hasGain())
         m_Camera->getGain(&gain);
 
-    settings.insert("camera", CCDCaptureCombo->currentText());
-    settings.insert("fw", FilterDevicesCombo->currentText());
+    settings.insert("optical_train", opticalTrainCombo->currentText());
     settings.insert("filter", FilterPosCombo->currentText());
     settings.insert("exp", exposureIN->value());
     settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
     settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    settings.insert("scopeType", FOVScopeCombo->currentIndex());
     settings.insert("gain", gain);
     settings.insert("iso", ISOCombo->currentIndex());
     settings.insert("accuracy", accuracySpin->value());
     settings.insert("settle", delaySpin->value());
     settings.insert("dark", alignDarkFrameCheck->isChecked());
+
+    settings.insert("threshold", Options::astrometryRotatorThreshold());
+    settings.insert("rotator_control", Options::astrometryUseRotator());
+    settings.insert("scale", Options::astrometryUseImageScale());
+    settings.insert("position", Options::astrometryUsePosition());
 
     return settings;
 }
@@ -3710,11 +3465,7 @@ void Align::setSettings(const QJsonObject &settings)
     };
 
     // Camera. If camera changed, check CCD.
-    if (syncControl("camera", CCDCaptureCombo) || init == false)
-        checkCamera();
-    // Filter Wheel
-    if (syncControl("fw", FilterDevicesCombo) || init == false)
-        checkFilter();
+    syncControl("optical_train", opticalTrainCombo);
     // Filter
     syncControl("filter", FilterPosCombo);
     Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
@@ -3737,8 +3488,6 @@ void Align::setSettings(const QJsonObject &settings)
         gotoModeButtonGroup->button(solverAction)->setChecked(true);
         m_CurrentGotoMode = static_cast<GotoMode>(solverAction);
     }
-
-    FOVScopeCombo->setCurrentIndex(settings["scopeType"].toInt(0));
 
     // Gain
     if (m_Camera->hasGain())
@@ -4094,4 +3843,65 @@ void Align::toggleManualRotator(bool toggled)
     else
         m_ManualRotator->close();
 }
+
+void Align::setupOpticalTrainManager()
+{
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Align::refreshOpticalTrain);
+    connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
+    connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, opticalTrainCombo->itemText(index));
+        refreshOpticalTrain();
+    });
+    refreshOpticalTrain();
+}
+
+void Align::refreshOpticalTrain()
+{
+    opticalTrainCombo->blockSignals(true);
+    opticalTrainCombo->clear();
+    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+
+    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
+
+    if (trainName.isValid())
+    {
+        auto name = trainName.toString();
+        opticalTrainCombo->setCurrentText(name);
+
+        auto scope = OpticalTrainManager::Instance()->getScope(name);
+        m_FocalLength = scope["focal_length"].toDouble(-1);
+        m_Aperture = scope["aperture"].toDouble(-1);
+        m_FocalRatio = scope["focal_ratio"].toDouble(-1);
+        m_Reducer = OpticalTrainManager::Instance()->getReducer(name);
+
+        // DSLR Lens Aperture
+        if (m_Aperture < 0 && m_FocalRatio > 0)
+            m_Aperture = m_FocalLength * m_FocalRatio;
+
+        auto mount = OpticalTrainManager::Instance()->getMount(name);
+        setMount(mount);
+
+        auto camera = OpticalTrainManager::Instance()->getCamera(name);
+        if (camera)
+        {
+            camera->setScopeInfo(m_FocalLength * m_Reducer, m_Aperture);
+            auto scope = OpticalTrainManager::Instance()->getScope(name);
+            opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+        }
+        setCamera(camera);
+
+        syncTelescopeInfo();
+
+        auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
+        setFilterWheel(filterWheel);
+
+        auto rotator = OpticalTrainManager::Instance()->getRotator(name);
+        setRotator(rotator);
+    }
+
+    opticalTrainCombo->blockSignals(false);
+}
+
+
 }

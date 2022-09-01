@@ -927,19 +927,20 @@ bool SchedulerJob::increasingStartupTimeOrder(SchedulerJob const *job1, Schedule
     return job1->getStartupTime() < job2->getStartupTime();
 }
 
-// This uses both the user-setting minAltitude, as well as any artificial horizon
-// constraints the user might have setup.
-double SchedulerJob::getMinAltitudeConstraint(double azimuth, bool *artificialHorizon) const
+bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason) const
 {
-    double constraint = getMinAltitude();
-    if (artificialHorizon) *artificialHorizon = false;
-    if (getHorizon() != nullptr && enforceArtificialHorizon)
+    // First check the global min-altitude constraint.
+    if (altitude < getMinAltitude())
     {
-        double artificialHorizonConstraint = getHorizon()->altitudeConstraint(azimuth);
-        if (artificialHorizon) *artificialHorizon = artificialHorizonConstraint > constraint;
-        constraint = std::max(constraint, artificialHorizonConstraint);
+        if (altitudeReason != nullptr)
+            *altitudeReason = QString("altitude %1 < minAltitude %2").arg(altitude, 0, 'f', 1).arg(getMinAltitude(), 0, 'f', 1);
+        return false;
     }
-    return constraint;
+    // Check the artificial horizon.
+    if (getHorizon() != nullptr && enforceArtificialHorizon)
+        return getHorizon()->isAltitudeOK(azimuth, altitude, altitudeReason);
+
+    return true;
 }
 
 int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) const
@@ -972,7 +973,7 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) co
     double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
     int16_t score = BAD_SCORE - 1;
 
-    const double minAlt = getMinAltitudeConstraint(azimuth);
+    bool const altitudeOK = satisfiesAltitudeConstraint(azimuth, altitude);
 
     // If altitude is negative, bad score
     // FIXME: some locations may allow negative altitudes
@@ -983,7 +984,7 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) co
     else if (hasAltitudeConstraint())
     {
         // If under altitude constraint, bad score
-        if (altitude < minAlt)
+        if (!altitudeOK)
             score = BAD_SCORE;
         // Else if setting and under altitude cutoff, job would end soon after starting, bad score
         // FIXME: half bad score when under altitude cutoff risk getting positive again
@@ -995,8 +996,11 @@ int16_t SchedulerJob::getAltitudeScore(QDateTime const &when, double *altPtr) co
             else if (offset < 0.0)
                 offset += 24.0;
             if (0.0 <= offset && offset < 12.0)
-                if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
+            {
+                bool const settingAltitudeOK = satisfiesAltitudeConstraint(azimuth, altitude - SETTING_ALTITUDE_CUTOFF);
+                if (!settingAltitudeOK)
                     score = BAD_SCORE / 2;
+            }
         }
     }
     // If not constrained but below minimum hard altitude, set score to 10% of altitude value
@@ -1189,10 +1193,9 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
         o.EquatorialToHorizontal(&LST, getGeo()->lat());
         double const altitude = o.alt().Degrees();
         double const azimuth = o.az().Degrees();
-        bool artificialHorizonConstrains = false;
-        double const minAlt = getMinAltitudeConstraint(azimuth, &artificialHorizonConstrains);
 
-        if (minAlt <= altitude)
+        bool const altitudeOK = satisfiesAltitudeConstraint(azimuth, altitude, reason);
+        if (altitudeOK)
         {
             // Don't test proximity to dawn in this situation, we only cater for altitude here
 
@@ -1219,19 +1222,17 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
                     else if (offset < 0.0)
                         offset += 24.0;
                     if (0.0 <= offset && offset < 12.0)
-                        if (altitude - SETTING_ALTITUDE_CUTOFF < minAlt)
+                    {
+                        bool const settingAltitudeOK = satisfiesAltitudeConstraint(azimuth, altitude - SETTING_ALTITUDE_CUTOFF);
+                        if (!settingAltitudeOK)
                             continue;
+                    }
                 }
                 return ltOffset;
             }
         }
         else if (!checkIfConstraintsAreMet)
-        {
-            if (reason)
-                *reason = QString("altitude %1 < %2%3").arg(altitude, 0, 'f', 1)
-                          .arg(artificialHorizonConstrains ? "artificial horizon " : "").arg(minAlt, 0, 'f', 1);
             return ltOffset;
-        }
     }
 
     return QDateTime();

@@ -661,11 +661,13 @@ class SchedulerJob
         static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
 
         /**
-             * @brief getMinAltitudeConstraint Find minimum allowed altitude for this job at the given azimuth.
+             * @brief satisfiesAltitudeConstraint sees if altitude is allowed for this job at the given azimuth.
              * @param azimuth Azimuth
-             * @return Minimum allowed altitude of the target at the specific azimuth.
+             * @param altitude Altitude
+             * @param altitudeReason a human-readable string explaining why false was returned.
+            * @return true if this altitude is permissible for this job
              */
-        double getMinAltitudeConstraint(double azimuth, bool *artificialHorizon = nullptr) const;
+        bool satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason = nullptr) const;
 
         /**
          * @brief setInitialFilter Set initial filter used in the capture sequence. This is used to pass to focus module.

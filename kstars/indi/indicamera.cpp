@@ -444,12 +444,12 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
         if (recordOFF && recordOFF->s == ISS_ON)
         {
             emit videoRecordToggled(false);
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::EVENT_INFO);
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::INDI);
         }
         else
         {
             emit videoRecordToggled(true);
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::EVENT_INFO);
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::INDI);
         }
     }
     else if (!strcmp(svp->name, "TELESCOPE_TYPE"))
@@ -584,23 +584,23 @@ bool Camera::writeImageFile(const QString &filename, IBLOB *bp, bool is_fits)
         // memory, so copy it first.
 
         // Check buffer size.
-        if (fileWriteBufferSize != bp->size)
+        if (fileWriteBufferSize != bp->bloblen)
         {
             if (fileWriteBuffer != nullptr)
                 delete [] fileWriteBuffer;
-            fileWriteBufferSize = bp->size;
+            fileWriteBufferSize = bp->bloblen;
             fileWriteBuffer = new char[fileWriteBufferSize];
         }
 
         // Copy memory, and write file on a separate thread.
         // Probably too late to return an error if the file couldn't write.
-        memcpy(fileWriteBuffer, bp->blob, bp->size);
+        memcpy(fileWriteBuffer, bp->blob, bp->bloblen);
         fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, fileWriteFilename, fileWriteBuffer,
-                                            bp->size);
+                                            bp->bloblen);
     }
     else
     {
-        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->size))
+        if (!WriteImageFileInternal(filename, static_cast<char*>(bp->blob), bp->bloblen))
             return false;
     }
     return true;
@@ -1759,6 +1759,19 @@ bool Camera::setTemperatureRegulation(double ramp, double threshold)
     regulation.getNumber()->at(0)->setValue(ramp);
     regulation.getNumber()->at(1)->setValue(threshold);
     sendNewNumber(regulation->getNumber());
+    return true;
+}
+
+bool Camera::setScopeInfo(double focalLength, double aperture)
+{
+    auto scopeInfo = getProperty("SCOPE_INFO");
+    if (!scopeInfo.isValid())
+        return false;
+
+    auto nvp = scopeInfo.getNumber();
+    nvp->at(0)->setValue(focalLength);
+    nvp->at(1)->setValue(aperture);
+    sendNewNumber(nvp);
     return true;
 }
 
