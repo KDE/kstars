@@ -44,9 +44,13 @@ class Weather : public ConcreteDevice
         void processNumber(INumberVectorProperty *nvp) override;
         void processLight(ILightVectorProperty *lvp) override;
 
-        Status getWeatherStatus();
+        Status status();
         quint16 getUpdatePeriod();
         bool refresh();
+        const std::vector<WeatherData> &data() const
+        {
+            return m_WeatherData;
+        }
 
     signals:
         void newStatus(Status status);

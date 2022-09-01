@@ -1191,7 +1191,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].isNull())
     {
         auto gps = new ISD::GPS(this);
-        m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(gps);
+        m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].reset(gps);
         gps->registeProperties();
         if (m_Connected)
         {
@@ -1212,7 +1212,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].isNull())
     {
         auto weather = new ISD::Weather(this);
-        m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(weather);
+        m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].reset(weather);
         weather->registeProperties();
         if (m_Connected)
         {

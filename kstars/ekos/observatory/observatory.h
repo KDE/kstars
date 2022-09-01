@@ -7,9 +7,9 @@
 #pragma once
 
 #include "ui_observatory.h"
-#include "observatorymodel.h"
-#include "observatorydomemodel.h"
-#include "observatoryweathermodel.h"
+
+#include "indi/indidome.h"
+#include "indi/indiweather.h"
 
 #include <QWidget>
 #include <QLineEdit>
@@ -17,6 +17,18 @@
 
 namespace Ekos
 {
+
+struct ObservatoryStatusControl
+{
+    bool useDome, useShutter, useWeather;
+};
+
+struct WeatherActions
+{
+    bool parkDome, closeShutter, stopScheduler;
+    uint delay;
+};
+
 
 class Observatory : public QWidget, public Ui::Observatory
 {
@@ -26,14 +38,9 @@ class Observatory : public QWidget, public Ui::Observatory
 
     public:
         Observatory();
-        ObservatoryDomeModel *getDomeModel()
-        {
-            return mObservatoryModel->getDomeModel();
-        }
-        ObservatoryWeatherModel *getWeatherModel()
-        {
-            return mObservatoryModel->getWeatherModel();
-        }
+
+        bool setDome(ISD::Dome *device);
+        bool addWeatherSource(ISD::Weather *device);
 
         // Logging
         QStringList logText()
@@ -47,22 +54,25 @@ class Observatory : public QWidget, public Ui::Observatory
 
         void clearLog();
 
+        /**
+         * @brief Retrieve the settings that define, from which states the
+         * "ready" state of the observatory is derived from.
+         */
+        ObservatoryStatusControl statusControl()
+        {
+            return m_StatusControl;
+        }
+        void setStatusControl(ObservatoryStatusControl control);
+        void removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved);
+        void setWeatherSource(const QString &name);
+
+
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
-
-        /**
-         * @brief Signal a new observatory status
-         */
-        Q_SCRIPTABLE void newStatus(bool isReady);
 
         void newWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
 
     private:
-        ObservatoryModel *mObservatoryModel = nullptr;
-
-        void setDomeModel(ObservatoryDomeModel *model);
-        void setWeatherModel(ObservatoryWeatherModel *model);
-
         // motion control
         void enableMotionControl(bool enabled);
 
@@ -110,12 +120,36 @@ class Observatory : public QWidget, public Ui::Observatory
 
         void initSensorGraphs();
         void updateSensorData(const std::vector<ISD::Weather::WeatherData> &data);
-        void updateSensorGraph(QString sensor_label, QDateTime now, double value);
+        void updateSensorGraph(const QString &sensor_label, QDateTime now, double value);
 
+        // hold all sensor data received from the weather station
+        std::vector<ISD::Weather::WeatherData> m_WeatherData;
+        // update the stored values
+        void updateWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
+        unsigned long findWeatherData(const QString &name);
+        void weatherChanged(ISD::Weather::Status status);
 
-    private slots:
+        /**
+         * @brief Activate or deactivate the weather warning actions
+         */
+        void setWarningActionsActive(bool active);
+        /**
+         * @brief Activate or deactivate the weather alert actions
+         */
+        void setAlertActionsActive(bool active);
+
+        /**
+         * @brief Flag whether the X axis should be visible in the sensor graph
+         */
+        bool autoScaleValues()
+        {
+            return m_autoScaleValues;
+        }
+        void setAutoScaleValues(bool show);
+
+    private:
         // observatory status handling
-        void setObseratoryStatusControl(ObservatoryStatusControl control);
+        //void setObseratoryStatusControl(ObservatoryStatusControl control);
         void statusControlSettingsChanged();
 
         void initWeather();
@@ -128,6 +162,8 @@ class Observatory : public QWidget, public Ui::Observatory
         void mouseOverLine(QMouseEvent *event);
         void refreshSensorGraph();
 
+        void execute(WeatherActions actions);
+
         // reacting on weather changes
         void weatherWarningSettingsChanged();
         void weatherAlertSettingsChanged();
@@ -139,11 +175,50 @@ class Observatory : public QWidget, public Ui::Observatory
         void observatoryStatusChanged(bool ready);
         void domeAzimuthChanged(double position);
 
-        void initDome();
         void shutdownDome();
 
         void setDomeStatus(ISD::Dome::Status status);
         void setDomeParkStatus(ISD::ParkStatus status);
         void setShutterStatus(ISD::Dome::ShutterStatus status);
+
+        /**
+         * @brief Actions to be taken when a weather warning occurs
+         */
+        WeatherActions getWarningActions()
+        {
+            return m_WarningActions;
+        }
+        QString getWarningActionsStatus();
+        bool getWarningActionsActive()
+        {
+            return warningActionsActive;
+        }
+
+        /**
+         * @brief Actions to be taken when a weather alert occurs
+         */
+        WeatherActions getAlertActions()
+        {
+            return m_AlertActions;
+        }
+        QString getAlertActionsStatus();
+        bool getAlertActionsActive()
+        {
+            return alertActionsActive;
+        }
+
+    private:
+        ISD::Dome *m_Dome {nullptr};
+
+        ISD::Weather *m_WeatherSource {nullptr};
+        QList<ISD::Weather *> m_WeatherSources;
+
+        ObservatoryStatusControl m_StatusControl;
+
+        QTimer warningTimer, alertTimer;
+        struct WeatherActions m_WarningActions, m_AlertActions;
+        bool warningActionsActive, alertActionsActive, m_autoScaleValues;
+        void startAlertTimer();
+        void startWarningTimer();
 };
 }

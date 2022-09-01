@@ -489,16 +489,6 @@ Capture::~Capture()
     qDeleteAll(jobs);
 }
 
-void Capture::setDefaultCCD(QString ccd)
-{
-    Options::setDefaultCaptureCCD(ccd);
-}
-
-void Capture::setDefaultFilterWheel(QString filterWheel)
-{
-    Options::setDefaultCaptureFilterWheel(filterWheel);
-}
-
 bool Capture::setCamera(ISD::Camera *device)
 {
     if (m_Camera == device)
@@ -1618,16 +1608,19 @@ void Capture::syncFilterInfo()
             auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
             if (activeFilter)
             {
-                if (m_captureDeviceAdaptor->getFilterWheel() &&
-                        (activeFilter->getText() != m_captureDeviceAdaptor->getFilterWheel()->getDeviceName()))
+                if (m_FilterWheel)
                 {
-                    Options::setDefaultFocusFilterWheel(m_captureDeviceAdaptor->getFilterWheel()->getDeviceName());
-                    activeFilter->setText(m_captureDeviceAdaptor->getFilterWheel()->getDeviceName().toLatin1().constData());
-                    oneDevice->sendNewText(activeDevices);
+                    if (activeFilter->getText() != m_FilterWheel->getDeviceName())
+                    {
+                        activeFilter->setText(m_FilterWheel->getDeviceName().toLatin1().constData());
+                        oneDevice->sendNewText(activeDevices);
+                    }
                 }
                 // Reset filter name in CCD driver
-                else if (!m_captureDeviceAdaptor->getFilterWheel() && strlen(activeFilter->getText()) > 0)
+                else if (QString(activeFilter->getText()).isEmpty())
                 {
+                    // Add debug info since this issue is reported by users. Need to know when it happens.
+                    qCDebug(KSTARS_EKOS_CAPTURE) << "No active filter wheel. " << oneDevice->getDeviceName() << " ACTIVE_FILTER is reset.";
                     activeFilter->setText("");
                     oneDevice->sendNewText(activeDevices);
                 }

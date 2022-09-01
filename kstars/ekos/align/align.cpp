@@ -723,12 +723,6 @@ QString Align::camera()
     return QString();
 }
 
-void Align::setDefaultCCD(QString ccd)
-{
-    syncSettings();
-    Options::setDefaultAlignCCD(ccd);
-}
-
 void Align::checkCamera()
 {
     if (!m_Camera)

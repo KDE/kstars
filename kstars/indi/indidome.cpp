@@ -187,7 +187,7 @@ void Dome::processSwitch(ISwitchVectorProperty *svp)
             emit newStatus(m_Status);
 
             // rolloff roofs: cw = opening = unparking, ccw = closing = parking
-            if (!canAbsMove() && !canRelMove())
+            if (!canAbsoluteMove() && !canRelativeMove())
             {
                 m_ParkStatus = (m_Status == DOME_MOVING_CW) ? PARK_UNPARKING : PARK_PARKING;
                 emit newParkStatus(m_ParkStatus);

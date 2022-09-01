@@ -520,8 +520,6 @@ class Align : public QWidget, public Ui::Align
 
     private slots:
 
-        void setDefaultCCD(QString ccd);
-
         void saveSettleTime();
 
         // Solver timeout

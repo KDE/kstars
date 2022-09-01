@@ -475,10 +475,6 @@ class Guide : public QWidget, public Ui::Guide
         void settingsUpdated(const QJsonObject &settings);
         void driverTimedout(const QString &deviceName);
 
-    private slots:
-        void setDefaultGuider(const QString &driver);
-        void setDefaultCCD(const QString &ccd);
-
     private:
 
         void resizeEvent(QResizeEvent *event) override;

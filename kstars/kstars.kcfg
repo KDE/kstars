@@ -1620,13 +1620,7 @@
          <default>3:00 AM</default>
       </entry>
    </group>
-   <group name="Capture">
-      <entry name="DefaultCaptureCCD" type="String">
-         <label>Default capture module CCD.</label>
-      </entry>
-      <entry name="DefaultCaptureFilterWheel" type="String">
-         <label>Default capture module filter wheel.</label>
-      </entry>
+   <group name="Capture">      
       <entry name="DefaultObserver" type="String">
          <label>Default observer full name.</label>
       </entry>
@@ -1815,16 +1809,7 @@
          <default>false</default>
       </entry>      
    </group>
-   <group name="Focus">
-      <entry name="DefaultFocusCCD" type="String">
-         <label>Default focus module CCD.</label>
-      </entry>
-      <entry name="DefaultFocusFocuser" type="String">
-         <label>Default focus module focuser.</label>
-      </entry>
-      <entry name="DefaultFocusFilterWheel" type="String">
-         <label>Default focus module filter wheel.</label>
-      </entry>
+   <group name="Focus">      
       <entry name="DefaultFocusTemperatureSource" type="String">
          <label>Default focus module temperature source.</label>
       </entry>
@@ -2026,13 +2011,7 @@
          <default code="true">KSUtils::getAstrometryDefaultIndexFolderPaths()</default>
       </entry>
    </group>
-   <group name="Align">
-      <entry name="DefaultAlignCCD" type="String">
-         <label>Default align module CCD.</label>
-      </entry>
-      <entry name="DefaultAlignFilterWheel" type="String">
-         <label>Default align module Filter Wheel.</label>
-      </entry>
+   <group name="Align">      
       <entry name="AlignExposure" type="Double">
          <label>Default alignment exposure value</label>
          <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
@@ -2217,12 +2196,6 @@
       </entry>
    </group>
    <group name="Guide">
-      <entry name="DefaultGuideCCD" type="String">
-         <label>Default guide module CCD.</label>
-      </entry>
-      <entry name="DefaultGuideGuider" type="String">
-         <label>Default guide module guider Driver.</label>
-      </entry>
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
          <default>2.0</default>
@@ -2891,6 +2864,9 @@
     </entry>
    </group>
    <group name="Observatory">
+   <entry name="DefaultObservatoryWeatherSource" type="String">
+      <label>Default observatory module weather source.</label>
+   </entry>
    <entry name="warningActionsActive" type="Bool">
       <label>Will be reacted upon warnings?</label>
       <default>true</default>

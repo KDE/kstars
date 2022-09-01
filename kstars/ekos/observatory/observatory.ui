@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1057</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,21 @@
    <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
@@ -56,6 +71,9 @@
           </property>
           <item>
            <layout class="QGridLayout" name="domeStatusBox">
+            <property name="spacing">
+             <number>3</number>
+            </property>
             <item row="1" column="0" rowspan="2">
              <widget class="QLabel" name="domeAzimuthPosition">
               <property name="minimumSize">
@@ -794,7 +812,7 @@ font-weight:bold;
       <property name="title">
        <string>Weather</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_5" columnstretch="0,0,0,0,0,0,0,0,0,0">
        <property name="leftMargin">
         <number>3</number>
        </property>
@@ -807,10 +825,65 @@ font-weight:bold;
        <property name="bottomMargin">
         <number>3</number>
        </property>
-       <property name="horizontalSpacing">
+       <property name="spacing">
         <number>3</number>
        </property>
-       <item row="3" column="0" colspan="6" alignment="Qt::AlignTop">
+       <item row="3" column="4">
+        <widget class="QCheckBox" name="autoscaleValuesCB">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Scale the value axis to the current value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Auto Scale</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="8">
+        <widget class="QPushButton" name="clearGraphHistory">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear sensor data history&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-delete">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QComboBox" name="weatherSourceCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" colspan="8" alignment="Qt::AlignTop">
         <widget class="QGroupBox" name="weatherActionsBox">
          <property name="enabled">
           <bool>false</bool>
@@ -881,6 +954,9 @@ font-weight:bold;
              </item>
              <item row="1" column="0" colspan="3">
               <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <property name="spacing">
+                <number>3</number>
+               </property>
                <item>
                 <widget class="QLabel" name="weatherAlertStatusLabel">
                  <property name="text">
@@ -952,6 +1028,9 @@ font-weight:bold;
              </property>
              <item row="1" column="0" colspan="3">
               <layout class="QHBoxLayout" name="horizontalLayout">
+               <property name="spacing">
+                <number>3</number>
+               </property>
                <item>
                 <widget class="QLabel" name="weatherWarningStatusLabel">
                  <property name="text">
@@ -1021,21 +1100,8 @@ font-weight:bold;
          </layout>
         </widget>
        </item>
-       <item row="1" column="1" rowspan="2" colspan="5">
-        <widget class="QCustomPlot" name="sensorGraphs" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <spacer name="horizontalSpacer_5">
+       <item row="3" column="6">
+        <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -1047,7 +1113,7 @@ font-weight:bold;
          </property>
         </spacer>
        </item>
-       <item row="0" column="4">
+       <item row="3" column="3">
         <widget class="QLabel" name="weatherStatusLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1072,7 +1138,7 @@ font-weight:bold;
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="1" column="2" rowspan="2">
         <widget class="QWidget" name="sensorData" native="true">
          <property name="minimumSize">
           <size>
@@ -1085,80 +1151,17 @@ font-weight:bold;
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QFrame" name="horizontalFrame">
-         <layout class="QHBoxLayout" name="graphActionsBox">
-          <property name="leftMargin">
-           <number>9</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>9</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QCheckBox" name="autoscaleValuesCB">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Scale the value axis to the current value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>auto scale values</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="clearGraphHistory">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clear sensor data history&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="edit-delete">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
+       <item row="1" column="3" rowspan="2" colspan="6">
+        <widget class="QCustomPlot" name="sensorGraphs" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
         </widget>
        </item>
       </layout>

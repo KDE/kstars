@@ -524,7 +524,7 @@ void Manager::reset()
     guideProcess.reset();
     alignProcess.reset();
     mountProcess.reset();
-    //observatoryProcess.reset();
+    observatoryProcess.reset();
 
     DarkLibrary::Release();
     m_PortSelector.reset();
@@ -1682,12 +1682,8 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     auto dome = device->getDome();
     if (dome)
     {
-        //        if (domeProcess)
-        //        {
-        //            domeProcess->addDome(dome);
-        //            if (observatoryProcess && observatoryProcess->getDomeModel())
-        //                observatoryProcess->getDomeModel()->initModel(domeProcess.get());
-        //        }
+        if (observatoryProcess)
+            observatoryProcess->setDome(dome);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1696,12 +1692,8 @@ void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device
     auto weather = device->getWeather();
     if (weather)
     {
-        //        if (weatherProcess)
-        //        {
-        //            weatherProcess->addWeather(weather);
-        //            if (observatoryProcess && observatoryProcess->getWeatherModel())
-        //                observatoryProcess->getWeatherModel()->initModel(weatherProcess.get());
-        //        }
+        if (observatoryProcess)
+            observatoryProcess->addWeatherSource(weather);
 
         if (focusProcess)
         {
@@ -1742,7 +1734,8 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         mountProcess->removeDevice(device);
     if (guideProcess)
         guideProcess->removeDevice(device);
-    // TODO add Observatory
+    if (observatoryProcess)
+        observatoryProcess->removeDevice(device);
     if (m_PortSelector)
         m_PortSelector->removeDevice(device->getDeviceName());
 
@@ -1947,8 +1940,8 @@ void Manager::updateLog()
         ekosLogOut->setPlainText(mountProcess->getLogText());
     else if (currentWidget == schedulerProcess.get())
         ekosLogOut->setPlainText(schedulerProcess->getLogText());
-    //    else if (currentWidget == observatoryProcess.get())
-    //        ekosLogOut->setPlainText(observatoryProcess->getLogText());
+    else if (currentWidget == observatoryProcess.get())
+        ekosLogOut->setPlainText(observatoryProcess->getLogText());
 
 #ifdef Q_OS_OSX
     repaint(); //This is a band-aid for a bug in QT 5.10.0
@@ -1988,8 +1981,8 @@ void Manager::clearLog()
         mountProcess->clearLog();
     else if (currentWidget == schedulerProcess.get())
         schedulerProcess->clearLog();
-    //    else if (currentWidget == observatoryProcess.get())
-    //        observatoryProcess->clearLog();
+    else if (currentWidget == observatoryProcess.get())
+        observatoryProcess->clearLog();
 }
 
 void Manager::initCapture()
@@ -2262,20 +2255,20 @@ void Manager::initGuide()
     connectModules();
 }
 
-//void Manager::initObservatory()
-//{
-//    if (observatoryProcess.get() == nullptr)
-//    {
-//        // Initialize the Observatory Module
-//        observatoryProcess.reset(new Ekos::Observatory());
+void Manager::initObservatory()
+{
+    if (observatoryProcess.get() == nullptr)
+    {
+        // Initialize the Observatory Module
+        observatoryProcess.reset(new Ekos::Observatory());
 
-//        emit newModule("Observatory");
+        emit newModule("Observatory");
 
-//        int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
-//        toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
-//        connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
-//    }
-//}
+        int index = addModuleTab(EkosModule::Observatory, observatoryProcess.get(), QIcon(":/icons/ekos_observatory.png"));
+        toolsWidget->tabBar()->setTabToolTip(index, i18n("Observatory"));
+        connect(observatoryProcess.get(), &Ekos::Observatory::newLog, this, &Ekos::Manager::updateLog);
+    }
+}
 
 void Manager::addGuider(ISD::Guider * device)
 {
@@ -2296,7 +2289,7 @@ void Manager::removeTabs()
     focusProcess.reset();
     guideProcess.reset();
     mountProcess.reset();
-    //observatoryProcess.reset();
+    observatoryProcess.reset();
 
     connect(toolsWidget, &QTabWidget::currentChanged, this, &Ekos::Manager::processTabChange, Qt::UniqueConnection);
 }
@@ -3184,10 +3177,12 @@ void Manager::syncActiveDevices()
             else if (it.isNameMatch("ACTIVE_FILTER"))
             {
                 devs = INDIListener::devicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
+                if (!captureProcess)
+                    continue;
                 // Active filter wheel should be set to whatever the user selects in capture module
-                const QString defaultFilterWheel = Options::defaultCaptureFilterWheel();
+                auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(captureProcess->opticalTrain());
                 // Does defaultFilterWheel exist in devices?
-                if (defaultFilterWheel == "--")
+                if (!filterWheel)
                 {
                     // If already empty, do not update it.
                     if (!QString(it.getText()).isEmpty())
@@ -3199,18 +3194,13 @@ void Manager::syncActiveDevices()
                 }
                 else
                 {
-                    for (auto &oneDev : devs)
+                    auto name = filterWheel->getDeviceName();
+                    // TODO this should be profile specific
+                    if (QString(it.getText()) != name)
                     {
-                        if (oneDev->getDeviceName() == defaultFilterWheel)
-                        {
-                            // TODO this should be profile specific
-                            if (QString(it.getText()) != defaultFilterWheel)
-                            {
-                                it.setText(defaultFilterWheel.toLatin1().constData());
-                                oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp.getText());
-                                break;
-                            }
-                        }
+                        it.setText(name.toLatin1().constData());
+                        oneDevice->getDriverInfo()->getClientManager()->sendNewText(tvp.getText());
+                        break;
                     }
                     continue;
                 }
@@ -3411,12 +3401,12 @@ void Manager::createModules(const QSharedPointer<ISD::GenericDevice> &device)
         {
             initCapture();
             initAlign();
-            //initObservatory();
+            initObservatory();
         }
         if (device->getDriverInterface() & INDI::BaseDevice::WEATHER_INTERFACE)
         {
             initFocus();
-            //initObservatory();
+            initObservatory();
         }
         if (device->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
         {
