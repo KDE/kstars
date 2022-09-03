@@ -977,10 +977,19 @@ void TestEkosCaptureWorkflow::cleanupTestCase()
 
 bool TestEkosCaptureWorkflow::prepareTestCase()
 {
-    Ekos::Manager * const ekos = Ekos::Manager::Instance();
-
-    // start the profile
+    // use the helper to start the profile
     KVERIFY_SUB(m_CaptureHelper->startEkosProfile());
+    // prepare optical trains for testing
+    m_CaptureHelper->prepareOpticalTrains();
+    // prepare the mount module for testing
+    m_CaptureHelper->prepareMountModule();
+    // prepare for focusing tests
+    m_CaptureHelper->prepareFocusModule();
+    // prepare for alignment tests
+    m_CaptureHelper->prepareAlignmentModule();
+    // prepare for guiding tests
+    m_CaptureHelper->prepareGuidingModule();
+
     m_CaptureHelper->init();
 
     // clear image directory
@@ -990,53 +999,7 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     Options::setVerboseLogging(false);
     Options::setLogToFile(false);
 
-    // set mount defaults
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000));
-    // set primary scope to my favorite FSQ-85
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeFocalIN, 450.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeApertureIN, 85.0);
-    // set guide scope to a Tak 7x50
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), guideScopeFocalIN, 170.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), guideScopeApertureIN, 50.0);
-    // save values
-    KTRY_CLICK_SUB(ekos->mountModule(), saveB);
-    // disable meridian flip
-    KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), meridianFlipCheckBox, false);
-    // switch to focus module
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(ekos->focusModule() != nullptr, 5000));
-    // set filter to luminance
-    KTRY_SET_COMBO_SUB(ekos->focusModule(), FilterPosCombo, "Luminance");
-    // set exposure time to 3 sec
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), exposureIN, 3.0);
-    // use full field
-    KTRY_SET_CHECKBOX_SUB(ekos->focusModule(), useFullField, true);
-    // use iterative algorithm
-    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Polynomial");
-    // step size 5000
-    KTRY_SET_SPINBOX_SUB(ekos->focusModule(), stepIN, 5000);
-    // set max travel to 100000
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), maxTravelIN, 100000);
-    // set low accuracy to 10%
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), toleranceIN, 10.0);
-    // set outstep multiple
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), initialFocusOutStepsIN, 2);
-    // set average over 1 frame for focusing
-    KTRY_SET_SPINBOX_SUB(ekos->focusModule(), focusFramesSpin, 1);
-    // ensure that guiding calibration is NOT reused
-    Options::setReuseGuideCalibration(false);
-    // 4 guide calibration steps are sufficient
-    Options::setAutoModeIterations(4);
-    // Set the guiding and camera device
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), cameraCombo, m_CaptureHelper->m_GuiderDevice);
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_MountDevice);
-    // select primary scope (higher focal length seems better for the guiding simulator)
-    KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::Camera::TELESCOPE_PRIMARY);
-    // disable guiding restrictions by default
-    KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), startGuiderDriftS, false);
-    KTRY_SET_CHECKBOX_SUB(ekos->captureModule(), limitGuideDeviationS, false);
 
-
-    // ensure that the scope is unparked
     Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
     if (mount->parkStatus() == ISD::PARK_PARKED)
         mount->unpark();
@@ -1068,6 +1031,9 @@ void TestEkosCaptureWorkflow::init()
     KVERIFY_EKOS_IS_OPENED();
     // clear light panel
     m_CaptureHelper->m_LightPanelDevice = nullptr;
+    // clear rotator
+    m_CaptureHelper->m_RotatorDevice = nullptr;
+
 }
 
 void TestEkosCaptureWorkflow::cleanup()

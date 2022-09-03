@@ -131,6 +131,7 @@ void TestEkosCaptureHelper::ensureCCDShutter(bool shutter)
     }
 }
 
+
 QDir *TestEkosCaptureHelper::getImageLocation()
 {
     if (imageLocation == nullptr || imageLocation->exists())

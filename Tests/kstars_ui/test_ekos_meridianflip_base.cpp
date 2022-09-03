@@ -19,8 +19,6 @@
 #include "auxiliary/dms.h"
 #include "ksutils.h"
 #include "indicom.h"
-#include "indi/guimanager.h"
-#include "ekos/guide/internalguide/gmath.h"
 #include "Options.h"
 
 TestEkosMeridianFlipBase::TestEkosMeridianFlipBase(QObject *parent) :
@@ -36,124 +34,16 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
 {
     // use the helper to start the profile
     m_CaptureHelper->startEkosProfile();
-
-    Ekos::Manager * const ekos = Ekos::Manager::Instance();
-
-    // set mount defaults
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000));
-    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->slewStatus() != IPState::IPS_ALERT, 1000));
-    // set primary scope to my favorite FSQ-85 with QE 0.73 Reducer
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeFocalIN, 339.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), primaryScopeApertureIN, 85.0);
-    // set guide scope to a Tak 7x50
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), guideScopeFocalIN, 170.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), guideScopeApertureIN, 50.0);
-    // save values
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->mountModule(), saveB);
-
-    // set focus mode defaults
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->focusModule(), 1000));
-    // use full field
-    KTRY_SET_CHECKBOX_SUB(ekos->focusModule(), useFullField, true);
-    //initial step size 5000
-    KTRY_SET_SPINBOX_SUB(ekos->focusModule(), stepIN, 5000);
-    // max travel 50000
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), maxTravelIN, 50000.0);
-    // focus tolerance 20% - make focus fast and robust, precision does not matter
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, toleranceIN);
-    toleranceIN->setMaximum(20.0);
-    toleranceIN->setValue(20.0);
-    // use single pass linear algorithm
-    KTRY_SET_COMBO_SUB(ekos->focusModule(), focusAlgorithmCombo, "Linear 1 Pass");
-    // select star detection
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), focusOptionsProfiles, "1-Focus-Default");
-    // set annulus to 0% - 50%
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), fullFieldInnerRing, 0.0);
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), fullFieldOuterRing, 50.0);
-    // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->focusModule(), initialFocusOutStepsIN, 2);
-    // select the Luminance filter
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), FilterPosCombo, "Luminance");
-    // select SEP algorithm for star detection
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->focusModule(), focusDetectionCombo, "SEP");
-    // set exp time for current filter
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
-    // set exposure times for all filters
-    auto filtermanager = Ekos::FilterManager::Instance();
-    for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
-    {
-        filtermanager->setFilterExposure(pos, 3.0);
-        filtermanager->setFilterLock(pos, "Luminance");
-    }
-    // gain 100
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), gainIN, 100.0);
-    // initial step size 5000
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), stepIN, 5000);
-    // suspend guiding while focusing
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
-
-    // check if astrometry files exist
-    if (! checkAstrometryFiles())
-    {
-        QWARN(QString("No astrometry index files found in %1").arg(
-                  KSUtils::getAstrometryDataDirs().join(", ")).toStdString().c_str());
-        astrometry_available = false;
-    }
-    // switch to alignment module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->alignModule(), 1000));
-    // set the CCD
-    KTRY_SET_COMBO_SUB(ekos->alignModule(), CCDCaptureCombo, m_CaptureHelper->m_CCDDevice);
-    // select the Luminance filter
-    KTRY_SET_COMBO_SUB(ekos->alignModule(), FilterPosCombo, "Luminance");
-    // select local solver
-    ekos->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
-    // select internal SEP method
-    Options::setSolveSextractorType(SSolver::EXTRACTOR_BUILTIN);
-    // select StellarSolver
-    Options::setSolverType(SSolver::SOLVER_STELLARSOLVER);
-    // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
-    // select the "Slew to Target" mode
-    KTRY_SET_RADIOBUTTON_SUB(ekos->alignModule(), slewR, true);
-
-    // switch to guiding module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
-
-    // preserve guiding calibration as good as possible
-    Options::setResetGuideCalibration(false);
-    Options::setReuseGuideCalibration(true);
-
-    if (m_CaptureHelper->m_Guider == "PHD2")
-    {
-        KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, externalConnectB);
-        // ensure that PHD2 is connected
-        if (externalConnectB->isEnabled())
-        {
-            // click "Connect"
-            KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), externalConnectB);
-            // wait max 60 sec that PHD2 is connected (sometimes INDI connections hang)
-            KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->guideModule()->status() == Ekos::GUIDE_CONNECTED, 60000);
-            qCInfo(KSTARS_EKOS_TEST) << "PHD2 connected successfully.";
-        }
-    }
-    else
-    {
-        // select multi-star
-        Options::setGuideAlgorithm(SEP_MULTISTAR);
-        // select small star profile
-        Options::setGuideOptionsProfile(2);
-        // auto star select
-        KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->guideModule(), autoStarCheck, true);
-        // set the guide star box to size 32
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "32");
-        // Set the guiding and camera device
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), cameraCombo, "CCD Simulator Guider");
-        KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guiderCombo, m_CaptureHelper->m_MountDevice);
-        // select primary scope (higher focal length seems better for the guiding simulator)
-        KTRY_SET_COMBO_INDEX_SUB(Ekos::Manager::Instance()->guideModule(), FOVScopeCombo, ISD::Camera::TELESCOPE_PRIMARY);
-        // use two steps in each direction for calibration
-        Options::setAutoModeIterations(2);
-    }
+    // prepare optical trains for testing
+    m_CaptureHelper->prepareOpticalTrains();
+    // prepare the mount module for testing
+    m_CaptureHelper->prepareMountModule();
+    // prepare for focusing tests
+    m_CaptureHelper->prepareFocusModule();
+    // prepare for alignment tests
+    m_CaptureHelper->prepareAlignmentModule();
+    // prepare for guiding tests
+    m_CaptureHelper->prepareGuidingModule();
 
     // Everything completed successfully
     return true;
@@ -191,6 +81,7 @@ void TestEkosMeridianFlipBase::cleanupTestCase()
 
 void TestEkosMeridianFlipBase::init()
 {
+    // initialize the capture helper
     m_CaptureHelper->init();
 
     // disable by default
@@ -198,13 +89,6 @@ void TestEkosMeridianFlipBase::init()
     autofocus_checked = false;
     use_aligning      = false;
     dithering_checked = false;
-
-    // clear the queues
-    m_CaptureHelper->expectedAlignStates.clear();
-    m_CaptureHelper->expectedCaptureStates.clear();
-    m_CaptureHelper->expectedFocusStates.clear();
-    m_CaptureHelper->expectedGuidingStates.clear();
-    m_CaptureHelper->expectedMeridianFlipStates.clear();
 
     // reset initial focuser position
     initialFocusPosition = -1;
@@ -219,9 +103,6 @@ void TestEkosMeridianFlipBase::init()
 
     // start the profile (depending on the selected guider)
     QVERIFY(startEkosProfile());
-
-    // initialize the capture helper
-    m_CaptureHelper->init();
 
     // disable FITS viewer
     Options::setUseFITSViewer(false);
@@ -394,7 +275,7 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, guideDeviation);
 
-    // create the capture sequences
+    // create the capture directory
     QTemporaryDir destination;
     KWRAP_SUB(QVERIFY(destination.isValid()));
     KWRAP_SUB(QVERIFY(destination.autoRemove()));
@@ -517,24 +398,6 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFo
     return true;
 }
 
-bool TestEkosMeridianFlipBase::checkAstrometryFiles()
-{
-    // first check the current configuration
-    QStringList dataDirs = KSUtils::getAstrometryDataDirs();
-
-    // search if configured directories contain some index files
-    for(QString dirname : dataDirs)
-    {
-        QDir dir(dirname);
-        dir.setNameFilters(QStringList("index*"));
-        dir.setFilter(QDir::Files);
-        if (! dir.entryList().isEmpty())
-            return true;
-    }
-    return false;
-}
-
-
 bool TestEkosMeridianFlipBase::checkDithering()
 {
     // if dithering is not selected, to nothing
@@ -574,21 +437,7 @@ bool TestEkosMeridianFlipBase::startAligning(double expTime)
     // mark alignment
     use_aligning = true;
 
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000));
-    // set the exposure time to the given value
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), exposureIN, expTime);
-    // reduce the accuracy to avoid testing problems
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->alignModule(), FilterPosCombo, "Luminance");
-
-    // start alignment
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->alignModule(), QPushButton, solveB);
-    // ensure that the guiding button is enabled (after MF it may take a while)
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(solveB->isEnabled(), 10000);
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->alignModule(), solveB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE, 60000);
-    // all checks succeeded
-    return true;
+    return m_CaptureHelper->startAligning(expTime);
 }
 
 bool TestEkosMeridianFlipBase::stopAligning()
@@ -598,7 +447,7 @@ bool TestEkosMeridianFlipBase::stopAligning()
             m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_FAILED || m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE)
         return true;
 
-    // switch to guiding module
+    // switch to alignment module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000));
 
     // stop alignment

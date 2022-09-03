@@ -61,7 +61,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         bool setOpticalTrainValue(const QString &name, const QString &field, const QVariant &value);
 
-
+        void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();
 
@@ -83,7 +83,6 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     protected:
         void initModel();
-        void refreshModel();
 
         // Delegates
         QPointer<ComboDelegate> m_MountDelegate;

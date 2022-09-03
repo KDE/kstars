@@ -18,6 +18,7 @@
 #include <QPushButton>
 #include <QtTest>
 #include "ekos/manager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 
 #define KTRY_EKOS_SELECT_PROFILE(profile) do { \
     QString const p(profile); \
@@ -45,7 +46,10 @@
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule() != nullptr, 1000); \
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule() != nullptr, 1000); } while(false)
 
-#define KTRY_EKOS_START_SIMULATORS() do { KTRY_EKOS_START_PROFILE("Simulators"); } while (false)
+#define KTRY_EKOS_START_SIMULATORS() do { \
+    KTRY_EKOS_START_PROFILE("Simulators"); \
+    Ekos::OpticalTrainManager::Instance()->close(); \
+    } while (false)
 
 #define KTRY_EKOS_STOP_SIMULATORS() do { \
     KTRY_EKOS_CLICK(disconnectB); \

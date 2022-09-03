@@ -10,7 +10,7 @@
 
 #include "config-kstars.h"
 #include "test_ekos.h"
-#include "test_ekos_helper.h"
+#include "test_ekos_capture_helper.h"
 
 #if defined(HAVE_INDI)
 
@@ -105,7 +105,8 @@ protected slots:
     void updateJ2000Coordinates(SkyPoint *target);
 
 private:
-    TestEkosHelper *m_test_ekos_helper;
+    // helper class
+    TestEkosCaptureHelper *m_CaptureHelper = nullptr;
 
     // test directory
     QTemporaryDir *testDir;
