@@ -1585,6 +1585,7 @@
       <entry name="MeridianFlipOffset" type="Double">
          <label>Default hour angle to perform meridian flip</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
+         <default>0.1</default>
       </entry>
       <entry name="MaximumHaLimit" type="Double">
          <label>Default maximum limit for the hour angle.</label>
