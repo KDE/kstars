@@ -879,7 +879,7 @@ void Manager::start()
 
 
 #ifdef Q_OS_OSX
-    if (m_LocalMode || currentProfile->host == "localhost")
+    if (m_LocalMode || m_CurrentProfile->host == "localhost")
     {
         if (isRunning("PTPCamera"))
         {
