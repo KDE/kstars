@@ -585,6 +585,7 @@ void Focus::checkFocuser()
     {
         FilterManager::Instance()->setFocusReady(false);
         canAbsMove = canRelMove = canTimerMove = false;
+        resetButtons();
         return;
     }
 
@@ -3203,7 +3204,7 @@ void Focus::resetButtons()
         return;
     }
 
-    bool const enableCaptureButtons = captureInProgress == false && hfrInProgress == false;
+    auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);

@@ -149,6 +149,16 @@ void OpticalTrainManager::initModel()
     trainView->setModel(m_OpticalTrainsModel);
 }
 
+void OpticalTrainManager::syncDevices()
+{
+    syncDelegatesToDevices();
+    if (m_Profile)
+    {
+        refreshModel();
+        emit updated();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////

@@ -64,6 +64,10 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();
+        /**
+         * @brief syncDevices Sync delegates and then update model accordingly.
+         */
+        void syncDevices();
 
         int id(const QString &name);
         ISD::Mount *getMount(const QString &name);

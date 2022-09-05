@@ -1614,6 +1614,8 @@ void Manager::addDustCap(ISD::DustCap * device)
 
     ekosLiveClient.get()->message()->sendCaps();
 
+    OpticalTrainManager::Instance()->syncDevices();
+
     appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
 }
 
