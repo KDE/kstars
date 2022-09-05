@@ -359,6 +359,12 @@ public:
     QString m_primaryTrain = i18n("Primary");
     QString m_guidingTrain = i18n("Secondary");
 
+    // predefined set of scopes
+    OAL::Scope *fsq85, *newton_10F4, *takfinder10x50;
+    enum ScopeType {SCOPE_FSQ85, SCOPE_NEWTON_10F4, SCOPE_TAKFINDER10x50};
+    // map scope type to predefined scope
+    OAL::Scope *getScope(ScopeType type);
+
     // Mount device
     QString m_MountDevice = nullptr;
     // CCD device
@@ -487,7 +493,7 @@ public:
     /**
      * @brief Prepare the mount module with the given mount parameters
      */
-    void prepareMountModule();
+    void prepareMountModule(ScopeType primary = SCOPE_FSQ85, ScopeType guiding = SCOPE_TAKFINDER10x50);
 
     /**
      * @brief Slew to a given position

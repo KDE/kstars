@@ -10,6 +10,7 @@
 
 #include "kstars_ui_tests.h"
 #include "ui_calibrationoptions.h"
+#include "indicom.h"
 #include "indi/guimanager.h"
 #include "Options.h"
 #include "skymapcomposite.h"
@@ -27,6 +28,7 @@ TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QString guider, QObject *parent
 {
     m_CaptureHelper = new TestEkosCaptureHelper(guider);
     m_CaptureHelper->m_GuiderDevice = "Guide Simulator";
+    m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
 }
 
 bool TestEkosCaptureWorkflow::executeFocusing()
@@ -173,12 +175,19 @@ void TestEkosCaptureWorkflow::testGuidingDeviationSuspendingCapture()
     KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Green", imagepath);
     KTRY_CAPTURE_ADD_LIGHT(30.0, 1, 5.0, "Blue", imagepath);
 
-    // set Dubhe as target and slew there
-    SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
+    // set a position in the west
+    SkyPoint *target = new SkyPoint();
+    target->setAz(270.0);
+    target->setAlt(KStarsData::Instance()->geo()->lat()->Degrees() / 2.0);
+    // translate to equatorial coordinates
+    const dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
+    const dms *lat = KStarsData::Instance()->geo()->lat();
+    target->HorizontalToEquatorial(&lst, lat);
+
     m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
 
-    // start guiding
-    m_CaptureHelper->startGuiding(1.0);
+    // start guiding (3 sec seems necessary due to star lost events during calibration)
+    m_CaptureHelper->startGuiding(3.0);
 
     // start capture
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_CAPTURING);
@@ -981,8 +990,8 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     KVERIFY_SUB(m_CaptureHelper->startEkosProfile());
     // prepare optical trains for testing
     m_CaptureHelper->prepareOpticalTrains();
-    // prepare the mount module for testing
-    m_CaptureHelper->prepareMountModule();
+    // prepare the mount module for testing, using the FSQ85 with OAG
+    m_CaptureHelper->prepareMountModule(TestEkosHelper::SCOPE_FSQ85, TestEkosHelper::SCOPE_TAKFINDER10x50);
     // prepare for focusing tests
     m_CaptureHelper->prepareFocusModule();
     // prepare for alignment tests

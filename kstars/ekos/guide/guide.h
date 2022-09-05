@@ -185,13 +185,6 @@ class Guide : public QWidget, public Ui::Guide
         */
         bool setCamera(ISD::Camera *device);
 
-        /**
-         * @brief Add new Camera
-         * @param device pointer to camera device.
-         * @return True if added successfully, false if duplicate or failed to add.
-        */
-        bool addGuideHead(ISD::Camera *device);
-
 
         /**
          * @brief Add new Mount
@@ -483,6 +476,11 @@ class Guide : public QWidget, public Ui::Guide
              * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
              */
         void updateGuideParams();
+
+        /**
+         * @brief check if the guiding chip of the camera should be used (if present)
+         */
+        void checkUseGuideHead();
 
         /**
              * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center

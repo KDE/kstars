@@ -58,6 +58,7 @@ Guide::Guide() : QWidget()
         onThresholdChanged(Options::guideAlgorithm());
         configurePHD2Camera();
         configSEPMultistarOptions(); // due to changes in 'Guide Setting: Algorithm'
+        checkUseGuideHead();
     });
 
     opsCalibration = new OpsCalibration(internalGuider);
@@ -327,11 +328,6 @@ bool Guide::setCamera(ISD::Camera *device)
 
     if(guiderType != GUIDE_INTERNAL)
         m_Camera->setBLOBEnabled(false);
-    else
-    {
-        if (device->hasGuideHead())
-            addGuideHead(device);
-    }
 
     checkCamera();
     configurePHD2Camera();
@@ -410,19 +406,6 @@ void Guide::configurePHD2Camera()
     subFrameCheck->setChecked(Options::guideSubframeEnabled());
 }
 
-bool Guide::addGuideHead(ISD::Camera *device)
-{
-    if (guiderType != GUIDE_INTERNAL)
-        return false;
-
-    QString guiderName = device->getDeviceName() + QString(" Guider");
-
-    // FIXME TODO
-    // Add checkbox for using Guide Head. If checked then we use it.
-
-    return true;
-}
-
 bool Guide::setMount(ISD::Mount *device)
 {
     if (m_Mount == device)
@@ -481,11 +464,7 @@ void Guide::checkCamera()
     }
 
 
-    // FIXME add method to support enabling guidehead
-    //        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
-    //            useGuideHead = true;
-    //        else
-    //            useGuideHead = false;
+    checkUseGuideHead();
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     if (!targetChip)
@@ -507,6 +486,16 @@ void Guide::checkCamera()
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Guide::checkExposureValue, Qt::UniqueConnection);
 
     syncCameraInfo();
+}
+
+void Ekos::Guide::checkUseGuideHead()
+{
+    if (m_Camera->hasGuideHead() && Options::useGuideHead())
+        useGuideHead = true;
+    else
+        useGuideHead = false;
+    // guiding option only enabled if camera has a dedicated guiding chip
+    opsGuide->kcfg_UseGuideHead->setEnabled(m_Camera->hasGuideHead());
 }
 
 void Guide::syncCameraInfo()
@@ -547,8 +536,7 @@ void Guide::updateGuideParams()
     if (m_Camera == nullptr)
         return;
 
-    if (m_Camera->hasGuideHead() == false)
-        useGuideHead = false;
+    checkUseGuideHead();
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
@@ -2581,12 +2569,7 @@ void Guide::setExternalGuiderBLOBEnabled(bool enable)
 
     if(m_Camera->isBLOBEnabled())
     {
-        // FIXME Enable guide heads
-        //        if (m_Camera->hasGuideHead() && cameraCombo->currentText().contains("Guider"))
-        //            useGuideHead = true;
-        //        else
-        //            useGuideHead = false;
-
+        checkUseGuideHead();
 
         auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         if (targetChip)

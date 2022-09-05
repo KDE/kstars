@@ -403,8 +403,7 @@ void TestEkosHelper::prepareOpticalTrains()
         // setup guiding scope train
         QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
         guidingTrain["mount"] = m_MountDevice;
-        // guidingTrain["camera"] = "CCD Simulator Guider";
-        guidingTrain["camera"] = m_GuiderDevice;
+        guidingTrain["camera"] = m_CCDDevice;
         guidingTrain["filterwheel"] = "-";
         guidingTrain["focuser"] = "-";
         guidingTrain["guider"] = m_MountDevice;
@@ -492,7 +491,6 @@ void TestEkosHelper::prepareGuidingModule()
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000);
 
     // preserve guiding calibration as good as possible
-    Options::setResetGuideCalibration(false);
     Options::setReuseGuideCalibration(true);
 
     if (m_Guider == "PHD2")
@@ -510,6 +508,8 @@ void TestEkosHelper::prepareGuidingModule()
     }
     else
     {
+        // select the secondary train for guiding
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), opticalTrainCombo, m_guidingTrain);
         // select multi-star
         Options::setGuideAlgorithm(SEP_MULTISTAR);
         // select small star profile
@@ -520,11 +520,12 @@ void TestEkosHelper::prepareGuidingModule()
         KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), autoStarCheck, true);
         // set the guide star box to size 32
         KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "32");
-        // Set the guiding and camera device
-        // select the secondary train for guiding
-        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), opticalTrainCombo, m_guidingTrain);
+        // use 1x1 binning for guiding
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), binningCombo, "1x1");
         // use three steps in each direction for calibration
         Options::setAutoModeIterations(3);
+        // use simulator's guide head
+        Options::setUseGuideHead(true);
     }
 }
 
@@ -553,26 +554,50 @@ Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QSt
     return nullptr;
 }
 
-void TestEkosHelper::prepareMountModule()
+OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
+{
+    switch (type)
+    {
+    case SCOPE_FSQ85:
+        return fsq85;
+    case SCOPE_NEWTON_10F4:
+        return newton_10F4;
+    case SCOPE_TAKFINDER10x50:
+        return takfinder10x50;
+    }
+    // this should never happen
+    return fsq85;
+}
+
+void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)
 {
     Ekos::OpticalTrainManager *otm = Ekos::OpticalTrainManager::Instance();
     // set mount defaults
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->slewStatus() != IPState::IPS_ALERT, 1000);
 
-    // set primary scope to my favorite FSQ-85
-    OAL::Scope *fsq85 = createScopeIfNecessary("FSQ-85", "Takahashi", "Refractor", 85.0, 450.0);
-    OAL::Scope *takfinder50 = createScopeIfNecessary("Finder 7x50", "Takahashi", "Refractor", 50.0, 170.0);
-    QVERIFY(fsq85 != nullptr);
-    QVERIFY(takfinder50 != nullptr);
+    // define a set of scopes
+    fsq85          = createScopeIfNecessary("FSQ-85", "Takahashi", "Refractor", 85.0, 450.0);
+    newton_10F4    = createScopeIfNecessary("ONTC", "Teleskop-Service", "Newtonian", 254.0, 1000.0);
+    takfinder10x50 = createScopeIfNecessary("Finder 7x50", "Takahashi", "Refractor", 50.0, 170.0);
 
+    QVERIFY(fsq85 != nullptr);
+    QVERIFY(newton_10F4 != nullptr);
+    QVERIFY(takfinder10x50 != nullptr);
+
+    OAL::Scope *primaryScope = getScope(primary);
+    OAL::Scope *guidingScope = getScope(guiding);
+
+    // setup the primary train
     QVariantMap primaryTrain = otm->getOpticalTrain(m_primaryTrain);
-    primaryTrain["scope"] = fsq85->name();
-    primaryTrain["reducer"] = 0.72; // QE 0.72 reducer
+    primaryTrain["scope"] = primaryScope->name();
+    primaryTrain["reducer"] = 1.0;
     KStarsData::Instance()->userdb()->UpdateOpticalTrain(primaryTrain, primaryTrain["id"].toInt());
 
+    // setup the guiding train
     QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
-    guidingTrain["scope"] = takfinder50->name();
+    guidingTrain["scope"] = guidingScope->name();
+    guidingTrain["reducer"] = 1.0;
     KStarsData::Instance()->userdb()->UpdateOpticalTrain(guidingTrain, guidingTrain["id"].toInt());
     // ensure that the OTM initializes from the database
     otm->refreshModel();
@@ -588,10 +613,10 @@ void TestEkosHelper::prepareMountModule()
     QVERIFY(primary_focallength != nullptr);
     QVERIFY(guider_aperture != nullptr);
     QVERIFY(guider_focallength != nullptr);
-    primary_aperture->setValue(fsq85->aperture());
-    primary_focallength->setValue(fsq85->focalLength() * primaryTrain["reducer"].toDouble());
-    guider_aperture->setValue(takfinder50->aperture());
-    guider_focallength->setValue(takfinder50->focalLength());
+    primary_aperture->setValue(primaryTrain["aperture"].toDouble());
+    primary_focallength->setValue(primaryTrain["focal_length"].toDouble() * primaryTrain["reducer"].toDouble());
+    guider_aperture->setValue(guidingTrain["aperture"].toDouble());
+    guider_focallength->setValue(guidingTrain["focal_length"].toDouble() * guidingTrain["reducer"].toDouble());
     scope_info->processSetButton();
 
 

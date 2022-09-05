@@ -2293,6 +2293,10 @@
          <label>Use both axes to perform calibration.</label>
          <default>true</default>
       </entry>
+      <entry name="UseGuideHead" type="Bool">
+         <label>Use the guider chip for guiding from cameras that have a dedicated guider chip.</label>
+         <default>true</default>
+      </entry>
       <entry name="SaveGuideLog" type="Bool">
          <label>Automatically save internal guider user logs.</label>
          <default>true</default>
