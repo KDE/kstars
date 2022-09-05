@@ -4781,12 +4781,15 @@ void Focus::refreshOpticalTrain()
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
 
-
         // Load settings
-        OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-        if (settings.isValid())
-            setAllSettings(settings.toJsonObject());
+        auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+        if (id >= 0)
+        {
+            OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+            auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+            if (settings.isValid())
+                setAllSettings(settings.toJsonObject());
+        }
     }
 
     opticalTrainCombo->blockSignals(false);
