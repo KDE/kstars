@@ -217,6 +217,9 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
+        // All
+        QJsonObject getAllSettings() const;
+        void setAllSettings(const QJsonObject &settings);
         // Presets
         QJsonObject getSettings() const;
         void setSettings(const QJsonObject &settings);
@@ -557,9 +560,13 @@ class Focus : public QWidget, public Ui::Focus
         ////////////////////////////////////////////////////////////////////
 
         /**
-         * @brief initSettings Connect settings to slots to update the value when changed
+         * @brief Connect GUI elements to sync settings once updated.
          */
-        void initSettingsConnections();
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
         /**
          * @brief loadSettings Load setting from Options and set them accordingly.
          */

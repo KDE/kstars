@@ -65,6 +65,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         void refreshTrains();
         void refreshOpticalElements();
 
+        int id(const QString &name);
         ISD::Mount *getMount(const QString &name);
         ISD::DustCap *getDustCap(const QString &name);
         ISD::LightBox *getLightBox(const QString &name);

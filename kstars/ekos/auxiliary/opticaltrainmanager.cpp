@@ -626,4 +626,18 @@ void OpticalTrainManager::refreshOpticalElements()
     m_ScopeDelegate->setValues(KStars::Instance()->data()->userdb()->getOpticalElementNames());
 }
 
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+int OpticalTrainManager::id(const QString &name)
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["name"].toString() == name)
+            return oneTrain["id"].toUInt();
+    }
+
+    return -1;
+}
+
 }
