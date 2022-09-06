@@ -41,7 +41,7 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Guide Options Profile Editor"));
         mainPage->setIcon(QIcon::fromTheme("configure"));
         connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, &OpsGuide::loadOptionsProfiles);
-        optionsProfileEditor->loadProfile(kcfg_GuideOptionsProfile->currentIndex());
+        optionsProfileEditor->loadProfile(kcfg_GuideOptionsProfile->currentText());
         optionsEditor->show();
     });
 
@@ -53,7 +53,8 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
 void OpsGuide::loadOptionsProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("SavedGuideProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedGuideProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         optionsList = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else

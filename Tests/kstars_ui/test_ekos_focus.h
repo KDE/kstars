@@ -80,15 +80,15 @@
  */
 /** @{ */
 #define KTRY_FOCUS_EXPOSURE(exposure, gain) do { \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, gainIN); \
-    gainIN->setValue(gain); \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, exposureIN); \
-    exposureIN->setValue(exposure); } while (false)
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusGain); \
+    focusGain->setValue(gain); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusExposure); \
+    focusExposure->setValue(exposure); } while (false)
 
 #define KTRY_FOCUS_DETECT(exposure, averaged, gain) do { \
     KTRY_FOCUS_EXPOSURE((exposure), (gain)); \
-    KTRY_FOCUS_GADGET(QSpinBox, focusFramesSpin); \
-    focusFramesSpin->setValue(averaged); \
+    KTRY_FOCUS_GADGET(QSpinBox, focusFramesCount); \
+    focusFramesCount->setValue(averaged); \
     KTRY_FOCUS_GADGET(QPushButton, captureB); \
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB); \
     QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000); \
@@ -109,18 +109,18 @@
  * @warning Fails the test if detection, algorithm, full-field checkbox or annulus fields cannot be used.
  */
 #define KTRY_FOCUS_CONFIGURE(detection, algorithm, fieldin, fieldout, tolerance) do { \
-    KTRY_FOCUS_GADGET(QCheckBox, useFullField); \
-    useFullField->setCheckState(fieldin < fieldout ? Qt::CheckState::Checked : Qt::CheckState::Unchecked); \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, fullFieldInnerRing); \
-    fullFieldInnerRing->setValue(fieldin); \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, fullFieldOuterRing); \
-    fullFieldOuterRing->setValue(fieldout); \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, toleranceIN); \
-    toleranceIN->setValue(tolerance); \
-    KTRY_FOCUS_COMBO_SET(focusDetectionCombo, detection); \
-    KTRY_FOCUS_COMBO_SET(focusAlgorithmCombo, algorithm); \
-    KTRY_FOCUS_GADGET(QDoubleSpinBox, maxTravelIN); \
-    maxTravelIN->setValue(10000); } while (false)
+    KTRY_FOCUS_GADGET(QCheckBox, focusUseFullField); \
+    focusUseFullField->setCheckState(fieldin < fieldout ? Qt::CheckState::Checked : Qt::CheckState::Unchecked); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusFullFieldInnerRadius); \
+    focusFullFieldInnerRadius->setValue(fieldin); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusFullFieldOuterRadius); \
+    focusFullFieldOuterRadius->setValue(fieldout); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusTolerance); \
+    focusTolerance->setValue(tolerance); \
+    KTRY_FOCUS_COMBO_SET(focusDetection, detection); \
+    KTRY_FOCUS_COMBO_SET(focusAlgorithm, algorithm); \
+    KTRY_FOCUS_GADGET(QDoubleSpinBox, focusMaxTravel); \
+    focusMaxTravel->setValue(10000); } while (false)
 
 /** @brief Helper to move the focuser.
  * @param steps is the absolute step value to set.
@@ -154,8 +154,7 @@ private slots:
     void testFocusAbort();
     void testGuidingSuspendWhileFocusing();
     void testFocusWhenHFRChecking();
-    void testFocusFailure();
-    void testFocusOptions();
+    void testFocusFailure();    
     void testFocusWhenMountFlips();
 
     void testStarDetection_data();

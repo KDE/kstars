@@ -122,14 +122,10 @@ enum COMMANDS
     FOCUS_IN,
     FOCUS_OUT,
     FOCUS_LOOP,
-    FOCUS_SET_SETTINGS,
+    FOCUS_SET_ALL_SETTINGS,
+    FOCUS_GET_ALL_SETTINGS,
     FOCUS_SET_CROSSHAIR,
-    FOCUS_SET_PRIMARY_SETTINGS,
-    FOCUS_SET_PROCESS_SETTINGS,
-    FOCUS_SET_MECHANICS_SETTINGS,
-    FOCUS_GET_PRIMARY_SETTINGS,
-    FOCUS_GET_PROCESS_SETTINGS,
-    FOCUS_GET_MECHANICS_SETTINGS,
+
 
     // Guide
     GUIDE_START,
@@ -342,14 +338,10 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_IN, "focus_in"},
     {FOCUS_OUT, "focus_out"},
     {FOCUS_LOOP, "focus_loop"},
-    {FOCUS_SET_SETTINGS, "focus_set_settings"},
-    {FOCUS_SET_CROSSHAIR, "focus_set_crosshair"},
-    {FOCUS_SET_PRIMARY_SETTINGS, "focus_set_primary_settings"},
-    {FOCUS_SET_PROCESS_SETTINGS, "focus_set_process_settings"},
-    {FOCUS_SET_MECHANICS_SETTINGS, "focus_set_mechanics_settings"},
-    {FOCUS_GET_PRIMARY_SETTINGS, "focus_get_primary_settings"},
-    {FOCUS_GET_PROCESS_SETTINGS, "focus_get_process_settings"},
-    {FOCUS_GET_MECHANICS_SETTINGS, "focus_get_mechanics_settings"},
+    {FOCUS_SET_ALL_SETTINGS, "focus_set_all_settings"},
+    {FOCUS_GET_ALL_SETTINGS, "focus_get_all_settings"},
+    {FOCUS_SET_CROSSHAIR, "focus_set_crosshair"},    
+
 
     {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
     {SCHEDULER_SET_JOB_STARTUP_CONDITIONS, "scheduler_set_job_startup_conditions"},

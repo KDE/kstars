@@ -33,7 +33,7 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
     editSolverProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(editSolverProfile, &QAbstractButton::clicked, this, [this]
     {
-        emit needToLoadProfile(kcfg_SolveOptionsProfile->currentIndex());
+        emit needToLoadProfile(kcfg_SolveOptionsProfile->currentText());
     });
 
     reloadOptionsProfiles();

@@ -305,12 +305,7 @@ void Message::sendCameras()
     if (m_Manager->alignModule())
         sendAlignSettings(m_Manager->alignModule()->getSettings());
     if (m_Manager->focusModule())
-    {
-        sendResponse(commands[FOCUS_SET_SETTINGS], m_Manager->focusModule()->getSettings());
-        sendResponse(commands[FOCUS_SET_PRIMARY_SETTINGS], m_Manager->focusModule()->getPrimarySettings());
-        sendResponse(commands[FOCUS_SET_PROCESS_SETTINGS], m_Manager->focusModule()->getProcessSettings());
-        sendResponse(commands[FOCUS_SET_MECHANICS_SETTINGS], m_Manager->focusModule()->getMechanicsSettings());
-    }
+        sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(m_Manager->focusModule()->getAllSettings()));
     if (m_Manager->guideModule())
         sendGuideSettings(m_Manager->guideModule()->getSettings());
 }
@@ -714,9 +709,9 @@ void Message::sendGuideSettings(const QJsonObject &settings)
 
 }
 
-void Message::sendFocusSettings(const QJsonObject &settings)
+void Message::sendFocusSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[FOCUS_SET_SETTINGS], settings);
+    sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
 void Message::sendSchedulerSettings(const QJsonObject &settings)
@@ -794,26 +789,16 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->focusOut(payload["steps"].toInt());
     else if (command == commands[FOCUS_LOOP])
         focus->startFraming();
-    else if (command == commands[FOCUS_SET_SETTINGS])
-        focus->setSettings(payload);
+    else if (command == commands[FOCUS_SET_ALL_SETTINGS])
+        focus->setAllSettings(payload.toVariantMap());
+    else if (command == commands[FOCUS_GET_ALL_SETTINGS])
+        sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(focus->getAllSettings()));
     else if (command == commands[FOCUS_SET_CROSSHAIR])
     {
         double x = payload["x"].toDouble();
         double y = payload["y"].toDouble();
         focus->selectFocusStarFraction(x, y);
     }
-    else if (command == commands[FOCUS_SET_PRIMARY_SETTINGS])
-        focus->setPrimarySettings(payload);
-    else if (command == commands[FOCUS_SET_PROCESS_SETTINGS])
-        focus->setProcessSettings(payload);
-    else if (command == commands[FOCUS_SET_MECHANICS_SETTINGS])
-        focus->setMechanicsSettings(payload);
-    else if (command == commands[FOCUS_GET_PRIMARY_SETTINGS])
-        sendResponse(commands[FOCUS_GET_PRIMARY_SETTINGS], focus->getPrimarySettings());
-    else if (command == commands[FOCUS_GET_PROCESS_SETTINGS])
-        sendResponse(commands[FOCUS_GET_PROCESS_SETTINGS], focus->getProcessSettings());
-    else if (command == commands[FOCUS_GET_MECHANICS_SETTINGS])
-        sendResponse(commands[FOCUS_GET_MECHANICS_SETTINGS], focus->getMechanicsSettings());
 }
 
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)

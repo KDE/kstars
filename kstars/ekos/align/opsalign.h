@@ -35,7 +35,7 @@ public slots:
 
   signals:
     void settingsUpdated();
-    void needToLoadProfile(int profile);
+    void needToLoadProfile(const QString &profile);
 
   private:
     QList<SSolver::Parameters> optionsList;

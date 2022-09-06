@@ -48,7 +48,7 @@ FocusAlgorithmInterface::FocusParams makeParams()
     const QString filterName = "Red";
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
-    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR;
+    const Ekos::Focus::Algorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR;
     const int backlash = 0;
     const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_QUADRATIC;
     const bool useWeights = false;
@@ -73,7 +73,7 @@ FocusAlgorithmInterface::FocusParams makeL1PHyperbolaParams()
     const QString filterName = "Green";
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
-    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const Ekos::Focus::Algorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
     const int backlash = 300;
     const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_HYPERBOLA;
     const bool useWeights = true;
@@ -98,7 +98,7 @@ FocusAlgorithmInterface::FocusParams makeL1PParabolaParams()
     const QString filterName = "Blue";
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
-    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const Ekos::Focus::Algorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
     const int backlash = 200;
     const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_PARABOLA;
     const bool useWeights = false;
@@ -123,7 +123,7 @@ FocusAlgorithmInterface::FocusParams makeL1PQuadraticParams()
     const QString filterName = "Lum";
     const double temperature = 20.0;
     const double initialOutwardSteps = 5;
-    const Ekos::Focus::FocusAlgorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
+    const Ekos::Focus::Algorithm focusAlgorithm = Ekos::Focus::FOCUS_LINEAR1PASS;
     const int backlash = 0;
     const Ekos::CurveFitting::CurveFit curveFit = Ekos::CurveFitting::FOCUS_QUADRATIC;
     const bool useWeights = false;

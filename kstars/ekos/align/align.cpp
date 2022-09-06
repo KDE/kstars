@@ -222,7 +222,7 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     });
     page->setIcon(QIcon::fromTheme("configure"));
 
-    connect(opsAlign, &OpsAlign::needToLoadProfile, this, [this, dialog, page](int profile)
+    connect(opsAlign, &OpsAlign::needToLoadProfile, this, [this, dialog, page](const QString & profile)
     {
         optionsProfileEditor->loadProfile(profile);
         dialog->setCurrentPage(page);

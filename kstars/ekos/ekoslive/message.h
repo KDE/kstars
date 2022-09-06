@@ -91,7 +91,7 @@ class Message : public QObject
         void sendGuideSettings(const QJsonObject &settings);
 
         // Focus
-        void sendFocusSettings(const QJsonObject &settings);
+        void sendFocusSettings(const QVariantMap &settings);
 
         //Scheduler
         void sendSchedulerSettings(const QJsonObject &settings);

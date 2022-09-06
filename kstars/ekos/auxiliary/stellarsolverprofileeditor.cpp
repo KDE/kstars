@@ -185,9 +185,9 @@ void StellarSolverProfileEditor::settingJustChanged()
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
-void StellarSolverProfileEditor::loadProfile(int profile)
+void StellarSolverProfileEditor::loadProfile(const QString &profile)
 {
-    optionsProfile->setCurrentIndex(profile);
+    optionsProfile->setCurrentText(profile);
 }
 
 void StellarSolverProfileEditor::loadOptionsProfile()
@@ -336,7 +336,7 @@ void StellarSolverProfileEditor::openSingleProfile()
                       "INI files(*.ini)");
     if (fileURL.isEmpty())
         return;
-    if(!QFileInfo(fileURL).exists())
+    if(!QFileInfo::exists(fileURL))
     {
         KSMessageBox::warning(this, "Message", "The file doesn't exist");
         return;
@@ -355,7 +355,7 @@ void StellarSolverProfileEditor::openSingleProfile()
         optionsProfile->addItem(group);
     }
     if(optionsProfile->count() > 0)
-        loadProfile(optionsProfile->count() - 1);
+        loadProfile(groups.first());
     m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
