@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>749</width>
-    <height>600</height>
+    <height>591</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
@@ -29,7 +29,7 @@
    <item>
     <layout class="QVBoxLayout" name="LeftLayout">
      <property name="spacing">
-      <number>6</number>
+      <number>3</number>
      </property>
      <item>
       <layout class="QHBoxLayout" name="trainLayout">
