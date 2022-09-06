@@ -491,7 +491,7 @@ Capture::~Capture()
 
 bool Capture::setCamera(ISD::Camera *device)
 {
-    if (m_Camera == device)
+    if (m_Camera && m_Camera == device)
         return false;
 
     if (m_Camera)
@@ -499,8 +499,18 @@ bool Capture::setCamera(ISD::Camera *device)
 
     m_Camera = device;
 
+    CCDFWGroup->setEnabled(m_Camera);
+    sequenceBox->setEnabled(m_Camera);
+    for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+        oneChild->setEnabled(m_Camera);
+
     if (!m_Camera)
+    {
+        cameraLabel->clear();
         return false;
+    }
+    else
+        cameraLabel->setText(m_Camera->getDeviceName());
 
     if (m_FilterWheel)
         syncFilterInfo();
@@ -1596,7 +1606,8 @@ void Capture::checkFilter()
 void Capture::syncFilterInfo()
 {
     QList<ISD::ConcreteDevice *> devices;
-    devices.append(m_Camera);
+    if (m_Camera)
+        devices.append(m_Camera);
     if (m_DustCap)
         devices.append(m_DustCap);
 

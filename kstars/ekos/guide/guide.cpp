@@ -314,13 +314,15 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
 
 bool Guide::setCamera(ISD::Camera *device)
 {
-    if (device == m_Camera)
+    if (m_Camera && device == m_Camera)
         return false;
 
     if (m_Camera)
         m_Camera->disconnect(this);
 
     m_Camera = device;
+
+    controlGroupBox->setEnabled(m_Camera);
 
     // If camera was reset, return now.
     if (!m_Camera)

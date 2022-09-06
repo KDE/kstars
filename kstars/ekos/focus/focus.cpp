@@ -679,13 +679,17 @@ void Focus::checkFocuser()
 
 bool Focus::setCamera(ISD::Camera *device)
 {
-    if (m_Camera == device)
+    if (m_Camera && m_Camera == device)
         return false;
 
     if (m_Camera)
         m_Camera->disconnect(this);
 
     m_Camera = device;
+
+    controlGroup->setEnabled(m_Camera);
+    ccdGroup->setEnabled(m_Camera);
+    tabWidget->setEnabled(m_Camera);
 
     if (!m_Camera)
         return false;
@@ -1300,14 +1304,14 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
 
 bool Focus::focusIn(int ms)
 {
-    if (ms == -1)
+    if (ms <= 0)
         ms = stepIN->value();
     return changeFocus(-ms);
 }
 
 bool Focus::focusOut(int ms)
 {
-    if (ms == -1)
+    if (ms <= 0)
         ms = stepIN->value();
     return changeFocus(ms);
 }
