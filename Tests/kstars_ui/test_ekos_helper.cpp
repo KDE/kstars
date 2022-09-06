@@ -8,6 +8,11 @@
 
 #include "test_ekos_helper.h"
 #include "ksutils.h"
+#include "Options.h"
+#include "oal/log.h"
+#include "ekos/profileeditor.h"
+#include "ekos/guide/internalguide/gmath.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 
 TestEkosHelper::TestEkosHelper(QString guider)
 {
@@ -16,6 +21,7 @@ TestEkosHelper::TestEkosHelper(QString guider)
     m_CCDDevice   = "CCD Simulator";
     if (guider != nullptr)
         m_GuiderDevice = "Guide Simulator";
+    m_astrometry_available = false;
 }
 
 
@@ -194,6 +200,8 @@ void TestEkosHelper::connectModules()
     connect(ekos->alignModule(), &Ekos::Align::newStatus, this, &TestEkosHelper::alignStatusChanged,
             Qt::UniqueConnection);
 
+    if (m_MountDevice != nullptr)
+    {
     // connect to the mount process to rmount status changes
     connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
             &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
@@ -201,26 +209,31 @@ void TestEkosHelper::connectModules()
     // connect to the mount process to receive meridian flip status changes
     connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
             &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
+    }
 
-    // connect to the guiding process to receive guiding status changes
-    connect(ekos->guideModule(), &Ekos::Guide::newStatus, this, &TestEkosHelper::guidingStatusChanged,
-            Qt::UniqueConnection);
+    if (m_GuiderDevice != nullptr)
+    {
+        // connect to the guiding process to receive guiding status changes
+        connect(ekos->guideModule(), &Ekos::Guide::newStatus, this, &TestEkosHelper::guidingStatusChanged,
+                Qt::UniqueConnection);
 
-    connect(ekos->guideModule(), &Ekos::Guide::newAxisDelta, this, &TestEkosHelper::guideDeviationChanged,
-            Qt::UniqueConnection);
-
+        connect(ekos->guideModule(), &Ekos::Guide::newAxisDelta, this, &TestEkosHelper::guideDeviationChanged,
+                Qt::UniqueConnection);
+    }
 
     // connect to the capture process to receive capture status changes
-    connect(ekos->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosHelper::captureStatusChanged,
-            Qt::UniqueConnection);
+    if (m_CCDDevice != nullptr)
+        connect(ekos->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosHelper::captureStatusChanged,
+                Qt::UniqueConnection);
 
     // connect to the scheduler process to receive scheduler status changes
     connect(ekos->schedulerModule(), &Ekos::Scheduler::newStatus, this, &TestEkosHelper::schedulerStatusChanged,
             Qt::UniqueConnection);
 
     // connect to the focus process to receive focus status changes
-    connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosHelper::focusStatusChanged,
-            Qt::UniqueConnection);
+    if (m_FocuserDevice != nullptr)
+        connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosHelper::focusStatusChanged,
+                Qt::UniqueConnection);
 
     // connect to the dome process to receive dome status changes
     //    connect(ekos->domeModule(), &Ekos::Dome::newStatus, this, &TestEkosHelper::domeStatusChanged,
@@ -371,6 +384,246 @@ void TestEkosHelper::cleanupPHD2()
         QVERIFY(QFile::rename(phd2_config_home_bak.filePath(), phd2_config_home.filePath()));
 }
 
+void TestEkosHelper::prepareOpticalTrains()
+{
+    Ekos::OpticalTrainManager *otm = Ekos::OpticalTrainManager::Instance();
+    // close window, we change everything programatically
+    otm->close();
+    // setup train with main scope and camera
+    QVariantMap primaryTrain = otm->getOpticalTrain(m_primaryTrain);
+    primaryTrain["mount"] = m_MountDevice;
+    primaryTrain["camera"] = m_CCDDevice;
+    primaryTrain["filterwheel"] = m_CCDDevice;
+    primaryTrain["focuser"] = m_FocuserDevice == nullptr ? "-" : m_FocuserDevice;
+    primaryTrain["rotator"] = m_RotatorDevice == nullptr ? "-" : m_RotatorDevice;
+    primaryTrain["lightbox"] = m_LightPanelDevice == nullptr ? "-" : m_LightPanelDevice;
+    KStarsData::Instance()->userdb()->UpdateOpticalTrain(primaryTrain, primaryTrain["id"].toInt());
+    if (m_GuiderDevice != "")
+    {
+        // setup guiding scope train
+        QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
+        guidingTrain["mount"] = m_MountDevice;
+        guidingTrain["camera"] = m_CCDDevice;
+        guidingTrain["filterwheel"] = "-";
+        guidingTrain["focuser"] = "-";
+        guidingTrain["guider"] = m_MountDevice;
+        KStarsData::Instance()->userdb()->UpdateOpticalTrain(guidingTrain, guidingTrain["id"].toInt());
+    }
+    // ensure that the OTM initializes from the database
+    otm->refreshModel();
+    otm->refreshTrains();
+}
+
+void TestEkosHelper::prepareAlignmentModule()
+{
+
+    // check if astrometry files exist
+    QTRY_VERIFY(isAstrometryAvailable() == true);
+    // switch to alignment module
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000);
+    // select the primary train for alignment
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), opticalTrainCombo, m_primaryTrain);
+    // select the Luminance filter
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), FilterPosCombo, "Luminance");
+    // select local solver
+    Ekos::Manager::Instance()->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
+    // select internal SEP method
+    Options::setSolveSextractorType(SSolver::EXTRACTOR_BUILTIN);
+    // select StellarSolver
+    Options::setSolverType(SSolver::SOLVER_STELLARSOLVER);
+    // select fast solve profile option
+    Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
+    // select the "Slew to Target" mode
+    KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
+    // reduce the accuracy to avoid testing problems
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
+    // disable rotator check in alignment
+    Options::setAstrometryUseRotator(false);
+}
+
+void TestEkosHelper::prepareFocusModule()
+{
+    // set focus mode defaults
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000);
+    // select the primary train for focusing
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), opticalTrainCombo, m_primaryTrain);
+    // use full field
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), useFullField, true);
+    //initial step size 5000
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), stepIN, 5000);
+    // max travel 50000
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), maxTravelIN, 50000.0);
+    // focus tolerance 20% - make focus fast and robust, precision does not matter
+    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, toleranceIN);
+    toleranceIN->setMaximum(20.0);
+    toleranceIN->setValue(20.0);
+    // use single pass linear algorithm
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusAlgorithmCombo, "Linear 1 Pass");
+    // select star detection
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusOptionsProfiles, "1-Focus-Default");
+    // set annulus to 0% - 50%
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), fullFieldInnerRing, 0.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), fullFieldOuterRing, 50.0);
+    // try to make focusing fast, precision is not relevant here
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), initialFocusOutStepsIN, 2);
+    // select the Luminance filter
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), FilterPosCombo, "Luminance");
+    // select SEP algorithm for star detection
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetectionCombo, "SEP");
+    // set exp time for current filter
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
+    // set exposure times for all filters
+    Ekos::FilterManager *filtermanager = Ekos::FilterManager::Instance();
+    for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
+    {
+        filtermanager->setFilterExposure(pos, 3.0);
+        filtermanager->setFilterLock(pos, "Luminance");
+    }
+    // gain 100
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), gainIN, 100.0);
+    // suspend guiding while focusing
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
+}
+
+void TestEkosHelper::prepareGuidingModule()
+{
+    // switch to guiding module
+    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000);
+
+    // preserve guiding calibration as good as possible
+    Options::setReuseGuideCalibration(true);
+
+    if (m_Guider == "PHD2")
+    {
+        KTRY_GADGET(Ekos::Manager::Instance()->guideModule(), QPushButton, externalConnectB);
+        // ensure that PHD2 is connected
+        if (externalConnectB->isEnabled())
+        {
+            // click "Connect"
+            KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), externalConnectB);
+            // wait max 60 sec that PHD2 is connected (sometimes INDI connections hang)
+            QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->status() == Ekos::GUIDE_CONNECTED, 60000);
+            qCInfo(KSTARS_EKOS_TEST) << "PHD2 connected successfully.";
+        }
+    }
+    else
+    {
+        // select the secondary train for guiding
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), opticalTrainCombo, m_guidingTrain);
+        // select multi-star
+        Options::setGuideAlgorithm(SEP_MULTISTAR);
+        // select small star profile
+        Options::setGuideOptionsProfile(2);
+        // set 2 sec guiding calibration pulse duration
+        Options::setCalibrationPulseDuration(2000);
+        // auto star select
+        KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), autoStarCheck, true);
+        // set the guide star box to size 32
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "32");
+        // use 1x1 binning for guiding
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), binningCombo, "1x1");
+        // use three steps in each direction for calibration
+        Options::setAutoModeIterations(3);
+        // use simulator's guide head
+        Options::setUseGuideHead(true);
+    }
+}
+
+Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght)
+{
+    QList<Scope *> scope_list;
+    KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
+
+    for (Scope *scope: scope_list)
+    {
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+            return scope;
+    }
+    // no match found, create it again
+    KStarsData::Instance()->userdb()->AddScope(model, vendor, type, aperture, focallenght);
+    Ekos::OpticalTrainManager::Instance()->refreshOpticalElements();
+    // find it
+    scope_list.clear();
+    KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
+    for (Scope *scope: scope_list)
+    {
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+            return scope;
+    }
+    // this should never happen
+    return nullptr;
+}
+
+OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
+{
+    switch (type)
+    {
+    case SCOPE_FSQ85:
+        return fsq85;
+    case SCOPE_NEWTON_10F4:
+        return newton_10F4;
+    case SCOPE_TAKFINDER10x50:
+        return takfinder10x50;
+    }
+    // this should never happen
+    return fsq85;
+}
+
+void TestEkosHelper::prepareMountModule(ScopeType primary, ScopeType guiding)
+{
+    Ekos::OpticalTrainManager *otm = Ekos::OpticalTrainManager::Instance();
+    // set mount defaults
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule() != nullptr, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule()->slewStatus() != IPState::IPS_ALERT, 1000);
+
+    // define a set of scopes
+    fsq85          = createScopeIfNecessary("FSQ-85", "Takahashi", "Refractor", 85.0, 450.0);
+    newton_10F4    = createScopeIfNecessary("ONTC", "Teleskop-Service", "Newtonian", 254.0, 1000.0);
+    takfinder10x50 = createScopeIfNecessary("Finder 7x50", "Takahashi", "Refractor", 50.0, 170.0);
+
+    QVERIFY(fsq85 != nullptr);
+    QVERIFY(newton_10F4 != nullptr);
+    QVERIFY(takfinder10x50 != nullptr);
+
+    OAL::Scope *primaryScope = getScope(primary);
+    OAL::Scope *guidingScope = getScope(guiding);
+
+    // setup the primary train
+    QVariantMap primaryTrain = otm->getOpticalTrain(m_primaryTrain);
+    primaryTrain["scope"] = primaryScope->name();
+    primaryTrain["reducer"] = 1.0;
+    KStarsData::Instance()->userdb()->UpdateOpticalTrain(primaryTrain, primaryTrain["id"].toInt());
+
+    // setup the guiding train
+    QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
+    guidingTrain["scope"] = guidingScope->name();
+    guidingTrain["reducer"] = 1.0;
+    KStarsData::Instance()->userdb()->UpdateOpticalTrain(guidingTrain, guidingTrain["id"].toInt());
+    // ensure that the OTM initializes from the database
+    otm->refreshModel();
+    otm->refreshTrains();
+
+    // Set the scope parameters also in the telescope simulator to ensure that the CCD simulator creates the right FOW
+    KTRY_INDI_PROPERTY(m_MountDevice, "Options", "TELESCOPE_INFO", scope_info);
+    INDI_E *primary_aperture = scope_info->getElement("TELESCOPE_APERTURE");
+    INDI_E *primary_focallength = scope_info->getElement("TELESCOPE_FOCAL_LENGTH");
+    INDI_E *guider_aperture = scope_info->getElement("GUIDER_APERTURE");
+    INDI_E *guider_focallength = scope_info->getElement("GUIDER_FOCAL_LENGTH");
+    QVERIFY(primary_aperture != nullptr);
+    QVERIFY(primary_focallength != nullptr);
+    QVERIFY(guider_aperture != nullptr);
+    QVERIFY(guider_focallength != nullptr);
+    primary_aperture->setValue(primaryTrain["aperture"].toDouble());
+    primary_focallength->setValue(primaryTrain["focal_length"].toDouble() * primaryTrain["reducer"].toDouble());
+    guider_aperture->setValue(guidingTrain["aperture"].toDouble());
+    guider_focallength->setValue(guidingTrain["focal_length"].toDouble() * guidingTrain["reducer"].toDouble());
+    scope_info->processSetButton();
+
+
+    // select the primary train for the mount
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->mountModule(), opticalTrainCombo, m_primaryTrain);
+}
+
 bool TestEkosHelper::slewTo(double RA, double DEC, bool fast)
 {
     if (fast)
@@ -455,13 +708,14 @@ bool TestEkosHelper::startAligning(double expTime)
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), exposureIN, expTime);
     // reduce the accuracy to avoid testing problems
     KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->alignModule(), FilterPosCombo, "Luminance");
 
     // start alignment
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->alignModule(), QPushButton, solveB);
-    // ensure that the guiding button is enabled (after MF it may take a while)
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(solveB->isEnabled(), 10000);
+    // ensure that the solve button is enabled (after MF it may take a while)
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(solveB->isEnabled(), 60000);
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->alignModule(), solveB);
-    // success
+    // alignment started
     return true;
 }
 
@@ -480,7 +734,18 @@ bool TestEkosHelper::checkAstrometryFiles()
         if (! dir.entryList().isEmpty())
             return true;
     }
+    QWARN(QString("No astrometry index files found in %1").arg(
+              KSUtils::getAstrometryDataDirs().join(", ")).toStdString().c_str());
     return false;
+}
+
+bool TestEkosHelper::isAstrometryAvailable()
+{
+    // avoid double checks if already found
+    if (! m_astrometry_available)
+        m_astrometry_available = checkAstrometryFiles();
+
+    return m_astrometry_available;
 }
 
 void TestEkosHelper::init()

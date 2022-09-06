@@ -15,8 +15,7 @@
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
 #include "indi/indielement.h"
-
-#include "ekos/profileeditor.h"
+#include "indi/guimanager.h"
 
 #include <QObject>
 
@@ -243,6 +242,14 @@ do {\
 #define KTRY_SET_COMBO(module, combo, value) \
     KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QVERIFY(combo->currentText() == value)
 
+/** @brief Helper to set a combo box by index and verify whether it succeeded
+ * @param module KStars module that holds the combo box
+ * @param combo object name of the combo box
+ * @param value index the combo box should be selected
+ */
+#define KTRY_SET_COMBO_INDEX(module, combo, value) \
+    KTRY_GADGET(module, QComboBox, combo); combo->setCurrentIndex(value); QVERIFY(combo->currentIndex() == value)
+
 /** @brief Subroutine version of @see KTRY_SET_COMBO
  * @param module KStars module that holds the combo box
  * @param combo object name of the combo box
@@ -251,13 +258,13 @@ do {\
 #define KTRY_SET_COMBO_SUB(module, combo, value) \
     KWRAP_SUB(KTRY_GADGET(module, QComboBox, combo); combo->setCurrentText(value); QVERIFY(combo->currentText() == value))
 
-/** @brief Helper to set a combo box by indexand verify whether it succeeded
+/** @brief Helper to set a combo box by index and verify whether it succeeded
  * @param module KStars module that holds the combo box
  * @param combo object name of the combo box
  * @param value index the combo box should be selected
  */
 #define KTRY_SET_COMBO_INDEX_SUB(module, combo, value) \
-    KWRAP_SUB(KTRY_GADGET(module, QComboBox, combo); combo->setCurrentIndex(value); QVERIFY(combo->currentIndex() == value))
+    KWRAP_SUB(KTRY_SET_COMBO_INDEX(module, combo, value))
 
 /** @brief Helper to set a line edit box and verify whether it succeeded
  * @param module KStars module that holds the line edit box
@@ -347,6 +354,16 @@ class TestEkosHelper : public QObject
     Q_OBJECT
 public:
     explicit TestEkosHelper(QString guider = nullptr);
+
+    // main optical train
+    QString m_primaryTrain = i18n("Primary");
+    QString m_guidingTrain = i18n("Secondary");
+
+    // predefined set of scopes
+    OAL::Scope *fsq85, *newton_10F4, *takfinder10x50;
+    enum ScopeType {SCOPE_FSQ85, SCOPE_NEWTON_10F4, SCOPE_TAKFINDER10x50};
+    // map scope type to predefined scope
+    OAL::Scope *getScope(ScopeType type);
 
     // Mount device
     QString m_MountDevice = nullptr;
@@ -454,6 +471,31 @@ public:
     void cleanupPHD2();
 
     /**
+     * @brief Prepare two optical trains for test purposes, one for capturing and one for guiding
+     */
+    void prepareOpticalTrains();
+
+    /**
+     * @brief Helper function that ensures that alignment works in a test environment
+     */
+    void prepareAlignmentModule();
+
+    /**
+     * @brief Helper function that ensures that focusing works in a test environment
+     */
+    void prepareFocusModule();
+
+    /**
+     * @brief Helper function that ensures that guiding works in a test environment
+     */
+    void prepareGuidingModule();
+
+    /**
+     * @brief Prepare the mount module with the given mount parameters
+     */
+    void prepareMountModule(ScopeType primary = SCOPE_FSQ85, ScopeType guiding = SCOPE_TAKFINDER10x50);
+
+    /**
      * @brief Slew to a given position
      * @param fast set to true if slewing should be fast using sync first close to the position
      */
@@ -483,6 +525,10 @@ public:
      */
     bool checkAstrometryFiles();
 
+    /**
+     * @brief Returns true iff astrometry is available and checks if necessary.
+     */
+    bool isAstrometryAvailable();
 
     /**
      * @brief Set a tree view combo to a given value
@@ -535,6 +581,17 @@ public:
      * @brief Connect to read all modules state changes
      */
     void connectModules();
+
+    /**
+     * @brief Search for a certain scope in the database and create it if necessary
+     * @param model scope model
+     * łparam vendor scope vendor
+     * @param type scope type (refractor, newton, ...
+     * @param aperture scope aperture in mm
+     * @param focallenght focal length in mm
+     * @return scope object
+     */
+    Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
 
 private:
     // current mount status
@@ -618,5 +675,8 @@ private:
      * @param status new scheduler status
      */
     void domeStatusChanged(ISD::Dome::Status status);
+
+private:
+    bool m_astrometry_available;
 
 };

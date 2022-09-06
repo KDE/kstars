@@ -66,6 +66,10 @@ class ProfileSettings : public QObject
         {
             return m_Settings;
         }
+        uint32_t id() const
+        {
+            return m_Profile->id;
+        }
 
     signals:
         void updated();

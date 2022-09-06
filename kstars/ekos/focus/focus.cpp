@@ -12,21 +12,31 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
+
+// Modules
+#include "ekos/guide/guide.h"
+
+// KStars Auxiliary
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksmessagebox.h"
-#include "ekos/manager.h"
+
+// Ekos Auxiliary
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
+#include "ekos/auxiliary/filtermanager.h"
+
+// FITS
 #include "fitsviewer/fitsdata.h"
-#include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
+
+// Devices
 #include "indi/indifilterwheel.h"
 #include "ksnotification.h"
 #include "kconfigdialog.h"
 
 #include <basedevice.h>
-
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_min.h>
@@ -81,7 +91,7 @@ Focus::Focus()
     loadSettings();
 
     // #9 Init Setting Connection now
-    initSettingsConnections();
+    connectSettings();
 
     connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::calculateHFR);
 
@@ -575,6 +585,7 @@ void Focus::checkFocuser()
     {
         FilterManager::Instance()->setFocusReady(false);
         canAbsMove = canRelMove = canTimerMove = false;
+        resetButtons();
         return;
     }
 
@@ -651,7 +662,6 @@ void Focus::checkFocuser()
                     // to conflict with this callback, getting stuck forever: "1", "12", "1', "12"
                     return;
                 m_Focuser->setBacklash(value);
-                syncSettings();
             }
         });
 
@@ -669,13 +679,17 @@ void Focus::checkFocuser()
 
 bool Focus::setCamera(ISD::Camera *device)
 {
-    if (m_Camera == device)
+    if (m_Camera && m_Camera == device)
         return false;
 
     if (m_Camera)
         m_Camera->disconnect(this);
 
     m_Camera = device;
+
+    controlGroup->setEnabled(m_Camera);
+    ccdGroup->setEnabled(m_Camera);
+    tabWidget->setEnabled(m_Camera);
 
     if (!m_Camera)
         return false;
@@ -1290,14 +1304,14 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
 
 bool Focus::focusIn(int ms)
 {
-    if (ms == -1)
+    if (ms <= 0)
         ms = stepIN->value();
     return changeFocus(-ms);
 }
 
 bool Focus::focusOut(int ms)
 {
-    if (ms == -1)
+    if (ms <= 0)
         ms = stepIN->value();
     return changeFocus(ms);
 }
@@ -1593,7 +1607,8 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
                                         .arg(QString::number(hfr_value[i], 'f', 3)));
             }
 
-            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"), KSNotification::Focus);
+            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
+                                  KSNotification::Focus);
             emit autofocusComplete(filter(), analysis_results);
         }
     }
@@ -3193,7 +3208,7 @@ void Focus::resetButtons()
         return;
     }
 
-    bool const enableCaptureButtons = captureInProgress == false && hfrInProgress == false;
+    auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
@@ -4054,6 +4069,10 @@ void Focus::syncSettings()
     }
 
     emit settingsUpdated(getSettings());
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, getAllSettings());
 }
 
 void Focus::loadSettings()
@@ -4161,7 +4180,7 @@ void Focus::loadSettings()
     useAutoStar->setEnabled(focusDetection != ALGORITHM_BAHTINOV);
 }
 
-void Focus::initSettingsConnections()
+void Focus::connectSettings()
 {
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
@@ -4178,7 +4197,31 @@ void Focus::initSettingsConnections()
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 }
+
+void Focus::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Focus::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
+
+}
+
 
 void Focus::initPlots()
 {
@@ -4438,6 +4481,80 @@ QJsonObject Focus::getSettings() const
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Focus::getAllSettings() const
+{
+    QJsonObject settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Focus::setAllSettings(const QJsonObject &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+    }
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Focus::setSettings(const QJsonObject &settings)
 {
     static bool init = false;
@@ -4667,6 +4784,16 @@ void Focus::refreshOpticalTrain()
 
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
+
+        // Load settings
+        auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
+        if (id >= 0)
+        {
+            OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+            auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+            if (settings.isValid())
+                setAllSettings(settings.toJsonObject());
+        }
     }
 
     opticalTrainCombo->blockSignals(false);

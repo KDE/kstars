@@ -275,7 +275,7 @@ void FilterManager::initFilterProperties()
 
 QStringList FilterManager::getFilterLabels(bool forceRefresh)
 {
-    if (forceRefresh == false || m_FilterNameProperty == nullptr)
+    if (forceRefresh == false || !m_FilterNameProperty || !m_FilterPositionProperty)
         return m_currentFilterLabels;
 
     QStringList filterList;

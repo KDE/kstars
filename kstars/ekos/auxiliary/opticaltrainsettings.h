@@ -43,7 +43,14 @@ class OpticalTrainSettings : public QObject
         // Settings
         typedef enum
         {
-            Binning,
+            Capture,
+            Focus,
+            Mount,
+            Align,
+            Guide,
+            Observatory,
+            Scheduler,
+            Analyze
         } Settings;
 
         /**

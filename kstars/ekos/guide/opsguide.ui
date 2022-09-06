@@ -302,13 +302,10 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="l_19">
-          <property name="toolTip">
-           <string>The algorithm that tracks guide stars and determines the guide deviation.</string>
-          </property>
+        <item row="4" column="3">
+         <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>Algorithm</string>
+           <string>seconds</string>
           </property>
          </widget>
         </item>
@@ -325,6 +322,16 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLabel" name="label_11">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If star tracking is lost due to passing clouds or other reasons, wait this many seconds before giving up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Lost Star timeout</string>
+          </property>
+         </widget>
+        </item>
         <item row="5" column="0" colspan="2">
          <widget class="QLabel" name="label_13">
           <property name="toolTip">
@@ -335,24 +342,49 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
-         <widget class="QLabel" name="label_21">
+        <item row="8" column="0" colspan="2">
+         <widget class="QLabel" name="label_24">
+          <property name="toolTip">
+           <string>Maximum number of reference stars used by SEP MultiStar.</string>
+          </property>
           <property name="text">
-           <string>pixels</string>
+           <string>Max MultiStar Ref Stars</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="3">
-         <widget class="QLabel" name="label_23">
+        <item row="1" column="0">
+         <widget class="QLabel" name="l_20">
+          <property name="toolTip">
+           <string>The StellarSolver profile to use when detecting stars--used with the SEP MultiStar and SEP algorithms.</string>
+          </property>
           <property name="text">
-           <string>stars</string>
+           <string>SEP Profile</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="3">
-         <widget class="QLabel" name="label_25">
+        <item row="6" column="2">
+         <widget class="QDoubleSpinBox" name="kcfg_GuideMaxHFR">
+          <property name="toolTip">
+           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
+          </property>
+          <property name="minimum">
+           <double>0.500000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>20.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>4.500000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <widget class="QLabel" name="label_20">
+          <property name="toolTip">
+           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
+          </property>
           <property name="text">
-           <string>stars</string>
+           <string>Max MultiStar HFR</string>
           </property>
          </widget>
         </item>
@@ -369,13 +401,37 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QLabel" name="label_11">
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>seconds</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>arcsecs</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" colspan="4">
+         <widget class="QCheckBox" name="kcfg_SaveGuideLog">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If star tracking is lost due to passing clouds or other reasons, wait this many seconds before giving up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked and the internal guider is run, a log file is saved in the default logging directory. This is not a debug log, it is meant for user's to improve logging and can be viewed with phd2logview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Lost Star timeout</string>
+           <string>Save Internal Guider User Log</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QLabel" name="label_23">
+          <property name="text">
+           <string>stars</string>
           </property>
          </widget>
         </item>
@@ -422,6 +478,88 @@
           </item>
          </widget>
         </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="l_19">
+          <property name="toolTip">
+           <string>The algorithm that tracks guide stars and determines the guide deviation.</string>
+          </property>
+          <property name="text">
+           <string>Algorithm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>pixels</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="editGuideProfile">
+          <property name="maximumSize">
+           <size>
+            <width>22</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QSpinBox" name="kcfg_MinDetectionsSEPMultistar">
+          <property name="toolTip">
+           <string>Minimum number of stars detected for SEP MultiStar to initialize.</string>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>20</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>stars</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QSpinBox" name="kcfg_MaxMultistarReferenceStars">
+          <property name="toolTip">
+           <string>Maximum number of reference stars used by SEP MultiStar.</string>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="2">
          <widget class="QSpinBox" name="kcfg_GuideCalibrationTimeout">
           <property name="maximum">
@@ -432,10 +570,13 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="3">
-         <widget class="QLabel" name="label_17">
+        <item row="7" column="0" colspan="2">
+         <widget class="QLabel" name="label_22">
+          <property name="toolTip">
+           <string>Minimum number of stars detected for SEP MultiStar to initialize.</string>
+          </property>
           <property name="text">
-           <string>seconds</string>
+           <string>Min MultiStar Star Detections</string>
           </property>
          </widget>
         </item>
@@ -455,144 +596,13 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="2">
-         <widget class="QDoubleSpinBox" name="kcfg_GuideMaxHFR">
-          <property name="minimum">
-           <double>0.500000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>20.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>4.500000000000000</double>
-          </property>
-          <property name="toolTip">
-           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QSpinBox" name="kcfg_MinDetectionsSEPMultistar">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>20</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="toolTip">
-           <string>Minimum number of stars detected for SEP MultiStar to initialize.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QSpinBox" name="kcfg_MaxMultistarReferenceStars">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>10</number>
-          </property>
-          <property name="toolTip">
-           <string>Maximum number of reference stars used by SEP MultiStar.</string>
-          </property>
-         </widget>
-        </item>
         <item row="9" column="0" colspan="4">
-         <widget class="QCheckBox" name="kcfg_SaveGuideLog">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
+         <widget class="QCheckBox" name="kcfg_UseGuideHead">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked and the internal guider is run, a log file is saved in the default logging directory. This is not a debug log, it is meant for user's to improve logging and can be viewed with phd2logview.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the camera used for guiding has a dedicated guiding chip, you can decide which of the camera chips should be used for guiding: the primary chip or the guiding chip.&lt;/p&gt;&lt;p&gt;For cameras that have only one chip, this option is ignored.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Save Internal Guider User Log</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>seconds</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" colspan="2">
-         <widget class="QLabel" name="label_20">
-          <property name="toolTip">
-           <string>Maximum HFR allowed for SEP MultiStar guide star.</string>
-          </property>
-          <property name="text">
-           <string>Max MultiStar HFR</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0" colspan="2">
-         <widget class="QLabel" name="label_22">
-          <property name="toolTip">
-           <string>Minimum number of stars detected for SEP MultiStar to initialize.</string>
-          </property>
-          <property name="text">
-           <string>Min MultiStar Star Detections</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0" colspan="2">
-         <widget class="QLabel" name="label_24">
-          <property name="toolTip">
-           <string>Maximum number of reference stars used by SEP MultiStar.</string>
-          </property>
-          <property name="text">
-           <string>Max MultiStar Ref Stars</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>arcsecs</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="l_20">
-          <property name="toolTip">
-           <string>The StellarSolver profile to use when detecting stars--used with the SEP MultiStar and SEP algorithms.</string>
-          </property>
-          <property name="text">
-           <string>SEP Profile</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QPushButton" name="editGuideProfile">
-          <property name="maximumSize">
-           <size>
-            <width>22</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QComboBox" name="kcfg_GuideOptionsProfile">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+           <string>Use dedicated Guiding Chip for Guiding</string>
           </property>
          </widget>
         </item>

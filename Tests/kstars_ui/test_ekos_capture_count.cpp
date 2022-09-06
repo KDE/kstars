@@ -11,6 +11,7 @@
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
 #include "Options.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 
 #include "test_ekos_capture_helper.h"
 
@@ -143,6 +144,8 @@ void TestEkosCaptureCount::initTestCase()
     Options::setUseFITSViewer(false);
     // disable twilight warning
     KMessageBox::saveDontShowAgainYesNo("astronomical_twilight_warning", KMessageBox::ButtonCode::No);
+    // close the optical trains manager
+    Ekos::OpticalTrainManager::Instance()->close();
 }
 
 void TestEkosCaptureCount::cleanupTestCase()

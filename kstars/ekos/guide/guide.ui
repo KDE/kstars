@@ -7,10 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>749</width>
-    <height>594</height>
+    <height>591</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,3">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>3</number>
    </property>
@@ -32,7 +32,57 @@
       <number>3</number>
      </property>
      <item>
-      <widget class="QGroupBox" name="groupBox">
+      <layout class="QHBoxLayout" name="trainLayout">
+       <item>
+        <widget class="QLabel" name="trainLabel">
+         <property name="text">
+          <string>Train:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="opticalTrainCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="trainB">
+         <property name="minimumSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset theme="document-edit">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="controlGroupBox">
        <property name="title">
         <string>Control</string>
        </property>
@@ -380,13 +430,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Train:</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0">
            <widget class="QLabel" name="l_9">
             <property name="text">
@@ -458,39 +501,6 @@
               <string>128</string>
              </property>
             </item>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2">
-           <widget class="QComboBox" name="opticalTrainCombo">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QPushButton" name="trainB">
-            <property name="minimumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="document-edit">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
            </widget>
           </item>
          </layout>
@@ -1513,15 +1523,22 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>opticalTrainCombo</tabstop>
+  <tabstop>trainB</tabstop>
   <tabstop>captureB</tabstop>
   <tabstop>loopB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
   <tabstop>guideB</tabstop>
+  <tabstop>subFrameCheck</tabstop>
+  <tabstop>autoStarCheck</tabstop>
   <tabstop>clearCalibrationB</tabstop>
   <tabstop>stopB</tabstop>
-  <tabstop>opticalTrainCombo</tabstop>
+  <tabstop>darkFrameCheck</tabstop>
+  <tabstop>manualDitherB</tabstop>
   <tabstop>exposureIN</tabstop>
+  <tabstop>GuideDelay</tabstop>
   <tabstop>boxSizeCombo</tabstop>
+  <tabstop>binningCombo</tabstop>
   <tabstop>checkBox_DirRA</tabstop>
   <tabstop>checkBox_DirDEC</tabstop>
   <tabstop>swapCheck</tabstop>
@@ -1531,18 +1548,22 @@
   <tabstop>southControlCheck</tabstop>
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
-  <tabstop>showRAPlotCheck</tabstop>
-  <tabstop>showDECPlotCheck</tabstop>
   <tabstop>showRACorrectionsCheck</tabstop>
+  <tabstop>showDECPlotCheck</tabstop>
+  <tabstop>showRAPlotCheck</tabstop>
+  <tabstop>showSNRPlotCheck</tabstop>
+  <tabstop>guideZoomInXB</tabstop>
+  <tabstop>guideZoomOutXB</tabstop>
   <tabstop>showDECorrectionsCheck</tabstop>
+  <tabstop>showRMSPlotCheck</tabstop>
   <tabstop>guideSlider</tabstop>
-  <tabstop>correctionSlider</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>latestCheck</tabstop>
   <tabstop>guideAutoScaleGraphB</tabstop>
   <tabstop>guideSaveDataB</tabstop>
   <tabstop>guideDataClearB</tabstop>
   <tabstop>accuracyRadiusSpin</tabstop>
+  <tabstop>correctionSlider</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>

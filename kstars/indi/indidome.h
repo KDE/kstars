@@ -24,8 +24,8 @@ class Dome : public ConcreteDevice
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.Dome")
         Q_PROPERTY(bool canPark READ canPark)
-        Q_PROPERTY(bool canAbsMove READ canAbsMove)
-        Q_PROPERTY(bool canRelMove READ canRelMove)
+        Q_PROPERTY(bool canAbsoluteMove READ canAbsoluteMove)
+        Q_PROPERTY(bool canRelativeMove READ canRelativeMove)
         Q_PROPERTY(bool canAbort READ canAbort)
         Q_PROPERTY(bool isMoving READ isMoving)
         Q_PROPERTY(ISD::Dome::Status status READ status NOTIFY newStatus)
@@ -90,11 +90,11 @@ class Dome : public ConcreteDevice
         {
             return m_CanPark;
         }
-        Q_SCRIPTABLE bool canAbsMove() const
+        Q_SCRIPTABLE bool canAbsoluteMove() const
         {
             return m_CanAbsMove;
         }
-        Q_SCRIPTABLE bool canRelMove() const
+        Q_SCRIPTABLE bool canRelativeMove() const
         {
             return m_CanRelMove;
         }
@@ -146,6 +146,15 @@ class Dome : public ConcreteDevice
             return m_HasShutter;
         }
 
+        /**
+         * @brief isRolloffRoof Do we have a roll off structure?
+         * @return True if we do, false otherwise.
+         */
+        bool isRolloffRoof()
+        {
+            return (canAbsoluteMove() == false && canRelativeMove() == false);
+        }
+
         // slaving
         bool isAutoSync();
         bool setAutoSync(bool activate);
@@ -166,7 +175,16 @@ class Dome : public ConcreteDevice
         Q_SCRIPTABLE bool abort();
         Q_SCRIPTABLE bool park();
         Q_SCRIPTABLE bool unPark();
+
         Q_SCRIPTABLE bool controlShutter(bool open);
+        bool openShutter()
+        {
+            return controlShutter(true);
+        }
+        bool closeShutter()
+        {
+            return controlShutter(false);
+        }
 
     signals:
         void newStatus(Status status);

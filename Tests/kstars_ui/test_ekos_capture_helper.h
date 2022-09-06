@@ -50,7 +50,7 @@
 #define KTRY_CAPTURE_CLICK(button) do { \
     QTimer::singleShot(100, Ekos::Manager::Instance(), []() { \
         KTRY_CAPTURE_GADGET(QPushButton, button); \
-        QVERIFY2(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str()); \
+        QTRY_VERIFY2_WITH_TIMEOUT(button->isEnabled(), QString("QPushButton '%1' is disabled and cannot be clicked").arg(#button).toStdString().c_str(), 10000); \
         QTest::mouseClick(button, Qt::LeftButton); }); \
     QTest::qWait(200); } while(false)
 

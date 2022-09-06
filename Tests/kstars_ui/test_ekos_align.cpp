@@ -19,7 +19,7 @@
 
 TestEkosAlign::TestEkosAlign(QObject *parent) : QObject(parent)
 {
-    m_test_ekos_helper = new TestEkosHelper();
+    m_CaptureHelper = new TestEkosCaptureHelper();
 }
 
 
@@ -114,6 +114,7 @@ void TestEkosAlign::testFitsAlignTargetScheduledJob()
 
 void TestEkosAlign::testSyncOnlyAlign()
 {
+    QSKIP("Align feature of sync only not implemented yet.");
     Ekos::Manager *ekos = Ekos::Manager::Instance();
     // select to Pherkab as target
     SkyObject *pherkab = findTargetByName("Pherkab");
@@ -133,13 +134,13 @@ void TestEkosAlign::testSyncOnlyAlign()
 void TestEkosAlign::testAlignRecoverFromSlewing()
 {
     // slew to Kocab
-    m_test_ekos_helper->slewTo(14.845, 74.106, true);
+    m_CaptureHelper->slewTo(14.845, 74.106, true);
     // expect align events: suspend --> progress --> complete
     expectedAlignStates.append(Ekos::ALIGN_SUSPENDED);
     expectedAlignStates.append(Ekos::ALIGN_PROGRESS);
     expectedAlignStates.append(Ekos::ALIGN_COMPLETE);
     // start alignment
-    QVERIFY(m_test_ekos_helper->startAligning(10.0));
+    QVERIFY(m_CaptureHelper->startAligning(5));
     // ensure that capturing has started
     QTest::qWait(2000);
     // move the mount to interrupt alignment
@@ -186,12 +187,12 @@ void TestEkosAlign::initTestCase()
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
-    // start the profile
-    QVERIFY(m_test_ekos_helper->startEkosProfile());
-    m_test_ekos_helper->init();
     QStandardPaths::setTestModeEnabled(true);
     // create temporary directory
     testDir = new QTemporaryDir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    // use the helper to start the profile
+    m_CaptureHelper->startEkosProfile();
 
     prepareTestCase();
 }
@@ -211,8 +212,8 @@ void TestEkosAlign::cleanupTestCase()
     disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
                &TestEkosAlign::telescopeStatusChanged);
 
-    m_test_ekos_helper->cleanup();
-    QVERIFY(m_test_ekos_helper->shutdownEkosProfile());
+    m_CaptureHelper->cleanup();
+    QVERIFY(m_CaptureHelper->shutdownEkosProfile());
     KTRY_CLOSE_EKOS();
     KVERIFY_EKOS_IS_HIDDEN();
 }
@@ -226,56 +227,15 @@ void TestEkosAlign::prepareTestCase()
     Options::setAlignmentLogging(false);
     Options::setLogToFile(false);
 
-    // set mount defaults
-    QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000);
-    // set primary scope to my favorite FSQ-85 with QE 0.73 Reducer
-    KTRY_SET_DOUBLESPINBOX(ekos->mountModule(), primaryScopeFocalIN, 339.0);
-    KTRY_SET_DOUBLESPINBOX(ekos->mountModule(), primaryScopeApertureIN, 85.0);
-    // set guide scope to a Tak 7x50
-    KTRY_SET_DOUBLESPINBOX(ekos->mountModule(), guideScopeFocalIN, 170.0);
-    KTRY_SET_DOUBLESPINBOX(ekos->mountModule(), guideScopeApertureIN, 50.0);
-    // save values
-    KTRY_CLICK(Ekos::Manager::Instance()->mountModule(), saveB);
-    // disable meridian flip
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->mountModule(), meridianFlipCheckBox, false);
+    // setup optical trains
+    m_CaptureHelper->prepareOpticalTrains();
 
-    // check if astrometry files exist
-    if (! m_test_ekos_helper->checkAstrometryFiles())
-    {
-        QFAIL(QString("No astrometry index files found in %1").arg(
-                  KSUtils::getAstrometryDataDirs().join(", ")).toStdString().c_str());
-    }
-    // switch to alignment module
-    KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(ekos->alignModule(), 1000);
-    // set the CCD
-    KTRY_SET_COMBO(ekos->alignModule(), CCDCaptureCombo, m_test_ekos_helper->m_CCDDevice);
-    // select the Luminance filter
-    KTRY_SET_COMBO(ekos->alignModule(), FilterPosCombo, "Luminance");
-    // set 1x1 binning
-    KTRY_SET_COMBO(ekos->alignModule(), binningCombo, "1x1");
-    // select local solver
-    ekos->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
-    // set exposure time for alignment
-    KTRY_SET_DOUBLESPINBOX(ekos->alignModule(), exposureIN, 5.0);
-    // set gain
-    KTRY_SET_DOUBLESPINBOX(ekos->alignModule(), GainSpin, 50.0);
-    // select internal SEP method
-    Options::setSolveSextractorType(SSolver::EXTRACTOR_INTERNAL);
-    // select StellarSolver
-    Options::setSolverType(SSolver::SOLVER_LOCALASTROMETRY);
-    // select fast solve profile option
-    Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
-    // select the "Slew to Target" mode
-    KTRY_SET_RADIOBUTTON(ekos->alignModule(), slewR, true);
-    // reduce the accuracy to avoid testing problems
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
+    // prepare the mount module and set the scope
+    m_CaptureHelper->prepareMountModule();
+    // prepare for alignment tests
+    m_CaptureHelper->prepareAlignmentModule();
 
-    // Reduce the noise setting to ensure a working plate solving
-    KTRY_INDI_PROPERTY("CCD Simulator", "Simulator Config", "SIMULATOR_SETTINGS", ccd_settings);
-    INDI_E *noise_setting = ccd_settings->getElement("SIM_NOISE");
-    QVERIFY(ccd_settings != nullptr);
-    noise_setting->setValue(2.0);
-    ccd_settings->processSetButton();
+    m_CaptureHelper->init();
     // close INDI window
     GUIManager::Instance()->close();
 
@@ -412,7 +372,7 @@ bool TestEkosAlign::slewToTarget(SkyPoint *target)
 {
     expectedTelescopeStates.append(ISD::Mount::MOUNT_TRACKING);
     // slew to given target
-    KVERIFY_SUB(m_test_ekos_helper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
+    KVERIFY_SUB(m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
     // ensure that slewing has started
     QTest::qWait(2000);
     // wait until the slew has completed
@@ -423,13 +383,10 @@ bool TestEkosAlign::slewToTarget(SkyPoint *target)
 
 bool TestEkosAlign::executeAlignment(SkyObject *targetObject)
 {
-    // ensure that we wait until alignment completion
-    expectedAlignStates.append(Ekos::ALIGN_PROGRESS);
-    expectedAlignStates.append(Ekos::ALIGN_COMPLETE);
     // start alignment
-    KVERIFY_SUB(m_test_ekos_helper->startAligning(10.0));
-    // wait until the alignment succeeds
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedAlignStates, 20000);
+    KVERIFY_SUB(m_CaptureHelper->startAligning(5.0));
+    // verify if alignment completes
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getAlignStatus() == Ekos::ALIGN_COMPLETE, 60000);
     // check if the alignment target matches
     KVERIFY_SUB(verifyAlignmentTarget(targetObject));
     // success

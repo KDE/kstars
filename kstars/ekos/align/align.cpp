@@ -723,12 +723,6 @@ QString Align::camera()
     return QString();
 }
 
-void Align::setDefaultCCD(QString ccd)
-{
-    syncSettings();
-    Options::setDefaultAlignCCD(ccd);
-}
-
 void Align::checkCamera()
 {
     if (!m_Camera)
@@ -767,13 +761,18 @@ void Align::checkCamera()
 
 bool Align::setCamera(ISD::Camera *device)
 {
-    if (m_Camera == device)
+    if (m_Camera && m_Camera == device)
         return false;
 
     if (m_Camera)
         m_Camera->disconnect(this);
 
     m_Camera = device;
+
+    controlBox->setEnabled(m_Camera);
+    gotoBox->setEnabled(m_Camera);
+    plateSolverOptionsGroup->setEnabled(m_Camera);
+    tabWidget->setEnabled(m_Camera);
 
     if (!m_Camera)
         return false;
@@ -1467,7 +1466,8 @@ bool Align::captureAndSolve()
     if (m_Camera->isConnected() == false)
     {
         appendLogText(i18n("Error: lost connection to camera."));
-        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align, KSNotification::Alert);
+        KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align,
+                              KSNotification::Alert);
         return false;
     }
 
@@ -2280,7 +2280,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
     }
 
-    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
+    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
+                          KSNotification::Align);
     state = ALIGN_COMPLETE;
     emit newStatus(state);
     solverIterations = 0;
@@ -2599,7 +2600,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         else if (differentialSlewingActivated)
                         {
                             appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
-                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"), KSNotification::Align);
+                            KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
+                                                  KSNotification::Align);
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
                             solverIterations = 0;

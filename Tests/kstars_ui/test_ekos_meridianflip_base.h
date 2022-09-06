@@ -129,12 +129,6 @@ protected:
                          QList<bool> focusList, QList<bool> autofocusList, QList<bool> guideList, QList<bool> ditherList);
 
     /**
-     * @brief Check if astrometry files exist.
-     * @return true iff astrometry files found
-     */
-    bool checkAstrometryFiles();
-
-    /**
      * @brief Check if guiding and dithering is restarted if required.
      */
     bool checkDithering();

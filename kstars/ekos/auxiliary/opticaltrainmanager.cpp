@@ -149,6 +149,16 @@ void OpticalTrainManager::initModel()
     trainView->setModel(m_OpticalTrainsModel);
 }
 
+void OpticalTrainManager::syncDevices()
+{
+    syncDelegatesToDevices();
+    if (m_Profile)
+    {
+        refreshModel();
+        emit updated();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
@@ -624,6 +634,20 @@ void OpticalTrainManager::refreshTrains()
 void OpticalTrainManager::refreshOpticalElements()
 {
     m_ScopeDelegate->setValues(KStars::Instance()->data()->userdb()->getOpticalElementNames());
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+int OpticalTrainManager::id(const QString &name)
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["name"].toString() == name)
+            return oneTrain["id"].toUInt();
+    }
+
+    return -1;
 }
 
 }

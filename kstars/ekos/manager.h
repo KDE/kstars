@@ -22,6 +22,7 @@
 #include "guide/guide.h"
 #include "indi/indistd.h"
 #include "mount/mount.h"
+#include "observatory/observatory.h"
 #include "scheduler/scheduler.h"
 #include "analyze/analyze.h"
 #include "auxiliary/portselector.h"
@@ -459,7 +460,7 @@ class Manager : public QDialog, public Ui::Manager
         void initGuide();
         void initAlign();
         void initMount();
-        //void initObservatory();
+        void initObservatory();
 
         void loadDrivers();
         void loadProfiles();
@@ -506,8 +507,7 @@ class Manager : public QDialog, public Ui::Manager
         std::unique_ptr<Mount> mountProcess;
         std::unique_ptr<Analyze> analyzeProcess;
         std::unique_ptr<Scheduler> schedulerProcess;
-        // FIXME migrate
-        //std::unique_ptr<Observatory> observatoryProcess;
+        std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<EkosLive::Client> ekosLiveClient;
 
         bool m_LocalMode { true };

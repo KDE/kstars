@@ -61,10 +61,15 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         bool setOpticalTrainValue(const QString &name, const QString &field, const QVariant &value);
 
-
+        void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();
+        /**
+         * @brief syncDevices Sync delegates and then update model accordingly.
+         */
+        void syncDevices();
 
+        int id(const QString &name);
         ISD::Mount *getMount(const QString &name);
         ISD::DustCap *getDustCap(const QString &name);
         ISD::LightBox *getLightBox(const QString &name);
@@ -83,7 +88,6 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     protected:
         void initModel();
-        void refreshModel();
 
         // Delegates
         QPointer<ComboDelegate> m_MountDelegate;

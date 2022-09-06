@@ -7,6 +7,7 @@
 #include "kstarsdata.h"
 
 #include "observatory.h"
+#include "Options.h"
 
 #include "ekos_observatory_debug.h"
 
@@ -17,186 +18,201 @@ Observatory::Observatory()
     setupUi(this);
 
     // status control
-    mObservatoryModel = new ObservatoryModel();
-    setObseratoryStatusControl(mObservatoryModel->statusControl());
+    //setObseratoryStatusControl(m_StatusControl);
     // update UI for status control
     connect(useDomeCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
     connect(useShutterCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
     connect(useWeatherCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
-    connect(mObservatoryModel, &Ekos::ObservatoryModel::newStatus, this, &Ekos::Observatory::observatoryStatusChanged);
     // ready button deactivated
     // connect(statusReadyButton, &QPushButton::clicked, mObservatoryModel, &Ekos::ObservatoryModel::makeReady);
     statusReadyButton->setEnabled(false);
 
-    setDomeModel(new ObservatoryDomeModel());
-    setWeatherModel(new ObservatoryWeatherModel());
+    // weather controls
+    connect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
+    connect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
+    connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+    {
+        Q_UNUSED(i)
+        weatherWarningSettingsChanged();
+    });
+
+    connect(weatherAlertShutterCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
+    connect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
+    connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
+    {
+        Q_UNUSED(i)
+        weatherAlertSettingsChanged();
+    });
+
+    // read the default values
+    warningActionsActive = Options::warningActionsActive();
+    m_WarningActions.parkDome = Options::weatherWarningCloseDome();
+    m_WarningActions.closeShutter = Options::weatherWarningCloseShutter();
+    m_WarningActions.delay = Options::weatherWarningDelay();
+    alertActionsActive = Options::alertActionsActive();
+    m_AlertActions.parkDome = Options::weatherAlertCloseDome();
+    m_AlertActions.closeShutter = Options::weatherAlertCloseShutter();
+    m_AlertActions.delay = Options::weatherAlertDelay();
+    m_autoScaleValues = Options::weatherAutoScaleValues();
+
+    // not implemented yet
+    m_WarningActions.stopScheduler = false;
+    m_AlertActions.stopScheduler = false;
+
+    warningTimer.setInterval(static_cast<int>(m_WarningActions.delay * 1000));
+    warningTimer.setSingleShot(true);
+    alertTimer.setInterval(static_cast<int>(m_AlertActions.delay * 1000));
+    alertTimer.setSingleShot(true);
+
+    connect(&warningTimer, &QTimer::timeout, [this]()
+    {
+        execute(m_WarningActions);
+    });
+    connect(&alertTimer, &QTimer::timeout, [this]()
+    {
+        execute(m_AlertActions);
+    });
+
+    connect(weatherSourceCombo, &QComboBox::currentTextChanged, this, &Observatory::setWeatherSource);
+
+    // initialize the weather sensor data group box
+    sensorDataBoxLayout = new QGridLayout();
+    sensorData->setLayout(sensorDataBoxLayout);
+
+    initSensorGraphs();
+
+    connect(weatherWarningBox, &QGroupBox::clicked, this, &Observatory::setWarningActionsActive);
+    connect(weatherAlertBox, &QGroupBox::clicked, this, &Observatory::setAlertActionsActive);
+
+    connect(clearGraphHistory, &QPushButton::clicked, this, &Observatory::clearSensorDataHistory);
+    connect(autoscaleValuesCB, &QCheckBox::clicked, [this](bool checked)
+    {
+        setAutoScaleValues(checked);
+        refreshSensorGraph();
+    });
+    connect(&weatherStatusTimer, &QTimer::timeout, [this]()
+    {
+        weatherWarningStatusLabel->setText(getWarningActionsStatus());
+        weatherAlertStatusLabel->setText(getAlertActionsStatus());
+    });
+
+
 }
 
-void Observatory::setObseratoryStatusControl(ObservatoryStatusControl control)
+bool Observatory::setDome(ISD::Dome *device)
 {
-    if (mObservatoryModel != nullptr)
+    if (m_Dome == device)
+        return false;
+
+    if (m_Dome)
+        m_Dome->disconnect(this);
+
+    m_Dome = device;
+
+    domeBox->setEnabled(true);
+
+    connect(m_Dome, &ISD::Dome::Disconnected, this, &Ekos::Observatory::shutdownDome);
+    connect(m_Dome, &ISD::Dome::newStatus, this, &Ekos::Observatory::setDomeStatus);
+    connect(m_Dome, &ISD::Dome::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
+    connect(m_Dome, &ISD::Dome::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
+    connect(m_Dome, &ISD::Dome::positionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
+    connect(m_Dome, &ISD::Dome::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
+
+    // motion controls
+    connect(motionMoveAbsButton, &QCheckBox::clicked, [this]()
     {
-        useDomeCB->setChecked(control.useDome);
-        useShutterCB->setChecked(control.useShutter);
-        useWeatherCB->setChecked(control.useWeather);
-    }
-}
+        m_Dome->setPosition(absoluteMotionSB->value());
+    });
 
-
-void Observatory::setDomeModel(ObservatoryDomeModel *model)
-{
-    mObservatoryModel->setDomeModel(model);
-    if (model != nullptr)
+    connect(motionMoveRelButton, &QCheckBox::clicked, [this]()
     {
-        connect(model, &Ekos::ObservatoryDomeModel::ready, this, &Ekos::Observatory::initDome);
-        connect(model, &Ekos::ObservatoryDomeModel::disconnected, this, &Ekos::Observatory::shutdownDome);
-        connect(model, &Ekos::ObservatoryDomeModel::newStatus, this, &Ekos::Observatory::setDomeStatus);
-        connect(model, &Ekos::ObservatoryDomeModel::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
-        connect(model, &Ekos::ObservatoryDomeModel::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
-        connect(model, &Ekos::ObservatoryDomeModel::azimuthPositionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
-        connect(model, &Ekos::ObservatoryDomeModel::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
+        m_Dome->setRelativePosition(relativeMotionSB->value());
+    });
 
-        // motion controls
-        connect(motionMoveAbsButton, &QCheckBox::clicked, [this]()
-        {
-            mObservatoryModel->getDomeModel()->setAzimuthPosition(absoluteMotionSB->value());
-        });
+    // abort button
+    connect(motionAbortButton, &QPushButton::clicked, m_Dome, &ISD::Dome::abort);
 
-        connect(motionMoveRelButton, &QCheckBox::clicked, [this]()
-        {
-            mObservatoryModel->getDomeModel()->setRelativePosition(relativeMotionSB->value());
-        });
 
-        // abort button
-        connect(motionAbortButton, &QPushButton::clicked, model, &ObservatoryDomeModel::abort);
+    // dome motion buttons
+    connect(motionCWButton, &QPushButton::clicked, [ = ](bool checked)
+    {
+        m_Dome->moveDome(ISD::Dome::DOME_CW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
+    });
+    connect(motionCCWButton, &QPushButton::clicked, [ = ](bool checked)
+    {
+        m_Dome->moveDome(ISD::Dome::DOME_CCW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
+    });
 
-        // weather controls
-        connect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        connect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
-        {
-            Q_UNUSED(i)
-            weatherWarningSettingsChanged();
-        });
-
-        connect(weatherAlertShutterCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        connect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
-        {
-            Q_UNUSED(i)
-            weatherAlertSettingsChanged();
-        });
+    if (m_Dome->canPark())
+    {
+        connect(domePark, &QPushButton::clicked, m_Dome, &ISD::Dome::park);
+        connect(domeUnpark, &QPushButton::clicked, m_Dome, &ISD::Dome::unPark);
+        domePark->setEnabled(true);
+        domeUnpark->setEnabled(true);
     }
     else
     {
-        shutdownDome();
-
-
-        disconnect(weatherWarningShutterCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        disconnect(weatherWarningDomeCB, &QCheckBox::clicked, this, &Observatory::weatherWarningSettingsChanged);
-        connect(weatherWarningDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
-        {
-            Q_UNUSED(i)
-            weatherWarningSettingsChanged();
-        });
-
-        disconnect(weatherAlertShutterCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        disconnect(weatherAlertDomeCB, &QCheckBox::clicked, this, &Observatory::weatherAlertSettingsChanged);
-        connect(weatherAlertDelaySB, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int i)
-        {
-            Q_UNUSED(i)
-            weatherWarningSettingsChanged();
-        });
+        domePark->setEnabled(false);
+        domeUnpark->setEnabled(false);
     }
-}
 
-void Observatory::initDome()
-{
-    domeBox->setEnabled(true);
+    enableMotionControl(true);
 
-    if (getDomeModel() != nullptr)
+    if (m_Dome->isRolloffRoof())
     {
-        connect(getDomeModel(), &Ekos::ObservatoryDomeModel::newLog, this, &Ekos::Observatory::appendLogText);
+        SlavingBox->setVisible(false);
+        domeAzimuthPosition->setText(i18nc("Not Applicable", "N/A"));
+    }
+    else
+    {
+        // initialize the dome motion controls
+        domeAzimuthChanged(m_Dome->position());
 
-        // dome motion buttons
-        connect(motionCWButton, &QPushButton::clicked, [ = ](bool checked)
+        // slaving
+        showAutoSync(m_Dome->isAutoSync());
+        connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
         {
-            getDomeModel()->moveDome(true, checked);
+            enableAutoSync(true);
         });
-        connect(motionCCWButton, &QPushButton::clicked, [ = ](bool checked)
+        connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
         {
-            getDomeModel()->moveDome(false, checked);
+            enableAutoSync(false);
         });
-
-        if (getDomeModel()->canPark())
-        {
-            connect(domePark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::park);
-            connect(domeUnpark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::unpark);
-            domePark->setEnabled(true);
-            domeUnpark->setEnabled(true);
-        }
-        else
-        {
-            domePark->setEnabled(false);
-            domeUnpark->setEnabled(false);
-        }
-
-        if (getDomeModel()->isRolloffRoof())
-        {
-            SlavingBox->setVisible(false);
-            domeAzimuthPosition->setText(i18nc("Not Applicable", "N/A"));
-            enableMotionControl(true);
-        }
-        else
-        {
-            // initialize the dome motion controls
-            domeAzimuthChanged(getDomeModel()->azimuthPosition());
-
-            // slaving
-            showAutoSync(getDomeModel()->isAutoSync());
-            connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
-            {
-                enableAutoSync(true);
-            });
-            connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
-            {
-                enableAutoSync(false);
-            });
-        }
-
-        // shutter handling
-        if (getDomeModel()->hasShutter())
-        {
-            shutterBox->setVisible(true);
-            shutterBox->setEnabled(true);
-            connect(shutterOpen, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::openShutter);
-            connect(shutterClosed, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::closeShutter);
-            shutterClosed->setEnabled(true);
-            shutterOpen->setEnabled(true);
-            setShutterStatus(getDomeModel()->shutterStatus());
-            useShutterCB->setVisible(true);
-        }
-        else
-        {
-            shutterBox->setVisible(false);
-            weatherWarningShutterCB->setVisible(false);
-            weatherAlertShutterCB->setVisible(false);
-            useShutterCB->setVisible(false);
-        }
-
-        // abort button should always be available
-        motionAbortButton->setEnabled(true);
-
-        statusDefinitionBox->setVisible(true);
-        statusDefinitionBox->setEnabled(true);
-
-        // update the dome parking status
-        setDomeParkStatus(getDomeModel()->parkStatus());
-
-        // enable the UI controls for dome weather actions
-        initWeatherActions(getWeatherModel() != nullptr && getWeatherModel()->isActive());
     }
 
+    // shutter handling
+    if (m_Dome->hasShutter())
+    {
+        shutterBox->setVisible(true);
+        shutterBox->setEnabled(true);
+        connect(shutterOpen, &QPushButton::clicked, m_Dome, &ISD::Dome::openShutter);
+        connect(shutterClosed, &QPushButton::clicked, m_Dome, &ISD::Dome::closeShutter);
+        shutterClosed->setEnabled(true);
+        shutterOpen->setEnabled(true);
+        setShutterStatus(m_Dome->shutterStatus());
+        useShutterCB->setVisible(true);
+    }
+    else
+    {
+        shutterBox->setVisible(false);
+        weatherWarningShutterCB->setVisible(false);
+        weatherAlertShutterCB->setVisible(false);
+        useShutterCB->setVisible(false);
+    }
+
+    // abort button should always be available
+    motionAbortButton->setEnabled(true);
+
+    statusDefinitionBox->setVisible(true);
+    statusDefinitionBox->setEnabled(true);
+
+    // update the dome parking status
+    setDomeParkStatus(m_Dome->parkStatus());
+
+    // enable the UI controls for dome weather actions
+    initWeatherActions(m_Dome && m_WeatherSource);
+
+    return true;
 }
 
 void Observatory::shutdownDome()
@@ -208,8 +224,8 @@ void Observatory::shutdownDome()
     shutterClosed->setEnabled(false);
     shutterOpen->setEnabled(false);
 
-    disconnect(domePark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::park);
-    disconnect(domeUnpark, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::unpark);
+    if (m_Dome)
+        disconnect(m_Dome);
 
     // disable the UI controls for dome weather actions
     initWeatherActions(false);
@@ -225,7 +241,7 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
     {
         case ISD::Dome::DOME_ERROR:
             appendLogText(i18n("%1 error. See INDI log for details.",
-                               getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+                               m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             motionCWButton->setChecked(false);
             motionCCWButton->setChecked(false);
             break;
@@ -236,7 +252,7 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             motionCCWButton->setChecked(false);
             motionCCWButton->setEnabled(true);
 
-            appendLogText(i18n("%1 is idle.", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 is idle.", m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             break;
 
         case ISD::Dome::DOME_MOVING_CW:
@@ -244,7 +260,7 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             motionCWButton->setEnabled(false);
             motionCCWButton->setChecked(false);
             motionCCWButton->setEnabled(true);
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
             {
                 domeAzimuthPosition->setText(i18n("Opening"));
                 toggleButtons(domeUnpark, i18n("Unparking"), domePark, i18n("Park"));
@@ -261,7 +277,7 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             motionCWButton->setEnabled(true);
             motionCCWButton->setChecked(true);
             motionCCWButton->setEnabled(false);
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
             {
                 domeAzimuthPosition->setText(i18n("Closing"));
                 toggleButtons(domePark, i18n("Parking"), domeUnpark, i18n("Unpark"));
@@ -276,14 +292,14 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
         case ISD::Dome::DOME_PARKED:
             setDomeParkStatus(ISD::PARK_PARKED);
 
-            appendLogText(i18n("%1 is parked.", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 is parked.", m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             break;
 
         case ISD::Dome::DOME_PARKING:
             toggleButtons(domePark, i18n("Parking"), domeUnpark, i18n("Unpark"));
             motionCWButton->setEnabled(true);
 
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
                 domeAzimuthPosition->setText(i18n("Closing"));
             else
                 enableMotionControl(false);
@@ -291,14 +307,14 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             motionCWButton->setChecked(false);
             motionCCWButton->setChecked(true);
 
-            appendLogText(i18n("%1 is parking...", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 is parking...", m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             break;
 
         case ISD::Dome::DOME_UNPARKING:
             toggleButtons(domeUnpark, i18n("Unparking"), domePark, i18n("Park"));
             motionCCWButton->setEnabled(true);
 
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
                 domeAzimuthPosition->setText(i18n("Opening"));
             else
                 enableMotionControl(false);
@@ -306,14 +322,14 @@ void Observatory::setDomeStatus(ISD::Dome::Status status)
             motionCWButton->setChecked(true);
             motionCCWButton->setChecked(false);
 
-            appendLogText(i18n("%1 is unparking...", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 is unparking...", m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             break;
 
         case ISD::Dome::DOME_TRACKING:
             enableMotionControl(true);
             motionCWButton->setEnabled(true);
             motionCCWButton->setChecked(true);
-            appendLogText(i18n("%1 is tracking.", getDomeModel()->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
+            appendLogText(i18n("%1 is tracking.", m_Dome->isRolloffRoof() ? i18n("Rolloff roof") : i18n("Dome")));
             break;
     }
 }
@@ -330,7 +346,7 @@ void Observatory::setDomeParkStatus(ISD::ParkStatus status)
             motionCWButton->setEnabled(true);
             motionCCWButton->setChecked(false);
 
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
                 domeAzimuthPosition->setText(i18n("Open"));
             else
                 enableMotionControl(true);
@@ -343,7 +359,7 @@ void Observatory::setDomeParkStatus(ISD::ParkStatus status)
             motionCCWButton->setChecked(false);
             motionCCWButton->setEnabled(false);
 
-            if (getDomeModel()->isRolloffRoof())
+            if (m_Dome->isRolloffRoof())
                 domeAzimuthPosition->setText(i18n("Closed"));
             else
                 enableMotionControl(false);
@@ -419,24 +435,27 @@ void Observatory::clearSensorDataHistory()
         selectedSensorChanged(selectedSensorID);
 }
 
-void Observatory::setWeatherModel(ObservatoryWeatherModel *model)
+bool Observatory::addWeatherSource(ISD::Weather *device)
 {
-    mObservatoryModel->setWeatherModel(model);
+    // No duplicates
+    if (m_WeatherSources.contains(device))
+        return false;
 
-    // disable the weather UI
-    enableWeather(false);
+    // Disconnect all
+    for (auto &oneWeatherSource : m_WeatherSources)
+        oneWeatherSource->disconnect(this);
 
-    if (model != nullptr)
-    {
-        connect(model, &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
-        connect(model, &Ekos::ObservatoryWeatherModel::newWeatherData, this, &Ekos::Observatory::newWeatherData);
-    }
-    else
-        shutdownWeather();
+    m_WeatherSource = device;
+    m_WeatherSources.append(device);
+    weatherSourceCombo->addItem(device->getDeviceName());
+
+    initWeather();
 
     // make invisible, since not implemented yet
     weatherWarningSchedulerCB->setVisible(false);
     weatherAlertSchedulerCB->setVisible(false);
+
+    return true;
 }
 
 void Observatory::enableMotionControl(bool enabled)
@@ -444,7 +463,7 @@ void Observatory::enableMotionControl(bool enabled)
     MotionBox->setEnabled(enabled);
 
     // absolute motion controls
-    if (getDomeModel()->canAbsoluteMove())
+    if (m_Dome->canAbsoluteMove())
     {
         motionMoveAbsButton->setEnabled(enabled);
         absoluteMotionSB->setEnabled(enabled);
@@ -456,7 +475,7 @@ void Observatory::enableMotionControl(bool enabled)
     }
 
     // relative motion controls
-    if (getDomeModel()->canRelativeMove())
+    if (m_Dome->canRelativeMove())
     {
         motionMoveRelButton->setEnabled(enabled);
         relativeMotionSB->setEnabled(enabled);
@@ -472,7 +491,7 @@ void Observatory::enableMotionControl(bool enabled)
     }
 
     // special case for rolloff roofs
-    if (getDomeModel()->isRolloffRoof())
+    if (m_Dome->isRolloffRoof())
     {
         motionCWButton->setText(i18n("Open"));
         motionCCWButton->setText(i18n("Close"));
@@ -487,11 +506,11 @@ void Observatory::enableMotionControl(bool enabled)
 
 void Observatory::enableAutoSync(bool enabled)
 {
-    if (getDomeModel() == nullptr)
+    if (m_Dome == nullptr)
         showAutoSync(false);
     else
     {
-        getDomeModel()->setAutoSync(enabled);
+        m_Dome->setAutoSync(enabled);
         showAutoSync(enabled);
     }
 }
@@ -504,44 +523,21 @@ void Observatory::showAutoSync(bool enabled)
 
 void Observatory::initWeather()
 {
-    // initialize the weather sensor data group box
-    sensorDataBoxLayout = new QGridLayout();
-    sensorData->setLayout(sensorDataBoxLayout);
-
     enableWeather(true);
-    initSensorGraphs();
-
-    connect(weatherWarningBox, &QGroupBox::clicked, getWeatherModel(), &ObservatoryWeatherModel::setWarningActionsActive);
-    connect(weatherAlertBox, &QGroupBox::clicked, getWeatherModel(), &ObservatoryWeatherModel::setAlertActionsActive);
-
-    connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::newStatus, this, &Ekos::Observatory::setWeatherStatus);
-    connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::disconnected, this, &Ekos::Observatory::shutdownWeather);
-    connect(clearGraphHistory, &QPushButton::clicked, this, &Observatory::clearSensorDataHistory);
-    connect(autoscaleValuesCB, &QCheckBox::clicked, [this](bool checked)
-    {
-        getWeatherModel()->setAutoScaleValues(checked);
-        this->refreshSensorGraph();
-    });
-    connect(&weatherStatusTimer, &QTimer::timeout, [this]()
-    {
-        weatherWarningStatusLabel->setText(getWeatherModel()->getWarningActionsStatus());
-        weatherAlertStatusLabel->setText(getWeatherModel()->getAlertActionsStatus());
-    });
-
     weatherBox->setEnabled(true);
-    autoscaleValuesCB->setChecked(getWeatherModel()->autoScaleValues());
-    weatherWarningBox->setChecked(getWeatherModel()->getWarningActionsActive());
-    weatherAlertBox->setChecked(getWeatherModel()->getAlertActionsActive());
-    setWeatherStatus(getWeatherModel()->status());
-    setWarningActions(getWeatherModel()->getWarningActions());
-    setAlertActions(getWeatherModel()->getAlertActions());
 
+    connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
+    connect(m_WeatherSource, &ISD::Weather::newWeatherData, this, &Ekos::Observatory::newWeatherData);
+    connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Ekos::Observatory::shutdownWeather);
+
+    autoscaleValuesCB->setChecked(autoScaleValues());
+    weatherWarningBox->setChecked(getWarningActionsActive());
+    weatherAlertBox->setChecked(getAlertActionsActive());
+    setWeatherStatus(m_WeatherSource->status());
+    setWarningActions(getWarningActions());
+    setAlertActions(getAlertActions());
     initWeatherActions(true);
     weatherStatusTimer.start(1000);
-    if (getWeatherModel()->refresh() == false)
-        appendLogText(i18n("Refreshing weather data failed."));
-    // avoid double init
-    disconnect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
 }
 
 void Observatory::shutdownWeather()
@@ -551,15 +547,11 @@ void Observatory::shutdownWeather()
     enableWeather(false);
     // disable the UI controls for weather actions
     initWeatherActions(false);
-    // catch re-connect
-    if (getWeatherModel() != nullptr)
-        connect(getWeatherModel(), &Ekos::ObservatoryWeatherModel::ready, this, &Ekos::Observatory::initWeather);
-
 }
 
 void Observatory::initWeatherActions(bool enabled)
 {
-    if (enabled && getDomeModel() != nullptr && getDomeModel()->isActive())
+    if (enabled && m_Dome != nullptr && m_Dome->isConnected())
     {
         // make the entire box visible
         weatherActionsBox->setVisible(true);
@@ -570,7 +562,7 @@ void Observatory::initWeatherActions(bool enabled)
         weatherWarningDomeCB->setEnabled(true);
 
         // only domes with shutters need shutter action controls
-        if (getDomeModel()->hasShutter())
+        if (m_Dome->hasShutter())
         {
             weatherAlertShutterCB->setEnabled(true);
             weatherWarningShutterCB->setEnabled(true);
@@ -589,7 +581,7 @@ void Observatory::initWeatherActions(bool enabled)
 }
 
 
-void Observatory::updateSensorGraph(QString sensor_label, QDateTime now, double value)
+void Observatory::updateSensorGraph(const QString &sensor_label, QDateTime now, double value)
 {
     // we assume that labels are unique and use the full label as identifier
     QString id = sensor_label;
@@ -698,11 +690,10 @@ void Observatory::mouseOverLine(QMouseEvent *event)
 
 void Observatory::refreshSensorGraph()
 {
-
     sensorGraphs->rescaleAxes();
 
     // restrict the y-Axis to the values range
-    if (getWeatherModel()->autoScaleValues() == false)
+    if (autoScaleValues() == false)
     {
         if (sensorRanges[selectedSensorID] > 0)
             sensorGraphs->yAxis->setRangeLower(0);
@@ -759,7 +750,7 @@ void Observatory::setWeatherStatus(ISD::Weather::Status status)
     }
 
     // update weather sensor data
-    updateSensorData(getWeatherModel()->getWeatherData());
+    updateSensorData(m_WeatherSource->data());
 
 }
 
@@ -837,7 +828,7 @@ void Observatory::weatherWarningSettingsChanged()
     actions.stopScheduler = false;
     actions.delay = static_cast<unsigned int>(weatherWarningDelaySB->value());
 
-    getWeatherModel()->setWarningActions(actions);
+    setWarningActions(actions);
 }
 
 void Observatory::weatherAlertSettingsChanged()
@@ -849,14 +840,7 @@ void Observatory::weatherAlertSettingsChanged()
     actions.stopScheduler = false;
     actions.delay = static_cast<unsigned int>(weatherAlertDelaySB->value());
 
-    getWeatherModel()->setAlertActions(actions);
-}
-
-void Observatory::observatoryStatusChanged(bool ready)
-{
-    // statusReadyButton->setEnabled(!ready);
-    statusReadyButton->setChecked(ready);
-    emit newStatus(ready);
+    setAlertActions(actions);
 }
 
 void Observatory::domeAzimuthChanged(double position)
@@ -864,36 +848,61 @@ void Observatory::domeAzimuthChanged(double position)
     domeAzimuthPosition->setText(QString::number(position, 'f', 2));
 }
 
-
 void Observatory::setWarningActions(WeatherActions actions)
 {
-    if (getDomeModel() != nullptr)
+    if (m_Dome != nullptr)
         weatherWarningDomeCB->setChecked(actions.parkDome);
     else
         weatherWarningDomeCB->setChecked(actions.parkDome);
 
-    if (getDomeModel() != nullptr && getDomeModel()->hasShutter())
+    if (m_Dome != nullptr && m_Dome->hasShutter())
         weatherWarningShutterCB->setChecked(actions.closeShutter);
     else
         weatherWarningShutterCB->setChecked(actions.closeShutter);
 
     weatherWarningDelaySB->setValue(static_cast<int>(actions.delay));
+
+    if (m_WeatherSource)
+    {
+        m_WarningActions = actions;
+        Options::setWeatherWarningCloseDome(actions.parkDome);
+        Options::setWeatherWarningCloseShutter(actions.closeShutter);
+        Options::setWeatherWarningDelay(actions.delay);
+        if (!warningTimer.isActive())
+            warningTimer.setInterval(static_cast<int>(actions.delay * 1000));
+
+        if (m_WeatherSource->status() == ISD::Weather::WEATHER_WARNING)
+            startWarningTimer();
+    }
 }
 
 
 void Observatory::setAlertActions(WeatherActions actions)
 {
-    if (getDomeModel() != nullptr)
+    if (m_Dome != nullptr)
         weatherAlertDomeCB->setChecked(actions.parkDome);
     else
         weatherAlertDomeCB->setChecked(false);
 
-    if (getDomeModel() != nullptr && getDomeModel()->hasShutter())
+    if (m_Dome != nullptr && m_Dome->hasShutter())
         weatherAlertShutterCB->setChecked(actions.closeShutter);
     else
         weatherAlertShutterCB->setChecked(false);
 
     weatherAlertDelaySB->setValue(static_cast<int>(actions.delay));
+
+    if (m_WeatherSource)
+    {
+        m_AlertActions = actions;
+        Options::setWeatherAlertCloseDome(actions.parkDome);
+        Options::setWeatherAlertCloseShutter(actions.closeShutter);
+        Options::setWeatherAlertDelay(actions.delay);
+        if (!alertTimer.isActive())
+            alertTimer.setInterval(static_cast<int>(actions.delay * 1000));
+
+        if (m_WeatherSource->status() == ISD::Weather::WEATHER_ALERT)
+            startAlertTimer();
+    }
 }
 
 void Observatory::toggleButtons(QPushButton *buttonPressed, QString titlePressed, QPushButton *buttonCounterpart,
@@ -924,14 +933,13 @@ void Observatory::buttonPressed(QPushButton *button, QString title)
 
 }
 
-
 void Observatory::statusControlSettingsChanged()
 {
     ObservatoryStatusControl control;
     control.useDome = useDomeCB->isChecked();
     control.useShutter = useShutterCB->isChecked();
     control.useWeather = useWeatherCB->isChecked();
-    mObservatoryModel->setStatusControl(control);
+    setStatusControl(control);
 }
 
 
@@ -949,6 +957,211 @@ void Observatory::clearLog()
 {
     m_LogText.clear();
     emit newLog(QString());
+}
+
+void Observatory::setWarningActionsActive(bool active)
+{
+    warningActionsActive = active;
+    Options::setWarningActionsActive(active);
+
+    // stop warning actions if deactivated
+    if (!active && warningTimer.isActive())
+        warningTimer.stop();
+    // start warning timer if activated
+    else if (m_WeatherSource->status() == ISD::Weather::WEATHER_WARNING)
+        startWarningTimer();
+}
+
+void Observatory::startWarningTimer()
+{
+    if (warningActionsActive && (m_WarningActions.parkDome || m_WarningActions.closeShutter || m_WarningActions.stopScheduler))
+    {
+        if (!warningTimer.isActive())
+            warningTimer.start();
+    }
+    else if (warningTimer.isActive())
+        warningTimer.stop();
+}
+
+void Observatory::setAlertActionsActive(bool active)
+{
+    alertActionsActive = active;
+    Options::setAlertActionsActive(active);
+
+    // stop alert actions if deactivated
+    if (!active && alertTimer.isActive())
+        alertTimer.stop();
+    // start alert timer if activated
+    else if (m_WeatherSource->status() == ISD::Weather::WEATHER_ALERT)
+        startAlertTimer();
+}
+
+void Observatory::setAutoScaleValues(bool value)
+{
+    m_autoScaleValues = value;
+    Options::setWeatherAutoScaleValues(value);
+}
+
+void Observatory::startAlertTimer()
+{
+    if (alertActionsActive && (m_AlertActions.parkDome || m_AlertActions.closeShutter || m_AlertActions.stopScheduler))
+    {
+        if (!alertTimer.isActive())
+            alertTimer.start();
+    }
+    else if (alertTimer.isActive())
+        alertTimer.stop();
+}
+
+QString Observatory::getWarningActionsStatus()
+{
+    if (warningTimer.isActive())
+    {
+        int remaining = warningTimer.remainingTime() / 1000;
+        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
+    }
+
+    return i18n("Status: inactive");
+}
+
+QString Observatory::getAlertActionsStatus()
+{
+    if (alertTimer.isActive())
+    {
+        int remaining = alertTimer.remainingTime() / 1000;
+        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
+    }
+
+    return i18n("Status: inactive");
+}
+
+void Observatory::weatherChanged(ISD::Weather::Status status)
+{
+    switch (status)
+    {
+        case ISD::Weather::WEATHER_OK:
+            warningTimer.stop();
+            alertTimer.stop();
+            break;
+        case ISD::Weather::WEATHER_WARNING:
+            alertTimer.stop();
+            startWarningTimer();
+            break;
+        case ISD::Weather::WEATHER_ALERT:
+            warningTimer.stop();
+            startAlertTimer();
+            break;
+        default:
+            break;
+    }
+    //emit newStatus(status);
+}
+
+void Observatory::updateWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
+{
+    // add or update all received values
+    for (auto &oneEntry : data)
+    {
+        // update if already existing
+        unsigned long pos = findWeatherData(oneEntry.name);
+        if (pos < m_WeatherData.size())
+            m_WeatherData[pos].value = oneEntry.value;
+        // new weather sensor?
+        else if (oneEntry.name.startsWith("WEATHER_"))
+            m_WeatherData.push_back({QString(oneEntry.name), QString(oneEntry.label), oneEntry.value});
+    }
+    // update UI
+    //emit newStatus(status());
+}
+
+unsigned long Observatory::findWeatherData(const QString &name)
+{
+    unsigned long i;
+    for (i = 0; i < m_WeatherData.size(); i++)
+    {
+        if (m_WeatherData[i].name.compare(name) == 0)
+            return i;
+    }
+    // none found
+    return i;
+}
+
+void Observatory::execute(WeatherActions actions)
+{
+    if (!m_Dome)
+        return;
+
+    if (m_Dome->hasShutter() && actions.closeShutter)
+        m_Dome->closeShutter();
+    if (actions.parkDome)
+        m_Dome->park();
+}
+
+
+void Observatory::setStatusControl(ObservatoryStatusControl control)
+{
+    m_StatusControl = control;
+    Options::setObservatoryStatusUseDome(control.useDome);
+    Options::setObservatoryStatusUseShutter(control.useShutter);
+    Options::setObservatoryStatusUseWeather(control.useWeather);
+    //updateStatus();
+}
+
+void Observatory::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved)
+{
+    auto name = deviceRemoved->getDeviceName();
+
+    // Check in Dome
+
+    if (m_Dome && m_Dome->getDeviceName() == name)
+    {
+        m_Dome->disconnect(this);
+        m_Dome = nullptr;
+        shutdownDome();
+    }
+
+    if (m_WeatherSource && m_WeatherSource->getDeviceName() == name)
+    {
+        m_WeatherSource->disconnect(this);
+        m_WeatherSource = nullptr;
+        shutdownWeather();
+    }
+
+    // Check in Weather Sources.
+    for (auto &oneSource : m_WeatherSources)
+    {
+        if (oneSource->getDeviceName() == name)
+        {
+            m_WeatherSources.removeAll(oneSource);
+            weatherSourceCombo->removeItem(weatherSourceCombo->findText(name));
+        }
+    }
+}
+
+void Observatory::setWeatherSource(const QString &name)
+{
+    Options::setDefaultObservatoryWeatherSource(name);
+    for (auto &oneWeatherSource : m_WeatherSources)
+    {
+        if (oneWeatherSource->getDeviceName() == name)
+        {
+            // Same source, ignore and return
+            if (m_WeatherSource == oneWeatherSource)
+                return;
+
+            if (m_WeatherSource)
+                m_WeatherSource->disconnect(this);
+
+            m_WeatherSource = oneWeatherSource;
+
+            connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
+            connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Ekos::Observatory::shutdownWeather);
+
+            return;
+        }
+    }
+
+
 }
 
 }
