@@ -164,7 +164,9 @@ void Focus::loadStellarSolverProfiles()
     focusSEPProfile->clear();
     for(auto &param : m_StellarSolverProfiles)
         focusSEPProfile->addItem(param.listName);
-    focusSEPProfile->setCurrentText(m_Settings["focusSEPProfile"].toString());
+    auto profile = m_Settings["focusSEPProfile"];
+    if (profile.isValid())
+        focusSEPProfile->setCurrentText(profile.toString());
 }
 
 QStringList Focus::getStellarSolverProfiles()
@@ -268,15 +270,17 @@ void Focus::checkCamera()
             for (int i = 1; i <= subBinX; i++)
                 focusBinning->addItem(QString("%1x%2").arg(i).arg(i));
 
-            auto binning = m_Settings["focusBinning"].toString();
-            if (!binning.isEmpty())
+            auto binning = m_Settings["focusBinning"];
+            if (binning.isValid())
             {
-                focusBinning->setCurrentText(binning);
-                activeBin = focusBinning->currentIndex() + 1;
+                focusBinning->setCurrentText(binning.toString());
+                m_ActiveBin = focusBinning->currentIndex() + 1;
             }
+            else
+                m_ActiveBin = 1;
         }
         else
-            activeBin = 1;
+            m_ActiveBin = 1;
 
         connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
         liveVideoB->setEnabled(m_Camera->hasVideoStream());
@@ -411,7 +415,7 @@ bool Focus::addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &devic
     defaultFocusTemperatureSource->addItem(device->getDeviceName());
 
     auto targetSource = m_Settings["defaultFocusTemperatureSource"];
-    if (!targetSource.isNull())
+    if (targetSource.isValid())
         checkTemperatureSource(targetSource.toString());
     return true;
 }
@@ -951,11 +955,13 @@ void Focus::start()
     if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
         const int position = static_cast<int>(currentPosition);
+        auto focusOutSteps = m_Settings["focusOutSteps"];
+        auto focusOutStepsValue = focusOutSteps.isValid() ? focusOutSteps.toDouble() : 0.0;
         FocusAlgorithmInterface::FocusParams params(
             focusMaxTravel->value(), focusTicks->value(), position, absMotionMin, absMotionMax,
             MAXIMUM_ABS_ITERATIONS, focusTolerance->value() / 100.0, filter(),
             currentTemperatureSourceElement ? currentTemperatureSourceElement->value : INVALID_VALUE,
-            m_Settings["focusOutSteps"].toDouble(),
+            focusOutStepsValue,
             m_FocusAlgorithm, focusBacklash->value(), m_CurveFit, focusUseWeights->isChecked());
         if (canAbsMove)
             initialFocuserAbsPosition = position;
@@ -1215,8 +1221,8 @@ void Focus::capture(double settleTime)
         QVariantMap settings = frameSettings[targetChip];
         targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(),
                              settings["h"].toInt());
-        settings["binx"]          = activeBin;
-        settings["biny"]          = activeBin;
+        settings["binx"]          = m_ActiveBin;
+        settings["biny"]          = m_ActiveBin;
         frameSettings[targetChip] = settings;
     }
 
@@ -1263,7 +1269,7 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
 
     m_Camera->setEncodingFormat("FITS");
     targetChip->setBatchMode(false);
-    targetChip->setBinning(activeBin, activeBin);
+    targetChip->setBinning(m_ActiveBin, m_ActiveBin);
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setFrameType(FRAME_LIGHT);
     targetChip->setCaptureFilter(FITS_NONE);
@@ -3261,7 +3267,7 @@ void Focus::focusStarSelected(int x, int y)
     targetChip->getBinning(&subBinX, &subBinY);
 
     // If binning was changed outside of the focus module, recapture
-    if (subBinX != activeBin)
+    if (subBinX != m_ActiveBin)
     {
         capture();
         return;

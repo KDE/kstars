@@ -688,9 +688,9 @@ class Focus : public QWidget, public Ui::Focus
         /// What type of focusing are we doing right now?
         Type m_FocusType { FOCUS_MANUAL };
         /// Focus HFR & Centeroid algorithms
-        StarAlgorithm m_FocusDetection { ALGORITHM_GRADIENT };
+        StarAlgorithm m_FocusDetection { ALGORITHM_SEP };
         /// Focus Process Algorithm
-        Algorithm m_FocusAlgorithm { FOCUS_ITERATIVE };
+        Algorithm m_FocusAlgorithm { FOCUS_LINEAR1PASS };
         /// Curve fit, default to Quadratic
         CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_QUADRATIC };
 
@@ -775,7 +775,7 @@ class Focus : public QWidget, public Ui::Focus
         /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
         /// Previous binning setting
-        int activeBin { 0 };
+        int m_ActiveBin { 1 };
         /// HFR values for captured frames before averages
         QVector<double> HFRFrames;
         // Camera Fast Exposure
