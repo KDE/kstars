@@ -202,13 +202,13 @@ void TestEkosHelper::connectModules()
 
     if (m_MountDevice != nullptr)
     {
-    // connect to the mount process to rmount status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
-            &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
+        // connect to the mount process to rmount status changes
+        connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
+                &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
 
-    // connect to the mount process to receive meridian flip status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
-            &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
+        // connect to the mount process to receive meridian flip status changes
+        connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
+                &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
     }
 
     if (m_GuiderDevice != nullptr)
@@ -473,7 +473,7 @@ void TestEkosHelper::prepareFocusModule()
     // set exp time for current filter
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
     // set exposure times for all filters
-    Ekos::FilterManager *filtermanager = Ekos::FilterManager::Instance();
+    auto filtermanager = Ekos::Manager::Instance()->focusModule()->filterManager();
     for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
     {
         filtermanager->setFilterExposure(pos, 3.0);
@@ -529,14 +529,16 @@ void TestEkosHelper::prepareGuidingModule()
     }
 }
 
-Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght)
+Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QString type, double aperture,
+        double focallenght)
 {
     QList<Scope *> scope_list;
     KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
 
-    for (Scope *scope: scope_list)
+    for (Scope *scope : scope_list)
     {
-        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture
+                && scope->focalLength() == focallenght)
             return scope;
     }
     // no match found, create it again
@@ -545,9 +547,10 @@ Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QSt
     // find it
     scope_list.clear();
     KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
-    for (Scope *scope: scope_list)
+    for (Scope *scope : scope_list)
     {
-        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture
+                && scope->focalLength() == focallenght)
             return scope;
     }
     // this should never happen
@@ -558,12 +561,12 @@ OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
 {
     switch (type)
     {
-    case SCOPE_FSQ85:
-        return fsq85;
-    case SCOPE_NEWTON_10F4:
-        return newton_10F4;
-    case SCOPE_TAKFINDER10x50:
-        return takfinder10x50;
+        case SCOPE_FSQ85:
+            return fsq85;
+        case SCOPE_NEWTON_10F4:
+            return newton_10F4;
+        case SCOPE_TAKFINDER10x50:
+            return takfinder10x50;
     }
     // this should never happen
     return fsq85;

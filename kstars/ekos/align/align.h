@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "ekos/auxiliary/filtermanager.h"
 #include "ui_align.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
@@ -863,6 +864,9 @@ class Align : public QWidget, public Ui::Align
 
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
+
+        // Filter Manager
+        QSharedPointer<FilterManager> m_FilterManager;
 
 };
 }

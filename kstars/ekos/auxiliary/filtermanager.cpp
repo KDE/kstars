@@ -27,23 +27,7 @@
 namespace Ekos
 {
 
-FilterManager *FilterManager::m_Instance = nullptr;
-
-FilterManager *FilterManager::Instance()
-{
-    if (m_Instance == nullptr)
-        m_Instance = new FilterManager();
-
-    return m_Instance;
-}
-
-void FilterManager::release()
-{
-    delete (m_Instance);
-    m_Instance = nullptr;
-}
-
-FilterManager::FilterManager() : QDialog(KStars::Instance())
+FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -54,11 +38,12 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
+                          QUuid::createUuid().toString());
     userdb.open();
 
     kcfg_FlatSyncFocus->setChecked(Options::flatSyncFocus());
-    connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, [this]()
+    connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, this, [this]()
     {
         Options::setFlatSyncFocus(kcfg_FlatSyncFocus->isChecked());
     });
@@ -90,7 +75,7 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     // Absolute Focus Position
     filterView->setItemDelegateForColumn(9, noEditDelegate);
 
-    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex & topLeft, const QModelIndex &,
+    connect(filterModel, &QSqlTableModel::dataChanged, this, [this](const QModelIndex & topLeft, const QModelIndex &,
             const QVector<int> &)
     {
         reloadFilters();
@@ -106,16 +91,10 @@ void FilterManager::refreshFilterModel()
 
     QString vendor(m_FilterWheel->getDeviceName());
 
-    //QSqlDatabase::removeDatabase("filter_db");
-    //QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
-    //userdb.open();
-
-    //delete (filterModel);
-
-    //filterModel = new QSqlTableModel(this, userdb);
     if (!filterModel)
     {
-        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
+                              QUuid::createUuid().toString());
         userdb.open();
         filterModel = new QSqlTableModel(this, userdb);
         filterView->setModel(filterModel);
@@ -142,13 +121,6 @@ void FilterManager::refreshFilterModel()
             KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
 
         filterModel->select();
-        // Seems ->select() is not enough, have to create a new model.
-        /*delete (filterModel);
-        filterModel = new QSqlTableModel(this, userdb);
-        filterModel->setTable("filter");
-        filterModel->setFilter(QString("vendor='%1'").arg(m_currentFilterDevice->getDeviceName()));
-        filterModel->select();
-        filterModel->setEditStrategy(QSqlTableModel::OnManualSubmit);*/
     }
     // Make sure all the filter colors match DB. If not update model to sync with INDI filter values
     else
@@ -221,28 +193,26 @@ void FilterManager::reloadFilters()
 
 void FilterManager::setCurrentFilterWheel(ISD::FilterWheel *filter)
 {
-    if (m_FilterWheel == filter)
+    // Return if same device and we already initialized the properties.
+    if (m_FilterWheel == filter && m_FilterNameProperty && m_FilterPositionProperty)
         return;
     else if (m_FilterWheel)
         m_FilterWheel->disconnect(this);
 
     m_FilterWheel = filter;
 
-    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
-    {
-        m_currentFilterLabels.clear();
-        m_currentFilterPosition = -1;
-        //m_currentFilterDevice = nullptr;
-        m_FilterNameProperty = nullptr;
-        m_FilterPositionProperty = nullptr;
-    });
-
     m_FilterNameProperty = nullptr;
     m_FilterPositionProperty = nullptr;
     m_FilterConfirmSet = nullptr;
+
+    if (!m_FilterWheel)
+        return;
+
+    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, &FilterManager::processDisconnect);
+
     initFilterProperties();
 }
 
@@ -452,6 +422,14 @@ void FilterManager::processSwitch(ISwitchVectorProperty *svp)
     if (m_FilterWheel == nullptr || (svp->device != m_FilterWheel->getDeviceName()))
         return;
 
+}
+
+void FilterManager::processDisconnect()
+{
+    m_currentFilterLabels.clear();
+    m_currentFilterPosition = -1;
+    m_FilterNameProperty = nullptr;
+    m_FilterPositionProperty = nullptr;
 }
 
 void FilterManager::buildOperationQueue(FilterState operation)

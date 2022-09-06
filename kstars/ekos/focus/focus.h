@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "ekos/auxiliary/filtermanager.h"
 #include "ui_focus.h"
 #include "focusprofileplot.h"
 #include "ekos/ekos.h"
@@ -199,6 +200,10 @@ class Focus : public QWidget, public Ui::Focus
          */
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved);
 
+        const QSharedPointer<FilterManager> &filterManager() const
+        {
+            return m_FilterManager;
+        }
         void setupFilterManager();
 
         void clearLog();
@@ -880,5 +885,7 @@ class Focus : public QWidget, public Ui::Focus
 
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
+
+        QSharedPointer<FilterManager> m_FilterManager;
 };
 }

@@ -513,7 +513,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
             if (getCoreProperty(SequenceJob::SJ_Preview).toBool() || frameType != FRAME_LIGHT || autofocusReady == false)
                 policy = static_cast<FilterManager::FilterPolicy>(policy & ~FilterManager::AUTOFOCUS_POLICY);
 
-            FilterManager::Instance()->setFilterPosition(stateMachine->targetFilterID, policy);
+            m_FilterManager->setFilterPosition(stateMachine->targetFilterID, policy);
             return CAPTURE_FILTER_BUSY;
         }
     }

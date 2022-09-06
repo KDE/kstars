@@ -65,7 +65,6 @@ Manager *Manager::Instance()
 
 void Manager::release()
 {
-    FilterManager::release();
     ProfileSettings::release();
     OpticalTrainManager::release();
     OpticalTrainSettings::release();
@@ -509,7 +508,6 @@ void Manager::reset()
 {
     qCDebug(KSTARS_EKOS) << "Resetting Ekos Manager...";
 
-    FilterManager::release();
     ProfileSettings::release();
     OpticalTrainManager::release();
     OpticalTrainSettings::release();
@@ -2016,8 +2014,9 @@ void Manager::initCapture()
     capturePreview->setEnabled(true);
 
     // display capture status changes
-    connect(FilterManager::Instance(), &FilterManager::newStatus, capturePreview->captureStatusWidget,
+    connect(captureProcess.get(), &Ekos::Capture::newFilterManagerStatus, capturePreview->captureStatusWidget,
             &CaptureStatusWidget::setFilterState);
+
     // display target drift
     connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
             captureProcess.get(), &Ekos::Capture::updateTargetDistance,  Qt::UniqueConnection);
@@ -2088,19 +2087,6 @@ void Manager::initFocus()
     connect(focusProcess.get(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
     // setup signal/slots for Linear 1 Pass focus algo
     connect(focusProcess.get(), &Ekos::Focus::drawCurve, focusManager->hfrVPlot, &FocusHFRVPlot::drawCurve);
-
-    // Focus <---> Filter Manager connections
-    connect(FilterManager::Instance(), &Ekos::FilterManager::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
-            Qt::UniqueConnection);
-    connect(focusProcess.get(), &Ekos::Focus::newStatus, FilterManager::Instance(), &Ekos::FilterManager::setFocusStatus,
-            Qt::UniqueConnection);
-    connect(FilterManager::Instance(), &Ekos::FilterManager::newFocusOffset, focusProcess.get(),
-            &Ekos::Focus::adjustFocusOffset,
-            Qt::UniqueConnection);
-    connect(focusProcess.get(), &Ekos::Focus::focusPositionAdjusted, FilterManager::Instance(),
-            &Ekos::FilterManager::setFocusOffsetComplete, Qt::UniqueConnection);
-    connect(focusProcess.get(), &Ekos::Focus::absolutePositionChanged, FilterManager::Instance(),
-            &Ekos::FilterManager::setFocusAbsolutePosition, Qt::UniqueConnection);
 
     if (Options::ekosLeftIcons())
     {

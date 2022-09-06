@@ -522,21 +522,25 @@ void Focus::checkFilter()
     {
         FilterPosLabel->setEnabled(false);
         focusFilter->setEnabled(false);
+        filterManagerB->setEnabled(false);
         return;
     }
 
     FilterPosLabel->setEnabled(true);
     focusFilter->setEnabled(true);
+    filterManagerB->setEnabled(true);
 
-    FilterManager::Instance()->setCurrentFilterWheel(m_FilterWheel);
+    setupFilterManager();
 
-    focusFilter->addItems(FilterManager::Instance()->getFilterLabels());
+    m_FilterManager->setCurrentFilterWheel(m_FilterWheel);
 
-    currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+    focusFilter->addItems(m_FilterManager->getFilterLabels());
+
+    currentFilterPosition = m_FilterManager->getFilterPosition();
 
     focusFilter->setCurrentIndex(currentFilterPosition - 1);
 
-    focusExposure->setValue(FilterManager::Instance()->getFilterExposure());
+    focusExposure->setValue(m_FilterManager->getFilterExposure());
 }
 
 bool Focus::setFocuser(ISD::Focuser *device)
@@ -565,7 +569,8 @@ void Focus::checkFocuser()
 {
     if (!m_Focuser)
     {
-        FilterManager::Instance()->setFocusReady(false);
+        if (m_FilterManager)
+            m_FilterManager->setFocusReady(false);
         canAbsMove = canRelMove = canTimerMove = false;
         resetButtons();
         return;
@@ -573,7 +578,8 @@ void Focus::checkFocuser()
     else
         focuserLabel->setText(m_Focuser->getDeviceName());
 
-    FilterManager::Instance()->setFocusReady(m_Focuser->isConnected());
+    if (m_FilterManager)
+        m_FilterManager->setFocusReady(m_Focuser->isConnected());
 
     hasDeviation = m_Focuser->hasDeviation();
 
@@ -1182,7 +1188,7 @@ void Focus::capture(double settleTime)
         }
 
         int targetPosition = focusFilter->currentIndex() + 1;
-        QString lockedFilter = FilterManager::Instance()->getFilterLock(focusFilter->currentText());
+        QString lockedFilter = m_FilterManager->getFilterLock(focusFilter->currentText());
 
         // We change filter if:
         // 1. Target position is not equal to current position.
@@ -1204,8 +1210,8 @@ void Focus::capture(double settleTime)
         if (filterPositionPending)
         {
             // Apply all policies except autofocus since we are already in autofocus module doh.
-            FilterManager::Instance()->setFilterPosition(targetPosition,
-                    static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+            m_FilterManager->setFilterPosition(targetPosition,
+                                               static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
             return;
         }
     }
@@ -1607,8 +1613,8 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed)
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
     {
-        FilterManager::Instance()->setFilterPosition(fallbackFilterPosition,
-                static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
+        m_FilterManager->setFilterPosition(fallbackFilterPosition,
+                                           static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY));
     }
     else
         emit newStatus(state);
@@ -3685,13 +3691,22 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
 
 void Focus::setupFilterManager()
 {
-    connect(filterManagerB, &QPushButton::clicked, []()
+    if (m_FilterManager)
     {
-        FilterManager::Instance()->show();
-        FilterManager::Instance()->raise();
+        m_FilterManager->close();
+        m_FilterManager->disconnect(this);
+    }
+
+    m_FilterManager.reset(new FilterManager(this));
+
+    connect(filterManagerB, &QPushButton::clicked, this, [this]()
+    {
+        m_FilterManager->refreshFilterModel();
+        m_FilterManager->show();
+        m_FilterManager->raise();
     });
 
-    connect(FilterManager::Instance(), &FilterManager::ready, [this]()
+    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
         if (filterPositionPending)
         {
@@ -3706,24 +3721,30 @@ void Focus::setupFilterManager()
     }
            );
 
-    connect(FilterManager::Instance(), &FilterManager::failed, [this]()
+    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
     }
            );
 
-    connect(this, &Focus::newStatus, [this](Ekos::FocusState state)
+    connect(m_FilterManager.get(), &FilterManager::checkFocus, this, &Focus::checkFocus);
+    connect(this, &Focus::absolutePositionChanged, m_FilterManager.get(), &FilterManager::setFocusAbsolutePosition);
+    connect(this, &Focus::newStatus, this, [this](Ekos::FocusState state)
     {
+        m_FilterManager->setFocusStatus(state);
         if (focusFilter->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
         {
-            FilterManager::Instance()->setFilterAbsoluteFocusPosition(focusFilter->currentIndex(), currentPosition);
+            m_FilterManager->setFilterAbsoluteFocusPosition(focusFilter->currentIndex(), currentPosition);
         }
     });
+
+    connect(m_FilterManager.get(), &FilterManager::newFocusOffset, this, &Focus::adjustFocusOffset);
 
     // Resume guiding if suspended after focus position is adjusted.
     connect(this, &Focus::focusPositionAdjusted, this, [this]()
     {
+        m_FilterManager->setFocusOffsetComplete();
         if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
         {
             QTimer::singleShot(FocusSettleTime->value() * 1000, this, [this]()
@@ -3735,7 +3756,7 @@ void Focus::setupFilterManager()
     });
 
     // Suspend guiding if filter offset is change with OAG
-    connect(FilterManager::Instance(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
         const bool isOAG = m_Camera->getTelescopeType() == Options::guideScopeType();
@@ -3749,33 +3770,32 @@ void Focus::setupFilterManager()
         }
     });
 
-    connect(focusExposure, &QDoubleSpinBox::editingFinished, [this]()
+    connect(focusExposure, &QDoubleSpinBox::editingFinished, this, [this]()
     {
         if (m_FilterWheel)
-            FilterManager::Instance()->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
+            m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
     });
 
-    connect(FilterManager::Instance(), &FilterManager::labelsChanged, this, [this]()
+    connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
     {
         focusFilter->clear();
-        focusFilter->addItems(FilterManager::Instance()->getFilterLabels());
-        currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        focusFilter->addItems(m_FilterManager->getFilterLabels());
+        currentFilterPosition = m_FilterManager->getFilterPosition();
         focusFilter->setCurrentIndex(currentFilterPosition - 1);
     });
-    connect(FilterManager::Instance(), &FilterManager::positionChanged, this, [this]()
+    connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
-        currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        currentFilterPosition = m_FilterManager->getFilterPosition();
         focusFilter->setCurrentIndex(currentFilterPosition - 1);
-        //Options::setDefaultFocusFilterWheelFilter(focusFilter->currentText());
     });
-    connect(FilterManager::Instance(), &FilterManager::exposureChanged, this, [this]()
+    connect(m_FilterManager.get(), &FilterManager::exposureChanged, this, [this]()
     {
-        focusExposure->setValue(FilterManager::Instance()->getFilterExposure());
+        focusExposure->setValue(m_FilterManager->getFilterExposure());
     });
 
     connect(focusFilter, &QComboBox::currentTextChanged, this, [this](const QString & text)
     {
-        focusExposure->setValue(FilterManager::Instance()->getFilterExposure(text));
+        focusExposure->setValue(m_FilterManager->getFilterExposure(text));
     });
 }
 

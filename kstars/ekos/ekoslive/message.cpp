@@ -1409,14 +1409,21 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
 
 void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)
 {
+    QSharedPointer<Ekos::FilterManager> manager;
+    if (m_Manager->captureModule())
+        manager = m_Manager->captureModule()->filterManager();
+
+    if (manager.isNull())
+        return;
+
     if (command == commands[FM_GET_DATA])
     {
-        QJsonObject data = Ekos::FilterManager::Instance()->toJSON();
+        QJsonObject data = manager->toJSON();
         sendResponse(commands[FM_GET_DATA], data);
     }
     else if (command == commands[FM_SET_DATA])
     {
-        Ekos::FilterManager::Instance()->setFilterData(payload);
+        manager->setFilterData(payload);
     }
 }
 

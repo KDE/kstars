@@ -10,7 +10,6 @@
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
 #include "customproperties.h"
-#include "oal/filter.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indicamera.h"
@@ -376,6 +375,11 @@ class Capture : public QWidget, public Ui::Capture
         const QJsonArray &getSequence() const
         {
             return m_SequenceArray;
+        }
+
+        const QSharedPointer<FilterManager> &filterManager() const
+        {
+            return m_FilterManager;
         }
 
         /**
@@ -848,6 +852,8 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
+        void newFilterManagerStatus(Ekos::FilterState state);
+
         void ready();
 
         // signals to the sequence job
@@ -1199,5 +1205,7 @@ class Capture : public QWidget, public Ui::Capture
         QTimer downloadProgressTimer;
         QVariantMap m_Metadata;
         void processGuidingFailed();
+
+        QSharedPointer<FilterManager> m_FilterManager;
 };
 }

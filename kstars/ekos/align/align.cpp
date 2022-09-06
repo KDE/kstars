@@ -1506,8 +1506,7 @@ bool Align::captureAndSolve()
         {
             filterPositionPending    = true;
             // Disabling the autofocus policy for align.
-            FilterManager::Instance()->setFilterPosition(
-                targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
+            m_FilterManager->setFilterPosition(targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
             state = ALIGN_PROGRESS;
             return true;
         }
@@ -2998,11 +2997,13 @@ void Align::checkFilter()
     FilterPosLabel->setEnabled(true);
     FilterPosCombo->setEnabled(true);
 
-    FilterManager::Instance()->setCurrentFilterWheel(m_FilterWheel);
+    setupFilterManager();
 
-    FilterPosCombo->addItems(FilterManager::Instance()->getFilterLabels());
+    m_FilterManager->setCurrentFilterWheel(m_FilterWheel);
 
-    currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+    FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
+
+    currentFilterPosition = m_FilterManager->getFilterPosition();
 
     FilterPosCombo->setCurrentIndex(Options::lockAlignFilterIndex());
 
@@ -3250,7 +3251,15 @@ void Align::refreshAlignOptions()
 
 void Align::setupFilterManager()
 {
-    connect(FilterManager::Instance(), &FilterManager::ready, [this]()
+    if (m_FilterManager)
+    {
+        m_FilterManager->close();
+        m_FilterManager->disconnect(this);
+    }
+
+    m_FilterManager.reset(new FilterManager(this));
+
+    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
         if (filterPositionPending)
         {
@@ -3261,26 +3270,26 @@ void Align::setupFilterManager()
     }
            );
 
-    connect(FilterManager::Instance(), &FilterManager::failed, [this]()
+    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
         abort();
     }
            );
 
-    connect(FilterManager::Instance(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         if (filterPositionPending)
         {
             switch (filterState)
             {
                 case FILTER_OFFSET:
-                    appendLogText(i18n("Changing focus offset by %1 steps...", FilterManager::Instance()->getTargetFilterOffset()));
+                    appendLogText(i18n("Changing focus offset by %1 steps...", m_FilterManager->getTargetFilterOffset()));
                     break;
 
                 case FILTER_CHANGE:
                 {
-                    const int filterComboIndex = FilterManager::Instance()->getTargetFilterPosition() - 1;
+                    const int filterComboIndex = m_FilterManager->getTargetFilterPosition() - 1;
                     if (filterComboIndex >= 0 && filterComboIndex < FilterPosCombo->count())
                         appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterComboIndex)));
                 }
@@ -3296,14 +3305,8 @@ void Align::setupFilterManager()
         }
     });
 
-    connect(FilterManager::Instance(), &FilterManager::labelsChanged, this, [this]()
-    {
-        checkFilter();
-    });
-    connect(FilterManager::Instance(), &FilterManager::positionChanged, this, [this]()
-    {
-        checkFilter();
-    });
+    connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, &Align::checkFilter);
+    connect(m_FilterManager.get(), &FilterManager::positionChanged, this, &Align::checkFilter);
 }
 
 QVariantMap Align::getEffectiveFOV()
