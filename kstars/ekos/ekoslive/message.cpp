@@ -178,6 +178,8 @@ void Message::onTextReceived(const QString &message)
         sendProfiles();
     else if (command == commands[GET_SCOPES])
         sendScopes();
+    else if (command == commands[GET_DSLR_LENSES])
+        sendDSLRLenses();
     else if (command.startsWith("scope_"))
         processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
@@ -190,6 +192,8 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("scheduler"))
         processSchedulerCommands(command, payload);
+    else if (command.startsWith("dslr_"))
+        processDSLRCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -227,8 +231,6 @@ void Message::onTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
-    else if (command.startsWith("dslr_"))
-        processDSLRCommands(command, payload);
     else if (command.startsWith("fm_"))
         processFilterManagerCommands(command, payload);
     else if (command.startsWith("dark_library_"))
@@ -528,6 +530,23 @@ void Message::sendScopes()
         scopeList.append(scope->toJson());
 
     sendResponse(commands[GET_SCOPES], scopeList);
+}
+
+
+void Message::sendDSLRLenses()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray dslrList;
+
+    QList<OAL::DSLRLens *> allDslrLens;
+    KStarsData::Instance()->userdb()->GetAllDSLRLenses(allDslrLens);
+
+    for (auto &dslrLens : allDslrLens)
+        dslrList.append(dslrLens->toJson());
+
+    sendResponse(commands[GET_DSLR_LENSES], dslrList);
 }
 
 void Message::sendTemperature(double value)
@@ -1372,7 +1391,7 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
 }
 
 void Message::processScopeCommands(const QString &command, const QJsonObject &payload)
-{
+{    
     if (command == commands[ADD_SCOPE])
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
@@ -1404,6 +1423,22 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
                 payload["pixelh"].toDouble());
 
     }
+    else if(command == commands[DSLR_ADD_LENS])
+    {
+        KStarsData::Instance()->userdb()->AddDSLRLens(payload["model"].toString(), payload["vendor"].toString(),
+                payload["focal_length"].toDouble(), payload["focal_ratio"].toDouble());
+    }
+    else if (command == commands[DSLR_DELETE_LENS])
+    {
+        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toInt());
+    }
+    else if (command == commands[DSLR_UPDATE_LENS])
+    {
+        KStarsData::Instance()->userdb()->AddDSLRLens(payload["model"].toString(), payload["vendor"].toString(),
+                payload["focal_length"].toDouble(), payload["focal_ratio"].toDouble(), payload["id"].toString());
+    }
+
+    sendDSLRLenses();
 }
 
 void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)

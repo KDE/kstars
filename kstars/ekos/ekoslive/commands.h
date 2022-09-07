@@ -191,6 +191,12 @@ enum COMMANDS
     DSLR_SET_INFO,
     DSLR_SET_MODE,
 
+    //DSLR Lens
+    DSLR_ADD_LENS,
+    DSLR_DELETE_LENS,
+    DSLR_UPDATE_LENS,
+    GET_DSLR_LENSES,
+
     // Low-level device Access
     DEVICE_GET,
     DEVICE_RESTART,
@@ -400,6 +406,11 @@ static QMap<COMMANDS, QString> const commands =
     {DSLR_GET_INFO, "dslr_get_info"},
     {DSLR_SET_INFO, "dslr_set_info"},
     {DSLR_SET_MODE, "dslr_set_mode"},
+
+    {GET_DSLR_LENSES, "get_dslr_lenses"},
+    {DSLR_ADD_LENS, "dslr_add_lens"},
+    {DSLR_DELETE_LENS, "dslr_delete_lens"},
+    {DSLR_UPDATE_LENS, "dslr_update_lens"},
 
     {DEVICE_GET, "device_get"},
     {DEVICE_RESTART, "device_restart"},

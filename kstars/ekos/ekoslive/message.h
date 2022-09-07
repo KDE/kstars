@@ -51,6 +51,7 @@ class Message : public QObject
         void sendCameras();
         void sendMounts();
         void sendScopes();
+        void sendDSLRLenses();
         void sendFilterWheels();
         void sendDomes();
         void sendCaps();
