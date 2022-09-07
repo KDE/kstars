@@ -3648,6 +3648,8 @@ void Capture::executeJob()
         return;
     }
 
+    activeJob->setFilterManager(m_FilterManager);
+
     QMap<QString, QString> FITSHeader;
     QString rawPrefix = activeJob->property("rawPrefix").toString();
     if (m_ObserverName.isEmpty() == false)
@@ -6534,9 +6536,6 @@ void Capture::setupFilterManager()
         m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
-
-    for (auto &oneJob : jobs)
-        oneJob->setFilterManager(m_FilterManager);
 }
 
 void Capture::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH)
