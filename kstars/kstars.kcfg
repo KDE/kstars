@@ -2019,19 +2019,28 @@
    <group name="Align">      
       <entry name="AlignExposure" type="Double">
          <label>Default alignment exposure value</label>
-         <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
+         <whatsthis>Specifies exposure value of camera in seconds when performing plate solving.</whatsthis>
          <default>1</default>
       </entry>
-      <entry name="SolverBinningIndex" type="UInt">
-         <label>Default CCD binning index while in alignment mode</label>
-         <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
-         <default>1</default>
+      <entry name="AlignBinning" type="String">
+         <label>Default camera binning in alignment mode</label>
+         <default>2x2</default>
       </entry>
-      <entry name="SolverCameraGain" type="Double">
-         <label>Default camera gain while in alignment mode</label>
-         <whatsthis>Set gain of camera while in alignment mode.</whatsthis>
+      <entry name="AlignGain" type="Double">
+         <label>Default camera gain in alignment mode</label>
          <default>0</default>
       </entry>
+      <entry name="AlignISO" type="Double">
+         <label>Default camera ISO in alignment mode</label>
+         <default>0</default>
+      </entry>
+      <entry name="AlignDarkFrame" type="Bool">
+         <label>Take a dark frame and subtract it before running astrometry operation.</label>
+         <default>false</default>
+      </entry>
+      <entry name="AlignFilter" type="String">
+         <label>Default filter wheel filter in alignment mode</label>
+      </entry>      
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
          <default>true</default>
@@ -2039,11 +2048,6 @@
       <entry name="AstrometryRotatorThreshold" type="Double">
          <whatsthis>Threshold between measured and FITS position angles in arcminutes to consider the load and slew operation successful.</whatsthis>
          <default>30</default>
-      </entry>
-
-      <entry name="SolverScopeType" type="UInt">
-         <label>Index of telescope type to be used when solving an image. 0 for Primary, 1 for Guide</label>
-         <default>0</default>
       </entry>
       <entry name="SolverGotoOption" type="UInt">
          <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
@@ -2061,19 +2065,15 @@
          <label>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepancies.</label>
          <default>false</default>
       </entry>
-      <entry name="SolverAccuracyThreshold" type="UInt">
+      <entry name="AlignAccuracyThreshold" type="UInt">
          <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
          <default>30</default>
       </entry>
       <entry name="LockAlignFilterIndex" type="UInt">
          <label>Use specified filter index when performing astrometry regardless of current filter settings.</label>
          <default>0</default>
-      </entry>
-      <entry name="AlignDarkFrame" type="Bool">
-         <label>Take a dark frame and subtract it before running astrometry operation.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SettlingTime" type="UInt">
+      </entry>      
+      <entry name="AlignSettlingTime" type="UInt">
          <label>Time to wait in milliseconds after telescope slewing is complete before starting the next capture.</label>
          <default>1500</default>
       </entry>

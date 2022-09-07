@@ -216,7 +216,7 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
-        // All
+        // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
@@ -429,9 +429,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void toggleFocusingWidgetFullScreen();
 
-        void setVideoStreamEnabled(bool enabled);
-
-        void syncSettings();
+        void setVideoStreamEnabled(bool enabled);        
 
         void calculateHFR();
         void setCurrentHFR(double value);
@@ -553,6 +551,21 @@ class Focus : public QWidget, public Ui::Focus
          */
         void loadGlobalSettings();
 
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
         ////////////////////////////////////////////////////////////////////
         /// HFR Plot
         ////////////////////////////////////////////////////////////////////
@@ -646,9 +659,7 @@ class Focus : public QWidget, public Ui::Focus
         void settle(const FocusState completionState, const bool autoFocusUsed);
 
         void setLastFocusTemperature();
-        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
-
-        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);        
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
@@ -779,8 +790,6 @@ class Focus : public QWidget, public Ui::Focus
         int noStarCount { 0 };
         /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
-        /// Previous binning setting
-        int m_ActiveBin { 1 };
         /// HFR values for captured frames before averages
         QVector<double> HFRFrames;
         // Camera Fast Exposure
@@ -870,6 +879,7 @@ class Focus : public QWidget, public Ui::Focus
         int linearRequestedPosition { 0 };
 
         bool hasDeviation { false };
+        bool m_isOAG {false};
 
         //double observatoryTemperature { INVALID_VALUE };
         double m_LastSourceAutofocusTemperature { INVALID_VALUE };

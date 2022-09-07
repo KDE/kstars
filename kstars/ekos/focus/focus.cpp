@@ -272,15 +272,8 @@ void Focus::checkCamera()
 
             auto binning = m_Settings["focusBinning"];
             if (binning.isValid())
-            {
                 focusBinning->setCurrentText(binning.toString());
-                m_ActiveBin = focusBinning->currentIndex() + 1;
-            }
-            else
-                m_ActiveBin = 1;
         }
-        else
-            m_ActiveBin = 1;
 
         connect(m_Camera, &ISD::Camera::videoStreamToggled, this, &Ekos::Focus::setVideoStreamEnabled, Qt::UniqueConnection);
         liveVideoB->setEnabled(m_Camera->hasVideoStream());
@@ -940,8 +933,7 @@ void Focus::start()
     // Only suspend when we have Off-Axis Guider
     // If the guide camera is operating on a different OTA
     // then no need to suspend.
-    const bool isOAG = m_Camera->getTelescopeType() == Options::guideScopeType();
-    if (isOAG && m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
+    if (m_isOAG && m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
     {
         m_GuidingSuspended = true;
         emit suspendGuiding();
@@ -1227,8 +1219,8 @@ void Focus::capture(double settleTime)
         QVariantMap settings = frameSettings[targetChip];
         targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(),
                              settings["h"].toInt());
-        settings["binx"]          = m_ActiveBin;
-        settings["biny"]          = m_ActiveBin;
+        settings["binx"]          = (focusBinning->currentIndex() + 1);
+        settings["biny"]          = (focusBinning->currentIndex() + 1);
         frameSettings[targetChip] = settings;
     }
 
@@ -1275,7 +1267,7 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
 
     m_Camera->setEncodingFormat("FITS");
     targetChip->setBatchMode(false);
-    targetChip->setBinning(m_ActiveBin, m_ActiveBin);
+    targetChip->setBinning((focusBinning->currentIndex() + 1), (focusBinning->currentIndex() + 1));
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setFrameType(FRAME_LIGHT);
     targetChip->setCaptureFilter(FITS_NONE);
@@ -3273,7 +3265,7 @@ void Focus::focusStarSelected(int x, int y)
     targetChip->getBinning(&subBinX, &subBinY);
 
     // If binning was changed outside of the focus module, recapture
-    if (subBinX != m_ActiveBin)
+    if (subBinX != (focusBinning->currentIndex() + 1))
     {
         capture();
         return;
@@ -3759,8 +3751,7 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
-        const bool isOAG = m_Camera->getTelescopeType() == Options::guideScopeType();
-        if (isOAG && filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
+        if (m_isOAG && filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
             {
@@ -4336,7 +4327,7 @@ void Focus::setAllSettings(const QVariantMap &settings)
     // performing the changes.
     disconnectSettings();
 
-    for (auto name : settings.keys())
+    for (auto &name : settings.keys())
     {
         // Combo
         auto comboBox = findChild<QComboBox*>(name);
@@ -4461,6 +4452,9 @@ void Focus::refreshOpticalTrain()
 
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
+
+        auto guider = OpticalTrainManager::Instance()->getGuider(name);
+        m_isOAG = (guider != nullptr);
 
         // Load train settings
         auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());

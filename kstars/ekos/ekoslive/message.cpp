@@ -303,9 +303,9 @@ void Message::sendCameras()
     if (m_Manager->captureModule())
         sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
     if (m_Manager->alignModule())
-        sendAlignSettings(m_Manager->alignModule()->getSettings());
+        sendAlignSettings(m_Manager->alignModule()->getAllSettings());
     if (m_Manager->focusModule())
-        sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(m_Manager->focusModule()->getAllSettings()));
+        sendFocusSettings(m_Manager->focusModule()->getAllSettings());
     if (m_Manager->guideModule())
         sendGuideSettings(m_Manager->guideModule()->getSettings());
 }
@@ -698,9 +698,9 @@ void Message::sendCaptureSettings(const QJsonObject &settings)
     sendResponse(commands[CAPTURE_SET_SETTINGS], settings);
 }
 
-void Message::sendAlignSettings(const QJsonObject &settings)
+void Message::sendAlignSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[ALIGN_SET_SETTINGS], settings);
+    sendResponse(commands[ALIGN_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
 void Message::sendGuideSettings(const QJsonObject &settings)
@@ -941,15 +941,14 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     {
         align->captureAndSolve();
     }
-    else if (command == commands[ALIGN_SET_SETTINGS])
-        align->setSettings(payload);
+    else if (command == commands[ALIGN_SET_ALL_SETTINGS])
+        align->setAllSettings(payload.toVariantMap());
     else if(command == commands[ALIGN_SET_ASTROMETRY_SETTINGS])
     {
         Options::setAstrometryRotatorThreshold(payload["threshold"].toInt());
         Options::setAstrometryUseRotator(payload["rotator_control"].toBool());
         Options::setAstrometryUseImageScale(payload["scale"].toBool());
         Options::setAstrometryUsePosition(payload["position"].toBool());
-        sendAlignSettings(m_Manager->alignModule()->getSettings());
     }
     else if (command == commands[ALIGN_STOP])
         align->abort();
@@ -2263,7 +2262,7 @@ void Message::sendStates()
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
         // Align settings
-        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+        sendAlignSettings(m_Manager->alignModule()->getAllSettings());
 
         Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
         if (paa)
@@ -2476,7 +2475,7 @@ void Message::sendModuleState(const QString &name)
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
         // Align settings
-        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+        sendAlignSettings(m_Manager->alignModule()->getAllSettings());
 
         Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
         if (paa)

@@ -85,7 +85,7 @@ class Message : public QObject
         // Alignment
         void setAlignStatus(Ekos::AlignState newState);
         void setAlignSolution(const QVariantMap &solution);
-        void sendAlignSettings(const QJsonObject &settings);
+        void sendAlignSettings(const QVariantMap &settings);
 
         // Guide
         void sendGuideSettings(const QJsonObject &settings);

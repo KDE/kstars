@@ -267,7 +267,7 @@
          <number>3</number>
         </property>
         <item row="0" column="3">
-         <widget class="QSpinBox" name="accuracySpin">
+         <widget class="QSpinBox" name="alignAccuracyThreshold">
           <property name="toolTip">
            <string>Accuracy threshold in arcseconds between solution and target coordinates. Plate solver shall be repeatedly executed until the solution coordinates are below the accuracy threshold</string>
           </property>
@@ -317,7 +317,7 @@
          </widget>
         </item>
         <item row="1" column="3">
-         <widget class="QSpinBox" name="delaySpin">
+         <widget class="QSpinBox" name="alignSettlingTime">
           <property name="toolTip">
            <string>After telescope completes slewing, wait until it settles for this many milliseconds before capturing the next image.</string>
           </property>
@@ -571,7 +571,7 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QComboBox" name="FilterPosCombo"/>
+         <widget class="QComboBox" name="alignFilter"/>
         </item>
         <item row="1" column="4">
          <widget class="QPushButton" name="showFITSViewerB">
@@ -602,7 +602,7 @@
          </widget>
         </item>
         <item row="3" column="3" colspan="2">
-         <widget class="QCheckBox" name="alignDarkFrameCheck">
+         <widget class="QCheckBox" name="alignDarkFrame">
           <property name="toolTip">
            <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
           </property>
@@ -612,7 +612,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="binningCombo">
+         <widget class="QComboBox" name="alignBinning">
           <property name="toolTip">
            <string>Camera binning</string>
           </property>
@@ -647,7 +647,7 @@
          </widget>
         </item>
         <item row="1" column="1" colspan="2">
-         <widget class="QDoubleSpinBox" name="exposureIN">
+         <widget class="QDoubleSpinBox" name="alignExposure">
           <property name="toolTip">
            <string>Exposure duration in seconds</string>
           </property>
@@ -666,7 +666,7 @@
          </widget>
         </item>
         <item row="2" column="3" colspan="2">
-         <widget class="QDoubleSpinBox" name="GainSpin">
+         <widget class="QDoubleSpinBox" name="alignGain">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -695,7 +695,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="ISOCombo">
+         <widget class="QComboBox" name="alignISO">
           <property name="toolTip">
            <string>Camera ISO</string>
           </property>
@@ -1100,9 +1100,9 @@
   <tabstop>slewR</tabstop>
   <tabstop>nothingR</tabstop>
   <tabstop>ScopeRAOut</tabstop>
-  <tabstop>accuracySpin</tabstop>
+  <tabstop>alignAccuracyThreshold</tabstop>
   <tabstop>ScopeDecOut</tabstop>
-  <tabstop>delaySpin</tabstop>
+  <tabstop>alignSettlingTime</tabstop>
   <tabstop>SolverRAOut</tabstop>
   <tabstop>SolverDecOut</tabstop>
   <tabstop>errOut</tabstop>
@@ -1112,15 +1112,15 @@
   <tabstop>ReducerOut</tabstop>
   <tabstop>FocalLengthOut</tabstop>
   <tabstop>FocalRatioOut</tabstop>
-  <tabstop>exposureIN</tabstop>
+  <tabstop>alignExposure</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
-  <tabstop>binningCombo</tabstop>
-  <tabstop>GainSpin</tabstop>
-  <tabstop>ISOCombo</tabstop>
+  <tabstop>alignBinning</tabstop>
+  <tabstop>alignGain</tabstop>
+  <tabstop>alignISO</tabstop>
   <tabstop>rotatorB</tabstop>
-  <tabstop>alignDarkFrameCheck</tabstop>
-  <tabstop>FilterPosCombo</tabstop>
+  <tabstop>alignDarkFrame</tabstop>
+  <tabstop>alignFilter</tabstop>
   <tabstop>localSolverR</tabstop>
   <tabstop>remoteSolverR</tabstop>
   <tabstop>clearAllSolutionsB</tabstop>
@@ -1134,7 +1134,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverModeButtonGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverModeButtonGroup"/>
  </buttongroups>
 </ui>
