@@ -4288,6 +4288,14 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                     m_LimitsUI->limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     m_LimitsUI->limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
                 }
+                else if (!strcmp(tagXMLEle(ep), "CCD"))
+                {
+                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
+                }
+                else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
+                {
+                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
+                }
                 else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
                 {
                     m_LimitsUI->startGuiderDriftS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
