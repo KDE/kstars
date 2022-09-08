@@ -2824,8 +2824,6 @@ void Align::checkFilter()
 
     setupFilterManager();
 
-    m_FilterManager->setFilterWheel(m_FilterWheel);
-
     alignFilter->addItems(m_FilterManager->getFilterLabels());
 
     currentFilterPosition = m_FilterManager->getFilterPosition();
@@ -3201,13 +3199,20 @@ void Align::setupPlot()
 
 void Align::setupFilterManager()
 {
+    // Do we have an existing filter manager?
     if (m_FilterManager)
     {
-        m_FilterManager->close();
+        // If same filter wheel, no need to setup again.
+        if (m_FilterManager->filterWheel() == m_FilterWheel)
+            return;
+
+        // Otherwise disconnect and create a new instance.
         m_FilterManager->disconnect(this);
+        m_FilterManager->close();
     }
 
     m_FilterManager.reset(new FilterManager(this));
+    m_FilterManager->setFilterWheel(m_FilterWheel);
 
     connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
