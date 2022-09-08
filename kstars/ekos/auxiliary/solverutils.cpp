@@ -126,11 +126,10 @@ void SolverUtils::prepareSolver()
 
     if (m_UseScale)
     {
-        SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
         // Extend search scale from 80% to 120%
         m_StellarSolver->setSearchScale(m_ScaleLowArcsecPerPixel * 0.8,
                                         m_ScaleHighArcsecPerPixel * 1.2,
-                                        units);
+                                        ARCSEC_PER_PIX);
     }
     else
         m_StellarSolver->setProperty("UseScale", false);
