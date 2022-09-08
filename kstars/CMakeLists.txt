@@ -128,7 +128,6 @@ if (INDI_FOUND)
             ekos/capture/capturepreviewwidget.ui
             ekos/capture/capturecountswidget.ui
             ekos/capture/captureprocessoverlay.ui
-            ekos/capture/capturestatuswidget.ui
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
@@ -150,6 +149,7 @@ if (INDI_FOUND)
             ekos/focus/focus.ui
             # Mount
             ekos/mount/mount.ui
+            ekos/mount/meridianflipstatuswidget.ui
             # Guide
             ekos/guide/guide.ui
             ekos/guide/guidestatewidget.ui
@@ -169,6 +169,7 @@ if (INDI_FOUND)
             ekos/auxiliary/stellarsolverprofileeditor.ui
             ekos/auxiliary/darklibrary.ui
             ekos/auxiliary/opticaltrains.ui
+            ekos/auxiliary/ledstatuswidget.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
             # INDI Hub
@@ -203,10 +204,10 @@ if (INDI_FOUND)
             ekos/auxiliary/solverutils.cpp
             ekos/auxiliary/serialportassistant.cpp
             ekos/auxiliary/portselector.cpp
+            ekos/auxiliary/ledstatuswidget.cpp
 
             # Capture
             ekos/capture/capture.cpp
-            ekos/capture/capturestatuswidget.cpp
             ekos/capture/capturedeviceadaptor.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
@@ -243,6 +244,7 @@ if (INDI_FOUND)
 
             # Mount
             ekos/mount/mount.cpp
+            ekos/mount/meridianflipstatuswidget.cpp
 
             # Align
             ekos/align/align.cpp

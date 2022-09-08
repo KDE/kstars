@@ -6,20 +6,21 @@
 
 #pragma once
 
-#include "ui_capturestatuswidget.h"
+#include "ui_ledstatuswidget.h"
 #include "ekos/ekos.h"
+#include "indi/indimount.h"
 
 #include <KLed>
 
 namespace Ekos
 {
 
-class CaptureStatusWidget : public QWidget, Ui::CaptureStatusWidget
+class LedStatusWidget : public QWidget, Ui::LedStatusWidget
 {
     Q_OBJECT
 
 public:
-    CaptureStatusWidget(QWidget * parent = nullptr);
+    LedStatusWidget(QWidget * parent = nullptr);
 
     /**
      * @brief Change the status text and LED color
@@ -36,6 +37,16 @@ public slots:
      * @brief Handle new capture state
      */
     void setCaptureState(CaptureState status);
+
+    /**
+     * @brief Handle the mount state
+     */
+    void setMountState(QString text, ISD::Mount::Status status);
+
+    /**
+     * @brief Handle the focus state
+     */
+    void setFocusState(FocusState status);
 
     /**
      * @brief Handle new filter state

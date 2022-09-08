@@ -1583,9 +1583,14 @@
          <default>true</default>
       </entry>
       <entry name="MeridianFlipOffset" type="Double">
-         <label>Default hour angle to perform meridian flip</label>
+         <label>Default hour angle to perform meridian flip (obsolete)</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
          <default>0.1</default>
+      </entry>
+      <entry name="MeridianFlipOffsetDegrees" type="Double">
+         <label>Default hour angle to perform meridian flip in degrees.</label>
+         <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
+         <default>5</default>
       </entry>
       <entry name="MaximumHaLimit" type="Double">
          <label>Default maximum limit for the hour angle.</label>
@@ -1599,10 +1604,6 @@
       <entry name="ExecuteMeridianFlip" type="Bool">
          <label>Flips the mount when reaching the meridian, if supported.</label>
          <default>false</default>
-      </entry>
-      <entry name="MeridianFlipUnitDegrees" type="Bool">
-         <label>Sets the display unit for meridian flip to degrees.</label>
-         <default>true</default>
       </entry>
       <entry name="LeftRightReversed" type="Bool">
          <label>Reverse the direction of right and left buttons in mount control.</label>

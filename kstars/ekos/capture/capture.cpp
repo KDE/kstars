@@ -478,7 +478,7 @@ Capture::Capture()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
 
     // display the capture status in the UI
-    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::CaptureStatusWidget::setCaptureState);
+    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::LedStatusWidget::setCaptureState);
 
     setupFilterManager();
     setupOpticalTrainManager();
@@ -3753,8 +3753,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (activeJob == nullptr && checkMeridianFlipReady())
         return;
 
-    // if the job is in the startup phase, check if the deviation is below the initial guiding limit
-    if (m_State == CAPTURE_PROGRESS)
+    // if the job is in the startup phase and no flip is neither requested nor running, check if the deviation is below the initial guiding limit
+    if (m_State == CAPTURE_PROGRESS && meridianFlipStage != MF_REQUESTED && checkMeridianFlipRunning() == false)
     {
         // initial guiding deviation irrelevant or below limit
         if (m_LimitsUI->startGuiderDriftS->isChecked() == false || deviation_rms < m_LimitsUI->startGuiderDriftN->value())
@@ -6535,7 +6535,7 @@ void Capture::setupFilterManager()
     });
 
     // display capture status changes
-    connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &CaptureStatusWidget::setFilterState);
+    connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &LedStatusWidget::setFilterState);
 
     connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
     {

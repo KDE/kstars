@@ -30,6 +30,7 @@
 #include "indi/indiwebmanager.h"
 #include "indi/indigps.h"
 #include "indi/indiguider.h"
+#include "mount/meridianflipstatuswidget.h"
 
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"
@@ -89,6 +90,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         setWindowFlags(Qt::Window);
 #endif
     setupUi(this);
+    // do not show empty targets
+    capturePreview->targetLabel->setVisible(false);
+    capturePreview->mountTarget->setVisible(false);
 
     // position the vertical splitter by 2/3
     deviceSplitter->setSizes(QList<int>({20000, 10000}));
@@ -313,8 +317,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
     connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
     {
-        mountTarget->setText(target);
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", target}}));
+        setTarget(target);
     });
 
     // Initialize Ekos Analyze Module
@@ -338,16 +341,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     m_SummaryView->setCursorMode(FITSView::dragCursor);
     m_SummaryView->showProcessInfo(false);
     capturePreview->setSummaryFITSView(m_SummaryView.get());
-
-    // JM 2019-01-19: Why cloud images depend on summary preview?
-    //    connect(summaryPreview.get(), &FITSView::loaded, [&]()
-    //    {
-    //        // UUID binds the cloud & preview frames by a common key
-    //        QString uuid = QUuid::createUuid().toString();
-    //        uuid = uuid.remove(QRegularExpression("[-{}]"));
-    //        //ekosLiveClient.get()->media()->sendPreviewImage(summaryPreview.get(), uuid);
-    //        ekosLiveClient.get()->cloud()->sendPreviewImage(summaryPreview.get(), uuid);
-    //    });
+    mountStatusLayout->setAlignment(Qt::AlignVCenter);
 
     if (Options::ekosLeftIcons())
     {
@@ -553,7 +547,7 @@ void Manager::reset()
     mountGroup->setEnabled(false);
     capturePreview->setEnabled(false);
     capturePreview->reset();
-    mountStatus->setText(i18n("Idle"));
+    mountStatus->setStatus(i18n("Idle"), Qt::gray);
     mountStatus->setStyleSheet(QString());
     focusManager->reset();
     guideManager->reset();
@@ -2013,7 +2007,7 @@ void Manager::initCapture()
 
     // display capture status changes
     connect(captureProcess.get(), &Ekos::Capture::newFilterManagerStatus, capturePreview->captureStatusWidget,
-            &CaptureStatusWidget::setFilterState);
+            &LedStatusWidget::setFilterState);
 
     // display target drift
     connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
@@ -2096,7 +2090,7 @@ void Manager::initFocus()
         toolsWidget->setTabIcon(index, icon);
     }
 
-    focusManager->init(focusProcess.get());
+    focusManager->init();
     focusManager->setEnabled(true);
 
     for (auto &oneDevice : INDIListener::devices())
@@ -2150,8 +2144,7 @@ void Manager::initMount()
     connect(mountProcess.get(), &Ekos::Mount::newStatus, this, &Ekos::Manager::updateMountStatus);
     connect(mountProcess.get(), &Ekos::Mount::newTargetName, this, [this](const QString & name)
     {
-        mountTarget->setText(name);
-        ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", name}}));
+        setTarget(name);
     });
     connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, [&](ISD::Mount::PierSide side)
     {
@@ -2171,8 +2164,8 @@ void Manager::initMount()
         {
             {"meridianFlipText", text},
         }), mountProcess->meridianFlipStatus() == Mount::FLIP_NONE);
+        meridianFlipStatusWidget->setStatus(text);
     });
-
 
     connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
     {
@@ -2519,36 +2512,8 @@ void Manager::updateMountStatus(ISD::Mount::Status status)
 
     lastStatus = status;
 
-    mountStatus->setText(mountProcess.get()->statusString());
+    mountStatus->setMountState(mountProcess.get()->statusString(), status);
     mountStatus->setStyleSheet(QString());
-
-    switch (status)
-    {
-        case ISD::Mount::MOUNT_PARKING:
-        case ISD::Mount::MOUNT_SLEWING:
-        case ISD::Mount::MOUNT_MOVING:
-            mountPI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (mountPI->isAnimated() == false)
-                mountPI->startAnimation();
-            break;
-
-        case ISD::Mount::MOUNT_TRACKING:
-            mountPI->setColor(Qt::darkGreen);
-            if (mountPI->isAnimated() == false)
-                mountPI->startAnimation();
-
-            break;
-
-        case ISD::Mount::MOUNT_PARKED:
-            mountStatus->setStyleSheet("font-weight:bold;background-color:red;border:2px solid black;");
-            if (mountPI->isAnimated())
-                mountPI->stopAnimation();
-            break;
-
-        default:
-            if (mountPI->isAnimated())
-                mountPI->stopAnimation();
-    }
 
     QJsonObject cStatus =
     {
@@ -2591,8 +2556,6 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
         case Ekos::CAPTURE_ABORTED:
         /* Fall through */
         case Ekos::CAPTURE_COMPLETE:
-            if (focusModule() && focusModule()->status() == Ekos::FOCUS_COMPLETE)
-                focusManager->stopAnimation();
             m_CountdownTimer.stop();
             break;
         case Ekos::CAPTURE_CAPTURING:
@@ -2691,10 +2654,12 @@ void Manager::updateGuideStatus(Ekos::GuideState status)
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
 }
 
-void Manager::setTarget(SkyObject * o)
+void Manager::setTarget(QString name)
 {
-    mountTarget->setText(o->name());
-    ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", o->name()}}));
+    capturePreview->targetLabel->setVisible(name != "");
+    capturePreview->mountTarget->setVisible(name != "");
+    capturePreview->mountTarget->setText(name);
+    ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", name}}));
 }
 
 void Manager::showEkosOptions()

@@ -1,14 +1,14 @@
-/*  Progress and status of capture preparation and execution
+/*  Progress and status of device or process preparation and execution
     SPDX-FileCopyrightText: Wolfgang Reissenberger <sterne-jaeger@openfuture.de>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "capturestatuswidget.h"
+#include "ledstatuswidget.h"
 
 namespace Ekos
 {
-CaptureStatusWidget::CaptureStatusWidget(QWidget * parent) : QWidget(parent)
+LedStatusWidget::LedStatusWidget(QWidget * parent) : QWidget(parent)
 {
     setupUi(this);
 
@@ -19,7 +19,7 @@ CaptureStatusWidget::CaptureStatusWidget(QWidget * parent) : QWidget(parent)
     statusText->setText(i18n("Idle"));
 }
 
-void CaptureStatusWidget::setCaptureState(CaptureState status)
+void LedStatusWidget::setCaptureState(CaptureState status)
 {
     switch (status)
     {
@@ -86,7 +86,52 @@ void CaptureStatusWidget::setCaptureState(CaptureState status)
     }
 }
 
-void CaptureStatusWidget::setFilterState(FilterState status)
+void LedStatusWidget::setMountState(QString text, ISD::Mount::Status status)
+{
+    switch (status)
+    {
+    case ISD::Mount::MOUNT_IDLE:
+    case ISD::Mount::MOUNT_PARKED:
+        setStatus(text, Qt::gray);
+        break;
+    case ISD::Mount::MOUNT_MOVING:
+    case ISD::Mount::MOUNT_SLEWING:
+    case ISD::Mount::MOUNT_PARKING:
+        setStatus(text, Qt::yellow);
+        break;
+    case ISD::Mount::MOUNT_TRACKING:
+        setStatus(text, Qt::darkGreen);
+        break;
+    case ISD::Mount::MOUNT_ERROR:
+        setStatus(text, Qt::red);
+        break;
+    }
+}
+
+void LedStatusWidget::setFocusState(FocusState status)
+{
+    switch (status)
+    {
+    case FOCUS_IDLE:
+        setStatus(Ekos::getFocusStatusString(status), Qt::gray);
+        break;
+    case FOCUS_COMPLETE:
+        setStatus(Ekos::getFocusStatusString(status), Qt::darkGreen);
+        break;
+    case FOCUS_WAITING:
+    case FOCUS_PROGRESS:
+    case FOCUS_FRAMING:
+    case FOCUS_CHANGING_FILTER:
+        setStatus(Ekos::getFocusStatusString(status), Qt::yellow);
+        break;
+    case FOCUS_FAILED:
+    case FOCUS_ABORTED:
+        setStatus(Ekos::getFocusStatusString(status), Qt::red);
+        break;
+    }
+}
+
+void LedStatusWidget::setFilterState(FilterState status)
 {
     switch (status)
     {
@@ -107,7 +152,7 @@ void CaptureStatusWidget::setFilterState(FilterState status)
     lastFilterState = status;
 }
 
-void CaptureStatusWidget::setStatus(QString text, Qt::GlobalColor color)
+void LedStatusWidget::setStatus(QString text, Qt::GlobalColor color)
 {
     statusText->setText(text);
     statusLed->setColor(color);

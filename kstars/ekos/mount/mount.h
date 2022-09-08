@@ -387,11 +387,6 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
 
-        QString meridianFlipStatusDescription()
-        {
-            return meridianFlipStatusText->text();
-        }
-
         ///
         /// \brief meridianFlipStatusString
         /// \param status
@@ -494,9 +489,9 @@ class Mount : public QWidget, public Ui::Mount
         /**
          * @brief set meridian flip activation and hours
          * @param activate true iff the meridian flip should be executed
-         * @param hours angle past the meridian when the flip should be delayed
+         * @param degrees angle past the meridian when the flip should be delayed
          */
-        void setMeridianFlipValues(bool activate, double hours);
+        void setMeridianFlipValues(bool activate, double degrees);
 
         /**
          * @brief React upon status changes of the polar alignment - mainly to

@@ -111,30 +111,21 @@ Mount::Mount()
 
     // meridian flip
     meridianFlipCheckBox->setChecked(Options::executeMeridianFlip());
+    connect(this, &Mount::newMeridianFlipText, meridianFlipStatusWidget, &MeridianFlipStatusWidget::setStatus);
 
-    // Meridian Flip Unit
-    meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
-    meridianFlipHoursR->setChecked(!Options::meridianFlipUnitDegrees());
-
-    // This is always in hours
-    double offset = Options::meridianFlipOffset();
-    // Hours --> Degrees
-    if (meridianFlipDegreesR->isChecked())
-        offset *= 15.0;
-    meridianFlipTimeBox->setValue(offset);
-    connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipDegreesR, &QRadioButton::toggled, this, [this]()
+    // ensure that the meridian flip unit is in degrees
+    double offset_old = Options::meridianFlipOffset();
+    // this should happen only once for a safe transition from h to deg values
+    if (offset_old > 0)
     {
-        Options::setMeridianFlipUnitDegrees(meridianFlipDegreesR->isChecked());
-        // Hours ---> Degrees
-        if (meridianFlipDegreesR->isChecked())
-            meridianFlipTimeBox->setValue(meridianFlipTimeBox->value() * 15.0);
-        // Degrees --> Hours
-        else
-            meridianFlipTimeBox->setValue(rangeHA(meridianFlipTimeBox->value() / 15.0));
-    });
+        Options::setMeridianFlipOffsetDegrees(15.0 * offset_old);
+        Options::setMeridianFlipOffset(0.0);
+    }
+
+    // This is always in degrees
+    connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
+    connect(meridianFlipDegreesBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::Mount::meridianFlipSetupChanged);
 
     everyDayCheck->setChecked(Options::parkEveryDay());
     connect(everyDayCheck, &QCheckBox::toggled, this, [](bool toggled)
@@ -728,16 +719,15 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
     }
 
-    if (isTracking && checkMeridianFlip(lst))
+    // don't check the meridian flip while in motion
+    bool inMotion = (currentStatus == ISD::Mount::MOUNT_SLEWING || currentStatus == ISD::Mount::MOUNT_MOVING || currentStatus == ISD::Mount::MOUNT_PARKING);
+    if ((inMotion == false) && checkMeridianFlip(lst))
         executeMeridianFlip();
     else
     {
-        const QString message(i18n("Status: inactive (parked)"));
-        if (m_Mount->isParked() && meridianFlipStatusText->text() != message)
-        {
-            meridianFlipStatusText->setText(message);
-            emit newMeridianFlipText(meridianFlipStatusText->text());
-        }
+        const QString message(i18n("Meridian flip inactive (parked)"));
+        if (m_Mount->isParked() && meridianFlipStatusWidget->getStatus() != message)
+            emit newMeridianFlipText(message);
     }
 
 }
@@ -771,14 +761,10 @@ void Mount::setLeftRightReversed(bool enabled)
         m_Mount->setReversedEnabled(AXIS_RA, enabled);
 }
 
-void Mount::setMeridianFlipValues(bool activate, double hours)
+void Mount::setMeridianFlipValues(bool activate, double degrees)
 {
     meridianFlipCheckBox->setChecked(activate);
-    // Hours --> Degrees
-    if (meridianFlipDegreesR->isChecked())
-        meridianFlipTimeBox->setValue(hours * 15.0);
-    else
-        meridianFlipTimeBox->setValue(hours);
+    meridianFlipDegreesBox->setValue(degrees);
 
     meridianFlipSetupChanged();
 }
@@ -830,12 +816,10 @@ void Mount::meridianFlipSetupChanged()
 
     Options::setExecuteMeridianFlip(meridianFlipCheckBox->isChecked());
 
-    double offset = meridianFlipTimeBox->value();
-    // Degrees --> Hours
-    if (meridianFlipDegreesR->isChecked())
-        offset /= 15.0;
-    // It is always saved in hours
-    Options::setMeridianFlipOffset(offset);
+    // It is always saved in degrees
+    Options::setMeridianFlipOffsetDegrees(meridianFlipDegreesBox->value());
+    // clear obsolete value
+    Options::setMeridianFlipOffset(0.0);
 }
 
 void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
@@ -1157,39 +1141,32 @@ bool Mount::checkMeridianFlip(dms lst)
     // checks if a flip is possible
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (no scope connected)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (no scope connected)"));
         setMeridianFlipStatus(FLIP_NONE);
         return false;
     }
 
     if (meridianFlipCheckBox->isChecked() == false)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (flip not requested)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (flip not requested)"));
         return false;
     }
 
     // Will never get called when parked!
     if (m_Mount->isParked())
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (parked)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (parked)"));
         return false;
     }
 
     if (currentTargetPosition == nullptr || m_MFStatus == FLIP_INACTIVE)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (no Target set)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (no target set)"));
         return false;
     }
 
-    // get the time after the meridian that the flip is called for
-    double offset = meridianFlipTimeBox->value();
-    // Degrees --> Hours
-    if (meridianFlipDegreesR->isChecked())
-        offset = rangeHA(offset / 15.0);
+    // get the time after the meridian that the flip is called for (Degrees --> Hours)
+    double offset = rangeHA(meridianFlipDegreesBox->value() / 15.0);
 
     double hrsToFlip = 0;       // time to go to the next flip - hours  -ve means a flip is required
 
@@ -1224,8 +1201,7 @@ bool Mount::checkMeridianFlip(dms lst)
             // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
             if (initialHA() >= 0)
             {
-                meridianFlipStatusText->setText(i18n("Status: inactive (slew after meridian)"));
-                emit newMeridianFlipText(meridianFlipStatusText->text());
+                emit newMeridianFlipText(i18n("Meridian flip inactive (slew after meridian)"));
                 if (m_MFStatus == FLIP_NONE)
                     return false;
             }
@@ -1247,8 +1223,7 @@ bool Mount::checkMeridianFlip(dms lst)
     switch (m_MFStatus)
     {
         case FLIP_NONE:
-            meridianFlipStatusText->setText(message);
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(message);
 
             if (hrsToFlip <= 0)
             {
@@ -1410,18 +1385,15 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
     switch (status)
     {
         case FLIP_NONE:
-            meridianFlipStatusText->setText(i18n("Status: inactive"));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip inactive"));
             break;
 
         case FLIP_PLANNED:
-            meridianFlipStatusText->setText(i18n("Meridian flip planned..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip planned..."));
             break;
 
         case FLIP_WAITING:
-            meridianFlipStatusText->setText(i18n("Meridian flip waiting..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip waiting..."));
             appendLogText(i18n("Meridian flip waiting."));
             break;
 
@@ -1433,14 +1405,12 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
             break;
 
         case FLIP_RUNNING:
-            meridianFlipStatusText->setText(i18n("Meridian flip running..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip running..."));
             appendLogText(i18n("Meridian flip started."));
             break;
 
         case FLIP_COMPLETED:
-            meridianFlipStatusText->setText(i18n("Meridian flip completed."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip completed."));
             appendLogText(i18n("Meridian flip completed."));
             break;
 
@@ -1871,7 +1841,7 @@ bool Mount::meridianFlipEnabled()
 
 double Mount::meridianFlipValue()
 {
-    return meridianFlipTimeBox->value();
+    return meridianFlipDegreesBox->value();
 }
 
 void Mount::stopTimers()

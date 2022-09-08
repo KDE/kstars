@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
+    <width>716</width>
     <height>397</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout">
+    <layout class="QHBoxLayout" name="mainLayout" stretch="2,1">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -241,7 +241,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1">
          <property name="spacing">
           <number>3</number>
          </property>
@@ -250,7 +250,7 @@
            <property name="title">
             <string>Meridian Flip</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout">
+           <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,1">
             <property name="leftMargin">
              <number>3</number>
             </property>
@@ -266,39 +266,6 @@
             <property name="spacing">
              <number>3</number>
             </property>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="meridianFlipDegreesR">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. If the mount is configured to flip at 5 degrees, set the value in Ekos to 3 degrees less (2 degrees).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Degrees</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="1" column="0" rowspan="2">
-             <widget class="QRadioButton" name="meridianFlipHoursR">
-              <property name="toolTip">
-               <string>Set Hour Angle unit to Hours</string>
-              </property>
-              <property name="text">
-               <string>Hours</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="3">
-             <widget class="QLabel" name="meridianFlipStatusText">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
              <widget class="QCheckBox" name="meridianFlipCheckBox">
               <property name="toolTip">
@@ -309,14 +276,49 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1" colspan="2">
-             <widget class="QDoubleSpinBox" name="meridianFlipTimeBox">
+            <item row="0" column="1">
+             <widget class="QDoubleSpinBox" name="meridianFlipDegreesBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>RA position in degrees behind the meridian where the meridian flip should be activated.</string>
+              </property>
+              <property name="toolTipDuration">
+               <number>-1</number>
+              </property>
               <property name="singleStep">
                <double>0.100000000000000</double>
               </property>
              </widget>
             </item>
-            <item row="4" column="0" colspan="2">
+            <item row="0" column="2">
+             <widget class="QLabel" name="degLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>deg</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="Ekos::MeridianFlipStatusWidget" name="meridianFlipStatusWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="3">
              <widget class="QLabel" name="pierSideLabel">
               <property name="text">
                <string>pier side label</string>
@@ -474,6 +476,7 @@
              <font>
               <family>Arial</family>
               <pointsize>26</pointsize>
+              <weight>75</weight>
               <italic>false</italic>
               <bold>true</bold>
              </font>
@@ -561,6 +564,7 @@
         <widget class="QPushButton" name="mountToolBoxB">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -959,6 +963,14 @@ font-weight:bold;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Ekos::MeridianFlipStatusWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/mount/meridianflipstatuswidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>mountToolBoxB</tabstop>
   <tabstop>trackOnB</tabstop>
@@ -974,7 +986,4 @@ font-weight:bold;
  </tabstops>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="meridianFlipUnit"/>
- </buttongroups>
 </ui>

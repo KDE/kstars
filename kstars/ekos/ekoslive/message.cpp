@@ -368,7 +368,9 @@ void Message::sendMounts()
             {"haLimitEnabled", m_Manager->mountModule()->hourAngleLimitEnabled()},
             {"haLimitValue", m_Manager->mountModule()->hourAngleLimit()},
             {"meridianFlipEnabled", m_Manager->mountModule()->meridianFlipEnabled()},
-            {"meridianFlipValue", m_Manager->mountModule()->meridianFlipValue()},
+            {"meridianFlipDegreesValue", m_Manager->mountModule()->meridianFlipValue()},
+            // obsolete value
+            {"meridianFlipValue", m_Manager->mountModule()->meridianFlipValue() / 15},
             {"autoParkEnabled", m_Manager->mountModule()->autoParkEnabled()},
         };
 
@@ -2266,7 +2268,7 @@ void Message::sendStates()
         QJsonObject mountState =
         {
             {"status", m_Manager->mountModule()->statusString(false)},
-            {"target", m_Manager->mountTarget->text()},
+            {"target", m_Manager->capturePreview->mountTarget->text()},
             {"slewRate", m_Manager->mountModule()->slewRate()},
             {"pierSide", m_Manager->mountModule()->pierSide()}
         };
@@ -2481,8 +2483,8 @@ void Message::sendModuleState(const QString &name)
     {
         QJsonObject mountState =
         {
-            {"status", m_Manager->mountStatus->text()},
-            {"target", m_Manager->mountTarget->text()},
+            {"status", m_Manager->mountStatus->getStatusText()},
+            {"target", m_Manager->capturePreview->mountTarget->text()},
             {"slewRate", m_Manager->mountModule()->slewRate()},
             {"pierSide", m_Manager->mountModule()->pierSide()}
         };

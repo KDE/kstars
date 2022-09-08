@@ -189,7 +189,10 @@ void TestEkosHelper::connectModules()
     if (m_MountDevice != nullptr)
         QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 10000);
     if (m_CCDDevice != nullptr)
+    {
         QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->alignModule() != nullptr, 10000);
+    }
     if (m_GuiderDevice != nullptr)
         QTRY_VERIFY_WITH_TIMEOUT(ekos->guideModule() != nullptr, 10000);
     if (m_FocuserDevice != nullptr)
@@ -422,8 +425,6 @@ void TestEkosHelper::prepareAlignmentModule()
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000);
     // select the primary train for alignment
     KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), opticalTrainCombo, m_primaryTrain);
-    // select the Luminance filter
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), alignFilter, "Luminance");
     // select local solver
     Ekos::Manager::Instance()->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
     // select internal SEP method
@@ -434,8 +435,6 @@ void TestEkosHelper::prepareAlignmentModule()
     Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
-    // reduce the accuracy to avoid testing problems
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->alignModule(), alignAccuracyThreshold, 300);
     // disable rotator check in alignment
     Options::setAstrometryUseRotator(false);
 }
@@ -710,6 +709,7 @@ bool TestEkosHelper::startAligning(double expTime)
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), alignExposure, expTime);
     // reduce the accuracy to avoid testing problems
     KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), alignAccuracyThreshold, 300);
+    // select the Luminance filter
     KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->alignModule(), alignFilter, "Luminance");
 
     // start alignment
