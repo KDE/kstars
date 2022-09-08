@@ -2830,7 +2830,10 @@ void Align::checkFilter()
 
     currentFilterPosition = m_FilterManager->getFilterPosition();
 
-    alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
+    //alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
+    auto filter = m_Settings["alignFilter"];
+    if (filter.isValid())
+        alignFilter->setCurrentText(filter.toString());
 }
 
 void Align::setWCSEnabled(bool enable)
