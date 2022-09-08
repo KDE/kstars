@@ -2120,7 +2120,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setProperty("visible", true);
 
     if (!matchPAHStage(PAA::PAH_IDLE))
-        m_PolarAlignmentAssistant->processPAHStage(orientation, ra, dec, pixscale, eastToTheRight);
+        m_PolarAlignmentAssistant->processPAHStage(orientation, ra, dec, pixscale, eastToTheRight,
+                m_StellarSolver->getSolutionHealpix(),
+                m_StellarSolver->getSolutionIndexNumber());
     else
     {
         solveB->setEnabled(true);

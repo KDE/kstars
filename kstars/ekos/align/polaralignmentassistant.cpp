@@ -1037,8 +1037,6 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 
     refreshIteration = 0;
     imageNumber = 0;
-    m_IndexToUse = -1;
-    m_HealpixToUse = -1;
     m_NumHealpixFailures = 0;
 
     setPAHStage(PAH_REFRESH);
@@ -1061,7 +1059,7 @@ void PolarAlignmentAssistant::startPAHRefreshProcess()
 }
 
 void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, double dec, double pixscale,
-        bool eastToTheRight)
+        bool eastToTheRight, short healpix, short index)
 {
     if (m_PAHStage == PAH_FIND_CP)
     {
@@ -1074,11 +1072,13 @@ void PolarAlignmentAssistant::processPAHStage(double orientation, double ra, dou
 
     if (m_PAHStage == PAH_FIRST_SOLVE || m_PAHStage == PAH_SECOND_SOLVE || m_PAHStage == PAH_THIRD_SOLVE)
     {
-        // For now just used by refresh, when looking at the 3rd image.
+        // Used by refresh, when looking at the 3rd image.
         m_LastRa = ra;
         m_LastDec = dec;
         m_LastOrientation = orientation;
         m_LastPixscale = pixscale;
+        m_HealpixToUse = healpix;
+        m_IndexToUse = index;
 
         bool doWcs = (m_PAHStage == PAH_THIRD_SOLVE) || !Options::limitedResourcesMode();
         if (doWcs)

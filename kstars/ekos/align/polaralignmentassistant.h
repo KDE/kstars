@@ -107,7 +107,8 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Handle both automated and manual mount rotations.
         void processMountRotation(const dms &ra, double settleDuration);
         // After solver is complete, handle PAH Stage processing
-        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
+        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, short healpix,
+                             short index);
         // Return current PAH stage
         PAHStage getPAHStage() const
         {
