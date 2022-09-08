@@ -879,7 +879,6 @@ class Focus : public QWidget, public Ui::Focus
         int linearRequestedPosition { 0 };
 
         bool hasDeviation { false };
-        bool m_isOAG {false};
 
         //double observatoryTemperature { INVALID_VALUE };
         double m_LastSourceAutofocusTemperature { INVALID_VALUE };

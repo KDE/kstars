@@ -931,7 +931,7 @@ void Focus::start()
     // Only suspend when we have Off-Axis Guider
     // If the guide camera is operating on a different OTA
     // then no need to suspend.
-    if (m_isOAG && m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
+    if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
     {
         m_GuidingSuspended = true;
         emit suspendGuiding();
@@ -3756,7 +3756,7 @@ void Focus::setupFilterManager()
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         // If we are changing filter offset while idle, then check if we need to suspend guiding.
-        if (m_isOAG && filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
+        if (filterState == FILTER_OFFSET && state != Ekos::FOCUS_PROGRESS)
         {
             if (m_GuidingSuspended == false && focusSuspendGuiding->isChecked())
             {
@@ -4457,9 +4457,6 @@ void Focus::refreshOpticalTrain()
 
         auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
         setFilterWheel(filterWheel);
-
-        auto guider = OpticalTrainManager::Instance()->getGuider(name);
-        m_isOAG = (guider != nullptr);
 
         // Load train settings
         auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
