@@ -525,7 +525,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             //Note that if it is receiving full size remote images, it should not get the guide star image.
             //But if it is not getting the full size images, or if the current camera is not in Ekos, it should get the guide star image
             //If we are getting the full size image, we will want to know the lock position for the image that loads in the viewer.
-            if ( Options::guideSubframeEnabled() || currentCameraIsNotInEkos )
+            if ( Options::guideSubframe() || currentCameraIsNotInEkos )
                 requestStarImage(32); //This requests a star image for the guide view.  32 x 32 pixels
             else
                 requestLockPosition();

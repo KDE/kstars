@@ -68,17 +68,25 @@ void DriverManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column
 }
 
 DriverManager *DriverManager::_DriverManager = nullptr;
+INDIDBus *DriverManager::_INDIDBus = nullptr;
 
 DriverManager *DriverManager::Instance()
 {
     if (_DriverManager == nullptr)
     {
-        _DriverManager     = new DriverManager(KStars::Instance());
-        INDIDBus *indiDBUS = new INDIDBus(KStars::Instance());
-        Q_UNUSED(indiDBUS)
+        _DriverManager = new DriverManager(KStars::Instance());
+        _INDIDBus = new INDIDBus(KStars::Instance());
     }
 
     return _DriverManager;
+}
+
+void DriverManager::release()
+{
+    delete (_DriverManager);
+    delete (_INDIDBus);
+    _DriverManager = nullptr;
+    _INDIDBus = nullptr;
 }
 
 DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
@@ -359,6 +367,7 @@ void DriverManager::startDevices(QList<DriverInfo *> &dList)
             return;
         }
 
+        servers.append(serverManager);
         serverManager->setPendingDrivers(qdv);
         serverManager->setMode(connectionMode);
 

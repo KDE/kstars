@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "indi/indidbus.h"
 #include "indicommon.h"
 #include "customdrivers.h"
 #include "ui_drivermanager.h"
@@ -66,6 +67,7 @@ class DriverManager : public QDialog
 
     public:
         static DriverManager *Instance();
+        static void release();
 
         enum
         {
@@ -164,6 +166,7 @@ class DriverManager : public QDialog
         bool checkDriverAvailability(const QString &driver);
 
         static DriverManager *_DriverManager;
+        static INDIDBus *_INDIDBus;
 
         ServerMode connectionMode { SERVER_CLIENT };
         QTreeWidgetItem *lastGroup { nullptr };
@@ -178,9 +181,6 @@ class DriverManager : public QDialog
         QPointer<CustomDrivers> m_CustomDrivers;
 
     public slots:
-        //void enableDevice(INDI_D *device);
-        //void disableDevice(INDI_D *device);
-
         void resizeDeviceColumn();
         void updateLocalTab();
         void updateClientTab();

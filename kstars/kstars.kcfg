@@ -1930,7 +1930,7 @@
       </entry>
       <entry name="FocusExposure" type="double">
          <label>Default focus exposure time when no filters are used.</label>
-         <default>1</default>
+         <default>2</default>
       </entry>
       <entry name="FocusGaussianSigma" type="Double">
          <label>Gaussian blur sigma value.</label>
@@ -2020,7 +2020,7 @@
       <entry name="AlignExposure" type="Double">
          <label>Default alignment exposure value</label>
          <whatsthis>Specifies exposure value of camera in seconds when performing plate solving.</whatsthis>
-         <default>1</default>
+         <default>5</default>
       </entry>
       <entry name="AlignBinning" type="String">
          <label>Default camera binning in alignment mode</label>
@@ -2203,7 +2203,7 @@
    <group name="Guide">
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
-         <default>2.0</default>
+         <default>2</default>
       </entry>
       <entry name="GuideDelay" type="Double">
          <label>Delay next exposure by this many seconds.</label>
@@ -2233,10 +2233,6 @@
          <label>Lin_guider Event Monitoring Port</label>
          <default>5656</default>
       </entry>
-      <entry name="GuideScopeType" type="UInt">
-         <label>Index of telescope type to be used when guiding. 0 for Primary, 1 for Guide</label>
-         <default>0</default>
-      </entry>
       <entry name="CalibrationPulseDuration" type="UInt">
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
          <default>1000</default>
@@ -2249,15 +2245,15 @@
          <label>Maximum number of pixels the calibration should move (approximate).</label>
          <default>15</default>
       </entry>
-      <entry name="GuideSquareSizeIndex" type="UInt">
-         <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+      <entry name="GuideSquareSize" type="String">
+         <label>Guide square size selection in pixels.</label>
          <default>2</default>
       </entry>
-      <entry name="GuideFilterFITSIndex" type="UInt">
-         <label>Effect FITS filter index corresponding to the available image enhancing filters.</label>
-         <default>0</default>
+      <entry name="GuideBinning" type="String">
+         <label>Guide binning.</label>
+         <default>2x2</default>
       </entry>
-      <entry name="GuideAutoStarEnabled" type="Bool">
+      <entry name="GuideAutoStar" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>
       </entry>
@@ -2305,11 +2301,11 @@
          <label>Automatically save internal guider user logs.</label>
          <default>true</default>
       </entry>
-      <entry name="GuideDarkFrameEnabled" type="Bool">
+      <entry name="GuideDarkFrame" type="Bool">
          <label>Take dark frame for autoguider images.</label>
          <default>false</default>
       </entry>
-      <entry name="GuideSubframeEnabled" type="Bool">
+      <entry name="GuideSubframe" type="Bool">
          <label>Subframe guide image around selected region</label>
          <default>false</default>
       </entry>

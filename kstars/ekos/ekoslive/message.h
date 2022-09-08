@@ -89,7 +89,7 @@ class Message : public QObject
         void sendAlignSettings(const QVariantMap &settings);
 
         // Guide
-        void sendGuideSettings(const QJsonObject &settings);
+        void sendGuideSettings(const QVariantMap &settings);
 
         // Focus
         void sendFocusSettings(const QVariantMap &settings);

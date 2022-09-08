@@ -863,8 +863,6 @@ void Manager::start()
             &Manager::setServerStarted, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::serverFailed, this,
             &Manager::setServerFailed, Qt::UniqueConnection);
-    //    connect(DriverManager::Instance(), &DriverManager::serverTerminated, this,
-    //            &Manager::setServerTerminated, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::clientStarted, this,
             &Manager::setClientStarted, Qt::UniqueConnection);
     connect(DriverManager::Instance(), &DriverManager::clientFailed, this,

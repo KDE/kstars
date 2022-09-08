@@ -257,7 +257,8 @@ KStars::~KStars()
 #endif
 
 #ifdef COUNT_DMS_SINCOS_CALLS
-    qDebug() << Q_FUNC_INFO << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called
+    qDebug() << Q_FUNC_INFO << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " <<
+             dms::dms_with_sincos_called
              << " had trigonometric functions called on them = "
              << (float(dms::dms_with_sincos_called) / float(dms::dms_constructor_calls)) * 100. << "%";
     qDebug() << Q_FUNC_INFO << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, "
@@ -291,6 +292,7 @@ void KStars::releaseResources()
 #ifdef HAVE_INDI
     GUIManager::release();
     Ekos::Manager::release();
+    DriverManager::release();
 #endif
 
 #ifdef HAVE_CFITSIO

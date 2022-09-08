@@ -309,7 +309,7 @@ void Message::sendCameras()
     if (m_Manager->focusModule())
         sendFocusSettings(m_Manager->focusModule()->getAllSettings());
     if (m_Manager->guideModule())
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
+        sendGuideSettings(m_Manager->guideModule()->getAllSettings());
 }
 
 void Message::sendMounts()
@@ -722,9 +722,9 @@ void Message::sendAlignSettings(const QVariantMap &settings)
     sendResponse(commands[ALIGN_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
-void Message::sendGuideSettings(const QJsonObject &settings)
+void Message::sendGuideSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[GUIDE_SET_SETTINGS], settings);
+    sendResponse(commands[GUIDE_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 
 }
 
@@ -760,10 +760,10 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
-    else if (command == commands[GUIDE_SET_SETTINGS])
+    else if (command == commands[GUIDE_SET_ALL_SETTINGS])
     {
-        guide->setSettings(payload);
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
+        guide->setAllSettings(payload.toVariantMap());
+        sendGuideSettings(m_Manager->guideModule()->getAllSettings());
     }
     else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
     {
@@ -772,12 +772,11 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         Options::setGuideCalibrationBacklash(payload["max_move"].toInt());
         Options::setTwoAxisEnabled(payload["two_axis"].toBool());
         Options::setGuideAutoSquareSizeEnabled(payload["square_size"].toBool());
-
         Options::setGuideCalibrationBacklash(payload["calibrationBacklash"].toBool());
         Options::setResetGuideCalibration(payload["resetCalibration"].toBool());
         Options::setReuseGuideCalibration(payload["reuseCalibration"].toBool());
         Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
+        sendGuideSettings(m_Manager->guideModule()->getAllSettings());
     }
 }
 

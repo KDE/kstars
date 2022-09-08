@@ -1592,7 +1592,6 @@ void Capture::checkFilter()
 
 
     setupFilterManager();
-    m_FilterManager->setCurrentFilterWheel(m_FilterWheel);
 
     syncFilterInfo();
 
@@ -6451,13 +6450,20 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
 
 void Capture::setupFilterManager()
 {
+    // Do we have an existing filter manager?
     if (m_FilterManager)
     {
-        m_FilterManager->close();
+        // If same filter wheel, no need to setup again.
+        if (m_FilterManager->filterWheel() == m_FilterWheel)
+            return;
+
+        // Otherwise disconnect and create a new instance.
         m_FilterManager->disconnect(this);
+        m_FilterManager->close();
     }
 
     m_FilterManager.reset(new FilterManager(this));
+    m_FilterManager->setFilterWheel(m_FilterWheel);
 
     // display capture status changes
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterManagerStatus);
@@ -6477,8 +6483,7 @@ void Capture::setupFilterManager()
         if (activeJob)
             activeJob->setCurrentFilter(m_CurrentFilterPosition);
 
-    }
-           );
+    });
 
     connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
@@ -6487,8 +6492,7 @@ void Capture::setupFilterManager()
             appendLogText(i18n("Filter operation failed."));
             abort();
         }
-    }
-           );
+    });
 
     connect(m_FilterManager.get(), &FilterManager::newStatus,
             this, [this](Ekos::FilterState filterState)
@@ -6521,6 +6525,7 @@ void Capture::setupFilterManager()
             }
         }
     });
+
     // display capture status changes
     connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &CaptureStatusWidget::setFilterState);
 
@@ -6531,6 +6536,7 @@ void Capture::setupFilterManager()
         m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
+
     connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
         m_CurrentFilterPosition = m_FilterManager->getFilterPosition();

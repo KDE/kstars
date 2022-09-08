@@ -22,7 +22,7 @@ GuideManager::GuideManager(QWidget *parent) : QWidget(parent)
 void GuideManager::init(Guide *guideProcess)
 {
     // guide details buttons
-    connect(guideDetailNextButton, &QPushButton::clicked, [this]()
+    connect(guideDetailNextButton, &QPushButton::clicked, this, [this]()
     {
         const int pos = guideDetailWidget->currentIndex();
         if (pos == 0 || (pos == 1 && guideStarPixmap.get() != nullptr))
@@ -33,7 +33,7 @@ void GuideManager::init(Guide *guideProcess)
         updateGuideDetailView();
     });
 
-    connect(guideDetailPrevButton, &QPushButton::clicked, [this]()
+    connect(guideDetailPrevButton, &QPushButton::clicked, this, [this]()
     {
         const int pos = guideDetailWidget->currentIndex();
         if (pos > 0)
@@ -65,37 +65,36 @@ void GuideManager::init(Guide *guideProcess)
 
     // connect to Guide UI controls
     //This connects all the buttons and slider below the guide plots.
-    connect(guideProcess->showRAPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rADisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA, isChecked);
     });
-    connect(guideProcess->showDECPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->dEDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC, isChecked);
     });
-    connect(guideProcess->showRACorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rACorrDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA_PULSE, isChecked);
     });
-    connect(guideProcess->showDECorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->dECorrDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC_PULSE, isChecked);
     });
-    connect(guideProcess->showSNRPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->sNRDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_SNR, isChecked);
     });
-    connect(guideProcess->showRMSPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rMSDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RMS, isChecked);
     });
     connect(guideProcess->correctionSlider, &QSlider::sliderMoved, driftGraph, &GuideDriftGraph::setCorrectionGraphScale);
 
     connect(guideProcess->latestCheck, &QCheckBox::toggled, targetPlot, &GuideTargetPlot::setLatestGuidePoint);
-    connect(guideProcess->accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), targetPlot,
+    connect(guideProcess->guiderAccuracyThreshold, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+            targetPlot,
             &GuideTargetPlot::buildTarget);
-
-
 }
 
 

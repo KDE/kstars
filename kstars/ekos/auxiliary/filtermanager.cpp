@@ -191,7 +191,7 @@ void FilterManager::reloadFilters()
     }
 }
 
-void FilterManager::setCurrentFilterWheel(ISD::FilterWheel *filter)
+void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
 {
     // Return if same device and we already initialized the properties.
     if (m_FilterWheel == filter && m_FilterNameProperty && m_FilterPositionProperty)

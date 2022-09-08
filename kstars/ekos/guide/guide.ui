@@ -108,7 +108,7 @@
            <number>3</number>
           </property>
           <item row="2" column="1">
-           <widget class="QCheckBox" name="autoStarCheck">
+           <widget class="QCheckBox" name="guideAutoStar">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically select the calibration star. &lt;br/&gt;Please note: 'SEP Multi Star' does  &lt;span style=&quot; font-weight:600;&quot;&gt;always&lt;/span&gt; use 'auto star' detection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -224,7 +224,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QCheckBox" name="darkFrameCheck">
+           <widget class="QCheckBox" name="guideDarkFrame">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -263,7 +263,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QCheckBox" name="subFrameCheck">
+           <widget class="QCheckBox" name="guideSubframe">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Or for PHD2, receive the Guide Star Image instead of the full image frame. For the Internal Guider, before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again. &lt;br/&gt;Please note: 'SEP Multi Star' &lt;span style=&quot; font-weight:600;&quot;&gt;cannot&lt;/span&gt; use subframe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -288,7 +288,7 @@
              <number>2</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="eastControlCheck">
+             <widget class="QCheckBox" name="eastRAGuideEnabled">
               <property name="toolTip">
                <string>East Direction Guiding</string>
               </property>
@@ -298,7 +298,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="westControlCheck">
+             <widget class="QCheckBox" name="westRAGuideEnabled">
               <property name="toolTip">
                <string>West Direction Guiding</string>
               </property>
@@ -323,7 +323,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="QCheckBox" name="checkBox_DirDEC">
+           <widget class="QCheckBox" name="dECGuideEnabled">
             <property name="toolTip">
              <string>Guide Declination Axis</string>
             </property>
@@ -336,7 +336,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="NonLinearDoubleSpinBox" name="exposureIN">
+           <widget class="NonLinearDoubleSpinBox" name="guideExposure">
             <property name="decimals">
              <number>3</number>
             </property>
@@ -369,7 +369,7 @@
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QComboBox" name="binningCombo"/>
+           <widget class="QComboBox" name="guideBinning"/>
           </item>
           <item row="6" column="2" colspan="2">
            <widget class="QPushButton" name="externalDisconnectB">
@@ -418,7 +418,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QCheckBox" name="checkBox_DirRA">
+           <widget class="QCheckBox" name="rAGuideEnabled">
             <property name="toolTip">
              <string>Guide Right Ascention Axis</string>
             </property>
@@ -438,7 +438,7 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QDoubleSpinBox" name="GuideDelay">
+           <widget class="QDoubleSpinBox" name="guideDelay">
             <property name="toolTip">
              <string>Delay next guide exposure this many seconds after a pulse is sent</string>
             </property>
@@ -453,7 +453,7 @@
              <number>2</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="northControlCheck">
+             <widget class="QCheckBox" name="northDECGuideEnabled">
               <property name="toolTip">
                <string>North Direction Guiding</string>
               </property>
@@ -463,7 +463,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="southControlCheck">
+             <widget class="QCheckBox" name="southDECGuideEnabled">
               <property name="toolTip">
                <string>South Direction Guiding</string>
               </property>
@@ -475,7 +475,7 @@
            </layout>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="boxSizeCombo">
+           <widget class="QComboBox" name="guideSquareSize">
             <item>
              <property name="text">
               <string>8</string>
@@ -1191,7 +1191,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="showRAPlotCheck">
+          <widget class="QCheckBox" name="rADisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display the RA graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1204,7 +1204,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="showRACorrectionsCheck">
+          <widget class="QCheckBox" name="rACorrDisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display the RA Corrections graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1224,7 +1224,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="showDECPlotCheck">
+          <widget class="QCheckBox" name="dEDisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display DEC graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1237,7 +1237,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="showDECorrectionsCheck">
+          <widget class="QCheckBox" name="dECorrDisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display the DEC Corrections graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1257,7 +1257,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QCheckBox" name="showSNRPlotCheck">
+          <widget class="QCheckBox" name="sNRDisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display SNR graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1270,7 +1270,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="showRMSPlotCheck">
+          <widget class="QCheckBox" name="rMSDisplayedOnGuideGraph">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display RMS graph in the Drift Graphics plot.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -1473,7 +1473,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="accuracyRadiusSpin">
+        <widget class="QDoubleSpinBox" name="guiderAccuracyThreshold">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the desired guiding accuracy in the Drift Plot. The number represents the radius of the green concentric circle in arcseconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -1499,15 +1499,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
-  </customwidget>
-  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
   </customwidget>
   <customwidget>
    <class>GuideDriftGraph</class>
@@ -1529,39 +1529,39 @@
   <tabstop>loopB</tabstop>
   <tabstop>showFITSViewerB</tabstop>
   <tabstop>guideB</tabstop>
-  <tabstop>subFrameCheck</tabstop>
-  <tabstop>autoStarCheck</tabstop>
+  <tabstop>guideSubframe</tabstop>
+  <tabstop>guideAutoStar</tabstop>
   <tabstop>clearCalibrationB</tabstop>
   <tabstop>stopB</tabstop>
-  <tabstop>darkFrameCheck</tabstop>
+  <tabstop>guideDarkFrame</tabstop>
   <tabstop>manualDitherB</tabstop>
-  <tabstop>exposureIN</tabstop>
-  <tabstop>GuideDelay</tabstop>
-  <tabstop>boxSizeCombo</tabstop>
-  <tabstop>binningCombo</tabstop>
-  <tabstop>checkBox_DirRA</tabstop>
-  <tabstop>checkBox_DirDEC</tabstop>
+  <tabstop>guideExposure</tabstop>
+  <tabstop>guideDelay</tabstop>
+  <tabstop>guideSquareSize</tabstop>
+  <tabstop>guideBinning</tabstop>
+  <tabstop>rAGuideEnabled</tabstop>
+  <tabstop>dECGuideEnabled</tabstop>
   <tabstop>swapCheck</tabstop>
-  <tabstop>eastControlCheck</tabstop>
-  <tabstop>westControlCheck</tabstop>
-  <tabstop>northControlCheck</tabstop>
-  <tabstop>southControlCheck</tabstop>
+  <tabstop>eastRAGuideEnabled</tabstop>
+  <tabstop>westRAGuideEnabled</tabstop>
+  <tabstop>northDECGuideEnabled</tabstop>
+  <tabstop>southDECGuideEnabled</tabstop>
   <tabstop>externalConnectB</tabstop>
   <tabstop>externalDisconnectB</tabstop>
-  <tabstop>showRACorrectionsCheck</tabstop>
-  <tabstop>showDECPlotCheck</tabstop>
-  <tabstop>showRAPlotCheck</tabstop>
-  <tabstop>showSNRPlotCheck</tabstop>
+  <tabstop>rACorrDisplayedOnGuideGraph</tabstop>
+  <tabstop>dEDisplayedOnGuideGraph</tabstop>
+  <tabstop>rADisplayedOnGuideGraph</tabstop>
+  <tabstop>sNRDisplayedOnGuideGraph</tabstop>
   <tabstop>guideZoomInXB</tabstop>
   <tabstop>guideZoomOutXB</tabstop>
-  <tabstop>showDECorrectionsCheck</tabstop>
-  <tabstop>showRMSPlotCheck</tabstop>
+  <tabstop>dECorrDisplayedOnGuideGraph</tabstop>
+  <tabstop>rMSDisplayedOnGuideGraph</tabstop>
   <tabstop>guideSlider</tabstop>
   <tabstop>latestCheck</tabstop>
   <tabstop>guideAutoScaleGraphB</tabstop>
   <tabstop>guideSaveDataB</tabstop>
   <tabstop>guideDataClearB</tabstop>
-  <tabstop>accuracyRadiusSpin</tabstop>
+  <tabstop>guiderAccuracyThreshold</tabstop>
   <tabstop>correctionSlider</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>

@@ -101,7 +101,11 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          * @brief setCurrentFilterWheel Set the FilterManager active filter wheel.
          * @param filter pointer to filter wheel device
          */
-        void setCurrentFilterWheel(ISD::FilterWheel *filter);
+        void setFilterWheel(ISD::FilterWheel *filter);
+        ISD::FilterWheel *filterWheel() const
+        {
+            return m_FilterWheel;
+        }
 
         /**
          * @brief setFocusReady Set whether a focuser device is active and in use.

@@ -2824,7 +2824,7 @@ void Align::checkFilter()
 
     setupFilterManager();
 
-    m_FilterManager->setCurrentFilterWheel(m_FilterWheel);
+    m_FilterManager->setFilterWheel(m_FilterWheel);
 
     alignFilter->addItems(m_FilterManager->getFilterLabels());
 

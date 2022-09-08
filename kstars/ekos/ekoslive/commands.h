@@ -134,7 +134,8 @@ enum COMMANDS
     GUIDE_STOP,
     GUIDE_CLEAR,
     GUIDE_REPORT,
-    GUIDE_SET_SETTINGS,
+    GUIDE_SET_ALL_SETTINGS,
+    GUIDE_GET_ALL_SETTINGS,
     GUIDE_SET_CALIBRATION_SETTINGS,
 
     // Align
@@ -369,7 +370,8 @@ static QMap<COMMANDS, QString> const commands =
     {GUIDE_STOP, "guide_stop"},
     {GUIDE_CLEAR, "guide_clear"},
     {GUIDE_REPORT, "guide_report"},
-    {GUIDE_SET_SETTINGS, "guide_set_settings"},
+    {GUIDE_SET_ALL_SETTINGS, "guide_set_all_settings"},
+    {GUIDE_GET_ALL_SETTINGS, "guide_get_all_settings"},
     {GUIDE_SET_CALIBRATION_SETTINGS, "guide_set_calibration_settings"},
 
     {ALIGN_SOLVE, "align_solve"},
