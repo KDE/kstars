@@ -110,25 +110,25 @@ build-and-test-unstable:
       junit:
         ./junit_result.unstable.xml
 
-build-appimage:
-  stage: test
-  interruptible: true
-  allow_failure: true
-  only:
-    - merge_requests
-  before_script:
-    - python3 -m pip install appimage-builder
-    - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
-    - chmod +x /opt/appimagetool
-    - pushd /opt/; /opt/appimagetool --appimage-extract
-    - mv /opt/squashfs-root /opt/appimagetool.AppDir
-    - ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
-    - popd
-  script:
-    - *build_recipe
-    - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - 'kstars-build/*.AppImage*'
+# build-appimage:
+#   stage: test
+#   interruptible: true
+#   allow_failure: true
+#   only:
+#     - merge_requests
+#   before_script:
+#     - python3 -m pip install appimage-builder
+#     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
+#     - chmod +x /opt/appimagetool
+#     - pushd /opt/; /opt/appimagetool --appimage-extract
+#     - mv /opt/squashfs-root /opt/appimagetool.AppDir
+#     - ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
+#     - popd
+#   script:
+#     - *build_recipe
+#     - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
+#   artifacts:
+#     expire_in: 1 week
+#     paths:
+#       - 'kstars-build/*.AppImage*'
 
