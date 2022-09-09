@@ -431,7 +431,7 @@ void DriverManager::startClientManager(const QList<DriverInfo *> &qdv, const QSt
 {
     auto clientManager = new ClientManager();
 
-    for (DriverInfo *dv : qdv)
+    for (auto &dv : qdv)
         clientManager->appendManagedDriver(dv);
 
     connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
@@ -642,6 +642,9 @@ void DriverManager::setClientFailed(const QString &message)
 
     clients.removeOne(client);
     client->deleteLater();
+
+    if (connectionMode == SERVER_CLIENT)
+        activateStopService();
 
     updateMenuActions();
     updateLocalTab();
