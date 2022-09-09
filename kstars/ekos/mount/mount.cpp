@@ -788,11 +788,6 @@ void Mount::meridianFlipSetupChanged()
     if (ExecuteMeridianFlip->isChecked() == false)
         // reset meridian flip
         setMeridianFlipStatus(FLIP_NONE);
-
-    Options::setExecuteMeridianFlip(ExecuteMeridianFlip->isChecked());
-
-    // It is always saved in degrees
-    Options::setMeridianFlipOffsetDegrees(MeridianFlipOffsetDegrees->value());
 }
 
 void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
@@ -865,17 +860,11 @@ void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir,
 
 void Mount::saveLimits()
 {
-    Options::setMinimumAltLimit(MinimumAltLimit->value());
-    Options::setMaximumAltLimit(MaximumAltLimit->value());
     m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
-
-    Options::setMaximumHaLimit(MaximumHaLimit->value());
 }
 
 void Mount::enableAltitudeLimits(bool enable)
 {
-    Options::setEnableAltitudeLimits(enable);
-
     if (enable)
     {
         minAltLabel->setEnabled(true);
@@ -916,8 +905,6 @@ void Mount::disableAltLimits()
 
 void Mount::enableHourAngleLimits(bool enable)
 {
-    Options::setEnableHaLimit(enable);
-
     maxHaLabel->setEnabled(enable);
     MaximumHaLimit->setEnabled(enable);
 }
