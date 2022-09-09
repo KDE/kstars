@@ -160,6 +160,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void checkFocus(double);
         // New Focus offset requested
         void newFocusOffset(int value, bool useAbsoluteOffset);
+        // database was updated
+        void updated();
 
     private slots:
         void processText(ITextVectorProperty *tvp);
@@ -189,7 +191,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         int16_t lastFilterOffset { 0 };
 
         // Table model
-        QSqlTableModel *filterModel = { nullptr };
+        QSqlTableModel *m_FilterModel = { nullptr };
 
         // INDI Properties of current active filter
         ITextVectorProperty *m_FilterNameProperty { nullptr };

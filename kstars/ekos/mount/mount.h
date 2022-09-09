@@ -394,6 +394,10 @@ class Mount : public QWidget, public Ui::Mount
         ///
         static QString meridianFlipStatusString(MeridianFlipStatus status);
 
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
+
     public slots:
 
         /**
@@ -567,7 +571,41 @@ class Mount : public QWidget, public Ui::Mount
         void newMeridianFlipStatus(MeridianFlipStatus status);
         void newMeridianFlipText(const QString &text);
 
+        void settingsUpdated(const QVariantMap &settings);
+
     private:
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
         void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
         MeridianFlipStatus m_MFStatus = FLIP_NONE;
@@ -610,6 +648,10 @@ class Mount : public QWidget, public Ui::Mount
 
         ISD::Mount::Status m_Status = ISD::Mount::MOUNT_IDLE;
         ISD::ParkStatus m_ParkStatus = ISD::PARK_UNKNOWN;
+
+        // Settings
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 
         QQuickView *m_BaseView = nullptr;
         QQuickItem *m_BaseObj  = nullptr;

@@ -16,11 +16,6 @@ enum COMMANDS
 {
     GET_CONNECTION,
     GET_STATES,
-    GET_CAMERAS,
-    GET_MOUNTS,
-    GET_FILTER_WHEELS,
-    GET_DOMES,
-    GET_CAPS,
     GET_STELLARSOLVER_PROFILES,
     GET_DRIVERS,
     GET_DEVICES,
@@ -62,6 +57,13 @@ enum COMMANDS
     DELETE_SCOPE,
     UPDATE_SCOPE,
 
+    // Trains
+    TRAIN_GET_ALL,
+    TRAIN_UPDATE,
+    TRAIN_SET,
+    TRAIN_ADD,
+    TRAIN_DELETE,
+
     // Capture
     CAPTURE_PREVIEW,
     CAPTURE_TOGGLE_VIDEO,
@@ -95,13 +97,9 @@ enum COMMANDS
     MOUNT_SET_MOTION,
     MOUNT_SET_TRACKING,
     MOUNT_SET_SLEW_RATE,
-    MOUNT_SET_ALTITUDE_LIMITS,
-    MOUNT_SET_HA_LIMIT,
-    MOUNT_SET_MERIDIAN_FLIP,
-    MOUNT_SET_AUTO_PARK,
-    MOUNT_SET_EVERYDAY_AUTO_PARK,
     MOUNT_CLEAR,
-    MOUNT_GET_SETTINGS,
+    MOUNT_GET_ALL_SETTINGS,
+    MOUNT_SET_ALL_SETTINGS,
 
     // Dome
     DOME_PARK,
@@ -247,11 +245,6 @@ static QMap<COMMANDS, QString> const commands =
 {
     {GET_CONNECTION, "get_connection"},
     {GET_STATES, "get_states"},
-    {GET_CAMERAS, "get_cameras"},
-    {GET_MOUNTS, "get_mounts"},
-    {GET_FILTER_WHEELS, "get_filter_wheels"},
-    {GET_DOMES, "get_domes"},
-    {GET_CAPS, "get_caps"},
     {GET_STELLARSOLVER_PROFILES, "get_stellarsolver_profiles"},
     {GET_DRIVERS, "get_drivers"},
     {GET_DEVICES, "get_devices"},
@@ -291,6 +284,12 @@ static QMap<COMMANDS, QString> const commands =
     {DELETE_SCOPE, "scope_delete"},
     {UPDATE_SCOPE, "scope_update"},
 
+    {TRAIN_GET_ALL, "train_get_all"},
+    {TRAIN_UPDATE, "train_update"},
+    {TRAIN_SET, "train_set"},
+    {TRAIN_ADD, "train_add"},
+    {TRAIN_DELETE, "train_delete"},
+
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},
     {CAPTURE_TOGGLE_CAMERA, "capture_toggle_camera"},
@@ -322,13 +321,9 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_SET_MOTION, "mount_set_motion"},
     {MOUNT_SET_TRACKING, "mount_set_tracking"},
     {MOUNT_SET_SLEW_RATE, "mount_set_slew_rate"},
-    {MOUNT_SET_ALTITUDE_LIMITS, "mount_set_altitude_limits"},
-    {MOUNT_SET_HA_LIMIT, "mount_set_ha_limit"},
-    {MOUNT_SET_MERIDIAN_FLIP, "mount_set_meridian_flip"},
-    {MOUNT_SET_AUTO_PARK, "mount_set_auto_park"},
-    {MOUNT_SET_EVERYDAY_AUTO_PARK, "mount_set_everyday_auto_park"},
     {MOUNT_CLEAR, "mount_clear"},
-    {MOUNT_GET_SETTINGS, "mount_get_settings"},
+    {MOUNT_GET_ALL_SETTINGS, "mount_get_all_settings"},
+    {MOUNT_SET_ALL_SETTINGS, "mount_set_all_settings"},
 
     {DOME_PARK, "dome_park"},
     {DOME_UNPARK, "dome_unpark"},

@@ -522,6 +522,16 @@ class Align : public QWidget, public Ui::Align
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
+        // Trains
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
     private slots:
         // Solver timeout
         void checkAlignmentTimeout();
@@ -588,15 +598,7 @@ class Align : public QWidget, public Ui::Align
     private:
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
+        void refreshOpticalTrain();        
 
         ////////////////////////////////////////////////////////////////////
         /// Settings

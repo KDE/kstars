@@ -48,15 +48,11 @@ class Message : public QObject
 
         // Send devices as they come
         void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
-        void sendCameras();
-        void sendMounts();
         void sendScopes();
-        void sendDSLRLenses();
-        void sendFilterWheels();
-        void sendDomes();
-        void sendCaps();
+        void sendDSLRLenses();        
         void sendDrivers();
         void sendDevices();
+        void sendTrains();
         void sendSchedulerJobList(QJsonArray jobsList);
 
         // Scheduler
@@ -181,6 +177,9 @@ class Message : public QObject
 
         // DSLRs
         void processDSLRCommands(const QString &command, const QJsonObject &payload);
+
+        // Trains
+        void processTrainCommands(const QString &command, const QJsonObject &payload);
 
         // Filter Manager commands
         void processFilterManagerCommands(const QString &command, const QJsonObject &payload);

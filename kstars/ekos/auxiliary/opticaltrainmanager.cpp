@@ -301,6 +301,8 @@ void OpticalTrainManager::addOpticalTrain(const QJsonObject &value)
     auto newTrain = value.toVariantMap();
     newTrain["profile"] = m_Profile->id;
     KStarsData::Instance()->userdb()->AddOpticalTrain(newTrain);
+
+    refreshTrains();
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -315,6 +317,42 @@ bool OpticalTrainManager::setOpticalTrainValue(const QString &name, const QStrin
         KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneOpticalTrain, oneOpticalTrain["id"].toInt());
         return true;
     }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::setOpticalTrain(const QJsonObject &train)
+{
+    auto oneOpticalTrain = getOpticalTrain(train["name"].toString());
+    if (!oneOpticalTrain.empty())
+    {
+        KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneOpticalTrain, oneOpticalTrain["id"].toInt());
+        refreshTrains();
+        return true;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::removeOpticalTrain(uint32_t id)
+{
+    auto exists = std::any_of(m_OpticalTrains.begin(), m_OpticalTrains.end(), [id](auto & oneTrain)
+    {
+        return oneTrain["id"].toInt() == id;
+    });
+
+    if (exists)
+    {
+        KStarsData::Instance()->userdb()->DeleteOpticalTrain(id);
+        KStarsData::Instance()->userdb()->DeleteOpticalTrainSettings(id);
+        refreshTrains();
+        return true;
+    }
+
     return false;
 }
 
@@ -612,19 +650,7 @@ const QVariantMap OpticalTrainManager::getOpticalTrain(const QString &name) cons
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::refreshTrains()
 {
-    m_OpticalTrains.clear();
-    for (int i = 0; i < m_OpticalTrainsModel->rowCount(); ++i)
-    {
-        QVariantMap recordMap;
-        QSqlRecord record = m_OpticalTrainsModel->record(i);
-        for (int j = 0; j < record.count(); j++)
-            recordMap[record.fieldName(j)] = record.value(j);
-
-        m_OpticalTrains.append(recordMap);
-    }
-    m_TrainNames.clear();
-    for (auto &oneTrain : m_OpticalTrains)
-        m_TrainNames << oneTrain["name"].toString();
+    refreshModel();
     emit updated();
 }
 

@@ -61,6 +61,20 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         bool setOpticalTrainValue(const QString &name, const QString &field, const QVariant &value);
 
+        /**
+         * @brief setOpticalTrain Replaces optical train matching the name of the passed train.
+         * @param train Train information, including name and database id
+         * @return True if train is successfully updated in the database.
+         */
+        bool setOpticalTrain(const QJsonObject &train);
+
+        /**
+         * @brief removeOpticalTrain Remove optical train from database and all associated settings
+         * @param id database ID for the optical train to remove
+         * @return True if successful, false if id is not found.
+         */
+        bool removeOpticalTrain(uint32_t id);
+
         void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();

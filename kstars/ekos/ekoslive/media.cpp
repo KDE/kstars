@@ -461,9 +461,8 @@ void Media::registerCameras()
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
-        if (!camera)
-            continue;
-        connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
+        if (camera)
+            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
     }
 }
 

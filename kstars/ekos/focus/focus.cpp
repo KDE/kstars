@@ -3679,6 +3679,12 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
     }
 }
 
+void Focus::refreshFilterManager(ISD::FilterWheel *device)
+{
+    if (m_FilterManager && m_FilterManager->filterWheel() == device)
+        m_FilterManager->refreshFilterModel();
+}
+
 void Focus::setupFilterManager()
 {
     // Do we have an existing filter manager?
@@ -3701,6 +3707,11 @@ void Focus::setupFilterManager()
         m_FilterManager->refreshFilterModel();
         m_FilterManager->show();
         m_FilterManager->raise();
+    });
+
+    connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()
+    {
+        emit filterManagerUpdated(m_FilterWheel);
     });
 
     connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()

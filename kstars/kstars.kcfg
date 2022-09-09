@@ -1581,12 +1581,7 @@
       <entry name="ConfirmBelowHorizon" type="Bool">
          <label>Warn user before command mount to go to a target below horizon.</label>
          <default>true</default>
-      </entry>
-      <entry name="MeridianFlipOffset" type="Double">
-         <label>Default hour angle to perform meridian flip (obsolete)</label>
-         <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
-         <default>0.1</default>
-      </entry>
+      </entry>      
       <entry name="MeridianFlipOffsetDegrees" type="Double">
          <label>Default hour angle to perform meridian flip in degrees.</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>

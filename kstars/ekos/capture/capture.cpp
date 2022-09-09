@@ -6456,6 +6456,12 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
     m_RotatorControlPanel->refresh();
 }
 
+void Capture::refreshFilterManager(ISD::FilterWheel *device)
+{
+    if (m_FilterManager && m_FilterManager->filterWheel() == device)
+        m_FilterManager->refreshFilterModel();
+}
+
 void Capture::setupFilterManager()
 {
     // Do we have an existing filter manager?
@@ -6472,6 +6478,11 @@ void Capture::setupFilterManager()
 
     m_FilterManager.reset(new FilterManager(this));
     m_FilterManager->setFilterWheel(m_FilterWheel);
+
+    connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()
+    {
+        emit filterManagerUpdated(m_FilterWheel);
+    });
 
     // display capture status changes
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterManagerStatus);

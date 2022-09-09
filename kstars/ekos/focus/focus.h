@@ -203,8 +203,9 @@ class Focus : public QWidget, public Ui::Focus
         const QSharedPointer<FilterManager> &filterManager() const
         {
             return m_FilterManager;
-        }
+        }        
         void setupFilterManager();
+        void refreshFilterManager(ISD::FilterWheel *device);
 
         void clearLog();
         QStringList logText()
@@ -401,7 +402,14 @@ class Focus : public QWidget, public Ui::Focus
          */
         QStringList getStellarSolverProfiles();
 
-
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
 
     protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
@@ -453,6 +461,9 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
+
+        // Filter Manager
+        void filterManagerUpdated(ISD::FilterWheel *device);
 
         // HFR V curve plot events
         /**
@@ -663,14 +674,6 @@ class Focus : public QWidget, public Ui::Focus
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
 
         /**
          * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification

@@ -14,7 +14,6 @@
 #include "profilewizard.h"
 #include "indihub.h"
 #include "auxiliary/darklibrary.h"
-#include "auxiliary/QProgressIndicator.h"
 #include "auxiliary/ksmessagebox.h"
 #include "auxiliary/profilesettings.h"
 #include "capture/sequencejob.h"
@@ -1517,7 +1516,6 @@ void Manager::addMount(ISD::Mount *device)
     if (INDIListener::findDevice(device->getDeviceName(), generic))
         syncGenericDevice(generic);
 
-    ekosLiveClient->message()->sendMounts();
     ekosLiveClient->message()->sendScopes();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
@@ -1532,7 +1530,6 @@ void Manager::addCamera(ISD::Camera * device)
     captureProcess->setEnabled(true);
     capturePreview->setEnabled(true);
 
-    ekosLiveClient.get()->message()->sendCameras();
     ekosLiveClient.get()->media()->registerCameras();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
@@ -1543,8 +1540,6 @@ void Manager::addFilterWheel(ISD::FilterWheel * device)
     QSharedPointer<ISD::GenericDevice> generic;
     if (INDIListener::findDevice(device->getDeviceName(), generic))
         syncGenericDevice(generic);
-
-    ekosLiveClient.get()->message()->sendFilterWheels();
 
     appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
 }
@@ -1573,8 +1568,6 @@ void Manager::addDome(ISD::Dome * device)
     if (INDIListener::findDevice(device->getDeviceName(), generic))
         syncGenericDevice(generic);
 
-    ekosLiveClient.get()->message()->sendDomes();
-
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 }
 
@@ -1601,8 +1594,6 @@ void Manager::addDustCap(ISD::DustCap * device)
     QSharedPointer<ISD::GenericDevice> generic;
     if (INDIListener::findDevice(device->getDeviceName(), generic))
         syncGenericDevice(generic);
-
-    ekosLiveClient.get()->message()->sendCaps();
 
     OpticalTrainManager::Instance()->syncDevices();
 
@@ -1746,11 +1737,6 @@ void Manager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 void Manager::processNewText(ITextVectorProperty * tvp)
 {
     ekosLiveClient.get()->message()->processNewText(tvp);
-
-    if (!strcmp(tvp->name, "FILTER_NAME"))
-    {
-        ekosLiveClient.get()->message()->sendFilterWheels();
-    }
 
     if (!strcmp(tvp->name, "ACTIVE_DEVICES"))
     {
@@ -2779,7 +2765,7 @@ void Manager::connectModules()
     connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame);
 
     // Guide <---> Capture connections
-    if (captureProcess.get() && guideProcess.get())
+    if (captureProcess && guideProcess)
     {
         //        captureProcess.get()->disconnect(guideProcess.get());
         //        guideProcess.get()->disconnect(captureProcess.get());
@@ -2810,7 +2796,7 @@ void Manager::connectModules()
     }
 
     // Guide <---> Mount connections
-    if (guideProcess.get() && mountProcess.get())
+    if (guideProcess && mountProcess)
     {
         // Parking
         connect(mountProcess.get(), &Ekos::Mount::newStatus, guideProcess.get(), &Ekos::Guide::setMountStatus,
@@ -2821,7 +2807,7 @@ void Manager::connectModules()
     }
 
     // Focus <---> Guide connections
-    if (guideProcess.get() && focusProcess.get())
+    if (guideProcess && focusProcess)
     {
         // Suspend
         connect(focusProcess.get(), &Ekos::Focus::suspendGuiding, guideProcess.get(), &Ekos::Guide::suspend, Qt::UniqueConnection);
@@ -2829,7 +2815,7 @@ void Manager::connectModules()
     }
 
     // Capture <---> Focus connections
-    if (captureProcess.get() && focusProcess.get())
+    if (captureProcess && focusProcess)
     {
         // Check focus HFR value
         connect(captureProcess.get(), &Ekos::Capture::checkFocus, focusProcess.get(), &Ekos::Focus::checkFocus,
@@ -2857,10 +2843,16 @@ void Manager::connectModules()
         // Meridian Flip
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::meridianFlipStarted,
                 Qt::UniqueConnection);
+
+        // Filter Manager
+        connect(captureProcess.get(), &Ekos::Capture::filterManagerUpdated, focusProcess.get(), &Ekos::Focus::refreshFilterManager,
+                Qt::UniqueConnection);
+        connect(focusProcess.get(), &Ekos::Focus::filterManagerUpdated, captureProcess.get(), &Ekos::Capture::refreshFilterManager,
+                Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections
-    if (captureProcess.get() && alignProcess.get())
+    if (captureProcess && alignProcess)
     {
         // Alignment flag
         connect(alignProcess.get(), &Ekos::Align::newStatus, captureProcess.get(), &Ekos::Capture::setAlignStatus,
@@ -2874,7 +2866,7 @@ void Manager::connectModules()
     }
 
     // Capture <---> Mount connections
-    if (captureProcess.get() && mountProcess.get())
+    if (captureProcess && mountProcess)
     {
         // Register both modules since both are now created and ready
         // In case one module misses the DBus signal, then it will be correctly initialized.
@@ -2897,7 +2889,7 @@ void Manager::connectModules()
     }
 
     // Capture <---> EkosLive connections
-    if (captureProcess.get() && ekosLiveClient.get())
+    if (captureProcess && ekosLiveClient)
     {
         //captureProcess.get()->disconnect(ekosLiveClient.get()->message());
 
@@ -2909,22 +2901,29 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
     }
 
+    // Optical Train Manager ---> EkosLive connections
+    if (ekosLiveClient)
+    {
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
+                &EkosLive::Message::sendTrains);
+    }
+
     // Scheduler <---> EkosLive connections
-    if(schedulerProcess.get() && ekosLiveClient.get())
+    if(schedulerProcess && ekosLiveClient)
     {
         connect(schedulerProcess.get(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
     }
 
     // Focus <---> Align connections
-    if (focusProcess.get() && alignProcess.get())
+    if (focusProcess && alignProcess)
     {
         connect(focusProcess.get(), &Ekos::Focus::newStatus, alignProcess.get(), &Ekos::Align::setFocusStatus,
                 Qt::UniqueConnection);
     }
 
     // Focus <---> Mount connections
-    if (focusProcess.get() && mountProcess.get())
+    if (focusProcess && mountProcess)
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, focusProcess.get(), &Ekos::Focus::setMountStatus,
                 Qt::UniqueConnection);
@@ -2933,7 +2932,7 @@ void Manager::connectModules()
     }
 
     // Mount <---> Align connections
-    if (mountProcess.get() && alignProcess.get())
+    if (mountProcess && alignProcess)
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus, alignProcess.get(), &Ekos::Align::setMountStatus,
                 Qt::UniqueConnection);
@@ -2946,14 +2945,14 @@ void Manager::connectModules()
     }
 
     // Mount <---> Guide connections
-    if (mountProcess.get() && guideProcess.get())
+    if (mountProcess && guideProcess)
     {
         connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, guideProcess.get(), &Ekos::Guide::setPierSide,
                 Qt::UniqueConnection);
     }
 
     // Align <--> EkosLive connections
-    if (alignProcess.get() && ekosLiveClient.get())
+    if (alignProcess && ekosLiveClient)
     {
         //        alignProcess.get()->disconnect(ekosLiveClient.get()->message());
         //        alignProcess.get()->disconnect(ekosLiveClient.get()->media());
@@ -2994,7 +2993,7 @@ void Manager::connectModules()
     }
 
     // Focus <--> EkosLive Connections
-    if (focusProcess.get() && ekosLiveClient.get())
+    if (focusProcess && ekosLiveClient)
     {
         connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendFocusSettings, Qt::UniqueConnection);
@@ -3003,7 +3002,7 @@ void Manager::connectModules()
     }
 
     // Guide <--> EkosLive Connections
-    if (guideProcess.get() && ekosLiveClient.get())
+    if (guideProcess && ekosLiveClient)
     {
         connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendGuideSettings, Qt::UniqueConnection);
@@ -3012,8 +3011,9 @@ void Manager::connectModules()
     }
 
     // Analyze connections.
-    if (analyzeProcess.get())
+    if (analyzeProcess)
     {
+        // Scheduler <---> Analyze
         connect(schedulerProcess.get(), &Ekos::Scheduler::jobStarted,
                 analyzeProcess.get(), &Ekos::Analyze::schedulerJobStarted, Qt::UniqueConnection);
         connect(schedulerProcess.get(), &Ekos::Scheduler::jobEnded,
@@ -3021,7 +3021,8 @@ void Manager::connectModules()
         connect(schedulerProcess.get(), &Ekos::Scheduler::targetDistance,
                 analyzeProcess.get(), &Ekos::Analyze::newTargetDistance,  Qt::UniqueConnection);
 
-        if (captureProcess.get())
+        // Capture <---> Analyze
+        if (captureProcess)
         {
             connect(captureProcess.get(), &Ekos::Capture::captureComplete,
                     analyzeProcess.get(), &Ekos::Analyze::captureComplete, Qt::UniqueConnection);
@@ -3037,7 +3038,9 @@ void Manager::connectModules()
                     analyzeProcess.get(), &Ekos::Analyze::meridianFlipComplete, Qt::UniqueConnection);
 #endif
         }
-        if (guideProcess.get())
+
+        // Guide <---> Analyze
+        if (guideProcess)
         {
             connect(guideProcess.get(), &Ekos::Guide::newStatus,
                     analyzeProcess.get(), &Ekos::Analyze::guideState, Qt::UniqueConnection);
@@ -3046,7 +3049,10 @@ void Manager::connectModules()
                     analyzeProcess.get(), &Ekos::Analyze::guideStats, Qt::UniqueConnection);
         }
     }
-    if (focusProcess.get())
+
+
+    // Focus <---> Analyze connections
+    if (focusProcess && analyzeProcess)
     {
         connect(focusProcess.get(), &Ekos::Focus::autofocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
@@ -3057,13 +3063,17 @@ void Manager::connectModules()
         connect(focusProcess.get(), &Ekos::Focus::newFocusTemperatureDelta,
                 analyzeProcess.get(), &Ekos::Analyze::newTemperature, Qt::UniqueConnection);
     }
-    if (alignProcess.get())
+
+    // Align <---> Analyze connections
+    if (alignProcess && analyzeProcess)
     {
         connect(alignProcess.get(), &Ekos::Align::newStatus,
                 analyzeProcess.get(), &Ekos::Analyze::alignState, Qt::UniqueConnection);
 
     }
-    if (mountProcess.get())
+
+    // Mount <---> Analyze connections
+    if (mountProcess && analyzeProcess)
     {
         connect(mountProcess.get(), &Ekos::Mount::newStatus,
                 analyzeProcess.get(), &Ekos::Analyze::mountState, Qt::UniqueConnection);

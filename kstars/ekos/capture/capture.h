@@ -339,7 +339,11 @@ class Capture : public QWidget, public Ui::Capture
         void addGuideHead(ISD::Camera *device);
         void syncFrameType(const QString &name);
         void setRotatorReversed(bool toggled);
+
+        // Filter Manager
         void setupFilterManager();
+        void refreshFilterManager(ISD::FilterWheel *device);
+
         void syncTelescopeInfo();
         void syncCameraInfo();
         void syncFilterInfo();
@@ -881,6 +885,9 @@ class Capture : public QWidget, public Ui::Capture
         // Signals for the Analyze tab.
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
+
+        // Filter Manager
+        void filterManagerUpdated(ISD::FilterWheel *device);
 
     private:
         /**

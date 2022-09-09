@@ -368,6 +368,16 @@ class Guide : public QWidget, public Ui::Guide
 
         void guideAfterMeridianFlip();
 
+        // Trains
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
     protected slots:
         void updateCCDBin(int index);
 
@@ -521,15 +531,7 @@ class Guide : public QWidget, public Ui::Guide
         bool captureOneFrame();
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
+        void refreshOpticalTrain();        
 
         // Driver
         void reconnectDriver(const QString &camera, QVariantMap settings);
