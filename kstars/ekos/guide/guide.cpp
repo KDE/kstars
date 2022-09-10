@@ -805,17 +805,16 @@ void Guide::setBusy(bool enable)
         clearCalibrationB->setEnabled(false);
         guideB->setEnabled(false);
         captureB->setEnabled(false);
-        loopB->setEnabled(false);
-
+        loopB->setEnabled(false);        
         guideDarkFrame->setEnabled(false);
         guideSubframe->setEnabled(false);
         guideAutoStar->setEnabled(false);
-
         stopB->setEnabled(true);
+        // Optical Train
+        opticalTrainCombo->setEnabled(false);
+        trainB->setEnabled(false);
 
         pi->startAnimation();
-
-        //disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Guide::setTrackingStar(int,int)));
     }
     else
     {
@@ -838,6 +837,10 @@ void Guide::setBusy(bool enable)
         guideB->setEnabled(true);
         stopB->setEnabled(false);
         pi->stopAnimation();
+
+        // Optical Train
+        opticalTrainCombo->setEnabled(true);
+        trainB->setEnabled(true);
 
         connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar, Qt::UniqueConnection);
     }

@@ -1070,6 +1070,7 @@ void Focus::stop(Ekos::FocusState completionState)
     m_FocusMotionTimer.stop();
     m_FocusMotionTimerCounter = 0;
 
+    opticalTrainCombo->setEnabled(true);
     inAutoFocus     = false;
     focuserAdditionalMovement = 0;
     inFocusLoop     = false;
@@ -3159,17 +3160,16 @@ void Focus::resetButtons()
     {
         startFocusB->setEnabled(false);
         startLoopB->setEnabled(false);
-        stopFocusB->setEnabled(true);
-
+        stopFocusB->setEnabled(true);        
         captureB->setEnabled(false);
-
+        opticalTrainCombo->setEnabled(false);
+        trainB->setEnabled(false);
         return;
     }
 
     if (inAutoFocus)
     {
         stopFocusB->setEnabled(true);
-
         startFocusB->setEnabled(false);
         startLoopB->setEnabled(false);
         captureB->setEnabled(false);
@@ -3177,13 +3177,16 @@ void Focus::resetButtons()
         focusInB->setEnabled(false);
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
-
         resetFrameB->setEnabled(false);
-
+        opticalTrainCombo->setEnabled(false);
+        trainB->setEnabled(false);
         return;
     }
 
     auto enableCaptureButtons = (captureInProgress == false && hfrInProgress == false);
+
+    opticalTrainCombo->setEnabled(true);
+    trainB->setEnabled(true);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);

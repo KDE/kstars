@@ -3311,6 +3311,8 @@ void Capture::setBusy(bool enable)
 
     previewB->setEnabled(!enable);
     loopB->setEnabled(!enable);
+    opticalTrainCombo->setEnabled(!enable);
+    trainB->setEnabled(!enable);
 
     foreach (QAbstractButton * button, queueEditButtonGroup->buttons())
         button->setEnabled(!enable);

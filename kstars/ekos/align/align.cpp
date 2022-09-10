@@ -187,6 +187,12 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     connect(alignBinning, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Align::setBinningIndex);
 
+    connect(this, &Align::newStatus, this, [this](AlignState state)
+    {
+       opticalTrainCombo->setEnabled(state < ALIGN_PROGRESS);
+       trainB->setEnabled(state < ALIGN_PROGRESS);
+    });
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
