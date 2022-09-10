@@ -55,7 +55,11 @@
     <method name="setSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>        
+    </method>
+    <method name="setAutoStarEnabled">
+      <arg name="enable" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setGuiderType">
       <arg name="guideType" type="i" direction="in"/>
       <arg type="b" direction="out"/>

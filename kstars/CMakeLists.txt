@@ -1144,6 +1144,8 @@ IF (NOT ANDROID)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.GenericDevice.xml indi/indistd.h ISD::GenericDevice)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Dome.xml indi/indidome.h ISD::Dome)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.Weather.xml indi/indiweather.h ISD::Weather)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.DustCap.xml indi/indidustcap.h ISD::DustCap)
         # Ekos
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)

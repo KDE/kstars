@@ -12,7 +12,6 @@
 
 #include "indidome.h"
 #include "kstars.h"
-#include "clientmanager.h"
 #include "domeadaptor.h"
 
 namespace ISD
@@ -23,8 +22,6 @@ const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Mov
                                                I18N_NOOP("Error")
                                              };
 
-uint8_t Dome::m_ID = 1;
-
 Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 {
     qRegisterMetaType<ISD::Dome::Status>("ISD::Dome::Status");
@@ -34,7 +31,8 @@ Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
     qDBusRegisterMetaType<ISD::Dome::ShutterStatus>();
 
     new DomeAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QString("/KStars/INDI/Dome/%1").arg(getID()), this);
+    m_DBusObjectPath = QString("/KStars/INDI/Dome/%1").arg(getID());
+    QDBusConnection::sessionBus().registerObject(m_DBusObjectPath, this);
 }
 
 void Dome::registerProperty(INDI::Property prop)

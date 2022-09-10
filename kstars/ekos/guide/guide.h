@@ -273,6 +273,12 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
 
         /** DBUS interface function.
+             * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+             * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setAutoStarEnabled(bool enable);
+
+        /** DBUS interface function.
              * Selects which guiding process to utilize for calibration & guiding.
              * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider. Pass -1 to select default guider in options.
              * @return True if guiding is switched to the new requested type. False otherwise.

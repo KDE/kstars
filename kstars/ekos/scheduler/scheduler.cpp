@@ -444,6 +444,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     ekosInterface = new QDBusInterface(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr,
                                        QDBusConnection::sessionBus(), this);
 
+    indiInterface = new QDBusInterface(kstarsInterfaceString, INDIPathString, INDIInterfaceString,
+                                       QDBusConnection::sessionBus(), this);
+
     // Example of connecting DBus signals
     //connect(ekosInterface, SIGNAL(indiStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setINDICommunicationStatus(Ekos::CommunicationStatus)));
     //connect(ekosInterface, SIGNAL(ekosStatusChanged(Ekos::CommunicationStatus)), this, SLOT(setEkosCommunicationStatus(Ekos::CommunicationStatus)));
@@ -1896,7 +1899,8 @@ void Scheduler::stop()
         }
 
         if (wasAborted)
-            KSNotification::event(QLatin1String("SchedulerAborted"), i18n("Scheduler aborted."), KSNotification::Scheduler, KSNotification::Alert);
+            KSNotification::event(QLatin1String("SchedulerAborted"), i18n("Scheduler aborted."), KSNotification::Scheduler,
+                                  KSNotification::Alert);
     }
 
     TEST_PRINT(stderr, "%d Setting %s\n", __LINE__, timerStr(RUN_NOTHING).toLatin1().data());
@@ -3399,7 +3403,8 @@ bool Scheduler::checkStartupState()
     {
         case STARTUP_IDLE:
         {
-            KSNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"), KSNotification::Scheduler);
+            KSNotification::event(QLatin1String("ObservatoryStartup"), i18n("Observatory is in the startup process"),
+                                  KSNotification::Scheduler);
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Startup Idle. Starting startup process...";
 
@@ -3508,7 +3513,8 @@ bool Scheduler::checkShutdownState()
     switch (shutdownState)
     {
         case SHUTDOWN_IDLE:
-            KSNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"), KSNotification::Scheduler);
+            KSNotification::event(QLatin1String("ObservatoryShutdown"), i18n("Observatory is in the shutdown process"),
+                                  KSNotification::Scheduler);
 
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting shutdown process...";
 
@@ -5496,8 +5502,8 @@ void Scheduler::startGuiding(bool resetCalibration)
 
     // Set Auto Star to true
     QVariant arg(true);
-    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "setCalibrationAutoStar");
-    guideInterface->call(QDBus::AutoDetect, "setCalibrationAutoStar", arg);
+    TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "guideInterface:call", "setAutoStarEnabled");
+    guideInterface->call(QDBus::AutoDetect, "setAutoStarEnabled", arg);
 
     // Only reset calibration on trouble
     // and if we are allowed to reset calibration (true by default)
@@ -7494,27 +7500,49 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
 
     if (interface & INDI::BaseDevice::DOME_INTERFACE)
     {
-        delete domeInterface;
-        domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
-                                              QDBusConnection::sessionBus(), this);
-        checkInterfaceReady(domeInterface);
+        QList<QVariant> dbusargs;
+        dbusargs.append(INDI::BaseDevice::DOME_INTERFACE);
+        QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
+        if (paths.error().type() == QDBusError::NoError)
+        {
+            // Let's now just select first dome
+            setDomePathString(paths.value().first());
+            delete domeInterface;
+            domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
+                                                  QDBusConnection::sessionBus(), this);
+            checkInterfaceReady(domeInterface);
+        }
     }
 
     if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
     {
-        delete weatherInterface;
-        weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
-                                              QDBusConnection::sessionBus(), this);
-        connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
-        checkInterfaceReady(weatherInterface);
+        QList<QVariant> dbusargs;
+        dbusargs.append(INDI::BaseDevice::WEATHER_INTERFACE);
+        QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
+        if (paths.error().type() == QDBusError::NoError)
+        {
+            setWeatherPathString(paths.value().first());
+            delete weatherInterface;
+            weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
+                                                  QDBusConnection::sessionBus(), this);
+            connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
+            checkInterfaceReady(weatherInterface);
+        }
     }
 
     if (interface & INDI::BaseDevice::DUSTCAP_INTERFACE)
     {
-        delete capInterface;
-        capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
-                                          QDBusConnection::sessionBus(), this);
-        checkInterfaceReady(capInterface);
+        QList<QVariant> dbusargs;
+        dbusargs.append(INDI::BaseDevice::DUSTCAP_INTERFACE);
+        QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
+        if (paths.error().type() == QDBusError::NoError)
+        {
+            setCapturePathString(paths.value().first());
+            delete capInterface;
+            capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
+                                              QDBusConnection::sessionBus(), this);
+            checkInterfaceReady(capInterface);
+        }
     }
 }
 
@@ -8085,7 +8113,8 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             weatherLabel->setPixmap(
                 QIcon::fromTheme("security-medium")
                 .pixmap(QSize(32, 32)));
-            KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"), KSNotification::Scheduler, KSNotification::Warn);
+            KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"),
+                                  KSNotification::Scheduler, KSNotification::Warn);
         }
         else if (weatherStatus == ISD::Weather::WEATHER_ALERT)
         {
@@ -8093,7 +8122,8 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
                 QIcon::fromTheme("security-low")
                 .pixmap(QSize(32, 32)));
             KSNotification::event(QLatin1String("WeatherAlert"),
-                                  i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler, KSNotification::Alert);
+                                  i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler,
+                                  KSNotification::Alert);
         }
         else
             weatherLabel->setPixmap(QIcon::fromTheme("chronometer")

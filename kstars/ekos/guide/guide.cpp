@@ -1395,6 +1395,12 @@ void Guide::setSubFrameEnabled(bool enable)
         setExternalGuiderBLOBEnabled(!enable);
 }
 
+void Guide::setAutoStarEnabled(bool enable)
+{
+    if(guiderType == GUIDE_INTERNAL)
+        guideAutoStar->setChecked(enable);
+}
+
 void Guide::clearCalibration()
 {
     calibrationComplete = false;

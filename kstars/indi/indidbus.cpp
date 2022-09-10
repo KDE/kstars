@@ -13,6 +13,7 @@
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 #include "indi/indilistener.h"
+#include "indi/indiconcretedevice.h"
 #include "indi/deviceinfo.h"
 
 #include "kstars_debug.h"
@@ -126,6 +127,18 @@ QStringList INDIDBus::getDevices()
     }
 
     return devices;
+}
+
+QStringList INDIDBus::getDevicesPaths(uint32_t interface)
+{
+    QStringList paths;
+    for (auto &oneDevice : INDIListener::devicesByInterface(interface))
+    {
+        QSharedPointer<ISD::ConcreteDevice> concreteDevice;
+        if (oneDevice->findConcreteDevice(interface, concreteDevice))
+            paths << concreteDevice->getDUBSObjectPath();
+    }
+    return paths;
 }
 
 QStringList INDIDBus::getProperties(const QString &device)

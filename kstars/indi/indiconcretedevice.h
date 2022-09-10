@@ -94,6 +94,11 @@ class ConcreteDevice : public GDInterface
         IPerm getPermission(const QString &propName) const;
         QString getMessage(int id) const;
 
+        const QString & getDUBSObjectPath() const
+        {
+            return m_DBusObjectPath;
+        }
+
         // No implmenetation by default
         virtual void registerProperty(INDI::Property prop) override
         {
@@ -161,6 +166,12 @@ class ConcreteDevice : public GDInterface
         GenericDevice *m_Parent;
         QString m_Name;
         QScopedPointer<QTimer> m_ReadyTimer;
+        QString m_DBusObjectPath;
+        static uint8_t getID()
+        {
+            return m_ID++;
+        }
+        static uint8_t m_ID;
 };
 
 }

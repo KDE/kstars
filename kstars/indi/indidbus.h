@@ -59,6 +59,11 @@ class INDIDBus : public QObject
         /** DBUS interface function. Returns a list of INDI devices
             * @returns List of  device names
             */
+        Q_SCRIPTABLE QStringList getDevicesPaths(uint32_t interface);
+
+        /** DBUS interface function. Returns a list of INDI devices
+            * @returns List of  device names
+            */
         Q_SCRIPTABLE QStringList getDevices();
 
         /** DBUS interface function. Returns a list of INDI properties

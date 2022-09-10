@@ -940,7 +940,7 @@ void Capture::stop(CaptureState targetState)
     if (m_captureDeviceAdaptor->getLightBox() && lightBoxLightEnabled)
     {
         lightBoxLightEnabled = false;
-        m_captureDeviceAdaptor->getLightBox()->SetLightEnabled(false);
+        m_captureDeviceAdaptor->getLightBox()->setLightEnabled(false);
     }
 
     disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);

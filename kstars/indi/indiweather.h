@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <QTimer>
+#include <QJsonDocument>
 
 #include "indiconcretedevice.h"
 
@@ -22,6 +23,10 @@ namespace ISD
 class Weather : public ConcreteDevice
 {
         Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.Weather")
+        Q_PROPERTY(ISD::Weather::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(int refreshPeriod READ refreshPeriod WRITE setRefreshPeriod)
+        Q_PROPERTY(QByteArray data READ jsonData NOTIFY newJSONData)
 
     public:
         explicit Weather(GenericDevice *parent);
@@ -34,31 +39,36 @@ class Weather : public ConcreteDevice
             WEATHER_ALERT,
         } Status;
 
-        typedef struct
-        {
-            QString name;
-            QString label;
-            double value;
-        } WeatherData;
-
         void processNumber(INumberVectorProperty *nvp) override;
         void processLight(ILightVectorProperty *lvp) override;
 
         Status status();
-        quint16 getUpdatePeriod();
+
+        int refreshPeriod();
+        void setRefreshPeriod(int value);
+
         bool refresh();
-        const std::vector<WeatherData> &data() const
+        const QJsonArray &data() const
         {
-            return m_WeatherData;
+            return m_Data;
+        }
+        /**
+         * @brief jsondata Used for DBus
+         * @return Weahter data in JSON Format
+         */
+        QByteArray jsonData() const
+        {
+            return QJsonDocument(m_Data).toJson();
         }
 
     signals:
         void newStatus(Status status);
-        void newWeatherData(const std::vector<WeatherData> &data);
+        void newData(const QJsonArray &data);
+        void newJSONData(QByteArray data);
 
     private:
-        Status m_WeatherStatus { WEATHER_IDLE };
-        std::vector<WeatherData> m_WeatherData;
+        Status m_WeatherStatus { WEATHER_IDLE };        
+        QJsonArray m_Data;
 };
 }
 

@@ -32,6 +32,10 @@
         <arg name="device" type="s" direction="in"/>
         <arg name="property" type="s" direction="in"/>
     </method>
+    <method name="getDevicesPaths">
+        <arg type="as" direction="out"/>
+        <arg name="interface" type="i" direction="in"/>
+    </method>
     <method name="sendProperty">
         <arg type="b" direction="out"/>
         <arg name="device" type="s" direction="in"/>

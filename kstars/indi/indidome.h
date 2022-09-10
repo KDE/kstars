@@ -203,12 +203,6 @@ class Dome : public ConcreteDevice
         bool m_CanAbort { false };
         bool m_HasShutter { false };
         static const QList<const char *> domeStates;
-
-        static uint8_t getID()
-        {
-            return m_ID++;
-        }
-        static uint8_t m_ID;
 };
 }
 
