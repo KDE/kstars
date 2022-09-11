@@ -922,6 +922,9 @@ void Focus::start()
 
     if (currentTemperatureSourceElement)
         emit autofocusStarting(currentTemperatureSourceElement->value, filter());
+    else
+        // dummy temperature will be ignored
+        emit autofocusStarting(INVALID_VALUE, filter());
 
     if (focusAutoStarEnabled->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -3160,7 +3163,7 @@ void Focus::resetButtons()
     {
         startFocusB->setEnabled(false);
         startLoopB->setEnabled(false);
-        stopFocusB->setEnabled(true);        
+        stopFocusB->setEnabled(true);
         captureB->setEnabled(false);
         opticalTrainCombo->setEnabled(false);
         trainB->setEnabled(false);
