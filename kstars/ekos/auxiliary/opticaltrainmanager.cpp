@@ -145,7 +145,7 @@ void OpticalTrainManager::initModel()
     QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "opticaltrains_db");
     userdb.open();
     m_OpticalTrainsModel = new QSqlTableModel(this, userdb);
-    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, &OpticalTrainManager::refreshTrains);
+    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, &OpticalTrainManager::updated);
     trainView->setModel(m_OpticalTrainsModel);
 }
 
@@ -325,7 +325,7 @@ bool OpticalTrainManager::setOpticalTrainValue(const QString &name, const QStrin
 ////////////////////////////////////////////////////////////////////////////
 bool OpticalTrainManager::setOpticalTrain(const QJsonObject &train)
 {
-    auto oneOpticalTrain = getOpticalTrain(train["name"].toString());
+    auto oneOpticalTrain = getOpticalTrain(train["id"].toInt());
     if (!oneOpticalTrain.empty())
     {
         KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneOpticalTrain, oneOpticalTrain["id"].toInt());
