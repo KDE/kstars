@@ -42,7 +42,7 @@ qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.xml mockmodu
 ADD_EXECUTABLE(test_ekos_simulator ${KSTARS_UI_EKOS_SRC} test_ekos_simulator.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_simulator ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosSimulator COMMAND test_ekos_simulator)
-SET_TESTS_PROPERTIES( TestEkosSimulator PROPERTIES LABELS "stable;ui")
+# SET_TESTS_PROPERTIES( TestEkosSimulator PROPERTIES LABELS "stable;ui")
 
 ADD_EXECUTABLE(test_ekos_focus ${KSTARS_UI_EKOS_SRC} test_ekos_focus.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_focus ${KSTARS_UI_EKOS_LIBS})
