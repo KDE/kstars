@@ -350,7 +350,7 @@ bool OpticalTrainManager::setOpticalTrain(const QJsonObject &train)
     auto oneOpticalTrain = getOpticalTrain(train["id"].toInt());
     if (!oneOpticalTrain.empty())
     {
-        KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneOpticalTrain, oneOpticalTrain["id"].toInt());
+        KStarsData::Instance()->userdb()->UpdateOpticalTrain(train.toVariantMap(), oneOpticalTrain["id"].toInt());
         refreshTrains();
         return true;
     }
