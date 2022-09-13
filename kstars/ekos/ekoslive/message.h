@@ -110,6 +110,9 @@ class Message : public QObject
         // Port Selection
         void requestPortSelection(bool show);
 
+        // Trains
+        void requestOpticalTrains(bool show);
+
         // Dialogs
         void sendDialog(const QJsonObject &message);
         void processDialogResponse(const QJsonObject &payload);

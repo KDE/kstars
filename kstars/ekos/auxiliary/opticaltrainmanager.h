@@ -98,7 +98,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     signals:
         void updated();
-        void configurationRequested();
+        void configurationRequested(bool show);
 
     protected:
         void initModel();

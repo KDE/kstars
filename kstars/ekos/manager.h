@@ -515,7 +515,6 @@ class Manager : public QDialog, public Ui::Manager
         bool m_RemoteManagerStart { false };
 
         int m_DriverDevicesCount { 0 };
-        int m_ReadyDevicesCount {0};
 
         QStringList m_LogText;
         KPageWidgetItem *ekosOptionsWidget { nullptr };

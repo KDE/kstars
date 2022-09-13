@@ -60,6 +60,11 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(Ekos::Manager::Instance())
 
     setupUi(this);
 
+    connect(this, &QDialog::finished, this, [this]()
+    {
+        emit configurationRequested(false);
+    });
+
     // Delegates
 
     // Mount Combo
@@ -145,7 +150,24 @@ void OpticalTrainManager::initModel()
     QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "opticaltrains_db");
     userdb.open();
     m_OpticalTrainsModel = new QSqlTableModel(this, userdb);
-    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, &OpticalTrainManager::updated);
+    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, [this]()
+    {
+        m_OpticalTrains.clear();
+        for (int i = 0; i < m_OpticalTrainsModel->rowCount(); ++i)
+        {
+            QVariantMap recordMap;
+            QSqlRecord record = m_OpticalTrainsModel->record(i);
+            for (int j = 0; j < record.count(); j++)
+                recordMap[record.fieldName(j)] = record.value(j);
+
+            m_OpticalTrains.append(recordMap);
+        }
+
+        m_TrainNames.clear();
+        for (auto &oneTrain : m_OpticalTrains)
+            m_TrainNames << oneTrain["name"].toString();
+        emit updated();
+    });
     trainView->setModel(m_OpticalTrainsModel);
 }
 
@@ -230,7 +252,7 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         emit updated();
         show();
         raise();
-        emit configurationRequested();
+        emit configurationRequested(true);
     }
     else
         emit updated();

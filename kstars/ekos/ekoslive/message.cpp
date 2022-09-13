@@ -303,6 +303,15 @@ void Message::sendTrains()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Message::requestOpticalTrains(bool show)
+{
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[TRAIN_CONFIGURATION_REQUESTED]}, {"payload", show}}).toJson(
+        QJsonDocument::Compact));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendScopes()
 {
     if (m_isConnected == false)
@@ -1290,6 +1299,12 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
     {
         Ekos::OpticalTrainManager::Instance()->removeOpticalTrain(payload["id"].toInt());
     }
+    else if (command == commands[TRAIN_ACCEPT])
+    {
+        requestOpticalTrains(false);
+        Ekos::OpticalTrainManager::Instance()->accept();
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -506,7 +506,6 @@ void Manager::reset()
     OpticalTrainSettings::release();
 
     m_DriverDevicesCount = 0;
-    m_ReadyDevicesCount = 0;
 
     removeTabs();
 
@@ -1301,7 +1300,6 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
         emit indiStatusChanged(m_indiStatus);
 
     m_DriverDevicesCount--;
-    m_ReadyDevicesCount++;
 
     connect(device.get(), &ISD::GenericDevice::ready, this, &Ekos::Manager::setDeviceReady, Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::newMount, this, &Ekos::Manager::addMount, Qt::UniqueConnection);
@@ -1458,6 +1456,9 @@ void Manager::deviceConnected()
             break;
         }
     }
+
+    if (m_indiStatus == Ekos::Success)
+        OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
 }
 
 void Manager::deviceDisconnected()
@@ -2906,6 +2907,8 @@ void Manager::connectModules()
     {
         connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
                 &EkosLive::Message::sendTrains);
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
+                &EkosLive::Message::requestOpticalTrains);
     }
 
     // Scheduler <---> EkosLive connections
@@ -3401,10 +3404,6 @@ void Manager::setDeviceReady()
         if (device)
             device->Connect();
     }
-
-    m_ReadyDevicesCount--;
-    if (m_ReadyDevicesCount <= 0)
-        OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
