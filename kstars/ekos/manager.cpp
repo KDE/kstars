@@ -1458,7 +1458,18 @@ void Manager::deviceConnected()
     }
 
     if (m_indiStatus == Ekos::Success)
+    {
+        // Optical Train Manager ---> EkosLive connections
+        if (ekosLiveClient)
+        {
+            connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
+                    &EkosLive::Message::sendTrains, Qt::UniqueConnection);
+            connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
+                    &EkosLive::Message::requestOpticalTrains, Qt::UniqueConnection);
+        }
+
         OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
+    }
 }
 
 void Manager::deviceDisconnected()
@@ -2900,15 +2911,6 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSequence, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
-    }
-
-    // Optical Train Manager ---> EkosLive connections
-    if (ekosLiveClient)
-    {
-        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
-                &EkosLive::Message::sendTrains);
-        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
-                &EkosLive::Message::requestOpticalTrains);
     }
 
     // Scheduler <---> EkosLive connections
