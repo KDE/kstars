@@ -528,6 +528,7 @@ void Observatory::initWeather()
 
     connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
     connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::newWeatherData);
+    connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::updateSensorData);
     connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Ekos::Observatory::shutdownWeather);
 
     autoscaleValuesCB->setChecked(autoScaleValues());
@@ -624,7 +625,6 @@ void Observatory::updateSensorData(const QJsonArray &data)
     for (const auto &oneEntry : qAsConst(data))
     {
         auto label = oneEntry["label"].toString();
-        auto name = oneEntry["name"].toString();
         auto value = oneEntry["value"].toDouble();
 
         auto id = oneEntry["label"].toString();
