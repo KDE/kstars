@@ -1050,6 +1050,15 @@ void DarkLibrary::checkCamera()
         minTemperatureSpin->setEnabled(true);
         maxTemperatureSpin->setEnabled(true);
 
+        // Get default temperature
+        double temperature = 0;
+        // Update if no setting was previously set
+        if (m_Camera->getTemperature(&temperature))
+        {
+            minTemperatureSpin->setValue(temperature);
+            maxTemperatureSpin->setValue(temperature);
+        }
+
     }
     else
     {
