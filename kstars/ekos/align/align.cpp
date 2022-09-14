@@ -647,8 +647,12 @@ bool Align::setMount(ISD::Mount *device)
 
     if (m_isRateSynced == false)
     {
-        RUN_PAH(syncMountSpeed());
-        m_isRateSynced = !m_Mount->slewRates().empty();
+        auto speed = m_Settings["PAHMountSpeed"];
+        if (speed.isValid())
+        {
+            RUN_PAH(syncMountSpeed(speed.toString()));
+            m_isRateSynced = !m_Mount->slewRates().empty();
+        }
     }
 
     syncTelescopeInfo();

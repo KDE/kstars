@@ -90,11 +90,14 @@ class Message : public QObject
         // Focus
         void sendFocusSettings(const QVariantMap &settings);
 
+        // Mount
+        void sendMountSettings(const QVariantMap &settings);
+
         //Scheduler
         void sendSchedulerSettings(const QJsonObject &settings);
 
         // Polar
-        void setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage);
+        void setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage);
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setUpdatedErrors(double total, double az, double alt);

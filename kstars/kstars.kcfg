@@ -2161,7 +2161,6 @@
          <whatsthis>Path to the Watney Solver executable.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("WatneyBinary")</default>
       </entry>
-
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>
          <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>
@@ -2179,17 +2178,26 @@
          <label>Timeout in seconds to wait for astrometry solver to complete.</label>
          <default>180</default>
       </entry>
-      <entry name="PAHMountSpeedIndex" type="Int">
-         <label>Speed index to set mount in Polar Alignment Assistant Tool.</label>
-         <default>-1</default>
+      <entry name="PAHMountSpeed" type="String">
+         <label>Speed to set mount in Polar Alignment Assistant Tool.</label>         
       </entry>
-      <entry name="PAHRefreshAlgorithm" type="Int">
-         <label>The algorithm used for polar-align refresh.</label>
-         <default>2</default>
+      <entry name="PAHRefreshAlgorithm" type="String">
+         <label>The algorithm used for polar-align refresh.</label>         
+      </entry>
+      <entry name="PAHDirection" type="String">
+         <label>Mount rotation direction during polar alignment/</label>         
       </entry>
       <entry name="PAHAutoPark" type="Bool">
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
          <default>false</default>
+      </entry>
+      <entry name="PAHManualSlew" type="Bool">
+         <label>User should manually rotate the mount about its axis during polar alignment.</label>
+         <default>false</default>
+      </entry>
+      <entry name="PAHExposure" type="Double">
+         <label>Polar Alignment Assistant exposure duration in seconds.</label>
+         <default>2</default>
       </entry>
    </group>
    <group name="Guide">

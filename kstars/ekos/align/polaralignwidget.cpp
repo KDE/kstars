@@ -85,7 +85,7 @@ void PolarAlignWidget::setPreviousGreen(PAState state)
     }
 }
 
-void PolarAlignWidget::updatePAHStage(PolarAlignmentAssistant::PAHStage stage)
+void PolarAlignWidget::updatePAHStage(PolarAlignmentAssistant::Stage stage)
 {
     switch(stage)
     {

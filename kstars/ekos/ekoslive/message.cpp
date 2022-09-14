@@ -520,6 +520,15 @@ void Message::sendFocusSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendMountSettings(const QVariantMap &settings)
+{
+    sendResponse(commands[MOUNT_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendSchedulerSettings(const QJsonObject &settings)
 {
     sendResponse(commands[SCHEDULER_GET_SETTINGS], settings);
@@ -551,10 +560,9 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
     else if (command == commands[GUIDE_SET_ALL_SETTINGS])
-    {
         guide->setAllSettings(payload.toVariantMap());
-        sendGuideSettings(m_Manager->guideModule()->getAllSettings());
-    }
+    else if (command == commands[GUIDE_GET_ALL_SETTINGS])
+        sendGuideSettings(guide->getAllSettings());
     else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
     {
 
@@ -602,6 +610,8 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->startFraming();
     else if (command == commands[FOCUS_SET_ALL_SETTINGS])
         focus->setAllSettings(payload.toVariantMap());
+    else if (command == commands[FOCUS_GET_ALL_SETTINGS])
+        sendFocusSettings(focus->getAllSettings());
     else if (command == commands[FOCUS_GET_ALL_SETTINGS])
         sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(focus->getAllSettings()));
     else if (command == commands[FOCUS_SET_CROSSHAIR])
@@ -657,6 +667,10 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         if (rate >= 0)
             mount->setSlewRate(rate);
     }
+    else if (command == commands[MOUNT_SET_ALL_SETTINGS])
+        mount->setAllSettings(payload.toVariantMap());
+    else if (command == commands[MOUNT_GET_ALL_SETTINGS])
+        sendMountSettings(mount->getAllSettings());
     else if (command == commands[MOUNT_SET_MOTION])
     {
         QString direction = payload["direction"].toString();
@@ -728,6 +742,8 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[ALIGN_SET_ALL_SETTINGS])
         align->setAllSettings(payload.toVariantMap());
+    else if (command == commands[ALIGN_GET_ALL_SETTINGS])
+        sendAlignSettings(align->getAllSettings());
     else if(command == commands[ALIGN_SET_ASTROMETRY_SETTINGS])
     {
         Options::setAstrometryRotatorThreshold(payload["threshold"].toInt());
@@ -870,10 +886,6 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         paa->stopPAHProcess();
     }
-    if (command == commands[PAH_SET_SETTINGS])
-    {
-        paa->setPAHSettings(payload);
-    }
     else if (command == commands[PAH_REFRESH])
     {
         paa->setPAHRefreshDuration(payload["value"].toDouble(1));
@@ -883,7 +895,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         auto algorithmCombo = paa->findChild<QComboBox*>("PAHRefreshAlgorithmCombo");
         if (algorithmCombo)
-            algorithmCombo->setCurrentIndex(static_cast<Ekos::PolarAlignmentAssistant::PAHRefreshAlgorithm>(payload["value"].toInt(1)));
+            algorithmCombo->setCurrentIndex(static_cast<Ekos::PolarAlignmentAssistant::RefreshAlgorithm>(payload["value"].toInt(1)));
     }
     else if (command == commands[PAH_RESET_VIEW])
     {
@@ -936,7 +948,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage)
+void Message::setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -2240,10 +2252,6 @@ void Message::sendStates()
                 {"message", doc.toPlainText()},
             };
             sendResponse(commands[NEW_POLAR_STATE], polarState);
-
-
-            // Polar settings
-            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
         }
     }
 }
@@ -2486,9 +2494,6 @@ void Message::sendModuleState(const QString &name)
                 {"message", doc.toPlainText()},
             };
             sendResponse(commands[NEW_POLAR_STATE], polarState);
-
-            // Polar settings
-            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
         }
     }
 }
