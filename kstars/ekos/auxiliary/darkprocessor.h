@@ -40,7 +40,7 @@ class DarkProcessor : public QObject
         explicit DarkProcessor(QObject *parent = nullptr);
 
         // Perform defect correction or dark subtraction
-        void denoise(ISD::CameraChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
+        void denoise(int trainID, ISD::CameraChip *targetChip, const QSharedPointer<FITSData> &targetData, double duration,
                      uint16_t offsetX, uint16_t offsetY);
 
 
@@ -105,6 +105,7 @@ class DarkProcessor : public QObject
         QFutureWatcher<bool> m_Watcher;
         struct
         {
+            int trainID;
             ISD::CameraChip *targetChip;
             QSharedPointer<FITSData> targetData;
             double duration;

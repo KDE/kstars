@@ -12,6 +12,7 @@
 #include "ekos/capture/sequencejob.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include "kstars.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
@@ -59,35 +60,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     m_CurrentDarkFrame.reset(new FITSData(), &QObject::deleteLater);
 
-    m_DarkCameras = Options::darkCameras();
-    m_DefectCameras = Options::defectCameras();
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
-            this, [this]()
-#else
-    connect(darkHandlingButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled),
-            this, [this]()
-#endif
-    {
-        const QString device = m_Camera->getDeviceName();
-        if (preferDarksRadio->isChecked())
-        {
-            m_DefectCameras.removeOne(device);
-            if (!m_DarkCameras.contains(device))
-                m_DarkCameras.append(device);
-        }
-        else
-        {
-            m_DarkCameras.removeOne(device);
-            if (!m_DefectCameras.contains(device))
-                m_DefectCameras.append(device);
-        }
-
-        Options::setDarkCameras(m_DarkCameras);
-        Options::setDefectCameras(m_DefectCameras);
-    });
-
     connect(darkTableView,  &QAbstractItemView::doubleClicked, this, [this](QModelIndex index)
     {
         loadIndexInView(index.row());
@@ -117,7 +89,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
         if (m_Camera)
             DarkLibrary::loadCurrentMasterDark(m_Camera->getDeviceName(), index);
     });
-
 
     connect(minExposureSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
     connect(maxExposureSpin, &QDoubleSpinBox::editingFinished, this, &DarkLibrary::countDarkTotalTime);
@@ -218,6 +189,8 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     m_RememberFITSViewer = Options::useFITSViewer();
     m_RememberSummaryView = Options::useSummaryPreview();
     initView();
+
+    connectSettings();
 
     setupOpticalTrainManager();
 }
@@ -1016,10 +989,6 @@ void DarkLibrary::checkCamera()
         return;
 
     auto device = m_Camera->getDeviceName();
-    if (m_DarkCameras.contains(device))
-        preferDarksRadio->setChecked(true);
-    else if (m_DefectCameras.contains(device))
-        preferDefectsRadio->setChecked(true);
 
     m_TargetChip = nullptr;
     // FIXME TODO
@@ -1412,7 +1381,7 @@ template <typename T>  void DarkLibrary::generateMasterFrameInternal(const QShar
                    ".fits");
 
     data->calculateStats(true);
-    if (!data->saveImage(path + QStringLiteral("[compress R]")))
+    if (!data->saveImage(path))
     {
         m_FileLabel->setText(i18n("Failed to save master frame: %1", data->getLastError()));
         return;
@@ -1520,70 +1489,6 @@ void DarkLibrary::start()
     execute();
 }
 
-void DarkLibrary::setDarkSettings(const QJsonObject &settings)
-{
-    const auto opticalTrain = settings["optical_train"].toString();
-    const auto minExposure = settings["minExposure"].toDouble(minExposureSpin->value());
-    const auto maxExposure = settings["maxExposure"].toDouble(maxExposureSpin->value());
-    const auto minTemperature = settings["minTemperature"].toDouble(minTemperatureSpin->value());
-    const auto maxTemperature = settings["maxTemperature"].toDouble(maxTemperatureSpin->value());
-    const auto binOneCheck = settings["BinOne"].toBool(bin1Check->isChecked());
-    const auto binTwoCheck = settings["BinTwo"].toBool(bin2Check->isChecked());
-    const auto binFourCheck = settings["BinFour"].toBool(bin4Check->isChecked());
-    const auto count = settings["count"].toInt(countSpin->value());
-    const auto gain = settings["gain"].toInt(-1);
-    const auto iso = settings["iso"].toString();
-
-    opticalTrainCombo->setCurrentText(opticalTrain);
-    bin1Check->setChecked(binOneCheck);
-    bin2Check->setChecked(binTwoCheck);
-    bin4Check->setChecked(binFourCheck);
-
-    minExposureSpin->setValue(minExposure);
-    maxExposureSpin->setValue(maxExposure);
-
-    if (captureGainN->isEnabled() && gain >= 0)
-        captureGainN->setValue(gain);
-    if (captureISOS->isEnabled() && !iso.isEmpty())
-        captureISOS->setCurrentText(iso);
-
-    if (minTemperatureSpin->isEnabled())
-        minTemperatureSpin->setValue(minTemperature);
-    if (maxTemperatureSpin->isEnabled())
-        maxTemperatureSpin->setValue(maxTemperature);
-    countSpin->setValue(count);
-
-}
-
-QJsonObject DarkLibrary::getDarkSettings()
-{
-    QJsonObject createDarks =
-    {
-        {"optical_train", opticalTrainCombo->currentText()},
-        {"minExposureValue", minExposureSpin->value()},
-        {"maxExposureValue", maxExposureSpin->value()},
-        {"minTemperatureValue", minTemperatureSpin->value()},
-        {"maxTemperatureValue", maxTemperatureSpin->value()},
-        {"temperatureEnabled", minTemperatureSpin->isEnabled()},
-        {"bin1Check", bin1Check->isChecked()},
-        {"bin2Check", bin2Check->isChecked()},
-        {"bin4Check", bin4Check->isChecked()},
-        {"countSpin", countSpin->value()},
-        {"totalImages", totalImages->text()},
-        {"totalTime", totalTime->text()},
-        {"darkProgress", darkProgress->value()},
-        {"gain", captureGainN->value()},
-        {"iso", captureISOS->currentText()}
-    };
-
-    if (captureGainN->isEnabled())
-        createDarks["gain"] = captureGainN->value();
-    if (captureISOS->isEnabled())
-        createDarks["iso"] = captureISOS->currentText();
-
-    return createDarks;
-}
-
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
     const auto opticalTrain = settings["optical_train"].toString();
@@ -1606,26 +1511,6 @@ QJsonObject DarkLibrary::getCameraPresets()
         {"fileName", m_FileLabel->text()}
     };
     return cameraSettings;
-}
-
-QJsonObject DarkLibrary::getDefectSettings()
-{
-    QJsonObject createDefectMaps =
-    {
-        {"masterTime", masterTime->text()},
-        {"masterExposure", masterExposure->text()},
-        {"masterTempreture", masterTemperature->text()},
-        {"masterMean", masterMean->text()},
-        {"masterMedian", masterMedian->text()},
-        {"masterDeviation", masterDeviation->text()},
-        {"hotPixelsCount", hotPixelsCount->value()},
-        {"coldPixelsCount", coldPixelsCount->value()},
-        {"aggresivenessHotSpin", aggresivenessHotSpin->value()},
-        {"aggresivenessColdSpin", aggresivenessColdSpin->value()},
-        {"hotPixelsEnabled", hotPixelsEnabled->isChecked()},
-        {"coldPixelsEnabled", coldPixelsEnabled->isChecked()},
-    };
-    return createDefectMaps;
 }
 
 QJsonArray DarkLibrary::getViewMasters()
@@ -1664,11 +1549,6 @@ QJsonArray DarkLibrary::getViewMasters()
     return array;
 }
 
-void DarkLibrary::setDefectSettings(const QJsonObject payload)
-{
-    const auto index = payload["rowIndex"].toInt(0);
-    masterDarksCombo->setCurrentIndex(index);
-}
 
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)
 {
@@ -1751,9 +1631,272 @@ void DarkLibrary::refreshOpticalTrain()
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
         }
         setCamera(camera);
+
+        // Load train settings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
+        else
+            m_Settings = m_GlobalSettings;
     }
 
     opticalTrainCombo->blockSignals(false);
+}
+
+void DarkLibrary::connectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
+}
+
+void DarkLibrary::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap DarkLibrary::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void DarkLibrary::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
+    }
+
+    m_Settings = settings;
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QRadioButton *pRadioButton = nullptr;
+    bool ok = false;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pCB->setChecked(value);
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pRadioButton->setChecked(value);
+        return true;
+    }
+
+    return false;
+};
+
+void DarkLibrary::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QComboBox *cbox = nullptr;
+    QRadioButton *cradio = nullptr;
+
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+    else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = cradio->objectName();
+
+        // N.B. Only store CHECKED radios, do not store unchecked ones
+        // as we only have exclusive groups.
+        if (cradio->isChecked() == false)
+        {
+            // Remove from setting if it was added before
+            if (m_Settings.contains(key))
+            {
+                m_Settings.remove(key);
+                emit settingsUpdated(m_Settings);
+                OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+                OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
+            }
+            return;
+        }
+
+        value = true;
+    }
+
+    // Save immediately
+    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->save();
+
+    m_Settings[key] = value;
+    m_GlobalSettings[key] = value;
+
+    emit settingsUpdated(m_Settings);
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
 }
 
 

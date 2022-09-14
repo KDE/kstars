@@ -213,6 +213,11 @@ void Media::onBinaryReceived(const QByteArray &message)
     }
 }
 
+void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
+{
+    sendData(data, "+D");
+};
+
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)

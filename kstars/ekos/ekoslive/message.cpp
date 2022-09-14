@@ -525,6 +525,14 @@ void Message::sendMountSettings(const QVariantMap &settings)
     sendResponse(commands[MOUNT_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDarkLibrarySettings(const QVariantMap &settings)
+{
+    sendResponse(commands[DARK_LIBRARY_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -1357,14 +1365,11 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
 void Message::processDarkLibraryCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[DARK_LIBRARY_START])
-    {
-        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
         Ekos::DarkLibrary::Instance()->start();
-    }
-    else if(command == commands[DARK_LIBRARY_SET_SETTINGS])
-    {
-        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
-    }
+    else if(command == commands[DARK_LIBRARY_SET_ALL_SETTINGS])
+        Ekos::DarkLibrary::Instance()->setAllSettings(payload.toVariantMap());
+    else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
+        sendDarkLibrarySettings(Ekos::DarkLibrary::Instance()->getAllSettings());
     else if(command == commands[DARK_LIBRARY_SET_CAMERA_PRESETS])
     {
         Ekos::DarkLibrary::Instance()->setCameraPresets(payload);
@@ -1377,10 +1382,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         const int row = payload["row"].toInt();
         Ekos::DarkLibrary::Instance()->loadIndexInView(row);
-    }
-    else if (command == commands[DARK_LIBRARY_GET_DARK_SETTINGS])
-    {
-        sendResponse(commands[DARK_LIBRARY_GET_DARK_SETTINGS], Ekos::DarkLibrary::Instance()->getDarkSettings());
     }
     else if (command == commands[DARK_LIBRARY_GET_CAMERA_PRESETS])
     {
@@ -1397,14 +1398,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     else if (command == commands[DARK_LIBRARY_SET_DEFECT_FRAME])
     {
         Ekos::DarkLibrary::Instance()->setDefectMapEnabled(false);
-    }
-    else if (command == commands[DARK_LIBRARY_SET_DEFECT_SETTINGS])
-    {
-        Ekos::DarkLibrary::Instance()->setDefectSettings(payload);
-    }
-    else if (command == commands[DARK_LIBRARY_GET_DEFECT_SETTINGS])
-    {
-        sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
     }
     else if (command == commands[DARK_LIBRARY_GET_VIEW_MASTERS])
     {

@@ -50,7 +50,8 @@ class OpticalTrainSettings : public QObject
             Guide,
             Observatory,
             Scheduler,
-            Analyze
+            Analyze,
+            DarkLibrary
         } Settings;
 
         /**

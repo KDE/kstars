@@ -1540,22 +1540,16 @@
       </entry>
    </group>
    <group name="DarkLibrary">
-   <entry name="MaxDarkTemperatureDiff" type="Double">
-      <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
-      <default>1</default>
-   </entry>
-   <entry name="shutterfulCCDs" type="StringList">
-      <label>List of CCDs with mechanical or electronic shutters.</label>
-   </entry>
-   <entry name="shutterlessCCDs" type="StringList">
-      <label>List of CCDs without mechanical or electronic shutters.</label>
-   </entry>
-   <entry name="darkCameras" type="StringList">
-      <label>List of cameras that prefer dark subtraction noise removal method.</label>
-   </entry>
-   <entry name="defectCameras" type="StringList">
-      <label>List of cameras that prefer defect map noise removal method.</label>
-   </entry>
+      <entry name="MaxDarkTemperatureDiff" type="Double">
+         <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
+         <default>1</default>
+      </entry>
+      <entry name="shutterfulCCDs" type="StringList">
+         <label>List of CCDs with mechanical or electronic shutters.</label>
+      </entry>
+      <entry name="shutterlessCCDs" type="StringList">
+         <label>List of CCDs without mechanical or electronic shutters.</label>
+      </entry>
    </group>
    <group name="Manager">
    <entry name="UseGraphicalCountsDisplay" type="Bool">

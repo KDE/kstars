@@ -1792,7 +1792,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         // If dark is selected, perform dark substraction.
         if (data && darkB->isChecked() && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && useGuideHead == false)
         {
-            m_DarkProcessor->denoise(m_captureDeviceAdaptor->getActiveChip(),
+            m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                     m_captureDeviceAdaptor->getActiveChip(),
                                      m_ImageData,
                                      activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                                      activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().x(),

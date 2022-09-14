@@ -93,6 +93,9 @@ class Message : public QObject
         // Mount
         void sendMountSettings(const QVariantMap &settings);
 
+        // Dark Library
+        void sendDarkLibrarySettings(const QVariantMap &settings);
+
         //Scheduler
         void sendSchedulerSettings(const QJsonObject &settings);
 
@@ -103,6 +106,7 @@ class Message : public QObject
         void setUpdatedErrors(double total, double az, double alt);
         void setPAHEnabled(bool enabled);
         void setBoundingRect(QRect rect, QSize view, double currentZoom);
+
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
         void sendCaptureSettings(const QJsonObject &settings);

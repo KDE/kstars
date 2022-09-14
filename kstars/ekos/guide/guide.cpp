@@ -2333,7 +2333,8 @@ bool Guide::executeOneOperation(GuideState operation)
 
                 actionRequired = true;
                 targetChip->setCaptureFilter(FITS_NONE);
-                m_DarkProcessor->denoise(targetChip, m_ImageData, guideExposure->value(), offsetX, offsetY);
+                m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                         targetChip, m_ImageData, guideExposure->value(), offsetX, offsetY);
             }
         }
         break;

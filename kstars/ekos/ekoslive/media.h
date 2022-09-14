@@ -42,10 +42,13 @@ class Media : public QObject
 
         // Ekos Media Message to User
         void sendFile(const QString &filename, const QString &uuid);
-        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);
+        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);        
         void sendView(const QSharedPointer<FITSView> &view, const QString &uuid);
         void sendUpdatedFrame(const QSharedPointer<FITSView> &view);
         void sendModuleFrame(const QSharedPointer<FITSView> &view);
+
+        // Convenience functions
+        void sendDarkLibraryData(const QSharedPointer<FITSData> &data);
 
     signals:
         void connected();

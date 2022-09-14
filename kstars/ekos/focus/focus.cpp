@@ -1417,7 +1417,8 @@ void Focus::processData(const QSharedPointer<FITSData> &data)
         uint16_t offsetY     = settings["y"].toInt() / settings["biny"].toInt();
 
         //targetChip->setCaptureFilter(defaultScale);
-        m_DarkProcessor->denoise(targetChip, m_ImageData, focusExposure->value(), offsetX, offsetY);
+        m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                 targetChip, m_ImageData, focusExposure->value(), offsetX, offsetY);
         return;
     }
 

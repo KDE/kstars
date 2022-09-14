@@ -72,17 +72,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @param defectMap If a frame is found, load it from disk and store it in a shared DefectMap pointer.
          * @return True if a suitable frame was found the loaded successfully, false otherwise.
          */
-        bool findDefectMap(ISD::CameraChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
-
-        /**
-         * @brief cameraHasDefectMaps Check if camera has any defect maps available.
-         * @param name Camera name
-         * @return True if at least one defect maps exists for this camera, false otherwise.
-         */
-        bool cameraHasDefectMaps(const QString &name) const
-        {
-            return m_DefectCameras.contains(name);
-        }
+        bool findDefectMap(ISD::CameraChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);        
 
         void refreshFromDB();
         bool setCamera(ISD::Camera *device);
@@ -92,16 +82,17 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void setCaptureModule(Capture *instance);
 
         void start();
-        void setDarkSettings(const QJsonObject &settings);
         void setCameraPresets(const QJsonObject &settings);
-        QJsonObject getCameraPresets();
-        QJsonObject getDarkSettings();
-        QJsonObject getDefectSettings();
+        QJsonObject getCameraPresets();        
         void setDefectPixels(const QJsonObject &payload);
         QJsonArray getViewMasters();
         void getloadDarkViewMasterFITS(int index);
         void setDefectSettings(const QJsonObject row);
         void setDefectMapEnabled(bool enabled);
+
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
 
         /**
          * @brief stop Abort all dark job captures.
@@ -114,6 +105,8 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void newLog(const QString &message);
         void newImage(const QSharedPointer<FITSData> &data);
         void newFrame(const QSharedPointer<FITSView> &view);
+        // Settings
+        void settingsUpdated(const QVariantMap &settings);
 
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
@@ -227,6 +220,38 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          */
         bool cacheDefectMapFromFile(const QString &key, const QString &filename);
 
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
         ////////////////////////////////////////////////////////////////////////////////////////////////
         /// Member Variables
         ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,14 +275,17 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         bool m_RememberSummaryView {true};
         bool m_JobsGenerated {false};
         QJsonObject m_PresetSettings, m_FileSettings;
-        QString m_DefectMapFilename, m_MasterDarkFrameFilename;
-        QStringList m_DarkCameras, m_DefectCameras;
+        QString m_DefectMapFilename, m_MasterDarkFrameFilename;        
         QSharedPointer<DarkView> m_DarkView;
         QPointer<QStatusBar> m_StatusBar;
         QPointer<QLabel> m_StatusLabel, m_FileLabel;
         QSharedPointer<DefectMap> m_CurrentDefectMap;
         QSharedPointer<FITSData> m_CurrentDarkFrame;
         QFutureWatcher<bool> m_DarkFrameFutureWatcher;
+
+        // Settings
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 
         // Do not add to cache if system memory falls below 250MB.
         static constexpr uint16_t CACHE_MEMORY_LIMIT {250};

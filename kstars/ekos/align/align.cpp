@@ -1560,7 +1560,8 @@ void Align::processData(const QSharedPointer<FITSData> &data)
             uint16_t offsetX = x / binx;
             uint16_t offsetY = y / biny;
 
-            m_DarkProcessor->denoise(targetChip, m_ImageData, alignExposure->value(), offsetX, offsetY);
+            m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                     targetChip, m_ImageData, alignExposure->value(), offsetX, offsetY);
             return;
         }
 

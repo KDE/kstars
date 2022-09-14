@@ -2769,12 +2769,12 @@ void Manager::announceEvent(const QString &message, KSNotification::EventSource 
 
 void Manager::connectModules()
 {
-    DarkLibrary::Instance()->disconnect(this);
-    connect(DarkLibrary::Instance(), &DarkLibrary::newImage, this, [this](const QSharedPointer<FITSData> &data)
-    {
-        ekosLiveClient.get()->media()->sendData(data, "+D");
-    });
-    connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame);
+    connect(DarkLibrary::Instance(), &DarkLibrary::newImage, ekosLiveClient.get()->media(),
+            &EkosLive::Media::sendDarkLibraryData, Qt::UniqueConnection);
+    connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
+            Qt::UniqueConnection);
+    connect(DarkLibrary::Instance(), &DarkLibrary::settingsUpdated, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendGuideSettings, Qt::UniqueConnection);
 
     // Guide <---> Capture connections
     if (captureProcess && guideProcess)
