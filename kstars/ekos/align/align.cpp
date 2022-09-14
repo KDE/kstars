@@ -189,8 +189,8 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
     connect(this, &Align::newStatus, this, [this](AlignState state)
     {
-       opticalTrainCombo->setEnabled(state < ALIGN_PROGRESS);
-       trainB->setEnabled(state < ALIGN_PROGRESS);
+        opticalTrainCombo->setEnabled(state < ALIGN_PROGRESS);
+        trainB->setEnabled(state < ALIGN_PROGRESS);
     });
 
     //Note:  This is to prevent a button from being called the default button
@@ -3681,7 +3681,8 @@ void Align::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -3693,11 +3694,13 @@ void Align::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
@@ -3731,16 +3734,10 @@ void Align::refreshOpticalTrain()
         setRotator(rotator);
 
         // Load train settings
-        auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
-        if (id >= 0)
-        {
-            OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-            auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Align);
-            if (settings.isValid())
-                setAllSettings(settings.toJsonObject().toVariantMap());
-            else
-                m_Settings = m_GlobalSettings;
-        }
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Align);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
         else
             m_Settings = m_GlobalSettings;
     }

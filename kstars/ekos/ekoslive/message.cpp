@@ -15,6 +15,7 @@
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/profilesettings.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -297,7 +298,15 @@ void Message::sendTrains()
     for(auto &train : Ekos::OpticalTrainManager::Instance()->getOpticalTrains())
         trains.append(QJsonObject::fromVariantMap(train));
 
-    sendResponse(commands[TRAIN_GET_ALL], trains);
+    auto profiles = Ekos::ProfileSettings::Instance()->getSettings();
+
+    QJsonObject data =
+    {
+        {"trains", trains},
+        {"profiles", QJsonObject::fromVariantMap(profiles)}
+    };
+
+    sendResponse(commands[TRAIN_GET_ALL], data);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

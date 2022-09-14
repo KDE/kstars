@@ -4442,7 +4442,8 @@ void Focus::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -4454,11 +4455,13 @@ void Focus::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::FocusOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::FocusOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
@@ -4476,16 +4479,10 @@ void Focus::refreshOpticalTrain()
         setFilterWheel(filterWheel);
 
         // Load train settings
-        auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
-        if (id >= 0)
-        {
-            OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-            auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-            if (settings.isValid())
-                setAllSettings(settings.toJsonObject().toVariantMap());
-            else
-                m_Settings = m_GlobalSettings;
-        }
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
         else
             m_Settings = m_GlobalSettings;
     }

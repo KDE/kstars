@@ -83,7 +83,20 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         void syncDevices();
 
-        int id(const QString &name);
+        /**
+         * @brief id Get database ID for a given train
+         * @param name Name of train
+         * @return ID if exists, or -1 if not found.
+         */
+        int id(const QString &name) const;
+
+        /**
+         * @brief name Get database name for a given name
+         * @param id database ID for the train to get
+         * @return Train name, or empty string if not found.
+         */
+        QString name(int id) const;
+
         ISD::Mount *getMount(const QString &name);
         ISD::DustCap *getDustCap(const QString &name);
         ISD::LightBox *getLightBox(const QString &name);

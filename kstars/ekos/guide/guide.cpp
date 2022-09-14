@@ -805,7 +805,7 @@ void Guide::setBusy(bool enable)
         clearCalibrationB->setEnabled(false);
         guideB->setEnabled(false);
         captureB->setEnabled(false);
-        loopB->setEnabled(false);        
+        loopB->setEnabled(false);
         guideDarkFrame->setEnabled(false);
         guideSubframe->setEnabled(false);
         guideAutoStar->setEnabled(false);
@@ -2994,7 +2994,8 @@ void Guide::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -3006,11 +3007,13 @@ void Guide::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
@@ -3048,16 +3051,10 @@ void Guide::refreshOpticalTrain()
         setAdaptiveOptics(ao);
 
         // Load train settings
-        auto id = OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText());
-        if (id >= 0)
-        {
-            OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-            auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Guide);
-            if (settings.isValid())
-                setAllSettings(settings.toJsonObject().toVariantMap());
-            else
-                m_Settings = m_GlobalSettings;
-        }
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Guide);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
         else
             m_Settings = m_GlobalSettings;
     }

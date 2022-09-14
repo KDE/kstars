@@ -237,16 +237,17 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         refreshModel();
         if (!m_OpticalTrains.empty())
         {
-            auto primaryTrainName = m_OpticalTrains[0]["name"].toString();
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::PrimaryOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, primaryTrainName);
+            auto primaryTrainID = m_OpticalTrains[0]["id"].toUInt();
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::PrimaryOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain, primaryTrainID);
             if (m_OpticalTrains.count() > 1)
-                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, m_OpticalTrains[1]["name"].toString());
+                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, m_OpticalTrains[1]["id"].toInt());
             else
-                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, primaryTrainName);
+                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, primaryTrainID);
         }
 
         emit updated();
@@ -687,7 +688,7 @@ void OpticalTrainManager::refreshOpticalElements()
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-int OpticalTrainManager::id(const QString &name)
+int OpticalTrainManager::id(const QString &name) const
 {
     for (auto &oneTrain : m_OpticalTrains)
     {
@@ -696,6 +697,20 @@ int OpticalTrainManager::id(const QString &name)
     }
 
     return -1;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+QString OpticalTrainManager::name(int id) const
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["id"].toInt() == id)
+            return oneTrain["name"].toString();
+    }
+
+    return QString();
 }
 
 }
