@@ -3751,6 +3751,7 @@ void Align::syncSettings()
     QSpinBox *sb = nullptr;
     QCheckBox *cb = nullptr;
     QComboBox *cbox = nullptr;
+    QRadioButton *cradio = nullptr;
 
     QString key;
     QVariant value;
@@ -3775,6 +3776,27 @@ void Align::syncSettings()
     {
         key = cbox->objectName();
         value = cbox->currentText();
+    }
+    else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = cradio->objectName();
+
+        // N.B. Only store CHECKED radios, do not store unchecked ones
+        // as we only have exclusive groups in Align module.
+        if (cradio->isChecked() == false)
+        {
+            // Remove from setting if it was added before
+            if (m_Settings.contains(key))
+            {
+                m_Settings.remove(key);
+                emit settingsUpdated(m_Settings);
+                OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+                OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Align, m_Settings);
+            }
+            return;
+        }
+
+        value = true;
     }
 
     // Save immediately
@@ -3870,6 +3892,10 @@ void Align::connectSettings()
     for (auto &oneWidget : findChildren<QCheckBox*>())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
 
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
 }
@@ -3890,6 +3916,10 @@ void Align::disconnectSettings()
 
     // All Checkboxes
     for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
 
 }
@@ -3962,6 +3992,14 @@ void Align::setAllSettings(const QVariantMap &settings)
             syncControl(settings, name, checkbox);
             continue;
         }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
     }
 
     m_Settings = settings;
@@ -3979,6 +4017,7 @@ bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget
     QDoubleSpinBox *pDSB = nullptr;
     QCheckBox *pCB = nullptr;
     QComboBox *pComboBox = nullptr;
+    QRadioButton *pRadioButton = nullptr;
     bool ok = false;
 
     if ((pSB = qobject_cast<QSpinBox *>(widget)))
@@ -4010,6 +4049,12 @@ bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const QString value = settings[key].toString();
         pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pRadioButton->setChecked(value);
         return true;
     }
 
