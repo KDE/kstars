@@ -1489,6 +1489,9 @@ void DarkLibrary::start()
     execute();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::setCameraPresets(const QJsonObject &settings)
 {
     const auto opticalTrain = settings["optical_train"].toString();
@@ -1501,6 +1504,9 @@ void DarkLibrary::setCameraPresets(const QJsonObject &settings)
     reloadDarksFromDatabase();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 QJsonObject DarkLibrary::getCameraPresets()
 {
     QJsonObject cameraSettings =
@@ -1513,6 +1519,9 @@ QJsonObject DarkLibrary::getCameraPresets()
     return cameraSettings;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 QJsonArray DarkLibrary::getViewMasters()
 {
     QJsonArray array;
@@ -1549,7 +1558,9 @@ QJsonArray DarkLibrary::getViewMasters()
     return array;
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::setDefectPixels(const QJsonObject &payload)
 {
     const auto hotSpin = payload["hotSpin"].toInt();
@@ -1569,11 +1580,17 @@ void DarkLibrary::setDefectPixels(const QJsonObject &payload)
     generateMapB->click();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::setDefectMapEnabled(bool enabled)
 {
     m_DarkView->setDefectMapEnabled(enabled);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 double DarkLibrary::getGain()
 {
     // Gain is manifested in two forms
@@ -1596,6 +1613,9 @@ double DarkLibrary::getGain()
     return -1;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &DarkLibrary::refreshOpticalTrain);
@@ -1609,6 +1629,9 @@ void DarkLibrary::setupOpticalTrainManager()
     refreshOpticalTrain();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::refreshOpticalTrain()
 {
     opticalTrainCombo->blockSignals(true);
@@ -1644,6 +1667,9 @@ void DarkLibrary::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(false);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::connectSettings()
 {
     // All Combo Boxes
@@ -1670,6 +1696,9 @@ void DarkLibrary::connectSettings()
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::disconnectSettings()
 {
     // All Combo Boxes
@@ -1831,6 +1860,9 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     return false;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::syncSettings()
 {
     QDoubleSpinBox *dsb = nullptr;
@@ -1898,6 +1930,31 @@ void DarkLibrary::syncSettings()
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
     OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////
+QJsonObject DarkLibrary::getDefectSettings()
+{
+    QStringList darkMasters;
+    for (int i = 0; i < masterDarksCombo->count(); i++)
+        darkMasters << masterDarksCombo->itemText(i);
+
+    QJsonObject createDefectMaps =
+    {
+        {"masterTime", masterTime->text()},
+        {"masterDarks", darkMasters.join('|')},
+        {"masterExposure", masterExposure->text()},
+        {"masterTempreture", masterTemperature->text()},
+        {"masterMean", masterMean->text()},
+        {"masterMedian", masterMedian->text()},
+        {"masterDeviation", masterDeviation->text()},
+        {"hotPixelsEnabled", hotPixelsEnabled->isChecked()},
+        {"coldPixelsEnabled", coldPixelsEnabled->isChecked()},
+    };
+    return createDefectMaps;
+}
+
 
 
 }
