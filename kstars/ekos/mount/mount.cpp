@@ -2009,6 +2009,10 @@ QVariantMap Mount::getAllSettings() const
     for (auto &oneWidget : findChildren<QCheckBox*>())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
+    // All Time
+    for (auto &oneWidget : findChildren<QTimeEdit*>())
+        settings.insert(oneWidget->objectName(), oneWidget->time().toString());
+
     return settings;
 }
 

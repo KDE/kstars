@@ -729,6 +729,8 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             }
         }
     }
+    else if (command == commands[MOUNT_TOGGLE_AUTOPARK])
+        mount->setAutoParkEnabled(payload["toggled"].toBool());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
