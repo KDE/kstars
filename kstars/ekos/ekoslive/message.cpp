@@ -1315,6 +1315,10 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
             if (m_Manager->mountModule())
                 m_Manager->mountModule()->setOpticalTrain(name);
         }
+        else if (module == "darklibrary")
+        {
+            Ekos::DarkLibrary::Instance()->setOpticalTrain(name);
+        }
     }
     else if (command == commands[TRAIN_ADD])
     {
