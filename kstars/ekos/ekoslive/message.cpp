@@ -1376,7 +1376,7 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
         Ekos::DarkLibrary::Instance()->setAllSettings(payload.toVariantMap());
     else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
         sendDarkLibrarySettings(Ekos::DarkLibrary::Instance()->getAllSettings());
-    else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
+    else if(command == commands[DARK_LIBRARY_GET_DEFECT_SETTINGS])
         sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
     else if(command == commands[DARK_LIBRARY_SET_CAMERA_PRESETS])
     {
