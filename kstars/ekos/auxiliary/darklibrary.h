@@ -100,6 +100,15 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
         /**
          * @brief stop Abort all dark job captures.
          */
