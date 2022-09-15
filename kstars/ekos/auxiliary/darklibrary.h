@@ -87,7 +87,13 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void setDefectPixels(const QJsonObject &payload);
         QJsonArray getViewMasters();
         void getloadDarkViewMasterFITS(int index);
-        void setDefectSettings(const QJsonObject row);
+
+        /**
+         * @brief getDefectSettings Return Defect Map settings
+         * @return JSON Object of defect map settings
+         */
+        QJsonObject getDefectSettings();
+
         void setDefectMapEnabled(bool enabled);
 
         // Settings
