@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "ekos/auxiliary/filtermanager.h"
 #include "ui_focus.h"
 #include "focusprofileplot.h"
 #include "ekos/ekos.h"
@@ -53,9 +54,9 @@ class Focus : public QWidget, public Ui::Focus
         Focus();
         ~Focus();
 
-        typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
-        typedef enum { FOCUS_MANUAL, FOCUS_AUTO } FocusType;
-        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR, FOCUS_LINEAR1PASS } FocusAlgorithm;
+        typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } Direction;
+        typedef enum { FOCUS_MANUAL, FOCUS_AUTO } Type;
+        typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR, FOCUS_LINEAR1PASS } Algorithm;
         //typedef enum { FOCUSER_TEMPERATURE, OBSERVATORY_TEMPERATURE, NO_TEMPERATURE } TemperatureSource;
 
         /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
@@ -98,7 +99,7 @@ class Focus : public QWidget, public Ui::Focus
              */
         Q_SCRIPTABLE bool canAutoFocus()
         {
-            return (focusType == FOCUS_AUTO);
+            return (m_FocusType == FOCUS_AUTO);
         }
 
         /** DBUS interface function.
@@ -116,7 +117,7 @@ class Focus : public QWidget, public Ui::Focus
         Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
         Q_SCRIPTABLE double exposure()
         {
-            return exposureIN->value();
+            return focusExposure->value();
         }
 
         /** DBUS interface function.
@@ -125,12 +126,6 @@ class Focus : public QWidget, public Ui::Focus
              * @param binY vertical binning
              */
         Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
-
-        /** DBUS interface function.
-             * Set image filter to apply to the image after capture.
-             * @param value Image filter (Auto Stretch, High Contrast, Equalize, High Pass)
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setImageFilter(const QString &value);
 
         /** DBUS interface function.
              * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
@@ -205,7 +200,12 @@ class Focus : public QWidget, public Ui::Focus
          */
         void removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved);
 
+        const QSharedPointer<FilterManager> &filterManager() const
+        {
+            return m_FilterManager;
+        }        
         void setupFilterManager();
+        void refreshFilterManager(ISD::FilterWheel *device);
 
         void clearLog();
         QStringList logText()
@@ -217,21 +217,9 @@ class Focus : public QWidget, public Ui::Focus
             return m_LogText.join("\n");
         }
 
-        // All
-        QJsonObject getAllSettings() const;
-        void setAllSettings(const QJsonObject &settings);
-        // Presets
-        QJsonObject getSettings() const;
-        void setSettings(const QJsonObject &settings);
-        // Primary Settings
-        QJsonObject getPrimarySettings() const;
-        void setPrimarySettings(const QJsonObject &settings);
-        // Process Settings
-        QJsonObject getProcessSettings() const;
-        void setProcessSettings(const QJsonObject &settings);
-        // Mechanics Settings
-        QJsonObject getMechanicsSettings() const;
-        void setMechanicsSettings(const QJsonObject &settings);
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
 
     public slots:
 
@@ -330,9 +318,9 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
              * @brief Check temperature source and make sure information is updated accordingly.
-             * @param index Index of source in combo box. If -1, then use the currently selected source.
+             * @param name Name of temperature source, if empty then use current source.
              */
-        void checkTemperatureSource(int index = -1);
+        void checkTemperatureSource(const QString &name = QString());
 
         /**
              * @brief clearDataPoints Remove all data points from HFR plots
@@ -378,12 +366,6 @@ class Focus : public QWidget, public Ui::Focus
              */
         //void setAutoFocusResult(bool status);
 
-        /**
-             * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
-             * @param index Index of image filter selected by the user.
-             */
-        void filterChangeWarning(int index);
-
         // Logging methods - one for INFO messages to the kstars log, and one for a CSV auto-focus log
         void appendLogText(const QString &);
         void appendFocusLogText(const QString &);
@@ -420,7 +402,14 @@ class Focus : public QWidget, public Ui::Focus
          */
         QStringList getStellarSolverProfiles();
 
-
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
 
     protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
@@ -448,9 +437,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void toggleFocusingWidgetFullScreen();
 
-        void setVideoStreamEnabled(bool enabled);
-
-        void syncSettings();
+        void setVideoStreamEnabled(bool enabled);        
 
         void calculateHFR();
         void setCurrentHFR(double value);
@@ -468,12 +455,15 @@ class Focus : public QWidget, public Ui::Focus
         void resumeGuiding();
         void newImage(const QSharedPointer<FITSView> &view);
         void newStarPixmap(QPixmap &);
-        void settingsUpdated(const QJsonObject &settings);
+        void settingsUpdated(const QVariantMap &settings);
 
         // Signals for Analyze.
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
+
+        // Filter Manager
+        void filterManagerUpdated(ISD::FilterWheel *device);
 
         // HFR V curve plot events
         /**
@@ -570,7 +560,22 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief loadSettings Load setting from Options and set them accordingly.
          */
-        void loadSettings();
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         ////////////////////////////////////////////////////////////////////
         /// HFR Plot
@@ -615,7 +620,7 @@ class Focus : public QWidget, public Ui::Focus
         void setHFRComplete();
 
         // Sets the algorithm and enables/disables various UI inputs.
-        void setFocusAlgorithm(FocusAlgorithm algorithm);
+        void setFocusAlgorithm(Algorithm algorithm);
 
         void setCurveFit(CurveFitting::CurveFit curvefit);
 
@@ -665,20 +670,10 @@ class Focus : public QWidget, public Ui::Focus
         void settle(const FocusState completionState, const bool autoFocusUsed);
 
         void setLastFocusTemperature();
-        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
-
-        bool syncControl(const QJsonObject &settings, const QString &key, QWidget * widget);
+        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);        
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
 
         /**
          * @brief handleFocusMotionTimeout When focuser is command to go to a target position, we expect to receive a notification
@@ -706,17 +701,17 @@ class Focus : public QWidget, public Ui::Focus
         QList<QSharedPointer<ISD::GenericDevice>> m_TemperatureSources;
 
         /// As the name implies
-        FocusDirection m_LastFocusDirection { FOCUS_NONE };
+        Direction m_LastFocusDirection { FOCUS_NONE };
         /// Keep track of the last requested steps
         uint32_t m_LastFocusSteps {0};
         /// What type of focusing are we doing right now?
-        FocusType focusType { FOCUS_MANUAL };
+        Type m_FocusType { FOCUS_MANUAL };
         /// Focus HFR & Centeroid algorithms
-        StarAlgorithm focusDetection { ALGORITHM_GRADIENT };
+        StarAlgorithm m_FocusDetection { ALGORITHM_SEP };
         /// Focus Process Algorithm
-        FocusAlgorithm m_FocusAlgorithm { FOCUS_ITERATIVE };
+        Algorithm m_FocusAlgorithm { FOCUS_LINEAR1PASS };
         /// Curve fit, default to Quadratic
-        CurveFitting::CurveFit curveFit { CurveFitting::FOCUS_QUADRATIC };
+        CurveFitting::CurveFit m_CurveFit { CurveFitting::FOCUS_QUADRATIC };
 
         /*********************
          * HFR Club variables
@@ -798,8 +793,6 @@ class Focus : public QWidget, public Ui::Focus
         int noStarCount { 0 };
         /// Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
         ISD::Camera::UploadMode rememberUploadMode { ISD::Camera::UPLOAD_CLIENT };
-        /// Previous binning setting
-        int activeBin { 0 };
         /// HFR values for captured frames before averages
         QVector<double> HFRFrames;
         // Camera Fast Exposure
@@ -835,9 +828,6 @@ class Focus : public QWidget, public Ui::Focus
 
         /// State
         Ekos::FocusState state { Ekos::FOCUS_IDLE };
-
-        /// FITS Scale
-        FITSScale defaultScale;
 
         /// CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;
@@ -902,7 +892,12 @@ class Focus : public QWidget, public Ui::Focus
 
         static constexpr uint8_t MAXIMUM_FLUCTUATIONS {10};
 
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
+
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
+
+        QSharedPointer<FilterManager> m_FilterManager;
 };
 }

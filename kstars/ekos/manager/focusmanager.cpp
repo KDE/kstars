@@ -32,12 +32,6 @@ void FocusManager::updateFocusDetailView()
     }
 }
 
-void FocusManager::stopAnimation()
-{
-    if (focusPI->isAnimated())
-        focusPI->stopAnimation();
-}
-
 void FocusManager::updateFocusStarPixmap(QPixmap &starPixmap)
 {
     if (starPixmap.isNull())
@@ -49,28 +43,10 @@ void FocusManager::updateFocusStarPixmap(QPixmap &starPixmap)
 
 void FocusManager::updateFocusStatus(Ekos::FocusState status)
 {
-    focusStatus->setText(Ekos::getFocusStatusString(status));
-
-    if (status >= Ekos::FOCUS_PROGRESS)
-    {
-        focusPI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-        if (focusPI->isAnimated() == false)
-            focusPI->startAnimation();
-    }
-    else if (status == Ekos::FOCUS_COMPLETE && Options::enforceAutofocus())
-    {
-        focusPI->setColor(Qt::darkGreen);
-        if (focusPI->isAnimated() == false)
-            focusPI->startAnimation();
-    }
-    else
-    {
-        if (focusPI->isAnimated())
-            focusPI->stopAnimation();
-    }
+    focusStatus->setFocusState(status);
 }
 
-void FocusManager::init(Focus *focusProcess)
+void FocusManager::init()
 {
 
     // focus details buttons
@@ -92,21 +68,11 @@ void FocusManager::init(Focus *focusProcess)
             focusDetailView->setCurrentIndex(pos-1);
         updateFocusDetailView();
     });
-
-    if (!focusPI)
-    {
-        focusPI = new QProgressIndicator(focusProcess);
-        focusTitleLayout->insertWidget(2, focusPI);
-    }
-
 }
 
 void FocusManager::reset()
 {
-    focusStatus->setText(i18n("Idle"));
-
-    if (focusPI)
-        focusPI->stopAnimation();
+    focusStatus->setFocusState(FOCUS_IDLE);
 }
 
 } // namespace Ekos

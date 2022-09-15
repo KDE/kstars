@@ -70,16 +70,22 @@
         <number>4</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="focusTitleLayout" stretch="0,0,1">
+        <layout class="QHBoxLayout" name="focusTitleLayout" stretch="0,0,0">
          <property name="spacing">
           <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="label_10">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>20</height>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -92,44 +98,13 @@
             <string notr="true">font-weight:bold;</string>
            </property>
            <property name="text">
-            <string>Focus: </string>
+            <string>Focus</string>
            </property>
            <property name="textFormat">
             <enum>Qt::AutoText</enum>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="margin">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="focusStatus">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font-weight:bold;</string>
-           </property>
-           <property name="text">
-            <string>Idle</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::AutoText</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
            <property name="margin">
             <number>1</number>
@@ -148,6 +123,22 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="Ekos::LedStatusWidget" name="focusStatus" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -354,6 +345,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>Ekos::LedStatusWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/auxiliary/ledstatuswidget.h</header>
+  </customwidget>
   <customwidget>
    <class>FocusProfilePlot</class>
    <extends>QWidget</extends>

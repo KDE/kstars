@@ -22,7 +22,7 @@ GuideManager::GuideManager(QWidget *parent) : QWidget(parent)
 void GuideManager::init(Guide *guideProcess)
 {
     // guide details buttons
-    connect(guideDetailNextButton, &QPushButton::clicked, [this]()
+    connect(guideDetailNextButton, &QPushButton::clicked, this, [this]()
     {
         const int pos = guideDetailWidget->currentIndex();
         if (pos == 0 || (pos == 1 && guideStarPixmap.get() != nullptr))
@@ -33,7 +33,7 @@ void GuideManager::init(Guide *guideProcess)
         updateGuideDetailView();
     });
 
-    connect(guideDetailPrevButton, &QPushButton::clicked, [this]()
+    connect(guideDetailPrevButton, &QPushButton::clicked, this, [this]()
     {
         const int pos = guideDetailWidget->currentIndex();
         if (pos > 0)
@@ -49,12 +49,6 @@ void GuideManager::init(Guide *guideProcess)
     // feed guide state widget
     connect(guideProcess, &Ekos::Guide::newStatus, guideStateWidget, &Ekos::GuideStateWidget::updateGuideStatus);
 
-    if (!guidePI)
-    {
-        guidePI = new QProgressIndicator(guideProcess);
-        guideTitleLayout->insertWidget(2, guidePI);
-    }
-
     // initialize the target rings
     targetPlot->buildTarget(Options::guiderAccuracyThreshold());
 
@@ -65,85 +59,42 @@ void GuideManager::init(Guide *guideProcess)
 
     // connect to Guide UI controls
     //This connects all the buttons and slider below the guide plots.
-    connect(guideProcess->showRAPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rADisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA, isChecked);
     });
-    connect(guideProcess->showDECPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->dEDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC, isChecked);
     });
-    connect(guideProcess->showRACorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rACorrDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA_PULSE, isChecked);
     });
-    connect(guideProcess->showDECorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->dECorrDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC_PULSE, isChecked);
     });
-    connect(guideProcess->showSNRPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->sNRDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_SNR, isChecked);
     });
-    connect(guideProcess->showRMSPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(guideProcess->rMSDisplayedOnGuideGraph, &QCheckBox::toggled, this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RMS, isChecked);
     });
     connect(guideProcess->correctionSlider, &QSlider::sliderMoved, driftGraph, &GuideDriftGraph::setCorrectionGraphScale);
 
     connect(guideProcess->latestCheck, &QCheckBox::toggled, targetPlot, &GuideTargetPlot::setLatestGuidePoint);
-    connect(guideProcess->accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), targetPlot,
+    connect(guideProcess->guiderAccuracyThreshold, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+            targetPlot,
             &GuideTargetPlot::buildTarget);
-
-
 }
 
 
 void GuideManager::updateGuideStatus(Ekos::GuideState status)
 {
     guideStatus->setText(Ekos::getGuideStatusString(status));
-
-    switch (status)
-    {
-        case Ekos::GUIDE_IDLE:
-        case Ekos::GUIDE_CALIBRATION_ERROR:
-        case Ekos::GUIDE_ABORTED:
-        case Ekos::GUIDE_SUSPENDED:
-        case Ekos::GUIDE_DITHERING_ERROR:
-        case Ekos::GUIDE_CALIBRATION_SUCCESS:
-            if (guidePI->isAnimated())
-                guidePI->stopAnimation();
-            break;
-
-        case Ekos::GUIDE_CALIBRATING:
-            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-        case Ekos::GUIDE_GUIDING:
-            guidePI->setColor(Qt::darkGreen);
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            targetPlot->clear();
-            driftGraph->clear();
-            break;
-        case Ekos::GUIDE_DITHERING:
-            guidePI->setColor(QColor(KStarsData::Instance()->colorScheme()->colorNamed("TargetColor")));
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-        case Ekos::GUIDE_DITHERING_SUCCESS:
-            guidePI->setColor(Qt::darkGreen);
-            if (guidePI->isAnimated() == false)
-                guidePI->startAnimation();
-            break;
-
-        default:
-            if (guidePI->isAnimated())
-                guidePI->stopAnimation();
-            break;
-    }
-
 }
 
 
@@ -176,9 +127,6 @@ void GuideManager::updateGuideDetailView()
 void GuideManager::reset()
 {
     guideStatus->setText(i18n("Idle"));
-
-    if (guidePI)
-        guidePI->stopAnimation();
 }
 
 }

@@ -98,7 +98,7 @@ class SequenceJob : public QObject
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
         SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<SequenceJobState::CaptureState> sharedState);
-        SequenceJob(XMLEle *root);
+        SequenceJob(XMLEle *root);        
         ~SequenceJob() = default;
 
         ////////////////////////////////////////////////////////////////////////
@@ -117,6 +117,10 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Job Status Functions
         ////////////////////////////////////////////////////////////////////////
+        void setFilterManager(const QSharedPointer<FilterManager> &manager)
+        {
+            m_FilterManager = manager;
+        }
         const QString &getStatusString()
         {
             return StatusStrings[getStatus()];
@@ -386,6 +390,7 @@ class SequenceJob : public QObject
         /// State machines encapsulating the state of this capture sequence job
         //////////////////////////////////////////////////////////////
         QSharedPointer<CaptureDeviceAdaptor> captureDeviceAdaptor;
+        QSharedPointer<FilterManager> m_FilterManager;
         SequenceJobState *stateMachine { nullptr };
         /**
          * @brief Create all event connections between the state machine and the command processor

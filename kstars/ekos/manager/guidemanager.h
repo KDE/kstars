@@ -35,7 +35,6 @@ public slots:
     void updateSigmas(double ra, double de);
 
 private:
-    QProgressIndicator *guidePI { nullptr };
     GuideStateWidget *guideStateWidget { nullptr };
     std::unique_ptr<QPixmap> guideStarPixmap;
 

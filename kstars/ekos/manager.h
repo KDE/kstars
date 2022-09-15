@@ -433,7 +433,7 @@ class Manager : public QDialog, public Ui::Manager
         // Mount Summary
         void updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pierSide, const dms &ha);
         void updateMountStatus(ISD::Mount::Status status);
-        void setTarget(SkyObject *o);
+        void setTarget(QString name);
 
         // Capture Summary
         void updateCaptureStatus(CaptureState status);
@@ -515,7 +515,6 @@ class Manager : public QDialog, public Ui::Manager
         bool m_RemoteManagerStart { false };
 
         int m_DriverDevicesCount { 0 };
-        int m_ReadyDevicesCount {0};
 
         QStringList m_LogText;
         KPageWidgetItem *ekosOptionsWidget { nullptr };
@@ -532,6 +531,8 @@ class Manager : public QDialog, public Ui::Manager
 
         // Mount Summary
         QPointer<QProcess> indiHubAgent;
+        KLed *mountMotionState { nullptr };
+
 
         // Capture Summary
         QTimer m_CountdownTimer;

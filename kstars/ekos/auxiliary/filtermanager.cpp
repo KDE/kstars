@@ -27,23 +27,7 @@
 namespace Ekos
 {
 
-FilterManager *FilterManager::m_Instance = nullptr;
-
-FilterManager *FilterManager::Instance()
-{
-    if (m_Instance == nullptr)
-        m_Instance = new FilterManager();
-
-    return m_Instance;
-}
-
-void FilterManager::release()
-{
-    delete (m_Instance);
-    m_Instance = nullptr;
-}
-
-FilterManager::FilterManager() : QDialog(KStars::Instance())
+FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -54,48 +38,50 @@ FilterManager::FilterManager() : QDialog(KStars::Instance())
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(close()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+    QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
+                          QUuid::createUuid().toString());
     userdb.open();
 
     kcfg_FlatSyncFocus->setChecked(Options::flatSyncFocus());
-    connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, [this]()
+    connect(kcfg_FlatSyncFocus, &QCheckBox::toggled, this, [this]()
     {
         Options::setFlatSyncFocus(kcfg_FlatSyncFocus->isChecked());
     });
 
-    filterModel = new QSqlTableModel(this, userdb);
-    filterView->setModel(filterModel);
+    m_FilterModel = new QSqlTableModel(this, userdb);
+    m_FilterView->setModel(m_FilterModel);
+    connect(m_FilterModel, &QSqlTableModel::dataChanged, this, &FilterManager::updated);
 
     // No Edit delegate
-    noEditDelegate = new NotEditableDelegate(filterView);
-    filterView->setItemDelegateForColumn(4, noEditDelegate);
+    noEditDelegate = new NotEditableDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(4, noEditDelegate);
 
     // Exposure delegate
-    exposureDelegate = new DoubleDelegate(filterView, 0.001, 3600, 60);
-    filterView->setItemDelegateForColumn(5, exposureDelegate);
+    exposureDelegate = new DoubleDelegate(m_FilterView, 0.001, 3600, 60);
+    m_FilterView->setItemDelegateForColumn(5, exposureDelegate);
 
     // Offset delegate
-    offsetDelegate = new IntegerDelegate(filterView, -10000, 10000, 100);
-    filterView->setItemDelegateForColumn(6, offsetDelegate);
+    offsetDelegate = new IntegerDelegate(m_FilterView, -10000, 10000, 100);
+    m_FilterView->setItemDelegateForColumn(6, offsetDelegate);
 
     // Auto Focus delegate
-    useAutoFocusDelegate = new ToggleDelegate(filterView);
-    filterView->setItemDelegateForColumn(7, useAutoFocusDelegate);
+    useAutoFocusDelegate = new ToggleDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(7, useAutoFocusDelegate);
 
     // Set Delegates
-    lockDelegate = new ComboDelegate(filterView);
-    filterView->setItemDelegateForColumn(8, lockDelegate);
+    lockDelegate = new ComboDelegate(m_FilterView);
+    m_FilterView->setItemDelegateForColumn(8, lockDelegate);
     lockDelegate->setValues(m_currentFilterLabels);
 
     // Absolute Focus Position
-    filterView->setItemDelegateForColumn(9, noEditDelegate);
+    m_FilterView->setItemDelegateForColumn(9, noEditDelegate);
 
-    connect(filterModel, &QSqlTableModel::dataChanged, [this](const QModelIndex & topLeft, const QModelIndex &,
+    connect(m_FilterModel, &QSqlTableModel::dataChanged, this, [this](const QModelIndex & topLeft, const QModelIndex &,
             const QVector<int> &)
     {
         reloadFilters();
         if (topLeft.column() == 5)
-            emit exposureChanged(filterModel->data(topLeft).toDouble());
+            emit exposureChanged(m_FilterModel->data(topLeft).toDouble());
     });
 }
 
@@ -106,88 +92,75 @@ void FilterManager::refreshFilterModel()
 
     QString vendor(m_FilterWheel->getDeviceName());
 
-    //QSqlDatabase::removeDatabase("filter_db");
-    //QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
-    //userdb.open();
-
-    //delete (filterModel);
-
-    //filterModel = new QSqlTableModel(this, userdb);
-    if (!filterModel)
+    if (!m_FilterModel)
     {
-        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "filter_db");
+        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
+                              QUuid::createUuid().toString());
         userdb.open();
-        filterModel = new QSqlTableModel(this, userdb);
-        filterView->setModel(filterModel);
+        m_FilterModel = new QSqlTableModel(this, userdb);
+        m_FilterView->setModel(m_FilterModel);
     }
-    filterModel->setTable("filter");
-    filterModel->setFilter(QString("vendor='%1'").arg(vendor));
-    filterModel->select();
-    filterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    m_FilterModel->setTable("filter");
+    m_FilterModel->setFilter(QString("vendor='%1'").arg(vendor));
+    m_FilterModel->select();
+    m_FilterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
 
     // If we have an existing table but it doesn't match the number of current filters
     // then we remove it.
-    if (filterModel->rowCount() > 0 && filterModel->rowCount() != m_currentFilterLabels.count())
+    if (m_FilterModel->rowCount() > 0 && m_FilterModel->rowCount() != m_currentFilterLabels.count())
     {
-        for (int i = 0; i < filterModel->rowCount(); i++)
-            filterModel->removeRow(i);
+        for (int i = 0; i < m_FilterModel->rowCount(); i++)
+            m_FilterModel->removeRow(i);
 
-        filterModel->select();
+        m_FilterModel->select();
     }
 
     // If it is first time, let's populate data
-    if (filterModel->rowCount() == 0)
+    if (m_FilterModel->rowCount() == 0)
     {
         for (QString &filter : m_currentFilterLabels)
             KStarsData::Instance()->userdb()->AddFilter(vendor, "", "", filter, 0, 1.0, false, "--", 0);
 
-        filterModel->select();
-        // Seems ->select() is not enough, have to create a new model.
-        /*delete (filterModel);
-        filterModel = new QSqlTableModel(this, userdb);
-        filterModel->setTable("filter");
-        filterModel->setFilter(QString("vendor='%1'").arg(m_currentFilterDevice->getDeviceName()));
-        filterModel->select();
-        filterModel->setEditStrategy(QSqlTableModel::OnManualSubmit);*/
+        m_FilterModel->select();
     }
     // Make sure all the filter colors match DB. If not update model to sync with INDI filter values
     else
     {
-        for (int i = 0; i < filterModel->rowCount(); ++i)
+        for (int i = 0; i < m_FilterModel->rowCount(); ++i)
         {
-            QModelIndex index = filterModel->index(i, 4);
-            if (filterModel->data(index).toString() != m_currentFilterLabels[i])
+            QModelIndex index = m_FilterModel->index(i, 4);
+            if (m_FilterModel->data(index).toString() != m_currentFilterLabels[i])
             {
-                filterModel->setData(index, m_currentFilterLabels[i]);
+                m_FilterModel->setData(index, m_currentFilterLabels[i]);
             }
         }
     }
 
     lockDelegate->setValues(m_currentFilterLabels);
 
-    filterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
+    m_FilterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
 
-    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
-    filterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
+    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
 
-    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
-    filterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
+    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
 
-    filterModel->setHeaderData(7, Qt::Horizontal, i18n("Start Auto Focus when filter is activated"), Qt::ToolTipRole);
-    filterModel->setHeaderData(7, Qt::Horizontal, i18n("Auto Focus"));
+    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Start Auto Focus when filter is activated"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Auto Focus"));
 
-    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
-    filterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
+    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
 
-    filterModel->setHeaderData(9, Qt::Horizontal,
+    m_FilterModel->setHeaderData(9, Qt::Horizontal,
                                i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
                                Qt::ToolTipRole);
-    filterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
+    m_FilterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
 
-    filterView->hideColumn(0);
-    filterView->hideColumn(1);
-    filterView->hideColumn(2);
-    filterView->hideColumn(3);
+    m_FilterView->hideColumn(0);
+    m_FilterView->hideColumn(1);
+    m_FilterView->hideColumn(2);
+    m_FilterView->hideColumn(3);
 
     reloadFilters();
 }
@@ -200,9 +173,9 @@ void FilterManager::reloadFilters()
     m_ActiveFilters.clear();
     operationQueue.clear();
 
-    for (int i = 0; i < filterModel->rowCount(); ++i)
+    for (int i = 0; i < m_FilterModel->rowCount(); ++i)
     {
-        QSqlRecord record = filterModel->record(i);
+        QSqlRecord record = m_FilterModel->record(i);
         QString id        = record.value("id").toString();
         QString vendor    = record.value("Vendor").toString();
         QString model     = record.value("Model").toString();
@@ -219,30 +192,28 @@ void FilterManager::reloadFilters()
     }
 }
 
-void FilterManager::setCurrentFilterWheel(ISD::FilterWheel *filter)
+void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
 {
-    if (m_FilterWheel == filter)
+    // Return if same device and we already initialized the properties.
+    if (m_FilterWheel == filter && m_FilterNameProperty && m_FilterPositionProperty)
         return;
     else if (m_FilterWheel)
         m_FilterWheel->disconnect(this);
 
     m_FilterWheel = filter;
 
-    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
-    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
-    {
-        m_currentFilterLabels.clear();
-        m_currentFilterPosition = -1;
-        //m_currentFilterDevice = nullptr;
-        m_FilterNameProperty = nullptr;
-        m_FilterPositionProperty = nullptr;
-    });
-
     m_FilterNameProperty = nullptr;
     m_FilterPositionProperty = nullptr;
     m_FilterConfirmSet = nullptr;
+
+    if (!m_FilterWheel)
+        return;
+
+    connect(m_FilterWheel, &ISD::ConcreteDevice::textUpdated, this, &FilterManager::processText);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::numberUpdated, this, &FilterManager::processNumber);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
+    connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, &FilterManager::processDisconnect);
+
     initFilterProperties();
 }
 
@@ -454,6 +425,14 @@ void FilterManager::processSwitch(ISwitchVectorProperty *svp)
 
 }
 
+void FilterManager::processDisconnect()
+{
+    m_currentFilterLabels.clear();
+    m_currentFilterPosition = -1;
+    m_FilterNameProperty = nullptr;
+    m_FilterPositionProperty = nullptr;
+}
+
 void FilterManager::buildOperationQueue(FilterState operation)
 {
     operationQueue.clear();
@@ -623,8 +602,8 @@ bool FilterManager::setFilterExposure(int index, double exposure)
     {
         if (color == m_ActiveFilters[i]->color())
         {
-            filterModel->setData(filterModel->index(i, 5), exposure);
-            filterModel->submitAll();
+            m_FilterModel->setData(m_FilterModel->index(i, 5), exposure);
+            m_FilterModel->submitAll();
             refreshFilterModel();
             return true;
         }
@@ -643,8 +622,8 @@ bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
     {
         if (color == m_ActiveFilters[i]->color())
         {
-            filterModel->setData(filterModel->index(i, 9), absFocusPos);
-            filterModel->submitAll();
+            m_FilterModel->setData(m_FilterModel->index(i, 9), absFocusPos);
+            m_FilterModel->submitAll();
             refreshFilterModel();
             return true;
         }
@@ -678,8 +657,8 @@ bool FilterManager::setFilterLock(int index, QString name)
     {
         if (color == m_ActiveFilters[i]->color())
         {
-            filterModel->setData(filterModel->index(i, 8), name);
-            filterModel->submitAll();
+            m_FilterModel->setData(m_FilterModel->index(i, 8), name);
+            m_FilterModel->submitAll();
             refreshFilterModel();
             return true;
         }
@@ -699,8 +678,8 @@ void FilterManager::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         m_currentFilterPosition = 0;
         qDeleteAll(m_ActiveFilters);
         m_ActiveFilters.clear();
-        delete(filterModel);
-        filterModel = nullptr;
+        delete(m_FilterModel);
+        m_FilterModel = nullptr;
     }
 }
 
@@ -772,17 +751,17 @@ QJsonObject FilterManager::toJSON()
 
     QJsonArray filters;
 
-    for (int i = 0; i < filterModel->rowCount(); ++i)
+    for (int i = 0; i < m_FilterModel->rowCount(); ++i)
     {
         QJsonObject oneFilter =
         {
             {"index", i},
-            {"label", filterModel->data(filterModel->index(i, FM_LABEL)).toString()},
-            {"exposure", filterModel->data(filterModel->index(i, FM_EXPOSURE)).toDouble()},
-            {"offset", filterModel->data(filterModel->index(i, FM_OFFSET)).toInt()},
-            {"autofocus", filterModel->data(filterModel->index(i, FM_AUTO_FOCUS)).toBool()},
-            {"lock", filterModel->data(filterModel->index(i, FM_LOCK_FILTER)).toString()},
-            {"flat", filterModel->data(filterModel->index(i, FM_FLAT_FOCUS)).toInt()},
+            {"label", m_FilterModel->data(m_FilterModel->index(i, FM_LABEL)).toString()},
+            {"exposure", m_FilterModel->data(m_FilterModel->index(i, FM_EXPOSURE)).toDouble()},
+            {"offset", m_FilterModel->data(m_FilterModel->index(i, FM_OFFSET)).toInt()},
+            {"autofocus", m_FilterModel->data(m_FilterModel->index(i, FM_AUTO_FOCUS)).toBool()},
+            {"lock", m_FilterModel->data(m_FilterModel->index(i, FM_LOCK_FILTER)).toString()},
+            {"flat", m_FilterModel->data(m_FilterModel->index(i, FM_FLAT_FOCUS)).toInt()},
         };
 
         filters.append(oneFilter);
@@ -815,16 +794,16 @@ void FilterManager::setFilterData(const QJsonObject &settings)
         int row = oneFilter["index"].toInt();
 
         labels[row] = oneFilter["label"].toString();
-        filterModel->setData(filterModel->index(row, FM_LABEL), oneFilter["label"].toString());
-        filterModel->setData(filterModel->index(row, FM_EXPOSURE), oneFilter["exposure"].toDouble());
-        filterModel->setData(filterModel->index(row, FM_OFFSET), oneFilter["offset"].toInt());
-        filterModel->setData(filterModel->index(row, FM_AUTO_FOCUS), oneFilter["autofocus"].toBool());
-        filterModel->setData(filterModel->index(row, FM_LOCK_FILTER), oneFilter["lock"].toString());
-        filterModel->setData(filterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_LABEL), oneFilter["label"].toString());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_EXPOSURE), oneFilter["exposure"].toDouble());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_OFFSET), oneFilter["offset"].toInt());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_AUTO_FOCUS), oneFilter["autofocus"].toBool());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_LOCK_FILTER), oneFilter["lock"].toString());
+        m_FilterModel->setData(m_FilterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
     }
 
     setFilterNames(labels);
-    filterModel->submitAll();
+    m_FilterModel->submitAll();
     refreshFilterModel();
 }
 

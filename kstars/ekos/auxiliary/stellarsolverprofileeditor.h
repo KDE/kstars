@@ -51,7 +51,7 @@ class StellarSolverProfileEditor : public QWidget, public Ui::StellarSolverProfi
         void connectOptionsProfileComboBox();
         void disconnectOptionsProfileComboBox();
     public slots:
-        void loadProfile(int profile);
+        void loadProfile(const QString &profile);
     signals:
         void optionsProfilesUpdated();
     protected:

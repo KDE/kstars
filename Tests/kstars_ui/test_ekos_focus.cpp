@@ -17,50 +17,74 @@
 
 class KFocusProcedureSteps: public QObject
 {
-public:
-    QMetaObject::Connection starting;
-    QMetaObject::Connection aborting;
-    QMetaObject::Connection completing;
-    QMetaObject::Connection notguiding;
-    QMetaObject::Connection guiding;
-    QMetaObject::Connection quantifying;
+    public:
+        QMetaObject::Connection starting;
+        QMetaObject::Connection aborting;
+        QMetaObject::Connection completing;
+        QMetaObject::Connection notguiding;
+        QMetaObject::Connection guiding;
+        QMetaObject::Connection quantifying;
 
-public:
-    bool started { false };
-    bool aborted { false };
-    bool complete { false };
-    bool unguided { false };
-    double hfr { -2 };
+    public:
+        bool started { false };
+        bool aborted { false };
+        bool complete { false };
+        bool unguided { false };
+        double hfr { -2 };
 
-public:
-    KFocusProcedureSteps():
-        starting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [&]() { started = true; }, Qt::UniqueConnection)),
-        aborting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]() { started = false; aborted = true; }, Qt::UniqueConnection)),
-        completing (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, this, [&]() { started = false; complete = true; }, Qt::UniqueConnection)),
-        notguiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::suspendGuiding, this, [&]() { unguided = true; }, Qt::UniqueConnection)),
-        guiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::resumeGuiding, this, [&]() { unguided = false; }, Qt::UniqueConnection)),
-        quantifying (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newHFR, this, [&](double _hfr) { hfr = _hfr; }, Qt::UniqueConnection))
-    {};
-    virtual ~KFocusProcedureSteps() {
-        disconnect(starting);
-        disconnect(aborting);
-        disconnect(completing);
-        disconnect(notguiding);
-        disconnect(guiding);
-        disconnect(quantifying);
-    };
+    public:
+        KFocusProcedureSteps():
+            starting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [ & ]()
+        {
+            started = true;
+        }, Qt::UniqueConnection)),
+        aborting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]()
+        {
+            started = false;
+            aborted = true;
+        }, Qt::UniqueConnection)),
+        completing (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, this, [&]()
+        {
+            started = false;
+            complete = true;
+        }, Qt::UniqueConnection)),
+        notguiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::suspendGuiding, this, [&]()
+        {
+            unguided = true;
+        }, Qt::UniqueConnection)),
+        guiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::resumeGuiding, this, [&]()
+        {
+            unguided = false;
+        }, Qt::UniqueConnection)),
+        quantifying (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newHFR, this, [&](double _hfr)
+        {
+            hfr = _hfr;
+        }, Qt::UniqueConnection))
+        {};
+        virtual ~KFocusProcedureSteps()
+        {
+            disconnect(starting);
+            disconnect(aborting);
+            disconnect(completing);
+            disconnect(notguiding);
+            disconnect(guiding);
+            disconnect(quantifying);
+        };
 };
 
 class KFocusStateList: public QObject, public QList <Ekos::FocusState>
 {
-public:
-    QMetaObject::Connection handler;
+    public:
+        QMetaObject::Connection handler;
 
-public:
-    KFocusStateList():
-        handler (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this, [&](Ekos::FocusState s) { append(s); }, Qt::UniqueConnection))
-    {};
-    virtual ~KFocusStateList() {};
+    public:
+        KFocusStateList():
+            handler (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this, [ & ](Ekos::FocusState s)
+        {
+            append(s);
+        }, Qt::UniqueConnection))
+        {};
+        virtual ~KFocusStateList() {};
 };
 
 TestEkosFocus::TestEkosFocus(QObject *parent) : QObject(parent)
@@ -213,7 +237,7 @@ void TestEkosFocus::testAutofocusSignalEmission()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_MOUNT_SYNC(60.0,true, -1);
+    KTRY_MOUNT_SYNC(60.0, true, -1);
 
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 30);
@@ -230,7 +254,8 @@ void TestEkosFocus::testAutofocusSignalEmission()
 
     KTELL("Configure to restart autofocus when it finishes, like Scheduler does.");
     volatile bool ran_once = false;
-    autofocus.completing = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, &autofocus, [&]() {
+    autofocus.completing = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, &autofocus, [&]()
+    {
         autofocus.complete = true;
         autofocus.started = false;
         if (!ran_once)
@@ -275,7 +300,8 @@ void TestEkosFocus::testFocusAbort()
 
     KTELL("Configure to restart autofocus when it finishes, like Scheduler does.");
     volatile bool ran_once = false;
-    autofocus.aborting = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]() {
+    autofocus.aborting = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]()
+    {
         autofocus.aborted = true;
         autofocus.started = false;
         if (!ran_once)
@@ -371,7 +397,7 @@ void TestEkosFocus::testFocusWhenMountFlips()
 {
     KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a fast autofocus.");
     KTRY_FOCUS_SHOW();
-    KTRY_MOUNT_SYNC(60.0, true, +10.0/3600);
+    KTRY_MOUNT_SYNC(60.0, true, +10.0 / 3600);
     KTRY_FOCUS_MOVETO(35000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 5);
     KTRY_FOCUS_EXPOSURE(3, 99);
@@ -531,72 +557,6 @@ void TestEkosFocus::testFocusFailure()
     QVERIFY(!autofocus.started);
 }
 
-void TestEkosFocus::testFocusOptions()
-{
-    KTELL("Sync high on meridian to avoid jitter in CCD Simulator.\nConfigure a standard autofocus.");
-    KTRY_FOCUS_SHOW();
-    KTRY_MOUNT_SYNC(60.0, true, -1);
-    KTRY_FOCUS_MOVETO(40000);
-    KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3);
-    KTRY_FOCUS_EXPOSURE(1, 99);
-
-    // Prepare to detect a new HFR
-    KFocusProcedureSteps autofocus;
-    QVERIFY(autofocus.quantifying);
-
-    KTRY_FOCUS_GADGET(QPushButton, captureB);
-
-    KTELL("Validate filter to apply to frame after capture.");
-    // This option is tricky: it follows the FITSViewer::filterTypes filter list, but
-    // is used as a list of filter that may be applied in the FITS view.
-    // In the Focus view, it also requires the "--" item as no-op filter, present in the
-    // combobox stating which filter to apply to frames before analysing them.
-    {
-        // Validate the default Ekos option is recognised as a filter
-        int const fe = Options::focusEffect();
-        QVERIFY(0 <= fe && fe < FITSViewer::filterTypes.count() + 1);
-        QWARN(qPrintable(QString("Default filtering option is %1/%2").arg(fe).arg(FITSViewer::filterTypes.value(fe - 1, "--"))));
-
-        // Validate the UI changes the Ekos option
-        for (int i = 0; i < FITSViewer::filterTypes.count(); i++)
-        {
-            QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 5000);
-
-            QString const & filterType = FITSViewer::filterTypes.value(i, "Unknown image filter");
-            QWARN(qPrintable(QString("Testing filtering option %1/%2").arg(i + 1).arg(filterType)));
-
-            // Set filter to apply in the UI, verify impact on Ekos option
-            Options::setFocusEffect(fe);
-            KTRY_FOCUS_COMBO_SET(filterCombo, filterType);
-            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
-
-            // Set filter to apply with the d-bus entry point, verify impact on Ekos option
-            Options::setFocusEffect(fe);
-            Ekos::Manager::Instance()->focusModule()->setImageFilter(filterType);
-            QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) i + 1, 1000);
-
-            // Run a capture with detection for coverage
-            autofocus.hfr = -2;
-            KTRY_FOCUS_CLICK(captureB);
-            QTRY_VERIFY_WITH_TIMEOUT(-1 <= autofocus.hfr, 5000);
-        }
-
-        // Set no-op filter to apply in the UI, verify impact on Ekos option
-        Options::setFocusEffect(0);
-        KTRY_FOCUS_COMBO_SET(filterCombo, "--");
-        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
-
-        // Set no-op filter to apply with the d-bus entry point, verify impact on Ekos option
-        Options::setFocusEffect(0);
-        Ekos::Manager::Instance()->focusModule()->setImageFilter("--");
-        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) 0, 1000);
-
-        // Restore the original Ekos option
-        KTRY_FOCUS_COMBO_SET(filterCombo, FITSViewer::filterTypes.value(fe - 1, "--"));
-        QTRY_COMPARE_WITH_TIMEOUT(Options::focusEffect(), (uint) fe, 1000);
-    }
-}
-
 void TestEkosFocus::testStarDetection_data()
 {
 #if QT_VERSION < 0x050900
@@ -631,7 +591,8 @@ void TestEkosFocus::testStarDetection_data()
                         << o.dec().toDMSString();
                 count++;
             }
-            else QWARN(QString("Fixture '%1' altitude is '%2' degrees, discarding.").arg(name).arg(so->alt().Degrees()).toStdString().c_str());
+            else QWARN(QString("Fixture '%1' altitude is '%2' degrees, discarding.").arg(name).arg(
+                               so->alt().Degrees()).toStdString().c_str());
         }
     }
 
@@ -653,13 +614,13 @@ void TestEkosFocus::testStarDetection()
     QFETCH(QString, RA);
     QFETCH(QString, DEC);
 
-    KTELL(QString(NAME+"\nSync to %1/%2 to make the mount teleport to the object.").arg(qPrintable(RA)).arg(qPrintable(DEC)));
+    KTELL(QString(NAME + "\nSync to %1/%2 to make the mount teleport to the object.").arg(qPrintable(RA)).arg(qPrintable(DEC)));
     QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 5000);
     ekos->mountModule()->setMeridianFlipValues(false, 0);
     QVERIFY(ekos->mountModule()->sync(RA, DEC));
     ekos->mountModule()->setTrackEnabled(true);
 
-    KTELL(NAME+"\nWait for Focus to come up\nSwitch to Focus tab.");
+    KTELL(NAME + "\nWait for Focus to come up\nSwitch to Focus tab.");
     KTRY_FOCUS_SHOW();
 
     KTRY_FOCUS_GADGET(QPushButton, startFocusB);
@@ -669,35 +630,35 @@ void TestEkosFocus::testStarDetection()
 
     KTRY_FOCUS_GADGET(QLineEdit, starsOut);
 
-    KTELL(NAME+"\nMove focuser to see stars.");
+    KTELL(NAME + "\nMove focuser to see stars.");
     KTRY_FOCUS_MOVETO(35000);
 
-    KTELL(NAME+"\nRun the detection with SEP.");
+    KTELL(NAME + "\nRun the detection with SEP.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_DETECT(1, 3, 99);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    KTELL(NAME+"\nRun the detection with Centroid.");
+    KTELL(NAME + "\nRun the detection with Centroid.");
     KTRY_FOCUS_CONFIGURE("Centroid", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_DETECT(1, 3, 99);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    KTELL(NAME+"\nRun the detection with Threshold (no full-field).");
+    KTELL(NAME + "\nRun the detection with Threshold (no full-field).");
     KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0.0, 0.0, 3.0);
     KTRY_FOCUS_DETECT(1, 3, 99);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    KTELL(NAME+"\nRun the detection with Gradient (no full-field).");
+    KTELL(NAME + "\nRun the detection with Gradient (no full-field).");
     KTRY_FOCUS_CONFIGURE("Gradient", "Iterative", 0.0, 0.0, 3.0);
     KTRY_FOCUS_DETECT(1, 3, 99);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    KTELL(NAME+"\nRun the detection with SEP (8s capture).");
+    KTELL(NAME + "\nRun the detection with SEP (8s capture).");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_DETECT(8, 1, 99);
     QTRY_VERIFY_WITH_TIMEOUT(starsOut->text().toInt() >= 1, 5000);
 
-    KTELL(NAME+"\nRun the detection with SEP\nFull-field with various values\nHFR averaged on 3 frames.");
+    KTELL(NAME + "\nRun the detection with SEP\nFull-field with various values\nHFR averaged on 3 frames.");
     for (double inner = 0.0; inner < 100.0; inner += 43.0)
     {
         for (double outer = 100.0; inner < outer; outer -= 42.0)
@@ -707,7 +668,7 @@ void TestEkosFocus::testStarDetection()
         }
     }
 
-    KTELL(NAME+"\nRun the detection with Threshold, full-field.");
+    KTELL(NAME + "\nRun the detection with Threshold, full-field.");
     for (double threshold = 80.0; threshold < 99.0; threshold += 13.3)
     {
         KTRY_FOCUS_GADGET(QDoubleSpinBox, thresholdSpin);

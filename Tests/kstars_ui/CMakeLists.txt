@@ -54,10 +54,9 @@ TARGET_LINK_LIBRARIES(test_ekos_capture ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosCapture COMMAND test_ekos_capture)
 SET_TESTS_PROPERTIES( TestEkosCapture PROPERTIES LABELS "stable;ui" TIMEOUT 600)
 
-#ADD_EXECUTABLE(test_ekos_filterwheel ${KSTARS_UI_EKOS_SRC} test_ekos_filterwheel.cpp)
-#TARGET_LINK_LIBRARIES(test_ekos_filterwheel ${KSTARS_UI_EKOS_LIBS})
-#ADD_TEST(NAME TestEkosFilterWheel COMMAND test_ekos_filterwheel)
-#SET_TESTS_PROPERTIES( TestEkosFilterWheel PROPERTIES LABELS "unstable;ui" TIMEOUT 60)
+ADD_EXECUTABLE(test_ekos_filterwheel ${KSTARS_UI_EKOS_SRC} test_ekos_filterwheel.cpp)
+TARGET_LINK_LIBRARIES(test_ekos_filterwheel ${KSTARS_UI_EKOS_LIBS})
+ADD_TEST(NAME TestEkosFilterWheel COMMAND test_ekos_filterwheel)
 
 ADD_EXECUTABLE(test_ekos_capture_count ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture_count.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture_count ${KSTARS_UI_EKOS_LIBS})
@@ -132,6 +131,7 @@ SET_TESTS_PROPERTIES( TestEkosSchedulerOps PROPERTIES LABELS "unstable;ui" TIMEO
 ADD_EXECUTABLE(test_artificial_horizon ${KSTARS_UI_EKOS_SRC} test_artificial_horizon.cpp)
 TARGET_LINK_LIBRARIES(test_artificial_horizon ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestArtificialHorizon COMMAND test_artificial_horizon)
+SET_TESTS_PROPERTIES( TestArtificialHorizon PROPERTIES LABELS "stable;ui" TIMEOUT 600 )
 
 # JM 2021-10.16 PHD2 test often fails in CI so it is excluded now until it is fixed.
 #ADD_EXECUTABLE(test_ekos_guide ${KSTARS_UI_EKOS_SRC} test_ekos_guide.cpp)

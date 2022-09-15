@@ -10,7 +10,6 @@
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
 #include "customproperties.h"
-#include "oal/filter.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indicamera.h"
@@ -340,7 +339,11 @@ class Capture : public QWidget, public Ui::Capture
         void addGuideHead(ISD::Camera *device);
         void syncFrameType(const QString &name);
         void setRotatorReversed(bool toggled);
+
+        // Filter Manager
         void setupFilterManager();
+        void refreshFilterManager(ISD::FilterWheel *device);
+
         void syncTelescopeInfo();
         void syncCameraInfo();
         void syncFilterInfo();
@@ -376,6 +379,11 @@ class Capture : public QWidget, public Ui::Capture
         const QJsonArray &getSequence() const
         {
             return m_SequenceArray;
+        }
+
+        const QSharedPointer<FilterManager> &filterManager() const
+        {
+            return m_FilterManager;
         }
 
         /**
@@ -848,6 +856,8 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
+        void newFilterManagerStatus(Ekos::FilterState state);
+
         void ready();
 
         // signals to the sequence job
@@ -875,6 +885,9 @@ class Capture : public QWidget, public Ui::Capture
         // Signals for the Analyze tab.
         void captureStarting(double exposureSeconds, const QString &filter);
         void captureAborted(double exposureSeconds);
+
+        // Filter Manager
+        void filterManagerUpdated(ISD::FilterWheel *device);
 
     private:
         /**
@@ -1199,5 +1212,7 @@ class Capture : public QWidget, public Ui::Capture
         QTimer downloadProgressTimer;
         QVariantMap m_Metadata;
         void processGuidingFailed();
+
+        QSharedPointer<FilterManager> m_FilterManager;
 };
 }

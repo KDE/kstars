@@ -213,6 +213,11 @@ void Media::onBinaryReceived(const QByteArray &message)
     }
 }
 
+void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
+{
+    sendData(data, "+D");
+};
+
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_IMAGE_TRANSFER] == false || m_sendBlobs == false)
@@ -461,9 +466,8 @@ void Media::registerCameras()
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
-        if (!camera)
-            continue;
-        connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
+        if (camera)
+            connect(camera, &ISD::Camera::newVideoFrame, this, &Media::sendVideoFrame, Qt::UniqueConnection);
     }
 }
 

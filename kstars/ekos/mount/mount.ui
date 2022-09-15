@@ -27,7 +27,7 @@
     <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout">
+    <layout class="QHBoxLayout" name="mainLayout" stretch="2,1">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -241,7 +241,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1">
          <property name="spacing">
           <number>3</number>
          </property>
@@ -250,7 +250,7 @@
            <property name="title">
             <string>Meridian Flip</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout">
+           <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,1">
             <property name="leftMargin">
              <number>3</number>
             </property>
@@ -266,60 +266,71 @@
             <property name="spacing">
              <number>3</number>
             </property>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="meridianFlipDegreesR">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Hour Angle unit to Degrees. If the mount is configured to flip at 5 degrees, set the value in Ekos to 3 degrees less (2 degrees).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Degrees</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="1" column="0" rowspan="2">
-             <widget class="QRadioButton" name="meridianFlipHoursR">
-              <property name="toolTip">
-               <string>Set Hour Angle unit to Hours</string>
-              </property>
-              <property name="text">
-               <string>Hours</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">meridianFlipUnit</string>
-              </attribute>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="3">
-             <widget class="QLabel" name="meridianFlipStatusText">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
-             <widget class="QCheckBox" name="meridianFlipCheckBox">
+             <widget class="QCheckBox" name="ExecuteMeridianFlip">
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Flip if HA &gt;</string>
               </property>
-             </widget>
-            </item>
-            <item row="0" column="1" colspan="2">
-             <widget class="QDoubleSpinBox" name="meridianFlipTimeBox">
-              <property name="singleStep">
-               <double>0.100000000000000</double>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="4" column="0" colspan="2">
+            <item row="0" column="1">
+             <widget class="QDoubleSpinBox" name="MeridianFlipOffsetDegrees">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>RA position in degrees behind the meridian where the meridian flip should be activated.</string>
+              </property>
+              <property name="toolTipDuration">
+               <number>-1</number>
+              </property>
+              <property name="maximum">
+               <double>120.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>5.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>5.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="degLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>deg</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="Ekos::MeridianFlipStatusWidget" name="meridianFlipStatusWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="3">
              <widget class="QLabel" name="pierSideLabel">
               <property name="text">
-               <string>pier side label</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -435,7 +446,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QTimeEdit" name="startupTimeEdit">
+           <widget class="QTimeEdit" name="ParkTime">
             <property name="time">
              <time>
               <hour>3</hour>
@@ -446,7 +457,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="everyDayCheck">
+           <widget class="QCheckBox" name="ParkEveryDay">
             <property name="toolTip">
              <string>Automatically start the park timer on startup</string>
             </property>
@@ -793,7 +804,7 @@ font-weight:bold;
            <number>3</number>
           </property>
           <item row="4" column="2">
-           <widget class="QDoubleSpinBox" name="maxHaLimit">
+           <widget class="QDoubleSpinBox" name="MaximumHaLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -821,7 +832,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="2" column="0" colspan="3">
-           <widget class="QCheckBox" name="enableLimitsCheck">
+           <widget class="QCheckBox" name="EnableAltitudeLimits">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -831,7 +842,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="minAltLimit">
+           <widget class="QDoubleSpinBox" name="MinimumAltLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -853,7 +864,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="1" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="maxAltLimit">
+           <widget class="QDoubleSpinBox" name="MaximumAltLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -901,7 +912,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QCheckBox" name="enableHaLimitCheck">
+           <widget class="QCheckBox" name="EnableHaLimit">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -959,6 +970,14 @@ font-weight:bold;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Ekos::MeridianFlipStatusWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/mount/meridianflipstatuswidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>mountToolBoxB</tabstop>
   <tabstop>trackOnB</tabstop>
@@ -969,12 +988,9 @@ font-weight:bold;
   <tabstop>altOUT</tabstop>
   <tabstop>haOUT</tabstop>
   <tabstop>lstOUT</tabstop>
-  <tabstop>minAltLimit</tabstop>
-  <tabstop>maxAltLimit</tabstop>
+  <tabstop>MinimumAltLimit</tabstop>
+  <tabstop>MaximumAltLimit</tabstop>
  </tabstops>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="meridianFlipUnit"/>
- </buttongroups>
 </ui>

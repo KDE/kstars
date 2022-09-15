@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "ekos/auxiliary/filtermanager.h"
 #include "ui_align.h"
 #include "ekos/ekos.h"
 #include "indi/indicamera.h"
@@ -177,7 +178,7 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
         Q_SCRIPTABLE double exposure()
         {
-            return exposureIN->value();
+            return alignExposure->value();
         }
 
         /** DBUS interface function.
@@ -288,6 +289,9 @@ class Align : public QWidget, public Ui::Align
         void getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scale);
 
         void setupFilterManager();
+        void setupPlot();
+        void setupSolutionTable();
+        void setupOptions();
 
         /**
              * @brief Sync the telescope to the solved alignment coordinate.
@@ -508,20 +512,27 @@ class Align : public QWidget, public Ui::Align
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
 
-        // Align Settings
-        QJsonObject getSettings() const;
-        void setSettings(const QJsonObject &settings);
-
         void zoomAlignView();
         void setAlignZoom(double scale);
 
         // Manual Rotator Dialog
         void toggleManualRotator(bool toggled);
 
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
+
+        // Trains
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
     private slots:
-
-        void saveSettleTime();
-
         // Solver timeout
         void checkAlignmentTimeout();
         void setAlignTableResult(AlignResult result);
@@ -546,10 +557,11 @@ class Align : public QWidget, public Ui::Align
         void slotRemoveSolutionPoint();
         void slotAutoScaleGraph();
 
+        // Model
         void slotMountModel();
 
-        // Settings
-        void syncSettings();
+        // Capture Timeout
+        void processCaptureTimeout();
 
     protected slots:
         /**
@@ -578,7 +590,7 @@ class Align : public QWidget, public Ui::Align
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
         // Settings
-        void settingsUpdated(const QJsonObject &settings);
+        void settingsUpdated(const QVariantMap &settings);
 
         // Manual Rotator
         void manualRotatorChanged(double currentPA, double targetPA, double threshold);
@@ -586,15 +598,39 @@ class Align : public QWidget, public Ui::Align
     private:
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
+        void refreshOpticalTrain();        
+
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
         /**
          * @brief Retrieve the align status indicator
@@ -659,17 +695,17 @@ class Align : public QWidget, public Ui::Align
         /**
          * @brief initPolarAlignmentAssistant Initialize Polar Alignment Asssistant Tool
          */
-        void initPolarAlignmentAssistant();
+        void setupPolarAlignmentAssistant();
 
         /**
          * @brief initManualRotator Initialize Manual Rotator Tool
          */
-        void initManualRotator();
+        void setupManualRotator();
 
         /**
          * @brief initDarkProcessor Initialize Dark Processor
          */
-        void initDarkProcessor();
+        void setuptDarkProcessor();
 
         bool matchPAHStage(uint32_t stage);
 
@@ -842,7 +878,7 @@ class Align : public QWidget, public Ui::Align
         bool m_RememberCameraFastExposure = { false };
 
         // Controls
-        double GainSpinSpecialValue {INVALID_VALUE};
+        double alignGainSpecialValue {INVALID_VALUE};
         double TargetCustomGainValue {-1};
 
         // Data
@@ -864,5 +900,11 @@ class Align : public QWidget, public Ui::Align
         // Dark Processor
         QPointer<DarkProcessor> m_DarkProcessor;
 
+        // Filter Manager
+        QSharedPointer<FilterManager> m_FilterManager;
+
+        // Settings
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 };
 }

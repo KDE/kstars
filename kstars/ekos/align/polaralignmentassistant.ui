@@ -108,7 +108,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="PAHDirectionCombo">
+          <widget class="QComboBox" name="PAHDirection">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -157,10 +157,10 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="PAHSlewRateCombo"/>
+          <widget class="QComboBox" name="PAHMountSpeed"/>
          </item>
          <item>
-          <widget class="QCheckBox" name="PAHManual">
+          <widget class="QCheckBox" name="PAHManualSlew">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -403,7 +403,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QComboBox" name="PAHRefreshAlgorithmCombo">
+          <widget class="QComboBox" name="PAHRefreshAlgorithm">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>

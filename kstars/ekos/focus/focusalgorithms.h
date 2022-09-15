@@ -53,7 +53,7 @@ class FocusAlgorithmInterface
             // The number of outward steps taken at the start of the algorithm.
             double initialOutwardSteps;
             // The focus algo
-            Focus::FocusAlgorithm focusAlgorithm;
+            Focus::Algorithm focusAlgorithm;
             // The user defined focuser backlash value
             // The value does not need to be exact but needs to be >= focuser backlash
             int backlash;
@@ -65,7 +65,7 @@ class FocusAlgorithmInterface
             FocusParams(int _maxTravel, int _initialStepSize, int _startPosition,
                         int _minPositionAllowed, int _maxPositionAllowed,
                         int _maxIterations, double _focusTolerance, const QString &filterName_,
-                        double _temperature, double _initialOutwardSteps, Focus::FocusAlgorithm _focusAlgorithm,
+                        double _temperature, double _initialOutwardSteps, Focus::Algorithm _focusAlgorithm,
                         int _backlash, CurveFitting::CurveFit _curveFit, bool _useWeights) :
                 maxTravel(_maxTravel), initialStepSize(_initialStepSize),
                 startPosition(_startPosition), minPositionAllowed(_minPositionAllowed),

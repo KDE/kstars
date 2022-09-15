@@ -985,6 +985,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         Ekos::Scheduler *ui { nullptr };
         //DBus interfaces
+        QPointer<QDBusInterface> indiInterface { nullptr };
         QPointer<QDBusInterface> focusInterface { nullptr };
         QPointer<QDBusInterface> ekosInterface { nullptr };
         QPointer<QDBusInterface> captureInterface { nullptr };
@@ -1058,16 +1059,25 @@ class Scheduler : public QWidget, public Ui::Scheduler
             guidePathString = interface;
         }
 
+        QString INDIInterfaceString { "org.kde.kstars.INDI" };
+        void setINDIInterfaceString(const QString &interface)
+        {
+            INDIInterfaceString = interface;
+        }
+
+        QString INDIPathString {"/KStars/INDI"};
+        void setINDIPathString(const QString &interface)
+        {
+            INDIPathString = interface;
+        }
+
         QString domeInterfaceString { "org.kde.kstars.INDI.Dome" };
         void setDomeInterfaceString(const QString &interface)
         {
             domeInterfaceString = interface;
         }
-        // Only access first detected dome
-        // TODO provide selection? Unlikely to be ever needed.
-        // TODO: Whichever dome selected in Observatory module should be used
-        // Long term might be better to interface with observatory module.
-        QString domePathString { "/KStars/INDI/Dome/1" };
+
+        QString domePathString;
         void setDomePathString(const QString &interface)
         {
             domePathString = interface;
@@ -1078,11 +1088,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             weatherInterfaceString = interface;
         }
-        // Only access first detected weather
-        // TODO: Need to provide selection
-        // Or just connect to Observatory Module and get whatever weather is selected there?
-        // That is probably the best long-term solution.
-        QString weatherPathString { "/KStars/Ekos/Weather/1" };
+        QString weatherPathString;
         void setWeatherPathString(const QString &interface)
         {
             weatherPathString = interface;
@@ -1093,12 +1099,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         {
             dustCapInterfaceString = interface;
         }
-        // Only watch first dust cap
-        // TODO add selection in case we have several?
-        // Ideally, we shouldn't have dust control here
-        // In case we have several dust cap, we need to assign cameras that are covered by this dust cap
-        // in some sort of selection. Perhaps an optical train GUI.
-        QString dustCapPathString { "/KStars/INDI/DustCap/1" };
+        QString dustCapPathString;
         void setDustCapPathString(const QString &interface)
         {
             dustCapPathString = interface;

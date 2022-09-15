@@ -40,7 +40,7 @@ class PolarAlignWidget : public QWidget, public Ui::PolarAlignWidget
         void init();
 
         void update(PAState state);
-        void updatePAHStage(PolarAlignmentAssistant::PAHStage stage);
+        void updatePAHStage(PolarAlignmentAssistant::Stage stage);
 
 
     public slots:

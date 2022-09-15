@@ -26,9 +26,8 @@ class FocusManager : public QWidget, public Ui::FocusManager
 
 public:
     FocusManager(QWidget * parent);
-    void init(Focus *focusProcess);
+    void init();
     void updateFocusDetailView();
-    void stopAnimation();
     void reset();
 
 public slots:
@@ -37,7 +36,6 @@ public slots:
     void updateCurrentHFR(double newHFR);
 
 private:
-    QProgressIndicator *focusPI { nullptr };
     std::unique_ptr<QPixmap> focusStarPixmap;
 
 };

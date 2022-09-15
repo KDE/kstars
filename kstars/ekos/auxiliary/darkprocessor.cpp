@@ -6,6 +6,7 @@
 
 #include "darkprocessor.h"
 #include "darklibrary.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include <array>
 
@@ -220,10 +221,10 @@ void DarkProcessor::subtractInternal(const QSharedPointer<FITSData> &darkData, c
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkProcessor::denoise(ISD::CameraChip *m_TargetChip, const QSharedPointer<FITSData> &targetData,
+void DarkProcessor::denoise(int trainID, ISD::CameraChip *m_TargetChip, const QSharedPointer<FITSData> &targetData,
                             double duration, uint16_t offsetX, uint16_t offsetY)
 {
-    info = {m_TargetChip, targetData, duration, offsetX, offsetY};
+    info = {trainID, m_TargetChip, targetData, duration, offsetX, offsetY};
     QFuture<bool> result = QtConcurrent::run(this, &DarkProcessor::denoiseInternal);
     m_Watcher.setFuture(result);
 }
@@ -233,12 +234,19 @@ void DarkProcessor::denoise(ISD::CameraChip *m_TargetChip, const QSharedPointer<
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkProcessor::denoiseInternal()
 {
-    const QString device = info.targetChip->getCCD()->getDeviceName();
+    auto train = info.trainID;
+    auto useDefect = false;
+
+    // Get the train settings
+    OpticalTrainSettings::Instance()->setOpticalTrainID(train);
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
+    if (settings.isValid())
+        useDefect = settings.toMap().contains("preferDefectsRadio");
 
     // Check if we have preference for defect map
     // If yes, check if defect map exists
     // If not, we check if we have regular dark frame as backup.
-    if (DarkLibrary::Instance()->cameraHasDefectMaps(device))
+    if (useDefect)
     {
         QSharedPointer<DefectMap> targetDefectMap;
         if (DarkLibrary::Instance()->findDefectMap(info.targetChip, info.duration, targetDefectMap))

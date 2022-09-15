@@ -22,6 +22,10 @@ namespace ISD
 class DustCap : public ConcreteDevice
 {
         Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.DustCap")
+        Q_PROPERTY(ISD::DustCap::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(bool canPark READ canPark)
+        Q_PROPERTY(bool hasLight READ hasLight)
 
     public:
         explicit DustCap(GenericDevice *parent);
@@ -37,13 +41,13 @@ class DustCap : public ConcreteDevice
 
         virtual void processSwitch(ISwitchVectorProperty *svp) override;
 
-        virtual bool hasLight();
-        virtual bool canPark();
-        virtual bool isLightOn();
+        Q_SCRIPTABLE virtual bool hasLight();
+        Q_SCRIPTABLE virtual bool canPark();
+        Q_SCRIPTABLE virtual bool isLightOn();
         // Check if cap is fully parked.
-        virtual bool isParked();
+        Q_SCRIPTABLE virtual bool isParked();
         // Check if cap is fully unparked. We need this because we have parking and unparking in progress
-        virtual bool isUnParked();
+        Q_SCRIPTABLE virtual bool isUnParked();
 
         static const QString getStatusString(Status status, bool translated = true);
 
@@ -53,28 +57,28 @@ class DustCap : public ConcreteDevice
          * @param val Value of brightness level.
          * @return True if operation is successful, false otherwise.
          */
-        bool SetBrightness(uint16_t val);
+        Q_SCRIPTABLE bool setBrightness(uint16_t val);
 
         /**
          * @brief SetLightEnabled Turn on/off light
          * @param enable true to turn on, false to turn off
          * @return True if operation is successful, false otherwise.
          */
-        bool SetLightEnabled(bool enable);
+        Q_SCRIPTABLE bool setLightEnabled(bool enable);
 
         /**
          * @brief Park Close dust cap
          * @return True if operation is successful, false otherwise.
          */
-        bool Park();
+        Q_SCRIPTABLE bool park();
 
         /**
          * @brief UnPark Open dust cap
          * @return True if operation is successful, false otherwise.
          */
-        bool UnPark();
+        Q_SCRIPTABLE bool unPark();
 
-        Status status()
+        Q_SCRIPTABLE Status status()
         {
             return m_Status;
         }

@@ -124,57 +124,14 @@ class Guide : public QWidget, public Ui::Guide
         Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
         double exposure()
         {
-            return exposureIN->value();
+            return guideExposure->value();
         }
-
-        /** DBUS interface function.
-             * Set calibration Use Two Axis option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
-             * @param enable if true, calibration will be performed in both RA and DEC axis. Otherwise, only RA axis will be calibrated.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setCalibrationTwoAxis(bool enable);
-
-        /** DBUS interface function.
-             * Set auto star calibration option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
-             * @param enable if true, Ekos will attempt to automatically select the best guide star and proceed with the calibration procedure.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoStar(bool enable);
-
-        /** DBUS interface function.
-             * In case of automatic star selection, calculate the appropriate square size given the selected star width. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
-             * @param enable if true, Ekos will attempt to automatically select the best square size for calibration and guiding phases.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setCalibrationAutoSquareSize(bool enable);
 
         /** DBUS interface function.
              * Set calibration dark frame option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
              * @param enable if true, a dark frame will be captured to subtract from the light frame.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setDarkFrameEnabled(bool enable);
-
-        /** DBUS interface function.
-             * Set calibration parameters.
-             * @param pulseDuration Pulse duration in milliseconds to use in the calibration steps.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setCalibrationPulseDuration(int pulseDuration);
-
-        /** DBUS interface function.
-             * Set guiding box size. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-             * @param index box size index (0 to 4) for box size from 8 to 128 pixels. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star. Default is 16 pixels
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSizeIndex(int index);
-
-        /** DBUS interface function.
-             * Set guiding algorithm. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-             * @param index Select the algorithm used to calculate the centroid of the guide star (0 --> Smart, 1 --> Fast, 2 --> Auto, 3 --> No thresh).
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithmIndex(int index);
-
-        /** DBUS interface function.
-             * Enable or disables dithering. Set dither range
-             * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otherwise, dithering is disabled.
-             * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
-             */
-        Q_SCRIPTABLE Q_NOREPLY void setDitherSettings(bool enable, double value);
+        Q_SCRIPTABLE Q_NOREPLY void setDarkFrameEnabled(bool enable);        
 
         /** @}*/
 
@@ -243,7 +200,7 @@ class Guide : public QWidget, public Ui::Guide
         // Tracking Box
         int getTrackingBoxSize()
         {
-            return boxSizeCombo->currentText().toInt();
+            return guideSquareSize->currentText().toInt();
         }
 
         GuideInterface *getGuiderInstance()
@@ -251,8 +208,9 @@ class Guide : public QWidget, public Ui::Guide
             return m_GuiderInstance;
         }
 
-        QJsonObject getSettings() const;
-        void setSettings(const QJsonObject &settings);
+        // Settings
+        QVariantMap getAllSettings() const;
+        void setAllSettings(const QVariantMap &settings);
 
     public slots:
 
@@ -313,6 +271,12 @@ class Guide : public QWidget, public Ui::Guide
              * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
              */
         Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
+
+        /** DBUS interface function.
+             * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+             * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setAutoStarEnabled(bool enable);
 
         /** DBUS interface function.
              * Selects which guiding process to utilize for calibration & guiding.
@@ -386,6 +350,16 @@ class Guide : public QWidget, public Ui::Guide
              */
         void setDECSwap(bool enable);
 
+
+        /**
+         * @brief updateSetting Update per-train and global setting
+         * @param key Name of setting
+         * @param value Value
+         * @note per-train and global settings are updated. Changes are saved to database
+         * and to disk immediately.
+         */
+        void updateSetting(const QString &key, const QVariant &value);
+
         //plot slots
         void handleVerticalPlotSizeChange();
         void handleHorizontalPlotSizeChange();
@@ -400,8 +374,17 @@ class Guide : public QWidget, public Ui::Guide
 
         void guideAfterMeridianFlip();
 
+        // Trains
+        QString opticalTrain() const
+        {
+            return opticalTrainCombo->currentText();
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrainCombo->setCurrentText(value);
+        }
+
     protected slots:
-        void updateTelescopeType(int index);
         void updateCCDBin(int index);
 
         /**
@@ -424,9 +407,8 @@ class Guide : public QWidget, public Ui::Guide
         //void onXscaleChanged( int i );
         //void onYscaleChanged( int i );
         void onThresholdChanged(int i);
-        void onEnableDirRA(bool enable);
-        void onEnableDirDEC(bool enable);
-        void syncSettings();
+        void onEnableDirRA();
+        void onEnableDirDEC();
 
         void setAxisDelta(double ra, double de);
         void setAxisSigma(double ra, double de);
@@ -440,8 +422,7 @@ class Guide : public QWidget, public Ui::Guide
         void processGuideOptions();
         void configSEPMultistarOptions();
 
-        void onControlDirectionChanged(bool enable);
-        void updatePHD2Directions();
+        void onControlDirectionChanged();
 
         void showFITSViewer();
 
@@ -465,7 +446,7 @@ class Guide : public QWidget, public Ui::Guide
                         double snr, double skyBg, int numStars);
 
         void guideChipUpdated(ISD::CameraChip *);
-        void settingsUpdated(const QJsonObject &settings);
+        void settingsUpdated(const QVariantMap &settings);
         void driverTimedout(const QString &deviceName);
 
     private:
@@ -485,17 +466,7 @@ class Guide : public QWidget, public Ui::Guide
         /**
              * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
              */
-        void syncTrackingBoxPosition();
-
-        /**
-             * @brief loadSettings Loads and applies all settings from KStars options
-             */
-        void loadSettings();
-
-        /**
-             * @brief saveSettings Saves all current settings into KStars options
-             */
-        void saveSettings();
+        void syncTrackingBoxPosition();   
 
         /**
              * @brief setBusy Indicate busy status within the module visually
@@ -519,6 +490,38 @@ class Guide : public QWidget, public Ui::Guide
 
         void handleManualDither();
 
+        ////////////////////////////////////////////////////////////////////
+        /// Settings
+        ////////////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Connect GUI elements to sync settings once updated.
+         */
+        void connectSettings();
+        /**
+         * @brief Stop updating settings when GUI elements are updated.
+         */
+        void disconnectSettings();
+        /**
+         * @brief loadSettings Load setting from Options and set them accordingly.
+         */
+        void loadGlobalSettings();
+
+        /**
+         * @brief syncSettings When checkboxes, comboboxes, or spin boxes are updated, save their values in the
+         * global and per-train settings.
+         */
+        void syncSettings();
+
+        /**
+         * @brief syncControl Sync setting to widget. The value depends on the widget type.
+         * @param settings Map of all settings
+         * @param key name of widget to sync
+         * @param widget pointer of widget to set
+         * @return True if sync successful, false otherwise
+         */
+        bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
+
         // Operation stack
         void buildOperationStack(GuideState operation);
         bool executeOperationStack();
@@ -534,15 +537,7 @@ class Guide : public QWidget, public Ui::Guide
         bool captureOneFrame();
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();
-        QString opticalTrain() const
-        {
-            return opticalTrainCombo->currentText();
-        }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
+        void refreshOpticalTrain();        
 
         // Driver
         void reconnectDriver(const QString &camera, QVariantMap settings);
@@ -672,5 +667,8 @@ class Guide : public QWidget, public Ui::Guide
         // Should be called in Guide::Guide() for initial seed initialization, and then in setCaptureStatus to reset accumulated drift
         // every time a capture task is completed or aborted.
         void resetNonGuidedDither();
+
+        QVariantMap m_Settings;
+        QVariantMap m_GlobalSettings;
 };
 }

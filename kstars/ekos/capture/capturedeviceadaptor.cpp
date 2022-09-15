@@ -381,7 +381,7 @@ void CaptureDeviceAdaptor::askManualScopeLightOpen()
 
 void CaptureDeviceAdaptor::setLightBoxLight(bool on)
 {
-    m_ActiveLightBox->SetLightEnabled(on);
+    m_ActiveLightBox->setLightEnabled(on);
     emit lightBoxLight(on);
 }
 
@@ -389,12 +389,12 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
 {
     // park
     if (park == true)
-        if (m_ActiveDustCap->Park())
+        if (m_ActiveDustCap->park())
             emit dustCapStatusChanged(ISD::DustCap::CAP_PARKING);
         else
             emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
     // unpark
-    else if (m_ActiveDustCap->UnPark())
+    else if (m_ActiveDustCap->unPark())
         emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
     else
         emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);

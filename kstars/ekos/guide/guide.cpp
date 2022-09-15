@@ -20,6 +20,7 @@
 #include "auxiliary/QProgressIndicator.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "externalguide/linguider.h"
 #include "externalguide/phd2.h"
@@ -89,10 +90,7 @@ Guide::Guide() : QWidget()
     initView();
     internalGuider->setGuideView(m_GuideView);
 
-    // #5 Load all settings
-    loadSettings();
-
-    // #6 Init Connections
+    // #5 Init Connections
     initConnections();
 
     // Progress Indicator
@@ -143,13 +141,13 @@ Guide::Guide() : QWidget()
     QList<double> exposureValues;
     exposureValues << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5 << 4 << 4.5 << 5 << 6 << 7 << 8 << 9
                    << 10 << 15 << 30;
-    exposureIN->setRecommendedValues(exposureValues);
-    connect(exposureIN, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
+    guideExposure->setRecommendedValues(exposureValues);
+    connect(guideExposure, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
 
     // Guide Delay
-    connect(GuideDelay, &QDoubleSpinBox::editingFinished, this, [this]()
+    connect(guideDelay, &QDoubleSpinBox::editingFinished, this, [this]()
     {
-        Options::setGuideDelay(GuideDelay->value());
+        Options::setGuideDelay(guideDelay->value());
     });
 
     // Set current guide type
@@ -158,7 +156,7 @@ Guide::Guide() : QWidget()
     //This allows the current guideSubframe option to be loaded.
     if(guiderType == GUIDE_PHD2)
     {
-        setExternalGuiderBLOBEnabled(!Options::guideSubframeEnabled());
+        setExternalGuiderBLOBEnabled(!Options::guideSubframe());
     }
     else
     {
@@ -183,7 +181,7 @@ Guide::Guide() : QWidget()
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Guide::appendLogText);
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
-        if (completed != darkFrameCheck->isChecked())
+        if (completed != guideDarkFrame->isChecked())
             setDarkFrameEnabled(completed);
         m_GuideView->setProperty("suspended", false);
         if (completed)
@@ -194,6 +192,9 @@ Guide::Guide() : QWidget()
         m_GuideView->updateFrame();
         setCaptureComplete();
     });
+
+    loadGlobalSettings();
+    connectSettings();
 
     setupOpticalTrainManager();
 }
@@ -251,9 +252,7 @@ void Guide::resizeEvent(QResizeEvent *event)
 
 void Guide::buildTarget()
 {
-    double accuracyRadius = accuracyRadiusSpin->value();
-    Options::setGuiderAccuracyThreshold(accuracyRadius);
-    targetPlot->buildTarget(accuracyRadius);
+    targetPlot->buildTarget(guiderAccuracyThreshold->value());
 }
 
 void Guide::clearGuideGraphs()
@@ -277,7 +276,7 @@ void Guide::slotAutoScaleGraphs()
     driftGraph->zoomX(defaultXZoomLevel);
 
     driftGraph->autoScaleGraphs();
-    targetPlot->autoScaleGraphs(accuracyRadiusSpin->value());
+    targetPlot->autoScaleGraphs(guiderAccuracyThreshold->value());
 
     calibrationPlot->rescaleAxes();
     calibrationPlot->yAxis->setScaleRatio(calibrationPlot->xAxis, 1.0);
@@ -308,8 +307,8 @@ void Guide::setLatestGuidePoint(bool isChecked)
 
 QString Guide::setRecommendedExposureValues(QList<double> values)
 {
-    exposureIN->setRecommendedValues(values);
-    return exposureIN->getRecommendedValuesString();
+    guideExposure->setRecommendedValues(values);
+    return guideExposure->getRecommendedValuesString();
 }
 
 bool Guide::setCamera(ISD::Camera *device)
@@ -371,7 +370,7 @@ void Guide::configurePHD2Camera()
     //But lets make sure the blob is set correctly every time.
     if(lastPHD2CameraName == currentPHD2CameraName)
     {
-        setExternalGuiderBLOBEnabled(!Options::guideSubframeEnabled());
+        setExternalGuiderBLOBEnabled(!guideSubframe->isChecked());
         return;
     }
 
@@ -393,19 +392,19 @@ void Guide::configurePHD2Camera()
         appendLogText(
             i18n("PHD2's current camera: %1, is NOT connected to Ekos.  The PHD2 Guide Star Image will be received, but the full external guide frames cannot.",
                  phd2Guider->getCurrentCamera()));
-        subFrameCheck->setEnabled(false);
+        guideSubframe->setEnabled(false);
         //We don't want to actually change the user's subFrame Setting for when a camera really is connected, just check the box to tell the user.
-        disconnect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
-        subFrameCheck->setChecked(true);
+        disconnect(guideSubframe, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
+        guideSubframe->setChecked(true);
         return;
     }
 
     appendLogText(
         i18n("PHD2's current camera: %1, IS connected to Ekos.  You can select whether to use the full external guide frames or just receive the PHD2 Guide Star Image using the SubFrame checkbox.",
              phd2Guider->getCurrentCamera()));
-    subFrameCheck->setEnabled(true);
-    connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
-    subFrameCheck->setChecked(Options::guideSubframeEnabled());
+    guideSubframe->setEnabled(true);
+    connect(guideSubframe, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
+    guideSubframe->setChecked(guideSubframe->isChecked());
 }
 
 bool Guide::setMount(ISD::Mount *device)
@@ -552,7 +551,7 @@ void Guide::updateGuideParams()
         return;
 
     if(guiderType == GUIDE_INTERNAL)
-        binningCombo->setEnabled(targetChip->canBin());
+        guideBinning->setEnabled(targetChip->canBin());
 
     int subBinX = 1, subBinY = 1;
     if (targetChip->canBin())
@@ -571,15 +570,15 @@ void Guide::updateGuideParams()
 
         guideBinIndex = subBinX - 1;
 
-        binningCombo->blockSignals(true);
+        guideBinning->blockSignals(true);
 
-        binningCombo->clear();
+        guideBinning->clear();
         for (int i = 1; i <= maxBinX; i++)
-            binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+            guideBinning->addItem(QString("%1x%2").arg(i).arg(i));
 
-        binningCombo->setCurrentIndex( guideBinIndex );
+        guideBinning->setCurrentIndex( guideBinIndex );
 
-        binningCombo->blockSignals(false);
+        guideBinning->blockSignals(false);
     }
 
     // If frame setting does not exist, create a new one.
@@ -592,13 +591,14 @@ void Guide::updateGuideParams()
             {
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+                auto subframed = guideSubframe->isChecked();
 
                 QVariantMap settings;
 
-                settings["x"]    = Options::guideSubframeEnabled() ? x : minX;
-                settings["y"]    = Options::guideSubframeEnabled() ? y : minY;
-                settings["w"]    = Options::guideSubframeEnabled() ? w : maxW;
-                settings["h"]    = Options::guideSubframeEnabled() ? h : maxH;
+                settings["x"]    = subframed ? x : minX;
+                settings["y"]    = subframed ? y : minY;
+                settings["w"]    = subframed ? w : maxW;
+                settings["h"]    = subframed ? h : maxH;
                 settings["binx"] = subBinX;
                 settings["biny"] = subBinY;
 
@@ -705,7 +705,7 @@ bool Guide::captureOneFrame()
         return false;
     }
 
-    double seqExpose = exposureIN->value();
+    double seqExpose = guideExposure->value();
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
@@ -730,7 +730,7 @@ bool Guide::captureOneFrame()
 
     // Increase exposure for calibration frame if we need auto-select a star
     // To increase chances we detect one.
-    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStarEnabled() &&
+    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStar() &&
             !((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled()))
         finalExposure *= 3;
 
@@ -806,16 +806,15 @@ void Guide::setBusy(bool enable)
         guideB->setEnabled(false);
         captureB->setEnabled(false);
         loopB->setEnabled(false);
-
-        darkFrameCheck->setEnabled(false);
-        subFrameCheck->setEnabled(false);
-        autoStarCheck->setEnabled(false);
-
+        guideDarkFrame->setEnabled(false);
+        guideSubframe->setEnabled(false);
+        guideAutoStar->setEnabled(false);
         stopB->setEnabled(true);
+        // Optical Train
+        opticalTrainCombo->setEnabled(false);
+        trainB->setEnabled(false);
 
         pi->startAnimation();
-
-        //disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, &Ekos::Guide::setTrackingStar(int,int)));
     }
     else
     {
@@ -823,12 +822,12 @@ void Guide::setBusy(bool enable)
         {
             captureB->setEnabled(true);
             loopB->setEnabled(true);
-            autoStarCheck->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
+            guideAutoStar->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
             if(m_Camera)
-                subFrameCheck->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
+                guideSubframe->setEnabled(!internalGuider->SEPMultiStarEnabled()); // cf. configSEPMultistarOptions()
         }
         if (guiderType == GUIDE_INTERNAL)
-            darkFrameCheck->setEnabled(true);
+            guideDarkFrame->setEnabled(true);
 
         if (calibrationComplete ||
                 ((guiderType == GUIDE_INTERNAL) &&
@@ -838,6 +837,10 @@ void Guide::setBusy(bool enable)
         guideB->setEnabled(true);
         stopB->setEnabled(false);
         pi->stopAnimation();
+
+        // Optical Train
+        opticalTrainCombo->setEnabled(true);
+        trainB->setEnabled(true);
 
         connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar, Qt::UniqueConnection);
     }
@@ -852,8 +855,8 @@ void Guide::processCaptureTimeout()
         ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         targetChip->abortExposure();
         prepareCapture(targetChip);
-        targetChip->capture(exposureIN->value());
-        captureTimeout.start(exposureIN->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+        targetChip->capture(guideExposure->value());
+        captureTimeout.start(guideExposure->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     };
 
     m_CaptureTimeoutCounter++;
@@ -1150,8 +1153,6 @@ bool Guide::calibrate()
         }
     }
 
-    saveSettings();
-
     buildOperationStack(GUIDE_CALIBRATING);
 
     executeOperationStack();
@@ -1178,14 +1179,13 @@ bool Guide::guide()
             }
         }
 
-        saveSettings();
         m_GuiderInstance->guide();
 
         //If PHD2 gets a Guide command and it is looping, it will accept a lock position
         //but if it was not looping it will ignore the lock position and do an auto star automatically
         //This is not the default behavior in Ekos if auto star is not selected.
         //This gets around that by noting the position of the tracking box, and enforcing it after the state switches to guide.
-        if(!Options::guideAutoStarEnabled())
+        if(!guideAutoStar->isChecked())
         {
             if(guiderType == GUIDE_PHD2 && m_GuideView->isTrackingBoxEnabled())
             {
@@ -1384,55 +1384,22 @@ void Guide::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSi
 
 void Guide::setExposure(double value)
 {
-    exposureIN->setValue(value);
-}
-
-void Guide::setCalibrationTwoAxis(bool enable)
-{
-    Options::setTwoAxisEnabled(enable);
-}
-
-void Guide::setCalibrationAutoStar(bool enable)
-{
-    autoStarCheck->setChecked(enable);
-}
-
-void Guide::setCalibrationAutoSquareSize(bool enable)
-{
-    Options::setGuideAutoSquareSizeEnabled(enable);
-}
-
-void Guide::setCalibrationPulseDuration(int pulseDuration)
-{
-    Options::setCalibrationPulseDuration(pulseDuration);
-}
-
-void Guide::setGuideBoxSizeIndex(int index)
-{
-    Options::setGuideSquareSizeIndex(index);
-}
-
-void Guide::setGuideAlgorithmIndex(int index)
-{
-    Options::setGuideAlgorithm(index);
+    guideExposure->setValue(value);
 }
 
 void Guide::setSubFrameEnabled(bool enable)
 {
-    Options::setGuideSubframeEnabled(enable);
-    if (subFrameCheck->isChecked() != enable)
-        subFrameCheck->setChecked(enable);
+    if (guideSubframe->isChecked() != enable)
+        guideSubframe->setChecked(enable);
     if(guiderType == GUIDE_PHD2)
         setExternalGuiderBLOBEnabled(!enable);
 }
 
-
-void Guide::setDitherSettings(bool enable, double value)
+void Guide::setAutoStarEnabled(bool enable)
 {
-    Options::setDitherEnabled(enable);
-    Options::setDitherPixels(value);
+    if(guiderType == GUIDE_INTERNAL)
+        guideAutoStar->setChecked(enable);
 }
-
 
 void Guide::clearCalibration()
 {
@@ -1471,10 +1438,10 @@ void Guide::setStatus(Ekos::GuideState newState)
             {
                 captureB->setEnabled(true);
                 loopB->setEnabled(true);
-                autoStarCheck->setEnabled(true);
+                guideAutoStar->setEnabled(true);
                 configurePHD2Camera();
-                setExternalGuiderBLOBEnabled(!Options::guideSubframeEnabled());
-                boxSizeCombo->setEnabled(true);
+                setExternalGuiderBLOBEnabled(!guideSubframe->isChecked());
+                guideSquareSize->setEnabled(true);
             }
             break;
 
@@ -1487,8 +1454,8 @@ void Guide::setStatus(Ekos::GuideState newState)
             guideB->setEnabled(false);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            autoStarCheck->setEnabled(false);
-            boxSizeCombo->setEnabled(false);
+            guideAutoStar->setEnabled(false);
+            guideSquareSize->setEnabled(false);
             //setExternalGuiderBLOBEnabled(true);
 #ifdef Q_OS_OSX
             repaint(); //This is a band-aid for a bug in QT 5.10.0
@@ -1604,8 +1571,6 @@ void Guide::updateCCDBin(int index)
 
     m_GuiderInstance->setFrameParams(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt(),
                                      settings["binx"].toInt(), settings["biny"].toInt());
-
-    // saveSettings(); too early! Check first supported binning (see "processCCDNumber")
 }
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
@@ -1616,18 +1581,16 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
     if ((!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) ||
             (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead))
     {
-        binningCombo->disconnect();
         if (guideBinIndex > (nvp->np[0].value - 1)) // INDI driver reports not supported binning
         {
             appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
-            binningCombo->setCurrentIndex( nvp->np[0].value - 1 );
+            guideBinning->setCurrentIndex( nvp->np[0].value - 1 );
+            updateSetting("guideBinning", guideBinning->currentText());
         }
         else
         {
-            binningCombo->setCurrentIndex(guideBinIndex);
+            guideBinning->setCurrentIndex(guideBinIndex);
         }
-        connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Guide::updateCCDBin);
-        saveSettings(); // Save binning (and more) immediately
     }
 }
 
@@ -1644,7 +1607,7 @@ void Guide::checkExposureValue(ISD::CameraChip *targetChip, double exposure, IPS
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         m_Camera->setEncodingFormat("FITS");
-        targetChip->capture(exposureIN->value());
+        targetChip->capture(guideExposure->value());
     }
 }
 
@@ -1653,32 +1616,36 @@ void Guide::configSEPMultistarOptions()
     // SEP MultiStar always uses an automated guide star & doesn't subframe.
     if (internalGuider->SEPMultiStarEnabled())
     {
-        subFrameCheck->setChecked(false);
-        subFrameCheck->setEnabled(false);
-        autoStarCheck->setChecked(true);
-        autoStarCheck->setEnabled(false);
+        guideSubframe->setChecked(false);
+        guideSubframe->setEnabled(false);
+        guideAutoStar->setChecked(true);
+        guideAutoStar->setEnabled(false);
     }
     else
     {
-        subFrameCheck->setChecked(Options::guideSubframeEnabled());
-        subFrameCheck->setEnabled(true);
-        autoStarCheck->setChecked(Options::guideAutoStarEnabled());
-        autoStarCheck->setEnabled(true);
+        guideAutoStar->setEnabled(true);
+        guideSubframe->setEnabled(true);
+
+        auto subframed = m_Settings["guideSubframe"];
+        if (subframed.isValid())
+            guideSubframe->setChecked(subframed.toBool());
+
+        auto autostar = m_Settings["guideAutoStar"];
+        if (autostar.isValid())
+            guideAutoStar->setChecked(autostar.toBool());
     }
 }
 
 void Guide::setDarkFrameEnabled(bool enable)
 {
-    Options::setGuideDarkFrameEnabled(enable);
-    if (darkFrameCheck->isChecked() != enable)
-        darkFrameCheck->setChecked(enable);
+    if (guideDarkFrame->isChecked() != enable)
+        guideDarkFrame->setChecked(enable);
 }
 
 void Guide::saveDefaultGuideExposure()
 {
-    Options::setGuideExposure(exposureIN->value());
     if(guiderType == GUIDE_PHD2)
-        phd2Guider->requestSetExposureTime(exposureIN->value() * 1000);
+        phd2Guider->requestSetExposureTime(guideExposure->value() * 1000);
 }
 
 void Guide::setStarPosition(const QVector3D &newCenter, bool updateNow)
@@ -1718,15 +1685,15 @@ void Guide::syncTrackingBoxPosition()
 
     if (starCenter.isNull() == false)
     {
-        double boxSize = boxSizeCombo->currentText().toInt();
+        double boxSize = guideSquareSize->currentText().toInt();
         int x, y, w, h;
         targetChip->getFrame(&x, &y, &w, &h);
         // If box size is larger than image size, set it to lower index
         if (boxSize / subBinX >= w || boxSize / subBinY >= h)
         {
-            int newIndex = boxSizeCombo->currentIndex() - 1;
+            int newIndex = guideSquareSize->currentIndex() - 1;
             if (newIndex >= 0)
-                boxSizeCombo->setCurrentIndex(newIndex);
+                guideSquareSize->setCurrentIndex(newIndex);
             return;
         }
 
@@ -1794,11 +1761,11 @@ bool Guide::setGuiderType(int type)
             loopB->setEnabled(true);
 
             configSEPMultistarOptions();
-            darkFrameCheck->setEnabled(true);
+            guideDarkFrame->setEnabled(true);
 
-            exposureIN->setEnabled(true);
-            binningCombo->setEnabled(true);
-            boxSizeCombo->setEnabled(true);
+            guideExposure->setEnabled(true);
+            guideBinning->setEnabled(true);
+            guideSquareSize->setEnabled(true);
 
             externalConnectB->setEnabled(false);
             externalDisconnectB->setEnabled(false);
@@ -1827,15 +1794,15 @@ bool Guide::setGuiderType(int type)
             clearCalibrationB->setEnabled(true);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            darkFrameCheck->setEnabled(false);
-            subFrameCheck->setEnabled(false);
-            autoStarCheck->setEnabled(false);
+            guideDarkFrame->setEnabled(false);
+            guideSubframe->setEnabled(false);
+            guideAutoStar->setEnabled(false);
             guideB->setEnabled(false); //This will be enabled later when equipment connects (or not)
             externalConnectB->setEnabled(false);
 
-            checkBox_DirRA->setEnabled(false);
-            eastControlCheck->setEnabled(false);
-            westControlCheck->setEnabled(false);
+            rAGuideEnabled->setEnabled(false);
+            eastRAGuideEnabled->setEnabled(false);
+            westRAGuideEnabled->setEnabled(false);
             swapCheck->setEnabled(false);
 
 
@@ -1847,9 +1814,9 @@ bool Guide::setGuiderType(int type)
             l_Focal->setEnabled(false);
             driftGraphicsGroup->setEnabled(true);
 
-            exposureIN->setEnabled(true);
-            binningCombo->setEnabled(false);
-            boxSizeCombo->setEnabled(false);
+            guideExposure->setEnabled(true);
+            guideBinning->setEnabled(false);
+            guideSquareSize->setEnabled(false);
 
             if (Options::resetGuideCalibration())
                 appendLogText(i18n("Warning: Reset Guiding Calibration is enabled. It is recommended to turn this option off for PHD2."));
@@ -1866,9 +1833,9 @@ bool Guide::setGuiderType(int type)
             clearCalibrationB->setEnabled(true);
             captureB->setEnabled(false);
             loopB->setEnabled(false);
-            darkFrameCheck->setEnabled(false);
-            subFrameCheck->setEnabled(false);
-            autoStarCheck->setEnabled(false);
+            guideDarkFrame->setEnabled(false);
+            guideSubframe->setEnabled(false);
+            guideAutoStar->setEnabled(false);
             guideB->setEnabled(true);
             externalConnectB->setEnabled(true);
 
@@ -1876,9 +1843,9 @@ bool Guide::setGuiderType(int type)
             infoGroup->setEnabled(false);
             driftGraphicsGroup->setEnabled(false);
 
-            exposureIN->setEnabled(false);
-            binningCombo->setEnabled(false);
-            boxSizeCombo->setEnabled(false);
+            guideExposure->setEnabled(false);
+            guideBinning->setEnabled(false);
+            guideSquareSize->setEnabled(false);
 
             updateGuideParams();
 
@@ -1940,10 +1907,8 @@ void Guide::updateTrackingBoxSize(int currentIndex)
 {
     if (currentIndex >= 0)
     {
-        Options::setGuideSquareSizeIndex(currentIndex);
-
         if (guiderType == GUIDE_INTERNAL)
-            dynamic_cast<InternalGuider *>(m_GuiderInstance)->setGuideBoxSize(boxSizeCombo->currentText().toInt());
+            dynamic_cast<InternalGuider *>(m_GuiderInstance)->setGuideBoxSize(guideSquareSize->currentText().toInt());
 
         syncTrackingBoxPosition();
     }
@@ -1962,180 +1927,61 @@ void Guide::onThresholdChanged(int index)
     }
 }
 
-void Guide::onEnableDirRA(bool enable)
+void Guide::onEnableDirRA()
 {
     // If RA guiding is enable or disabled, the GPG should be reset.
     if (Options::gPGEnabled())
         m_GuiderInstance->resetGPG();
-    Options::setRAGuideEnabled(enable);
 }
 
-void Guide::onEnableDirDEC(bool enable)
+void Guide::onEnableDirDEC()
 {
-    Options::setDECGuideEnabled(enable);
-    updatePHD2Directions();
+    onControlDirectionChanged();
 }
 
-void Guide::syncSettings()
-{
-    QCheckBox *pCB = nullptr;
-
-    QObject *obj = sender();
-
-    if ((pCB = qobject_cast<QCheckBox*>(obj)))
-    {
-        if (pCB == autoStarCheck)
-            Options::setGuideAutoStarEnabled(pCB->isChecked());
-    }
-
-    emit settingsUpdated(getSettings());
-}
-
-void Guide::onControlDirectionChanged(bool enable)
-{
-    QObject *obj = sender();
-
-    if (northControlCheck == dynamic_cast<QCheckBox *>(obj))
-    {
-        Options::setNorthDECGuideEnabled(enable);
-        updatePHD2Directions();
-    }
-    else if (southControlCheck == dynamic_cast<QCheckBox *>(obj))
-    {
-        Options::setSouthDECGuideEnabled(enable);
-        updatePHD2Directions();
-    }
-    else if (westControlCheck == dynamic_cast<QCheckBox *>(obj))
-    {
-        Options::setWestRAGuideEnabled(enable);
-    }
-    else if (eastControlCheck == dynamic_cast<QCheckBox *>(obj))
-    {
-        Options::setEastRAGuideEnabled(enable);
-    }
-}
-void Guide::updatePHD2Directions()
+void Guide::onControlDirectionChanged()
 {
     if(guiderType == GUIDE_PHD2)
-        phd2Guider -> requestSetDEGuideMode(checkBox_DirDEC->isChecked(), northControlCheck->isChecked(),
-                                            southControlCheck->isChecked());
+        phd2Guider -> requestSetDEGuideMode(dECGuideEnabled->isChecked(), northDECGuideEnabled->isChecked(),
+                                            southDECGuideEnabled->isChecked());
 }
+
 void Guide::updateDirectionsFromPHD2(const QString &mode)
 {
     //disable connections
-    disconnect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
-    disconnect(northControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    disconnect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    disconnect(dECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
+    disconnect(northDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    disconnect(southDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
 
     if(mode == "Auto")
     {
-        checkBox_DirDEC->setChecked(true);
-        northControlCheck->setChecked(true);
-        southControlCheck->setChecked(true);
+        dECGuideEnabled->setChecked(true);
+        northDECGuideEnabled->setChecked(true);
+        southDECGuideEnabled->setChecked(true);
     }
     else if(mode == "North")
     {
-        checkBox_DirDEC->setChecked(true);
-        northControlCheck->setChecked(true);
-        southControlCheck->setChecked(false);
+        dECGuideEnabled->setChecked(true);
+        northDECGuideEnabled->setChecked(true);
+        southDECGuideEnabled->setChecked(false);
     }
     else if(mode == "South")
     {
-        checkBox_DirDEC->setChecked(true);
-        northControlCheck->setChecked(false);
-        southControlCheck->setChecked(true);
+        dECGuideEnabled->setChecked(true);
+        northDECGuideEnabled->setChecked(false);
+        southDECGuideEnabled->setChecked(true);
     }
     else //Off
     {
-        checkBox_DirDEC->setChecked(false);
-        northControlCheck->setChecked(true);
-        southControlCheck->setChecked(true);
+        dECGuideEnabled->setChecked(false);
+        northDECGuideEnabled->setChecked(true);
+        southDECGuideEnabled->setChecked(true);
     }
 
     //Re-enable connections
-    connect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
-    connect(northControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-}
-
-
-void Guide::loadSettings()
-{
-    // Settings in main dialog
-    // Exposure
-    exposureIN->setValue(Options::guideExposure());
-    // Delay
-    GuideDelay->setValue(Options::guideDelay());
-    // Bin Size
-    guideBinIndex = Options::guideBinSizeIndex();
-    // Box Size
-    boxSizeCombo->setCurrentIndex(Options::guideSquareSizeIndex());
-    // Dark frame?
-    darkFrameCheck->setChecked(Options::guideDarkFrameEnabled());
-    // Subframed?
-    subFrameCheck->setChecked(Options::guideSubframeEnabled());
-    // RA/DEC enabled?
-    checkBox_DirRA->setChecked(Options::rAGuideEnabled());
-    checkBox_DirDEC->setChecked(Options::dECGuideEnabled());
-    // N/S enabled?
-    northControlCheck->setChecked(Options::northDECGuideEnabled());
-    southControlCheck->setChecked(Options::southDECGuideEnabled());
-    // W/E enabled?
-    westControlCheck->setChecked(Options::westRAGuideEnabled());
-    eastControlCheck->setChecked(Options::eastRAGuideEnabled());
-    // Autostar
-    autoStarCheck->setChecked(Options::guideAutoStarEnabled());
-
-    /* Settings in sub dialog are controlled by KConfigDialog ("kcfg"-variables)
-     * PID Control - Proportional Gain
-     * PID Control - Integral Gain
-     * Max Pulse Duration (arcsec)
-     * Min Pulse Duration (arcsec)
-     */
-    // Transition code: if old values are stored in the proportional gains,
-    // change them to a default value.
-    if (Options::rAProportionalGain() > 1.0)
-        Options::setRAProportionalGain(0.75);
-    if (Options::dECProportionalGain() > 1.0)
-        Options::setDECProportionalGain(0.75);
-    if (Options::rAIntegralGain() > 1.0)
-        Options::setRAIntegralGain(0.75);
-    if (Options::dECIntegralGain() > 1.0)
-        Options::setDECIntegralGain(0.75);
-
-
-}
-
-void Guide::saveSettings()
-{
-    // Settings in main dialog
-    // Exposure
-    Options::setGuideExposure(exposureIN->value());
-    // Delay
-    Options::setGuideDelay(GuideDelay->value());
-    // Bin Size
-    Options::setGuideBinSizeIndex(binningCombo->currentIndex());
-    // Box Size
-    Options::setGuideSquareSizeIndex(boxSizeCombo->currentIndex());
-    // Dark frame?
-    Options::setGuideDarkFrameEnabled(darkFrameCheck->isChecked());
-    // Subframed?
-    Options::setGuideSubframeEnabled(subFrameCheck->isChecked());
-    // RA/DEC enabled?
-    Options::setRAGuideEnabled(checkBox_DirRA->isChecked());
-    Options::setDECGuideEnabled(checkBox_DirDEC->isChecked());
-    // N/S enabled?
-    Options::setNorthDECGuideEnabled(northControlCheck->isChecked());
-    Options::setSouthDECGuideEnabled(southControlCheck->isChecked());
-    // W/E enabled?
-    Options::setWestRAGuideEnabled(westControlCheck->isChecked());
-    Options::setEastRAGuideEnabled(eastControlCheck->isChecked());
-    /* Settings in sub dialog are controlled by KConfigDialog ("kcfg"-variables)
-     * PID Control - Proportional Gain
-     * PID Control - Integral Gain
-     * Max Pulse Duration (arcsec)
-     * Min Pulse Duration (arcsec)
-     */
+    connect(dECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
+    connect(northDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(southDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
 }
 
 void Guide::setTrackingStar(int x, int y)
@@ -2252,7 +2098,7 @@ void Guide::buildOperationStack(GuideState operation)
     switch (operation)
     {
         case GUIDE_CAPTURE:
-            if (Options::guideDarkFrameEnabled())
+            if (guideDarkFrame->isChecked())
                 operationStack.push(GUIDE_DARK);
 
             operationStack.push(GUIDE_CAPTURE);
@@ -2263,17 +2109,17 @@ void Guide::buildOperationStack(GuideState operation)
             operationStack.push(GUIDE_CALIBRATING);
             if (guiderType == GUIDE_INTERNAL)
             {
-                if (Options::guideDarkFrameEnabled())
+                if (guideDarkFrame->isChecked())
                     operationStack.push(GUIDE_DARK);
 
                 // Auto Star Selected Path
-                if (Options::guideAutoStarEnabled() ||
+                if (guideAutoStar->isChecked() ||
                         // SEP MultiStar always uses an automated guide star.
                         internalGuider->SEPMultiStarEnabled())
                 {
                     // If subframe is enabled and we need to auto select a star, then we need to make the final capture
                     // of the subframed image. This is only done if we aren't already subframed.
-                    if (subFramed == false && Options::guideSubframeEnabled())
+                    if (subFramed == false && guideSubframe->isChecked())
                         operationStack.push(GUIDE_CAPTURE);
 
                     operationStack.push(GUIDE_SUBFRAME);
@@ -2283,14 +2129,14 @@ void Guide::buildOperationStack(GuideState operation)
                     operationStack.push(GUIDE_CAPTURE);
 
                     // If we are being ask to go full frame, let's do that first
-                    if (subFramed == true && Options::guideSubframeEnabled() == false)
+                    if (subFramed == true && guideSubframe->isChecked() == false)
                         operationStack.push(GUIDE_SUBFRAME);
                 }
                 // Manual Star Selection Path
                 else
                 {
                     // Final capture before we start calibrating
-                    if (subFramed == false && Options::guideSubframeEnabled())
+                    if (subFramed == false && guideSubframe->isChecked())
                         operationStack.push(GUIDE_CAPTURE);
 
                     // Subframe if required
@@ -2394,12 +2240,12 @@ bool Guide::executeOneOperation(GuideState operation)
             if ((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled())
                 break;
             // Check if we need and can subframe
-            if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
+            if (subFramed == false && guideSubframe->isChecked() == true && targetChip->canSubframe())
             {
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
-                int offset = boxSizeCombo->currentText().toInt() / subBinX;
+                int offset = guideSquareSize->currentText().toInt() / subBinX;
 
                 int x = starCenter.x();
                 int y = starCenter.y();
@@ -2439,7 +2285,7 @@ bool Guide::executeOneOperation(GuideState operation)
             // or if we need to go back to full frame since we need
             // to reaquire a star
             else if (subFramed &&
-                     (Options::guideSubframeEnabled() == false ||
+                     (guideSubframe->isChecked() == false ||
                       m_State == GUIDE_REACQUIRE))
             {
                 targetChip->resetFrame();
@@ -2470,7 +2316,7 @@ bool Guide::executeOneOperation(GuideState operation)
         case GUIDE_DARK:
         {
             // Do we need to take a dark frame?
-            if (m_ImageData && Options::guideDarkFrameEnabled())
+            if (m_ImageData && guideDarkFrame->isChecked())
             {
                 QVariantMap settings = frameSettings[targetChip];
                 uint16_t offsetX = 0;
@@ -2487,7 +2333,8 @@ bool Guide::executeOneOperation(GuideState operation)
 
                 actionRequired = true;
                 targetChip->setCaptureFilter(FITS_NONE);
-                m_DarkProcessor->denoise(targetChip, m_ImageData, exposureIN->value(), offsetX, offsetY);
+                m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                         targetChip, m_ImageData, guideExposure->value(), offsetX, offsetY);
             }
         }
         break;
@@ -2497,7 +2344,7 @@ bool Guide::executeOneOperation(GuideState operation)
             m_State = GUIDE_STAR_SELECT;
             emit newStatus(m_State);
 
-            if (Options::guideAutoStarEnabled() ||
+            if (guideAutoStar->isChecked() ||
                     // SEP MultiStar always uses an automated guide star.
                     ((guiderType == GUIDE_INTERNAL) &&
                      internalGuider->SEPMultiStarEnabled()))
@@ -2645,19 +2492,6 @@ void Guide::nonGuidedDither()
     }
 }
 
-void Guide::updateTelescopeType(int index)
-{
-    if (m_Camera == nullptr)
-        return;
-
-    m_FocalLength = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryFL : guideFL;
-    m_Aperture = (index == ISD::Camera::TELESCOPE_PRIMARY) ? primaryAperture : guideAperture;
-
-    Options::setGuideScopeType(index);
-
-    syncTelescopeInfo();
-}
-
 void Guide::handleManualDither()
 {
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
@@ -2717,15 +2551,6 @@ void Guide::initPlots()
 
     connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Guide::handleVerticalPlotSizeChange);
     connect(driftSplitter, &QSplitter::splitterMoved, this, &Ekos::Guide::handleHorizontalPlotSizeChange);
-
-    //This sets the values of all the Graph Options that are stored.
-    accuracyRadiusSpin->setValue(Options::guiderAccuracyThreshold());
-    showRAPlotCheck->setChecked(Options::rADisplayedOnGuideGraph());
-    showDECPlotCheck->setChecked(Options::dEDisplayedOnGuideGraph());
-    showRACorrectionsCheck->setChecked(Options::rACorrDisplayedOnGuideGraph());
-    showDECorrectionsCheck->setChecked(Options::dECorrDisplayedOnGuideGraph());
-    showSNRPlotCheck->setChecked(Options::sNRDisplayedOnGuideGraph());
-    showRMSPlotCheck->setChecked(Options::rMSDisplayedOnGuideGraph());
 
     buildTarget();
 }
@@ -2864,31 +2689,28 @@ void Guide::initConnections()
     connect(&captureTimeout, &QTimer::timeout, this, &Ekos::Guide::processCaptureTimeout);
 
     // Guiding Box Size
-    connect(boxSizeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(guideSquareSize, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Guide::updateTrackingBoxSize);
 
     // Dark Frame Check
-    connect(darkFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
+    connect(guideDarkFrame, &QCheckBox::toggled, this, &Ekos::Guide::setDarkFrameEnabled);
     // Subframe check
     if(guiderType != GUIDE_PHD2) //For PHD2, this is handled in the configurePHD2Camera method
-        connect(subFrameCheck, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
+        connect(guideSubframe, &QCheckBox::toggled, this, &Ekos::Guide::setSubFrameEnabled);
 
     // Binning Combo Selection
-    connect(binningCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(guideBinning, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Guide::updateCCDBin);
 
     // RA/DEC Enable directions
-    connect(checkBox_DirRA, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirRA);
-    connect(checkBox_DirDEC, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
+    connect(rAGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirRA);
+    connect(dECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onEnableDirDEC);
 
     // N/W and W/E direction enable
-    connect(northControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(southControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(westControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-    connect(eastControlCheck, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-
-    // Auto star check
-    connect(autoStarCheck, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+    connect(northDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(southDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(westRAGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
+    connect(eastRAGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
 
     // Declination Swap
     connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
@@ -2905,11 +2727,11 @@ void Guide::initConnections()
             if(phd2Guider->isCurrentCameraNotInEkos())
                 appendLogText(
                     i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
-            else if(Options::guideSubframeEnabled())
+            else if(guideSubframe->isChecked())
             {
                 appendLogText(
                     i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
-                subFrameCheck->setChecked(false);
+                guideSubframe->setChecked(false);
             }
             phd2Guider->captureSingleFrame();
         }
@@ -2947,31 +2769,31 @@ void Guide::initConnections()
     connect(&m_PulseTimer, &QTimer::timeout, this, &Ekos::Guide::capture);
 
     //This connects all the buttons and slider below the guide plots.
-    connect(accuracyRadiusSpin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+    connect(guiderAccuracyThreshold, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Guide::buildTarget);
     connect(guideSlider, &QSlider::sliderMoved, this, &Ekos::Guide::guideHistory);
     connect(latestCheck, &QCheckBox::toggled, this, &Ekos::Guide::setLatestGuidePoint);
-    connect(showRAPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(rADisplayedOnGuideGraph, &QCheckBox::toggled, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA, isChecked);
     });
-    connect(showDECPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(dEDisplayedOnGuideGraph, &QCheckBox::toggled,  this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC, isChecked);
     });
-    connect(showRACorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(rACorrDisplayedOnGuideGraph, &QCheckBox::toggled,  this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RA_PULSE, isChecked);
     });
-    connect(showDECorrectionsCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(dECorrDisplayedOnGuideGraph, &QCheckBox::toggled,  this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_DEC_PULSE, isChecked);
     });
-    connect(showSNRPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(sNRDisplayedOnGuideGraph, &QCheckBox::toggled,  this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_SNR, isChecked);
     });
-    connect(showRMSPlotCheck, &QCheckBox::toggled, [this](bool isChecked)
+    connect(rMSDisplayedOnGuideGraph, &QCheckBox::toggled,  this, [this](bool isChecked)
     {
         driftGraph->toggleShowPlot(GuideGraph::G_RMS, isChecked);
     });
@@ -3021,138 +2843,6 @@ void Guide::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 
 }
 
-QJsonObject Guide::getSettings() const
-{
-    QJsonObject settings;
-
-    settings.insert("exp", exposureIN->value());
-    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
-    settings.insert("dark", darkFrameCheck->isChecked());
-    settings.insert("box", boxSizeCombo->currentText());
-    settings.insert("ra_control", checkBox_DirRA->isChecked());
-    settings.insert("de_control", checkBox_DirDEC->isChecked());
-    settings.insert("east", eastControlCheck->isChecked());
-    settings.insert("west", westControlCheck->isChecked());
-    settings.insert("north", northControlCheck->isChecked());
-    settings.insert("south", southControlCheck->isChecked());
-    settings.insert("swap", swapCheck->isChecked());
-    settings.insert("ra_gain", Options::rAProportionalGain());
-    settings.insert("de_gain", Options::dECProportionalGain());
-    settings.insert("dither_enabled", Options::ditherEnabled());
-    settings.insert("dither_pixels", Options::ditherPixels());
-    settings.insert("dither_frequency", static_cast<int>(Options::ditherFrames()));
-    settings.insert("gpg_enabled", Options::gPGEnabled());
-
-    settings.insert("pulse", static_cast<int>(Options::calibrationPulseDuration()));
-    settings.insert("max_move", static_cast<int>(Options::calibrationMaxMove()));
-    settings.insert("two_axis", Options::twoAxisEnabled());
-    settings.insert("auto_square_size", Options::guideAutoSquareSizeEnabled());
-
-    settings.insert("calibration_backlash", Options::guideCalibrationBacklash());
-    settings.insert("reset_calibration", Options::resetGuideCalibration());
-    settings.insert("reuse_calibration", Options::reuseGuideCalibration());
-    settings.insert("reverse_calibration", Options::reverseDecOnPierSideChange());
-
-    return settings;
-}
-
-void Guide::setSettings(const QJsonObject &settings)
-{
-    static bool init = false;
-
-    auto syncControl = [settings](const QString & key, QWidget * widget)
-    {
-        if (settings.contains(key) == false)
-            return false;
-
-        QSpinBox *pSB = nullptr;
-        QDoubleSpinBox *pDSB = nullptr;
-        QCheckBox *pCB = nullptr;
-        QComboBox *pComboBox = nullptr;
-
-        if ((pSB = qobject_cast<QSpinBox *>(widget)))
-        {
-            const int value = settings[key].toInt(pSB->value());
-            if (value != pSB->value())
-            {
-                pSB->setValue(value);
-                return true;
-            }
-        }
-        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
-        {
-            const double value = settings[key].toDouble(pDSB->value());
-            if (value != pDSB->value())
-            {
-                pDSB->setValue(value);
-                return true;
-            }
-        }
-        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
-        {
-            const bool value = settings[key].toBool(pCB->isChecked());
-            if (value != pCB->isChecked())
-            {
-                pCB->setChecked(value);
-                return true;
-            }
-        }
-        // ONLY FOR STRINGS, not INDEX
-        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
-        {
-            const QString value = settings[key].toString(pComboBox->currentText());
-            if (value != pComboBox->currentText())
-            {
-                pComboBox->setCurrentText(value);
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    // Optical Train
-    syncControl("optical_train", opticalTrainCombo);
-    // Exposure
-    syncControl("exp", exposureIN);
-    // Binning
-    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
-    if (bin != binningCombo->currentIndex())
-        binningCombo->setCurrentIndex(bin);
-    // Dark
-    syncControl("dark", darkFrameCheck);
-    // Box
-    syncControl("box", boxSizeCombo);
-    // Swap
-    syncControl("swap", swapCheck);
-    // RA Control
-    syncControl("ra_control", checkBox_DirRA);
-    // DE Control
-    syncControl("de_control", checkBox_DirDEC);
-    // NSWE controls
-    syncControl("east", eastControlCheck);
-    syncControl("west", westControlCheck);
-    syncControl("north", northControlCheck);
-    syncControl("south", southControlCheck);
-    // RA Gain
-    syncControl("ra_gain", opsGuide->kcfg_RAProportionalGain);
-    Options::setRAProportionalGain(opsGuide->kcfg_RAProportionalGain->value());
-    // DE Gain
-    syncControl("de_gain", opsGuide->kcfg_DECProportionalGain);
-    Options::setDECProportionalGain(opsGuide->kcfg_DECProportionalGain->value());
-    // Options
-    const bool ditherEnabled = settings["dither_enabled"].toBool(Options::ditherEnabled());
-    Options::setDitherEnabled(ditherEnabled);
-    const double ditherPixels = settings["dither_pixels"].toDouble(Options::ditherPixels());
-    Options::setDitherPixels(ditherPixels);
-    const int ditherFrequency = settings["dither_frequency"].toInt(Options::ditherFrames());
-    Options::setDitherFrames(ditherFrequency);
-    const bool gpg = settings["gpg_enabled"].toBool(Options::gPGEnabled());
-    Options::setGPGEnabled(gpg);
-
-    init = true;
-}
-
 void Guide::loop()
 {
     m_State = GUIDE_LOOPING;
@@ -3164,11 +2854,11 @@ void Guide::loop()
         if(phd2Guider->isCurrentCameraNotInEkos())
             appendLogText(
                 i18n("The PHD2 camera is not available to Ekos, so you cannot see the captured images.  But you will still see the Guide Star Image when you guide."));
-        else if(Options::guideSubframeEnabled())
+        else if(guideSubframe->isChecked())
         {
             appendLogText(
                 i18n("To receive PHD2 images other than the Guide Star Image, SubFrame must be unchecked.  Unchecking it now to enable your image captures.  You can re-enable it before Guiding"));
-            subFrameCheck->setChecked(false);
+            guideSubframe->setChecked(false);
         }
         phd2Guider->loop();
         stopB->setEnabled(true);
@@ -3177,13 +2867,136 @@ void Guide::loop()
         capture();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap Guide::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Guide::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+    }
+
+    m_Settings = settings;
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Guide::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    bool ok = false;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pCB->setChecked(value);
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+
+    return false;
+};
+
 void Guide::setupOpticalTrainManager()
 {
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Guide::refreshOpticalTrain);
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -3195,11 +3008,13 @@ void Guide::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::GuideOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
@@ -3235,9 +3050,171 @@ void Guide::refreshOpticalTrain()
 
         auto ao = OpticalTrainManager::Instance()->getAdaptiveOptics(name);
         setAdaptiveOptics(ao);
+
+        // Load train settings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Guide);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
+        else
+            m_Settings = m_GlobalSettings;
     }
 
     opticalTrainCombo->blockSignals(false);
 }
+
+void Guide::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
+void Guide::connectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
+}
+
+void Guide::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+
+}
+
+void Guide::updateSetting(const QString &key, const QVariant &value)
+{
+    // Save immediately
+    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->save();
+
+    m_Settings[key] = value;
+    m_GlobalSettings[key] = value;
+
+    emit settingsUpdated(m_Settings);
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Guide, m_Settings);
+}
+
+void Guide::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QComboBox *cbox = nullptr;
+
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+
+    updateSetting(key, value);
+}
+
 
 }

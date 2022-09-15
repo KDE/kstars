@@ -28,6 +28,7 @@
 #include "ekos/manager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 
 #include "kstars.h"
 #include "skymapcomposite.h"
@@ -64,20 +65,9 @@ Mount::Mount()
 
     m_AbortDispatch = -1;
 
-    minAltLimit->setValue(Options::minimumAltLimit());
-    maxAltLimit->setValue(Options::maximumAltLimit());
-    maxHaLimit->setValue(Options::maximumHaLimit());
-
-    connect(minAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
-    connect(maxAltLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
-    connect(maxHaLimit, &QDoubleSpinBox::editingFinished, this, &Mount::saveLimits);
-
     connect(mountToolBoxB, &QPushButton::clicked, this, &Mount::toggleMountToolBox);
 
-    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
-    {
-        resetModel();
-    });
+    connect(clearAlignmentModelB, &QPushButton::clicked, this, &Mount::resetModel);
 
     connect(clearParkingB, &QPushButton::clicked, this, [this]()
     {
@@ -102,51 +92,23 @@ Mount::Mount()
         }
     });
 
-    connect(enableLimitsCheck, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
-    enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
-    m_AltitudeLimitEnabled = enableLimitsCheck->isChecked();
-    connect(enableHaLimitCheck, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
-    enableHaLimitCheck->setChecked(Options::enableHaLimit());
-    //haLimitEnabled = enableHaLimitCheck->isChecked();
+    connect(EnableAltitudeLimits, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
+    m_AltitudeLimitEnabled = EnableAltitudeLimits->isChecked();
+    connect(EnableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
     // meridian flip
-    meridianFlipCheckBox->setChecked(Options::executeMeridianFlip());
+    connect(this, &Mount::newMeridianFlipText, meridianFlipStatusWidget, &MeridianFlipStatusWidget::setStatus);
 
-    // Meridian Flip Unit
-    meridianFlipDegreesR->setChecked(Options::meridianFlipUnitDegrees());
-    meridianFlipHoursR->setChecked(!Options::meridianFlipUnitDegrees());
-
-    // This is always in hours
-    double offset = Options::meridianFlipOffset();
-    // Hours --> Degrees
-    if (meridianFlipDegreesR->isChecked())
-        offset *= 15.0;
-    meridianFlipTimeBox->setValue(offset);
-    connect(meridianFlipCheckBox, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipTimeBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+    // This is always in degrees
+    connect(ExecuteMeridianFlip, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
+    connect(MeridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipDegreesR, &QRadioButton::toggled, this, [this]()
-    {
-        Options::setMeridianFlipUnitDegrees(meridianFlipDegreesR->isChecked());
-        // Hours ---> Degrees
-        if (meridianFlipDegreesR->isChecked())
-            meridianFlipTimeBox->setValue(meridianFlipTimeBox->value() * 15.0);
-        // Degrees --> Hours
-        else
-            meridianFlipTimeBox->setValue(rangeHA(meridianFlipTimeBox->value() / 15.0));
-    });
 
-    everyDayCheck->setChecked(Options::parkEveryDay());
-    connect(everyDayCheck, &QCheckBox::toggled, this, [](bool toggled)
-    {
-        Options::setParkEveryDay(toggled);
-    });
-
-    startupTimeEdit->setTime(QTime::fromString(Options::parkTime()));
-    connect(startupTimeEdit, &QTimeEdit::editingFinished, this, [this]()
-    {
-        Options::setParkTime(startupTimeEdit->time().toString());
-    });
+    //    ParkTime->setTime(QTime::fromString(Options::parkTime()));
+    //    connect(ParkTime, &QTimeEdit::editingFinished, this, [this]()
+    //    {
+    //        Options::setParkTime(ParkTime->time().toString());
+    //    });
 
     connect(&autoParkTimer, &QTimer::timeout, this, &Mount::startAutoPark);
     connect(startTimerB, &QPushButton::clicked, this, &Mount::startParkTimer);
@@ -154,7 +116,7 @@ Mount::Mount()
 
     stopTimerB->setEnabled(false);
 
-    if (everyDayCheck->isChecked())
+    if (ParkEveryDay->isChecked())
         startTimerB->animateClick();
 
     // QML Stuff
@@ -212,6 +174,9 @@ Mount::Mount()
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    loadGlobalSettings();
+    connectSettings();
 
     setupOpticalTrainManager();
 }
@@ -285,8 +250,8 @@ bool Mount::setMount(ISD::Mount *device)
 
     //    if (newTelescope == m_Mount)
     //    {
-    //        if (enableLimitsCheck->isChecked())
-    //            m_Mount->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+    //        if (EnableAltitudeLimits->isChecked())
+    //            m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
     //        syncTelescopeInfo();
     //        return;
     //    }
@@ -316,7 +281,7 @@ bool Mount::setMount(ISD::Mount *device)
 
         // If mount is unparked AND every day auto-paro check is ON
         // AND auto park timer is not yet started, we try to initiate it.
-        if (status == ISD::PARK_UNPARKED && everyDayCheck->isChecked() && autoParkTimer.isActive() == false)
+        if (status == ISD::PARK_UNPARKED && ParkEveryDay->isChecked() && autoParkTimer.isActive() == false)
             startTimerB->animateClick();
     });
     connect(m_Mount, &ISD::Mount::ready, this, &Mount::ready);
@@ -324,8 +289,8 @@ bool Mount::setMount(ISD::Mount *device)
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
 
-    if (enableLimitsCheck->isChecked())
-        m_Mount->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+    if (EnableAltitudeLimits->isChecked())
+        m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
 
     syncTelescopeInfo();
 
@@ -579,9 +544,9 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
     m_zaValue->setProperty("text", dms(90 - currentAlt).toDMSString());
 
-    if (minAltLimit->isEnabled() && (currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
+    if (MinimumAltLimit->isEnabled() && (currentAlt < MinimumAltLimit->value() || currentAlt > MaximumAltLimit->value()))
     {
-        if (currentAlt < minAltLimit->value())
+        if (currentAlt < MinimumAltLimit->value())
         {
             // Only stop if current altitude is less than last altitude indicate worse situation
             if (currentAlt < m_LastAltitude &&
@@ -589,7 +554,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
-                                   QString::number(minAltLimit->value(), 'g', 3)));
+                                   QString::number(MinimumAltLimit->value(), 'g', 3)));
                 m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -605,7 +570,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
-                                   QString::number(maxAltLimit->value(), 'g', 3)));
+                                   QString::number(MaximumAltLimit->value(), 'g', 3)));
                 m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -617,18 +582,18 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     else
         m_AbortDispatch = -1;
 
-    //qCDebug(KSTARS_EKOS_MOUNT) << "maxHaLimit " << maxHaLimit->isEnabled() << " value " << maxHaLimit->value();
+    //qCDebug(KSTARS_EKOS_MOUNT) << "MaximumHaLimit " << MaximumHaLimit->isEnabled() << " value " << MaximumHaLimit->value();
 
     double haHours = rangeHA(ha.Hours());
     // handle Ha limit:
     // Telescope must report Pier Side
-    // maxHaLimit must be enabled
-    // for PierSide West -> East if Ha > maxHaLimit stop tracking
-    // for PierSide East -> West if Ha > maxHaLimit - 12 stop Tracking
-    if (maxHaLimit->isEnabled())
+    // MaximumHaLimit must be enabled
+    // for PierSide West -> East if Ha > MaximumHaLimit stop tracking
+    // for PierSide East -> West if Ha > MaximumHaLimit - 12 stop Tracking
+    if (MaximumHaLimit->isEnabled())
     {
         // get hour angle limit
-        double haLimit = maxHaLimit->value();
+        double haLimit = MaximumHaLimit->value();
         bool haLimitReached = false;
         switch(pierSide)
         {
@@ -657,7 +622,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         {
             // moved past the limit, so stop
             appendLogText(i18n("Telescope hour angle is more than the maximum hour angle of %1. Aborting motion...",
-                               QString::number(maxHaLimit->value(), 'g', 3)));
+                               QString::number(MaximumHaLimit->value(), 'g', 3)));
             m_Mount->abort();
             m_Mount->setTrackEnabled(false);
             //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -728,16 +693,16 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
     }
 
-    if (isTracking && checkMeridianFlip(lst))
+    // don't check the meridian flip while in motion
+    bool inMotion = (currentStatus == ISD::Mount::MOUNT_SLEWING || currentStatus == ISD::Mount::MOUNT_MOVING
+                     || currentStatus == ISD::Mount::MOUNT_PARKING);
+    if ((inMotion == false) && checkMeridianFlip(lst))
         executeMeridianFlip();
     else
     {
-        const QString message(i18n("Status: inactive (parked)"));
-        if (m_Mount->isParked() && meridianFlipStatusText->text() != message)
-        {
-            meridianFlipStatusText->setText(message);
-            emit newMeridianFlipText(meridianFlipStatusText->text());
-        }
+        const QString message(i18n("Meridian flip inactive (parked)"));
+        if (m_Mount->isParked() && meridianFlipStatusWidget->getStatus() != message)
+            emit newMeridianFlipText(message);
     }
 
 }
@@ -771,14 +736,10 @@ void Mount::setLeftRightReversed(bool enabled)
         m_Mount->setReversedEnabled(AXIS_RA, enabled);
 }
 
-void Mount::setMeridianFlipValues(bool activate, double hours)
+void Mount::setMeridianFlipValues(bool activate, double degrees)
 {
-    meridianFlipCheckBox->setChecked(activate);
-    // Hours --> Degrees
-    if (meridianFlipDegreesR->isChecked())
-        meridianFlipTimeBox->setValue(hours * 15.0);
-    else
-        meridianFlipTimeBox->setValue(hours);
+    ExecuteMeridianFlip->setChecked(activate);
+    MeridianFlipOffsetDegrees->setValue(degrees);
 
     meridianFlipSetupChanged();
 }
@@ -824,18 +785,9 @@ void Mount::paaStageChanged(int stage)
 
 void Mount::meridianFlipSetupChanged()
 {
-    if (meridianFlipCheckBox->isChecked() == false)
+    if (ExecuteMeridianFlip->isChecked() == false)
         // reset meridian flip
         setMeridianFlipStatus(FLIP_NONE);
-
-    Options::setExecuteMeridianFlip(meridianFlipCheckBox->isChecked());
-
-    double offset = meridianFlipTimeBox->value();
-    // Degrees --> Hours
-    if (meridianFlipDegreesR->isChecked())
-        offset /= 15.0;
-    // It is always saved in hours
-    Options::setMeridianFlipOffset(offset);
 }
 
 void Mount::setMeridianFlipStatus(MeridianFlipStatus status)
@@ -908,35 +860,29 @@ void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir,
 
 void Mount::saveLimits()
 {
-    Options::setMinimumAltLimit(minAltLimit->value());
-    Options::setMaximumAltLimit(maxAltLimit->value());
-    m_Mount->setAltLimits(minAltLimit->value(), maxAltLimit->value());
-
-    Options::setMaximumHaLimit(maxHaLimit->value());
+    m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
 }
 
 void Mount::enableAltitudeLimits(bool enable)
 {
-    Options::setEnableAltitudeLimits(enable);
-
     if (enable)
     {
         minAltLabel->setEnabled(true);
         maxAltLabel->setEnabled(true);
 
-        minAltLimit->setEnabled(true);
-        maxAltLimit->setEnabled(true);
+        MinimumAltLimit->setEnabled(true);
+        MaximumAltLimit->setEnabled(true);
 
         if (m_Mount)
-            m_Mount->setAltLimits(minAltLimit->value(), maxAltLimit->value());
+            m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
     }
     else
     {
         minAltLabel->setEnabled(false);
         maxAltLabel->setEnabled(false);
 
-        minAltLimit->setEnabled(false);
-        maxAltLimit->setEnabled(false);
+        MinimumAltLimit->setEnabled(false);
+        MaximumAltLimit->setEnabled(false);
 
         if (m_Mount)
             m_Mount->setAltLimits(-1, -1);
@@ -945,36 +891,34 @@ void Mount::enableAltitudeLimits(bool enable)
 
 void Mount::enableAltLimits()
 {
-    //Only enable if it was already enabled before and the minAltLimit is currently disabled.
-    if (m_AltitudeLimitEnabled && minAltLimit->isEnabled() == false)
+    //Only enable if it was already enabled before and the MinimumAltLimit is currently disabled.
+    if (m_AltitudeLimitEnabled && MinimumAltLimit->isEnabled() == false)
         enableAltitudeLimits(true);
 }
 
 void Mount::disableAltLimits()
 {
-    m_AltitudeLimitEnabled = enableLimitsCheck->isChecked();
+    m_AltitudeLimitEnabled = EnableAltitudeLimits->isChecked();
 
     enableAltitudeLimits(false);
 }
 
 void Mount::enableHourAngleLimits(bool enable)
 {
-    Options::setEnableHaLimit(enable);
-
     maxHaLabel->setEnabled(enable);
-    maxHaLimit->setEnabled(enable);
+    MaximumHaLimit->setEnabled(enable);
 }
 
 void Mount::enableHaLimits()
 {
     //Only enable if it was already enabled before and the minHaLimit is currently disabled.
-    if (m_HourAngleLimitEnabled && maxHaLimit->isEnabled() == false)
+    if (m_HourAngleLimitEnabled && MaximumHaLimit->isEnabled() == false)
         enableHourAngleLimits(true);
 }
 
 void Mount::disableHaLimits()
 {
-    m_HourAngleLimitEnabled = enableHaLimitCheck->isChecked();
+    m_HourAngleLimitEnabled = EnableHaLimit->isChecked();
 
     enableHourAngleLimits(false);
 }
@@ -983,46 +927,46 @@ QList<double> Mount::altitudeLimits()
 {
     QList<double> limits;
 
-    limits.append(minAltLimit->value());
-    limits.append(maxAltLimit->value());
+    limits.append(MinimumAltLimit->value());
+    limits.append(MaximumAltLimit->value());
 
     return limits;
 }
 
 void Mount::setAltitudeLimits(QList<double> limits)
 {
-    minAltLimit->setValue(limits[0]);
-    maxAltLimit->setValue(limits[1]);
+    MinimumAltLimit->setValue(limits[0]);
+    MaximumAltLimit->setValue(limits[1]);
 }
 
 void Mount::setAltitudeLimitsEnabled(bool enable)
 {
-    enableLimitsCheck->setChecked(enable);
+    EnableAltitudeLimits->setChecked(enable);
 }
 
 bool Mount::altitudeLimitsEnabled()
 {
-    return enableLimitsCheck->isChecked();
+    return EnableAltitudeLimits->isChecked();
 }
 
 double Mount::hourAngleLimit()
 {
-    return maxHaLimit->value();
+    return MaximumHaLimit->value();
 }
 
 void Mount::setHourAngleLimit(double limit)
 {
-    maxHaLimit->setValue(limit);
+    MaximumHaLimit->setValue(limit);
 }
 
 void Mount::setHourAngleLimitEnabled(bool enable)
 {
-    enableHaLimitCheck->setChecked(enable);
+    EnableHaLimit->setChecked(enable);
 }
 
 bool Mount::hourAngleLimitEnabled()
 {
-    return enableHaLimitCheck->isChecked();
+    return EnableHaLimit->isChecked();
 }
 
 void Mount::setJ2000Enabled(bool enabled)
@@ -1157,39 +1101,32 @@ bool Mount::checkMeridianFlip(dms lst)
     // checks if a flip is possible
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (no scope connected)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (no scope connected)"));
         setMeridianFlipStatus(FLIP_NONE);
         return false;
     }
 
-    if (meridianFlipCheckBox->isChecked() == false)
+    if (ExecuteMeridianFlip->isChecked() == false)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (flip not requested)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (flip not requested)"));
         return false;
     }
 
     // Will never get called when parked!
     if (m_Mount->isParked())
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (parked)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (parked)"));
         return false;
     }
 
     if (currentTargetPosition == nullptr || m_MFStatus == FLIP_INACTIVE)
     {
-        meridianFlipStatusText->setText(i18n("Status: inactive (no Target set)"));
-        emit newMeridianFlipText(meridianFlipStatusText->text());
+        emit newMeridianFlipText(i18n("Meridian flip inactive (no target set)"));
         return false;
     }
 
-    // get the time after the meridian that the flip is called for
-    double offset = meridianFlipTimeBox->value();
-    // Degrees --> Hours
-    if (meridianFlipDegreesR->isChecked())
-        offset = rangeHA(offset / 15.0);
+    // get the time after the meridian that the flip is called for (Degrees --> Hours)
+    double offset = rangeHA(MeridianFlipOffsetDegrees->value() / 15.0);
 
     double hrsToFlip = 0;       // time to go to the next flip - hours  -ve means a flip is required
 
@@ -1224,8 +1161,7 @@ bool Mount::checkMeridianFlip(dms lst)
             // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
             if (initialHA() >= 0)
             {
-                meridianFlipStatusText->setText(i18n("Status: inactive (slew after meridian)"));
-                emit newMeridianFlipText(meridianFlipStatusText->text());
+                emit newMeridianFlipText(i18n("Meridian flip inactive (slew after meridian)"));
                 if (m_MFStatus == FLIP_NONE)
                     return false;
             }
@@ -1247,8 +1183,7 @@ bool Mount::checkMeridianFlip(dms lst)
     switch (m_MFStatus)
     {
         case FLIP_NONE:
-            meridianFlipStatusText->setText(message);
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(message);
 
             if (hrsToFlip <= 0)
             {
@@ -1410,18 +1345,15 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
     switch (status)
     {
         case FLIP_NONE:
-            meridianFlipStatusText->setText(i18n("Status: inactive"));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip inactive"));
             break;
 
         case FLIP_PLANNED:
-            meridianFlipStatusText->setText(i18n("Meridian flip planned..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip planned..."));
             break;
 
         case FLIP_WAITING:
-            meridianFlipStatusText->setText(i18n("Meridian flip waiting..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip waiting..."));
             appendLogText(i18n("Meridian flip waiting."));
             break;
 
@@ -1433,14 +1365,12 @@ void Mount::meridianFlipStatusChangedInternal(Mount::MeridianFlipStatus status)
             break;
 
         case FLIP_RUNNING:
-            meridianFlipStatusText->setText(i18n("Meridian flip running..."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip running..."));
             appendLogText(i18n("Meridian flip started."));
             break;
 
         case FLIP_COMPLETED:
-            meridianFlipStatusText->setText(i18n("Meridian flip completed."));
-            emit newMeridianFlipText(meridianFlipStatusText->text());
+            emit newMeridianFlipText(i18n("Meridian flip completed."));
             appendLogText(i18n("Meridian flip completed."));
             break;
 
@@ -1856,22 +1786,22 @@ void Mount::setAutoParkEnabled(bool enable)
 
 void Mount::setAutoParkDailyEnabled(bool enabled)
 {
-    everyDayCheck->setChecked(enabled);
+    ParkEveryDay->setChecked(enabled);
 }
 
 void Mount::setAutoParkStartup(QTime startup)
 {
-    startupTimeEdit->setTime(startup);
+    ParkTime->setTime(startup);
 }
 
 bool Mount::meridianFlipEnabled()
 {
-    return meridianFlipCheckBox->isChecked();
+    return ExecuteMeridianFlip->isChecked();
 }
 
 double Mount::meridianFlipValue()
 {
-    return meridianFlipTimeBox->value();
+    return MeridianFlipOffsetDegrees->value();
 }
 
 void Mount::stopTimers()
@@ -1892,7 +1822,7 @@ void Mount::startParkTimer()
         return;
     }
 
-    QTime parkTime = startupTimeEdit->time();
+    QTime parkTime = ParkTime->time();
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Parking time is" << parkTime.toString();
     QDateTime currentDateTime = KStarsData::Instance()->lt();
@@ -1912,7 +1842,7 @@ void Mount::startParkTimer()
         if (hours > 0)
         {
             // No need to display warning for every day check
-            if (everyDayCheck->isChecked() == false)
+            if (ParkEveryDay->isChecked() == false)
                 appendLogText(i18n("Parking time cannot be in the past."));
             return;
         }
@@ -2014,7 +1944,8 @@ void Mount::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -2028,11 +1959,13 @@ void Mount::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::MountOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::MountOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto mount = OpticalTrainManager::Instance()->getMount(name);
@@ -2040,9 +1973,327 @@ void Mount::refreshOpticalTrain()
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
         opticalTrainCombo->setToolTip(scope["name"].toString());
+
+        // Load train settings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Mount);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
+        else
+            m_Settings = m_GlobalSettings;
     }
 
     opticalTrainCombo->blockSignals(false);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap Mount::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // timeEdit
+        auto timeEdit = findChild<QTimeEdit*>(name);
+        if (timeEdit)
+        {
+            syncControl(settings, name, timeEdit);
+            continue;
+        }
+    }
+
+    m_Settings = settings;
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Mount::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QTimeEdit *pTimeEdit = nullptr;
+    bool ok = false;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pCB->setChecked(value);
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pTimeEdit = qobject_cast<QTimeEdit *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pTimeEdit->setTime(QTime::fromString(value));
+        return true;
+    }
+
+    return false;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QComboBox *cbox = nullptr;
+    QTimeEdit *timeEdit = nullptr;
+
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+    else if ( (timeEdit = qobject_cast<QTimeEdit*>(sender())))
+    {
+        key = timeEdit->objectName();
+        value = timeEdit->time().toString();
+    }
+
+    // Save immediately
+    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->save();
+
+    m_Settings[key] = value;
+    m_GlobalSettings[key] = value;
+
+    emit settingsUpdated(m_Settings);
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Mount, m_Settings);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::connectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+
+    // All QDateTimeEdit
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+        connect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Mount::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+
+    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+        disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+
 }
 
 }

@@ -527,7 +527,8 @@ void Observatory::initWeather()
     weatherBox->setEnabled(true);
 
     connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
-    connect(m_WeatherSource, &ISD::Weather::newWeatherData, this, &Ekos::Observatory::newWeatherData);
+    connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::newWeatherData);
+    connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::updateSensorData);
     connect(m_WeatherSource, &ISD::Weather::Disconnected, this, &Ekos::Observatory::shutdownWeather);
 
     autoscaleValuesCB->setChecked(autoScaleValues());
@@ -617,24 +618,27 @@ void Observatory::updateSensorGraph(const QString &sensor_label, QDateTime now, 
     }
 }
 
-void Observatory::updateSensorData(const std::vector<ISD::Weather::WeatherData> &data)
+void Observatory::updateSensorData(const QJsonArray &data)
 {
     QDateTime now = KStarsData::Instance()->lt();
 
-    for (auto &oneEntry : data)
+    for (const auto &oneEntry : qAsConst(data))
     {
-        QString const id = oneEntry.label;
+        auto label = oneEntry["label"].toString();
+        auto value = oneEntry["value"].toDouble();
+
+        auto id = oneEntry["label"].toString();
 
         if (sensorDataWidgets[id] == nullptr)
         {
-            QPushButton* labelWidget = new QPushButton(oneEntry.label);
+            QPushButton* labelWidget = new QPushButton(label);
             labelWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
             labelWidget->setCheckable(true);
             labelWidget->setStyleSheet("QPushButton:checked\n{\nbackground-color: maroon;\nborder: 1px outset;\nfont-weight:bold;\n}");
             // we need the object name since the label may contain '&' for keyboard shortcuts
-            labelWidget->setObjectName(oneEntry.label);
+            labelWidget->setObjectName(label);
 
-            QLineEdit* valueWidget = new QLineEdit(QString().setNum(oneEntry.value, 'f', 2));
+            QLineEdit* valueWidget = new QLineEdit(QString().setNum(value, 'f', 2));
             // fix width to enable stretching of the graph
             valueWidget->setMinimumWidth(96);
             valueWidget->setMaximumWidth(96);
@@ -657,12 +661,12 @@ void Observatory::updateSensorData(const std::vector<ISD::Weather::WeatherData> 
         }
         else
         {
-            sensorDataWidgets[id]->first->setText(QString(oneEntry.label));
-            sensorDataWidgets[id]->second->setText(QString().setNum(oneEntry.value, 'f', 2));
+            sensorDataWidgets[id]->first->setText(label);
+            sensorDataWidgets[id]->second->setText(QString().setNum(value, 'f', 2));
         }
 
         // store sensor data unit if necessary
-        updateSensorGraph(oneEntry.label, now, oneEntry.value);
+        updateSensorGraph(label, now, value);
     }
 }
 
@@ -817,7 +821,6 @@ void Observatory::initSensorGraphs()
     connect(sensorGraphs, &QCustomPlot::mouseMove, this, &Ekos::Observatory::mouseOverLine);
 
 }
-
 
 void Observatory::weatherWarningSettingsChanged()
 {
@@ -1057,35 +1060,6 @@ void Observatory::weatherChanged(ISD::Weather::Status status)
     //emit newStatus(status);
 }
 
-void Observatory::updateWeatherData(const std::vector<ISD::Weather::WeatherData> &data)
-{
-    // add or update all received values
-    for (auto &oneEntry : data)
-    {
-        // update if already existing
-        unsigned long pos = findWeatherData(oneEntry.name);
-        if (pos < m_WeatherData.size())
-            m_WeatherData[pos].value = oneEntry.value;
-        // new weather sensor?
-        else if (oneEntry.name.startsWith("WEATHER_"))
-            m_WeatherData.push_back({QString(oneEntry.name), QString(oneEntry.label), oneEntry.value});
-    }
-    // update UI
-    //emit newStatus(status());
-}
-
-unsigned long Observatory::findWeatherData(const QString &name)
-{
-    unsigned long i;
-    for (i = 0; i < m_WeatherData.size(); i++)
-    {
-        if (m_WeatherData[i].name.compare(name) == 0)
-            return i;
-    }
-    // none found
-    return i;
-}
-
 void Observatory::execute(WeatherActions actions)
 {
     if (!m_Dome)
@@ -1104,7 +1078,6 @@ void Observatory::setStatusControl(ObservatoryStatusControl control)
     Options::setObservatoryStatusUseDome(control.useDome);
     Options::setObservatoryStatusUseShutter(control.useShutter);
     Options::setObservatoryStatusUseWeather(control.useWeather);
-    //updateStatus();
 }
 
 void Observatory::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved)

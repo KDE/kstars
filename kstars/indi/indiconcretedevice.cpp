@@ -10,8 +10,10 @@
 #include "clientmanager.h"
 
 namespace ISD
-
 {
+
+uint8_t ConcreteDevice::m_ID = 1;
+
 ConcreteDevice::ConcreteDevice(ISD::GenericDevice *parent) : GDInterface(parent), m_Parent(parent),
     m_Name(parent->getDeviceName())
 {

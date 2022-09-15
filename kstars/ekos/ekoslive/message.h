@@ -48,14 +48,11 @@ class Message : public QObject
 
         // Send devices as they come
         void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
-        void sendCameras();
-        void sendMounts();
         void sendScopes();
-        void sendFilterWheels();
-        void sendDomes();
-        void sendCaps();
+        void sendDSLRLenses();        
         void sendDrivers();
         void sendDevices();
+        void sendTrains();
         void sendSchedulerJobList(QJsonArray jobsList);
 
         // Scheduler
@@ -85,24 +82,31 @@ class Message : public QObject
         // Alignment
         void setAlignStatus(Ekos::AlignState newState);
         void setAlignSolution(const QVariantMap &solution);
-        void sendAlignSettings(const QJsonObject &settings);
+        void sendAlignSettings(const QVariantMap &settings);
 
         // Guide
-        void sendGuideSettings(const QJsonObject &settings);
+        void sendGuideSettings(const QVariantMap &settings);
 
         // Focus
-        void sendFocusSettings(const QJsonObject &settings);
+        void sendFocusSettings(const QVariantMap &settings);
+
+        // Mount
+        void sendMountSettings(const QVariantMap &settings);
+
+        // Dark Library
+        void sendDarkLibrarySettings(const QVariantMap &settings);
 
         //Scheduler
         void sendSchedulerSettings(const QJsonObject &settings);
 
         // Polar
-        void setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage);
+        void setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage);
         void setPAHMessage(const QString &message);
         void setPolarResults(QLineF correctionVector, double polarError, double azError, double altError);
         void setUpdatedErrors(double total, double az, double alt);
         void setPAHEnabled(bool enabled);
         void setBoundingRect(QRect rect, QSize view, double currentZoom);
+
         // Capture
         void sendCaptureSequence(const QJsonArray &sequenceArray);
         void sendCaptureSettings(const QJsonObject &settings);
@@ -112,6 +116,9 @@ class Message : public QObject
 
         // Port Selection
         void requestPortSelection(bool show);
+
+        // Trains
+        void requestOpticalTrains(bool show);
 
         // Dialogs
         void sendDialog(const QJsonObject &message);
@@ -180,6 +187,9 @@ class Message : public QObject
 
         // DSLRs
         void processDSLRCommands(const QString &command, const QJsonObject &payload);
+
+        // Trains
+        void processTrainCommands(const QString &command, const QJsonObject &payload);
 
         // Filter Manager commands
         void processFilterManagerCommands(const QString &command, const QJsonObject &payload);

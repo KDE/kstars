@@ -1540,22 +1540,16 @@
       </entry>
    </group>
    <group name="DarkLibrary">
-   <entry name="MaxDarkTemperatureDiff" type="Double">
-      <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
-      <default>1</default>
-   </entry>
-   <entry name="shutterfulCCDs" type="StringList">
-      <label>List of CCDs with mechanical or electronic shutters.</label>
-   </entry>
-   <entry name="shutterlessCCDs" type="StringList">
-      <label>List of CCDs without mechanical or electronic shutters.</label>
-   </entry>
-   <entry name="darkCameras" type="StringList">
-      <label>List of cameras that prefer dark subtraction noise removal method.</label>
-   </entry>
-   <entry name="defectCameras" type="StringList">
-      <label>List of cameras that prefer defect map noise removal method.</label>
-   </entry>
+      <entry name="MaxDarkTemperatureDiff" type="Double">
+         <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
+         <default>1</default>
+      </entry>
+      <entry name="shutterfulCCDs" type="StringList">
+         <label>List of CCDs with mechanical or electronic shutters.</label>
+      </entry>
+      <entry name="shutterlessCCDs" type="StringList">
+         <label>List of CCDs without mechanical or electronic shutters.</label>
+      </entry>
    </group>
    <group name="Manager">
    <entry name="UseGraphicalCountsDisplay" type="Bool">
@@ -1581,11 +1575,11 @@
       <entry name="ConfirmBelowHorizon" type="Bool">
          <label>Warn user before command mount to go to a target below horizon.</label>
          <default>true</default>
-      </entry>
-      <entry name="MeridianFlipOffset" type="Double">
-         <label>Default hour angle to perform meridian flip</label>
+      </entry>      
+      <entry name="MeridianFlipOffsetDegrees" type="Double">
+         <label>Default hour angle to perform meridian flip in degrees.</label>
          <whatsthis>If the target hour angle exceeds this value, Ekos will command a meridian flip and if successful it will resume guiding and capture operations.</whatsthis>
-         <default>0.1</default>
+         <default>5</default>
       </entry>
       <entry name="MaximumHaLimit" type="Double">
          <label>Default maximum limit for the hour angle.</label>
@@ -1599,10 +1593,6 @@
       <entry name="ExecuteMeridianFlip" type="Bool">
          <label>Flips the mount when reaching the meridian, if supported.</label>
          <default>false</default>
-      </entry>
-      <entry name="MeridianFlipUnitDegrees" type="Bool">
-         <label>Sets the display unit for meridian flip to degrees.</label>
-         <default>true</default>
       </entry>
       <entry name="LeftRightReversed" type="Bool">
          <label>Reverse the direction of right and left buttons in mount control.</label>
@@ -1845,7 +1835,7 @@
          <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
          <default>10000</default>
       </entry>
-      <entry name="InitialFocusOutSteps" type="Double">
+      <entry name="FocusOutSteps" type="Double">
          <label>Initial Focus Out Steps</label>
          <whatsthis>Number of outward steps (this number multiplied by initial-step-size) the Linear Focus algorithm moves away from the initial position at the start of focusing.</whatsthis>
          <default>5</default>
@@ -1855,20 +1845,21 @@
          <whatsthis>Specifies gain value of CCD when performing focusing if supported by camera.</whatsthis>
          <default>0</default>
       </entry>
+      <entry name="FocusISO" type="String">
+         <label>Default Focuser Camera ISO value</label>
+      </entry>
       <entry name="FocusBoxSize" type="UInt">
          <label>Default Focuser star selection box size</label>
          <whatsthis>Set box size to select a focus star.</whatsthis>
          <default>64</default>
       </entry>
-      <entry name="FocusXBin" type="UInt">
-         <label>Default CCD X binning in focus mode</label>
-         <whatsthis>Set horizontal binning of CCD camera while in focus mode.</whatsthis>
-         <default>1</default>
+      <entry name="FocusBinning" type="String">
+         <label>Default Camera binning</label>
+         <whatsthis>Set binning of camera while in focus mode.</whatsthis>
+         <default>1x1</default>
       </entry>
-      <entry name="FocusYBin" type="UInt">
-         <label>Default CCD Y binning in focus mode</label>
-         <whatsthis>Set vertical binning of CCD camera while in focus mode.</whatsthis>
-         <default>1</default>
+      <entry name="FocusFilter" type="String">
+         <label>Default Filter Wheel filter</label>
       </entry>
       <entry name="FocusSubFrame" type="Bool">
          <label>Subframe the focus star during the autofocus procedure.</label>
@@ -1892,7 +1883,7 @@
          <label>Automatically select a star to focus.</label>
          <default>false</default>
       </entry>
-      <entry name="SuspendGuiding" type="Bool">
+      <entry name="FocusSuspendGuiding" type="Bool">
          <label>Suspend guiding while autofocus in progress.</label>
          <default>true</default>
       </entry>
@@ -1900,21 +1891,24 @@
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
          <default>false</default>
       </entry>
-      <entry name="FocusEffect" type="UInt">
-         <label>Image filter to be applied to focus image upon loading.</label>
-         <default>0</default>
-      </entry>
       <entry name="FocusThreshold" type="Double">
          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
          <default>150</default>
       </entry>
-      <entry name="FocusDetection" type="UInt">
+      <entry name="FocusDetection" type="String">
          <label>Star detection algorithm</label>
-         <default>0</default>
+         <default>SEP</default>
       </entry>
-      <entry name="FocusAlgorithm" type="UInt">
+      <entry name="FocusAlgorithm" type="String">
          <label>Focus process algorithm</label>
-         <default>2</default>
+         <default>Linear 1 Pass</default>
+      </entry>
+      <entry name="FocusSEPProfile" type="String">
+         <label>Focus source extraction profile</label>
+      </entry>
+      <entry name="FocusBacklash" type="String">
+         <label>Focus backlash in steps. Zero disables backlash compensation.</label>
+         <default>0</default>
       </entry>
       <entry name="FocusFramesCount" type="UInt">
          <label>Number of focus frames to average for HFR calculations.</label>
@@ -1926,7 +1920,7 @@
       </entry>
       <entry name="FocusExposure" type="double">
          <label>Default focus exposure time when no filters are used.</label>
-         <default>1</default>
+         <default>2</default>
       </entry>
       <entry name="FocusGaussianSigma" type="Double">
          <label>Gaussian blur sigma value.</label>
@@ -2015,19 +2009,28 @@
    <group name="Align">      
       <entry name="AlignExposure" type="Double">
          <label>Default alignment exposure value</label>
-         <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
-         <default>1</default>
+         <whatsthis>Specifies exposure value of camera in seconds when performing plate solving.</whatsthis>
+         <default>5</default>
       </entry>
-      <entry name="SolverBinningIndex" type="UInt">
-         <label>Default CCD binning index while in alignment mode</label>
-         <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning.</whatsthis>
-         <default>1</default>
+      <entry name="AlignBinning" type="String">
+         <label>Default camera binning in alignment mode</label>
+         <default>2x2</default>
       </entry>
-      <entry name="SolverCameraGain" type="Double">
-         <label>Default camera gain while in alignment mode</label>
-         <whatsthis>Set gain of camera while in alignment mode.</whatsthis>
+      <entry name="AlignGain" type="Double">
+         <label>Default camera gain in alignment mode</label>
          <default>0</default>
       </entry>
+      <entry name="AlignISO" type="Double">
+         <label>Default camera ISO in alignment mode</label>
+         <default>0</default>
+      </entry>
+      <entry name="AlignDarkFrame" type="Bool">
+         <label>Take a dark frame and subtract it before running astrometry operation.</label>
+         <default>false</default>
+      </entry>
+      <entry name="AlignFilter" type="String">
+         <label>Default filter wheel filter in alignment mode</label>
+      </entry>      
       <entry name="AstrometryUseRotator" type="Bool">
          <whatsthis>Use rotator when performing load and slew.</whatsthis>
          <default>true</default>
@@ -2035,11 +2038,6 @@
       <entry name="AstrometryRotatorThreshold" type="Double">
          <whatsthis>Threshold between measured and FITS position angles in arcminutes to consider the load and slew operation successful.</whatsthis>
          <default>30</default>
-      </entry>
-
-      <entry name="SolverScopeType" type="UInt">
-         <label>Index of telescope type to be used when solving an image. 0 for Primary, 1 for Guide</label>
-         <default>0</default>
       </entry>
       <entry name="SolverGotoOption" type="UInt">
          <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
@@ -2057,19 +2055,11 @@
          <label>Do not use Sync when Slew to Target is selected. Use differential slewing to correct for discrepancies.</label>
          <default>false</default>
       </entry>
-      <entry name="SolverAccuracyThreshold" type="UInt">
+      <entry name="AlignAccuracyThreshold" type="UInt">
          <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
          <default>30</default>
       </entry>
-      <entry name="LockAlignFilterIndex" type="UInt">
-         <label>Use specified filter index when performing astrometry regardless of current filter settings.</label>
-         <default>0</default>
-      </entry>
-      <entry name="AlignDarkFrame" type="Bool">
-         <label>Take a dark frame and subtract it before running astrometry operation.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SettlingTime" type="UInt">
+      <entry name="AlignSettlingTime" type="UInt">
          <label>Time to wait in milliseconds after telescope slewing is complete before starting the next capture.</label>
          <default>1500</default>
       </entry>
@@ -2165,7 +2155,6 @@
          <whatsthis>Path to the Watney Solver executable.</whatsthis>
          <default code="true">KSUtils::getDefaultPath("WatneyBinary")</default>
       </entry>
-
       <entry name="AstrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>
          <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>
@@ -2183,23 +2172,32 @@
          <label>Timeout in seconds to wait for astrometry solver to complete.</label>
          <default>180</default>
       </entry>
-      <entry name="PAHMountSpeedIndex" type="Int">
-         <label>Speed index to set mount in Polar Alignment Assistant Tool.</label>
-         <default>-1</default>
+      <entry name="PAHMountSpeed" type="String">
+         <label>Speed to set mount in Polar Alignment Assistant Tool.</label>         
       </entry>
-      <entry name="PAHRefreshAlgorithm" type="Int">
-         <label>The algorithm used for polar-align refresh.</label>
-         <default>2</default>
+      <entry name="PAHRefreshAlgorithm" type="String">
+         <label>The algorithm used for polar-align refresh.</label>         
+      </entry>
+      <entry name="PAHDirection" type="String">
+         <label>Mount rotation direction during polar alignment.</label>         
       </entry>
       <entry name="PAHAutoPark" type="Bool">
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
          <default>false</default>
       </entry>
+      <entry name="PAHManualSlew" type="Bool">
+         <label>User should manually rotate the mount about its axis during polar alignment.</label>
+         <default>false</default>
+      </entry>
+      <entry name="PAHExposure" type="Double">
+         <label>Polar Alignment Assistant exposure duration in seconds.</label>
+         <default>2</default>
+      </entry>
    </group>
    <group name="Guide">
       <entry name="GuideExposure" type="Double">
          <label>Guider exposure duration in seconds.</label>
-         <default>2.0</default>
+         <default>2</default>
       </entry>
       <entry name="GuideDelay" type="Double">
          <label>Delay next exposure by this many seconds.</label>
@@ -2229,10 +2227,6 @@
          <label>Lin_guider Event Monitoring Port</label>
          <default>5656</default>
       </entry>
-      <entry name="GuideScopeType" type="UInt">
-         <label>Index of telescope type to be used when guiding. 0 for Primary, 1 for Guide</label>
-         <default>0</default>
-      </entry>
       <entry name="CalibrationPulseDuration" type="UInt">
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
          <default>1000</default>
@@ -2245,15 +2239,15 @@
          <label>Maximum number of pixels the calibration should move (approximate).</label>
          <default>15</default>
       </entry>
-      <entry name="GuideSquareSizeIndex" type="UInt">
-         <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+      <entry name="GuideSquareSize" type="String">
+         <label>Guide square size selection in pixels.</label>
          <default>2</default>
       </entry>
-      <entry name="GuideFilterFITSIndex" type="UInt">
-         <label>Effect FITS filter index corresponding to the available image enhancing filters.</label>
-         <default>0</default>
+      <entry name="GuideBinning" type="String">
+         <label>Guide binning.</label>
+         <default>2x2</default>
       </entry>
-      <entry name="GuideAutoStarEnabled" type="Bool">
+      <entry name="GuideAutoStar" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>
       </entry>
@@ -2301,11 +2295,11 @@
          <label>Automatically save internal guider user logs.</label>
          <default>true</default>
       </entry>
-      <entry name="GuideDarkFrameEnabled" type="Bool">
+      <entry name="GuideDarkFrame" type="Bool">
          <label>Take dark frame for autoguider images.</label>
          <default>false</default>
       </entry>
-      <entry name="GuideSubframeEnabled" type="Bool">
+      <entry name="GuideSubframe" type="Bool">
          <label>Subframe guide image around selected region</label>
          <default>false</default>
       </entry>

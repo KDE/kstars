@@ -9,7 +9,6 @@
 #include "test_ekos_helper.h"
 #include "ksutils.h"
 #include "Options.h"
-#include "oal/log.h"
 #include "ekos/profileeditor.h"
 #include "ekos/guide/internalguide/gmath.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
@@ -162,7 +161,7 @@ bool TestEkosHelper::setupEkosProfile(QString name, bool isPHD2)
     QTimer * closeDialog = new QTimer(this);
     closeDialog->setSingleShot(true);
     closeDialog->setInterval(10000);
-    ekos->connect(closeDialog, &QTimer::timeout, [&]
+    ekos->connect(closeDialog, &QTimer::timeout, this, [&]
     {
         ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
         if (profileEditor != nullptr)
@@ -190,7 +189,10 @@ void TestEkosHelper::connectModules()
     if (m_MountDevice != nullptr)
         QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 10000);
     if (m_CCDDevice != nullptr)
+    {
         QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(ekos->alignModule() != nullptr, 10000);
+    }
     if (m_GuiderDevice != nullptr)
         QTRY_VERIFY_WITH_TIMEOUT(ekos->guideModule() != nullptr, 10000);
     if (m_FocuserDevice != nullptr)
@@ -202,13 +204,13 @@ void TestEkosHelper::connectModules()
 
     if (m_MountDevice != nullptr)
     {
-    // connect to the mount process to rmount status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
-            &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
+        // connect to the mount process to rmount status changes
+        connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
+                &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
 
-    // connect to the mount process to receive meridian flip status changes
-    connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
-            &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
+        // connect to the mount process to receive meridian flip status changes
+        connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
+                &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
     }
 
     if (m_GuiderDevice != nullptr)
@@ -423,8 +425,6 @@ void TestEkosHelper::prepareAlignmentModule()
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000);
     // select the primary train for alignment
     KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), opticalTrainCombo, m_primaryTrain);
-    // select the Luminance filter
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), FilterPosCombo, "Luminance");
     // select local solver
     Ekos::Manager::Instance()->alignModule()->setSolverMode(Ekos::Align::SOLVER_LOCAL);
     // select internal SEP method
@@ -435,8 +435,6 @@ void TestEkosHelper::prepareAlignmentModule()
     Options::setSolveOptionsProfile(SSolver::Parameters::SINGLE_THREAD_SOLVING);
     // select the "Slew to Target" mode
     KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
-    // reduce the accuracy to avoid testing problems
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
     // disable rotator check in alignment
     Options::setAstrometryUseRotator(false);
 }
@@ -448,41 +446,41 @@ void TestEkosHelper::prepareFocusModule()
     // select the primary train for focusing
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), opticalTrainCombo, m_primaryTrain);
     // use full field
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), useFullField, true);
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), focusUseFullField, true);
     //initial step size 5000
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), stepIN, 5000);
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), focusTicks, 5000);
     // max travel 50000
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), maxTravelIN, 50000.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusMaxTravel, 50000.0);
     // focus tolerance 20% - make focus fast and robust, precision does not matter
-    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, toleranceIN);
-    toleranceIN->setMaximum(20.0);
-    toleranceIN->setValue(20.0);
+    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, focusTolerance);
+    focusTolerance->setMaximum(20.0);
+    focusTolerance->setValue(20.0);
     // use single pass linear algorithm
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusAlgorithmCombo, "Linear 1 Pass");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusAlgorithm, "Linear 1 Pass");
     // select star detection
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusOptionsProfiles, "1-Focus-Default");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusSEPProfile, "1-Focus-Default");
     // set annulus to 0% - 50%
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), fullFieldInnerRing, 0.0);
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), fullFieldOuterRing, 50.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldInnerRadius, 0.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 50.0);
     // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), initialFocusOutStepsIN, 2);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 2);
     // select the Luminance filter
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), FilterPosCombo, "Luminance");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusFilter, "Luminance");
     // select SEP algorithm for star detection
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetectionCombo, "SEP");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetection, "SEP");
     // set exp time for current filter
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), exposureIN, 3.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusExposure, 3.0);
     // set exposure times for all filters
-    Ekos::FilterManager *filtermanager = Ekos::FilterManager::Instance();
+    auto filtermanager = Ekos::Manager::Instance()->focusModule()->filterManager();
     for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
     {
         filtermanager->setFilterExposure(pos, 3.0);
         filtermanager->setFilterLock(pos, "Luminance");
     }
     // gain 100
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), gainIN, 100.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusGain, 100.0);
     // suspend guiding while focusing
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), focusSuspendGuiding, true);
 }
 
 void TestEkosHelper::prepareGuidingModule()
@@ -517,11 +515,11 @@ void TestEkosHelper::prepareGuidingModule()
         // set 2 sec guiding calibration pulse duration
         Options::setCalibrationPulseDuration(2000);
         // auto star select
-        KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), autoStarCheck, true);
+        KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
         // set the guide star box to size 32
-        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), boxSizeCombo, "32");
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideSquareSize, "32");
         // use 1x1 binning for guiding
-        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), binningCombo, "1x1");
+        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideBinning, "1x1");
         // use three steps in each direction for calibration
         Options::setAutoModeIterations(3);
         // use simulator's guide head
@@ -529,14 +527,16 @@ void TestEkosHelper::prepareGuidingModule()
     }
 }
 
-Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght)
+Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QString type, double aperture,
+        double focallenght)
 {
     QList<Scope *> scope_list;
     KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
 
-    for (Scope *scope: scope_list)
+    for (Scope *scope : scope_list)
     {
-        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture
+                && scope->focalLength() == focallenght)
             return scope;
     }
     // no match found, create it again
@@ -545,9 +545,10 @@ Scope *TestEkosHelper::createScopeIfNecessary(QString model, QString vendor, QSt
     // find it
     scope_list.clear();
     KStarsData::Instance()->userdb()->GetAllScopes(scope_list);
-    for (Scope *scope: scope_list)
+    for (Scope *scope : scope_list)
     {
-        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture && scope->focalLength() == focallenght)
+        if (scope->model() == model && scope->vendor() == vendor && scope->type() == type && scope->aperture() == aperture
+                && scope->focalLength() == focallenght)
             return scope;
     }
     // this should never happen
@@ -558,12 +559,12 @@ OAL::Scope *TestEkosHelper::getScope(TestEkosHelper::ScopeType type)
 {
     switch (type)
     {
-    case SCOPE_FSQ85:
-        return fsq85;
-    case SCOPE_NEWTON_10F4:
-        return newton_10F4;
-    case SCOPE_TAKFINDER10x50:
-        return takfinder10x50;
+        case SCOPE_FSQ85:
+            return fsq85;
+        case SCOPE_NEWTON_10F4:
+            return newton_10F4;
+        case SCOPE_TAKFINDER10x50:
+            return takfinder10x50;
     }
     // this should never happen
     return fsq85;
@@ -655,7 +656,7 @@ bool TestEkosHelper::startGuiding(double expTime)
     // switch to guiding module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
     //set the exposure time
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->guideModule(), exposureIN, expTime);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->guideModule(), guideExposure, expTime);
 
     // start guiding
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, guideB);
@@ -705,10 +706,11 @@ bool TestEkosHelper::startAligning(double expTime)
 {
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->alignModule(), 1000));
     // set the exposure time to the given value
-    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), exposureIN, expTime);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), alignExposure, expTime);
     // reduce the accuracy to avoid testing problems
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), accuracySpin, 300);
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->alignModule(), FilterPosCombo, "Luminance");
+    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->alignModule(), alignAccuracyThreshold, 300);
+    // select the Luminance filter
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->alignModule(), alignFilter, "Luminance");
 
     // start alignment
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->alignModule(), QPushButton, solveB);

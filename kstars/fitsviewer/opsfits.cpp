@@ -56,7 +56,8 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
 
 void OpsFITS::loadStellarSolverProfiles()
 {
-    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("SavedHFRProfiles.ini");
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedHFRProfiles.ini");
     if(QFile(savedOptionsProfiles).exists())
         m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
     else
@@ -86,7 +87,7 @@ void OpsFITS::setupHFROptions()
         mainPage->setIcon(QIcon::fromTheme("configure"));
         connect(optionsProfileEditor, &Ekos::StellarSolverProfileEditor::optionsProfilesUpdated, this,
                 &OpsFITS::loadStellarSolverProfiles);
-        optionsProfileEditor->loadProfile(HfrOptionsProfiles->currentIndex());
+        optionsProfileEditor->loadProfile(HfrOptionsProfiles->currentText());
         optionsEditor->show();
     });
 

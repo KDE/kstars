@@ -67,7 +67,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             PAH_STAR_SELECT,
             PAH_REFRESH,
             PAH_POST_REFRESH
-        } PAHStage;
+        } Stage;
 
         // Algorithm choice in UI
         typedef enum
@@ -75,7 +75,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             PLATE_SOLVE_ALGORITHM,
             MOVE_STAR_ALGORITHM,
             MOVE_STAR_UPDATE_ERR_ALGORITHM
-        } PAHRefreshAlgorithm;
+        } RefreshAlgorithm;
 
         enum CircleSolution
         {
@@ -92,7 +92,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
             m_CurrentTelescope = scope;
         }
         // Sync mount slew speed and available rates from the telescope object
-        void syncMountSpeed();
+        void syncMountSpeed(const QString &speed);
         // Enable PAA if the FOV is sufficient
         void setEnabled(bool enabled);
         // Return the exposure used in the refresh phase.
@@ -107,14 +107,15 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Handle both automated and manual mount rotations.
         void processMountRotation(const dms &ra, double settleDuration);
         // After solver is complete, handle PAH Stage processing
-        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
+        void processPAHStage(double orientation, double ra, double dec, double pixscale, bool eastToTheRight, short healpix,
+                             short index);
         // Return current PAH stage
-        PAHStage getPAHStage() const
+        Stage getPAHStage() const
         {
             return m_PAHStage;
         }
         // Set active stage.
-        void setPAHStage(PAHStage stage);
+        void setPAHStage(Stage stage);
         // Start the polar alignment process.
         void startPAHProcess();
         // Stops the polar alignment process.
@@ -136,10 +137,6 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void startPAHRefreshProcess();
         // This should be called when manual slewing is complete.
         void setPAHSlewDone();
-        // PAH Settings. PAH should be in separate class
-        QJsonObject getPAHSettings() const;
-        // Update the setting
-        void setPAHSettings(const QJsonObject &settings);
         // Return current active stage label
         QString getPAHStageString(bool translated = true) const
         {
@@ -150,7 +147,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Set image data from align class
         void setImageData(const QSharedPointer<FITSData> &image);
 
-        void setPAHRefreshAlgorithm(PAHRefreshAlgorithm value);
+        void setPAHRefreshAlgorithm(RefreshAlgorithm value);
 
     protected:
         // Polar Alignment Helper slots
@@ -199,7 +196,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Report new correction vector
         void newCorrectionVector(QLineF correctionVector);
         // Report new PAH stage
-        void newPAHStage(PAHStage stage);
+        void newPAHStage(Stage stage);
         // Report new PAH message
         void newPAHMessage(const QString &message);
         // Report whether the tool is enabled or not
@@ -210,7 +207,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void newFrame(const QSharedPointer<FITSView> &view);
 
     private:
-        void updateDisplay(PAHStage stage, const QString &message);
+        void updateDisplay(Stage stage, const QString &message);
         void drawArrows(double altError, double azError);
         void showUpdatedError(bool show);
         // These are only used in the plate-solve refresh scheme.
@@ -219,7 +216,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         void updatePlateSolveTriangle(const QSharedPointer<FITSData> &image);
 
         // Polar Alignment Helper
-        PAHStage m_PAHStage { PAH_IDLE };
+        Stage m_PAHStage { PAH_IDLE };
 
         SkyPoint targetPAH;
 
@@ -264,7 +261,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         QSharedPointer<AlignView> m_AlignView;
 
         // PAH Stage Map
-        static const QMap<PAHStage, const char *> PAHStages;
+        static const QMap<Stage, const char *> PAHStages;
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };

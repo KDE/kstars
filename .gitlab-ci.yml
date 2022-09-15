@@ -6,7 +6,7 @@
 stages:
   - build
   - test
-  - test-unstable
+  #- test-unstable
 
 image: tallfurryman/kstars-ci:0.9
 
@@ -82,53 +82,53 @@ build-and-test-stable:
         ./junit_result.stable.xml
 
 # Run the full validation in one step, unstable tests still in development
-build-and-test-unstable:
-  stage: test-unstable
-  interruptible: true
-  allow_failure: true
-  only:
-    - merge_requests
-  variables:
-    BUILD_TESTING: "ON"
-  before_script:
-    - *build_recipe
-  script:
-    - rm -rf Testing
-    - mkdir -p /var/run/dbus
-    - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
-    - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-    - apt install -y --no-install-recommends dbus-x11
-    - export $(dbus-launch)
-    - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-    - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
-  after_script:
-    - pwd
-    - saxon-xslt -u $(find . -name Test.xml) https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl > ./junit_result.unstable.xml
-    - ccache -s
-  artifacts:
-    reports:
-      junit:
-        ./junit_result.unstable.xml
+# build-and-test-unstable:
+#   stage: test-unstable
+#   interruptible: true
+#   allow_failure: true
+#   only:
+#     - merge_requests
+#   variables:
+#     BUILD_TESTING: "ON"
+#   before_script:
+#     - *build_recipe
+#   script:
+#     - rm -rf Testing
+#     - mkdir -p /var/run/dbus
+#     - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+#     - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+#     - apt install -y --no-install-recommends dbus-x11
+#     - export $(dbus-launch)
+#     - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+#     - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
+#   after_script:
+#     - pwd
+#     - saxon-xslt -u $(find . -name Test.xml) https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl > ./junit_result.unstable.xml
+#     - ccache -s
+#   artifacts:
+#     reports:
+#       junit:
+#         ./junit_result.unstable.xml
 
-build-appimage:
-  stage: test
-  interruptible: true
-  allow_failure: true
-  only:
-    - merge_requests
-  before_script:
-    - python3 -m pip install appimage-builder
-    - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
-    - chmod +x /opt/appimagetool
-    - pushd /opt/; /opt/appimagetool --appimage-extract
-    - mv /opt/squashfs-root /opt/appimagetool.AppDir
-    - ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
-    - popd
-  script:
-    - *build_recipe
-    - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - 'kstars-build/*.AppImage*'
+# build-appimage:
+#   stage: test
+#   interruptible: true
+#   allow_failure: true
+#   only:
+#     - merge_requests
+#   before_script:
+#     - python3 -m pip install appimage-builder
+#     - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /opt/appimagetool
+#     - chmod +x /opt/appimagetool
+#     - pushd /opt/; /opt/appimagetool --appimage-extract
+#     - mv /opt/squashfs-root /opt/appimagetool.AppDir
+#     - ln -s /opt/appimagetool.AppDir/AppRun /usr/local/bin/appimagetool
+#     - popd
+#   script:
+#     - *build_recipe
+#     - appimage-builder --recipe ../appimage/appimage-builder.yml --skip-test
+#   artifacts:
+#     expire_in: 1 week
+#     paths:
+#       - 'kstars-build/*.AppImage*'
 

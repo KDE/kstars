@@ -610,7 +610,9 @@ void Analyze::addGuideStatsInternal(double raDrift, double decDrift, double raPu
 void Analyze::addTemperature(double temperature, double time)
 {
     // The HFR corresponds to the last capture
-    statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
+    // If there is no temperature sensor, focus sends a large negative value.
+    if (temperature > -200)
+        statsPlot->graph(TEMPERATURE_GRAPH)->addData(time, temperature);
 }
 
 void Analyze::addTargetDistance(double targetDistance, double time)

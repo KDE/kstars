@@ -14,6 +14,8 @@
 #include "indi/indilistener.h"
 #include "auxiliary/ksmessagebox.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/profilesettings.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
@@ -178,6 +180,8 @@ void Message::onTextReceived(const QString &message)
         sendProfiles();
     else if (command == commands[GET_SCOPES])
         sendScopes();
+    else if (command == commands[GET_DSLR_LENSES])
+        sendDSLRLenses();
     else if (command.startsWith("scope_"))
         processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
@@ -190,27 +194,14 @@ void Message::onTextReceived(const QString &message)
         processOptionsCommands(command, payload);
     else if (command.startsWith("scheduler"))
         processSchedulerCommands(command, payload);
+    else if (command.startsWith("dslr_"))
+        processDSLRCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
 
     if (command == commands[GET_STATES])
         sendStates();
-    else if (command == commands[GET_CAMERAS])
-    {
-        sendCameras();
-        // Try to trigger any signals based on current camera list
-        if (m_Manager->captureModule())
-            m_Manager->captureModule()->checkCamera();
-    }
-    else if (command == commands[GET_MOUNTS])
-        sendMounts();
-    else if (command == commands[GET_FILTER_WHEELS])
-        sendFilterWheels();
-    else if (command == commands[GET_DOMES])
-        sendDomes();
-    else if (command == commands[GET_CAPS])
-        sendCaps();
     else if (command == commands[GET_STELLARSOLVER_PROFILES])
         sendStellarSolverProfiles();
     else if (command == commands[GET_DEVICES])
@@ -227,8 +218,8 @@ void Message::onTextReceived(const QString &message)
         processAlignCommands(command, payload);
     else if (command.startsWith("polar_"))
         processPolarCommands(command, payload);
-    else if (command.startsWith("dslr_"))
-        processDSLRCommands(command, payload);
+    else if (command.startsWith("train_"))
+        processTrainCommands(command, payload);
     else if (command.startsWith("fm_"))
         processFilterManagerCommands(command, payload);
     else if (command.startsWith("dark_library_"))
@@ -237,237 +228,6 @@ void Message::onTextReceived(const QString &message)
         processDeviceCommands(command, payload);
 
 }
-
-void Message::sendCameras()
-{
-    if (m_isConnected == false)
-        return;
-
-    QJsonArray cameraList;
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto camera = oneDevice->getCamera();
-        if (!camera)
-            continue;
-
-        auto primaryChip = camera->getChip(ISD::CameraChip::PRIMARY_CCD);
-
-        double temperature = Ekos::INVALID_VALUE;
-        camera->getTemperature(&temperature);
-
-        QJsonObject oneCamera =
-        {
-            {"name", camera->getDeviceName()},
-            {"canBin", primaryChip->canBin()},
-            {"hasTemperature", camera->hasCooler()},
-            {"canCool", camera->canCool()},
-            {"isoList", QJsonArray::fromStringList(primaryChip->getISOList())},
-            {"hasVideo", camera->hasVideoStream()},
-            {"hasGain", camera->hasGain()}
-        };
-
-        cameraList.append(oneCamera);
-    }
-
-    sendResponse(commands[GET_CAMERAS], cameraList);
-
-    // Send initial state as well.
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto camera = oneDevice->getCamera();
-        if (!camera)
-            continue;
-
-        QJsonObject state = {{"name", camera->getDeviceName()}};
-        double value = 0;
-
-        if (camera->canCool())
-        {
-            camera->getTemperature(&value);
-            state["temperature"] = value;
-        }
-        if (camera->hasGain())
-        {
-            camera->getGain(&value);
-            state["gain"] = value;
-        }
-        if (camera->getChip(ISD::CameraChip::PRIMARY_CCD)->getISOIndex() >= 0)
-        {
-            state["iso"] = camera->getChip(ISD::CameraChip::PRIMARY_CCD)->getISOIndex();
-        }
-
-        sendResponse(commands[NEW_CAMERA_STATE], state);
-    }
-
-    if (m_Manager->captureModule())
-        sendCaptureSettings(m_Manager->captureModule()->getPresetSettings());
-    if (m_Manager->alignModule())
-        sendAlignSettings(m_Manager->alignModule()->getSettings());
-    if (m_Manager->focusModule())
-    {
-        sendResponse(commands[FOCUS_SET_SETTINGS], m_Manager->focusModule()->getSettings());
-        sendResponse(commands[FOCUS_SET_PRIMARY_SETTINGS], m_Manager->focusModule()->getPrimarySettings());
-        sendResponse(commands[FOCUS_SET_PROCESS_SETTINGS], m_Manager->focusModule()->getProcessSettings());
-        sendResponse(commands[FOCUS_SET_MECHANICS_SETTINGS], m_Manager->focusModule()->getMechanicsSettings());
-    }
-    if (m_Manager->guideModule())
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
-}
-
-void Message::sendMounts()
-{
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
-        return;
-
-    QJsonArray mountList;
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto mount = oneDevice->getMount();
-        if (!mount)
-            continue;
-
-        QJsonObject oneMount =
-        {
-            {"name", mount->getDeviceName()},
-            {"canPark", mount->canPark()},
-            {"canSync", mount->canSync()},
-            {"canControlTrack", mount->canControlTrack()},
-            {"hasSlewRates", mount->hasSlewRates()},
-            {"slewRates", QJsonArray::fromStringList(mount->slewRates())},
-        };
-
-        mountList.append(oneMount);
-    }
-
-    sendResponse(commands[GET_MOUNTS], mountList);
-
-    // Also send initial slew rate
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto mount = oneDevice->getMount();
-        if (!mount)
-            continue;
-
-        QJsonObject slewRate =
-        {
-            {"name", mount->getDeviceName() },
-            {"slewRate", mount->getSlewRate() },
-            {"pierSide", mount->pierSide() },
-        };
-
-        sendResponse(commands[NEW_MOUNT_STATE], slewRate);
-    }
-
-    if (m_Manager->mountModule())
-    {
-        // Mount module states
-        QJsonObject mountModuleSettings =
-        {
-            {"altitudeLimitsEnabled", m_Manager->mountModule()->altitudeLimitsEnabled()},
-            {"altitudeLimitsMin", m_Manager->mountModule()->altitudeLimits()[0]},
-            {"altitudeLimitsMax", m_Manager->mountModule()->altitudeLimits()[1]},
-            {"haLimitEnabled", m_Manager->mountModule()->hourAngleLimitEnabled()},
-            {"haLimitValue", m_Manager->mountModule()->hourAngleLimit()},
-            {"meridianFlipEnabled", m_Manager->mountModule()->meridianFlipEnabled()},
-            {"meridianFlipValue", m_Manager->mountModule()->meridianFlipValue()},
-            {"autoParkEnabled", m_Manager->mountModule()->autoParkEnabled()},
-        };
-
-        sendResponse(commands[MOUNT_GET_SETTINGS], mountModuleSettings);
-    }
-}
-
-void Message::sendDomes()
-{
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
-        return;
-
-    QJsonArray domeList;
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto dome = oneDevice->getDome();
-        if (!dome)
-            continue;
-
-        QJsonObject oneDome =
-        {
-            {"name", dome->getDeviceName()},
-            {"canPark", dome->canPark()},
-            {"canGoto", dome->canAbsoluteMove()},
-            {"canAbort", dome->canAbort()},
-        };
-
-        domeList.append(oneDome);
-    }
-
-    sendResponse(commands[GET_DOMES], domeList);
-
-    // Also send initial azimuth
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto dome = oneDevice->getDome();
-        if (!dome)
-            continue;
-
-        QJsonObject status =
-        {
-            { "name", dome->getDeviceName()},
-            { "status", ISD::Dome::getStatusString(dome->status())}
-        };
-
-        if (dome->canAbsoluteMove())
-            status["az"] = dome->position();
-
-        sendResponse(commands[NEW_DOME_STATE], status);
-
-    }
-}
-
-void Message::sendCaps()
-{
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
-        return;
-
-    QJsonArray capList;
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto dustcap = oneDevice->getDustCap();
-        if (!dustcap)
-            continue;
-
-        QJsonObject oneCap =
-        {
-            {"name", dustcap->getDeviceName()},
-            {"canPark", dustcap->canPark()},
-            {"hasLight", dustcap->hasLight()},
-        };
-
-        capList.append(oneCap);
-    }
-
-    sendResponse(commands[GET_CAPS], capList);
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto dustcap = oneDevice->getDustCap();
-        if (!dustcap)
-            continue;
-
-        QJsonObject status =
-        {
-            { "name", dustcap->getDeviceName()},
-            { "status", ISD::DustCap::getStatusString(dustcap->status())},
-            { "lightS", dustcap->isLightOn()}
-        };
-
-        updateCapStatus(status);
-    }
-}
-
 
 void Message::sendStellarSolverProfiles()
 {
@@ -488,6 +248,9 @@ void Message::sendStellarSolverProfiles()
     sendResponse(commands[GET_STELLARSOLVER_PROFILES], profiles);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDrivers()
 {
     if (m_isConnected == false)
@@ -496,6 +259,9 @@ void Message::sendDrivers()
     sendResponse(commands[GET_DRIVERS], DriverManager::Instance()->getDriverList());
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDevices()
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -519,6 +285,42 @@ void Message::sendDevices()
     sendResponse(commands[GET_DEVICES], deviceList);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendTrains()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
+    QJsonArray trains;
+
+    for(auto &train : Ekos::OpticalTrainManager::Instance()->getOpticalTrains())
+        trains.append(QJsonObject::fromVariantMap(train));
+
+    auto profiles = Ekos::ProfileSettings::Instance()->getSettings();
+
+    QJsonObject data =
+    {
+        {"trains", trains},
+        {"profiles", QJsonObject::fromVariantMap(profiles)}
+    };
+
+    sendResponse(commands[TRAIN_GET_ALL], data);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::requestOpticalTrains(bool show)
+{
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[TRAIN_CONFIGURATION_REQUESTED]}, {"payload", show}}).toJson(
+        QJsonDocument::Compact));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendScopes()
 {
     if (m_isConnected == false)
@@ -535,6 +337,28 @@ void Message::sendScopes()
     sendResponse(commands[GET_SCOPES], scopeList);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDSLRLenses()
+{
+    if (m_isConnected == false)
+        return;
+
+    QJsonArray dslrList;
+
+    QList<OAL::DSLRLens *> allDslrLens;
+    KStarsData::Instance()->userdb()->GetAllDSLRLenses(allDslrLens);
+
+    for (auto &dslrLens : allDslrLens)
+        dslrList.append(dslrLens->toJson());
+
+    sendResponse(commands[GET_DSLR_LENSES], dslrList);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendTemperature(double value)
 {
     ISD::Camera *oneCCD = dynamic_cast<ISD::Camera*>(sender());
@@ -551,48 +375,17 @@ void Message::sendTemperature(double value)
     }
 }
 
-void Message::sendFilterWheels()
-{
-    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
-        return;
-
-    QJsonArray filterList;
-
-    for(auto &oneDevice : INDIListener::devices())
-    {
-        auto filterwheel = oneDevice->getFilterWheel();
-        if (!filterwheel)
-            continue;
-
-        auto prop = filterwheel->getProperty("FILTER_NAME");
-        if (!prop)
-            break;
-
-        auto filterNames = prop->getText();
-        if (!filterNames)
-            break;
-
-        QJsonArray filters;
-        for (const auto &it : *filterNames)
-            filters.append(it.getText());
-
-        QJsonObject oneFilter =
-        {
-            {"name", filterwheel->getDeviceName()},
-            {"filters", filters}
-        };
-
-        filterList.append(oneFilter);
-    }
-
-    sendResponse(commands[GET_FILTER_WHEELS], filterList);
-}
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setCapturePresetSettings(const QJsonObject &settings)
 {
     m_Manager->captureModule()->setPresetSettings(settings);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Capture *capture = m_Manager->captureModule();
@@ -608,16 +401,6 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         setCapturePresetSettings(payload);
         capture->captureOne();
     }
-    //    else if (command == commands[CAPTURE_TOGGLE_CAMERA])
-    //    {
-    //        capture->setCamera(payload["camera"].toString());
-    //        sendCaptureSettings(capture->getPresetSettings());
-    //    }
-    //    else if (command == commands[CAPTURE_TOGGLE_FILTER_WHEEL])
-    //    {
-    //        capture->setFilterWheel(payload["fw"].toString());
-    //        sendCaptureSettings(capture->getPresetSettings());
-    //    }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
         capture->setVideoLimits(payload["maxBufferSize"].toInt(512), payload["maxPreviewFPS"].toInt(10));
@@ -693,37 +476,75 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendCaptureSequence(const QJsonArray &sequenceArray)
 {
     sendResponse(commands[CAPTURE_GET_SEQUENCES], sequenceArray);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendCaptureSettings(const QJsonObject &settings)
 {
     sendResponse(commands[CAPTURE_SET_SETTINGS], settings);
 }
 
-void Message::sendAlignSettings(const QJsonObject &settings)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendAlignSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[ALIGN_SET_SETTINGS], settings);
+    sendResponse(commands[ALIGN_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
-void Message::sendGuideSettings(const QJsonObject &settings)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendGuideSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[GUIDE_SET_SETTINGS], settings);
+    sendResponse(commands[GUIDE_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 
 }
 
-void Message::sendFocusSettings(const QJsonObject &settings)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendFocusSettings(const QVariantMap &settings)
 {
-    sendResponse(commands[FOCUS_SET_SETTINGS], settings);
+    sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendMountSettings(const QVariantMap &settings)
+{
+    sendResponse(commands[MOUNT_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendDarkLibrarySettings(const QVariantMap &settings)
+{
+    sendResponse(commands[DARK_LIBRARY_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendSchedulerSettings(const QJsonObject &settings)
 {
     sendResponse(commands[SCHEDULER_GET_SETTINGS], settings);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processGuideCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Guide *guide = m_Manager->guideModule();
@@ -746,11 +567,10 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         guide->abort();
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
-    else if (command == commands[GUIDE_SET_SETTINGS])
-    {
-        guide->setSettings(payload);
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
-    }
+    else if (command == commands[GUIDE_SET_ALL_SETTINGS])
+        guide->setAllSettings(payload.toVariantMap());
+    else if (command == commands[GUIDE_GET_ALL_SETTINGS])
+        sendGuideSettings(guide->getAllSettings());
     else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
     {
 
@@ -758,15 +578,17 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         Options::setGuideCalibrationBacklash(payload["max_move"].toInt());
         Options::setTwoAxisEnabled(payload["two_axis"].toBool());
         Options::setGuideAutoSquareSizeEnabled(payload["square_size"].toBool());
-
         Options::setGuideCalibrationBacklash(payload["calibrationBacklash"].toBool());
         Options::setResetGuideCalibration(payload["resetCalibration"].toBool());
         Options::setReuseGuideCalibration(payload["reuseCalibration"].toBool());
         Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
-        sendGuideSettings(m_Manager->guideModule()->getSettings());
+        sendGuideSettings(m_Manager->guideModule()->getAllSettings());
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Focus *focus = m_Manager->focusModule();
@@ -794,28 +616,23 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         focus->focusOut(payload["steps"].toInt());
     else if (command == commands[FOCUS_LOOP])
         focus->startFraming();
-    else if (command == commands[FOCUS_SET_SETTINGS])
-        focus->setSettings(payload);
+    else if (command == commands[FOCUS_SET_ALL_SETTINGS])
+        focus->setAllSettings(payload.toVariantMap());
+    else if (command == commands[FOCUS_GET_ALL_SETTINGS])
+        sendFocusSettings(focus->getAllSettings());
+    else if (command == commands[FOCUS_GET_ALL_SETTINGS])
+        sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(focus->getAllSettings()));
     else if (command == commands[FOCUS_SET_CROSSHAIR])
     {
         double x = payload["x"].toDouble();
         double y = payload["y"].toDouble();
         focus->selectFocusStarFraction(x, y);
     }
-    else if (command == commands[FOCUS_SET_PRIMARY_SETTINGS])
-        focus->setPrimarySettings(payload);
-    else if (command == commands[FOCUS_SET_PROCESS_SETTINGS])
-        focus->setProcessSettings(payload);
-    else if (command == commands[FOCUS_SET_MECHANICS_SETTINGS])
-        focus->setMechanicsSettings(payload);
-    else if (command == commands[FOCUS_GET_PRIMARY_SETTINGS])
-        sendResponse(commands[FOCUS_GET_PRIMARY_SETTINGS], focus->getPrimarySettings());
-    else if (command == commands[FOCUS_GET_PROCESS_SETTINGS])
-        sendResponse(commands[FOCUS_GET_PROCESS_SETTINGS], focus->getProcessSettings());
-    else if (command == commands[FOCUS_GET_MECHANICS_SETTINGS])
-        sendResponse(commands[FOCUS_GET_MECHANICS_SETTINGS], focus->getMechanicsSettings());
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processMountCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Mount *mount = m_Manager->mountModule();
@@ -858,6 +675,10 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         if (rate >= 0)
             mount->setSlewRate(rate);
     }
+    else if (command == commands[MOUNT_SET_ALL_SETTINGS])
+        mount->setAllSettings(payload.toVariantMap());
+    else if (command == commands[MOUNT_GET_ALL_SETTINGS])
+        sendMountSettings(mount->getAllSettings());
     else if (command == commands[MOUNT_SET_MOTION])
     {
         QString direction = payload["direction"].toString();
@@ -872,38 +693,6 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->motionCommand(action, -1, ISD::Mount::MOTION_EAST);
         else if (direction == "W")
             mount->motionCommand(action, -1, ISD::Mount::MOTION_WEST);
-    }
-    else if (command == commands[MOUNT_SET_ALTITUDE_LIMITS])
-    {
-        QList<double> limits;
-        limits.append(payload["min"].toDouble(0));
-        limits.append(payload["max"].toDouble(90));
-        mount->setAltitudeLimits(limits);
-        mount->setAltitudeLimitsEnabled(payload["enabled"].toBool());
-    }
-    else if (command == commands[MOUNT_SET_HA_LIMIT])
-    {
-        mount->setHourAngleLimit(payload["value"].toDouble());
-        mount->setHourAngleLimitEnabled(payload["enabled"].toBool());
-    }
-    else if (command == commands[MOUNT_SET_MERIDIAN_FLIP])
-    {
-        // Meridian flip value is in degress. Need to convert to hours.
-        mount->setMeridianFlipValues(payload["enabled"].toBool(),
-                                     payload["value"].toDouble() / 15.0);
-    }
-    else if (command == commands[MOUNT_SET_EVERYDAY_AUTO_PARK])
-    {
-        const bool enabled = payload["enabled"].toBool();
-        mount->setAutoParkDailyEnabled(enabled);
-    }
-    else if (command == commands[MOUNT_SET_AUTO_PARK])
-    {
-        const bool enabled = payload["enabled"].toBool();
-        // Only set startup time when enabled.
-        if (enabled)
-            mount->setAutoParkStartup(QTime::fromString(payload["value"].toString()));
-        mount->setAutoParkEnabled(enabled);
     }
     else if (command == commands[MOUNT_GOTO_PIXEL])
     {
@@ -942,6 +731,9 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processAlignCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Align *align = m_Manager->alignModule();
@@ -956,15 +748,16 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     {
         align->captureAndSolve();
     }
-    else if (command == commands[ALIGN_SET_SETTINGS])
-        align->setSettings(payload);
+    else if (command == commands[ALIGN_SET_ALL_SETTINGS])
+        align->setAllSettings(payload.toVariantMap());
+    else if (command == commands[ALIGN_GET_ALL_SETTINGS])
+        sendAlignSettings(align->getAllSettings());
     else if(command == commands[ALIGN_SET_ASTROMETRY_SETTINGS])
     {
         Options::setAstrometryRotatorThreshold(payload["threshold"].toInt());
         Options::setAstrometryUseRotator(payload["rotator_control"].toBool());
         Options::setAstrometryUseImageScale(payload["scale"].toBool());
         Options::setAstrometryUsePosition(payload["position"].toBool());
-        sendAlignSettings(m_Manager->alignModule()->getSettings());
     }
     else if (command == commands[ALIGN_STOP])
         align->abort();
@@ -985,6 +778,9 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setAlignStatus(Ekos::AlignState newState)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -998,6 +794,9 @@ void Message::setAlignStatus(Ekos::AlignState newState)
     sendResponse(commands[NEW_ALIGN_STATE], alignState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setAlignSolution(const QVariantMap &solution)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -1011,6 +810,9 @@ void Message::setAlignSolution(const QVariantMap &solution)
     sendResponse(commands[NEW_ALIGN_STATE], alignState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processSchedulerCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Scheduler *scheduler = m_Manager->schedulerModule();
@@ -1073,6 +875,9 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processPolarCommands(const QString &command, const QJsonObject &payload)
 {
     Ekos::Align *align = m_Manager->alignModule();
@@ -1089,10 +894,6 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         paa->stopPAHProcess();
     }
-    if (command == commands[PAH_SET_SETTINGS])
-    {
-        paa->setPAHSettings(payload);
-    }
     else if (command == commands[PAH_REFRESH])
     {
         paa->setPAHRefreshDuration(payload["value"].toDouble(1));
@@ -1102,7 +903,7 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
     {
         auto algorithmCombo = paa->findChild<QComboBox*>("PAHRefreshAlgorithmCombo");
         if (algorithmCombo)
-            algorithmCombo->setCurrentIndex(static_cast<Ekos::PolarAlignmentAssistant::PAHRefreshAlgorithm>(payload["value"].toInt(1)));
+            algorithmCombo->setCurrentIndex(static_cast<Ekos::PolarAlignmentAssistant::RefreshAlgorithm>(payload["value"].toInt(1)));
     }
     else if (command == commands[PAH_RESET_VIEW])
     {
@@ -1152,7 +953,10 @@ void Message::processPolarCommands(const QString &command, const QJsonObject &pa
 
 }
 
-void Message::setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::setPAHStage(Ekos::PolarAlignmentAssistant::Stage stage)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -1178,6 +982,9 @@ void Message::setPAHStage(Ekos::PolarAlignmentAssistant::PAHStage stage)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPAHMessage(const QString &message)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -1193,6 +1000,9 @@ void Message::setPAHMessage(const QString &message)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPolarResults(QLineF correctionVector, double polarError, double azError, double altError)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -1220,6 +1030,9 @@ void Message::setPolarResults(QLineF correctionVector, double polarError, double
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setUpdatedErrors(double total, double az, double alt)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -1235,6 +1048,9 @@ void Message::setUpdatedErrors(double total, double az, double alt)
     sendResponse(commands[NEW_POLAR_STATE], error);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setPAHEnabled(bool enabled)
 {
     if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
@@ -1248,6 +1064,9 @@ void Message::setPAHEnabled(bool enabled)
     sendResponse(commands[NEW_POLAR_STATE], polarState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processProfileCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[START_PROFILE])
@@ -1300,6 +1119,9 @@ void Message::processProfileCommands(const QString &command, const QJsonObject &
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendProfiles()
 {
     QJsonArray profileArray;
@@ -1319,6 +1141,9 @@ void Message::sendProfiles()
     sendResponse(commands[GET_PROFILES], profiles);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendSchedulerJobs()
 {
     QJsonObject jobs =
@@ -1328,6 +1153,9 @@ void Message::sendSchedulerJobs()
     sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendSchedulerJobList(QJsonArray jobsList)
 {
     QJsonObject jobs =
@@ -1337,6 +1165,9 @@ void Message::sendSchedulerJobList(QJsonArray jobsList)
     sendResponse(commands[SCHEDULER_GET_JOBS], jobs);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setEkosStatingStatus(Ekos::CommunicationStatus status)
 {
     if (status == Ekos::Pending)
@@ -1350,6 +1181,9 @@ void Message::setEkosStatingStatus(Ekos::CommunicationStatus status)
     sendResponse(commands[NEW_CONNECTION_STATE], connectionState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processOptionsCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[OPTION_SET])
@@ -1387,6 +1221,9 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
     emit optionsChanged(m_Options);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processScopeCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[ADD_SCOPE])
@@ -1407,6 +1244,9 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     sendScopes();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processDSLRCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[DSLR_SET_INFO])
@@ -1420,32 +1260,116 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
                 payload["pixelh"].toDouble());
 
     }
+    else if(command == commands[DSLR_ADD_LENS])
+    {
+        KStarsData::Instance()->userdb()->AddDSLRLens(payload["model"].toString(), payload["vendor"].toString(),
+                payload["focal_length"].toDouble(), payload["focal_ratio"].toDouble());
+    }
+    else if (command == commands[DSLR_DELETE_LENS])
+    {
+        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toInt());
+    }
+    else if (command == commands[DSLR_UPDATE_LENS])
+    {
+        KStarsData::Instance()->userdb()->AddDSLRLens(payload["model"].toString(), payload["vendor"].toString(),
+                payload["focal_length"].toDouble(), payload["focal_ratio"].toDouble(), payload["id"].toString());
+    }
+
+    sendDSLRLenses();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processTrainCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[TRAIN_GET_ALL])
+        sendTrains();
+    else if (command == commands[TRAIN_SET])
+    {
+        auto module = payload["module"].toString();
+        auto name = payload["name"].toString();
+
+        if (module == "capture")
+        {
+            if (m_Manager->captureModule())
+                m_Manager->captureModule()->setOpticalTrain(name);
+        }
+        else if (module == "focus")
+        {
+            if (m_Manager->focusModule())
+                m_Manager->focusModule()->setOpticalTrain(name);
+        }
+        else if (module == "guide")
+        {
+            if (m_Manager->guideModule())
+                m_Manager->guideModule()->setOpticalTrain(name);
+        }
+        else if (module == "align")
+        {
+            if (m_Manager->alignModule())
+                m_Manager->alignModule()->setOpticalTrain(name);
+        }
+        else if (module == "mount")
+        {
+            if (m_Manager->mountModule())
+                m_Manager->mountModule()->setOpticalTrain(name);
+        }
+    }
+    else if (command == commands[TRAIN_ADD])
+    {
+        Ekos::OpticalTrainManager::Instance()->addOpticalTrain(payload);
+    }
+    else if (command == commands[TRAIN_UPDATE])
+    {
+        Ekos::OpticalTrainManager::Instance()->setOpticalTrain(payload);
+    }
+    else if (command == commands[TRAIN_DELETE])
+    {
+        Ekos::OpticalTrainManager::Instance()->removeOpticalTrain(payload["id"].toInt());
+    }
+    else if (command == commands[TRAIN_ACCEPT])
+    {
+        requestOpticalTrains(false);
+        Ekos::OpticalTrainManager::Instance()->accept();
+    }
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processFilterManagerCommands(const QString &command, const QJsonObject &payload)
 {
+    QSharedPointer<Ekos::FilterManager> manager;
+    if (m_Manager->captureModule())
+        manager = m_Manager->captureModule()->filterManager();
+
+    if (manager.isNull())
+        return;
+
     if (command == commands[FM_GET_DATA])
     {
-        QJsonObject data = Ekos::FilterManager::Instance()->toJSON();
+        QJsonObject data = manager->toJSON();
         sendResponse(commands[FM_GET_DATA], data);
     }
     else if (command == commands[FM_SET_DATA])
     {
-        Ekos::FilterManager::Instance()->setFilterData(payload);
+        manager->setFilterData(payload);
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processDarkLibraryCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[DARK_LIBRARY_START])
-    {
-        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
         Ekos::DarkLibrary::Instance()->start();
-    }
-    else if(command == commands[DARK_LIBRARY_SET_SETTINGS])
-    {
-        Ekos::DarkLibrary::Instance()->setDarkSettings(payload);
-    }
+    else if(command == commands[DARK_LIBRARY_SET_ALL_SETTINGS])
+        Ekos::DarkLibrary::Instance()->setAllSettings(payload.toVariantMap());
+    else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
+        sendDarkLibrarySettings(Ekos::DarkLibrary::Instance()->getAllSettings());
     else if(command == commands[DARK_LIBRARY_SET_CAMERA_PRESETS])
     {
         Ekos::DarkLibrary::Instance()->setCameraPresets(payload);
@@ -1458,10 +1382,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         const int row = payload["row"].toInt();
         Ekos::DarkLibrary::Instance()->loadIndexInView(row);
-    }
-    else if (command == commands[DARK_LIBRARY_GET_DARK_SETTINGS])
-    {
-        sendResponse(commands[DARK_LIBRARY_GET_DARK_SETTINGS], Ekos::DarkLibrary::Instance()->getDarkSettings());
     }
     else if (command == commands[DARK_LIBRARY_GET_CAMERA_PRESETS])
     {
@@ -1479,14 +1399,6 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     {
         Ekos::DarkLibrary::Instance()->setDefectMapEnabled(false);
     }
-    else if (command == commands[DARK_LIBRARY_SET_DEFECT_SETTINGS])
-    {
-        Ekos::DarkLibrary::Instance()->setDefectSettings(payload);
-    }
-    else if (command == commands[DARK_LIBRARY_GET_DEFECT_SETTINGS])
-    {
-        sendResponse(commands[DARK_LIBRARY_GET_DEFECT_SETTINGS], Ekos::DarkLibrary::Instance()->getDefectSettings());
-    }
     else if (command == commands[DARK_LIBRARY_GET_VIEW_MASTERS])
     {
         sendResponse(commands[DARK_LIBRARY_GET_VIEW_MASTERS], Ekos::DarkLibrary::Instance()->getViewMasters());
@@ -1498,7 +1410,9 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     }
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processDeviceCommands(const QString &command, const QJsonObject &payload)
 {
     QString device = payload["device"].toString();
@@ -1623,6 +1537,9 @@ void Message::processDeviceCommands(const QString &command, const QJsonObject &p
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processAstronomyCommands(const QString &command, const QJsonObject &payload)
 {
     if (command == commands[ASTRO_GET_ALMANC])
@@ -2107,6 +2024,9 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 KStarsDateTime Message::getNextDawn()
 {
     // Today's date
@@ -2124,34 +2044,52 @@ KStarsDateTime Message::getNextDawn()
     return nextDawn;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::requestDSLRInfo(const QString &cameraName)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DSLR_GET_INFO]}, {"payload", cameraName}}).toJson(
         QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::requestPortSelection(bool show)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[GET_PROFILE_PORT_SELECTION]}, {"payload", show}}).toJson(
         QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendDialog(const QJsonObject &message)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", commands[DIALOG_GET_INFO]}, {"payload", message}}).toJson(
         QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendResponse(const QString &command, const QJsonObject &payload)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendResponse(const QString &command, const QJsonArray &payload)
 {
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateMountStatus(const QJsonObject &status, bool throttle)
 {
     if (m_isConnected == false)
@@ -2170,6 +2108,9 @@ void Message::updateMountStatus(const QJsonObject &status, bool throttle)
         sendResponse(commands[NEW_MOUNT_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateCaptureStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -2178,6 +2119,9 @@ void Message::updateCaptureStatus(const QJsonObject &status)
     sendResponse(commands[NEW_CAPTURE_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateFocusStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -2186,6 +2130,9 @@ void Message::updateFocusStatus(const QJsonObject &status)
     sendResponse(commands[NEW_FOCUS_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateGuideStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -2194,6 +2141,9 @@ void Message::updateGuideStatus(const QJsonObject &status)
     sendResponse(commands[NEW_GUIDE_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateDomeStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -2202,6 +2152,9 @@ void Message::updateDomeStatus(const QJsonObject &status)
     sendResponse(commands[NEW_DOME_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::updateCapStatus(const QJsonObject &status)
 {
     if (m_isConnected == false)
@@ -2210,6 +2163,9 @@ void Message::updateCapStatus(const QJsonObject &status)
     sendResponse(commands[NEW_CAP_STATE], status);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendConnection()
 {
     if (m_isConnected == false)
@@ -2223,6 +2179,9 @@ void Message::sendConnection()
     sendResponse(commands[NEW_CONNECTION_STATE], connectionState);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendStates()
 {
     if (m_isConnected == false)
@@ -2241,7 +2200,7 @@ void Message::sendStates()
         QJsonObject mountState =
         {
             {"status", m_Manager->mountModule()->statusString(false)},
-            {"target", m_Manager->mountTarget->text()},
+            {"target", m_Manager->capturePreview->mountTarget->text()},
             {"slewRate", m_Manager->mountModule()->slewRate()},
             {"pierSide", m_Manager->mountModule()->pierSide()}
         };
@@ -2271,7 +2230,7 @@ void Message::sendStates()
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
         // Align settings
-        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+        sendAlignSettings(m_Manager->alignModule()->getAllSettings());
 
         Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
         if (paa)
@@ -2286,14 +2245,13 @@ void Message::sendStates()
                 {"message", doc.toPlainText()},
             };
             sendResponse(commands[NEW_POLAR_STATE], polarState);
-
-
-            // Polar settings
-            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
         }
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event)
 {
     if (m_isConnected == false || m_Options[OPTION_SET_NOTIFICATIONS] == false)
@@ -2310,6 +2268,9 @@ void Message::sendEvent(const QString &message, KSNotification::EventSource sour
     sendResponse(commands[NEW_NOTIFICATION], newEvent);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendManualRotatorStatus(double currentPA, double targetPA, double threshold)
 {
     if (m_isConnected == false)
@@ -2319,6 +2280,9 @@ void Message::sendManualRotatorStatus(double currentPA, double targetPA, double 
     sendResponse(commands[ALIGN_MANUAL_ROTATOR_STATUS], request);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::setBoundingRect(QRect rect, QSize view, double currentZoom)
 {
     m_BoundingRect = rect;
@@ -2326,11 +2290,17 @@ void Message::setBoundingRect(QRect rect, QSize view, double currentZoom)
     m_CurrentZoom = currentZoom;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processDialogResponse(const QJsonObject &payload)
 {
     KSMessageBox::Instance()->selectResponse(payload["button"].toString());
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processNewProperty(INDI::Property prop)
 {
     // Do not send new properties until all properties settle down
@@ -2345,6 +2315,9 @@ void Message::processNewProperty(INDI::Property prop)
         QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processDeleteProperty(const QString &device, const QString &name)
 {
     QJsonObject payload =
@@ -2357,6 +2330,9 @@ void Message::processDeleteProperty(const QString &device, const QString &name)
         QJsonDocument::Compact));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processNewNumber(INumberVectorProperty * nvp)
 {
     if (m_PropertySubscriptions.contains(nvp->device))
@@ -2380,6 +2356,9 @@ void Message::processNewNumber(INumberVectorProperty * nvp)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processNewText(ITextVectorProperty * tvp)
 {
     if (m_PropertySubscriptions.contains(tvp->device))
@@ -2403,6 +2382,9 @@ void Message::processNewText(ITextVectorProperty * tvp)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processNewSwitch(ISwitchVectorProperty * svp)
 {
     if (m_PropertySubscriptions.contains(svp->device))
@@ -2426,6 +2408,9 @@ void Message::processNewSwitch(ISwitchVectorProperty * svp)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processNewLight(ILightVectorProperty * lvp)
 {
     if (m_PropertySubscriptions.contains(lvp->device))
@@ -2441,6 +2426,9 @@ void Message::processNewLight(ILightVectorProperty * lvp)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendModuleState(const QString &name)
 {
     if (m_isConnected == false)
@@ -2456,8 +2444,8 @@ void Message::sendModuleState(const QString &name)
     {
         QJsonObject mountState =
         {
-            {"status", m_Manager->mountStatus->text()},
-            {"target", m_Manager->mountTarget->text()},
+            {"status", m_Manager->mountStatus->getStatusText()},
+            {"target", m_Manager->capturePreview->mountTarget->text()},
             {"slewRate", m_Manager->mountModule()->slewRate()},
             {"pierSide", m_Manager->mountModule()->pierSide()}
         };
@@ -2484,7 +2472,7 @@ void Message::sendModuleState(const QString &name)
         sendResponse(commands[NEW_ALIGN_STATE], alignState);
 
         // Align settings
-        sendResponse(commands[ALIGN_SET_SETTINGS], m_Manager->alignModule()->getSettings());
+        sendAlignSettings(m_Manager->alignModule()->getAllSettings());
 
         Ekos::PolarAlignmentAssistant *paa = m_Manager->alignModule()->polarAlignmentAssistant();
         if (paa)
@@ -2499,9 +2487,6 @@ void Message::sendModuleState(const QString &name)
                 {"message", doc.toPlainText()},
             };
             sendResponse(commands[NEW_POLAR_STATE], polarState);
-
-            // Polar settings
-            sendResponse(commands[PAH_SET_SETTINGS], paa->getPAHSettings());
         }
     }
 }

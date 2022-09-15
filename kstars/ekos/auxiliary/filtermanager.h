@@ -33,29 +33,26 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         Q_OBJECT
     public:
 
-        static FilterManager *Instance();
-        static void release();
+    typedef enum
+    {
+        CHANGE_POLICY    = 1 << 0,
+        OFFSET_POLICY    = 1 << 1,
+        AUTOFOCUS_POLICY = 1 << 2,
+        ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY,
+        NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
+    } FilterPolicy;
 
-        typedef enum
-        {
-            CHANGE_POLICY    = 1 << 0,
-            OFFSET_POLICY    = 1 << 1,
-            AUTOFOCUS_POLICY = 1 << 2,
-            ALL_POLICIES     = CHANGE_POLICY | OFFSET_POLICY | AUTOFOCUS_POLICY,
-            NO_AUTOFOCUS_POLICY = CHANGE_POLICY | OFFSET_POLICY
-        } FilterPolicy;
+    enum
+    {
+        FM_LABEL = 4,
+        FM_EXPOSURE,
+        FM_OFFSET,
+        FM_AUTO_FOCUS,
+        FM_LOCK_FILTER,
+        FM_FLAT_FOCUS
+    };
 
-        enum
-        {
-            FM_LABEL = 4,
-            FM_EXPOSURE,
-            FM_OFFSET,
-            FM_AUTO_FOCUS,
-            FM_LOCK_FILTER,
-            FM_FLAT_FOCUS
-        };
-
-
+        FilterManager(QWidget *parent = nullptr);
 
         QJsonObject toJSON();
         void setFilterData(const QJsonObject &settings);
@@ -104,7 +101,11 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          * @brief setCurrentFilterWheel Set the FilterManager active filter wheel.
          * @param filter pointer to filter wheel device
          */
-        void setCurrentFilterWheel(ISD::FilterWheel *filter);
+        void setFilterWheel(ISD::FilterWheel *filter);
+        ISD::FilterWheel *filterWheel() const
+        {
+            return m_FilterWheel;
+        }
 
         /**
          * @brief setFocusReady Set whether a focuser device is active and in use.
@@ -159,16 +160,16 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void checkFocus(double);
         // New Focus offset requested
         void newFocusOffset(int value, bool useAbsoluteOffset);
+        // database was updated
+        void updated();
 
     private slots:
         void processText(ITextVectorProperty *tvp);
         void processNumber(INumberVectorProperty *nvp);
         void processSwitch(ISwitchVectorProperty *svp);
+        void processDisconnect();
 
-    private:
-
-        FilterManager();
-        static FilterManager *m_Instance;
+    private:        
 
         // Filter Wheel Devices
         ISD::FilterWheel *m_FilterWheel = { nullptr };
@@ -190,7 +191,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         int16_t lastFilterOffset { 0 };
 
         // Table model
-        QSqlTableModel *filterModel = { nullptr };
+        QSqlTableModel *m_FilterModel = { nullptr };
 
         // INDI Properties of current active filter
         ITextVectorProperty *m_FilterNameProperty { nullptr };

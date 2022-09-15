@@ -34,6 +34,7 @@
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ksnotification.h"
 #include "kspaths.h"
 #include "fov.h"
@@ -84,7 +85,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
     KStarsData::Instance()->clearTransientFOVs();
 
-    //loadSlewMode = false;
     solverFOV.reset(new FOV());
     solverFOV->setName(i18n("Solver FOV"));
     solverFOV->setObjectName("solver_fov");
@@ -134,13 +134,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
         loadAndSlew();
     });
 
-    connect(FilterPosCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
-            [ = ](int index)
-    {
-        syncSettings();
-        Options::setLockAlignFilterIndex(index);
-    });
-
     gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
@@ -158,31 +151,7 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
     m_CaptureTimer.setSingleShot(true);
     m_CaptureTimer.setInterval(CAPTURE_RETRY_DELAY);
-    connect(&m_CaptureTimer, &QTimer::timeout, [&]()
-    {
-        if (m_CaptureTimeoutCounter++ > 3)
-        {
-            appendLogText(i18n("Capture timed out."));
-            m_CaptureTimer.stop();
-            abort();
-        }
-        else
-        {
-            ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
-            if (targetChip->isCapturing())
-            {
-                appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval() / 500));
-                targetChip->abortExposure();
-                m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
-            }
-            else
-            {
-                setAlignTableResult(ALIGN_RESULT_FAILED);
-                captureAndSolve();
-            }
-        }
-    });
-
+    connect(&m_CaptureTimer, &QTimer::timeout, this, &Align::processCaptureTimeout);
     m_AlignTimer.setSingleShot(true);
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
     connect(&m_AlignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
@@ -190,68 +159,16 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_CurrentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(m_CurrentGotoMode)->setChecked(true);
 
-    KConfigDialog *dialog = new KConfigDialog(this, "alignsettings", Options::self());
-
-#ifdef Q_OS_OSX
-    dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-#endif
-
-    opsAlign = new OpsAlign(this);
-    connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
-    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
-    page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
-    connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
-
-    opsPrograms = new OpsPrograms(this);
-    page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
-    page->setIcon(QIcon(":/icons/astrometry.svg"));
-
-    opsAstrometry = new OpsAstrometry(this);
-    page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
-    page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
-
-    optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::AlignProfiles, dialog);
-    page = dialog->addPage(optionsProfileEditor, i18n("Align Options Profiles Editor"));
-    connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, [this]()
-    {
-        if(QFile(savedOptionsProfiles).exists())
-            m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
-        else
-            m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
-        opsAlign->reloadOptionsProfiles();
-    });
-    page->setIcon(QIcon::fromTheme("configure"));
-
-    connect(opsAlign, &OpsAlign::needToLoadProfile, this, [this, dialog, page](int profile)
-    {
-        optionsProfileEditor->loadProfile(profile);
-        dialog->setCurrentPage(page);
-    });
-
-    opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
-    m_IndexFilesPage = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
-    m_IndexFilesPage->setIcon(QIcon::fromTheme("map-flat"));
-
-    appendLogText(i18n("Idle."));
-
     pi.reset(new QProgressIndicator(this));
-
     stopLayout->addWidget(pi.get());
-
-    exposureIN->setValue(Options::alignExposure());
-    connect(exposureIN, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&]()
-    {
-        syncSettings();
-    });
 
     rememberSolverWCS = Options::astrometrySolverWCS();
     rememberAutoWCS   = Options::autoWCS();
 
     solverModeButtonGroup->setId(localSolverR, SOLVER_LOCAL);
     solverModeButtonGroup->setId(remoteSolverR, SOLVER_REMOTE);
-
-    localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
-    remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
+    //    localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
+    //    remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
@@ -262,102 +179,19 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 #endif
     setSolverMode(solverModeButtonGroup->checkedId());
 
-    accuracySpin->setValue(Options::solverAccuracyThreshold());
-    connect(accuracySpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]()
+    connect(alignAccuracyThreshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]()
     {
-        Options::setSolverAccuracyThreshold(accuracySpin->value());
         buildTarget();
     });
 
-    connect(alignDarkFrameCheck, &QCheckBox::toggled, [this]()
-    {
-        Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
-    });
-    alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
-
-    delaySpin->setValue(Options::settlingTime());
-    connect(delaySpin, &QSpinBox::editingFinished, this, &Ekos::Align::saveSettleTime);
-
-    connect(binningCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+    connect(alignBinning, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Ekos::Align::setBinningIndex);
 
-    double accuracyRadius = accuracySpin->value();
-
-    alignPlot->setBackground(QBrush(Qt::black));
-    alignPlot->setSelectionTolerance(10);
-
-    alignPlot->xAxis->setBasePen(QPen(Qt::white, 1));
-    alignPlot->yAxis->setBasePen(QPen(Qt::white, 1));
-
-    alignPlot->xAxis->setTickPen(QPen(Qt::white, 1));
-    alignPlot->yAxis->setTickPen(QPen(Qt::white, 1));
-
-    alignPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
-    alignPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
-
-    alignPlot->xAxis->setTickLabelColor(Qt::white);
-    alignPlot->yAxis->setTickLabelColor(Qt::white);
-
-    alignPlot->xAxis->setLabelColor(Qt::white);
-    alignPlot->yAxis->setLabelColor(Qt::white);
-
-    alignPlot->xAxis->setLabelFont(QFont(font().family(), 10));
-    alignPlot->yAxis->setLabelFont(QFont(font().family(), 10));
-
-    alignPlot->xAxis->setLabelPadding(2);
-    alignPlot->yAxis->setLabelPadding(2);
-
-    alignPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    alignPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
-    alignPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    alignPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
-    alignPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
-    alignPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
-
-    alignPlot->xAxis->setLabel(i18n("dRA (arcsec)"));
-    alignPlot->yAxis->setLabel(i18n("dDE (arcsec)"));
-
-    alignPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
-    alignPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
-
-    alignPlot->setInteractions(QCP::iRangeZoom);
-    alignPlot->setInteraction(QCP::iRangeDrag, true);
-
-    alignPlot->addGraph();
-    alignPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
-    alignPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, Qt::white, 15));
-
-    buildTarget();
-
-    connect(alignPlot, &QCustomPlot::mouseMove, this, &Ekos::Align::handlePointTooltip);
-    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Align::handleVerticalPlotSizeChange);
-    connect(alignSplitter, &QSplitter::splitterMoved, this, &Ekos::Align::handleHorizontalPlotSizeChange);
-
-    alignPlot->resize(190, 190);
-    alignPlot->replot();
-
-    solutionTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
-    clearAllSolutionsB->setIcon(
-        QIcon::fromTheme("application-exit"));
-    clearAllSolutionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    removeSolutionB->setIcon(QIcon::fromTheme("list-remove"));
-    removeSolutionB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    exportSolutionsCSV->setIcon(
-        QIcon::fromTheme("document-save-as"));
-    exportSolutionsCSV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best"));
-    autoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    connect(clearAllSolutionsB, &QPushButton::clicked, this, &Ekos::Align::slotClearAllSolutionPoints);
-    connect(removeSolutionB, &QPushButton::clicked, this, &Ekos::Align::slotRemoveSolutionPoint);
-    connect(exportSolutionsCSV, &QPushButton::clicked, this, &Ekos::Align::exportSolutionPoints);
-    connect(autoScaleGraphB, &QPushButton::clicked, this, &Ekos::Align::slotAutoScaleGraph);
-    connect(mountModelB, &QPushButton::clicked, this, &Ekos::Align::slotMountModel);
-    connect(solutionTable, &QTableWidget::cellClicked, this, &Ekos::Align::selectSolutionTableRow);
+    connect(this, &Align::newStatus, this, [this](AlignState state)
+    {
+        opticalTrainCombo->setEnabled(state < ALIGN_PROGRESS);
+        trainB->setEnabled(state < ALIGN_PROGRESS);
+    });
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
@@ -375,11 +209,18 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_StellarSolver.reset(new StellarSolver());
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
 
-    initPolarAlignmentAssistant();
-    initManualRotator();
-    initDarkProcessor();
-
+    setupPolarAlignmentAssistant();
+    setupManualRotator();
+    setuptDarkProcessor();
+    setupPlot();
+    setupSolutionTable();
+    setupOptions();
     setupFilterManager();
+
+    // Load all settings
+    loadGlobalSettings();
+    connectSettings();
+
     setupOpticalTrainManager();
 }
 
@@ -499,7 +340,7 @@ void Align::handlePointTooltip(QMouseEvent *event)
 
 void Align::buildTarget()
 {
-    double accuracyRadius = accuracySpin->value();
+    double accuracyRadius = alignAccuracyThreshold->value();
     if (centralTarget)
     {
         concentricRings->data()->clear();
@@ -570,7 +411,7 @@ void Align::buildTarget()
 
 void Align::slotAutoScaleGraph()
 {
-    double accuracyRadius = accuracySpin->value();
+    double accuracyRadius = alignAccuracyThreshold->value();
     alignPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
     alignPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
 
@@ -779,8 +620,6 @@ bool Align::setCamera(ISD::Camera *device)
 
     checkCamera();
 
-    syncSettings();
-
     return true;
 }
 
@@ -808,8 +647,12 @@ bool Align::setMount(ISD::Mount *device)
 
     if (m_isRateSynced == false)
     {
-        RUN_PAH(syncMountSpeed());
-        m_isRateSynced = !m_Mount->slewRates().empty();
+        auto speed = m_Settings["PAHMountSpeed"];
+        if (speed.isValid())
+        {
+            RUN_PAH(syncMountSpeed(speed.toString()));
+            m_isRateSynced = !m_Mount->slewRates().empty();
+        }
     }
 
     syncTelescopeInfo();
@@ -921,19 +764,22 @@ void Align::syncCameraInfo()
     setWCSEnabled(Options::astrometrySolverWCS());
 
     int binx = 1, biny = 1;
-    binningCombo->setEnabled(targetChip->canBin());
+    alignBinning->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
-        binningCombo->blockSignals(true);
+        alignBinning->blockSignals(true);
 
         targetChip->getMaxBin(&binx, &biny);
-        binningCombo->clear();
+        alignBinning->clear();
 
         for (int i = 0; i < binx; i++)
-            binningCombo->addItem(QString("%1x%2").arg(i + 1).arg(i + 1));
+            alignBinning->addItem(QString("%1x%2").arg(i + 1).arg(i + 1));
 
-        binningCombo->setCurrentIndex(Options::solverBinningIndex());
-        binningCombo->blockSignals(false);
+        auto binning = m_Settings["alignBinning"];
+        if (binning.isValid())
+            alignBinning->setCurrentText(binning.toString());
+
+        alignBinning->blockSignals(false);
     }
 
     // In case ROI is different (smaller) than maximum resolution, let's use that.
@@ -964,17 +810,17 @@ void Align::syncCameraControls()
         return;
 
     auto isoList = targetChip->getISOList();
-    ISOCombo->clear();
+    alignISO->clear();
 
     if (isoList.isEmpty())
     {
-        ISOCombo->setEnabled(false);
+        alignISO->setEnabled(false);
     }
     else
     {
-        ISOCombo->setEnabled(true);
-        ISOCombo->addItems(isoList);
-        ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+        alignISO->setEnabled(true);
+        alignISO->addItems(isoList);
+        alignISO->setCurrentIndex(targetChip->getISOIndex());
     }
 
     // Gain Check
@@ -984,35 +830,33 @@ void Align::syncCameraControls()
         m_Camera->getGainMinMaxStep(&min, &max, &step);
 
         // Allow the possibility of no gain value at all.
-        GainSpinSpecialValue = min - step;
-        GainSpin->setRange(GainSpinSpecialValue, max);
-        GainSpin->setSpecialValueText(i18n("--"));
-        GainSpin->setEnabled(true);
-        GainSpin->setSingleStep(step);
+        alignGainSpecialValue = min - step;
+        alignGain->setRange(alignGainSpecialValue, max);
+        alignGain->setSpecialValueText(i18n("--"));
+        alignGain->setEnabled(true);
+        alignGain->setSingleStep(step);
         m_Camera->getGain(&value);
 
+        auto gain = m_Settings["alignGain"];
         // Set the custom gain if we have one
         // otherwise it will not have an effect.
-        TargetCustomGainValue = Options::solverCameraGain();
+        if (gain.isValid())
+            TargetCustomGainValue = gain.toDouble();
         if (TargetCustomGainValue > 0)
-            GainSpin->setValue(TargetCustomGainValue);
+            alignGain->setValue(TargetCustomGainValue);
         else
-            GainSpin->setValue(GainSpinSpecialValue);
+            alignGain->setValue(alignGainSpecialValue);
 
-        GainSpin->setReadOnly(m_Camera->getGainPermission() == IP_RO);
+        alignGain->setReadOnly(m_Camera->getGainPermission() == IP_RO);
 
-        connect(GainSpin, &QDoubleSpinBox::editingFinished, this, [this]()
+        connect(alignGain, &QDoubleSpinBox::editingFinished, this, [this]()
         {
-            if (GainSpin->value() > GainSpinSpecialValue)
-            {
-                TargetCustomGainValue = GainSpin->value();
-                // Save custom gain
-                Options::setSolverCameraGain(TargetCustomGainValue);
-            }
+            if (alignGain->value() > alignGainSpecialValue)
+                TargetCustomGainValue = alignGain->value();
         });
     }
     else
-        GainSpin->setEnabled(false);
+        alignGain->setEnabled(false);
 }
 
 void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
@@ -1067,7 +911,7 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
     }
 
     // Pix Scale
-    fov_scale = (fov_w * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
+    fov_scale = (fov_w * (alignBinning->currentIndex() + 1)) / m_CameraWidth;
 
     // FOV in arcmins
     fov_w /= 60.0;
@@ -1113,7 +957,7 @@ void Align::calculateFOV()
     // Calculate FOV
 
     // Pix Scale
-    m_FOVPixelScale = (m_FOVWidth * (Options::solverBinningIndex() + 1)) / m_CameraWidth;
+    m_FOVPixelScale = (m_FOVWidth * (alignBinning->currentIndex() + 1)) / m_CameraWidth;
 
     // FOV in arcmins
     m_FOVWidth /= 60.0;
@@ -1350,8 +1194,7 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
         {
             if (Options::astrometryAutoDownsample() && m_CameraWidth && m_CameraHeight)
             {
-                uint8_t bin = qMax(Options::solverBinningIndex() + 1, 1u);
-                uint16_t w = m_CameraWidth / bin;
+                uint16_t w = m_CameraWidth / (alignBinning->currentIndex() + 1);
                 optionsMap["downsample"] = getSolverDownsample(w);
             }
             else
@@ -1359,9 +1202,8 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
         }
 
         //Options needed for Sextractor
-        int bin = Options::solverBinningIndex() + 1;
-        optionsMap["image_width"] = m_CameraWidth / bin;
-        optionsMap["image_height"] = m_CameraHeight / bin;
+        optionsMap["image_width"] = m_CameraWidth / (alignBinning->currentIndex() + 1);
+        optionsMap["image_height"] = m_CameraHeight / (alignBinning->currentIndex() + 1);
 
         if (Options::astrometryUseImageScale() && m_FOVWidth > 0 && m_FOVHeight > 0)
         {
@@ -1500,14 +1342,13 @@ bool Align::captureAndSolve()
             return false;
         }
 
-        int targetPosition = FilterPosCombo->currentIndex() + 1;
+        int targetPosition = alignFilter->currentIndex() + 1;
 
         if (targetPosition > 0 && targetPosition != currentFilterPosition)
         {
             filterPositionPending    = true;
             // Disabling the autofocus policy for align.
-            FilterManager::Instance()->setFilterPosition(
-                targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
+            m_FilterManager->setFilterPosition(targetPosition, FilterManager::NO_AUTOFOCUS_POLICY);
             state = ALIGN_PROGRESS;
             return true;
         }
@@ -1531,7 +1372,7 @@ bool Align::captureAndSolve()
         }
     }
 
-    double seqExpose = exposureIN->value();
+    double seqExpose = alignExposure->value();
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
@@ -1552,7 +1393,7 @@ bool Align::captureAndSolve()
 
     m_AlignView->setBaseSize(alignWidget->size());
     m_AlignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
-                                           && alignDarkFrameCheck->isChecked()));
+                                           && alignDarkFrame->isChecked()));
 
     connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
@@ -1709,7 +1550,7 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
         // Only perform dark image subtraction on local images.
-        if (alignDarkFrameCheck->isChecked())
+        if (alignDarkFrame->isChecked())
         {
             int x, y, w, h, binx = 1, biny = 1;
             ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
@@ -1719,7 +1560,8 @@ void Align::processData(const QSharedPointer<FITSData> &data)
             uint16_t offsetX = x / binx;
             uint16_t offsetY = y / biny;
 
-            m_DarkProcessor->denoise(targetChip, m_ImageData, exposureIN->value(), offsetX, offsetY);
+            m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                     targetChip, m_ImageData, alignExposure->value(), offsetX, offsetY);
             return;
         }
 
@@ -1747,15 +1589,15 @@ void Align::prepareCapture(ISD::CameraChip *targetChip)
     targetChip->setCaptureMode(FITS_ALIGN);
     targetChip->setFrameType(FRAME_LIGHT);
 
-    int bin = Options::solverBinningIndex() + 1;
+    int bin = alignBinning->currentIndex() + 1;
     targetChip->setBinning(bin, bin);
 
     // Set gain if applicable
-    if (m_Camera->hasGain() && GainSpin->isEnabled() && GainSpin->value() > GainSpinSpecialValue)
-        m_Camera->setGain(GainSpin->value());
+    if (m_Camera->hasGain() && alignGain->isEnabled() && alignGain->value() > alignGainSpecialValue)
+        m_Camera->setGain(alignGain->value());
     // Set ISO if applicable
-    if (ISOCombo->currentIndex() >= 0)
-        targetChip->setISOIndex(ISOCombo->currentIndex());
+    if (alignISO->currentIndex() >= 0)
+        targetChip->setISOIndex(alignISO->currentIndex());
 }
 
 
@@ -2224,7 +2066,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             return;
 
         case GOTO_SLEW:
-            if (m_SolveFromFile || m_TargetDiffTotal > static_cast<double>(accuracySpin->value()))
+            if (m_SolveFromFile || m_TargetDiffTotal > static_cast<double>(alignAccuracyThreshold->value()))
             {
                 if (!m_SolveFromFile && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
                 {
@@ -2289,7 +2131,9 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setProperty("visible", true);
 
     if (!matchPAHStage(PAA::PAH_IDLE))
-        m_PolarAlignmentAssistant->processPAHStage(orientation, ra, dec, pixscale, eastToTheRight);
+        m_PolarAlignmentAssistant->processPAHStage(orientation, ra, dec, pixscale, eastToTheRight,
+                m_StellarSolver->getSolutionHealpix(),
+                m_StellarSolver->getSolutionIndexNumber());
     else
     {
         solveB->setEnabled(true);
@@ -2592,9 +2436,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
 
-                            if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                            if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            m_CaptureTimer.start(delaySpin->value());
+                            m_CaptureTimer.start(alignSettlingTime->value());
                             return;
                         }
                         else if (differentialSlewingActivated)
@@ -2618,9 +2462,9 @@ void Align::processNumber(INumberVectorProperty *nvp)
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
 
-                            if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+                            if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                                 appendLogText(i18n("Settling..."));
-                            m_CaptureTimer.start(delaySpin->value());
+                            m_CaptureTimer.start(alignSettlingTime->value());
                             return;
                         }
                         break;
@@ -2676,7 +2520,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
             }
         }
 
-        RUN_PAH(processMountRotation(m_TelescopeCoord.ra(), delaySpin->value()));
+        RUN_PAH(processMountRotation(m_TelescopeCoord.ra(), alignSettlingTime->value()));
     }
     else if (!strcmp(nvp->name, "ABS_ROTATOR_ANGLE"))
     {
@@ -2693,7 +2537,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
                 appendLogText(i18n("Rotator reached target position angle."));
                 targetAccuracyNotMet = true;
                 loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
-                QTimer::singleShot(Options::settlingTime(), this, &Ekos::Align::executeGOTO);
+                QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
             }
             // If close, but not quite there
             else if (diff <= Options::astrometryRotatorThreshold() * 2)
@@ -2917,28 +2761,22 @@ bool Align::loadAndSlew(const QByteArray &image, const QString &extension)
 
 void Align::setExposure(double value)
 {
-    exposureIN->setValue(value);
+    alignExposure->setValue(value);
 }
 
 void Align::setBinningIndex(int binIndex)
 {
-    syncSettings();
-    Options::setSolverBinningIndex(binIndex);
-
     // If sender is not our combo box, then we need to update the combobox itself
-    if (dynamic_cast<QComboBox *>(sender()) != binningCombo)
+    if (dynamic_cast<QComboBox *>(sender()) != alignBinning)
     {
-        binningCombo->blockSignals(true);
-        binningCombo->setCurrentIndex(binIndex);
-        binningCombo->blockSignals(false);
+        alignBinning->blockSignals(true);
+        alignBinning->setCurrentIndex(binIndex);
+        alignBinning->blockSignals(false);
     }
 
     // Need to calculate FOV and args for APP
     if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
-    {
         calculateFOV();
-        //generateArgs();
-    }
 }
 
 bool Align::setFilterWheel(ISD::FilterWheel *device)
@@ -2952,10 +2790,9 @@ bool Align::setFilterWheel(ISD::FilterWheel *device)
     m_FilterWheel = device;
 
     FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);
+    alignFilter->setEnabled(true);
 
     checkFilter();
-    emit settingsUpdated(getSettings());
     return true;
 }
 
@@ -2971,7 +2808,7 @@ bool Align::setFilter(const QString &filter)
 {
     if (m_FilterWheel)
     {
-        FilterPosCombo->setCurrentText(filter);
+        alignFilter->setCurrentText(filter);
         return true;
     }
 
@@ -2981,32 +2818,33 @@ bool Align::setFilter(const QString &filter)
 
 QString Align::filter()
 {
-    return FilterPosCombo->currentText();
+    return alignFilter->currentText();
 }
 
 void Align::checkFilter()
 {
-    FilterPosCombo->clear();
+    alignFilter->clear();
 
     if (!m_FilterWheel)
     {
         FilterPosLabel->setEnabled(false);
-        FilterPosCombo->setEnabled(false);
+        alignFilter->setEnabled(false);
         return;
     }
 
     FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);
+    alignFilter->setEnabled(true);
 
-    FilterManager::Instance()->setCurrentFilterWheel(m_FilterWheel);
+    setupFilterManager();
 
-    FilterPosCombo->addItems(FilterManager::Instance()->getFilterLabels());
+    alignFilter->addItems(m_FilterManager->getFilterLabels());
 
-    currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+    currentFilterPosition = m_FilterManager->getFilterPosition();
 
-    FilterPosCombo->setCurrentIndex(Options::lockAlignFilterIndex());
-
-    syncSettings();
+    //alignFilter->setCurrentIndex(Options::lockAlignFilterIndex());
+    auto filter = m_Settings["alignFilter"];
+    if (filter.isValid())
+        alignFilter->setCurrentText(filter.toString());
 }
 
 void Align::setWCSEnabled(bool enable)
@@ -3124,11 +2962,6 @@ uint8_t Align::getSolverDownsample(uint16_t binnedW)
     return downsample;
 }
 
-void Align::saveSettleTime()
-{
-    Options::setSettlingTime(delaySpin->value());
-}
-
 void Align::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
@@ -3140,7 +2973,7 @@ void Align::setCaptureStatus(CaptureState newState)
                                            "successful." : "failed.");
             }
 
-            m_CaptureTimer.start(Options::settlingTime());
+            m_CaptureTimer.start(alignSettlingTime->value());
             break;
 
         default:
@@ -3248,9 +3081,153 @@ void Align::refreshAlignOptions()
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
 }
 
+void Align::setupOptions()
+{
+    KConfigDialog *dialog = new KConfigDialog(this, "alignsettings", Options::self());
+
+#ifdef Q_OS_OSX
+    dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+
+    opsAlign = new OpsAlign(this);
+    connect(opsAlign, &OpsAlign::settingsUpdated, this, &Ekos::Align::refreshAlignOptions);
+    KPageWidgetItem *page = dialog->addPage(opsAlign, i18n("StellarSolver Options"));
+    page->setIcon(QIcon(":/icons/StellarSolverIcon.png"));
+    connect(rotatorB, &QPushButton::clicked, dialog, &KConfigDialog::show);
+
+    opsPrograms = new OpsPrograms(this);
+    page = dialog->addPage(opsPrograms, i18n("External & Online Programs"));
+    page->setIcon(QIcon(":/icons/astrometry.svg"));
+
+    opsAstrometry = new OpsAstrometry(this);
+    page = dialog->addPage(opsAstrometry, i18n("Scale & Position"));
+    page->setIcon(QIcon(":/icons/center_telescope_red.svg"));
+
+    optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::AlignProfiles, dialog);
+    page = dialog->addPage(optionsProfileEditor, i18n("Align Options Profiles Editor"));
+    connect(optionsProfileEditor, &StellarSolverProfileEditor::optionsProfilesUpdated, this, [this]()
+    {
+        if(QFile(savedOptionsProfiles).exists())
+            m_StellarSolverProfiles = StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles);
+        else
+            m_StellarSolverProfiles = getDefaultAlignOptionsProfiles();
+        opsAlign->reloadOptionsProfiles();
+    });
+    page->setIcon(QIcon::fromTheme("configure"));
+
+    connect(opsAlign, &OpsAlign::needToLoadProfile, this, [this, dialog, page](const QString & profile)
+    {
+        optionsProfileEditor->loadProfile(profile);
+        dialog->setCurrentPage(page);
+    });
+
+    opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
+    m_IndexFilesPage = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
+    m_IndexFilesPage->setIcon(QIcon::fromTheme("map-flat"));
+}
+
+void Align::setupSolutionTable()
+{
+    solutionTable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+    clearAllSolutionsB->setIcon(
+        QIcon::fromTheme("application-exit"));
+    clearAllSolutionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    removeSolutionB->setIcon(QIcon::fromTheme("list-remove"));
+    removeSolutionB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    exportSolutionsCSV->setIcon(
+        QIcon::fromTheme("document-save-as"));
+    exportSolutionsCSV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    autoScaleGraphB->setIcon(QIcon::fromTheme("zoom-fit-best"));
+    autoScaleGraphB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(clearAllSolutionsB, &QPushButton::clicked, this, &Ekos::Align::slotClearAllSolutionPoints);
+    connect(removeSolutionB, &QPushButton::clicked, this, &Ekos::Align::slotRemoveSolutionPoint);
+    connect(exportSolutionsCSV, &QPushButton::clicked, this, &Ekos::Align::exportSolutionPoints);
+    connect(autoScaleGraphB, &QPushButton::clicked, this, &Ekos::Align::slotAutoScaleGraph);
+    connect(mountModelB, &QPushButton::clicked, this, &Ekos::Align::slotMountModel);
+    connect(solutionTable, &QTableWidget::cellClicked, this, &Ekos::Align::selectSolutionTableRow);
+}
+
+void Align::setupPlot()
+{
+    double accuracyRadius = alignAccuracyThreshold->value();
+
+    alignPlot->setBackground(QBrush(Qt::black));
+    alignPlot->setSelectionTolerance(10);
+
+    alignPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setTickLabelColor(Qt::white);
+    alignPlot->yAxis->setTickLabelColor(Qt::white);
+
+    alignPlot->xAxis->setLabelColor(Qt::white);
+    alignPlot->yAxis->setLabelColor(Qt::white);
+
+    alignPlot->xAxis->setLabelFont(QFont(font().family(), 10));
+    alignPlot->yAxis->setLabelFont(QFont(font().family(), 10));
+
+    alignPlot->xAxis->setLabelPadding(2);
+    alignPlot->yAxis->setLabelPadding(2);
+
+    alignPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    alignPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    alignPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    alignPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    alignPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
+    alignPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
+
+    alignPlot->xAxis->setLabel(i18n("dRA (arcsec)"));
+    alignPlot->yAxis->setLabel(i18n("dDE (arcsec)"));
+
+    alignPlot->xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+    alignPlot->yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
+
+    alignPlot->setInteractions(QCP::iRangeZoom);
+    alignPlot->setInteraction(QCP::iRangeDrag, true);
+
+    alignPlot->addGraph();
+    alignPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    alignPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, Qt::white, 15));
+
+    buildTarget();
+
+    connect(alignPlot, &QCustomPlot::mouseMove, this, &Ekos::Align::handlePointTooltip);
+    connect(rightLayout, &QSplitter::splitterMoved, this, &Ekos::Align::handleVerticalPlotSizeChange);
+    connect(alignSplitter, &QSplitter::splitterMoved, this, &Ekos::Align::handleHorizontalPlotSizeChange);
+
+    alignPlot->resize(190, 190);
+    alignPlot->replot();
+}
+
 void Align::setupFilterManager()
 {
-    connect(FilterManager::Instance(), &FilterManager::ready, [this]()
+    // Do we have an existing filter manager?
+    if (m_FilterManager)
+    {
+        // If same filter wheel, no need to setup again.
+        if (m_FilterManager->filterWheel() == m_FilterWheel)
+            return;
+
+        // Otherwise disconnect and create a new instance.
+        m_FilterManager->disconnect(this);
+        m_FilterManager->close();
+    }
+
+    m_FilterManager.reset(new FilterManager(this));
+    m_FilterManager->setFilterWheel(m_FilterWheel);
+
+    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
         if (filterPositionPending)
         {
@@ -3261,28 +3238,28 @@ void Align::setupFilterManager()
     }
            );
 
-    connect(FilterManager::Instance(), &FilterManager::failed, [this]()
+    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
         appendLogText(i18n("Filter operation failed."));
         abort();
     }
            );
 
-    connect(FilterManager::Instance(), &FilterManager::newStatus, [this](Ekos::FilterState filterState)
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
         if (filterPositionPending)
         {
             switch (filterState)
             {
                 case FILTER_OFFSET:
-                    appendLogText(i18n("Changing focus offset by %1 steps...", FilterManager::Instance()->getTargetFilterOffset()));
+                    appendLogText(i18n("Changing focus offset by %1 steps...", m_FilterManager->getTargetFilterOffset()));
                     break;
 
                 case FILTER_CHANGE:
                 {
-                    const int filterComboIndex = FilterManager::Instance()->getTargetFilterPosition() - 1;
-                    if (filterComboIndex >= 0 && filterComboIndex < FilterPosCombo->count())
-                        appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(filterComboIndex)));
+                    const int filterComboIndex = m_FilterManager->getTargetFilterPosition() - 1;
+                    if (filterComboIndex >= 0 && filterComboIndex < alignFilter->count())
+                        appendLogText(i18n("Changing filter to %1...", alignFilter->itemText(filterComboIndex)));
                 }
                 break;
 
@@ -3296,14 +3273,8 @@ void Align::setupFilterManager()
         }
     });
 
-    connect(FilterManager::Instance(), &FilterManager::labelsChanged, this, [this]()
-    {
-        checkFilter();
-    });
-    connect(FilterManager::Instance(), &FilterManager::positionChanged, this, [this]()
-    {
-        checkFilter();
-    });
+    connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, &Align::checkFilter);
+    connect(m_FilterManager.get(), &FilterManager::positionChanged, this, &Align::checkFilter);
 }
 
 QVariantMap Align::getEffectiveFOV()
@@ -3381,143 +3352,6 @@ void Align::setAlignZoom(double scale)
 
     emit newFrame(m_AlignView);
 }
-
-QJsonObject Align::getSettings() const
-{
-    QJsonObject settings;
-
-    double gain = -1;
-    if (GainSpinSpecialValue > INVALID_VALUE && GainSpin->value() > GainSpinSpecialValue)
-        gain = GainSpin->value();
-    else if (m_Camera && m_Camera->hasGain())
-        m_Camera->getGain(&gain);
-
-    settings.insert("optical_train", opticalTrainCombo->currentText());
-    settings.insert("filter", FilterPosCombo->currentText());
-    settings.insert("exp", exposureIN->value());
-    settings.insert("bin", qMax(1, binningCombo->currentIndex() + 1));
-    settings.insert("solverAction", gotoModeButtonGroup->checkedId());
-    settings.insert("gain", gain);
-    settings.insert("iso", ISOCombo->currentIndex());
-    settings.insert("accuracy", accuracySpin->value());
-    settings.insert("settle", delaySpin->value());
-    settings.insert("dark", alignDarkFrameCheck->isChecked());
-
-    settings.insert("threshold", Options::astrometryRotatorThreshold());
-    settings.insert("rotator_control", Options::astrometryUseRotator());
-    settings.insert("scale", Options::astrometryUseImageScale());
-    settings.insert("position", Options::astrometryUsePosition());
-
-    return settings;
-}
-
-void Align::setSettings(const QJsonObject &settings)
-{
-    static bool init = false;
-
-    auto syncControl = [settings](const QString & key, QWidget * widget)
-    {
-        if (settings.contains(key) == false)
-            return false;
-
-        QSpinBox *pSB = nullptr;
-        QDoubleSpinBox *pDSB = nullptr;
-        QCheckBox *pCB = nullptr;
-        QComboBox *pComboBox = nullptr;
-
-        if ((pSB = qobject_cast<QSpinBox *>(widget)))
-        {
-            const int value = settings[key].toInt(pSB->value());
-            if (value != pSB->value())
-            {
-                pSB->setValue(value);
-                return true;
-            }
-        }
-        else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
-        {
-            const double value = settings[key].toDouble(pDSB->value());
-            if (value != pDSB->value())
-            {
-                pDSB->setValue(value);
-                return true;
-            }
-        }
-        else if ((pCB = qobject_cast<QCheckBox *>(widget)))
-        {
-            const bool value = settings[key].toBool(pCB->isChecked());
-            if (value != pCB->isChecked())
-            {
-                pCB->setChecked(value);
-                return true;
-            }
-        }
-        // ONLY FOR STRINGS, not INDEX
-        else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
-        {
-            const QString value = settings[key].toString(pComboBox->currentText());
-            if (value != pComboBox->currentText())
-            {
-                pComboBox->setCurrentText(value);
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    // Camera. If camera changed, check CCD.
-    syncControl("optical_train", opticalTrainCombo);
-    // Filter
-    syncControl("filter", FilterPosCombo);
-    Options::setLockAlignFilterIndex(FilterPosCombo->currentIndex());
-    // Exposure
-    syncControl("exp", exposureIN);
-    // Binning
-    const int bin = settings["bin"].toInt(binningCombo->currentIndex() + 1) - 1;
-    if (bin != binningCombo->currentIndex())
-        binningCombo->setCurrentIndex(bin);
-    // Profiles
-    const QString profileName = settings["sep"].toString();
-    QStringList profiles = getStellarSolverProfiles();
-    int profileIndex = getStellarSolverProfiles().indexOf(profileName);
-    if (profileIndex >= 0 && profileIndex != static_cast<int>(Options::solveOptionsProfile()))
-        Options::setSolveOptionsProfile(profileIndex);
-
-    int solverAction = settings["solverAction"].toInt(gotoModeButtonGroup->checkedId());
-    if (solverAction != gotoModeButtonGroup->checkedId())
-    {
-        gotoModeButtonGroup->button(solverAction)->setChecked(true);
-        m_CurrentGotoMode = static_cast<GotoMode>(solverAction);
-    }
-
-    // Gain
-    if (m_Camera->hasGain())
-    {
-        syncControl("gain", GainSpin);
-    }
-    // ISO
-    if (ISOCombo->count() > 1)
-    {
-        const int iso = settings["iso"].toInt(ISOCombo->currentIndex());
-        if (iso != ISOCombo->currentIndex())
-            ISOCombo->setCurrentIndex(iso);
-    }
-    // Dark
-    syncControl("dark", alignDarkFrameCheck);
-    // Accuracy
-    syncControl("accuracy", accuracySpin);
-    // Settle
-    syncControl("settle", delaySpin);
-
-    init = true;
-}
-
-void Align::syncSettings()
-{
-    emit settingsUpdated(getSettings());
-}
-
 
 void Align::syncFOV()
 {
@@ -3601,9 +3435,9 @@ void Align::calculateAlignTargetDiff()
                         QString::number(m_TargetDiffTotal, 'f', 0),
                         QString::number(m_TargetDiffRA, 'f', 0),
                         QString::number(m_TargetDiffDE, 'f', 0)));
-    if (m_TargetDiffTotal <= static_cast<double>(accuracySpin->value()))
+    if (m_TargetDiffTotal <= static_cast<double>(alignAccuracyThreshold->value()))
         errOut->setStyleSheet("color:green");
-    else if (m_TargetDiffTotal < 1.5 * accuracySpin->value())
+    else if (m_TargetDiffTotal < 1.5 * alignAccuracyThreshold->value())
         errOut->setStyleSheet("color:yellow");
     else
         errOut->setStyleSheet("color:red");
@@ -3738,7 +3572,7 @@ void Align::exportSolutionPoints()
     file.close();
 }
 
-void Align::initPolarAlignmentAssistant()
+void Align::setupPolarAlignmentAssistant()
 {
     // Create PAA instance
     m_PolarAlignmentAssistant = new PolarAlignmentAssistant(this, m_AlignView);
@@ -3751,7 +3585,7 @@ void Align::initPolarAlignmentAssistant()
     tabWidget->addTab(m_PolarAlignmentAssistant, i18n("Polar Alignment"));
 }
 
-void Align::initManualRotator()
+void Align::setupManualRotator()
 {
     if (m_ManualRotator)
         return;
@@ -3766,7 +3600,7 @@ void Align::initManualRotator()
     });
 }
 
-void Align::initDarkProcessor()
+void Align::setuptDarkProcessor()
 {
     if (m_DarkProcessor)
         return;
@@ -3775,7 +3609,7 @@ void Align::initDarkProcessor()
     connect(m_DarkProcessor, &DarkProcessor::newLog, this, &Ekos::Align::appendLogText);
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, [this](bool completed)
     {
-        alignDarkFrameCheck->setChecked(completed);
+        alignDarkFrame->setChecked(completed);
         m_AlignView->setProperty("suspended", false);
         if (completed)
         {
@@ -3818,9 +3652,9 @@ void Align::processPAHStage(int stage)
             break;
         case PAA::PAH_SECOND_CAPTURE:
         case PAA::PAH_THIRD_CAPTURE:
-            if (delaySpin->value() >= DELAY_THRESHOLD_NOTIFY)
+            if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
                 emit newLog(i18n("Settling..."));
-            m_CaptureTimer.start(delaySpin->value());
+            m_CaptureTimer.start(alignSettlingTime->value());
             break;
 
         default:
@@ -3852,7 +3686,8 @@ void Align::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -3864,11 +3699,13 @@ void Align::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto scope = OpticalTrainManager::Instance()->getScope(name);
@@ -3900,10 +3737,357 @@ void Align::refreshOpticalTrain()
 
         auto rotator = OpticalTrainManager::Instance()->getRotator(name);
         setRotator(rotator);
+
+        // Load train settings
+        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Align);
+        if (settings.isValid())
+            setAllSettings(settings.toJsonObject().toVariantMap());
+        else
+            m_Settings = m_GlobalSettings;
     }
 
     opticalTrainCombo->blockSignals(false);
 }
 
+void Align::syncSettings()
+{
+    QDoubleSpinBox *dsb = nullptr;
+    QSpinBox *sb = nullptr;
+    QCheckBox *cb = nullptr;
+    QComboBox *cbox = nullptr;
+    QRadioButton *cradio = nullptr;
 
+    QString key;
+    QVariant value;
+
+    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    {
+        key = dsb->objectName();
+        value = dsb->value();
+
+    }
+    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    {
+        key = sb->objectName();
+        value = sb->value();
+    }
+    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    {
+        key = cb->objectName();
+        value = cb->isChecked();
+    }
+    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    {
+        key = cbox->objectName();
+        value = cbox->currentText();
+    }
+    else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
+    {
+        key = cradio->objectName();
+
+        // N.B. Only store CHECKED radios, do not store unchecked ones
+        // as we only have exclusive groups in Align module.
+        if (cradio->isChecked() == false)
+        {
+            // Remove from setting if it was added before
+            if (m_Settings.contains(key))
+            {
+                m_Settings.remove(key);
+                emit settingsUpdated(m_Settings);
+                OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+                OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Align, m_Settings);
+            }
+            return;
+        }
+
+        value = true;
+    }
+
+    // Save immediately
+    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->save();
+
+    m_Settings[key] = value;
+    m_GlobalSettings[key] = value;
+
+    emit settingsUpdated(m_Settings);
+
+    // Save to optical train specific settings as well
+    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
+    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Align, m_Settings);
+}
+
+void Align::loadGlobalSettings()
+{
+    QString key;
+    QVariant value;
+
+    QVariantMap settings;
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+    {
+        if (oneWidget->objectName() == "opticalTrainCombo")
+            continue;
+
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setCurrentText(value.toString());
+            settings[key] = value;
+        }
+    }
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toDouble());
+            settings[key] = value;
+        }
+    }
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setValue(value.toInt());
+            settings[key] = value;
+        }
+    }
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+    {
+        key = oneWidget->objectName();
+        value = Options::self()->property(key.toLatin1());
+        if (value.isValid())
+        {
+            oneWidget->setChecked(value.toBool());
+            settings[key] = value;
+        }
+    }
+
+    m_GlobalSettings = m_Settings = settings;
+}
+
+
+void Align::connectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
+}
+
+void Align::disconnectSettings()
+{
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
+    // All Radio buttons
+    for (auto &oneWidget : findChildren<QRadioButton*>())
+        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QVariantMap Align::getAllSettings() const
+{
+    QVariantMap settings;
+
+    // All Combo Boxes
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->currentText());
+
+    // All Double Spin Boxes
+    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Spin Boxes
+    for (auto &oneWidget : findChildren<QSpinBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->value());
+
+    // All Checkboxes
+    for (auto &oneWidget : findChildren<QCheckBox*>())
+        settings.insert(oneWidget->objectName(), oneWidget->isChecked());
+
+    return settings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Align::setAllSettings(const QVariantMap &settings)
+{
+    // Disconnect settings that we don't end up calling syncSettings while
+    // performing the changes.
+    disconnectSettings();
+
+    for (auto &name : settings.keys())
+    {
+        // Combo
+        auto comboBox = findChild<QComboBox*>(name);
+        if (comboBox)
+        {
+            syncControl(settings, name, comboBox);
+            continue;
+        }
+
+        // Double spinbox
+        auto doubleSpinBox = findChild<QDoubleSpinBox*>(name);
+        if (doubleSpinBox)
+        {
+            syncControl(settings, name, doubleSpinBox);
+            continue;
+        }
+
+        // spinbox
+        auto spinBox = findChild<QSpinBox*>(name);
+        if (spinBox)
+        {
+            syncControl(settings, name, spinBox);
+            continue;
+        }
+
+        // checkbox
+        auto checkbox = findChild<QCheckBox*>(name);
+        if (checkbox)
+        {
+            syncControl(settings, name, checkbox);
+            continue;
+        }
+
+        // Radio button
+        auto radioButton = findChild<QRadioButton*>(name);
+        if (radioButton)
+        {
+            syncControl(settings, name, radioButton);
+            continue;
+        }
+    }
+
+    m_Settings = settings;
+
+    // Restablish connections
+    connectSettings();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
+{
+    QSpinBox *pSB = nullptr;
+    QDoubleSpinBox *pDSB = nullptr;
+    QCheckBox *pCB = nullptr;
+    QComboBox *pComboBox = nullptr;
+    QRadioButton *pRadioButton = nullptr;
+    bool ok = false;
+
+    if ((pSB = qobject_cast<QSpinBox *>(widget)))
+    {
+        const int value = settings[key].toInt(&ok);
+        if (ok)
+        {
+            pSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pDSB = qobject_cast<QDoubleSpinBox *>(widget)))
+    {
+        const double value = settings[key].toDouble(&ok);
+        if (ok)
+        {
+            pDSB->setValue(value);
+            return true;
+        }
+    }
+    else if ((pCB = qobject_cast<QCheckBox *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pCB->setChecked(value);
+        return true;
+    }
+    // ONLY FOR STRINGS, not INDEX
+    else if ((pComboBox = qobject_cast<QComboBox *>(widget)))
+    {
+        const QString value = settings[key].toString();
+        pComboBox->setCurrentText(value);
+        return true;
+    }
+    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
+    {
+        const bool value = settings[key].toBool();
+        pRadioButton->setChecked(value);
+        return true;
+    }
+
+    return false;
+};
+
+void Align::processCaptureTimeout()
+{
+    if (m_CaptureTimeoutCounter++ > 3)
+    {
+        appendLogText(i18n("Capture timed out."));
+        m_CaptureTimer.stop();
+        abort();
+    }
+    else
+    {
+        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+        if (targetChip->isCapturing())
+        {
+            appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval() / 500));
+            targetChip->abortExposure();
+            m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
+        }
+        else
+        {
+            setAlignTableResult(ALIGN_RESULT_FAILED);
+            captureAndSolve();
+        }
+    }
+}
 }

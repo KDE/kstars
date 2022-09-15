@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
+    <width>426</width>
     <height>315</height>
    </rect>
   </property>
@@ -49,7 +49,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="filterView">
+    <widget class="QTableView" name="m_FilterView">
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>

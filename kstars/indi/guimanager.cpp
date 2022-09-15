@@ -40,6 +40,7 @@ GUIManager *GUIManager::Instance()
 void GUIManager::release()
 {
     delete _GUIManager;
+    _GUIManager = nullptr;
 }
 
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)

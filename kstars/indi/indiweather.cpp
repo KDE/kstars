@@ -4,15 +4,24 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <basedevice.h>
 #include "indiweather.h"
-#include "clientmanager.h"
+#include "weatheradaptor.h"
+
+#include <basedevice.h>
+#include <QJsonObject>
+#include <QtDBus/qdbusmetatype.h>
 
 namespace ISD
 {
 
 Weather::Weather(GenericDevice *parent) : ConcreteDevice(parent)
 {
+    qRegisterMetaType<ISD::Weather::Status>("ISD::Weather::Status");
+    qDBusRegisterMetaType<ISD::Weather::Status>();
+
+    new WeatherAdaptor(this);
+    m_DBusObjectPath = QString("/KStars/INDI/Weather/%1").arg(getID());
+    QDBusConnection::sessionBus().registerObject(m_DBusObjectPath, this);
 }
 
 void Weather::processLight(ILightVectorProperty *lvp)
@@ -35,15 +44,22 @@ void Weather::processNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "WEATHER_PARAMETERS"))
     {
-        m_WeatherData.clear();
+        m_Data = QJsonArray();
 
         // read all sensor values received
         for (int i = 0; i < nvp->nnp; i++)
         {
             INumber number = nvp->np[i];
-            m_WeatherData.push_back({QString(number.name), QString(number.label), number.value});
+            QJsonObject sensor =
+                {
+                    {"name", number.name},
+                    {"label", number.label},
+                    {"value", number.value}
+                };
+            m_Data.push_back(sensor);
         }
-        emit newWeatherData(m_WeatherData);
+        emit newData(m_Data);
+        emit newJSONData(QJsonDocument(m_Data).toJson());
     }
 }
 
@@ -59,14 +75,25 @@ Weather::Status Weather::status()
     return static_cast<Status>(weatherLP->getState());
 }
 
-quint16 Weather::getUpdatePeriod()
+int Weather::refreshPeriod()
 {
     auto updateNP = getNumber("WEATHER_UPDATE");
 
     if (!updateNP)
         return 0;
 
-    return static_cast<quint16>(updateNP->at(0)->getValue());
+    return static_cast<int>(updateNP->at(0)->getValue());
+}
+
+void Weather::setRefreshPeriod(int value)
+{
+    auto updateNP = getNumber("WEATHER_UPDATE");
+
+    if (!updateNP)
+        return;
+
+    updateNP->at(0)->setValue(value);
+    sendNewNumber(updateNP);
 }
 
 bool Weather::refresh()

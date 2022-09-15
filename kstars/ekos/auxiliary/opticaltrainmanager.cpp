@@ -60,6 +60,11 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(Ekos::Manager::Instance())
 
     setupUi(this);
 
+    connect(this, &QDialog::finished, this, [this]()
+    {
+        emit configurationRequested(false);
+    });
+
     // Delegates
 
     // Mount Combo
@@ -145,7 +150,24 @@ void OpticalTrainManager::initModel()
     QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(), "opticaltrains_db");
     userdb.open();
     m_OpticalTrainsModel = new QSqlTableModel(this, userdb);
-    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, &OpticalTrainManager::refreshTrains);
+    connect(m_OpticalTrainsModel, &QSqlTableModel::dataChanged, this, [this]()
+    {
+        m_OpticalTrains.clear();
+        for (int i = 0; i < m_OpticalTrainsModel->rowCount(); ++i)
+        {
+            QVariantMap recordMap;
+            QSqlRecord record = m_OpticalTrainsModel->record(i);
+            for (int j = 0; j < record.count(); j++)
+                recordMap[record.fieldName(j)] = record.value(j);
+
+            m_OpticalTrains.append(recordMap);
+        }
+
+        m_TrainNames.clear();
+        for (auto &oneTrain : m_OpticalTrains)
+            m_TrainNames << oneTrain["name"].toString();
+        emit updated();
+    });
     trainView->setModel(m_OpticalTrainsModel);
 }
 
@@ -215,22 +237,23 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         refreshModel();
         if (!m_OpticalTrains.empty())
         {
-            auto primaryTrainName = m_OpticalTrains[0]["name"].toString();
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::PrimaryOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, primaryTrainName);
-            ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, primaryTrainName);
+            auto primaryTrainID = m_OpticalTrains[0]["id"].toUInt();
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::PrimaryOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain, primaryTrainID);
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain, primaryTrainID);
             if (m_OpticalTrains.count() > 1)
-                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, m_OpticalTrains[1]["name"].toString());
+                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, m_OpticalTrains[1]["id"].toInt());
             else
-                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, primaryTrainName);
+                ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain, primaryTrainID);
         }
 
         emit updated();
         show();
         raise();
-        emit configurationRequested();
+        emit configurationRequested(true);
     }
     else
         emit updated();
@@ -301,6 +324,8 @@ void OpticalTrainManager::addOpticalTrain(const QJsonObject &value)
     auto newTrain = value.toVariantMap();
     newTrain["profile"] = m_Profile->id;
     KStarsData::Instance()->userdb()->AddOpticalTrain(newTrain);
+
+    refreshTrains();
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -315,6 +340,42 @@ bool OpticalTrainManager::setOpticalTrainValue(const QString &name, const QStrin
         KStarsData::Instance()->userdb()->UpdateOpticalTrain(oneOpticalTrain, oneOpticalTrain["id"].toInt());
         return true;
     }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::setOpticalTrain(const QJsonObject &train)
+{
+    auto oneOpticalTrain = getOpticalTrain(train["id"].toInt());
+    if (!oneOpticalTrain.empty())
+    {
+        KStarsData::Instance()->userdb()->UpdateOpticalTrain(train.toVariantMap(), oneOpticalTrain["id"].toInt());
+        refreshTrains();
+        return true;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::removeOpticalTrain(uint32_t id)
+{
+    auto exists = std::any_of(m_OpticalTrains.begin(), m_OpticalTrains.end(), [id](auto & oneTrain)
+    {
+        return oneTrain["id"].toInt() == id;
+    });
+
+    if (exists)
+    {
+        KStarsData::Instance()->userdb()->DeleteOpticalTrain(id);
+        KStarsData::Instance()->userdb()->DeleteOpticalTrainSettings(id);
+        refreshTrains();
+        return true;
+    }
+
     return false;
 }
 
@@ -612,19 +673,7 @@ const QVariantMap OpticalTrainManager::getOpticalTrain(const QString &name) cons
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::refreshTrains()
 {
-    m_OpticalTrains.clear();
-    for (int i = 0; i < m_OpticalTrainsModel->rowCount(); ++i)
-    {
-        QVariantMap recordMap;
-        QSqlRecord record = m_OpticalTrainsModel->record(i);
-        for (int j = 0; j < record.count(); j++)
-            recordMap[record.fieldName(j)] = record.value(j);
-
-        m_OpticalTrains.append(recordMap);
-    }
-    m_TrainNames.clear();
-    for (auto &oneTrain : m_OpticalTrains)
-        m_TrainNames << oneTrain["name"].toString();
+    refreshModel();
     emit updated();
 }
 
@@ -639,7 +688,7 @@ void OpticalTrainManager::refreshOpticalElements()
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-int OpticalTrainManager::id(const QString &name)
+int OpticalTrainManager::id(const QString &name) const
 {
     for (auto &oneTrain : m_OpticalTrains)
     {
@@ -648,6 +697,20 @@ int OpticalTrainManager::id(const QString &name)
     }
 
     return -1;
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+QString OpticalTrainManager::name(int id) const
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        if (oneTrain["id"].toInt() == id)
+            return oneTrain["name"].toString();
+    }
+
+    return QString();
 }
 
 }

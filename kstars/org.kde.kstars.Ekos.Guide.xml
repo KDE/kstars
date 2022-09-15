@@ -47,42 +47,17 @@
     </method>
     <method name="clearCalibration">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCalibrationTwoAxis">
-      <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCalibrationAutoStar">
-      <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCalibrationAutoSquareSize">
-      <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
+    </method>    
     <method name="setDarkFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCalibrationPulseDuration">
-      <arg name="pulseDuration" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setGuideBoxSizeIndex">
-      <arg name="boxSizeIndex" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setGuideAlgorithmIndex">
-      <arg name="index" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>    
-    <method name="setDitherSettings">
+    </method>
+    <method name="setAutoStarEnabled">
       <arg name="enable" type="b" direction="in"/>
-      <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setGuiderType">

@@ -70,7 +70,7 @@ class Observatory : public QWidget, public Ui::Observatory
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
 
-        void newWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
+        void newWeatherData(const QJsonArray &data);
 
     private:
         // motion control
@@ -119,14 +119,11 @@ class Observatory : public QWidget, public Ui::Observatory
         void initWeatherActions(bool enabled);
 
         void initSensorGraphs();
-        void updateSensorData(const std::vector<ISD::Weather::WeatherData> &data);
+        void updateSensorData(const QJsonArray &data);
         void updateSensorGraph(const QString &sensor_label, QDateTime now, double value);
 
         // hold all sensor data received from the weather station
-        std::vector<ISD::Weather::WeatherData> m_WeatherData;
-        // update the stored values
-        void updateWeatherData(const std::vector<ISD::Weather::WeatherData> &data);
-        unsigned long findWeatherData(const QString &name);
+        QJsonArray m_WeatherData;
         void weatherChanged(ISD::Weather::Status status);
 
         /**
@@ -209,7 +206,6 @@ class Observatory : public QWidget, public Ui::Observatory
 
     private:
         ISD::Dome *m_Dome {nullptr};
-
         ISD::Weather *m_WeatherSource {nullptr};
         QList<ISD::Weather *> m_WeatherSources;
 

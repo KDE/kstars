@@ -478,7 +478,7 @@ Capture::Capture()
     connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &Ekos::Capture::setCaptureComplete);
 
     // display the capture status in the UI
-    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::CaptureStatusWidget::setCaptureState);
+    connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::LedStatusWidget::setCaptureState);
 
     setupFilterManager();
     setupOpticalTrainManager();
@@ -940,7 +940,7 @@ void Capture::stop(CaptureState targetState)
     if (m_captureDeviceAdaptor->getLightBox() && lightBoxLightEnabled)
     {
         lightBoxLightEnabled = false;
-        m_captureDeviceAdaptor->getLightBox()->SetLightEnabled(false);
+        m_captureDeviceAdaptor->getLightBox()->setLightEnabled(false);
     }
 
     disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
@@ -1590,13 +1590,14 @@ void Capture::checkFilter()
     FilterPosCombo->setEnabled(true);
     filterEditB->setEnabled(true);
 
-    FilterManager::Instance()->setCurrentFilterWheel(m_FilterWheel);
+
+    setupFilterManager();
 
     syncFilterInfo();
 
-    FilterPosCombo->addItems(FilterManager::Instance()->getFilterLabels());
+    FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
 
-    m_CurrentFilterPosition = FilterManager::Instance()->getFilterPosition();
+    m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
 
     filterEditB->setEnabled(m_CurrentFilterPosition > 0);
 
@@ -1791,7 +1792,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
         // If dark is selected, perform dark substraction.
         if (data && darkB->isChecked() && activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() && useGuideHead == false)
         {
-            m_DarkProcessor->denoise(m_captureDeviceAdaptor->getActiveChip(),
+            m_DarkProcessor->denoise(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()),
+                                     m_captureDeviceAdaptor->getActiveChip(),
                                      m_ImageData,
                                      activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                                      activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().x(),
@@ -2289,7 +2291,7 @@ bool Capture::startFocusIfRequired()
         if (m_captureDeviceAdaptor->getFilterWheel())
         {
             int targetFilterPosition = activeJob->getTargetFilter();
-            int currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+            int currentFilterPosition = m_FilterManager->getFilterPosition();
             if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
                 m_captureDeviceAdaptor->getFilterWheel()->setPosition(targetFilterPosition);
         }
@@ -2325,7 +2327,7 @@ bool Capture::startFocusIfRequired()
         if (meridianFlipStage != MF_NONE && m_captureDeviceAdaptor->getFilterWheel())
         {
             int targetFilterPosition = activeJob->getTargetFilter();
-            int currentFilterPosition = FilterManager::Instance()->getFilterPosition();
+            int currentFilterPosition = m_FilterManager->getFilterPosition();
             if (targetFilterPosition > 0 && targetFilterPosition != currentFilterPosition)
                 m_captureDeviceAdaptor->getFilterWheel()->setPosition(targetFilterPosition);
         }
@@ -2440,7 +2442,7 @@ void Capture::captureImage()
         // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
         // so that it may snoop on the active filter
         syncFilterInfo();
-        m_CurrentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         activeJob->setCurrentFilter(m_CurrentFilterPosition);
     }
 
@@ -3310,6 +3312,8 @@ void Capture::setBusy(bool enable)
 
     previewB->setEnabled(!enable);
     loopB->setEnabled(!enable);
+    opticalTrainCombo->setEnabled(!enable);
+    trainB->setEnabled(!enable);
 
     foreach (QAbstractButton * button, queueEditButtonGroup->buttons())
         button->setEnabled(!enable);
@@ -3646,6 +3650,8 @@ void Capture::executeJob()
         return;
     }
 
+    activeJob->setFilterManager(m_FilterManager);
+
     QMap<QString, QString> FITSHeader;
     QString rawPrefix = activeJob->property("rawPrefix").toString();
     if (m_ObserverName.isEmpty() == false)
@@ -3750,8 +3756,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     if (activeJob == nullptr && checkMeridianFlipReady())
         return;
 
-    // if the job is in the startup phase, check if the deviation is below the initial guiding limit
-    if (m_State == CAPTURE_PROGRESS)
+    // if the job is in the startup phase and no flip is neither requested nor running, check if the deviation is below the initial guiding limit
+    if (m_State == CAPTURE_PROGRESS && meridianFlipStage != MF_REQUESTED && checkMeridianFlipRunning() == false)
     {
         // initial guiding deviation irrelevant or below limit
         if (m_LimitsUI->startGuiderDriftS->isChecked() == false || deviation_rms < m_LimitsUI->startGuiderDriftN->value())
@@ -3978,7 +3984,7 @@ void Capture::updateHFRThreshold()
         // e.g. If current filter HA, but lock filter is L, then the HFR value is stored for L filter.
         // If no lock filter exists, then we store as is (HA)
         QString currentFilterText = FilterPosCombo->currentText();
-        QString filterLock = FilterManager::Instance()->getFilterLock(currentFilterText);
+        QString filterLock = m_FilterManager->getFilterLock(currentFilterText);
         QString finalFilter = (filterLock == "--" ? currentFilterText : filterLock);
 
         filterHFRList = HFRMap[finalFilter];
@@ -4284,6 +4290,14 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                 {
                     m_LimitsUI->limitGuideDeviationS->setChecked(!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                     m_LimitsUI->limitGuideDeviationN->setValue(cLocale.toDouble(pcdataXMLEle(ep)));
+                }
+                else if (!strcmp(tagXMLEle(ep), "CCD"))
+                {
+                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
+                }
+                else if (!strcmp(tagXMLEle(ep), "FilterWheel"))
+                {
+                    // Old field in some files. Without this empty test, it would fall through to the else condition and create a job.
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideStartDeviation"))
                 {
@@ -6445,36 +6459,64 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
     m_RotatorControlPanel->refresh();
 }
 
+void Capture::refreshFilterManager(ISD::FilterWheel *device)
+{
+    if (m_FilterManager && m_FilterManager->filterWheel() == device)
+        m_FilterManager->refreshFilterModel();
+}
+
 void Capture::setupFilterManager()
 {
-    connect(filterManagerB, &QPushButton::clicked, []()
+    // Do we have an existing filter manager?
+    if (m_FilterManager)
     {
-        FilterManager::Instance()->show();
-        FilterManager::Instance()->raise();
+        // If same filter wheel, no need to setup again.
+        if (m_FilterManager->filterWheel() == m_FilterWheel)
+            return;
+
+        // Otherwise disconnect and create a new instance.
+        m_FilterManager->disconnect(this);
+        m_FilterManager->close();
+    }
+
+    m_FilterManager.reset(new FilterManager(this));
+    m_FilterManager->setFilterWheel(m_FilterWheel);
+
+    connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()
+    {
+        emit filterManagerUpdated(m_FilterWheel);
     });
 
-    connect(FilterManager::Instance(), &FilterManager::ready, [this]()
+    // display capture status changes
+    connect(m_FilterManager.get(), &FilterManager::newStatus, this, &Capture::newFilterManagerStatus);
+
+    connect(filterManagerB, &QPushButton::clicked, this, [this]()
     {
-        m_CurrentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        m_FilterManager->refreshFilterModel();
+        m_FilterManager->show();
+        m_FilterManager->raise();
+    });
+
+    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
+    {
+        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         // Due to race condition,
         m_FocusState = FOCUS_IDLE;
         if (activeJob)
             activeJob->setCurrentFilter(m_CurrentFilterPosition);
 
-    }
-           );
+    });
 
-    connect(FilterManager::Instance(), &FilterManager::failed, [this]()
+    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
         if (activeJob)
         {
             appendLogText(i18n("Filter operation failed."));
             abort();
         }
-    }
-           );
+    });
 
-    connect(FilterManager::Instance(), &FilterManager::newStatus,
+    connect(m_FilterManager.get(), &FilterManager::newStatus,
             this, [this](Ekos::FilterState filterState)
     {
         if (filterState != m_FilterManagerState)
@@ -6487,12 +6529,12 @@ void Capture::setupFilterManager()
             {
                 case FILTER_OFFSET:
                     appendLogText(i18n("Changing focus offset by %1 steps...",
-                                       FilterManager::Instance()->getTargetFilterOffset()));
+                                       m_FilterManager->getTargetFilterOffset()));
                     break;
 
                 case FILTER_CHANGE:
                     appendLogText(i18n("Changing filter to %1...",
-                                       FilterPosCombo->itemText(FilterManager::Instance()->getTargetFilterPosition() - 1)));
+                                       FilterPosCombo->itemText(m_FilterManager->getTargetFilterPosition() - 1)));
                     break;
 
                 case FILTER_AUTOFOCUS:
@@ -6505,20 +6547,21 @@ void Capture::setupFilterManager()
             }
         }
     });
-    // display capture status changes
-    connect(FilterManager::Instance(), &FilterManager::newStatus,
-            captureStatusWidget, &CaptureStatusWidget::setFilterState);
 
-    connect(FilterManager::Instance(), &FilterManager::labelsChanged, this, [this]()
+    // display capture status changes
+    connect(m_FilterManager.get(), &FilterManager::newStatus, captureStatusWidget, &LedStatusWidget::setFilterState);
+
+    connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
     {
         FilterPosCombo->clear();
-        FilterPosCombo->addItems(FilterManager::Instance()->getFilterLabels());
-        m_CurrentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        FilterPosCombo->addItems(m_FilterManager->getFilterLabels());
+        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
-    connect(FilterManager::Instance(), &FilterManager::positionChanged, this, [this]()
+
+    connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
-        m_CurrentFilterPosition = FilterManager::Instance()->getFilterPosition();
+        m_CurrentFilterPosition = m_FilterManager->getFilterPosition();
         FilterPosCombo->setCurrentIndex(m_CurrentFilterPosition - 1);
     });
 }
@@ -7208,7 +7251,7 @@ void Capture::editFilterName()
     if (m_captureDeviceAdaptor->getFilterWheel() == nullptr || m_CurrentFilterPosition < 1)
         return;
 
-    QStringList labels = FilterManager::Instance()->getFilterLabels();
+    QStringList labels = m_FilterManager->getFilterLabels();
     QDialog filterDialog;
 
     QFormLayout *formLayout = new QFormLayout(&filterDialog);
@@ -7234,7 +7277,7 @@ void Capture::editFilterName()
         QStringList newLabels;
         for (uint8_t i = 0; i < labels.count(); i++)
             newLabels << newLabelEdits[i]->text();
-        FilterManager::Instance()->setFilterNames(newLabels);
+        m_FilterManager->setFilterNames(newLabels);
     }
 }
 
@@ -7392,7 +7435,8 @@ void Capture::setupOpticalTrainManager()
     connect(trainB, &QPushButton::clicked, OpticalTrainManager::Instance(), &OpticalTrainManager::show);
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, opticalTrainCombo->itemText(index));
+        ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain,
+                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
     });
     refreshOpticalTrain();
@@ -7404,11 +7448,13 @@ void Capture::refreshOpticalTrain()
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
 
-    QVariant trainName = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
 
-    if (trainName.isValid())
+    if (trainID.isValid())
     {
-        auto name = trainName.toString();
+        auto id = trainID.toUInt();
+        auto name = OpticalTrainManager::Instance()->name(id);
+
         opticalTrainCombo->setCurrentText(name);
 
         auto camera = OpticalTrainManager::Instance()->getCamera(name);
@@ -7433,10 +7479,6 @@ void Capture::refreshOpticalTrain()
 
         auto mount = OpticalTrainManager::Instance()->getMount(name);
         setMount(mount);
-
-
-
-
     }
 
     opticalTrainCombo->blockSignals(false);

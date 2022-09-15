@@ -236,9 +236,9 @@ bool TestEkosMeridianFlipBase::positionMountForMF(int secsToMF, bool fast)
     // wait until the mount is tracking
     KTRY_VERIFY_WITH_TIMEOUT_SUB(Ekos::Manager::Instance()->mountModule()->status() == ISD::Mount::MOUNT_TRACKING, 60000);
     // check whether a meridian flip is announced
-    KTRY_GADGET_SUB(mount, QLabel, meridianFlipStatusText);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(meridianFlipStatusText->text().length() > 0, 20000);
-    KTRY_VERIFY_TEXTFIELD_STARTS_WITH_TIMEOUT_SUB(meridianFlipStatusText, "Meridian flip in", 20000);
+    const QString flipmsg = Ekos::Manager::Instance()->mountModule()->meridianFlipStatusWidget->getStatus();
+    const int prefixlength = QString("Meridian flip in").length();
+    KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(flipmsg.length() >= prefixlength && flipmsg.left(prefixlength).compare("Meridian flip in") == 0, 20000));
 #endif
     // all checks succeeded
     return true;
@@ -611,10 +611,8 @@ bool TestEkosMeridianFlipBase::enableMeridianFlip(double delay)
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
     KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), meridianFlipCheckBox, true);
-    // set the delay value to degrees
-    KTRY_SET_RADIOBUTTON_SUB(ekos->mountModule(), meridianFlipDegreesR, true);
     // set the delay in degrees
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), meridianFlipTimeBox, 15.0 * delay / 3600.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), meridianFlipDegreesBox, 15.0 * delay / 3600.0);
     // all checks succeeded
     return true;
 }
@@ -677,7 +675,7 @@ bool TestEkosMeridianFlipBase::checkPostMFBehavior()
 
 int TestEkosMeridianFlipBase::secondsToMF()
 {
-    const QString flipmsg = Ekos::Manager::Instance()->mountModule()->meridianFlipStatusText->text();
+    const QString flipmsg = Ekos::Manager::Instance()->mountModule()->meridianFlipStatusWidget->getStatus();
 
     QRegExp mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
 

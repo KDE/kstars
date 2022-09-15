@@ -61,6 +61,20 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         bool setOpticalTrainValue(const QString &name, const QString &field, const QVariant &value);
 
+        /**
+         * @brief setOpticalTrain Replaces optical train matching the name of the passed train.
+         * @param train Train information, including name and database id
+         * @return True if train is successfully updated in the database.
+         */
+        bool setOpticalTrain(const QJsonObject &train);
+
+        /**
+         * @brief removeOpticalTrain Remove optical train from database and all associated settings
+         * @param id database ID for the optical train to remove
+         * @return True if successful, false if id is not found.
+         */
+        bool removeOpticalTrain(uint32_t id);
+
         void refreshModel();
         void refreshTrains();
         void refreshOpticalElements();
@@ -69,7 +83,20 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         void syncDevices();
 
-        int id(const QString &name);
+        /**
+         * @brief id Get database ID for a given train
+         * @param name Name of train
+         * @return ID if exists, or -1 if not found.
+         */
+        int id(const QString &name) const;
+
+        /**
+         * @brief name Get database name for a given name
+         * @param id database ID for the train to get
+         * @return Train name, or empty string if not found.
+         */
+        QString name(int id) const;
+
         ISD::Mount *getMount(const QString &name);
         ISD::DustCap *getDustCap(const QString &name);
         ISD::LightBox *getLightBox(const QString &name);
@@ -84,7 +111,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     signals:
         void updated();
-        void configurationRequested();
+        void configurationRequested(bool show);
 
     protected:
         void initModel();

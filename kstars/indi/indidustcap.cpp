@@ -9,7 +9,7 @@
 #include <QtDBus/qdbusmetatype.h>
 
 #include "indidustcap.h"
-#include "clientmanager.h"
+#include "dustcapadaptor.h"
 
 namespace ISD
 {
@@ -22,6 +22,10 @@ DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
 {
     qRegisterMetaType<ISD::DustCap::Status>("ISD::DustCap::Status");
     qDBusRegisterMetaType<ISD::DustCap::Status>();
+
+    new DustCapAdaptor(this);
+    m_DBusObjectPath = QString("/KStars/INDI/DustCap/%1").arg(getID());
+    QDBusConnection::sessionBus().registerObject(m_DBusObjectPath, this);
 }
 
 void DustCap::processSwitch(ISwitchVectorProperty *svp)
@@ -92,7 +96,7 @@ bool DustCap::isUnParked()
     return ( (parkSP->getState() == IPS_OK || parkSP->getState() == IPS_IDLE) && parkSP->at(1)->getState() == ISS_ON);
 }
 
-bool DustCap::Park()
+bool DustCap::park()
 {
     auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
@@ -109,7 +113,7 @@ bool DustCap::Park()
     return true;
 }
 
-bool DustCap::UnPark()
+bool DustCap::unPark()
 {
     auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)
@@ -148,7 +152,7 @@ bool DustCap::isLightOn()
     return lightON->getState() == ISS_ON;
 }
 
-bool DustCap::SetLightEnabled(bool enable)
+bool DustCap::setLightEnabled(bool enable)
 {
     auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
 
@@ -173,7 +177,7 @@ bool DustCap::SetLightEnabled(bool enable)
     return true;
 }
 
-bool DustCap::SetBrightness(uint16_t val)
+bool DustCap::setBrightness(uint16_t val)
 {
     auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
     if (!lightIntensity)

@@ -68,17 +68,25 @@ void DriverManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column
 }
 
 DriverManager *DriverManager::_DriverManager = nullptr;
+INDIDBus *DriverManager::_INDIDBus = nullptr;
 
 DriverManager *DriverManager::Instance()
 {
     if (_DriverManager == nullptr)
     {
-        _DriverManager     = new DriverManager(KStars::Instance());
-        INDIDBus *indiDBUS = new INDIDBus(KStars::Instance());
-        Q_UNUSED(indiDBUS)
+        _DriverManager = new DriverManager(KStars::Instance());
+        _INDIDBus = new INDIDBus(KStars::Instance());
     }
 
     return _DriverManager;
+}
+
+void DriverManager::release()
+{
+    delete (_DriverManager);
+    delete (_INDIDBus);
+    _DriverManager = nullptr;
+    _INDIDBus = nullptr;
 }
 
 DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
@@ -359,6 +367,7 @@ void DriverManager::startDevices(QList<DriverInfo *> &dList)
             return;
         }
 
+        servers.append(serverManager);
         serverManager->setPendingDrivers(qdv);
         serverManager->setMode(connectionMode);
 
@@ -422,7 +431,7 @@ void DriverManager::startClientManager(const QList<DriverInfo *> &qdv, const QSt
 {
     auto clientManager = new ClientManager();
 
-    for (DriverInfo *dv : qdv)
+    for (auto &dv : qdv)
         clientManager->appendManagedDriver(dv);
 
     connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
@@ -633,6 +642,9 @@ void DriverManager::setClientFailed(const QString &message)
 
     clients.removeOne(client);
     client->deleteLater();
+
+    if (connectionMode == SERVER_CLIENT)
+        activateStopService();
 
     updateMenuActions();
     updateLocalTab();
