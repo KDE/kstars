@@ -2179,7 +2179,7 @@
          <label>The algorithm used for polar-align refresh.</label>         
       </entry>
       <entry name="PAHDirection" type="String">
-         <label>Mount rotation direction during polar alignment/</label>         
+         <label>Mount rotation direction during polar alignment.</label>         
       </entry>
       <entry name="PAHAutoPark" type="Bool">
          <label>Automatically park the mount after Polar Alignment Assistant Tool is complete.</label>
