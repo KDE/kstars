@@ -102,6 +102,7 @@ enum COMMANDS
     MOUNT_CLEAR,
     MOUNT_GET_ALL_SETTINGS,
     MOUNT_SET_ALL_SETTINGS,
+    MOUNT_TOGGLE_AUTOPARK,
 
     // Dome
     DOME_PARK,
@@ -326,6 +327,7 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_CLEAR, "mount_clear"},
     {MOUNT_GET_ALL_SETTINGS, "mount_get_all_settings"},
     {MOUNT_SET_ALL_SETTINGS, "mount_set_all_settings"},
+    {MOUNT_TOGGLE_AUTOPARK, "mount_toggle_autopark"},
 
     {DOME_PARK, "dome_park"},
     {DOME_UNPARK, "dome_unpark"},
