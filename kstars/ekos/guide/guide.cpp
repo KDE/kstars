@@ -1097,32 +1097,37 @@ void Guide::setDECSwap(bool enable)
     }
 }
 
-bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
+bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture)
 {
     if (m_Guider == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
-    // Delay next capture by user-configurable delay.
-    // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
-    auto ms = std::max(ra_msecs, dec_msecs) + 100;
-    auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
+    if (followWithCapture == StartCaptureAfterPulses)
+    {
+        // Delay next capture by user-configurable delay.
+        // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
+        auto ms = std::max(ra_msecs, dec_msecs) + 100;
+        auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
 
-    m_PulseTimer.start(delay);
-
+        m_PulseTimer.start(delay);
+    }
     return m_Guider->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
 
-bool Guide::sendSinglePulse(GuideDirection dir, int msecs)
+bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture)
 {
     if (m_Guider == nullptr || dir == NO_DIR)
         return false;
 
-    // Delay next capture by user-configurable delay.
-    // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
-    auto ms = msecs + 100;
-    auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
+    if (followWithCapture == StartCaptureAfterPulses)
+    {
+        // Delay next capture by user-configurable delay.
+        // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
+        auto ms = msecs + 100;
+        auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
 
-    m_PulseTimer.start(delay);
+        m_PulseTimer.start(delay);
+    }
 
     return m_Guider->doPulse(dir, msecs);
 }
@@ -1645,7 +1650,12 @@ void Guide::setDarkFrameEnabled(bool enable)
 void Guide::saveDefaultGuideExposure()
 {
     if(guiderType == GUIDE_PHD2)
+
         phd2Guider->requestSetExposureTime(guideExposure->value() * 1000);
+    else if (guiderType == GUIDE_INTERNAL)
+    {
+        internalGuider->setExposureTime();
+    }
 }
 
 void Guide::setStarPosition(const QVector3D &newCenter, bool updateNow)
@@ -2473,7 +2483,7 @@ void Guide::nonGuidedDither()
                                "de_polarity:" << decPolarity;
 
     bool rc = sendMultiPulse(raPolarity > 0 ? RA_INC_DIR : RA_DEC_DIR, raMsec, decPolarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
-                             decMsec);
+                             decMsec, StartCaptureAfterPulses);
 
     if (rc)
     {
@@ -2840,7 +2850,6 @@ void Guide::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         m_AO->disconnect(this);
         m_AO = nullptr;
     }
-
 }
 
 void Guide::loop()

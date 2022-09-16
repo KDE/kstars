@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>471</width>
-    <height>570</height>
+    <height>582</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -70,6 +70,13 @@
         <property name="spacing">
          <number>3</number>
         </property>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="kcfg_GPGEnabled">
+          <property name="toolTip">
+           <string>Enable the GPG guider for RA guiding.</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_gpg0">
           <property name="font">
@@ -82,13 +89,6 @@
           </property>
           <property name="text">
            <string>Enable GPG</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QCheckBox" name="kcfg_GPGEnabled">
-          <property name="toolTip">
-           <string>Enable the GPG guider for RA guiding.</string>
           </property>
          </widget>
         </item>
@@ -123,6 +123,23 @@
         <property name="spacing">
          <number>3</number>
         </property>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="toolTip">
+           <string>Maximum time between emitting predictive corrections while capturing guide images. This might be on the order of 1 second or less, with the guide exposure much longer. The exact values and the ratio between them will depend greatly on your mount and environmental conditions; but generally, the worse periodic error of your mount, the greater the ratio between guide exposure and dark guiding interval.</string>
+          </property>
+          <property name="text">
+           <string>Dark guiding interval</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_gpgs0c">
+          <property name="text">
+           <string>seconds</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_gpgs0a">
           <property name="toolTip">
@@ -133,23 +150,43 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_gpgs2a">
+          <property name="toolTip">
+           <string>The fraction of its prediction the GPG uses to move the mount.</string>
+          </property>
+          <property name="text">
+           <string>Prediction Gain</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_gpgsDarkGuiding">
+          <property name="toolTip">
+           <string>Enable predictive corrections during acquisition of guide camera images</string>
+          </property>
+          <property name="text">
+           <string>Intra-frame dark guiding</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_gpgs2b">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QDoubleSpinBox" name="kcfg_GPGPeriod">
           <property name="toolTip">
            <string>The length in seconds of the mount's major period (that's being corrected).</string>
           </property>
           <property name="minimum">
-           <number>0</number>
+           <double>0.000000000000000</double>
           </property>
           <property name="maximum">
-           <number>3600</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_gpgs0c">
-          <property name="text">
-           <string>seconds</string>
+           <double>3600.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -163,13 +200,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QCheckBox" name="kcfg_GPGEstimatePeriod">
-          <property name="toolTip">
-           <string>If checked, the GPG estimates the mount's major period. Otherwise, it uses the entry above.</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="2">
          <widget class="QLabel" name="label_gpgs1b">
           <property name="text">
@@ -177,13 +207,64 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_gpgs2a">
-          <property name="toolTip">
-           <string>The fraction of its prediction the GPG uses to move the mount.</string>
+        <item row="5" column="1" colspan="2">
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
           </property>
           <property name="text">
-           <string>Prediction Gain</string>
+           <string>Uses RA &quot;Aggressiveness&quot; from Guide controls</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="kcfg_GPGEstimatePeriod">
+          <property name="toolTip">
+           <string>If checked, the GPG estimates the mount's major period. Otherwise, it uses the entry above.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_gpgs4a">
+          <property name="toolTip">
+           <string>The min-move parameter the GPG uses to move the mount when it uses its backoff proportional guider.</string>
+          </property>
+          <property name="text">
+           <string>Minimum Move</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1" colspan="2">
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Uses RA &quot;Min error&quot; from Guide controls</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QCheckBox" name="kcfg_GPGDarkGuiding">
+          <property name="toolTip">
+           <string>Enable predictive corrections during acquisition of guide camera images</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_gpgs3a">
+          <property name="toolTip">
+           <string>The fraction of the guide-star drift that the GPG uses to move the mount.</string>
+          </property>
+          <property name="text">
+           <string>Control Gain</string>
           </property>
          </widget>
         </item>
@@ -203,44 +284,26 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_gpgs2b">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_gpgs3a">
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="kcfg_GPGDarkGuidingInterval">
           <property name="toolTip">
-           <string>The fraction of the guide-star drift that the GPG uses to move the mount.</string>
+           <string>Maximum time between emitting predictive corrections while capturing guide images. This might be on the order of 1 second or less, with the guide exposure much longer. The exact values and the ratio between them will depend greatly on your mount and environmental conditions; but generally, the worse periodic error of your mount, the greater the ratio between guide exposure and dark guiding interval.</string>
           </property>
-          <property name="text">
-           <string>Control Gain</string>
+          <property name="minimum">
+           <double>0.000000000000000</double>
           </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_gpgs4a">
-          <property name="toolTip">
-           <string>The min-move parameter the GPG uses to move the mount when it uses its backoff proportional guider.</string>
+          <property name="maximum">
+           <double>3600.000000000000000</double>
           </property>
-          <property name="text">
-           <string>Minimum Move</string>
+          <property name="value">
+           <double>1.000000000000000</double>
           </property>
          </widget>
         </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QLabel" name="label_2">
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Uses RA &quot;Aggressiveness&quot; from Guide controls</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" colspan="2">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Uses RA &quot;Min error&quot; from Guide controls</string>
+           <string>seconds</string>
           </property>
          </widget>
         </item>
@@ -317,7 +380,7 @@
         <item row="0" column="2">
          <widget class="QLabel" name="label_gpgas0c">
           <property name="text">
-           <string/>
+           <string>seconds</string>
           </property>
          </widget>
         </item>
@@ -390,7 +453,7 @@
         <item row="2" column="2">
          <widget class="QLabel" name="label_gpgas2c">
           <property name="text">
-           <string/>
+           <string>seconds</string>
           </property>
          </widget>
         </item>
@@ -473,7 +536,7 @@
         <item row="4" column="2">
          <widget class="QLabel" name="label_gpgas4c">
           <property name="text">
-           <string/>
+           <string>seconds</string>
           </property>
          </widget>
         </item>

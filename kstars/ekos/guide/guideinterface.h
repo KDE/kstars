@@ -105,4 +105,7 @@ class GuideInterface : public QObject
         dms mountRA, mountDEC, mountAzimuth, mountAltitude;
         ISD::Mount::PierSide pierSide { ISD::Mount::PIER_UNKNOWN };
 };
+
+enum CaptureAfterPulses {StartCaptureAfterPulses, DontCaptureAfterPulses};
+
 }

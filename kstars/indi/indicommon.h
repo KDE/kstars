@@ -8,7 +8,7 @@
 
 #include <QString>
 #include <QMap>
-
+#include <chrono>
 /*!
 \page INDI "INDI Overview"
 \tableofcontents
@@ -162,3 +162,4 @@ typedef enum { SOURCE_MANUAL, SOURCE_FLATCAP, SOURCE_WALL, SOURCE_DAWN_DUSK, SOU
 
 typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
+using Seconds = std::chrono::duration<double>;

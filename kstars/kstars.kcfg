@@ -2398,6 +2398,12 @@
       <entry name="GPGEnabled" type="Bool">
          <default>false</default>
       </entry>
+      <entry name="GPGDarkGuiding" type="Bool">
+         <default>false</default>
+      </entry>
+      <entry name="GPGDarkGuidingInterval" type="Double">
+         <default>1</default>
+      </entry>
       <entry name="GPGcWeight" type="Double">
          <default>0.6</default>
       </entry>

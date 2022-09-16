@@ -15,7 +15,8 @@
 #include "guidelog.h"
 #include "calibration.h"
 #include "calibrationprocess.h"
-
+#include "gmath.h"
+#include "ekos_guide_debug.h"
 #include <QFile>
 #include <QPointer>
 #include <QQueue>
@@ -114,24 +115,29 @@ class InternalGuider : public GuideInterface
 
         void updateGPGParameters();
         void resetGPG() override;
+        void resetDarkGuiding();
+        void setExposureTime();
+        void setDarkGuideTimerInterval();
+        void setTimer(std::unique_ptr<QTimer> &timer, Seconds seconds);
 
     public slots:
         void setDECSwap(bool enable);
 
+
     protected slots:
         void trackingStarSelected(int x, int y);
         void setDitherSettled();
+        void darkGuide();
 
     signals:
-        void newMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-        void newSinglePulse(GuideDirection dir, int msecs);
+        void newMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture);
+        void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
         //void newStarPosition(QVector3D, bool);
         void DESwapChanged(bool enable);
-
-    private:
+private:
         // Guiding
         bool processGuiding();
-
+        void startDarkGuiding();
         bool abortDither();
 
         void reset();
@@ -162,6 +168,13 @@ class InternalGuider : public GuideInterface
         // Progressive Manual Dither
         QQueue<GuiderUtils::Vector> m_ProgressiveDither;
 
+        // Dark guiding timer
+        std::unique_ptr<QTimer> m_darkGuideTimer;
+        std::unique_ptr<QTimer> m_captureTimer;
+        std::array<Seconds,2> calculateGPGTimeStep();
+        bool isInferencePeriodFinished();
+
+
         // How many high RMS pulses before we stop
         static const uint8_t MAX_RMS_THRESHOLD = 10;
         // How many lost stars before we stop
@@ -186,5 +199,9 @@ class InternalGuider : public GuideInterface
         std::unique_ptr<CalibrationProcess> calibrationProcess;
         double calibrationStartX = 0;
         double calibrationStartY = 0;
+
+
+        bool isPoorGuiding(const cproc_out_params *out);
+        void emitAxisPulse(const cproc_out_params *out);
 };
 }

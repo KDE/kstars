@@ -27,6 +27,8 @@
 
 #define MAX_GUIDE_STARS           10
 
+using namespace std::chrono_literals;
+
 namespace Ekos
 {
 InternalGuider::InternalGuider()
@@ -43,9 +45,49 @@ InternalGuider::InternalGuider()
 
     state = GUIDE_IDLE;
     m_DitherOrigin = QVector3D(0, 0, 0);
+
     emit guideInfo("");
+
+    m_darkGuideTimer = std::make_unique<QTimer>(this);
+    m_captureTimer = std::make_unique<QTimer>(this);
+
+    setDarkGuideTimerInterval();
+
+    setExposureTime();
+
+    connect(this, &Ekos::GuideInterface::frameCaptureRequested, this, [=](){this->m_captureTimer->start();});
 }
 
+void InternalGuider::setExposureTime()
+{
+    Seconds seconds(Options::guideExposure());
+    setTimer(m_captureTimer, seconds);
+}
+
+void InternalGuider::setTimer(std::unique_ptr<QTimer> &timer, Seconds seconds)
+{
+    const std::chrono::duration<double,std::milli> inMilliseconds(seconds);
+    timer->setInterval((int)(inMilliseconds.count()));
+}
+
+void InternalGuider::setDarkGuideTimerInterval()
+{
+    const Seconds seconds(Options::gPGDarkGuidingInterval());
+    setTimer(m_darkGuideTimer, seconds);
+}
+
+void InternalGuider::resetDarkGuiding()
+{
+    m_darkGuideTimer->stop();
+    m_captureTimer->stop();
+}
+
+bool InternalGuider::isInferencePeriodFinished()
+{
+    auto const contribution = pmath->getGPG().predictionContribution();
+    qCDebug(KSTARS_EKOS_GUIDE) << "GPG contribution proportion:" << contribution;
+    return contribution >= 0.99;
+}
 bool InternalGuider::guide()
 {
     if (state >= GUIDE_GUIDING)
@@ -76,11 +118,13 @@ bool InternalGuider::guide()
         fillGuideInfo(&info);
         guideLog.startGuiding(info);
     }
-
     state = GUIDE_GUIDING;
+
     emit newStatus(state);
 
     emit frameCaptureRequested();
+
+    startDarkGuiding();
 
     return true;
 }
@@ -118,7 +162,12 @@ bool InternalGuider::abort()
         qCDebug(KSTARS_EKOS_GUIDE) << "Stopping internal guider.";
     }
 
+    resetDarkGuiding();
+    disconnect(m_darkGuideTimer.get(), nullptr, nullptr, nullptr);
+
     pmath->abort();
+
+
 
     m_ProgressiveDither.clear();
     m_starLostCounter = 0;
@@ -136,12 +185,27 @@ bool InternalGuider::suspend()
 {
     guideLog.pauseInfo();
     state = GUIDE_SUSPENDED;
+
+    resetDarkGuiding();
     emit newStatus(state);
 
     pmath->suspend(true);
     emit guideInfo("");
 
     return true;
+}
+
+void InternalGuider::startDarkGuiding()
+{
+    if (Options::gPGDarkGuiding())
+    {
+        connect(m_darkGuideTimer.get(), &QTimer::timeout, this, &InternalGuider::darkGuide, Qt::UniqueConnection);
+
+        // Start the two dark guide timers. The capture timer is started automatically by a signal.
+        m_darkGuideTimer->start();
+
+        qCDebug(KSTARS_EKOS_GUIDE) << "Starting dark guiding.";
+    }
 }
 
 bool InternalGuider::resume()
@@ -152,6 +216,10 @@ bool InternalGuider::resume()
     emit newStatus(state);
 
     pmath->suspend(false);
+
+    startDarkGuiding();
+
+    setExposureTime();
 
     emit frameCaptureRequested();
 
@@ -527,7 +595,9 @@ void InternalGuider::iterateCalibration()
 {
     if (calibrationProcess->inProgress())
     {
-        pmath->performProcessing(GUIDE_CALIBRATING, m_ImageData, m_GuideFrame);
+        auto const timeStep = calculateGPGTimeStep();
+        pmath->performProcessing(GUIDE_CALIBRATING, m_ImageData, m_GuideFrame, timeStep);
+
         QString info = "";
         if (pmath->usingSEPMultiStar())
         {
@@ -538,6 +608,7 @@ void InternalGuider::iterateCalibration()
                    .arg(gs.getNumReferences());
         }
         emit guideInfo(info);
+
         if (pmath->isStarLost())
         {
             emit newLog(i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
@@ -571,7 +642,7 @@ void InternalGuider::iterateCalibration()
     int pulseMsecs;
     calibrationProcess->getPulse(&pulseDirection, &pulseMsecs);
     if (pulseDirection != NO_DIR)
-        emit newSinglePulse(pulseDirection, pulseMsecs);
+        emit newSinglePulse(pulseDirection, pulseMsecs, StartCaptureAfterPulses);
 
     if (status == GUIDE_CALIBRATION_ERROR)
     {
@@ -615,6 +686,8 @@ void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
 void InternalGuider::reset()
 {
     state = GUIDE_IDLE;
+
+    resetDarkGuiding();
 
     connect(m_GuideFrame.get(), &FITSView::trackingStarSelected, this, &InternalGuider::trackingStarSelected,
             Qt::UniqueConnection);
@@ -707,6 +780,27 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
     return true;
 }
 
+void InternalGuider::emitAxisPulse(const cproc_out_params *out)
+{
+    double raPulse = out->pulse_length[GUIDE_RA];
+    double dePulse = out->pulse_length[GUIDE_DEC];
+
+    //If the pulse was not sent to the mount, it should have 0 value
+    if(out->pulse_dir[GUIDE_RA] == NO_DIR)
+        raPulse = 0;
+    //If the pulse was not sent to the mount, it should have 0 value
+    if(out->pulse_dir[GUIDE_DEC] == NO_DIR)
+        dePulse = 0;
+    //If the pulse was in the Negative direction, it should have a negative sign.
+    if(out->pulse_dir[GUIDE_RA] == RA_INC_DIR)
+        raPulse = -raPulse;
+    //If the pulse was in the Negative direction, it should have a negative sign.
+    if(out->pulse_dir[GUIDE_DEC] == DEC_INC_DIR)
+        dePulse = -dePulse;
+
+    emit newAxisPulse(raPulse, dePulse);
+}
+
 bool InternalGuider::processGuiding()
 {
     const cproc_out_params *out;
@@ -714,6 +808,7 @@ bool InternalGuider::processGuiding()
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
     // unnecessary guiding pulses.
     bool process = true;
+
     if (m_isFirstFrame)
     {
         m_isFirstFrame = false;
@@ -731,20 +826,23 @@ bool InternalGuider::processGuiding()
         }
     }
 
-    QString info = "";
     if (process)
     {
-        pmath->performProcessing(state, m_ImageData, m_GuideFrame, &guideLog);
+        auto const timeStep = calculateGPGTimeStep();
+        pmath->performProcessing(state, m_ImageData, m_GuideFrame, timeStep, &guideLog);
         if (pmath->usingSEPMultiStar())
         {
+        QString info = "";
             auto gs = pmath->getGuideStars();
             info = QString("%1 stars, %2/%3 refs")
                    .arg(gs.getNumStarsDetected())
                    .arg(gs.getNumReferencesFound())
                    .arg(gs.getNumReferences());
+
+            emit guideInfo(info);
         }
+
     }
-    emit guideInfo(info);
 
     if (state == GUIDE_SUSPENDED)
     {
@@ -752,17 +850,113 @@ bool InternalGuider::processGuiding()
             emit frameCaptureRequested();
         return true;
     }
-
-    if (pmath->isStarLost())
-        m_starLostCounter++;
     else
-        m_starLostCounter = 0;
+    {
+        if (pmath->isStarLost())
+            m_starLostCounter++;
+        else
+            m_starLostCounter = 0;
+    }
 
     // do pulse
     out = pmath->getOutputParameters();
 
+    if (isPoorGuiding(out))
+        return true;
+
     bool sendPulses = !pmath->isStarLost();
 
+
+    // Send pulse if we have one active direction at least.
+    if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
+    {
+        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
+                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], StartCaptureAfterPulses);
+    }
+    else
+        emit frameCaptureRequested();
+
+    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
+        return true;
+
+    // Hy 9/13/21: Check above just looks for GUIDE_DITHERING or GUIDE_MANUAL_DITHERING
+    // but not the other dithering possibilities (error, success, settle).
+    // Not sure if they should be included above, so conservatively not changing the
+    // code, but don't think they should broadcast the newAxisDelta which might
+    // interrup a capture.
+    if (state < GUIDE_DITHERING)
+        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
+
+    emitAxisPulse(out);
+    emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
+    if (SEPMultiStarEnabled())
+        emit newSNR(pmath->getGuideStarSNR());
+
+    return true;
+}
+
+
+// Here we calculate the time until the next time we will be emitting guiding corrections.
+std::array<Seconds,2> InternalGuider::calculateGPGTimeStep()
+{
+    Seconds timeStep;
+
+    const Seconds guideDelay{(Options::guideDelay())};
+
+    auto const captureInterval = Seconds(m_captureTimer->intervalAsDuration()) + guideDelay;
+    auto const darkGuideInterval = Seconds(m_darkGuideTimer->intervalAsDuration());
+
+    if (!Options::gPGDarkGuiding() || !isInferencePeriodFinished())
+    {
+        return std::array<Seconds,2> {captureInterval, captureInterval};
+    }
+    auto const captureTimeRemaining = Seconds(m_captureTimer->remainingTimeAsDuration()) + guideDelay;
+    auto const darkGuideTimeRemaining = Seconds(m_darkGuideTimer->remainingTimeAsDuration());
+    // Are both firing at the same time (or at least, both due)?
+    if (captureTimeRemaining <= Seconds::zero()
+            && darkGuideTimeRemaining <= Seconds::zero())
+    {
+        timeStep = std::min(captureInterval, darkGuideInterval);
+    }
+    else if (captureTimeRemaining <= Seconds::zero())
+    {
+        timeStep = std::min(captureInterval, darkGuideTimeRemaining);
+    }
+    else if (darkGuideTimeRemaining <= Seconds::zero())
+    {
+        timeStep = std::min(captureTimeRemaining, darkGuideInterval);
+    }
+    else
+    {
+        timeStep = std::min(captureTimeRemaining, darkGuideTimeRemaining);
+    }
+    qCDebug(KSTARS_EKOS_GUIDE) << "calculated timestep" << timeStep.count() << "seconds";
+    return std::array<Seconds,2> {timeStep, captureInterval};
+}
+
+
+
+void InternalGuider::darkGuide()
+{
+     if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
+     {
+         qCDebug(KSTARS_EKOS_GUIDE) << "##########BEGIN DARK GUIDING############";
+         const cproc_out_params *out;
+         auto const timeStep = calculateGPGTimeStep();
+         pmath->performDarkGuiding(state, timeStep, &guideLog);
+
+         out = pmath->getOutputParameters();
+
+         emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
+                       out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], DontCaptureAfterPulses);
+
+         emitAxisPulse(out);
+         qCDebug(KSTARS_EKOS_GUIDE) << "##########END DARK GUIDING############";
+    }
+}
+
+bool InternalGuider::isPoorGuiding(const cproc_out_params* out)
+{
     double delta_rms = std::hypot(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
     if (delta_rms > Options::guideMaxDeltaRMS())
         m_highRMSCounter++;
@@ -790,52 +984,8 @@ bool InternalGuider::processGuiding()
         emit newStatus(state);
         return true;
     }
-
-    // Send pulse if we have one active direction at least.
-    if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
-    {
-        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC]);
-    }
-    else
-        emit frameCaptureRequested();
-
-    if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING)
-        return true;
-
-    // Hy 9/13/21: Check above just looks for GUIDE_DITHERING or GUIDE_MANUAL_DITHERING
-    // but not the other dithering possibilities (error, success, settle).
-    // Not sure if they should be included above, so conservatively not changing the
-    // code, but don't think they should broadcast the newAxisDelta which might
-    // interrup a capture.
-    if (state < GUIDE_DITHERING)
-        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
-
-    double raPulse = out->pulse_length[GUIDE_RA];
-    double dePulse = out->pulse_length[GUIDE_DEC];
-
-    //If the pulse was not sent to the mount, it should have 0 value
-    if(out->pulse_dir[GUIDE_RA] == NO_DIR)
-        raPulse = 0;
-    //If the pulse was not sent to the mount, it should have 0 value
-    if(out->pulse_dir[GUIDE_DEC] == NO_DIR)
-        dePulse = 0;
-    //If the pulse was in the Negative direction, it should have a negative sign.
-    if(out->pulse_dir[GUIDE_RA] == RA_INC_DIR)
-        raPulse = -raPulse;
-    //If the pulse was in the Negative direction, it should have a negative sign.
-    if(out->pulse_dir[GUIDE_DEC] == DEC_INC_DIR)
-        dePulse = -dePulse;
-
-    emit newAxisPulse(raPulse, dePulse);
-
-    emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
-    if (SEPMultiStarEnabled())
-        emit newSNR(pmath->getGuideStarSNR());
-
-    return true;
+    return false;
 }
-
 bool InternalGuider::selectAutoStarSEPMultistar()
 {
     m_GuideFrame->updateFrame();
@@ -1041,12 +1191,14 @@ void InternalGuider::fillGuideInfo(GuideLog::GuideInfo *info)
 
 void InternalGuider::updateGPGParameters()
 {
+    setDarkGuideTimerInterval();
     pmath->getGPG().updateParameters();
 }
 
 void InternalGuider::resetGPG()
 {
     pmath->getGPG().reset();
+    resetDarkGuiding();
 }
 
 const Calibration &InternalGuider::getCalibration() const
