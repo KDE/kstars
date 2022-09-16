@@ -451,6 +451,8 @@ class Focus : public QWidget, public Ui::Focus
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
 
+        void trainChanged();
+
         void suspendGuiding();
         void resumeGuiding();
         void newImage(const QSharedPointer<FITSView> &view);

@@ -59,6 +59,7 @@ enum COMMANDS
 
     // Trains
     TRAIN_GET_ALL,
+    TRAIN_GET_PROFILES,
     TRAIN_UPDATE,
     TRAIN_SET,
     TRAIN_ADD,
@@ -286,6 +287,7 @@ static QMap<COMMANDS, QString> const commands =
     {UPDATE_SCOPE, "scope_update"},
 
     {TRAIN_GET_ALL, "train_get_all"},
+    {TRAIN_GET_PROFILES, "train_get_profiles"},
     {TRAIN_UPDATE, "train_update"},
     {TRAIN_SET, "train_set"},
     {TRAIN_ADD, "train_add"},

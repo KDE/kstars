@@ -3689,6 +3689,7 @@ void Align::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

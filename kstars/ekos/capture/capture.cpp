@@ -7438,6 +7438,7 @@ void Capture::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

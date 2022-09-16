@@ -53,6 +53,7 @@ class Message : public QObject
         void sendDrivers();
         void sendDevices();
         void sendTrains();
+        void sendTrainProfiles();
         void sendSchedulerJobList(QJsonArray jobsList);
 
         // Scheduler

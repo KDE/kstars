@@ -1097,7 +1097,8 @@ void Guide::setDECSwap(bool enable)
     }
 }
 
-bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture)
+bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs,
+                           CaptureAfterPulses followWithCapture)
 {
     if (m_Guider == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
@@ -3007,6 +3008,7 @@ void Guide::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::GuideOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

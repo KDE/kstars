@@ -573,6 +573,8 @@ class Mount : public QWidget, public Ui::Mount
 
         void settingsUpdated(const QVariantMap &settings);
 
+        void trainChanged();
+
     private:
         ////////////////////////////////////////////////////////////////////
         /// Settings

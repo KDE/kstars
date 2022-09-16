@@ -1947,6 +1947,7 @@ void Mount::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::MountOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 

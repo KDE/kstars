@@ -1625,6 +1625,7 @@ void DarkLibrary::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::DarkLibraryOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

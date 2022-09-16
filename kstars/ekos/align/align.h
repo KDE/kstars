@@ -589,6 +589,9 @@ class Align : public QWidget, public Ui::Align
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
+        // Train changed
+        void trainChanged();
+
         // Settings
         void settingsUpdated(const QVariantMap &settings);
 

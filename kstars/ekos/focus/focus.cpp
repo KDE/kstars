@@ -4446,6 +4446,7 @@ void Focus::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

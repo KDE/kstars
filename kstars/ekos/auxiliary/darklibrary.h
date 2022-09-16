@@ -122,6 +122,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void newFrame(const QSharedPointer<FITSView> &view);
         // Settings
         void settingsUpdated(const QVariantMap &settings);
+        void trainChanged();
 
     public slots:
         void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);

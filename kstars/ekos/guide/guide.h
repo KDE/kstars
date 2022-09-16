@@ -438,6 +438,8 @@ class Guide : public QWidget, public Ui::Guide
         void newImage(const QSharedPointer<FITSView> &view);
         void newStarPixmap(QPixmap &);
 
+        void trainChanged();
+
         // Immediate deviations in arcsecs
         void newAxisDelta(double ra, double de);
         // Sigma deviations in arcsecs RMS

@@ -889,6 +889,8 @@ class Capture : public QWidget, public Ui::Capture
         // Filter Manager
         void filterManagerUpdated(ISD::FilterWheel *device);
 
+        void trainChanged();
+
     private:
         /**
          * @brief Set the currently active sequence job. Use this function to ensure
