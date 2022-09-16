@@ -84,7 +84,7 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
 
     });
 
-    connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index)
+    connect(masterDarksCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         if (m_Camera)
             DarkLibrary::loadCurrentMasterDark(m_Camera->getDeviceName(), index);
