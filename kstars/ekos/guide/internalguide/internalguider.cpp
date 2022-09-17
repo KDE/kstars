@@ -55,7 +55,10 @@ InternalGuider::InternalGuider()
 
     setExposureTime();
 
-    connect(this, &Ekos::GuideInterface::frameCaptureRequested, this, [=](){this->m_captureTimer->start();});
+    connect(this, &Ekos::GuideInterface::frameCaptureRequested, this, [ = ]()
+    {
+        this->m_captureTimer->start();
+    });
 }
 
 void InternalGuider::setExposureTime()
@@ -66,7 +69,7 @@ void InternalGuider::setExposureTime()
 
 void InternalGuider::setTimer(std::unique_ptr<QTimer> &timer, Seconds seconds)
 {
-    const std::chrono::duration<double,std::milli> inMilliseconds(seconds);
+    const std::chrono::duration<double, std::milli> inMilliseconds(seconds);
     timer->setInterval((int)(inMilliseconds.count()));
 }
 
@@ -832,7 +835,7 @@ bool InternalGuider::processGuiding()
         pmath->performProcessing(state, m_ImageData, m_GuideFrame, timeStep, &guideLog);
         if (pmath->usingSEPMultiStar())
         {
-        QString info = "";
+            QString info = "";
             auto gs = pmath->getGuideStars();
             info = QString("%1 stars, %2/%3 refs")
                    .arg(gs.getNumStarsDetected())
@@ -897,7 +900,7 @@ bool InternalGuider::processGuiding()
 
 
 // Here we calculate the time until the next time we will be emitting guiding corrections.
-std::array<Seconds,2> InternalGuider::calculateGPGTimeStep()
+std::pair<Seconds, Seconds> InternalGuider::calculateGPGTimeStep()
 {
     Seconds timeStep;
 
@@ -908,7 +911,7 @@ std::array<Seconds,2> InternalGuider::calculateGPGTimeStep()
 
     if (!Options::gPGDarkGuiding() || !isInferencePeriodFinished())
     {
-        return std::array<Seconds,2> {captureInterval, captureInterval};
+        return std::pair<Seconds, Seconds>(captureInterval, captureInterval);
     }
     auto const captureTimeRemaining = Seconds(m_captureTimer->remainingTimeAsDuration()) + guideDelay;
     auto const darkGuideTimeRemaining = Seconds(m_darkGuideTimer->remainingTimeAsDuration());
@@ -931,27 +934,27 @@ std::array<Seconds,2> InternalGuider::calculateGPGTimeStep()
         timeStep = std::min(captureTimeRemaining, darkGuideTimeRemaining);
     }
     qCDebug(KSTARS_EKOS_GUIDE) << "calculated timestep" << timeStep.count() << "seconds";
-    return std::array<Seconds,2> {timeStep, captureInterval};
+    return std::pair<Seconds, Seconds>(timeStep, captureInterval);
 }
 
 
 
 void InternalGuider::darkGuide()
 {
-     if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
-     {
-         qCDebug(KSTARS_EKOS_GUIDE) << "##########BEGIN DARK GUIDING############";
-         const cproc_out_params *out;
-         auto const timeStep = calculateGPGTimeStep();
-         pmath->performDarkGuiding(state, timeStep, &guideLog);
+    if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "##########BEGIN DARK GUIDING############";
+        const cproc_out_params *out;
+        auto const timeStep = calculateGPGTimeStep();
+        pmath->performDarkGuiding(state, timeStep);
 
-         out = pmath->getOutputParameters();
+        out = pmath->getOutputParameters();
 
-         emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                       out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], DontCaptureAfterPulses);
+        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
+                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], DontCaptureAfterPulses);
 
-         emitAxisPulse(out);
-         qCDebug(KSTARS_EKOS_GUIDE) << "##########END DARK GUIDING############";
+        emitAxisPulse(out);
+        qCDebug(KSTARS_EKOS_GUIDE) << "##########END DARK GUIDING############";
     }
 }
 

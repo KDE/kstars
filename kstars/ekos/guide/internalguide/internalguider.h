@@ -130,11 +130,12 @@ class InternalGuider : public GuideInterface
         void darkGuide();
 
     signals:
-        void newMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture);
+        void newMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs,
+                           CaptureAfterPulses followWithCapture);
         void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
         //void newStarPosition(QVector3D, bool);
         void DESwapChanged(bool enable);
-private:
+    private:
         // Guiding
         bool processGuiding();
         void startDarkGuiding();
@@ -171,7 +172,7 @@ private:
         // Dark guiding timer
         std::unique_ptr<QTimer> m_darkGuideTimer;
         std::unique_ptr<QTimer> m_captureTimer;
-        std::array<Seconds,2> calculateGPGTimeStep();
+        std::pair<Seconds, Seconds> calculateGPGTimeStep();
         bool isInferencePeriodFinished();
 
 

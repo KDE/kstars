@@ -365,7 +365,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         pulseDirection = dir;
     }
     else if (useGPG && gpg->computePulse(arcsecDrift,
-                                    usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration, timeStep))
+                                         usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration, timeStep))
     {
         pulseDirection = dir;
         pulseLength = std::min(pulseLength, static_cast<int>(maxPulseMilliseconds + 0.5));
@@ -424,25 +424,22 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
     updateOutParams(k, arcsecDrift, pulseLength, pulseDirection);
 }
 
-void cgmath::calculatePulses(Ekos::GuideState state, const std::array<Seconds, 2> &timeStep)
+void cgmath::calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
 
     const bool dithering = configureInParams(state);
 
-
     // process axes...
-    for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
-    {
-        processAxis(k, dithering, false, timeStep[k]);
-    }
+    processAxis(GUIDE_RA, dithering, false, timeStep.first);
+    processAxis(GUIDE_DEC, dithering, false, timeStep.second);
 
     outputGuideLog();
 }
 
 void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> &imageData,
                                QSharedPointer<GuideView> &guideView,
-                               const std::array<Seconds,2> &timeStep, GuideLog *logger)
+                               const std::pair<Seconds, Seconds> &timeStep, GuideLog *logger)
 {
     if (suspended)
     {
@@ -595,13 +592,13 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
 }
 
-void cgmath::performDarkGuiding(Ekos::GuideState state, const std::array<Seconds,2> &timeStep, GuideLog *logger)
+void cgmath::performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
 {
 
     const bool dithering = configureInParams(state);
     //out_params.sigma[GUIDE_RA] = 0;
 
-    processAxis(GUIDE_RA, dithering, true, timeStep[GUIDE_RA]);
+    processAxis(GUIDE_RA, dithering, true, timeStep.first);
 
     // Don't guide in DEC when dark guiding
     updateOutParams(GUIDE_DEC, 0, 0, NO_DIR);
