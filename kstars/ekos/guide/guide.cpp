@@ -144,12 +144,6 @@ Guide::Guide() : QWidget()
     guideExposure->setRecommendedValues(exposureValues);
     connect(guideExposure, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
 
-    // Guide Delay
-    connect(guideDelay, &QDoubleSpinBox::editingFinished, this, [this]()
-    {
-        Options::setGuideDelay(guideDelay->value());
-    });
-
     // Set current guide type
     setGuiderType(-1);
 
@@ -730,7 +724,7 @@ bool Guide::captureOneFrame()
 
     // Increase exposure for calibration frame if we need auto-select a star
     // To increase chances we detect one.
-    if (operationStack.contains(GUIDE_STAR_SELECT) && Options::guideAutoStar() &&
+    if (operationStack.contains(GUIDE_STAR_SELECT) && guideAutoStar->isChecked() &&
             !((guiderType == GUIDE_INTERNAL) && internalGuider->SEPMultiStarEnabled()))
         finalExposure *= 3;
 
@@ -1108,7 +1102,7 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
         // Delay next capture by user-configurable delay.
         // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
         auto ms = std::max(ra_msecs, dec_msecs) + 100;
-        auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
+        auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
 
         m_PulseTimer.start(delay);
     }
@@ -1125,7 +1119,7 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
         // Delay next capture by user-configurable delay.
         // If user delay is zero, delay by the pulse length plus 100 milliseconds before next capture.
         auto ms = msecs + 100;
-        auto delay = std::max(static_cast<int>(Options::guideDelay() * 1000), ms);
+        auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
 
         m_PulseTimer.start(delay);
     }
