@@ -126,21 +126,6 @@ DarkLibrary::DarkLibrary(QWidget *parent) : QDialog(parent)
     connect(startB, &QPushButton::clicked, this, &DarkLibrary::start);
     connect(stopB, &QPushButton::clicked, this, &DarkLibrary::stop);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Master Darks Database Connections
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    kcfg_DarkLibraryDuration->setValue(Options::darkLibraryDuration());
-    connect(kcfg_DarkLibraryDuration, &QDoubleSpinBox::editingFinished, [this]()
-    {
-        Options::setDarkLibraryDuration(kcfg_DarkLibraryDuration->value());
-    });
-
-    kcfg_MaxDarkTemperatureDiff->setValue(Options::maxDarkTemperatureDiff());
-    connect(kcfg_MaxDarkTemperatureDiff, &QDoubleSpinBox::editingFinished, [this]()
-    {
-        Options::setMaxDarkTemperatureDiff(kcfg_MaxDarkTemperatureDiff->value());
-    });
-
     KStarsData::Instance()->userdb()->GetAllDarkFrames(m_DarkFramesDatabaseList);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Defect Map Connections
@@ -244,7 +229,7 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 m_TargetChip->getCCD()->getTemperature(&temperature);
                 double darkTemperature = map["temperature"].toDouble();
                 // If different is above threshold, it is completely rejected.
-                if (darkTemperature != INVALID_VALUE && fabs(darkTemperature - temperature) > Options::maxDarkTemperatureDiff())
+                if (darkTemperature != INVALID_VALUE && fabs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
                     continue;
             }
 
@@ -606,7 +591,7 @@ void DarkLibrary::clearExpired()
         return;
 
     // Anything before this must go
-    QDateTime expiredDate = QDateTime::currentDateTime().addDays(kcfg_DarkLibraryDuration->value() * -1);
+    QDateTime expiredDate = QDateTime::currentDateTime().addDays(darkLibraryDuration->value() * -1);
 
     QSqlDatabase userdb = QSqlDatabase::database("userdb");
     userdb.open();
