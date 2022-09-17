@@ -1448,8 +1448,6 @@ bool Align::captureAndSolve()
     else
         targetChip->capture(seqExpose);
 
-    Options::setAlignExposure(seqExpose);
-
     solveB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();

@@ -50,8 +50,8 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPoi
     m_AlignInstance = parent;
     m_AlignView = view;
 
-    showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
-                     (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
+    showUpdatedError((pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM) ||
+                     (pAHRefreshAlgorithm->currentIndex() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
 
     connect(pAHRefreshAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
@@ -421,7 +421,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
     imageNumber++;
     PAHIteration->setText(QString("Image %1").arg(imageNumber));
 
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
     {
         startSolver();
         return;
@@ -431,7 +431,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
     // so that if it is enabled later the star could be tracked.
     // Flaw here is that if enough stars are not detected, iteration is not incremented,
     // so it may repeat.
-    if ((Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM) || (refreshIteration == 0))
+    if ((pAHRefreshAlgorithm->currentIndex() == MOVE_STAR_UPDATE_ERR_ALGORITHM) || (refreshIteration == 0))
     {
         constexpr int MIN_PAH_REFRESH_STARS = 10;
 
@@ -896,7 +896,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
     correctionFrom = pixel;
 
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
         updatePlateSolveTriangle(imageData);
     else
         m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
@@ -965,7 +965,7 @@ bool PolarAlignmentAssistant::calculatePAHError()
 
 void PolarAlignmentAssistant::syncCorrectionVector()
 {
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
         return;
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
@@ -1217,12 +1217,12 @@ QString PolarAlignmentAssistant::getPAHMessage() const
         case PAH_THIRD_SOLVE:
             return "<p>Solving the <i>third</i> image...</p>";
         case PAH_STAR_SELECT:
-            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+            if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Choose your exposure time & select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>";
             else
                 return "<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>";
         case PAH_REFRESH:
-            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+            if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>";
             else
                 return "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow line, then adjust the <i>Azimuth knob</i> to move it along the Green line until the selected star is centered within the crosshair.</p><p>Click <i>Stop</i> when the star is centered.</p>";
