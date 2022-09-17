@@ -178,15 +178,18 @@ if (INDI_FOUND)
 
         set(ekos_SRCS
             ekos/ekos.cpp
-            ekos/manager.cpp
-            ekos/manager/focusmanager.cpp
-            ekos/manager/guidemanager.cpp
             ekos/profileeditor.cpp
             ekos/profilewizard.cpp
             ekos/profilescript.cpp
             ekos/profilescriptdialog.cpp
             ekos/qMDNS.cpp
             ekos/opsekos.cpp
+
+            # Manager
+            ekos/manager.cpp
+            ekos/manager/focusmanager.cpp
+            ekos/manager/guidemanager.cpp
+            ekos/manager/meridianflipstate.cpp
 
             # Auxiliary
             ekos/auxiliary/darklibrary.cpp
@@ -208,6 +211,7 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturemodulestate.cpp
             ekos/capture/capturedeviceadaptor.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
@@ -262,7 +266,6 @@ if (INDI_FOUND)
             ekos/align/polaralignmentassistant.cpp
             ekos/align/manualrotator.cpp
             ekos/align/polaralignwidget.cpp
-
 
             # Guide
             ekos/guide/guide.cpp

@@ -2511,12 +2511,12 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
             rotCounter--;
             break;
 
-        case FITS_FLIP_H:
+        case FITS_MOUNT_FLIP_H:
             rotFITS<T>(0, 1);
             flipHCounter++;
             break;
 
-        case FITS_FLIP_V:
+        case FITS_MOUNT_FLIP_V:
             rotFITS<T>(0, 2);
             flipVCounter++;
             break;

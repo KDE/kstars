@@ -97,8 +97,8 @@ class SequenceJob : public QObject
         ////////////////////////////////////////////////////////////////////////
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
-        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<SequenceJobState::CaptureState> sharedState);
-        SequenceJob(XMLEle *root);        
+        SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp, const QSharedPointer<CaptureModuleState> sharedState);
+        SequenceJob(XMLEle *root);
         ~SequenceJob() = default;
 
         ////////////////////////////////////////////////////////////////////////

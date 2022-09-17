@@ -89,7 +89,7 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
 void TestEkosMeridianFlip::testGuidingMF()
 {
     // prepare the test case and calibrate
-    QVERIFY(prepareMFTestcase(false, false));
+    QVERIFY(prepareMFTestcase(false, false, false));
 
     // slew close to the meridian
     QVERIFY(positionMountForMF(75.0));
@@ -113,7 +113,7 @@ void TestEkosMeridianFlip::testGuidingMF()
 void TestEkosMeridianFlip::testCaptureMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, true, false));
+    QVERIFY(prepareCaptureTestcase(10, true, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -137,7 +137,7 @@ void TestEkosMeridianFlip::testCaptureMF()
 void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -164,7 +164,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortWaiting()
 void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(10, false, false));
+    QVERIFY(prepareCaptureTestcase(10, false, false, false));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -181,7 +181,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 2000);
 
     // check if the meridian flip is completed latest after one minute
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_COMPLETED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_COMPLETED);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedMeridianFlipStates, 60000);
 
     // wait for settling
@@ -195,7 +195,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 void TestEkosMeridianFlip::testCaptureGuidingMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(20, true, true));
+    QVERIFY(prepareCaptureTestcase(20, true, false, true));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -221,7 +221,7 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(45, true, false));
+    QVERIFY(prepareCaptureTestcase(40, true, false, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -251,7 +251,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
         QSKIP("No astrometry files available to run test");
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, false));
+    QVERIFY(prepareCaptureTestcase(40, true, false, false));
 
     // start alignment
     m_CaptureHelper->expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);

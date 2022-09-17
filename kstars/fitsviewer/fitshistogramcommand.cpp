@@ -138,7 +138,7 @@ void FITSHistogramCommand::redo()
         m_ImageData->saveStatistics(stats);
 
         // If it's rotation of flip, no need to calculate delta
-        if (type >= FITS_ROTATE_CW && type <= FITS_FLIP_V)
+        if (type >= FITS_ROTATE_CW && type <= FITS_MOUNT_FLIP_V)
         {
             m_ImageData->applyFilter(type);
         }
@@ -221,8 +221,8 @@ void FITSHistogramCommand::undo()
             case FITS_ROTATE_CCW:
                 m_ImageData->applyFilter(FITS_ROTATE_CW);
                 break;
-            case FITS_FLIP_H:
-            case FITS_FLIP_V:
+            case FITS_MOUNT_FLIP_H:
+            case FITS_MOUNT_FLIP_V:
                 m_ImageData->applyFilter(type);
                 break;
             default:

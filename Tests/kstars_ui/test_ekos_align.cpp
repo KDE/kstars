@@ -26,11 +26,11 @@ TestEkosAlign::TestEkosAlign(QObject *parent) : QObject(parent)
 void TestEkosAlign::testSlewAlign()
 {
     // slew to Kocab as target
-    SkyObject *targetObject = findTargetByName("Kocab");
-    QVERIFY(slewToTarget(targetObject));
+    SkyObject *target = findTargetByName("Kocab");
+    QVERIFY(m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
 
     // execute an alignment and verify the result
-    QVERIFY(executeAlignment(targetObject));
+    QVERIFY(executeAlignment(target));
 }
 
 void TestEkosAlign::testEmptySkyAlign()
@@ -39,7 +39,7 @@ void TestEkosAlign::testEmptySkyAlign()
     // update J2000 coordinates
     updateJ2000Coordinates(emptySky);
 
-    QVERIFY(slewToTarget(emptySky));
+    QVERIFY(m_CaptureHelper->slewTo(emptySky->ra().Hours(), emptySky->dec().Degrees(), true));
 
     // execute an alignment and verify the result
     QVERIFY(executeAlignment(emptySky));
@@ -48,17 +48,17 @@ void TestEkosAlign::testEmptySkyAlign()
 void TestEkosAlign::testSlewDriftAlign()
 {
     // slew to Kocab as target
-    SkyObject *targetObject = findTargetByName("Kocab");
-    QVERIFY(slewToTarget(targetObject));
+    SkyObject *target = findTargetByName("Kocab");
+    QVERIFY(m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
     // execute an alignment and verify the result
-    QVERIFY(executeAlignment(targetObject));
+    QVERIFY(executeAlignment(target));
     // now send motion north and west to create a guiding deviation
     Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
     mount->doPulse(RA_INC_DIR, 5000, DEC_INC_DIR, 5000);
     // wait until the pulse ends
     QTest::qWait(6000);
     // execute an alignment and verify if the target is the same
-    QVERIFY(executeAlignment(targetObject));
+    QVERIFY(executeAlignment(target));
 }
 
 void TestEkosAlign::testFitsAlign()
@@ -73,7 +73,8 @@ void TestEkosAlign::testFitsAlign()
     targetObject.apparentCoord(static_cast<long double>(J2000), KStars::Instance()->data()->ut().djd());
 
     // slew somewhere close to the target
-    QVERIFY(slewToTarget(findTargetByName("Pherkab")));
+    SkyObject *close_to_target = findTargetByName("Pherkab");
+    QVERIFY(m_CaptureHelper->slewTo(close_to_target->ra().Hours(), close_to_target->dec().Degrees(), true));
     // wait until the slew has finished
     QTRY_VERIFY_WITH_TIMEOUT(m_TelescopeStatus == ISD::Mount::MOUNT_TRACKING, 60000);
 
@@ -208,9 +209,6 @@ void TestEkosAlign::cleanupTestCase()
     // disconnect to the alignment process to receive align status changes
     disconnect(Ekos::Manager::Instance()->alignModule(), &Ekos::Align::newStatus, this,
                &TestEkosAlign::alignStatusChanged);
-    // disconnect to the alignment process to receive align status changes
-    disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
-               &TestEkosAlign::telescopeStatusChanged);
 
     m_CaptureHelper->cleanup();
     QVERIFY(m_CaptureHelper->shutdownEkosProfile());
@@ -227,13 +225,17 @@ void TestEkosAlign::prepareTestCase()
     Options::setAlignmentLogging(false);
     Options::setLogToFile(false);
 
-    // setup optical trains
+    // prepare optical trains for testing
     m_CaptureHelper->prepareOpticalTrains();
-
-    // prepare the mount module and set the scope
+    // prepare the mount module for testing
     m_CaptureHelper->prepareMountModule();
+    // prepare for focusing tests for those that use the focuser
+    if (m_CaptureHelper->m_FocuserDevice != "")
+        m_CaptureHelper->prepareFocusModule();
     // prepare for alignment tests
     m_CaptureHelper->prepareAlignmentModule();
+    // prepare for guiding tests
+    m_CaptureHelper->prepareGuidingModule();
 
     m_CaptureHelper->init();
     // close INDI window
@@ -365,19 +367,6 @@ bool TestEkosAlign::trackSingleAlignment(bool lastPoint, bool moveMount)
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedAlignStates, 180000);
 
     // everything succeeded
-    return true;
-}
-
-bool TestEkosAlign::slewToTarget(SkyPoint *target)
-{
-    expectedTelescopeStates.append(ISD::Mount::MOUNT_TRACKING);
-    // slew to given target
-    KVERIFY_SUB(m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true));
-    // ensure that slewing has started
-    QTest::qWait(2000);
-    // wait until the slew has completed
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedTelescopeStates, 20000);
-    // success
     return true;
 }
 

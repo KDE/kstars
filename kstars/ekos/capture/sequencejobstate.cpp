@@ -12,9 +12,9 @@
 
 namespace Ekos
 {
-SequenceJobState::SequenceJobState(const QSharedPointer<SequenceJobState::CaptureState> &sharedState)
+SequenceJobState::SequenceJobState(const QSharedPointer<CaptureModuleState> &sharedState)
 {
-    m_CaptureState = sharedState;
+    m_CaptureModuleState = sharedState;
 }
 
 void SequenceJobState::setFrameType(CCDFrameType frameType)
@@ -41,9 +41,9 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     emit setCCDBatchMode(!isPreview);
 
     // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[ACTION_FILTER] = true;
+    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
     // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != -1 && targetFilterID != m_CaptureState->currentFilterID)
+    if (targetFilterID != -1 && targetFilterID != m_CaptureModuleState->currentFilterID)
         emit prepareState(CAPTURE_CHANGING_FILTER);
 
 
@@ -56,7 +56,7 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     // Check if we need to wait for guiding being initially below the target value
     m_enforceInitialGuiding = enforceInitialGuidingDrift;
     if (enforceInitialGuidingDrift && !isPreview)
-        prepareActions[ACTION_GUIDER_DRIFT] = false;
+        prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = false;
 
     // Hint: Filter changes are actually done in SequenceJob::capture();
 
@@ -82,9 +82,9 @@ void SequenceJobState::prepareFlatFrameCapture(bool enforceCCDTemp, bool isPrevi
     emit setCCDBatchMode(!isPreview);
 
     // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[ACTION_FILTER] = true;
+    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
     // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != -1 && targetFilterID != m_CaptureState->currentFilterID)
+    if (targetFilterID != -1 && targetFilterID != m_CaptureModuleState->currentFilterID)
         emit prepareState(CAPTURE_CHANGING_FILTER);
 
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
@@ -112,7 +112,7 @@ void SequenceJobState::prepareDarkFrameCapture(bool enforceCCDTemp, bool isPrevi
     emit setCCDBatchMode(!isPreview);
 
     // Filter changes are actually done in capture(), therefore prepareActions are always true
-    prepareActions[ACTION_FILTER] = true;
+    prepareActions[CaptureModuleState::ACTION_FILTER] = true;
 
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
     prepareTemperatureCheck(enforceCCDTemp);
@@ -244,7 +244,7 @@ void SequenceJobState::checkAllActionsReady()
 
 void SequenceJobState::setAllActionsReady()
 {
-    QMutableMapIterator<PrepareActions, bool> it(prepareActions);
+    QMutableMapIterator<CaptureModuleState::PrepareActions, bool> it(prepareActions);
 
     while (it.hasNext())
     {
@@ -252,9 +252,9 @@ void SequenceJobState::setAllActionsReady()
         it.setValue(true);
     }
     // reset the initialization state
-    for (PrepareActions action :
+    for (CaptureModuleState::PrepareActions action :
             {
-                ACTION_FILTER, ACTION_ROTATOR, ACTION_TEMPERATURE, ACTION_GUIDER_DRIFT
+                CaptureModuleState::ACTION_FILTER, CaptureModuleState::ACTION_ROTATOR, CaptureModuleState::ACTION_TEMPERATURE, CaptureModuleState::ACTION_GUIDER_DRIFT
             })
         setInitialized(action, false);
 }
@@ -266,12 +266,12 @@ void SequenceJobState::prepareTemperatureCheck(bool enforceCCDTemp)
 
     if (m_enforceTemperature)
     {
-        prepareActions[ACTION_TEMPERATURE] = false;
-        if (isInitialized(ACTION_TEMPERATURE))
+        prepareActions[CaptureModuleState::ACTION_TEMPERATURE] = false;
+        if (isInitialized(CaptureModuleState::ACTION_TEMPERATURE))
         {
             // ignore the next value since after setting temperature the next received value will be
             // exactly this value no matter what the CCD temperature
-            ignoreNextValue[ACTION_TEMPERATURE] = true;
+            ignoreNextValue[CaptureModuleState::ACTION_TEMPERATURE] = true;
             // request setting temperature
             emit setCCDTemperature(targetTemperature);
             emit prepareState(CAPTURE_SETTING_TEMPERATURE);
@@ -287,9 +287,9 @@ void SequenceJobState::prepareRotatorCheck()
 {
     if (targetPositionAngle > Ekos::INVALID_VALUE)
     {
-        if (isInitialized(ACTION_ROTATOR))
+        if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
         {
-            prepareActions[ACTION_ROTATOR] = false;
+            prepareActions[CaptureModuleState::ACTION_ROTATOR] = false;
             // RawAngle = PA + Offset / Multiplier -> see Capture::Capture()
             double rawAngle = (targetPositionAngle + Options::pAOffset()) / Options::pAMultiplier();
             emit prepareState(CAPTURE_SETTING_ROTATOR);
@@ -330,7 +330,7 @@ IPState SequenceJobState::checkFlatsLightSourceReady()
 IPState SequenceJobState::checkManualFlatsCoverReady()
 {
     // Manual mode we need to cover mount with evenly illuminated field.
-    if (m_CaptureState->telescopeCovered == false)
+    if (m_CaptureModuleState->telescopeCovered == false)
     {
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
             return IPS_BUSY;
@@ -348,34 +348,35 @@ IPState SequenceJobState::checkManualFlatsCoverReady()
 IPState SequenceJobState::checkFlatCapReady()
 {
     // flat light is on
-    if (lightBoxLightStatus == CAP_LIGHT_ON)
+    if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_ON)
         return IPS_OK;
     // turning on flat light running
-    if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapStatus == CAP_PARKING)
+    if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_BUSY ||
+            m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_PARKING)
         return IPS_BUSY;
     // error occured
-    if (dustCapStatus == CAP_ERROR)
+    if (m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_ERROR)
         return IPS_ALERT;
 
-    if (m_CaptureState->hasLightBox == true && lightBoxLightStatus != CAP_LIGHT_ON)
+    if (m_CaptureModuleState->hasLightBox == true && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_ON)
     {
-        lightBoxLightStatus = CAP_LIGHT_BUSY;
+        m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
         emit setLightBoxLight(true);
         emit newLog(i18n("Turn light box light on..."));
         return IPS_BUSY;
     }
 
-    if (m_CaptureState->hasDustCap == false)
+    if (m_CaptureModuleState->hasDustCap == false)
     {
-        if (m_CaptureState->hasLightBox == false)
+        if (m_CaptureModuleState->hasLightBox == false)
             emit newLog("Skipping flat/dark cap since it is not connected.");
         return IPS_OK;
     }
 
     // if using the dust cap, first park the dust cap
-    if (dustCapStatus != CAP_PARKED)
+    if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_PARKED)
     {
-        dustCapStatus = CAP_PARKING;
+        m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
         emit parkDustCap(true);
         emit newLog(i18n("Parking dust cap..."));
         return IPS_BUSY;
@@ -387,38 +388,40 @@ IPState SequenceJobState::checkFlatCapReady()
 IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 {
     // turning on flat light running
-    if (lightBoxLightStatus == CAP_LIGHT_BUSY  || dustCapStatus == CAP_PARKING || dustCapStatus == CAP_UNPARKING)
+    if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_BUSY  ||
+            m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_PARKING ||
+            m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_UNPARKING)
         return IPS_BUSY;
     // error occured
-    if (dustCapStatus == CAP_ERROR)
+    if (m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_ERROR)
         return IPS_ALERT;
 
     bool captureFlats = (frameType == FRAME_FLAT);
 
-    LightStatus targetLightBoxStatus = (frameType == FRAME_FLAT) ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
+    CaptureModuleState::LightState targetLightBoxStatus = (frameType == FRAME_FLAT) ? CaptureModuleState::CAP_LIGHT_ON : CaptureModuleState::CAP_LIGHT_OFF;
 
-    if (m_CaptureState->hasLightBox == true && lightBoxLightStatus != targetLightBoxStatus)
+    if (m_CaptureModuleState->hasLightBox == true && m_CaptureModuleState->getLightBoxLightState() != targetLightBoxStatus)
     {
-        lightBoxLightStatus = CAP_LIGHT_BUSY;
+        m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
         emit setLightBoxLight(captureFlats);
         emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
         return IPS_BUSY;
     }
 
-    if (m_CaptureState->hasDustCap == false)
+    if (m_CaptureModuleState->hasDustCap == false)
     {
         // Only warn if we don't have already light box.
-        if (m_CaptureState->hasLightBox == false)
+        if (m_CaptureModuleState->hasLightBox == false)
             emit newLog("Skipping flat/dark cap since it is not connected.");
         return IPS_OK;
     }
 
     // for flats open the cap and close it otherwise
-    CapState targetCapState = captureFlats ? CAP_IDLE : CAP_PARKED;
+    CaptureModuleState::CapState targetCapState = captureFlats ? CaptureModuleState::CAP_IDLE : CaptureModuleState::CAP_PARKED;
     // If cap is parked, unpark it since dark cap uses external light source.
-    if (dustCapStatus != targetCapState)
+    if (m_CaptureModuleState->getDustCapState() != targetCapState)
     {
-        dustCapStatus = captureFlats ? CAP_UNPARKING : CAP_PARKING;
+        m_CaptureModuleState->setDustCapState(captureFlats ? CaptureModuleState::CAP_UNPARKING : CaptureModuleState::CAP_PARKING);
         emit parkDustCap(!captureFlats);
         emit newLog(captureFlats ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
         return IPS_BUSY;
@@ -430,7 +433,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 
 IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 {
-    if (m_CaptureState->hasTelescope)
+    if (m_CaptureModuleState->hasTelescope)
     {
         if (wpScopeStatus < WP_SLEWING)
         {
@@ -457,13 +460,13 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 
         // wall position reached, check if we have a light box to turn on for flats and off otherwise
         bool captureFlats = (frametype == FRAME_FLAT);
-        LightStatus targetLightState = (captureFlats ? CAP_LIGHT_ON : CAP_LIGHT_OFF);
+        CaptureModuleState::LightState targetLightState = (captureFlats ? CaptureModuleState::CAP_LIGHT_ON : CaptureModuleState::CAP_LIGHT_OFF);
 
-        if (m_CaptureState->hasLightBox == true)
+        if (m_CaptureModuleState->hasLightBox == true)
         {
-            if (lightBoxLightStatus != targetLightState)
+            if (m_CaptureModuleState->getLightBoxLightState() != targetLightState)
             {
-                lightBoxLightStatus = CAP_LIGHT_BUSY;
+                m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
                 emit setLightBoxLight(captureFlats);
                 emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
                 return IPS_BUSY;
@@ -476,19 +479,19 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 
 IPState SequenceJobState::checkPreMountParkReady()
 {
-    if (preMountPark && m_CaptureState->hasTelescope && flatFieldSource != SOURCE_WALL)
+    if (preMountPark && m_CaptureModuleState->hasTelescope && flatFieldSource != SOURCE_WALL)
     {
-        if (scopeParkStatus == ISD::PARK_ERROR)
+        if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_ERROR)
         {
             emit newLog(i18n("Parking mount failed, aborting..."));
             emit abortCapture();
             return IPS_ALERT;
         }
-        else if (scopeParkStatus == ISD::PARK_PARKING)
+        else if (m_CaptureModuleState->getScopeParkState() == ISD::PARK_PARKING)
             return IPS_BUSY;
-        else if (scopeParkStatus != ISD::PARK_PARKED)
+        else if (m_CaptureModuleState->getScopeParkState() != ISD::PARK_PARKED)
         {
-            scopeParkStatus = ISD::PARK_PARKING;
+            m_CaptureModuleState->setScopeParkState(ISD::PARK_PARKING);
             emit setScopeParked(true);
             emit newLog(i18n("Parking mount prior to calibration frames capture..."));
             return IPS_BUSY;
@@ -500,19 +503,19 @@ IPState SequenceJobState::checkPreMountParkReady()
 
 IPState SequenceJobState::checkPreDomeParkReady()
 {
-    if (preDomePark && m_CaptureState->hasDome)
+    if (preDomePark && m_CaptureModuleState->hasDome)
     {
-        if (domeStatus == ISD::Dome::DOME_ERROR)
+        if (m_CaptureModuleState->getDomeState() == ISD::Dome::DOME_ERROR)
         {
             emit newLog(i18n("Parking dome failed, aborting..."));
             emit abortCapture();
             return IPS_ALERT;
         }
-        else if (domeStatus == ISD::Dome::DOME_PARKING)
+        else if (m_CaptureModuleState->getDomeState() == ISD::Dome::DOME_PARKING)
             return IPS_BUSY;
-        else if (domeStatus != ISD::Dome::DOME_PARKED)
+        else if (m_CaptureModuleState->getDomeState() != ISD::Dome::DOME_PARKED)
         {
-            domeStatus = ISD::Dome::DOME_PARKING;
+            m_CaptureModuleState->setDomeState(ISD::Dome::DOME_PARKING);
             emit setDomeParked(true);
             emit newLog(i18n("Parking dome prior to calibration frames capture..."));
             return IPS_BUSY;
@@ -548,19 +551,19 @@ IPState SequenceJobState::checkFlatSyncFocus()
 
 IPState SequenceJobState::checkHasShutter()
 {
-    if (m_CaptureState->shutterStatus == SHUTTER_BUSY)
+    if (m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_BUSY)
         return IPS_BUSY;
-    if (m_CaptureState->shutterStatus != SHUTTER_UNKNOWN)
+    if (m_CaptureModuleState->shutterStatus != CaptureModuleState::SHUTTER_UNKNOWN)
         return IPS_OK;
     // query the status
-    m_CaptureState->shutterStatus = SHUTTER_BUSY;
+    m_CaptureModuleState->shutterStatus = CaptureModuleState::SHUTTER_BUSY;
     emit queryHasShutter();
     return IPS_BUSY;
 }
 
 IPState SequenceJobState::checkManualCover()
 {
-    if (m_CaptureState->shutterStatus == SHUTTER_NO && m_CaptureState->telescopeCovered == false)
+    if (m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO && m_CaptureModuleState->telescopeCovered == false)
     {
         // Already asked for confirmation? Then wait.
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
@@ -587,7 +590,7 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
         case SOURCE_WALL:
             // If telescopes were MANUALLY covered before
             // we need to manually uncover them.
-            if (m_CaptureState->telescopeCovered)
+            if (m_CaptureModuleState->telescopeCovered)
             {
                 // If we already asked for confirmation and waiting for it
                 // let us see if the confirmation is fulfilled
@@ -603,28 +606,29 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
         case SOURCE_FLATCAP:
         case SOURCE_DARKCAP:
             // if no state update happened, wait.
-            if (lightBoxLightStatus == CAP_LIGHT_BUSY || dustCapStatus == CAP_UNPARKING)
+            if (m_CaptureModuleState->getLightBoxLightState() == CaptureModuleState::CAP_LIGHT_BUSY ||
+                    m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_UNPARKING)
                 return IPS_BUSY;
 
             // Account for light box only (no dust cap)
-            if (m_CaptureState->hasLightBox && lightBoxLightStatus != CAP_LIGHT_OFF)
+            if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_OFF)
             {
-                lightBoxLightStatus = CAP_LIGHT_BUSY;
+                m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
                 emit setLightBoxLight(false);
                 emit newLog(i18n("Turn light box light off..."));
                 return IPS_BUSY;
             }
 
-            if (m_CaptureState->hasDustCap == false)
+            if (m_CaptureModuleState->hasDustCap == false)
             {
                 emit newLog("Skipping flat/dark cap since it is not connected.");
                 return IPS_OK;
             }
 
             // If cap is parked, we need to unpark it
-            if (dustCapStatus != CAP_IDLE)
+            if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_IDLE)
             {
-                dustCapStatus = CAP_UNPARKING;
+                m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNPARKING);
                 emit parkDustCap(false);
                 emit newLog(i18n("Unparking dust cap..."));
                 return IPS_BUSY;
@@ -635,24 +639,24 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
     return IPS_OK;
 }
 
-bool SequenceJobState::isInitialized(SequenceJobState::PrepareActions action)
+bool SequenceJobState::isInitialized(CaptureModuleState::PrepareActions action)
 {
-    return m_CaptureState.data()->isInitialized[action];
+    return m_CaptureModuleState.data()->isInitialized[action];
 }
 
-void SequenceJobState::setInitialized(SequenceJobState::PrepareActions action, bool init)
+void SequenceJobState::setInitialized(CaptureModuleState::PrepareActions action, bool init)
 {
-    m_CaptureState.data()->isInitialized[action] = init;
+    m_CaptureModuleState.data()->isInitialized[action] = init;
 }
 
 void SequenceJobState::setCurrentFilterID(int value)
 {
-    m_CaptureState->currentFilterID = value;
-    setInitialized(ACTION_FILTER, true);
+    m_CaptureModuleState->currentFilterID = value;
+    setInitialized(CaptureModuleState::ACTION_FILTER, true);
 
     // TODO introduce settle time
-    if (m_CaptureState->currentFilterID == targetFilterID)
-        prepareActions[SequenceJobState::ACTION_FILTER] = true;
+    if (m_CaptureModuleState->currentFilterID == targetFilterID)
+        prepareActions[CaptureModuleState::ACTION_FILTER] = true;
 
     checkAllActionsReady();
 }
@@ -660,27 +664,27 @@ void SequenceJobState::setCurrentFilterID(int value)
 void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 {
     // skip if next value should be ignored
-    if (ignoreNextValue[ACTION_TEMPERATURE])
+    if (ignoreNextValue[CaptureModuleState::ACTION_TEMPERATURE])
     {
-        ignoreNextValue[ACTION_TEMPERATURE] = false;
+        ignoreNextValue[CaptureModuleState::ACTION_TEMPERATURE] = false;
         return;
     }
 
-    if (isInitialized(ACTION_TEMPERATURE))
+    if (isInitialized(CaptureModuleState::ACTION_TEMPERATURE))
     {
         if (m_enforceTemperature == false
                 || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
-            prepareActions[SequenceJobState::ACTION_TEMPERATURE] = true;
+            prepareActions[CaptureModuleState::ACTION_TEMPERATURE] = true;
 
         checkAllActionsReady();
     }
     else
     {
-        setInitialized(ACTION_TEMPERATURE, true);
+        setInitialized(CaptureModuleState::ACTION_TEMPERATURE, true);
         if (m_enforceTemperature == false
                 || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         {
-            prepareActions[SequenceJobState::ACTION_TEMPERATURE] = true;
+            prepareActions[CaptureModuleState::ACTION_TEMPERATURE] = true;
             checkAllActionsReady();
         }
         else
@@ -697,23 +701,23 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
     if (currentPositionAngle > 180)
         currentPositionAngle -= 360.0;
 
-    if (isInitialized(ACTION_ROTATOR))
+    if (isInitialized(CaptureModuleState::ACTION_ROTATOR))
     {
         // TODO introduce settle time
         // TODO make sure rotator has fully stopped
         if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
                 && state != IPS_BUSY)
-            prepareActions[SequenceJobState::ACTION_ROTATOR] = true;
+            prepareActions[CaptureModuleState::ACTION_ROTATOR] = true;
 
         checkAllActionsReady();
     }
     else
     {
-        setInitialized(ACTION_ROTATOR, true);
+        setInitialized(CaptureModuleState::ACTION_ROTATOR, true);
         if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
                 && state != IPS_BUSY)
         {
-            prepareActions[SequenceJobState::ACTION_ROTATOR] = true;
+            prepareActions[CaptureModuleState::ACTION_ROTATOR] = true;
             checkAllActionsReady();
         }
         else
@@ -725,9 +729,9 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
 
 void SequenceJobState::setCurrentGuiderDrift(double value)
 {
-    setInitialized(ACTION_GUIDER_DRIFT, true);
+    setInitialized(CaptureModuleState::ACTION_GUIDER_DRIFT, true);
     if (value <= targetStartGuiderDrift)
-        prepareActions[ACTION_GUIDER_DRIFT] = true;
+        prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = true;
 
     checkAllActionsReady();
 }
@@ -737,7 +741,7 @@ void SequenceJobState::manualScopeLightCover(bool closed, bool success)
     // covering confirmed
     if (success == true)
     {
-        m_CaptureState->telescopeCovered = closed;
+        m_CaptureModuleState->telescopeCovered = closed;
         coverQueryState = CAL_CHECK_TASK;
         // re-run checks
         checkAllActionsReady();
@@ -745,7 +749,7 @@ void SequenceJobState::manualScopeLightCover(bool closed, bool success)
     // cancelled
     else
     {
-        m_CaptureState->shutterStatus = SHUTTER_UNKNOWN;
+        m_CaptureModuleState->shutterStatus = CaptureModuleState::SHUTTER_UNKNOWN;
         coverQueryState = CAL_CHECK_TASK;
         // abort, no further checks
         emit abortCapture();
@@ -754,33 +758,33 @@ void SequenceJobState::manualScopeLightCover(bool closed, bool success)
 
 void SequenceJobState::lightBoxLight(bool on)
 {
-    lightBoxLightStatus = on ? CAP_LIGHT_ON : CAP_LIGHT_OFF;
+    m_CaptureModuleState->setLightBoxLightState(on ? CaptureModuleState::CAP_LIGHT_ON : CaptureModuleState::CAP_LIGHT_OFF);
     emit newLog(i18n(on ? "Light box on." : "Light box off."));
     // re-run checks
     checkAllActionsReady();
 }
 
-void SequenceJobState::dustCapStatusChanged(ISD::DustCap::Status status)
+void SequenceJobState::dustCapStateChanged(ISD::DustCap::Status status)
 {
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
-            dustCapStatus = CAP_ERROR;
+            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_ERROR);
             emit abortCapture();
             break;
         case ISD::DustCap::CAP_PARKED:
-            dustCapStatus = CAP_PARKED;
+            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKED);
             emit newLog(i18n("Dust cap parked."));
             break;
         case ISD::DustCap::CAP_IDLE:
-            dustCapStatus = CAP_IDLE;
+            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_IDLE);
             emit newLog(i18n("Dust cap unparked."));
             break;
         case ISD::DustCap::CAP_UNPARKING:
-            dustCapStatus = CAP_UNPARKING;
+            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNPARKING);
             break;
         case ISD::DustCap::CAP_PARKING:
-            dustCapStatus = CAP_PARKING;
+            m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
             break;
     }
 
@@ -805,21 +809,21 @@ void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
             // do nothing
             break;
     }
-    scopeStatus = status;
+    m_CaptureModuleState->setScopeState(status);
     // re-run checks
     checkAllActionsReady();
 }
 
 void SequenceJobState::scopeParkStatusChanged(ISD::ParkStatus status)
 {
-    scopeParkStatus = status;
+    m_CaptureModuleState->setScopeParkState(status);
     // re-run checks
     checkAllActionsReady();
 }
 
 void SequenceJobState::domeStatusChanged(ISD::Dome::Status status)
 {
-    domeStatus = status;
+    m_CaptureModuleState->setDomeState(status);
     // re-run checks
     checkAllActionsReady();
 }
@@ -834,9 +838,9 @@ void SequenceJobState::flatSyncFocusChanged(bool completed)
 void SequenceJobState::hasShutter(bool present)
 {
     if (present == true)
-        m_CaptureState->shutterStatus = SHUTTER_YES;
+        m_CaptureModuleState->shutterStatus = CaptureModuleState::SHUTTER_YES;
     else
-        m_CaptureState->shutterStatus = SHUTTER_NO;
+        m_CaptureModuleState->shutterStatus = CaptureModuleState::SHUTTER_NO;
 
     // re-run checks
     checkAllActionsReady();
@@ -846,7 +850,7 @@ void SequenceJobState::setEnforceInitialGuidingDrift(bool enforceInitialGuidingD
 {
     m_enforceInitialGuiding = enforceInitialGuidingDrift;
     // update the preparation action
-    prepareActions[ACTION_GUIDER_DRIFT] = !enforceInitialGuidingDrift || m_isPreview;
+    prepareActions[CaptureModuleState::ACTION_GUIDER_DRIFT] = !enforceInitialGuidingDrift || m_isPreview;
     // re-run checks
     checkAllActionsReady();
 }

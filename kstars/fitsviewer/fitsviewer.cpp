@@ -772,12 +772,12 @@ void FITSViewer::rotateCCW()
 
 void FITSViewer::flipHorizontal()
 {
-    applyFilter(FITS_FLIP_H);
+    applyFilter(FITS_MOUNT_FLIP_H);
 }
 
 void FITSViewer::flipVertical()
 {
-    applyFilter(FITS_FLIP_V);
+    applyFilter(FITS_MOUNT_FLIP_V);
 }
 
 void FITSViewer::headerFITS()

@@ -65,12 +65,6 @@ protected slots:
     bool runMountModelTool(int points, bool moveMount);
 
     /**
-     * @brief Slew to a named target
-     * @param target target sky position
-     */
-    bool slewToTarget(SkyPoint *target);
-
-    /**
      * @brief Execute a single alignment and check if the alignment target matches the given position
      * @param targetObject expected target
      * @return true iff the alignment was successful

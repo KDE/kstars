@@ -1190,8 +1190,8 @@ void Analyze::alignSessionClicked(AlignSession &c, bool doubleClick)
 void Analyze::mountFlipSessionClicked(MountFlipSession &c, bool doubleClick)
 {
     Q_UNUSED(doubleClick);
-    highlightTimelineItem(MERIDIAN_FLIP_Y, c.start, c.end);
-    c.setupTable("Meridian Flip", Mount::meridianFlipStatusString(c.state),
+    highlightTimelineItem(MERIDIAN_MOUNT_FLIP_Y, c.start, c.end);
+    c.setupTable("Meridian Flip", MeridianFlipState::meridianFlipStatusString(c.state),
                  clockTime(c.start), clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
@@ -1259,7 +1259,7 @@ void Analyze::processTimelineClick(QMouseEvent *event, bool doubleClick)
                  (xval > temporaryAlignSession.start))
             alignSessionClicked(temporaryAlignSession, doubleClick);
     }
-    else if (yval >= MERIDIAN_FLIP_Y - 0.5 && yval <= MERIDIAN_FLIP_Y + 0.5)
+    else if (yval >= MERIDIAN_MOUNT_FLIP_Y - 0.5 && yval <= MERIDIAN_MOUNT_FLIP_Y + 0.5)
     {
         QList<MountFlipSession> candidates = mountFlipSessions.find(xval);
         if (candidates.size() > 0)
@@ -1637,7 +1637,7 @@ void Analyze::initTimelinePlot()
     textTicker->addTick(FOCUS_Y, i18n("Focus"));
     textTicker->addTick(ALIGN_Y, i18n("Align"));
     textTicker->addTick(GUIDE_Y, i18n("Guide"));
-    textTicker->addTick(MERIDIAN_FLIP_Y, i18n("Flip"));
+    textTicker->addTick(MERIDIAN_MOUNT_FLIP_Y, i18n("Flip"));
     textTicker->addTick(MOUNT_Y, i18n("Mount"));
     textTicker->addTick(SCHEDULER_Y, i18n("Job"));
     timelinePlot->yAxis->setTicker(textTicker);
@@ -2815,43 +2815,43 @@ namespace
 {
 
 // TODO: Move to mount.h/cpp?
-Mount::MeridianFlipStatus convertMountFlipState(const QString &statusStr)
+MeridianFlipState::MeridianFlipMountState convertMountFlipState(const QString &statusStr)
 {
-    if (statusStr == "FLIP_NONE")
-        return Mount::FLIP_NONE;
-    else if (statusStr == "FLIP_PLANNED")
-        return Mount::FLIP_PLANNED;
-    else if (statusStr == "FLIP_WAITING")
-        return Mount::FLIP_WAITING;
-    else if (statusStr == "FLIP_ACCEPTED")
-        return Mount::FLIP_ACCEPTED;
-    else if (statusStr == "FLIP_RUNNING")
-        return Mount::FLIP_RUNNING;
-    else if (statusStr == "FLIP_COMPLETED")
-        return Mount::FLIP_COMPLETED;
-    else if (statusStr == "FLIP_ERROR")
-        return Mount::FLIP_ERROR;
-    return Mount::FLIP_ERROR;
+    if (statusStr == "MeridianFlipState::MOUNT_FLIP_NONE")
+        return MeridianFlipState::MOUNT_FLIP_NONE;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_PLANNED")
+        return MeridianFlipState::MOUNT_FLIP_PLANNED;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_WAITING")
+        return MeridianFlipState::MOUNT_FLIP_WAITING;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_ACCEPTED")
+        return MeridianFlipState::MOUNT_FLIP_ACCEPTED;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_RUNNING")
+        return MeridianFlipState::MOUNT_FLIP_RUNNING;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_COMPLETED")
+        return MeridianFlipState::MOUNT_FLIP_COMPLETED;
+    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_ERROR")
+        return MeridianFlipState::MOUNT_FLIP_ERROR;
+    return MeridianFlipState::MOUNT_FLIP_ERROR;
 }
 
-QBrush mountFlipStateBrush(Mount::MeridianFlipStatus state)
+QBrush mountFlipStateBrush(MeridianFlipState::MeridianFlipMountState state)
 {
     switch (state)
     {
-        case Mount::FLIP_NONE:
-        case Mount::FLIP_INACTIVE:
+        case MeridianFlipState::MOUNT_FLIP_NONE:
+        case MeridianFlipState::MOUNT_FLIP_INACTIVE:
             return offBrush;
-        case Mount::FLIP_PLANNED:
+        case MeridianFlipState::MOUNT_FLIP_PLANNED:
             return stoppedBrush;
-        case Mount::FLIP_WAITING:
+        case MeridianFlipState::MOUNT_FLIP_WAITING:
             return stopped2Brush;
-        case Mount::FLIP_ACCEPTED:
+        case MeridianFlipState::MOUNT_FLIP_ACCEPTED:
             return progressBrush;
-        case Mount::FLIP_RUNNING:
+        case MeridianFlipState::MOUNT_FLIP_RUNNING:
             return progress2Brush;
-        case Mount::FLIP_COMPLETED:
+        case MeridianFlipState::MOUNT_FLIP_COMPLETED:
             return successBrush;
-        case Mount::FLIP_ERROR:
+        case MeridianFlipState::MOUNT_FLIP_ERROR:
             return failureBrush;
     }
     // Shouldn't get here.
@@ -2859,53 +2859,53 @@ QBrush mountFlipStateBrush(Mount::MeridianFlipStatus state)
 }
 }  // namespace
 
-void Analyze::mountFlipStatus(Mount::MeridianFlipStatus state)
+void Analyze::mountFlipStatus(MeridianFlipState::MeridianFlipMountState state)
 {
     if (state == lastMountFlipStateReceived)
         return;
     lastMountFlipStateReceived = state;
 
-    QString stateStr = Mount::meridianFlipStatusString(state);
+    QString stateStr = MeridianFlipState::meridianFlipStatusString(state);
     saveMessage("MeridianFlipState", stateStr);
     if (runtimeDisplay)
         processMountFlipState(logTime(), stateStr);
 
 }
 
-// FLIP_NONE FLIP_PLANNED FLIP_WAITING FLIP_ACCEPTED FLIP_RUNNING FLIP_COMPLETED FLIP_ERROR
+// MeridianFlipState::MOUNT_FLIP_NONE MeridianFlipState::MOUNT_FLIP_PLANNED MeridianFlipState::MOUNT_FLIP_WAITING MeridianFlipState::MOUNT_FLIP_ACCEPTED MeridianFlipState::MOUNT_FLIP_RUNNING MeridianFlipState::MOUNT_FLIP_COMPLETED MeridianFlipState::MOUNT_FLIP_ERROR
 void Analyze::processMountFlipState(double time, const QString &statusString, bool batchMode)
 {
-    Mount::MeridianFlipStatus state = convertMountFlipState(statusString);
+    MeridianFlipState::MeridianFlipMountState state = convertMountFlipState(statusString);
     if (state == lastMountFlipStateStarted)
         return;
 
     bool lastStateInteresting =
-        (lastMountFlipStateStarted == Mount::FLIP_PLANNED ||
-         lastMountFlipStateStarted == Mount::FLIP_WAITING ||
-         lastMountFlipStateStarted == Mount::FLIP_ACCEPTED ||
-         lastMountFlipStateStarted == Mount::FLIP_RUNNING);
+        (lastMountFlipStateStarted == MeridianFlipState::MOUNT_FLIP_PLANNED ||
+         lastMountFlipStateStarted == MeridianFlipState::MOUNT_FLIP_WAITING ||
+         lastMountFlipStateStarted == MeridianFlipState::MOUNT_FLIP_ACCEPTED ||
+         lastMountFlipStateStarted == MeridianFlipState::MOUNT_FLIP_RUNNING);
     if (mountFlipStateStartedTime >= 0 && lastStateInteresting)
     {
-        if (state == Mount::FLIP_COMPLETED || state == Mount::FLIP_ERROR)
+        if (state == MeridianFlipState::MOUNT_FLIP_COMPLETED || state == MeridianFlipState::MOUNT_FLIP_ERROR)
         {
             // These states are really commentaries on the previous states.
-            addSession(mountFlipStateStartedTime, time, MERIDIAN_FLIP_Y, mountFlipStateBrush(state));
+            addSession(mountFlipStateStartedTime, time, MERIDIAN_MOUNT_FLIP_Y, mountFlipStateBrush(state));
             mountFlipSessions.add(MountFlipSession(mountFlipStateStartedTime, time, nullptr, state));
         }
         else
         {
-            addSession(mountFlipStateStartedTime, time, MERIDIAN_FLIP_Y, mountFlipStateBrush(lastMountFlipStateStarted));
+            addSession(mountFlipStateStartedTime, time, MERIDIAN_MOUNT_FLIP_Y, mountFlipStateBrush(lastMountFlipStateStarted));
             mountFlipSessions.add(MountFlipSession(mountFlipStateStartedTime, time, nullptr, lastMountFlipStateStarted));
         }
     }
     bool stateInteresting =
-        (state == Mount::FLIP_PLANNED ||
-         state == Mount::FLIP_WAITING ||
-         state == Mount::FLIP_ACCEPTED ||
-         state == Mount::FLIP_RUNNING);
+        (state == MeridianFlipState::MOUNT_FLIP_PLANNED ||
+         state == MeridianFlipState::MOUNT_FLIP_WAITING ||
+         state == MeridianFlipState::MOUNT_FLIP_ACCEPTED ||
+         state == MeridianFlipState::MOUNT_FLIP_RUNNING);
     if (stateInteresting && !batchMode)
     {
-        addTemporarySession(&temporaryMountFlipSession, time, 1, MERIDIAN_FLIP_Y, temporaryBrush);
+        addTemporarySession(&temporaryMountFlipSession, time, 1, MERIDIAN_MOUNT_FLIP_Y, temporaryBrush);
         temporaryMountFlipSession.state = state;
     }
     else
@@ -2920,8 +2920,8 @@ void Analyze::processMountFlipState(double time, const QString &statusString, bo
 
 void Analyze::resetMountFlipState()
 {
-    lastMountFlipStateReceived = Mount::FLIP_NONE;
-    lastMountFlipStateStarted = Mount::FLIP_NONE;
+    lastMountFlipStateReceived = MeridianFlipState::MOUNT_FLIP_NONE;
+    lastMountFlipStateStarted = MeridianFlipState::MOUNT_FLIP_NONE;
     mountFlipStateStartedTime = -1;
 }
 

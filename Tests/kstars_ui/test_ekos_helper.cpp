@@ -19,7 +19,7 @@ TestEkosHelper::TestEkosHelper(QString guider)
     m_MountDevice = "Telescope Simulator";
     m_CCDDevice   = "CCD Simulator";
     if (guider != nullptr)
-        m_GuiderDevice = "Guide Simulator";
+        m_GuiderDevice = "CCD Simulator";
     m_astrometry_available = false;
 }
 
@@ -52,7 +52,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
     ProfileEditor* profileEditor = Ekos::Manager::Instance()->findChild<ProfileEditor*>("profileEditorDialog");
 
     // Select the mount device
-    if (m_MountDevice != nullptr)
+    if (m_MountDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, mountCombo);
         setTreeviewCombo(mountCombo, m_MountDevice);
@@ -60,7 +60,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
     }
 
     // Selet the CCD device
-    if (m_CCDDevice != nullptr)
+    if (m_CCDDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
         setTreeviewCombo(ccdCombo, m_CCDDevice);
@@ -68,15 +68,15 @@ void TestEkosHelper::fillProfile(bool *isDone)
     }
 
     // Select the focuser device
-    if (m_FocuserDevice != nullptr)
+    if (m_FocuserDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, focuserCombo);
         setTreeviewCombo(focuserCombo, m_FocuserDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Focuser selected.";
     }
 
-    // Select the guider device
-    if (m_GuiderDevice != nullptr)
+    // Select the guider device, if not empty and different from CCD
+    if (m_GuiderDevice != "" && m_GuiderDevice != m_CCDDevice)
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, guiderCombo);
         setTreeviewCombo(guiderCombo, m_GuiderDevice);
@@ -84,7 +84,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
     }
 
     // Select the light panel device for flats capturing
-    if (m_LightPanelDevice != nullptr)
+    if (m_LightPanelDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, aux1Combo);
         setTreeviewCombo(aux1Combo, m_LightPanelDevice);
@@ -92,7 +92,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
     }
 
     // Select the dome device
-    if (m_DomeDevice != nullptr)
+    if (m_DomeDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, domeCombo);
         setTreeviewCombo(domeCombo, m_DomeDevice);
@@ -100,7 +100,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
     }
 
     // Select the rotator device
-    if (m_RotatorDevice != nullptr)
+    if (m_RotatorDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, aux2Combo);
         setTreeviewCombo(aux2Combo, m_RotatorDevice);
@@ -156,7 +156,6 @@ bool TestEkosHelper::setupEkosProfile(QString name, bool isPHD2)
         KTRY_CLICK_SUB(ekos, addProfileB);
     }
 
-
     // Cancel the profile editor if test did not close the editor dialog within 10 sec
     QTimer * closeDialog = new QTimer(this);
     closeDialog->setSingleShot(true);
@@ -186,34 +185,34 @@ void TestEkosHelper::connectModules()
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 
     // wait for modules startup
-    if (m_MountDevice != nullptr)
+    if (m_MountDevice != "")
         QTRY_VERIFY_WITH_TIMEOUT(ekos->mountModule() != nullptr, 10000);
-    if (m_CCDDevice != nullptr)
+    if (m_CCDDevice != "")
     {
         QTRY_VERIFY_WITH_TIMEOUT(ekos->captureModule() != nullptr, 10000);
         QTRY_VERIFY_WITH_TIMEOUT(ekos->alignModule() != nullptr, 10000);
     }
-    if (m_GuiderDevice != nullptr)
+    if (m_GuiderDevice != "")
         QTRY_VERIFY_WITH_TIMEOUT(ekos->guideModule() != nullptr, 10000);
-    if (m_FocuserDevice != nullptr)
+    if (m_FocuserDevice != "")
         QTRY_VERIFY_WITH_TIMEOUT(ekos->focusModule() != nullptr, 10000);
 
     // connect to the alignment process to receive align status changes
     connect(ekos->alignModule(), &Ekos::Align::newStatus, this, &TestEkosHelper::alignStatusChanged,
             Qt::UniqueConnection);
 
-    if (m_MountDevice != nullptr)
+    if (m_MountDevice != "")
     {
         // connect to the mount process to rmount status changes
         connect(ekos->mountModule(), &Ekos::Mount::newStatus, this,
                 &TestEkosHelper::mountStatusChanged, Qt::UniqueConnection);
 
         // connect to the mount process to receive meridian flip status changes
-        connect(ekos->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
+        connect(ekos->mountModule()->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, this,
                 &TestEkosHelper::meridianFlipStatusChanged, Qt::UniqueConnection);
     }
 
-    if (m_GuiderDevice != nullptr)
+    if (m_GuiderDevice != "")
     {
         // connect to the guiding process to receive guiding status changes
         connect(ekos->guideModule(), &Ekos::Guide::newStatus, this, &TestEkosHelper::guidingStatusChanged,
@@ -224,7 +223,7 @@ void TestEkosHelper::connectModules()
     }
 
     // connect to the capture process to receive capture status changes
-    if (m_CCDDevice != nullptr)
+    if (m_CCDDevice != "")
         connect(ekos->captureModule(), &Ekos::Capture::newStatus, this, &TestEkosHelper::captureStatusChanged,
                 Qt::UniqueConnection);
 
@@ -233,7 +232,7 @@ void TestEkosHelper::connectModules()
             Qt::UniqueConnection);
 
     // connect to the focus process to receive focus status changes
-    if (m_FocuserDevice != nullptr)
+    if (m_FocuserDevice != "")
         connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosHelper::focusStatusChanged,
                 Qt::UniqueConnection);
 
@@ -262,8 +261,7 @@ bool TestEkosHelper::startEkosProfile()
     KTRY_EKOS_CLICK(processINDIB);
     // wait for the devices to come up
     KWRAP_SUB(QTRY_VERIFY_WITH_TIMEOUT(Ekos::Manager::Instance()->indiStatus() == Ekos::Success, 10000));
-
-    // connect to the alignment process to receive align status changes
+    // receive status updates from all devices
     connectModules();
 
     // Everything completed successfully
@@ -285,7 +283,7 @@ bool TestEkosHelper::shutdownEkosProfile()
     disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this,
                &TestEkosHelper::mountStatusChanged);
     // disconnect the mount process to receive meridian flip status changes
-    disconnect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newMeridianFlipStatus, this,
+    disconnect(Ekos::Manager::Instance()->mountModule()->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, this,
                &TestEkosHelper::meridianFlipStatusChanged);
     // disconnect to the scheduler process to receive scheduler status changes
     disconnect(Ekos::Manager::Instance()->schedulerModule(), &Ekos::Scheduler::newStatus, this,
@@ -396,16 +394,16 @@ void TestEkosHelper::prepareOpticalTrains()
     primaryTrain["mount"] = m_MountDevice;
     primaryTrain["camera"] = m_CCDDevice;
     primaryTrain["filterwheel"] = m_CCDDevice;
-    primaryTrain["focuser"] = m_FocuserDevice == nullptr ? "-" : m_FocuserDevice;
-    primaryTrain["rotator"] = m_RotatorDevice == nullptr ? "-" : m_RotatorDevice;
-    primaryTrain["lightbox"] = m_LightPanelDevice == nullptr ? "-" : m_LightPanelDevice;
+    primaryTrain["focuser"] = m_FocuserDevice == "" ? "-" : m_FocuserDevice;
+    primaryTrain["rotator"] = m_RotatorDevice == "" ? "-" : m_RotatorDevice;
+    primaryTrain["lightbox"] = m_LightPanelDevice == "" ? "-" : m_LightPanelDevice;
     KStarsData::Instance()->userdb()->UpdateOpticalTrain(primaryTrain, primaryTrain["id"].toInt());
     if (m_GuiderDevice != "")
     {
         // setup guiding scope train
         QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
         guidingTrain["mount"] = m_MountDevice;
-        guidingTrain["camera"] = m_CCDDevice;
+        guidingTrain["camera"] = m_GuiderDevice;
         guidingTrain["filterwheel"] = "-";
         guidingTrain["focuser"] = "-";
         guidingTrain["guider"] = m_MountDevice;
@@ -463,7 +461,7 @@ void TestEkosHelper::prepareFocusModule()
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldInnerRadius, 0.0);
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 50.0);
     // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 2);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 1);
     // select the Luminance filter
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusFilter, "Luminance");
     // select SEP algorithm for star detection
@@ -514,14 +512,11 @@ void TestEkosHelper::prepareGuidingModule()
         Options::setGuideOptionsProfile(2);
         // set 2 sec guiding calibration pulse duration
         Options::setCalibrationPulseDuration(2000);
-        // auto star select
-        KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
-        // set the guide star box to size 32
-        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideSquareSize, "32");
-        // use 1x1 binning for guiding
-        KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideBinning, "1x1");
         // use three steps in each direction for calibration
         Options::setAutoModeIterations(3);
+        // set the guiding aggressiveness
+        Options::setRAProportionalGain(0.5);
+        Options::setDECProportionalGain(0.5);
         // use simulator's guide head
         Options::setUseGuideHead(true);
     }
@@ -657,6 +652,12 @@ bool TestEkosHelper::startGuiding(double expTime)
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
     //set the exposure time
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->guideModule(), guideExposure, expTime);
+    // auto star select
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
+    // set the guide star box to size 32
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guideSquareSize, "32");
+    // use 1x1 binning for guiding
+    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guideBinning, "1x1");
 
     // start guiding
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, guideB);
@@ -757,7 +758,7 @@ void TestEkosHelper::init()
     m_CaptureStatus = Ekos::CAPTURE_IDLE;
     m_FocusStatus   = Ekos::FOCUS_IDLE;
     m_GuideStatus   = Ekos::GUIDE_IDLE;
-    m_MFStatus      = Ekos::Mount::FLIP_NONE;
+    m_MFStatus      = Ekos::MeridianFlipState::MOUNT_FLIP_NONE;
     m_DomeStatus    = ISD::Dome::DOME_IDLE;
     // initialize the event queues
     expectedAlignStates.clear();
@@ -772,6 +773,8 @@ void TestEkosHelper::init()
 
     // disable by default
     use_guiding = false;
+    // reset dithering flag
+    dithered = false;
 }
 void TestEkosHelper::cleanup()
 {
@@ -844,7 +847,7 @@ void TestEkosHelper::mountStatusChanged(ISD::Mount::Status status)
         expectedMountStates.dequeue();
 }
 
-void TestEkosHelper::meridianFlipStatusChanged(Ekos::Mount::MeridianFlipStatus status)
+void TestEkosHelper::meridianFlipStatusChanged(Ekos::MeridianFlipState::MeridianFlipMountState status)
 {
     m_MFStatus = status;
     // check if the new state is the next one expected, then remove it from the stack
@@ -866,6 +869,10 @@ void TestEkosHelper::guidingStatusChanged(Ekos::GuideState status)
     // check if the new state is the next one expected, then remove it from the stack
     if (!expectedGuidingStates.isEmpty() && expectedGuidingStates.head() == status)
         expectedGuidingStates.dequeue();
+    // dithering detected?
+    if (status == Ekos::GUIDE_DITHERING || status == Ekos::GUIDE_DITHERING_SUCCESS || status == Ekos::GUIDE_DITHERING_ERROR)
+        dithered = true;
+
 }
 
 void TestEkosHelper::guideDeviationChanged(double delta_ra, double delta_dec)

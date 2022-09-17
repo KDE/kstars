@@ -24,7 +24,7 @@ TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QString guider, QObje
 void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, true));
+    QVERIFY(prepareCaptureTestcase(40, true, true, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -33,7 +33,7 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     QVERIFY(startCapturing());
 
     // wait until a flip is planned
-    QVERIFY(QTest::qWaitFor([&](){return m_CaptureHelper->expectedMeridianFlipStates.head() != Ekos::Mount::FLIP_PLANNED;}, 60000));
+    QVERIFY(QTest::qWaitFor([&](){return m_CaptureHelper->expectedMeridianFlipStates.head() != Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED;}, 60000));
 
     qCInfo(KSTARS_EKOS_TEST()) << "Meridian flip planned...";
     // guiding deviation leads to a suspended capture
@@ -83,7 +83,7 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingRecalibrationMF()
     Options::setAutoModeIterations(3);
 
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(30, false, false));
+    QVERIFY(prepareCaptureTestcase(30, false, false, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -113,7 +113,7 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingRecalibrationMF()
 void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(15, true, false));
+    QVERIFY(prepareCaptureTestcase(15, true, false, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -136,7 +136,7 @@ void TestEkosMeridianFlipSpecials::testCaptureDitheringDelayedAfterMF()
 void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(40, true, false));
+    QVERIFY(prepareCaptureTestcase(40, true, false, false));
 
     // start alignment
     QVERIFY(startAligning(5.0));
@@ -176,7 +176,7 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
     // select suspend guiding
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(80, true, false));
+    QVERIFY(prepareCaptureTestcase(80, true, false, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -244,7 +244,7 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
     // set the HA to delay the meridian flip by 2 min = 360° / 24 / 30 = 0.5°
     QProcess *indi_setprop = new QProcess(this);
-    indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0.5)});
+    indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.MeridianFlipState::MOUNT_FLIP_HA.MeridianFlipState::MOUNT_FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0.5)});
 
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(10));
@@ -255,15 +255,15 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
 
     qCInfo(KSTARS_EKOS_TEST()) << "Waiting 4 minutes for a second meridian flip...";
     // expected beginning of the meridian flip
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_PLANNED);
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_RUNNING);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_RUNNING);
 
     // but the pier side should not change, so lets wait for 4 minutes for a second meridian flip
     QVERIFY(checkMFExecuted(4*60+10));
 
     // set back the HA to delay the meridian flip
     indi_setprop = new QProcess(this);
-    indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.FLIP_HA.FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0)});
+    indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.MeridianFlipState::MOUNT_FLIP_HA.MeridianFlipState::MOUNT_FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0)});
 }
 
 

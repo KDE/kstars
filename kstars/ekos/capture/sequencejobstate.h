@@ -6,14 +6,9 @@
 
 #pragma once
 
-#include "ekos/ekos.h"
-#include "indi/indistd.h"
 #include "indi/indicommon.h"
-#include "indiapi.h"
-#include "indi/indidustcap.h"
-#include "indi/indimount.h"
-#include "indi/indidome.h"
 #include "skypoint.h"
+#include "capturemodulestate.h"
 
 #include <QWidget>
 #include <QVector>
@@ -82,23 +77,6 @@ public:
         CAL_CHECK_CONFIRMATION,
     } CalibrationCheckType;
 
-    typedef enum
-    {
-        CAP_IDLE,
-        CAP_PARKING,
-        CAP_UNPARKING,
-        CAP_PARKED,
-        CAP_ERROR,
-        CAP_UNKNOWN
-    } CapState;
-
-    typedef enum {
-        CAP_LIGHT_OFF,     /* light is on               */
-        CAP_LIGHT_ON,      /* light is off              */
-        CAP_LIGHT_UNKNOWN, /* unknown whether on or off */
-        CAP_LIGHT_BUSY     /* light status changing     */
-    } LightStatus;
-
     typedef enum {
         WP_NONE,           /* slewing to wall position not started */
         WP_SLEWING,        /* slewing to wall position started     */
@@ -113,64 +91,7 @@ public:
         FS_COMPLETED  /* completed                                  */
     } FlatSyncStatus;
 
-    typedef enum {
-        SHUTTER_YES,    /* the CCD has a shutter                             */
-        SHUTTER_NO,     /* the CCD has no shutter                            */
-        SHUTTER_BUSY,   /* determining whether the CCD has a shutter running */
-        SHUTTER_UNKNOWN /* unknown whether the CCD has a shutter             */
-    } ShutterStatus;
-
-    /* Action types to be executed before capturing may start. */
-    typedef enum
-    {
-        ACTION_FILTER,              /* Change the filter and wait until the correct filter is set.                                    */
-        ACTION_TEMPERATURE,         /* Set the camera chip target temperature and wait until the target temperature has been reached. */
-        ACTION_ROTATOR,             /* Set the camera rotator target angle and wait until the target angle has been reached.          */
-        ACTION_GUIDER_DRIFT,        /* Wait until the guiding deviation is below the configured threshold.                            */
-        ACTION_PREPARE_LIGHTSOURCE, /* Setup the selected flat lights source.                                                         */
-        ACTION_MOUNT_PARK,          /* Park the mount.                                                                                */
-        ACTION_DOME_PARK,           /* Park the dome.                                                                                 */
-        ACTION_FLAT_SYNC_FOCUS,     /* Move the focuser to the focus position for the selected filter.                                */
-        ACTION_SCOPE_COVER          /* Ensure that the scope cover (if present) is opened.                                            */
-    } PrepareActions;
-
-    /* State shared across all sequence jobs */
-    class CaptureState: public QObject
-    {
-    public:
-        CaptureState() {};
-        // ////////////////////////////////////////////////////////////////////
-        // capture attributes
-        // ////////////////////////////////////////////////////////////////////
-        // current filter ID
-        int currentFilterID { Ekos::INVALID_VALUE };
-        // Map tracking whether the current value has been initialized.
-        // With this construct we could do a lazy initialization of current values if setCurrent...()
-        // sets this flag to true. This is necessary since we listen to the events, but as long as
-        // the value does not change, there won't be an event.
-        QMap<PrepareActions, bool> isInitialized;
-
-        // ////////////////////////////////////////////////////////////////////
-        // flat preparation attributes
-        // ////////////////////////////////////////////////////////////////////
-        // flag if telescope has been covered
-        bool telescopeCovered { false };
-        // flag if there is a light box device
-        bool hasLightBox { false };
-        // flag if there is a dust cap device
-        bool hasDustCap { false };
-        // flag if there is a telescope device
-        bool hasTelescope { false };
-        // flag if there is a dome device
-        bool hasDome { false };
-
-        // ////////////////////////////////////////////////////////////////////
-        // dark preparation attributes
-        // ////////////////////////////////////////////////////////////////////
-        ShutterStatus shutterStatus { SHUTTER_UNKNOWN };
-    };
-
-    SequenceJobState(const QSharedPointer<CaptureState> &sharedState);
+    SequenceJobState(const QSharedPointer<CaptureModuleState> &sharedState);
 
     /**
      * @brief Initialize the state machine.
@@ -275,7 +196,7 @@ public slots:
     /**
      * @brief dust cap status change
      */
-    void dustCapStatusChanged(ISD::DustCap::Status status);
+    void dustCapStateChanged(ISD::DustCap::Status status);
     /**
      * @brief telescope status change
      */
@@ -349,11 +270,11 @@ private:
     // ////////////////////////////////////////////////////////////////////
 
     // Mapping PrepareActions --> bool marks whether a certain action is completed (=true) or not (=false)
-    QMap<PrepareActions, bool> prepareActions;
+    QMap<CaptureModuleState::PrepareActions, bool> prepareActions;
     // This is a workaround for a specific INDI behaviour. If a INDI property is set, it sends this value
     // back to the clients. If the value does not immediately change to the target value (like e.g. the CCD
     // temperature), the first value after setting a property must be ignored.
-    QMap<PrepareActions, bool> ignoreNextValue;
+    QMap<CaptureModuleState::PrepareActions, bool> ignoreNextValue;
 
     // capture frame type (light, flat, dark, bias)
     CCDFrameType m_frameType { FRAME_NONE };
@@ -367,13 +288,6 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // flat preparation attributes
     // ////////////////////////////////////////////////////////////////////
-    // light box light status
-    LightStatus lightBoxLightStatus { CAP_LIGHT_UNKNOWN };
-    // dust cap status
-    CapState dustCapStatus { CAP_UNKNOWN };
-    // telescope status
-    ISD::Mount::Status scopeStatus { ISD::Mount::MOUNT_IDLE };
-    ISD::ParkStatus scopeParkStatus { ISD::PARK_UNKNOWN };
     // status of the focuser synchronisation
     FlatSyncStatus flatSyncStatus { FS_NONE };
     // light source for flat capturing
@@ -384,8 +298,6 @@ private:
     ScopeWallPositionStatus wpScopeStatus { WP_NONE };
     // flag if the mount should be parking before capturing
     bool preMountPark;
-    // dome status
-    ISD::Dome::Status domeStatus { ISD::Dome::DOME_IDLE };
     // flag if the dome should be parking before capturing
     bool preDomePark;
     // flag if auto focus has been completed for the selected filter
@@ -425,11 +337,11 @@ private:
     /**
      * @brief Check if a certain action has already been initialized
      */
-    bool isInitialized(PrepareActions action);
+    bool isInitialized(CaptureModuleState::PrepareActions action);
     /**
      * @brief Set a certain action as initialized
      */
-    void setInitialized(PrepareActions action, bool init);
+    void setInitialized(CaptureModuleState::PrepareActions action, bool init);
 
     // ////////////////////////////////////////////////////////////////////
     // flats preparation state
@@ -513,7 +425,7 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // Attributes shared across all sequence jobs
     // ////////////////////////////////////////////////////////////////////
-    QSharedPointer<CaptureState> m_CaptureState;
+    QSharedPointer<CaptureModuleState> m_CaptureModuleState;
 
     // ////////////////////////////////////////////////////////////////////
     // sequence job specific states
