@@ -9,7 +9,7 @@
 #include "vect.h"
 #include "indi/indicommon.h"
 #include "MPI_IS_gaussian_process/src/gaussian_process_guider.h"
-
+#include "ekos_guide_debug.h"
 class GuideStars;
 class GaussianProcessGuider;
 class Calibration;
@@ -48,10 +48,20 @@ class GPG
         // Returns false if it chooses not to compute a pulse.
         bool computePulse(double raArcsecError, GuideStars *guideStars,
                           int *pulseLength, GuideDirection *pulseDir,
-                          const Calibration &cal);
+                          const Calibration &cal, Seconds timeStep);
+
+        double predictionContribution();
+
+
+        // Compute dark guiding RA pulse.
+        // Returns false if it chooses not to compute a pulse.
+        bool darkGuiding(int *pulseLength, GuideDirection *pulseDir,
+                         const Calibration &cal, Seconds timeStep);
 
     private:
         std::unique_ptr<GaussianProcessGuider> gpg;
         int gpgSamples = 0;
         int gpgSkippedSamples = 0;
+        // Converts the gpg output to pulse milliseconds
+        double convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pulseLength, GuideDirection *pulseDir, const double gpgResult);
 };

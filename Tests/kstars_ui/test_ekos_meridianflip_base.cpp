@@ -36,8 +36,8 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     m_CaptureHelper->startEkosProfile();
     // prepare optical trains for testing
     m_CaptureHelper->prepareOpticalTrains();
-    // prepare the mount module for testing
-    m_CaptureHelper->prepareMountModule();
+    // prepare the mount module for testing (OAG guiding seems more robust)
+    m_CaptureHelper->prepareMountModule(TestEkosHelper::SCOPE_FSQ85, TestEkosHelper::SCOPE_FSQ85);
     // prepare for focusing tests
     m_CaptureHelper->prepareFocusModule();
     // prepare for alignment tests
@@ -129,8 +129,8 @@ void TestEkosMeridianFlipBase::init()
     QVERIFY(enableMeridianFlip(0.0));
 
     // expected beginning of the meridian flip
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_PLANNED);
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_RUNNING);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_PLANNED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_RUNNING);
 }
 
 void TestEkosMeridianFlipBase::cleanup()
@@ -221,9 +221,7 @@ bool TestEkosMeridianFlipBase::positionMountForMF(int secsToMF, bool fast)
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
     Q_UNUSED(secsToMF)
-    Q_UNUSED(calibrate)
-    Q_UNUSED(initialFocus)
-    Q_UNUSED(guideDeviation)
+    Q_UNUSED(fast)
 #else
     Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
 
@@ -244,12 +242,13 @@ bool TestEkosMeridianFlipBase::positionMountForMF(int secsToMF, bool fast)
     return true;
 }
 
-bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDeviation)
+bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDeviation, bool initialGuideDeviation)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
     Q_UNUSED(initialFocus)
     Q_UNUSED(guideDeviation)
+    Q_UNUSED(initialGuideDeviation)
 #else
     // switch to capture module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
@@ -272,7 +271,7 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
     Options::setDitherEnabled(dither);
 
     // set guide deviation guard
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, initialGuideDeviation);
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, guideDeviation);
 
     // create the capture directory
@@ -310,16 +309,17 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
 #endif
 }
 
-bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation)
+bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation, bool initialGuideDeviation)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5,9,0)
     QSKIP("Bypassing fixture test on old Qt");
     Q_UNUSED(secsToMF)
     Q_UNUSED(initialFocus)
     Q_UNUSED(guideDeviation)
+    Q_UNUSED(initialGuideDeviation)
 #else
     // execute preparation steps
-    KWRAP_SUB(QVERIFY(prepareMFTestcase(initialFocus, guideDeviation)));
+    KWRAP_SUB(QVERIFY(prepareMFTestcase(initialFocus, guideDeviation, initialGuideDeviation)));
 
     // slew close to the meridian
     QFETCH(bool, guide);
@@ -343,7 +343,7 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFo
     Q_UNUSED(iterations)
 #else
     // execute all similar preparation steps for a capture test case except for target slew
-    KVERIFY_SUB(prepareMFTestcase(useFocus, false));
+    KVERIFY_SUB(prepareMFTestcase(useFocus, false, false));
 
     // determine the target and sync close to it
     findMFTestTarget(secsToMF, false);
@@ -404,10 +404,11 @@ bool TestEkosMeridianFlipBase::checkDithering()
     if (! dithering_checked)
         return true;
 
-    // check if dithering took place (failure doesn't matter in a test case)
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_DITHERING ||
-                                 m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_DITHERING_SUCCESS ||
-                                 m_CaptureHelper->getGuidingStatus() == Ekos::GUIDE_DITHERING_ERROR, 60000);
+    // reset the dithering flag
+    m_CaptureHelper->dithered = false;
+
+    // wait for 60s if dithering happens
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->dithered == true, 60000);
     // all checks succeeded
     return true;
 }
@@ -481,10 +482,9 @@ bool TestEkosMeridianFlipBase::startCapturing()
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->captureModule(), 1000));
 
     // check if capture is in a stopped state
-    KWRAP_SUB(QVERIFY(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE
-                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_ABORTED
-                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_SUSPENDED
-                      || m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_COMPLETE));
+    Ekos::CaptureState capturestate = m_CaptureHelper->getCaptureStatus();
+    KWRAP_SUB(QVERIFY(capturestate == Ekos::CAPTURE_IDLE || capturestate == Ekos::CAPTURE_ABORTED ||
+                      capturestate == Ekos::CAPTURE_SUSPENDED || capturestate == Ekos::CAPTURE_COMPLETE));
 
     // press start
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_CAPTURING);
@@ -492,7 +492,7 @@ bool TestEkosMeridianFlipBase::startCapturing()
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->captureModule(), startB);
 
     // check if capturing has started
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 5000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedCaptureStates, 15000);
 #endif
     // all checks succeeded
     return true;
@@ -610,9 +610,9 @@ bool TestEkosMeridianFlipBase::stopFocusing()
 bool TestEkosMeridianFlipBase::enableMeridianFlip(double delay)
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
-    KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), meridianFlipCheckBox, true);
+    KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), ExecuteMeridianFlip, true);
     // set the delay in degrees
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), meridianFlipDegreesBox, 15.0 * delay / 3600.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), MeridianFlipOffsetDegrees, 15.0 * delay / 3600.0);
     // all checks succeeded
     return true;
 }
@@ -634,7 +634,7 @@ bool TestEkosMeridianFlipBase::checkMFExecuted(int startDelay)
     if (dithering_checked)
         Options::setDitherFrames(1);
     // check if the meridian flip is completed latest after one minute
-    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::Mount::FLIP_COMPLETED);
+    m_CaptureHelper->expectedMeridianFlipStates.enqueue(Ekos::MeridianFlipState::MOUNT_FLIP_COMPLETED);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedMeridianFlipStates, 60000);
     // all checks succeeded
     return true;

@@ -127,7 +127,10 @@ class cgmath : public QObject
         void performProcessing(Ekos::GuideState state,
                                QSharedPointer<FITSData> &imageData,
                                QSharedPointer<GuideView> &guideView,
+                               const std::pair<Seconds, Seconds> &timeStep,
                                GuideLog *logger = nullptr);
+
+        void performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep);
 
         bool calibrate1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
         bool calibrate2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
@@ -165,7 +168,7 @@ class cgmath : public QObject
 
         void updateCircularBuffers(void);
         GuiderUtils::Vector point2arcsec(const GuiderUtils::Vector &p) const;
-        void calculatePulses(Ekos::GuideState state);
+        void calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep);
         void calculateRmsError(void);
 
         // Old-stye Logging--deprecate.
@@ -216,4 +219,8 @@ class cgmath : public QObject
 
         std::unique_ptr<GPG> gpg;
         Calibration calibration;
+        bool configureInParams(Ekos::GuideState state);
+        void updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection);
+        void outputGuideLog();
+        void processAxis(const int k, const bool dithering, const bool darkGuiding, const Seconds &timeStep);
 };

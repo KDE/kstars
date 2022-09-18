@@ -7,8 +7,10 @@
 #pragma once
 
 #include "ui_capture.h"
+#include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "sequencejobstate.h"
+#include "ekos/manager/meridianflipstate.h"
 #include "customproperties.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
@@ -93,8 +95,6 @@ class Capture : public QWidget, public Ui::Capture
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        typedef enum { MF_NONE, MF_REQUESTED, MF_READY, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_COMPLETED, MF_ALIGNING, MF_GUIDING } MFStage;
-
         typedef enum
         {
             ADU_LEAST_SQUARES,
@@ -280,7 +280,7 @@ class Capture : public QWidget, public Ui::Capture
 
         Q_SCRIPTABLE Ekos::CaptureState status()
         {
-            return m_State;
+            return m_captureModuleState->getCaptureState();
         }
 
         /** @}*/
@@ -750,7 +750,7 @@ class Capture : public QWidget, public Ui::Capture
         void clearCameraConfiguration();
 
         // Meridian flip
-        void meridianFlipStatusChanged(Mount::MeridianFlipStatus status);
+        void meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountState status);
 
         /**
          * @brief registerNewModule Register an Ekos module as it arrives via DBus
@@ -764,7 +764,13 @@ class Capture : public QWidget, public Ui::Capture
          */
         void generateDarkFlats();
 
-    private slots:
+        /**
+         * @brief Access to the meridian flip state machine
+         */
+        QSharedPointer<MeridianFlipState> getMeridianFlipState();;
+        void setMeridianFlipState(QSharedPointer<MeridianFlipState> newMf_state);;
+
+private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
@@ -877,7 +883,6 @@ class Capture : public QWidget, public Ui::Capture
         void newDownloadProgress(double);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QJsonObject &settings);
-        void newMeridianFlipStatus(Mount::MeridianFlipStatus status);
         void newMeridianFlipSetup(bool activate, double hours);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);
@@ -888,6 +893,8 @@ class Capture : public QWidget, public Ui::Capture
 
         // Filter Manager
         void filterManagerUpdated(ISD::FilterWheel *device);
+
+        void trainChanged();
 
     private:
         /**
@@ -942,15 +949,7 @@ class Capture : public QWidget, public Ui::Capture
         bool isModelinDSLRInfo(const QString &model);
 
         /* Meridian Flip */
-        /**
-         * @brief Check if a meridian flip has already been started
-         * @return true iff the scope has started the meridian flip
-         */
-        inline bool checkMeridianFlipRunning()
-        {
-            return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;
-        }
-
+        QSharedPointer<MeridianFlipState> mf_state;
         /**
          * @brief Check whether a meridian flip has been requested and trigger it
          * @return true iff a meridian flip has been triggered
@@ -1069,7 +1068,7 @@ class Capture : public QWidget, public Ui::Capture
         // DO NOT SET IT MANUALLY, USE {@see setActiveJob()} INSTEAD!
         SequenceJob *activeJob { nullptr };
         QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
-        QSharedPointer<SequenceJobState::CaptureState> m_captureState;
+        QSharedPointer<CaptureModuleState> m_captureModuleState;
 
         QList<SequenceJob *> jobs;
 
@@ -1116,14 +1115,6 @@ class Capture : public QWidget, public Ui::Capture
 
         bool refocusAfterMeridianFlip { false };// set to true at meridian flip to request refocus
 
-        // Meridian flip
-        SkyPoint initialMountCoords;
-        bool resumeAlignmentAfterFlip { false };
-        bool resumeGuidingAfterFlip { false };
-        MFStage meridianFlipStage { MF_NONE };
-
-        QString MFStageString(MFStage stage);
-
         // Flat field automation
         QVector<double> ExpRaw, ADURaw;
         double targetADU { 0 };
@@ -1143,14 +1134,6 @@ class Capture : public QWidget, public Ui::Capture
         bool ignoreJobProgress { true };
         bool suspendGuideOnDownload { false };
         QJsonArray m_SequenceArray;
-
-        // State
-        CaptureState m_State { CAPTURE_IDLE };
-        FocusState m_FocusState { FOCUS_IDLE };
-        GuideState m_GuideState { GUIDE_IDLE };
-        IPState m_DitheringState {IPS_IDLE};
-        AlignState m_AlignState { ALIGN_IDLE };
-        FilterState m_FilterManagerState { FILTER_IDLE };
 
         PauseFunctionPointer pauseFunction;
 
@@ -1195,7 +1178,7 @@ class Capture : public QWidget, public Ui::Capture
         SchedulerJob::CapturedFramesMap capturedFramesMap;
 
         // Execute the meridian flip
-        void setMeridianFlipStage(MFStage stage);
+        void setMeridianFlipStage(MeridianFlipState::MFStage stage);
         void processFlipCompleted();
 
         // Controls

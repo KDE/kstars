@@ -22,7 +22,7 @@
 #include "gaussian_process.h"
 #include "covariance_functions.h"
 #include "math_tools.h"
-
+#include "ekos_guide_debug.h"
 #include <chrono>
 
 enum Hyperparameters
@@ -246,6 +246,33 @@ class GaussianProcessGuider
 
         double GetPredictionGain() const;
         bool SetPredictionGain(double);
+
+        /**
+         * Returns the weight of the prediction on the output control value
+         */
+        double getPredictionContribution()
+        {
+            auto const period_length = GetGPHyperparameters()[PKPeriodLength];
+            if (get_number_of_measurements() <= 10)
+            {
+                qCDebug(KSTARS_EKOS_GUIDE) << "Less than 10 measurements!";
+                return 0.0;
+            }
+
+            auto current_time = std::chrono::system_clock::now();
+            double delta_measurement_time = std::chrono::duration<double>(current_time - last_time_).count();
+
+            if (parameters.min_periods_for_inference_ * period_length == 0 || delta_measurement_time == 0)
+            {
+                return 0;
+            }
+
+            auto time = std::chrono::duration<double>(current_time - start_time_).count()
+                    - (delta_measurement_time / 2.0) // use the midpoint as time stamp
+                    + dither_offset_; // correct for the gear time offset from dithering
+            return time / (parameters.min_periods_for_inference_ * period_length);
+        }
+
 
         GaussianProcessGuider(guide_parameters parameters);
         ~GaussianProcessGuider();

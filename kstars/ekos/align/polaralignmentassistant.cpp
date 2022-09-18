@@ -10,12 +10,10 @@
 #include "align.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksnotification.h"
 #include "ksmessagebox.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "Options.h"
-#include "QProgressIndicator.h"
 #include "polaralignwidget.h"
 #include <ekos_align_debug.h>
 
@@ -52,10 +50,10 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPoi
     m_AlignInstance = parent;
     m_AlignView = view;
 
-    showUpdatedError((Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM) ||
-                     (Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
+    showUpdatedError((pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM) ||
+                     (pAHRefreshAlgorithm->currentIndex() == MOVE_STAR_UPDATE_ERR_ALGORITHM));
 
-    connect(PAHRefreshAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    connect(pAHRefreshAlgorithm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
         setPAHRefreshAlgorithm(static_cast<RefreshAlgorithm>(index));
     });
@@ -67,10 +65,10 @@ PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPoi
     {
         PAHStartB->setEnabled(enabled);
         directionLabel->setEnabled(enabled);
-        PAHDirection->setEnabled(enabled);
-        PAHRotationSpin->setEnabled(enabled);
-        PAHMountSpeed->setEnabled(enabled);
-        PAHManualSlew->setEnabled(enabled);
+        pAHDirection->setEnabled(enabled);
+        pAHRotation->setEnabled(enabled);
+        pAHMountSpeed->setEnabled(enabled);
+        pAHManualSlew->setEnabled(enabled);
     });
     connect(PAHStartB, &QPushButton::clicked, this, &Ekos::PolarAlignmentAssistant::startPAHProcess);
     // PAH StopB is just a shortcut for the regular stop
@@ -101,11 +99,11 @@ void PolarAlignmentAssistant::showUpdatedError(bool show)
 
 void PolarAlignmentAssistant::syncMountSpeed(const QString &speed)
 {
-    PAHMountSpeed->blockSignals(true);
-    PAHMountSpeed->clear();
-    PAHMountSpeed->addItems(m_CurrentTelescope->slewRates());
-    PAHMountSpeed->setCurrentText(speed);
-    PAHMountSpeed->blockSignals(false);
+    pAHMountSpeed->blockSignals(true);
+    pAHMountSpeed->clear();
+    pAHMountSpeed->addItems(m_CurrentTelescope->slewRates());
+    pAHMountSpeed->setCurrentText(speed);
+    pAHMountSpeed->blockSignals(false);
 }
 
 void PolarAlignmentAssistant::setEnabled(bool enabled)
@@ -423,7 +421,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
     imageNumber++;
     PAHIteration->setText(QString("Image %1").arg(imageNumber));
 
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
     {
         startSolver();
         return;
@@ -433,7 +431,7 @@ void PolarAlignmentAssistant::processPAHRefresh()
     // so that if it is enabled later the star could be tracked.
     // Flaw here is that if enough stars are not detected, iteration is not incremented,
     // so it may repeat.
-    if ((Options::pAHRefreshAlgorithm() == MOVE_STAR_UPDATE_ERR_ALGORITHM) || (refreshIteration == 0))
+    if ((pAHRefreshAlgorithm->currentIndex() == MOVE_STAR_UPDATE_ERR_ALGORITHM) || (refreshIteration == 0))
     {
         constexpr int MIN_PAH_REFRESH_STARS = 10;
 
@@ -618,7 +616,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
     if (m_PAHStage == PAH_FIRST_ROTATE || m_PAHStage == PAH_SECOND_ROTATE)
     {
         // only wait for telescope to slew to new position if manual slewing is switched off
-        if(!PAHManualSlew->isChecked())
+        if(!pAHManualSlew->isChecked())
         {
             qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << deltaAngle;
             if (deltaAngle <= PAH_ROTATION_THRESHOLD)
@@ -645,7 +643,7 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
                 }
             }
             // If for some reason we didn't stop, let's stop if we get too far
-            else if (deltaAngle > PAHRotationSpin->value() * 1.25)
+            else if (deltaAngle > pAHRotation->value() * 1.25)
             {
                 m_CurrentTelescope->abort();
                 emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
@@ -676,9 +674,9 @@ bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
     if (nearThePole)
         return false;
 
-    double degreesPerSlew = PAHRotationSpin->value();
+    double degreesPerSlew = pAHRotation->value();
     bool closeToMeridian = fabs(hourAngle) < 2.0 * degreesPerSlew;
-    bool goingWest = PAHDirection->currentIndex() == 0;
+    bool goingWest = pAHDirection->currentIndex() == 0;
 
     // If the pier is on the east side (pointing west) and will slew west and is within 2 slews of the HA=0,
     // or on the west side (pointing east) and will slew east, and is within 2 slews of HA=0
@@ -697,7 +695,7 @@ void PolarAlignmentAssistant::updateDisplay(Stage stage, const QString &message)
     {
         case PAH_FIRST_ROTATE:
         case PAH_SECOND_ROTATE:
-            if (PAHManualSlew->isChecked())
+            if (pAHManualSlew->isChecked())
             {
                 polarAlignWidget->updatePAHStage(stage);
                 PAHWidgets->setCurrentWidget(PAHManualRotatePage);
@@ -832,8 +830,8 @@ void PolarAlignmentAssistant::stopPAHProcess()
 
 void PolarAlignmentAssistant::rotatePAH()
 {
-    double TargetDiffRA = PAHRotationSpin->value();
-    bool westMeridian = PAHDirection->currentIndex() == 0;
+    double TargetDiffRA = pAHRotation->value();
+    bool westMeridian = pAHDirection->currentIndex() == 0;
 
     // West
     if (westMeridian)
@@ -845,7 +843,7 @@ void PolarAlignmentAssistant::rotatePAH()
     // JM 2018-05-03: Hemispheres shouldn't affect rotation direction in RA
 
     // if Manual slewing is selected, don't move the mount
-    if (PAHManualSlew->isChecked())
+    if (pAHManualSlew->isChecked())
     {
         return;
     }
@@ -860,8 +858,8 @@ void PolarAlignmentAssistant::rotatePAH()
 
     //m_CurrentTelescope->Slew(&targetPAH);
     // Set Selected Speed
-    if (PAHMountSpeed->currentIndex() >= 0)
-        m_CurrentTelescope->setSlewRate(PAHMountSpeed->currentIndex());
+    if (pAHMountSpeed->currentIndex() >= 0)
+        m_CurrentTelescope->setSlewRate(pAHMountSpeed->currentIndex());
     // Go to direction
     m_CurrentTelescope->MoveWE(westMeridian ? ISD::Mount::MOTION_WEST : ISD::Mount::MOTION_EAST,
                                ISD::Mount::MOTION_START);
@@ -898,7 +896,7 @@ void PolarAlignmentAssistant::setupCorrectionGraphics(const QPointF &pixel)
     qCDebug(KSTARS_EKOS_ALIGN) << debugString;
     correctionFrom = pixel;
 
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
         updatePlateSolveTriangle(imageData);
     else
         m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
@@ -967,7 +965,7 @@ bool PolarAlignmentAssistant::calculatePAHError()
 
 void PolarAlignmentAssistant::syncCorrectionVector()
 {
-    if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+    if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
         return;
     emit newCorrectionVector(QLineF(correctionFrom, correctionTo));
     m_AlignView->setCorrectionParams(correctionFrom, correctionTo, correctionAltTo);
@@ -1118,10 +1116,10 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
 
         setPAHStage(PAH_FIRST_ROTATE);
         auto msg = getPAHMessage();
-        if (PAHManualSlew->isChecked())
+        if (pAHManualSlew->isChecked())
         {
             msg = QString("Please rotate your mount about %1 deg in RA")
-                  .arg(PAHRotationSpin->value());
+                  .arg(pAHRotation->value());
             emit newLog(msg);
         }
         updateDisplay(m_PAHStage, msg);
@@ -1133,10 +1131,10 @@ void PolarAlignmentAssistant::setWCSToggled(bool result)
         setPAHStage(PAH_SECOND_ROTATE);
         auto msg = getPAHMessage();
 
-        if (PAHManualSlew->isChecked())
+        if (pAHManualSlew->isChecked())
         {
             msg = QString("Please rotate your mount about %1 deg in RA")
-                  .arg(PAHRotationSpin->value());
+                  .arg(pAHRotation->value());
             emit newLog(msg);
         }
         updateDisplay(m_PAHStage, msg);
@@ -1219,12 +1217,12 @@ QString PolarAlignmentAssistant::getPAHMessage() const
         case PAH_THIRD_SOLVE:
             return "<p>Solving the <i>third</i> image...</p>";
         case PAH_STAR_SELECT:
-            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+            if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Choose your exposure time & select an adjustment method. Then click <i>refresh</i> to begin adjustments.</p>";
             else
                 return "<p>Choose your exposure time & select an adjustment method. Click <i>Refresh</i> to begin.</p><p>Correction triangle is plotted above. <i>Zoom in and select a bright star</i> to reposition the correction vector. Use the <i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>";
         case PAH_REFRESH:
-            if (Options::pAHRefreshAlgorithm() == PLATE_SOLVE_ALGORITHM)
+            if (pAHRefreshAlgorithm->currentIndex() == PLATE_SOLVE_ALGORITHM)
                 return "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar alignment error.</p><p>Be patient, plate solving can be affected by knob movement. Consider using results after 2 images.  Click <i>Stop</i> when the you're finished.</p>";
             else
                 return "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow line, then adjust the <i>Azimuth knob</i> to move it along the Green line until the selected star is centered within the crosshair.</p><p>Click <i>Stop</i> when the star is centered.</p>";
@@ -1242,7 +1240,7 @@ void PolarAlignmentAssistant::setPAHRefreshAlgorithm(RefreshAlgorithm value)
     if ((m_PAHStage == PAH_REFRESH) && refreshIteration > 0 && (value != PLATE_SOLVE_ALGORITHM)
             && !starCorrespondencePAH.size())
     {
-        PAHRefreshAlgorithm->setCurrentIndex(PLATE_SOLVE_ALGORITHM);
+        pAHRefreshAlgorithm->setCurrentIndex(PLATE_SOLVE_ALGORITHM);
         emit newLog(i18n("Cannot change to MoveStar algorithm once refresh has begun"));
         return;
     }

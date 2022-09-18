@@ -1144,7 +1144,7 @@
               </spacer>
              </item>
              <item row="2" column="1">
-              <widget class="QDoubleSpinBox" name="kcfg_MaxDarkTemperatureDiff">
+              <widget class="QDoubleSpinBox" name="maxDarkTemperatureDiff">
                <property name="minimum">
                 <double>0.100000000000000</double>
                </property>
@@ -1170,7 +1170,7 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QSpinBox" name="kcfg_DarkLibraryDuration">
+              <widget class="QSpinBox" name="darkLibraryDuration">
                <property name="maximum">
                 <number>365</number>
                </property>
@@ -1268,11 +1268,11 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="darkHandlingButtonGroup"/>
   <buttongroup name="binningButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="darkHandlingButtonGroup"/>
  </buttongroups>
 </ui>

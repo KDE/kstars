@@ -92,9 +92,9 @@ void TestSequenceJobState::cleanupTestCase()
 
 void TestSequenceJobState::init()
 {
-    QSharedPointer<Ekos::SequenceJobState::CaptureState> captureState;
-    captureState.reset(new Ekos::SequenceJobState::CaptureState());
-    m_stateMachine = new Ekos::SequenceJobState(captureState);
+    QSharedPointer<Ekos::CaptureModuleState> captureModuleState;
+    captureModuleState.reset(new Ekos::CaptureModuleState());
+    m_stateMachine = new Ekos::SequenceJobState(captureModuleState);
     // currently all tests are for light frames
     m_stateMachine->setFrameType(FRAME_LIGHT);
     QVERIFY(m_stateMachine->getStatus() == Ekos::JOB_IDLE);

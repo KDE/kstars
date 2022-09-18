@@ -327,9 +327,9 @@ void Focus::syncCCDControls()
             if (step > 0)
                 focusGain->setSingleStep(step);
 
-            double defaultGain = Options::focusGain();
-            if (defaultGain > 0)
-                focusGain->setValue(defaultGain);
+            auto defaultGain = m_Settings["focusGain"];
+            if (defaultGain.isValid())
+                focusGain->setValue(defaultGain.toDouble());
             else
                 focusGain->setValue(gain);
         }
@@ -4446,6 +4446,7 @@ void Focus::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

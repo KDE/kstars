@@ -648,11 +648,17 @@ bool Align::setMount(ISD::Mount *device)
     if (m_isRateSynced == false)
     {
         auto speed = m_Settings["PAHMountSpeed"];
+        auto slewRates = m_Mount->slewRates();
         if (speed.isValid())
         {
             RUN_PAH(syncMountSpeed(speed.toString()));
-            m_isRateSynced = !m_Mount->slewRates().empty();
         }
+        else if (!slewRates.isEmpty())
+        {
+            RUN_PAH(syncMountSpeed(slewRates.last()));
+        }
+
+        m_isRateSynced = !slewRates.empty();
     }
 
     syncTelescopeInfo();
@@ -1441,8 +1447,6 @@ bool Align::captureAndSolve()
         targetChip->capture(m_PolarAlignmentAssistant->getPAHExposureDuration());
     else
         targetChip->capture(seqExpose);
-
-    Options::setAlignExposure(seqExpose);
 
     solveB->setEnabled(false);
     stopB->setEnabled(true);
@@ -3689,6 +3693,7 @@ void Align::setupOpticalTrainManager()
         ProfileSettings::Instance()->setOneSetting(ProfileSettings::AlignOpticalTrain,
                 OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
         refreshOpticalTrain();
+        emit trainChanged();
     });
     refreshOpticalTrain();
 }

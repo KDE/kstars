@@ -123,10 +123,10 @@ class Analyze : public QWidget, public Ui::Analyze
         class MountFlipSession : public Session
         {
             public:
-                Mount::MeridianFlipStatus state;
-                MountFlipSession(double start_, double end_, QCPItemRect *rect, Mount::MeridianFlipStatus state_)
-                    : Session(start_, end_, MERIDIAN_FLIP_Y, rect), state(state_) {}
-                MountFlipSession() : Session(0, 0, MERIDIAN_FLIP_Y, nullptr) {}
+                MeridianFlipState::MeridianFlipMountState state;
+                MountFlipSession(double start_, double end_, QCPItemRect *rect, MeridianFlipState::MeridianFlipMountState state_)
+                    : Session(start_, end_, MERIDIAN_MOUNT_FLIP_Y, rect), state(state_) {}
+                MountFlipSession() : Session(0, 0, MERIDIAN_MOUNT_FLIP_Y, nullptr) {}
         };
         class SchedulerJobSession : public Session
         {
@@ -178,7 +178,7 @@ class Analyze : public QWidget, public Ui::Analyze
         // From Mount
         void mountState(ISD::Mount::Status status);
         void mountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &haValue);
-        void mountFlipStatus(Ekos::Mount::MeridianFlipStatus status);
+        void mountFlipStatus(Ekos::MeridianFlipState::MeridianFlipMountState status);
 
         void schedulerJobStarted(const QString &jobName);
         void schedulerJobEnded(const QString &jobName, const QString &endReason);
@@ -487,8 +487,8 @@ class Analyze : public QWidget, public Ui::Analyze
         int lastMountPierSide { -1 };
 
         // Flip state machine variables
-        Mount::MeridianFlipStatus lastMountFlipStateReceived { Mount::FLIP_NONE};
-        Mount::MeridianFlipStatus lastMountFlipStateStarted { Mount::FLIP_NONE };
+        MeridianFlipState::MeridianFlipMountState lastMountFlipStateReceived { MeridianFlipState::MOUNT_FLIP_NONE};
+        MeridianFlipState::MeridianFlipMountState lastMountFlipStateStarted { MeridianFlipState::MOUNT_FLIP_NONE };
         double mountFlipStateStartedTime { -1 };
 
         // SchedulerJob state machine variables
@@ -503,7 +503,7 @@ class Analyze : public QWidget, public Ui::Analyze
         static constexpr int FOCUS_Y = 2;
         static constexpr int ALIGN_Y = 3;
         static constexpr int GUIDE_Y = 4;
-        static constexpr int MERIDIAN_FLIP_Y = 5;
+        static constexpr int MERIDIAN_MOUNT_FLIP_Y = 5;
         static constexpr int MOUNT_Y = 6;
         static constexpr int SCHEDULER_Y = 7;
         static constexpr int LAST_Y = 8;

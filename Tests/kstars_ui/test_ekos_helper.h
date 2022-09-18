@@ -366,19 +366,19 @@ public:
     OAL::Scope *getScope(ScopeType type);
 
     // Mount device
-    QString m_MountDevice = nullptr;
+    QString m_MountDevice = "";
     // CCD device
-    QString m_CCDDevice = nullptr;
+    QString m_CCDDevice = "";
     // Rotator device
-    QString m_RotatorDevice = nullptr;
+    QString m_RotatorDevice = "";
     // Guiding device
-    QString m_GuiderDevice = nullptr;
+    QString m_GuiderDevice = "";
     // Focusing device
-    QString m_FocuserDevice = nullptr;
+    QString m_FocuserDevice = "";
     // Flat light panel device
-    QString m_LightPanelDevice = nullptr;
+    QString m_LightPanelDevice = "";
     // Dome device
-    QString m_DomeDevice = nullptr;
+    QString m_DomeDevice = "";
 
     // Guider (PHD2 or Internal)
     QString m_Guider = "Internal";
@@ -390,6 +390,8 @@ public:
 
     // guiding used?
     bool use_guiding = false;
+    // did a dithering start?
+    bool dithered = false;
 
     // sequence of alignment states that are expected
     QQueue<Ekos::AlignState> expectedAlignStates;
@@ -404,7 +406,7 @@ public:
     // sequence of dome states that are expected
     QQueue<ISD::Dome::Status> expectedDomeStates;
     // sequence of meridian flip states that are expected
-    QQueue<Ekos::Mount::MeridianFlipStatus> expectedMeridianFlipStates;
+    QQueue<Ekos::MeridianFlipState::MeridianFlipMountState> expectedMeridianFlipStates;
     // sequence of scheduler states that are expected
     QQueue<Ekos::SchedulerState> expectedSchedulerStates;
 
@@ -567,7 +569,7 @@ public:
     /**
      * @brief Retrieve the current mount meridian flip status.
      */
-    Ekos::Mount::MeridianFlipStatus getMeridianFlipStatus() {return m_MFStatus;}
+    Ekos::MeridianFlipState::MeridianFlipMountState getMeridianFlipStatus() {return m_MFStatus;}
     /**
      * @brief Retrieve the current scheduler status.
      */
@@ -598,7 +600,7 @@ private:
     ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
 
     // current mount meridian flip status
-    Ekos::Mount::MeridianFlipStatus m_MFStatus { Ekos::Mount::FLIP_NONE };
+    Ekos::MeridianFlipState::MeridianFlipMountState m_MFStatus { Ekos::MeridianFlipState::MOUNT_FLIP_NONE };
 
     // current alignment status
     Ekos::AlignState m_AlignStatus { Ekos::ALIGN_IDLE };
@@ -637,7 +639,7 @@ private:
      * @brief Slot to track the meridian flip stage of the mount
      * @param status new meridian flip state
      */
-    void meridianFlipStatusChanged(Ekos::Mount::MeridianFlipStatus status);
+    void meridianFlipStatusChanged(Ekos::MeridianFlipState::MeridianFlipMountState status);
 
     /**
      * @brief Slot to track the focus status

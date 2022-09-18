@@ -98,7 +98,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Return the exposure used in the refresh phase.
         double getPAHExposureDuration() const
         {
-            return PAHExposure->value();
+            return pAHExposure->value();
         }
         // Handle updates during the refresh phase such as error estimation.
         void processPAHRefresh();
@@ -131,7 +131,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Update the PAH refresh duration
         void setPAHRefreshDuration(double value)
         {
-            PAHExposure->setValue(value);
+            pAHExposure->setValue(value);
         }
         // Start the refresh process.
         void startPAHRefreshProcess();

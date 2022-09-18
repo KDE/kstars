@@ -27,14 +27,11 @@ class CaptureDeviceAdaptor: public QObject
         Q_OBJECT
 
     public:
-        CaptureDeviceAdaptor();
+        CaptureDeviceAdaptor(QSharedPointer<CaptureModuleState> captureModuleState);
 
         //////////////////////////////////////////////////////////////////////
         // current sequence job's state machine
         //////////////////////////////////////////////////////////////////////
-
-        SequenceJobState *currentSequenceJobState = nullptr;
-
         /**
          * @brief Set the state machine for the current sequence job and attach
          *        all active devices to it.
@@ -103,6 +100,12 @@ class CaptureDeviceAdaptor: public QObject
         ISD::FilterWheel *getFilterWheel()
         {
             return m_ActiveFilterWheel;
+        }
+
+        void setFilterManager(QSharedPointer<FilterManager> device);
+        QSharedPointer<FilterManager> getFilterManager()
+        {
+            return m_FilterManager;
         }
         void connectFilterManager();
         void disconnectFilterManager();
@@ -251,6 +254,10 @@ class CaptureDeviceAdaptor: public QObject
         void readCurrentState(Ekos::CaptureState state);
 
     private:
+        // the state machine of the capture module
+        QSharedPointer<CaptureModuleState> m_captureModuleState;
+        // the state machine for the current sequence job
+        SequenceJobState *currentSequenceJobState = nullptr;
         // the light box device
         ISD::LightBox *m_ActiveLightBox { nullptr };
         // the dust cap
@@ -267,8 +274,8 @@ class CaptureDeviceAdaptor: public QObject
         ISD::CameraChip * m_ActiveChip { nullptr };
         // currently active filter wheel device
         ISD::FilterWheel * m_ActiveFilterWheel { nullptr };
-        // Filter Manager
-        QSharedPointer<FilterManager> filterManager;
+        // currently active filter manager
+        QSharedPointer<FilterManager> m_FilterManager;
 
         // flag if manual cover has been asked
         bool m_ManualCoveringAsked { false };

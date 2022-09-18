@@ -265,10 +265,8 @@ const QString directionStr(GuideDirection dir)
 }
 }  // namespace
 
-void cgmath::calculatePulses(Ekos::GuideState state)
+bool cgmath::configureInParams(Ekos::GuideState state)
 {
-    qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
-
     const bool dithering = state == Ekos::GuideState::GUIDE_DITHERING;
 
     if (!dithering)
@@ -279,7 +277,7 @@ void cgmath::calculatePulses(Ekos::GuideState state)
         in_params.integral_gain[0] = Options::rAIntegralGain();
         in_params.integral_gain[1] = Options::dECIntegralGain();
 
-        // Always pulse if were dithering.
+        // Always pulse if we're dithering.
         in_params.enabled[0] = Options::rAGuideEnabled();
         in_params.enabled[1] = Options::dECGuideEnabled();
 
@@ -320,88 +318,18 @@ void cgmath::calculatePulses(Ekos::GuideState state)
         in_params.enabled_axis2[1] = true;
     }
 
+    return dithering;
+}
 
-    // process axes...
-    for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
-    {
-        // zero all out commands
-        GuideDirection pulseDirection = NO_DIR;
-        int pulseLength = 0;  // milliseconds
-        GuideDirection dir;
+void cgmath::updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection)
+{
+    out_params.pulse_dir[k]  = pulseDirection;
+    out_params.pulse_length[k] = pulseLength;
+    out_params.delta[k] = arcsecDrift;
+}
 
-        // Get the drift for this axis
-        const int idx = driftUpto[k];
-        const double arcsecDrift = drift[k][idx];
-
-        const double pulseConverter = (k == GUIDE_RA) ?
-                                      calibration.raPulseMillisecondsPerArcsecond() :
-                                      calibration.decPulseMillisecondsPerArcsecond();
-        const double maxPulseMilliseconds = in_params.max_pulse_arcsec[k] * pulseConverter;
-
-        // Compute the average drift in the recent past for the integral control term.
-        drift_integral[k] = 0;
-        for (int i = 0; i < CIRCULAR_BUFFER_SIZE; ++i)
-            drift_integral[k] += drift[k][i];
-        drift_integral[k] /= (double)CIRCULAR_BUFFER_SIZE;
-
-        qCDebug(KSTARS_EKOS_GUIDE) << "drift[" << axisStr(k) << "] = " << arcsecDrift
-                                   << " integral[" << axisStr(k) << "] = " << drift_integral[k];
-
-        // GPG pulse computation
-        bool useGPG = !dithering && Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
-        if (useGPG && gpg->computePulse(arcsecDrift,
-                                        usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration))
-        {
-            pulseDirection = dir;
-            pulseLength = std::min(pulseLength, static_cast<int>(maxPulseMilliseconds + 0.5));
-        }
-        else
-        {
-            // This is the main non-GPG guide-pulse computation.
-            // Traditionally it was hardwired so that proportional_gain=133 was about a control gain of 1.0
-            // This is now in the 0.0 - 1.0 range, and multiplies the calibrated mount performance.
-
-            const double arcsecPerMsPulse = k == GUIDE_RA ? calibration.raPulseMillisecondsPerArcsecond() :
-                                            calibration.decPulseMillisecondsPerArcsecond();
-            const double proportionalResponse = arcsecDrift * in_params.proportional_gain[k] * arcsecPerMsPulse;
-            const double integralResponse = drift_integral[k] * in_params.integral_gain[k] * arcsecPerMsPulse;
-            pulseLength = std::min(fabs(proportionalResponse + integralResponse), maxPulseMilliseconds);
-
-            // calc direction
-            // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
-            if (!in_params.enabled[k] || // This axis not enabled
-                    // Positive direction of this axis not enabled.
-                    (arcsecDrift > 0 && !in_params.enabled_axis1[k]) ||
-                    // Negative direction of this axis not enabled.
-                    (arcsecDrift < 0 && !in_params.enabled_axis2[k]))
-            {
-                pulseDirection = NO_DIR;
-                pulseLength = 0;
-            }
-            else
-            {
-                // Check the min pulse value, and assign the direction.
-                const double pulseArcSec = pulseConverter > 0 ? pulseLength / pulseConverter : 0;
-                if (pulseArcSec >= in_params.min_pulse_arcsec[k])
-                {
-                    if (k == GUIDE_RA)
-                        pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
-                    else
-                        pulseDirection = arcsecDrift > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
-                }
-                else
-                    pulseDirection = NO_DIR;
-            }
-
-        }
-        qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length[" << axisStr(k) << "] = " << pulseLength
-                                   << "ms, Direction = " << directionStr(pulseDirection);
-
-        out_params.pulse_dir[k]  = pulseDirection;
-        out_params.pulse_length[k] = pulseLength;
-        out_params.delta[k] = arcsecDrift;
-    }
-
+void cgmath::outputGuideLog()
+{
     if (Options::guideLogging())
     {
         QTextStream out(&logFile);
@@ -412,8 +340,106 @@ void cgmath::calculatePulses(Ekos::GuideState state)
     }
 }
 
+void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide, const Seconds &timeStep)
+{
+    // zero all out commands
+    GuideDirection pulseDirection = NO_DIR;
+    int pulseLength = 0;  // milliseconds
+    GuideDirection dir;
+
+    // Get the drift for this axis
+    const int idx = driftUpto[k];
+    const double arcsecDrift = drift[k][idx];
+
+    const double pulseConverter = (k == GUIDE_RA) ?
+                                  calibration.raPulseMillisecondsPerArcsecond() :
+                                  calibration.decPulseMillisecondsPerArcsecond();
+    const double maxPulseMilliseconds = in_params.max_pulse_arcsec[k] * pulseConverter;
+
+    // GPG pulse computation
+    bool useGPG = !dithering && Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
+    if (useGPG && darkGuide)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "dark guiding";
+        gpg->darkGuiding(&pulseLength, &dir, calibration, timeStep);
+        pulseDirection = dir;
+    }
+    else if (useGPG && gpg->computePulse(arcsecDrift,
+                                         usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration, timeStep))
+    {
+        pulseDirection = dir;
+        pulseLength = std::min(pulseLength, static_cast<int>(maxPulseMilliseconds + 0.5));
+    }
+    else
+    {
+        // This is the main non-GPG guide-pulse computation.
+        // Traditionally it was hardwired so that proportional_gain=133 was about a control gain of 1.0
+        // This is now in the 0.0 - 1.0 range, and multiplies the calibrated mount performance.
+
+        // Compute the average drift in the recent past for the integral control term.
+        drift_integral[k] = 0;
+        for (int i = 0; i < CIRCULAR_BUFFER_SIZE; ++i)
+            drift_integral[k] += drift[k][i];
+        drift_integral[k] /= (double)CIRCULAR_BUFFER_SIZE;
+
+        qCDebug(KSTARS_EKOS_GUIDE) << "drift[" << axisStr(k) << "] = " << arcsecDrift
+                                   << " integral[" << axisStr(k) << "] = " << drift_integral[k];
+
+        const double arcsecPerMsPulse = k == GUIDE_RA ? calibration.raPulseMillisecondsPerArcsecond() :
+                                        calibration.decPulseMillisecondsPerArcsecond();
+        const double proportionalResponse = arcsecDrift * in_params.proportional_gain[k] * arcsecPerMsPulse;
+        const double integralResponse = drift_integral[k] * in_params.integral_gain[k] * arcsecPerMsPulse;
+        pulseLength = std::min(fabs(proportionalResponse + integralResponse), maxPulseMilliseconds);
+
+        // calc direction
+        // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
+        if (!in_params.enabled[k] || // This axis not enabled
+                // Positive direction of this axis not enabled.
+                (arcsecDrift > 0 && !in_params.enabled_axis1[k]) ||
+                // Negative direction of this axis not enabled.
+                (arcsecDrift < 0 && !in_params.enabled_axis2[k]))
+        {
+            pulseDirection = NO_DIR;
+            pulseLength = 0;
+        }
+        else
+        {
+            // Check the min pulse value, and assign the direction.
+            const double pulseArcSec = pulseConverter > 0 ? pulseLength / pulseConverter : 0;
+            if (pulseArcSec >= in_params.min_pulse_arcsec[k])
+            {
+                if (k == GUIDE_RA)
+                    pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
+                else
+                    pulseDirection = arcsecDrift > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
+            }
+            else
+                pulseDirection = NO_DIR;
+        }
+
+    }
+    qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length[" << axisStr(k) << "] = " << pulseLength
+                               << "ms, Direction = " << directionStr(pulseDirection);
+
+    updateOutParams(k, arcsecDrift, pulseLength, pulseDirection);
+}
+
+void cgmath::calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
+{
+    qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
+
+    const bool dithering = configureInParams(state);
+
+    // process axes...
+    processAxis(GUIDE_RA, dithering, false, timeStep.first);
+    processAxis(GUIDE_DEC, dithering, false, timeStep.second);
+
+    outputGuideLog();
+}
+
 void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> &imageData,
-                               QSharedPointer<GuideView> &guideView, GuideLog *logger)
+                               QSharedPointer<GuideView> &guideView,
+                               const std::pair<Seconds, Seconds> &timeStep, GuideLog *logger)
 {
     if (suspended)
     {
@@ -521,7 +547,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
     const double decDrift = drift[GUIDE_DEC][driftUpto[GUIDE_DEC]];
 
     // make decision by axes
-    calculatePulses(state);
+    calculatePulses(state, timeStep);
 
     if (state == Ekos::GUIDE_GUIDING)
     {
@@ -564,6 +590,20 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         logger->addGuideData(data);
     }
     qCDebug(KSTARS_EKOS_GUIDE) << "################## FINISH PROCESSING ##################";
+}
+
+void cgmath::performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
+{
+
+    const bool dithering = configureInParams(state);
+    //out_params.sigma[GUIDE_RA] = 0;
+
+    processAxis(GUIDE_RA, dithering, true, timeStep.first);
+
+    // Don't guide in DEC when dark guiding
+    updateOutParams(GUIDE_DEC, 0, 0, NO_DIR);
+
+    outputGuideLog();
 }
 
 void cgmath::emitStats()

@@ -381,8 +381,16 @@ bool FITSView::loadData(const QSharedPointer<FITSData> &data)
     // Takes control of the objects passed in.
     m_ImageData = data;
 
-
-    return processData();
+    if (processData())
+    {
+        emit loaded();
+        return true;
+    }
+    else
+    {
+        emit failed(m_LastError);
+        return false;
+    }
 }
 
 bool FITSView::processData()

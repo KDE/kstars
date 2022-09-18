@@ -1981,7 +1981,12 @@ void Manager::initCapture()
         return;
 
     captureProcess.reset(new Capture());
+
     emit newModule("Capture");
+
+    // retrieve the meridian flip state machine from the mount module if the module is already present
+    if (mountProcess.get() != nullptr)
+        captureProcess->setMeridianFlipState(mountProcess.get()->getMeridianFlipState());
 
     captureProcess->setEnabled(false);
     capturePreview->shareCaptureProcess(captureProcess.get());
@@ -2132,6 +2137,10 @@ void Manager::initMount()
 
     mountProcess.reset(new Ekos::Mount());
 
+    // share the meridian flip state with capture if the module is already present
+    if (captureProcess.get() != nullptr)
+        captureProcess->setMeridianFlipState(mountProcess.get()->getMeridianFlipState());
+
     emit newModule("Mount");
 
     int index    = addModuleTab(EkosModule::Mount, mountProcess.get(), QIcon(":/icons/ekos_mount.png"));
@@ -2144,28 +2153,31 @@ void Manager::initMount()
     {
         setTarget(name);
     });
-    connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, [&](ISD::Mount::PierSide side)
+    connect(mountProcess.get(), &Ekos::Mount::pierSideChanged, this, [&](ISD::Mount::PierSide side)
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
-    connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus, [&](Mount::MeridianFlipStatus status)
+    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipStatus", status},
         }));
     });
-    connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipText, [&](const QString & text)
+    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
     {
         // Throttle this down
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipText", text},
-        }), mountProcess->meridianFlipStatus() == Mount::FLIP_NONE);
+        }), mountProcess->getMeridianFlipState()->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE);
         meridianFlipStatusWidget->setStatus(text);
     });
 
-    connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, [&](int slewRate)
+    connect(mountProcess.get(), &Ekos::Mount::trainChanged, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
+
+    connect(mountProcess.get(), &Ekos::Mount::slewRateChanged, this, [&](int slewRate)
     {
         QJsonObject status = { { "slewRate", slewRate} };
         ekosLiveClient.get()->message()->updateMountStatus(status);
@@ -2771,6 +2783,8 @@ void Manager::connectModules()
 {
     connect(DarkLibrary::Instance(), &DarkLibrary::newImage, ekosLiveClient.get()->media(),
             &EkosLive::Media::sendDarkLibraryData, Qt::UniqueConnection);
+    connect(DarkLibrary::Instance(), &DarkLibrary::trainChanged, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
     connect(DarkLibrary::Instance(), &DarkLibrary::newFrame, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
             Qt::UniqueConnection);
     connect(DarkLibrary::Instance(), &DarkLibrary::settingsUpdated, ekosLiveClient.get()->message(),
@@ -2890,9 +2904,7 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::newMeridianFlipStatus, mountProcess.get(),
-                &Ekos::Mount::meridianFlipStatusChanged, Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus, captureProcess.get(),
+        connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, captureProcess.get(),
                 &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);
 
         // Mount Status
@@ -2911,6 +2923,8 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSequence, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
+        connect(captureProcess.get(), &Ekos::Capture::trainChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
     }
 
     // Scheduler <---> EkosLive connections
@@ -2993,6 +3007,9 @@ void Manager::connectModules()
         connect(alignProcess.get(), &Ekos::Align::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendAlignSettings, Qt::UniqueConnection);
 
+        connect(alignProcess.get(), &Ekos::Align::trainChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
+
         connect(alignProcess.get(), &Ekos::Align::manualRotatorChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendManualRotatorStatus, Qt::UniqueConnection);
     }
@@ -3002,7 +3019,12 @@ void Manager::connectModules()
     {
         connect(focusProcess.get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendFocusSettings, Qt::UniqueConnection);
+
         connect(focusProcess.get(), &Ekos::Focus::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
+                Qt::UniqueConnection);
+
+        connect(focusProcess.get(), &Ekos::Focus::trainChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendTrainProfiles,
                 Qt::UniqueConnection);
     }
 
@@ -3011,6 +3033,10 @@ void Manager::connectModules()
     {
         connect(guideProcess.get(), &Ekos::Guide::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendGuideSettings, Qt::UniqueConnection);
+
+        connect(guideProcess.get(), &Ekos::Guide::trainChanged, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
+
         connect(guideProcess.get(), &Ekos::Guide::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
     }
@@ -3084,7 +3110,7 @@ void Manager::connectModules()
                 analyzeProcess.get(), &Ekos::Analyze::mountState, Qt::UniqueConnection);
         connect(mountProcess.get(), &Ekos::Mount::newCoords,
                 analyzeProcess.get(), &Ekos::Analyze::mountCoords, Qt::UniqueConnection);
-        connect(mountProcess.get(), &Ekos::Mount::newMeridianFlipStatus,
+        connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus,
                 analyzeProcess.get(), &Ekos::Analyze::mountFlipStatus, Qt::UniqueConnection);
     }
 }

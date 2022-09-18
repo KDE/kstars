@@ -340,9 +340,10 @@ class Guide : public QWidget, public Ui::Guide
         // Capture
         void setCaptureComplete();
 
-        // Send pulse to ST4 driver
-        bool sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs);
-        bool sendSinglePulse(GuideDirection dir, int msecs);
+        // Pulse both RA and DEC axes
+        bool sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture);
+        // Pulse for one of the mount axes
+        bool sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
 
         /**
              * @brief setDECSwap Change ST4 declination pulse direction. +DEC pulses increase DEC if swap is OFF. When on +DEC pulses result in decreasing DEC.
@@ -436,6 +437,8 @@ class Guide : public QWidget, public Ui::Guide
 
         void newImage(const QSharedPointer<FITSView> &view);
         void newStarPixmap(QPixmap &);
+
+        void trainChanged();
 
         // Immediate deviations in arcsecs
         void newAxisDelta(double ra, double de);

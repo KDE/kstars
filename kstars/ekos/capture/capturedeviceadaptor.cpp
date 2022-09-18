@@ -13,9 +13,9 @@
 
 namespace Ekos
 {
-CaptureDeviceAdaptor::CaptureDeviceAdaptor()
+CaptureDeviceAdaptor::CaptureDeviceAdaptor(QSharedPointer<CaptureModuleState> captureModuleState)
 {
-
+    m_captureModuleState = captureModuleState;
 }
 
 void CaptureDeviceAdaptor::connectDome()
@@ -43,8 +43,8 @@ void CaptureDeviceAdaptor::setLightBox(ISD::LightBox *device)
         return;
 
     m_ActiveLightBox = device;
-    if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureState.isNull())
-        currentSequenceJobState->m_CaptureState->hasLightBox = (device != nullptr);
+    if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureModuleState.isNull())
+        currentSequenceJobState->m_CaptureModuleState->hasLightBox = (device != nullptr);
 }
 
 void CaptureDeviceAdaptor::setDustCap(ISD::DustCap *device)
@@ -69,7 +69,7 @@ void CaptureDeviceAdaptor::connectDustCap()
             &SequenceJobState::manualScopeLightCover);
     connect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
     connect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
-            &SequenceJobState::dustCapStatusChanged);
+            &SequenceJobState::dustCapStateChanged);
 }
 
 void CaptureDeviceAdaptor::disconnectDustCap()
@@ -89,7 +89,7 @@ void CaptureDeviceAdaptor::disconnectDustCap()
                &SequenceJobState::manualScopeLightCover);
     disconnect(this, &CaptureDeviceAdaptor::lightBoxLight, currentSequenceJobState, &SequenceJobState::lightBoxLight);
     disconnect(this, &CaptureDeviceAdaptor::dustCapStatusChanged, currentSequenceJobState,
-               &SequenceJobState::dustCapStatusChanged);
+               &SequenceJobState::dustCapStateChanged);
 }
 
 void CaptureDeviceAdaptor::setMount(ISD::Mount *device)
@@ -318,6 +318,11 @@ void CaptureDeviceAdaptor::setFilterWheel(ISD::FilterWheel *device)
     m_ActiveFilterWheel = device;
 }
 
+void CaptureDeviceAdaptor::setFilterManager(QSharedPointer<FilterManager> device)
+{
+    m_FilterManager = device;
+}
+
 void CaptureDeviceAdaptor::askManualScopeLightCover(QString question, QString title)
 {
     // do not ask again
@@ -459,7 +464,7 @@ void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
 
 void CaptureDeviceAdaptor::flatSyncFocus(int targetFilterID)
 {
-    if (filterManager->syncAbsoluteFocusPosition(targetFilterID - 1))
+    if (getFilterManager()->syncAbsoluteFocusPosition(targetFilterID - 1))
         emit flatSyncFocusChanged(true);
     else
         emit flatSyncFocusChanged(false);

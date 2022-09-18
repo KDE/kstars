@@ -49,7 +49,7 @@ SequenceJob::SequenceJob()
 }
 
 SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
-                         const QSharedPointer<SequenceJobState::CaptureState> sharedState) : SequenceJob()
+                         const QSharedPointer<CaptureModuleState> sharedState) : SequenceJob()
 {
     captureDeviceAdaptor = cp;
     // initialize the state machine
@@ -73,8 +73,8 @@ SequenceJob::SequenceJob(XMLEle *root): SequenceJob()
     XMLEle *subEP = nullptr;
 
     // set own unconnected state machine
-    QSharedPointer<SequenceJobState::CaptureState> sharedState;
-    sharedState.reset(new SequenceJobState::CaptureState);
+    QSharedPointer<CaptureModuleState> sharedState;
+    sharedState.reset(new CaptureModuleState);
     stateMachine = new SequenceJobState(sharedState);
 
     // We expect all data read from the XML to be in the C locale - QLocale::c().
@@ -504,7 +504,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     if (stateMachine->targetFilterID != -1 && captureDeviceAdaptor.data()->getFilterWheel() != nullptr &&
             (frameType == FRAME_FLAT || frameType == FRAME_LIGHT))
     {
-        if (stateMachine->targetFilterID != stateMachine->m_CaptureState->currentFilterID)
+        if (stateMachine->targetFilterID != stateMachine->m_CaptureModuleState->currentFilterID)
         {
             emit prepareState(CAPTURE_CHANGING_FILTER);
 
@@ -599,7 +599,7 @@ void SequenceJob::setCaptureRetires(int value)
 
 int SequenceJob::getCurrentFilter() const
 {
-    return stateMachine->m_CaptureState->currentFilterID;
+    return stateMachine->m_CaptureModuleState->currentFilterID;
 }
 
 void SequenceJob::setCurrentFilter(int value)
@@ -664,22 +664,22 @@ bool SequenceJob::getJobProgressIgnored() const
 
 void SequenceJob::setLightBox(ISD::LightBox *lightBox)
 {
-    stateMachine->m_CaptureState->hasLightBox = (lightBox != nullptr);
+    stateMachine->m_CaptureModuleState->hasLightBox = (lightBox != nullptr);
 }
 
 void SequenceJob::setDustCap(ISD::DustCap *dustCap)
 {
-    stateMachine->m_CaptureState->hasDustCap = (dustCap != nullptr);
+    stateMachine->m_CaptureModuleState->hasDustCap = (dustCap != nullptr);
 }
 
 void SequenceJob::addMount(ISD::Mount *scope)
 {
-    stateMachine->m_CaptureState->hasTelescope = (scope != nullptr);
+    stateMachine->m_CaptureModuleState->hasTelescope = (scope != nullptr);
 }
 
 void SequenceJob::setDome(ISD::Dome *dome)
 {
-    stateMachine->m_CaptureState->hasDome = (dome != nullptr);
+    stateMachine->m_CaptureModuleState->hasDome = (dome != nullptr);
 }
 
 void SequenceJob::setFrameType(CCDFrameType value)

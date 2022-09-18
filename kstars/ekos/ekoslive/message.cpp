@@ -298,15 +298,20 @@ void Message::sendTrains()
     for(auto &train : Ekos::OpticalTrainManager::Instance()->getOpticalTrains())
         trains.append(QJsonObject::fromVariantMap(train));
 
+    sendResponse(commands[TRAIN_GET_ALL], trains);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendTrainProfiles()
+{
+    if (m_isConnected == false || m_Manager->getEkosStartingStatus() != Ekos::Success)
+        return;
+
     auto profiles = Ekos::ProfileSettings::Instance()->getSettings();
 
-    QJsonObject data =
-    {
-        {"trains", trains},
-        {"profiles", QJsonObject::fromVariantMap(profiles)}
-    };
-
-    sendResponse(commands[TRAIN_GET_ALL], data);
+    sendResponse(commands[TRAIN_GET_PROFILES], QJsonObject::fromVariantMap(profiles));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

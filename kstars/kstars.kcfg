@@ -2175,6 +2175,10 @@
       <entry name="PAHMountSpeed" type="String">
          <label>Speed to set mount in Polar Alignment Assistant Tool.</label>         
       </entry>
+      <entry name="PAHRotaion" type="Double">
+         <label>Rotate mount by this many degrees during polar alignment.</label>         
+         <default>30.0</default>
+      </entry>
       <entry name="PAHRefreshAlgorithm" type="String">
          <label>The algorithm used for polar-align refresh.</label>         
       </entry>
@@ -2397,6 +2401,12 @@
       </entry>
       <entry name="GPGEnabled" type="Bool">
          <default>false</default>
+      </entry>
+      <entry name="GPGDarkGuiding" type="Bool">
+         <default>false</default>
+      </entry>
+      <entry name="GPGDarkGuidingInterval" type="Double">
+         <default>1</default>
       </entry>
       <entry name="GPGcWeight" type="Double">
          <default>0.6</default>

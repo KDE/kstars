@@ -450,11 +450,11 @@ void TestPlaceholderPath::testSequenceJobSignature()
     QFETCH(QString, fullPrefix);
     QFETCH(QString, signature);
 
-    QSharedPointer<Ekos::CaptureDeviceAdaptor> cp;
-    cp.reset(new Ekos::CaptureDeviceAdaptor());
-    QSharedPointer<Ekos::SequenceJobState::CaptureState> captureState;
-    captureState.reset(new Ekos::SequenceJobState::CaptureState());
-    auto job = new Ekos::SequenceJob(cp, captureState);
+    QSharedPointer<Ekos::CaptureModuleState> captureModuleState;
+    captureModuleState.reset(new Ekos::CaptureModuleState());
+    QSharedPointer<Ekos::CaptureDeviceAdaptor> cda;
+    cda.reset(new Ekos::CaptureDeviceAdaptor(captureModuleState));
+    auto job = new Ekos::SequenceJob(cda, captureModuleState);
     job->setCoreProperty(SequenceJob::SJ_LocalDirectory, localDir);
     job->setCoreProperty(SequenceJob::SJ_DirectoryPostfix, directoryPostfix);
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, fullPrefix);

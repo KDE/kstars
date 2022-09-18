@@ -14,6 +14,7 @@
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 #include "indi/indimount.h"
+#include "ekos/manager/meridianflipstate.h"
 #include "ekos/align/polaralignmentassistant.h"
 
 class QQuickView;
@@ -56,26 +57,6 @@ class Mount : public QWidget, public Ui::Mount
         ~Mount() override;
 
         //typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
-
-        // This enum defines the meridian flip state machine, this is implemented in
-        typedef enum
-        {
-            FLIP_NONE,      // this is the default state, comparing the hour angle with the next flip position
-            // it moves to FLIP_PLANNED when a flip is needed
-            FLIP_PLANNED,   // a meridian flip is ready to be started due to the target position and the
-            // configured offsets and signals to the Capture class that a flip is required
-            FLIP_WAITING,   // step after FLUP_PLANNED waiting until Capture completes a running exposure
-            FLIP_ACCEPTED,  // Capture is idle or has completed the exposure and will wait until the flip
-            // is completed.
-            FLIP_RUNNING,   // this signals that a flip slew is in progress, when the slew is completed
-            // the state is set to FLIP_COMPLETED
-            FLIP_COMPLETED, // this checks that the flip was completed successfully or not and after tidying up
-            // moves to FLIP_NONE to wait for the next flip requirement.
-            // Capture sees this and resumes.
-            FLIP_ERROR,     // errors in the flip process should end up here
-            FLIP_INACTIVE   // do not execute a meridian flip since it will disturb other activities like
-            // a running polar alignment
-        } MeridianFlipStatus;
 
         /**
              * @brief addMount Add a new Mount device
@@ -143,10 +124,11 @@ class Mount : public QWidget, public Ui::Mount
             return m_ParkStatus;
         }
 
-        MeridianFlipStatus meridianFlipStatus() const
-        {
-            return m_MFStatus;
-        }
+        /**
+         * @brief getMeridianFlipState
+         * @return
+         */
+        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return mf_state; }
 
         /** @defgroup MountDBusInterface Ekos Mount DBus Interface
              * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -288,7 +270,6 @@ class Mount : public QWidget, public Ui::Mount
              */
         Q_SCRIPTABLE double hourAngle();
 
-        double initialPositionHA;
         /** DBUS interface function.
              * Get the hour angle of that time the mount has slewed to the current position.
              * This is used to manage the meridian flip for mounts which do not report pier side.
@@ -296,12 +277,12 @@ class Mount : public QWidget, public Ui::Mount
              */
         Q_SCRIPTABLE double initialHA()
         {
-            return initialPositionHA;
+            return mf_state->initialPositionHA();
         }
 
-        Q_SCRIPTABLE void setInitialHA(double ha)
+        Q_SCRIPTABLE void setInitialHA(double RA)
         {
-            initialPositionHA = ha;
+            mf_state->setInitialPositionHA(RA);
         }
 
         /** DBUS interface function.
@@ -387,12 +368,10 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
 
-        ///
-        /// \brief meridianFlipStatusString
-        /// \param status
-        /// \return return the string for the status
-        ///
-        static QString meridianFlipStatusString(MeridianFlipStatus status);
+        QString meridianFlipStatusDescription()
+        {
+            return meridianFlipStatusWidget->getStatus();
+        }
 
         // Settings
         QVariantMap getAllSettings() const;
@@ -488,8 +467,6 @@ class Mount : public QWidget, public Ui::Mount
 
         void toggleMountToolBox();
 
-        void meridianFlipStatusChanged(MeridianFlipStatus status);
-
         /**
          * @brief set meridian flip activation and hours
          * @param activate true iff the meridian flip should be executed
@@ -531,7 +508,7 @@ class Mount : public QWidget, public Ui::Mount
          */
         void stopTimers();
 
-    private slots:
+private slots:
         void startParkTimer();
         void stopParkTimer();
         void startAutoPark();
@@ -568,10 +545,11 @@ class Mount : public QWidget, public Ui::Mount
         void pierSideChanged(ISD::Mount::PierSide side);
         void slewRateChanged(int index);
         void ready();
-        void newMeridianFlipStatus(MeridianFlipStatus status);
         void newMeridianFlipText(const QString &text);
 
         void settingsUpdated(const QVariantMap &settings);
+
+        void trainChanged();
 
     private:
         ////////////////////////////////////////////////////////////////////
@@ -608,19 +586,10 @@ class Mount : public QWidget, public Ui::Mount
 
         void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
-        MeridianFlipStatus m_MFStatus = FLIP_NONE;
-        void setMeridianFlipStatus(MeridianFlipStatus status);
-        void meridianFlipStatusChangedInternal(MeridianFlipStatus status);
+        /* Meridian flip state handling */
+        QSharedPointer<MeridianFlipState> mf_state;
         QString pierSideStateString();
         void setupParkUI();
-
-        // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least
-        // the time for that, currently set to 20 seconds
-        // not reliable for pointing state change detection but reported if the pier side is unknown
-        QDateTime minMeridianFlipEndTime;
-        int minMeridianFlipDurationSecs = 20;
-
-        double flipDelayHrs = 0.0;      // delays the next flip attempt if it fails
 
         QPointer<QDBusInterface> captureInterface { nullptr };
 

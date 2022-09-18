@@ -91,8 +91,9 @@ protected:
      * @brief General preparations used both for pure capturing test cases as well as those with the scheduler.
      * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
+     * @param initialGuideDeviation initial guiding deviation threshold
      */
-    bool prepareMFTestcase(bool initialFocus, bool guideDeviation);
+    bool prepareMFTestcase(bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
 
     /**
      * @brief Helper function that reads capture sequence test data, creates entries in the capture module,
@@ -100,8 +101,9 @@ protected:
      * @param secsToMF seconds until the meridian will be crossed
      * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
+     * @param initialGuideDeviation initial guiding deviation threshold
      */
-    bool prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation);
+    bool prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
 
     /**
      * @brief Prepare the scheduler with a single based upon the capture sequences filled
