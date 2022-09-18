@@ -516,6 +516,8 @@ void Focus::checkFilter()
         FilterPosLabel->setEnabled(false);
         focusFilter->setEnabled(false);
         filterManagerB->setEnabled(false);
+
+        m_FilterManager.reset();
         return;
     }
 

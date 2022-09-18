@@ -44,12 +44,24 @@ void CaptureDeviceAdaptor::setLightBox(ISD::LightBox *device)
 
     m_ActiveLightBox = device;
     if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureModuleState.isNull())
+    {
         currentSequenceJobState->m_CaptureModuleState->hasLightBox = (device != nullptr);
+        currentSequenceJobState->m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
+    }
 }
 
 void CaptureDeviceAdaptor::setDustCap(ISD::DustCap *device)
 {
+    if (m_ActiveDustCap == device)
+        return;
+
     m_ActiveDustCap = device;
+
+    if (currentSequenceJobState != nullptr && !currentSequenceJobState->m_CaptureModuleState.isNull())
+    {
+        currentSequenceJobState->m_CaptureModuleState->hasDustCap = (device != nullptr);
+        currentSequenceJobState->m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
+    }
 }
 
 void CaptureDeviceAdaptor::connectDustCap()
