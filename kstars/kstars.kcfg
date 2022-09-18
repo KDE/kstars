@@ -2235,17 +2235,13 @@
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
          <default>1000</default>
       </entry>
-      <entry name="GuideBinSizeIndex" type="UInt">
-         <label>Guide binning size index (0 to 3) corresponding to binning (1x1 to 4x4).</label>
-         <default>0</default>
-      </entry>
       <entry name="CalibrationMaxMove" type="UInt">
          <label>Maximum number of pixels the calibration should move (approximate).</label>
          <default>15</default>
       </entry>
       <entry name="GuideSquareSize" type="String">
          <label>Guide square size selection in pixels.</label>
-         <default>2</default>
+         <default>32</default>
       </entry>
       <entry name="GuideBinning" type="String">
          <label>Guide binning.</label>
