@@ -1292,6 +1292,8 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
 {
     if (command == commands[TRAIN_GET_ALL])
         sendTrains();
+    else if (command == commands[TRAIN_GET_PROFILES])
+        sendTrainProfiles();
     else if (command == commands[TRAIN_SET])
     {
         auto module = payload["module"].toString();
