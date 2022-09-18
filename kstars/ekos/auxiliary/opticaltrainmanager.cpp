@@ -280,13 +280,13 @@ void OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
     train["name"] = name;
 
     auto mounts = m_MountDelegate->values();
-    train["mount"] = mounts.count() > 1 ? mounts[1] : mounts[0];
+    train["mount"] = mounts.last();
 
     auto dustcaps = m_DustCapDelegate->values();
-    train["dustcap"] = dustcaps.count() > 1 ? dustcaps[1] : dustcaps[0];
+    train["dustcap"] = dustcaps.last();
 
     auto lightboxes = m_LightBoxDelegate->values();
-    train["lightbox"] = lightboxes.count() > 1 ? lightboxes[1] : lightboxes[0];
+    train["lightbox"] = lightboxes.last();
 
     QJsonObject opticalElement;
     if (KStars::Instance()->data()->userdb()->getLastOpticalElement(opticalElement))
@@ -295,13 +295,13 @@ void OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
     train["reducer"] = 1.0;
 
     auto rotators = m_RotatorDelegate->values();
-    train["rotator"] = rotators.count() > 1 ? rotators[1] : rotators[0];
+    train["rotator"] = rotators.last();
 
     auto focusers = m_FocuserDelegate->values();
-    train["focuser"] = focusers.count() > 1 ? focusers[1] : focusers[0];
+    train["focuser"] = focusers.last();
 
     auto filterwheels = m_FilterWheelDelegate->values();
-    train["filterwheel"] = filterwheels.count() > 1 ? filterwheels[1] : filterwheels[0];
+    train["filterwheel"] = filterwheels.last();
 
     auto cameras = m_CameraDelegate->values();
     if (main)
@@ -310,7 +310,7 @@ void OpticalTrainManager::addOpticalTrain(bool main, const QString &name)
         train["camera"] = cameras.count() > 2 ? cameras[2] : cameras[0];
 
     auto guiders = m_GuiderDelegate->values();
-    train["guider"] = guiders.count() > 1 ? guiders[1] : guiders[0];
+    train["guider"] = guiders.last();
 
     KStarsData::Instance()->userdb()->AddOpticalTrain(train);
 
