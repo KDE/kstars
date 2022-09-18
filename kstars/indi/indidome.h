@@ -187,9 +187,9 @@ class Dome : public ConcreteDevice
         }
 
     signals:
-        void newStatus(Status status);
-        void newParkStatus(ParkStatus status);
-        void newShutterStatus(ShutterStatus status);
+        void newStatus(ISD::Dome::Status status);
+        void newParkStatus(ISD::ParkStatus status);
+        void newShutterStatus(ISD::Dome::ShutterStatus status);
         void newAutoSyncStatus(bool enabled);
         void positionChanged(double degrees);
 

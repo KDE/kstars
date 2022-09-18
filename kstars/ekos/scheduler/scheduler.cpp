@@ -7510,6 +7510,7 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
             delete domeInterface;
             domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
                                                   QDBusConnection::sessionBus(), this);
+            connect(domeInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
             checkInterfaceReady(domeInterface);
         }
     }
@@ -7525,6 +7526,7 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
             delete weatherInterface;
             weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
                                                   QDBusConnection::sessionBus(), this);
+            connect(weatherInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
             connect(weatherInterface, SIGNAL(newStatus(ISD::Weather::Status)), this, SLOT(setWeatherStatus(ISD::Weather::Status)));
             checkInterfaceReady(weatherInterface);
         }
@@ -7541,6 +7543,7 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
             delete capInterface;
             capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
                                               QDBusConnection::sessionBus(), this);
+            connect(capInterface, SIGNAL(ready()), this, SLOT(syncProperties()));
             checkInterfaceReady(capInterface);
         }
     }
@@ -7633,6 +7636,35 @@ void Scheduler::syncProperties()
             uncapCheck->setEnabled(false);
         }
     }
+    else if (iface == domeInterface)
+    {
+        TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "domeInterface:property", "canPark");
+        QVariant canDomePark = domeInterface->property("canPark");
+        TEST_PRINT(stderr, "  @@@dbus received %s\n", !canDomePark.isValid() ? "invalid" : (canDomePark.toBool() ? "T" : "F"));
+
+        if (canDomePark.isValid())
+        {
+            parkDomeCheck->setEnabled(canDomePark.toBool());
+            unparkDomeCheck->setEnabled(canDomePark.toBool());
+            m_DomeReady = true;
+        }
+        else
+        {
+            parkDomeCheck->setEnabled(false);
+            unparkDomeCheck->setEnabled(false);
+        }
+    }
+    else if (iface == weatherInterface)
+    {
+        QVariant status = weatherInterface->property("status");
+        if (status.isValid())
+        {
+            weatherCheck->setEnabled(true);
+            setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
+        }
+        else
+            weatherCheck->setEnabled(false);
+    }
     else if (iface == captureInterface)
     {
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): %s\n", __LINE__, "captureInterface:property", "coolerControl");
@@ -7673,15 +7705,14 @@ void Scheduler::checkInterfaceReady(QDBusInterface *iface)
     }
     else if (iface == weatherInterface)
     {
-        QVariant updatePeriod = weatherInterface->property("updatePeriod");
-        if (updatePeriod.isValid())
+        QVariant status = weatherInterface->property("status");
+        if (status.isValid())
         {
             weatherCheck->setEnabled(true);
-            QVariant status = weatherInterface->property("status");
             setWeatherStatus(static_cast<ISD::Weather::Status>(status.toInt()));
         }
         else
-            weatherCheck->setEnabled(true);
+            weatherCheck->setEnabled(false);
     }
     else if (iface == domeInterface)
     {

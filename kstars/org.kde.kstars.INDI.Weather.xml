@@ -4,6 +4,7 @@
         <property name="name" type="s" access="read"/>
         <property name="connected" type="b" access="read"/>
         <property name="data" type="s" access="read"/>
+        <property name="refreshPeriod" type="i" access="read"/>
         <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::Weather::Status"/>
         </property>
@@ -16,6 +17,11 @@
         </method>
         <signal name="Connected"/>
         <signal name="Disconnected"/>
-        <signal name="ready"/>        
+        <signal name="ready"/>
+        <signal name="newStatus">
+            <arg name="status" type="(i)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::Weather::Status"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::Weather::Status"/>
+        </signal>
     </interface>
 </node>
