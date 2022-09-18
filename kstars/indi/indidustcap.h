@@ -84,7 +84,7 @@ class DustCap : public ConcreteDevice
         }
 
     signals:
-        void newStatus(Status status);
+        void newStatus(ISD::DustCap::Status status);
 
     private:
         Status m_Status { CAP_IDLE };

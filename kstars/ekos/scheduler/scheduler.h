@@ -1083,7 +1083,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
             domePathString = interface;
         }
 
-        QString weatherInterfaceString { "org.kde.kstars.Ekos.Weather" };
+        QString weatherInterfaceString { "org.kde.kstars.INDI.Weather" };
         void setWeatherInterfaceString(const QString &interface)
         {
             weatherInterfaceString = interface;

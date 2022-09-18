@@ -62,12 +62,12 @@ class Weather : public ConcreteDevice
         }
 
     signals:
-        void newStatus(Status status);
+        void newStatus(ISD::Weather::Status status);
         void newData(const QJsonArray &data);
         void newJSONData(QByteArray data);
 
     private:
-        Status m_WeatherStatus { WEATHER_IDLE };        
+        Status m_WeatherStatus { WEATHER_IDLE };
         QJsonArray m_Data;
 };
 }
