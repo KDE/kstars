@@ -24,6 +24,7 @@ class DustCap : public ConcreteDevice
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.INDI.DustCap")
         Q_PROPERTY(ISD::DustCap::Status status READ status NOTIFY newStatus)
+        Q_PROPERTY(ISD::ParkStatus parkStatus READ parkStatus NOTIFY newParkStatus)
         Q_PROPERTY(bool canPark READ canPark)
         Q_PROPERTY(bool hasLight READ hasLight)
 
@@ -76,18 +77,24 @@ class DustCap : public ConcreteDevice
          * @brief UnPark Open dust cap
          * @return True if operation is successful, false otherwise.
          */
-        Q_SCRIPTABLE bool unPark();
+        Q_SCRIPTABLE bool unpark();
 
         Q_SCRIPTABLE Status status()
         {
             return m_Status;
         }
+        ISD::ParkStatus parkStatus() const
+        {
+            return m_ParkStatus;
+        }
 
     signals:
         void newStatus(ISD::DustCap::Status status);
+        void newParkStatus(ISD::ParkStatus status);
 
     private:
         Status m_Status { CAP_IDLE };
+        ParkStatus m_ParkStatus { PARK_UNKNOWN };
         static const QList<const char *> capStates;
 };
 

@@ -36,6 +36,10 @@ class ConcreteDevice : public GDInterface
             return m_Name;
         }
 
+        bool isReady() const
+        {
+            return m_Parent->isConnected() && m_ReadyTimer && !m_ReadyTimer->isActive();
+        }
         bool isConnected() const
         {
             return m_Parent->isConnected();

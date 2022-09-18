@@ -988,7 +988,7 @@ bool Mount::park()
     return true;
 }
 
-bool Mount::unPark()
+bool Mount::unpark()
 {
     auto parkSP = getSwitch("TELESCOPE_PARK");
 

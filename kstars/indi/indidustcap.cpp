@@ -33,32 +33,52 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
     if (!strcmp(svp->name, "CAP_PARK"))
     {
         Status currentStatus = CAP_ERROR;
+        ParkStatus currentParkStatus = PARK_UNKNOWN;
 
         switch (svp->s)
         {
             case IPS_IDLE:
                 if (svp->sp[0].s == ISS_ON)
+                {
                     currentStatus = CAP_PARKED;
+                    currentParkStatus = PARK_PARKED;
+                }
                 else if (svp->sp[1].s == ISS_ON)
+                {
                     currentStatus = CAP_IDLE;
+                    currentParkStatus = PARK_UNPARKED;
+                }
                 break;
 
             case IPS_OK:
                 if (svp->sp[0].s == ISS_ON)
+                {
                     currentStatus = CAP_PARKED;
+                    currentParkStatus = PARK_PARKED;
+                }
                 else
+                {
                     currentStatus = CAP_IDLE;
+                    currentParkStatus = PARK_UNPARKED;
+                }
                 break;
 
             case IPS_BUSY:
                 if (svp->sp[0].s == ISS_ON)
+                {
                     currentStatus = CAP_PARKING;
+                    currentParkStatus = PARK_PARKING;
+                }
                 else
+                {
                     currentStatus = CAP_UNPARKING;
+                    currentParkStatus = PARK_UNPARKING;
+                }
                 break;
 
             case IPS_ALERT:
                 currentStatus = CAP_ERROR;
+                currentParkStatus = PARK_ERROR;
         }
 
         if (currentStatus != m_Status)
@@ -66,6 +86,14 @@ void DustCap::processSwitch(ISwitchVectorProperty *svp)
             m_Status = currentStatus;
             emit newStatus(m_Status);
         }
+
+        if (currentParkStatus != m_ParkStatus)
+        {
+            m_ParkStatus = currentParkStatus;
+            emit newParkStatus(m_ParkStatus);
+        }
+
+
     }
 }
 
@@ -113,7 +141,7 @@ bool DustCap::park()
     return true;
 }
 
-bool DustCap::unPark()
+bool DustCap::unpark()
 {
     auto parkSP = getSwitch("CAP_PARK");
     if (!parkSP)

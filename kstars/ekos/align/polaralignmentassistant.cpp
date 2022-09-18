@@ -740,7 +740,7 @@ void PolarAlignmentAssistant::startPAHProcess()
         }
 
         // Unpark
-        m_CurrentTelescope->unPark();
+        m_CurrentTelescope->unpark();
 
         // Set tracking ON if not already
         if (m_CurrentTelescope->canControlTrack() && m_CurrentTelescope->isTracking() == false)

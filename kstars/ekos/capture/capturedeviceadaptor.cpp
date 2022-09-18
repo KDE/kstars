@@ -411,7 +411,7 @@ void CaptureDeviceAdaptor::parkDustCap(bool park)
         else
             emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
     // unpark
-    else if (m_ActiveDustCap->unPark())
+    else if (m_ActiveDustCap->unpark())
         emit dustCapStatusChanged(ISD::DustCap::CAP_UNPARKING);
     else
         emit dustCapStatusChanged(ISD::DustCap::CAP_ERROR);
@@ -448,7 +448,7 @@ void Ekos::CaptureDeviceAdaptor::setScopeParked(bool parked)
         }
         else
         {
-            if (m_ActiveTelescope->unPark() == false)
+            if (m_ActiveTelescope->unpark() == false)
                 emit scopeStatusChanged(ISD::Mount::MOUNT_ERROR);
         }
     }
@@ -467,7 +467,7 @@ void Ekos::CaptureDeviceAdaptor::setDomeParked(bool parked)
         }
         else
         {
-            if (m_ActiveDome->unPark() == false)
+            if (m_ActiveDome->unpark() == false)
                 emit domeStatusChanged(ISD::Dome::DOME_ERROR);
         }
     }

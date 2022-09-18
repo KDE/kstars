@@ -8,6 +8,9 @@
         <property name="status" type="i" access="read">
             <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::DustCap::Status"/>
         </property>
+        <property name="parkStatus" type="i" access="read">
+            <annotation name="org.qtproject.QtDBus.QtTypeName" value="ISD::ParkStatus"/>
+        </property>
         <method name="isLightOn">
             <arg type="b" direction="out"/>
         </method>
@@ -20,7 +23,7 @@
         <method name="park">
             <arg type="b" direction="out"/>
         </method>
-        <method name="unPark">
+        <method name="unpark">
             <arg type="b" direction="out"/>
         </method>
         <signal name="Connected"/>
@@ -30,6 +33,11 @@
             <arg name="status" type="(i)" direction="out"/>
             <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::DustCap::Status"/>
             <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::DustCap::Status"/>
+        </signal>
+        <signal name="newParkStatus">
+            <arg name="status" type="(i)" direction="out"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ISD::ParkStatus"/>
+            <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ISD::ParkStatus"/>
         </signal>
     </interface>
 </node>

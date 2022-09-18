@@ -174,7 +174,7 @@ class Dome : public ConcreteDevice
 
         Q_SCRIPTABLE bool abort();
         Q_SCRIPTABLE bool park();
-        Q_SCRIPTABLE bool unPark();
+        Q_SCRIPTABLE bool unpark();
 
         Q_SCRIPTABLE bool controlShutter(bool open);
         bool openShutter()

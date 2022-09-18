@@ -957,7 +957,7 @@ void KStars::slotINDITelescopeUnpark()
         if (!mount || mount->isConnected() == false || mount->canPark() == false)
             continue;
 
-        mount->unPark();
+        mount->unpark();
         return;
     }
 #endif
@@ -1002,7 +1002,7 @@ void KStars::slotINDIDomeUnpark()
             continue;
         if (dome->canPark())
         {
-            dome->unPark();
+            dome->unpark();
             return;
         }
     }
