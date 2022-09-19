@@ -1901,7 +1901,7 @@
       </entry>
       <entry name="FocusAlgorithm" type="String">
          <label>Focus process algorithm</label>
-         <default>Linear 1 Pass</default>
+         <default>Polynomial</default>
       </entry>
       <entry name="FocusSEPProfile" type="String">
          <label>Focus source extraction profile</label>
