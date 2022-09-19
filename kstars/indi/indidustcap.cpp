@@ -158,64 +158,6 @@ bool DustCap::unpark()
     return true;
 }
 
-bool DustCap::hasLight()
-{
-    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
-    if (!lightSP)
-        return false;
-    else
-        return true;
-}
-
-bool DustCap::isLightOn()
-{
-    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
-    if (!lightSP)
-        return false;
-
-    auto lightON = lightSP->findWidgetByName("FLAT_LIGHT_ON");
-    if (!lightON)
-        return false;
-
-    return lightON->getState() == ISS_ON;
-}
-
-bool DustCap::setLightEnabled(bool enable)
-{
-    auto lightSP = getSwitch("FLAT_LIGHT_CONTROL");
-
-    if (!lightSP)
-        return false;
-
-    auto lightON  = lightSP->findWidgetByName("FLAT_LIGHT_ON");
-    auto lightOFF = lightSP->findWidgetByName("FLAT_LIGHT_OFF");
-
-    if (!lightON || !lightOFF)
-        return false;
-
-    lightSP->reset();
-
-    if (enable)
-        lightON->setState(ISS_ON);
-    else
-        lightOFF->setState(ISS_ON);
-
-    sendNewSwitch(lightSP);
-
-    return true;
-}
-
-bool DustCap::setBrightness(uint16_t val)
-{
-    auto lightIntensity = getNumber("FLAT_LIGHT_INTENSITY");
-    if (!lightIntensity)
-        return false;
-
-    lightIntensity->at(0)->setValue(val);
-    sendNewNumber(lightIntensity);
-    return true;
-}
-
 const QString DustCap::getStatusString(DustCap::Status status, bool translated)
 {
     return translated ? i18n(capStates[status]) : capStates[status];

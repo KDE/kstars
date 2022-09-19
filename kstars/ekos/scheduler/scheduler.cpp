@@ -3868,7 +3868,7 @@ bool Scheduler::checkStatus()
 
         // #8 Check it it already completed (should only happen starting a paused job)
         //    Find the next job in this case, otherwise execute the current one
-        if (currentJob->getState() == SchedulerJob::JOB_COMPLETE)
+        if (currentJob && currentJob->getState() == SchedulerJob::JOB_COMPLETE)
             findNextJob();
 
         // N.B. We explicitly do not check for return result here because regardless of execution result
@@ -7505,8 +7505,8 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
         QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
         if (paths.error().type() == QDBusError::NoError)
         {
-            // Let's now just select first dome
-            setDomePathString(paths.value().first());
+            // Select last device in case a restarted caused multiple instances in the tree
+            setDomePathString(paths.value().last());
             delete domeInterface;
             domeInterface    = new QDBusInterface(kstarsInterfaceString, domePathString, domeInterfaceString,
                                                   QDBusConnection::sessionBus(), this);
@@ -7522,7 +7522,8 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
         QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
         if (paths.error().type() == QDBusError::NoError)
         {
-            setWeatherPathString(paths.value().first());
+            // Select last device in case a restarted caused multiple instances in the tree
+            setWeatherPathString(paths.value().last());
             delete weatherInterface;
             weatherInterface = new QDBusInterface(kstarsInterfaceString, weatherPathString, weatherInterfaceString,
                                                   QDBusConnection::sessionBus(), this);
@@ -7539,7 +7540,8 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
         QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
         if (paths.error().type() == QDBusError::NoError)
         {
-            setDustCapPathString(paths.value().first());
+            // Select last device in case a restarted caused multiple instances in the tree
+            setDustCapPathString(paths.value().last());
             delete capInterface;
             capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
                                               QDBusConnection::sessionBus(), this);

@@ -17,14 +17,28 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class LightBox : public DustCap
+class LightBox : public ConcreteDevice
 {
         Q_OBJECT
 
     public:
-        explicit LightBox(GenericDevice *parent) : DustCap(parent) {}
+        explicit LightBox(GenericDevice *parent) : ConcreteDevice(parent) {}
 
-        virtual bool hasLight() override;
-        virtual bool canPark() override;
+        Q_SCRIPTABLE virtual bool isLightOn();
+
+public slots:
+    /**
+     * @brief SetBrightness Set light box brightness levels if dimmable.
+     * @param val Value of brightness level.
+     * @return True if operation is successful, false otherwise.
+     */
+    Q_SCRIPTABLE bool setBrightness(uint16_t val);
+
+    /**
+     * @brief SetLightEnabled Turn on/off light
+     * @param enable true to turn on, false to turn off
+     * @return True if operation is successful, false otherwise.
+     */
+    Q_SCRIPTABLE bool setLightEnabled(bool enable);
 };
 }

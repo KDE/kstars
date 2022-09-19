@@ -1092,6 +1092,7 @@ void GenericDevice::generateDevices()
         {
             camera->processProperties();
             emit newCamera(camera);
+            emit ready();
         }
         else
         {
