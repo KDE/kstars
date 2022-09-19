@@ -406,7 +406,7 @@ void Guide::configurePHD2Camera()
 
 bool Guide::setMount(ISD::Mount *device)
 {
-    if (m_Mount == device)
+    if (m_Mount && m_Mount == device)
     {
         syncTelescopeInfo();
         return false;
