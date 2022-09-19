@@ -308,7 +308,10 @@ QString Guide::setRecommendedExposureValues(QList<double> values)
 bool Guide::setCamera(ISD::Camera *device)
 {
     if (m_Camera && device == m_Camera)
+    {
+        checkCamera();
         return false;
+    }
 
     if (m_Camera)
         m_Camera->disconnect(this);
@@ -404,7 +407,10 @@ void Guide::configurePHD2Camera()
 bool Guide::setMount(ISD::Mount *device)
 {
     if (m_Mount == device)
+    {
+        syncTelescopeInfo();
         return false;
+    }
 
     if (m_Mount)
         m_Mount->disconnect(this);

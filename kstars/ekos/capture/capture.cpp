@@ -494,7 +494,10 @@ Capture::~Capture()
 bool Capture::setCamera(ISD::Camera *device)
 {
     if (m_Camera && m_Camera == device)
+    {
+        checkCamera();
         return false;
+    }
 
     if (m_Camera)
         m_Camera->disconnect(this);
@@ -543,7 +546,10 @@ void Capture::addGuideHead(ISD::Camera * device)
 bool Capture::setFilterWheel(ISD::FilterWheel * device)
 {
     if (m_FilterWheel == device)
+    {
+        checkFilter();
         return false;
+    }
 
     if (m_FilterWheel)
         m_FilterWheel->disconnect(this);
@@ -598,7 +604,10 @@ bool Capture::setDustCap(ISD::DustCap *device)
 bool Capture::setMount(ISD::Mount *device)
 {
     if (m_Mount == device)
+    {
+        syncTelescopeInfo();
         return false;
+    }
 
     if (m_Mount)
         m_Mount->disconnect(this);
@@ -626,7 +635,10 @@ bool Capture::setMount(ISD::Mount *device)
 bool Capture::setRotator(ISD::Rotator * device)
 {
     if (m_Rotator == device)
+    {
+        rotatorB->setEnabled(true);
         return false;
+    }
 
     if (m_Rotator)
         m_Rotator->disconnect(this);

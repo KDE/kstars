@@ -379,7 +379,10 @@ void Focus::syncCameraInfo()
 bool Focus::setFilterWheel(ISD::FilterWheel *device)
 {
     if (m_FilterWheel == device)
+    {
+        checkFilter();
         return false;
+    }
 
     if (m_FilterWheel)
         m_FilterWheel->disconnect(this);
@@ -539,7 +542,10 @@ void Focus::checkFilter()
 bool Focus::setFocuser(ISD::Focuser *device)
 {
     if (m_Focuser == device)
+    {
+        checkFocuser();
         return false;
+    }
 
     if (m_Focuser)
         m_Focuser->disconnect(this);
@@ -663,7 +669,10 @@ void Focus::checkFocuser()
 bool Focus::setCamera(ISD::Camera *device)
 {
     if (m_Camera && m_Camera == device)
+    {
+        checkCamera();
         return false;
+    }
 
     if (m_Camera)
         m_Camera->disconnect(this);

@@ -1439,21 +1439,21 @@ void Manager::deviceConnected()
             focusProcess->setEnabled(true);
     }
 
-    if (Options::neverLoadConfig())
-        return;
-
-    INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
-
-    for (auto &oneDevice : INDIListener::devices())
+    if (Options::neverLoadConfig() == false)
     {
-        if (oneDevice == device)
-        {
-            connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
+        INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
 
-            auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-            if (configProp && configProp->getState() == IPS_IDLE)
-                device->setConfig(tConfig);
-            break;
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            if (oneDevice == device)
+            {
+                connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
+
+                auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+                if (configProp && configProp->getState() == IPS_IDLE)
+                    device->setConfig(tConfig);
+                break;
+            }
         }
     }
 
@@ -2157,14 +2157,16 @@ void Manager::initMount()
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
-    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipStatus", status},
         }));
     });
-    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
     {
         // Throttle this down
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
