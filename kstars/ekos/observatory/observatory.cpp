@@ -146,7 +146,7 @@ bool Observatory::setDome(ISD::Dome *device)
     if (m_Dome->canPark())
     {
         connect(domePark, &QPushButton::clicked, m_Dome, &ISD::Dome::park);
-        connect(domeUnpark, &QPushButton::clicked, m_Dome, &ISD::Dome::unPark);
+        connect(domeUnpark, &QPushButton::clicked, m_Dome, &ISD::Dome::unpark);
         domePark->setEnabled(true);
         domeUnpark->setEnabled(true);
     }

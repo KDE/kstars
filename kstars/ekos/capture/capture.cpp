@@ -217,7 +217,8 @@ Capture::Capture()
     });
     connect(cameraTemperatureN, &QDoubleSpinBox::editingFinished, setTemperatureB,
             static_cast<void (QPushButton::*)()>(&QPushButton::setFocus));
-    connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::checkFrameType);
+    connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Capture::checkFrameType);
     connect(resetFrameB, &QPushButton::clicked, this, &Ekos::Capture::resetFrame);
     connect(calibrationB, &QPushButton::clicked, this, &Ekos::Capture::openCalibrationDialog);
     connect(rotatorB, &QPushButton::clicked, m_RotatorControlPanel.get(), &Ekos::Capture::show);
@@ -382,7 +383,8 @@ Capture::Capture()
         connect(control, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
                 &Ekos::Capture::setDirty);
 
-    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &Ekos::Capture::setDirty);
+    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &Ekos::Capture::setDirty);
     connect(fileRemoteDirT, &QLineEdit::editingFinished, this, &Ekos::Capture::setDirty);
 
     m_ObserverName = Options::defaultObserver();
@@ -397,26 +399,26 @@ Capture::Capture()
     // Post capture script
     connect(&m_CaptureScript, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
             this, &Ekos::Capture::scriptFinished);
-    connect(&m_CaptureScript, &QProcess::errorOccurred,
+    connect(&m_CaptureScript, &QProcess::errorOccurred, this,
             [this](QProcess::ProcessError error)
     {
         Q_UNUSED(error)
         appendLogText(m_CaptureScript.errorString());
         scriptFinished(-1, QProcess::NormalExit);
     });
-    connect(&m_CaptureScript, &QProcess::readyReadStandardError,
+    connect(&m_CaptureScript, &QProcess::readyReadStandardError, this,
             [this]()
     {
         appendLogText(m_CaptureScript.readAllStandardError());
     });
-    connect(&m_CaptureScript, &QProcess::readyReadStandardOutput,
+    connect(&m_CaptureScript, &QProcess::readyReadStandardOutput, this,
             [this]()
     {
         appendLogText(m_CaptureScript.readAllStandardOutput());
     });
 
     // Remote directory
-    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+    connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             [&](int index)
     {
         fileRemoteDirT->setEnabled(index != 0);
@@ -685,7 +687,8 @@ void Capture::pause()
 
 void Capture::toggleSequence()
 {
-    if (m_captureModuleState->getCaptureState() == CAPTURE_PAUSE_PLANNED || m_captureModuleState->getCaptureState() == CAPTURE_PAUSED)
+    if (m_captureModuleState->getCaptureState() == CAPTURE_PAUSE_PLANNED
+            || m_captureModuleState->getCaptureState() == CAPTURE_PAUSED)
     {
         startB->setIcon(
             QIcon::fromTheme("media-playback-stop"));
@@ -701,7 +704,9 @@ void Capture::toggleSequence()
         if (pauseFunction)
             (this->*pauseFunction)();
     }
-    else if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
+    else if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE
+             || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
+             || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
     {
         start();
     }
@@ -965,7 +970,8 @@ void Capture::stop(CaptureState targetState)
 
     setBusy(false);
 
-    if (m_captureModuleState->getCaptureState() == CAPTURE_ABORTED || m_captureModuleState->getCaptureState() == CAPTURE_SUSPENDED)
+    if (m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
+            || m_captureModuleState->getCaptureState() == CAPTURE_SUSPENDED)
     {
         startB->setIcon(
             QIcon::fromTheme("media-playback-start"));
@@ -1583,6 +1589,9 @@ void Capture::checkFilter()
         FilterPosLabel->setEnabled(false);
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
+
+        m_FilterManager.reset();
+        m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
         return;
     }
 
@@ -1732,7 +1741,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
     if (mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
     {
         if (data)
-            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as meridian flip stage is" << mf_state->getMeridianFlipStage();
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as meridian flip stage is" <<
+                                           mf_state->getMeridianFlipStage();
         return;
     }
 
@@ -1749,7 +1759,8 @@ void Capture::processData(const QSharedPointer<FITSData> &data)
 
         if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as current capture state is not active" << m_captureModuleState->getCaptureState();
+            qCWarning(KSTARS_EKOS_CAPTURE) << blobInfo << "Ignoring Received FITS as current capture state is not active" <<
+                                           m_captureModuleState->getCaptureState();
             return;
         }
 
@@ -2713,7 +2724,8 @@ void Capture::setDownloadProgress()
 void Capture::setExposureProgress(ISD::CameraChip * tChip, double value, IPState state)
 {
     if (m_captureDeviceAdaptor->getActiveChip() != tChip ||
-            m_captureDeviceAdaptor->getActiveChip()->getCaptureMode() != FITS_NORMAL || mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
+            m_captureDeviceAdaptor->getActiveChip()->getCaptureMode() != FITS_NORMAL
+            || mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
         return;
 
     double deltaMS = std::ceil(1000.0 * value - lastRemainingFrameTimeMS);
@@ -2845,9 +2857,11 @@ void Capture::setActiveJob(SequenceJob *value)
         connect(this, &Capture::newGuiderDrift, activeJob, &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
         connect(activeJob, &SequenceJob::prepareState, this, &Capture::updatePrepareState);
-        connect(activeJob, &SequenceJob::prepareComplete, this, [this]() {
+        connect(activeJob, &SequenceJob::prepareComplete, this, [this]()
+        {
             m_captureModuleState->setCaptureState(CAPTURE_PROGRESS);
-            executeJob();});
+            executeJob();
+        });
         connect(activeJob, &SequenceJob::abortCapture, this, &Capture::abort);
         connect(activeJob, &SequenceJob::newLog, this, &Capture::newLog);
         // forward the devices and attributes
@@ -2886,7 +2900,8 @@ bool Capture::addSequenceJob()
 
 bool Capture::addJob(bool preview, bool isDarkFlat)
 {
-    if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
+    if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED
+            && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
         return false;
 
     SequenceJob * job = nullptr;
@@ -3172,7 +3187,8 @@ void Capture::removeJobFromQueue()
 
 bool Capture::removeJob(int index)
 {
-    if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
+    if (m_captureModuleState->getCaptureState() != CAPTURE_IDLE && m_captureModuleState->getCaptureState() != CAPTURE_ABORTED
+            && m_captureModuleState->getCaptureState() != CAPTURE_COMPLETE)
         return false;
 
     if (m_JobUnderEdit)
@@ -3756,7 +3772,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     // if the job is in the startup phase and no flip is neither requested nor running, check if the deviation is below the initial guiding limit
     if (m_captureModuleState->getCaptureState() == CAPTURE_PROGRESS &&
-	    mf_state->getMeridianFlipStage() != MeridianFlipState::MF_REQUESTED &&
+            mf_state->getMeridianFlipStage() != MeridianFlipState::MF_REQUESTED &&
             mf_state->checkMeridianFlipRunning() == false)
     {
         // initial guiding deviation irrelevant or below limit
@@ -3898,7 +3914,9 @@ void Capture::setFocusStatus(FocusState state)
     m_captureModuleState->setFocusState(state);
 
     // Do not process above aborted or when meridian flip in progress
-    if (m_captureModuleState->getFocusState() > FOCUS_ABORTED || mf_state->getMeridianFlipStage() == MeridianFlipState::MF_FLIPPING ||  mf_state->getMeridianFlipStage() == MeridianFlipState::MF_SLEWING)
+    if (m_captureModuleState->getFocusState() > FOCUS_ABORTED
+            || mf_state->getMeridianFlipStage() == MeridianFlipState::MF_FLIPPING
+            ||  mf_state->getMeridianFlipStage() == MeridianFlipState::MF_SLEWING)
         return;
 
     if (m_captureModuleState->getFocusState() == FOCUS_COMPLETE)
@@ -3960,8 +3978,10 @@ void Capture::setFocusStatus(FocusState state)
         }
         // Meridian flip will abort focusing. In this case, after the meridian flip has completed capture
         // will restart the re-focus attempt. Therefore we only abort capture if meridian flip is not running.
-        else if ((m_captureModuleState->getFocusState() == FOCUS_FAILED || m_captureModuleState->getFocusState() == FOCUS_ABORTED) &&
-                 !(mf_state->getMeridianFlipStage() == MeridianFlipState::MF_INITIATED || mf_state->getMeridianFlipStage() == MeridianFlipState::MF_SLEWING)
+        else if ((m_captureModuleState->getFocusState() == FOCUS_FAILED || m_captureModuleState->getFocusState() == FOCUS_ABORTED)
+                 &&
+                 !(mf_state->getMeridianFlipStage() == MeridianFlipState::MF_INITIATED
+                   || mf_state->getMeridianFlipStage() == MeridianFlipState::MF_SLEWING)
                 )
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
@@ -4110,7 +4130,8 @@ void Capture::meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountStat
             if (mf_state->getMeridianFlipStage() > MeridianFlipState::MF_NONE)
             {
                 // This should never happen, since a meridian flip seems to be ongoing
-                qCritical(KSTARS_EKOS_CAPTURE) << "Accepting meridian flip request while being in stage " << mf_state->getMeridianFlipStage();
+                qCritical(KSTARS_EKOS_CAPTURE) << "Accepting meridian flip request while being in stage " <<
+                                               mf_state->getMeridianFlipStage();
             }
 
             // If we are autoguiding, we should resume autoguiding after flip
@@ -4119,7 +4140,8 @@ void Capture::meridianFlipStatusChanged(MeridianFlipState::MeridianFlipMountStat
             // mark flip as requested
             setMeridianFlipStage(MeridianFlipState::MF_REQUESTED);
             // if capture is not running, immediately accept it
-            if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE || m_captureModuleState->getCaptureState() == CAPTURE_PAUSED)
+            if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
+                    || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE || m_captureModuleState->getCaptureState() == CAPTURE_PAUSED)
                 mf_state->updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
 
             break;
@@ -5350,7 +5372,8 @@ void Capture::processFlipCompleted()
                           KSNotification::Capture);
 
 
-    if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
+    if (m_captureModuleState->getCaptureState() == CAPTURE_IDLE || m_captureModuleState->getCaptureState() == CAPTURE_ABORTED
+            || m_captureModuleState->getCaptureState() == CAPTURE_COMPLETE)
     {
         // reset the meridian flip stage and jump directly MF_NONE, since no
         // restart of guiding etc. necessary
@@ -5372,7 +5395,8 @@ bool Capture::checkGuidingAfterFlip()
     }
 
     // if we are waiting for a calibration, start it
-    if (mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED && mf_state->getMeridianFlipStage() < MeridianFlipState::MF_GUIDING)
+    if (mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED
+            && mf_state->getMeridianFlipStage() < MeridianFlipState::MF_GUIDING)
     {
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
 
@@ -5385,7 +5409,8 @@ bool Capture::checkGuidingAfterFlip()
     }
     else if (m_captureModuleState->getCaptureState() == CAPTURE_CALIBRATING)
     {
-        if (m_captureModuleState->getGuideState() == GUIDE_CALIBRATION_ERROR || m_captureModuleState->getGuideState() == GUIDE_ABORTED)
+        if (m_captureModuleState->getGuideState() == GUIDE_CALIBRATION_ERROR
+                || m_captureModuleState->getGuideState() == GUIDE_ABORTED)
         {
             // restart guiding after failure
             appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
@@ -5549,7 +5574,8 @@ void Capture::setAlignStatus(AlignState state)
 void Capture::setGuideStatus(GuideState state)
 {
     if (state != m_captureModuleState->getGuideState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Guiding state changed from" << Ekos::getGuideStatusString(m_captureModuleState->getGuideState())
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Guiding state changed from" << Ekos::getGuideStatusString(
+                                         m_captureModuleState->getGuideState())
                                      << "to" << Ekos::getGuideStatusString(state);
     switch (state)
     {
@@ -5568,7 +5594,8 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_DITHERING_SUCCESS:
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering succeeded, capture state" << getCaptureStatusString(m_captureModuleState->getCaptureState());
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering succeeded, capture state" << getCaptureStatusString(
+                                            m_captureModuleState->getCaptureState());
             // do nothing if something happened during dithering
             appendLogText(i18n("Dithering succeeded."));
             if (m_captureModuleState->getCaptureState() != CAPTURE_DITHERING)
@@ -5591,7 +5618,8 @@ void Capture::setGuideStatus(GuideState state)
             break;
 
         case GUIDE_DITHERING_ERROR:
-            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering failed, capture state" << getCaptureStatusString(m_captureModuleState->getCaptureState());
+            qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering failed, capture state" << getCaptureStatusString(
+                                            m_captureModuleState->getCaptureState());
             if (m_captureModuleState->getCaptureState() != CAPTURE_DITHERING)
                 break;
 
@@ -5635,7 +5663,8 @@ void Capture::processGuidingFailed()
     else if (isGuidingOn() && mf_state->getMeridianFlipStage() == MeridianFlipState::MF_NONE &&
              // JM 2022.08.03: Only abort if the current job is LIGHT. For calibration frames, we can ignore guide failures.
              ((activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT) ||
-              this->m_captureModuleState->getCaptureState() == CAPTURE_SUSPENDED || this->m_captureModuleState->getCaptureState() == CAPTURE_PAUSED))
+              this->m_captureModuleState->getCaptureState() == CAPTURE_SUSPENDED
+              || this->m_captureModuleState->getCaptureState() == CAPTURE_PAUSED))
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
         abort();
@@ -5993,13 +6022,15 @@ IPState Capture::checkLightFramePendingTasks()
 
     // step 5: check if post flip guiding is running
     // MF_NONE is set as soon as guiding is running and the guide deviation is below the limit
-    if (mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED && m_captureModuleState->getGuideState() != GUIDE_GUIDING && checkGuidingAfterFlip())
+    if (mf_state->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED
+            && m_captureModuleState->getGuideState() != GUIDE_GUIDING && checkGuidingAfterFlip())
         return IPS_BUSY;
 
     // step 6: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
     //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
     //         Otherwise the meridian flip is complete
-    if (m_captureModuleState->getCaptureState() == CAPTURE_CALIBRATING && mf_state->getMeridianFlipStage() == MeridianFlipState::MF_GUIDING)
+    if (m_captureModuleState->getCaptureState() == CAPTURE_CALIBRATING
+            && mf_state->getMeridianFlipStage() == MeridianFlipState::MF_GUIDING)
     {
         if (m_LimitsUI->limitGuideDeviationS->isChecked() || m_LimitsUI->startGuiderDriftS->isChecked())
             return IPS_BUSY;
@@ -6014,13 +6045,15 @@ IPState Capture::checkLightFramePendingTasks()
         return IPS_BUSY;
 
     // step 8: check if dithering is required or running
-    if ((m_captureModuleState->getCaptureState() == CAPTURE_DITHERING && m_captureModuleState->getDitheringState() != IPS_OK) || checkDithering())
+    if ((m_captureModuleState->getCaptureState() == CAPTURE_DITHERING && m_captureModuleState->getDitheringState() != IPS_OK)
+            || checkDithering())
         return IPS_BUSY;
 
     // step 9: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
-    if ((m_captureModuleState->getCaptureState() == CAPTURE_FOCUSING  && m_captureModuleState->getFocusState() != FOCUS_COMPLETE && m_captureModuleState->getFocusState() != FOCUS_ABORTED)
+    if ((m_captureModuleState->getCaptureState() == CAPTURE_FOCUSING
+            && m_captureModuleState->getFocusState() != FOCUS_COMPLETE && m_captureModuleState->getFocusState() != FOCUS_ABORTED)
             || startFocusIfRequired())
         return IPS_BUSY;
 
@@ -6610,7 +6643,7 @@ bool Capture::isModelinDSLRInfo(const QString &model)
         return (oneDSLRInfo["Model"] == model);
     });
 
-return (pos != DSLRInfos.end());
+    return (pos != DSLRInfos.end());
 }
 
 void Capture::cullToDSLRLimits()

@@ -314,7 +314,7 @@ bool Dome::park()
     return true;
 }
 
-bool Dome::unPark()
+bool Dome::unpark()
 {
     auto parkSP = getSwitch("DOME_PARK");
 

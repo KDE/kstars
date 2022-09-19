@@ -6772,7 +6772,7 @@ void Scheduler::checkCapParkingStatus()
     if (parkingStatus.isValid() == false)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: cap parkStatus request received DBUS error: %1").arg(
-                                              mountInterface->lastError().type());
+                                              capInterface->lastError().type());
         if (!manageConnectionLoss())
             parkingStatus = ISD::PARK_ERROR;
     }
@@ -7539,7 +7539,7 @@ void Scheduler::registerNewDevice(const QString &name, int interface)
         QDBusReply<QStringList> paths = indiInterface->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths", dbusargs);
         if (paths.error().type() == QDBusError::NoError)
         {
-            setCapturePathString(paths.value().first());
+            setDustCapPathString(paths.value().first());
             delete capInterface;
             capInterface = new QDBusInterface(kstarsInterfaceString, dustCapPathString, dustCapInterfaceString,
                                               QDBusConnection::sessionBus(), this);

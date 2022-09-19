@@ -658,7 +658,7 @@ void KSPopupMenu::addINDI()
             QAction *unpark =
                 mountMenu->addAction(QIcon::fromTheme("flag-green"), i18n("UnPark"));
             unpark->setEnabled(mount->isParked());
-            connect(unpark, &QAction::triggered, [mount] { mount->unPark(); });
+            connect(unpark, &QAction::triggered, [mount] { mount->unpark(); });
 
             mountMenu->addSeparator();
         }

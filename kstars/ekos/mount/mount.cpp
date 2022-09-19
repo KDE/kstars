@@ -107,7 +107,8 @@ Mount::Mount()
     connect(EnableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
     // meridian flip
-    connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget, &MeridianFlipStatusWidget::setStatus);
+    connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
+            &MeridianFlipStatusWidget::setStatus);
 
     // This is always in degrees
     connect(ExecuteMeridianFlip, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
@@ -297,7 +298,10 @@ bool Mount::setMount(ISD::Mount *device)
         if (status == ISD::PARK_UNPARKED && ParkEveryDay->isChecked() && autoParkTimer.isActive() == false)
             startTimerB->animateClick();
     });
-    connect(m_Mount, &ISD::Mount::ready, this, &Mount::ready);
+    if (m_Mount->isReady())
+        emit ready();
+    else
+        connect(m_Mount, &ISD::Mount::ready, this, &Mount::ready);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
@@ -447,7 +451,7 @@ void Mount::syncTelescopeInfo()
     if (m_Mount->canPark())
     {
         connect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::park, Qt::UniqueConnection);
-        connect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unPark, Qt::UniqueConnection);
+        connect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unpark, Qt::UniqueConnection);
 
         // QtQuick
         m_Park->setEnabled(!m_Mount->isParked());
@@ -456,7 +460,7 @@ void Mount::syncTelescopeInfo()
     else
     {
         disconnect(parkB, &QPushButton::clicked, m_Mount, &ISD::Mount::park);
-        disconnect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unPark);
+        disconnect(unparkB, &QPushButton::clicked, m_Mount, &ISD::Mount::unpark);
 
         // QtQuick
         m_Park->setEnabled(false);
@@ -669,7 +673,8 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
             setInitialHA((sgn == '-' ? -1 : 1) * ha.Hours());
             delete currentTargetPosition;
             currentTargetPosition = new SkyPoint(telescopeCoord.ra(), telescopeCoord.dec());
-            qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
+            qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " << MeridianFlipState::meridianFlipStatusString(
+                                           mf_state->getMeridianFlipMountState());
         }
 
         //setScopeStatus(currentStatus);
@@ -1260,7 +1265,8 @@ bool Mount::checkMeridianFlip(dms lst)
                     {
                         appendLogText(i18n("No successful Meridian Flip done, delay too long"));
                     }
-                    mf_state->updateMFMountState(MeridianFlipState::MOUNT_FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
+                    mf_state->updateMFMountState(
+                        MeridianFlipState::MOUNT_FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
                 }
                 else
                 {
@@ -1451,7 +1457,7 @@ bool Mount::unpark()
     if (m_Mount == nullptr || m_Mount->canPark() == false)
         return false;
 
-    return m_Mount->unPark();
+    return m_Mount->unpark();
 }
 
 

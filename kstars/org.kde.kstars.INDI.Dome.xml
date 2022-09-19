@@ -30,7 +30,7 @@
         <method name="park">
             <arg type="b" direction="out"/>
         </method>
-        <method name="unPark">
+        <method name="unpark">
             <arg type="b" direction="out"/>
         </method>
         <method name="abort">

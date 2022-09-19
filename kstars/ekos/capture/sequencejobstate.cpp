@@ -254,7 +254,8 @@ void SequenceJobState::setAllActionsReady()
     // reset the initialization state
     for (CaptureModuleState::PrepareActions action :
             {
-                CaptureModuleState::ACTION_FILTER, CaptureModuleState::ACTION_ROTATOR, CaptureModuleState::ACTION_TEMPERATURE, CaptureModuleState::ACTION_GUIDER_DRIFT
+                CaptureModuleState::ACTION_FILTER, CaptureModuleState::ACTION_ROTATOR, CaptureModuleState::ACTION_TEMPERATURE,
+                CaptureModuleState::ACTION_GUIDER_DRIFT
             })
         setInitialized(action, false);
 }
@@ -358,7 +359,17 @@ IPState SequenceJobState::checkFlatCapReady()
     if (m_CaptureModuleState->getDustCapState() == CaptureModuleState::CAP_ERROR)
         return IPS_ALERT;
 
-    if (m_CaptureModuleState->hasLightBox == true && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_ON)
+    // #1 if using the dust cap, first park the dust cap
+    if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_PARKED)
+    {
+        m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
+        emit parkDustCap(true);
+        emit newLog(i18n("Parking dust cap..."));
+        return IPS_BUSY;
+    }
+
+    // #2 Then we check if we need to turn on light box, if any
+    if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != CaptureModuleState::CAP_LIGHT_ON)
     {
         m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
         emit setLightBoxLight(true);
@@ -366,21 +377,6 @@ IPState SequenceJobState::checkFlatCapReady()
         return IPS_BUSY;
     }
 
-    if (m_CaptureModuleState->hasDustCap == false)
-    {
-        if (m_CaptureModuleState->hasLightBox == false)
-            emit newLog("Skipping flat/dark cap since it is not connected.");
-        return IPS_OK;
-    }
-
-    // if using the dust cap, first park the dust cap
-    if (m_CaptureModuleState->getDustCapState() != CaptureModuleState::CAP_PARKED)
-    {
-        m_CaptureModuleState->setDustCapState(CaptureModuleState::CAP_PARKING);
-        emit parkDustCap(true);
-        emit newLog(i18n("Parking dust cap..."));
-        return IPS_BUSY;
-    }
     // nothing more to do
     return IPS_OK;
 }
@@ -398,32 +394,25 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 
     bool captureFlats = (frameType == FRAME_FLAT);
 
-    CaptureModuleState::LightState targetLightBoxStatus = (frameType == FRAME_FLAT) ? CaptureModuleState::CAP_LIGHT_ON : CaptureModuleState::CAP_LIGHT_OFF;
-
-    if (m_CaptureModuleState->hasLightBox == true && m_CaptureModuleState->getLightBoxLightState() != targetLightBoxStatus)
-    {
-        m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
-        emit setLightBoxLight(captureFlats);
-        emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
-        return IPS_BUSY;
-    }
-
-    if (m_CaptureModuleState->hasDustCap == false)
-    {
-        // Only warn if we don't have already light box.
-        if (m_CaptureModuleState->hasLightBox == false)
-            emit newLog("Skipping flat/dark cap since it is not connected.");
-        return IPS_OK;
-    }
-
     // for flats open the cap and close it otherwise
     CaptureModuleState::CapState targetCapState = captureFlats ? CaptureModuleState::CAP_IDLE : CaptureModuleState::CAP_PARKED;
     // If cap is parked, unpark it since dark cap uses external light source.
-    if (m_CaptureModuleState->getDustCapState() != targetCapState)
+    if (m_CaptureModuleState->hasDustCap && m_CaptureModuleState->getDustCapState() != targetCapState)
     {
         m_CaptureModuleState->setDustCapState(captureFlats ? CaptureModuleState::CAP_UNPARKING : CaptureModuleState::CAP_PARKING);
         emit parkDustCap(!captureFlats);
         emit newLog(captureFlats ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
+        return IPS_BUSY;
+    }
+
+    CaptureModuleState::LightState targetLightBoxStatus = (frameType == FRAME_FLAT) ? CaptureModuleState::CAP_LIGHT_ON :
+            CaptureModuleState::CAP_LIGHT_OFF;
+
+    if (m_CaptureModuleState->hasLightBox && m_CaptureModuleState->getLightBoxLightState() != targetLightBoxStatus)
+    {
+        m_CaptureModuleState->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_BUSY);
+        emit setLightBoxLight(captureFlats);
+        emit newLog(captureFlats ? i18n("Turn light box light on...") : i18n("Turn light box light off..."));
         return IPS_BUSY;
     }
 
@@ -460,7 +449,8 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 
         // wall position reached, check if we have a light box to turn on for flats and off otherwise
         bool captureFlats = (frametype == FRAME_FLAT);
-        CaptureModuleState::LightState targetLightState = (captureFlats ? CaptureModuleState::CAP_LIGHT_ON : CaptureModuleState::CAP_LIGHT_OFF);
+        CaptureModuleState::LightState targetLightState = (captureFlats ? CaptureModuleState::CAP_LIGHT_ON :
+                CaptureModuleState::CAP_LIGHT_OFF);
 
         if (m_CaptureModuleState->hasLightBox == true)
         {
@@ -563,7 +553,8 @@ IPState SequenceJobState::checkHasShutter()
 
 IPState SequenceJobState::checkManualCover()
 {
-    if (m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO && m_CaptureModuleState->telescopeCovered == false)
+    if (m_CaptureModuleState->shutterStatus == CaptureModuleState::SHUTTER_NO
+            && m_CaptureModuleState->telescopeCovered == false)
     {
         // Already asked for confirmation? Then wait.
         if (coverQueryState == CAL_CHECK_CONFIRMATION)
