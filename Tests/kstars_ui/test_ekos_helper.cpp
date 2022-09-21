@@ -488,7 +488,11 @@ void TestEkosHelper::prepareGuidingModule()
 
     // preserve guiding calibration as good as possible
     Options::setReuseGuideCalibration(true);
-
+    Options::setResetGuideCalibration(false);
+    // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
+    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=269.84,angR=270.362,angD=179.318,ramspas=104.501,decmspas=191.838,swap=0,ra= 143:57:35,dec=00:25:52,side=0,when=2022-09-11 12:05:16,calEnd");
+    // 0.5 pixel dithering
+    Options::setDitherPixels(0.5);
     if (m_Guider == "PHD2")
     {
         KTRY_GADGET(Ekos::Manager::Instance()->guideModule(), QPushButton, externalConnectB);
@@ -667,6 +671,7 @@ bool TestEkosHelper::startGuiding(double expTime)
     KTRY_CLICK_SUB(Ekos::Manager::Instance()->guideModule(), guideB);
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedGuidingStates, 120000);
     qCInfo(KSTARS_EKOS_TEST) << "Guiding started.";
+    qCInfo(KSTARS_EKOS_TEST) << "Guiding calibration: " << Options::serializedCalibration();
     qCInfo(KSTARS_EKOS_TEST) << "Waiting 2sec for settle guiding ...";
     QTest::qWait(2000);
     // all checks succeeded, remember that guiding is running

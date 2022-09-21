@@ -98,9 +98,15 @@ public:
      */
     inline bool checkMeridianFlipRunning()
     {
-        return meridianFlipStage == MeridianFlipState::MF_INITIATED ||
-                meridianFlipStage == MeridianFlipState::MF_FLIPPING ||
-                meridianFlipStage == MeridianFlipState::MF_SLEWING;
+        return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;
+    }
+
+    /**
+     * @brief Check if a meridian flip is ready to start, running or some post flip actions are not comleted.
+     */
+    inline bool checkMeridianFlipActive()
+    {
+        return meridianFlipStage != MF_NONE && meridianFlipStage != MF_REQUESTED;
     }
 
 

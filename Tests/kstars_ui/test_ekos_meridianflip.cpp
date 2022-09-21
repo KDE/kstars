@@ -224,7 +224,7 @@ void TestEkosMeridianFlip::testCaptureAlignMF()
     QVERIFY(prepareCaptureTestcase(40, true, false, false));
 
     // start alignment
-    QVERIFY(startAligning(5.0));
+    QVERIFY(executeAlignment(5.0));
 
     // start capturing
     QVERIFY(startCapturing());
@@ -255,7 +255,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
     // start alignment
     m_CaptureHelper->expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
-    QVERIFY(startAligning(5.0));
+    QVERIFY(executeAlignment(5.0));
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedAlignStates, 21000);
 
     // start guiding

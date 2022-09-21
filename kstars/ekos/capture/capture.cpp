@@ -960,11 +960,8 @@ void Capture::stop(CaptureState targetState)
         m_captureDeviceAdaptor->getLightBox()->setLightEnabled(false);
     }
 
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-               &Ekos::Capture::setExposureProgress);
-    //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Ekos::Capture::ready);
+    // disconnect camera device
+    connectCamera(false);
 
     // In case of exposure looping, let's abort
     if (m_captureDeviceAdaptor->getActiveCamera() &&
@@ -1114,6 +1111,27 @@ void Capture::checkCamera()
     // connect(m_Camera, &ISD::Camera::newTemperatureValue, this, &Ekos::Capture::updateCCDTemperature, Qt::UniqueConnection);
 
     DarkLibrary::Instance()->checkCamera();
+}
+
+void Capture::connectCamera(bool connection)
+{
+    if (connection)
+    {
+        connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
+                &Ekos::Capture::setExposureProgress, Qt::UniqueConnection);
+        connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData,
+                Qt::UniqueConnection);
+        //connect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
+        connect(m_Camera, &ISD::Camera::ready, this, &Ekos::Capture::ready);
+    }
+    else
+    {
+    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
+    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
+               &Ekos::Capture::setExposureProgress);
+    //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
+    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Ekos::Capture::ready);
+    }
 }
 
 void Capture::syncCameraInfo()
@@ -2175,9 +2193,10 @@ IPState Capture::resumeSequence()
 
             prepareJob(next_job);
 
-            //Resume guiding if it was suspended before
+            //Resume guiding if it was suspended before, except for an active meridian flip is running.
             //if (isAutoGuiding && currentCCD->getChip(ISD::CameraChip::GUIDE_CCD) == guideChip)
-            if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED && suspendGuideOnDownload)
+            if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED && suspendGuideOnDownload &&
+                    mf_state->checkMeridianFlipActive() == false)
             {
                 qCDebug(KSTARS_EKOS_CAPTURE) << "Resuming guiding...";
                 emit resumeGuiding();
@@ -2196,8 +2215,10 @@ IPState Capture::resumeSequence()
     {
         isTemperatureDeltaCheckActive = (m_AutoFocusReady && m_LimitsUI->limitFocusDeltaTS->isChecked());
 
-        // If we suspended guiding due to primary chip download, resume guide chip guiding now
-        if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED && suspendGuideOnDownload)
+        // If we suspended guiding due to primary chip download, resume guide chip guiding now - unless
+        // a meridian flip is ongoing
+        if (m_captureModuleState->getGuideState() == GUIDE_SUSPENDED && suspendGuideOnDownload &&
+                mf_state->checkMeridianFlipActive() == false)
         {
             qCInfo(KSTARS_EKOS_CAPTURE) << "Resuming guiding...";
             emit resumeGuiding();
@@ -2477,9 +2498,7 @@ void Capture::captureImage()
             m_captureDeviceAdaptor->getActiveCamera()->setFastCount(static_cast<uint>(remaining));
     }
 
-    connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData,
-            Qt::UniqueConnection);
-    //connect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS, Qt::UniqueConnection);
+    connectCamera(true);
 
     if (activeJob->getFrameType() == FRAME_FLAT)
     {
@@ -2548,10 +2567,6 @@ void Capture::captureImage()
     // If using DSLR, make sure it is set to correct transfer format
     m_captureDeviceAdaptor->getActiveCamera()->setEncodingFormat(activeJob->getCoreProperty(
                 SequenceJob::SJ_Encoding).toString());
-
-    connect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-            &Ekos::Capture::setExposureProgress,
-            Qt::UniqueConnection);
 
     // necessary since the status widget doesn't store the calibration stage
     if (activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
@@ -5475,6 +5490,8 @@ bool Capture::checkPausing()
         appendLogText(i18n("Sequence paused."));
         m_captureModuleState->setCaptureState(CAPTURE_PAUSED);
         emit newStatus(m_captureModuleState->getCaptureState());
+        // disconnect camera device
+        connectCamera(false);
         // handle a requested meridian flip
         if (mf_state->getMeridianFlipStage() != MeridianFlipState::MF_NONE)
             setMeridianFlipStage(MeridianFlipState::MF_READY);

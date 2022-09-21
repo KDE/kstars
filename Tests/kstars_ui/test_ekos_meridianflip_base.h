@@ -91,7 +91,7 @@ protected:
      * @brief General preparations used both for pure capturing test cases as well as those with the scheduler.
      * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
-     * @param initialGuideDeviation initial guiding deviation threshold
+     * @param initialGuideDeviation select "Only Start if Guide Deviation <"
      */
     bool prepareMFTestcase(bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
 
@@ -101,7 +101,7 @@ protected:
      * @param secsToMF seconds until the meridian will be crossed
      * @param initialFocus execute upfront focusing
      * @param guideDeviation select "Abort if Guide Deviation"
-     * @param initialGuideDeviation initial guiding deviation threshold
+     * @param initialGuideDeviation select "Only Start if Guide Deviation <"
      */
     bool prepareCaptureTestcase(int secsToMF, bool initialFocus, bool guideDeviation, bool initialGuideDeviation);
 
@@ -144,7 +144,7 @@ protected:
      * @brief Helper function for start of alignment
      * @param exposure time
      */
-    bool startAligning(double expTime);
+    bool executeAlignment(double expTime);
 
     /**
      * @brief Helper function to stop guiding

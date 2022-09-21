@@ -139,7 +139,7 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
     QVERIFY(prepareCaptureTestcase(40, true, false, false));
 
     // start alignment
-    QVERIFY(startAligning(5.0));
+    QVERIFY(executeAlignment(5.0));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -164,7 +164,11 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
     // check if capture remains paused (after a meridian flip it is marked as idle - bug or feature?)
     QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE, 5000);
 
+    // Lets wait a little bit
+    QTest::qWait(5000);
+
     // now finish pause
+    qCInfo(KSTARS_EKOS_TEST) << "Finishing paused capture... ";
     KTRY_CLICK(Ekos::Manager::Instance()->captureModule(), startB);
 
     // Now check if everything continues as it should be

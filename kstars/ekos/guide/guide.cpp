@@ -990,8 +990,11 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
     }
 
     syncTrackingBoxPosition();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Tracking box position synched.";
 
     setCaptureComplete();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Capture complete.";
+
 }
 
 void Guide::setCaptureComplete()
@@ -1007,6 +1010,7 @@ void Guide::setCaptureComplete()
         return;
     }
 
+    qCDebug(KSTARS_EKOS_GUIDE) << "Capture complete, state=" << getGuideStatusString(m_State);
     switch (m_State)
     {
         case GUIDE_IDLE:
@@ -1020,6 +1024,7 @@ void Guide::setCaptureComplete()
             break;
 
         case GUIDE_CAPTURE:
+            qCDebug(KSTARS_EKOS_GUIDE) << "Guiding capture complete.";
             m_State = GUIDE_IDLE;
             emit newStatus(m_State);
             setBusy(false);
@@ -1137,6 +1142,7 @@ bool Guide::calibrate()
 {
     // Set status to idle and let the operations change it as they get executed
     m_State = GUIDE_IDLE;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Calibrating...";
     emit newStatus(m_State);
 
     if (guiderType == GUIDE_INTERNAL)
@@ -2171,6 +2177,7 @@ bool Guide::executeOperationStack()
         return false;
 
     GuideState nextOperation = operationStack.pop();
+    qCDebug(KSTARS_EKOS_GUIDE) << "Executing operation " << getGuideStatusString(nextOperation);
 
     bool actionRequired = false;
 
