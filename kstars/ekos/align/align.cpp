@@ -603,7 +603,10 @@ void Align::checkCamera()
 bool Align::setCamera(ISD::Camera *device)
 {
     if (m_Camera && m_Camera == device)
+    {
+        checkCamera();
         return false;
+    }
 
     if (m_Camera)
         m_Camera->disconnect(this);
@@ -625,8 +628,11 @@ bool Align::setCamera(ISD::Camera *device)
 
 bool Align::setMount(ISD::Mount *device)
 {
-    if (m_Mount == device)
+    if (m_Mount && m_Mount == device)
+    {
+        syncTelescopeInfo();
         return false;
+    }
 
     if (m_Mount)
         m_Mount->disconnect(this);
@@ -667,7 +673,7 @@ bool Align::setMount(ISD::Mount *device)
 
 bool Align::setDome(ISD::Dome *device)
 {
-    if (m_Dome == device)
+    if (m_Dome && m_Dome == device)
         return false;
 
     if (m_Dome)
@@ -2785,8 +2791,11 @@ void Align::setBinningIndex(int binIndex)
 
 bool Align::setFilterWheel(ISD::FilterWheel *device)
 {
-    if (m_FilterWheel == device)
+    if (m_FilterWheel && m_FilterWheel == device)
+    {
+        checkFilter();
         return false;
+    }
 
     if (m_FilterWheel)
         m_FilterWheel->disconnect(this);

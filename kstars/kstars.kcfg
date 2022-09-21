@@ -1833,7 +1833,7 @@
       <entry name="FocusMaxTravel" type="UInt">
          <label>Maximum Focus Travel Distance</label>
          <whatsthis>Set the maximum travel distance of an absolute focuser.</whatsthis>
-         <default>10000</default>
+         <default>5000</default>
       </entry>
       <entry name="FocusOutSteps" type="Double">
          <label>Initial Focus Out Steps</label>
@@ -1916,7 +1916,7 @@
       </entry>
       <entry name="FocusMaxSingleStep" type="UInt">
          <label>Maximum single step the focus algorithm is permitted to command.</label>
-         <default>100000</default>
+         <default>2000</default>
       </entry>
       <entry name="FocusExposure" type="double">
          <label>Default focus exposure time when no filters are used.</label>

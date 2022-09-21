@@ -1439,21 +1439,21 @@ void Manager::deviceConnected()
             focusProcess->setEnabled(true);
     }
 
-    if (Options::neverLoadConfig())
-        return;
-
-    INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
-
-    for (auto &oneDevice : INDIListener::devices())
+    if (Options::neverLoadConfig() == false)
     {
-        if (oneDevice == device)
-        {
-            connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
+        INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
 
-            auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-            if (configProp && configProp->getState() == IPS_IDLE)
-                device->setConfig(tConfig);
-            break;
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            if (oneDevice == device)
+            {
+                connect(device, &ISD::GenericDevice::switchUpdated, this, &Ekos::Manager::watchDebugProperty, Qt::UniqueConnection);
+
+                auto configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+                if (configProp && configProp->getState() == IPS_IDLE)
+                    device->setConfig(tConfig);
+                break;
+            }
         }
     }
 
@@ -1531,6 +1531,8 @@ void Manager::addMount(ISD::Mount *device)
     ekosLiveClient->message()->sendScopes();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addCamera(ISD::Camera * device)
@@ -1545,6 +1547,8 @@ void Manager::addCamera(ISD::Camera * device)
     ekosLiveClient.get()->media()->registerCameras();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addFilterWheel(ISD::FilterWheel * device)
@@ -1554,6 +1558,8 @@ void Manager::addFilterWheel(ISD::FilterWheel * device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addFocuser(ISD::Focuser *device)
@@ -1563,6 +1569,8 @@ void Manager::addFocuser(ISD::Focuser *device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 focuser is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addRotator(ISD::Rotator *device)
@@ -1572,6 +1580,8 @@ void Manager::addRotator(ISD::Rotator *device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addDome(ISD::Dome * device)
@@ -1581,6 +1591,8 @@ void Manager::addDome(ISD::Dome * device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addWeather(ISD::Weather * device)
@@ -1590,6 +1602,8 @@ void Manager::addWeather(ISD::Weather * device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 Weather is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addGPS(ISD::GPS * device)
@@ -1599,6 +1613,8 @@ void Manager::addGPS(ISD::GPS * device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 GPS is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addDustCap(ISD::DustCap * device)
@@ -1610,6 +1626,8 @@ void Manager::addDustCap(ISD::DustCap * device)
     OpticalTrainManager::Instance()->syncDevices();
 
     appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::addLightBox(ISD::LightBox * device)
@@ -1619,6 +1637,8 @@ void Manager::addLightBox(ISD::LightBox * device)
         syncGenericDevice(generic);
 
     appendLogText(i18n("%1 Light box is online.", device->getDeviceName()));
+
+    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device)
@@ -2157,14 +2177,16 @@ void Manager::initMount()
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"pierSide", side}}));
     });
-    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMountMFStatus, [&](MeridianFlipState::MeridianFlipMountState status)
     {
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
         {
             {"meridianFlipStatus", status},
         }));
     });
-    connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
+    connect(mountProcess->getMeridianFlipState().get(),
+            &Ekos::MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
     {
         // Throttle this down
         ekosLiveClient.get()->message()->updateMountStatus(QJsonObject(
@@ -3432,8 +3454,6 @@ void Manager::setDeviceReady()
         if (device)
             device->Connect();
     }
-
-    emit newDevice(device->getDeviceName(), device->getDriverInterface());
 }
 
 }

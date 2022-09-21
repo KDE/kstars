@@ -84,7 +84,7 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(Ekos::Manager::Instance())
     trainView->setItemDelegateForColumn(Scope, m_ScopeDelegate);
 
     // Reducer
-    m_ReducerDelegate = new DoubleDelegate(trainView, 0.1, 1, 0.1);
+    m_ReducerDelegate = new DoubleDelegate(trainView, 0.1, 3, 0.1);
     trainView->setItemDelegateForColumn(Reducer, m_ReducerDelegate);
 
     // Rotator
@@ -203,7 +203,7 @@ void OpticalTrainManager::refreshModel()
     m_OpticalTrainsModel->setHeaderData(Scope, Qt::Horizontal, i18n("Telescope or Lens"), Qt::ToolTipRole);
     m_OpticalTrainsModel->setHeaderData(Scope, Qt::Horizontal, i18n("Scope/Lens"));
 
-    m_OpticalTrainsModel->setHeaderData(Reducer, Qt::Horizontal, i18n("Reducer"));
+    m_OpticalTrainsModel->setHeaderData(Reducer, Qt::Horizontal, i18n("Reducer/Barlow"));
     m_OpticalTrainsModel->setHeaderData(Rotator, Qt::Horizontal, i18n("Rotator"));
     m_OpticalTrainsModel->setHeaderData(Focuser, Qt::Horizontal, i18n("Focuser"));
     m_OpticalTrainsModel->setHeaderData(FilterWheel, Qt::Horizontal, i18n("Filter Wheel"));
