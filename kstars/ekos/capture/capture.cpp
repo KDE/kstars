@@ -1126,11 +1126,11 @@ void Capture::connectCamera(bool connection)
     }
     else
     {
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
-               &Ekos::Capture::setExposureProgress);
-    //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
-    disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Ekos::Capture::ready);
+        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newImage, this, &Ekos::Capture::processData);
+        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::newExposureValue, this,
+                   &Ekos::Capture::setExposureProgress);
+        //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Ekos::Capture::setGeneratedPreviewFITS);
+        disconnect(m_captureDeviceAdaptor->getActiveCamera(), &ISD::Camera::ready, this, &Ekos::Capture::ready);
     }
 }
 
@@ -3013,7 +3013,7 @@ bool Capture::addJob(bool preview, bool isDarkFlat)
     job->setCoreProperty(SequenceJob::SJ_FilterPrefixEnabled, fileFilterS->isChecked());
     job->setCoreProperty(SequenceJob::SJ_ExpPrefixEnabled, fileDurationS->isChecked());
     job->setCoreProperty(SequenceJob::SJ_TimeStampPrefixEnabled, fileTimestampS->isChecked());
-    job->setFrameType(static_cast<CCDFrameType>(captureTypeS->currentIndex()));
+    job->setFrameType(static_cast<CCDFrameType>(qMax(0, captureTypeS->currentIndex())));
 
     job->setCoreProperty(SequenceJob::SJ_EnforceStartGuiderDrift, (job->getFrameType() == FRAME_LIGHT
                          && m_LimitsUI->startGuiderDriftS->isChecked()));
