@@ -153,8 +153,8 @@ void FilterManager::refreshFilterModel()
     m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
 
     m_FilterModel->setHeaderData(9, Qt::Horizontal,
-                               i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
-                               Qt::ToolTipRole);
+                                 i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
+                                 Qt::ToolTipRole);
     m_FilterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
 
     m_FilterView->hideColumn(0);
@@ -214,10 +214,10 @@ void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
     connect(m_FilterWheel, &ISD::ConcreteDevice::switchUpdated, this, &FilterManager::processSwitch);
     connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, &FilterManager::processDisconnect);
 
-    initFilterProperties();
+    refreshFilterProperties();
 }
 
-void FilterManager::initFilterProperties()
+void FilterManager::refreshFilterProperties()
 {
     if (m_FilterNameProperty && m_FilterPositionProperty)
     {
@@ -246,7 +246,7 @@ void FilterManager::initFilterProperties()
 
 QStringList FilterManager::getFilterLabels(bool forceRefresh)
 {
-    if (forceRefresh == false || !m_FilterNameProperty || !m_FilterPositionProperty)
+    if ((!m_currentFilterLabels.empty() && forceRefresh == false) || !m_FilterNameProperty || !m_FilterPositionProperty)
         return m_currentFilterLabels;
 
     QStringList filterList;

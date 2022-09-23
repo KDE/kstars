@@ -141,7 +141,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             m_FocusAbsPosition = value;
         }
         // Inti filter property after connection
-        void initFilterProperties();
+        void refreshFilterProperties();
 
     signals:
         // Emitted only when there is a change in the filter slot number

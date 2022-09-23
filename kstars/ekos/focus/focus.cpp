@@ -3710,7 +3710,10 @@ void Focus::setupFilterManager()
     {
         // If same filter wheel, no need to setup again.
         if (m_FilterManager->filterWheel() == m_FilterWheel)
+        {
+            m_FilterManager->refreshFilterProperties();
             return;
+        }
 
         // Otherwise disconnect and create a new instance.
         m_FilterManager->disconnect(this);
