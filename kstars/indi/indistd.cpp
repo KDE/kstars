@@ -64,7 +64,9 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     Q_ASSERT_X(m_BaseDevice, __FUNCTION__, "Base device is invalid.");
     Q_ASSERT_X(m_ClientManager, __FUNCTION__, "Client manager is invalid.");
 
-    m_Name        = m_BaseDevice->getDeviceName();
+    m_Name = m_BaseDevice->getDeviceName();
+    m_DriverInterface = m_BaseDevice->getDriverInterface();
+    m_DriverVersion = m_BaseDevice->getDriverVersion();
 
     registerDBusType();
 
