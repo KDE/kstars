@@ -131,7 +131,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     solver->setLogLevel(SSolver::LOG_NONE);
     solver->setSSLogLevel(SSolver::LOG_OFF);
-    
+
     if (boundary.isValid())
         solver->extract(runHFR, boundary);
     else
@@ -174,6 +174,7 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
         oneEdge->sum = stars[i].flux;
         oneEdge->HFR = stars[i].HFR;
         oneEdge->width = stars[i].a;
+        oneEdge->numPixels = stars[i].numPixels;
         if (stars[i].a > 0)
             // See page 63 to find the ellipticity equation for SEP.
             // http://astroa.physics.metu.edu.tr/MANUALS/sextractor/Guide2source_extractor.pdf
