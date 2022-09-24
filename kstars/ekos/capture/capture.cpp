@@ -4291,6 +4291,7 @@ void Capture::loadSequenceQueue()
 
 bool Capture::loadSequenceQueue(const QString &fileURL)
 {
+    checkCamera();
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
     {
