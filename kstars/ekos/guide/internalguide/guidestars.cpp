@@ -152,6 +152,16 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     int maxIndex = Options::maxMultistarReferenceStars() < stars.count() ? Options::maxMultistarReferenceStars() :
                    stars.count();
     QVector<int> scores(Options::maxMultistarReferenceStars());
+
+    // Find the bottom 25% HFR value.
+    QVector<float> hfrs;
+    for (int i = 0; i < maxIndex; i++)
+      hfrs.push_back(stars[i].HFR);
+    std::sort(hfrs.begin(), hfrs.end());
+    float tooLowHFR = 0.0;
+    if (maxIndex / 4 > 0)
+      tooLowHFR = hfrs[maxIndex / 4];
+    
     QList<Edge> guideStarNeighbors;
     for (int i = 0; i < maxIndex; i++)
     {
@@ -168,6 +178,10 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
         // Reject stars bigger than square
         if (center.HFR > float(maxStarDiameter) / 2)
             score -= 1000;
+
+        // Try not to use a star with an HFR in bottom 25%.
+        if (center.HFR < tooLowHFR)
+          score -= 1000;
 
         // Add advantage to stars with SNRs between 40-100.
         auto bg = skybackground();
