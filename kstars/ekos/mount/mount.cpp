@@ -249,13 +249,21 @@ bool Mount::setMount(ISD::Mount *device)
 
     m_Mount = device;
 
-    if (!m_Mount)
+    if (m_Mount)
     {
-        mainLayout->setEnabled(false);
-        trainLabel->setEnabled(true);
-        opticalTrainCombo->setEnabled(true);
-        return false;
+        connect(m_Mount, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            setEnabled(true);
+        });
+        connect(m_Mount, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            setEnabled(false);
+            opticalTrainCombo->setEnabled(true);
+            trainLabel->setEnabled(true);
+        });
     }
+    else
+        return false;
 
     mainLayout->setEnabled(true);
 

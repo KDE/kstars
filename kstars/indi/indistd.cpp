@@ -87,18 +87,24 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     m_ReadyTimer = new QTimer(this);
     m_ReadyTimer->setInterval(250);
     m_ReadyTimer->setSingleShot(true);
-    connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::ready);
-    connect(this, &GenericDevice::ready, this, [this]()
-    {
-        generateDevices();
-        m_ReadyTimer->disconnect(this);
-    });
+    connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout, Qt::UniqueConnection);
 }
 
 GenericDevice::~GenericDevice()
 {
     for (auto &metadata : streamFileMetadata)
         metadata.file->close();
+}
+
+void GenericDevice::handleTimeout()
+{
+    generateDevices();
+    m_ReadyTimer->disconnect(this);
+    m_Ready = true;
+
+    qDebug() << "####" << getDeviceName() << "is now ready...";
+
+    emit ready();
 }
 
 void GenericDevice::registerDBusType()
@@ -246,6 +252,10 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
 
         if (m_Connected == false && svp->s == IPS_OK && conSP->s == ISS_ON)
         {
+            qDebug() << "####" << getDeviceName() << "will connect now...";
+            m_Ready = false;
+            connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout, Qt::UniqueConnection);
+
             m_Connected = true;
             emit Connected();
             createDeviceInit();
@@ -263,6 +273,7 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
         else if (m_Connected && conSP->s == ISS_OFF)
         {
             m_Connected = false;
+            m_Ready = false;
             emit Disconnected();
         }
     }

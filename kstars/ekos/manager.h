@@ -472,6 +472,12 @@ class Manager : public QDialog, public Ui::Manager
          */
         void syncActiveDevices();
 
+        /**
+         * @brief isINDIReady Check whether all INDI devices are connected and ready and emit signals accordingly.
+         * @return True if all INDI devices are connected and ready.
+         */
+        bool isINDIReady();
+
         // Connect Signals/Slots of Ekos modules
         void connectModules();
 

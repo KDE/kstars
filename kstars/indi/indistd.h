@@ -168,6 +168,10 @@ class GenericDevice : public GDInterface
         {
             return m_Connected;
         }
+        virtual bool isReady() const
+        {
+            return m_Ready;
+        }
         virtual INDI::BaseDevice *getBaseDevice() const
         {
             return m_BaseDevice;
@@ -217,6 +221,7 @@ class GenericDevice : public GDInterface
         void updateTime();
         void updateLocation();
         void generateDevices();
+        void handleTimeout();
 
     protected:
         uint32_t m_DriverInterface { 0 };
@@ -270,6 +275,7 @@ class GenericDevice : public GDInterface
 
         static void registerDBusType();
         bool m_Connected { false };
+        bool m_Ready {false};
         QString m_Name;
         DriverInfo *m_DriverInfo { nullptr };
         DeviceInfo *m_DeviceInfo { nullptr };

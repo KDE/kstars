@@ -318,7 +318,19 @@ bool Guide::setCamera(ISD::Camera *device)
 
     m_Camera = device;
 
-    controlGroupBox->setEnabled(m_Camera);
+    if (m_Camera)
+    {
+        connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            setEnabled(true);
+        });
+        connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            setEnabled(false);
+            opticalTrainCombo->setEnabled(true);
+            trainLabel->setEnabled(true);
+        });
+    }
 
     // If camera was reset, return now.
     if (!m_Camera)
