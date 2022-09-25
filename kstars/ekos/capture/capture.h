@@ -612,9 +612,15 @@ class Capture : public QWidget, public Ui::Capture
 
         /**
              * @brief checkCamera Refreshes the CCD information in the capture module.
-             * @param CCDNum The CCD index in the CCD combo box to select as the active CCD.
              */
         void checkCamera();
+
+
+        /**
+             * @brief Connect or disconnect the camera device
+             * @param connection flag if connect (=true) or disconnect (=false)
+             */
+        void connectCamera(bool connection);
 
         /**
              * @brief checkFilter Refreshes the filter wheel information in the capture module.

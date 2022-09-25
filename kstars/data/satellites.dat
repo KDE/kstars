@@ -7,46 +7,46 @@
 # * local_filename : This is the name of the file used to store TLE data
 # * url : The url where the TLE data file can be retrieved (you can leave this field blank, in this case, KStars will not update the file)
 #
-Last Launches;new.tle;http://celestrak.com/NORAD/elements/tle-new.txt
-International Space Station;iss.tle;http://celestrak.com/NORAD/elements/stations.txt
-Brightest;visual.tle;http://celestrak.com/NORAD/elements/visual.txt
-#FENGYUN 1C Debris;fengyun-1c-debris.tle;http://celestrak.com/NORAD/elements/1999-025.txt
-#IRIDIUM 33 Debris;iridium-33-debris.tle;http://celestrak.com/NORAD/elements/iridium-33-debris.txt
-#COSMOS 2251 Debris;cosmos-2251-debris.tle;http://celestrak.com/NORAD/elements/cosmos-2251-debris.txt
-Weather;weather.tle;http://celestrak.com/NORAD/elements/weather.txt
-NOAA;noaa.tle;http://celestrak.com/NORAD/elements/noaa.txt
-GOES;goes.tle;http://celestrak.com/NORAD/elements/goes.txt
-Earth Resources;resource.tle;http://celestrak.com/NORAD/elements/resource.txt
-Search & Rescue (SARSAT);sarsat.tle;http://celestrak.com/NORAD/elements/sarsat.txt
-Disaster Monitoring;dmc.tle;http://celestrak.com/NORAD/elements/dmc.txt
-Tracking and Data Relay Satellite System (TDRSS);tdrss.tle;http://celestrak.com/NORAD/elements/tdrss.txt
-Geostationary;geo.tle;http://celestrak.com/NORAD/elements/geo.txt
-Intelsat;intelsat.tle;http://celestrak.com/NORAD/elements/intelsat.txt
-Gorizont;gorizont.tle;http://celestrak.com/NORAD/elements/gorizont.txt
-Raduga;raduga.tle;http://celestrak.com/NORAD/elements/raduga.txt
-Molniya;molniya.tle;http://celestrak.com/NORAD/elements/molniya.txt
-Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt
-Orbcomm;orbcomm.tle;http://celestrak.com/NORAD/elements/orbcomm.txt
-Globalstar;globalstar.tle;http://celestrak.com/NORAD/elements/globalstar.txt
-Amateur Radio;amateur.tle;http://celestrak.com/NORAD/elements/amateur.txt
-Experimental;x-comm.tle;http://celestrak.com/NORAD/elements/x-comm.txt
-Other;other-comm.tle;http://celestrak.com/NORAD/elements/other-comm.txt
-GPS Operational;gps-ops.tle;http://celestrak.com/NORAD/elements/gps-ops.txt
-Glonass Operational;glo-ops.tle;http://celestrak.com/NORAD/elements/glo-ops.txt
-Galileo;galileo.tle;http://celestrak.com/NORAD/elements/galileo.txt
-Satellite-Based Augmentation System (WAAS/EGNOS/MSAS);sbas.tle;http://celestrak.com/NORAD/elements/sbas.txt
-Navy Navigation Satellite System (NNSS);nnss.tle;http://celestrak.com/NORAD/elements/nnss.txt
-Russian LEO Navigation;musson.tle;http://celestrak.com/NORAD/elements/musson.txt
-Space & Earth Science;science.tle;http://celestrak.com/NORAD/elements/science.txt
-Geodetic;geodetic.tle;http://celestrak.com/NORAD/elements/geodetic.txt
-Engineering;engineering.tle;http://celestrak.com/NORAD/elements/engineering.txt
-Education;education.tle;http://celestrak.com/NORAD/elements/education.txt
-Miscellaneous Military;military.tle;http://celestrak.com/NORAD/elements/military.txt
-Radar Calibration;radar.tle;http://celestrak.com/NORAD/elements/radar.txt
-CubeSats;cubesats.tle;http://celestrak.com/NORAD/elements/cubesat.txt
-Other Miscellaneous;other.tle;http://celestrak.com/NORAD/elements/other.txt
-Supplemental GPS;gps.tle;http://celestrak.com/NORAD/elements/supplemental/gps.txt
-Supplemental GLONASS;glonass.tle;http://celestrak.com/NORAD/elements/supplemental/glonass.txt
-Supplemental METEOSAT;meteosat.tle;http://celestrak.com/NORAD/elements/supplemental/meteosat.txt
-Supplemental INTELSAT;intelsat.tle;http://celestrak.com/NORAD/elements/supplemental/intelsat.txt
-Supplemental ORBCOMM;orbcomm.tle;http://celestrak.com/NORAD/elements/supplemental/orbcomm.txt
+Last Launches;new.tle;http://celestrak.org/NORAD/elements/tle-new.txt
+International Space Station;iss.tle;http://celestrak.org/NORAD/elements/stations.txt
+Brightest;visual.tle;http://celestrak.org/NORAD/elements/visual.txt
+#FENGYUN 1C Debris;fengyun-1c-debris.tle;http://celestrak.org/NORAD/elements/1999-025.txt
+#IRIDIUM 33 Debris;iridium-33-debris.tle;http://celestrak.org/NORAD/elements/iridium-33-debris.txt
+#COSMOS 2251 Debris;cosmos-2251-debris.tle;http://celestrak.org/NORAD/elements/cosmos-2251-debris.txt
+Weather;weather.tle;http://celestrak.org/NORAD/elements/weather.txt
+NOAA;noaa.tle;http://celestrak.org/NORAD/elements/noaa.txt
+GOES;goes.tle;http://celestrak.org/NORAD/elements/goes.txt
+Earth Resources;resource.tle;http://celestrak.org/NORAD/elements/resource.txt
+Search & Rescue (SARSAT);sarsat.tle;http://celestrak.org/NORAD/elements/sarsat.txt
+Disaster Monitoring;dmc.tle;http://celestrak.org/NORAD/elements/dmc.txt
+Tracking and Data Relay Satellite System (TDRSS);tdrss.tle;http://celestrak.org/NORAD/elements/tdrss.txt
+Geostationary;geo.tle;http://celestrak.org/NORAD/elements/geo.txt
+Intelsat;intelsat.tle;http://celestrak.org/NORAD/elements/intelsat.txt
+Gorizont;gorizont.tle;http://celestrak.org/NORAD/elements/gorizont.txt
+Raduga;raduga.tle;http://celestrak.org/NORAD/elements/raduga.txt
+Molniya;molniya.tle;http://celestrak.org/NORAD/elements/molniya.txt
+Iridium;iridium.tle;http://celestrak.org/NORAD/elements/iridium.txt
+Orbcomm;orbcomm.tle;http://celestrak.org/NORAD/elements/orbcomm.txt
+Globalstar;globalstar.tle;http://celestrak.org/NORAD/elements/globalstar.txt
+Amateur Radio;amateur.tle;http://celestrak.org/NORAD/elements/amateur.txt
+Experimental;x-comm.tle;http://celestrak.org/NORAD/elements/x-comm.txt
+Other;other-comm.tle;http://celestrak.org/NORAD/elements/other-comm.txt
+GPS Operational;gps-ops.tle;http://celestrak.org/NORAD/elements/gps-ops.txt
+Glonass Operational;glo-ops.tle;http://celestrak.org/NORAD/elements/glo-ops.txt
+Galileo;galileo.tle;http://celestrak.org/NORAD/elements/galileo.txt
+Satellite-Based Augmentation System (WAAS/EGNOS/MSAS);sbas.tle;http://celestrak.org/NORAD/elements/sbas.txt
+Navy Navigation Satellite System (NNSS);nnss.tle;http://celestrak.org/NORAD/elements/nnss.txt
+Russian LEO Navigation;musson.tle;http://celestrak.org/NORAD/elements/musson.txt
+Space & Earth Science;science.tle;http://celestrak.org/NORAD/elements/science.txt
+Geodetic;geodetic.tle;http://celestrak.org/NORAD/elements/geodetic.txt
+Engineering;engineering.tle;http://celestrak.org/NORAD/elements/engineering.txt
+Education;education.tle;http://celestrak.org/NORAD/elements/education.txt
+Miscellaneous Military;military.tle;http://celestrak.org/NORAD/elements/military.txt
+Radar Calibration;radar.tle;http://celestrak.org/NORAD/elements/radar.txt
+CubeSats;cubesats.tle;http://celestrak.org/NORAD/elements/cubesat.txt
+Other Miscellaneous;other.tle;http://celestrak.org/NORAD/elements/other.txt
+Supplemental GPS;gps.tle;http://celestrak.org/NORAD/elements/supplemental/gps.txt
+Supplemental GLONASS;glonass.tle;http://celestrak.org/NORAD/elements/supplemental/glonass.txt
+Supplemental METEOSAT;meteosat.tle;http://celestrak.org/NORAD/elements/supplemental/meteosat.txt
+Supplemental INTELSAT;intelsat.tle;http://celestrak.org/NORAD/elements/supplemental/intelsat.txt
+Supplemental ORBCOMM;orbcomm.tle;http://celestrak.org/NORAD/elements/supplemental/orbcomm.txt

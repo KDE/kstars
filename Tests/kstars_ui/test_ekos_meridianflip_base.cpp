@@ -118,9 +118,8 @@ void TestEkosMeridianFlipBase::init()
     GUIManager::Instance()->close();
 
     // clear guiding calibration to ensure proper guiding
-    KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
-    // reuse calibration data
-    // Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0052,ph=0.0052,fl=339,ang=287.544,angR=299.377,angD=185.712,ramspas=200.06,decmspas=135.882,swap=0,ra= 203:48:10,dec=00:25:52,side=0,when=2022-07-08 20:19:14,calEnd");
+    // TestEkosHelper::prepareGuidingModule() stores a guiding calibration, override if necessary
+    // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
 
     // switch to mount module
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule(), 1000);
@@ -407,8 +406,8 @@ bool TestEkosMeridianFlipBase::checkDithering()
     // reset the dithering flag
     m_CaptureHelper->dithered = false;
 
-    // wait for 60s if dithering happens
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->dithered == true, 60000);
+    // wait for 120s if dithering happens
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->dithered == true, 120000);
     // all checks succeeded
     return true;
 }
@@ -433,12 +432,17 @@ bool TestEkosMeridianFlipBase::checkRefocusing()
     return true;
 }
 
-bool TestEkosMeridianFlipBase::startAligning(double expTime)
+bool TestEkosMeridianFlipBase::executeAlignment(double expTime)
 {
     // mark alignment
     use_aligning = true;
 
-    return m_CaptureHelper->startAligning(expTime);
+    m_CaptureHelper->expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
+    KVERIFY_SUB(m_CaptureHelper->startAligning(expTime));
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedAlignStates, 60000);
+
+    // alignment succeeded
+    return true;
 }
 
 bool TestEkosMeridianFlipBase::stopAligning()

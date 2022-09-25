@@ -138,11 +138,16 @@ PHD2::PHD2()
     stateTimer = new QTimer(this);
     connect(stateTimer, &QTimer::timeout, this, [ = ]
     {
-        if (tcpSocket->state() == QTcpSocket::UnconnectedState)
+        QTcpSocket::SocketState socketstate = tcpSocket->state();
+        switch (socketstate)
         {
+        case QTcpSocket::UnconnectedState:
             m_PHD2ReconnectCounter++;
             if (m_PHD2ReconnectCounter > PHD2_RECONNECT_THRESHOLD)
+            {
                 stateTimer->stop();
+                emit newLog(i18n("Giving up reconnecting."));
+            }
             else
             {
                 emit newLog(i18n("Reconnecting to PHD2 Host: %1, on port %2. . .", Options::pHD2Host(), Options::pHD2Port()));
@@ -156,12 +161,15 @@ PHD2::PHD2()
 #endif
                 tcpSocket->connectToHost(Options::pHD2Host(), Options::pHD2Port());
             }
-        }
-        else if (tcpSocket->state() == QTcpSocket::ConnectedState)
-        {
+            break;
+        case QTcpSocket::ConnectedState:
             m_PHD2ReconnectCounter = 0;
             checkIfEquipmentConnected();
             requestAppState();
+            break;
+        default:
+            qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: TCP connection state:" << socketstate;
+            break;
         }
     });
 }
@@ -1491,23 +1499,26 @@ void PHD2::sendRpcCall(QJsonObject &call, PHD2ResultType resultType)
     assert(resultType != NO_RESULT); // should be a real request
     assert(pendingRpcResultType == NO_RESULT);  // only one pending RPC call at a time
 
-    int rpcId = nextRpcId++;
-    call.insert("id", rpcId);
-
-    pendingRpcId = rpcId;
-    pendingRpcResultType = resultType;
-
-    QByteArray request = QJsonDocument(call).toJson(QJsonDocument::Compact);
-
-    qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: request:" << request;
-
-    request.append("\r\n");
-
     if (tcpSocket->state() == QTcpSocket::ConnectedState)
     {
+        int rpcId = nextRpcId++;
+        call.insert("id", rpcId);
+
+        QByteArray request = QJsonDocument(call).toJson(QJsonDocument::Compact);
+
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: request:" << request;
+
+        request.append("\r\n");
+
         qint64 const n = tcpSocket->write(request);
 
-        if ((int) n != request.size())
+        if ((int) n == request.size())
+        {
+            // RPC call succeeded, remember ID and expected result type
+            pendingRpcId = rpcId;
+            pendingRpcResultType = resultType;
+        }
+        else
         {
             qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: unexpected short write:" << n << "bytes of" << request.size();
         }

@@ -180,6 +180,7 @@ bool InternalGuider::abort()
 
     pmath->suspend(false);
     state = GUIDE_IDLE;
+    qCDebug(KSTARS_EKOS_GUIDE) << "Guiding aborted.";
 
     return true;
 }
@@ -213,6 +214,7 @@ void InternalGuider::startDarkGuiding()
 
 bool InternalGuider::resume()
 {
+    qCDebug(KSTARS_EKOS_GUIDE) << "Resuming...";
     emit guideInfo("");
     guideLog.resumeInfo();
     state = GUIDE_GUIDING;
@@ -688,6 +690,7 @@ void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
 
 void InternalGuider::reset()
 {
+    qCDebug(KSTARS_EKOS_GUIDE) << "Resetting internal guider...";
     state = GUIDE_IDLE;
 
     resetDarkGuiding();
