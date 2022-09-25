@@ -1194,7 +1194,7 @@ void Manager::checkINDITimeout()
     m_ekosStatus = Ekos::Error;
 }
 
-void Manager::connectDevices()
+bool Manager::isINDIReady()
 {
     // Check if already connected
     int nConnected = 0;
@@ -1204,19 +1204,31 @@ void Manager::connectDevices()
     auto devices = INDIListener::devices();
     for (auto &device : devices)
     {
-        if (device->isConnected())
+        qCDebug(KSTARS_EKOS) << "####" << device->getDeviceName() << "connected?" << device->isConnected() << "ready?" << device->isReady();
+        // Make sure we're not only connected, but also ready (i.e. all properties have already been defined).
+        if (device->isConnected() && device->isReady())
             nConnected++;
     }
     if (devices.count() == nConnected)
     {
         m_indiStatus = Ekos::Success;
         emit indiStatusChanged(m_indiStatus);
-        return;
+        return true;
     }
 
     m_indiStatus = Ekos::Pending;
     if (previousStatus != m_indiStatus)
         emit indiStatusChanged(m_indiStatus);
+
+    return false;
+}
+
+void Manager::connectDevices()
+{
+    if (isINDIReady())
+        return;
+
+    auto devices = INDIListener::devices();
 
     for (auto &device : devices)
     {
@@ -1371,8 +1383,6 @@ void Manager::deviceConnected()
     disconnectB->setEnabled(true);
     processINDIB->setEnabled(false);
 
-    Ekos::CommunicationStatus previousStatus = m_indiStatus;
-
     auto device = qobject_cast<ISD::GenericDevice *>(sender());
 
     if (Options::verboseLogging())
@@ -1381,62 +1391,6 @@ void Manager::deviceConnected()
                             << "Version:" << device->getDriverVersion()
                             << "Interface:" << device->getDriverInterface()
                             << "is connected.";
-    }
-
-    int nConnectedDevices = 0;
-
-    for (auto &oneDevice : INDIListener::devices())
-    {
-        if (oneDevice->isConnected())
-            nConnectedDevices++;
-    }
-
-    qCDebug(KSTARS_EKOS) << nConnectedDevices << " devices connected out of " << INDIListener::devices().count();
-
-    if (nConnectedDevices >= m_CurrentProfile->drivers.count())
-        //if (nConnectedDevices >= genericDevices.count())
-    {
-        m_indiStatus = Ekos::Success;
-        qCInfo(KSTARS_EKOS) << "All INDI devices are now connected.";
-    }
-    else
-        m_indiStatus = Ekos::Pending;
-
-    if (previousStatus != m_indiStatus)
-        emit indiStatusChanged(m_indiStatus);
-
-    if (device->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
-    {
-        if (mountProcess.get() != nullptr)
-        {
-            mountProcess->setEnabled(true);
-            if (alignProcess.get() != nullptr)
-                alignProcess->setEnabled(true);
-        }
-    }
-    else if (device->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
-    {
-        if (captureProcess.get() != nullptr)
-        {
-            captureProcess->setEnabled(true);
-            capturePreview->setEnabled(true);
-        }
-        if (focusProcess.get() != nullptr)
-            focusProcess->setEnabled(true);
-        if (alignProcess.get() != nullptr)
-        {
-            if (mountProcess.get() && mountProcess->isEnabled())
-                alignProcess->setEnabled(true);
-            else
-                alignProcess->setEnabled(false);
-        }
-        if (guideProcess.get() != nullptr)
-            guideProcess->setEnabled(true);
-    }
-    else if (device->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
-    {
-        if (focusProcess.get() != nullptr)
-            focusProcess->setEnabled(true);
     }
 
     if (Options::neverLoadConfig() == false)
@@ -1455,20 +1409,6 @@ void Manager::deviceConnected()
                 break;
             }
         }
-    }
-
-    if (m_indiStatus == Ekos::Success)
-    {
-        // Optical Train Manager ---> EkosLive connections
-        if (ekosLiveClient)
-        {
-            connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
-                    &EkosLive::Message::sendTrains, Qt::UniqueConnection);
-            connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
-                    &EkosLive::Message::requestOpticalTrains, Qt::UniqueConnection);
-        }
-
-        OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
     }
 }
 
@@ -1513,21 +1453,10 @@ void Manager::deviceDisconnected()
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
     processINDIB->setEnabled(true);
-
-    if (dev != nullptr && dev->getBaseDevice() &&
-            (dev->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
-    {
-        if (mountProcess.get() != nullptr)
-            mountProcess->setEnabled(false);
-    }
 }
 
 void Manager::addMount(ISD::Mount *device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     ekosLiveClient->message()->sendScopes();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
@@ -1537,13 +1466,6 @@ void Manager::addMount(ISD::Mount *device)
 
 void Manager::addCamera(ISD::Camera * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
-    captureProcess->setEnabled(true);
-    capturePreview->setEnabled(true);
-
     ekosLiveClient.get()->media()->registerCameras();
 
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
@@ -1553,10 +1475,6 @@ void Manager::addCamera(ISD::Camera * device)
 
 void Manager::addFilterWheel(ISD::FilterWheel * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1564,10 +1482,6 @@ void Manager::addFilterWheel(ISD::FilterWheel * device)
 
 void Manager::addFocuser(ISD::Focuser *device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 focuser is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1575,10 +1489,6 @@ void Manager::addFocuser(ISD::Focuser *device)
 
 void Manager::addRotator(ISD::Rotator *device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("Rotator %1 is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1586,10 +1496,6 @@ void Manager::addRotator(ISD::Rotator *device)
 
 void Manager::addDome(ISD::Dome * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1597,10 +1503,6 @@ void Manager::addDome(ISD::Dome * device)
 
 void Manager::addWeather(ISD::Weather * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 Weather is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1608,10 +1510,6 @@ void Manager::addWeather(ISD::Weather * device)
 
 void Manager::addGPS(ISD::GPS * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 GPS is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -1619,10 +1517,6 @@ void Manager::addGPS(ISD::GPS * device)
 
 void Manager::addDustCap(ISD::DustCap * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     OpticalTrainManager::Instance()->syncDevices();
 
     appendLogText(i18n("%1 Dust cap is online.", device->getDeviceName()));
@@ -1632,10 +1526,6 @@ void Manager::addDustCap(ISD::DustCap * device)
 
 void Manager::addLightBox(ISD::LightBox * device)
 {
-    QSharedPointer<ISD::GenericDevice> generic;
-    if (INDIListener::findDevice(device->getDeviceName(), generic))
-        syncGenericDevice(generic);
-
     appendLogText(i18n("%1 Light box is online.", device->getDeviceName()));
 
     emit newDevice(device->getDeviceName(), device->getDriverInterface());
@@ -2008,7 +1898,6 @@ void Manager::initCapture()
     if (mountProcess.get() != nullptr)
         captureProcess->setMeridianFlipState(mountProcess.get()->getMeridianFlipState());
 
-    captureProcess->setEnabled(false);
     capturePreview->shareCaptureProcess(captureProcess.get());
     int index = addModuleTab(EkosModule::Capture, captureProcess.get(), QIcon(":/icons/ekos_ccd.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
@@ -2053,7 +1942,6 @@ void Manager::initAlign()
 
     emit newModule("Align");
 
-    alignProcess->setEnabled(false);
     int index = addModuleTab(EkosModule::Align, alignProcess.get(), QIcon(":/icons/ekos_align.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignProcess.get(), &Ekos::Align::newLog, this, &Ekos::Manager::updateLog);
@@ -2284,8 +2172,6 @@ void Manager::initObservatory()
 void Manager::addGuider(ISD::Guider * device)
 {
     appendLogText(i18n("Guider port from %1 is ready.", device->getDeviceName()));
-
-    initGuide();
 }
 
 void Manager::removeTabs()
@@ -3439,21 +3325,30 @@ void Manager::createModules(const QSharedPointer<ISD::GenericDevice> &device)
 
 void Manager::setDeviceReady()
 {
-    auto device = static_cast<ISD::GenericDevice*>(sender());
-
-    if (device->isConnected())
+    if (isINDIReady() == false)
     {
-        QSharedPointer<ISD::GenericDevice> generic;
-        if (INDIListener::findDevice(device->getDeviceName(), generic))
-            createModules(generic);
-    }
-    // Check if we need to perform autoconnect
-    // After a device is declared ready. i.e. when all properties arrived.
-    else if (m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
-    {
-        if (device)
+        auto device = static_cast<ISD::GenericDevice*>(sender());
+        qCDebug(KSTARS_EKOS) << "####" << device->getDeviceName() << "connected?" << device->isConnected() << "ready?" << device->isReady();
+        if (device && device->isConnected() == false && m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
             device->Connect();
+
+        return;
     }
+
+    qCDebug(KSTARS_EKOS) << "#### All ready!";
+    for (auto &device : INDIListener::devices())
+        syncGenericDevice(device);
+
+    // Optical Train Manager ---> EkosLive connections
+    if (ekosLiveClient)
+    {
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
+                &EkosLive::Message::sendTrains, Qt::UniqueConnection);
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
+                &EkosLive::Message::requestOpticalTrains, Qt::UniqueConnection);
+    }
+
+    OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
 }
 
 }

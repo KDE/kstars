@@ -504,6 +504,20 @@ bool Capture::setCamera(ISD::Camera *device)
 
     m_Camera = device;
 
+    if (m_Camera)
+    {
+        connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            setEnabled(true);
+        });
+        connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            setEnabled(false);
+            opticalTrainCombo->setEnabled(true);
+            trainLabel->setEnabled(true);
+        });
+    }
+
     CCDFWGroup->setEnabled(m_Camera);
     sequenceBox->setEnabled(m_Camera);
     for (auto &oneChild : sequenceControlsButtonGroup->buttons())
@@ -4291,7 +4305,6 @@ void Capture::loadSequenceQueue()
 
 bool Capture::loadSequenceQueue(const QString &fileURL)
 {
-    checkCamera();
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
     {

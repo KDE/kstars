@@ -38,7 +38,7 @@ class ConcreteDevice : public GDInterface
 
         bool isReady() const
         {
-            return m_Parent->isConnected() && m_ReadyTimer && !m_ReadyTimer->isActive();
+            return m_Parent->isReady();
         }
         bool isConnected() const
         {
@@ -98,7 +98,7 @@ class ConcreteDevice : public GDInterface
         IPerm getPermission(const QString &propName) const;
         QString getMessage(int id) const;
 
-        const QString & getDUBSObjectPath() const
+        const QString &getDUBSObjectPath() const
         {
             return m_DBusObjectPath;
         }

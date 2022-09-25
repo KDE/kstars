@@ -679,6 +679,20 @@ bool Focus::setCamera(ISD::Camera *device)
 
     m_Camera = device;
 
+    if (m_Camera)
+    {
+        connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            setEnabled(true);
+        });
+        connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            setEnabled(false);
+            opticalTrainCombo->setEnabled(true);
+            trainLabel->setEnabled(true);
+        });
+    }
+
     controlGroup->setEnabled(m_Camera);
     ccdGroup->setEnabled(m_Camera);
     tabWidget->setEnabled(m_Camera);
