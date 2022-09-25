@@ -271,10 +271,13 @@ void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, L
     const double maxAngleDiff = std::max(fabs(az1 - az2), fabs(alt1 - alt2));
     const int numSamples = maxAngleDiff / sampling;
 
-    std::shared_ptr<SkyPoint> sp0(new SkyPoint());
-    sp0->setAz(az1);
-    sp0->setAlt(alt1);
-    region->append(sp0);
+    // Hy 9/25/22: These 4 lines cause rendering issues in equatorial mode (horizon mode is ok).
+    // Not sure why--though I suspect the initial conditions computed in drawPolygons().
+    // Without them there are some jagged lines near the horizon, but much better than with them.
+    // std::shared_ptr<SkyPoint> sp0(new SkyPoint());
+    // sp0->setAz(az1);
+    // sp0->setAlt(alt1);
+    // region->append(sp0);
 
     if (numSamples > 1)
     {
