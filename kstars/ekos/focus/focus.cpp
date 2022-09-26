@@ -1330,7 +1330,7 @@ bool Focus::changeFocus(int amount)
     // Allow 1 step of tolerance--Have seen stalls with amount==1.
     if (inAutoFocus && absAmount <= 1)
     {
-        capture(FocusSettleTime->value());
+        capture(focusSettleTime->value());
         return true;
     }
 
@@ -2871,8 +2871,8 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         else
         {
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus position reached at %1, starting capture in %2 seconds.").arg(
-                                           currentPosition).arg(FocusSettleTime->value());
-            capture(FocusSettleTime->value());
+                                           currentPosition).arg(focusSettleTime->value());
+            capture(focusSettleTime->value());
         }
     }
     else if (state == IPS_ALERT)
@@ -3790,7 +3790,7 @@ void Focus::setupFilterManager()
         m_FilterManager->setFocusOffsetComplete();
         if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
         {
-            QTimer::singleShot(FocusSettleTime->value() * 1000, this, [this]()
+            QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
             {
                 m_GuidingSuspended = false;
                 emit resumeGuiding();
@@ -4020,6 +4020,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -4032,6 +4034,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -4044,6 +4048,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -4056,6 +4062,8 @@ void Focus::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;
