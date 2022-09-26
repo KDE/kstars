@@ -267,7 +267,7 @@
              <number>3</number>
             </property>
             <item row="0" column="0">
-             <widget class="QCheckBox" name="ExecuteMeridianFlip">
+             <widget class="QCheckBox" name="executeMeridianFlip">
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Request a meridian flip if the hour angle exceeds the specified value. Capture and Guiding will be suspended and resumed after the flip is complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -280,7 +280,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QDoubleSpinBox" name="MeridianFlipOffsetDegrees">
+             <widget class="QDoubleSpinBox" name="meridianFlipOffsetDegrees">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -457,7 +457,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="ParkEveryDay">
+           <widget class="QCheckBox" name="parkEveryDay">
             <property name="toolTip">
              <string>Automatically start the park timer on startup</string>
             </property>
@@ -804,7 +804,7 @@ font-weight:bold;
            <number>3</number>
           </property>
           <item row="4" column="2">
-           <widget class="QDoubleSpinBox" name="MaximumHaLimit">
+           <widget class="QDoubleSpinBox" name="maximumHaLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -832,7 +832,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="2" column="0" colspan="3">
-           <widget class="QCheckBox" name="EnableAltitudeLimits">
+           <widget class="QCheckBox" name="enableAltitudeLimits">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -842,7 +842,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="0" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="MinimumAltLimit">
+           <widget class="QDoubleSpinBox" name="minimumAltLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -864,7 +864,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="1" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="MaximumAltLimit">
+           <widget class="QDoubleSpinBox" name="maximumAltLimit">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -912,7 +912,7 @@ font-weight:bold;
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QCheckBox" name="EnableHaLimit">
+           <widget class="QCheckBox" name="enableHaLimit">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount Hour Angle limit. Once enabled, Ekos monitors the mount's hour angle while slewing or tracking. If the mount slews/tracks past the limit while the Pier Side is in the state that does not allow that, it shall be commanded to stop and tracking will be turned off. Requires a mount that reports the pier side correctly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -988,8 +988,8 @@ font-weight:bold;
   <tabstop>altOUT</tabstop>
   <tabstop>haOUT</tabstop>
   <tabstop>lstOUT</tabstop>
-  <tabstop>MinimumAltLimit</tabstop>
-  <tabstop>MaximumAltLimit</tabstop>
+  <tabstop>minimumAltLimit</tabstop>
+  <tabstop>maximumAltLimit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

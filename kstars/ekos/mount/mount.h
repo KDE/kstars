@@ -363,7 +363,7 @@ class Mount : public QWidget, public Ui::Mount
          * @brief Execute a meridian flip if necessary.
          * @return true if a meridian flip was necessary
          */
-        Q_INVOKABLE bool executeMeridianFlip();
+        Q_INVOKABLE bool startMeridianFlip();
 
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
@@ -434,10 +434,10 @@ class Mount : public QWidget, public Ui::Mount
         void saveLimits();
 
         /**
-             * @brief enableAltitudeLimits Enable or disable altitude limits
+             * @brief Enable or disable altitude limits
              * @param enable True to enable, false to disable.
              */
-        void enableAltitudeLimits(bool enable);
+        void setAltitudeLimits(bool enable);
 
         /**
              * @brief enableAltLimits calls enableAltitudeLimits(true). This function is mostly used to enable altitude limit after a meridian flip is complete.

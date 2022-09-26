@@ -102,17 +102,17 @@ Mount::Mount()
         }
     });
 
-    connect(EnableAltitudeLimits, &QCheckBox::toggled, this, &Mount::enableAltitudeLimits);
-    m_AltitudeLimitEnabled = EnableAltitudeLimits->isChecked();
-    connect(EnableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
+    connect(enableAltitudeLimits, &QCheckBox::toggled, this, &Mount::setAltitudeLimitsEnabled);
+    m_AltitudeLimitEnabled = enableAltitudeLimits->isChecked();
+    connect(enableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
     // meridian flip
     connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
             &MeridianFlipStatusWidget::setStatus);
 
     // This is always in degrees
-    connect(ExecuteMeridianFlip, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
-    connect(MeridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+    connect(executeMeridianFlip, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
+    connect(meridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             &Ekos::Mount::meridianFlipSetupChanged);
 
     //    ParkTime->setTime(QTime::fromString(Options::parkTime()));
@@ -127,7 +127,7 @@ Mount::Mount()
 
     stopTimerB->setEnabled(false);
 
-    if (ParkEveryDay->isChecked())
+    if (parkEveryDay->isChecked())
         startTimerB->animateClick();
 
     // QML Stuff
@@ -303,7 +303,7 @@ bool Mount::setMount(ISD::Mount *device)
 
         // If mount is unparked AND every day auto-paro check is ON
         // AND auto park timer is not yet started, we try to initiate it.
-        if (status == ISD::PARK_UNPARKED && ParkEveryDay->isChecked() && autoParkTimer.isActive() == false)
+        if (status == ISD::PARK_UNPARKED && parkEveryDay->isChecked() && autoParkTimer.isActive() == false)
             startTimerB->animateClick();
     });
     if (m_Mount->isReady())
@@ -314,8 +314,8 @@ bool Mount::setMount(ISD::Mount *device)
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
 
-    if (EnableAltitudeLimits->isChecked())
-        m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
+    if (enableAltitudeLimits->isChecked())
+        m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
 
     syncTelescopeInfo();
 
@@ -569,9 +569,9 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
     m_zaValue->setProperty("text", dms(90 - currentAlt).toDMSString());
 
-    if (MinimumAltLimit->isEnabled() && (currentAlt < MinimumAltLimit->value() || currentAlt > MaximumAltLimit->value()))
+    if (minimumAltLimit->isEnabled() && (currentAlt < minimumAltLimit->value() || currentAlt > maximumAltLimit->value()))
     {
-        if (currentAlt < MinimumAltLimit->value())
+        if (currentAlt < minimumAltLimit->value())
         {
             // Only stop if current altitude is less than last altitude indicate worse situation
             if (currentAlt < m_LastAltitude &&
@@ -579,7 +579,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
-                                   QString::number(MinimumAltLimit->value(), 'g', 3)));
+                                   QString::number(minimumAltLimit->value(), 'g', 3)));
                 m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -595,7 +595,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                      (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
             {
                 appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
-                                   QString::number(MaximumAltLimit->value(), 'g', 3)));
+                                   QString::number(maximumAltLimit->value(), 'g', 3)));
                 m_Mount->abort();
                 m_Mount->setTrackEnabled(false);
                 //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -615,10 +615,10 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     // MaximumHaLimit must be enabled
     // for PierSide West -> East if Ha > MaximumHaLimit stop tracking
     // for PierSide East -> West if Ha > MaximumHaLimit - 12 stop Tracking
-    if (MaximumHaLimit->isEnabled())
+    if (maximumHaLimit->isEnabled())
     {
         // get hour angle limit
-        double haLimit = MaximumHaLimit->value();
+        double haLimit = maximumHaLimit->value();
         bool haLimitReached = false;
         switch(pierSide)
         {
@@ -647,7 +647,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         {
             // moved past the limit, so stop
             appendLogText(i18n("Telescope hour angle is more than the maximum hour angle of %1. Aborting motion...",
-                               QString::number(MaximumHaLimit->value(), 'g', 3)));
+                               QString::number(maximumHaLimit->value(), 'g', 3)));
             m_Mount->abort();
             m_Mount->setTrackEnabled(false);
             //KNotification::event( QLatin1String( "OperationFailed" ));
@@ -723,7 +723,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     bool inMotion = (currentStatus == ISD::Mount::MOUNT_SLEWING || currentStatus == ISD::Mount::MOUNT_MOVING
                      || currentStatus == ISD::Mount::MOUNT_PARKING);
     if ((inMotion == false) && checkMeridianFlip(lst))
-        executeMeridianFlip();
+        startMeridianFlip();
     else
     {
         const QString message(i18n("Meridian flip inactive (parked)"));
@@ -766,8 +766,8 @@ void Mount::setLeftRightReversed(bool enabled)
 
 void Mount::setMeridianFlipValues(bool activate, double degrees)
 {
-    ExecuteMeridianFlip->setChecked(activate);
-    MeridianFlipOffsetDegrees->setValue(degrees);
+    executeMeridianFlip->setChecked(activate);
+    meridianFlipOffsetDegrees->setValue(degrees);
 
     meridianFlipSetupChanged();
 }
@@ -813,7 +813,7 @@ void Mount::paaStageChanged(int stage)
 
 void Mount::meridianFlipSetupChanged()
 {
-    if (ExecuteMeridianFlip->isChecked() == false)
+    if (executeMeridianFlip->isChecked() == false)
         // reset meridian flip
         mf_state->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
 }
@@ -876,29 +876,29 @@ void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir,
 
 void Mount::saveLimits()
 {
-    m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
+    m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
 }
 
-void Mount::enableAltitudeLimits(bool enable)
+void Mount::setAltitudeLimits(bool enable)
 {
     if (enable)
     {
         minAltLabel->setEnabled(true);
         maxAltLabel->setEnabled(true);
 
-        MinimumAltLimit->setEnabled(true);
-        MaximumAltLimit->setEnabled(true);
+        minimumAltLimit->setEnabled(true);
+        maximumAltLimit->setEnabled(true);
 
         if (m_Mount)
-            m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
+            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
     }
     else
     {
         minAltLabel->setEnabled(false);
         maxAltLabel->setEnabled(false);
 
-        MinimumAltLimit->setEnabled(false);
-        MaximumAltLimit->setEnabled(false);
+        minimumAltLimit->setEnabled(false);
+        maximumAltLimit->setEnabled(false);
 
         if (m_Mount)
             m_Mount->setAltLimits(-1, -1);
@@ -908,33 +908,33 @@ void Mount::enableAltitudeLimits(bool enable)
 void Mount::enableAltLimits()
 {
     //Only enable if it was already enabled before and the MinimumAltLimit is currently disabled.
-    if (m_AltitudeLimitEnabled && MinimumAltLimit->isEnabled() == false)
-        enableAltitudeLimits(true);
+    if (m_AltitudeLimitEnabled && minimumAltLimit->isEnabled() == false)
+        setAltitudeLimits(true);
 }
 
 void Mount::disableAltLimits()
 {
-    m_AltitudeLimitEnabled = EnableAltitudeLimits->isChecked();
+    m_AltitudeLimitEnabled = enableAltitudeLimits->isChecked();
 
-    enableAltitudeLimits(false);
+    setAltitudeLimits(false);
 }
 
 void Mount::enableHourAngleLimits(bool enable)
 {
     maxHaLabel->setEnabled(enable);
-    MaximumHaLimit->setEnabled(enable);
+    maximumHaLimit->setEnabled(enable);
 }
 
 void Mount::enableHaLimits()
 {
     //Only enable if it was already enabled before and the minHaLimit is currently disabled.
-    if (m_HourAngleLimitEnabled && MaximumHaLimit->isEnabled() == false)
+    if (m_HourAngleLimitEnabled && maximumHaLimit->isEnabled() == false)
         enableHourAngleLimits(true);
 }
 
 void Mount::disableHaLimits()
 {
-    m_HourAngleLimitEnabled = EnableHaLimit->isChecked();
+    m_HourAngleLimitEnabled = enableHaLimit->isChecked();
 
     enableHourAngleLimits(false);
 }
@@ -943,46 +943,46 @@ QList<double> Mount::altitudeLimits()
 {
     QList<double> limits;
 
-    limits.append(MinimumAltLimit->value());
-    limits.append(MaximumAltLimit->value());
+    limits.append(minimumAltLimit->value());
+    limits.append(maximumAltLimit->value());
 
     return limits;
 }
 
 void Mount::setAltitudeLimits(QList<double> limits)
 {
-    MinimumAltLimit->setValue(limits[0]);
-    MaximumAltLimit->setValue(limits[1]);
+    minimumAltLimit->setValue(limits[0]);
+    maximumAltLimit->setValue(limits[1]);
 }
 
 void Mount::setAltitudeLimitsEnabled(bool enable)
 {
-    EnableAltitudeLimits->setChecked(enable);
+    enableAltitudeLimits->setChecked(enable);
 }
 
 bool Mount::altitudeLimitsEnabled()
 {
-    return EnableAltitudeLimits->isChecked();
+    return enableAltitudeLimits->isChecked();
 }
 
 double Mount::hourAngleLimit()
 {
-    return MaximumHaLimit->value();
+    return maximumHaLimit->value();
 }
 
 void Mount::setHourAngleLimit(double limit)
 {
-    MaximumHaLimit->setValue(limit);
+    maximumHaLimit->setValue(limit);
 }
 
 void Mount::setHourAngleLimitEnabled(bool enable)
 {
-    EnableHaLimit->setChecked(enable);
+    enableHaLimit->setChecked(enable);
 }
 
 bool Mount::hourAngleLimitEnabled()
 {
-    return EnableHaLimit->isChecked();
+    return enableHaLimit->isChecked();
 }
 
 void Mount::setJ2000Enabled(bool enabled)
@@ -1119,7 +1119,7 @@ bool Mount::checkMeridianFlip(dms lst)
         return false;
     }
 
-    if (ExecuteMeridianFlip->isChecked() == false)
+    if (executeMeridianFlip->isChecked() == false)
     {
         mf_state->publishMFMountStatusText(i18n("Meridian flip inactive (flip not requested)"));
         return false;
@@ -1139,7 +1139,7 @@ bool Mount::checkMeridianFlip(dms lst)
     }
 
     // get the time after the meridian that the flip is called for (Degrees --> Hours)
-    double offset = rangeHA(MeridianFlipOffsetDegrees->value() / 15.0);
+    double offset = rangeHA(meridianFlipOffsetDegrees->value() / 15.0);
 
     double hrsToFlip = 0;       // time to go to the next flip - hours  -ve means a flip is required
 
@@ -1296,7 +1296,7 @@ bool Mount::checkMeridianFlip(dms lst)
     return false;
 }
 
-bool Mount::executeMeridianFlip()
+bool Mount::startMeridianFlip()
 {
     if (/*initialHA() > 0 || */ currentTargetPosition == nullptr)
     {
@@ -1748,7 +1748,7 @@ void Mount::setAutoParkEnabled(bool enable)
 
 void Mount::setAutoParkDailyEnabled(bool enabled)
 {
-    ParkEveryDay->setChecked(enabled);
+    parkEveryDay->setChecked(enabled);
 }
 
 void Mount::setAutoParkStartup(QTime startup)
@@ -1758,12 +1758,12 @@ void Mount::setAutoParkStartup(QTime startup)
 
 bool Mount::meridianFlipEnabled()
 {
-    return ExecuteMeridianFlip->isChecked();
+    return executeMeridianFlip->isChecked();
 }
 
 double Mount::meridianFlipValue()
 {
-    return MeridianFlipOffsetDegrees->value();
+    return meridianFlipOffsetDegrees->value();
 }
 
 void Mount::stopTimers()
@@ -1804,7 +1804,7 @@ void Mount::startParkTimer()
         if (hours > 0)
         {
             // No need to display warning for every day check
-            if (ParkEveryDay->isChecked() == false)
+            if (parkEveryDay->isChecked() == false)
                 appendLogText(i18n("Parking time cannot be in the past."));
             return;
         }
@@ -2143,6 +2143,8 @@ void Mount::loadGlobalSettings()
             oneWidget->setCurrentText(value.toString());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -2155,6 +2157,8 @@ void Mount::loadGlobalSettings()
             oneWidget->setValue(value.toDouble());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -2167,6 +2171,8 @@ void Mount::loadGlobalSettings()
             oneWidget->setValue(value.toInt());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -2179,6 +2185,8 @@ void Mount::loadGlobalSettings()
             oneWidget->setChecked(value.toBool());
             settings[key] = value;
         }
+        else
+            qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
     m_GlobalSettings = m_Settings = settings;

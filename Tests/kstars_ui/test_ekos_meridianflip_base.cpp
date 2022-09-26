@@ -614,9 +614,9 @@ bool TestEkosMeridianFlipBase::stopFocusing()
 bool TestEkosMeridianFlipBase::enableMeridianFlip(double delay)
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
-    KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), ExecuteMeridianFlip, true);
+    KTRY_SET_CHECKBOX_SUB(ekos->mountModule(), executeMeridianFlip, true);
     // set the delay in degrees
-    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), MeridianFlipOffsetDegrees, 15.0 * delay / 3600.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(ekos->mountModule(), meridianFlipOffsetDegrees, 15.0 * delay / 3600.0);
     // all checks succeeded
     return true;
 }
