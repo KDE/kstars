@@ -2817,19 +2817,19 @@ namespace
 // TODO: Move to mount.h/cpp?
 MeridianFlipState::MeridianFlipMountState convertMountFlipState(const QString &statusStr)
 {
-    if (statusStr == "MeridianFlipState::MOUNT_FLIP_NONE")
+    if (statusStr == "MOUNT_FLIP_NONE")
         return MeridianFlipState::MOUNT_FLIP_NONE;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_PLANNED")
+    else if (statusStr == "MOUNT_FLIP_PLANNED")
         return MeridianFlipState::MOUNT_FLIP_PLANNED;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_WAITING")
+    else if (statusStr == "MOUNT_FLIP_WAITING")
         return MeridianFlipState::MOUNT_FLIP_WAITING;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_ACCEPTED")
+    else if (statusStr == "MOUNT_FLIP_ACCEPTED")
         return MeridianFlipState::MOUNT_FLIP_ACCEPTED;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_RUNNING")
+    else if (statusStr == "MOUNT_FLIP_RUNNING")
         return MeridianFlipState::MOUNT_FLIP_RUNNING;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_COMPLETED")
+    else if (statusStr == "MOUNT_FLIP_COMPLETED")
         return MeridianFlipState::MOUNT_FLIP_COMPLETED;
-    else if (statusStr == "MeridianFlipState::MOUNT_FLIP_ERROR")
+    else if (statusStr == "MOUNT_FLIP_ERROR")
         return MeridianFlipState::MOUNT_FLIP_ERROR;
     return MeridianFlipState::MOUNT_FLIP_ERROR;
 }
