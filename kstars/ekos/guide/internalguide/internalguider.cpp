@@ -88,7 +88,6 @@ void InternalGuider::resetDarkGuiding()
 bool InternalGuider::isInferencePeriodFinished()
 {
     auto const contribution = pmath->getGPG().predictionContribution();
-    qCDebug(KSTARS_EKOS_GUIDE) << "GPG contribution proportion:" << contribution;
     return contribution >= 0.99;
 }
 bool InternalGuider::guide()
@@ -936,7 +935,6 @@ std::pair<Seconds, Seconds> InternalGuider::calculateGPGTimeStep()
     {
         timeStep = std::min(captureTimeRemaining, darkGuideTimeRemaining);
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "calculated timestep" << timeStep.count() << "seconds";
     return std::pair<Seconds, Seconds>(timeStep, captureInterval);
 }
 

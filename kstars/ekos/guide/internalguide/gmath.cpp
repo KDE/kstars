@@ -360,7 +360,6 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
     bool useGPG = !dithering && Options::gPGEnabled() && (k == GUIDE_RA) && in_params.enabled[k];
     if (useGPG && darkGuide)
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << "dark guiding";
         gpg->darkGuiding(&pulseLength, &dir, calibration, timeStep);
         pulseDirection = dir;
     }

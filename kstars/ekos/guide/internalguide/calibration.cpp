@@ -516,7 +516,7 @@ bool Calibration::restore(const QString &encoding, ISD::Mount::PierSide currentP
     // Succeed if the calibration was on the same side of the pier as we're currently using.
     if (currentPierSide == calibrationPierSide)
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << "Restored calibration--same pier side.";
+        qCDebug(KSTARS_EKOS_GUIDE) << "Restored calibration--same pier side. Encoding:" << encoding;
         return true;
     }
 
@@ -537,7 +537,7 @@ bool Calibration::restore(const QString &encoding, ISD::Mount::PierSide currentP
         decSwap = !calibrationDecSwap;
 
     qCDebug(KSTARS_EKOS_GUIDE)
-            << QString("Restored calibration--flipped angles. Angle %1, swap %2 ms/as: %3 %4")
-            .arg(angle).arg(decSwap ? "T" : "F").arg(raPulseMsPerArcsecond).arg(decPulseMsPerArcsecond);
+            << QString("Restored calibration--flipped angles. Angle %1, swap %2 ms/as: %3 %4. Encoding: %5")
+            .arg(angle).arg(decSwap ? "T" : "F").arg(raPulseMsPerArcsecond).arg(decPulseMsPerArcsecond).arg(encoding);
     return true;
 }
