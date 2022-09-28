@@ -3825,7 +3825,7 @@ void Align::syncSettings()
             if (m_Settings.contains(key))
             {
                 m_Settings.remove(key);
-                emit settingsUpdated(m_Settings);
+                emit settingsUpdated(getAllSettings());
                 OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
                 OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Align, m_Settings);
             }
@@ -3842,7 +3842,7 @@ void Align::syncSettings()
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
-    emit settingsUpdated(m_Settings);
+    emit settingsUpdated(getAllSettings());
 
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
