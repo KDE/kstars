@@ -160,6 +160,8 @@ void GenericDevice::registerProperty(INDI::Property prop)
             m_Connected = false;
             emit Disconnected();
         }
+        else
+            m_Ready = (svp->s == IPS_OK && conSP->s == ISS_ON);
     }
     else if (name == "DRIVER_INFO")
     {
@@ -269,6 +271,8 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
                     m_ClientManager->sendNewNumber(nvp);
                 }
             }
+
+            m_ReadyTimer->start();
         }
         else if (m_Connected && conSP->s == ISS_OFF)
         {
@@ -276,6 +280,8 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
             m_Ready = false;
             emit Disconnected();
         }
+        else
+            m_Ready = (svp->s == IPS_OK && conSP->s == ISS_ON);
     }
 
     emit switchUpdated(svp);
