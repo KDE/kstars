@@ -1219,8 +1219,11 @@ void FITSView::drawStarCentroid(QPainter * painter, double scale)
         }
         else
         {
-            const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
-            painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
+            if (!showStarsHFR)
+            {
+                const double radius = starCenter->HFR > 0 ? 2.0f * starCenter->HFR * scale : w;
+                painter->drawEllipse(QPointF(xCoord * scale, yCoord * scale), radius, radius);
+            }
         }
 
         if (showStarsHFR)
