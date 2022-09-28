@@ -3212,7 +3212,7 @@ void Guide::updateSetting(const QString &key, const QVariant &value)
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
-    emit settingsUpdated(m_Settings);
+    emit settingsUpdated(getAllSettings());
 
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));

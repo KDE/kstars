@@ -1893,7 +1893,7 @@ void DarkLibrary::syncSettings()
             if (m_Settings.contains(key))
             {
                 m_Settings.remove(key);
-                emit settingsUpdated(m_Settings);
+                emit settingsUpdated(getAllSettings());
                 OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
                 OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::DarkLibrary, m_Settings);
             }
@@ -1910,7 +1910,7 @@ void DarkLibrary::syncSettings()
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
-    emit settingsUpdated(m_Settings);
+    emit settingsUpdated(getAllSettings());
 
     // Save to optical train specific settings as well
     OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
