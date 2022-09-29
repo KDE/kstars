@@ -17,7 +17,7 @@
 <itemizedlist>
     <listitem>
         <para>
-            Control your telescope, CCD (&amp; DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos.
+            Control your telescope, Camera (&amp; DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos.
         </para>
     </listitem>
     <listitem>

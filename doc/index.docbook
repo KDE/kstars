@@ -210,14 +210,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2021</year>
+<year>2001-2022</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2022-07-24</date>
-<releaseinfo>3.6.0</releaseinfo>
+<date>2022-09-29</date>
+<releaseinfo>3.6.1</releaseinfo>
 
 <abstract>
 <para>

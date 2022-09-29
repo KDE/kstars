@@ -4,6 +4,168 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.6.1 (ChoCho):
+
+4cfb967be 2022-09-29 Jasem Mutlaq         INDI driver sync
+f88169d38 2022-09-29 Jasem Mutlaq         Warn users if one or more devices fail to connect
+b2a51cd00 2022-09-28 Jasem Mutlaq         Fix issue where settingUpdated only emits the delta settings and not all settings
+77c4b156d 2022-09-28 Hy Murveit           Make guider target plot square and visible from the start
+b52ec1edb 2022-09-28 Hy Murveit           Do not draw star circles when printing HFRs
+5dee4c5bc 2022-09-27 Jasem Mutlaq         Fix issue for simple devices where readyTimer is not started since there are no more properties to define after connect
+ae604534e 2022-09-27 Hy Murveit           adjust guider logging
+3c107c0c1 2022-09-27 Hy Murveit           bugfix: Analyze meridian flip session was not being rendered
+218d763ba 2022-09-26 Wolfgang Reissenberger Bug fix: correct widget names so that they match their option key
+add3d0f84 2022-09-25 Hy Murveit           Bugfix: correct rendering of artificial horizon in equatorial mode
+b69eb9bb5 2022-09-25 Jasem Mutlaq         Fix issue when modules are marked ready when they are not fully ready
+11c776ef3 2022-09-24 Hy Murveit           Prevent guider from selecting very narrow guidestar
+6a39b3fe2 2022-09-24 Wolfgang Reissenberger Handling attempts sending an RPC call if no connection established
+dd2f11f33 2022-09-24 Hy Murveit           Call checkCamera before loading a sequenceQueue in case UI has not yet been updated.
+dde5b6be7 2022-09-23 Hy Murveit           bugfix, numPixels field was not being added to detected stars
+47ee6d41b 2022-09-23 Jasem Mutlaq         Get driver interface and connection from basedevice upon setting it up for first time. This fixes an issue when connecting to a remote INDI server w..
+09cf99f3f 2022-09-23 Jasem Mutlaq         Fix a bug where filter list sometimes does not get updated since we do not keep refreshing the filter properties which may come at a later stage
+0e6ee00f3 2022-09-22 Jasem Mutlaq         Prevent accidental setting of frame type to negative if case current index is below zero
+d7a0dabdd 2022-09-21 Wolfgang Reissenberger Bugfix for restarting a paused capture sequence after a meridian flip
+3a7edde82 2022-09-21 Jasem Mutlaq         Update Satellite sources URLs
+fb3cca5ee 2022-09-20 Jasem Mutlaq         Revert to Linear 1 Pass algorithm with more sane defaults to prevent huge initial movement
+031ca2581 2022-09-20 Jasem Mutlaq         Add barlow to reducer and increase range to 3x as proposed by Sophie
+608ab8b0b 2022-09-19 Jasem Mutlaq         Separate dust cap and light interfaces to their own defined schemas
+b0cd3fca3 2022-09-19 Jasem Mutlaq         Only emit newDevice once the concrete device is established, not generic
+44e35b775 2022-09-19 Jasem Mutlaq         Revert to polynomial algorithm as default as it appears to be more reliable if not as accurate
+96c912776 2022-09-19 Jasem Mutlaq         Check existing device is not null before comparing with incoming device
+ad25136cf 2022-09-19 Jasem Mutlaq         When setting same device again, run integrity check
+ed9f55536 2022-09-19 Jasem Mutlaq         Use consistent function names across interfaces. Fix scheduler connections
+f61e9d785 2022-09-18 Jasem Mutlaq         Fix filter manager reset. Fix light box and caps not properly initialized
+19f32f7b2 2022-09-18 Jasem Mutlaq         Fix several issues with INDI devices syncing with scheduler
+ef24bbd8f 2022-09-18 Jasem Mutlaq         Add missing TRAIN_GET_PROFILES command
+328fff709 2022-09-18 Jasem Mutlaq         Fix default config value and remove obsolete option
+fa189393c 2022-09-18 Jasem Mutlaq         Simplify code
+00727bfdb 2022-09-17 Jasem Mutlaq         More options migration fixes
+303285941 2022-09-17 Jasem Mutlaq         Fix minor option issues, always use GUI directly if accessible
+25b556034 2022-09-17 Jasem Mutlaq         For GUI elements no need to call Options use the current value as is
+a66626269 2022-09-17 Wolfgang Reissenberger State machines for meridian flip and Capture
+cb7390038 2022-09-17 Jasem Mutlaq         Fix some options not getting properly saved to global settings
+a895dba46 2022-09-17 Hy Murveit           fix windows compile array->pair
+a65413da6 2022-09-16 Jasem Mutlaq         Emit trainChanged signal when the train selection is updated
+92308f78d 2022-09-16 Jasem Mutlaq         When loading existing FITS Data also emit loaded or failed accordingly
+b5b447baa 2022-09-16 Sophie Taylor        Dark guiding for the GPG guider
+c66ab8c04 2022-09-15 Jasem Mutlaq         Fix typo
+926488df2 2022-09-15 Jasem Mutlaq         Add toggle autopark command
+f8565b9cc 2022-09-15 Jasem Mutlaq         Add missing dark library optical train getter and setter
+6daed1103 2022-09-15 Jasem Mutlaq         Restore get defect settings since we need to send back few settings not transmitted in the generic method
+05ad8a7a0 2022-09-15 Yuri Chornoivan      Fix minor typo
+a2b383e45 2022-09-14 Jasem Mutlaq         Dark library should use per-train settings
+b225418af 2022-09-14 Jasem Mutlaq         Implement Polar Alignment per-train settings
+d32cbb346 2022-09-14 Jasem Mutlaq         Store radio buttons in train settings
+8a84b48df 2022-09-14 Jasem Mutlaq         Connect newData to updateSensorData
+1a8d3d1b7 2022-09-14 Jasem Mutlaq         Use camera temperature when initially setting up ranges
+425741fd8 2022-09-14 Jasem Mutlaq         Fix renaming of optical trains. Use ID to designate profile trains instead of name
+0e810a03c 2022-09-13 Jasem Mutlaq         Need to send new train on update
+627e08d50 2022-09-13 Jasem Mutlaq         Fix EkosLive and optical train manager order
+6da7f5eae 2022-09-13 Jasem Mutlaq         Only show optical manager *after* connection is established and not before
+bc7a3dbb1 2022-09-11 Hy Murveit           fix analyze/focus bug
+6447c61ee 2022-09-11 Hy Murveit           Make TestEkosSimulator unstable
+3cfa10454 2022-09-11 Jasem Mutlaq         Do not call refreshTrains on dataChanged since that affect how DB is updated. Use ID when setting train
+88924a1ff 2022-09-10 Jasem Mutlaq         Update scheduler to use INDI devices from DBus interface
+2ec6f0652 2022-09-10 Jasem Mutlaq         Enable and disable train combo selection based on module state
+ebdde43a8 2022-09-10 Jasem Mutlaq         Fix device driver manual start by waiting more on client connection.
+b3b6f9f14 2022-09-10 Jasem Mutlaq         Enable a couple of tests back into stable
+888540276 2022-09-09 Jasem Mutlaq         Do not set options since these now are handled by global and per-train settings
+ffe13b704 2022-09-09 Jasem Mutlaq         Implement per-train and global settings in mount.
+1cd712023 2022-09-09 Jasem Mutlaq         No one is checking unstable tests. Better validate they work and are stable.
+8f7b80f11 2022-09-09 Jasem Mutlaq         Disable appimage build since it takes a long time to complete
+2d90e9d21 2022-09-08 Hy Murveit           PAA: use the index and healpix of the 3rd PAA calibration image at the start of the refresh phase.
+9c88d8e59 2022-09-08 Hy Murveit           Fix SolverUtils bug, scale was assuming arcseconds-per-pixel but using image-width
+aa58d3d10 2022-09-08 Wolfgang Reissenberger Meridian flip delay in degrees and some layout optimizations
+f32a48674 2022-09-08 Jasem Mutlaq         do not use oag
+95d39deb2 2022-09-08 Jasem Mutlaq         Fix filter manager setup
+a060df2d9 2022-09-08 Jasem Mutlaq         Fix GUI refactor
+f779ec202 2022-09-07 Hy Murveit           Fix bug where deprecated XML caused extra sequence jobs
+667395910 2022-09-08 Jasem Mutlaq         Global and per-train guide settings
+b063a8801 2022-09-07 Salman Naheed        Feature/add dslr editor
+9e6b1ed7c 2022-09-07 Jasem Mutlaq         Move align to new settings system
+734d73ce7 2022-09-07 Jasem Mutlaq         Set active job filter manager upon executing a job
+125214462 2022-09-07 Jasem Mutlaq         Refactor Filter Manager so that it is no longer a singleton but rather an instance used in several modules. This is required with optical trains tha..
+c5385f624 2022-09-06 Jasem Mutlaq         Update to new default values and check settings validity
+15a051218 2022-09-06 Jasem Mutlaq         Implement improved settings system where global settings and per-train settings are saved. Using KConfigSkeleton properties, we can easily load and ..
+50c805216 2022-09-06 Jasem Mutlaq         Fix spacing
+1c96fc03c 2022-09-06 Jasem Mutlaq         When camera is not available, disable relevant controls
+1a0ae11d4 2022-09-06 Jasem Mutlaq         Make sure ID is valid before setting optical train ID
+d846993ba 2022-09-05 Jasem Mutlaq         Watch out if m_FilterPositionProperty is undefined as well
+a744736f9 2022-09-05 Jasem Mutlaq         For dust caps since the interface is defined later we need to re-sync devices
+b8b0ef18a 2022-09-05 Jasem Mutlaq         Save settings per train. Starting in focus module to test grounds
+0c72a3bc0 2022-09-05 Wolfgang Reissenberger Option added to use dedicated guiding chips with optical trains
+c1b8df2aa 2022-09-04 Jasem Mutlaq         Fix refactor issue
+8155175ab 2022-09-04 Jasem Mutlaq         Default default meridian flip offset
+85e378ded 2022-09-03 Wolfgang Reissenberger Adapting UI tests to new optical trains
+04d1f76a1 2022-09-01 Jasem Mutlaq         Merge branch 'observatory_work'
+7bcd12c8b 2022-09-01 Jasem Mutlaq         Add notification source
+5e814ddb0 2022-08-31 Jasem Mutlaq         Re-enable observatory module
+ce7d0b277 2022-08-25 Jasem Mutlaq         Update asteroid and comet orbital elements
+1003dbdf7 2022-08-30 Jasem Mutlaq         Use click instead of activated to enable removal on non KDE systems
+7f04d5ead 2022-08-30 Jasem Mutlaq         Always emit updated signal when setting the profile
+b87c90cc4 2022-08-29 Yuri Chornoivan      Fix minor typo
+979049c2d 2022-08-28 Jasem Mutlaq         Add support for DSLR lenses. User can select either scope or lens in equipment...
+d7d561fbd 2022-08-28 Wolfgang Reissenberger Rotator preparation check fixed
+1528c497a 2022-08-27 Wolfgang Reissenberger Bugfix for initialisation of rotator device (and others)
+5ac1ab1dd 2022-08-27 Wolfgang Reissenberger No separate JPLParser creation for check of epoch_mjd, since this causes crashes
+af6c130c4 2022-08-27 Jasem Mutlaq         Use native compress in cfitsio
+dc2c53d20 2022-08-26 Jasem Mutlaq         Disable use of asyncmanager in find dialog filtering due to reported crashes
+4036f6c76 2022-08-26 Jasem Mutlaq         Fix format changes in NASA asteroid file
+8aaea06fb 2022-08-25 alfred herrhausen    Summary Screen layout improvements, Total RMS added
+f4be22a05 2022-08-25 Wolfgang Reissenberger Always check initial guiding deviation before capturing
+48f9fe591 2022-08-25 Hy Murveit           Bugfix--scheduler was ignoring artificial horizon ceiling constraints
+541765728 2022-08-24 Jasem Mutlaq         Local driver source should be used last since we need to prefer system source
+ea5f58855 2022-08-24 Salman Naheed        Update Guide / Align Settings
+17ab5c3bd 2022-08-23 Hy Murveit           fix tooltip
+9963c8f62 2022-08-24 Hy Murveit           Combine sampled polygons into large polygon for artificial horizon regions
+2ffd9258a 2022-08-22 Hy Murveit           Reduce the resolution in drawing artificial horizon to 1 degree
+947104587 2022-08-12 Marius P             guidealgorithms use C++ initialization instead of memset
+9e81b9404 2022-08-21 Sophie Taylor        Fix receiving compressed images from devices
+d83031e37 2022-08-21 Hy Murveit           Adjust UI for guide tab. New info line display for internal guider.
+3cc4a01b5 2022-08-21 Salman Naheed        Update PAA
+ed12bfba6 2022-08-20 Sophie Taylor        Fix CI test result upload
+c41323965 2022-08-20 Robert Lancaster     Attempting to patch Find Dialog Crash Bug on MacOS
+c1cad331e 2022-08-19 Sophie Taylor        Compress master dark frames
+538d8ecd8 2022-08-19 Sophie Taylor        Proper support for loading compressed image statistics
+7530af279 2022-08-19 Jasem Mutlaq         SVBony alias sync
+21f5c0bff 2022-08-18 Toni Schriber        Fix position angle and rotator raw angle calculations part II
+32f651315 2022-08-18 Jasem Mutlaq         No need for separate concrete device
+d8fb436ca 2022-08-18 Jasem Mutlaq         Merge branch 'scheduler_work'
+1ec7b3e55 2022-08-18 Jasem Mutlaq         More progress, but I think dustcap control need to be removed from scheduler. Observatory module should handle dome and weather devices and should r..
+14ca0d79b 2022-08-18 Jasem Mutlaq         Simplify target set
+6921c54ef 2022-08-17 Jasem Mutlaq         Initial work for using device interfaces
+1548ac61a 2022-08-17 Wolfgang Reissenberger Problem with guide calibration after meridian flip
+644c71c83 2022-08-17 Sophie Taylor        Compress saved autofocus and guide images
+600a01f25 2022-08-15 Jasem Mutlaq         Ensure we only create concrete devices if they do not exist yet
+aa4061c9a 2022-08-15 Jasem Mutlaq         Simply connections and simple refactor
+afb7edcc1 2022-08-15 Jasem Mutlaq         Use current index to watch for changes in the combo box
+7fbd5614f 2022-08-14 Jasem Mutlaq         Should process text for DRIVER_INFO since some drivers delay their driver interface updates until a later point
+ada862609 2022-08-14 Jasem Mutlaq         No need to cast
+88d187f9f 2022-08-14 Jasem Mutlaq         Fix FOV calculation due to binning
+2b72f6866 2022-08-13 Hy Murveit           Fix analyze stats update for target distance
+c50b87496 2022-08-13 Jasem Mutlaq         Use QtConcurrent for the actual computations for each planet and not for the overall functions enabling or disabling GUI elements from a thread migh..
+e53744a0e 2022-08-13 Yuri Chornoivan      Fix minor typo
+4591643b4 2022-08-12 Hy Murveit           Analyze target distance should be plotted as a property of the last capture.
+7a106fa8f 2022-08-12 Hy Murveit           Allow user to increase number of SEP MultiStar reference stars, invent SNR for invented guidestars
+405f2b2f8 2022-08-11 Jasem Mutlaq         Set propotional gains in Options once synced
+d09c95855 2022-08-11 Jasem Mutlaq         Fix telescope open/cover not getting called correctly in manual mode
+689323dee 2022-08-11 l10n daemon script   GIT_SILENT made messages (after extraction)
+525f2f9ee 2022-08-10 Jasem Mutlaq         Must retain a copy of data in the chip
+419c70156 2022-08-07 Hy Murveit           Update mount parking controls
+4ad462abf 2022-08-06 Jasem Mutlaq         Detect park status in both register and process stages
+c92154574 2022-08-06 Jasem Mutlaq         Improve reliabilty of connecting devices in modules
+63b2050e4 2022-08-05 Jasem Mutlaq         Remove Dustcap, Weather, and Dome modules since we should not create modules or interfaces for individual devices. Fix dust and light box settings s..
+dcf015c79 2022-08-05 Jasem Mutlaq         Fix device sync by calling on relevant generic device as iteration is not necessary
+f065348b6 2022-08-04 Jasem Mutlaq         Fix various issues with INDI refactor. Fixes #204
+67b23ff53 2022-08-03 Jasem Mutlaq         Only abort capture process on guide failure if we are capturing light frames
+b98aa5cd1 2022-08-02 Hy Murveit           fix comment
+ecc32506f 2022-08-02 Hy Murveit           fix align solver disconnect crash, disable ssolver logging
+81092b913 2022-08-01 Jasem Mutlaq         Fix rotator and dust cap by using register property to load initial values
+1ab23e657 2022-08-01 Jasem Mutlaq         Always start modules before adding devices to avoid missing them later
+6a60e821a 2022-07-31 Jasem Mutlaq         INDI Devices Handling Refactor
+6fb94d350 2022-07-31 Jasem Mutlaq         Remove 3rd party driver added by mistake
+c633499b6 2022-07-30 Jasem Mutlaq         3.6.1 beta. Bump Qt min to 5.12.8 and KF5 to 5.68 and cmake to 3.16 and C++ standard to 17
+
 3.6.0 (Contact):
 
 5764593a0 2022-07-28 Yuri Chornoivan      Fix minor typo: Conver -> Cover
