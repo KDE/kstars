@@ -58,8 +58,8 @@
             <version>1.1</version>
         </device>
         <device label="ZWO AM5" manufacturer="ZWO">
-            <driver name="LX200 Autostar">indi_lx200autostar</driver>
-            <version>2.1</version>
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.0</version>
         </device>
         <device label="AstroPhysics GTOCP2" manufacturer="Astrophysics">
             <driver name="AstroPhysics GTOCP2">indi_lx200ap_gtocp2</driver>
@@ -166,6 +166,14 @@
             <version>1.6</version>
         </device>
         <device label="iOptron GEM28" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.6</version>
+        </device>
+        <device label="iOptron HEM27" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.6</version>
+        </device>
+        <device label="iOptron SkyHunter" manufacturer="iOptron">
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
             <version>1.6</version>
         </device>
@@ -375,6 +383,10 @@
             <driver name="Pegasus FocusCube">indi_pegasus_focuscube</driver>
             <version>1.0</version>
         </device>
+        <device label="Pegasus ProdigyMF" manufacturer="Pegasus Astro">
+            <driver name="Pegasus MMC-7000AH">indi_pegasus_prodigyMF</driver>
+            <version>1.0</version>
+        </device>
         <device label="Pegasus ScopsOAG" manufacturer="Pegasus Astro">
             <driver name="Pegasus DMFC">indi_pegasus_scopsoag</driver>
             <version>1.0</version>
@@ -433,7 +445,7 @@
         </device>
         <device label="Esatto Arco" manufacturer="Primaluce Lab">
             <driver name="Esatto Arco">indi_esattoarco_focus</driver>
-            <version>0.1</version>
+            <version>1.0</version>
         </device>
         <device label="Lakeside" manufacturer="LakesideAstro">
             <driver name="Lakeside">indi_lakeside_focus</driver>
@@ -659,6 +671,10 @@
             <driver name="Wanderer Rotator Lite">indi_wanderer_lite_rotator</driver>
             <version>1.0</version>
         </device>
+        <device label="Wanderer Cover V3" manufacturer="Wanderer Astro">
+            <driver name="Wanderer Cover V3">indi_wanderer_cover</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Domes">
         <device label="ScopeDome Dome" manufacturer="ScopeDome">
@@ -747,7 +763,7 @@
     <devGroup group="Weather">
         <device label="AAG Cloud Watcher NG">
             <driver name="AAG Cloud Watcher NG">indi_aagcloudwatcher_ng</driver>
-            <version>1.6</version>
+            <version>1.7</version>
         </device>
     </devGroup>
 </driversList>
@@ -1163,11 +1179,11 @@
     <devGroup group="CCDs">
         <device label="MI CCD (USB)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_usb</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
         <device label="MI CCD (ETH)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_eth</driver>
-            <version>1.8</version>
+            <version>1.9</version>
         </device>
     </devGroup>
 </driversList>
@@ -1207,7 +1223,7 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>0.7</version>
+            <version>0.8</version>
         </device>
     </devGroup>
 </driversList>
@@ -1317,13 +1333,13 @@
             <driver name="SVBONY SV305">indi_sv305_ccd</driver>
             <version>1.3</version>
         </device>
-        <device label="SVBONY SV405C" mdpd="true" manufacturer="SVBONY">
-                <driver name="SVBONY SV305">indi_sv305_ccd</driver>
-                <version>@SV305_VERSION_MAJOR@.@SV305_VERSION_MINOR@</version>
+        <device label="SVBONY SV405CC" mdpd="true" manufacturer="SVBONY">
+            <driver name="SVBONY SV305">indi_sv305_ccd</driver>
+            <version>1.3</version>
         </device>
         <device label="SVBONY SV905C" mdpd="true" manufacturer="SVBONY">
-                <driver name="SVBONY SV305">indi_sv305_ccd</driver>
-                <version>@SV305_VERSION_MAJOR@.@SV305_VERSION_MINOR@</version>
+            <driver name="SVBONY SV305">indi_sv305_ccd</driver>
+            <version>1.3</version>
         </device>
     </devGroup>
 </driversList>

@@ -1116,7 +1116,31 @@ void Manager::checkINDITimeout()
 {
     // Don't check anything unless we're still pending
     if (m_ekosStatus != Ekos::Pending)
+    {
+        // All devices are connected already, nothing to do.
+        if (m_indiStatus != Ekos::Pending)
+            return;
+
+        QStringList disconnectedDevices;
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            if (oneDevice->isConnected() == false)
+                disconnectedDevices << oneDevice->getDeviceName();
+        }
+
+        QString message;
+
+        if (disconnectedDevices.count() == 1)
+            message = i18n("Failed to connect to %1. Please ensure device is connected and powered on.", disconnectedDevices.first());
+        else
+            message = i18n("Failed to connect to \n%1\nPlease ensure each device is connected and powered on.",
+                           disconnectedDevices.join("\n"));
+
+        appendLogText(message);
+        KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Warn);
         return;
+    }
+
 
     if (m_DriverDevicesCount <= 0)
     {
@@ -1204,7 +1228,6 @@ bool Manager::isINDIReady()
     auto devices = INDIListener::devices();
     for (auto &device : devices)
     {
-        qCDebug(KSTARS_EKOS) << "####" << device->getDeviceName() << "connected?" << device->isConnected() << "ready?" << device->isReady();
         // Make sure we're not only connected, but also ready (i.e. all properties have already been defined).
         if (device->isConnected() && device->isReady())
             nConnected++;
@@ -3325,17 +3348,26 @@ void Manager::createModules(const QSharedPointer<ISD::GenericDevice> &device)
 
 void Manager::setDeviceReady()
 {
+    // Check if ALL our devices are ready.
+    // Ready indicates that all properties have been defined.
     if (isINDIReady() == false)
     {
         auto device = static_cast<ISD::GenericDevice*>(sender());
-        qCDebug(KSTARS_EKOS) << "####" << device->getDeviceName() << "connected?" << device->isConnected() << "ready?" << device->isReady();
-        if (device && device->isConnected() == false && m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
-            device->Connect();
+        if (device)
+        {
+            if (device->isConnected() == false && m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
+            {
+                qCInfo(KSTARS_EKOS) << "Connecting to" << device->getDeviceName();
+                device->Connect();
+            }
+            else
+                qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected and ready.";
+        }
 
         return;
     }
 
-    qCDebug(KSTARS_EKOS) << "#### All ready!";
+    qCInfo(KSTARS_EKOS) << "All devices are ready.";
     for (auto &device : INDIListener::devices())
         syncGenericDevice(device);
 
