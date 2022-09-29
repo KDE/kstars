@@ -1118,7 +1118,7 @@ void Manager::checkINDITimeout()
     if (m_ekosStatus != Ekos::Pending)
     {
         // All devices are connected already, nothing to do.
-        if (m_indiStatus != Ekos::Pending)
+        if (m_indiStatus != Ekos::Pending || m_CurrentProfile->portSelector)
             return;
 
         QStringList disconnectedDevices;
