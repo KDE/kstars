@@ -2815,8 +2815,8 @@ bool Align::setFilterWheel(ISD::FilterWheel *device)
 
     m_FilterWheel = device;
 
-    FilterPosLabel->setEnabled(true);
-    alignFilter->setEnabled(true);
+    FilterPosLabel->setEnabled(m_FilterWheel);
+    alignFilter->setEnabled(m_FilterWheel);
 
     checkFilter();
     return true;

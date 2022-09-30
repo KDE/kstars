@@ -332,6 +332,8 @@ bool Guide::setCamera(ISD::Camera *device)
         });
     }
 
+    controlGroupBox->setEnabled(m_Camera);
+
     // If camera was reset, return now.
     if (!m_Camera)
         return false;
@@ -671,6 +673,8 @@ bool Guide::setGuider(ISD::Guider *device)
 
     if (m_Guider)
         m_Guider->disconnect(this);
+
+    guideB->setEnabled(m_Guider);
 
     m_Guider = device;
     return true;
