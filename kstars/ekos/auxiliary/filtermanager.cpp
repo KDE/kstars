@@ -50,6 +50,30 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
 
     m_FilterModel = new QSqlTableModel(this, userdb);
     m_FilterView->setModel(m_FilterModel);
+
+    m_FilterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
+
+    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
+
+    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
+
+    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Start Auto Focus when filter is activated"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Auto Focus"));
+
+    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
+
+    m_FilterModel->setHeaderData(9, Qt::Horizontal,
+                                 i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
+                                 Qt::ToolTipRole);
+    m_FilterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
+
+    m_FilterModel->setTable("filter");
+
+    m_FilterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+
     connect(m_FilterModel, &QSqlTableModel::dataChanged, this, &FilterManager::updated);
 
     // No Edit delegate
@@ -91,19 +115,13 @@ void FilterManager::refreshFilterModel()
         return;
 
     QString vendor(m_FilterWheel->getDeviceName());
-
-    if (!m_FilterModel)
-    {
-        QSqlDatabase userdb = QSqlDatabase::cloneDatabase(KStarsData::Instance()->userdb()->GetDatabase(),
-                              QUuid::createUuid().toString());
-        userdb.open();
-        m_FilterModel = new QSqlTableModel(this, userdb);
-        m_FilterView->setModel(m_FilterModel);
-    }
-    m_FilterModel->setTable("filter");
     m_FilterModel->setFilter(QString("vendor='%1'").arg(vendor));
     m_FilterModel->select();
-    m_FilterModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+
+    m_FilterView->hideColumn(0);
+    m_FilterView->hideColumn(1);
+    m_FilterView->hideColumn(2);
+    m_FilterView->hideColumn(3);
 
     // If we have an existing table but it doesn't match the number of current filters
     // then we remove it.
@@ -137,30 +155,6 @@ void FilterManager::refreshFilterModel()
     }
 
     lockDelegate->setValues(m_currentFilterLabels);
-
-    m_FilterModel->setHeaderData(4, Qt::Horizontal, i18n("Filter"));
-
-    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Filter exposure time during focus"), Qt::ToolTipRole);
-    m_FilterModel->setHeaderData(5, Qt::Horizontal, i18n("Exposure"));
-
-    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Relative offset in steps"), Qt::ToolTipRole);
-    m_FilterModel->setHeaderData(6, Qt::Horizontal, i18n("Offset"));
-
-    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Start Auto Focus when filter is activated"), Qt::ToolTipRole);
-    m_FilterModel->setHeaderData(7, Qt::Horizontal, i18n("Auto Focus"));
-
-    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock specific filter when running Auto Focus"), Qt::ToolTipRole);
-    m_FilterModel->setHeaderData(8, Qt::Horizontal, i18n("Lock Filter"));
-
-    m_FilterModel->setHeaderData(9, Qt::Horizontal,
-                                 i18n("Flat frames are captured at this focus position. It is updated automatically by focus process if enabled."),
-                                 Qt::ToolTipRole);
-    m_FilterModel->setHeaderData(9, Qt::Horizontal, i18n("Flat Focus Position"));
-
-    m_FilterView->hideColumn(0);
-    m_FilterView->hideColumn(1);
-    m_FilterView->hideColumn(2);
-    m_FilterView->hideColumn(3);
 
     reloadFilters();
 }
@@ -802,8 +796,9 @@ void FilterManager::setFilterData(const QJsonObject &settings)
         m_FilterModel->setData(m_FilterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
     }
 
-    setFilterNames(labels);
     m_FilterModel->submitAll();
+    setFilterNames(labels);
+
     refreshFilterModel();
 }
 

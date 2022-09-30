@@ -6540,7 +6540,11 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
 void Capture::refreshFilterManager(ISD::FilterWheel *device)
 {
     if (m_FilterManager && m_FilterManager->filterWheel() == device)
+    {
+        m_FilterManager->blockSignals(true);
         m_FilterManager->refreshFilterModel();
+        m_FilterManager->blockSignals(false);
+    }
 }
 
 void Capture::setupFilterManager()
