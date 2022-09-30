@@ -1236,12 +1236,12 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     if (command == commands[ADD_SCOPE])
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
-                payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble());
+                payload["type"].toString(), payload["aperture"].toDouble(), payload["focal_length"].toDouble());
     }
     else if (command == commands[UPDATE_SCOPE])
     {
         KStarsData::Instance()->userdb()->AddScope(payload["model"].toString(), payload["vendor"].toString(),
-                payload["type"].toString(), payload["focal_length"].toDouble(), payload["aperture"].toDouble(), payload["id"].toString());
+                payload["type"].toString(), payload["aperture"].toDouble(), payload["focal_length"].toDouble(), payload["id"].toString());
     }
     else if (command == commands[DELETE_SCOPE])
     {
