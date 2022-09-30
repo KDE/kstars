@@ -482,7 +482,6 @@ Capture::Capture()
     // display the capture status in the UI
     connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::LedStatusWidget::setCaptureState);
 
-    setupFilterManager();
     setupOpticalTrainManager();
 }
 
@@ -1634,7 +1633,12 @@ void Capture::checkFilter()
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
 
-        m_FilterManager.reset();
+        if (m_FilterManager)
+        {
+            m_FilterManager->disconnect(this);
+            disconnect(m_FilterManager.get());
+            m_FilterManager.reset();
+        }
         m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
         return;
     }

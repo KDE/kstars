@@ -215,7 +215,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     setupPlot();
     setupSolutionTable();
     setupOptions();
-    setupFilterManager();
 
     // Load all settings
     loadGlobalSettings();
