@@ -149,7 +149,6 @@ Focus::Focus()
         resetButtons();
     });
 
-    setupFilterManager();
     setupOpticalTrainManager();
 }
 
@@ -520,7 +519,12 @@ void Focus::checkFilter()
         focusFilter->setEnabled(false);
         filterManagerB->setEnabled(false);
 
-        m_FilterManager.reset();
+        if (m_FilterManager)
+        {
+            m_FilterManager->disconnect(this);
+            disconnect(m_FilterManager.get());
+            m_FilterManager.reset();
+        }
         return;
     }
 

@@ -3355,6 +3355,7 @@ void Manager::setDeviceReady()
         auto device = static_cast<ISD::GenericDevice*>(sender());
         if (device)
         {
+
             if (device->isConnected() == false && m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
             {
                 qCInfo(KSTARS_EKOS) << "Connecting to" << device->getDeviceName();
@@ -3364,7 +3365,8 @@ void Manager::setDeviceReady()
                 qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected and ready.";
         }
 
-        return;
+        if (m_ekosStatus != Ekos::Success)
+            return;
     }
 
     qCInfo(KSTARS_EKOS) << "All devices are ready.";
