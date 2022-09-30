@@ -384,19 +384,6 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="3">
-           <widget class="QCheckBox" name="swapCheck">
-            <property name="toolTip">
-             <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Swap</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="2">
            <widget class="QLabel" name="label_8">
             <property name="toolTip">
@@ -1543,7 +1530,6 @@
   <tabstop>guideBinning</tabstop>
   <tabstop>rAGuideEnabled</tabstop>
   <tabstop>dECGuideEnabled</tabstop>
-  <tabstop>swapCheck</tabstop>
   <tabstop>eastRAGuideEnabled</tabstop>
   <tabstop>westRAGuideEnabled</tabstop>
   <tabstop>northDECGuideEnabled</tabstop>

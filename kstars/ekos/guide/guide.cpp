@@ -1777,7 +1777,7 @@ bool Guide::setGuiderType(int type)
         {
             connect(internalGuider, &InternalGuider::newMultiPulse, this, &Guide::sendMultiPulse);
             connect(internalGuider, &InternalGuider::newSinglePulse, this, &Guide::sendSinglePulse);
-            connect(internalGuider, &InternalGuider::DESwapChanged, swapCheck, &QCheckBox::setChecked);
+            connect(internalGuider, &InternalGuider::DESwapChanged, this, &Guide::setDECSwap);
             connect(internalGuider, &InternalGuider::newStarPixmap, this, &Guide::newStarPixmap);
 
             m_GuiderInstance = internalGuider;
@@ -1832,8 +1832,6 @@ bool Guide::setGuiderType(int type)
             rAGuideEnabled->setEnabled(false);
             eastRAGuideEnabled->setEnabled(false);
             westRAGuideEnabled->setEnabled(false);
-            swapCheck->setEnabled(false);
-
 
             opsGuide->controlGroup->setEnabled(false);
             infoGroup->setEnabled(true);
@@ -2741,9 +2739,6 @@ void Guide::initConnections()
     connect(southDECGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
     connect(westRAGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
     connect(eastRAGuideEnabled, &QCheckBox::toggled, this, &Ekos::Guide::onControlDirectionChanged);
-
-    // Declination Swap
-    connect(swapCheck, &QCheckBox::toggled, this, &Ekos::Guide::setDECSwap);
 
     // Capture
     connect(captureB, &QPushButton::clicked, this, [this]()
