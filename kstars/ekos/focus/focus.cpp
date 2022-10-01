@@ -388,6 +388,27 @@ bool Focus::setFilterWheel(ISD::FilterWheel *device)
 
     m_FilterWheel = device;
 
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            focusFilter->setEnabled(true);
+            filterManagerB->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            focusFilter->setEnabled(false);
+            filterManagerB->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    focusFilter->setEnabled(isConnected);
+    filterManagerB->setEnabled(isConnected);
+
     FilterPosLabel->setEnabled(true);
     focusFilter->setEnabled(true);
 
@@ -687,19 +708,22 @@ bool Focus::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            controlGroup->setEnabled(true);
+            ccdGroup->setEnabled(true);
+            tabWidget->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
-            opticalTrainCombo->setEnabled(true);
-            trainLabel->setEnabled(true);
+            controlGroup->setEnabled(false);
+            ccdGroup->setEnabled(false);
+            tabWidget->setEnabled(false);
         });
     }
 
-    controlGroup->setEnabled(m_Camera);
-    ccdGroup->setEnabled(m_Camera);
-    tabWidget->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    controlGroup->setEnabled(isConnected);
+    ccdGroup->setEnabled(isConnected);
+    tabWidget->setEnabled(isConnected);
 
     if (!m_Camera)
         return false;

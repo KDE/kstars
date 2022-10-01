@@ -507,20 +507,28 @@ bool Capture::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            CCDFWGroup->setEnabled(true);
+            sequenceBox->setEnabled(true);
+            for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+                oneChild->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
+            CCDFWGroup->setEnabled(false);
+            sequenceBox->setEnabled(false);
+            for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+                oneChild->setEnabled(false);
+
             opticalTrainCombo->setEnabled(true);
             trainLabel->setEnabled(true);
         });
     }
 
-    CCDFWGroup->setEnabled(m_Camera);
-    sequenceBox->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    CCDFWGroup->setEnabled(isConnected);
+    sequenceBox->setEnabled(isConnected);
     for (auto &oneChild : sequenceControlsButtonGroup->buttons())
-        oneChild->setEnabled(m_Camera);
+        oneChild->setEnabled(isConnected);
 
     if (!m_Camera)
     {
@@ -570,9 +578,26 @@ bool Capture::setFilterWheel(ISD::FilterWheel * device)
     m_FilterWheel = device;
     m_captureDeviceAdaptor->setFilterWheel(m_FilterWheel);
 
-    FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);
-    filterManagerB->setEnabled(true);
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            FilterPosCombo->setEnabled(true);
+            filterManagerB->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            FilterPosCombo->setEnabled(false);
+            filterManagerB->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    FilterPosCombo->setEnabled(isConnected);
+    filterManagerB->setEnabled(isConnected);
 
     checkFilter();
 
