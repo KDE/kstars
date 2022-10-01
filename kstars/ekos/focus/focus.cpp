@@ -577,6 +577,18 @@ bool Focus::setFocuser(ISD::Focuser *device)
 
     m_Focuser = device;
 
+    if (m_Focuser)
+    {
+        connect(m_Focuser, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            resetButtons();
+        });
+        connect(m_Focuser, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            resetButtons();
+        });
+    }
+
     checkFocuser();
     return true;
 }
@@ -3249,7 +3261,7 @@ void Focus::resetButtons()
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
 
-    if (m_Focuser)
+    if (m_Focuser && m_Focuser->isConnected())
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
