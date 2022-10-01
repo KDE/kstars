@@ -616,20 +616,28 @@ bool Align::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            controlBox->setEnabled(true);
+            gotoBox->setEnabled(true);
+            plateSolverOptionsGroup->setEnabled(true);
+            tabWidget->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
+            controlBox->setEnabled(false);
+            gotoBox->setEnabled(false);
+            plateSolverOptionsGroup->setEnabled(false);
+            tabWidget->setEnabled(false);
+
             opticalTrainCombo->setEnabled(true);
             trainLabel->setEnabled(true);
         });
     }
 
-    controlBox->setEnabled(m_Camera);
-    gotoBox->setEnabled(m_Camera);
-    plateSolverOptionsGroup->setEnabled(m_Camera);
-    tabWidget->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    controlBox->setEnabled(isConnected);
+    gotoBox->setEnabled(isConnected);
+    plateSolverOptionsGroup->setEnabled(isConnected);
+    tabWidget->setEnabled(isConnected);
 
     if (!m_Camera)
         return false;
@@ -2815,8 +2823,23 @@ bool Align::setFilterWheel(ISD::FilterWheel *device)
 
     m_FilterWheel = device;
 
-    FilterPosLabel->setEnabled(m_FilterWheel);
-    alignFilter->setEnabled(m_FilterWheel);
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            alignFilter->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            alignFilter->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    alignFilter->setEnabled(isConnected);
 
     checkFilter();
     return true;
@@ -2858,8 +2881,9 @@ void Align::checkFilter()
         return;
     }
 
-    FilterPosLabel->setEnabled(true);
-    alignFilter->setEnabled(true);
+    auto isConnected = m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    alignFilter->setEnabled(isConnected);
 
     setupFilterManager();
 
