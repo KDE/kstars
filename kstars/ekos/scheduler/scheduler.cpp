@@ -8354,8 +8354,26 @@ void Scheduler::setCaptureComplete(const QVariantMap &metadata)
             m_Solver.reset(new SolverUtils(parameters, solverTimeout),  &QObject::deleteLater);
             connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::Scheduler::solverDone, Qt::UniqueConnection);
             //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::appendLogText, Qt::UniqueConnection);
-            m_Solver->useScale(Options::astrometryUseImageScale(), Options::astrometryImageScaleLow(),
-                               Options::astrometryImageScaleHigh());
+
+            auto width = metadata["width"].toUInt();
+            auto height = metadata["height"].toUInt();
+
+            auto lowScale = Options::astrometryImageScaleLow();
+            auto highScale = Options::astrometryImageScaleHigh();
+
+            // solver utils uses arcsecs per pixel only
+            if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
+            {
+                lowScale = (lowScale * 3600) / std::max(width, height);
+                highScale = (highScale * 3600) / std::min(width, height);
+            }
+            else if (Options::astrometryImageScaleUnits() == SSolver::ARCMIN_WIDTH)
+            {
+                lowScale = (lowScale * 60) / std::max(width, height);
+                highScale = (highScale * 60) / std::min(width, height);
+            }
+
+            m_Solver->useScale(Options::astrometryUseImageScale(), lowScale, highScale);
             m_Solver->usePosition(Options::astrometryUsePosition(), currentJob->getTargetCoords().ra().Degrees(),
                                   currentJob->getTargetCoords().dec().Degrees());
             m_Solver->runSolver(filename);
