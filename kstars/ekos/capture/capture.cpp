@@ -2061,6 +2061,8 @@ IPState Capture::setCaptureComplete()
         metadata["type"] = activeJob->getFrameType();
         metadata["exposure"] = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
         metadata["filter"] = activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+        metadata["width"] = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().width();
+        metadata["height"] = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().height();
         metadata["hfr"] = hfr;
         metadata["starCount"] = numStars;
         metadata["median"] = median;
