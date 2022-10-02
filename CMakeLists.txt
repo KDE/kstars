@@ -1,3 +1,5 @@
+cmake_minimum_required (VERSION 3.16.0 FATAL_ERROR)
+
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 3)
 set (KStars_VERSION_MINOR 6)
@@ -19,9 +21,6 @@ option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
 
 # Build the Python bindings for the SkyMesh indexation
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
-
-# minimal requirements
-cmake_minimum_required (VERSION 3.16.0 FATAL_ERROR)
 
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
