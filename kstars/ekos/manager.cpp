@@ -1498,9 +1498,12 @@ void Manager::addCamera(ISD::Camera * device)
 
 void Manager::addFilterWheel(ISD::FilterWheel * device)
 {
-    appendLogText(i18n("%1 filter is online.", device->getDeviceName()));
+    QString name = device->getDeviceName();
+    appendLogText(i18n("%1 filter is online.", name));
 
-    emit newDevice(device->getDeviceName(), device->getDriverInterface());
+    createFilterManager(device);
+
+    emit newDevice(name, device->getDriverInterface());
 }
 
 void Manager::addFocuser(ISD::Focuser *device)
@@ -2800,12 +2803,6 @@ void Manager::connectModules()
         // Meridian Flip
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, focusProcess.get(), &Ekos::Focus::meridianFlipStarted,
                 Qt::UniqueConnection);
-
-        // Filter Manager
-        connect(captureProcess.get(), &Ekos::Capture::filterManagerUpdated, focusProcess.get(), &Ekos::Focus::refreshFilterManager,
-                Qt::UniqueConnection);
-        connect(focusProcess.get(), &Ekos::Focus::filterManagerUpdated, captureProcess.get(), &Ekos::Capture::refreshFilterManager,
-                Qt::UniqueConnection);
     }
 
     // Capture <---> Align connections
@@ -3384,5 +3381,27 @@ void Manager::setDeviceReady()
 
     OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
 }
+
+void Manager::createFilterManager(ISD::FilterWheel *device)
+{
+    auto name = device->getDeviceName();
+    if (m_FilterManagers.contains(name) == false)
+    {
+        QSharedPointer<FilterManager> newFM(new FilterManager(this));
+        newFM->setFilterWheel(device);
+        m_FilterManagers[name] = newFM;
+    }
+}
+
+bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm)
+{
+    if (m_FilterManagers.contains(name))
+    {
+        fm = m_FilterManagers[name];
+        return true;
+    }
+    return false;
+}
+
 
 }
