@@ -1,0 +1,64 @@
+<sect1 id="ai-cpoles">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Taevapoolused</title>
+<indexterm
+><primary
+>Taevapoolused</primary>
+<seealso
+>Ekvaatorilised koordinaadid</seealso>
+</indexterm>
+<para
+>Taevas paistab triivivat idast läände, tehes täistiiru 24 <link linkend="ai-sidereal"
+>tähetunniga</link
+>. Selle põhjus peitub Maa pöörlemises ümber oma telje. Maa pöörlemistelg lõikub <link linkend="ai-csphere"
+>taevasfääriga</link
+> kahes punktis. Need ongi <firstterm
+>taevapoolused</firstterm
+>. Kui Maa pöörleb, jäävad need punktid taevas ikka samale kohale, nii et kõik teised taevalaotuse punktid paistavad ümber nende tiirlevat. Taevapoolused on ühtlasi <link linkend="equatorial"
+>ekvaatorilise koordinaatide süsteemi</link
+> poolused, mis tähendab, et nende <firstterm
+>kääne</firstterm
+> on +90 ja -90 kraadi (vastavalt põhja- ja lõunataevapoolusel). </para
+><para
+>Põhjataevapooluse koordinaadid on praegu enam-vähem samad heleda tähe <firstterm
+>Põhjanaela</firstterm
+> koordinaatidega (muide, ladina keeles tähendabki selle nimi Polaris <quote
+>poolusetähte</quote
+>). Seetõttu armastavad näiteks meresõitjad väga kasutada Põhjanaela: see osutab alati horisondil põhjasuunda ning pealegi on tema <link linkend="horizontal"
+>kõrgus</link
+> alati (peaaegu täpselt) võrdne vaatleja <link linkend="ai-geocoords"
+>geograafilise laiuskraadiga</link
+>. Siiski on Põhjanael nähtav ainult Maa põhjapoolkeral. </para
+><para
+>Põhjanael on pooluse lähedal siiski puhtalt kokkusattumuse tõttu. Tegelikult asub ta tänu <link linkend="ai-precession"
+>pretsessioonile</link
+> pooluse lähedal astronoomilises ajaarvestuses ainult väga lühikest aega. </para>
+<tip>
+<para
+>Ülesanded:</para>
+<para
+>Kasuta akent <guilabel
+>Objekti otsimine</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>) Põhjanaela asukoha määramiseks. Pane tähele, et tähe kääne on peaaegu (aga mitte päris täpselt) +90 kraadi. Võrdle nüüd Põhjanaela kõrgust oma asukoha geograafilise laiuskraadiga. Need jäävad alati ühe kraadi sisse. Nad ei ole päris ühesugused, sest Põhjanael ei asu täpselt pooluse kohal. (Pooluse saad määrata, kui lülitad sisse ekvaatorilised koordinaadid ning vajutad üles-nooleklahvi, kuni taevas enam ei pöörle.) </para
+><para
+>Kasuta tööriistariba hüpikkasti <guilabel
+>Ajasamm</guilabel
+> ja sea seal väärtuseks 100 sekundit. Nüüd näed, kuidas kogu taevalaotus keerleb ümber Põhjapooluse, täht ise jääb aga peaaegu täielikult liikumatuks. </para
+><para
+>Nentisime, et taevapoolus on ekvaatorilise koordinaatide süsteemi poolus. Mis on sinu arvates horisondilise (kõrguse-asimuudi) koordinaatide süsteemi poolus? ( <link linkend="ai-zenith"
+>Seniit</link
+>) </para>
+</tip>
+</sect1>

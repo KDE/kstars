@@ -1,0 +1,112 @@
+<appendix id="installation">
+<title
+>Installazione</title>
+
+<sect1 id="getting-kstars">
+<title
+>Come ottenere &kstars;</title>
+<para
+>&kstars; è distribuito con &kde; come parte del modulo kdeedu "Istruzione divertente". </para>
+<!--
+<para>
+We also occasionally make an independent release.  These independent
+releases will be available as a gzipped tar archive from the following
+website:
+<ulink
+ url="http://prdownloads.sourceforge.net/kstars/"
+>http://prdownloads.sourceforge.net/kstars/</ulink
+>.
+</para>
+<para>
+Independent releases are announced through the
+<email
+>kstars-announce@lists.sourceforge.net</email
+> mailing list.
+Releases are also posted to <ulink url="http://edu.kde.org/kstars"
+>the
+&kstars; home page</ulink
+>,
+<ulink url="http://www.kde-apps.org/content/show.php?content=9862"
+>kde-apps.org</ulink
+>, and 
+<ulink url="http://freshmeat.net/projects/kstars"
+>freshmeat.net</ulink
+>.
+</para>
+-->
+<para
+>&kstars; è incluso in parecchie distribuzioni Linux/BSD, tra cui Fedora, openSUSE, Ubuntu e Mandriva. Alcune distribuzioni includono &kstars; come applicazione separata, altre forniscono un pacchetto kdeedu, che comprende &kstars;. </para
+><para
+>Se desideri l'ultima versione di sviluppo di &kstars; da Git, segui <ulink url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars"
+>queste istruzioni</ulink
+>. </para>
+</sect1>
+
+<sect1 id="requirements">
+<title
+>Requisiti</title>
+<para
+>Affinché &kstars; funzioni correttamente, hai bisogno di &kde; 
+>=4.0 e &Qt;
+>=4.3. </para>
+<para
+>Per compilare &kstars;, dovrai inoltre avere i seguenti pacchetti installati: <itemizedlist>
+<listitem
+><para
+>kdelibs-devel</para
+></listitem>
+<listitem
+><para
+>qt-devel</para
+></listitem>
+<listitem
+><para
+>zlib-devel</para
+></listitem>
+<listitem
+><para
+>fam-devel</para
+></listitem>
+<listitem
+><para
+>png-devel</para
+></listitem>
+<listitem
+><para
+>jpeg-devel</para
+></listitem>
+<listitem
+><para
+>cmake</para
+></listitem>
+</itemizedlist
+></para>
+
+<para
+>Sul mio sistema, &kstars; utilizza circa 60 MByte di memoria di sistema con le impostazioni predefinite. Gran parte di questa memoria è occupata dai database degli oggetti. Puoi ridurre enormemente l'utilizzo di memoria riducendo il limite per le stelle deboli nella finestra di configurazione, oppure eliminando cataloghi di oggetti (NGC, IC, comete, asteroidi, ecc.).Quando &kstars; è inattivo utilizza pochissima <acronym
+>CPU</acronym
+>, ma userà tutta quella che trova durante gli spostamenti e gli zoom. </para>
+</sect1>
+
+<sect1 id="compilation">
+<title
+>Compilazione e installazione</title>
+&install.compile.documentation; </sect1>
+
+<sect1 id="configuration">
+<title
+>Configurazione</title>
+<para
+>Giunti a questo punto, non ci sono requisiti od opzioni di configurazione speciali. Se &kstars; avverte che ci sono file di dati mancanti, diventa <systemitem class="username"
+>root</systemitem
+> e copia manualmente tutti i file in <filename class="directory"
+>kstars/data/</filename
+> nella directory <filename class="directory"
+>$(KDEDIR)/apps/kstars/</filename
+> (se non disponi dei privilegi di <systemitem class="username"
+>root</systemitem
+>, copia i file nella cartella <filename class="directory"
+>~/.kde/share/apps/kstars/.</filename
+>). </para>
+</sect1>
+</appendix>

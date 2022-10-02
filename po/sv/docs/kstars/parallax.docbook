@@ -1,0 +1,62 @@
+<sect1 id="ai-parallax">
+<sect1info>
+<author
+><firstname
+>James</firstname
+> <surname
+>Lindenschmidt</surname
+> </author>
+</sect1info>
+<title
+>Parallax</title>
+<indexterm
+><primary
+>Parallax</primary
+></indexterm>
+<indexterm
+><primary
+>Astronomisk enhet</primary
+><see
+>Parallax</see
+></indexterm>
+<indexterm
+><primary
+>Parsek</primary
+><see
+>Parallax</see
+></indexterm>
+ <para
+><firstterm
+>Parallax</firstterm
+> är den skenbara ändring av ett observerat objekts position som orsakas av ändringen i observatörens position. Håll till exempel din hand framför dig på armlängds avstånd, och observera ett objekt på andra sidan rummet bakom din hand. Luta nu huvudet mot höger axel, och handen syns till vänster om det avlägsna objektet. Luta huvudet mot vänster axel, och handen verkar flyttas till höger om det avlägsna objektet. </para>
+ <para
+>Eftersom jorden går i en bana runt solen, så observerar vi himlen från en position i rymden som hela tiden flyttar sig. Därför bör vi förvänta oss att se en <firstterm
+>årlig parallax</firstterm
+>, där positionerna för näraliggande objekt verkar <quote
+>vagga</quote
+> fram och tillbaka orsakat av vår förflyttning runt solen. Det här sker också, men avstånden även till de närmsta stjärnorna är så stort att man måste göra noggranna observationer med ett teleskop för att upptäcka det<footnote
+><para
+>De gamla grekiska astronomerna kände till parallaxen, men eftersom de inte kunde observera en årlig parallax, drog de slutsatsen att jorden inte kunde röra sig runt solen. Vad de inte insåg var att stjärnorna är miljontals gånger längre bort än solen, så att parallaxeffekten är omöjlig att se med blotta ögat.</para
+></footnote
+>. </para>
+ <para
+>Moderna teleskop gör det möjligt för astronomer att använda den årliga parallaxen för att mäta avståndet till närliggande stjärnor, med triangulering. Astronomerna mäter noga positionen hos stjärnorna vid två datum, som ligger sex månader från varandra. Ju närmare stjärnan är till solen, desto större är den skenbara avvikelsen i position mellan de två datumen. </para>
+ <para
+>Under sexmånadersperioden har jorden förflyttat sig genom halva sin bana runt solen. Under tiden har dess position ändrats med 2 <firstterm
+>astronomiska enheter</firstterm
+> (förkortat AU. 1 AU är avståndet från jorden till solen, eller ungefär 150 miljoner kilometer). Det låter som ett verkligt långt avstånd, men till och med stjärnan som är närmast solen (alfa Centauri) är ungefär 40 <emphasis
+>biljoner</emphasis
+> kilometer bort. Därför är den årliga parallaxen mycket liten, typiskt mindre än en <firstterm
+>bågsekund</firstterm
+>, vilket är bara 1/3600 av en grad. Ett praktiskt avståndsmått för närliggande stjärnor är <firstterm
+>parsek</firstterm
+>, vilket är en förkortning av "parallaxbågsekund". En parsek är avståndet som en stjärna skulle ha om den observerade parallaxvinkeln var en bågsekund. Det är lika med 3,26 ljusår, eller 31 biljoner kilometer<footnote
+><para
+>Astronomer tycker så bra om den här enheten att de nu använder <quote
+>kiloparsek</quote
+> för att mäta avstånd med galaktisk skala, och <quote
+>Megaparsek</quote
+> för att mäta intergalaktiska avstånd, även om avstånden är alltför stora för att ha en verklig, observerbar, parallax. Andra metoder krävs för att kunna avgöra dessa avstånd</para
+></footnote
+>. </para>
+</sect1>

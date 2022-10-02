@@ -1,0 +1,32 @@
+<sect1 id="ai-timezones">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tidzoner</title>
+<indexterm
+><primary
+>Tidzoner</primary>
+</indexterm>
+<para
+>Jorden är rund, och den är alltid belyst till hälften av solen. Eftersom jorden snurrar, ändras dock halvan som belyses hela tiden. Vi upplever detta som att dagarna går var vi än befinner oss på jordens yta. Vid ett givet ögonblick finns det platser på jorden som passerar från den mörka halvan till den belysta (som ses som <emphasis
+>gryning</emphasis
+> på ytan). I samma ögonblick, på motsatt sida av jorden, passerar platser från den belysta halvan till den mörka (som ses som <emphasis
+>skymning</emphasis
+> på platsen). Alltså, vid ett givet ögonblick, ser olika platser på jorden olika delar av dagen. Soltid definieras därför lokalt, så att klockan på vilken plats som helst beskriver tiden på dagen på ett konsekvent sätt. </para
+><para
+>Den här lokaliseringen av tid åstadkoms genom att dela globen i 24 vertikala skivor som kallas <firstterm
+>tidzoner</firstterm
+>. Den lokala tiden är samma i en given zon, men tiden i varje zon är en timme <emphasis
+>tidigare</emphasis
+> än tiden i den angränsande zonen österut. I själva verket är detta en idealiserad förenkling. Verkliga tidzonegränser är inte raka vertikala linjer, eftersom de ofta följer nationsgränser och andra politiska hänsyn. </para
+><para
+>Observera att eftersom den lokala tiden alltid ökar med en timme när man förflyttar sig mellan zoner österut, när man väl flyttat sig genom alla 24 tidzonerna, är man en hel dag tidigare än där man började. Vi hanterar den här paradoxen genom att definiera den <firstterm
+>internationella datumlinjen</firstterm
+>, som är en tidzonegräns i Stilla havet, mellan Asien och Nordamerika. Platser precis öster om den här linjen är 24 timmar efter platser precis väster om linjen. Det här orsakar en del intressanta fenomen. En direktflygning från Australien till Kalifornien anländer innan den avgår. Dessutom ligger Fidjiöarna tvärs över datumlinjen, så om man har en dålig dag på västsidan av Fidji, kan man gå över till östsidan och få chansen att uppleva samma dag en gång till. </para>
+</sect1>

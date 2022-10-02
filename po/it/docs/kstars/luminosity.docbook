@@ -1,0 +1,52 @@
+<sect1 id="ai-luminosity">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Luminosità</title>
+<indexterm
+><primary
+>Luminosità</primary>
+<seealso
+>Flusso</seealso>
+</indexterm>
+
+<para
+>La <firstterm
+>luminosità</firstterm
+> è la quantità di energia emessa da una stella in un secondo. </para>
+
+<para
+>Tutte le stelle irradiano in un'ampia gamma di frequenze dello spettro elettromagnetico, dalle onde radio di bassa energia fino ai raggi gamma di alta energia. Una stella che emette prevalentemente nella regione ultravioletta dello spettro produce una quantità totale di energia maggiore di una stella che emette principalmente nell'infrarosso. Per questo la luminosità è una misura dell'energia emessa da una stella a tutte le lunghezze d'onda. La relazione tra lunghezza d'onda ed energia è stata quantificata da Einstein come E = h * v, dove v è la frequenza, h è la costante di Planck ed E è l'energia del fotone in joule. In altre parole, a lunghezze d'onda minori (e quindi a frequenze più alte) corrispondono energie maggiori. </para>
+
+<para
+>Per esempio, una lunghezza d'onda lambda = 10 metri appartiene alla regione radio dello spettro elettromagnetico, e corrisponde a una frequenza f = c / lambda = 3 * 10<superscript
+>8</superscript
+> m/s / 10 = 30 MHz, dove c è la velocità della luce. L'energia del fotone è E = h * v = 6.625 * 10<superscript
+>-34</superscript
+> J s * 30 Mhz = 1.988 * 10<superscript
+>-26</superscript
+> joule. Al contrario, la luce visibile ha lunghezze d'onda molto minori e frequenze molto più alte. Un fotone con lunghezza d'onda lamba = 5 * 10<superscript
+>-9</superscript
+> metri (più o meno nel verde) ha un'energia E = 3.975 * 10<superscript
+>-17</superscript
+> joule, oltre un miliardo di volte maggiore rispetto all'energia di un fotone radio. Analogamente, un fotone di luce rossa (lunghezza d'onda lamba = 700 nm) ha meno energia di un fotone di luce violetta (lunghezza d'onda lamba = 400 nm). </para>
+
+<para
+>La luminosità dipende sia dalla temperatura che dall'area superficiale. Ciò ha senso perché un ceppo ardente irraggia più energia di un fiammifero, sebbene entrambi abbiano la stessa temperatura. Allo stesso modo, una sbarra di ferro scaldata a 2000 gradi emette più energia di quando è scaldata a soli 200 gradi. </para>
+
+<para
+>La luminosità è una grandezza fondamentale in astronomia e astrofisica. Molto di ciò che si sa sui corpi celesti lo si è appreso analizzando la loro luce. La ragione è che i processi fisici che avvengono nelle stelle vengono registrati e trasmessi dalla luce. La luminosità è misurata in unità di energia per secondo. Gli astronomi preferiscono usare gli erg piuttosto che i watt. </para>
+</sect1>

@@ -1,0 +1,98 @@
+<sect1 id="ai-spiralgal">
+
+<sect1info>
+<author
+><firstname
+>Mike</firstname
+> <surname
+>Choatie</surname
+> </author>
+</sect1info>
+
+<title
+>Spiraalstelsels</title>
+<indexterm
+><primary
+>Spiraalstelsels</primary>
+</indexterm>
+
+<para
+>Spiraalstelsels zijn spiraalvormige melkwegstelsels: enorme verzamelingen van miljarden sterren, waarvan de meeste afgeplat zijn tot een schijf, met een heldere bolvormige verdikking in het centrum. In de schijf zijn de typerende heldere armen zichtbaar, waarin de jongste, helderste sterren te vinden zijn. Deze armen vormen een spiraalvormig patroon, van binnen naar buiten, waarnaar deze melkwegstelsels zijn genoemd. Spiraalstelsels doen denken aan wervelstormen, of aan water dat door een afvoerputje wegloopt. Zij horen tot de mooiste objecten aan het firmament. </para>
+<para
+>Melkwegstelsels worden ingedeeld volgens een <quote
+>schema dat de vorm heeft van een stemvork</quote
+>. Op de steel van de vork vindt men de <link linkend="ai-ellipgal"
+>elliptische melkwegstelsels</link
+>, te beginnen met de meest ronde, de E0-, tot de meest afgeplatte, de E7-stelsels. Op de <quote
+>tanden</quote
+> van de vork zijn beide typen van spiraalstelsels ingedeeld, namelijk de normale spiralen en de <quote
+>balk</quote
+>spiralen. In een balkspiraal is de centrale verdikking wat uitgerekt in een richting, zodat het werkelijk lijkt of er een balk van sterren is in het midden. </para
+><para
+>Beide typen spiraalstelsels worden onderverdeeld naar de grootte van de centrale <quote
+>verdikking</quote
+>, hun totale oppervlaktehelderheid, en hoe dicht hun spiraalarmen zijn gewonden. Op deze manier heeft een Sa-melkwegstelsel een grote centrale verdikking, een grote oppervlaktehelderheid, en dicht gewonden spiraalarmen. Een Sb-stelsel heeft een kleinere centrale verdikking, een kleinere helderheid van de schijf, en losser gewonden armen, dan Sa, en zo gaan we verder met Sc en Sd. Bij balkspiralen hebben we dezelfde indeling, met de namen SBa, SBb, SBc en SBd. </para
+><para
+>Er is nog een klasse melkwegstelsels, met de naam S0, die wat de vorm betreft een overgangstype is tussen echte spiralen en echte elliptische stelsels. Hier zijn de spiraalarmen zo dicht gewonden dat zij niet meer te onderscheiden zijn. S0-stelsels hebben schijven met een helderheid die overal even groot is. Zij hebben ook een zeer sterk overheersende verdikking. </para
+><para
+>De Melkweg, waartoe de aarde behoort, samen met alle sterren die we aan onze hemel kunnen zien (en nog heel veel andere!) , is zelf een spiraalstelsel, en naar men nu meent een balkspiraal. De naam <quote
+>Melkweg</quote
+> is te danken aan een band van zeer zwakke sterren aan de hemel. Deze band zien we omdat we in die richting kijken in het vlak van de schijf van ons melkwegstelsel, vanuit onze positie in de schijf.
+</para
+><para
+>Noot vertaler: de eerste kaart van de Melkweg werd in 1964 met behulp van radiotelescopen gemaakt en gepubliceerd door Nederlandse (Dwingeloo, noordelijk halfrond) en Australische (Parkes, zuidelijk halfrond) astronomen. Met optische telescopen kunnen we maar een klein deel van het melkwegstelsel zien door het vele stof en gas tussen de sterren.</para
+> 
+<para
+>Noot vertaler:De Melkweg heeft de naam gekregen naar een mythe van de oude Grieken, volgens die mythe was de melkweg melk die uit de borsten van Hera spoot bij het zogen van (de kleine) Heracles. </para
+><para
+>Spiraalstelsels zijn zeer dynamisch. In de spiraalarmen vindt de vorming plaats van vele nieuwe sterren, en er bevinden zich dus veel jonge sterren in de schijf. In de centrale verdikking vindt men meest oudere sterren, en in hun diffuse halo zijn de oudste sterren die in het heelal zijn te vinden. In de schijf vindt de vorming van nieuwe sterren plaats, want daar zijn de meeste gas en stofdeeltjes, die de bouwstenen zijn bij de stervorming. De spiraalarmen zijn gebieden waar meer bouwstenen zijn dan elders.</para
+><para
+>Noot vertaler: de halo is een heel groot bolvormig gebied rondom het centrum, dat niet geheel leeg is, maar waarin zich bolvormige sterrenhopen bevinden. Verder is de halo zo goed als leeg, en dat de bolvormige sterrenhopen erg oud moeten zijn, is te begrijpen door hun grote afstand tot de schijf, waarin ze ooit zijn ontstaan (dit is overigens niet de enige reden waarom men denkt dat de sterren in die sterrenhopen heel erg oud zijn). </para
+><para
+>Met moderne telescopen heeft men kunnen waarnemen dat in het centrum van veel spiraalstelsels superzware zwarte gaten aanwezig zijn, met massa's van meer dan een miljard zonnen! Men weet dat zowel elliptische- als spiraalstelsels zulke exotische objecten hebben; in feite denken veel astronomen tegenwoordig dat <emphasis
+>alle</emphasis
+> grote melkwegstelsels een superzwaar zwart gat in hun kern hebben. Van onze eigen Melkweg is bekend dat het (minstens) een zwart gat heeft in de kern met een massa van miljoenen sterren. </para>
+
+<tip>
+<para
+>In &kstars; kan men vele heel mooie voorbeelden zien van spiraalstelsels, en van velen ervan kan men via hun <link linkend="popup-menu"
+>contextmenu</link
+> prachtige afbeeldingen ophalen. U kunt ze vindenmet behulp van het venster <link linkend="findobjects"
+>Object zoeken</link
+>. Hier volgt een lijst van enkele spiraalstelsels waarvan mooie afbeeldingen beschikbaar zijn: <itemizedlist>
+<listitem
+><para
+>M 64, het Black-Eye melkwegstelsel (type Sa)</para
+></listitem>
+<listitem
+><para
+>M 31, het Andromeda melkwegstelsel (type Sb)</para
+></listitem>
+<listitem
+><para
+>M 81, Bode's melkwegstelsel (type Sb)</para
+></listitem>
+<listitem
+><para
+>M 51, de Draaikolknevel (type Sc)</para
+></listitem>
+<listitem
+><para
+>NGC 300 (type Sd) [gebruik DSS-afbeeldingskoppeling]</para
+></listitem>
+<listitem
+><para
+>M 83 (type SBa)</para
+></listitem>
+<listitem
+><para
+>NGC 1530 (type SBb)</para
+></listitem>
+<listitem
+><para
+>NGC 1073 (type SBc)</para
+></listitem>
+</itemizedlist>
+</para>
+</tip>
+</sect1>

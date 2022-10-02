@@ -1,0 +1,56 @@
+<sect1 id="ai-precession">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Precesja</title>
+<indexterm
+><primary
+>Precesja</primary>
+</indexterm>
+<para
+><firstterm
+>Precesja</firstterm
+> jest stopniową zmianą kierunku osi obrotu Ziemi. Oś obrotu porusza się po stożku, pełny obrót zajmuje 26.000 lat. Precesję można zauważyć obracając tzw. <quote
+>bączka</quote
+>. </para
+><para
+>Ze względu na zmianę położenia osi obrotu Ziemi, zmienia się również położenie <link linkend="ai-cpoles"
+>biegunów niebieskich</link
+>. </para
+><para
+>Powód precesji Ziemi jest skomplikowany. Ziemia nie jest idealną sferą, jest lekko spłaszczona, oznacza to, że <link linkend="ai-greatcircle"
+>wielkie koło</link
+> równiku jest dłuższy niż <quote
+>południk</quote
+> do niego przechodzący przez bieguny. Słońce i Księżyc leża poza płaszczyzną równikową Ziemi. W wyniku tego, wpływ Księżyca i Słońca dodaje niewielki <emphasis
+>moment obrotowy</emphasis
+> do pozostałych sił liniowych. Ten moment obrotowy jest powodem ruchu precesyjnego. </para>
+<tip>
+<para
+>Ćwiczenie:</para>
+<para
+>Precesję najłatwiej zaobserwować na <link linkend="ai-cpoles"
+>biegunie niebieskim</link
+>. By go znaleźć, należy najpierw przełączyć się na współrzędne równikowe w oknie <guilabel
+>Konfiguracja &kstars;</guilabel
+>, a następnie przytrzymać klawisz <keycap
+>w górę</keycap
+> dopóki ekran nie przestanie się przewijać. Deklinacja wyświetlana na środku <guilabel
+>panelu informacyjnego</guilabel
+> powinna wynosić +90 stopni, a jasna Gwiazda Polarna powinna znajdować się prawie na środku ekranu. Prosze obracać obraz przy użyciu strzałek. Widać, że niebo obraca się wokół bieguna. </para
+><para
+>By zobaczyć działanie precesji proszę zmienić datę na bardzo odległy rok. Widać, że biegun nie jest już położony obok Gwiazdy Polarnej. Otwórz okno <guilabel
+>Ustaw czas</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+>) i ustaw czas na rok 8000 (obecnie &kstars; nie może pracować z bardziej odległymi datami, ale ta jest wystarczająca do naszych celów). Ekran jest teraz wyśrodkowany pomiędzy gwiazdozbiorami Łabędzia i Cefeusza. Sprawdź, czy jest to rzeczywiście biegun obracając ekran w prawo i w lewo: niebo obraca się wokół tego punktu. W roku 8000 niebieski biegun północny nie będzie znajdował się w pobliżu Gwiazdy Polarnej. </para>
+</tip>
+</sect1>

@@ -1,0 +1,464 @@
+<sect2 id="ekos-guide">
+    <title
+>Guidage</title>
+    <indexterm>
+        <primary
+>Outils</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Guidage</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Module de guidage Ekos </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_guide.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Module de guidage Ekos</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="guide-Introduction">
+        <title
+>Introduction</title>
+        <para
+>Le module de guidage d'Ekos permet le guidage en utilisant soit le puissant guidage interne ou un guidage externe comme <ulink url="https://openguiding.org/"
+>PHD2</ulink
+> ou encore <ulink url="https://sourceforge.net/projects/linguider/"
+>lin_guider</ulink
+>. Lors de l'utilisation du guidage interne, des trames CCD de guidage sont prises et envoyées à Ekos pour analyse. Selon les déviations de l'étoile guide par rapport à sa position de verrouillage, des impulsions de correction sont envoyées à la monture <guilabel
+>via</guilabel
+> tout périphérique qui gère les ports ST4. Vous pouvez alternativement envoyer les corrections à la monture <emphasis
+>directement</emphasis
+> si cela est géré par le pilote de la monture. La plupart des options qui se trouve dans le module de guidage sont bien documentées, il vous suffit de survoler un élément et une infobulle apparaîtra contenant de l'information très utile. </para>
+        <para
+>Pour le guidage, il faut sélectionner un CCD de guidage dans la <link linkend="ekos-profile-wizard"
+>configuration de profil d'Ekos</link
+>. Il faut renseigner l'ouverture et la longueur focale dans le pilote du télescope. Si le CCD de guidage est monté sur un télescope de guidage séparé, il faut également indiquer sa <guilabel
+>longueur focale</guilabel
+> et son <guilabel
+>ouverture</guilabel
+>. Vous pouvez renseigner ces valeurs dans l'onglet <guilabel
+>Options</guilabel
+> du <link linkend="indi-telescope-setup"
+>pilote du télescope</link
+> ou depuis le module Monture. Le guidage automatique est un processus à deux étapes : la calibration &amp; et le guidage. </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/aza2fGIF7YE"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Introduction au guidage</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+        <para
+>Durant les deux processus, vous devez configurer ce qui suit : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Guide</guilabel
+> : sélectionne le CCD du guide. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Via</guilabel
+> : sélectionne le périphérique qui reçoit les impulsions de correction pour le guidage automatique par Ekos. Les CCD de guidage ont généralement un port ST4. Si vous utilisez le port ST4 du guide pour guider le télescope, réglez le pilote du guide dans la boîte <guilabel
+>Via</guilabel
+>. Le CCD du guide recevra les impulsions de corrections d'Ekos qui les transmettra à la monture via le port ST4. Alternativement, certains télescopes gèrent des commandes impulsions et vous pouvez ainsi configurer le télescope pour être le récepteur des impulsions de corrections d'Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Exposition</guilabel
+> : durée d'exposition du CCD en seconde. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Groupement</guilabel
+> : groupement de pixels du CCD (binning). </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Boîte</guilabel
+> : taille de la boîte entourant l'étoile guide. Sélectionnez une taille adaptée qui ne doit être ni trop grande ni trop petite pour l'étoile sélectionnée. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Effets</guilabel
+> : spécifie le filtre à appliquer à l'image pour l'améliorer. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-dark-frames">
+        <title
+>Trames Dark</title>
+        <para
+>Les trames Dark sont <emphasis
+>immensément</emphasis
+> utiles pour aider à réduire le bruit des trames de guidage. Il est hautement recommandé d'en prendre avec de commencer la calibration et la procédure de guidage. Pour prendre une trame Dark, cochez la case <guilabel
+>Dark</guilabel
+> et ensuite cliquez sur le bouton <guibutton
+>Acquisition</guibutton
+>. La première fois que vous réaliserez cela, Ekos vous demandera si votre caméra possède un obturateur et si ce n'est pas le cas, il vous avertira de couvrir votre caméra ou télescope avant le début de l'acquisition. Si votre caméra en possède un, alors Ekos procédera directement à l'acquisition des trames Dark. Toutes les trames Dark seront automatiquement enregistrées dans la bibliothèque de Dark. Par défaut ces trames seront utilisées pendant 30 jours après quoi une nouvelle série sera prise. Cette durée peut être configurée dans <link linkend="ekos"
+>Configuration Ekos</link
+> dans la boîte de dialogue de la configuration de &kstars;. </para>
+        <screenshot>
+            <screeninfo
+>Bibliothèque de trames Dark d'Ekos </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="dark_library.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Bibliothèque de trames Dark d'Ekos</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Il est recommandé de prendre des trames Dark couvrant plusieurs groupements de pixels et différentes durées d'exposition afin qu'elles puissent être utilisées de manière transparente par Ekos lorsque c'est nécessaire. </para>
+    </sect3>
+
+    <sect3 id="guide-calibration">
+        <title
+>Calibration</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages de la calibration </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_calibration_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages de la calibration</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Dans la phase de calibration, vous devez prendre une image, choisir une étoile guide et cliquez sur le bouton <guibutton
+>Guide</guibutton
+> pour débuter la procédure de calibration. Si la calibration avait déjà été faite préalablement et avait été couronnée de succès, alors le guidage démarrera immédiatement, sinon la procédure de calibration débutera. Si la case <guilabel
+>Étoile automatique</guilabel
+> est cochée, alors il ne reste qu'à cliquer sur le bouton <guibutton
+>Acquisition</guibutton
+> et Ekos va sélectionner automatiquement la meilleure étoile guide de l'image et poursuivre la procédure de calibration. Si cette case est décochée, Ekos va essayer de sélectionner la meilleure étoile guide dans le champ mais vous devrez confirmer ou modifier la sélection avant de pouvoir débuter la procédure de calibration. Les options de calibrations sont : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Impulsions</guilabel
+> : la durée des impulsions en millisecondes à envoyer à la monture. Cette valeur devrait être assez grande pour causer un mouvement perceptible de l'étoile guide. Si aucun mouvement de l'étoile guide n'est perceptible après avoir augmenté cette valeur, cela peut suggérer un problème avec la monture comme un encombrement de câbles ou un problème de connexion avec le câble ST4. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Deux axes</guilabel
+> : cochez si vous souhaitez que la procédure de calibration se fasse sur les axes en AD &amp; en DEC. Si décochée, la calibration ne sera réalisée que sur l'axe en AD. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Étoile automatique</guilabel
+> : si cette option est sélectionnée, Ekos va essayer de trouver la meilleure étoile guide dans l'image et commencer la procédure de calibration automatiquement. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>La position du réticule représente la position de l'étoile guide que vous (ou la sélection automatique) avez choisi dans l'image de guidage. Vous devriez choisir une étoile qui ne se trouve pas trop près des bords et si l'image n'est pas claire, vous pouvez appliquer différents <guilabel
+>effets</guilabel
+> pour l'améliorer. </para>
+        <para
+>Ekos débute la procédure de calibration en envoyant des impulsions à la monture pour la déplacer en AD et en DEC. Si la procédure échoue à cause de petite dérive, essayez d'augmenter la durée des impulsions. Pour réinitialiser la calibration, cliquez sur l'icône poubelle à côté du bouton <guilabel
+>Guide</guilabel
+>. </para>
+        <warning>
+            <para
+>La calibration peut échouer pour plusieurs raisons. Pour augmenter les chances de succès, vous pouvez essayer les astuces suivantes. </para>
+        </warning>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Meilleur alignement polaire</guilabel
+> : c'est un point critique pour assurer le succès de toute session d'astrophotographie. Réalisez un rapide alignement polaire avec un télescope polaire (si disponible) ou en utilisant la <link linkend="ekos-align-polaralignment"
+>procédure d'alignement polaire</link
+> d'Ekos du module d'<guilabel
+>alignement</guilabel
+> d'Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Réglez le groupement de pixels sur 2x2</guilabel
+> : le groupement de pixels augmente le rapport signal sur bruit et est souvent très important pour le succès des procédures de calibration et de guidage. </para>
+            </listitem>
+            <listitem>
+                <para
+>Préférez l'utilisation de câble ST4 entre la caméra guide et la monture plutôt que l'envoi de commandes d'impulsions vers la monture. </para>
+            </listitem>
+            <listitem>
+                <para
+>Essayez différents filtres (&eg; à haut contraste) et voyez si cela permet de réduire le bruit. </para>
+            </listitem>
+            <listitem>
+                <para
+>Taille réduites des carrés. </para>
+            </listitem>
+            <listitem>
+                <para
+>Prenez des trames Dark pour réduire le bruit. </para>
+            </listitem>
+            <listitem>
+                <para
+>Essayez le gain proportionnel en DEC ou désactiver complètement le contrôle en DEC et voyez si cela fait une différence. </para>
+            </listitem>
+            <listitem>
+                <para
+>Laissez l'algorithme à sa valeur par défaut (<guimenuitem
+>Intelligent</guimenuitem
+>). </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-guiding">
+        <title
+>Guidage</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages du guidage </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_guide_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages du guidage</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Une fois que la procédure de calibration s'est terminée avec succès, le guidage débutera automatiquement. Les performances de guidage sont affichées dans le <guilabel
+>graphique de la dérive</guilabel
+> où la déviation en AD est tracée en <guilabel
+>vert</guilabel
+> et la déviation en DEC en <guilabel
+>bleu</guilabel
+>. Ces couleurs peuvent être modifiées dans le <link linkend="colors"
+>schéma de couleurs de &kstars;</link
+> dans &kstars;. L'axe vertical désigne la déviation en secondes d'arc de la position centrale de l'étoile guide et l'axe horizontal représente le temps. Vous pouvez survoler les lignes pour connaître les déviations exactes à chaque instant. De plus, vous pouvez zoomer et déplacer le graphique pour inspecter une zone particulière. </para>
+        <para
+>Ekos peut utiliser divers algorithmes pour déterminer le centre de masse de l'étoile guide. Par défaut, c'est l'algorithme <emphasis
+>Intelligent</emphasis
+> qui convient à la plupart des situations. L'algorithme <emphasis
+>Rapide</emphasis
+> est basé sur les calculs de HFR. Vous pouvez essayer de changer d'algorithme si Ekos ne parvient pas à garder correctement l'étoile guide dans le carré de guidage. </para>
+        <para
+>La zone d'informations affiche des informations sur le télescope &amp; CdV, ainsi que sur les déviations de l'étoile guide et les impulsions de corrections envoyées à la monture. La valeur RMS pour chaque axe est affichée avec la valeur RMS totale en secondes d'arc. Le guidage interne emploie un <ulink url="https://fr.wikipedia.org/wiki/Régulateur_PID"
+>régulateur PID</ulink
+> pour corriger le suivi de la monture. Actuellement <emphasis
+>seuls</emphasis
+> les gains proportionnels et intégraux sont utilisés par l'algorithme, ainsi leur ajustement devrait affecter la longueur des impulsions (en millisecondes) générées qui seront envoyées à la monture. </para>
+        <para
+>Pour activer les mini-déviations (dithering) entre les trames, assurez-vous de cocher la case <guilabel
+>Déviations</guilabel
+>. Par défaut, Ekos déplacera la boîte de guidage jusqu'à trois pixels après chaque acquisition dans le <link linkend="ekos-capture"
+>module d'acquisition</link
+>. La durée de déplacement et sa direction sont aléatoires. Comme la performance de guidage peut osciller juste après le déplacement, vous pouvez configurer une durée de <guilabel
+>stabilisation</guilabel
+> avant la poursuite de la procédure d'acquisition. Dans les rares cas où la procédure de mini-déviations se bloque dans une boucle sans fin, vous pouvez configurer un <guilabel
+>délai maximal</guilabel
+> adéquat pour annuler la procédure. Mais même dans ce cas, vous pouvez choisir si cet échec doit mettre fin à la procédure de guidage automatique ou non. L'option <guilabel
+>Abandonner guidage automatique si échec</guilabel
+> permet de configurer le comportement souhaité. </para>
+        <para
+>Les mini-déviations sans guide sont également possibles. Cela est utile si aucune caméra guide n'est disponible ou lors d'exposition très courte. Dans ce cas, la monture peut être commandée pour réaliser de mini-déviations dans une direction aléatoire pour une durée configuré avec l'option <guilabel
+>Impulsion déviation sans guide</guilabel
+>. </para>
+        <para
+>Ekos permet différentes méthodes de guidage : interne, PHD2 et LinGuider. Vous devez en sélectionner une dans le profil de votre matériel : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Guidage interne</guilabel
+> : utilise le guidage interne d'Ekos. C'est l'option par défaut et qui est recommandée. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>PHD2</guilabel
+> : utilise PHD2 comme guidage externe. Si vous sélectionnez cette option, il faut spécifier l'hôte et le port sur lequel tourne PHD2. Laissez les valeurs par défaut si Ekos et PHD2 tournent sur la même machine. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>LinGuider</guilabel
+> : utilise LinGuider comme guidage externe. Si vous sélectionnez cette option, il faut spécifier l'hôte et le port sur lequel tourne LinGuider. Laissez les valeurs par défaut si Ekos et LinGuider tournent sur la même machine. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-direction-control">
+        <title
+>Contrôle de direction du guidage</title>
+        <screenshot>
+            <screeninfo
+>Contrôle de direction du guidage </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_profile_guider_select.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Contrôle de direction du guidage</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Vous pouvez affiner les performances de guidages dans la section de contrôle. Le guidage automatique fonctionne comme un <ulink url="https://fr.wikipedia.org/wiki/Régulateur_PID"
+>régulateur PID</ulink
+> quand les commandes de corrections sont envoyées à la monture. Vous pouvez modifier les valeurs de gains proportionnels et intégraux pour améliorer la performance de guidage. Par défaut les impulsions de correction de guidage sont envoyées aux deux axes de la monture et dans toutes les directions (positives et négatives). Vous pouvez affiner ce contrôle en choisissant quel axe doit recevoir les impulsions et pour chaque axe la direction (<guilabel
+>positive +</guilabel
+> ou <guilabel
+>négative -</guilabel
+>). Par exemple pour l'axe de déclinaison, la direction positive est le nord et la négative le sud. </para>
+    </sect3>
+
+    <sect3 id="guide-guiding-rate">
+        <title
+>Taux de guidage</title>
+        <para
+>Chaque monture possède un taux de guidage particulier (x15 secondes d'arc par seconde) et varie habituellement de 0,1x à 1,0x, 0,5x étant une valeur communément utilisées par de nombreuses montures. Le taux de guidage par défaut est 0,5x sidéral ce qui équivaut à un gain proportionnel de 133,33. Par conséquent, réglez la valeur du taux de guidage à celle utilisée par votre monture et Ekos affichera le gain proportionnel <emphasis
+>recommandé</emphasis
+> que vous pourrez indiquer dans le champ de gain proportionnel dans <guilabel
+>Paramètres de contrôle</guilabel
+>. Le réglage de cette valeur <emphasis
+>ne change pas</emphasis
+> le taux de guidage de votre monture ! Vous devez le modifier soit via le <link linkend="indi-telescope-setup"
+>pilote INDI</link
+>, soit, si cela est géré, via la manette de contrôle. </para>
+    </sect3>
+
+    <sect3 id="guide-drift-graphics">
+        <title
+>Graphique de la dérive</title>
+
+        <screenshot>
+            <screeninfo
+>Graphique de la dérive </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_drift_graphics.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Graphique de la dérive</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Le graphique de la dérive est un outil très puissant pour surveiller les performances de guidage. C'est un graphique 2D des <emphasis
+>déviations</emphasis
+> du guidage et des <emphasis
+>corrections</emphasis
+>. Par défaut, seules les déviations en AD et DEC sont affichées. L'axe horizontal représente le temps en secondes depuis le début du processus de guidage alors que l'axe vertical représente les déviations ou dérives du guidage en secondes d'arc. Les corrections de guidage (impulsions) peuvent être tracées sur le même graphique et vous pouvez les activer en cochant les cases <guilabel
+>Corr</guilabel
+> sous chaque axe. Les corrections sont affichées sous la forme de zones ombrées en arrière-plan avec les mêmes couleurs que celles des axes. </para>
+        <para
+>Vous pouvez déplacer le graphique ainsi que faire un zoom et lorsque vous survolez une zone, des infobulles apparaîtront contenant de l'information pour un moment spécifique. Elle contient la dérive et la correction effectuée et l'heure locale d'enregistrement de l'événement. Un curseur vertical à la droite de l'image permet d'ajuster la hauteur de l'axe Y secondaire qui affiche les impulsions de correction.</para>
+        <para
+>Le curseur horizontal <guilabel
+>Trace</guilabel
+> au bas de graphique permet de défiler dans l'historique du guidage. Vous pouvez aussi cliquer la case <guilabel
+>Max</guilabel
+> pour verrouiller le graphique sur le dernier point pour ainsi activer le défilement automatique du graphique de dérive. Les boutons à la droite du curseur permettent la mise à l'échelle automatique du graphique, l'exportation des données de guidage vers un fichier CSV, la réinitialisation de toutes les données de guidage et la mise à l'échelle de la cible dans <guilabel
+>Graphique de la dérive</guilabel
+>. De plus, ce graphique affiche une étiquette pour indiquer le moment des mini-déviations (dithering), ce qui est utile à l'utilisateur pour savoir que le guidage n'était pas mauvais à ce moment-là. </para>
+        <para
+>La couleur de chaque axe peut être modifiée dans la boîte de dialogue <link linkend="colors"
+>Réglages de schémas de couleurs de &kstars;</link
+>. </para>
+    </sect3>
+
+    <sect3 id="guide-drift-plot">
+        <title
+>Graphique des dérives</title>
+        <para
+>Un graphique de dispersion peut être utilisé pour juger de la <emphasis
+>précision</emphasis
+> de la performance de guidage globale. Il se compose de trois anneaux concentriques de rayon différent avec l'anneau central ayant un rayon de 2 secondes d'arc. La dernière valeur RMS est tracée avec l'icône <inlinemediaobject
+><imageobject
+><imagedata fileref="add-circle.png" format="PNG"/></imageobject
+></inlinemediaobject
+> et dont la couleur reflète sa position. Vous pouvez modifier la couleur de l'anneau central en ajustant la précision du graphique de dérive. </para>
+    </sect3>
+
+    <sect3 id="guide-gpg">
+        <title
+>Guiding with GPG</title>
+        <para
+>The internal guider can use predictive and adaptive guiding by enabling GPG guiding. This adaptively models the periodic error of the mount, and adds its predicted contribution to each guide pulse. Optionally, by enabling Dark Guiding, it can output the predicted corrections much faster than the guide camera exposure rate, effectively performing periodic error correction and allowing longer guide camera exposures. </para>
+    </sect3>
+
+    <sect3 id="guide-phd2-support">
+        <title
+>Gestion de PHD2</title>
+        <para
+>Vous pouvez choisir d'utiliser l'application externe PHD2 pour réaliser le guidage plutôt que d'utiliser le guidage intégré. </para>
+        <screenshot>
+            <screeninfo
+>Réglages du guidage PHD2 Ekos </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_phd2.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages du guidage PHD2 Ekos</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Si PHD2 est sélectionné, les boutons <guibutton
+>Connexion</guibutton
+> et <guibutton
+>Déconnexion</guibutton
+> sont activés pour vous permettre d'établir la connexion avec le serveur PHD2. Vous pouvez contrôler la durée d'exposition de PHD2 et régler le guidage en DEC. Quand vous cliquez sur <guibutton
+>Guidage</guibutton
+>, PHD2 réalisera toutes les actions requises pour débuter la procédure de guidage. Veuillez noter que PHD2 <emphasis role="bold"
+>doit</emphasis
+> être démarré et configuré <emphasis
+>avant</emphasis
+> Ekos. </para>
+        <para
+>Après avoir démarré PHD2, sélectionnez votre matériel INDI et configurez les options. Vous pouvez vous connecter à PHD2 directement depuis Ekos en cliquant sur le bouton <guibutton
+>Connexion</guibutton
+>. Au démarrage Ekos tentera de se connecter automatiquement à PHD2. Une fois que la connexion est établie, vous pouvez débuter le guidage immédiatement en cliquant sur le bouton <guibutton
+>Guidage</guibutton
+>. PHD2 procédera à la calibration si nécessaire. Si les mini-déviations (dithering) sont activées, PHD2 enverra les commandes de mini-déviations données par le décalage des pixels et dès que le guidage est stabilisé et stable, Ekos pourra reprendre la procédure d'acquisition. </para>
+        <note>
+            <para
+>Ekos enregistre les données de guidage dans un fichier CSV (<filename
+>~/.local/share/kstars/guide_log.txt</filename
+>) qui pourra être utile pour analyser les performances de la montures. Ce fichier journal n'est disponible que pour le guidage interne. </para>
+        </note>
+    </sect3>
+</sect2>

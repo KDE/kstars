@@ -1,0 +1,52 @@
+<sect1 id="ai-utime">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Maailmaaeg</title>
+<indexterm
+><primary
+>Maailmaaeg</primary>
+<seealso
+>Ajavööndid</seealso>
+</indexterm>
+<para
+>Aeg meie kellal mõõdab tegelikult Päikese praegust asukohta taevas, mis on erinevatel pikkuskraadidel erinev, sest Maa on ümmargune (vaata <link linkend="ai-timezones"
+>ajavööndid</link
+>). </para
+><para
+>Vahel on siiski vaja kindlaks määrata globaalne aeg, mis oleks ühesugune kõikjal Maal. Üks viis on valida välja mõni koht ja muuta selle kohalik aeg <firstterm
+>maailmaajaks</firstterm
+>, lühendatult <abbrev
+>MA</abbrev
+>. (Ingliskeelses maailmas kasutatakse lühendit UT, mis tuleneb väljendist universaalne aeg ehk Universal Time). </para
+><para
+>Maailmaaega määravaks asukohaks on valitud Inglismaal asuv Greenwich. See valik on suvaline, kuigi tugineb ajaloole. Maailmaaeg muutus oluliseks siis, kui eurooplased hakkasid agaralt ookeanidel sõitma, kus neil polnud käepärast maatähiseid. Laevnikud said siis määrata oma pikkuskraadi kindlaks nii, et võrdlesid kohalikku aega (mida mõõdeti Päikese asendi järgi) kodusadama ajaga (mille jaoks oli kaasas võimalikult täpne kell). Greenwichis asus Inglise kuninglik observatoorium, mis oli kohustatud aega eriti hoolikalt jälgima, et sadamates olevad laevad saaksid enne teeleasumist oma kellad uuesti täpseks seada. </para>
+<tip>
+<para
+>Ülesanne:</para>
+<para
+>Määra geograafiliseks asukohaks <quote
+>Greenwich (Inglismaa)</quote
+>, kasutades akent <guilabel
+>Asukoha määramine</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+>). Märkus: kohalik aeg (<abbrev
+>KA</abbrev
+>) ja maailmaaeg (<abbrev
+>MA</abbrev
+>) on nüüd ühesugused. </para
+><para
+>Edasist lugemist: Lugu esimese kella loomisest, mis oli piisavalt täpne ja kindel laevadel maailmaaja säilitamiseks, on päris põnev, inglise keele oskajad võivad sellest lugeda Dava Sobeli raamatust <quote
+>Longitude</quote
+>. </para>
+</tip>
+</sect1>

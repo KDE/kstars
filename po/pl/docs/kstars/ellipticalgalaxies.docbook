@@ -1,0 +1,96 @@
+<sect1 id="ai-ellipgal">
+<sect1info>
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Galaktyki eliptyczne</title>
+<indexterm
+><primary
+>Galaktyki eliptyczne</primary>
+</indexterm>
+
+<para
+>Galaktyki eliptyczne, to sferyczne koncentracje miliardów gwiazd przypominające gromady kuliste w dużej skali. Nie posiadają one dobrze zorganizowanej strukturywewnętrznej; gęstość gwiazd spada wraz z oddalaniem się od środka galaktyki. Zazwyczaj zawierają one niewielką ilość gwiezdnego gazu i pyłu, a co za tym idzie niewiele młodych populacji gwiezdnych (jakkolwiek są wyjątki od tej reguły). Edwin Hubble zaklasyfikował galaktyki eliptyczne jako galaktyki <quote
+>wczesnego typu</quote
+>, ponieważ myślał, ewoluowały one, aby stać się galaktykami spiralnymi (które nazwał galaktykami <quote
+>późnego typu</quote
+>). Obecnie astronomowie wierzą w zupełną odwrotność (galaktyki spiralne mogą się stać galaktykami eliptycznymi), jednakże określenia Hubble'a pozostały do dzisiaj w użyciu. </para>
+
+<para
+>W rzeczywistości galaktyki eliptyczne są tworami bardzo skomplikowanymi. W dużej mierze powodem tego jest ich zdumiewająca historia: galaktyki eliptyczne uznaje się jako powstałe w wyniku połączenia się dwóch galaktyk spiralnych. Możesz zobaczyć komputerową symulację tego zjawiska na <ulink url="http://oposite.stsci.edu/pubinfo/pr/2002/11/vid/v0211d3.mpg"
+> tej oto stronie NASA HST</ulink
+> (uwaga: plik ma objętość 3,4 MB). </para>
+
+<para
+>Galaktyki eliptyczne posiadają bardzo różne rozmiary i jasności, od gigantycznych o rozmiarach setek tysięcy lat świetlnych i prawie bilion razy jaśniejszych od Słońca, do karłów niewiele jaśniejszych od gromad kulistych. Są one podzielone na kilka klas morfologicznych: </para>
+
+<variablelist>
+<varlistentry>
+<term
+>Galaktyki cD:</term>
+<listitem
+><para
+>Ogromne i jasne obiekty, które mogą osiągać rozmiar nawet 1 megaparseka (3 miliony lat świetlnych). Można je znaleźć tylko blisko centrów dużych i gęstych gromad galaktyk. Są one prawdopodobnie efektem wielu połączeń wielu galaktyk.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Zwykłe galaktyki eliptyczne</term>
+<listitem
+><para
+>Skondensowany obiekt z relatywnie niską jasnością środka. Klasa ta zawiera gigantyczne galaktyki eliptyczne (gE), galaktyki eliptyczne o średniej jasności (E), a także niewielkie galaktyki.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Karłowate galaktyki eliptyczne (dE)</term>
+<listitem
+><para
+>Ten rodzaj galaktyk jest znacząco różny od zwykłych galaktyk eliptycznych. Wymiary tego typu galaktyk zawierają się w przedziale od 1 do 10 kiloparseków. Jasnością powierzchni jest znacznie mniejsza niż normalnej galaktyki eliptycznej, czego wynikiem jest bardziej rozmyty wygląd. Mają tą sam charakterystyczny spadek gęstości gwiazd od relatywnie gęstego jądra do rozmytych obrzeży.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Karłowate galaktyki sferyczne (dSph)</term>
+<listitem
+><para
+>Posiadają bardzo niską jasność i zostały zaobserwowane tylko w sąsiedztwie Drogi Mlecznej, prawdopodobnie także bardzo bliskich grup galaktyk. Ich absolutna wielkość gwiazdowa zawiera się w przedziale od -8 do -15 mag. Karłowata galaktyka sferyczna Draco posiada absolutną wielkość gwiazdową -8.6, co czyni ją mniej jasną od zwyczajnej gromady kulistej w Drodze Mlecznej! </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Niebieskie galaktyki karłowate (BCD)</term>
+<listitem>
+<para
+>Niewielkie galaktyki, które są niebieskie. Ich kolory mieszczą się w przedziale B-V = 0,0 do 0,30 mag, co jest typowe dla młodych gwiazd <firstterm
+>typu widmowego</firstterm
+> A. Sugeruje to, że BCD są tworzącymi się gwiazdami. Mają one także dużo gazu międzygwiezdnego (co jest nietypowe dla galaktyk eliptycznych). </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<tip>
+<para
+>Przykłady galaktyk eliptycznych w &kstars; możesz znaleźć korzystając z okna wyszukiwania obiektów (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>). Znajdź NGC 4881, która jest gigantyczną galaktyką typu cD w gromadzie w Warkoczu Bereniki. M 86 to normalna galaktyka eliptyczna w gromadzie w Pannie. M 32 to galaktyka karłowata będąca satelitą sąsiedniej względem Drogi Mlecznej galaktyki w Andromedzie (M 31). M 110 to kolejny satelita M 31. To karłowata galaktyka sferyczna, przypadek krańcowy (<quote
+>krańcowy</quote
+>, bo jest jaśniejsza niż większość innych galaktyk karłowatych sferycznych). </para>
+</tip>
+</sect1>

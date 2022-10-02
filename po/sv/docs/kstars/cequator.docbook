@@ -1,0 +1,34 @@
+<sect1 id="ai-cequator">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Himmelsekvatorn</title>
+<indexterm
+><primary
+>Himmelsekvatorn</primary>
+<seealso
+>Ekvatoriella koordinater</seealso>
+</indexterm>
+<para
+><firstterm
+>Himmelsekvatorn</firstterm
+> är en tänkt <link linkend="ai-greatcircle"
+>storcirkel</link
+> på <link linkend="ai-csphere"
+>himmelssfären</link
+>. Himmelsekvatorn är det grundläggande planet i det <link linkend="equatorial">
+ekvatoriella koordinatsystemet</link
+>, så den definieras som samlingen av alla punkter med deklinationen noll grader. Den är också projektionen av jordens ekvator på himlen. </para>
+<para
+>Himmelsekvatorn och <link linkend="ai-ecliptic"
+>ekliptikan</link
+> har en vinkel på 23,5 grader på himlen. Punkterna där de skär varandra är <link linkend="ai-equinox"
+>vår- och höstdagjämningarna</link
+>. </para>
+</sect1>

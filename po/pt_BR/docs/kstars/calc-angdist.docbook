@@ -1,0 +1,37 @@
+<sect2 id="calc-angdist">
+<title
+>Módulo de distância angular</title>
+<indexterm
+><primary
+>Ferramentas</primary>
+<secondary
+>AstroCalculadora</secondary>
+<tertiary
+>Módulo de distância angular</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>O módulo calculador de distância angular </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-angdist.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Distância angular</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>A ferramenta de distância angular é usada para medir o ângulo entre dois pontos quaisquer no céu. Você simplesmente especifica as <link linkend="equatorial"
+>coordenadas equatoriais</link
+> do par desejado de pontos para obter o ângulo entre os dois pontos. </para>
+<para
+>Existe também um modo em lote para este módulo. No modo em lote, você especifica um nome de arquivo de entrada que contenha quatro números por linha: os valores RA e Dec para os pares de pontos. Alternativamente, você pode especificar um valor simples para qualquer uma das quatro coordenadas no painel da calculadora (os valores correspondentes no arquivo de entrada deverão ser pulados se estiverem especificados na calculadora). </para>
+<para
+>Uma vez que você tenha especificado o nome do arquivo de entrada e um nome de arquivo de saída, simplesmente pressione o botão <guibutton
+>Executar</guibutton
+> para gerar o arquivo de saída. </para>
+</sect2>

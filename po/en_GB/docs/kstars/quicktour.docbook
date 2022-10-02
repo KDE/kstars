@@ -1,0 +1,335 @@
+<chapter id="using-kstars">
+<title
+>A Quick Tour of &kstars;</title>
+
+<para
+>This chapter presents a guided tour of &kstars;, introducing many of its important features. </para>
+
+<screenshot>
+<screeninfo
+>Here is a screenshot of the &kstars; main window: </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="screen1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Main Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The above screenshot shows a typical view of the KStars program. You can see the sky display centered on Betelgeuse, the brightest star in the constellation Orion. Orion has just risen above the eastern horizon. Stars are displayed with <link linkend="ai-colorandtemp"
+>realistic colors</link
+> and relative brightnesses. M 42, the Orion Nebula, is visible on the right side of the screen, just above the horizon. If you look closely, you can also see the Sun and the planet Mercury in the upper left. In three corners of the sky display, there are on-screen text labels displaying data on the current time (<quote
+>LT: 06:44:58 20 June 2004</quote
+>), the current Geographic Location (<quote
+>Tucson, Arizona, USA</quote
+>), and the current object in the center of the display (<quote
+>Focused on: Betelgeuse (alpha Orionis)</quote
+>). Above the sky display, there are two toolbars. The main toolbar contains shortcuts for <link linkend="kstars-menus"
+>menu functions</link
+>, as well as a time-step widget which controls how fast the simulation clock runs. The view toolbar contains buttons that toggle the display of different kinds of objects in the sky. At the bottom of the window, there is a status bar which displays the name of any object you click on, and the <link linkend="ai-skycoords"
+>sky coordinates</link
+> (both Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor. </para>
+
+<sect1 id="startwizard">
+<title
+>The Setup Wizard</title>
+<para>
+<indexterm
+><primary
+>Setup Wizard</primary
+></indexterm
+> The first time you run KStars, you will be presented with a Setup Wizard, which allows you to easily set your geographic location and download some extra data files. You can press the <guilabel
+>Finish</guilabel
+> button at any time to exit the Setup Wizard. </para>
+
+<para
+>The first page of the Setup Wizard allows you to choose the starting geographic location, by selecting from the list of the 2500+ known locations on the right side of the window. The list of locations can be filtered to match the text you enter in the <guilabel
+>City</guilabel
+>, <guilabel
+>Province</guilabel
+>, and <guilabel
+>Country</guilabel
+> edit boxes. If your desired location is not present in the list, you can select a nearby city instead for now. Later on, you can add your precise location manually using the <link linkend="setgeo"
+>Set Geographic Location tool</link
+>. Once you have selected a starting location, press the <guilabel
+>Next</guilabel
+> button. </para>
+
+<para
+>The second page of the Setup Wizard allows you to download extra data that are not included with the standard distribution of &kstars;. Simply press the <guilabel
+>Download Extra Data</guilabel
+> button to open the <guilabel
+>Get New Stuff</guilabel
+> tool. When you are all done, press the <guilabel
+>Finish</guilabel
+> button in the Setup Wizard to start exploring &kstars;. </para>
+
+<note>
+<para
+>The Download Extra Data tool is only available if you have KDE 3.3.x installed. </para>
+</note>
+</sect1>
+
+<sect1 id="lookaround">
+<title
+>Have a Look Around</title>
+<para>
+<indexterm
+><primary
+>Navigation Controls</primary>
+<secondary
+>Basics</secondary
+></indexterm>
+Now that we have the time and location set, let us have a look around. You can pan the display using the arrow keys. If you hold down the &Shift; key before panning, the scrolling speed is doubled. The display can also be panned by clicking and dragging with the mouse. Note that while the display is scrolling, not all objects are displayed. This is done to cut down on the <acronym
+>CPU</acronym
+> load of recomputing object positions, which makes the scrolling smoother (you can configure what gets hidden while scrolling in the <link linkend="config"
+>Configure &kstars;</link
+> window). There are seven ways to change the magnification (or <firstterm
+>Zoom level</firstterm
+>) of the display:</para>
+
+<orderedlist>
+<listitem>
+	<para
+>Use the <keycap
+>+</keycap
+> and <keycap
+>-</keycap
+> keys</para>
+</listitem>
+<listitem>
+	<para
+>Press the Zoom In/Zoom Out buttons in the toolbar</para>
+</listitem>
+<listitem>
+	<para
+>Select <guimenuitem
+>Zoom In</guimenuitem
+>/<guimenuitem
+>Zoom Out</guimenuitem
+> from the <guimenu
+>View</guimenu
+> menu</para>
+</listitem>
+<listitem>
+	<para
+>Select <guimenuitem
+>Zoom to Angular Size...</guimenuitem
+> from the <guimenu
+>View</guimenu
+> menu. This allows you to specify the the field-of-view angle for the display, in degrees.</para>
+</listitem>
+<listitem>
+	<para
+>Use the scroll wheel on your mouse</para>
+</listitem>
+<listitem>
+	<para
+>Drag the mouse up and down with the &MMB; pressed.</para>
+</listitem>
+<listitem>
+	<para
+>Hold down &Ctrl; while dragging the mouse. This will allow you to define a rectangle in the map. When you release the mouse button, the display will zoom to match the rectangle.</para>
+</listitem>
+</orderedlist>
+
+<para
+>Notice that as you zoom in, you can see fainter stars than at lower zoom settings.</para>
+
+<para
+>Zoom out until you can see a green curve; this represents your local <link linkend="ai-horizon"
+>horizon</link
+>. If you have not adjusted the default &kstars; configuration, the display will be solid green below the horizon, representing the solid ground of the Earth. There is also a white curve, which represents the <link linkend="ai-cequator"
+>celestial equator</link
+>, and a tan curve, which represents the <link linkend="ai-ecliptic"
+>Ecliptic</link
+>, the path that the Sun appears to follow across the sky over the course of a year. The Sun is always found somewhere along the Ecliptic, and the planets are never far from it. </para>
+</sect1>
+
+<sect1 id="skyobjects">
+<title
+>Objects in the Sky</title>
+<para>
+<indexterm
+><primary
+>Objects in the Sky</primary>
+<secondary
+>Overview</secondary
+></indexterm>
+&kstars; displays thousands of celestial objects: stars, planets, comets, asteroids, clusters, nebulae and galaxies. You can interact with displayed objects to perform actions on them or obtain more information about them. Clicking on an object will identify it in the status bar, and simply hovering the mouse cursor on an object will label it temporarily in the map. Double-clicking will re-centre the display on the object and begin tracking it (so that it will remain centred as time passes). <mousebutton
+>Right</mousebutton
+> clicking an object opens the object's popup menu, which provides more options. </para>
+
+<sect2 id="popupquick">
+<title
+>The Popup Menu</title>
+<indexterm
+><primary
+>Popup Menu</primary
+><secondary
+>Example</secondary
+></indexterm>
+
+<para
+>Here is an example of the <mousebutton
+>right</mousebutton
+> click popup menu, for the Orion Nebula: </para>
+
+<screenshot>
+<screeninfo
+>Popup Menu for M 42</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="popup.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Popup Menu for M 42</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The appearance of the popup menu depends somewhat on the kind of object you <mousebutton
+>right</mousebutton
+>-click on, but the basic structure is listed below. You can get <link linkend="popup-menu"
+>more detailed information about the popup menu</link
+>. </para>
+
+<para
+>The top section contains information labels (which are not selectable). The top one to three labels display the object's name(s) and object type. The next three labels show the object's rise, transit and set times. If the rise and set times say "circumpolar", it means that the object is always above the horizon for the present location. </para>
+<para
+>The middle section contains items for performing actions on the object, such as <guimenuitem
+>Center and Track</guimenuitem
+>, <guimenuitem
+>Angular Distance To...</guimenuitem
+> (which enters the Angular Distance Mode, allowing you to measure the angle between objects in the sky), <guimenuitem
+>Details...</guimenuitem
+> (which opens the object's <link linkend="tool-details"
+>Object Details window</link
+>), <guimenuitem
+>Attach Label</guimenuitem
+> and <guimenuitem
+>Add/Remove Trail</guimenuitem
+> (only available for Solar System bodies). </para>
+<para>
+<indexterm
+><primary
+>Objects in the Sky</primary>
+<secondary
+>Internet Links</secondary>
+<seealso
+>Popup Menu</seealso
+></indexterm>
+The bottom section contains links to images and/or informative webpages about the selected object. If you know of an additional &URL; with information or an image of the object, you can add a custom link to the object's popup menu using the <guimenuitem
+>Add Link...</guimenuitem
+> item. </para>
+</sect2>
+
+<sect2 id="findobjects">
+<title
+>Finding Objects</title>
+<indexterm
+><primary
+>Find Object Tool</primary
+></indexterm>
+<indexterm
+><primary
+>Objects in the Sky</primary>
+<secondary
+>Finding by Name</secondary
+></indexterm>
+<para
+>You can search for named objects using the <guilabel
+>Find Object</guilabel
+> tool, which can be opened by clicking on the <guiicon
+>search</guiicon
+> icon in the toolbar, by selecting <guimenuitem
+>Find Object...</guimenuitem
+> from the <guimenu
+>Pointing</guimenu
+> menu, or by pressing <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>. The <guilabel
+>Find Object</guilabel
+> window is shown below: <screenshot>
+<screeninfo
+>Find Object Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="find.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Find Object Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>The window contains a list of all the named objects that &kstars; is aware of. Many of the objects only have a numeric catalogue name (for example, NGC 3077), but some objects have a common name as well (for example, Whirlpool Galaxy). You can filter the list by name and by object type. To filter by name, enter a string in the edit box at the top of the window; the list will then only contain names which start with that string. To filter by type, select a type from the combo box at the bottom of the window. </para
+><para
+>To centre the display on an object, highlight the desired object in the list, and press <guibutton
+>Ok</guibutton
+>. Note that if the object is below the horizon, the program will warn you that you may not see anything except the ground (you can make the ground invisible in the <guilabel
+>Display Options</guilabel
+> window, or by pressing the <guiicon
+>Ground</guiicon
+> button in the View toolbar). </para>
+<para>
+<indexterm
+><primary
+>Objects in the Sky</primary>
+<secondary
+>Tracking</secondary
+></indexterm>
+&kstars; will automatically begin tracking on an object whenever one is centred in the display, either by using the <guilabel
+>Find Object</guilabel
+> window, by double-clicking on it, or by selecting <guimenuitem
+>Center and Track</guimenuitem
+> from its <mousebutton
+>right</mousebutton
+>-click popup menu. You can disengage tracking by panning the display, pressing the <guiicon
+>Lock</guiicon
+> icon in the Main toolbar, or selecting <guimenuitem
+>Track Object</guimenuitem
+> from the <guimenu
+>Pointing</guimenu
+> menu. </para>
+
+<note>
+<para>
+<indexterm
+><primary
+>Orbit Trails</primary>
+<secondary
+>Attached to centred object</secondary>
+</indexterm>
+When tracking on a Solar System body, &kstars; will automatically attach an <quote
+>orbit trail</quote
+>, showing the path of the body across the sky. You will likely need to change the clock's timestep to a large value (such as <quote
+>1 day</quote
+>) to see the trail. </para>
+</note>
+
+<para
+>This concludes the tour of &kstars;, although we have only scratched the surface of the available features. &kstars; includes many useful <link linkend="tools"
+>astronomy tools</link
+>, it can directly <link linkend="indi"
+>control your telescope</link
+>, and it offers a wide variety of <link linkend="config"
+>configuration and customization</link
+> options. In addition, this Handbook includes the <link linkend="astroinfo"
+>AstroInfo Project</link
+>, a series of short, interlinked articles explaining some of the celestial and astrophysical concepts behind &kstars;. </para>
+
+</sect2>
+</sect1>
+</chapter>

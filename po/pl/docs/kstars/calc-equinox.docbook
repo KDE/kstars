@@ -1,0 +1,37 @@
+<sect2 id="calc-equinox">
+<title
+>Moduł równonocy i przesileń</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł równonocy i przesileń</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł Równonoce i przesilenia kalkulator astronomicznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-equinox.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Równonoce i przesilenia</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł Równonoce i przesilenia oblicza datę i czas <link linkend="ai-equinox"
+>równonocy</link
+> i przesilenia dla podanego roku. Można określić, które wydarzenia (równonoc wiosenna, przesilenie letnie, równonoc jesienna, przesilenie zimowe) mają być brane pod uwagę. Po wciśnięciu przycisku <guibutton
+>Wyznacz</guibutton
+> otrzymuje się datę i czas wybranego wydarzenia oraz długość odpowiedniej pory roku w dniach. </para>
+<para
+>Moduł posiada także tryb wsadowy. Aby go wykorzystać należy stworzyć plik, którego każdy wiersz zawiera rok, dla którego mają być obliczone daty równonocy lub przesileń. Trzeba także podać nazwę pliku wejściowego i wyjściowego. Po wciśnięciu przycisku <guibutton
+>Uruchom</guibutton
+> zostanie stworzony plik wyjściowy. Każdy wiersz pliku wyjściowego zawierać będzie: rok, datę, czas każdego zdarzenia oraz długości pór roku. </para>
+</sect2>

@@ -1,0 +1,81 @@
+<sect1 id="ai-sidereal">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Czas gwiazdowy</title>
+<indexterm
+><primary
+>Czas gwiazdowy</primary>
+<seealso
+>Kąt godzinny</seealso>
+</indexterm>
+<para
+><firstterm
+>Czas gwiazdowy</firstterm
+> jest to czas ciągle wykorzystywany na w astronomii. Czas jaki wykorzystujemy w codziennym życiu to czas słoneczny. Podstawą czasu słonecznego jest <firstterm
+>doba</firstterm
+>: czas w jakim Słońce przemierza niebo w trakcie obrotu Ziemi. Mniejsze jednostki czasu słonecznego wynikają z podziału doby: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+>1/24 doby = 1 godzina</para
+></listitem>
+<listitem
+><para
+>1/60 godziny = 1 minuta</para
+></listitem>
+<listitem
+><para
+>1/60 minuty = 1 sekunda</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Jednakże, z czasem słonecznym jest problem. Ziemia nie obraca się wokół własnej osi w ciągu jednej doby słonecznej. Znajduje się na orbicie wokoło Słońca i w trakcie doby przesuwa się o jeden stopień na tej orbicie (360 stopni/365,25 dni na pełną orbitę = około jeden stopień na dzień). Tak więc w 24 godziny kierunek do Słońca zmienia się o około 1 stopień. Dlatego Ziemia musi się obrócić o 361 stopni, aby sprawić wrażenie, że przebyła 360 stopni wkoło nieba. </para
+><para
+>W astronomii koncentrujemy się nad tym, jak długo zajmuje Ziemi obrót w odniesieniu do gwiazd <quote
+>stałych</quote
+>, nie Słońca. Chcielibyśmy więc mieć skalę czasu, która nie zajmuje się komplikacjami związanymi z obrotem Ziemi wokół Słońca, a zajmuje się tylko tym, ile zajmuje Ziemi obrót o 360 stopni względem gwiazd. Taki okres obrotu nazywany jest <firstterm
+>dniem gwiazdowym</firstterm
+>. Jest on średnio 4 minuty krótszy niż dzień słoneczny. Zamiast definiować czas trwania dnia gwiezdnego na 23 godziny i 56 minut, definiujemy godzinę, minutę i sekundę jako takie same część dnia, jak dzieje się to w przypadku czasu słonecznego. I w ten sposób sekunda słoneczna = 1,00278 sekundy gwiazdowej. </para
+><para
+>Czas gwiazdowy jest użyteczny przy określaniu położenia gwiazd w danym czasie. Czas gwiazdowy dzieli pełny obrót Ziemi na 24 godziny gwiezdne; podobnie, mapa nieba jest podzielona na 24 godziny <firstterm
+>rektascensji</firstterm
+> (RA). Nie ma tutaj zbiegu okoliczności; lokalny czas gwiazdowy (<acronym
+>LST</acronym
+>) oznacza rektascensję na niebie, która obecnie przekracza <link linkend="ai-meridian"
+>lokalny południk</link
+>. Tak więc jeżeli gwiazda posiada rektascensję 05h 32m 24s, będzie ona na Twoim południku o LST=05:32:24. Bardziej ogólnie, różnica pomiędzy RA obiektu a lokalnym czasem gwiazdowym mówi nam jak daleko od południka znajduje się obiekt. Na przykład, ten sam obiekt o LST=06:32:24 (jedną godzinę gwiazdową później), będzie jedną godzinę RA na zachód od Twojego południka, co oznacza 15 stopni. Ten dystans kątowy od południka zwany jest <link linkend="ai-hourangle"
+>kątem godzinnym</link
+> obiektu. </para>
+<tip>
+<para
+>Lokalny czas gwiazdowy jest wyświetlany przez &kstars; w <guilabel
+>Oknie informacyjnymi czasu</guilabel
+> z etykietą <quote
+>CzG</quote
+> (musisz uaktywnić okno klikając je dwukrotnie, aby zobaczyć czas gwiazdowy). Pamiętaj, że zmiana sekund gwiazdowych nie jest synchronizowana z czasem lokalnym czy uniwersalnym. W rzeczywistości, jeżeli przez chwilę poobserwujesz zegary to zauważysz, że sekundy gwiazdowe rzeczywiście są nieco krótsze niż sekundy czasu lokalnego i uniwersalnego. </para
+><para
+>Wskaż <link linkend="ai-zenith"
+>zenit</link
+> (wciśnij <keycap
+>Z</keycap
+> lub wybierz <guimenuitem
+>Zenit</guimenuitem
+> z menu <guimenu
+>Wskazywanie</guimenu
+>). Zenit jest punktem na niebie na które spoglądasz patrząc <quote
+>prosto w górę</quote
+> z ziemi i jest on punktem na Twoim <link linkend="ai-meridian"
+>lokalnym południku</link
+>. Zwróć uwagę, że RA zenitu jest dokładnie taka sama jak Twój lokalny czas gwiazdowy. </para>
+</tip>
+</sect1>
+

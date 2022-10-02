@@ -1,0 +1,46 @@
+<sect1 id="ai-hourangle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Kąt godzinny</title>
+<indexterm
+><primary
+>Kąt godzinny</primary>
+<seealso
+>Lokalny południk</seealso
+> <seealso
+>Czas gwiazdowy</seealso
+> </indexterm>
+<para
+>W artykule <link linkend="ai-sidereal"
+>Czas gwiazdowy</link
+> , zostało wyjaśnione, że <firstterm
+>rektascensja</firstterm
+> obiektu wskazuje czas gwiazdowy, kiedy obiekt przekracza <link linkend="ai-meridian"
+>lokalny południk</link
+>. <firstterm
+>Kąt godzinny</firstterm
+> obiektu definiowany jest jako różnica pomiędzy bieżącym lokalnym czasem gwiazdowym i rektascensją obiektu: </para
+><para
+><abbrev
+>KG</abbrev
+><subscript
+>ob</subscript
+> = <abbrev
+>LST</abbrev
+> - <abbrev
+>RA</abbrev
+><subscript
+>ob</subscript
+> </para
+><para
+>Kąt godzinny mówi ile czasu gwiazdowego minęło od przekroczenia przez obiekt lokalnego południka. Jest to także odległość kątowa pomiędzy obiektem i południkiem, mierzona w godzinach (1 godzina = 15 stopni). Np. jeżeli kąt godzinny obiektu wynosi 2,5, oznacza to, że obiekt minął lokalny zenit 2,5 godziny temu, i znajduje się 37,5 stopnia na zachód od lokalnego południka. Ujemny kąt godzinny odlicza czas do <emphasis
+>kolejnego</emphasis
+> przekroczenia lokalnego południka. Kąt godzinny 0 oznacza, że obiekt właśnie znajduje się na lokalnym południku. </para>
+</sect1>

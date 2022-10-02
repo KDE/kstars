@@ -1,0 +1,115 @@
+<chapter id="credits">
+<title
+>Autorzy i licencja</title>
+
+<para
+>&kstars;</para>
+<para
+>Prawa autorskie 2001-2003 Zespół &kstars; <email
+>kstars@30doradus.org</email
+> </para>
+
+<para
+>Zespół &kstars;: <itemizedlist>
+<listitem
+><para
+>Jason Harris <email
+>kstars@30doradus.org</email
+></para>
+</listitem>
+<listitem
+><para
+>Jasem Mutlaq <email
+>mutlaqja@ku.edu</email
+></para>
+</listitem>
+<listitem
+><para
+>Pablo de Vicente <email
+>pvicentea@wanadoo.es</email
+></para>
+</listitem>
+<listitem
+><para
+>Heiko Evermann <email
+>heiko@evermann.de</email
+></para>
+</listitem>
+<listitem
+><para
+>Thomas Kabelmann <email
+>tk78@gmx.de</email
+></para>
+</listitem>
+<listitem
+><para
+>Mark Hollomon <email
+>mhh@mindspring.com</email
+></para>
+</listitem>
+<listitem
+><para
+>Carsten Niehaus <email
+>cniehaus@gmx.de</email
+></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para
+>Źródła danych: <itemizedlist>
+<listitem>
+<para
+>Katalogi obiektów i tabele pozycji planet: <ulink url="http://adc.gsfc.nasa.gov"
+>Centrum danych astronomicznych NASA </ulink
+></para>
+</listitem>
+<listitem>
+<para
+>Szczegółowe dane o autorach wszystkich obrazów używanych w programie znajdują się w pliku README.images </para>
+</listitem>
+</itemizedlist>
+</para>
+<para
+>Bibliografia: <itemizedlist>
+<listitem
+><para
+><quote
+>Practical Astronomy With Your Calculator</quote
+> by Peter Duffet-Smith</para
+></listitem>
+<listitem
+><para
+><quote
+>Astronomical Algorithms</quote
+> by Jean Meeus</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Specjalne podziękowania: dla twórców &kde; i &Qt; za udostępnienieświatu nie mającego porównania zbioru bibliotek <acronym
+>API</acronym
+>. Dla zespołu programu <application
+>KDevelop</application
+>, za ich doskonałe <acronym
+>IDE</acronym
+>, które sprawiło, że tworzenie &kstars; stało się łatwiejsze i przyjemne. Dla wszystkich na forum <application
+>KDevelop</application
+>, liście dyskusyjnej &kde; i irc.kde.org, za odpowiedzi na wszelkie pytania. Podziękowania dla Anne-Marie Mahfouf, za zaproszenie &kstars; do modułu &kde;-Edu. Na koniec, szczególne podziękowania dla wszystkich, którzy zauważyli i zgłaszali błędy. Dziękujemy Wam wszystkim. </para>
+
+<para
+>Prawa autorskie do dokumentacji 2001-2003 Jason Harris i zespół KStars <email
+>kstars@30doradus.org</email
+> </para>
+
+<para
+>Polskie tłumaczenie: Mandriva Poland<email
+>biuro@mandriva.pl</email
+></para
+> <para
+>Weryfikacja i poprawki tłumaczenia Mandrivy: Marta Rybczyńska<email
+>mrybczynska@poczta.onet.pl</email
+></para
+> 
+&underFDL; &underGPL; </chapter>

@@ -1,0 +1,54 @@
+<sect1 id="ai-utime">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tempo universale</title>
+<indexterm
+><primary
+>Tempo universale</primary>
+<seealso
+>Fusi orari</seealso>
+</indexterm>
+<para
+>Il tempo segnato dagli orologi è essenzialmente una misura della posizione corrente del Sole in cielo, che è diversa per luoghi a diverse longitudini, essendo la Terra rotonda (vedi <link linkend="ai-timezones"
+>Fusi orari</link
+>). </para
+><para
+>Tuttavia, talvolta è necessario definire un tempo globale, che sia lo stesso per ogni luogo sulla Terra. Un modo per farlo è prendere una località terrestre e adottarne il tempo locale come <firstterm
+>tempo universale</firstterm
+>, abbreviato in <abbrev
+>TU</abbrev
+> (il nome è alquanto inappropriato, dato che il tempo universale ha poco a che fare con l'Universo. Sarebbe forse meglio pensarlo come un <emphasis
+>tempo globale</emphasis
+>). </para
+><para
+>La località geografica scelta per rappresentare il tempo universale è Greenwich, in Inghilterra. La scelta è arbitraria e ha ragioni storiche. Il tempo universale divenne un concetto importante quando le navi europee cominciarono a solcare vasti mari aperti, lontano da ogni punto di riferimento noto. Un navigatore poteva risalire alla longitudine della nave confrontando il tempo locale (misurato dalla posizione del Sole) con l'ora al porto di partenza (misurata da un orologio preciso a bordo della nave). Greenwich era la sede dell'Osservatorio Reale, che aveva il compito di misurare il tempo con grande accuratezza, così che le navi in porto potessero ricalibrare i propri orologi prima di salpare. </para>
+<tip>
+<para
+>Esercizio:</para>
+<para
+>Imposta la località geografica a <quote
+>Greenwich, Inghilterra</quote
+> usando la finestra <guilabel
+>Imposta località</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+>). Nota che il tempo locale (<abbrev
+>TL</abbrev
+>) e il tempo universale (<abbrev
+>TU</abbrev
+>) coincidono. </para
+><para
+>Suggerimento bibliografico: la storia della costruzione del primo orologio sufficientemente preciso e stabile da essere utilizzabile sulle navi per tenere il tempo universale è un'avventura affascinante, ed è raccontata con perizia nel libro <quote
+>Longitudine</quote
+> di Dava Sobel. </para>
+</tip>
+</sect1>

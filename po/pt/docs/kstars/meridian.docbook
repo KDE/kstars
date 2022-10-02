@@ -1,0 +1,41 @@
+<sect1 id="ai-meridian">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>O Meridiano Local</title>
+<indexterm
+><primary
+>Meridiano Local</primary>
+<seealso
+>Hora Angular</seealso
+> <seealso
+>Esfera Celeste</seealso
+> </indexterm>
+<para
+>O Meridiano Local é um <link linkend="ai-greatcircle"
+>Grande Círculo</link
+> na <link linkend="ai-csphere"
+>Esfera Celeste</link
+> que é perpendicular ao <link linkend="ai-horizon"
+>Horizonte</link
+> local. Ele passa pelo ponto Norte do horizonte, através do <link linkend="ai-cpoles"
+>Pólo Celeste</link
+> até ao <link linkend="ai-zenith"
+>Zénite</link
+>, e através do ponto Sul do horizonte. </para
+><para
+>Dado que estão fixas no Horizonte local, as estrelas parecerão que passam para lá do Meridiano Local à medida que a Terra roda. Você poderá usar a <link linkend="equatorial"
+>Ascensão Recta</link
+> de um objecto e o <link linkend="ai-sidereal"
+>Tempo Sideral Local</link
+> para determinar quando irá passar pelo seu Meridiano Local (veja o <link linkend="ai-hourangle"
+>Ângulo Horário</link
+>). </para>
+</sect1>
+

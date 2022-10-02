@@ -1,0 +1,37 @@
+<sect2 id="calc-sidereal">
+<title
+>Moduł czasu gwiezdnego</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł czasu gwiezdnego</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł Czas gwiezdny kalkulatora astronomicznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-sidereal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Czas gwiezdny</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł przelicza <link linkend="ai-utime"
+>czas uniwersalny</link
+> na lokalny <link linkend="ai-sidereal"
+>czas gwiezdny</link
+> i odwrotnie. Najpierw w sekcji <guilabel
+>Wybór wejścia</guilabel
+> należy wybrać jeden z tych czasów jako wartość wejściową. Należy także określić długość geograficzną oraz datę. Po wciśnięciu przycisku <guibutton
+>Zamień</guibutton
+>, zostaną wyświetlone wyliczone wartości drugiego czasu. </para>
+</sect2>

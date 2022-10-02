@@ -1,0 +1,56 @@
+<sect1 id="tool-whatsup">
+<title
+>What's Up Tonight? Tool</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>What's Up Tonight? Tool</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The What's Up Tonight Tool </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="wut.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>What's Up Tonight?</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The <quote
+>What's Up Tonight?</quote
+> (WUT) tool displays a list of objects that will be visible at night from any location, on any date. By default, the Date and Location are taken from the current settings in the main window, but you can change either value using the <guibutton
+>Change Date</guibutton
+> and <guibutton
+>Change Location</guibutton
+> buttons at the top of the WUT window. </para>
+<para
+>The WUT tool also displays a short almanac of data for the selected date: the rise and set times for the Sun and moon, the duration of the night and the Moon's illumination fraction. </para>
+<para
+>Below the almanac is where the object information is displayed. The objects are organised into type categories. Select an object type in the box labelled <guilabel
+>Choose a Category</guilabel
+>, and all objects of that type which are above the horizon on the selected night will be displayed in the box labelled <guilabel
+>Matching Objects</guilabel
+>. For example, in the screenshot, the <guilabel
+>Planets</guilabel
+> category has been selected, and four planets which are up on the selected night are displayed (Mars, Neptune, Pluto, and Uranus). When an object in the list is selected, its rise, set and transit times are displayed in the lower-right panel. In addition, you can press the <guibutton
+>Object Details...</guibutton
+> button to open the <link linkend="tool-details"
+>Object Details window</link
+> for that object. </para>
+<para
+>By default, the WUT will display objects which are above the horizon between sunset and midnight (i.e., <quote
+>in the evening</quote
+>). You can choose to show objects which are up between midnight and dawn (<quote
+>in the morning</quote
+>), or between dusk and dawn (<quote
+>any time tonight</quote
+>) using the combobox near the top of the window. </para>
+</sect1>
+

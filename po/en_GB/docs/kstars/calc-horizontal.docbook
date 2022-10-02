@@ -1,0 +1,42 @@
+<sect2 id="calc-horiz">
+<title
+>Horizontal Coordinates module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Horizontal Coordinates module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Horizontal Coordinates calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-horizontal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Horizontal Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This module converts from <link linkend="equatorial"
+>Equatorial coordinates</link
+> to <link linkend="horizontal"
+>Horizontal coordinates</link
+>. First, select the date, time, and geographic coordinates for the calculation in the <guilabel
+>Input Data</guilabel
+> section. Then, fill in the equatorial coordinates to be converted and their catalogue epoch in the <guilabel
+>Equatorial Coordinates</guilabel
+> section. When you press the <guibutton
+>Compute</guibutton
+> button, the corresponding Horizontal coordinates will be presented in the <guilabel
+>Horizontal Coordinates</guilabel
+> section. </para>
+</sect2>
+

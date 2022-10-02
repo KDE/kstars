@@ -1,0 +1,34 @@
+<sect1 id="ai-cequator">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Równik niebieski</title>
+<indexterm
+><primary
+>Równik niebieski</primary>
+<seealso
+>Współrzędne równikowe</seealso>
+</indexterm>
+<para
+><firstterm
+>Równik niebieski</firstterm
+> jest umownym<link linkend="ai-greatcircle"
+>wielkim kołem</link
+> na <link linkend="ai-csphere"
+>sferze niebieskiej</link
+>. Równik niebieski jest podstawowym elementem <link linkend="equatorial"
+>układu współrzędnych równikowych</link
+> i jako taki jest zdefiniowany jako zbiór punktów o deklinacji zero stopni. Równik niebieski jest także obrazem równika ziemskiego na niebie. </para>
+<para
+>Płaszczyzna równika niebieski i <link linkend="ai-ecliptic"
+>ekliptyki</link
+> tworzą między sobą kąt 23,5 stopnia. Miejsca gdzie się przecinają są <link linkend="ai-equinox"
+>punktami równonocy</link
+> wiosennej i jesiennej. </para>
+</sect1>

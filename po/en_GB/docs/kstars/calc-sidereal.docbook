@@ -1,0 +1,37 @@
+<sect2 id="calc-sidereal">
+<title
+>Sidereal Time module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Sidereal Time module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Sidereal Time calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-sidereal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Sidereal Time</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This module converts between <link linkend="ai-utime"
+>Universal Time</link
+> and Local <link linkend="ai-sidereal"
+>Sidereal Time</link
+>. First, select whether you will use Universal Time or Sidereal Time as an input value in the <guilabel
+>Input Selection</guilabel
+> section. You must also specify a geographic longitude, and a date for the calculation, in addition to either the Universal Time or the Sidereal Time value. When you press the <guibutton
+>Compute</guibutton
+> button, the corresponding value for the other Time will be displayed. </para>
+</sect2>

@@ -1,0 +1,34 @@
+<sect1 id="ai-cequator">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>The Celestial Equator</title>
+<indexterm
+><primary
+>Celestial Equator</primary>
+<seealso
+>Equatorial Coordinates</seealso>
+</indexterm>
+<para
+>The <firstterm
+>Celestial Equator</firstterm
+> is an imaginary <link linkend="ai-greatcircle"
+>great circle</link
+> on the <link linkend="ai-csphere"
+>celestial sphere</link
+>. The celestial equator is the fundamental plane of the <link linkend="equatorial"
+>Equatorial Coordinate System</link
+>, so it is defined as the locus of points with Declination of zero degrees. It is also the projection of the Earth's equator onto the sky. </para>
+<para
+>The Celestial Equator and the <link linkend="ai-ecliptic"
+>Ecliptic</link
+> are set at an angle of 23.5 degrees in the sky. The points where they intersect are the Vernal and Autumnal <link linkend="ai-equinox"
+>Equinoxes</link
+>. </para>
+</sect1>

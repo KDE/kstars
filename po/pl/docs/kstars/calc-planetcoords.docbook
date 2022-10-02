@@ -1,0 +1,43 @@
+<sect2 id="calc-planetcoords">
+<title
+>Moduł współrzędnych planet</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł współrzędnych planet</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł Współrzędne planet kalkulatora astronomicznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-planetcoords.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Współrzędne planet</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł współrzędnych planet oblicza pozycję każdego ciała Układu Słonecznego w dowolnym miejscu i o dowolnej porze. Należy wybrać planetę z listy <guilabel
+>Ciało Układu Słonecznego</guilabel
+>, oraz podać datę, czas i współrzędne geograficzne (wartości te są zapisane w ustawieniach &kstars;). Następnie by otrzymać współrzędne <link linkend="equatorial"
+>równikowe</link
+>, <link linkend="horizontal"
+>horyzontalne</link
+> oraz <link linkend="ecliptic"
+>ekliptyczne</link
+> należy wcisnąć przycisk <guibutton
+>Wyznacz</guibutton
+>. </para>
+<para
+>Moduł posiada także tryb wsadowy. Należy stworzyć plik wejściowy, którego każdy wiersz będzie zawierała parametry wejściowe (planeta Układu Słonecznego, data, czas, długość i szerokość geograficzną). Istnieje możliwość określenia stałych wartości niektórych parametrów wejściowych w oknie kalkulatora (te wartości są wtedy pomijane w pliku wejściowym). Można także określić, które z parametrów wyjściowych (współrzędne równikowe, horyzontalne lub ekliptyczne) będą obliczane. Po podaniu nazwy plików wejściowego i wyjściowego oraz wciśnięciu przycisku <guibutton
+>Wyznacz</guibutton
+> zostanie utworzony plik w obliczonymi danymi wyjściowymi. </para>
+</sect2>

@@ -1,0 +1,66 @@
+<sect1 id="ai-geocoords">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Geografiska koordinater</title>
+<indexterm
+><primary
+>Geografiska koordinater</primary
+></indexterm>
+<indexterm
+><primary
+>Longitud</primary
+><see
+>Geografiska koordinatsystem</see
+></indexterm>
+<indexterm
+><primary
+>Latitud</primary
+><see
+>Geografiska koordinatsystem</see
+></indexterm>
+<para
+>Platser på jorden kan anges med ett sfäriskt koordinatsystem. Det geografiska koordinatsystemet (för <quote
+>kartläggning</quote
+> av jorden) är upplinjerat med jordens rotationsaxel. Det definierar två vinklar som mäts från jordens centrum. En vinkel, som kallas <firstterm
+>latitud</firstterm
+>, mäter vinkeln mellan vilken punkt som helst och ekvatorn. Den andra vinkeln, som kallas <firstterm
+>longitud</firstterm
+>, mäter vinkeln <emphasis
+>längs</emphasis
+> ekvatorn från en godtycklig punkt på jorden (Greenwich i England är den vedertagna nollpunkten för longituden i de flesta moderna samhällen). </para
+><para
+>Genom att kombinera de här två vinklarna kan vilken plats som helst anges på jorden. Till exempel så har Baltimore i Maryland (U.S.A.) en latitud på 39,3 grader nord och en longitud på 76,6 grader väst. Alltså passerar en vektor som dras från jordens medelpunkt till en punkt 39,3 grader över ekvatorn och 76,6 grader väster om Greenwich i England genom Baltimore. </para
+><para
+>Ekvatorn är naturligtvis en viktig del av det här koordinatsystemet, eftersom den representerar <emphasis
+>nollpunkten</emphasis
+> för latitudvinkeln, och punkten halvvägs mellan polerna. Ekvatorn är <firstterm
+>grundplanet</firstterm
+> för det geografiska koordinatsystemet. <link linkend="ai-skycoords"
+>Alla sfäriska koordinatsystem</link
+> definierar ett sådant plan. </para
+><para
+>Linjer med konstant latitud kallas <firstterm
+>breddgrader</firstterm
+>. De spårar upp cirklar på jordens yta, men den enda breddgraden som är en <link linkend="ai-greatcircle"
+>storcirkel</link
+> är ekvatorn (latitud = 0 grader). Linjer med konstant longitud kallas <firstterm
+>meridianer</firstterm
+>. Meridianen som passerar genom Greenwich är <firstterm
+>nollmeridianen</firstterm
+> (longitud = 0 grader). I motsats till breddgrader är alla meridianer storcirklar, och meridianer är inte parallella: de korsar varandra på nord- och sydpolen. </para>
+<tip>
+<para
+>Övning:</para>
+<para
+>Vad är longituden för nordpolen? Dess latitud är 90 grader nord. </para>
+<para
+>Det här är en trickfråga. Longituden är meningslös vid nordpolen (och sydpolen). Den har alla longituder samtidigt. </para>
+</tip>
+</sect1>

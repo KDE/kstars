@@ -1,0 +1,32 @@
+<sect1 id="ai-timezones">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Fusi orari</title>
+<indexterm
+><primary
+>Fusi orari</primary>
+</indexterm>
+<para
+>La Terra è rotonda, ed è sempre illuminata per metà dal Sole. Tuttavia, poiché la Terra ruota, la metà illuminata cambia continuamente. Questo fenomeno ci appare come il passare dei giorni, dovunque ci troviamo sulla superficie terrestre. In ogni istante ci sono luoghi sulla Terra che stanno passando dalla metà in ombra alla metà illuminata (ciò che sulla superficie è l'<emphasis
+>alba</emphasis
+>). Nello stesso momento, all'altro capo della Terra, altri luoghi stanno passando dalla metà illuminata a quella in ombra (ciò che in quelle zone è il <emphasis
+>tramonto</emphasis
+>). Così, in ogni istante, differenti luoghi sulla Terra si trovano in diverse parti del giorno. Per questo motivo il tempo solare è definito localmente, così che il tempo segnato dagli orologi in ogni luogo descriva in modo consistente la parte del giorno. </para
+><para
+>Questa localizzazione del tempo è realizzata dividendo il globo in 24 fette verticali chiamate <firstterm
+>fusi orari</firstterm
+>. Il tempo locale è lo stesso all'interno di ogni fuso orario, ma il tempo di ciascun fuso è un'ora <emphasis
+>in anticipo</emphasis
+> rispetto a quello del fuso immediatamente ad est. A dire il vero, questa è una semplificazione idealizzata; i veri confini dei fusi orari non sono linee verticali, dato che seguono spesso i confini nazionali e altre considerazioni politiche. </para
+><para
+>Nota che, poiché il tempo locale aumenta sempre di un'ora spostandosi attraverso i fusi orari verso est, una volta oltrepassati tutti e 24 i fusi si è un giorno intero più avanti rispetto a quando si è partiti. Questo paradosso si risolve definendo una <firstterm
+>linea del cambiamento di data</firstterm
+>, che è il confine di un fuso orario nell'oceano Pacifico, tra l'Asia e il Nord America. I punti subito ad est di questa linea sono 24 ore più indietro rispetto ai punti subito ad ovest. Ciò provoca alcuni interessanti fenomeni. Per esempio, un volo diretto dall'Australia alla California arriva prima che sia partito. Inoltre, le isole Figi sono a cavallo della linea del cambiamento di data, così se si passa una brutta giornata nella parte occidentale delle Figi, ci si può sempre spostare nella parte orientale e avere la possibilità di rivivere lo stesso giorno dall'inizio. </para>
+</sect1>

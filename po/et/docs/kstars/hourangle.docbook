@@ -1,0 +1,46 @@
+<sect1 id="ai-hourangle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tunninurk</title>
+<indexterm
+><primary
+>Tunninurk</primary>
+<seealso
+>Kohalik meridiaan</seealso
+> <seealso
+>Täheaeg</seealso
+> </indexterm>
+<para
+>Artiklis <link linkend="ai-sidereal"
+>"Täheaeg"</link
+> selgitasime, et taevakeha <firstterm
+>otsetõus</firstterm
+> osutab täheajale, mil objekt ületab vaatleja <link linkend="ai-meridian"
+>kohaliku meridiaani</link
+>. Taevakeha <firstterm
+>tunninurk</firstterm
+> tähendab erinevust kohaliku täheaja ning taevakeha otsetõusu vahel: </para
+><para
+><abbrev
+>TN</abbrev
+><subscript
+>obj</subscript
+> = <abbrev
+>KTA</abbrev
+> + <abbrev
+>OT</abbrev
+><subscript
+>obj</subscript
+> </para
+><para
+>Seega näitab taevakeha tunninurk, kui palju täheaega on möödunud hetkest, mis objekt asus vaatleja kohalikul meridiaanil. Ühtlasi on see nurkkaugus taevakeha ja meridiaani vahel, mida mõõdetakse tundides ( 1 tund = 15 kraadi). Kui näiteks objekti tunninurk on 2,5 tundi, ületas ta kohaliku meridiaani 2,5 tunni eest ning on parajasti 37,5 kraadi meridiaanist lääne pool. Negatiivne tunninurk näitab aega <emphasis
+>järgmise</emphasis
+> meridiaani ületuseni. Ja mõistagi tähendab nulliga võrduv tunninurk, et taevakeha asub parajasti kohalikul meridiaanil. </para>
+</sect1>

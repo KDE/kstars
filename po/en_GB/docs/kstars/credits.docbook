@@ -1,0 +1,111 @@
+<chapter id="credits">
+<title
+>Credits and Licence</title>
+
+<para
+>&kstars;</para>
+<para
+>Program copyright 2001-2003 The &kstars; Team <email
+>kstars@30doradus.org</email
+> </para>
+
+<para
+>The &kstars; Team: <itemizedlist>
+<listitem
+><para
+>Jason Harris <email
+>kstars@30doradus.org</email
+></para>
+</listitem>
+<listitem
+><para
+>Jasem Mutlaq <email
+>mutlaqja@ku.edu</email
+></para>
+</listitem>
+<listitem
+><para
+>Pablo de Vicente <email
+>pvicentea@wanadoo.es</email
+></para>
+</listitem>
+<listitem
+><para
+>Heiko Evermann <email
+>heiko@evermann.de</email
+></para>
+</listitem>
+<listitem
+><para
+>Thomas Kabelmann <email
+>tk78@gmx.de</email
+></para>
+</listitem>
+<listitem
+><para
+>Mark Hollomon <email
+>mhh@mindspring.com</email
+></para>
+</listitem>
+<listitem
+><para
+>Carsten Niehaus <email
+>cniehaus@gmx.de</email
+></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para
+>Data Sources: <itemizedlist>
+<listitem>
+<para
+>Object catalogues and planet position tables: <ulink url="http://adc.gsfc.nasa.gov"
+>NASA Astronomical Data Center</ulink
+></para>
+</listitem>
+<listitem>
+<para
+>Detailed credit information for all of the images used in the program is presented in the file README.images </para>
+</listitem>
+</itemizedlist>
+</para>
+<para
+>References: <itemizedlist>
+<listitem
+><para
+><quote
+>Practical Astronomy With Your Calculator</quote
+> by Peter Duffet-Smith</para
+></listitem>
+<listitem
+><para
+><quote
+>Astronomical Algorithms</quote
+> by Jean Meeus</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Special thanks: To the &kde; and &Qt; developers for providing the world with a peerless set of free <acronym
+>API</acronym
+> libraries. To the <application
+>KDevelop</application
+> team, for their excellent <acronym
+>IDE</acronym
+>, which made developing &kstars; so much easier and more fun. To everyone on the <application
+>KDevelop</application
+> message board, the &kde; mailing lists, and on irc.kde.org, for answering our frequent questions. Thank you to Anne-Marie Mahfouf, for inviting &kstars; to join the &kde;-Edu module. Finally, thanks to everyone who has submitted bug reports and other feedback. Thank you, everyone. </para>
+
+<para
+>Documentation copyright 2001-2003 Jason Harris and the KStars Team <email
+>kstars@30doradus.org</email
+> </para>
+
+<para
+>Andrew Coles<email
+>andrew_coles@yahoo.co.uk</email
+></para
+> 
+&underFDL; &underGPL; </chapter>

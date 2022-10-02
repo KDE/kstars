@@ -1,0 +1,200 @@
+<sect1 id="ai-contents">
+<title
+>AstroInfo: Spis treści</title>
+
+<itemizedlist
+><title
+>Niebo i układy współrzędnych</title>
+  <listitem
+><para
+><link linkend="ai-skycoords"
+>Układa współrzędnych niebieskich</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-cequator"
+>Równik niebieski</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-cpoles"
+>Bieguny niebieskie</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-csphere"
+>Sfera niebieska</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-ecliptic"
+>Ekliptyka</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-equinox"
+>Równonoce</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-geocoords"
+>Współrzędne geograficzne</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-greatcircle"
+>Koła wielkie</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-horizon"
+>Horyzont</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-hourangle"
+>Kąt godzinny</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-meridian"
+>Południk lokalny</link
+></para
+></listitem
+> 
+  <listitem
+><para
+><link linkend="ai-precession"
+>Precesja</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-zenith"
+>Zenit</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Czas</title>
+  <listitem
+><para
+><link linkend="ai-julianday"
+>Data juliańska</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-leapyear"
+>Lata przestępne</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-sidereal"
+>Czas gwiazdowy</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-timezones"
+>Strefy czasowe</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-utime"
+>Czas uniwersalny</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Fizyka</title>
+  <listitem
+><para
+><link linkend="ai-blackbody"
+>Promieniowanie ciała doskonale czarnego</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-darkmatter"
+>Ciemna materia</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-flux"
+>Strumień pola</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-luminosity"
+>Luminancja</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-parallax"
+>Paralaksa</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-retrograde"
+>Ruch wsteczny</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Astrofizyka</title>
+  <listitem
+><para
+><link linkend="ai-ellipgal"
+>Galaktyki eliptyczne</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-spiralgal"
+>Galaktyki spiralne</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-magnitude"
+>Skala jasności</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-stars"
+>Gwiazdy: odpowiedzi na podstawowe pytania</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-colorandtemp"
+>Temperatury i barwy gwiazd</link
+></para
+></listitem>
+</itemizedlist>
+
+</sect1>

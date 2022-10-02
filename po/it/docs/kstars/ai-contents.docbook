@@ -1,0 +1,223 @@
+<sect1 id="ai-contents">
+<title
+>AstroInfo: sommario</title>
+
+<itemizedlist
+><title
+>Il cielo e i sistemi di coordinate</title>
+  <listitem
+><para
+><link linkend="ai-skycoords"
+>Sistemi di coordinate celesti</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-cequator"
+>Equatore celeste</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-cpoles"
+>Poli celesti</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-csphere"
+>Sfera celeste</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-ecliptic"
+>L'eclittica</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-equinox"
+>Gli equinozi</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-geocoords"
+>Coordinate geografiche</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-greatcircle"
+>Cerchi massimi</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-horizon"
+>L'orizzonte</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-hourangle"
+>Angolo orario</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-meridian"
+>Meridiano locale</link
+></para
+></listitem
+> 
+  <listitem
+><para
+><link linkend="ai-precession"
+>Precessione</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-zenith"
+>Lo zenit</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Tempo</title>
+  <listitem
+><para
+><link linkend="ai-epoch"
+>Epoca</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-julianday"
+>Giorno giuliano</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-leapyear"
+>Anni bisestili</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-sidereal"
+>Tempo siderale</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-timezones"
+>Fusi orari</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-utime"
+>Tempo universale</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Strumentazione</title>
+  <listitem
+><para
+><link linkend="ai-telescopes"
+>Telescopi</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Fisica</title>
+  <listitem
+><para
+><link linkend="ai-blackbody"
+>Radiazione di corpo nero</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-darkmatter"
+>Materia oscura</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-flux"
+>Flusso</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-luminosity"
+>Luminosità</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-parallax"
+>Parallasse</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-retrograde"
+>Moto retrogrado</link
+></para
+></listitem>
+</itemizedlist>
+
+<itemizedlist
+><title
+>Astrofisica</title>
+  <listitem
+><para
+><link linkend="ai-ellipgal"
+>Galassie ellittiche</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-spiralgal"
+>Galassie spirali</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-magnitude"
+>La scala delle magnitudini</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-stars"
+>Stelle: una FAQ introduttiva</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-colorandtemp"
+>Colori e temperature delle stelle</link
+></para
+></listitem>
+  <listitem
+><para
+><link linkend="ai-cosmicdist"
+>La scala delle distanze cosmiche</link
+></para
+></listitem>
+</itemizedlist>
+
+</sect1>

@@ -1,0 +1,93 @@
+<sect1 id="tool-observinglist">
+<title
+>La lista degli oggetti preferiti</title>
+<indexterm
+><primary
+>Strumenti</primary>
+<secondary
+>Lista oggetti preferiti</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>La lista degli oggetti preferiti </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="observinglist.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Lista oggetti preferiti</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Lo scopo della lista oggetti preferiti è di facilitare l'accesso ad alcune funzioni comuni per una lista di oggetti di tua scelta. Gli oggetti si aggiungono alla lista tramite la voce <quote
+>Aggiungi alla lista delle osservazioni desiderate</quote
+> nel <link linkend="popup-menu"
+>menu a comparsa</link
+>, o premendo il tasto <keycap
+>O</keycap
+> per aggiungere l'oggetto selezionato. </para>
+<para
+>La lista può essere ordinata secondo una qualsiasi delle colonne (nome, ascensione retta, declinazione, magnitudine e tipo). Per effettuare un'azione su un oggetto, fai clic col &RMB; su un oggetto nella lista e scegli un'azione. Alcune azioni possono essere eseguite con più oggetti selezionati, altre operano su un solo oggetto alla volta. Le azioni disponibili sono: <variablelist>
+<varlistentry>
+<term
+>Centra</term>
+<listitem>
+<para
+>Centra la mappa celeste sull'oggetto in questione e inizia a inseguirlo. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Punta</term>
+<listitem>
+<para
+>Punta il tuo <link linkend="indi"
+>telescopio</link
+> verso l'oggetto selezionato. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Dettagli</term>
+<listitem>
+<para
+>Apre la <link linkend="tool-details"
+>finestra informazioni dettagliate</link
+> per l'oggetto selezionato. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Altezza in funzione del tempo</term>
+<listitem>
+<para
+>Apre la finestra <link linkend="tool-altvstime"
+>Altezza in funzione del tempo</link
+> includendo gli oggetti selezionati. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Elimina dalla lista dei desideri</term>
+<listitem>
+<para
+>Elimina l'oggetto o gli oggetti selezionati dalla lista dei preferiti. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<note>
+<para
+>La lista degli oggetti preferiti è una nuova funzione, ancora in corso di sviluppo. Abbiamo intenzione di aggiungere altre possibilità, come quella di aggiungere oggetti selezionando una regione nel cielo, e quella di salvare la lista su disco. </para>
+</note>
+</sect1>

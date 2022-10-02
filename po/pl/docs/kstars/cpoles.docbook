@@ -1,0 +1,64 @@
+<sect1 id="ai-cpoles">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Bieguny niebieskie</title>
+<indexterm
+><primary
+>Bieguny niebieskie</primary>
+<seealso
+>Współrzędne równikowe</seealso>
+</indexterm>
+<para
+>Niebo wydaje się przesuwać ze wschodu na zachód, pełny obrót zajmuje 24 godziny (<link linkend="ai-sidereal"
+>czas gwiazdowy</link
+>). Wynika to z obracania się Ziemi wokół własnej osi. Oś obrotu Ziemi przecina <link linkend="ai-csphere"
+>sferę niebieską</link
+> w dwóch punktach. Te punkty to <firstterm
+>bieguny niebieskie</firstterm
+>. Pozostają one w tym samym miejscu podczas ruchu obrotowego Ziemi, wydaje się, że wszystkie punkty krążą wokół nich. Bieguny niebieskie są także biegunami <link linkend="equatorial"
+>układu współrzędnych równikowych</link
+>, co oznacza, że ich kąt <firstterm
+>deklinacji</firstterm
+> to +90 i -90 stopni (odpowiednio dla biegunów niebieskich północnego i południowego). </para
+><para
+>Północny biegun niebieski ma prawie te same współrzędne co jasna <firstterm
+>Gwiazda Polarna</firstterm
+> (po łacinie Polaris, czyli <quote
+>Gwiazda północna</quote
+>). Czyni to tą gwiazdę bardzo użyteczną przy nawigacji, gdyż nie tylko jest zawsze ponad północną linią horyzontu, ale także jej <link linkend="horizontal"
+>wysokość</link
+> jest zawsze (prawie) równa <link linkend="ai-geocoords"
+>szerokości geograficznej</link
+> obserwatora. Gwiazda Polarna jest widoczna z lokalizacji na półkuli północnej. </para
+><para
+>Fakt, że Gwiazda Polarna jest blisko bieguna to czysty zbieg okoliczoności. Uwzględniając <link linkend="ai-precession"
+>precesję</link
+>, Gwiazda Polarna jest blisko bieguna tylko przez krótki okres czasu. </para>
+<tip>
+<para
+>Ćwiczenia:</para>
+<para
+>Przy użyciu okna <guilabel
+>Znajdź obiekt</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>) znaleźć Gwiazdę Polarną. Jej deklinacja jest równa prawie (ale nie dokładnie) + 90 stopni. Porównać wysokość odczytaną przy zbliżeniu na Gwiazdę Polarną z własną szerokością geograficzną. Ich różnica mieści się zawsze w przedziale jednego stopnia. Nie są dokładnie takie same, gdyż gwiazda tanie jest dokladnie na biegunie. (biegun można obserwować po przełączeniu na współrzędne równikowe i przytrzymaniu klawisza strzałki do góry do momentu, kiedy niebo nie przestanie się przesuwać). </para
+><para
+>Przy użyciu pola <guilabel
+>Krok czasu</guilabel
+> z paska narzędzi zwiększyć krok czasu na 100 sekund. Można wtedy zobaczyć jak całe niebo obraca się wokół Gwiazdy Polarnej, podczas gdy ona pozostaje prawie w jednym miejscu. </para
+><para
+>Zostało powiedziane, że biegun niebieski jest biegunem współrzędnych równikowych. Co jest biegunem horyzontalnego (wysokość/azymut) układu współrzędnych? (<link linkend="ai-zenith"
+>zenit</link
+>). </para>
+</tip>
+</sect1>

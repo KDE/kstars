@@ -1,0 +1,42 @@
+<sect2 id="calc-eqgal">
+<title
+>Moduł współrzędnych równikowych/galaktycznych</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł współrzędnych równikowych/galaktycznych</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł Współrzędne równikowe/galaktyczne kalkulatora astronomicznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-eqgal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Współrzędne równikowe/galaktyczne</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł ten przelicza <link linkend="equatorial"
+>wpółrzędne równikowe </link
+> na <link linkend="galactic"
+>współrzędne galaktyczne</link
+> i odwrotnie. W sekcji <guilabel
+>Wybór współrzędnych wejściowych</guilabel
+> należy wybrać które współrzędne będą współrzędnymi wejściowymi. Następym krokiem jest wprowadzenie współrzędnych odpowiednio w sekcji <guilabel
+>Współrzędne galaktyczne</guilabel
+> lub <guilabel
+>Współrzędne równikowe</guilabel
+>. Po wciśnięciu przycisku <guibutton
+>Zamień</guibutton
+> zostaną wyświetlone przeliczone współrzędne. </para>
+</sect2>
+

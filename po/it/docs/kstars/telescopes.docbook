@@ -1,0 +1,277 @@
+<sect1 id="ai-telescopes">
+<sect1info>
+<author
+><firstname
+>Ana-Maria</firstname
+> <surname
+>Constantin</surname
+> </author>
+</sect1info>
+<title
+>Telescopi</title>
+<indexterm>
+  <primary
+>Telescopi</primary>
+</indexterm>
+<para
+>Inventati nei Paesi Bassi agli inizi del diciassettesimo secolo, i telescopi sono gli strumenti usati da astronomi e astrofisici per le loro osservazioni. Con lo sviluppo della scienza moderna, al giorno d'oggi i telescopi sono usati per l'osservazione in tutte le bande dello spettro elettromagnetico, dentro e fuori l'atmosfera terrestre. I telescopi raccolgono la luce attraverso un'ampia superficie chiamata obiettivo che fa convergere la luce. L'immagine finale sarà visualizzata usando un oculare. </para>
+
+<sect2 id="aperture">
+<title
+>Apertura e rapporto focale</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>I telescopi sono usati per raccogliere la luce proveniente da corpi celesti e per convergerla in un punto, chiamato fuoco. Sono descritti usando due parametri, <firstterm
+>apertura</firstterm
+> e <firstterm
+>rapporto focale</firstterm
+>. Il diametro della superficie di raccolta della luce è chiamato <firstterm
+>apertura</firstterm
+> del telescopio &ndash; più grande è l'apertura, più luminosa è l'immagine. Il rapporto tra la lunghezza focale <firstterm
+>f</firstterm
+> e l'<firstterm
+>apertura D</firstterm
+> di un telescopio è definito come il <firstterm
+>rapporto focale</firstterm
+>. Questo definisce la luminosità di un telescopio. Telescopi <quote
+>veloci</quote
+> hanno rapporti focali più piccoli, dato che forniscono immagini più luminose in un tempo di esposizione più breve. Con l'aumentare del rapporto focale aumenta anche il tempo di esposizione richiesto dal telescopio per fornire immagini più luminose, e per questo è più <quote
+>lento</quote
+>. Il rapporto focale di solito è rappresentato come <quote
+>f/n</quote
+>, dove n è il rapporto della lunghezza focale con l'apertura. </para>
+</sect2>
+
+<sect2 id="aberrations">
+<title
+>Aberrazioni</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>I telescopi usano lenti o specchi per fornire le immagini. Sfortunatamente, se usiamo entrambi otteniamo distorsioni dell'immagine note come <firstterm
+>aberrazioni</firstterm
+>. Alcune aberrazioni sono comuni sia per le lenti sia per gli specchi, come l'<firstterm
+>astigmatismo</firstterm
+> e la <firstterm
+>curvatura di campo</firstterm
+>. </para>
+
+<para
+>L'<firstterm
+>astigmatismo</firstterm
+> si verifica quando parti differenti della lente o dello specchio fanno convergere i raggi della luce in differenti punti sul piano focale. Quando l'astigmatismo viene corretto, la <firstterm
+>curvatura di campo</firstterm
+> può apparire sulla superficie della lente o dello specchio, facendo convergere la luce su una superficie curva piuttosto che su un piano. </para>
+
+<para
+>Tuttavia, ci sono anche aberrazioni specifiche per le lenti e aberrazioni specifiche per gli specchi. </para>
+
+<para
+>L'<firstterm
+>aberrazione cromatica</firstterm
+> è un effetto dei telescopi che usando lenti per convergere la luce. In particolare, la lunghezza focale di una lente dipende dalla lunghezza d'onda, e per questo il fuoco della luce blu è differente da quello della luce rossa, producendo un'immagine sfuocata. L'effetto dell'aberrazione cromatica può essere ridotto aggiungendo lenti correttive nel sistema. Anche l'aberrazione <firstterm
+>sferica</firstterm
+> può essere un problema per le lenti, dovuto alla loro forma. Superfici sferiche non convergono la luce in un solo punto, e per questo vengono preferite altre superfici ottiche, ad esempio i paraboloidi. Tuttavia, anche usandole non si risolvono tutti i problemi, dato che in questo si verifica aberrazione coma, che deriva dalla dipendenza tra la lunghezza focale con l'angolo tra la direzione dei raggi ricevuti e l'asse ottico del sistema. Per questo, le immagini di punti che giacciono sull'asse ottico risultano allungate, piuttosto che risultare semplici punti (come dovrebbe essere). </para>
+</sect2>
+
+
+
+<sect2 id="magnification">
+<title
+>Ingrandimento</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>L'<firstterm
+>ingrandimento</firstterm
+>, cioè l'aumento del diametro angolare di un oggetto visto con un telescopio, è descritto come il rapporto tra la lunghezza focale dell'obiettivo con la lunghezza focale dell'oculare; quindi, all'aumentare della lunghezza focale dell'obiettivo aumenta anche l'ingrandimento. Se vuoi un'immagine ampia hai bisogno di un obiettivo con una lunghezza focale lunga e di un oculare con una lunghezza focale corta. </para>
+
+<para
+>Ad esempio, se hai un obiettivo 500 mm e un oculare 25 mm l'ingrandimento risultante sarà 500 / 25, cioè 20 o 20X. </para>
+</sect2>
+
+<sect2 id="field">
+<title
+>Campo di vista</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>Il campo di vista è l'angolo di cielo osservabile dal telescopio. Il campo di vista <firstterm
+>apparente</firstterm
+> di un telescopio è determinato solamente dall'oculare, ed è una sua caratteristica specifica, di solito 52 gradi. Per scoprire il <firstterm
+>campo di vista reale</firstterm
+> di un telescopio devi dividere il campo di vista apparente per l'ingrandimento. Il campo di vista reale è l'angolo effettivo di cielo osservabile dal telescopio. </para>
+
+<tip>
+<para
+>&kstars; ha uno strumento per cercare e mostrare (sul cielo virtuale) un vero campo di vista chiamato <guilabel
+>Indicatore CDV</guilabel
+>. Puoi avviarlo da <menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Simboli CDV</guisubmenu
+><guimenuitem
+>Modifica simboli CDV...</guimenuitem
+></menuchoice
+>. Premendo <guibutton
+>Nuovo</guibutton
+> sarà aperta una finestra di dialogo con quattro schede: <guilabel
+>Oculare</guilabel
+>, <guilabel
+>Telecamera</guilabel
+>, <guilabel
+>Binocolo</guilabel
+> e <guilabel
+>Radiotelescopio</guilabel
+>. Per calcolare il campo di vista, scegli la scheda opportuna e inserisci i dettagli della strumentazione. Infine, premendo <guibutton
+>Calcola CDV</guibutton
+> sarà calcolato il campo di vista e lo mostrerà appena sotto. &kstars; ora può anche mostrarne la forma sul cielo virtuale: inserisci il nome per questo specifico campo di vista (&eg; <userinput
+>Oculare da 20mm</userinput
+> oppure <userinput
+>Reflex digitale con rifrattore</userinput
+>) e scegli una forma e un colore da usare. Per un <guilabel
+>Oculare</guilabel
+> usa <guilabel
+>Cerchio</guilabel
+> o <guilabel
+>Cerchio semitrasparente</guilabel
+> come forma, dato che il campo di vista di un oculare è rotondo. Per una <guilabel
+>Telecamera</guilabel
+> usa <guilabel
+>Quadrato</guilabel
+> (che in realtà è un rettangolo), visto che il sensore o la pellicola in genere sono rettangolari o quadrati. Quando usi oculari e/o telescopi multipli è bene distringuerli con colori diversi. Premi <guibutton
+>OK</guibutton
+> per chiudere la finestra di dialogo. Per mostrare la forma sullo schermo, torna nel menu <menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Simboli CDV</guisubmenu
+></menuchoice
+> e scegli la nuova voce di menu con il nome che hai specificato in precedenza. Per disabilitare la forma, scegli nuovamente la sua voce di menu. </para>
+</tip>
+
+</sect2>
+
+
+<sect2 id="types">
+<title
+>Tipi di telescopi</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>Dato che i telescopi sono usati per osservare tutto lo spettro elettromagnetico, sono classificati in telescopi ottici, per l'ultravioletto, per raggi gamma, per raggi X, infrarossi, e radiotelescopi. Ciascuno ha un proprio ruolo nell'analisi dettagliata di un corpo celeste. </para>
+</sect2>
+
+<sect2 id="optical">
+<title
+>Telescopi ottici</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>Usati per l'osservazione del campo di vista visibile, i telescopi ottici sono principalmente rifrattori e reflettori, che raccolgono in modo diverso la luce di una stella. </para>
+
+<para
+>I <firstterm
+>telescopi rifrattori</firstterm
+> usano due lenti per creare l'immagine: una primaria o <firstterm
+>obiettivo</firstterm
+> che raccoglie la luce formando un'immagine sul piano focale, e l'<firstterm
+>oculare</firstterm
+> che funge da lente d'ingrandimento e viene usato per osservare l'immagine finale. Le due lenti sono poste ai lati opposti di un tubo mobile e la distanza tra di loro può essere regolata per produrre l'immagine finale. </para>
+
+<para
+>Il più grande telescopio rifrattore al mondo si trova all'<firstterm
+>Osservatorio Yerkes</firstterm
+> nel villaggio di Williams Bay, nel Wisconsin. Costruito nel 1897, ha un obiettivo da 1.02 m (40 in) e una lunghezza focale di 19.36 m. </para>
+
+<para
+>I <firstterm
+>telescopi riflettori</firstterm
+>, invece, usano specchi al posto di lenti per produrre l'immagine finale. Sostituendo la lente dell'obiettivo con uno specchio, la posizione del fuoco sarà nel percorso della luce che entra nel telescopio. Un osservatore situato in questo punto può vedere un'immagine, ma bloccherebbe parte della luce in entrata. Il fuoco dello specchio principale è chiamato <firstterm
+>fuoco primario</firstterm
+>, ed è anche il nome della prima categoria di telescopi riflettori. Quindi, questi telescopi usano uno specchio per raccogliere la luce di un oggetto celeste, e di riflesso l'immagine dell'oggetto può essere osservata dal fuoco primario del telescopio. Altri tipi di telescopi riflettori sono i <firstterm
+>newtoniani</firstterm
+>, i <firstterm
+>Cassegrain</firstterm
+> e i <firstterm
+>Coudé</firstterm
+>. </para>
+
+<para
+>I telescopi <firstterm
+>newtoniani</firstterm
+> usando uno specchio piatto in più localizzato nelle vicinanze del fuoco primario, nel percorso della luce riflessa. Ciò comporta lo spostamento del fuoco in un punto diverso, su uno dei lati del telescopio, più accessibile all'osservatore. Ovviamente, uno specchio piazzato nel percorso della luce riflessa bloccherà anche parte di quella che entra nel telescopio, ma se il rapporto della superficie dello specchio primario rispetto a quella del secondo specchio è abbastanza grande, la quantità di luce in entrata bloccata è trascurabile. </para>
+
+<para
+>Il telescopio <firstterm
+>Cassegrain</firstterm
+> è simile a quello newtoniano, ma in questo tipo lo specchio secondario riflette la luce verso il fondo del telescopio. Un foro nel centro dello specchio primario permette alla luce riflessa di proseguire nel suo percorso, fino a che non converge nel fuoco. Lo specchio secondario deve essere convesso, dato che incrementa la lunghezza focale del sistema ottico. Lo specchio primario di un telescopio Cassegrain è un paraboloide. Sostituendolo con un iperboloide otteniamo un telescopio Ritchey-Chrétien. Il vantaggio di usare un telescopio <firstterm
+>Ritchey-Chrétien</firstterm
+> è che annulla la coma dei riflettori classici. </para>
+
+<para
+>Il tipo <firstterm
+>Coudé</firstterm
+> consiste di più di uno specchio che riflette la luce verso una camera speciale, detta camera Coudé, posizionata sotto al telescopio. I vantaggi dei telescopi Coudé sono vari, e derivano dall'avere una lunghezza focale lunga utile in diversi campi dell'astronomia e dell'astrofisica; ad esempio, in spettroscopia possono evitare l'uso di strumenti enormi. Tuttavia, i telescopi Coudé  hanno anche svantaggi: dato che ci sono più specchi nel sistema, arriva meno luce al rivelatore. Ciò si verifica poiché, usando specchi di alluminio, solo l'80% della luce incidente viene riflesso. </para>
+
+<para
+>I <firstterm
+>catadiottrici</firstterm
+> sono tipi di telescopi che usano sistemi aventi sia lenti sia specchi per far convergere la luce. Il telescopio catadiottrico più popolare è lo <firstterm
+>Schmidt-Cassegrain</firstterm
+>. Ha il vantaggio di fornire un ampio angolo di vista. Per diminuire la coma, usa uno specchio primario sferoidale con una sottile lente correttiva che rimuovere le aberrazioni sferiche. Lo specchio secondario è piazzato nel mezzo della lente correttiva, riflettendo la luce attraverso un foro nello specchio primario. Anche il telescopio <firstterm
+>Maksutov</firstterm
+> - non così famoso come lo Schmidt-Cassegrain ma comunque comune - usa una lente correttiva con lo specchio primario, ma in questo caso le loro sperfici sono concentriche. </para>
+
+</sect2>
+
+<sect2 id="other">
+<title
+>Osservazioni in altre lunghezze d'onda</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>Per un'analisi dettagliata del cielo, le osservazioni vengono effettuate anche in altre regioni dello spettro elettromagnetico. I <firstterm
+>radiotelescopi</firstterm
+> sono molto popolari ed efficienti, sviluppati principalmente nell'ultimo secolo. Un problema comune di radiotelescopi e telescopi ottici è la necessità di migliori risoluzioni. Possiamo derivare la risoluzione di un telescopio usando il criterio di Rayleigh, che afferma che la capacità risolutiva è uguale al rapporto tra la lunghezza d'onda della luce ricevuta e il diametro dell'apertura (moltiplicando per 1,22 per aperture circolari). Quindi, per una buona risoluzione abbiamo bisogno del più grande diametro possibile. Il più grande radiotelescopio al mondo è il telescopio di Arecibo in Porto Rico, che usa un gigantesco disco di 305m di diametro. Per risolvere il problema delle risoluzioni, gli astronomi hanno sviluppato una nuova tecnica chiamata interferometria. Il principio base dell'interferometria è che osservando lo stesso oggetto con due telescopi distinti possiamo ottenere un'immagine finale "unendo" le due immagini di partenza. Oggigiorno, l'osservatorio più efficiente che usa l'interferometria è il Very Large Array, situato nei pressi di Socorro, nel Nuovo Messico. Usa 27 telescopi posizionati a formare una «Y», ciascuno avente un'apertura di 25m. Esiste anche una tecnica chiamata «Very Long Baseline Interferometry» (VLBI) che permette agli astronomi di combinare immagini su distanze di continenti. Il più grande progetto del secolo al riguardo è la costruzione dell'Atacama Large Millimeter Array (ALMA), che userà 66 radiotelescopi localizzati nel deserto di Atacama, nel nord del Cile. </para>
+</sect2>
+
+<sect2 id="space">
+<title
+>Osservazioni dallo spazio</title>
+<indexterm
+><primary
+>Telescopi</primary>
+</indexterm>
+
+<para
+>Dato che le osservazioni dalla Terra sono influenzate dall'estinzione a causa dell'atmosfera terrestre, le osservazioni effettuate dallo spazio sono più efficaci. Vogliamo citare il <firstterm
+>telescopio spaziale Hubble (HST)</firstterm
+>, che ha uno specchio primario di 2,4m f/24, lo specchio più liscio mai costruito. Il telescopio spaziale Hubble si trova su un'orbita bassa attorno alla Terra e, per la mancanza di atmosfera, può osservare oggetti molto deboli. Un altro telescopio spaziale è il <firstterm
+>telescopio Spaziale James Webb (JWST)</firstterm
+>, il cui lancio è pianificato per il 2018. Avrà uno specchio primario di 6,5m e orbiterà attorno ad un punto di gravitazione stabile sulla linea Sole-Terra chiamato secondo punto di Lagrange (L2). Lì le attrazioni gravitazionali di Sole e Terra bilanciano la forza centrifuga di un oggetto in moto attorno al Sole. Questo punto ha la speciale proprietà che se un oggetto è piazzato lì, risulta in equilibrio nel sistema Sole-Terra. Il secondo punto di Lagrange è sulla linea che connette il Sole e la Terra, sull'altro lato della Terra. Quindi, un telescopio piazzato lì riceverà meno radiazioni termiche, migliorando le osservazioni degli infrarossi. </para>
+</sect2>
+</sect1>

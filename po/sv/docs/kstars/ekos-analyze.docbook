@@ -1,0 +1,97 @@
+<sect2 id="ekos-analyze">
+    <title
+>Analysera</title>
+    <indexterm>
+        <primary
+>Verktyg</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Analysera</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Ekos-analysmodul </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_analyze.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Ekos-analysmodul</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="analyze-Introduction">
+        <title
+>Inledning</title>
+        <para
+>Analysmodulen spelar in och visar vad som händer under en observationssession. Det vill säga, den styr ingen av dina bildtagningar, utan granskar istället vad som hände. Sessioner lagras i katalogen <filename class="directory"
+>analyze</filename
+>, en intilliggande katalog till huvudkatalogen för loggning. Filerna vid namn <literal role="extension"
+>.analyze</literal
+> som skrivs där kan läsas in till fliken <guilabel
+>Analysera</guilabel
+> för att visas. <guilabel
+>Analysera</guilabel
+> kan också visa data från den nuvarande tagningssessionen. </para>
+        <para
+>Det finns två huvuddiagram, <guilabel
+>Tidslinje</guilabel
+> och <guilabel
+>Statistik</guilabel
+>. De är koordinerade, och visar alltid samma tidsintervall från Ekos-sessionen, även om x-axeln på <guilabel
+>Tidslinje</guilabel
+> visar förlupna sekunder från loggens början, och <guilabel
+>Statistik</guilabel
+> visar klocktid. X-axeln kan zoomas in och ut med knapparna <guibutton
+>+/-</guibutton
+>, mushjulet, samt vanliga snabbtangenter (t.ex. zooma in == <keycombo
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+>). X-axeln kan panoreras med rullningslisten samt med vänster och höger piltangent. Du kan visa pågående tagningssession, eller granska gamla sessioner genom att läsa in <literal role="extension"
+>.analyze</literal
+>-filer med kombinationsrutan <guilabel
+>Indata</guilabel
+>. Markeras <guilabel
+>Full bredd</guilabel
+> visar all data, och <guilabel
+>Senaste</guilabel
+> visar senaste data (du kan styra bredden genom att zooma). </para>
+    </sect3>
+    <sect3 id="analyze-timeline">
+        <title
+>Tidslinje</title>
+        <para
+>Tidslinjen visar Ekos huvudprocesser, och när de var aktiva. Exempelvis linjen <guilabel
+>Tagning</guilabel
+> när bilder tas (gröna sektioner) och när tagning avbröts (röda sektioner). Att klicka på en grön sektion ger information om den bilden, och att dubbelklicka på en visar då bilden som togs i FITS-visningen, om den är tillgänglig. </para>
+        <note>
+            <para
+>Om de tagna bilderna har flyttats, kan du ange <guilabel
+>alternativkatalog</guilabel
+> i menyn med användning av en katalog som är basen för en del av den ursprungliga filsökvägen. </para>
+        </note>
+        <para
+>Att klicka på ett segment i <guilabel
+>Fokusering</guilabel
+> visar information om fokuseringssessionen och visar position mot HFR-mätningar från sessionen. Att klicka på ett segment i <guilabel
+>Guidning</guilabel
+> visar ett avdriftsdiagram från sessionen, (om guidning pågår) och statistik över sessionens kvadratiska medelvärdesfel. Andra tidslinjer visar statusinformation när de klickas. </para>
+    </sect3>
+    <sect3 id="analyze-statistics">
+        <title
+>Statistik</title>
+        <para
+>En mängd olika statistik kan visa i diagrammet <guilabel
+>Statistik</guilabel
+>. Det finns för många för att visas på ett läsbart sätt, så välj bland dem med kryssrutor. Ett rimligt sätt att börja är att använda <guilabel
+>RMS</guilabel
+>, <guilabel
+>signal-brus</guilabel
+> (vid användning av intern guidning med SEP-multipelstjärna), och <guilabel
+>HFR</guilabel
+> (om du har automatiskt beräknad HFR i FITS-inställningarna). Experimentera med andra. Axeln som visas (0-5) är bara lämplig för RA/DEK-fel, avdrift, RMS, pulser, och HFR. De kan skalas längs y-axeln (besvärligt) genom att använda mushjulet, men de andra graferna kan inte skalas. För att nollställa y-axelns zoomning, högerklicka på statistikdiagrammet. Att klicka på grafen fyller i värdena för visad statistik. Grafen zoomas och panoreras horisontellt koordinerat med tidslinjen. </para>
+    </sect3>
+</sect2>

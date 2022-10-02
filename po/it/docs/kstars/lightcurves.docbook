@@ -1,0 +1,222 @@
+<sect1 id="tool-aavso">
+
+<sect1info>
+<author
+><firstname
+>Aaron</firstname
+> <surname
+>Price</surname
+> <affiliation
+><address
+> <email
+>aavso@aavso.org</email>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Curve di luce AAVSO</title>
+<indexterm
+><primary
+>Strumenti</primary>
+<secondary
+>Generatore di curve di luce AAVSO</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Il generatore di curve di luce AAVSO </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="aavso.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Curve di luce AAVSO</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<sect2 id="aavso-intro">
+<title
+>Introduzione</title>
+<para
+>&kstars; può visualizzare curve di luce di stelle variabili dal programma osservativo dell'<ulink url="http://www.aavso.org"
+>Associazione Americana Osservatori di Stelle Variabili</ulink
+> (American Association of Variable Star Observers, <abbrev
+>AAVSO</abbrev
+>). Questo programma tiene sotto controllo oltre seimila stelle variabili, e comprende dieci milioni di osservazioni che si spingono nel passato fin quasi a un secolo fa. &kstars; scarica via Internet i dati più recenti direttamente dal database <abbrev
+>AAVSO</abbrev
+>, quindi per utilizzare questo strumento è necessaria una connessione di rete. </para>
+<para
+>Per utilizzare questo strumento, seleziona una stella variabile per <firstterm
+>designazione</firstterm
+> o per nome nel pannello di sinistra, e imposta la data iniziale e finale del grafico. Nel pannello di destra seleziona i dati da inserire nel grafico (vedi sotto). Una volta fatte le selezioni, premi il pulsante <guibutton
+>Preleva curva</guibutton
+>. &kstars; si connetterà automaticamente al server AAVSO, che genererà il grafico della curva di luce e lo invierà al tuo computer. Un esempio di curva di luce è mostrato qui sotto: </para>
+
+<screenshot>
+<screeninfo
+>Un esempio di curva di luce </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="lightcurve.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Esempio di curva di luce</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Nota che queste curve di luce non andrebbero <emphasis
+>MAI</emphasis
+> utilizzate a scopo di ricerca, per articoli, presentazioni, pubblicazioni e così via. Il loro unico scopo è di essere una fonte di informazioni per &kstars;. Non sono state convalidate e non hanno superato il rigoroso controllo di qualità dell'<abbrev
+>AAVSO</abbrev
+>. Saremo lieti di fornirti dati di buona qualità se ce li richiederai presso <ulink url="http://www.aavso.org/adata/onlinedata/"
+>http://www.aavso.org/adata/onlinedata/</ulink
+>. </para>
+<!-- broken link in 4.7 -->
+<para
+>Domande specifiche sui dati nelle curve di luce si possono inviare ad <email
+>aavso@aavso.org</email
+>. </para>
+</sect2>
+
+<sect2 id="aavso-about">
+<title
+>Le stelle variabili</title>
+<para
+>Le <firstterm
+>stelle variabili</firstterm
+> sono astri la cui luminosità cambia. Una <firstterm
+>curva di luce</firstterm
+> è il grafico della luminosità di una stella variabile in funzione del tempo. Osservando una curva di luce si può vedere come si è comportata la stella in passato, e tentare di predire che cosa farà in futuro. Gli astronomi utilizzano questi dati anche per creare modelli dei processi astrofisici all'interno della stella. Ciò può esserci di grande aiuto per capire come funzionano questi oggetti. </para>
+</sect2>
+
+<sect2 id="aavso-data">
+<title
+>I dati</title>
+
+<para
+>Ecco un sommario dei vari tipi di dati disponibili nelle curve di luce: <itemizedlist
+>  
+<listitem
+><para
+><firstterm
+>Visuale</firstterm
+>: si tratta di un'osservazione di una stella variabile eseguita da un osservatore con un normale telescopio. Significa che l'osservatore ha visto la stella di luminosità X alla data e ora Y.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Più debole di</firstterm
+>: talvolta la stella è troppo debole per essere vista dall'osservatore. Quando ciò si verifica, l'osservatore riporta la stella più debole vista nel campo. Questi casi si indicano con <firstterm
+>più debole di</firstterm
+> perché la stella variabile era più debole della luminosità riportata.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Media</firstterm
+>: si tratta della media corrente di tutti i dati riportati. Il valore <firstterm
+>Media grafico</firstterm
+> dice al computer su quanti giorni calcolare ciascuna media. Questo valore andrà adattato alla frequenza delle osservazioni. Le barre di errore rappresentano la deviazione standard a un sigma.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDV</firstterm
+>: si tratta di osservazioni eseguite con un <abbrev
+>CCD</abbrev
+> e un filtro <abbrev
+>V</abbrev
+> di Johnson. Le osservazioni <abbrev
+>CCDV</abbrev
+> tendono ad essere più accurate di quelle visuali (ma non sempre).</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDB</firstterm
+>: osservazioni <abbrev
+>CCD</abbrev
+> con un filtro <abbrev
+>B</abbrev
+> di Johnson.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDI</firstterm
+>: osservazioni <abbrev
+>CCD</abbrev
+> con un filtro <abbrev
+>Ic</abbrev
+> di Cousins.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDR</firstterm
+>: osservazioni <abbrev
+>CCD</abbrev
+> con un filtro <abbrev
+>R</abbrev
+> di Cousins.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Dati discrepanti</firstterm
+>: si tratta di dati classificati come discrepanti da un membro dello staff <abbrev
+>AAVSO</abbrev
+>, in base alle regole per la convalida dei dati. Contattare <email
+>aavso@aavso.org</email
+> per ulteriori informazioni.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Date</firstterm
+>: il database osservativo su cui si basano le curve di luce viene aggiornato ogni dieci minuti, così puoi ottenere dati quasi in tempo reale. Per ora i dati sulle curve di luce sono disponibili solo fino al 1961, ma probabilmente in futuro saranno rese disponibili date anteriori.</para
+></listitem>
+
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="aavso-update">
+<title
+>Aggiornare la tua copia locale di stelle variabili</title>
+<para
+>L'<abbrev
+>AAVSO</abbrev
+> pubblica la <ulink url="http://www.aavso.org/valnam.txt"
+>lista completa di stelle variabili</ulink
+> incluse nel programma di monitoraggio. Il file è aggiornato ogni mese con le ultime stelle variabili scoperte. Per sincronizzare la lista di &kstars; con quella principale dell'<abbrev
+>AAVSO</abbrev
+>, fai clic sul pulsante <guibutton
+>Aggiorna lista</guibutton
+> nella finestra di dialogo <abbrev
+>AAVSO</abbrev
+>. &kstars; tenterà di connettersi al database <abbrev
+>AAVSO</abbrev
+> e di scaricare la lista più recente. </para>
+<note>
+<para
+>Il flusso di dati personalizzato fornito dall'AAVSO è stato implementato per &kstars; da Aaron Price. Grazie Aaron! </para>
+</note>
+</sect2>
+</sect1>
+

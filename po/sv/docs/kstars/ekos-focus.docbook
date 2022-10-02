@@ -1,0 +1,335 @@
+<sect2 id="ekos-focus">
+    <title
+>Fokusering</title>
+    <indexterm>
+        <primary
+>Verktyg</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Fokusering</tertiary>
+    </indexterm>
+    <sect3 id="focus-theory">
+        <title
+>Operationsteori</title>
+
+        <screenshot>
+            <screeninfo
+>Ekos fokusering </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_focus.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos fokusering</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>För att fokusera en bild, måste Ekos etablera en numerisk metod för att bedöma hur <emphasis
+>bra</emphasis
+> fokuseringen är. Det är enkelt när man tittar på en bild och kan se att den är <emphasis
+>ofokuserad</emphasis
+>, eftersom människor är mycket bra på att detektera det, men <emphasis
+>hur</emphasis
+> kan Ekos överhuvudtaget veta det? </para>
+        <para
+>Det finns flera metoder. En är att beräkna hela bredden av en stjärnprofil på en bild vid halva maximum (Full Width at Half Maximum, FWHM), och därefter justera fokus tills en optimal (smalare) FWHM uppnås. Problemet med FWHM är att den antar att den ursprungliga fokuseringspositionen är nära kritiskt fokus. Dessutom presterar inte FWHM bra vid lågintensivt flöde. En alternativ metod är halvflödesradie (HFR) som är ett mått på bredden i bildpunkter räknat från centrum av stjärnor tills den ackumulerade intensiteten är halva stjärnans totala flöde. HFR visade sig vara mycket stabilare under förhållanden där man kan ha ogynnsamma himmelsförhållanden, när stjärnans ljusprofil är svag, och när startpositionen för fokusering är långt från optimalt fokus. </para>
+        <para
+>Efter Ekos behandlat en bild, väljer det den ljusstarkaste stjärnan och börjar mäta dess HFR. Det kan automatiskt välja stjärnan, eller så kan man välja stjärnan manuellt. Det rekommenderas oftast att man väljer stjärnor som inte är alltför ljusstarka eftersom de kan bli mättade under fokuseringsprocessen. En stjärna av magnitud 3 eller 4 är oftast tillräckligt. </para>
+        <para
+>Ekos påbörjar därefter fokuseringsprocessen genom att kommendera fokuseringsenheten att fokusera inåt eller utåt, och mäter HFR igen. Det upprättar en V-formad kurva där optimalt fokus är i v-kurvans centrum, och där lutningen beror på det använda teleskopets och kamerans egenskaper. I Ekos skapas aldrig en fullständig v-kurva eftersom fokuseringsprocessen är arbetar iterativt, alltså mäts en halv kurvform under de flesta omständigheter, som den illustreras i fokuseringsmodulens bild. </para>
+        <para
+>Eftersom HFR varierar linjärt med fokuseringsavstånd är det möjligt att beräkna den optimala fokuseringspunkten. I praktiken fungerar Ekos iterativt genom att använda diskreta steg, initialt bestämda av den användarkonfigurerbara stegstorleken, och senare enligt v-kurvans lutning, för att komma närmare den optimala fokuseringspositionen där det ändrar växel och utför mindre, finare ändringar för att nå den optimalt fokuseringen. Med den <guilabel
+>iterativa</guilabel
+> standardalgoritmen stoppar fokuseringsprocessen när uppmätt HFR är inom den inställda toleransen för minimal avläst HFR i processen. Men andra ord, så snart processen börjar leta efter en lösning inom ett smalt avgränsat intervall, kontrollerar den om aktuell HFR är inom en procentuell skillnad jämfört med minimal avläst HFR, och om villkoret är uppfyllt anses den automatiska fokuseringsprocessen ha lyckats. Standardvärdet är inställt till 1 % och är tillräckligt för de flesta situationer. Alternativen <guilabel
+>Steg</guilabel
+> anger antalet <emphasis
+>initiala</emphasis
+> antal tick som fokuseringsenheten måste ändras. Om bilden är svårartat ur fokus, ställs en stor stegstorlek in (dvs &gt; 250). Å andra sidan om fokus är nära optimalt fokus, ställs stegstorleken in till ett rimligare intervall (&lt; 50). Det krävs många misslyckade försök för att hitta det bästa antal tick att starta med, men Ekos använder bara det för den första fokuseringsändringen, eftersom alla efterföljande ändringar beror på v-kurvans lutningsberäkningar. </para>
+        <para
+>När algoritmen <guilabel
+>Polynomisk</guilabel
+> används startar processen med det <guilabel
+>iterativa</guilabel
+> metoden, men så fort vi korsar över till andra sidan av v-kurvan (dvs. så fort HFR-värden börjar öka igen efter att ha minskat ett tag), utför Ekos en polynomanpassning för att hitta en lösning som förutsäger den minimalt möjliga HFR-positionen. Om en giltig lösning hittas, anses den automatiska fokuseringsprocessen ha lyckats. </para>
+        <para
+>Medan Ekos fokuseringsmodul stöder relativa fokuseringsenheter, <emphasis role="bold"
+>rekommenderas starkt</emphasis
+> att använda absoluta fokuseringsenheter. </para>
+    </sect3>
+
+    <sect3 id="focus-focuser-group">
+        <title
+>Fokuseringsgrupp</title>
+
+        <screenshot>
+            <screeninfo
+>Fokuseringsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="focuser_group.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Fokuseringsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Alla fokuseringsenheter kompatibla med INDI stöds. Det rekommenderas att använda <emphasis role="bold"
+>absoluta</emphasis
+> fokuseringsenheter eftersom deras absoluta position är känd vid igångsättning. Med INDI är fokuseringsenhetens <emphasis
+>nollposition</emphasis
+> när dragröret är <emphasis role="bold"
+>helt indragen</emphasis
+>. Vid fokusering <emphasis
+>utåt</emphasis
+>, ökar fokuseringsenhetens position, medan den minskar vid fokusering <emphasis
+>inåt</emphasis
+>. Följande fokuseringsenheter stöds: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Absoluta</emphasis
+>: Fokuseringsenheter med absolut position såsom RoboFocus, MoonLite, etc. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Relativa</emphasis
+>: Fokuseringsenheter med relativ position. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Enkla fokuseringsenheter</emphasis
+>: DC/PWM fokuseringsenheter utan positionsåterkoppling. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>För absoluta fokuseringsenheter går det att ställa in antal tick. För att titta på kamerans kontinuerliga matning, klicka på knappen <guibutton
+>Bildinramning</guibutton
+>. En bild ska tas upprepade gånger enligt CCD-inställningarna i gruppen <guilabel
+>CCD och filterhjul</guilabel
+>. Det går att fokusera inåt eller utåt genom att klicka på respektive knapp, och var och en ska flytta enligt stegstorleken indikerad i fokuseringsinställningarna. För absoluta och relativa fokuseringsenheter har stegstorleken enheten <emphasis
+>tick</emphasis
+> och för enkla DC-fokuseringsenheter är stegstorleken i <emphasis
+>millisekunder</emphasis
+>. </para>
+        <para
+>Klicka helt enkelt på knappen <guibutton
+>Automatisk fokusering</guibutton
+> för att starta den automatiska fokuseringsprocessen. </para>
+    </sect3>
+
+    <sect3 id="focus-ccd-filter-wheel">
+        <title
+>CCD- och filterhjulsgruppen</title>
+
+        <screenshot>
+            <screeninfo
+>Fokuseringens CCD- och filterhjulsgrupp </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="focus_ccdfw_group.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Fokuseringens CCD- och filterhjulsgrupp</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Du måste specificera CCD och filterhjul (om det finns något) som ska användas under fokuseringsprocessen. Du kan <emphasis role="bold"
+>låsa</emphasis
+> ett specifikt filter i filterhjulet som används när den automatiska fokuseringsprocessen aktiveras. Oftast bör användaren välja det genomskinliga eller luminiscensfiltret för detta syfte så att Ekos alltid använder samma filter för att utföra den automatiska fokuseringsprocessen. Det låsta filtret används också av <link linkend="ekos-align"
+>inriktningsmodulen</link
+> varje gång den utför någon astrometritagning. </para>
+        <para
+>Du kan också välja ett filter kallat <guilabel
+>Effekt</guilabel
+> för att förbättra bilden i förhandsgranskningssyfte. Det är mycket lämpligt att stänga av alla effekter under fokuseringsprocessen, eftersom de kan påverka HFR-beräkningarna. För spegelreflexkameror kan ISO-inställningarna ändras. Du kan också nollställa delbildrutan för fokusering till tagning av hela bildrutan om du klickar på knappen <guibutton
+>Nollställ</guibutton
+>. </para>
+    </sect3>
+
+    <sect3 id="focus-settings">
+        <title
+>Inställningar</title>
+
+        <screenshot>
+            <screeninfo
+>Fokuseringsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="focus_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Fokuseringsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Det kan vara nödvändigt att justera fokuseringsinställningarna för att uppnå en lyckad och tillförlitlig automatisk fokuseringsprocess. Inställningarna bevaras mellan sessioner. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Automatisk stjärna</emphasis
+>: Välj automatisk den bästa fokuseringsstjärnan från bilden.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Delbildruta</emphasis
+>: Skapa en delbildruta omkring fokuseringsstjärnan under den automatiska fokuseringsprocessen. Att aktivera delbildruta kan snabba upp fokuseringsprocessen väsentligt.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Mörk bild</emphasis
+>: Markera alternativet för att ta en mörk bild om det behövs och utföra subtraktion av mörk bild. Alternativet kan vara användbart för brusiga bilder.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Stoppa guidning</emphasis
+>: Stoppa guidning medan automatisk fokusering pågår. Om fokuseringsprocessen kan störa guidestjärnan (t.ex. när integrerad guidningsport används medan guidefunktionen är fysiskt ansluten till den primära CCD:n), rekommenderas att det här alternativet aktiveras. När en guidefunktion utanför axeln används är alternativet onödigt.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Rutstorlek</emphasis
+>: Ställer in rutstorleken som omsluter guidestjärnan. Öka den om mycket stora stjärnor används. För Bahtinov-fokus kan rutstorleken ökas ännu mer för att bättre omsluta Bahtinov-diffraktionsmönstret.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Max rörelse</emphasis
+>: Maximal rörelse i antal tick innan den automatiska fokuseringsprocessen avbryts.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Steg</emphasis
+>: <emphasis
+>Initial</emphasis
+> stegstorlek i tick för att orsaka en märkbar ändring av HFR-värdet. För tidsbaserade fokuseringsenheter, är det den ursprungliga tiden i millisekunder för att flytta fokus inåt eller utåt.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Tolerans</emphasis
+>: Toleransens procentuella värden bestämmer när den automatiska fokuseringsprocessen stoppar med algoritmen <guilabel
+>iterativ</guilabel
+>. Under den automatiska fokuseringsprocessen lagras HFR-värden, och när fokuseringsenheten är nära en optimal position börjar den mäta HFR-värden mot det minimala lagrade HFR-värden i sessionerna och stoppar så snart ett uppmätt HFR-värde är inom den procentuella skillnaden från det minimala lagrade HFR-värdet. Minska värdet för att minska den optimala fokuseringspunktens lösningsradie, öka det för att expandera lösningsradien. </para>
+                <warning>
+                    <para
+>Att ställa in ett för lågt värde kan orsaka en repetitiv upprepning och skulle troligtvis orsaka en misslyckad automatisk fokuseringsprocess. </para>
+                </warning>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Tröskel</emphasis
+>: Tröskelns procentuella värde används för stjärndetektering vid användning av detekteringsalgoritmen <emphasis
+>Tröskel</emphasis
+>. Öka den för att begränsa centroiden till ljusstarka kärnor. Minska den för att omfatta otydliga stjärnor.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Algoritm</emphasis
+>: Välj den automatiska fokuseringsprocessens algoritm: <itemizedlist>
+                        <listitem>
+                            <para
+><emphasis role="bold"
+>Iterativ</emphasis
+>: Flyttar fokuseringsenheten med diskreta steg, initialt bestämda av stegstorleken. När en kurvlutning väl har beräknats, beräknas ytterligare för att nå en optimal lösning. Algoritmen stoppar när uppmätt HFR är inom den procentuella toleransen av det minimala HFR-värdet uppmätt under proceduren.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><emphasis role="bold"
+>Polynomisk</emphasis
+>: Startar med den iterativa metoden. Vid överkorsning till v-kurvans andra sidan, beräknas polynomiska anpassningskoefficienter tillsammans med en möjlig minimal lösning. Algoritmen kan vara snabbare än ett rent iterativ tillvägagångssätt givet en bra datamängd.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Bildrutor</emphasis
+> Medelantal bildrutor att ta. Under varje tagning mäts en HFR upp. Om det momentana HFR-värdet är otillförlitligt kan medelvärdet av ett antal bildrutor användas för att öka signal-brusförhållandet.</para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Detektering</emphasis
+>: Välj stjärndetekteringsalgoritm. Varje algoritm har sina styrkor och svagheter. Det rekommenderas att behålla normalvärdet utom om det misslyckas att detektera stjärnor korrekt.</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para
+><emphasis role="bold"
+>Bahtinov</emphasis
+>: Detekteringsmetoden kan användas när en Bahtinov-mask för fokusering. Ta först en bild, välj sedan stjärnan att fokusera på. En ny bild tas och diffraktionsmönstret analyseras. Tre linjer av diffraktionsmönstret visas som anger hur bra mönstret känns igen och hur bra bilden är fokuserad. När mönstret inte känns igen så väl, kan parametern 'Antal rader' justeras för att förbättra igenkänningen. Linjen med cirklar i varje ända är en förstorad indikering av fokus. Ju kortare linjen är desto bättre är bilden fokuserad.</para>
+                        </listitem>
+                    </itemizedlist>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="focus-v-curve">
+        <title
+>V-kurva</title>
+
+        <screenshot>
+            <screeninfo
+>Fokuseringens v-kurva </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="focus_vcurve.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Fokuseringens v-kurva</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Den v-formade kurvan visar absolut position mot värdet på halvflödesradien (HFR). V-kurvans centrum är den optimala fokuseringspositionen. När Ekos väl korsar över från en sida av v-kurvan till den andra, går det tillbaka och försöker hitta den optimala fokuseringspositionen. Den slutliga fokuseringspositionen bestäms av vilken algoritm som är vald. </para>
+        <para
+>Under tagning av bildrutor anger den horisontella axeln bildnumret. Det görs för att hjälpa till under tagningsprocessen eftersom det går att se hur HFR ändras mellan bildrutorna. </para>
+    </sect3>
+
+    <sect3 id="focus-relative-profile">
+        <title
+>Relativ profil</title>
+
+        <screenshot>
+            <screeninfo
+>Fokuseringens relativa profil </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="focus_relative_profile.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Fokuseringens relativa profil</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Den relativa profilen är ett diagram som visar de relative HFR-värdena uppritade mot varandra. Lägre HFR-värden motsvaras av smalare former och vice versa. Den heldragna röda kurvan är profilen för aktuellt HFR-värde, medan den punktformade gröna kurvan är föregående HFR-värde. Slutligen anger den lila kurvan det första uppmätta HFR-värdet, och visas när den automatiska fokuseringsprocessen avslutas. Det gör det möjligt att bedöma hur mycket den automatiska fokuseringsprocessen har förbättrat den relativa fokuseringskvaliteten. </para>
+    </sect3>
+</sect2>

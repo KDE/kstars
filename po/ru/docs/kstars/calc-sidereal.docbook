@@ -1,0 +1,37 @@
+<sect2 id="calc-sidereal">
+<title
+>Модуль Звёздное время</title>
+<indexterm
+><primary
+>Инструменты</primary>
+<secondary
+>Калькулятор</secondary>
+<tertiary
+>Модуль Звёздное время</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Модуль калькулятора - Звёздное время </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-sidereal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Звёздное время</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Этот модуль преобразует <link linkend="ai-utime"
+>Универсальное время</link
+> в локальное <link linkend="ai-sidereal"
+>Звёздное (сидерическое) время</link
+> и наоборот. Сначала выберите, какое время вы хотите преобразовать в секции <guilabel
+>Выбор ввода</guilabel
+>. Также нужно указать дату и долготу, для которых будет производиться пересчёт. После того, как вы нажмёте кнопку <guibutton
+>Вычислить</guibutton
+>, соответствующие поля будут заполнены. </para>
+</sect2>

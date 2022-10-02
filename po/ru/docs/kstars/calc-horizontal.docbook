@@ -1,0 +1,42 @@
+<sect2 id="calc-horiz">
+<title
+>Модуль Горизонтальные координаты</title>
+<indexterm
+><primary
+>Инструменты</primary>
+<secondary
+>Калькулятор</secondary>
+<tertiary
+>Модуль Горизонтальные координаты</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Модуль калькулятора - Горизонтальные координаты </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-horizontal.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Горизонтальные координаты</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Этот модуль пересчитывает <link linkend="equatorial"
+>Экваториальные координаты</link
+> в <link linkend="horizontal"
+>Горизонтальные</link
+>, и наоборот. Чтобы использовать модуль, выберите, сначала, географические координаты, дату и время в секции <guilabel
+>Входные данные</guilabel
+>. После этого, введите экваториальные координаты в секции <guilabel
+>Экваториальные координаты</guilabel
+>. После того, как вы нажмёте кнопку <guibutton
+>Вычислить</guibutton
+>, соответствующие горизонтальные координаты появятся в секции <guilabel
+>Горизонтальные координаты</guilabel
+>. </para>
+</sect2>
+

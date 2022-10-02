@@ -1,0 +1,113 @@
+<sect1 id="ai-stars">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Stelle: una <acronym
+>FAQ</acronym
+> introduttiva</title>
+<indexterm
+><primary
+>Stelle</primary
+></indexterm>
+
+<qandaset id="stars-faq">
+
+<qandaentry>
+<question>
+<para
+>Che cosa sono le stelle?</para>
+</question>
+<answer>
+<para
+>Le <firstterm
+>stelle</firstterm
+> sono enormi sfere autogravitanti composte (perlopiù) da gas idrogeno. Le stelle sono anche motori termonucelari; la fusione nucleare ha luogo in profondità nei nuclei delle stelle, dove la densità è estrema e la temperatura raggiunge le decine di milioni di gradi. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Il Sole è una stella?</para>
+</question>
+<answer>
+<para
+>Sì, il Sole è una stella. È l'elemento dominante del nostro sistema solare. Se confrontato con altre stelle, il nostro Sole non è nulla di speciale; ci appare tanto più grande e più luminoso perché è milioni di volte più vicino di ogni altra stella. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Perché le stelle brillano?</para>
+</question>
+<answer>
+<para
+>Risposta breve: le stelle brillano perché sono molto calde. È davvero tutto quello che succede. Qualunque oggetto scaldato a migliaia di gradi emette luce, proprio come fanno le stelle. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>La domanda successiva è ovvia: perché le stelle sono così calde?</para>
+</question>
+<answer>
+<para
+>Questa è una domanda più difficile. La risposta tipica è che le stelle ricevono il proprio calore dalle reazioni di fusione termonucleare nel loro nucleo. Tuttavia questa non può essere la causa originaria del calore delle stelle, poiché una stella deve essere calda in primo luogo per dare inizio alla fusione nucleare. La fusione può soltanto mantenere alta la temperatura, ma non può rendere calda una stella. Una risposta più corretta è che le stelle sono calde perché hanno subìto un collasso. Le stelle si formano da nebulose gassose diffuse; mentre il gas della nebulosa si condensa per formare una stella, l'energia potenziale gravitazionale del materiale è liberata dapprima come energia cinetica, e infine come calore all'aumento della densità. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Le stelle sono tutte uguali?</para>
+</question>
+<answer>
+<para
+>Le stelle hanno molte cose in comune: sono tutte sfere collassate di gas caldo e denso (perlopiù idrogeno), e reazioni di fusione nucleare hanno luogo nel centro o vicino al centro di ogni stella nel cielo. </para
+><para
+>Tuttavia le stelle mostrano anche grandi differenze in certe proprietà. Le stelle più brillanti sono quasi cento milioni di volte più luminose di quelle più deboli. La temperatura superficiale delle stelle va da alcune migliaia a quasi 50.000 gradi. Queste differenze sono in gran parte dovute a una diversa massa: le stelle di grande massa sono più calde e più luminose di quelle di massa minore. La temperatura e la luminosità dipendono anche dallo <emphasis
+>stato evolutivo</emphasis
+> della stella. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Che cos'è la sequenza principale?</para>
+</question>
+<answer>
+<para
+><indexterm
+><primary
+>Sequenza principale</primary
+></indexterm
+> La sequenza principale è lo stato evolutivo di una stella che sta fondendo idrogeno nel proprio nucleo. Questa è la prima (e più lunga) fase della vita di una stella (senza includere le fasi di protostella). Ciò che accade a una stella dopo aver esaurito l'idrogeno nel nucleo sarà oggetto dell'articolo sull'evoluzione stellare (di prossima uscita). </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Quanto vivono le stelle?</para>
+</question>
+<answer>
+<para
+>La vita di una stella dipende molto dalla sua massa. Le stelle di massa maggiore sono più calde e molto più luminose, con la conseguenza di consumare il proprio combustibile nucleare molto più velocemente. Le stelle più grandi (di massa pari a circa cento volte quella del Sole) esauriscono il combustibile nel giro di qualche milione di anni soltanto, mentre le stelle più piccole (circa il dieci per cento della massa del Sole), con i loro consumi assai più frugali, brilleranno (seppur debolmente) per <emphasis
+>migliaia di miliardi</emphasis
+> di anni. Nota che si tratta di un tempo assai più lungo dell'età attuale dell'Universo. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</sect1>
+
+

@@ -1,0 +1,43 @@
+<sect2 id="calc-precess">
+<title
+>Moduł precesji</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł precesji</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł Precesja kalkulatora astronomicznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-precess.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Precesja</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł ten ma podobne działanie do modułu <link linkend="calc-apcoords"
+>Widoczne współrzędne</link
+>, z tą różnicą, że zajmuje się tylko efektem <link linkend="ai-precession"
+>precesji</link
+>, a nie nutacji i aberracji. </para>
+<para
+>Używając tego modułu należy najpierw wprowadzić współrzędne wejściowe oraz ich epokę w sekcji <guilabel
+>Współrzędne wejściowe</guilabel
+>. Należy także wprowadzić epokę docelową w sekcji <guilabel
+>Precesja współrzędnych</guilabel
+>. Następnie po wciśnięciu przycisku <guibutton
+>Wyznacz</guibutton
+> w sekcji <guilabel
+>Precesja współrzędnych</guilabel
+> zostaną pokazane wyniki. </para>
+</sect2>

@@ -1,0 +1,28 @@
+<sect1 id="ai-horizon">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Horyzont</title>
+<indexterm
+><primary
+>Horyzont</primary>
+<seealso
+>Współrzędne horyzontalne</seealso>
+</indexterm>
+<para
+><firstterm
+>Horyzont</firstterm
+> to linia, która oddziela ziemię od nieba. Dokładniej, jest to linia, która dzieli wszystkie kierunki, w które możesz patrzeć na dwie kategorie: te, które przecinają Ziemię i te, które tego nie robią. W wielu lokalizacjach horyzont jest zasłonięty przez drzewa, budynki, góry, itp. Jednakże, jeżeli jesteś na statku na morzu, to horyzont jest doskonale widoczny. </para
+><para
+>Horyzont jest podstawą <link linkend="horizontal"
+>horyzontalnego układu współrzędnych</link
+>. Innymi słowy, jest to miejsce punktów, które posiadają <firstterm
+>wysokość</firstterm
+> zero stopni. </para>
+</sect1>

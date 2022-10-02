@@ -1,0 +1,35 @@
+<sect1 id="tool-solarsys">
+<title
+>Solar System Viewer</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Solar System Viewer</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Solar System Viewer </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="solarsystem.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Solar System Viewer</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This tool displays a model of our solar system as seen from above, for the current date and time in the main window. The Sun is drawn as a yellow dot in the centre of the plot, and the orbits of the planets are drawn as circles with correct relative diameters, centred on the Sun. The current position of each planet along its orbit is drawn as a coloured dot along with a name label. The display can be zoomed in and out with the <keycap
+>+</keycap
+> and <keycap
+>-</keycap
+> keys. </para>
+<note>
+<para
+>The current version of this tool shows a very simplified model of the solar system; we are planning on several improvements in future versions. For example, the orbits will be displayed as ellipses, not perfect circles. We will also make it possible to recenter the display at any location (currently, the centre is fixed at the Sun), and allow the date to be changed, including the ability to animate the display with a variable timestep. Finally, we would like to add comets and asteroids as well. </para>
+</note>
+</sect1>

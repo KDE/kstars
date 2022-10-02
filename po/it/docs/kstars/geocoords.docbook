@@ -1,0 +1,66 @@
+<sect1 id="ai-geocoords">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Coordinate geografiche</title>
+<indexterm
+><primary
+>Sistema di coordinate geografiche</primary
+></indexterm>
+<indexterm
+><primary
+>Longitudine</primary
+><see
+>Sistema di coordinate geografiche</see
+></indexterm>
+<indexterm
+><primary
+>Latitudine</primary
+><see
+>Sistema di coordinate geografiche</see
+></indexterm>
+<para
+>Ogni punto sulla superficie terrestre si può specificare facendo uso di un sistema di coordinate. Il sistema di coordinate geografiche (geografia sta per <quote
+>mappare la Terra</quote
+>) è allineato con l'asse di rotazione terrestre, e definisce due angoli misurati dal centro della Terra. Un angolo, chiamato <firstterm
+>latitudine</firstterm
+>, misura la distanza da un punto qualsiasi all'equatore. L'altro angolo, chiamato <firstterm
+>longitudine</firstterm
+>, misura la distanza <emphasis
+>lungo</emphasis
+> l'equatore a partire da un punto arbitrario sulla Terra (Greenwich, in Inghilterra, è il punto zero della longitudine accettato dalla maggior parte delle società moderne). </para
+><para
+>Combinando questi due angoli si può specificare ogni luogo sulla Terra. Per esempio, Baltimora, nel Maryland (USA) ha una latitudine di 39,3 gradi nord, e una longitudine di 76,6 gradi ovest. Così un vettore tracciato dal centro della Terra attraverso un punto 39,3 gradi a nord dell'equatore e 76,6 gradi ad ovest di Greenwhich passerà per Baltimora. </para
+><para
+>L'equatore è ovviamente una parte importante di questo sistema di coordinate, dato che rappresenta il <emphasis
+>punto zero</emphasis
+> dell'angolo di latitudine, e il punto a metà strada tra i poli. L'equatore è il <firstterm
+>piano fondamentale</firstterm
+> del sistema di coordinate geografiche. Tutti i <link linkend="ai-skycoords"
+>sistemi di coordinate sferiche</link
+> definiscono un piano fondamentale. </para
+><para
+>Linee di latitudine costante sono dette <firstterm
+>paralleli</firstterm
+>. Essi tracciano cerchi sulla superficie terrestre, ma il solo parallelo ad essere un <link linkend="ai-greatcircle"
+>cerchio massimo</link
+> è l'equatore (latitudine = 0 gradi). Linee di longitudine costante sono dette <firstterm
+>meridiani</firstterm
+>. Il meridiano passante per Greenwich è il <firstterm
+>meridiano fondamentale</firstterm
+> ( longitudine = 0 gradi). A differenza dei paralleli, tutti i meridiani sono cerchi massimi, e non sono paralleli tra loro, ma si intersecano ai poli. </para>
+<tip>
+<para
+>Esercizio:</para>
+<para
+>Qual è la longitudine del polo nord? La sua latitudine è 90 gradi nord. </para>
+<para
+>Si tratta di una domanda trabocchetto. La longitudine non è definita al polo nord (neppure al polo sud). I poli hanno tutte le longitudini allo stesso tempo. </para>
+</tip>
+</sect1>

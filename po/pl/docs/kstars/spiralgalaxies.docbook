@@ -1,0 +1,92 @@
+<sect1 id="ai-spiralgal">
+
+<sect1info>
+<author
+><firstname
+>Mike</firstname
+> <surname
+>Choatie</surname
+> </author>
+</sect1info>
+
+<title
+>Galaktyki spiralne</title>
+<indexterm
+><primary
+>Galaktyki spiralne</primary>
+</indexterm>
+
+<para
+>Galaktyki spiralne to duże zbiorowiska miliardów gwiazd, z których większość znajduje się w przestrzeni mającej kształt dysku, z jasnym, sferycznym centralnym zgrubieniem galaktycznym (jądrem) w środku. Od dysku odchodzą zwykle ramiona, na których znaleźć można najmłodsze i najjaśniejsze gwiazdy. Ramiona te odchodzą ze środka na kształt spirali dając galaktykom ich nazwy. Galaktyki spiralne mają wygląd podobny do huraganów. Są jednym z najpiękniejszych obiektów znajdujących się na niebie. </para>
+<para
+>Galaktyki klasyfikuje się za pomocą diagramu <quote
+>tuning fork</quote
+> (kamertonowego). Koniec kamertonu wskazuje <link linkend="ai-ellipgal"
+>galaktyki eliptyczne </link
+> w skali od najbardziej okrągłej, oznaczanej jako E0, do tej najbardziej spłaszczonej, oznaczonej jako E7. <quote
+>Zęby</quote
+> to miejsce, gdzie klasyfikowane są dwa rodzaje galaktyk: zwykłe spiralne oraz spiralne <quote
+>z poprzeczką</quote
+>. Galaktyka spiralna z poprzeczką to taka galaktyka, której jądro jest rozciągnięte w linię. Wygląda ona jakby rzeczywiście miała <quote
+>poprzeczkę</quote
+> w swoim środku. </para
+><para
+>Obydwa rodzaje galaktyk spiralnych posiadają podkategorie w zależności od wyglądu <quote
+>jądra</quote
+>, całkowitej jasności oraz stopnia zawinięcia ramion spirali. Te cechy są powiązane, tak więc galaktyka Sa posiada duże jądro, wysoką jasność oraz zwinięte ramiona spirali. Galaktyka Sb posiada mniejsze jądro, mniej jasne światło oraz luźniejsze ramiona niż Sa. Podobnie można opisać Sc i Sd. Galaktyki z poprzeczką posiadają taki sam schemat klasyfikacji i oznaczane są jako SBa, SBb, SBc i SBd. </para
+><para
+>Istnieje jeszcze jeden rodzaj galaktyk o nazwie S0, który jest morfologicznie typem przejściowym pomiędzy galaktykami spiralnymi a eliptycznymi. Ramiona spiralne takiej galaktyki są tak zawinięte, że wyglądają jakby ich wcale nie było; galaktyki S0 posiadają dyski z umiarkowaną jasnością. Mają także proporcjonalnie bardzo duże jądro. </para
+><para
+>Droga Mleczna, która jest domową galaktyką Ziemi i wszystkich gwiazd na naszym niebie, jest galaktyką spiralną. Uważa się, że zalicza się do galaktyk z poprzeczką. Jej nazwa, <quote
+>Droga Mleczna</quote
+> odnosi się do jasnej drogi, która jest widoczna na niebie. Jest to jej dysk galaktyczny, tak widoczny z naszej lokalizacji wewnątrz niego. </para
+><para
+>Galaktyki spiralne są bardzo dynamicznymi obiektami. Są one źródłem powstawania nowych gwiazd, przez co zawierają wiele z nich w swoich dyskach. Jądra składają są ze starych gwiazd. Galaktyczne halo utworzone jest z najstarszych gwiazd we Wszechświecie. Formacja gwiazd na dyskach jest aktywna, ponieważ gaz i pył są tam najbardziej skoncentrowane; gaz i pył są podstawowym budulcem gwiazd. </para
+><para
+>Nowoczesne teleskopy pozwoliły odkryć, że wiele galaktyk spiralnych galaktyk posiada w swoich centrach czarne dziury, których masy przekraczają masę miliardów Słońc. Zarówno eliptyczne, jak i spiralne galaktyki zawierają tego typu obiekty. W rzeczywistości, obecnie wiele astronomów wierzy, że <emphasis
+>wszystkie</emphasis
+> duże galaktyki zawierają ogromną czarną dziurę w swoim centrum. Uważa się, że Droga Mleczna posiada w swoim centrum czarną dziurę o masie miliony razy większej od masy gwiazdy. </para>
+
+<tip>
+<para
+>Jest wiele doskonałych przykładów galaktyk spiralnych, które można odnaleźć w &kstars; i wiele z nich ma przepiękne zdjęcia dostępne w <link linkend="popup-menu"
+>menu kontekstowym</link
+>. Możesz je odnaleźć korzystając z okna <link linkend="findobjects"
+>Znajdź obiekt</link
+>. Oto lista kilku spiralnych galaktyk z wartymi uwagi obrazami: <itemizedlist>
+<listitem
+><para
+>M 64, Galaktyka Warkocz Bereniki (typ Sa)</para
+></listitem>
+<listitem
+><para
+>M 31, Galaktyka Andromeda (typ Sb)</para
+></listitem>
+<listitem
+><para
+>M 81, Galaktyka Bodego (typ Sb)</para
+></listitem>
+<listitem
+><para
+>M 51, Galaktyka Wirowa (typ Sc)</para
+></listitem>
+<listitem
+><para
+>NGC 300 (typ Sd) [wykorzystaj odnośnik do obrazu DSS]</para
+></listitem>
+<listitem
+><para
+>M 83 (typ SBa)</para
+></listitem>
+<listitem
+><para
+>NGC 1530 (typ SBb)</para
+></listitem>
+<listitem
+><para
+>NGC 1073 (typ SBc)</para
+></listitem>
+</itemizedlist>
+</para>
+</tip>
+</sect1>

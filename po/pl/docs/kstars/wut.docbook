@@ -1,0 +1,56 @@
+<sect1 id="tool-whatsup">
+<title
+>Narzędzie "Co dziś na niebie"</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Narzędzie "Co dziś na niebie"</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Narzędzie "Co dziś na niebie" </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="wut.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Co dziś na niebie</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Narzędzie <quote
+>Co dziś na niebie</quote
+> (WUT) wyświetla listę obiektów, które będą widoczne w nocy z dowolnej lokalizacji w określonym czasie. Domyślnie data i lokalizacja są pobierane z bieżących ustawień w głównym oknie, ale można je zmienić za pomocą przycisków <guibutton
+>Zmień datę</guibutton
+> i <guibutton
+>Zmień pozycję</guibutton
+> u góry okna WUT. </para>
+<para
+>Narzędzie to wyświetla również krótki almanach danych dla wybranej daty: czasy wschodu i zachodu Słońca i Księżyca, czas trwania nocy, fazę Księżyca. </para>
+<para
+>Poniżej almanachu wyświetlane są informacje o obiektach. Obiekty są zorganizowane w kategorie. Wybierz rodzaj obiektu w polu o nazwie <guilabel
+>Wybierz kategorię</guilabel
+>, a wszystkie obiekty tego typu, które są powyżej horyzontu wybranej nocy będą wyświetlone w polu o nazwie <guilabel
+>Pasujące obiekty</guilabel
+>. Na przykład, na ilustracji wybrana została kategoria <guilabel
+>Planety</guilabel
+> i zostały pokazane cztery planety (Mars, Neptun, Pluton, i Uran), które danej nocy są widoczne. Gdy wybrany zostanie obiekt z listy, czasy jego wschodu, zachodu i górowania będą wyświetlone w prawej dolnej częsci panelu. Dodatkowo, możesz wcisnąć przycisk <guibutton
+>Szczegóły obiektu...</guibutton
+>, aby otworzyć okno <link linkend="tool-details"
+>Szczegóły obiektu</link
+>. </para>
+<para
+>Domyślnie, WUT będzie wyświetlał obiekty, które są na horyzoncie pomiędzy zachodem słońca a północą (czyli <quote
+>wieczorem</quote
+>). Możesz się zdecydować na pokazywanie obiektów widocznych pomiędzy północą a świtem (<quote
+>rano</quote
+>) lub pomiędzy zmierzchem a świtem (<quote
+>dziś w nocy</quote
+>) korzystając z pola wyboru u góry okna. </para>
+</sect1>
+

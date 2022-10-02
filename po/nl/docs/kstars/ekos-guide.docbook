@@ -1,0 +1,470 @@
+<sect2 id="ekos-guide">
+    <title
+>Volgen</title>
+    <indexterm>
+        <primary
+>Hulpmiddelen</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Volgen</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Ekos Volgmodule </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_guide.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Ekos Volgmodule</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="guide-Introduction">
+        <title
+>Inleiding</title>
+        <para
+>De Ekos volgmodule maakt autovolgen mogelijk, en gebruikt daarbij de krachtige ingebouwde volger, of naar uw keuze, extern volgen via <ulink url="http://openphdguiding.org/"
+>PHD2</ulink
+> of <ulink url="https://sourceforge.net/projects/linguider/"
+>lin_guider</ulink
+>. Bij intern volgen, worden CCD frames voor volgen opgenomen, en naar Ekos gestuurd voor analyse. Afhankelijk van hoe ver de volgster verwijderd is van zijn vastgezette positie, worden er correctiepulsen gestuurd naar uw opstelling <guilabel
+>Via</guilabel
+> enig apparaat dat ST4-poorten ondersteunt. U kunt ook de correcties <emphasis
+>direct</emphasis
+> naar uw opstelling sturen, als de driver daarvan dit ondersteunt. De meeste van de &GUI;-opties in de volgmodule zijn goed gedocumenteerd, dus kunt u de muis ergens houden, waarna u een tekstballon ziet met nuttige informatie. </para>
+        <para
+>Om te volgen, moet u de volg-CCD selecteren in de <link linkend="ekos-profile-wizard"
+>Ekos Profielinstellingen</link
+>. De opening en brandpuntsafstand  van de telescoop moeten worden ingesteld in de telescoopdriver. Als de volg- CCD  gekoppeld is aan een afzonderlijke volgscope, moet u ook daarvan de <guilabel
+>Brandpuntsafstand</guilabel
+> en <guilabel
+>Opening</guilabel
+> instellen. Deze waarden kunt u ook instellen in het tabblad <guilabel
+>Opties</guilabel
+> van de <link linkend="indi-telescope-setup"
+>telescoopdriver</link
+> of in de Opstellingsmodule. Autovolgen is een tweestapsproces: Calibratie &amp; Volgen. </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/aza2fGIF7YE"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Inleiding tot het volgen</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+        <para
+>Tijdens de twee processen, moet u het volgende instellen: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Volger</guilabel
+>: Selecteer de volg-CCD. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Via</guilabel
+>: Selecteer het apparaat waarnaar Ekos de correctiepulsen van de autovolger stuurt. Gewoonlijk hebben volg-CCD's een ST4-poort. Indien u de ST4-poort gebruikt van de volger voor het autovolgen van uw telescoop, kiest u de driver van de volger in de <guilabel
+>Via</guilabel
+> combo box. De volg-CCD krijgt dan de correctiepulsen van Ekos, en stuurt die dan door naar de opstelling via de ST4-poort. Ook zijn er telescopen die pulsopdrachten ondersteunen, en die kunt u kiezen als ontvanger van de correctiepulsen van Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Belichting</guilabel
+>: CCD belichtingstijd in seconden. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Binning</guilabel
+>: CCD-binning. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Vak</guilabel
+>: Grootte van het vakje rondom de volgster. Selecteer een bruikbare grootte, die noch te groot is, noch te klein voor de gekozen ster. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Effecten</guilabel
+>: Geef filter op waarmee afbeelding wordt verbeterd. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-dark-frames">
+        <title
+>Dark Frames</title>
+        <para
+>Dark frames zijn <emphasis
+>ontzettend</emphasis
+> handig voor het reduceren van ruis in volgframes. Het wordt sterk aanbevolen dark frames op te nemen voordat u de procedure start voor calibratie en volgen. Kies het keuzevakje <guilabel
+>Dark</guilabel
+>, en klik daarna op <guibutton
+>Opnemen </guibutton
+>. De eerste keer vraagt Ekos u naar de sluiter van de camera. Als de camera geen sluiter heeft, vraagt Ekos u bij elke opname van een dark frame de opening van de camera/telescoop af te dekken, voor verder te gaan met opnemen. En anders, als de camera een sluiter heeft, gaat Ekos meteen verder met het opnemen van de dark frame. Alle dark frames worden automatisch opgeslagen in de bibliotheek voor dark frames van Ekos. Standaard worden de frames in deze bibliotheek 30 dagen gebruikt, voordat er nieuwe dark frames worden opgenomen. U kunt dit aantal wijzigen in de instellingendialoog <link linkend="ekos"
+>Ekos instellingen</link
+> van &kstars; </para>
+        <screenshot>
+            <screeninfo
+>Ekos Dark frames bibliotheek </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="dark_library.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos Dark frames bibliotheek</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Het wordt aanbevolen dark frames op te nemen voor diverse binnings en belichtingstijden, zodat die door Ekos transparant kunnen worden gebruikt wanneer dat nodig is. </para>
+    </sect3>
+
+    <sect3 id="guide-calibration">
+        <title
+>Calibratie</title>
+
+        <screenshot>
+            <screeninfo
+>Calibratie instellingen </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_calibration_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Calibratie instellingen</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>In de fase van calibratie moet u een afbeelding opnemen, een volgster selecteren, en klikken op <guibutton
+>Volgen</guibutton
+>, wanneer u de calibratie start. Indien calibratie al eerder met succes werd voltooid, start het autovolgen meteen, en anders wordt calibratie gestart. Wanneer <guilabel
+>Auto ster</guilabel
+> is geselecteerd, hoeft u alleen maar op <guibutton
+>Opnemen</guibutton
+> te klikken, waarna Ekos automatisch de meest geschikte  ster in  de afbeelding zal selecteren, en automatisch met het calibratieproces verdergaan. Als  <guilabel
+>Auto ster</guilabel
+> niet actief is, probeert Ekos de beste volgster te markeren in het sterrenveld. U moet die dan bevestigen of een andere ster selecteren, voordat de calibratie kan verder gaan. De opties voor calibratie zijn: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Puls</guilabel
+>: De duur in milliseconden van de naar de opstelling te sturen pulsen. Deze waarde moet groot genoeg zijn voor een merkbare beweging van de volgster. Als u deze waarde verhoogt, zonder dat er enige merkbare beweging is in de volgster, kan het zijn dat er een probleem is met de opstelling, zoals vastlopen of in de verbinding via de ST4-kabel. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Twee assen</guilabel
+>: Kies of de calibratie wordt gedaan voor zowel  RK als dec. Anders gebeurt dit alleen voor de RK. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Auto ster</guilabel
+>: Indien gekozen, zal Ekos de beste volgster proberen te kiezen in de frame, en de calibratie automatisch beginnen. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>De positie van de reticule (Vert.: sorry hoor: een reticule is een klein netje) is de positie van de door u geselecteerde volgster (of automatisch gekozen) in de opgenomen volgopname. U moet niet een ster kiezen dicht bij de rand. Indien de afbeelding niet duidelijk is, kunt u die verbeteren met <guilabel
+>Effecten</guilabel
+>. </para>
+        <para
+>Ekos start de calibratie met het sturen van pulsen naar de opstelling om die te laten bewegen in RK en dec. Indien de calibratie mislukt als gevolg van een te kleine verplaatsing (drift) tijdens een puls, moet u een langere pulsduur proberen. U kunt een calibratie wissen door te klikken op de prullenbak naast de knop voor <guibutton
+>Volgen</guibutton
+>. </para>
+        <warning>
+            <para
+>Calibratie kan door diverse oorzaken mislukken. Om de kans op succes te vergroten, kunt u de volgende tips proberen: </para>
+        </warning>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Betere uitlijning op de pool</guilabel
+>: Dit is kritisch voor het succes van elke astrofotografische sessie. Doe een snelle pooluitlijning met een pooltelescoop (indien aanwezig), of met behulp van Ekos  <link linkend="ekos-align-polaralignment"
+>Pool uitlijnprocedure</link
+> in de module voor <guilabel
+>Uitlijnen</guilabel
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Zet binning op 2x2</guilabel
+>: Binning verbetert de SNR (Signal Noise Ratio: signaal-ruis verhouding) en is vaak erg belangrijk voor het succes van calibratie en volgen. </para>
+            </listitem>
+            <listitem>
+                <para
+>U kunt beter een ST4-kabeltje gebruiken tussen volgcamera en opstelling, dan pulsopdrachten naar de opstelling. </para>
+            </listitem>
+            <listitem>
+                <para
+>Selecteer een ander filter (&eg; hoog contrast) en zie of dit de ruis vermindert. </para>
+            </listitem>
+            <listitem>
+                <para
+>Kleiner vierkantje. </para>
+            </listitem>
+            <listitem>
+                <para
+>Maak dark frames om de ruis te verminderen. </para>
+            </listitem>
+            <listitem>
+                <para
+>Speel met de DEC proportionele versterking, of schakel DEC-besturing volledig uit. Misschien maakt dit het verschil. </para>
+            </listitem>
+            <listitem>
+                <para
+>Behoudt originele waarde voor algoritme (<guimenuitem
+>Smart</guimenuitem
+>). </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-guiding">
+        <title
+>Volgen</title>
+
+        <screenshot>
+            <screeninfo
+>Volgen instellingen </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_guide_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Volgen instellingen</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Als de calibratie goed is voltooid, begint hierna direct automatisch het volgen. Het resultaat hiervan is zichtbaar in het gebied voor de <guilabel
+>Verloopgrafieken</guilabel
+>, waarin in <guilabel
+>Groen</guilabel
+> de afwijkingen in RK worden weergegeven, en in <guilabel
+>Blauw</guilabel
+> de afwijkingen in de dec. De kleuren voor RK/dec kunnen worden gewijzigd in het <link linkend="colors"
+>&kstars; kleurschema</link
+>in de instellingendialoog van &kstars;. Op de verticale as worden de afwijkingen van het centrum van de volgster uitgezet in boogseconden, en langs de horizontale as de tijd. U kunt de muis boven de lijn houden voor informatie over de exacte afwijking, op een bepaald tijdstip. Verder kunt u altijd op de grafiek inzoomen, of erin zwenken, zodat u een bepaald gebied daarin nauwkeurig kunt bekijken. </para>
+        <para
+>Ekos kan meerdere algoritmes gebruiken voor het bepalen van het massamiddelpunt van de volgster. Standaard is het <emphasis
+>smart</emphasis
+> algoritme het best geschikt in de meeste gevallen. Het <emphasis
+>snel</emphasis
+> algoritme berust op HFR-berekeningen. U kunt een ander volgalgoritme proberen, indien Ekos er niet in slaagt de volgster goed in het kleine volgvierkantje te houden. </para>
+        <para
+>In het informatiegebied staat informatie over telescoop &amp; GV, met de afwijkingen van de volgster, samen met de correctiepulsen die naar de opstelling zijn gestuurd. De RMS voor elke as wordt getoond, samen met de totale RMS in boogseconden (Vert.: RMS: root mean square, wortel uit gemiddelde kwadraten. Er is geen Nederlandse vertaling, behalve zoiets als effectieve waarde, of kwadratisch gemiddelde. Ik houd het op RMS). De interne volger gebruikt de <ulink url="https://en.wikipedia.org/wiki/PID_controller"
+>PID controller</ulink
+> voor het corrigeren van het volgen door de opstelling. Op dit moment worden <emphasis
+>alleen</emphasis
+> de proportionele en integrale versterkingen gebruikt in het algoritme, dus zullen aanpassingen hiervan van invloed zijn op de aangemaakte pulsen in milliseconden, die naar de opstelling worden gestuurd. </para>
+        <para
+>Om automatisch ditheren van frames mogelijk te maken, moet u het keuzevakje<guilabel
+>Dither</guilabel
+> selecteren. Standaard moet Ekos het volgvakje tot aan 3 pixels toe ditheren (&ie; verplaatsen) na elke frame die  in de <link linkend="ekos-capture"
+>Ekos opnamemodule</link
+> wordt opgenomen. Bewegingsduur en richting zijn willekeurig. Omdat het volgen direct na ditheren wat kanoscilleren, kunt u de duur van het <guilabel
+>Settelen</guilabel
+> (tot rust komen) na het ditheren instellen, voordat met de opname verder wordt gegaan. Voor het zeldzame geval dat het ditherproces vastloopt, kan een <guilabel
+>Timeout</guilabel
+> worden ingesteld, waarna het proces wordt afgebroken. Maar zelfs als ditheren niet lukt, kunt u selecteren of dit het autovolgen moet doen stoppen, ja of nee. Zet met <guilabel
+>Autoguide afbreken na fout</guilabel
+> het gewenste gedrag aan of uit. </para>
+        <para
+>Opslaan zonder volgen kan ook. Dit is nuttig als er geen volgcamera is of bij het doen van korte belichtingen. In dit geval kan de opstelling opdracht krijgen in een willekeurige richting te ditheren gedurende een pulsduur die wordt opgegeven in de optie <guilabel
+>Non-volgen-ditherpuls</guilabel
+> </para>
+        <para
+>Ekos ondersteunt meerdere volgmethoden: Intern, PHD2, en LinGuider. U moet de gewenste volgmethode kiezen in het apparatenprofiel van Ekos. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Interne volger</guilabel
+>: Gebruik interne volger van Ekos. Dit is de standaard en aanbevolen optie. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>PHD2</guilabel
+>: Gebruik PHD2 als de externe volger. Indien geselecteerd, geef de hostnaam en poort op van de PHD2. Behoud de standaard waarden als Ekos en PHD2 op dezelfde machine draaien. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>LinGuider</guilabel
+>: Gebruik LinGuider als de  externe volger. Indien geselecteerd, geef de hostnaam en poort op van de LinGuider. Behoud de standaard waarden als Ekos en LinGuider op dezelfde machine draaien. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="guide-direction-control">
+        <title
+>Besturing volgrichting</title>
+        <screenshot>
+            <screeninfo
+>Besturing volgrichting </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_profile_guider_select.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Besturing volgrichting</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+> U kunt de prestaties van het volgen fijnregelen (finetuning) in het besturingsgedeelte. Het autovolgen werkt als een <ulink url="https://en.wikipedia.org/wiki/PID_controller"
+>PID -besturing</ulink
+> als het correctieopdrachten stuurt naar de opstelling. U kunt de proportionele en integrale versterkingen wijzigen indien dit nodig is om de volgprestaties te verbeteren. Standaard worden pulsen voor de volgcorrectie gestuurd naar beide assen van de opstelling, in beide richtingen: positief en negatief. U kunt de besturing fijnregelen door de as te kiezen waarvoor de correctieve volgpulsen bestemd zijn, en voor elke as kunt u de richting bepalen, <guilabel
+>(Positief) +</guilabel
+> of <guilabel
+>Negatief (-)</guilabel
+>. Bijvoorbeeld, voor de declinatie-as, is Noord <guilabel
+>+</guilabel
+> en Zuid <guilabel
+>-</guilabel
+> . </para>
+    </sect3>
+
+    <sect3 id="guide-guiding-rate">
+        <title
+>Volgsnelheid</title>
+        <para
+>Elke opstelling heeft een bepaalde volgsnelheid in (x15"/sec), gewoonlijk in het bereik van 0,1x tot 1,0x, met 0,5x een veel voorkomende waarde bij vele opstellingen. De standaard volgsnelheid is 0,5x siderisch (met betrekking tot de sterren), dit is gelijkwaardig aan een proportionele toename van 133,33. Zet daarom de volgsnelheid op wat voor waarde ook die door uw opstelling wordt gebruikt., waarna Ekos de <emphasis
+>aanbevolen</emphasis
+> proportionele toenamesnelheid toont, die u kunt instellen in het veld hiervoor in de <guilabel
+>Besturingsparameters</guilabel
+>. Het instellen van deze waarde verandert <emphasis
+>niet</emphasis
+> de volgsnelheid van uw opstelling! Die moet u wijzigen, of via de <link linkend="indi-telescope-setup"
+>INDI driver</link
+>, of, indien ondersteund, handmatig. </para>
+    </sect3>
+
+    <sect3 id="guide-drift-graphics">
+        <title
+>Drift grafieken</title>
+
+        <screenshot>
+            <screeninfo
+>Drift grafieken </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="guide_drift_graphics.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Drift grafieken</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Drift is het ontstaan van kleine afwijkingen in de positie van een volgster. De driftgrafieken zijn erg nuttig voor het monitoren van de volgprestaties. Zij zijn in een 2D-plot van volg<emphasis
+>afwijkingen</emphasis
+> en <emphasis
+>correcties</emphasis
+>. Standaard worden alleen afwijkingen getoond in RK en dec. De horizontale as geeft de tijd in seconden sinds het starten van het autovolgen, en langs de verticale as worden de volgdrift/afwijkingen in boogseconden weergegeven voor elke as. Volgcorrecties (pulsen) kunnen ook in dezelfde grafiek worden geplot, wat u kunt aanzetten in het <guilabel
+>Corr</guilabel
+>-keuzevakje onder elke as. De correcties worden geplot als schaduw op de achtergrond, in dezelfde kleuren als de assen. </para>
+        <para
+>U kunt in de plot zoomen en zwenken, en wanneer u de muisaanwijzer boven een grafiek houdt ziet u een tekstballon met informatie over dit specifieke tijdstip.Die bevat de volgdrift, en de gemaakte correcties, naast de lokale tijd waarop deze gebeurtenis werd genoteerd. Met een verticale schuifbalk rechts in de afbeelding kunt u de hoogte van de secundaire Y-as voor pulscorrecties  aanpassen.</para>
+        <para
+>Met de horizontale schuifknop <guilabel
+>Traceren</guilabel
+> onderin kunt u de volggeschiedenis nagaan. Ook kunt u op het keuzevakje  <guilabel
+>Max</guilabel
+> klikken, waarmee u de grafiek op het laatste punt vastzet, zodat de driftgrafiek vanzelf doorrolt. De knoppen rechts van de schuifknop dienen voor het autoschalen van de grafiek, het exporteren van de volggegevens naar een CSV-bestand (comma separated values, met komma's gescheiden waarden), het wissen van alle volggegevens, en voor het schalen van het doel in de <guilabel
+>Driftplot</guilabel
+>. Verder is in de volggrafiek een tekst waarin staat op  welke momenten  er is geditherd, zo dat de gebruiker weet dat in deze punten het volgen niet zo slecht was. </para>
+        <para
+>De kleuren van de assen kunnen worden gewijzigd in de <link linkend="colors"
+>instellingen voor het kleurschema in &kstars;</link
+>. </para>
+    </sect3>
+
+    <sect3 id="guide-drift-plot">
+        <title
+>Driftplot</title>
+        <para
+>In een scatterplot (plot van een puntenwolk) in de vorm van een doelwit kan de <emphasis
+>nauwkeurigheid</emphasis
+> worden geschat van de totale volgprestatie. Deze plot heeft drie concentrische cirkels met verschillende straal, waarin de binnenste groene cirkel standaard een straal heeft van 2 boogseconden. De laatste RMS-waarde wordt geplot als een <inlinemediaobject
+><imageobject
+><imagedata fileref="add-circle.png" format="PNG"/></imageobject
+></inlinemediaobject
+> met een kleur die hoort bij de bijbehorende concentrische cirkel. U kunt de straal van de binnenste groene cirkel wijzigen door de driftplotnauwkeurigheid aan te passen. </para>
+    </sect3>
+
+    <sect3 id="guide-gpg">
+        <title
+>Volgen met GPG</title>
+        <para
+>De interne volger kan voorspeld en adaptief volgen door GPG-volgen in te schakelen. Dit adaptief modelleert de periodieke fout van de opstelling en voegt zijn voorspelde bijdrage toe aan elke puls voor de volger. Optioneel, door Donker volgen in te schakelen, kan het de voorspelde correcties veel sneller uitvoeren dan de belichtingssnelheid van de volgcamera, waarmee effectief periodieke foutcorrectie wordt gedaan en langere belichting door de volgcamera. </para>
+    </sect3>
+
+    <sect3 id="guide-phd2-support">
+        <title
+>PHD2 ondersteuning</title>
+        <para
+>Indien gewenst, kunt u de externe PHD2-toepassing selecteren voor het volgen, in plaats van de ingebouwde volger. </para>
+        <screenshot>
+            <screeninfo
+>Ekos volgen PHD2-instellingen </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_phd2.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos volgen PHD2-instellingen</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Als PHD2 wordt geselecteerd, kunt u met de knoppen <guibutton
+>Verbinden</guibutton
+> en <guibutton
+>Loskoppelen</guibutton
+> de verbinding regelen met de PHD2-server. U kunt de PHD2-belichtingstijd en dec-volginstellingen regelen. Als u op <guibutton
+>Volgen</guibutton
+> klikt, moet PHD2 alle vereiste acties doen voor het starten van het volgproces. PHD2 <emphasis role="bold"
+>moet</emphasis
+> worden gestart en ingesteld  <emphasis
+>vóór</emphasis
+> Ekos. </para>
+        <para
+>Na het starten van PHD2, selecteert u uw IND-apparatuur, en stelt u de opties daarvan in. Vanuit Ekos maakt u verbinding met PHD2 door te klikken op de knop <guibutton
+>Verbinden</guibutton
+>. Bij het opstarten probeert Ekos automatisch te verbinden met PHD2. Is die verbinding tot stand gebracht, dan kunt direct beginnen met volgen door te klikken op de knop <guibutton
+>Volgen</guibutton
+>. Indien nodig doet PHD2 de calibratie. Als ditheren geselecteerd is, krijgt PHD2 de opdracht te ditheren, met de opgegeven pixels, en zodra het volgen stabiel is en rustig, wordt in Ekos de opname weer hervat. </para>
+        <note>
+            <para
+>Ekos slaat de volggegevens op, die van pas kunnen komen voor de analyse van de prestaties van de opstelling, in het het CSV-logbestand <filename
+>~/.local/share/kstars/guide_log.txt</filename
+>.  Deze log is alleen beschikbaar als de ingebouwde volger wordt gebruikt. </para>
+        </note>
+    </sect3>
+</sect2>

@@ -1,0 +1,56 @@
+<sect1 id="ai-ecliptic">
+<sect1info>
+<author
+><firstname
+>John</firstname
+> <surname
+>Cirillo</surname
+> </author>
+</sect1info>
+<title
+>L'eclittica</title>
+<indexterm
+><primary
+>Eclittica</primary>
+<seealso
+>Coordinate eclittiche</seealso>
+</indexterm>
+<para
+>L'eclittica è un <link linkend="ai-greatcircle"
+>cerchio massimo</link
+> immaginario sulla <link linkend="ai-csphere"
+>sfera celeste</link
+>, lungo il quale sembra muoversi il Sole nel corso dell'anno. Ovviamente in realtà è la Terra ad orbitare intorno al Sole, causando il cambiamento nella sua direzione apparente. L'eclittica è inclinata di 23,5 gradi rispetto all'<link linkend="ai-cequator"
+>equatore celeste</link
+>. I due punti in cui l'eclittica interseca l'equatore celeste sono noti come <link linkend="ai-equinox"
+>equinozi</link
+>. </para
+><para
+>Dato che il nostro sistema solare è relativamente piatto, anche le orbite dei pianeti sono vicine al piano dell'eclittica. Inoltre, anche le costellazioni dello Zodiaco sono situate lungo l'eclittica. Ciò la rende un punto di riferimento molto utile a chi cerca i pianeti o le costellazioni dello Zodiaco, dato che tutte letteralmente <quote
+>seguono il Sole</quote
+>. </para
+><para
+>A causa dell'inclinazione di 23,5 gradi dell'Eclittica, l'<firstterm
+>altezza</firstterm
+> del Sole a mezzogiorno cambia nel corso dell'anno, col variare della posizione sull'Eclittica della nostra stella. Questa è la causa delle stagioni. In estate, il Sole è alto in cielo a mezzogiorno, e rimane sopra l'<link linkend="ai-horizon"
+>orizzonte</link
+> per più di dodici ore al giorno. Al contrario, in inverno il Sole è basso a mezzogiorno, e rimane sopra l'orizzonte per meno di dodici ore al giorno. Inoltre, in estate la luce solare raggiunge la superficie terrestre ad un angolo più vicino alla verticale, con la conseguenza che una data area riceve più energia per secondo in estate che in inverno. Le differenze nella durata del giorno e nell'energia ricevuta per unità di area causano la differenza in temperatura che sperimentiamo tra estate e inverno. </para>
+<tip>
+<para
+>Esercizi:</para>
+<para
+>Per la buona riuscita di questo esercizio assicurati che la località geografica impostata non sia troppo vicina all'Equatore. Apri la finestra <guilabel
+>Configura &kstars;</guilabel
+> e passa alle coordinate orizzontali, con l'opzione per il terreno opaco selezionata. Apri la finestra <guilabel
+>Imposta data/ora</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+>), cambia la data in un giorno di metà estate, e l'ora a mezzogiorno. Nella finestra principale, punta verso l'orizzonte meridionale (premi <keycap
+>S</keycap
+>). Nota l'altezza del Sole sull'orizzonte a mezzogiorno durante l'estate. Ora cambia la data in un giorno di metà inverno (ma tieni l'ora a mezzogiorno). Il Sole è ora molto più basso nel cielo. Se apri la finestra <guilabel
+>Che si vede stanotte?</guilabel
+> per entrambe le date noterai inoltre che la durata del giorno è differente. </para>
+</tip>
+</sect1>

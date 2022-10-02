@@ -1,0 +1,599 @@
+<sect1 id="tool-fitsviewer">
+<title
+><acronym
+>FITS</acronym
+>-viewer</title>
+<indexterm
+><primary
+>Hulpmiddelen</primary>
+<secondary
+>FITS-viewer</secondary>
+</indexterm>
+
+<para
+>Het "Flexible Image Transport System" (FITS: flexibel transportsysteem voor afbeeldingen) is het standaard formaat voor het weergeven van afbeeldingen en gegevens in de Astronomie.</para>
+
+<para
+>Het hulpmiddel FITS-viewer in &kstars; komt automatisch in actie wanneer afbeeldingenworden ontvangen van de camera. Het dient voornamelijk voor het bekijken en analyseren van gegevens, en niet voor het bewerken van FITS-afbeeldingen. U kunt een FITS-bestand openen met het menu-item <menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Afbeelding openen...</guimenuitem
+></menuchoice
+> of druk op <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>.</para>
+
+<screenshot>
+  <screeninfo
+>De FITS-viewer</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="fitsviewer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>De FITS-viewer</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+
+<para
+>In het bovenstaande diagram ziet u het werkgebied en het venster van de FITS-viewer .Het hulpmiddel heeft de basisfuncties voor het tonen van afbeeldingen. De gegevensdiepte voor FITS wordt behouden bij alle bewerkingen, bij het openen en het opslaan. Hoewel het hulpmiddel zich houdt aan de FITS-standaard, ondersteunt het niet alle mogelijke FITS-mogelijkheden:</para>
+<itemizedlist>
+  <listitem
+><para
+>Er is slechts ondersteuning voor <emphasis
+>één</emphasis
+> afbeelding per bestand.</para
+></listitem>
+  <listitem
+><para
+>Er is slechts ondersteuning voor 2D en 3D gegevens. 1D gegevens worden niet verwerkt.</para
+></listitem>
+</itemizedlist>
+<para
+>Het venster van de FITS-viewer wordt in twee gebieden verdeeld:</para>
+<orderedlist>
+    <listitem
+><para
+>Hoofdmenu</para>
+        <itemizedlist>
+            <listitem
+><para
+>Bestand</para>
+            <itemizedlist>
+                <listitem
+><para
+>Standaard acties Openen, Opslaan, en Opslaan als.</para
+></listitem>
+                <listitem
+><para
+>FITS-koptekst: Toont informatie over de FITS-koptekst van tabelgegevens.</para
+></listitem>
+                <listitem
+><para
+>Debayer: RAW-afbeelding naar RGB omzetten.</para
+></listitem>
+            </itemizedlist>
+            </listitem>
+            <listitem
+><para
+>Bewerken</para>
+            <itemizedlist>
+                <listitem
+><para
+>Undo: Laatste actie ongedaan maken.</para
+></listitem>
+                <listitem
+><para
+>Redo: Laatste actie nog eens doen.</para
+></listitem>
+                <listitem
+><para
+>Kopiëren: afbeelding naar klembord kopiëren.</para
+></listitem>
+            </itemizedlist>
+            </listitem>
+            <listitem
+><para
+>Bekijken</para>
+                <itemizedlist>
+                <listitem
+><para
+>Zoomen: Inzoomen, uitzoomen, standaard zoom.</para
+></listitem>
+                <listitem
+><para
+>Filters: Auto-uitrekken, Contarst, Hoog doorlaten, Rotatie, Flip.</para
+></listitem>
+                <listitem
+><para
+>Sterren merken: Detecteren en merken van sterren in de afbeelding.</para
+></listitem>
+            </itemizedlist>
+            </listitem>
+        </itemizedlist>
+    </listitem>
+    <listitem
+><para
+>Hoofdwerkbalk</para>
+            <itemizedlist>
+                <listitem
+><para
+>Bestand openen.</para
+></listitem>
+                <listitem
+><para
+>Bestand opslaan: FITS-gegevens opslaan. Toegepaste filters worden mee opgeslagen.</para
+></listitem>
+                <listitem
+><para
+>Bestand opslaan als:</para
+></listitem>
+                <listitem
+><para
+>Laatste actie ongedaan maken.</para
+></listitem>
+                <listitem
+><para
+>Laatste actie weer opnieuw doen.</para
+></listitem>
+                <listitem
+><para
+>Inzoomen: Inzoomen tot maximaal 400%. Bij grote afbeeldingen kan dit erg veel geheugen vergen. Stel de modus in voor beperkte bronnen, voor beperken van geheugenruimte.</para
+></listitem>
+                <listitem
+><para
+>Uitzoomen:</para
+></listitem>
+                <listitem
+><para
+>In werkelijke grootte bekijken.</para
+></listitem>
+                <listitem
+><para
+>Zoomen om aan te passen.</para
+></listitem>
+                <listitem
+><para
+>Rotatie rechts.</para
+></listitem>
+                <listitem
+><para
+>Rotatie links.</para
+></listitem>
+                <listitem
+><para
+>Horizontale flip.</para
+></listitem>
+                <listitem
+><para
+>Verticale flip.</para
+></listitem>
+                <listitem
+><para
+>Kruisdraad tonen: Kruisdraadt aan/uit in midden van het beeld.</para
+></listitem>
+                <listitem
+><para
+>Pixel roosterlijnen tonen: Pixelrooster aan/uit.</para
+></listitem>
+                <listitem
+><para
+>Equatoriale roosterlijnen tonen: Equatoriaal rooster aan/uit, als FITS een geldige WCS-koptekst bevat.</para
+></listitem>
+                <listitem
+><para
+>Objecten tonen in afbeelding: Merkt objecten zoals sterren, melkwegstelsels, en nevels in de afbeelding.</para
+></listitem>
+                <listitem
+><para
+>Telescoop centreren: Telescoop centreren aan/uit. Indien actief, en indien de afbeelding een geldige WCS-koptekst bevat, laat ergens in de afbeelding klikken de telescoop draaien naar het aangeklikte punt.</para
+></listitem>
+                <listitem
+><para
+>Histogram: Tonen histogram aan/uit in zijpaneel.</para
+></listitem>
+                <listitem
+><para
+>Statistiek: FITS-statistiekoverzicht aan/uit in zijpaneel.</para
+></listitem>
+                <listitem
+><para
+>Auto-uitrekken: Filter voor auto-uitrekken op afbeelding toepassen.</para
+></listitem>
+                <listitem
+><para
+>Selectievierkant omschakelen: selectievierkant omschakelen voor statistieken van een interessant gebied.</para
+></listitem>
+            </itemizedlist>
+    </listitem>
+    <listitem
+><para
+>Zijpaneel: Het zijpaneel kan worden geopend door de scheiding naar rechts te slepen. Naar links slepen sluit het zijpaneel.</para>
+            <itemizedlist>
+                <listitem
+><para
+>Statistiek: Toont statistische gegevens over de afbeelding, met inbegrip van minimum, maximum, gemiddelde, en mediaan.</para
+></listitem>
+                <listitem
+><para
+>Histogram: Toont histogram van afbeelding, waarin minimum en maximum voor elk kanaal kunnen worden bijgesteld. Zowel lineaire als logaritmische schaal is hiervoor beschikbaar.</para
+></listitem>
+                <listitem
+><para
+>FITS-koptekst: Toont een tabel van sleutelwoorden, waarden en commentaar voor de FITS-koptekst.</para
+></listitem>
+                <listitem
+><para
+>Recenta afbeeldingen: Toont recent geopende afbeeldingen. Een afbeelding waarop wordt geklikt, wordt ingelezen.</para
+></listitem>
+            </itemizedlist>
+    </listitem>
+    <listitem
+><para
+>Toongebied voor afbeeldingen: Door de muisaanwijzer boven een afbeelding te houden worden in de statusbalk de getoonde waarden bijgewerkt.</para>
+    </listitem>
+    <listitem
+><para
+>Statusbalk: Hierin zijn, van links naar rechts, de volgende indicatoren:</para>
+            <itemizedlist>
+                <listitem
+><para
+>Inleesindicator: De LED wordt geel wanneer een afbeelding wordt ingelezen, en groen, als die met succes is ingelezen. Zijn er problemen bij het inlezen, dan wordt die rood.</para
+></listitem>
+                <listitem
+><para
+>Resolutie: Resolutie afbeelding in pixels.</para
+></listitem>
+                <listitem
+><para
+>Rechthoekige coördinaten: Toont en houdt de huidige positie van de muispositie bij als u de muisaanwijzer boven de afbeelding laat zweven. Naast de huidige waarde is dat de X- en Y-positie.</para
+></listitem>
+                <listitem
+><para
+>Equatoriale coördinaten: Indien de afbeelding een geldige WCS-koptekst heeft, worden de J2000 Rechte Klimming (RK) en declinatie (dec) getoond.</para
+></listitem>
+            </itemizedlist>
+    </listitem>
+</orderedlist>
+<para
+>Naast het weergeven van de afbeelding, kan de viewer de WCS-koptekst (Wereld Coördinaatsysteem) verwerken, indien aanwezig in het FITS-bestand, en zo waardevolle informatie geven over de objecten in de afbeelding, de equatoriale coördinaten, popup-menu en de mogelijkheid de opstelling te draaien (indien verbonden) naar elk punt in de afbeelding. </para>
+<para
+>Er zijn diverse filters waarmee de afbeelding kan worden verbeterd, zoals auto-uitrekken, en hoog contrast. Afhankelijk van de afmetingen van de afbeelding, duren deze bewerkingen enkele seconden. De statusbalk onderin toont de huidige pixelwaarde en X- &amp; Y-waarden van de muisaanwijzer in de afbeelding. En verder het huidige zoomniveau en resolutie van de afbeelding. </para>
+<para
+>Bij het inlezen van een gebayerde afbeelding kan de viewer de afbeelding automatisch ontbayeren indien <emphasis
+>Auto ontbayeren</emphasis
+> is gekozen in de FITS-instellingen. De ontbayer-bewerking haalt het bayerpatroon (&eg; RGGB) uit de kop van de FITS-afbeelding. Indien niet aanwezig, kunt u het ontbayer-algoritme en patroon wijzigen in het menu <guimenu
+>Bestand</guimenu
+> of met de toetscombinatie <keycombo
+>&Ctrl; <keycap
+>D</keycap
+></keycombo
+>. </para>
+<para
+>Omdat bewerkingen zoals auto ontbayeren en auto WCS veel rekenwerk eisen en processors met weinig rekenkracht sterk belasten, kunt u dit aan/uit zetten in de <link linkend="fits-configure"
+> pagina voor de instellingen van FITS in &kstars;</link
+>. </para>
+<screenshot>
+    <screeninfo
+>FITS-instellingen </screeninfo>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="fits_settings.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+            <phrase
+>FITS-instellingen</phrase>
+        </textobject>
+    </mediaobject>
+</screenshot>
+<para
+>Door de muisaanwijzer boven een optie te houden, ziet u een tekstballon waarin de functie ervan wordt uitgelegd. </para>
+<sect2 id="fits-viewer-features">
+    <title
+>Eigenschappen</title>
+    <itemizedlist>
+        <listitem>
+            <para
+>Ondersteuning voor de 8, 16, 32, IEEE -32, en IEEE -64 bits formaten. </para>
+        </listitem>
+        <listitem>
+            <para
+>Ondersteuning voor FITS kleurenafbeeldingen (3D kubussen) en Bayer-bewerkte FITS-afbeeldingen </para>
+        </listitem>
+        <listitem>
+            <para
+>Histogram met lineaire, logaritmische, en vierkantswortel schaalverdelingen. </para>
+        </listitem>
+        <listitem>
+            <para
+>Regeling voor helderheid/contrast. </para>
+        </listitem>
+        <listitem>
+            <para
+>Pennen en zoomen. </para>
+        </listitem>
+        <listitem>
+            <para
+>Auto niveau-instellingen. </para>
+        </listitem>
+        <listitem>
+            <para
+>Statistieken. </para>
+        </listitem>
+        <listitem>
+            <para
+>Statistieken voor een interessant gebied (rechthoek). </para>
+        </listitem>
+        <listitem>
+            <para
+>Rechthoekige en equatoriale roosterlijnen (indien WCS-gegevens aanwezig). </para>
+        </listitem>
+        <listitem>
+            <para
+>Detectie en markeren van sterren. </para>
+        </listitem>
+        <listitem>
+            <para
+>Opvragen van FITS-koptekstpen. </para>
+        </listitem>
+        <listitem>
+            <para
+>Ongedaan/Opnieuw. </para>
+        </listitem>
+    </itemizedlist>
+    <variablelist>
+        <varlistentry>
+            <term
+>Histogram</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo
+>Histogram </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_histogram.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Histogram</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Toont een multi-kanaals FITS-histogram. De gebruiker kan de afbeelding herschalen door naar wens een onderste en een bovenste grens in te stellen voor de getoonde gegevens.  Het herschalen (lineair, logaritmisch of vierkantswortel) kan dan worden toegepast op het gebied tussen de bovenste en de onderste grens. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>FITS-koptekst</term>
+            <listitem>
+                <para
+>Toont een alleen-lezen tabel van sleutelwoorden en waarden in de FITS-koptekst. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Statistieken</term>
+            <listitem>
+                <para
+>Geeft eenvoudige statistische waarden voor minimum en maximum pixelwaarden en hun posities, FITS-diepte, dimensie, gemiddelde, en standaard deviatie. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Statistieken van een interessant gebied</term>
+            <listitem>
+                <screenshot>
+                    <screeninfo
+>FITS-viewer </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="fitsviewer_selstat.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Selectiestatistieken</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Levert eenvoudige statistieken hoofdgemiddelde, gemiddelde standaard deviatie en gemiddelde mediaan van het geselecteerde gebied door de gebruiker in een tekstballon. </para>
+                <para
+>De gebruiker kan ofwel het geselecteerde gebied instellen met <keycombo
+>&Shift;<keycap
+>Linker klik</keycap
+></keycombo
+> slepen of door het kiezen van een item uit het afrolmenu van de knop Selectievierkant omschakelen. Hiernaast kan de gebruiker het gebied verschuiven door eenvoudig <keycap
+>Linker klik</keycap
+> de muis te verslepen. De statistieken van het gebied worden getoond als een tekstballon nadat de cursor boven het geselecteerde gebied is gebracht. Voor kleinere afbeeldingen worden de statistieken onmiddellijk bijgewerkt, en voor grotere afbeeldingen, worden de statistieken bijgewerkt nadat de gebruiker de knop <keycap
+>Linker klik</keycap
+> heeft losgelaten na wijzigen van het gebied. </para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
+</sect2>
+
+<sect2 id="fits-viewer-embedded">
+    <title
+>Ingebedde FITS-viewer</title>
+    <screenshot>
+        <screeninfo
+>Ingebedde FITS-viewer </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="fitsviewer_embedded.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Ingebedde FITS-viewer</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>In de <link linkend="ekos-focus"
+>Focus-</link
+>, <link linkend="ekos-guide"
+>Volgen-</link
+>, en <link linkend="ekos-align"
+>Uitlijn-</link
+> modules van Ekos, worden opgenomen afbeeldingen getoond in de ingebedde FITS-viewer. In  deze viewer is een <emphasis
+>drijvende balk</emphasis
+> aanwezig met een aantal functies: </para>
+    <itemizedlist>
+        <listitem>
+            <para
+>Uitzoomen </para>
+        </listitem>
+        <listitem>
+            <para
+>Inzoomen </para>
+        </listitem>
+        <listitem>
+            <para
+>Standaard zoom </para>
+        </listitem>
+        <listitem>
+            <para
+>Zoomen om aan te passen </para>
+        </listitem>
+        <listitem>
+            <para
+>Kruisdraden aan/uit </para>
+        </listitem>
+        <listitem>
+            <para
+>Pixel roosterlijnen aan/uit </para>
+        </listitem>
+        <listitem>
+            <para
+>Gedetecteerde sterren aan/uit: Gedetecteerde sterren markeren met rode cirkels. </para>
+        </listitem>
+        <listitem>
+            <para
+>Sterprofiel: Gedetailleerd 3D-sterprofiel bekijken. </para>
+        </listitem>
+    </itemizedlist>
+    <para
+>De drijvende balk verdwijnt automatisch zodra de muisaanwijzer dit gebied verlaat. U kunt met de muis zwenken en zoomen als in de afzonderlijke FITS-viewer. Het groene volgvakje kan worden gebruikt voor het selecteren van een ster of gebied in de afbeelding, bijvoorbeeld voor het selecteren van een volgster. </para>
+</sect2>
+
+<sect2 id="fits-viewer-3d-star-profile">
+<title
+>3D Sterprofiel &amp; Datavisualisatie</title>
+<screenshot>
+        <screeninfo
+>Hoofdpagina Sterprofiel </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_main.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Hoofdpagina Sterprofie</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>Het hulpmiddel voor 3D-datavisualisatie kan 3D-grafieken plotten van het geselecteerde gebied in de afbeelding. Dit is bijzonder nuttig voor astrofotografen die een profiel willen visualiseren van een ster die zij willen gebruiken om op in te stellen of op te volgen. Wetenschappers kunnen dit gebruiken om een dwarsdoorsnede te maken van de gegevens om de relatieve helderheden in de afbeelding te begrijpen. Bovendien kan men hiermee visueel op een nieuwe manier bekijken wat er gaande is in de verzamelde gegevens. </para>
+    <para
+>U kunt deze nieuwe eigenschap gebruiken door te klikken op het pictogram <guiicon
+>Sterprofiel bekijken</guiicon
+> in een van de modules van Ekos, of in de FITS-viewer. Het met het groene volgvakje  geselecteerde gebied wordt dan zichtbaar in de 3D-grafiek, zoals hierboven getoond. De gebruiker beschikt dan onderin over een van de volgende werkbalken. </para>
+    <screenshot>
+        <screeninfo
+>Werkbalk 1 Sterprofiel </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_toolbar1.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Werkbalk 1 Sterprofiel</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <screenshot>
+        <screeninfo
+>Werkbalk 2 Sterprofiel </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_toolbar2.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Werkbalk 1 Sterprofiel</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>Helemaal links kan de gebruiker in de combobox voor samplegrootte de grootte selecteren van het uit te snijden gebied, zoals getoond in de grafiek. Deze optie is alleen beschikbaar in het <guilabel
+>Samenvattingsschem</guilabel
+>, de <link linkend="ekos-align"
+>Uitlijnmodule </link
+>, en de FITS-viewer. In de tweede combobox kan de gebruiker een enkel item instellen, of een rij, of een kolom, of pixels. De schuifknop wordt actief als de gebruiker <guimenuitem
+>Rij</guimenuitem
+> of <guimenuitem
+>Kolom</guimenuitem
+> selecteert. De grafiek wordt in doorsneemodus gebracht, zodat de gebruiker een dwarsdoorsnede ziet van de afbeelding. Als derde is er een keuzevakje met twee schuifknoppen, waarmee de gebruiker de selectie kan wijzigen. Dit is erg nuttig in de schuifmodus, voor het veranderen van het geselecteerde punt, en de doorsnede te verplaatsen in de grafiek. U kunt het ook gebruiken in het normale beeld, in de <guilabel
+>Verkenmodus</guilabel
+> zodat de gebruiker overal in de afbeelding kan inzoomen om de pixels te bekijken. </para>
+    <screenshot>
+        <screeninfo
+>Sterprofiel, pixels bekijken </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_examine_pixels.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Sterprofiel, pixels bekijken</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>Ook is er de combobox <guilabel
+>Zoom naar</guilabel
+>, waarmee de gebruiker in de grafiek kan zoomen naar verschillende vooringestelde locaties. Vervolgens de combobox voor het kiezen van het kleurschema van de grafiek. Ook zijn er de keuzevakjes voor HFR- en Piekwaarden voor het tonen van de HFR- en Piekwaarden van elke ster in de afbeelding. Ook wordt een ervan onderin het scherm zichtbaar. Tenslotte het keuzevakje voor de schaal, waarmee het zijpaneel voor <guilabel
+>Schalen</guilabel
+> wordt geactiveerd. In dat paneel zijn drie schuifknoppen, een ervan voor het instellen van de minimum waarde in de grafiek, of het <quote
+>zwarte punt</quote
+>, een voor het instellen van de maximum waarde in de grafiek, of <quote
+>Witte punt</quote
+>,  en een derde die standaard uit staat, en waarmee de afsnijwaarde kan worden ingesteld voor de in de grafiek getoonde gegevens. </para>
+    <screenshot>
+        <screeninfo
+>Sterprofiel verticale pagina </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_vertical.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Sterprofiel verticale pagina</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>De derde schuifknop is erg nuttig voor het verwijderen van te grote piekwaarden, zodat de fijnere details in de afbeelding kunnen worden bestudeerd. Er is bovenin een keuzevakje voor het aan/uitzetten van de schuifknop voor afsnijden. En er is tenslotte onderin ook de knop voor <guibutton
+>Autoschalen</guibutton
+>. Hiermee worden ook de schuifknoppen geschaald als u verschillende gedeelten van de afbeelding bemonstert. Niet alleen het tonen van de data, maar ook minima en maxima van de schuifknoppen worden beïnvloed. Indien u autoschalen uitzet, worden alle verschillende gebieden in de afbeelding op dezelfde schaal getoond. Een nuttig gebruik hiervan is autoschalen een bepaald gebied in de afbeelding aan te zetten, de schuifknoppen voor min, max en afsnijden goed in te stellen, autoschalen daarna uit te zetten, en met deze instellingen de andere gebieden in de grafiek te bekijken. </para>
+    <screenshot>
+        <screeninfo
+>Laatste pagina Sterprofiel </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="star_profile_final.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Laatste pagina Sterprofiel</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+</sect2>
+</sect1>

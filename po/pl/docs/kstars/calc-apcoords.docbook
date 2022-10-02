@@ -1,0 +1,45 @@
+<sect2 id="calc-apcoords">
+<title
+>Moduł widocznych współrzędnych</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Kalkulator astronomiczny</secondary>
+<tertiary
+>Moduł widocznych współrzędnych</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Moduł kalkulatora widocznych współrzędnych </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-apcoords.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Widoczne współrzędne</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Moduł widocznych współrzędnych zamienia <firstterm
+>wpółrzędne katalogowe</firstterm
+> dowolnego obiektu niebieskiego na jego <firstterm
+>widoczne współrzędne</firstterm
+> w dowolnym czasie. Współrzędne obiektu na niebie nie są stałe ze względu na <link linkend="ai-precession"
+>precesję</link
+>, nutację i aberrację. Moduł ten bierze pod uwagę te efekty. </para>
+<para
+>Używając tego modułu należy najpierw wprowadzić interesującą nas datę i czas w polach sekcji <guilabel
+>Docelowy czas i data</guilabel
+>. Następnie należy podać wypełnić sekcję <guilabel
+>Współrzędne katalogowe</guilabel
+>. Można także wybrać epokę (zazwyczaj 2000.0 dla współczesnych katalogów obiektów). Na koniec, po wciśnięciu przycisku <guibutton
+>Wyznacz</guibutton
+> w sekcji <guilabel
+>Widoczne współrzędne</guilabel
+> zostanę wyświetlone współrzędne obiektu w określonej chwili czasu. </para>
+</sect2>

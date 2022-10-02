@@ -1,0 +1,192 @@
+<sect1 id="ai-skycoords">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Celestial Coordinate Systems</title>
+<para>
+<indexterm
+><primary
+>Celestial Coordinate Systems</primary>
+<secondary
+>Overview</secondary
+></indexterm>
+A basic requirement for studying the heavens is determining where in the sky things are. To specify sky positions, astronomers have developed several <firstterm
+>coordinate systems</firstterm
+>. Each uses a coordinate grid projected on the <link linkend="ai-csphere"
+>Celestial Sphere</link
+>, in analogy to the <link linkend="ai-geocoords"
+>Geographic coordinate system</link
+> used on the surface of the Earth. The coordinate systems differ only in their choice of the <firstterm
+>fundamental plane</firstterm
+>, which divides the sky into two equal hemispheres along a <link linkend="ai-greatcircle"
+>great circle</link
+>. (the fundamental plane of the geographic system is the Earth's equator). Each coordinate system is named for its choice of fundamental plane. </para>
+
+<sect2 id="equatorial">
+<title
+>The Equatorial Coordinate System</title>
+<indexterm
+><primary
+>Celestial Coordinate Systems</primary>
+<secondary
+>Equatorial Coordinates</secondary>
+<seealso
+>Celestial Equator</seealso
+> <seealso
+>Celestial Poles</seealso
+> <seealso
+>Geographic Coordinate System</seealso
+> </indexterm>
+<indexterm
+><primary
+>Right Ascension</primary
+><see
+>Equatorial Coordinates</see
+></indexterm>
+<indexterm
+><primary
+>Declination</primary
+><see
+>Equatorial Coordinates</see
+></indexterm>
+
+<para
+>The <firstterm
+>Equatorial coordinate system</firstterm
+> is probably the most widely used celestial coordinate system. It is also the most closely related to the <link linkend="ai-geocoords"
+>Geographic coordinate system</link
+>, because they use the same fundamental plane, and the same poles. The projection of the Earth's equator onto the celestial sphere is called the <link linkend="ai-cequator"
+>Celestial Equator</link
+>. Similarly, projecting the geographic Poles onto the celestial sphere defines the North and South <link linkend="ai-cpoles"
+>Celestial Poles</link
+>. </para
+><para
+>However, there is an important difference between the equatorial and geographic coordinate systems: the geographic system is fixed to the Earth; it rotates as the Earth does. The Equatorial system is fixed to the stars<footnote id="fn-precess"
+><para
+>actually, the equatorial coordinates are not quite fixed to the stars. See <link linkend="ai-precession"
+>precession</link
+>. Also, if <link linkend="ai-hourangle"
+>Hour Angle</link
+> is used in place of Right Ascension, then the Equatorial system is fixed to the Earth, not to the stars.</para
+></footnote
+>, so it appears to rotate across the sky with the stars, but of course it is really the Earth rotating under the fixed sky. </para
+><para
+>The <firstterm
+>latitudinal</firstterm
+> (latitude-like) angle of the Equatorial system is called <firstterm
+>Declination</firstterm
+> (Dec for short). It measures the angle of an object above or below the Celestial Equator. The <firstterm
+>longitudinal</firstterm
+> angle is called the <firstterm
+>Right Ascension</firstterm
+> (<acronym
+>RA</acronym
+> for short). It measures the angle of an object East of the <link linkend="ai-equinox"
+>Vernal Equinox</link
+>. Unlike longitude, Right Ascension is usually measured in hours instead of degrees, because the apparent rotation of the Equatorial coordinate system is closely related to <link linkend="ai-sidereal"
+>Sidereal Time</link
+> and <link linkend="ai-hourangle"
+>Hour Angle</link
+>. Since a full rotation of the sky takes 24 hours to complete, there are (360 degrees / 24 hours) = 15 degrees in one Hour of Right Ascension. </para>
+</sect2>
+
+<sect2 id="horizontal">
+<title
+>The Horizontal Coordinate System</title>
+
+<indexterm
+><primary
+>Celestial Coordinate Systems</primary>
+<secondary
+>Horizontal Coordinates</secondary>
+<seealso
+>Horizon</seealso
+> <seealso
+>Zenith</seealso
+> </indexterm>
+<indexterm
+><primary
+>Azimuth</primary
+><see
+>Horizontal Coordinates</see
+></indexterm>
+<indexterm
+><primary
+>Altitude</primary
+><see
+>Horizontal Coordinates</see
+></indexterm>
+<para
+>The Horizontal coordinate system uses the observer's local <link linkend="ai-horizon"
+>horizon</link
+> as the Fundamental Plane. This conveniently divides the sky into the upper hemisphere that you can see, and the lower hemisphere that you can't (because the Earth is in the way). The pole of the upper hemisphere is called the <link linkend="ai-zenith"
+>Zenith</link
+>. The pole of the lower hemisphere is called the <firstterm
+>nadir</firstterm
+>. The angle of an object above or below the horizon is called the <firstterm
+>Altitude</firstterm
+> (Alt for short). The angle of an object around the horizon (measured from the North point, toward the East) is called the <firstterm
+>Azimuth</firstterm
+>. The Horizontal Coordinate System is sometimes also called the Alt/Az Coordinate System. </para
+><para
+>The Horizontal Coordinate System is fixed to the Earth, not the Stars. Therefore, the Altitude and Azimuth of an object changes with time, as the object appears to drift across the sky. In addition, because the Horizontal system is defined by your local horizon, the same object viewed from different locations on Earth at the same time will have different values of Altitude and Azimuth. </para
+><para
+>Horizontal coordinates are very useful for determining the Rise and Set times of an object in the sky. When an object has Altitude=0 degrees, it is either Rising (if its Azimuth is &lt; 180 degrees) or Setting (if its Azimuth is &gt; 180 degrees). </para>
+</sect2>
+
+<sect2 id="ecliptic">
+<title
+>The Ecliptic Coordinate System</title>
+
+<indexterm
+><primary
+>Celestial Coordinate Systems</primary>
+<secondary
+>Ecliptic Coordinates</secondary>
+<seealso
+>Ecliptic</seealso>
+</indexterm>
+<para
+>The Ecliptic coordinate system uses the <link linkend="ai-ecliptic"
+>Ecliptic</link
+> for its Fundamental Plane. The Ecliptic is the path that the Sun appears to follow across the sky over the course of a year. It is also the projection of the Earth's orbital plane onto the Celestial Sphere. The latitudinal angle is called the <firstterm
+>Ecliptic Latitude</firstterm
+>, and the longitudinal angle is called the <firstterm
+>Ecliptic Longitude</firstterm
+>. Like Right Ascension in the Equatorial system, the zeropoint of the Ecliptic Longitude is the <link linkend="ai-equinox"
+>Vernal Equinox</link
+>. </para
+><para
+>What do you think such a coordinate system would be useful for? If you guessed charting solar system objects, you are right! Each of the planets (except Pluto) orbits the Sun in roughly the same plane, so they always appear to be somewhere near the Ecliptic (&ie;, they always have small ecliptic latitudes). </para>
+</sect2>
+
+<sect2 id="galactic">
+<title
+>The Galactic Coordinate System</title>
+
+<indexterm
+><primary
+>Celestial Coordinate Systems</primary>
+<secondary
+>Galactic Coordinates</secondary>
+</indexterm>
+<para>
+<indexterm
+><primary
+>Milky Way</primary
+></indexterm
+> The Galactic coordinate system uses the <firstterm
+>Milky Way</firstterm
+> as its Fundamental Plane. The latitudinal angle is called the <firstterm
+>Galactic Latitude</firstterm
+>, and the longitudinal angle is called the <firstterm
+>Galactic Longitude</firstterm
+>. This coordinate system is useful for studying the Galaxy itself. For example, you might want to know how the density of stars changes as a function of Galactic Latitude, to how much the disk of the Milky Way is flattened. </para>
+</sect2>
+</sect1>

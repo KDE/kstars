@@ -1,0 +1,2508 @@
+<chapter id="commands">
+<title
+>Guida ai comandi</title>
+
+<sect1 id="kstars-menus">
+  <title
+>Comandi dei menu</title>
+<indexterm
+><primary
+>Comandi</primary
+><secondary
+>Menu</secondary
+></indexterm>
+
+<sect2 id="filemenu">
+<title
+>Il menu File</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Apri FITS...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre un'immagine FITS all'interno del visore FITS </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Salva immagine cielo...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Crea un'immagine su disco a partire dal display corrente </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Esegui script...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Esegue lo script di &kstars; specificato </para
+></listitem>
+</varlistentry>
+<!-- not in 4.7
+<variablelist>
+<varlistentry>
+<term
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo>
+</shortcut>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>New Window</guimenuitem>
+</menuchoice
+></term>
+<listitem
+><para
+>Open another &kstars; window
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo>
+</shortcut>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>Close Window</guimenuitem>
+</menuchoice
+></term>
+<listitem
+><para
+>Close &kstars; window
+</para
+></listitem>
+</varlistentry>
+-->
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Procedura guidata per la stampa</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Avvia una procedura guidata per configurare la cattura di immagini degli oggetti del cielo usando il telescopio, e la stampa ad alta qualità dei risultati per essere usati in altro modo o per essere classificati. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Stampa...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Invia la mappa del cielo corrente alla stampante (o ad un file PostScript/PDF) </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Esci</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Esce da &kstars; </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="timemenu">
+<title
+>Il menu Tempo</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Usa ora corrente</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Sincronizza l'ora con l'orologio di sistema</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Imposta data/ora...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la data e l'ora</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>&lt;</keycap
+> </shortcut
+> <guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Avanza di un passo all'indietro nel tempo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Avanza di un passo all'indietro nel tempo nella simulazione della mappa celeste di &kstars;. La durata del tempo può essere configurata dopo aver premuto il piccolo pulsante con <guilabel
+>&gt;</guilabel
+> nella barra degli strumenti di &kstars;. </para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Ferma orologio</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Attiva/disattiva il passare del tempo</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>&lt;</keycap
+> </shortcut
+> <guimenu
+>Tempo</guimenu
+> <guimenuitem
+>Avanza di un passo in avanti nel tempo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Avanza di un passo in avanti nel tempo nella simulazione della mappa celeste di &kstars;. La durata del tempo può essere configurata dopo aver premuto il piccolo pulsante con <guilabel
+>&gt;</guilabel
+> nella barra degli strumenti di &kstars;. </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="pointmenu">
+<title
+>Il menu Puntamento</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>Z</keycap
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Zenit</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra il display sullo <link linkend="ai-zenith"
+>zenit</link
+> (in alto sulla verticale) </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>N</keycap
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Nord</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra il display sul punto nord dell'orizzonte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>E</keycap
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Est</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra il display sul punto est dell'orizzonte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>S</keycap
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Sud</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra il display sul punto sud dell'orizzonte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>W</keycap
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Ovest</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra il display sul punto ovest dell'orizzonte</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Imposta coordinate manualmente...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Centra la mappa su <link linkend="ai-skycoords"
+>coordinate celesti</link
+> specifiche </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Trova oggetto...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Trova un oggetto per nome tramite la <link linkend="findobjects"
+>finestra Trova oggetto</link
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Puntamento</guimenu
+> <guimenuitem
+>Arresta inseguimento</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Attiva/disattiva l'inseguimento. Durante l'inseguimento il display rimarrà centrato sulla posizione o sull'oggetto corrente.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="viewmenu">
+<title
+>Il menu Visualizza</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Aumenta ingrandimento</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Aumenta l'ingrandimento</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Riduci ingrandimento</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Diminuisce l'ingrandimento</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Zoom predefinito</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Ripristina l'ingrandimento predefinito</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Zoom a scala angolare...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta l'ingrandimento alla scala angolare specificata</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>View</guimenu
+> <guimenuitem
+>Modalità a tutto schermo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Attiva/disattiva la modalità a tutto schermo</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>Spazio</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Passa alla vista del globo delle stelle / Passa alla vista orizzontale</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Alterna tra i <link linkend="ai-skycoords"
+>sistemi di coordinate</link
+> <link linkend="horizontal"
+>orizzontali</link
+> ed <link linkend="equatorial"
+>equatoriali</link
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F5</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Azimutale area-equivalente di Lambert</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection"
+>azimutale area-equivalente di Lambert</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Azimutale equidistante</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://it.wikipedia.org/wiki/Proiezione_azimutale"
+>azimutale equidistante</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F7</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Ortografica</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://en.wikipedia.org/wiki/Orthographic_projection_(cartography)"
+>ortografica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F8</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Equidistante</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://it.wikipedia.org/wiki/Proiezione_azimutale"
+>azimutale equidistante</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F9</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Stereografica</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="http://it.wikipedia.org/wiki/Proiezione_stereografica"
+>stereografica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F10</keycap
+> </shortcut
+> <guimenu
+>Visualizza</guimenu
+> <guisubmenu
+>Proiezione</guisubmenu
+> <guimenuitem
+>Gnomonica</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="http://it.wikipedia.org/wiki/Proiezione_gnomonica"
+>gnomonica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="toolmenu">
+<title
+>Il menu Strumenti</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Calcolatrice...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre la finestra dell'<link linkend="tool-calculator"
+>Astrocalcolatrice</link
+>, permettendo l'accesso a parecchie delle funzioni matematiche usate da &kstars;. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guisubmenu
+>Periferiche</guisubmenu
+> <guimenuitem
+>Configurazione telescopio...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre la <guilabel
+>Procedura guidata telescopio</guilabel
+>, una guida passo passo per connettere il tuo telescopio e controllarlo da &kstars;.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guisubmenu
+>Periferiche</guisubmenu
+> <guimenuitem
+>Gestore periferiche...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre il gestore periferiche, che ti permette di avviare e arrestare driver e di connetterti a server INDI remoti.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guisubmenu
+>Periferiche</guisubmenu
+> <guimenuitem
+>Pannello di controllo INDI...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre il pannello di controllo INDI, che ti permette di controllare tutte le funzioni supportate da una periferica.</para
+></listitem>
+</varlistentry>
+
+<!--
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Devices</guimenu>
+<guimenuitem
+>Capture Image Sequence...</guimenuitem>
+</menuchoice
+></term>
+<listitem
+><para
+>Acquire images from a CCD camera or webcam device</para
+></listitem>
+</varlistentry>
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Calendario celeste</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre lo strumento <guilabel
+>Calendario celeste</guilabel
+>, che ti permette di pianificare le osservazioni dei pianeti del sistema solare fornendo i dati sul sorgere e sul tramontare di questi oggetti. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Calendario delle fasi lunari</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre lo strumento <guilabel
+>Calendario delle fasi lunari</guilabel
+>, che fornisce una rappresentazione grafica delle fasi lunari con un comodo calendario con cui scegliere il mese e l'anno. </para>
+</listitem>
+</varlistentry>
+
+<!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
+<varlistentry>
+<term
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo>
+</shortcut>
+<guimenu
+>Tools</guimenu>
+<guimenuitem
+>AAVSO Light Curves...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para>
+Opens the <link linkend="tool-aavso"
+>AAVSO Light Curve Generator</link>
+Tool, which allows you to download a light curve for any variable
+star from the American Association of Variable Star Observers.
+</para>
+</listitem>
+</varlistentry>
+-->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Altezza in funzione del tempo...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre lo strumento <link linkend="tool-altvstime"
+>Altezza in funzione del tempo</link
+>, in grado di visualizzare curve che raffigurano l'altezza di un oggetto qualsiasi in funzione del tempo. È utile per pianificare sessioni di osservazione. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>U</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Che si vede stanotte...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre la finestra <link linkend="tool-whatsup"
+>Che si vede stanotte</link
+>, che presenta un sommario degli oggetti osservabili dalla tua località a una data prefissata. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Che c'è di interessante...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre lo strumenti <guilabel
+>Che c'è di interessante</guilabel
+>, che ti fa sapere quali sono le osservazioni più interessanti che possono essere effettuate dalla località corrente usando l'attrezzatura specificata. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>B</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Costruttore script...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre il <link linkend="tool-scriptbuilder"
+>Costruttore script</link
+>, che fornisce un'interfaccia grafica per realizzare script &DBus; di &kstars;. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Y</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Sistema solare...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre il <link linkend="tool-solarsys"
+>Visore del sistema solare</link
+>, che mostra il sistema solare visto dall'alto per la data corrente della simulazione. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Ekos</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre il potente strumento <guilabel
+>Ekos</guilabel
+>, che è un software di guida per il tuo telescopio. Le funzionalità di allieamento di Ekos sono fornite dalle librerie <ulink url="http://astrometry.net/"
+>astrometry.net</ulink
+> </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>J</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Satelliti di Giove...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre la finestra <link linkend="tool-jmoons"
+>Satelliti di Giove</link
+>, che mostra la posizione delle quattro lune più luminose di Giove in funzione del tempo. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Strumenti</guimenu
+> <guimenuitem
+>Indicatori</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Apre lo strumento <guilabel
+>Gestione indicatori</guilabel
+>, che serve ad assegnare etichette colorate ed icone a posizioni specificate della mappa celeste. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="datamenu">
+<title
+>Il menu Dati</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Dati</guimenu
+> <guimenuitem
+>Scarica nuovi dati...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apri la finestra <guilabel
+>Scarica le Novità</guilabel
+> per scaricare dati aggiuntivi per &kstars;. </para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Dati</guimenu
+> <guimenuitem
+>Aggiornamenti</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Questo sottomenu può essere usato per aggiornare da Internet i dati di vari oggetti, in particolare di asteroidi e di orbite di comete, e i dati più recenti di supernove. I dati saranno scaricati solo per l'utente corrente. Se &kstars; viene usato da diversi utenti, i dati dovranno essere scaricati separatamente da ciascun utente. </para>
+<para
+>Come impostazione predefinita, &kstars; prova automaticamente a scaricare la lista delle supernove. Puoi disattivare questo comportamento nella pagina <guilabel
+>Supernove</guilabel
+> della finestra delle impostazioni di &kstars;.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="observationmenu">
+<title
+>Il menu Osservazione</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Osservazione</guimenu
+> <guimenuitem
+>Pianificatore delle osservazioni</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre il <link linkend="tool-obsplanner"
+>Pianificatore delle osservazioni</link
+></para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Osservazione</guimenu
+> <guimenuitem
+>Esegui il piano della sessione</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Apre il <link linkend="tool-obsplanner"
+>Pianificatore delle osservazioni</link
+> o esegue la sessione pianificata.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+<sect2 id="settingmenu">
+<title
+>Il menu Impostazioni</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Riquadri informazioni</guisubmenu
+> <guimenuitem
+>Mostra riquadri informazioni</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde tutti e tre i riquadri informativi </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Riquadri informazioni</guisubmenu
+> <guimenuitem
+>Mostra riquadro tempo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde il riquadro informativo con l'ora </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Riquadri informazioni</guisubmenu
+> <guimenuitem
+>Mostra riquadro posizione</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde il riquadro informativo con la posizione </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Riquadri informazioni</guisubmenu
+> <guimenuitem
+>Mostra riquadro località</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde il riquadro informativo con la località </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Barre mostrate</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde le barre degli strumenti principale e di visualizzazione </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Barra di stato</guisubmenu
+> <guimenuitem
+>Mostra la barra di stato</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra/nasconde la barra di stato </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Barra di stato</guisubmenu
+> <guimenuitem
+>Mostra campo Az/Alt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra o nasconde nella barra di stato le coordinate orizzontali del puntatore del mouse. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Barra di stato</guisubmenu
+> <guimenuitem
+>Mostra campo AR/Dec</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Mostra o nasconde nella barra di stato le coordinate orizzontali del puntatore del mouse. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Schemi colori</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Questo sottomenu contiene tutti gli schemi di colori definiti, inclusi quelli personalizzati. Seleziona una voce per attivare lo schema. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guisubmenu
+>Simboli CDV</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+>Questo sottomenu elenca i simboli di campo di vista (CDV) disponibili. Ogni simbolo è visualizzato al centro del display. Puoi scegliere dalla lista dei simboli predefiniti (nessun CDV, binocolo 7x35, un grado oppure HST WFPC2) oppure definirne di nuovi (o modificare quelli esistenti) tramite la voce <guimenuitem
+>Modifica simboli CDV...</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Passa alla modalità OpenGL/QPainter</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>&kstars; ha il supporto sperimentale per <ulink url="https://it.wikipedia.org/wiki/OpenGL"
+>OpenGL</ulink
+>. La corrispondente modalità ha prestazioni più elevate in computer con accelerazione hardware. Torna alla modalità QPainter (predefinita) nel caso in cui dovessi notare problemi con la modalità OpenGL. </para>
+<important>
+  <para
+>Nella versione attuale, i riquardi informativi non funzionano correttamente in modalità OpenGL, e per questo saranno disabilitati in tale modalità. </para>
+</important>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Definisci attrezzatura...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Permette di definire le caratteristiche dell'attrezzatura (telescopio, oculare, lente e filtro) usata nelle tue osservazioni. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Aggiungi osservatore...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Può essere usato per aggiungere un nuovo osservatore per tue osservazioni. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Geografica...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Seleziona una nuova <link linkend="setgeo"
+>località geografica</link
+> </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Configura &kstars;...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Modifica le <link linkend="config"
+>opzioni di configurazione</link
+></para
+></listitem>
+</varlistentry>
+
+<!-- Startup Wizard missing-->
+ 
+</variablelist>
+
+<para
+>Inoltre &kstars; ha le voci dei menu <guimenu
+>Impostazioni</guimenu
+> e <guimenu
+>Aiuto</guimenu
+> comuni di &kde;; per maggiori informazioni, consulta i capitoli <ulink url="help:/fundamentals/ui.html#menus-settings"
+>Menu Impostazioni</ulink
+> e <ulink url="help:/fundamentals/ui.html#menus-help"
+>menu Aiuto</ulink
+> dei «Fondamentali di &kde;». </para>
+
+</sect2>
+
+<sect2 id="helpmenu">
+<title
+>Il menu Aiuto</title>
+&help.menu.documentation; </sect2>
+
+<sect2 id="popup-menu">
+<title
+>Menu a comparsa</title>
+<indexterm
+><primary
+>Menu a comparsa</primary
+><secondary
+>Descrizione</secondary
+></indexterm>
+
+<para
+>Il menu a comparsa attivato da un clic col tasto <mousebutton
+>destro</mousebutton
+> del mouse è sensibile al contesto, ovvero cambia a seconda dell'oggetto su cui fai clic. Elenchiamo qui tutte le voci del menu a comparsa, con il tipo di oggetto [tra parentesi quadre].</para>
+
+<variablelist>
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+>Identificazione e tipo: le prime tre righe sono riservate al nome (o ai nomi) dell'oggetto e alla sua categoria. Per le stelle è anche mostrato il tipo spettrale. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+>Gli istanti di levata, culminazione e tramonto dell'oggetto per la data corrente  sono mostrati nelle tre righe successive. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Centra e insegui</guimenuitem
+>: Centra la finestra su questa posizione e attiva l'inseguimento. Equivalente a un doppio clic. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Distanza angolare da...</guimenuitem
+>: entra in "modalità distanza angolare". In questa modalità, una linea tratteggiata viene tracciata dal primo oggetto alla posizione del puntatore del mouse. Quando fai clic con il &RMB; su un secondo oggetto, sarà mostrata vicino al secondo oggetto la distanza angolare tra i due oggetti. Puoi premere il tasto &Esc; per uscire dalla modalità distanza angolare senza aver effettuato una misura. </para
+></listitem>
+</varlistentry>
+
+<!-- Starhop from here missing-->
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Dettagli</guimenuitem
+>: apre la <link linkend="tool-details"
+>finestra Dettagli oggetto</link
+> per l'oggetto in questione. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Visualizza nome</guimenuitem
+>: visualizza in modo permanente il nome dell'oggetto. Se il nome è già visualizzato, la voce di menu sarà <guilabel
+>Nascondi nome</guilabel
+>. </para
+></listitem>
+</varlistentry>
+<!-- missing
+Add to Observing Wishlist
+Add Trail
+Print XPlanet view
+  -->
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Mostra immagine...</guimenuitem
+>: scarica da Internet un'immagine dell'oggetto, e la visualizza nel visore immagini. Al posto di "..." c'è una breve descrizione della fonte dell'immagine. Un oggetto può avere diversi collegamenti a immagini nel proprio menu a comparsa. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>[Tutti]</term>
+<listitem
+><para
+><guimenuitem
+>Pagina ...</guimenuitem
+>: mostra nel browser predefinito una pagina web sull'oggetto. Al posto di "..." c'è una breve descrizione della pagina. Un oggetto può avere diversi collegamenti a pagine web nel proprio menu a comparsa. </para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+</sect1>
+
+<sect1 id="kstars-keys">
+<title
+>Comandi da tastiera</title>
+<indexterm
+><primary
+>Comandi</primary>
+<secondary
+>Tastiera</secondary
+></indexterm>
+
+<sect2 id="nav-keys">
+<title
+>Tasti di navigazione</title>
+<indexterm
+><primary
+>Controlli di navigazione</primary>
+<secondary
+>Tastiera</secondary
+></indexterm>
+
+<variablelist>
+<varlistentry
+><term
+>Tasti freccia</term>
+<listitem
+><para
+>Usa i tasti freccia per far scorrere il display. Tenendo premuto il tasto &Shift; la velocità di scorrimento raddoppia. </para
+></listitem
+></varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>+</keycap
+> / <keycap
+>-</keycap
+></term>
+<listitem
+><para
+>Zoom avanti/indietro</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Ripristina l'ingrandimento predefinito</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Imposta l'ingrandimento alla scala angolare specificata</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>0&ndash;9</term>
+<listitem
+><para
+>Centra la mappa su un corpo maggiore del sistema solare: <itemizedlist>
+<listitem
+><para
+>0: Sole</para
+></listitem>
+<listitem
+><para
+>1: Mercurio</para
+></listitem>
+<listitem
+><para
+>2: Venere</para
+></listitem>
+<listitem
+><para
+>3: Luna</para
+></listitem>
+<listitem
+><para
+>4: Marte</para
+></listitem>
+<listitem
+><para
+>5: Giove</para
+></listitem>
+<listitem
+><para
+>6: Saturno</para
+></listitem>
+<listitem
+><para
+>7: Urano</para
+></listitem>
+<listitem
+><para
+>8: Nettuno</para
+></listitem>
+<listitem
+><para
+>9: Plutone</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>Z</keycap
+></term>
+<listitem
+><para
+>Centra la mappa allo <link linkend="ai-zenith"
+>zenit</link
+> (in alto sulla verticale)</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>N</keycap
+></term>
+<listitem
+><para
+>Centra il display sul punto nord dell'orizzonte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>E</keycap
+></term>
+<listitem
+><para
+>Centra il display sul punto est dell'orizzonte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>S</keycap
+></term>
+<listitem
+><para
+>Centra il display sul punto sud dell'orizzonte.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>W</keycap
+></term>
+<listitem
+><para
+>Centra il display sul punto ovest dell'orizzonte</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Attiva/disattiva l'inseguimento.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>&lt;</keycap
+></term>
+<listitem
+><para
+>Fa arretrare l'orologio della simulazione di un'unità di tempo</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>&gt;</keycap
+></term>
+<listitem
+><para
+>Fa avanzare l'orologio della simulazione di un'unità di tempo</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-keys">
+<title
+>Le scorciatoie di menu</title>
+<indexterm
+><primary
+>Comandi</primary>
+<secondary
+>Menu</secondary>
+<tertiary
+>Scorciatoie da tastiera</tertiary>
+</indexterm>
+<variablelist>
+<!-- not in 4.7
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Open a new &kstars; window</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Close a &kstars; window</para
+></listitem>
+</varlistentry>
+-->
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Scarica dati aggiuntivi</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre un'immagine FITS nell'editor FITS</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Esporta l'immagine del cielo su file</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Esegue un <link linkend="tool-obsplanner"
+>Pianificatore delle osservazioni</link
+> di &kstars;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Esegue uno script &DBus; di &kstars;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Stampa la mappa del cielo</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Esce da &kstars;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Regola l'orologio della simulazione sull'ora di sistema</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Imposta l'orologio della simulazione a un'ora e una data specifiche</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Attiva/disattiva la modalità a tutto schermo</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Definisce le caratteristiche dell'attrezzatura (telescopio, oculare, lente e filtro) usata nelle tue osservazioni</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Aggiunge un nuovo osservatore per le tue osservazioni</para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+><keycap
+>Spazio</keycap
+></term>
+<listitem
+><para
+>Alterna tra i <link linkend="ai-skycoords"
+>sistemi di coordinate</link
+> <link linkend="horizontal"
+>orizzontali</link
+> ed <link linkend="equatorial"
+>equatoriali</link
+> </para
+></listitem
+></varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F1</keycap
+></term>
+<listitem
+><para
+>Apre il manuale di &kstars;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F5</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection"
+>azimutale area-equivalente di Lambert</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F6</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://it.wikipedia.org/wiki/Proiezione_azimutale"
+>azimutale equidistante</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F7</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://en.wikipedia.org/wiki/Orthographic_projection_(cartography)"
+>ortografica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F8</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="https://it.wikipedia.org/wiki/Proiezione_azimutale"
+>azimutale equidistante</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F9</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="http://it.wikipedia.org/wiki/Proiezione_stereografica"
+>stereografica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>F10</keycap
+></term>
+<listitem
+><para
+>Imposta la proiezione <ulink url="http://it.wikipedia.org/wiki/Proiezione_gnomonica"
+>gnomonica</ulink
+> per la mappa celeste.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+
+
+<sect2 id="object-actions">
+<title
+>Azioni per l'oggetto selezionato</title>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Azioni da tastiera</secondary
+></indexterm>
+
+<para
+>Ciascuno dei tasti seguenti esegue un'azione sull'<firstterm
+>oggetto selezionato</firstterm
+>, ovvero l'ultimo oggetto su cui è stato fatto clic (identificato nella barra di stato). In alternativa, tenendo premuto il tasto &Shift; l'azione sarà eseguita sull'oggetto centrato.</para>
+
+<variablelist>
+<varlistentry>
+<term
+><keycap
+>C</keycap
+></term>
+<listitem
+><para
+>Centra e insegue l'oggetto selezionato</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>D</keycap
+></term>
+<listitem
+><para
+>Apre la finestra Dettagli per l'oggetto selezionato</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>L</keycap
+></term>
+<listitem
+><para
+>Mostra/nasconde il nome dell'oggetto selezionato</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>O</keycap
+></term>
+<listitem
+><para
+>Aggiunge l'oggetto selezionato alla lista dei preferiti</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>P</keycap
+></term>
+<listitem
+><para
+>Apre il menu a comparsa dell'oggetto selezionato</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>T</keycap
+></term>
+<listitem
+><para
+>Mostra/nasconde la traccia orbitale dell'oggetto selezionato (solo corpi del sistema solare)</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="tools-keys">
+<title
+>Scorciatoie strumenti</title>
+
+<variablelist>
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre la <link linkend="findobjects"
+>finestra Trova oggetto</link
+> per specificare un oggetto celeste da centrare</para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo>
+</term>
+<listitem
+><para
+>Apre la finestra <guilabel
+>Imposta coordinate manualmente</guilabel
+> per specificare le coordinate AR/Dec o Az/Alt da centrare</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>[</keycap
+></term>
+<listitem
+><para
+>Inizia una misura di distanza angolare alla posizione corrente del puntatore del mouse. La distanza angolare tra i punti di partenza e arrivo è mostrata vicino al secondo punto.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre la finestra <link linkend="setgeo"
+>Imposta località geografica</link
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre l<link linkend="tool-calculator"
+>Astrocalcolatrice</link
+> </para
+></listitem>
+</varlistentry>
+<!--
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Open the <link linkend="tool-aavso"
+>AAVSO Lightcurve Generator</link>
+</para
+></listitem>
+</varlistentry>
+-->
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre la finestra <link linkend="tool-altvstime"
+>Altezza in funzione del tempo</link
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>U</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre la finestra <link linkend="tool-whatsup"
+>Che si vede stanotte?</link
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre lo strumento <quote
+>Che c'è di interessante</quote
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>B</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre il <link linkend="tool-scriptbuilder"
+>Costruttore script</link
+> </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Y</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre il <link linkend="tool-solarsys"
+>Visore sistema solare</link
+> </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;<keycap
+>J</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Apre lo strumento <link linkend="tool-jmoons"
+>Lune di Giove</link
+></para
+></listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+</sect1>
+
+<sect1 id="kstars-mouse">
+<title
+>Comandi del mouse</title>
+<indexterm
+><primary
+>Comandi</primary>
+<secondary
+>Mouse</secondary
+></indexterm>
+<indexterm
+><primary
+>Controlli di navigazione</primary>
+<secondary
+>Mouse</secondary
+></indexterm>
+
+<variablelist>
+<varlistentry
+><term
+>Muovere il mouse</term>
+<listitem
+><para
+>Le coordinate celesti (AR/Dec e Az/Alt) del puntatore del mouse cambiano nella barra di stato </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Puntatore mouse immobile</term>
+<listitem
+><para
+>Visualizza temporaneamente il nome dell'oggetto più vicino al puntatore del mouse. </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Clic sinistro</term>
+<listitem>
+<para>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Identificazione</secondary
+></indexterm>
+L'oggetto più vicino al puntatore del mouse è identificato nella barra di stato. </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Doppio clic</term>
+<listitem>
+<para>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Centraggio</secondary
+></indexterm>
+Centra e insegue la posizione su cui si è fatto doppio clic, o l'oggetto più vicino. Un doppio clic su un riquadro informazioni mostrerà/nasconderà informazioni aggiuntive. </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Clic destro</term>
+<listitem>
+<para>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Menu a comparsa</secondary
+></indexterm>
+Apre il <link linkend="popup-menu"
+>menu a comparsa</link
+> per la posizione o l'oggetto più vicino al puntatore del mouse. </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Ruotare la rotellina del mouse</term>
+<listitem
+><para
+>Cambia lo zoom della mappa celeste. Se non hai un mouse con rotellina, puoi tenere premuto il tasto centrale e trascinare il mouse verticalmente. </para
+></listitem>
+</varlistentry>
+
+<varlistentry
+><term
+>Clic e trascinamento</term>
+<listitem
+><para>
+	<variablelist>
+	<varlistentry
+><term
+>Trascinare la mappa del cielo</term>
+	<listitem
+><para
+>Fa scorrere il display, seguendo la direzione di trascinamento. </para
+></listitem
+></varlistentry>
+
+	<varlistentry
+><term
+>&Ctrl;+trascinamento sulla mappa del cielo</term>
+	<listitem
+><para
+>Definisce un rettangolo sulla mappa. Dopo aver rilasciato il pulsante, lo zoom del display viene adattato al campo di vista all'interno del rettangolo. </para
+></listitem
+></varlistentry>
+
+	<varlistentry
+><term
+>Trascinare un riquadro informazioni</term>
+	<listitem
+><para
+>Il riquadro informazioni è riposizionato sulla mappa. I riquadri informazioni rimangono <quote
+>incollati</quote
+> ai bordi della finestra, in modo da non separarsene quando la finestra viene ridimensionata. </para
+></listitem
+></varlistentry>
+	</variablelist>
+</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+</chapter>

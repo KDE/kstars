@@ -1,0 +1,93 @@
+<sect1 id="tool-observinglist">
+<title
+>Narzędzie Lista obserwowanych</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Narzędzie Lista obserwowanych</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Narzędzie Lista obserwowanych </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="observinglist.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Narzędzie Lista obserwowanych</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Celem narzędzia Listy obserwowanych jest zapewnienie łatwego dostępu do popularnych funkcji dla listy wybranych przez Ciebie obiektów. Obiekty są dodawane do listy za pomocą polecenia <quote
+>Dodaj do listy</quote
+> z <link linkend="popup-menu"
+>menu kontekstowego</link
+>, lub poprzez wciśnięcie klawisza <keycap
+>O</keycap
+>, aby dodać obecnie zaznaczony obiekt. </para>
+<para
+>Obiekty na liście mogą być posortowane według każdej kolumny (Nazwa, RA, Dek, Mag i Typ). Aby wykonać jakieś działanie na obiekcie, należy zaznaczyć go na liście, a następnie wcisnąć jeden z przycisków działań u góry okna. Niektóre działania mogą być przeprowadzone, gdy zaznaczonych jest wiele obiektów; niektóre, gdy zaznaczony jest tylko jeden obiekt. Dostępne działania to: <variablelist>
+<varlistentry>
+<term
+>Wyśrodkuj</term>
+<listitem>
+<para
+>Wyśrodkowuje ekran na wybranym obiekcie i zaczyna go śledzić. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Teleskop</term>
+<listitem>
+<para
+>Kieruje Twój <link linkend="indi"
+>teleskop</link
+> na wybrany obiekt. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Wysokość w czasie</term>
+<listitem>
+<para
+>Otwiera okno narzędzia <link linkend="tool-altvstime"
+>Wysokość w czasie</link
+>, z wczytanym wybranym obiektem </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Szczegóły</term>
+<listitem>
+<para
+>Otwiera okno <link linkend="tool-details"
+>Szczegóły obiektu</link
+> dla zaznaczonego obiektu. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Usuń</term>
+<listitem>
+<para
+>Usuwa zaznaczony obiekt (lub zaznaczone obiekty) z listy obserwowanych. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<note>
+<para
+>Lista obserwowanych jest nową funkcją, która ciągle jest na etapie rozwoju. Planujemy dodać więcej funkcji, takich jak dodawanie obiektów do listy poprzez zaznaczenie regionu na niebie, czy możliwość zapisania listy na dysk. </para>
+</note>
+</sect1>

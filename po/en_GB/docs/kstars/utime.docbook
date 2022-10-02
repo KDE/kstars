@@ -1,0 +1,54 @@
+<sect1 id="ai-utime">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Universal Time</title>
+<indexterm
+><primary
+>Universal Time</primary>
+<seealso
+>Time Zones</seealso>
+</indexterm>
+<para
+>The time on our clocks is essentially a measurement of the current position of the Sun in the sky, which is different for places at different Longitudes because the Earth is round (see <link linkend="ai-timezones"
+>Time Zones</link
+>). </para
+><para
+>However, it is sometimes necessary to define a global time, one that is the same for all places on Earth. One way to do this is to pick a place on the Earth, and adopt the Local Time at that place as the <firstterm
+>Universal Time</firstterm
+>, abbreviated <abbrev
+>UT</abbrev
+>. (The name is a bit of a misnomer, since Universal Time has little to do with the Universe. It would perhaps be better to think of it as <emphasis
+>global time</emphasis
+>). </para
+><para
+>The geographic location chosen to represent Universal Time is Greenwich, England. The choice is arbitrary and historical. Universal Time became an important concept when European ships began to sail the wide open seas, far from any known landmarks. A navigator could reckon the ship's longitude by comparing the Local Time (as measured from the Sun's position) to the time back at the home port (as kept by an accurate clock on board the ship). Greenwich was home to England's Royal Observatory, which was charged with keeping time very accurately, so that ships in port could re-calibrate their clocks before setting sail. </para>
+<tip>
+<para
+>Exercise:</para>
+<para
+>Set the geographic location to <quote
+>Greenwich, England</quote
+> using the <guilabel
+>Set Location</guilabel
+> window (<keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+>). Note that the Local Time (<abbrev
+>LT</abbrev
+>)and the Universal Time (<abbrev
+>UT</abbrev
+>) are now the same. </para
+><para
+>Further Reading: The history behind the construction of the first clock that was accurate and stable enough to be used on ships to keep Universal Time is a fascinating tale, and one told expertly in the book <quote
+>Longitude</quote
+>, by Dava Sobel. </para>
+</tip>
+</sect1>

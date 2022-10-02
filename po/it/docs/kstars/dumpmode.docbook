@@ -1,0 +1,70 @@
+<chapter id="dumpmode">
+<title
+>Modalità a riga di comando per la generazione di immagini</title>
+<indexterm
+><primary
+>Modalità generazione immagini</primary
+></indexterm>
+
+<para
+>Puoi utilizzare &kstars; per generare un'immagine del cielo senza bisogno di avviare l'interfaccia grafica del programma. Per servirti di questa funzione, avvia &kstars; da riga di comando, passando argomenti per specificare il nome file dell'immagine e le sue dimensioni: <cmdsynopsis
+><command
+>kstars</command
+> <arg choice="plain"
+>--dump</arg
+> <arg
+>--filename <replaceable
+>kstars.png</replaceable
+></arg
+> <arg
+>--height <replaceable
+>640</replaceable
+></arg
+> <arg
+>--width <replaceable
+>480</replaceable
+></arg
+> <arg
+>--script <replaceable
+>mioscript.kstars</replaceable
+></arg
+> <arg
+>--date <replaceable
+>"04 Jul 1976 12:30:00"</replaceable
+></arg
+> </cmdsynopsis>
+</para>
+<para
+>Se non viene specificato alcun nome file, l'immagine si chiamerà <filename
+>kstars.png</filename
+>. Il programma tenterà di generare un'immagine che corrisponda all'estensione del nome file. Le estensioni seguenti sono riconosciute: <quote
+>png</quote
+>, <quote
+>jpg</quote
+>, <quote
+>jpeg</quote
+>, <quote
+>gif</quote
+>, <quote
+>pnm</quote
+> e <quote
+>bmp</quote
+>. Nel caso che l'estensione non venga riconosciuta, l'immagine sarà di tipo <acronym
+>PNG</acronym
+>. </para>
+<para
+>Analogamente, se la larghezza e altezza dell'immagine non sono specificate, assumeranno i valori predefiniti di 640 e 480, rispettivamente. </para>
+<para
+>L'impostazione predefinita è che &kstars; legga le opzioni contenute nel file <filename
+>$KDEHOME/share/config/kstarsrc</filename
+> per stabilire dove centrare l'immagine e quali caratteristiche attribuirle. Ciò significa che dovrai eseguire &kstars; in modalità grafica, e uscire una volta impostate le opzioni con i valori desiderati per la generazione delle immagini. Non si tratta di una procedura molto flessibile, perciò forniamo anche la possibilità di eseguire uno script &DBus; di &kstars; per allestire la scena prima di generare l'immagine. Il nome file specificato come argomento deve essere uno script &DBus; valido di &kstars;, come quelli creati dal <link linkend="tool-scriptbuilder"
+>Costruttore script</link
+>. Lo script può essere usato per impostare il punto del cielo su cui è centrata l'immagine, la località geografica, la data e l'ora, per modificare il livello di zoom e cambiare altre opzioni di visualizzazione. Alcune delle funzioni &DBus; non hanno senso in modalità non grafica (come <function
+>waitForKey()</function
+>); se compaiono nello script, sono semplicemente ignorate. </para>
+<para
+>&kstars; utilizzerà la data e l'ora della CPU per generare l'immagine. In alternativa, puoi specificare data e ora differenti tramite l'argomento <quote
+>--date</quote
+>. Lo stesso argomento serve a specificare la data e l'ora iniziali per la modalità grafica normale. </para>
+
+</chapter>

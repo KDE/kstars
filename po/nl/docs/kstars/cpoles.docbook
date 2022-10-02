@@ -1,0 +1,65 @@
+<sect1 id="ai-cpoles">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>De hemelpolen</title>
+<indexterm
+><primary
+>Hemelpolen</primary>
+<seealso
+>Equatoriale coördinaten</seealso>
+</indexterm>
+<para
+>De hemel lijkt voorbij te draaien van Oost naar West, en daarbij in 24 (<link linkend="ai-sidereal"
+>Sterren</link
+>)-uren een keer helemaal rond te gaan. Dit is een gevolg van het draaien van de aarde om zijn as. De as waarom de aarde draait snijdt de <link linkend="ai-csphere"
+>hemelbol</link
+> in twee punten. Deze punten zijn de <firstterm
+>hemelpolen</firstterm
+>. Als de aarde draait blijven de hemelpolen op hun plaats aan de hemel, en alle andere punten lijken er omheen te draaien. De hemelpolen zijn ook de polen van het<link linkend="equatorial"
+>Equatoriale coördinatensysteem</link
+>, wat betekent dat hun <firstterm
+>declinaties</firstterm
+> +90 en -90 graden zijn, voor in die volgorde de Noord- en de Zuidhemelpool. </para
+><para
+>De noordelijke hemelpool heeft tegenwoordig ongeveer dezelfde coördinaten als de heldere ster <firstterm
+>Polaris</firstterm
+> (wat de Latijnse naam is voor de <quote
+>poolster</quote
+>). Hierdoor is de poolster erg handig voor de navigatie, niet alleen staat die altijd in het Noorden, ook de <link linkend="horizontal"
+>hoogte</link
+> is altijd (bijna) gelijk aan de <link linkend="ai-geocoords"
+>geografische breedte</link
+> van de waarnemer. (maar de poolster is alleen maar zichtbaar op het noordelijk halfrond). </para
+><para
+>Dat Polaris (nu) dichtbij de noordelijke hemelpool staat is puur toevallig. Door de <link linkend="ai-precession"
+>Precessie</link
+>, staat de poolster maar een korte tijd nabij de noordelijke pool.
+Noot vertaler: "een korte tijd" is een grappig voorbeeld van astronomisch taalgebruik. Je moet hier denken aan de afgelopen en de komende eeuwen: Polaris nadert nu nog de pool, om die ongeveer in 2100 het dichtst te naderen. De afstand is dan minder dan een halve graad. Daarna zal Polaris zich weer langzaam van de pool verwijderen, met een snelheid die uitgedrukt kan worden in tientallen boogseconden per jaar (eerst uiteraard langzaam, daarna wat sneller). </para>
+<tip>
+<para
+>Oefeningen:</para>
+<para
+>Gebruik het venster <guilabel
+>Object zoeken</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>) voor het zoeken van Polaris. Merk op dat de declinatie (bijna, maar niet precies) +90 graden is. Vergelijk de hoogte van Polaris met de geografische breedte van uw locatie. Deze twee verschillen altijd minder dan een graad.van elkaar. Ze zijn niet precies hetzelfde, omdat Polaris niet precies in de pool staat. (U kunt de kijkrichting precies op de noordelijke pool instellen door de equatoriale coördinaten aan te zetten, en daarna op de naar boven wijzende pijltjestoets te drukken totdat het beeld niet meer verandert). </para
+><para
+>Gebruik het spinveld <guilabel
+>Tijdstap instellen</guilabel
+> in de werkbalk om het tijdsverloop in stappen van 100 seconden in te stellen. U kunt zien dat de hele hemel lijkt te draaien om de poolster, terwijl de poolster bijna op dezelfde plaats lijkt te blijven staan. </para
+><para
+>We vertelden dat een hemelpool een pool is van het equatoriale coördinatensysteem. Wat is volgens u de pool van het horizontale (hoogte/azimut) coördinatensysteem? Antwoord: Het <link linkend="ai-zenith"
+>Zenit</link
+>). </para>
+</tip>
+</sect1>

@@ -1,0 +1,749 @@
+<sect2 id="ekos-capture">
+    <title
+>Capturar</title>
+    <indexterm>
+        <primary
+>Eines</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Captura</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Capturar amb l'Ekos </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_capture.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Capturar amb l'Ekos</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>El mòdul per al CCD és el mòdul principal per a l'adquisició d'imatges i vídeo a l'Ekos. Permet capturar imatges individuals (vista prèvia), múltiples (cua de seqüències) o gravar vídeos <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>SER</ulink
+> juntament amb una selecció de la roda de filtres i rotor, si està disponible. </para>
+    <sect3 id="capture-ccd-filter-wheel">
+        <title
+>CCD i roda de filtres</title>
+        <para
+>Seleccioneu el CCD/rèflex digital i la roda de filtres (si està disponible) per a la captura. Establiu les opcions de temperatura i filtre del CCD. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>CCD</guilabel
+>: Seleccioneu la càmera CCD activa. Si la vostra càmera té un guiatge del capçal, també podreu seleccionar-lo des d'aquí. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>AC</guilabel
+>: Seleccioneu el dispositiu actiu de la roda de filtres. Si la vostra càmera té una roda de filtres incorporada, el dispositiu serà el mateix que la càmera. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Refrigerador</guilabel
+>: Encendre/apagar la refrigeració. Establiu la temperatura desitjada, si la vostra càmera està equipada amb un refrigerador. Marqueu l'opció per a forçar l'opció de la temperatura abans de qualsevol captura. El procés de captura només s'iniciarà després que la temperatura mesurada es trobi dins de la tolerància de la temperatura requerida. La tolerància <emphasis
+>predeterminada</emphasis
+> és de 0,1 graus centígrads, però es pot ajustar a les opcions de <guilabel
+>Captura</guilabel
+> sota la configuració de l'Ekos. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+    <sect3 id="capture-settings">
+        <title
+>Configuració de la captura</title>
+        <screenshot>
+            <screeninfo
+>Configuració de la captura </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="capture_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configuració de la captura</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Establiu tots els paràmetres de captura tal com es detalla a continuació. Una vegada establerts, podreu capturar una vista prèvia fent clic a <guibutton
+>Vista prèvia</guibutton
+> o afegint una tasca a la cua de seqüències. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Exposició</guilabel
+>: Especifiqueu la durada de l'exposició en segons. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Filtre</guilabel
+>: Especifiqueu el filtre desitjat. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Comptador</guilabel
+>: El nombre d'imatges a capturar. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Retard</guilabel
+>: El retard en segons entre les captures d'imatge. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Tipus</guilabel
+>: Especifiqueu el tipus de fotograma del CCD desitjat. Les opcions són fotograma <guimenuitem
+>Lluminós</guimenuitem
+>, <guimenuitem
+>Fosc</guimenuitem
+>, <guimenuitem
+>Polaritzat</guimenuitem
+> i <guimenuitem
+>Pla</guimenuitem
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>ISO</guilabel
+>: Per a les càmeres rèflex digitals, especifiqueu el valor ISO. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Format</guilabel
+>: Especifiqueu el format per a desar la captura. Per a tots els CCD, només està disponible l'opció <guimenuitem
+>FITS</guimenuitem
+>. Per a les càmeres rèflex digitals, disposareu d'una opció addicional per a desar en format <guimenuitem
+>Natiu</guimenuitem
+> (&pex;, RAW o JPEG). </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Propietats personalitzades</guilabel
+>: Establiu les propietats esteses disponibles a la càmera a la configuració de la tasca. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Calibratge</guilabel
+>: Per als fotogrames foscos i plans, podreu establir opcions addicionals explicades a la <link linkend="capture-calibration-frames"
+>secció Fotogrames de calibratge a continuació</link
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fotograma</guilabel
+>: Especifiqueu l'esquerra (X), la part superior (Y), l'amplada (W) i l'alçada (H) del fotograma del CCD desitjat. Si heu canviat les dimensions del fotograma, podreu restablir-lo als valors predeterminats fent clic al botó Restableix. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Agrupament</guilabel
+>: Especifiqueu l'agrupament horitzontal (X) i vertical (Y). </para>
+            </listitem>
+        </itemizedlist>
+        <sect4 id="capture-custom-properties">
+            <title
+>Propietats personalitzades</title>
+            <para
+>Moltes càmeres ofereixen propietats addicionals que no es poden establir directament en la configuració de la captura mitjançant el control comú. Els controls de la captura descrits anteriorment representen les opcions més freqüents compartides entre les diferents càmeres, però cada càmera és única i pot oferir les seves pròpies propietats esteses. Tot i que podeu utilitzar el plafó de control INDI per a establir qualsevol propietat del controlador; és important poder establir aquesta propietat per a cada tasca en la seqüència. Quan feu clic a <guibutton
+>Propietats personalitzades</guibutton
+>, es mostrarà un diàleg dividit en <guilabel
+>Propietats disponibles</guilabel
+> i <guilabel
+>Propietats de la tasca</guilabel
+>. Quan en moveu una des de la llista <guilabel
+>Propietats disponibles</guilabel
+> a la de <guilabel
+>Propietats de la tasca</guilabel
+>, el seu valor actual es podrà registrar una vegada que feu clic a <guibutton
+>Aplica</guibutton
+>. Quan afegiu una tasca a la <guilabel
+>Cua de seqüències</guilabel
+>, els valors seleccionats a la llista <guilabel
+>Propietats de la tasca</guilabel
+> s'hauran de gravar i desar. </para>
+            <para
+>El següent vídeo explica que aquest concepte és més detallat amb un exemple en viu: </para>
+            <mediaobject>
+                <videoobject>
+                    <videodata contentdepth="450" contentwidth="800" fileref="https://www.stellarmate.com/images/fss/videos/custom_properties.mp4"
+></videodata>
+                </videoobject>
+                <caption>
+                    <para>
+                        <phrase
+>Característica de propietats personalitzades</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        </sect4>
+    </sect3>
+
+    <sect3 id="capture-file-settings">
+        <title
+>Configuració del fitxer</title>
+
+        <screenshot>
+            <screeninfo
+>Configuració del fitxer </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="file_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configuració del fitxer</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>La configuració per a especificar on es desen les imatges capturades i com generar noms de fitxer únics a més de la configuració del mode de pujada. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Prefix</guilabel
+>: Especifiqueu el prefix a afegir al nom de fitxer generat. També podeu afegir el tipus de fotograma, filtre, durada de l'exposició i la marca de temps ISO 8601. Per exemple, si especifiqueu el prefix com a <userinput
+>M45</userinput
+> i marqueu les caselles de selecció tipus i filtre, i suposant que el vostre filtre s'ha establert a <guimenuitem
+>Vermell</guimenuitem
+> i el tipus de fotograma és <guimenuitem
+>Llum</guimenuitem
+>, els noms de fitxer generats seran els següents: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_Light_Red_001.fits </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_Light_Red_002.fits </para>
+                    </listitem>
+                </itemizedlist>
+                <para
+>Si s'ha comprovat el <guilabel
+>TS</guilabel
+>, s'afegirà una marca de temps al nom del fitxer, &pex; </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_Light_Red_001_2016-11-09T23-47-46.fits</para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_Light_Red_002_2016-11-09T23-48-34.fits</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Script</guilabel
+>: Especifiqueu un script <emphasis
+>opcional</emphasis
+> que s'executarà després de completar cada captura. Cal especificar el camí complet de l'script i haurà de ser executable. Per a denotar l'èxit, l'script haurà de retornar zero, ja que això permetrà que la seqüència continuï. Si l'script retorna un valor que no sigui zero, la seqüència s'interromprà. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Directori</guilabel
+>: El directori local per a desar les imatges de la seqüència. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Pujada</guilabel
+>: Seleccioneu com es pujaran les imatges capturades: </para>
+                <orderedlist>
+                    <listitem>
+                        <para
+><guilabel
+>Client</guilabel
+>: Les imatges capturades només es pujaran a l'Ekos i es desaran al directori local especificat anteriorment.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Local</guilabel
+>: Les imatges capturades només es desaran localment a l'ordinador remot.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Ambdós</guilabel
+>: Les imatges capturades es desaran al dispositiu remot <emphasis role="bold"
+>i</emphasis
+> es carregaran a l'Ekos.</para>
+                    </listitem>
+                </orderedlist>
+                <para
+>Quan seleccioneu <guimenuitem
+>Local</guimenuitem
+> o <guimenuitem
+>Ambdós</guimenuitem
+>, haureu d'especificar el directori remot on es desaran les imatges remotes. De manera predeterminada, totes les imatges capturades es pujaran a l'Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Remot</guilabel
+>: Quan seleccioneu els modes <guimenuitem
+>Local</guimenuitem
+> o <guimenuitem
+>Ambdós</guimenuitem
+>, haureu d'especificar el directori remot on es desaran les imatges remotes. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-limit-settings">
+        <title
+>Configuració dels límits</title>
+
+        <screenshot>
+            <screeninfo
+>Configuració dels límits </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="limit_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configuració dels límits</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>La configuració dels límits s'apliquen a totes les imatges de la cua de seqüències. Quan se supera un límit, l'Ekos ordenarà l'acció adequada per a solucionar la situació tal com s'explica a continuació. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Desviació del guiatge</guilabel
+>: Si està marcada, es forçarà un límit a la desviació màxima admissible del guiatge per a l'exposició, si s'utilitza el guiatge automàtic. Si la desviació del guiatge supera aquest límit en segons d'arc, s'interromprà la seqüència de l'exposició. Es reprendrà automàticament de nou la seqüència de l'exposició una vegada que la desviació del guiatge baixi d'aquest límit.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Enfocament automàtic si HFR &gt;</guilabel
+>: Si l'enfocament automàtic està habilitat al <link linkend="ekos-focus"
+>mòdul per a l'enfocament</link
+> i almenys una operació d'enfocament automàtic s'ha completat correctament, podreu establir el valor HFR màxim acceptable. Si aquesta opció està habilitada, entre les exposicions consecutives, el valor HFR es tornarà a calcular, i si es troba que excedeix el valor màxim HFR acceptable, es desencadenarà automàticament una operació d'enfocament automàtic. Si l'operació d'enfocament automàtic s'ha completat correctament, la cua de seqüències es reprendrà, en cas contrari, la tasca s'interromprà.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Inversió del meridià</guilabel
+>: Si està admès per la muntura, establiu el límit de l'angle horari (en hores) abans d'ordenar una <ulink url="https://astronomy.mdodd.com/gem_movement.html"
+>inversió del meridià</ulink
+>. Per exemple, si establiu la durada de la inversió del meridià a 0,1 hores, l'Ekos ordenarà que la muntura que realitzi una inversió del meridià per 0,1 hores (6 minuts), llavors ordenarà a la muntura que realitzi una inversió del meridià. Un cop completada la inversió del meridià, l'Ekos es tornarà a alinear amb «astrometry.net» (si s'utilitzava <link linkend="ekos-align"
+>l'alineació</link
+>) i reprendrà el guiatge (si es va iniciar abans) i tornarà a iniciar automàticament el procés de captura.</para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-sequence-queue">
+        <title
+>Cua de seqüències</title>
+
+        <para
+>La cua de seqüències és el nucli primari del mòdul per a la captura de l'Ekos. Aquí és on podreu planificar i executar les tasques utilitzant el potent editor incorporat de la cua de seqüències. Per a afegir una tasca, simplement seleccioneu tots els paràmetres des de la configuració de la captura i el fitxer tal com s'ha indicat anteriorment. Un cop seleccionats els paràmetres desitjats, feu clic al botó <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> en la cua de seqüències per a afegir-los a la cua. </para>
+        <screenshot>
+            <screeninfo
+>Cua de seqüències </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="sequence_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Cua de seqüències</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Podeu afegir-hi tantes tasques com vulgueu. Si bé no és estrictament necessari, és preferible afegir-hi tasques per a fotogrames foscos i plans després dels de llum. Un cop hàgiu acabat d'afegir les tasques, feu clic a <guilabel
+>Inicia la seqüència</guilabel
+> <inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-start.png" format="PNG"/></imageobject
+></inlinemediaobject
+> per a començar a executar les tasques. Un estat de la tasca canviarà d'<guilabel
+>Inactiva</guilabel
+> a <guilabel
+>En progrés</guilabel
+> i, finalment, a <guilabel
+>Completada</guilabel
+> una vegada estigui feta. La cua de seqüències iniciarà automàticament la tasca següent. Si s'interromp una tasca, es podrà reprendre. Per a fer una pausa en una seqüència, feu clic al botó de pausa <inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-pause.png" format="PNG"/></imageobject
+></inlinemediaobject
+> i la seqüència s'aturarà després de completar la captura actual. Per a restablir l'estat de totes les tasques, simplement feu clic al botó restableix <inlinemediaobject
+><imageobject
+><imagedata fileref="view-refresh.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Assegureu-vos que tots els comptes de progrés de les imatges també es restableixen. Per a obtenir la vista prèvia d'una imatge en el visualitzador FITS del &kstars;, feu clic al botó <guibutton
+>Vista prèvia</guibutton
+>. </para>
+        <para
+>Les cues de seqüències es poden desar com a fitxer &XML; amb l'extensió <literal role="extension"
+>.esq</literal
+> (cua de seqüències de l'Ekos -Ekos Sequence Queue-). Per a carregar una cua de seqüències, feu clic al botó obre el document <inlinemediaobject
+><imageobject
+><imagedata fileref="document-open.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Cal tenir en compte que substituirà totes les cues de seqüències actuals a l'Ekos. </para>
+
+        <important>
+            <para
+><emphasis role="bold"
+>Progrés de la tasca</emphasis
+>: L'Ekos està dissenyat per a executar i reprendre la seqüència durant múltiples nits si és necessari. Per tant, si l'opció <guilabel
+>Recorda el progrés de la tasca</guilabel
+> està habilitada a les <link linkend="ekos"
+>Opcions de l'Ekos</link
+>, l'Ekos examinarà el sistema de fitxers per a comptar quantes imatges ja s'han completat i reprendrà la seqüència des d'on es va deixar. Si no es desitja aquest comportament predeterminat, simplement desactiveu <guilabel
+>Recorda el progrés de la tasca</guilabel
+> a les opcions. </para>
+        </important>
+
+        <para
+>Per a editar una tasca, feu-hi doble clic. Notareu que ara el botó afegeix <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> ha canviat a marcar el botó de marca <inlinemediaobject
+><imageobject
+><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Feu els canvis al costat esquerre del mòdul per al CCD i, una vegada fet, feu clic al botó marca de selecció. Per a cancel·lar una tasca editada, feu clic a qualsevol lloc de l'espai buit de la taula en la cua de seqüències. </para>
+        <para
+>Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic al botó <guibutton
+>Vídeo en directe</guibutton
+> per a començar la transmissió. La finestra del flux de vídeo permet gravar i la combinació de subfotogrames del flux de vídeo. Per a obtenir més informació, consulteu el següent vídeo: </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/qRsAqTL4ZZI"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Característica d'enregistrament</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="capture-filter-settings">
+        <title
+>Configuració del filtre</title>
+
+        <screenshot>
+            <screeninfo
+>Cua del filtre </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="filter_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Cua del filtre</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Feu clic a la icona del filtre <inlinemediaobject
+><imageobject
+><imagedata fileref="view-filter.png" format="PNG"/></imageobject
+></inlinemediaobject
+> que hi ha al costat de la casella de selecció de la roda de filtres per a obrir el diàleg de configuració del filtre. Si utilitzeu filtres que no són parafocals i que requereixen una quantitat específica de desplaçament de l'enfocament per tal d'obtenir resultats adequats, establiu en el diàleg tots els desplaçaments relatius a l'enfocament. </para>
+        <para
+>Configureu les opcions de cada filtre individualment: </para>
+        <orderedlist>
+            <listitem>
+                <para
+><guilabel
+>Filtre</guilabel
+>: Nom del filtre. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Exposició</guilabel
+>: Estableix el temps d'exposició utilitzat quan es realitza l'enfocament sota aquest filtre. De manera predeterminada, està establert a 1 segon. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Desplaçament</guilabel
+>: Estableix desplaçaments relatius. L'Ekos ordenarà un canvi en el desplaçament de l'enfocament si hi ha una diferència entre els desplaçaments actuals i els filtres de l'objectiu. Per exemple, tenint en compte els valors de la imatge d'exemple, si el filtre actual està establert a <emphasis
+>Vermell</emphasis
+> i el següent filtre és <emphasis
+>Verd</emphasis
+>, l'Ekos ordenarà a l'enfocador que faci un «Enfoca endins» en +300 marques. Els desplaçaments positius de l'enfocament relatiu denoten «Enfoca enfora», mentre els valors negatius denoten «Enfoca endins». </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Enfocament automàtic</guilabel
+>: Marqueu aquesta opció en el procés inicial de l'enfocament automàtic sempre que el filtre es canviï a aquest filtre. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Bloqueja el filtre</guilabel
+>: Estableix que el filtre s'ha d'establir i <emphasis
+>bloquejar</emphasis
+> quan es realitza l'enfocament automàtic per a aquest filtre. </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Ara agafarem un exemple. Suposem que la seqüència de captura s'està executant i que el filtre actual és <guilabel
+>Verd</guilabel
+>, de manera que el desplaçament relatiu ja s'ha establert a +300. La següent imatge a la seqüència utilitza Hydrogen Alpha (H_Alpha), de manera que, abans que l'Ekos capturi el següent fotograma, es produiran les següents accions: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Atès que s'especifica lluminositat com el filtre bloquejat i l'enfocament automàtic està marcat, el filtre es canviarà a lluminositat. </para>
+            </listitem>
+            <listitem>
+                <para
+>S'ha aplicat un desplaçament de l'enfocament de -300, ja que el filtre anterior <guilabel
+>Verd</guilabel
+> es va moure +300 anteriorment. </para>
+            </listitem>
+            <listitem>
+                <para
+>S'ha iniciat el procés per a l'enfocament automàtic. </para>
+            </listitem>
+            <listitem>
+                <para
+>Un cop completat l'enfocament automàtic, el filtre es canvia a H_Alpha. </para>
+            </listitem>
+            <listitem>
+                <para
+>S'ha aplicat un desplaçament de l'enfocament de -1200. </para>
+            </listitem>
+            <listitem>
+                <para
+>S'ha reprès la seqüència de captura. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-fits-viewer">
+        <title
+>Visualitzador FITS</title>
+
+        <para
+>Les imatges capturades es mostren a l'eina de visualitzador FITS del &kstars;, i també a la pantalla de resum. Estableix les opcions relacionades amb com es mostraran les imatges a l'espectador. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Obscuritat automàtica</guilabel
+>: Podeu capturar una imatge i sostreure automàticament l'obscuritat marcant aquesta opció. Cal tenir en compte que aquesta opció només s'aplicarà quan s'utilitza la <guilabel
+>Vista prèvia</guilabel
+>, no es pot utilitzar en la cua de seqüències en el mode de treball per lots. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Efectes</guilabel
+>: Filtre per a la millora de les imatges que s'aplicarà a la imatge després de la captura. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-rotation-settings">
+        <title
+>Configuració del rotor</title>
+
+        <screenshot>
+            <screeninfo
+>Configuració del rotor </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_rotator_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configuració del rotor</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Els rotors de camp són compatibles amb INDI i Ekos. L'angle del rotor és l'angle brut que informa el rotor i no és necessari l'<ulink url="https://en.wikipedia.org/wiki/Position_angle"
+>angle de posició</ulink
+>. Un angle de posició de <emphasis
+>zero</emphasis
+> indica que la part superior del fotograma (indicada per una petita fletxa) apunta <emphasis
+>directament</emphasis
+> al pol. L'angle de posició s'expressa com E de N (Est del Nord), de manera que l'AP de 90 graus indica que la <emphasis
+>part superior</emphasis
+> del fotograma supera els 90 graus (en sentit contrari a les agulles del rellotge) del pol. Consulteu alguns <ulink url="https://nustarsoc.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf"
+>exemples</ulink
+> per als AP diferents. </para>
+        <para
+>Per a calibrar l'angle de posició (AP), captureu i solucioneu una imatge al <link linkend="ekos-align"
+>mòdul per a l'alineació de l'Ekos</link
+>. S'aplicaran un <emphasis
+>desplaçament</emphasis
+> i un <emphasis
+>multiplicador</emphasis
+> a l'angle brut per a produir l'angle de posició. El diàleg del rotor de l'Ekos permet el control directe de l'angle brut i també de l'AP. El desplaçament i el multiplicador es poden canviar manualment per a sincronitzar l'angle brut del rotor amb l'AP real. Marqueu <guilabel
+>Sincronitza el CDV amb l'AP</guilabel
+> per a girar l'actual indicador del camp de visió (CDV) al mapa celeste amb el valor AP a mesura que el canvieu al diàleg. </para>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/V_hRPMlPjmA"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Configuració del rotor</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <para
+>Cada tasca de captura pot assignar-se a diferents angles del rotor, però cal tenir en compte que això provocaria que el guiatge s'interrompi, ja que estava perdent la traça de l'estrella guia en rotar. Per tant, per a la majoria de seqüències, l'angle del rotor es mantindrà igual per a totes les tasques de captura. </para>
+    </sect3>
+
+    <sect3 id="capture-calibration-frames">
+        <title
+>Fotogrames de calibratge</title>
+
+        <screenshot>
+            <screeninfo
+>Configuració del calibratge </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="calibration_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Configuració del calibratge</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Per als fotogrames de camp pla, podeu establir les opcions del calibratge per a automatitzar el procés. Les opcions del calibratge estan dissenyades per a facilitar la captura automàtica d'un fotograma de camp pla. Si es vol, també es pot utilitzar per a fotogrames foscos i polaritzats. Si la vostra càmera està equipada amb un obturador mecànic, no cal que establiu la configuració del calibratge, tret que vulgueu tancar la funda de protecció per a garantir que cap llum no passi a través del tub òptic. Per als camps plans, haureu d'especificar la font de llum del camp pla i, a continuació, especificar la durada del fotograma de camp pla. La durada pot ser manual o basada en càlculs ADU (unitat d'analògic a digital). </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Font del camp pla <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manual</guilabel
+>: La font de llum plana és manual.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Funda de protecció amb llum plana incorporada</guilabel
+>: Si s'utilitza una funda de protecció amb una font de llum integrada (&pex;, FlipFlat). Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, tanqueu la funda de protecció i enceneu la font de llum.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Funda de protecció amb llum plana externa</guilabel
+>: Si s'utilitza una funda de protecció amb una font de llum plana externa. Per als fotogrames foscos i polaritzats, tanqueu la funda de protecció abans de continuar. Per als fotogrames plans, obriu la funda de protecció i enceneu la font de llum. Es considera que la ubicació de la font de llum plana externa es troba l'emplaçament de l'aparcament.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Paret</guilabel
+>: La font de llum és un panell a la paret de l'observatori. Especifiqueu les coordenades de l'azimut i l'altitud del panell i la muntura s'orientarà abans de capturar els fotogrames de camp pla. Si el panell de llum és controlable des de l'INDI, l'Ekos l'encendrà o apagarà segons sigui necessari.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Alba/Posta</guilabel
+>: Actualment no està admesa.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+>Durada del camp pla <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manual</guilabel
+>: La durada és com s'especifica a la cua de seqüències.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>ADU</guilabel
+>: La durada és variable fins que es compleixi l'ADU especificat.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Abans de començar el calibratge del procés de captura, podeu demanar que l'Ekos aparqui la muntura i/o la cúpula. Segons la vostra selecció anterior de la font plana, l'Ekos utilitzarà la font de llum plana adequada abans de començar a capturar fotogrames plans. Si s'especifica l'ADU, l'Ekos començarà capturant un parell d'imatges de vista prèvia per a establir la corba necessària per a aconseguir el compte d'ADU desitjat. Una vegada que es calculi un valor adequat, es prendrà una altra captura i recomptarà l'ADU fins que s'obtingui un valor satisfactori. </para>
+    </sect3>
+
+    <sect3 id="capture-video-tutorials">
+        <title
+>Guies d'aprenentatge en vídeo</title>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/Gz07j7VPnpc"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Captura</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/yfz9_UJIvLY"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Rodes de filtres</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+</sect2>

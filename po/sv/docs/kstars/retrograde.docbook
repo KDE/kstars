@@ -1,0 +1,31 @@
+<sect1 id="ai-retrograde">
+<sect1info>
+<author
+><firstname
+>John</firstname
+> <surname
+>Cirillo</surname
+> </author>
+</sect1info>
+<title
+>Retrograd rörelse</title>
+<indexterm
+><primary
+>Retrograd rörelse</primary>
+</indexterm>
+
+<para
+><firstterm
+>Retrograd rörelse</firstterm
+> är en banrörelse för en kropp i motsatt riktning mot den som är normal för kroppar i rymden för ett givet system. </para
+><para
+>När vi observerar himlen, förväntar vi oss att de flesta objekt verkar röra sig i en viss riktning när tiden går. Den skenbara rörelsen för de flesta kroppar på himlen är från öster till väster. Det är möjligt att ibland observera en kropp som rör sig från väster till öster, som en konstgjord satellit eller rymdskyttel med en östgående bana. Den här banan anses som en retrograd rörelse. </para
+><para
+>Retrograd rörelse används oftast med avseende på rörelsen hos de yttre planeterna (Mars, Jupiter, Saturnus, och så vidare). Även om dessa planeter verkar röra sig från öster till väster varje natt, beroende på att jorden snurrar, driver de i själva verket sakta österut i förhållande till de stillastående stjärnorna, vilket kan observeras genom att notera positionen för planeterna under flera nätter i rad. Den här rörelsen är dock normal för dessa planeter, och anses inte vara retrograd rörelse. Eftersom jorden fullbordar sin bana på en kortare tid än de yttre planeterna, passerar vi då och då förbi en yttre planet, som en snabbare bil på en flerfilig motorväg. När detta inträffar verkar planeten som vi passerar först att stanna driften österut, och verkar sedan driva bakåt västerut. Det här är retrograd rörelse, eftersom den är i en riktning motsatt den typiska för planeter. Till sist, när jorden svänger förbi planeten i sin bana, verkar den återta sin normala drift från väster till öster under följande nätter. </para
+><para
+>Den här typen av retrograd rörelse förbryllade de gamla grekiska astronomerna, och var en av orsakerna att de namngav de här kropparna <quote
+>planeter</quote
+>, som betyder <quote
+>vandrare</quote
+> på grekiska. </para>
+</sect1>

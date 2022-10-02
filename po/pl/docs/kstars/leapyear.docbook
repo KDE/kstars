@@ -1,0 +1,58 @@
+<sect1 id="ai-leapyear">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Lata przestępne</title>
+<indexterm
+><primary
+>Lata przestępne</primary>
+</indexterm>
+<para
+>Na ruch Ziemi składają się obrót wokół własnej osi, który zajmuje jedą <firstterm
+>dobę</firstterm
+> i obrót wokół Słońca, zajmujący <firstterm
+>rok</firstterm
+>. </para
+><para
+>Normalnie rok <emphasis
+>kalendarzowy</emphasis
+> składa się z 365 dni, ale okazuje się, że tak <emphasis
+>naprawdę</emphasis
+> rok (&ie; pełny obrót Ziemi wokół Słońca, zwany także <firstterm
+>rokiem zwrotnikowym</firstterm
+>) trwa trochę dłużej niż 365 dni. Innymi słowy, podczas pełnego obrót wokół Słońca Ziemia wykonuje 365,24219 obrotów wokół własnej osi. Nie powinno to dziwić, nie ma bowiem jakiegokolwiek powodu ewentualnej synchronizacji między obrotem i ruchem na orbicie. Komplikuje to jednak oznaczanie czasu kalendarzowego. </para
+><para
+>Co by się stało, gdyby zignorować te 0,24219 obrotu? Rok kalendarzowy miałby wtedy zawsze 365 dni. Kalendarz odzwierciedla postęp ruchu Ziemi wokół Słońca. Jeżeli zignorowalibyśmy ten ułamek, data kalendarzowa opóźniałaby się do pozycji Ziemii względem Słońca. Po kilku dekadach daty równonocy i przesileń zauważalnie przesunęłyby się. </para
+><para
+>Kiedyś wszystkie lata <emphasis
+>składały się</emphasis
+> z 365,0 dni i przez to kalendarz <emphasis
+>nie odzwierciedlał pór roku</emphasis
+>. W roku 46 <abbrev
+>p.n.e.</abbrev
+>, Juliusz Cezar wprowadził <firstterm
+>kalendarz juliański</firstterm
+>, który jako pierwszy zawierał <firstterm
+>lata przestępne</firstterm
+>: Co cztery lata rok składał się z 366 dni, gdyż trwa on średnio 365,25 dnia. Rozwiązało to w praktyce problem przesuwania się kalendarza. </para
+><para
+>Jednakże kalendarz juliański nie rozwiązał problemu do końca, gdyż rok nie trwa 365,25 dni lecz 365,24219. Nadal występowały przesunięcia kalendarza.Zajęło to stulecia, aby stały się one zauważalne. W roku 1582 papież Grzegorz XIII ustanowił <firstterm
+>kalendarz gregoriański</firstterm
+>, który różnił się od juliańskiego tym, że z lat pełnych stuleci (kończących się cyframi <quote
+>00</quote
+>) przestępne są tylko te, które dzielą się przez 400. Zatem lata 1700, 1800, i 1900 nie były przestępnymi (w kalendarzu juliańskim były), natomiast rok 2000 <emphasis
+>był</emphasis
+> rokiem przestępnym. Kalendarz ten nie usuwa do końca przesuwania kalendarza, ale niweluje ten efekt do 3 dni na 10,000 lat. W chwili obecnej kalendarz gregoriański jest kalendarzem urzędowym w większości krajów. </para>
+<note>
+<para
+>Gdy papież Grzegorz XIII wprowadzał swój kalendarz, kalendarz juliański obowiązywał już od 1500 lat i uległ przesunięciu o ponad tydzień. Papież zsynchronizował kalendarz <emphasis
+>usuwając</emphasis
+> 10 dni: w roku 1582 kolejnym dniem po 4 listopada był 15 listopada! </para>
+</note>
+</sect1>

@@ -1,0 +1,1219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sect2 id="ekos-focus">
+  <title
+>Focus</title>
+
+  <indexterm>
+    <primary
+>Hulpmiddelen</primary>
+
+    <secondary
+>Ekos</secondary>
+
+    <tertiary
+>Focus</tertiary>
+  </indexterm>
+
+  <sect3 id="focus-theory">
+    <title
+>Theorie hoe het werkt</title>
+
+    <screenshot>
+      <screeninfo
+>Ekos Focus </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ekos_focus.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Ekos Focus</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Voor de focus in een afbeelding moet Ekos in staat zijn numeriek vast te stellen hoe <emphasis
+>goed</emphasis
+> die focus is. Het is niet moeilijk, bij het zien van een afbeelding, vast te stellen dat die <emphasis
+>niet scherp</emphasis
+> is, omdat het menselijk oog dat heel goed kan, maar <emphasis
+>hoe</emphasis
+> moet Ekos dat doen? </para>
+
+    <para
+>Er zijn diverse manieren. Een ervan is het berekenen van de "Full Width at Half Maximum" (FWHM: volle breedte op half maximum) van een sterprofiel in een afbeelding, en daarna de focus  aan te passen tot een kleinere FWHM. De moeilijkheid met FWHM is, dat wordt aangenomen dat de initiële focus dicht bij de kritische focus is. Bovendien voldoet FWHM niet goed bij fluxen met een lage intensiteit. Een andere methode is "Half-Flux-Radius" (HFR: halve flux straal). Dit is een maat voor het aantal pixels vanaf het midden van de ster, totdat de accumulatie van de intensiteit de helft is van de totale flux van de ster. HFR blijkt veel stabieler te zijn in condities waar de hemelcondities slecht zijn, wanneer het helderheidsprofiel van de sterren laag is, en wanneer de startpositie van de focus ver verwijderd is van de optimale focus. </para>
+
+    <para
+>Nadat Ekos een afbeelding heeft bewerkt, selecteert deze de enkele ster en meet het hiervan de HFR, of deze selecteert a  set sterren die overeenkomen met criteria die zijn ingesteld en berekent een gemiddelde HFR. Ekos kan sterren automatisch selecteren of u kunt handmatig een enkele ster selecteren. Het wordt aanbevolen om Ekos een set sterren te laten selecteren. </para>
+
+    <para
+>Ekos ondersteunt 4 verschillende algoritmen voor focus: Iteratief, Polynoom, Lineair en Lineair 1 doorgang. </para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Iteratief</emphasis
+>: In het iteratieve algoritme, werkt Ekos iteratief door met discrete stapjes verder te gaan, initieel bepaald door de ingestelde stapgrootte, en later door de helling van de V-kromme, om de optimale focuspositie te bereiken. De stapjes worden dan steeds kleiner, totdat het optimale focuspunt is gevonden. Het focusproces stopt wanneer de HFR binnen de ingestelde tolerantie komt, uitgedrukt in % van de kleinst gemeten en opgeslagen HFR. Met andere woorden: zodra het zoeken begint naar een oplossing binnen een klein bereik, wordt de huidige HFR vergeleken met de kleinste eerder gemeten en opgeslagen HFR-waarde, en als aan de voorwaarde is voldaan, wordt het autofocusproces als geslaagd beschouwd. De standaardwaarde is ingesteld op 1%, wat in de meeste gevallen goed genoeg is. De opties voor de Stapgrootte geven het aantal initiële ticks dat de focuser moet bewegen. Als de afbeelding erg onscherp is, stellen we een grote stapgrootte in (d.w.z. groter dan 250). En anders, wanneer de focus al bijna goed is, stellen we de focus wat redelijker in (kleiner dan 50). Door te proberen moeten we de juiste waarde zien te vinden, maar Ekos gebruikt die alleen in het begin, omdat de volgende waarden afhangen van de berekeningen van de hellingen in de V-kromme. Sleutelfuncties omvatten:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Het algoritme vertrouwt op de focuser met een goed gecontroleerde speling. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme kan snel zijn met een minimum aantal stappen. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme werkt op een "goed genoeg" paradigma waarbij het stopt wanneer de HFR binnen het % tolerantie van het waargenomen minimum is. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Polynoom</emphasis
+>: in het Polynoom-algoritme start het proces in de iteratieve modus, maar wanneer we op de andere tak van de V-kromme (nadat de HFR-waarden stijgen na een aanvankelijke daling), dan gebruikt Ekos een kwadratisch fitten van een kromme voor het vinden van een oplossing die de kleinst mogelijke HFR-positie voorspelt. Sleutelfuncties omvatten:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Het algoritme vertrouwt op de focuser met een goed gecontroleerde speling. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme kan snel zijn met een minimum aantal stappen. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme gebruikt fitten van kromme om de optimale focuspositie vast te zetten. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Lineair</emphasis
+>: In het lineaire algoritme stapt Ekos naar buiten van het startpunt en beweegt daarna inwaarts met het nemen van reguliere gegevenspunten via het punt van optimale focus en daarna verder inwaarts, om een V-kromme te tekenen. Het fits daarna een kwadratische kromme door de gegevenspunten en berekent het punt van optimale focus. Het beweegt daarna opnieuw naar buiten verder dan het punt van optimale focus, halveert de stapgrootte en beweegt opnieuw voor een tweede doorgang. Het kijkt om de kromme te van de eerste doorgang te volgen en vindt de minimale HFR. Vanwege willekeurigheid in de HFR metingen gebruikt het het % tolerantie om te helpen beslissen wanneer het een oplossing heeft gevonden. Sleutelfuncties omvatten: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Het algoritme compenseert voor speling in de focuser en kan met zowel consistente als inconsistente speling omgaan. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme is langzaam, neemt 2 doorgangen om optimale focus te identificeren. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme gebruikt fitten van kromme om de optimale focuspositie vast te zetten in doorgang 1, maar gebruikt daarna het % tolerantie om zo dicht mogelijk te stoppen bij deze HFR in doorgang 2. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme is heel goed te configureren met controle van de gebruiker over vele parameters zoals stapgrootte en aantal stappen. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Lineaire 1 doorgang</emphasis
+>: In het algoritme Lineaire 1 doorgang, doet Ekos initieel zoals het Lineaire algoritme in het bepalen van de eerste doorgang V-Curve en het fitten van een kromme erin om de oplossing te vinden. Daarna, echter, beweegt het direct naar het berekende minimum. sleutelfuncties omvatten: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Het algoritme compenseert voor speling in de focuser, aangenomen dat speling consistent is. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme is snel, neemt 1 doorgang on optimale focus te bepalen. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme gebruikt meer geavanceerd fitten van krommen om de optimale focuspositie te bepalen. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>Het algoritme is heel goed te configureren met controle van de gebruiker over vele parameters zoals stapgrootte en aantal stappen. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-focuser-group">
+    <title
+>Focuser groep</title>
+
+    <screenshot>
+      <screeninfo
+>Focuser Instellingen </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focuser_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focuser Instellingen</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Alle INDI-compatibele focuser worden ondersteund. Het wordt aanbevolen <emphasis role="bold"
+>absolute</emphasis
+> focusers te gebruiken voor de beste resultaten, omdat bij het opstarten hun absolute positie bekend is. In INDI  is de <emphasis
+>nul</emphasis
+>-position de positie waarin de trekbuis <emphasis role="bold"
+>geheel is ingetrokken</emphasis
+>. Bij <emphasis
+>uitwaarts</emphasis
+> focusseren, neemt de focuspositie toe, en die neemt af bij <emphasis
+>inwaarts</emphasis
+> focusseren. De volgende  types focuser worden ondersteund: </para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Absolute</emphasis
+>: Absolute positie focusers zoals RoboFocus, MoonLite, ASI ZWO </para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Relatieve</emphasis
+>: Relatieve positie focusers. </para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Op tijd gebaseerd</emphasis
+>: Op tijd gebaseerde focusers zonder terugkoppeling van positie die de focuspositie aanpast door het verplaatsen voor een bepaalde hoeveelheid tijd. </para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Begin bij het selecteren van de Focuser uit het afrolmenu. </para>
+
+    <para
+>Voor absolute focusers kunt u het aantal ticks in het veld Initiële stapgrootte in het tabblad <link linkend="focus-mechanics"
+>Mechanismen</link
+>. Voor absolute en relatieve focusers is de stapgrootte in eenheden van <emphasis
+>ticks</emphasis
+> en voor eenvoudige of op tijd gebaseerde focusers is de stapgrootte in <emphasis
+>milliseconden</emphasis
+>. De knoppen <guibutton
+>In</guibutton
+> en <guibutton
+>Uit</guibutton
+> kunnen dan gebruikt worden om de focuser te verplaatsen met dit aantal ticks.</para>
+
+    <para
+>Het velden met Stappen zullen initieel het startpunt in ticks bevatten voor de focuser. Als de focuser beweegt zal het linker veld bijgewerkt worden om de huidige positie van de focuser te laten zien. Het rechter veld zal initieel de startpositie van de focuser bevatten maar zal bijgewerkt worden elke keer dat een autofocus actie gereed komt worden bijgewerkt, om een laatste goede focuspositie te bewaren. Daarnaast kunt u het rechter veld instellen op een waarde die u wilt en de knop <guibutton
+>Ga naar</guibutton
+> gebruiken om de focuser naar deze positie te verplaatsen.</para>
+
+    <para
+>De knop <guibutton
+>Ga naar Focuspositie</guibutton
+> verplaatst de focuser naar de positie in het Stappenveld rechts. </para>
+
+    <para
+>De knop <guibutton
+>Bewegen van focuser stoppen</guibutton
+> stopt de al gaande beweging van de focuser. </para>
+
+    <para
+>De knop <guibutton
+>Auto focus</guibutton
+> start een actie Autofocus. De knop <guibutton
+>Stop</guibutton
+> wordt gebruikt om de actie te stoppen. </para>
+
+    <para
+>De knop <guibutton
+>Afbeelding vangen</guibutton
+> zal een frame gebaseerd op de huidige instellingen in de groep <guilabel
+>CCD en filterwiel</guilabel
+> nemen. De knop <guibutton
+>Framing starten</guibutton
+> zal herhaald frames vangen totdat de knop <guibutton
+>Stop</guibutton
+> wordt ingedrukt. </para>
+
+    <para
+>Sommigen van de focusalgoritmes zullen proberen om te gaan met het beginnen weg van het punt van optimale focus, maar voor voorspelbare resultaten, is het het beste om te beginnen van een positie ongeveer in focus. Voor de eerste opzet kan <guibutton
+>Framing starten</guibutton
+> worden gebruikt samen met de knoppen <guibutton
+>In</guibutton
+> en <guibutton
+>Uit</guibutton
+> om de focuspositie aan te passen tot ruwweg het minimaliseren van de HFR van de sterren in de opgenomen afbeeldingen. Wanneer framing op deze manier wordt gebruikt, wijzigt de <link linkend="focus-v-curve"
+>V-kromme</link
+> grafiek in het tonen van een tijdserie van frames en hun bijbehorende HFR's. Dit maakt het framingproces veel gemakkelijker uit te voeren.</para>
+
+    <para
+>Als u volledig nieuw bent in astronomie, dan is het altijd een goed idee om vertrouwd te raken met uw apparatuur bij daglicht. Dit omvat het verkrijgen van de benaderde focuspositie op een ver object. Dit zal een goede startpositie leveren voor focusseren op sterren 's nachts.</para>
+  </sect3>
+
+  <sect3 id="focus-ccd-filter-wheel">
+    <title
+>CCD &amp; Filterwiel groep</title>
+
+    <screenshot>
+      <screeninfo
+>Focus CCD &amp; Filterwiel Groep </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_ccdfw_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus CCD &amp; Filterwiel Groep</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Stel de in het focusproces te gebruiken CCD  in vanuit het afrolmenu. De knop <guibutton
+>Live video</guibutton
+> brengt de bijbehorende popup. Stel vervolgens de belichtingsduur in. De knop <guibutton
+>Naar volledig scherm omschakelen </guibutton
+> laat het venster die het focusframe toont verschijnen in een apart venster. Opnieuw indrukken brengt het terug in het focusvenster. De knop <guibutton
+>In FITS-viewer tonen</guibutton
+> verschijnt in een apart venster FITS-viewer om het focusframe te tonen, naast het focusframe getoond in het focusvenster.</para>
+
+    <para
+>De volgende rij besturingen bieden het instellen van CCD-parameters. Kies een waarde uit de binning-afrol en stel daarna ofwel de versterking van de camera of ISO.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Binning</guilabel
+>: de binning verhogen zal de afbeeldingsschaal wijzigen eveneens resulterend in helderder pixels. Een goede plek om te beginnen zou 1x1 zijn en daarna zien of betere resultaten verkregen kunnen worden met binning op hogere niveaus zoals 2x2 of 4x4.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Versterking / ISO</guilabel
+>: stelt de versterking / ISO voor de CCD in die gebruikt wordt om te focusseren. De waarde moet hoog genoeg zijn om een helder sterpatroon te geven maar niet zo hoog om te veel ruis te creëren die interfereert met de focusbewerking. Enig experimenteren zal nodig zijn om een optimale waarde te vinden. Als u niet weet waar te beginnen probeer versterking één voor uw camera en pas het vandaar aan.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De volgende rij besturingen behandelen het filterwiel, als er die er is. Kies eerst het filterwiel en het te gebruiken filter uit het afrolmenu. Om met focussen te beginnen zal het waarschijnlijk gemakkelijker zijn om het filter te selecteren dat het meeste licht doorlaat, bijvoorbeeld het Lum-filter. De knop <guibutton
+>Filterinstellingen</guibutton
+> laat de popup <link linkend="capture-filter-settings"
+>Filterinstellingen</link
+> verschijnen. Dit biedt een aantal per filter in te stellen parameters om te gebruiken tijdens het uitvoeren van autofocus die onbewaakt gedaan kan worden zodat een gebruiker niet beschikbaar hoeft te zijn om parameters in te stellen bij uitvoeren. Deze bieden ruwweg twee typen van doen van focusseren:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Per filter</emphasis
+>: wanneer een ander module, bijvoorbeeld, de module Opnemen een wijziging van filter vereist, dan is het mogelijk om automatisch opnieuw te focussen voor het nieuwe filter. De te gebruiken belichting voor elk filter wordt genomen uit de popup <link linkend="capture-filter-settings"
+>Filterinstellingen</link
+>. Dit is erg nuttig waar, bijvoorbeeld, een filter met smalle bandbreedte een langere belichtingstijd vereist dan filters met brede bandbreedte.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Filter vergrendelen</emphasis
+>: het is mogelijk om een te vergrendelen filter te gebruiken wanneer het vereist is om een ander filter te focussen. Bijvoorbeeld, als een rood filter wordt gebruikt en een autofocus is vereist, dan is het mogelijk de autofocus te doen met het Lum-filter en daarna, na voltooiing, de focuspositie aan te passen met een offsetwaarde overeenkomend met het eerder bepaalde focusverschil tussen de Lum en rood filters. Dit is nuttig wanneer, bijvoorbeeld, het moeilijk is sommige filters direct te focusseren zonder excessief lange belichtingstijden. Merk op dat deze methode van vergrendeld filter ook gebruikt kan worden in de <link linkend="ekos-align"
+>Uitlijnmodule</link
+> wanneer het een opname doet voor astrometrie.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>U kunt de temperatuurbron selecteren uit het afrolmenu op de volgende rij besturingen. Eronder worden de huidige temperatuur uit de geselecteerde temperatuurbron getoond en de wijziging in temperatuur tussen het moment van de laatste met succes uitgevoerde autofocus en de huidige temperatuur. Het is algemene praktijk om te focussen opnieuw te doen na aanzienlijke temperatuur wijzigingen die het focuspunt van de telescoop verandert. U kunt het subframe voor focussen resetten naar opnemen van volledig frame als u op de knop <guibutton
+>Reset</guibutton
+> drukt. </para>
+  </sect3>
+
+  <sect3 id="focus-settings">
+    <title
+>Focusinstellingen</title>
+
+    <screenshot>
+      <screeninfo
+>Focusinstellingen </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_settings.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus Instellingen</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Als volgende zijn er 3 panelen met parameters in tabbladen. Deze parameters worden bewaard tussen sessies. De eerste is het paneel instellingen.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Automatisch ster selecteren</guilabel
+>: biedt Ekos het selecteren van de te focusseren ster(ren) uit de afbeelding. Indien niet geselecteerd dan moet de gebruiker handmatig een ster selecteren.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Dark Frame</guilabel
+>: Activeer deze optie voor het toepassen van dark-frame aftrekken. Deze optie kan nuttig zijn voor afbeeldingen met veel ruis, waar een eerder opgenomen donker afgetrokken wordt van de focusafbeelding voor verder verwerking.</para>
+
+        <para
+>Donkere frames worden door focussen, uitlijnen en volgen gebruikt. Zie de functie Donkere bibliotheek in de <link linkend="ekos-capture"
+>Opnamemodule</link
+> voor meer details over hoe Donkere frames op te zetten.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Subframe</guilabel
+>: gebruik ofwel het volledige veld van de camera of selecteer Subframe rondom de focusster tijdens de autofocusprocedure. Dit is alleen relevant als een enkele ster wordt gebruikt voor focussen. Het aanzetten van subframing kan het focusproces versnellen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Vak</guilabel
+>: Stelt de grootte in van het vak rondom de focusster bij gebruik van <emphasis role="bold"
+>Subframe</emphasis
+>. Maak groter bij erg grote sterren. Voor Bahtinov focus kan de vakgrootte vergroot worden nog meer om beter het Bahtinov diffractiepatroon in te sluiten.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Volledig veld</guilabel
+>: ofwel gebruik het volledige veld van de camera of selecteer een subframe rond de ster voor focussen tijdens de procedure autofocus. Bij gebruik van meerdere sterren dan moet deze optie geselecteerd worden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Annulus</guilabel
+>: gebruikt samen met volledig veld, biedt Annulus twee invoervelden die samen een donut over de FOV van de camera definiëren. Sterren die buiten de donut vallen worden uitgesloten van de bewerking. Een binnenwaarde boven 0% veroorzaakt dat sterren in het centrum van de FOV worden uitgesloten. Dit zou nuttig kunnen zijn om gebruik van sterren in het doel van de afbeelding (bijvoorbeeld een melkwegstelsel) te vermeiden voor het focusseren. Een buitenwaarde onder 100% veroorzaakt dat sterren in de randen van de FOV worden uitgesloten tijdens focusseren. Dit zou nuttig kunnen zijn als u geen plat veld hebt naar de randen van uw FOV.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Volgen onderbreken</guilabel
+>: stel deze optie in om volgen te onderbreken tijden het doen van autofocus. Een extra controle wordt gedaan om alleen volgen te onderbreken als het wordt gedaan via de primaire telescoop, bijvoorbeeld bij gebruik van een Off Axis Guider. Het doel hiervan is het voorkomen van problemen bij volgen met sterren uit focus tijdens het proces van focussen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Settelen</guilabel
+>: deze optie wordt gebruikt samen met <guilabel
+>Volgen onderbreken</guilabel
+>. Het biedt het settelen van vibraties in de optische trein door deze hoeveelheid seconden te wachten nadat het autofocusproces is voltooid, alvorens volgen te herstarten.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Gewichten gebruiken</guilabel
+>: dit is een experimentele optie alleen beschikbaar met het focusalgoritme Lineaire 1 doorgang en typen krommen hyperbool en parabool. Het vereist volledig veld geselecteerd. De optie berekent de standaard deviatie van HFR's van sterren en gebruikt het kwadraat ervan (mathematisch de variantie) als een weging in het proces van fitten van een kromme. Het voordeel hiervan is dat datapunten met minder betrouwbare gegevens en daarom grotere HFR standaard deviaties minder gewicht wordt gegeven dan meer betrouwbare datapunten. Als deze optie niet actief is en voor alle ander fitten van een kromme waar de optie niet is toegestaan, worden aan alle datapunten gelijk gewicht gegeven in het proces van fitten van een kromme. </para>
+
+        <para
+>Zie de <link linkend="Levenberg-Marquardt"
+>Levenberg-Marquardt Solver</link
+> voor meer details.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>R² limiet</guilabel
+>: dit is een experimentele optie alleen beschikbaar met het focusalgoritme Lineair 1 doorgang en typen krommen hyperbool en parabool. Als onderdeel van het algoritme Lineair 1 doorgang, wordt de graad waarmee de kromme fit met de datapunten, of <link linkend="Coefficient_of_Determination"
+>Coëfficiënt van bepaling, R²</link
+> berekend. Deze optie biedt een minimaal acceptabele waarde van R² om gedefinieerd te worden die vergeleken wordt met de waarde verkregen uit het proces van fitten van krommen. Als de minimale waarde niet is bereikt, zal autofocus opnieuw gedaan worden. Slechts een herhaling wordt gedaan en zelfs als de minimale R² niet wordt bereikt deze tweede keer, zal het doen van autofocus als succesvol worden aangemerkt.</para>
+
+        <para
+>Experimenteer om een toepasselijke waarde te vinden maar een goed startpunt zou 0.8 of 0.9 zijn</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-process">
+    <title
+>Focusproces</title>
+
+    <screenshot>
+      <screeninfo
+>Focusproces </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_process.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focusproces</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Dit is het paneel Parameters van het focusproces.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Detectie</guilabel
+>: Selecteer algoritme voor sterdetectie. Elk algoritme heeft zijn voors en tegens. Aangeraden wordt de standaard waarde, SEP, te behouden, behalve wanneer blijkt dat sterren niet worden gevonden. De volgenden zijn beschikbaar:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>SEP</emphasis
+>: Source Extraction and Photometry ingebouwde bibliotheek. Dit is de standaard waarde.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Centroid</emphasis
+>: een extractiemethode gebaseerd op schatten van de stermassa rond signaalpieken.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Gradient</emphasis
+>: een extractiemodel van een enkele bron gebaseerd op het Sobel-filter. </para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Drempel</emphasis
+>: een detectie-algoritme van een enkele bron gebaseerd op pixelwaarden. </para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Bahtinov</emphasis
+>: Deze detectiemethode kan gebruikt worden bij gebruiken van een Bahtinov masker voor focusseren. Neem eerst een afbeelding, selecteer de ster om op te focussen. Een nieuwe afbeelding zal genomen worden en het diffractiepatroon zal geanalyseerd worden. Er zullen drie lijnen getoond worden op het diffractiepatroon die tonen hoe goed het patroon herkend is en hoe goed de afbeelding in focus is. Wanneer het patroon niet goed wordt herkend, kan de parameter <emphasis
+>Num. of rows</emphasis
+> aangepast worden om herkennen te verbeteren. De lijn met de cirkels aan elk eind is een vergrote indicator voor de focus. Hoe korter de lijn, hoe beter de afbeelding in focus is.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>SEP-profiel</guilabel
+>: als het algoritme sterdetectie is ingesteld op <emphasis
+>SEP</emphasis
+>, kies dan een te gebruiken parameterprofiel met het algoritme. Het is aanbevolen het standaard profiel 1-Focus-Default te gebruiken als een startpunt.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Drempel</guilabel
+>: De drempelwaarde, uitgedrukt in %, wordt gebruikt voor sterdetectie met het <emphasis
+>Drempel</emphasis
+> detectie-algoritme. Verhoog deze voor alleen heldere sterren, en verlaag deze voor het toelaten van wazige (wordt bedoeld: zwakke?) sterren.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Algoritme</guilabel
+>: selecteer het algoritme voor het autofocusproces: </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+> <emphasis role="bold"
+>Iteratief</emphasis
+>: Verplaatst de focuser in discrete stapjes met een ingestelde begingrootte. Zodra een helling van de kromme is berekend worden berekende stapgroottes gebruikt naar de optimale oplossing. Het algoritme stopt zodra de gemeten waarde van de HFR binnen de tolerantie komt, uitgedrukt in <emphasis role="bold"
+>Tolerantie</emphasis
+> van de kleinst gemeten en opgeslagen kleinste HFR.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Polynoom</emphasis
+>: Start iteratief. Wanneer de andere tak van de V-kromme wordt bereikt, worden de coëfficiënten berekend van de best passende veelterm (polynoom), en ook de mogelijke waarde van de beste oplossing. Dit algoritme kan sneller zijn dan een zuiver iteratieve berekening, wanneer een goede dataset (gegevens) aanwezig is.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Lineair</emphasis
+>: dit algoritme bouwt een V-kromme met ongeveer <emphasis role="bold"
+>Aantal uitwaartse stappen</emphasis
+> stappen aan elke kant van het minimum. Na het bouwen van de V-kromme fit een kwadratische vergelijking door de kromme (parabolisch van vorm) en gebruikt dit om de positie van de focuser te berekenen gegeven de minimale HFR. Na het bepalen van het minimum wordt een  tweede doorgang gedaan met de halve stapgrootte, waarbij de kromme van de eerste doorgang opnieuw wordt gemaakt. Het probeert te stoppen binnen <emphasis role="bold"
+>Tolerantie</emphasis
+> van de minimale HFR berekend tijdens de eerste doorgang.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Lineair 1 doorgang</emphasis
+>: dit algoritme start op dezelfde manier als <emphasis role="bold"
+>Lineair</emphasis
+> met bouwen van de V-kromme. Na het bouwen fit het het type <emphasis role="bold"
+>Fit kromme</emphasis
+> door de datapunten en berekent daarna de positie van de focuser met de minimale HFR. Na identificeren van het minimum beweegt het direct naar dat punt op een manier ontworpen om speling te neutraliseren.</para>
+
+            <para
+>Dit algoritme ondersteunt het oudere type kromme met stijl kwadratisch evenals het nieuwere <link linkend="Levenberg-Marquardt"
+>Levenberg-Marquardt oplosser</link
+> voor hyperbolische en parabolische krommen. Het zal ook de datapunten wegen in het proces van fitten van kromme als Gewichten gebruiken is geactiveerd.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Effect</guilabel
+>: U kunt ook een <guilabel
+>Effect</guilabel
+>-filter gebruiken voor het verbeteren van een afbeelding voor preview-doeleinden. Het is zeer aan te raden alle effecten uit te zetten tijdens het focusseren omdat die de HFR-berekeningen kunnen verstoren. Bij DSLR-camera's kunt u de ISO-instellingen wijzigen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Tolerantie</guilabel
+>: de tolerantie, in percentage uitgedrukt, wordt gebruikt wanneer het autofocusproces stopt in het  <guilabel
+>Iteratieve</guilabel
+>- en <guilabel
+>Lineaire</guilabel
+>-algoritme. Tijdens dit proces worden HFR-waarden gemeten, en zodra de focuser de optimale waarde nadert, worden de gemeten HFR's vergeleken met de tijdens sessies gemeten kleinste opgeslagen waardes van de HFR, en wordt gestopt zodra de gemeten HFR binnen een bepaald % hiervan is gekomen. Een kleinere tolerantie leidt tot een kleine optimale oplossingsstraal, een grotere waarde tot grotere oplossingsstraal. </para>
+
+        <warning>
+          <para
+>Het instellen van een te kleine waarde kan tot oneindige iteraties leiden, waardoor het bereiken van autofocus kan mislukken. </para>
+        </warning>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Kernelgrootte</guilabel
+>: de kernelgrootte van de gaussiaanse verdoezeling toegepast op de afbeelding voor het toepassen van Bahtinov randdetectie. Gebruikt wanneer <emphasis role="bold"
+>Detectie</emphasis
+> Bahtinov is.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Gemiddelde over</guilabel
+>: aantal op te nemen frames bij elk datapunt. Het is gewoonlijk zinvol om met 1 te starten maar dit verhogen zal resulteren in een middelingsproces over de HFR's van de sterren.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sigma</guilabel
+>: de sigma van de gaussiaanse verdoezeling toegepast op de afbeelding voor het toepassen van Bahtinov randdetectie. Gebruikt wanneer <emphasis role="bold"
+>Detectie</emphasis
+> Bahtinov is.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Aantal rijen</guilabel
+>: het aantal lijnen getoond op het scherm bij gebruik vaneen Bahtinov-masker. Wordt gebruikt wanneer <emphasis role="bold"
+>Detectie</emphasis
+> is Bahtinov.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Fitten van kromme</guilabel
+>: het type kromme dat fit bij de datapunten. </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>Kwadratisch</emphasis
+>: gebruikt een kwadratische vergelijking met een algoritme lineaire stijl minste kwadraten geleverd door GSL (GNU Science Library). Dat wil zeggen, in effect, een parabolische kromme.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Hyperbool</emphasis
+>: fit een hyperbool met een algoritme niet-lineair minste kwadraten geleverd door GSL (GNU Science Library). Zie <link linkend="Levenberg-Marquardt"
+>Levenberg-Marquardt oplosser</link
+> voor meer details.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Parabool</emphasis
+>: fit een parabool met een algoritme niet-lineair minste kwadraten geleverd door GSL (GNU Science Library). Zie <link linkend="Levenberg-Marquardt"
+>Levenberg-Marquardt oplosser</link
+> voor meer details.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-mechanics">
+    <title
+>Focusmechanisme</title>
+
+    <screenshot>
+      <screeninfo
+>Focusmechanisme </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_mechanics.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focusmechanisme</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Dit is het paneel voor parameters van het focusmechanisme.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Initiële stapgrootte</guilabel
+>: dis stelt de te gebruiken stapgrootte in door verschillende algoritmen voor focusseren. Voor absolute en relatieve focusseerders is dit het aantal ticks; voor op timer gebaseerde focuseerders is dit het aantal milliseconden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Maximale beweging</guilabel
+>: zet limieten op de hoeveelheid beweging van de huidige positie van de focuser die is toegestaan door de algoritmen voor Autofocus. Het doel is het beschermen van de focuser om te ver te bewegen en potentieel zichzelf te beschadigen. Aan de andere kant moet de waarde groot genoeg zijn om voldoende beweging van de focuser toe te laten zodat de autofocus voltooid kan worden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Maximale stapgrootte</guilabel
+>: gebruikt door het iteratieve algoritme voor focussen om de maximale te gebruiken stapgrootte te beperken.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Speling</guilabel
+>: Alle mechanische apparaten met tandwielen leiden aan speling. In een typische focuser zal er een dode zone zijn waar wijzigen van richting (bijv. van “in” naar “uit”) resulteert in beweging van de focuser met een paar ticks, maar in werkelijkheid geen beweging in het optische systeem.</para>
+
+        <para
+>Het algoritme Lineair 1 doorgang (zoals het lineaire algoritme) biedt compensatie voor speling op de 2 plaatsen tijdens het doen van autofocus wanneer de focuser naar buiten beweegt:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>De initiële buitenwaartse beweging van initiële stapgrootte * meerdere buitenwaartse stap bij het begin van de autofocus.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Wanneer de inwaartse doorgang gereed is end Ekos de beste focuspositie heeft bepaald en buitenwaarts er naartoe beweegt.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para
+>Lineair 1 doorgang zal de buitenwaartse beweging verlengen (met x ticks) en daarna, als een gescheiden beweging, zal het inwaarts bewegen met x ticks. Het zal dus altijd de gewenste positie op een inwaartse richting benaderen.</para>
+
+        <para
+>Er zijn 2 schema's die gebruikt kunnen worden:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Zet speling op 0. Ekos zal een waarde van 5 * initiële stapgrootte gebruiken.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Zet Speling &gt; 0. EKOS zal deze waarde gebruiken in zijn berekeningen voor speling. Er zullen waarschijnlijk instructies zijn bij uw focuser voor het bepalen van de waarde van Speling. Het is niet noodzakelijk om een exacte waarde voor zowel Lineair als Lineair 1 doorgang om juist te werken; alles wat nodig is is dat de waarde gezet in Speling is &gt;= aan de actuele waarde van speling. Bijvoorbeeld, als u speling meet en een waarde krijgt rond 100, zal elke waarde &gt;=100 evengoed werken. Bijvoorbeeld, zet Speling = 200.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Settelen</guilabel
+>: het aantal te wachten seconden, na het verplaatsen van de focuser, alvorens te starten met de volgende opname. Het doel is om elke vibratie in de optische trein te laten stoppen die het volgende frame zou beïnvloeden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Aantal uitwaartse stappen</guilabel
+>: gebruikt door focusalgoritmes Lineair en Lineair 1 doorgang, deze parameter specificeert het initiële aantal uitwaartse stappen die de focuser neemt aan de start van het doen van een autofocus.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Opname-timeout</guilabel
+>: de hoeveelheid tijd in seconden om te wachten op een te ontvangen opgenomen afbeelding alvorens een overschrijding van de tijd te verklaren.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Beweging-timeout</guilabel
+> De hoeveelheid tijd in seconden om te wachten op de focuser om te verplaatsen naar een gewenste positie alvorens een overschrijding van de tijd te verklaren.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-display">
+    <title
+>Focusweergave</title>
+
+    <screenshot>
+      <screeninfo
+>Focusweergave </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_display.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focusweergave</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De focusweergave, toont een FITS-viewervenster on het frame genomen tijdens het focusproces. Het toont de <guilabel
+>Annulus</guilabel
+> waarden bovenop de afbeelding. Alle door Ekos gedetecteerde sterren gebaseerd op de geselecteerde parameters, hebben hun HFR waarde getoond naast de bijbehorende ster. </para>
+
+    <para
+>Het venster ondersteunt de volgende opties van de FITS-viewer (aan de bovenkant van het venster):</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guibutton
+>Inzoomen</guibutton
+> en <guibutton
+>Uitzoomen</guibutton
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Standaard zoom</guibutton
+> en <guibutton
+>Zoomen om passen</guibutton
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Uitrekken omschakelen</guibutton
+>: uitrekken van scherm aan of uit.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Kruisdraad omschakelen</guibutton
+>: kruisdraad aan of uitschakelen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Rasterlijnen</guibutton
+>: rasterlijnen aan of uitschakelen.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Sterren omschakelen</guibutton
+>: sterdetectie aan of uit.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-v-curve">
+    <title
+>V-kromme</title>
+
+    <screenshot>
+      <screeninfo
+>Focus V-kromme </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus V-kromme</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De V-kromme toont de positie (x-as) van de focuser versus de Half-Flux-Radius (HFR) (y-as). Elk datapunt wordt in de grafiek getekend en gerepresenteerd door een cirkel met een getal dat het datapunt representeert. Hoeveel datapunten genomen worden en hoe de focuser zich verplaatst wordt bepaald door de gekozen parameters. </para>
+
+    <para
+>Voor bepaalde algoritmen zal Ekos ook een kromme fitten door de datapunten. Als <guilabel
+>Gewichten gebruiken</guilabel
+> is geselecteerd dan worden foutstreepjes aangegeven in elk datapunt die overeenkomen met de standaarddeviatie in gemeten HFR-waarde.</para>
+
+    <para
+>Onder de V-kromme worden een aantal parameters getoond:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>HFR</guilabel
+>: toont de HFR van de ster voor het meest recente datapunt.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sterren</guilabel
+>: het aantal sterren gebruikt voor het meest recente datapunt.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Iteratie</guilabel
+>: het aantal meegenomen datapunten tot zover.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>HFR</guibutton
+>: roept de pop-up <link linkend="focus-relative-profile"
+>Relatief profiel</link
+> op.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Gegevens wissen</guibutton
+>: doet een reset van de grafiek V-kromme door de getoonde gegevens te wissen.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Bij framen, het grafiekformaat wijzigt in die van een "tijdserie", waar op de horizontale as het nummer van de frames wordt weergegeven. Hierdoor kunt u zien hoe de HFR verandert van frame tot frame. </para>
+
+    <screenshot>
+      <screeninfo
+>V-kromme als tijdserie</screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_vcurve_timeseries.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus V-kromme tijdserie</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </sect3>
+
+  <sect3 id="focus-relative-profile">
+    <title
+>Relatief profiel</title>
+
+    <screenshot>
+      <screeninfo
+>Focus Relatief profiel </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_relative_profile.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Focus Relatief profiel</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Het relatieve profiel is een grafiek van de  relatieve waarden van de HFR, ten opzichte van elkaar. Lagere HFR-waarden leiden tot smallere grafieken, en omgekeerd. De aaneengesloten rode kromme is het profiel van de huidige waarden van de HFR, de gestippelde groene kromme is die voor de vorige HFR-waarden. De magenta kromme is die van de eerst gemeten HFR. Hierdoor kunt u de kwaliteit beoordelen van het resultaat van het autofocusproces. </para>
+  </sect3>
+
+  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+    <title
+>Hoe opzetten voor het doen van een autofocus</title>
+
+    <para
+>De exacte instellingen die het best werken voor een gegeven astronomische opzet moet door de gebruiker met trial-en-error bepaald worden, maar deze sectie geeft enige aanwijzingen. Het gebruikt het algoritme Lineair 1 doorgang:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Start in de buurt van focus door handmatig focus te zoeken. Gebruik de optie <guibutton
+>Framing starten</guibutton
+> en pas focus handmatig aan om ongeveer focus te hebben.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Lineair 1 doorgang selecteren en uw kromme van keuze, zeg hyperbool. Selecteer gewichten gebruiken.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Ga na dat er genoeg sterren worden gevonden.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Start met de methode SEP sterdetectie en het profiel 1-Focus-Default tenzij u een reden hebt om een andere opzet te gebruiken.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>In het tabblad Instellingen, gebruik Volledig veld (in plaats van Subframe) die vele sterren zal gebruiken in plaats van slechts één. Selecteer Selecteer ster automatisch om het systeem de te gebruiken sterren te laten kiezen.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Ga na dat Annulus is ingesteld om een grote hoeveelheid van het frame te gebruiken om gebruik te maken van zoveel mogelijk sterren. Merk op dat er andere factoren kunnen zijn die voorkomen dat u alles van het veld kunt gebruiken zoals problemen met een niet-plat veld in de hoeken van de sensor, maar laat u niet afschrikken van de beperkingen.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Zet de camera instellingen zoals belichting, versterking en binning zo dat u een goed aantel sterren krijgt. Het is onmogelijk om dat hier te beschrijven, maar probeer tussen 20 en 100 (als uw brandpuntafstand en doel er zoveel niet kan vinden dan zou het proces nog steeds moeten werken maar misschien minder optimaal zijn vanuit het perspectief van fitten van een kromme). Als een suggestie begin met 2 sec. belichtingstijden, versterking één voor uw camera en 1x1 binning.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>De belichtingstijd verhogen zal gewoonlijk meer sterren vinden (maar maakt het focusproces langer). U kunt ook proberen meerdere frames op hetzelfde punt te nemen door het veld Gemiddelde over &gt; 1 frame te zetten.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+>Doe het opzetten van het tabblad Mechanismen.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Stel Speling in. Zie de sectie Speling voor meer details maar als u de waarde van uw apparatuur niet weet stel deze in op 0.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Maximale beweging opzetten. Dit zou moeten passen bij uw focuser om te voorkomen dat het te ver zich verplaatst. Het moet groot genoeg zijn om de waarden te ondersteunen ingesteld in Initiële stapgrootte en Aantal uitwaartse stappen. Het zal een minimum hebben van net iets boven Initiële stapgrootte * Aantal uitwaartse stappen. Als dat kan, stel het in op, zeg, het dubbele hiervan.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Settelen. Als uw focuser vibratie in de optische trein veroorzaakt dan moet u deze waarde instellen zodat na beweging, het systeem wacht gedurende Settelen seconden alvorens het volgende frame op te nemen. Probeer de focuser te bewegen en daarna een paar frames op dezelfde positie te nemen. Als het eerste frame na bewegen grotere HFR's heeft dan volgende frames, dan moet u waarschijnlijk de waarde in Settelen verhogen.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Aantal uitwaartse stappen. Begin met 4 of 5. Dit zal u 9-10 of 11-12 datapunten geven wat een goede plek is om te starten. U moet genoeg datapunten hebben om een kromme te vormen, maar hoe meer u er hebt hoe langer het proces zal duren om te voltooien.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Initiële stapgrootte. Het volgende toont een “goede kromme”. Er is een significante beweging in de HFR-as om de kromme helder te demonstreren, in dit geval is max HFR ongeveer 2.2 terwijl min is 0.75 die een max / min geeft van ongeveer 3.</para>
+
+            <screenshot>
+              <screeninfo
+>Goede focuskromme </screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="focus_good_focus.png" format="PNG"
+                             width="50%"/>
+                </imageobject>
+
+                <textobject>
+                  <phrase
+>Goede focuskromme</phrase>
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </listitem>
+
+          <listitem>
+            <para
+>Als tegenstelling toont het volgende plaatje een Initiële stapgrootte die te laag is ingesteld. De HFR varieert van ongeveer 0.78 tot 0.72. Wat een max / min geeft van net iets meer dan 1. De andere clue is dat dit een slechte opzet is omdat de reeks foutstreepjes erg groot is vergeleken met de HFR-verplaatsing wat betekent dat de kromme die de oplosser tekent een kromme is door heel wat ruis, wat betekent dat de resultaten niet erg accuraat zullen zijn.</para>
+
+            <screenshot>
+              <screeninfo
+>Slechte focuskromme </screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="focus_bad_focus.png" format="PNG"
+                             width="50%"/>
+                </imageobject>
+
+                <textobject>
+                  <phrase
+>Slechte focuskromme</phrase>
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="Coefficient_of_Determination">
+    <title
+>Determinatiecoëfficiënt, R²</title>
+
+    <para
+>De Coëfficiënt van bepaling of R², wordt berekent om een maat aan te geven hoe goed de gefitte kromme overeenkomt met de datapunten. Meer informatie is <ulink url="https://en.wikipedia.org/wiki/Coefficient_of_determination"
+>hier</ulink
+> beschikbaar. Dit is een experimentele functie die beschikbaar is voor het focusalgoritme Lineair 1-doorgang. In essentie geeft, R² een waarde tussen 0 en 1, met 1 betekent dat een perfecte fit waar alle datapunten op de kromme zitten en 0 betekent dat er geen correlatie is tussen de datapunten en de kromme. De gebruiker zou moeten experimenteren met zijn apparatuur om te zien welke waarden bereikt kunnen worden, maar als richtlijn zou een waarde boven, zeg 0.8 een goede fit moeten zijn.</para>
+
+    <para
+>Er is een optie om een "Limiet voor R²” in het tabblad Instellingen van het venster Focus in te stellen die wordt vergeleken met de berekende R² nadat het doen van autofocus is voltooid. Als de limietwaarde niet is bereikt, dan wordt het doen van autofocus herhaald.</para>
+
+    <para
+>Een limiet voor R² instellen zou nuttig kunnen zijn voor onbewaakte waarnemingen als het doen van autofocus een slecht resultaat voor een enkele reden heeft. als de reden niet niet tijdelijk is dan zal opnieuw doen geen verbetering brengen.</para>
+
+    <para
+>Als de limiet voor R² niet is bereikt en het focusproces is opnieuw gedaan en het mislukt opnieuw om de limiet voor R² te behalen, dan wordt het doen van autofocus gemarkeerd als succesvol om te vermijden dat het proces stokt en autofocus altijd doorgaat.</para>
+
+    <para
+>Deze functie wordt uitgezet door de limiet van R² op 0 te zetten.</para>
+  </sect3>
+
+  <sect3 id="Levenberg-Marquardt">
+    <title
+>Levenberg–Marquardt-oplosser</title>
+
+    <para
+>Het algoritme Levenberg-Marquardt (LM) wordt gebruikt om niet-lineaire minste kwadraten problemen op te lossen. De GNU Science Library levert een implementatie van de oplosser. Deze hulpbronnen leveren meer details: </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          <ulink url="https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm"
+></ulink>
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          <ulink url="https://www.gnu.org/software/gsl/doc/html/nls.html"
+></ulink>
+        </para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Het algoritme Levenberg-Marquardt is een nieuwe functie toegevoegd voor het focusalgoritme Lineair 1-doorgang. Het is een niet-lineaire oplosser met minste kwadraten en dus geschikt voor veel verschillende vergelijkingen. Het basisidee is om de vergelijking y = f(x,P) zo aan te passen dat de berekende y-waarden zo dicht mogelijk liggen bij de y-waarden van de geleverde datapunten, zodat de resulterende kromme zo goed mogelijk past op de gegevens. P is een set parameters die gevarieerd worden door de oplosser om de beste fit te bereiken. De oplosser meet hoever de kromme weg is van elk datapunt, maakt een kwadraat van het resultaat en telt ze allemaal op. Dit is het getal om te worden geminimaliseerd, laten we het S noemen. De oplosser krijgt een initiële gissing voor de parameters, P. Het berekent S, maakt een aanpassing aan P en berekent een nieuwe S1. Gegeven dat S1 &lt; S dan bewegen we in de juiste richting. Het itereert door de procedure totdat:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>de delta in S minder is dan een gegeven limiet (convergentie is bereikt), of</para>
+      </listitem>
+
+      <listitem>
+        <para
+>het maximum aantal iteraties (herhalingen) is bereikt, of</para>
+      </listitem>
+
+      <listitem>
+        <para
+>de oplosser kwam een fout tegen.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De oplosser kan zowel een ongewogen of gewogen set datapunten oplossen. In essentie is geeft een ongewogen set van data gelijke gewichten aan elk datapunt bij de poging van fitten van een kromme. Een alternatief is om elk datapunt een gewicht te geven dat overeenkomt met hoe nauwkeurig de meting van het datapunt in werkelijkheid is. In ons geval is dit de variantie van de HFR van de ster verbonden met het datapunt. De variantie is de standaarddeviatie in het kwadraat.</para>
+
+    <para
+>Op dit moment wordt de oplosser gebruikt om te fitten op ofwel een parabolische of een hyperbolische kromme.</para>
+  </sect3>
+</sect2>

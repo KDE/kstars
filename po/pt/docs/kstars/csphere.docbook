@@ -1,0 +1,28 @@
+<sect1 id="ai-csphere">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>A Esfera Celeste</title>
+<indexterm
+><primary
+>Esfera Celeste</primary>
+<seealso
+>Sistemas de Coordenadas Celestes</seealso>
+</indexterm>
+<para
+>A esfera celeste é uma esfera imaginária de raio gigantesco, centrada na Terra. Todos os objectos que podem ser vistos no céu podem ser "vistos" como estando à superfície desta esfera. </para
+><para
+>É óbvio que se sabe que os objectos no céu não estão de facto na superfície da esfera centrada na Terra, porquê então incomodar-se com essa perspectiva? Tudo o que se vê no céu está tão longe que as suas distâncias são impossíveis de captar só de olhar para elas. Dado que as distâncias até elas são indeterminadas, você só precisa de saber a <emphasis
+>direcção</emphasis
+> ao objecto para o localizar no céu. Desta forma, o modelo da esfera celeste é muito prático para representar o céu. </para
+><para
+>As direcções aos vários objectos do céu podem ser quantificadas se construir um <link linkend="ai-skycoords"
+>Sistema de Coordenadas Celestes</link
+>. </para>
+</sect1>

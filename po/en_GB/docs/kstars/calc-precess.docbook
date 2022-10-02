@@ -1,0 +1,43 @@
+<sect2 id="calc-precess">
+<title
+>Precession module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Precession module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Precession calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-precess.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Precession</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This module is similar to the <link linkend="calc-apcoords"
+>Apparent Coordinates module</link
+>, but it only applies the effect of <link linkend="ai-precession"
+>precession</link
+>, not of nutation or aberration. </para>
+<para
+>To use the module, first enter the input coordinates and their epoch in the <guilabel
+>Original Coordinates</guilabel
+> section. You must also fill in the target epoch in the <guilabel
+>Precessed Coordinates</guilabel
+> section. Then, press the <guibutton
+>Compute</guibutton
+> button, and the object's coordinates, precessed to the target Epoch, are presented in the <guilabel
+>Precessed Coordinates</guilabel
+> section. </para>
+</sect2>

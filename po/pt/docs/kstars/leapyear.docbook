@@ -1,0 +1,58 @@
+<sect1 id="ai-leapyear">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Anos Bissextos</title>
+<indexterm
+><primary
+>Anos Bissextos</primary>
+</indexterm>
+<para
+>A Terra tem duas grandes componentes de movimento. Primeiro, ela gira sobre o seu eixo de rotação; uma rotação completa dá origem a um <firstterm
+>Dia</firstterm
+> completo. Segundo, ela roda à volta do Sol; uma rotação orbital completa leva um <firstterm
+>Ano</firstterm
+> a terminar. </para
+><para
+>Normalmente, existem 365 dias num ano do <emphasis
+>calendário</emphasis
+>, mas o facto é que um ano <emphasis
+>verdadeiro</emphasis
+> (&ie;, uma órbita completa da Terra à volta do Sol; também chamado de <firstterm
+>ano tropical</firstterm
+>) é um pouco maior do que 365 dias. Por outras palavras, no tempo que leva a Terra a completar um circuito orbital, ela completa 365,24219 rotações em torno do seu eixo. Não se surpreenda com isto; não existe nenhuma razão especial para esperar que os movimentos de rotação e de translação da Terra fossem sincronizados, de qualquer forma. Contudo, torna a marcação do tempo no calendário um pouco estranha... </para
+><para
+>O que aconteceria se simplesmente se ignorasse a 0,24219 de rotação no fim do ano, e simplesmente se definisse que um ano do calendário teria sempre 365 dias certos? O calendário é basicamente uma representação do progresso da Terra à volta do Sol. Se esse ligeiro pedaço fosse ignorado no fim de cada ano, então com  passagem de cada ano, a data do calendário ficaria cada vez mais atrás em relação à posição verdadeira da Terra à volta do Sol. Dentro de algumas décadas, as datas dos solstícios e dos equinócios ter-se-ia desviado notoriamente. </para
+><para
+>De facto, acontecia antigamente que todos os anos <emphasis
+>tinham</emphasis
+> 365,0 dias e o calendário <quote
+>desviou-se</quote
+> das estações exactas, em resultado disso. No ano 46 <abbrev
+>AC</abbrev
+>, Júlio César estabeleceu o <firstterm
+>Calendário Juliano</firstterm
+>, que implementou os primeiros <firstterm
+>anos bissextos</firstterm
+>: Ele decidiu que cada 4º ano teria 366 dias, como tal um ano teria 365,25 dias em média. Isto basicamente resolver o problema do desvio do calendário. </para
+><para
+>Contudo, o problema não ficou completamente resolvido pelo calendário Juliano, porque um ano tropical não tem 365,25 dias; tem 365,24219. Você ainda continua a ter um problema de desvio do calendário, só que simplesmente leva muitos séculos até se tornar notório. Deste modo, em 1582, o Papa Gregório XIII instituiu o <firstterm
+>calendário Gregoriano</firstterm
+>, que era em grande medida o mesmo que o Calendário Juliano, com um truque adicional para os anos bissextos: até os anos dos séculos (aqueles que terminam em <quote
+>00</quote
+>) só são anos bissextos se forem divisíveis por 400. Por isso, os anos 1700, 1800 e 1900 não foram bissextos (ainda que tivessem sido, segundo o Calendário Juliano), mas de facto o ano 2000 <emphasis
+>foi</emphasis
+> um ano bissexto. Esta mudança faz com que o tamanho médio de um dia seja de 365,2425 dias. Por isso, ainda existe um ligeiro desvio do calendário, mas ele acumula-se num erro de apenas 3 dias em 10 000 anos. O calendário Gregoriano é ainda usado como um calendário-padrão por todo o mundo. </para>
+<note>
+<para
+>Curiosidade Engraçada: Quando o papa Gregório instituiu o calendário Gregoriano, o calendário Juliano já tinha sido seguido durante cerca de 1500 anos, como tal, a data do calendário já se tinha desviado uma semana. O Papa Gregório sincronizou de novo o calendário, simplesmente <emphasis
+>eliminando</emphasis
+> 10 dias: em 1582, o dia a seguir a 4 de Outubro foi o 15 de Outubro! </para>
+</note>
+</sect1>

@@ -1,0 +1,54 @@
+<sect1 id="ai-utime">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tempo Universal</title>
+<indexterm
+><primary
+>Tempo Universal</primary>
+<seealso
+>Fusos-Horários</seealso>
+</indexterm>
+<para
+>A hora nos nossos relógios é essencialmente uma medida da posição actual do Sol no céu e difere para os locais em longitudes diferentes porque a Terra é redonda (veja nos <link linkend="ai-timezones"
+>Fusos-Horários</link
+>). </para
+><para
+>Contudo, é necessário normalmente definir um tempo global, que seja igual para todos os locais da Terra. Uma forma de o fazer é pegar num local da Terra e adaptar a hora local desse local como o <firstterm
+>Tempo Universal</firstterm
+>, abreviado para <abbrev
+>UT</abbrev
+>. (O nome é ligeiramente enganador, porque o Tempo Universal tem pouco a ver com o Universo. Poderá ser mais adequado se for visto como um <emphasis
+>tempo global</emphasis
+>). </para
+><para
+>A localização geográfica escolhida para representar o Tempo Universal é em Greenwich, na Inglaterra. A escolha é arbitrária e histórica. O Tempo Universal tornou-se um conceito importante, quando os navios Europeus começaram a navegar em pleno-mar, longe de quaisquer marcas terrestres. Um navegador conseguia reconhecer a longitude do barco comparando o Tempo Local (medido pela posição do Sol) com a hora do porto de partida (registada com um relógio preciso a bordo do navio). Greenwich foi a casa do Observatório Real de Inglaterra, entidade que foi encarregada de registar com enorme precisão a hora, para que os navios no porto pudessem calibrar de novo os seus relógios antes de partirem. </para>
+<tip>
+<para
+>Exercício:</para>
+<para
+>Mude a localização geográfica para <quote
+>Greenwich, Inglaterra</quote
+> usando a janela de <guilabel
+>Alterar a Localização</guilabel
+> (com o <keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+>). Repare que o Tempo Local (<abbrev
+>LT</abbrev
+>) e o Tempo Universal (<abbrev
+>UT</abbrev
+>) são agora iguais. </para
+><para
+>Leituras Posteriores: A história por detrás da construção do primeiro relógio suficientemente preciso e estável para ser usado nos navios para manter o Tempo Universal é um conto fascinante que foi mencionado com enorme qualidade no livro <quote
+>Longitude</quote
+>, de Dava Sobel. </para>
+</tip>
+</sect1>

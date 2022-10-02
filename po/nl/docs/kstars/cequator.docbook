@@ -1,0 +1,34 @@
+<sect1 id="ai-cequator">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>De Hemelequator</title>
+<indexterm
+><primary
+>Hemelequator</primary>
+<seealso
+>Equatoriale coördinaten</seealso>
+</indexterm>
+<para
+>De <firstterm
+>hemelequator</firstterm
+> is een denkbeeldige <link linkend="ai-greatcircle"
+>grootcirkel</link
+> aan de <link linkend="ai-csphere"
+>hemelbol</link
+>. De hemelequator is de basis van het <link linkend="equatorial"
+>systeem van de equatoriale coördinaten</link
+>, en wordt gedefinieerd als de verzameling van punten aan de hemelbol met een Declinatie van nul graden. Het is ook de projectie (vanuit het middelpunt van de aarde) van de aardse equator op de hemelbol. Een grootcirkel is een cirkel op een bol waarvan het vlak gaat door het middelpunt. Het is de grootste cirkel die je op een boloppervlak kunt tekenen. Voorbeelden op de aardbol zijn de equator, en de meridianen. Meridianen zijn grootcirkels op aarde die door beide polen gaan. </para>
+<para
+>De hemelequator en de <link linkend="ai-ecliptic"
+>ecliptica</link
+> maken een hoek van 23,5 graden met elkaar.De punten waar zij elkaar snijden heten <link linkend="ai-equinox"
+>equinoxen</link
+> of (dag- en) nachteveningpunten, namelijk die van de lente (ook wel lentepunt genoemd) en van de herfst. De ecliptica is de schijnbare jaarlijkse baan van de zon langs de hemelbol (langs alle sterrenbeelden van de dierenriem!!). De Astronomische lente begint als de zon zich in het lentepunt bevindt (ook wel het punt Ram, of Aries genoemd). De zon gaat dan van zuid naar noord. De herfst begint als de zon zich in de andere equinox bevindt, en die beweegt dan van noord naar zuid. In beide gevallen zijn dan de dag en de nacht even lang. </para>
+</sect1>

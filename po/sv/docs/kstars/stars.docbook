@@ -1,0 +1,111 @@
+<sect1 id="ai-stars">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Stjärnor: Svar på grundläggande frågor</title>
+<indexterm
+><primary
+>Stjärnor</primary
+></indexterm>
+
+<qandaset id="stars-faq">
+
+<qandaentry>
+<question>
+<para
+>Vad är stjärnor?</para>
+</question>
+<answer>
+<para
+><firstterm
+>Stjärnor</firstterm
+> är gigantiska klot med (i huvudsak) vätgas, som hålls ihop av sin egen gravitation. Stjärnor är också termonukleära kraftverk. Kärnfusion äger rum djupt inne i en stjärnas mitt, där tätheten är extrem och temperaturen når tiomiljontals grader Celsius. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Är solen en stjärna?</para>
+</question>
+<answer>
+<para
+>Ja, solen är en stjärna. Den är den dominerande centralpunkten i vårt solsystem. Jämfört med andra stjärnor är vår sol ganska vanlig. Den verkar så mycket större och ljusare för oss, eftersom den är miljontals gånger närmare än alla andra stjärnor. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Varför lyser stjärnor?</para>
+</question>
+<answer>
+<para
+>Ett kort svar är: Stjärnor lyser eftersom de är mycket varma. Det är egentligen inte mer komplicerat än så. Alla objekt som värms upp till tusentals grader avger ljus, precis som stjärnorna gör. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Nästa uppenbara fråga är: Varför är stjärnor så varma?</para>
+</question>
+<answer>
+<para
+>Det är en svårare fråga. Det vanliga svaret är att stjärnorna får sin värme från den termonukleära fusionsreaktionen i deras inre. Detta kan dock inte vara den ursprungliga orsaken till stjärnornas värme, eftersom en stjärna måste vara varm från början för att kärnfusion ska kunna starta. Fusionen kan bara bibehålla den varma temperaturen, den kan inte göra en stjärna varm. Ett riktigare svar är att stjärnor är varma eftersom de har kollapsat. Stjärnor formas av diffusa gasnebulosor. Medan nebulosans gas kondenseras så att en stjärna formas, avges materialets potentiella gravitationsenergi, först som kinetisk energi, och till sist som värme när tätheten ökar. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Är alla stjärnor likadana?</para>
+</question>
+<answer>
+<para
+>Stjärnor har mycket gemensamt: De är alla kollapsade klot med varm, tät gas (i huvudsak väte), och kärnfusionsreaktioner sker i eller nära mitten av varje stjärna på himlen. </para
+><para
+>Men stjärnor uppvisar också en stor variation för vissa egenskaper. De ljusstarkaste stjärnorna lyser nästan 100 miljoner gånger ljusare än de svagaste stjärnorna. Stjärnornas yttemperatur går från bara ett fåtal tusen grader till nästan 50 000 grader Celsius. Dessa skillnader beror till stor del på skillnader i massa: Massiva stjärnor är både varmare och ljusare än stjärnor med mindre massa. Temperaturen och ljusstyrkan beror också på stjärnans <emphasis
+>utvecklingsstadium</emphasis
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Vad är huvudsekvensen?</para>
+</question>
+<answer>
+<para
+><indexterm
+><primary
+>Huvudsekvensen</primary
+></indexterm
+> Huvudsekvensen är utvecklingsstadiet då stjärnans fusion av väte pågår i dess inre. Det är det första (och längsta) stadiet i en stjärnas liv (om inte stadierna som protostjärna inräknas). Vad som händer med en stjärna efter den får slut på väte i kärnan, beskrivs i avsnittet om stellär utveckling (som snart kommer). </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hur länge lever stjärnor?</para>
+</question>
+<answer>
+<para
+>En stjärnas livstid beror väldigt mycket på dess massa. Massivare stjärnor är varmare och skiner mycket ljusare, vilket gör att de förbrukar sitt kärnbränsle mycket fortare. De största stjärnorna (grovt sett 100 miljoner gånger massivare än solen), får slut på bränslet efter bara några få miljoner år, medan de minsta stjärnorna (med ungefär 10 procent av solens massa), med sin mycket blygsammare förbrukningshastighet, kommer att skina (om än svagt) under <emphasis
+>biljoner</emphasis
+> år. Observera att detta är mycket längre än universum ännu har funnits. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</sect1>
+
+

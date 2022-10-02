@@ -1,0 +1,32 @@
+<sect1 id="ai-greatcircle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Cerchi massimi</title>
+<indexterm
+><primary
+>Cerchi massimi</primary>
+<seealso
+>Sfera celeste</seealso>
+</indexterm>
+<para
+>Considera una sfera, come la Terra o la <link linkend="ai-csphere"
+>sfera celeste</link
+>. L'intersezione di un piano qualsiasi con la sfera risulterà in un cerchio sulla sua superficie. Se il piano contiene il centro della sfera, il cerchio d'intersezione è un <firstterm
+>cerchio massimo</firstterm
+>. I cerchi massimi sono i cerchi più grandi che è possibile tracciare su una sfera. Inoltre il percorso più breve tra due punti su una sfera è sempre lungo un cerchio massimo. </para
+><para
+>Alcuni esempi di cerchi massimi sulla sfera celeste sono l'<link linkend="ai-horizon"
+>orizzonte</link
+>, l'<link linkend="ai-cequator"
+>equatore celeste</link
+> e l'<link linkend="ai-ecliptic"
+>eclittica</link
+>. </para>
+</sect1>

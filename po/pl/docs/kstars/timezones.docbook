@@ -1,0 +1,32 @@
+<sect1 id="ai-timezones">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Strefy czasowe</title>
+<indexterm
+><primary
+>Strefy czasowe</primary>
+</indexterm>
+<para
+>Ziemia jest okrągła i jest zawsze w połowie oświetlona przez Słońce. Jednakże przez to, że się obraca, oświetlona część stale się zmienia. Obserwujemy to jako przemijanie dnia, gdziekolwiek byśmy się na powierzchni Ziemi nie znaleźli. W każdym momencie są na Ziemi miejsca przechodzące z części ciemnej do części oświetlonej (co jest widoczne jako <emphasis
+>świt</emphasis
+>). W tym samym czasie, po przeciwnej stronie Ziemi punkty przechodzą ze strony oświetlonej na nieoświetloną (co jest widoczne w tych punktach jako <emphasis
+>zmierzch</emphasis
+>). Tak więc, w każdym czasie, w różnych miejscach na Ziemi są różne pory dnia. Dlatego czas słoneczny jest określany lokalnie tak, że czas zegarowy w każdej lokalizacji na Ziemi pokazuje odpowiednią porę dnia. </para
+><para
+>Ta lokalizacja czasu jest dokonywana przez podział Ziemi na 24 pionowe części zwane <firstterm
+>Strefami czasowymi</firstterm
+>. Czas lokalny jest taki sam w ramach jednej strefy, ale czas w każdej strefie jest jedną godzinę <emphasis
+>wcześniejszy</emphasis
+> niż czas w strefie sąsiedniej na wschód. W rzeczywistości jest to duże uproszczenie; granice stref czasowych nie są pionowymi liniami, ponieważ często przechodzą przez granice krajów lub inne wpływają na nie inne uwarunkowania polityczne. </para
+><para
+>Czas lokalny zawsze wzrasta o godzinę wraz z przesuwaniem się pomiędzy strefami na wschód. Jeżeli więc przemieścisz się przez wszystkie 24 strefy czasowe, będziesz o jeden dzień do przodu od momentu w którym zaczęła się podróż. Z paradoksem tym poradzono sobie wprowadzając <firstterm
+>Międzynarodową linię zmiany daty</firstterm
+>, która jest granicą strefy czasowej na Oceanie Spokojnym, pomiędzy Azją a Ameryką Północną. Punkty na wschód od tej linii są 24 godziny za punktami na zachód od niej. Prowadzi to do ciekawego zjawiska. Bezpośredni lot z Australii do Kaliforni ma przylot jeszcze przed wylotem.  </para>
+</sect1>

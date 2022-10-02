@@ -1,0 +1,89 @@
+<sect1 id="ai-flux">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Flusso</title>
+<indexterm
+><primary
+>Flusso</primary>
+<seealso
+>Luminosità</seealso>
+</indexterm>
+
+<para
+>Il <firstterm
+>flusso</firstterm
+> è la quantità di energia che attraversa un'area unitaria in un secondo. </para>
+
+<para
+>Gli astronomi usano il flusso per denotare la luminosità apparente di un corpo celeste. La luminosità apparente è definita come la quantità di energia ricevuta da una stella, al di sopra dell'atmosfera terrestre, in un secondo ed entro un'area unitaria. Ne consegue che la luminosità apparente è semplicemente il flusso ricevuto dalla stella. </para>
+
+<para
+>Il flusso misura il <emphasis
+>tasso di scorrimento</emphasis
+> dell'energia che passa ogni secondo attraverso un centimetro quadrato (o una qualsiasi area unitaria) della superficie di un oggetto. Il flusso misurato dipende dalla distanza della sorgente che irradia l'energia. Ciò accade in quanto l'energia deve distribuirsi entro un certo volume di spazio prima di raggiungerci. Supponiamo di avere un pallone immaginario che racchiuda una stella. Ogni punto sul pallone rappresenta un'unità di energia emessa dalla stella. Inizialmente, i punti in un'area di un centimetro quadrato sono assai vicini tra loro, e il flusso (energia emessa per centimetro quadrato per secondo) è alto. Dopo aver percorso una distanza d, il volume e la superficie del pallone sono aumentati, facendo sì che i punti si <emphasis
+>sparpaglino</emphasis
+> allontanandosi l'uno dall'altro. Di conseguenza, il numero di punti (l'energia) contenuti in un centimetro quadrato è diminuito, come illustrato in Figura 1. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="flux.png" format="PNG"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Figura 1</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Il flusso è inversamente proporzionale alla distanza secondo una semplice legge dell'inverso del quadrato. Perciò, se la distanza raddoppia noi riceviamo 1/2<superscript
+>2</superscript
+> o 1/4 del flusso originario. In termini di grandezze fondamentali, il flusso è la <link linkend="ai-luminosity"
+>luminosità</link
+> per unità di area: <mediaobject
+> <imageobject>
+<imagedata fileref="flux1.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>dove (4 * PI * R<superscript
+>2</superscript
+>) è l'area di una sfera (o di un pallone!) di raggio R. Il flusso si misura in watt/m<superscript
+>2</superscript
+>/s, oppure, come comunemente fanno gli astronomi, in erg/cm<superscript
+>2</superscript
+>/s. Per esempio, la luminosità del Sole è L = 3.90 * 10<superscript
+>26</superscript
+> W. Sarebbe a dire che in un secondo il Sole irradia 3.90 * 10<superscript
+>26</superscript
+> joule di energia nello spazio. Ne consegue che il flusso ricevuto attraverso un centimetro quadrato alla distanza di un'UA (1.496 * 10<superscript
+>13</superscript
+> cm) è: </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="flux2.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+</sect1>

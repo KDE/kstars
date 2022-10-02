@@ -1,0 +1,83 @@
+<sect1 id="ai-sidereal">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Sternenzeit</title>
+<indexterm
+><primary
+>Sternenzeit</primary>
+<seealso
+>Stundenwinkel</seealso>
+</indexterm>
+<para
+>Die Zeit, die wir normalerweise benutzen, ist die Sonnenzeit. Die grundlegende Einheit der Sonnenzeit ist ein <firstterm
+>Tag</firstterm
+>: Die Zeit, die die Sonne braucht, um, wegen der Rotation der Erde, 360 Grad um den Himmel zu ziehen. Kleinere Einheiten der Sonnenzeit sind einfach Bruchteile eines Tages. </para
+><para>
+<itemizedlist>
+<listitem
+><para
+>1/24 Tag = 1 Stunde</para
+></listitem>
+<listitem
+><para
+>1/60 Stunde = 1 Minute</para
+></listitem>
+<listitem
+><para
+>1/60 Minute = 1 Sekunde</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Jedoch gibt es ein Problem mit der Sonnenzeit. Die Erde dreht sich nicht um 360 Grad an einem Sonnentag. Die Erde befindet sich in einem Orbit um die Sonne und bewegt sich an einem Tag ungefähr ein Grad entlang dieses Orbits (360 Grad/365,25 Tage für einen vollen Umlauf = ungefähr ein Grad pro Tag). Also ändert sich in 24 Stunden die Richtung zur Sonne um ungefähr ein Grad. Deshalb muss die Erde sich 361 Grad drehen, damit es wieder so aussieht, also ob die Sonne 360 Grad gewandert sei. </para
+><para
+>In der Astronomie kümmern wir uns darum, wie lange die Erde braucht, um sich in Bezug auf <quote
+>feste</quote
+> Sterne, nicht auf die Sonne zu drehen. Also wollten wir eine Zeiteinteilung, die den komplizierten Umlauf der Erde um die Sonne nicht mehr berücksichtigt und einfach beschreibt, wie lange die Erde braucht, um eine 360 Grad-Umdrehung in Bezug auf die Sterne zu vollenden. Diese Umdrehungszeit wird <firstterm
+>Sternentag</firstterm
+> genannt. Im Durchschnitt ist er, wegen des zusätzlichen Grades, 4 Minuten kürzer als der Sonnentag. Nun hätten wir den Sonnentag als 23 Stunden und 56 Minuten definieren können, jedoch definieren wir lieber Sonnenstunden, -minuten und -sekunden, die dieselben Bruchteile des Tages sind, wie ihre Gegenstücke der Sonnenzeit. Deswegen ist eine Sonnensekunde 1,00278 Sternensekunden. </para
+><para
+>Die Sternenzeit ist nützlich, um herauszufinden, wo die Sternen zu einer bestimmten Zeit sein werden. Die Sternenzeit teilt eine volle Umdrehung der Erde in 24 Sternenstunden ein, genau wie die Karte des Himmels in 24 Stunden der <firstterm
+>Rektaszension</firstterm
+> eingeteilt ist. Das ist kein Zufall. Die lokale Sternenzeit (<acronym
+>SZ</acronym
+>) zeigt die Rektaszension am Himmel an, die gerade den <link linkend="ai-meridian"
+>lokalen Meridian</link
+> überquert. Wenn ein Stern also die Rektaszension von 05h 32m 24s hat, wird er auf Ihrem Meridian um SZ=05:32:24 sein. Allgemeiner sagt Ihnen die Differenz zwischen der <acronym
+>Rektaszension</acronym
+> und der lokalen Sternenzeit, wie weit das Objekt vom Meridian entfernt ist. Zum Beispiel wird sich dasselbe Objekt bei SZ=06:32:24 (eine Sternenstunde später) eine Stunde der Rektaszension westlich Ihres Meridians befinden, was 15 Grad sind. Dieser Winkelabstand wird <link linkend="ai-hourangle"
+>Stundenwinkel</link
+> des Objekts genannt. </para>
+<tip>
+<para
+>Die lokale Sternenzeit wird von &kstars; im <guilabel
+>Infofeld</guilabel
+> mit der Abkürzung <quote
+>SZ:</quote
+> angezeigt (Sie müssen die Box mit einem Doppelklick <quote
+>vergrößern</quote
+> um die Sternenzeit zu sehen). Beachten Sie, dass die Sternensekunden nicht mit den Sekunden der lokalen Zeit und der Universalzeit synchronisiert sind. Tatsächlich werden Sie, wenn Sie die Anzeige einige Zeit beobachten, bemerken, dass die Sternensekunden ein klein wenig kürzer sind als die Sekunden der Ortszeit und der Universalzeit. </para
+><para
+>Zeigen Sie auf den <link linkend="ai-zenith"
+>Zenit</link
+> (drücken Sie <keycap
+>Z</keycap
+> oder wählen Sie <guimenuitem
+>Zenit</guimenuitem
+> aus dem Menü <guimenu
+>Sichtrichtung</guimenu
+>). Der Zenit ist der Punkt am Himmel <quote
+>genau über Ihnen</quote
+> und er ist ein Punkt auf ihrem <link linkend="ai-meridian"
+>lokalen Meridian</link
+>. Beachten Sie die Rektaszension des Zenits: Sie stimmt genau mit ihrer lokalen Sternenzeit überein. </para>
+</tip>
+</sect1>
+

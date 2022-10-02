@@ -1,0 +1,949 @@
+<sect2 id="ekos-align">
+    <title
+>Inriktning</title>
+    <indexterm>
+        <primary
+>Verktyg</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Inriktning</tertiary>
+    </indexterm>
+    <sect3 id="ekos-align-introduction">
+        <title
+>Inledning</title>
+        <screenshot>
+            <screeninfo
+>Ekos inriktningsmodul </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos inriktningsmodul</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Ekos inriktningsmodul möjliggör mycket noggranna GÅ TILL med inom delar av bågsekunders noggrannhet, och kan mäta och korrigera polära inriktningsfel. Det är möjligt tack vare lösningsverktyget astrometry.net. Ekos börjar med att ta en bild av ett stjärnfält, skickar bilden till lösningsverktyget <ulink url="https://astrometry.net"
+>astrometry.net</ulink
+>, och får bildens centrumkoordinater (RA, DEK). Lösningsverktyget utför väsentligen mönsterigenkänning med en katalog av miljontals stjärnor. När koordinaterna väl har bestämts, är teleskopets verkliga pekriktning känd. </para>
+        <para
+>Ofta är det en avvikelse mellan vart teleskopet tror det pekar och vart det verkligen pekar. Storleken på denna avvikelse kan sträcka sig från några få bågminuter till ett antal grader. Ekos kan därefter korrigera avvikelsen genom att antingen synkronisera till de nya koordinaterna, eller genom att förflytta stativet till det önskade målet som ursprungligen begärdes. </para>
+        <para
+>Dessutom tillhandahåller Ekos två verktyg för att mäta och korrigera polära inriktningsfel: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Polärt inriktningsverktyg</guilabel
+>: Ett mycket lättanvänt verktyg för att mäta och korrigera polära fel. Det tar tre bilder nära himmelspolen (nära polstjärnan på norra halvklotet) och beräknar avvikelsen mellan stativets axel och polära axeln. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Gammalt polärt inriktningsverktyg</guilabel
+>: Om polstjärnan inte är synlig kan verktyget användas för att mäta och korrigera polära inriktningsfel. Det tar några bilder nära meridianen och öster/väster om meridianen. Det gör det möjligt för användaren att justera stativet så att inriktningsfelet minimeras. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>Du behöver allra minst en CCD/webbkamera och ett teleskop som stöder förflyttnings- och synkroniseringskommandon. De flesta kommersiella teleskop stöder nuförtiden sådana kommandon. </para>
+        <para
+>För att Ekos inriktningsmodul ska fungera, finns alternativen att antingen utnyttja lösningsverktyget astrometry.net på <emphasis
+>nätet</emphasis
+>, <emphasis
+>lokalt</emphasis
+> eller på <emphasis
+>en annan dator</emphasis
+>: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Nätbaserat lösningsverktyg</guilabel
+>: Det nätbaserade lösningsverktyget kräver ingen inställning, och beroende på din Internetbandbredd kan det ta en stund att ladda upp och lösa bilden. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Lokalt lösningsverktyg</guilabel
+>: Det lokala lösningsverktyget kan vara snabbare och kräver ingen Internetanslutning. För att använda det lokala lösningsverktyget måste du installera astrometry.net förutom de nödvändiga indexfilerna. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fjärrlösningsverktyg</guilabel
+>: Fjärrlösningsverktyget är ett lokalt lösningsverktyg som finns på en annan dator (du kan exempelvis använda Astrometry-lösningsverktyget på StellarMate). Tagna bilder löses på den andra datorn. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="ekos-align-get-astrometry">
+        <title
+>Hämta astrometry.net</title>
+
+        <para
+>Om du planerar att använda <emphasis
+>nerkopplad</emphasis
+> astrometri, måste du ladda ner programmet astrometry.net. </para>
+        <note>
+            <para
+>Astrometry.net levereras redan med StellarMate, så det finns inget behov av att installera det. Indexfiler från 16 bågminuter och ovanför (4206 till 4019) inkluderas med StellarMate. Ytterligare indexfiler måste installeras efter behov. För att använda Astrometry i StellarMate från Ekos på en annan dator med &Linux;, &Windows;, &MacOS;, säkerställ att du väljer alternativet <guimenuitem
+>Fjärr</guimenuitem
+> i Ekos inriktningsmodul. Säkerställ dessutom att drivrutinen <guimenuitem
+>Astrometry</guimenuitem
+> är vald i utrustningsprofilen. </para>
+        </note>
+        <screenshot>
+            <screeninfo
+>Ekos fjärrastrometri </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos fjärrastrometri</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <variablelist>
+            <varlistentry>
+                <term
+>&Windows;</term>
+                <listitem>
+                    <para
+>För att använda astrometry.net på &Windows;, måste <ulink url="https://adgsoftware.com/ansvr/"
+>ANSVR lokala Astrometry.net lösningsverktyg</ulink
+> laddas ner och installeras. ANSVR efterapar det nätverksbaserade astrometry.net lösningsverktyget på den lokala datorn, och därmed behövs inte Internet för några astrometriförfrågningar. </para>
+                    <para
+>Efter att ha installerat ANSVR-servern och laddat ner lämpliga indexfiler för din inställning, säkerställ att ANSVR-servern är startad och gå därefter till Ekos inriktningsalternativ, där du helt enkelt kan ändra <guilabel
+>API-webbadress</guilabel
+> för att använda ANSVR-servern som åskådliggörs nedan: </para>
+                    <screenshot>
+                        <screeninfo
+>ANSVR-parametrar </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase
+>ANSVR-parametrar</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    <para
+>In Ekos inriktningsmodul måste lösningstypen ställas in till <guimenuitem
+>Nätbaserat</guimenuitem
+> så att den använder den lokala ANSVR-servern för alla astrometriförfrågningar. Därefter kan du använda inriktningsmodulen som du normalt skulle göra. </para>
+                    <para
+>Kom ihåg, som anges ovan, att StellarMate <emphasis
+>redan</emphasis
+> inkluderar astrometry.net. Om du därför vill använda StellarMate på en annan dator för att lösa bilder, ändra helt enkelt lösningstyp till <guimenuitem
+>Fjärr</guimenuitem
+> och säkerställ att utrustningsprofilen inkluderar drivrutinen <emphasis role="bold"
+>Astrometry</emphasis
+> som kan väljas i kombinationsmenyn <guilabel
+>Extra</guilabel
+>. Det gäller alla operativsystem, inte bara &Windows;. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&MacOS;</term>
+                <listitem>
+                    <para
+>Astrometry.net är redan inkluderad med &kstars; för &MacOS;, så det finns inget behov av att installera det. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&Linux;</term>
+                <listitem>
+                    <para
+>Astrometry.net är redan inkluderad med &kstars; rykande färska version. Men om astrometry inte är installerat, kan det installeras på &ubuntu; genom att köra följande kommando: </para>
+                    <para>
+                        <command
+>sudo apt-get install astrometry.net</command>
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect3>
+
+    <sect3 id="ekos-align-download-index-files">
+        <title
+>Ladda ner indexfiler</title>
+        <para
+>För lokala lösningsverktyg (och fjärrlösningsverktyg), behövs indexfiler för att lösningsverktyget ska fungera. Hela samlingen av indexfiler är mycket stor (över 30 GB), men du behöver bara ladda ner vad som är nödvändigt för inställningen av din utrustning. Indexfiler sorteras enligt det synfältsområde (FOV) de täcker. Det finns två metoder att hämta nödvändiga indexfiler: Det nya nerladdningsstödet i inriktningsmodulen och det gamla manuella sättet. </para>
+        <sect4 id="ekos-align-automatic-download">
+            <title
+>Automatisk nerladdning</title>
+            <screenshot>
+                <screeninfo
+>Nerladdning av Astrometry.net index </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_indexes_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Nerladdning av Astrometry.net index</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>Automatisk nerladdning är bara tillgänglig för Ekos användare på &Linux; och &MacOS;. För användare av &Windows; ladda ner lösningsverktyget ANSVR. </para>
+            <para
+>För att komma åt nerladdningssidan, klicka på knappen <guibutton
+>Alternativ</guibutton
+> i <link linkend="ekos-align"
+>inriktningsmodulen</link
+> och välj därefter fliken <guilabel
+>Astrometry indexfiler</guilabel
+>. Sidan visar aktuellt synfält för den nuvarande inställning och nedanför en lista med tillgängliga och installerade indexfiler. Tre ikoner används för att ange vikten hos indexfiler givet din nuvarande inställning enligt följande: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-high.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Krävs</guilabel>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-medium.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Rekommenderas</guilabel>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-low.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Valfri</guilabel>
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para
+>Du måste ladda ner alla filer som krävs, och om du har mycket hårddiskutrymme över kan du också ladda ner de rekommenderade indexfilerna. Om en indexfil är installerad ska den vara markerad, markera den annars för att ladda ner relevant indexfil. Ladda bara ner en fil åt gången, särskilt för stora filer. Du kan bli tillfrågad om att skriva in administratörslösenordet (förvalt värde i StellarMate är <userinput
+>smate</userinput
+>) för att installera filerna. När du väl har installerat alla nödvändiga filer, kan du omedelbart börja använda det lokala astrometry.net lösningsverktyget. </para>
+        </sect4>
+        <sect4 id="ekos-align-manual-download">
+                <title
+>Manuell nerladdning</title>
+                <para
+>Du måste <ulink url="http://data.astrometry.net"
+>ladda ner</ulink
+> och installera de nödvändiga indexfilerna lämpliga för teleskopets och CCD:ns synfält (FOV). Du måste installera indexfiler som täcker från 10 - 100 % av synfältet. Om synfältet exempelvis är 60 bågminuter måste indexfiler som täcker himmelsmärken från 6 bågminuter (10 %) till 60 bågminuter (100 %). Det finns många nätverktyg för att beräkna synfält, såsom <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx"
+>Starizona synfältsräknare</ulink
+>. </para>
+                <table frame="all">
+                    <title
+>Indexfiler</title>
+                    <tgroup cols='3' align='left' colsep='1' rowsep='1'>
+                        <thead>
+                            <row>
+                                <entry
+>Indexfilnamn</entry>
+                                <entry
+>Synfält (bågminuter)</entry>
+                                <entry
+>Debian-paket</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry
+>index-4219.fits</entry>
+                                <entry
+>1400 - 2000</entry>
+                                <entry morerows="11" valign="middle"
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4208-4219_0.45_all.deb"
+>astrometry-data-4208-4219</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4218.fits</entry>
+                                <entry
+>1000 - 1400</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4217.fits</entry>
+                                <entry
+>680 - 1000</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4216.fits</entry>
+                                <entry
+>480 - 680</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4215.fits</entry>
+                                <entry
+>340 - 480</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4214.fits</entry>
+                                <entry
+>240 - 340</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4213.fits</entry>
+                                <entry
+>170 - 240</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4212.fits</entry>
+                                <entry
+>120 - 170</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4211.fits</entry>
+                                <entry
+>85 - 120</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4210.fits</entry>
+                                <entry
+>60 - 85</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4209.fits</entry>
+                                <entry
+>42 - 60</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4208.fits</entry>
+                                <entry
+>30 - 42</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4207-*.fits</entry>
+                                <entry
+>22 - 30</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4207_0.45_all.deb"
+>astrometry-data-4207</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4206-*.fits</entry>
+                                <entry
+>16 - 22</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4206_0.45_all.deb"
+>astrometry-data-4206</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4205-*.fits</entry>
+                                <entry
+>11 - 16</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4205_0.45_all.deb"
+>astrometry-data-4205</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4204-*.fits</entry>
+                                <entry
+>8 - 11</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4204_0.45_all.deb"
+>astrometry-data-4204</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4203-*.fits</entry>
+                                <entry
+>5,6 - 8,0</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4203_0.45_all.deb"
+>astrometry-data-4203</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4202-*.fits</entry>
+                                <entry
+>4,0 - 5,6</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4202_0.45_all.deb"
+>astrometry-data-4202</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4201-*.fits</entry>
+                                <entry
+>2,8 - 4,0</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4201-1_0.45_all.deb"
+>astrometry-data-4201-1</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-2_0.45_all.deb"
+>astrometry-data-4201-2</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-3_0.45_all.deb"
+>astrometry-data-4201-3</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-4_0.45_all.deb"
+>astrometry-data-4201-4</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4200-*.fits</entry>
+                                <entry
+>2,0 - 2,8</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4200-1_0.45_all.deb"
+>astrometry-data-4200-1</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-2_0.45_all.deb"
+>astrometry-data-4200-2</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-3_0.45_all.deb"
+>astrometry-data-4200-3</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-4_0.45_all.deb"
+>astrometry-data-4200-4</ulink
+></entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <para
+>Debian-paketen lämpar sig för alla Debian-baserade distributioner (Ubuntu, Mint, ... etc.). Om du laddade ner Debian-paketen ovan för ditt synfält, kan du installera dem från din favoritpakethanterare, eller med kommandot: </para>
+                <para>
+                    <command
+>sudo dpkg -i astrometry-data-*.deb</command>
+                </para>
+                <para
+>Å andra sidan, om FITS-indexfilerna laddades ner direkt, kopiera dem till katalogen <filename role="directory"
+>/usr/share/astrometry</filename
+>. </para>
+                <note>
+                    <para
+>Det rekommenderas att använda en nerladdningshanterare såsom <ulink url="https://addons.mozilla.org/en-US/firefox/addon/downthemall/"
+>DownThemAll!</ulink
+> för &firefox; för att ladda ner Debian-paketen eftersom nerladdningshanterare inbyggda i webbläsare kan ha problem med att ladda ner stora paket. </para>
+                </note>
+            </sect4>
+        </sect3>
+
+        <sect3 id="ekos-align-how-to-use">
+            <title
+>Hur ska man använda det?</title>
+            <para
+>Ekos inriktningsmodul erbjuder ett flertal funktioner för att hjälpa dig uppnå noggranna GÅ TILL. Starta med stativet i hemposition med teleskopröret direkt riktat mot himmelspolen. För användare på norra halvklotet, peka teleskopet så nära som möjligt mot polstjärnan. Det är inte nödvändigt att göra två eller tre stjärninriktningar, men det kan vara användbart för vissa stativtyper. Säkerställ att kameran är fokuserad och att stjärnor är synliga. </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Ta bild och lös</guilabel
+>: Ta en bild och avgör exakt vilket område på himlen som teleskopet är riktat mot. Astrometriresultaten inkluderar de ekvatoriella koordinaterna (RA och DEK) i den tagna bildens centrum förutom bildpunktsskala och fältrotation. Beroende på lösningsverktygets åtgärdsinställningar, kan resultatet användas för att synkronisera stativet eller synkronisera och därefter flytta till målet. Antag exempelvis att du förflyttade stativet till Vega och därefter använde <emphasis
+>Ta bild och lös</emphasis
+>. Om de verkliga teleskopkoordinaterna skiljer sig från Vega, synkroniseras den först till de lösta koordinaterna, och därefter ska Ekos kommendera teleskopet att förflytta sig till Vega. Efter förflyttningen är klar, upprepar inriktningsmodulen processen igen tills felet mellan rapporterad och verklig position är under noggrannhetströskeln (normalt 30 bågsekunder). </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Läs in och förflytta</guilabel
+>: Läs in en FITS- eller JPEG-fil, lös den, och flytta sedan till den. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Polärinriktningsguide</guilabel
+>: Ett enkelt verktyg för att hjälpa till med polär inriktning av tyska ekvatoriella stativ. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Gammalt polärt inriktningsverktyg</guilabel
+>: Mät polärt inriktningsfel när en vy av himmelspolen (t.ex. polstjärnan för norra halvklotet) inte är tillgänglig. </para>
+                </listitem>
+            </itemizedlist>
+            <warning>
+                <para
+>Lös <emphasis role="bold"
+>aldrig</emphasis
+> en bild nära eller vid himmelspolen (om inte Ekos polära inriktningsguide används). Förflytta åtminstone 20 grader från himmelspolen innan den första bilden löses. Att lösa mycket nära polerna gör stativets pekande värre, så undvik det. </para>
+            </warning>
+        </sect3>
+
+        <sect3 id="ekos-align-alignment-settings">
+            <title
+>Inriktningsinställningar</title>
+            <screenshot>
+                <screeninfo
+>Inställningar av Astrometry.net </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Inställningar av Astrometry.net</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>Innan inriktningsprocessen påbörjas, välj önskad CCD och teleskop. Du kan kontrollera alternativ som skickas till lösningsverktyget astrometry.net varje gång en bild tas: </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>CCD</guilabel
+>: Välj CCD att använda vid tagning. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Exponering</guilabel
+>: Exponeringstid i sekunder. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Noggrannhet</guilabel
+>: Acceptabel skillnad mellan rapporterade teleskopkoordinater och verkliga lösta koordinater. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Del X</guilabel
+>: Ställ in CCD:s horisontella indelning. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Del Y</guilabel
+>: Ställ in CCD:s vertikala indelning. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Teleskop</guilabel
+>: Ställ in det aktiva teleskopet ifall du har olika primära och guidningsteleskop. Synfältet beräknas om när ett annat teleskop väljs. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Alternativ</guilabel
+>: Alternativ som skickas till lösningsverktyget astrometry.net. Klicka på redigeringsknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="document-edit.png" format="PNG"/></imageobject
+></inlinemediaobject
+> för att utforska alternativen i detalj. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Lösningsverktyg</guilabel
+>: Välj lösningstyp (nätbaserat, lokalt, fjärr). Fjärrlösningsverktyget är bara tillgängligt om ansluten till en fjärrenhet. </para>
+                </listitem>
+            </itemizedlist>
+            <para
+>Normalt söker lösningsverktyget över hela himlen för att bestämma koordinater för den tagna bilden. Det kan <emphasis
+>ta lång tid</emphasis
+>, så för att snabba upp lösningen kan man därför begränsa det att bara söka inom ett specifikt område på himlen, angivet av <guilabel
+>RA</guilabel
+>, <guilabel
+>DEK</guilabel
+>, och <guilabel
+>Radie</guilabel
+> ovan. </para>
+        </sect3>
+
+        <sect3 id="ekos-align-astrometry-net-settings">
+            <title
+>Alternativ för astrometry.net</title>
+            <para
+>Alternativ för lokala och nätbaserade lösningsverktyg. </para>
+            <screenshot>
+                <screeninfo
+>Alternativ för Astrometry.net </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Alternativ för Astrometry.net</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>De flesta alternativ har tillräckliga förvalda värden. Om du har astrometry.net installerat på en annan plats än den vanliga, kan sökvägarna ändras efter behov. </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Världskoordinatsystem</guilabel
+>: Världskoordinatsystemet är ett system för att inbädda ekvatoriell koordinatinformation i bilden. Därför kan du hålla musen över bilden när man tittar på den och se koordinaten för varje bildpunkt. Du kan också klicka var som helst på bilden och skicka ett kommando till teleskopet att förflytta sig dit. Det rekommenderas att behålla alternativet på. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Detaljerad</guilabel
+>: Om lösningsverktyget misslyckas med lösningen upprepade gånger, markera alternativet för att aktivera <emphasis
+>detaljerad</emphasis
+> utmatning från lösningsverktyget för att hjälpa dig att identifiera eventuella problem. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Överlagra</guilabel
+>: Överlagra tagna bilder på &kstars; himmelskarta. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Ladda upp JPG</guilabel
+>: När nätbaserat astrometry.net används, ladda upp alla bilder som JPEG för att spara bandbredd, eftersom FITS-bilder kan vara stora. </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+
+        <sect3 id="ekos-align-solver-options">
+            <title
+>Lösningsalternativ</title>
+            <para
+>Ekos väljer och uppdaterar normalt optimala alternativ själv för att accelerera lösningsverktygets prestanda. Du kan välja att ändra alternativen som skickas till lösningsverktyget ifall de normala alternativen inte är tillräckliga. </para>
+            <screenshot>
+                <screeninfo
+>Lösningsalternativ </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="solver_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Lösningsalternativ</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+        </sect3>
+
+        <sect3 id="ekos-align-capture-and-solve">
+            <title
+>Tagning och lösning</title>
+            <para
+>Vid användning av Ekos inriktningsmodul är det inte strikt nödvändigt att rikta in stativet med styrenhetens inriktning med 1, 2 eller 3 stjärnor, även om det rekommenderas att utföra en grov inriktning med 1 eller 2 stjärnor innan Ekos inriktningsmodul används. Om du använder EQMod kan du börja använda Ekos inriktningsmodul omedelbart. Ett typiskt arbetsflöde för inriktning av GÅ TILL omfattar följande steg: </para>
+            <orderedlist>
+                <listitem>
+                    <para
+>Ställ in stativet till hempositionen (oftast NCP för ekvatoriella stativ). </para>
+                </listitem>
+                <listitem>
+                    <para
+>Välj <guilabel
+>Förflytta till mål</guilabel
+> under <guilabel
+>Lösningsåtgärd</guilabel
+>. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Förflytta det till en närliggande ljusstark stjärna. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Efter förflyttningen är färdig, klicka på <guibutton
+>Ta bild och lös</guibutton
+>. </para>
+                </listitem>
+            </orderedlist>
+            <para
+>Om lösningsverktyg lyckas, synkroniserar Ekos och förflyttar därefter till stjärnan. Resultaten visas under fliken <guilabel
+>Lösningsresultat</guilabel
+> tillsammans med en måltavla som visar avvikelsen av de rapporterade teleskopkoordinaterna (dvs. vart teleskopet <emphasis
+>tror</emphasis
+> att det pekar) från den verkliga positionen på himlen som bestämts av lösningsverktyget. </para>
+            <para
+>Varje gång lösningsverktyget körs och returnerar lyckade resultat, kan Ekos köras med följande åtgärder: </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Synkronisera</guilabel
+>: Synkronisera teleskopkoordinaterna till lösningskoordinaterna. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Förflytta till mål</guilabel
+>: Synkroniserar teleskopkoordinaterna till lösningskoordinaterna och förflytta teleskopet till målet. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Ingenting</guilabel
+>: Lös bara bilden och visa lösningskoordinaterna. </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+
+        <sect3 id="ekos-align-polaralignment">
+            <title
+>Polärinriktning</title>
+            <sect4 id="ekos-align-plar-alignment-assistant">
+                <title
+>Polärinriktningsguide</title>
+                <para
+>När ett tyskt ekvatoriellt stativ (German Equatorial Mount, GEM) används för avbildning, är en kritisk aspekt av att ta långtidsexponeringar att säkerställa riktig polär inriktning. Ett GEM-stativ har två axlar: Rektascensionaxeln (RA) och deklinationsaxeln (DE). Idealt sätt ska RA-axeln vara inriktad med himmelssfärens polaxel. Stativets jobb är att följa stjärnans rörelse på himlen från det ögonblick den stiger över horisonten i öster, hela vägen upp över meridianen, och västerut tills den går ner. </para>
+
+                <mediaobject>
+                    <videoobject>
+                        <videodata contentdepth="595" contentwidth="800" fileref="https://www.stellarmate.com/images/videos/polar_align.webm"
+></videodata>
+                    </videoobject>
+                    <caption>
+                        <para>
+                            <phrase
+>Polärinriktningsguide</phrase>
+                        </para>
+                    </caption>
+                </mediaobject>
+
+                <para
+>Vid långtidsexponering är en kamera ansluten till teleskopet där bildsensorn detekterar inkommande fotoner från ett visst område på himlen. De infallande fotonerna måste träffa samma fotopunkt om och om igen om vi ska få en klar och tydlig bild. Verkliga fotoner beter sig förstås inte på detta sätt: optiken, atmosfären och synskärpan sprider och bryter alla fotoner på ett eller annat sätt. Dessutom anländer inte fotoner likformigt, utan följer en Poissonfördelning. För punktliknande källor som stjärnor, beskriver en spridningsfunktion hur fotoner fördelas rumsligt över bildpunkterna. Trots detta, är den <emphasis
+>övergripande</emphasis
+> idén att vi vill få källans fotoner att träffa samma bildpunkter. Annars kan vi sluta med en bild plågad av diverse spårliknande artefakter. </para>
+                <screenshot>
+                    <screeninfo
+>Polärinriktning </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="alignment_polaris.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Polärinriktning</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Eftersom stativ inte är perfekta kan de inte perfekt hålla reda på objekt när de färdas över himlen. Det kan orsakas av många faktorer, varav en är felinriktning av stativets rektascensionsaxel med avseende på himmelspolaxeln. Polär inriktning tar bort en av de största orsakerna till stativets följningsfel, men andra felkällor spelar fortfarande roll. Vissa stativ kan följa ett objekt några minuter med bara en avvikelse på 1-2 bågsekunder RMS, om de är riktigt inriktade. </para>
+                <para
+>Dock vill man troligtvis använda automatisk guidning för att hålla samma stjärna låst på samma position över tid, om man inte har ett av de allra bästa stativen. Trots detta, om stativets axel inte är riktigt inriktat i förhållande till himmelspolen, skulle även ett mekaniskt perfekt stativ förlora inriktningen med tiden. Följningsfelet är proportionellt mot felinrikningens storlek. Därför är det mycket viktigt för långtidsexponeringar att stativet är polärinriktat för att reducera alla resterande fel när det rör sig över himlen. </para>
+                <para
+>Peka stativet så nära som möjligt till himmelspolen innan processen påbörjas. Om du bor på norra halvklotet peka så nära som möjligt på polstjärnan. </para>
+                <para
+>Verktyget fungerar genom att ta och lösa tre bilder. Efter var och en har tagits, roteras stativet ett bestämt värde och en annan bild tas och löses. </para>
+                <screenshot>
+                    <screeninfo
+>Polärinriktningsguide </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Polärinriktningsguide</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Efter första tagningen kan stativet antingen roteras väster eller öster med ett specifikt värde (normalt 30 grader). Efter att ha valt storleken och riktningen, klicka på <guibutton
+>Nästa</guibutton
+> för att fortsätta, så roteras stativet. När rotationen väl är färdig blir du ombedd att ta en ny bild, om du inte har markerat <guilabel
+>Automatiskt läge</guilabel
+>. Med automatiskt läge fortsätter resten av processen med samma inställningar och riktning tills totalt tre bilder har tagits. </para>
+                <para
+>Eftersom stativets verkliga RA/DE konstateras med astrometri, kan vi konstruera en unik cirkel från de tre centrum som hittas av astrometrilösningarna. Cirkeln centrum är det som stativet roterar kring (RA-axeln), och idealt ska punkten sammanfalla med himmelspolen. Om det dock finns en felinriktning, ritar Ekos en korrektionsvektor. Korrektionsvektorn kan placeras var som helst på bilden. <emphasis
+>Uppdatera</emphasis
+> därefter kameramatningen och gör korrigeringar av stativets elevations- och azimutratt ända tills stjärnan är positionerad i angivet hårkors. För att göra det enkelt att utföra korrigeringarna, expandera vyn genom att klicka på fullskärmsknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. </para>
+                <screenshot>
+                    <screeninfo
+>Polärinriktningsresultat </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Polärinriktningsresultat</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Om du är borta från StellarMate eller dator kan en surfplatta användas för att övervaka kameramatningen medan korrektioner utförs. Använd <link linkend="ekos-tutorials-viewer"
+>StellarMates webbaserade VNC-visning</link
+> eller använd vilken VNC-klient som helst på surfplattan för att komma åt StellarMate. Om Ekos kör på din dator, kan program såsom TeamViewer användas för att uppnå samma resultat. Det följande är en video som demonstrerar hur man använder polärinriktningsguiden. </para>
+                <mediaobject>
+                    <videoobject>
+                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
+></videodata>
+                    </videoobject>
+                    <caption>
+                        <para>
+                            <phrase
+>Polärinriktning</phrase>
+                        </para>
+                    </caption>
+                </mediaobject>
+            </sect4>
+            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+                <title
+>Gammalt arbetsflöde för polär inriktning</title>
+                <para
+>Genom att använda polärinriktningsläget kan Ekos mäta och korrigera polärinriktningsfel. Peka stativet på en stjärna nära meridianen för att mäta azimutfel. Om du bor på norra halvklotet pekas stativet mot sydmeridianen. Klicka på <guibutton
+>Mät azimutfel</guibutton
+> för att påbörja processen. Ekos försöker mäta driften mellan två bilder och beräkna felet enligt det. Det går att be Ekos att korrigera azimutfel genom att klicka på knappen <guibutton
+>Korrigera azimutfel</guibutton
+>. Ekos flyttar till en ny position och ber dig justera stativets azimutrattar ända tills stjärnan är i synfältets centrum. Man kan använda fokuseringsmodulens <link linkend="focus-focuser-group"
+>inramningsfunktion</link
+> för att ta en titt på bilden medan justeringarna utförs. </para>
+                <para
+>För att mäta elevationsfel på liknande sätt, klicka på <guibutton
+>Mät elevationsfel</guibutton
+>. Stativet måste antingen pekas åt öster eller väster, och ställa in kombinationsrutan <guilabel
+>Elevationsriktning</guilabel
+> på motsvarande sätt. Ekos tar två bilder och beräknar felet. Det går att be Ekos att korrigera elevationsfel genom att klicka på knappen <guibutton
+>Korrigera elevationsfel</guibutton
+>. Liksom för azimutkorrektion flyttar Ekos till en ny position och ber dig justera stativets elevationsrattar ända tills stjärnan är i synfältets centrum. </para>
+                <para
+>Efter att ha gjort en korrektion, rekommenderas att mäta azimut- och elevationsfel igen och bedöma skillnaden. Korrektionen kan behöva utföras mer än en gång för att erhålla optimala resultat. </para>
+                <para
+>Innan polärinriktningsverktyget startas måste arbetsflödet GÅ TILL ovan utföras för minst en punkt på himlen. När stativet väl är inriktat, gå vidare med följande (med antagandet att du bor på norra halvklotet): </para>
+                <orderedlist>
+                    <listitem>
+                        <para
+>Flytta till en <emphasis role="bold"
+>ljusstark</emphasis
+> stjärna (magnitud 4 eller lägre) nära sydmeridianen (azimut 180). Säkerställ att <guilabel
+>Förflytta till mål</guilabel
+> är valt. Ta bild och lös. Stjärnan ska vara exakt centrerad i CCD-synfältet. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Byte läge till <guilabel
+>Polärinriktning</guilabel
+>. Klicka på <guibutton
+>Mät azimutfel</guibutton
+>. Du blir ombedd att flytta till en stjärna vid sydmeridianen, vilket vi redan har gjort. Ekos utför nu felberäkningen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Om allt går bra visas felet i utdatarutorna. Klicka på <guibutton
+>Korrigera azimutfel</guibutton
+> för att korrigera felet. Ekos flyttar nu till en annan punkt på himlen, och du måste <emphasis role="bold"
+>BARA</emphasis
+> justera stativets azimutrattar för att centrera stjärnan i synfältet. Det bekvämaste sättet att titta på stjärnfältet är att gå till modulen <guilabel
+>Fokusering</guilabel
+> och klicka på <guibutton
+>Starta bildinramning</guibutton
+>. Om azimutfelet är stort kanske inte stjärnan syns i CCD-synfältet, och i sådana fall måste <emphasis
+>blinda</emphasis
+> justeringar göras (eller titta helt enkelt i sökkikaren ända tills stjärnan kommer in i CCD-synfältet). </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Börja azimutjusteringar tills den ljusstarka stjärna du flyttade till från början är så nära centrum som det går att få den. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guibutton
+>Stoppa bildinramning</guibutton
+> i <link linkend="focus-focuser-group"
+>fokuseringsmodulen</link
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Upprepa <guibutton
+>Mät azimutfel</guibutton
+> för att säkerställa att vi verkligen har korrigerat felet. Det kan behöva utföras mer än en gång för att säkerställa att resultaten är giltiga. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Byt läge till <guilabel
+>GÅ TILL</guilabel
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Flytta nu till en <emphasis role="bold"
+>ljusstark</emphasis
+> stjärna antingen på östra eller västra horisonten, företrädesvis ovanför 20 graders elevation. Den måste vara så nära som möjligt till den östra (azimut 90) eller västra (270) kardinalpunkten. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Efter förflyttningen är klar, ta och lös. Stjärnan ska nu vara precis i mitten av CCD-synfältet. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Byte läge till <guilabel
+>Polär inriktning</guilabel
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Klicka på <guibutton
+>Mät elevationsfel</guibutton
+>. Du blir ombedd att flytta till en stjärna antingen till östra (azimut 90) eller västra (azimut 270) horisonten, vilket vi redan har gjort, klicka på <guibutton
+>Fortsätt</guibutton
+>. Ekos utför nu felberäkningen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Klicka på <guibutton
+>Korrigera elevationsfel</guibutton
+> för att korrigera felet. Ekos flyttar nu till en annan punkt på himlen, och kräver att du <emphasis role="bold"
+>BARA</emphasis
+> justerar stativets elevationsreglage för att centrera stjärnan i synfältet. Börja inramning som tidigare i <link linkend="focus-focuser-group"
+>fokuseringsmodulen</link
+> för att hjälpa dig med centreringen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Efter centreringen är klar, sluta inramning. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Upprepa <guibutton
+>Mät elevationsfel</guibutton
+> för att säkerställa att vi verkligen har korrigerat felet. Det kan behöva utföras mer än en gång för att säkerställa att resultaten är giltiga. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Den polära inriktningen är nu klar!</para>
+                    </listitem>
+                </orderedlist>
+                <warning>
+                    <para
+>Stativet kan förflyttas till en farlig position och kan riskera att träffa tripoden och/eller annan utrustning. Övervaka stativets rörelse noggrant. Använd på egen risk. </para>
+                </warning>
+            </sect4>
+        </sect3>
+    </sect2>

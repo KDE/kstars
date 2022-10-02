@@ -1,0 +1,62 @@
+<sect1 id="ai-parallax">
+<sect1info>
+<author
+><firstname
+>James</firstname
+> <surname
+>Lindenschmidt</surname
+> </author>
+</sect1info>
+<title
+>Parallasse</title>
+<indexterm
+><primary
+>Parallasse</primary
+></indexterm>
+<indexterm
+><primary
+>Unità astronomica</primary
+><see
+>Parallasse</see
+></indexterm>
+<indexterm
+><primary
+>Parsec</primary
+><see
+>Parallasse</see
+></indexterm>
+ <para
+>La <firstterm
+>parallasse</firstterm
+> e il cambiamento apparente della posizione di un oggetto osservato dovuta al variare della posizione dell'osservatore. Per esempio, tieni una mano di fronte a te col braccio disteso in avanti, e osserva un oggetto dall'altro lato della stanza, dietro la tua mano. Ora inclina la testa verso la spalla destra, e la tua mano sembrerà essere a sinistra dell'oggetto distante. Inclina la testa verso la spalla sinistra, e la tua mano sembrerà spostarsi a destra dell'oggetto distante. </para>
+ <para
+>Dato che la Terra è in orbita attorno al Sole, noi osserviamo il cielo da una posizione in costante movimento nello spazio. Perciò ci dovremmo aspettare di vedere un effetto di <firstterm
+>parallasse annua</firstterm
+>, in cui le posizioni degli oggetti vicini sembrano <quote
+>oscillare</quote
+> in risposta al nostro moto attorno al Sole. Ciò in effetti avviene, ma le distanze, anche verso le stelle più vicine, sono talmente grandi che occorrono accurate osservazioni con un telescopio per individuare l'effetto.<footnote
+><para
+>Gli antichi astronomi greci conoscevano la parallasse; dato che non osservavano alcuna parallasse annua nelle posizioni delle stelle, conclusero che la Terra non potesse essere in moto attorno al Sole. Ciò di cui non si resero conto è che le stelle sono milioni di volte più lontane rispetto al Sole, perciò l'effetto di parallasse è impossibile da osservare ad occhio nudo.</para
+></footnote
+>. </para>
+ <para
+>I moderni telescopi permettono agli astronomi di usare la parallasse annuale per misurare le distanze delle stelle vicine, grazie alla triangolazione. Gli astronomi misurano con cura la posizione della stella in due date, a sei mesi di distanza l'una dall'altra. Più la stella è vicina al Sole, maggiore sarà il cambiamento apparente della sua posizione da una data all'altra. </para>
+ <para
+>Durante il periodo di sei mesi la Terra ha percorso metà della propria orbita attorno al Sole, e la sua posizione è cambiata di due <firstterm
+>Unità Astronomiche</firstterm
+> (abbreviato in UA; un'UA è la distanza dalla Terra al Sole, circa 150 milioni di chilometri). Sembrerebbe una distanza enorme, ma anche la stella più vicina al Sole (Alfa Centauri) è lontana circa <emphasis
+>quarantamila miliardi</emphasis
+> di chilometri. Per questo motivo la parallasse annuale è molto piccola, tipicamente minore di un <firstterm
+>secondo d'arco</firstterm
+>, che è solo 1/3600 di un grado. Una conveniente unità di misura della distanza per le stelle vicine è il <firstterm
+>parsec</firstterm
+>, abbreviazione di "parallasse arcosecondo". Un parsec è la distanza che avrebbe una stella se il suo angolo di parallasse osservato fosse di un secondo d'arco. È pari a 3,26 anni luce, o 31 mila miliardi di chilometri<footnote
+><para
+>Agli astronomi quest'unità piace a tal punto che ora usano i <quote
+>chiloparsec</quote
+> per misurare le distance su scala galattica, e i <quote
+>megaparsec</quote
+> per misurare distanze intergalattiche, anche se si tratta di distanze decisamente troppo grandi per dare origine a una parallasse osservabile. Per determinare queste distanze sono richiesti altri metodi.</para
+></footnote
+>. </para>
+</sect1>

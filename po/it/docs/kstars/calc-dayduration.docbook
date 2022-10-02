@@ -1,0 +1,29 @@
+<sect2 id="calc-dayduration">
+<title
+>Modulo durata del giorno</title>
+<indexterm
+><primary
+>Strumenti</primary>
+<secondary
+>Astrocalcolatrice</secondary>
+<tertiary
+>Modulo durata del giorno</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Il modulo Durata del giorno dell'astrocalcolatrice </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-daylength.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Durata del giorno</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Questo modulo calcola la durata del giorno e gli istanti di levata, culminazione (mezzogiorno) e tramonto del Sole per qualsiasi data e località terrestre. Seleziona la data e le coordinate geografiche desiderate, quindi i dati saranno calcolati e mostrati. </para>
+</sect2>

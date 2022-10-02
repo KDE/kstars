@@ -1,0 +1,28 @@
+<sect1 id="ai-csphere">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>La sfera celeste</title>
+<indexterm
+><primary
+>La sfera celeste</primary>
+<seealso
+>Sistemi di coordinate celesti</seealso>
+</indexterm>
+<para
+>La sfera celeste è una sfera immaginaria di raggio enorme, centrata sulla Terra. Tutti gli oggetti visibili in cielo si possono pensare come giacenti sulla superficie di questa sfera. </para
+><para
+>Naturalmente sappiamo che gli oggetti celesti non stanno sulla superficie di una sfera centrata sulla Terra, quindi perché darsi pena con questo costrutto? Tutto ciò che vediamo nel cielo è così lontano che le distanze sono impossibili da stimare tramite la semplice osservazione. Poiché le distanze sono indeterminate, bisogna solo conoscere la <emphasis
+>direzione</emphasis
+> di un oggetto per localizzarlo nel cielo. In questo senso, la sfera celeste è un modello molto pratico per mappare il cielo. </para
+><para
+>Le direzioni dei vari oggetti celesti possono essere quantificate costruendo un <link linkend="ai-skycoords"
+>sistema di coordinate celesti</link
+>. </para>
+</sect1>

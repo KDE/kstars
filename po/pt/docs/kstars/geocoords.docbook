@@ -1,0 +1,66 @@
+<sect1 id="ai-geocoords">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Coordenadas Geográficas</title>
+<indexterm
+><primary
+>Sistema de Coordenadas Geográficas</primary
+></indexterm>
+<indexterm
+><primary
+>Longitude</primary
+><see
+>Sistema de Coordenadas Geográficas</see
+></indexterm>
+<indexterm
+><primary
+>Latitude</primary
+><see
+>Sistema de Coordenadas Geográficas</see
+></indexterm>
+<para
+>As localizações na Terra podem ser indicadas segundo um sistema de coordenadas esférico. O sistema de coordenadas geográficas (<quote
+>mapeamento da terra</quote
+>) está alinhado com o eixo de rotação da Terra. Ele define dois ângulos medidos a partir do centro da Terra. Um ângulo, chamado de <firstterm
+>Latitude</firstterm
+>, mede o ângulo entre qualquer ponto e o Equador. O outro ângulo, chamado de <firstterm
+>Longitude</firstterm
+>, mede o ângulo <emphasis
+>ao longo</emphasis
+> do Equador a partir de um ponto arbitrário na Terra (Greenwich, na Inglaterra, é o ponto de longitude-zero aceite na maioria das sociedades modernas). </para
+><para
+>Se combinar estes dois ângulos, poderá ser indicada qualquer localização na Terra. Por exemplo, Lisboa tem uma latitude de 38,42 graus Norte e uma longitude de 9,11 graus Oeste. Por isso, se traçar um vector desde o centro da Terra até um ponto a 38,42 graus acima de Equador e 9,11 graus a oeste de Greenwich, Inglaterra, irá passar por Lisboa. </para
+><para
+>O Equador é obviamente uma parte importante deste sistema de coordenadas; ela representa o <emphasis
+>ponto-zero</emphasis
+> do ângulo da latitude e é o ponto intermédio entre os pólos. O Equador é o <firstterm
+>Plano Fundamental</firstterm
+> do sistema de coordenadas geográficas. Todos os <link linkend="ai-skycoords"
+>Sistemas de Coordenadas Esféricas</link
+> definem um desses Planos Fundamentais. </para
+><para
+>As linhas de latitude constante são chamadas de <firstterm
+>Paralelos</firstterm
+>. Eles traçam circunferências à superfície da Terra, mas o único paralelo que é um <link linkend="ai-greatcircle"
+>Grande Círculo</link
+> é o Equador (Latitude=0 graus). As linhas de longitude constante são chamadas de <firstterm
+>Meridianos</firstterm
+>. O Meridiano que passa por Greenwich é o <firstterm
+>Meridiano Primo</firstterm
+> (longitude=0 graus). Ao contrário dos Paralelos, todos os Meridianos são grandes círculos e não são paralelos: eles intersectam-se nos pólos Norte e Sul. </para>
+<tip>
+<para
+>Exercício:</para>
+<para
+>Qual é a longitude do Pólo Norte? A sua latitude é 90 graus Norte. </para>
+<para
+>É uma pergunta com truque. A Longitude não é significativa no Pólo Norte (nem no Pólo Sul). Ele tem todas as longitudes ao mesmo tempo. </para>
+</tip>
+</sect1>

@@ -1,0 +1,45 @@
+<sect2 id="calc-geodetic">
+<title
+>Geodetic Coordinates module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Geodetic Coordinates module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Geodetic Coordinates calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-geodetic.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Geodetic Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The normal <link linkend="ai-geocoords"
+>geographic coordinate system</link
+> assumes that the Earth is a perfect sphere. This is nearly true, so for most purposes geographic coordinates are fine. If very high precision is required, then we must take the true shape of the Earth into account. The Earth is an ellipsoid; the distance around the equator is about 0.3% longer than a <link linkend="ai-greatcircle"
+>Great Circle</link
+> that passes through the poles. The <firstterm
+>Geodetic Coordinate system</firstterm
+> takes this ellipsoidal shape into account, and expresses the position on the Earth's surface in Cartesian coordinates (X, Y, and Z). </para>
+<para
+>To use the module, first select which coordinates you will use as input in the <guilabel
+>Input Selection</guilabel
+> section. Then, fill in the input coordinates in either the <guilabel
+>Cartesian Coordinates</guilabel
+> section or the <guilabel
+>Geographic Coordinates</guilabel
+> section. When you press the <guibutton
+>Compute</guibutton
+> button, the corresponding coordinates will be filled in. </para>
+</sect2>

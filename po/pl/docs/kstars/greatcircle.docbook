@@ -1,0 +1,32 @@
+<sect1 id="ai-greatcircle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Wielkie koło</title>
+<indexterm
+><primary
+>Wielkie koło</primary>
+<seealso
+>Sfera niebieska</seealso>
+</indexterm>
+<para
+>Weźmy pod uwagę sfery, takie jak Ziemia bądź <link linkend="ai-csphere"
+>sfera niebieska</link
+>. Przecięcie dowolnej płaszczyzny ze sferą jest okręgiem na powierzchni sfery. Jeżeli płaszczyzna zawiera środek sfery, przecięcie to jest <firstterm
+>wielkim kołem</firstterm
+>. Wielkie koła są największymi możliwymi do narysowania kołami na powierzchni sfery. Również najkrótsza droga pomiędzy dwoma punktami na sferze prowadzi przez wielkie koło. </para
+><para
+>Przykładami wielkich kół na sferze niebieskiej są: <link linkend="ai-horizon"
+>horyzont</link
+>, <link linkend="ai-cequator"
+>równik niebieski</link
+> i <link linkend="ai-ecliptic"
+>ekliptyka</link
+>. </para>
+</sect1>

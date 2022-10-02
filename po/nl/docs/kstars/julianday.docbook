@@ -1,0 +1,78 @@
+<sect1 id="ai-julianday">
+<sect1info>
+<author
+><firstname
+>John</firstname
+> <surname
+>Cirillo</surname
+> </author>
+</sect1info>
+<title
+>Juliaanse dag</title>
+<indexterm
+><primary
+>Juliaanse dag</primary>
+</indexterm>
+<para
+>De <firstterm
+>Juliaanse dag</firstterm
+>, afgekort met <abbrev
+>JD</abbrev
+> is het nummer van de huidige dag, geteld sinds een (niet helemaal) willekeurige datum lang geleden, namelijk 1 januari 4713 voor Christus (of, omdat er geen jaar '0' was, eigenlijk 1 januari -4712). Juliaanse dagen zijn erg nuttig voor het berekenen van het tijdsverschil tussen twee gebeurtenissen, omdat dat eenvoudig kan worden gedaan door het verschil te berekenen tussen hun Juliaanse dagen. Deze berekening is heel erg lastig te doen met behulp van de standaard (Gregoriaanse) kalender, omdat hierin dagen in maanden, met een wisselend aantal dagen), worden gegroepeerd, en je ook te maken krijgt met <link linkend="ai-leapyear"
+>schrikkeljaren</link
+>. </para
+><para
+>Het omzetten van de standaard (Gregoriaanse) kalenderdagen naar Juliaanse dagen en omgekeerd kan het beste worden overgelaten aan een programma dat hiervoor is geschreven, zoals de <link linkend="tool-calculator"
+>Astrorekenmachine</link
+> in &kstars;. Maar voor degenen die er belangstelling voor hebben is hier een eenvoudig voorbeeld hoe een Gregoriaanse (huidige systeem) kalenderdag naar een Juliaanse dag kan worden omgerekend: </para
+><para
+><abbrev
+>JD</abbrev
+> = <abbrev
+>D</abbrev
+> - 32075 + 1461*( <abbrev
+>J</abbrev
+> + 4800 + ( <abbrev
+>M</abbrev
+> - 14 ) / 12 ) / 4 + 367*( <abbrev
+>M</abbrev
+> - 2 - ( <abbrev
+>M</abbrev
+> - 14 ) / 12 * 12 ) / 12 - 3*( ( <abbrev
+>J</abbrev
+> + 4900 + ( <abbrev
+>M</abbrev
+> - 14 ) / 12 ) / 100 ) / 4 </para
+><para
+>waarin <abbrev
+>D</abbrev
+> de dag (1-31) is, <abbrev
+>M</abbrev
+> de Maand (1-12), en <abbrev
+>J</abbrev
+> het Jaar (1801-2099). (U kunt natuurlijk deze formule ook gebruiken in uw programmeerbare rekenmachine!!). Voor verder verwijderde data is een ingewikkelder formule vereist. </para
+><para
+>Een voorbeeld van een Juliaanse dag is:<abbrev
+>JD</abbrev
+> 2440588, die overeenkomt met 1 jan, 1970. </para
+><para
+>Juliaanse dagen kunnen ook worden gebruikt om de tijd van de dag aan te geven, deze wordt uitgedrukt als een fractie van een volle dag, gemeten vanaf de middag (12:00 uur), en niet vanaf middernacht. 15:00 uur op 1 januari 1970 wordt dus <abbrev
+>JD</abbrev
+> 2440588,125 (omdat 15:00 uur 3 uur later is dan de middag, en 3/24 dag = 0,125 dag). Merk op dat de Juliaanse dag wordt berekend naar de <link linkend= "ai-utime"
+>universele tijd</link
+>, en niet naar de lokale tijd. De Juliaanse dag is dus voor iedereen op aarde hetzelfde. </para
+><para
+>Astronomen gebruiken bepaalde Juliaanse dagen als belangrijke referentietijdstippen, <firstterm
+>Epochen</firstterm
+> genoemd. Een epoche die veel wordt gebruikt is J2000, en is de Juliaanse dag voor 1 januari 2000 om 12:00 's middags, = <abbrev
+>JD</abbrev
+> 2451545,0. </para
+><para
+>Veel meer informatie over Juliaanse dagen vindt u op het internet. Een goed beginpunt is <ulink url="http://aa.usno.navy.mil/faq/docs/JD_Formula.html"
+>U.S. Naval Observatory</ulink
+>. U kunt ook informatie over dit onderwerp vinden door op het internet te zoeken met uw favoriete zoekmachine met argumenten als <quote
+>Julian Day</quote
+> of <quote
+>Juliaanse dag</quote
+>. </para>
+</sect1>

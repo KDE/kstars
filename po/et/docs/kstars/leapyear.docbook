@@ -1,0 +1,54 @@
+<sect1 id="ai-leapyear">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Liigaastad</title>
+<indexterm
+><primary
+>Liigaastad</primary>
+</indexterm>
+<para
+>Maa liikumine koosneb kahest põhikomponendist. Esiteks pöörleb ta ümber oma telje, kusjuures täispöördeks kulub üks <firstterm
+>päev</firstterm
+>. Teiseks tiirleb ta ümber Päikese, kusjuures täistiiruks kulub üks <firstterm
+>aasta</firstterm
+>. </para
+><para
+>Tavaliselt on ühes <emphasis
+>kalendri</emphasis
+>aastas 365 päeva, kuid tegelikult on <emphasis
+>tõelises</emphasis
+> aastas (&ie; ajas, mis Maal kulub täistiiru tegemiseks ümber Päikese; see kannab ka nimetust <firstterm
+>troopiline aasta</firstterm
+>) 365 päeva ja veel natuke. See tähendab, et selle ajaga, mis Maal kulub ühe täistiiru tegemiseks, teeb ta 365,24219 tiiru ümber oma telje. See ei peaks sind üllatama, sest pole ju mingit alust arvata, et Maa pöörlemis- ja tiirlemiskiirus peaksid kuidagi sünkroonis olema. Aga igal juhul muudab see kalendrikoostajate elu tükk maad keerulisemaks... </para
+><para
+>Mis juhtuks siis, kui me lihtsalt unustaksime tolle 0,24219 lisapööret igal aastal ja määraksime kalendris aasta pikkuseks igaveseks ajaks täpselt 365,0 päeva? Kalender tegelikult peegeldab vaid Maa liikumist ümber Päikese. Kui me seda lisapöördekest eirame, jääb kalender iga hetkega natuke maha Maa tegelikust asukohast Päikese suhtes. Ning mõne sajandi pärast algaks talv juba septembris! </para
+><para
+>Tegelikult on nii ka olnud, et aasta pikkuseks oligi määratud täpselt 365,0 päeva, mistõttu kalender hakkas <quote
+>triivima</quote
+>. Aastal 46 <abbrev
+>eKr</abbrev
+> kehtestas Julius Caesar <firstterm
+>juuliuse kalendri</firstterm
+>, mis tõi esimest korda kasutusele <firstterm
+>liigaasta</firstterm
+>. Caesari otsuse kohaselt pidi iga neljas aasta olema 366-päevane, nii et üks aasta kestaks keskmiselt 365,25 päeva. See lahendas põhimõtteliselt kalendritriivi probleemi. </para
+><para
+>Aga mitte päris täielikult, sest troopiline aasta ei ole mitte 365,25, vaid hoopis 365,24219 päeva pikk! Kalendritriivi küsimus jäi seetõttu endiselt õhku, ainult et selle ilmnemiseks kulus päris palju sajandeid. Seepärast kehtestas paavst Gregorius XIII 1582. aastal <firstterm
+>gregooriuse kalendri</firstterm
+>, mis on põhimõtteliselt sarnane juuliuse kalendriga, kuid kasutab liigaastate puhul üht lisanippi: täissadades aastad (need, mis lõpevad numbritega <quote
+>00</quote
+>) on liigaastad ainult juhul, kui nad jaguvad 400-ga. Seega ei olnud aastad 1700, 1800 ja 1900 liigaastad (mida nad juuliuse kalendri kohaselt pidanuks olema), küll aga oli seda aasta 2000. See uuendus jättis aasta pikkuseks 365,2425 päeva. See tähendab, et kalendritriiv ei ole endiselt kõrvaldatud, kuid viga on kõigest 3 päeva 10 000 aasta kohta. Gregooriuse kalender on tänapäevani enamikus maailmas standardiks. </para>
+<note>
+<para
+>Midagi lõbusat: Kui paavst Gregorius omanimelise kalendri kehtestas, oli juuliuse kalendrit kasutatud enam kui 1500 aastat, mistõttu triiv ulatus juba üle nädala. Paavst sünkroniseeris kalendri päris osava võttega, <emphasis
+>kaotades</emphasis
+> lihtsalt 10 päeva ära, nii et 1582. aastal järgnes 4. oktoobrile kohe 15 oktoober! </para>
+</note>
+</sect1>

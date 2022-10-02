@@ -1,0 +1,101 @@
+<sect2 id="ekos-analyze">
+    <title
+>Analyseren</title>
+    <indexterm>
+        <primary
+>Hulpmiddelen</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Analyze</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Ekos Analysemodule </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_analyze.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Ekos Analysemodule</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="analyze-Introduction">
+        <title
+>Inleiding</title>
+        <para
+>In de analysemodule wordt het gebeuren tijdens een opnamesessie opgenomen en weergegeven. Dit betekent dat die zelf geen invloed heeft op het maken van de afbeeldingen, maar alleen een beschrijving geeft van wat er is gebeurd. Sessies worden opgeslagen in een <filename class="directory"
+>analyse</filename
+> -map, naast een map voor loggen. De erin opgeslagen <filename role="extension"
+>.analyse</filename
+>-bestanden kunnen in het tabblad <guilabel
+>Analyse</guilabel
+> worden bekeken. <guilabel
+>Analyse</guilabel
+> kan ook gegevens van de huidige opnamesessie weergeven. </para>
+        <para
+>Er zijn twee hoofdgrafieken, <guilabel
+>Tijdlijn</guilabel
+> en <guilabel
+>Stats</guilabel
+>. Zij werken samen&mdash;zij tonen altijd het zelfde tijdsinterval van de Ekos-sessie, hoewel op de x-as van de <guilabel
+>Tijdlijn</guilabel
+> het aantal seconden wordt getoond vanaf de start van het loggen, en in <guilabel
+>Stats</guilabel
+> de kloktijd. Op de x-as kan met de knop <guibutton
+>+/-</guibutton
+> worden in en uit gezoomd, met het <mousebutton
+>wiel</mousebutton
+>, of met de standaard sneltoetsen (&eg; inzoomen == <keycombo
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+>). Op de x-as kan naar links of rechts worden gezwenkt met de linker- en rechter pijltoetsen. U kunt de huidige opnamesessie bekijken, of oude sessies door <filename role="extension"
+>.analyze</filename
+>-bestanden in te lezen, in het afrolmenu van <guilabel
+>Invoer</guilabel
+>. Door <guilabel
+>Volle Breedte</guilabel
+> te kiezen ziet u alle gegevens en met <guilabel
+>Laatste</guilabel
+> ziet u de meest recente gegevens (u kunt de breedte met zoomen regelen). </para>
+    </sect3>
+    <sect3 id="analyze-timeline">
+        <title
+>Tijdlijn</title>
+        <para
+>De Tijdlijn toont de processen van Ekos, en wanneer die actief waren. Bijvoorbeeld, op de regel  <guilabel
+>Opname</guilabel
+> staat wanneer opnames werden gemaakt (groene secties) en wanneer afgebroken (rode secties). Klikken op een groene sectie geeft informatie over die afbeelding, na dubbelklikken ziet u de  opgenomen afbeelding in een fitsviewer (programma voor het tonen van een fits-afbeelding), indien aanwezig. </para>
+        <note>
+            <para
+>Indien u de opgenomen afbeelding verplaatst, kunt u de <guilabel
+>andere map</guilabel
+> in het invoermenu instellen naar een map die de basis is van een deel van het oorspronkelijke pad van het bestand. </para>
+        </note>
+        <para
+>Klikken op een <guilabel
+>Focus</guilabel
+>-segment geeft focus-informatie en toont positie versus HFR -metingen voor die sessie. Klikken op een <guilabel
+>Volger</guilabel
+>-segment toont een driftplot voor die sessie (bij volgen) en de RMS-statistieken. Klikken op andere tijdlijnen geeft status-informatie. </para>
+    </sect3>
+    <sect3 id="analyze-statistics">
+        <title
+>Statistiek</title>
+        <para
+>In de grafiek voor <guilabel
+>Stats</guilabel
+> kan een aantal statistieken worden weergegeven. Daar zijn er teveel van om die op een leesbare manier te noemen, dus kiest u die met behulp van de keuzevakjes. Een goede manier om hiermee te beginnen is met die voor <guilabel
+>rms</guilabel
+>, <guilabel
+>ruis</guilabel
+> (met de interne volger en SEP Multistar), en <guilabel
+>hfr</guilabel
+> (indien u auto-berekenen heeft gekozen in de FITS-opties). Experimenteer met de andere. De getoonde as (0-5) is alleen geschikt voor rk/dec-fout, rms, pulsen, en hfr. De y-as hiervoor kan (onhandig) worden geschaald met het <mousebutton
+>wiel</mousebutton
+>, de andere grafieken kunnen niet worden geschaald. U kunt zoomen van de y-as door rechtsklikken in de Statsplot terugzetten. Na klikken op de grafiekbestanden worden de getallen ingevuld voor de getoonde statistieken. In deze grafiek kan worden gezoomd en horizontaal worden gezwenkt, samen met de tijdlijn. </para>
+    </sect3>
+</sect2>
