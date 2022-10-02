@@ -15,6 +15,7 @@
 
 // Modules
 #include "ekos/guide/guide.h"
+#include "ekos/manager.h"
 
 // KStars Auxiliary
 #include "auxiliary/kspaths.h"
@@ -3751,35 +3752,15 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
     }
 }
 
-void Focus::refreshFilterManager(ISD::FilterWheel *device)
-{
-    if (m_FilterManager && m_FilterManager->filterWheel() == device)
-    {
-        m_FilterManager->blockSignals(true);
-        m_FilterManager->refreshFilterModel();
-        m_FilterManager->blockSignals(false);
-    }
-}
-
 void Focus::setupFilterManager()
 {
     // Do we have an existing filter manager?
     if (m_FilterManager)
-    {
-        // If same filter wheel, no need to setup again.
-        if (m_FilterManager->filterWheel() == m_FilterWheel)
-        {
-            m_FilterManager->refreshFilterProperties();
-            return;
-        }
+        return;
 
-        // Otherwise disconnect and create a new instance.
-        m_FilterManager->disconnect(this);
-        m_FilterManager->close();
-    }
-
-    m_FilterManager.reset(new FilterManager(this));
-    m_FilterManager->setFilterWheel(m_FilterWheel);
+    Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+    // Return global filter manager for this filter wheel.
+    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
     connect(filterManagerB, &QPushButton::clicked, this, [this]()
     {

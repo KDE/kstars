@@ -203,9 +203,8 @@ class Focus : public QWidget, public Ui::Focus
         const QSharedPointer<FilterManager> &filterManager() const
         {
             return m_FilterManager;
-        }        
+        }
         void setupFilterManager();
-        void refreshFilterManager(ISD::FilterWheel *device);
 
         void clearLog();
         QStringList logText()
@@ -437,7 +436,7 @@ class Focus : public QWidget, public Ui::Focus
 
         void toggleFocusingWidgetFullScreen();
 
-        void setVideoStreamEnabled(bool enabled);        
+        void setVideoStreamEnabled(bool enabled);
 
         void calculateHFR();
         void setCurrentHFR(double value);
@@ -672,7 +671,7 @@ class Focus : public QWidget, public Ui::Focus
         void settle(const FocusState completionState, const bool autoFocusUsed);
 
         void setLastFocusTemperature();
-        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);        
+        bool findTemperatureElement(const QSharedPointer<ISD::GenericDevice> &device);
 
         void setupOpticalTrainManager();
         void refreshOpticalTrain();

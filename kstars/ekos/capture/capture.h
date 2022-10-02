@@ -342,7 +342,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // Filter Manager
         void setupFilterManager();
-        void refreshFilterManager(ISD::FilterWheel *device);
 
         void syncTelescopeInfo();
         void syncCameraInfo();
@@ -776,7 +775,7 @@ class Capture : public QWidget, public Ui::Capture
         QSharedPointer<MeridianFlipState> getMeridianFlipState();;
         void setMeridianFlipState(QSharedPointer<MeridianFlipState> newMf_state);;
 
-private slots:
+    private slots:
 
         /**
              * @brief setDirty Set dirty bit to indicate sequence queue file was modified and needs saving.
