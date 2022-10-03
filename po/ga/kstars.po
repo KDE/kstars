@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-02 00:42+0000\n"
+"POT-Creation-Date: 2022-10-03 00:42+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -405,7 +405,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4731 ekos/scheduler/scheduler.cpp:4767
+#: ekos/capture/capture.cpp:4733 ekos/scheduler/scheduler.cpp:4767
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -460,14 +460,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Sábháil na hathruithe"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3574
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3563
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:881
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Tá comhad darb ainm \"%1\" ann cheana. Forscríobh?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3577
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3566
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:884
 #, kde-format
@@ -2612,10 +2612,10 @@ msgid ""
 "to the Google search engine?"
 msgstr ""
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3585
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3574
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4326
-#: ekos/capture/capture.cpp:4740 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4328
+#: ekos/capture/capture.cpp:4742 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4405 ekos/scheduler/scheduler.cpp:4777
 #: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:834
 #: tools/scriptbuilder.cpp:932
@@ -6033,8 +6033,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr ""
 
-#: ekos/align/align.cpp:1394 ekos/capture/capture.cpp:3575
-#: ekos/capture/capture.cpp:6407 ekos/focus/focus.cpp:3906
+#: ekos/align/align.cpp:1394 ekos/capture/capture.cpp:3577
+#: ekos/capture/capture.cpp:6409 ekos/focus/focus.cpp:3887
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6056,13 +6056,13 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1492 ekos/focus/focus.cpp:1310
+#: ekos/align/align.cpp:1492 ekos/focus/focus.cpp:1311
 #, kde-format
 msgid "Capturing image..."
 msgstr ""
 
 #: ekos/align/align.cpp:1578 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1908
+#: ekos/focus/focus.cpp:1909
 #, kde-format
 msgid "Image received."
 msgstr ""
@@ -6167,7 +6167,7 @@ msgid "Refresh is complete."
 msgstr "Tá %1 ar líne."
 
 #: ekos/align/align.cpp:2276 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1089
+#: ekos/focus/focus.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Capture aborted."
@@ -6179,8 +6179,8 @@ msgstr "Gabháil arís..."
 msgid "Solver aborted after %1 seconds."
 msgstr "Sábháladh comhad FITS i %1"
 
-#: ekos/align/align.cpp:2325 ekos/capture/capture.cpp:2763
-#: ekos/focus/focus.cpp:3155 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1876
+#: ekos/align/align.cpp:2325 ekos/capture/capture.cpp:2765
+#: ekos/focus/focus.cpp:3156 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1879
 #: ekos/mount/mount.cpp:834 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
@@ -6200,7 +6200,7 @@ msgid ""
 msgstr ""
 
 #: ekos/align/align.cpp:2471 ekos/align/align.cpp:2497
-#: ekos/align/align.cpp:3709 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:3698 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
@@ -6301,8 +6301,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr "Gabháil arís..."
 
-#: ekos/align/align.cpp:2951 ekos/capture/capture.cpp:2825
-#: ekos/capture/capture.cpp:2893
+#: ekos/align/align.cpp:2951 ekos/capture/capture.cpp:2827
+#: ekos/capture/capture.cpp:2895
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6356,36 +6356,36 @@ msgstr "arcmin"
 msgid "dDE (arcsec)"
 msgstr "arcshoicind"
 
-#: ekos/align/align.cpp:3296 ekos/capture/capture.cpp:6629
-#: ekos/focus/focus.cpp:3813
+#: ekos/align/align.cpp:3285 ekos/capture/capture.cpp:6612
+#: ekos/focus/focus.cpp:3794
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Filter operation failed."
 msgstr "Cumraíocht"
 
-#: ekos/align/align.cpp:3308 ekos/capture/capture.cpp:6646
+#: ekos/align/align.cpp:3297 ekos/capture/capture.cpp:6629
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3315 ekos/capture/capture.cpp:6651
+#: ekos/align/align.cpp:3304 ekos/capture/capture.cpp:6634
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3320 ekos/capture/capture.cpp:6656
+#: ekos/align/align.cpp:3309 ekos/capture/capture.cpp:6639
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Auto focus on filter change..."
 msgstr "Críochnaithe"
 
-#: ekos/align/align.cpp:3426
+#: ekos/align/align.cpp:3415
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "URL neamhbhailí"
 
-#: ekos/align/align.cpp:3561
+#: ekos/align/align.cpp:3550
 #, fuzzy, kde-format
 #| msgctxt "City in Texas USA"
 #| msgid "Clear Lake City"
@@ -6393,9 +6393,9 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Clear Lake City"
 
-#: ekos/align/align.cpp:3584 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4325
-#: ekos/capture/capture.cpp:4739 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/align.cpp:3573 ekos/align/mountmodel.cpp:263
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4327
+#: ekos/capture/capture.cpp:4741 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4404 ekos/scheduler/scheduler.cpp:4776
 #: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:834
 #: tools/scriptbuilder.cpp:931
@@ -6403,16 +6403,16 @@ msgstr "Clear Lake City"
 msgid "Invalid URL: %1"
 msgstr "URL neamhbhailí: %1"
 
-#: ekos/align/align.cpp:3593 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4762 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/align/align.cpp:3582 ekos/align/mountmodel.cpp:400
+#: ekos/capture/capture.cpp:4764 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4788 ekos/scheduler/scheduler.cpp:7133
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "Ní féidir an íomhá a shábháil: %1 "
 
-#: ekos/align/align.cpp:3594 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4341
+#: ekos/align/align.cpp:3583 ekos/align/mountmodel.cpp:283
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4343
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4448
 #: ekos/scheduler/scheduler.cpp:4789 ekos/scheduler/scheduler.cpp:7077
 #: ekos/scheduler/scheduler.cpp:7134 indi/drivermanager.cpp:1532
@@ -6429,31 +6429,31 @@ msgstr "Ní féidir an íomhá a shábháil: %1 "
 msgid "Could Not Open File"
 msgstr "Níorbh fhéidir comhad a oscailt"
 
-#: ekos/align/align.cpp:3615
+#: ekos/align/align.cpp:3604
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Earráidí i línte"
 
-#: ekos/align/align.cpp:3624
+#: ekos/align/align.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Comhordanáidí Cothrománacha"
 
-#: ekos/align/align.cpp:3638
+#: ekos/align/align.cpp:3627
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Polar Alignment"
 msgstr "Ailínigh"
 
-#: ekos/align/align.cpp:4135
+#: ekos/align/align.cpp:4124
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Capture timed out."
 msgstr "Gabháil arís..."
 
-#: ekos/align/align.cpp:4144
+#: ekos/align/align.cpp:4133
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -6504,7 +6504,7 @@ msgstr "Luchtaigh Catalóg..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:156 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:582
-#: ekos/capture/capture.cpp:3677 ekos/focus/focus.ui:325
+#: ekos/capture/capture.cpp:3679 ekos/focus/focus.ui:325
 #: ekos/guide/guide.ui:145 ekos/manager.cpp:207
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -7076,14 +7076,14 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Oscail liosta réaltléimh"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4340
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4342
 #: ekos/scheduler/scheduler.cpp:4447 ekos/scheduler/scheduler.cpp:7076
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "Níorbh fhéidir comhad %1 a oscailt."
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4367
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4369
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7681,7 +7681,7 @@ msgstr "Síneadh Uathoibríoch"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7431
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7414
 #: ekos/focus/focus.ui:1212
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
@@ -9934,7 +9934,7 @@ msgstr "Níorbh fhéidir an comhad a scriosadh: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1637 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:1995 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:1998 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1395 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
 #, kde-format
@@ -9942,7 +9942,7 @@ msgid "Focus"
 msgstr "Fócas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1638 ekos/manager.cpp:1969
+#: ekos/analyze/analyze.cpp:1638 ekos/manager.cpp:1972
 #: ekos/scheduler/framingassistant.ui:1167 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, fuzzy, kde-format
@@ -9956,7 +9956,7 @@ msgstr "Ailínigh"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1639 ekos/analyze/analyze.ui:271
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:255 ekos/manager.cpp:2150
+#: ekos/guide/guide.ui:255 ekos/manager.cpp:2153
 #: ekos/scheduler/framingassistant.ui:1131 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:429
 #, kde-format
@@ -9976,7 +9976,7 @@ msgstr "Fairview"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1641 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2079
+#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2082
 #: ekos/manager.ui:665
 #, fuzzy, kde-format
 #| msgid "Count"
@@ -11397,7 +11397,7 @@ msgstr "Framingham"
 msgid "Waiting..."
 msgstr "Eile"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2193
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2195
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -11422,7 +11422,7 @@ msgstr "Críochnaithe"
 msgid "Aligning..."
 msgstr "Fócas"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2615
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2617
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Calibrating..."
@@ -11720,7 +11720,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2190
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2193
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City in Tennessee USA"
@@ -13269,13 +13269,13 @@ msgstr "Líon"
 msgid "Park Dome"
 msgstr "Scóp"
 
-#: ekos/capture/capture.cpp:256 ekos/capture/capture.cpp:5165
+#: ekos/capture/capture.cpp:256 ekos/capture/capture.cpp:5167
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "Gabháil Seicheamh Íomhánna..."
 
-#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5166
+#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5168
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -13322,7 +13322,7 @@ msgid ""
 "restart capturing?"
 msgstr "An bhfuil tú cinnte gur mian leat nasc %1 a bhaint?"
 
-#: ekos/capture/capture.cpp:846 ekos/capture/capture.cpp:4947
+#: ekos/capture/capture.cpp:846 ekos/capture/capture.cpp:4949
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -13422,38 +13422,38 @@ msgstr "Gabh"
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2077
+#: ekos/capture/capture.cpp:2079
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing post capture script %1"
 msgstr "Script á rith: %1"
 
-#: ekos/capture/capture.cpp:2106
+#: ekos/capture/capture.cpp:2108
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing post job script %1"
 msgstr "Script á rith: %1"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/capture.cpp:2146
+#: ekos/capture/capture.cpp:2148
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "CCD capture sequence completed"
 msgstr "Roghanna ollnóvaí"
 
-#: ekos/capture/capture.cpp:2295 ekos/capture/capture.cpp:3638
+#: ekos/capture/capture.cpp:2297 ekos/capture/capture.cpp:3640
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre capture script %1"
 msgstr "Script á rith: %1"
 
-#: ekos/capture/capture.cpp:2353
+#: ekos/capture/capture.cpp:2355
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduled refocus starting after %1 seconds..."
 msgstr "Sábháladh comhad FITS i %1"
 
-#: ekos/capture/capture.cpp:2365
+#: ekos/capture/capture.cpp:2367
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "OTA Temperature (C)"
@@ -13461,254 +13461,254 @@ msgid "Refocus starting because of temperature change of %1 °C..."
 msgstr "Teocht OTA (C)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, meridianRefocusS)
-#: ekos/capture/capture.cpp:2373 ekos/capture/limits.ui:260
+#: ekos/capture/capture.cpp:2375 ekos/capture/limits.ui:260
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "Meriden"
 msgid "Refocus after meridian flip"
 msgstr "Meriden"
 
-#: ekos/capture/capture.cpp:2440 ekos/capture/capture.cpp:2686
+#: ekos/capture/capture.cpp:2442 ekos/capture/capture.cpp:2688
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2457
+#: ekos/capture/capture.cpp:2459
 #, kde-format
 msgid "Cannot start framing while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2462
+#: ekos/capture/capture.cpp:2464
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Starting framing..."
 msgstr "Radaiteileascóp"
 
-#: ekos/capture/capture.cpp:2515
+#: ekos/capture/capture.cpp:2517
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2554
+#: ekos/capture/capture.cpp:2556
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2631
+#: ekos/capture/capture.cpp:2633
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Gabháil arís..."
 
-#: ekos/capture/capture.cpp:2665
+#: ekos/capture/capture.cpp:2667
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to set sub frame."
 msgstr "Níorbh fhéidir comhad %1 a oscailt."
 
-#: ekos/capture/capture.cpp:2670
+#: ekos/capture/capture.cpp:2672
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set binning."
 msgstr "Theip ar luchtú na híomhá"
 
-#: ekos/capture/capture.cpp:2817 ekos/capture/capture.cpp:2885
+#: ekos/capture/capture.cpp:2819 ekos/capture/capture.cpp:2887
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2855
+#: ekos/capture/capture.cpp:2857
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "Íosluchtaigh Sonraí Nua..."
 
-#: ekos/capture/capture.cpp:2986
+#: ekos/capture/capture.cpp:2988
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2992
+#: ekos/capture/capture.cpp:2994
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3150 ekos/capture/capture.cpp:3153
+#: ekos/capture/capture.cpp:3152 ekos/capture/capture.cpp:3155
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
 msgid "Dark Flat"
 msgstr "Fráma"
 
-#: ekos/capture/capture.cpp:3229
+#: ekos/capture/capture.cpp:3231
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3431
+#: ekos/capture/capture.cpp:3433
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3432
+#: ekos/capture/capture.cpp:3434
 #, fuzzy, kde-format
 #| msgid "Print preview"
 msgid "Display preview"
 msgstr "Réamhamharc priontála"
 
-#: ekos/capture/capture.cpp:3524
+#: ekos/capture/capture.cpp:3526
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3536
+#: ekos/capture/capture.cpp:3538
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3576 ekos/capture/capture.cpp:6408
+#: ekos/capture/capture.cpp:3578 ekos/capture/capture.cpp:6410
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "Formáid Íomhá"
 
-#: ekos/capture/capture.cpp:3601
+#: ekos/capture/capture.cpp:3603
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing pre job script %1"
 msgstr "Script á rith: %1"
 
-#: ekos/capture/capture.cpp:3706
+#: ekos/capture/capture.cpp:3708
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "OTA Temperature (C)"
 msgid "Setting temperature to %1 °C..."
 msgstr "Teocht OTA (C)"
 
-#: ekos/capture/capture.cpp:3707
+#: ekos/capture/capture.cpp:3709
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "OTA Temperature (C)"
 msgid "Set Temp to %1 °C..."
 msgstr "Teocht OTA (C)"
 
-#: ekos/capture/capture.cpp:3710
+#: ekos/capture/capture.cpp:3712
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Réaltaí á luchtú"
 
-#: ekos/capture/capture.cpp:3711
+#: ekos/capture/capture.cpp:3713
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3715
+#: ekos/capture/capture.cpp:3717
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "OTA Temperature (C)"
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "Teocht OTA (C)"
 
-#: ekos/capture/capture.cpp:3716
+#: ekos/capture/capture.cpp:3718
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Rotator to %1 deg..."
 msgstr "Socraigh Suíomh..."
 
-#: ekos/capture/capture.cpp:3793
+#: ekos/capture/capture.cpp:3795
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3851
+#: ekos/capture/capture.cpp:3853
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3859
+#: ekos/capture/capture.cpp:3861
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3882
+#: ekos/capture/capture.cpp:3884
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3908
+#: ekos/capture/capture.cpp:3910
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3953
+#: ekos/capture/capture.cpp:3955
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3957
+#: ekos/capture/capture.cpp:3959
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3972
+#: ekos/capture/capture.cpp:3974
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4045 ekos/capture/capture.cpp:4046
+#: ekos/capture/capture.cpp:4047 ekos/capture/capture.cpp:4048
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Focus complete."
 msgstr "Críochnaithe"
 
-#: ekos/capture/capture.cpp:4056
+#: ekos/capture/capture.cpp:4058
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4057
+#: ekos/capture/capture.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Autofocus failed."
 msgstr "Críochnaithe"
 
-#: ekos/capture/capture.cpp:4125
+#: ekos/capture/capture.cpp:4127
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4143
+#: ekos/capture/capture.cpp:4145
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "Meriden"
 msgid "Meridian Flip..."
 msgstr "Meriden"
 
-#: ekos/capture/capture.cpp:4144
+#: ekos/capture/capture.cpp:4146
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "Meriden"
 msgid "Meridian flip started"
 msgstr "Meriden"
 
-#: ekos/capture/capture.cpp:4157
+#: ekos/capture/capture.cpp:4159
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "críochnaithe"
 
-#: ekos/capture/capture.cpp:4271 ekos/scheduler/framingassistantui.cpp:143
+#: ekos/capture/capture.cpp:4273 ekos/scheduler/framingassistantui.cpp:143
 #: ekos/scheduler/framingassistantui.cpp:182
 #: ekos/scheduler/framingassistantui.cpp:197
 #: ekos/scheduler/framingassistantui.cpp:561
@@ -13718,7 +13718,7 @@ msgstr "críochnaithe"
 msgid "unnamed"
 msgstr "gan ainm"
 
-#: ekos/capture/capture.cpp:4306 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:4308 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
@@ -13726,39 +13726,39 @@ msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Comhadlann réamhshocraithe FITS"
 
-#: ekos/capture/capture.cpp:4317
+#: ekos/capture/capture.cpp:4319
 #, fuzzy, kde-format
 #| msgid "Open an observation session list"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Oscail liosta réaltléimh"
 
-#: ekos/capture/capture.cpp:4429
+#: ekos/capture/capture.cpp:4431
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4710
+#: ekos/capture/capture.cpp:4712
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Gabháil Seicheamh Íomhánna..."
 
-#: ekos/capture/capture.cpp:4731
+#: ekos/capture/capture.cpp:4733
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4763
+#: ekos/capture/capture.cpp:4765
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "Níorbh fhéidir comhad %1 a oscailt"
 
-#: ekos/capture/capture.cpp:4783
+#: ekos/capture/capture.cpp:4785
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -13766,96 +13766,96 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4923
+#: ekos/capture/capture.cpp:4925
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "Sábháladh comhad FITS i %1"
 
-#: ekos/capture/capture.cpp:4947
+#: ekos/capture/capture.cpp:4949
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "An bhfuil tú cinnte gur mian leat nasc %1 a bhaint?"
 
-#: ekos/capture/capture.cpp:5144
+#: ekos/capture/capture.cpp:5146
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Cuir Nasc in Eagar..."
 
-#: ekos/capture/capture.cpp:5147 ekos/scheduler/scheduler.cpp:1633
+#: ekos/capture/capture.cpp:5149 ekos/scheduler/scheduler.cpp:1633
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5148
+#: ekos/capture/capture.cpp:5150
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Sábháil na hathruithe"
 
-#: ekos/capture/capture.cpp:5160
+#: ekos/capture/capture.cpp:5162
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "Cuir Nasc in Eagar..."
 
-#: ekos/capture/capture.cpp:5438
+#: ekos/capture/capture.cpp:5440
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5440
+#: ekos/capture/capture.cpp:5442
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5470
+#: ekos/capture/capture.cpp:5472
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5485
+#: ekos/capture/capture.cpp:5487
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5513
+#: ekos/capture/capture.cpp:5515
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5532
+#: ekos/capture/capture.cpp:5534
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Minicíocht:"
 
-#: ekos/capture/capture.cpp:5580
+#: ekos/capture/capture.cpp:5582
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Guide module timed out."
 msgstr "Ailínigh"
 
-#: ekos/capture/capture.cpp:5606
+#: ekos/capture/capture.cpp:5608
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5625
+#: ekos/capture/capture.cpp:5627
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed."
 msgstr "Ailínigh"
 
-#: ekos/capture/capture.cpp:5630
+#: ekos/capture/capture.cpp:5632
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Ailínigh"
 
-#: ekos/capture/capture.cpp:5671
+#: ekos/capture/capture.cpp:5673
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -13863,236 +13863,236 @@ msgid "Dithering succeeded."
 msgstr "Eile"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5678
+#: ekos/capture/capture.cpp:5680
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5686
+#: ekos/capture/capture.cpp:5688
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Dither complete."
 msgstr "Críochnaithe"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5700
+#: ekos/capture/capture.cpp:5702
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Eile"
 
-#: ekos/capture/capture.cpp:5709
+#: ekos/capture/capture.cpp:5711
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Dithering failed."
 msgstr "Eile"
 
-#: ekos/capture/capture.cpp:5731
+#: ekos/capture/capture.cpp:5733
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Réaltaí á luchtú"
 
-#: ekos/capture/capture.cpp:5740
+#: ekos/capture/capture.cpp:5742
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Réaltaí á luchtú"
 
-#: ekos/capture/capture.cpp:5747
+#: ekos/capture/capture.cpp:5749
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6025
+#: ekos/capture/capture.cpp:6027
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Wall coordinates are invalid."
 msgstr "Comhordanáidí dealraitheacha:"
 
-#: ekos/capture/capture.cpp:6134
+#: ekos/capture/capture.cpp:6136
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding resumed."
 msgstr "Réaltaí á luchtú"
 
-#: ekos/capture/capture.cpp:6169
+#: ekos/capture/capture.cpp:6171
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Réaltaí á luchtú"
 
-#: ekos/capture/capture.cpp:6242
+#: ekos/capture/capture.cpp:6244
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6253
+#: ekos/capture/capture.cpp:6255
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6274
+#: ekos/capture/capture.cpp:6276
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6308
+#: ekos/capture/capture.cpp:6310
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6316
+#: ekos/capture/capture.cpp:6318
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6338
+#: ekos/capture/capture.cpp:6340
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Sábháladh comhad sonraí i %1"
 
-#: ekos/capture/capture.cpp:6348
+#: ekos/capture/capture.cpp:6350
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6356
+#: ekos/capture/capture.cpp:6358
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6366
+#: ekos/capture/capture.cpp:6368
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "Meriden"
 msgid "Processing meridian flip..."
 msgstr "Meriden"
 
-#: ekos/capture/capture.cpp:6371
+#: ekos/capture/capture.cpp:6373
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resuming sequence..."
 msgstr "Minicíocht:"
 
-#: ekos/capture/capture.cpp:6377
+#: ekos/capture/capture.cpp:6379
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6382
+#: ekos/capture/capture.cpp:6384
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6477
+#: ekos/capture/capture.cpp:6479
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Breathnóir:"
 
-#: ekos/capture/capture.cpp:6479
+#: ekos/capture/capture.cpp:6481
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Breathnóir:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:6490 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:6492 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Breathnóir"
 
-#: ekos/capture/capture.cpp:6535
+#: ekos/capture/capture.cpp:6537
 #, kde-format
 msgid "Ekos will refocus in %1 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6540
+#: ekos/capture/capture.cpp:6542
 #, kde-format
 msgid "Ekos will refocus in %1 seconds, last procedure was %2 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6545
+#: ekos/capture/capture.cpp:6547
 #, kde-format
 msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6997
+#: ekos/capture/capture.cpp:6980
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6999
+#: ekos/capture/capture.cpp:6982
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "Cumraíocht"
 
-#: ekos/capture/capture.cpp:7015
+#: ekos/capture/capture.cpp:6998
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7015
+#: ekos/capture/capture.cpp:6998
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7026 ekos/focus/focus.cpp:3948
+#: ekos/capture/capture.cpp:7009 ekos/focus/focus.cpp:3929
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Exposure timeout. Aborting..."
 msgstr "Gabháil arís..."
 
-#: ekos/capture/capture.cpp:7049 ekos/focus/focus.cpp:3953
+#: ekos/capture/capture.cpp:7032 ekos/focus/focus.cpp:3934
 #: ekos/guide/guide.cpp:879
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7386
+#: ekos/capture/capture.cpp:7369
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "An bhfuil tú cinnte gur mian leat cliant %1 a bhaint?"
 
-#: ekos/capture/capture.cpp:7387
+#: ekos/capture/capture.cpp:7370
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"
 msgid "Driver Restart"
 msgstr "Atosaigh"
 
-#: ekos/capture/capture.cpp:7423
+#: ekos/capture/capture.cpp:7406
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7429
+#: ekos/capture/capture.cpp:7412
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7437
+#: ekos/capture/capture.cpp:7420
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7447
+#: ekos/capture/capture.cpp:7430
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "OTA Temperature (C)"
@@ -14100,7 +14100,7 @@ msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Teocht OTA (C)"
 
-#: ekos/capture/capture.cpp:7478
+#: ekos/capture/capture.cpp:7461
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -15781,121 +15781,121 @@ msgstr "Roghnaigh greille comhordanáidí go huathoibríoch"
 msgid "Auto Start"
 msgstr "Síneadh Uathoibríoch"
 
-#: ekos/focus/focus.cpp:94
+#: ekos/focus/focus.cpp:95
 #, kde-format
 msgid "Idle."
 msgstr "Díomhaoin."
 
-#: ekos/focus/focus.cpp:115
+#: ekos/focus/focus.cpp:116
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Focus Options Profile Editor"
 msgstr "Eagarthóir na Mionsamhlacha"
 
-#: ekos/focus/focus.cpp:892
+#: ekos/focus/focus.cpp:893
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No Focuser connected."
 msgstr "Dícheangail"
 
-#: ekos/focus/focus.cpp:899 ekos/focus/focus.cpp:3203
+#: ekos/focus/focus.cpp:900 ekos/focus/focus.cpp:3204
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No CCD connected."
 msgstr "Dícheangail"
 
-#: ekos/focus/focus.cpp:906
+#: ekos/focus/focus.cpp:907
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:914
+#: ekos/focus/focus.cpp:915
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:995
+#: ekos/focus/focus.cpp:996
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:997
+#: ekos/focus/focus.cpp:998
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1016
+#: ekos/focus/focus.cpp:1017
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Autofocus operation started"
 msgstr "Comhordanáidí Neamhaí"
 
-#: ekos/focus/focus.cpp:1095
+#: ekos/focus/focus.cpp:1096
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1130
+#: ekos/focus/focus.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Autofocus aborted."
 msgstr "Críochnaithe"
 
-#: ekos/focus/focus.cpp:1210
+#: ekos/focus/focus.cpp:1211
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1217
+#: ekos/focus/focus.cpp:1218
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1238
+#: ekos/focus/focus.cpp:1239
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1244
+#: ekos/focus/focus.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Ceangail"
 
-#: ekos/focus/focus.cpp:1379 ekos/focus/focus.cpp:3544
+#: ekos/focus/focus.cpp:1380 ekos/focus/focus.cpp:3545
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1386 ekos/focus/focus.cpp:3551
+#: ekos/focus/focus.cpp:1387 ekos/focus/focus.cpp:3552
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1392 ekos/focus/focus.cpp:1437
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:1438
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "outward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1392 ekos/focus/focus.cpp:1437
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:1438
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1408
+#: ekos/focus/focus.cpp:1409
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focusing %2 by %1 steps..."
 msgstr "Fócas"
 
-#: ekos/focus/focus.cpp:1414
+#: ekos/focus/focus.cpp:1415
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focusing %2 by %1 step..."
@@ -15906,60 +15906,60 @@ msgstr[2] "Fócas"
 msgstr[3] "Fócas"
 msgstr[4] "Fócas"
 
-#: ekos/focus/focus.cpp:1420
+#: ekos/focus/focus.cpp:1421
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focusing %2 by %1 ms..."
 msgstr "Fócas"
 
-#: ekos/focus/focus.cpp:1433
+#: ekos/focus/focus.cpp:1434
 #, kde-format
 msgid "Focuser is not responding to commands. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1441
+#: ekos/focus/focus.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focus motion timed out. Focusing to %1 steps..."
 msgstr "Fócas"
 
-#: ekos/focus/focus.cpp:1446
+#: ekos/focus/focus.cpp:1447
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focus motion timed out. Focusing %2 by %1 steps..."
 msgstr "Fócas"
 
-#: ekos/focus/focus.cpp:1452
+#: ekos/focus/focus.cpp:1453
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Focus motion timed out. Focusing %2 by %1 ms..."
 msgstr "Fócas"
 
-#: ekos/focus/focus.cpp:1496
+#: ekos/focus/focus.cpp:1497
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "críochnaithe"
 
-#: ekos/focus/focus.cpp:1539
+#: ekos/focus/focus.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "Íosluchtaigh Sonraí Nua..."
 
-#: ekos/focus/focus.cpp:1656
+#: ekos/focus/focus.cpp:1657
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "Comhordanáidí Neamhaí"
 
-#: ekos/focus/focus.cpp:1665
+#: ekos/focus/focus.cpp:1666
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Autofocus operation failed"
 msgstr "Comhordanáidí Neamhaí"
 
-#: ekos/focus/focus.cpp:1693
+#: ekos/focus/focus.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Focus procedure completed after %1 iteration."
@@ -15970,206 +15970,206 @@ msgstr[2] "Críochnaithe"
 msgstr[3] "Críochnaithe"
 msgstr[4] "Críochnaithe"
 
-#: ekos/focus/focus.cpp:1774
+#: ekos/focus/focus.cpp:1775
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "Socruithe"
 
-#: ekos/focus/focus.cpp:1781
+#: ekos/focus/focus.cpp:1782
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "críochnaithe"
 
-#: ekos/focus/focus.cpp:1794
+#: ekos/focus/focus.cpp:1795
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1830
+#: ekos/focus/focus.cpp:1831
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1984
+#: ekos/focus/focus.cpp:1985
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2080
+#: ekos/focus/focus.cpp:2081
 #, fuzzy, kde-format
 #| msgid "Automatically select coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "Roghnaigh greille comhordanáidí go huathoibríoch"
 
-#: ekos/focus/focus.cpp:2113
+#: ekos/focus/focus.cpp:2114
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2213
+#: ekos/focus/focus.cpp:2214
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2224 ekos/focus/focus.cpp:2832
+#: ekos/focus/focus.cpp:2225 ekos/focus/focus.cpp:2833
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2233 ekos/focus/focus.cpp:2838
+#: ekos/focus/focus.cpp:2234 ekos/focus/focus.cpp:2839
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Níorbh fhéidir comhad %1 a oscailt."
 
-#: ekos/focus/focus.cpp:2238 ekos/focus/focus.cpp:2843
+#: ekos/focus/focus.cpp:2239 ekos/focus/focus.cpp:2844
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2431
+#: ekos/focus/focus.cpp:2432
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2438
+#: ekos/focus/focus.cpp:2439
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2481
+#: ekos/focus/focus.cpp:2482
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2483
+#: ekos/focus/focus.cpp:2484
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2543
+#: ekos/focus/focus.cpp:2544
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2550
+#: ekos/focus/focus.cpp:2551
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2655
+#: ekos/focus/focus.cpp:2656
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2719
+#: ekos/focus/focus.cpp:2720
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2730
+#: ekos/focus/focus.cpp:2731
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2740
+#: ekos/focus/focus.cpp:2741
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2769
+#: ekos/focus/focus.cpp:2770
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2817
+#: ekos/focus/focus.cpp:2818
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2821
+#: ekos/focus/focus.cpp:2822
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2907 ekos/focus/focus.cpp:2920
-#: ekos/focus/focus.cpp:3009 ekos/focus/focus.cpp:3057
-#: ekos/focus/focus.cpp:3106 ekos/focus/focus.cpp:3147
+#: ekos/focus/focus.cpp:2908 ekos/focus/focus.cpp:2921
+#: ekos/focus/focus.cpp:3010 ekos/focus/focus.cpp:3058
+#: ekos/focus/focus.cpp:3107 ekos/focus/focus.cpp:3148
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2989 ekos/focus/focus.cpp:3041
-#: ekos/focus/focus.cpp:3090 ekos/focus/focus.cpp:3122
+#: ekos/focus/focus.cpp:2990 ekos/focus/focus.cpp:3042
+#: ekos/focus/focus.cpp:3091 ekos/focus/focus.cpp:3123
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3221
+#: ekos/focus/focus.cpp:3222
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3426
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3431
+#: ekos/focus/focus.cpp:3432
 #, fuzzy, kde-format
 #| msgid "NGC objects"
 msgid "Focus star is selected."
 msgstr "Réada NGC"
 
-#: ekos/focus/focus.cpp:3523
+#: ekos/focus/focus.cpp:3524
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3529
+#: ekos/focus/focus.cpp:3530
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3655
+#: ekos/focus/focus.cpp:3656
 #, fuzzy, kde-format
 #| msgid "Focuser:"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fócasóir:"
 
-#: ekos/focus/focus.cpp:3966
+#: ekos/focus/focus.cpp:3947
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Capturing image again..."
 msgstr "Gabháil arís..."
 
-#: ekos/focus/focus.cpp:3981
+#: ekos/focus/focus.cpp:3962
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save image. Aborting..."
 msgstr "Níorbh fhéidir comhad %1 a oscailt."
 
-#: ekos/focus/focus.cpp:3991
+#: ekos/focus/focus.cpp:3972
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Exposure failure. Aborting..."
 msgstr "Gabháil arís..."
 
-#: ekos/focus/focus.cpp:3996
+#: ekos/focus/focus.cpp:3977
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Gabháil arís..."
 
-#: ekos/focus/focus.cpp:4166
+#: ekos/focus/focus.cpp:4147
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -19732,109 +19732,109 @@ msgstr ""
 msgid "%1 is disconnected."
 msgstr "Dícheangail"
 
-#: ekos/manager.cpp:1485 ekos/manager.cpp:1494 ekos/manager.cpp:1522
+#: ekos/manager.cpp:1485 ekos/manager.cpp:1494 ekos/manager.cpp:1525
 #: indi/indistd.cpp:617
 #, kde-format
 msgid "%1 is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1502
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1508
+#: ekos/manager.cpp:1511
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1515
+#: ekos/manager.cpp:1518
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1529
+#: ekos/manager.cpp:1532
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1536
+#: ekos/manager.cpp:1539
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1545
+#: ekos/manager.cpp:1548
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1552
+#: ekos/manager.cpp:1555
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "Tá %1 ar líne."
 
-#: ekos/manager.cpp:1672
+#: ekos/manager.cpp:1675
 #, kde-format
 msgid "%1 is offline."
 msgstr "Tá %1 as líne."
 
-#: ekos/manager.cpp:1926
+#: ekos/manager.cpp:1929
 #, fuzzy, kde-format
 #| msgid "CCD"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2197
+#: ekos/manager.cpp:2200
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2387
+#: ekos/manager.cpp:2390
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "An bhfuil tú cinnte gur mian leat cliant %1 a bhaint?"
 
-#: ekos/manager.cpp:2388
+#: ekos/manager.cpp:2391
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "Comhad cumraíochta"
 
-#: ekos/manager.cpp:2440
+#: ekos/manager.cpp:2443
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2442
+#: ekos/manager.cpp:2445
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2657
+#: ekos/manager.cpp:2660
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2665
+#: ekos/manager.cpp:2668
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2691
+#: ekos/manager.cpp:2694
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2703
+#: ekos/manager.cpp:2706
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -24645,19 +24645,19 @@ msgid ""
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:8374
+#: ekos/scheduler/scheduler.cpp:8392
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out: %1s"
 msgstr "Réaltaí á luchtú"
 
-#: ekos/scheduler/scheduler.cpp:8376
+#: ekos/scheduler/scheduler.cpp:8394
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s"
 msgstr "Gan FOV"
 
-#: ekos/scheduler/scheduler.cpp:8410
+#: ekos/scheduler/scheduler.cpp:8428
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
