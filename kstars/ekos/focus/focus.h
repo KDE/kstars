@@ -205,6 +205,7 @@ class Focus : public QWidget, public Ui::Focus
             return m_FilterManager;
         }
         void setupFilterManager();
+        void connectFilterManager();
 
         void clearLog();
         QStringList logText()
@@ -462,9 +463,6 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusStarting(double temperature, const QString &filter);
         void autofocusComplete(const QString &filter, const QString &points);
         void autofocusAborted(const QString &filter, const QString &points);
-
-        // Filter Manager
-        void filterManagerUpdated(ISD::FilterWheel *device);
 
         // HFR V curve plot events
         /**
@@ -866,6 +864,9 @@ class Focus : public QWidget, public Ui::Focus
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
         uint8_t captureFailureCounter { 0 };
+
+        // Gain Control
+        double GainSpinSpecialValue { INVALID_VALUE };
 
         // Focus motion timer.
         QTimer m_FocusMotionTimer;
