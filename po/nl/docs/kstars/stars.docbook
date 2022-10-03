@@ -1,0 +1,117 @@
+<sect1 id="ai-stars">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Sterren: een inleidende <acronym
+>VVV</acronym
+></title>
+<indexterm
+><primary
+>Sterren</primary
+></indexterm>
+
+<qandaset id="stars-faq">
+
+<qandaentry>
+<question>
+<para
+>Wat zijn sterren?</para>
+</question>
+<answer>
+<para
+><firstterm
+>Sterren</firstterm
+> zijn gigantische bollen die (hoofdzakelijk) uit waterstofgas bestaan, en door hun eigen zwaartekracht in stand worden gehouden. Sterren zijn ook thermonucleaire energiecentrales, diep binnen in de sterren, waar de dichtheid extreem is, en de temperatuur tientallen miljoenen graden Celsius bereikt, vindt kernfusie plaats. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Is de zon een ster?</para>
+</question>
+<answer>
+<para
+>Ja, de zon is een ster. Het is het voornaamste object in het centrum van ons zonnestelsel. Vergeleken met de andere sterren is onze zon tamelijk gemiddeld, en lijkt alleen zoveel groter en helderder omdat de zon miljoenen keren dichterbij staat dan de andere sterren. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Waarom geven sterren licht?</para>
+</question>
+<answer>
+<para
+>Het korte antwoord is: sterren geven licht omdat ze erg heet zijn. Zo eenvoudig is het. Alles wat tot duizenden graden wordt verhit geeft licht, en de sterren dus ook. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>De voor de hand liggende volgende vraag is: waardoor zijn sterren zo heet?</para>
+</question>
+<answer>
+<para
+>Dit is wat moeilijker te beantwoorden. Het gewoonlijke antwoord is dat de sterren zo heet worden door de thermonucleaire fusiereacties in hun centrum.Echter, dit kan niet het gehele antwoord zijn voor de hitte van de ster, want de ster moet al erg heet zijn voordat de kernfusie überhaupt kan beginnen. Beter is het om te zeggen dat ze zo heet zijn omdat ze in elkaar zijn gevallen. Sterren worden gevormd in diffuse gasnevels, en als het gas in de nevel zich verdicht zodat er een ster ontstaat, wordt de potentiële energie van de materie omgezet, eerst tot kinetische energie, en tenslotte tot warmte als de dichtheid toeneemt.</para
+><para
+>Noot vertaler: een ander voorbeeld dat het verdichten van een gas het gas warmer maakt is de fietspomp: als je een fietsband oppompt (en dus lucht samenperst) zal je merken dat de pomp, door de warme lucht, warmer wordt. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Zijn alle sterren aan elkaar gelijk?</para>
+</question>
+<answer>
+<para
+>Sterren hebben veel dingen met elkaar gemeen: het zijn allemaal bollen van in elkaar gevallen, heet, dicht gas (meest waterstof), en alle sterren aan de hemel hebben in en rondom hun centrum kernfusie-reacties. </para
+><para
+>Maar wat sommige eigenschappen betreft kunnen sterren sterk van elkaar verschillen. Intrinsiek zijn de helderste sterren bijna 100 miljoen keer helderder dan de zwakste sterren. De oppervlaktetemperatuur van sterren gaat van slechts enkele duizenden graden tot bijna 50,000 graden Celsius. Deze verschillen zijn hoofdzakelijk te danken aan verschillen in massa: zware sterren zijn zowel heter als helderder dan sterren met weinig massa. De temperatuur en de lichtkracht hangen ook af van de <emphasis
+>evolutionaire toestand</emphasis
+> van de ster (dus: hoe ver de ster al is gevorderd op zijn levenspad). </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Wat is de Hoofdreeks?</para>
+</question>
+<answer>
+<para
+><indexterm
+><primary
+>Hoofdreeks</primary
+></indexterm
+> In een Spectrum-Lichtkracht-diagram (HR- diagram, naar Hertzsprung en Russell) blijken de meeste sterren in een smalle diagonale band te liggen: de Hoofdreeks. Rode sterren zijn lichtzwak, terwijl de blauwe erg helder zijn. Hoofdreekssterren bevinden zich in een evolutionaire fase waarbij in de kern waterstof door kernfusie wordt omgezet in Helium. Het is de eerste en langstdurende toestand waarin een ster zich bevindt (de protosterfase (fase van de stervorming) niet meegerekend). Wat er gebeurt met de ster als de waterstof in de kern opraakt, wordt besproken in het artikel over sterevolutie (dat spoedig zal verschijnen).</para
+><para
+>Noot vertaler: kernfusie is het samensmelten van lichte atoomkernen tot zwaardere, waarbij zeer veel energie vrijkomt (Waterstof- of H-bom). Dit is het tegengestelde van kernsplitsing, waarbij zware kernen uiteenvallen, en ook daarbij komt veel energie vrij (atoombom, kernenergie). Ergens ligt er natuurlijk een grens tussen "licht"en "zwaar", die grens ligt bij ijzer. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Wat is de levensduur van sterren?</para>
+</question>
+<answer>
+<para
+>De levensduur van een ster hangt sterk af van zijn massa. Sterren met een grote massa zijn heter en hebben een zoveel grotere lichtkracht, dat , zij hun nucleaire brandstof zeer veel sneller opmaken, ook al hadden zij daar eerst meer van.De zwaarste sterren (ruwweg 100 keer zwaarder dan de zon) zullen slechts ongeveer een paar miljoen jaar doen met hun brandstof, terwijl de kleinste sterren (met ruwweg 10 procent van de massa van de zon), als gevolg van het zuiniger omgaan met hun brandstof, <emphasis
+>biljoenen</emphasis
+> (10^12) jaren zullen stralen (al is het zwak). Merk op dat dit veel langer is dan de leeftijd van het heelal, dat nu tussen de 11 en 18 miljard jaar wordt geschat. De zon is nu op ongeveer de helft van zijn levensduur die op ongeveer 10 miljard jaar wordt geschat. Na die tijd is de waterstof in de kern van de zon op. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</sect1>
+
+

@@ -1,0 +1,1938 @@
+<chapter id="config">
+<title
+>Configurar el &kstars;</title>
+
+<sect1 id="setgeo">
+<title
+>Establir l'emplaçament geogràfic</title>
+
+<para
+>Aquesta és una captura de pantalla de la finestra <guilabel
+>Estableix l'emplaçament geogràfic</guilabel
+>: <screenshot>
+<screeninfo
+>Canviar l'emplaçament geogràfic</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="geolocator.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra d'establiment de l'emplaçament</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Disposa d'una llista de més de 3.400 ciutats predefinides per a poder-ne triar una. Establiu el vostre emplaçament seleccionant una ciutat d'aquesta llista. Quan se'n selecciona una, aquesta apareixerà en el mapa del món com a un petit punt sobre el qual apareix un punt de mira vermell. </para>
+
+<para>
+<indexterm
+><primary
+>Eina d'emplaçament geogràfic</primary>
+<secondary
+>Filtratge</secondary
+></indexterm
+>No resulta pràctic desplaçar-se a través d'una llista amb més de 3.400 emplaçaments per a cercar una determinada ciutat. Per a facilitar les cerques, podeu filtrar la llista introduint text en els quadres que hi ha a sota del mapa. Per exemple, en la captura de pantalla, apareix el text <userinput
+>A</userinput
+> en el quadre <guilabel
+>Filtre de ciutat:</guilabel
+>, i també s'ha introduït <userinput
+>Te</userinput
+> en el camp <guilabel
+>Filtre de província:</guilabel
+> i <userinput
+>EUA</userinput
+> en el <guilabel
+>Filtre de país:</guilabel
+>. Observeu que totes les ciutats mostrades a la llista posseeixen noms de ciutat, província i país que comencen pel text introduït en aquests camps, i que el missatge que hi ha a sota dels quadres de filtre indica que s'han trobat sis ciutats coincidents. També podeu comprovar que els punts del mapa que representen a aquestes sis ciutats han estat pintats en color blanc, mentre que la resta de ciutats romandrà en gris. </para
+><para
+>A la llista també es pot filtrar pel seu emplaçament en el mapa. Fent clic en algun lloc del mapa del món es mostraran les ciutats existents en dos graus al voltant de l'emplaçament desitjat. En aquesta ocasió, podreu cercar per nom o per posició, però no per ambdues opcions a la vegada. En altres paraules, quan feu clic a sobre del mapa, els noms filtrats seran ignorats, i viceversa. </para
+><para>
+<indexterm
+><primary
+>Eina d'emplaçament geogràfic</primary>
+<secondary
+>Emplaçaments a mida</secondary
+></indexterm
+>La informació de <link linkend="ai-geocoords"
+>longitud, latitud</link
+> i <link linkend="ai-timezones"
+>zona horària</link
+> (desplaçament TU) per a l'emplaçament actualment seleccionat es mostra en els quadres existents a la part inferior de la finestra. Si estimeu que algun d'aquests valors no és prou precís, el podeu modificar directament i prémer el botó <guibutton
+>+</guibutton
+> (Afegeix la ciutat) perquè es recordi la vostra versió personalitzada de l'emplaçament. També podeu definir un emplaçament completament nou prement el botó <guibutton
+>Neteja els camps</guibutton
+> i introduint-hi les vostres dades. Observeu que heu d'introduir totes les dades a excepció de l'opcional <guilabel
+>Província:</guilabel
+>/<guilabel
+>País:</guilabel
+> per a poder-hi afegir l'emplaçament nou. El &kstars; carregarà automàticament els emplaçaments personalitzats en futures sessions. Si us plau, en aquest punt cal tenir en compte que l'única manera d'eliminar un emplaçament personalitzat serà eliminant la línia adequada des del fitxer <filename
+>kstars/mycities.dat</filename
+> a la vostra carpeta <userinput
+><command
+>qtpaths</command
+> <option
+>--paths GenericDataLocation</option
+></userinput
+>&nbsp;. </para
+><para
+>Us demanem que si afegiu emplaçaments (o si en modifiqueu els existents), ens envieu el vostre fitxer <filename
+>mycities.dat</filename
+> perquè puguem afegir-los a la llista principal. </para>
+</sect1>
+
+<sect1 id="settime">
+<title
+>Establir el temps</title>
+<para>
+<indexterm
+><primary
+>Data i hora</primary>
+<secondary
+>La simulació del rellotge</secondary
+></indexterm
+>Quan s'inicia el &kstars;, la data i l'hora es prenen del rellotge del sistema de l'ordinador, i el rellotge del &kstars; comença a comptar en sincronització amb el temps real. Si voleu aturar el rellotge, seleccioneu l'element de menú <menuchoice
+><guimenu
+>Temps</guimenu
+> <guimenuitem
+>Atura el rellotge</guimenuitem
+></menuchoice
+> o bé feu clic sobre la icona <guiicon
+>Atura el rellotge</guiicon
+> de la barra d'eines. Podeu fer que el rellotge funcioni més lent o més ràpid del normal, o fins i tot que vagi enrere, utilitzant el botó de selecció de valors de passos de temps que hi ha a la barra d'eines. Aquest botó de selecció de valors posseeix dos jocs de botons amunt/avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà a la següent unitat de temps més gran (o més petita), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
+<para>
+<indexterm
+><primary
+>Data i hora</primary>
+<secondary
+>Configuració</secondary
+></indexterm
+>La podeu establir seleccionant l'element de menú <menuchoice
+><guimenu
+>Temps</guimenu
+> <guimenuitem
+>Estableix la data i l'hora...</guimenuitem
+></menuchoice
+> o bé prement la icona <guiicon
+>Estableix la data i l'hora</guiicon
+> en la barra d'eines. La finestra <guilabel
+>Estableix la data i l'hora</guilabel
+> utilitza un giny estàndard del &kde; per a seleccionar la data, junt amb un botó de selecció de valors per a establir l'hora i els minuts. Si voleu tornar a sincronitzar el rellotge de la simulació amb el de la CPU, simplement seleccioneu l'element de menú <menuchoice
+><guimenu
+>Temps</guimenu
+> <guimenuitem
+>Estableix l'hora a Ara</guimenuitem
+></menuchoice
+>.</para>
+
+<note
+><para>
+<indexterm
+><primary
+>Data i hora</primary>
+<secondary
+>Interval estès de dades</secondary
+></indexterm
+>El &kstars; pot acceptar dates molt antigues, fins i tot més enllà dels límits imposats per QDate. En l'actualitat, podeu establir dates entre els anys -100.000 i +100.000. Encara més. Està previst que s'ampliï dit interval en futures versions. No obstant això, cal tenir en compte que la precisió de la simulació es veurà més afectada com més remota sigui la data a examinar. Això resulta especialment cert per a les posicions dels cossos en el sistema solar. </para
+></note>
+</sect1>
+
+<sect1 id="viewops">
+<title
+>La finestra de configuració del &kstars;</title>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary
+></indexterm
+> La finestra de <guilabel
+>Configuració - &kstars;</guilabel
+> permet modificar un ampli ventall d'opcions de configuració. Hi podeu accedir amb la icona <guiicon
+>Configura</guiicon
+> de la barra d'eines o seleccionant l'element de menú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Configura el &kstars;...</guimenuitem
+></menuchoice
+>. La finestra es representa a sota: <screenshot>
+<screeninfo
+>Finestra «Configuració - &kstars;»</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="viewops.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra «Configuració - &kstars;»</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La finestra <guilabel
+>Configuració - &kstars;</guilabel
+> està dividida en dotze pàgines: <guilabel
+>Catàlegs</guilabel
+>, <guilabel
+>Sistema solar</guilabel
+>, <guilabel
+>Satèl·lits</guilabel
+>, <guilabel
+>Supernoves</guilabel
+>, <guilabel
+>Guies</guilabel
+>, <guilabel
+>Terreny</guilabel
+>, <guilabel
+>Colors</guilabel
+>, <guilabel
+>FITS</guilabel
+>, <guilabel
+>INDI</guilabel
+>, <guilabel
+>Ekos</guilabel
+>, <guilabel
+>Xplanet</guilabel
+> i <guilabel
+>Avançat</guilabel
+>. </para>
+
+<!-- Catalogs page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Catàlegs</secondary
+></indexterm
+>A la pàgina <guilabel
+>Catàlegs</guilabel
+>, determinareu diverses propietats relatives a la visualització dels catàlegs d'objectes d'estrelles i del cel profund. </para>
+
+<!-- Solar System page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Sistema solar</secondary
+></indexterm
+>A la pàgina <guilabel
+>Sistema solar</guilabel
+>, podreu especificar si es mostraran el Sol, la Lluna, els planetes, els cometes i els asteroides. </para>
+
+<!-- Satellites page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Satèl·lits</secondary
+></indexterm
+>La pàgina <guilabel
+>Satèl·lits</guilabel
+> permet definir les opcions de visualització per als satèl·lits. </para>
+
+<!-- Supernovae page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Supernoves</secondary
+></indexterm
+>La pàgina <guilabel
+>Supernoves</guilabel
+> permet gestionar com mostrarà el &kstars; les supernoves. </para>
+
+<!-- Guides page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Guies</secondary
+></indexterm
+>La pàgina <guilabel
+>Guies</guilabel
+> permet decidir si mostrar certs objectes (&ead;, línies de les constel·lacions, noms de les constel·lacions, el contorn de la Via Làctia). </para>
+
+<variablelist>
+  <varlistentry>
+    <term
+></term
+><listitem
+><para
+><indexterm
+><primary
+>Cultura del cel</primary
+></indexterm
+> És possible triar una <guilabel
+>Cultura del cel:</guilabel
+> per a les línies de constel·lació i els noms en aquesta pàgina. La versió actual del &kstars; inclou les dades de més d'una dotzena de cultures del cel. </para
+></listitem>
+  </varlistentry>
+</variablelist>
+
+<!-- Terrain page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Terreny</secondary
+></indexterm>
+<indexterm
+><primary
+>Imatge del terreny</primary>
+<secondary
+>Personalitzar</secondary
+></indexterm
+>La pàgina <guilabel
+>Terreny</guilabel
+> permet establir el terreny o la imatge del paisatge i configurar les seves opcions d'acceleració. </para>
+
+<!-- Colors page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Colors</secondary
+></indexterm>
+<indexterm
+><primary
+>Esquemes de color</primary>
+<secondary
+>Personalitzar</secondary
+></indexterm
+>La pàgina <guilabel
+>Colors</guilabel
+> permet establir l'esquema de color i definir esquemes de color personalitzats nous. </para>
+
+<!-- FITS page: -->
+<para
+>Per a una explicació detallada de les opcions a la pàgina <guilabel
+>FITS</guilabel
+>, vegeu la secció <link linkend="fits-configure"
+>Configurar el FITS</link
+>. </para>
+
+<!-- INDI page: -->
+<para
+>Per a una explicació detallada de les opcions a la pàgina <guilabel
+>INDI</guilabel
+>, vegeu la secció <link linkend="indi-configure"
+>Configurar INDI</link
+>. </para>
+
+<!-- Ekos page: -->
+<para
+>Per a una explicació detallada de la suite d'astrofotografia <guilabel
+>Ekos</guilabel
+>, vegeu la secció <link linkend="tool-ekos"
+>Ekos</link
+> d'aquest manual. </para>
+
+<!-- Xplanet page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Xplanet</secondary
+></indexterm
+>La pàgina <guilabel
+>Xplanet</guilabel
+> proporciona un acurat control sobre el <ulink url="http://xplanet.sourceforge.net/"
+>renderitzador de superfície de planetes del sistema solar Xplanet</ulink
+> (s'ha d'instal·lar per separat). </para>
+
+<!-- Advanced page: -->
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Avançat</secondary
+></indexterm
+>La pàgina <guilabel
+>Avançat</guilabel
+> proveeix un acurat control sobre els comportaments més subtils del &kstars;. </para>
+</sect1>
+
+<sect1 id="catalogs">
+<title
+>Catàlegs</title>
+<para>
+  <indexterm
+><primary
+>Catàlegs</primary
+></indexterm>
+<screenshot>
+<screeninfo
+>Finestra de catàlegs</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="viewops.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra de catàlegs</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para>
+<indexterm
+><primary
+>Pàgina de catàlegs</primary>
+<secondary
+>Resum curt</secondary
+></indexterm
+>A la pàgina <guilabel
+>Catàlegs</guilabel
+>, podreu configurar quins catàlegs d'objectes es mostraran al &kstars;, així com la quantitat d'informació que us agradaria incloure al mapa celeste. De manera predeterminada, el &kstars; inclou unes 300.000 estrelles amb nom i sense nom fins a 8 de magnitud. Per als objectes del cel profund, el catàleg inclòs és el Nou catàleg general (<quote
+>NGC</quote
+>), que inclou el Catàleg d'índex (<quote
+>IC</quote
+>) i el Catàleg Messier. </para>
+
+<para
+>El Nou catàleg general de nebuloses i cúmuls d'estrelles (abreujat com a NGC) és un catàleg d'uns 7.840 objectes del cel profund. </para>
+
+<para
+>El Catàleg d'índex de nebuloses i cúmuls d'estrelles (abreujat com a IC) serveix com un complement al NGC, i conté uns 5.386 objectes addicionals, coneguts col·lectivament com els objectes de l'IC. </para>
+
+<para
+>Podeu instal·lar catàlegs nous utilitzant l'<quote
+>Instal·lador de complements</quote
+> del &kstars;. Podeu obrir-lo mitjançant l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves...</guimenuitem
+></menuchoice
+>. Podeu triar entre una llista de catàlegs, inclosos (però no limitat a): <itemizedlist>
+
+<listitem
+><para
+>Catàleg NGC/IC de Steinicke: és un catàleg més complet que el NGC/IC. </para
+></listitem>
+
+<listitem
+><para
+>Catàleg de nebuloses planetàries Abell: és un catàleg de 86 nebuloses planetàries. La magnitud màxima està representada pel valor de 19,5 per a Abell 47. </para
+></listitem>
+
+<listitem
+><para
+>Catàleg de la regió HII de Sharpless: és el catàleg de Sharpless (SH2) de les regions HII (nebuloses difuses). </para
+></listitem>
+
+<listitem
+><para
+>Grups compactes d'Hickson: és un catàleg que consta de 99 grups compactes de galàxies. </para
+></listitem>
+
+<listitem
+><para
+>Catàleg d'estrelles Tycho-2: és un catàleg de més de 2,5 milions de les estrelles més brillants. Conté estrelles amb un valor de magnitud a partir de 8,0 fins a 12,5. </para
+></listitem>
+
+<listitem
+><para
+>Catàleg NOMAD de la USNO: és un catàleg d'uns 100 milions d'estrelles amb magnitud a partir de 12,5 fins a 16,5. Recordeu que cal tenir instal·lat Tycho-2. </para
+></listitem>
+
+</itemizedlist>
+</para>
+
+<para
+>El següent és un resum dels catàlegs en el &kstars;: <table frame="top"
+><title
+>Catàlegs d'estrelles</title>
+<tgroup cols="4" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry
+>Nom</entry>
+<entry
+>Abreviatura</entry>
+<entry
+>Nombre d'objectes</entry>
+<entry
+>Magnitud</entry>
+<entry
+>Complement</entry>
+<entry
+>Predeterminat</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+>Catàleg predeterminat</entry>
+<entry
+>Predeterminat</entry>
+<entry
+>Uns 300.000</entry>
+<entry
+>Fins a 8 de magnitud</entry>
+<entry
+>No</entry>
+<entry
+>Sí</entry>
+</row>
+<row>
+<entry
+>Tycho-2</entry>
+<entry
+>Tycho2</entry>
+<entry
+>Més de 2,5 milions</entry>
+<entry
+>8,0 fins a 12,5 </entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+<row>
+<entry
+>Conjunt de dades d'astronomia fusionades de l'observatori naval</entry>
+<entry
+>USNO NOMAD</entry>
+<entry
+>100 milions</entry>
+<entry
+>12,5 fins a 16,5</entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<table frame="top"
+><title
+>Catàlegs d'objectes del cel profund</title>
+<tgroup cols="4" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry
+>Nom</entry>
+<entry
+>Abreviatura</entry>
+<entry
+>Nombre d'objectes</entry>
+<entry
+>Magnitud</entry>
+<entry
+>Complement</entry>
+<entry
+>Predeterminat</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+>Nou catàleg general de nebuloses i cúmuls d'estrelles (OpenNGC)</entry>
+<entry
+>NGC</entry>
+<entry
+>7.840</entry>
+<entry
+>-</entry>
+<entry
+>No</entry>
+<entry
+>Sí</entry>
+</row>
+<row>
+
+<entry
+>NGC/IC de Steinicke</entry>
+<entry
+>-</entry>
+<entry
+>-</entry>
+<entry
+>-</entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+
+<row>
+<entry
+>Catàleg de nebuloses planetàries Abell</entry>
+<entry
+>-</entry>
+<entry
+>86</entry>
+<entry
+>Fins a 19,5 de magnitud</entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+
+<row>
+<entry
+>Catàleg de la regió HII de Sharpless</entry>
+<entry
+>Sh2</entry>
+<entry
+>-</entry>
+<entry
+>-</entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+
+<row>
+<entry
+>Grups compactes d'Hickson</entry>
+<entry
+>-</entry>
+<entry
+>99</entry>
+<entry
+>-</entry>
+<entry
+>Sí</entry>
+<entry
+>No</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+<note>
+  <para
+>Trobareu una llista potencialment més actualitzada a la <ulink url="https://protagon.space/catalogs/pages/catalogs.html"
+>documentació del repositori de catàlegs</ulink
+>. </para>
+</note>
+</para>
+
+<para>
+<indexterm
+><primary
+>Catàlegs</primary>
+<secondary
+>Catàlegs d'estrelles</secondary
+></indexterm
+>La secció <guilabel
+>Estels</guilabel
+> permet gestionar com es mostraran les estrelles al &kstars;. Podeu optar per veure-les o no, marcant la casella de selecció <guilabel
+>Catàlegs d'estrelles</guilabel
+>. Si la marqueu, s'habilitaran múltiples opcions. Per tant, podreu establir quantes estrelles es dibuixaran en el mapa emprant el control lliscant <guilabel
+>Densitat d'estrelles:</guilabel
+>. També podeu personalitzar el &kstars; per a canviar el nom i les <link linkend="ai-magnitude"
+>magnituds</link
+> de les estrelles. Els noms de les estrelles es dibuixaran al costat de les estrelles brillants. Per a mostrar les etiquetes de les estrelles més febles, feu pujar el control lliscant <guilabel
+>Densitat d'etiquetes:</guilabel
+>. </para>
+
+<para>
+<indexterm
+><primary
+>Catàlegs</primary>
+<secondary
+>Catàlegs del cel profund</secondary
+></indexterm
+>A sota de la secció d'estrelles, la secció <guilabel
+>Objectes del cel profund</guilabel
+> controla la visualització de diversos catàlegs d'objectes no estel·lars. Podeu alternar mostrar els objectes del cel profund i controlar si mostrar els seus noms i magnituds. De manera predeterminada, la llista d'objectes del cel profund inclou els catàlegs Messier, NGC i IC. Els catàlegs per complements estan disponibles a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves...</guimenuitem
+></menuchoice
+>, des d'on podreu descarregar els catàlegs proporcionats per l'equip del &kstars; i la comunitat a través del <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
+>repositori de paquets de catàlegs</ulink
+>. El control lliscant <guilabel
+>Zoom mínim dels DSO:</guilabel
+> controla el nivell de zoom mínim per al qual es mostraran els DSO. Augmentar el nivell de zoom mínim pot conduir a millores de rendiment quan es redueix el zoom del mapa celeste. El control lliscant <guilabel
+>Percentatge de memòria cau dels DSO:</guilabel
+> regula la quantitat que es manté en la memòria del catàleg mestre dels DSO. Si teniu problemes de memòria amb els catàlegs grans, intenteu reduir el percentatge. El control lliscant <guilabel
+>Densitat d'etiquetes:</guilabel
+> controla la densitat percebuda d'etiquetes per als DSO. Si les etiquetes es comencen a superposar i el mapa celeste comença a veure's massa ple, proveu ajustant aquesta opció. El <guilabel
+>Límit mínim de brillantor amb el zoom al màxim/mínim:</guilabel
+> regula fins a quina magnitud es mostraran els objectes en el mapa celeste (una magnitud més alta és més feble). Si es marca <guilabel
+>Mostra els objectes de magnitud desconeguda</guilabel
+>, sempre es mostraran els objectes de magnitud desconeguda. </para>
+<para
+>Les seccions següents detallaran com funcionen i es gestionen els catàlegs DSO en el &kstars;.</para>
+
+<sect2 id="catalog_general">
+<title
+>La base de dades del catàleg DSO</title>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+<secondary
+>Base de dades</secondary
+></indexterm>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+  <secondary
+>Sistema de base de dades</secondary
+></indexterm>
+<note>
+  <para
+>Aquesta secció té com a objectiu presentar la base de dades de catàlegs del &kstars; en termes senzills però tècnics. Es pot ometre sense perdre res essencial, però ajuda a comprendre com tractar i crear catàlegs (personalitzats). </para>
+</note>
+<para
+>Els catàlegs DSO en el &kstars; només són taules de base de dades SQL (SQLite3). Cada catàleg està representat per la seva pròpia taula que conté tots els seus objectes i una entrada en una taula de metadades del catàleg. A més, els catàlegs es poden importar o exportar des de i cap a fitxers de base de dades independents. </para>
+
+<para
+>Cada objecte té les propietats habituals com el nom i les coordenades, però a més compta amb dos ID. El primer és l'identificador únic específic per a l'objecte i es calcula aplicant el resum «hash» a tots els camps de l'objecte juntament amb l'identificador del catàleg. A causa que els objectes poden estar continguts en diversos catàlegs, cada objecte té un ID d'objecte addicional (OID) que identifica l'objecte físic i pot ser compartit per diversos objectes de catàlegs diferents. </para>
+
+<para
+>Per a accelerar la cerca dels objectes, tots els catàlegs habilitats es fusionen en una taula mestra. Cada catàleg té un nombre de prioritat i si ocorren diversos objectes amb el mateix OID, es carrega el del catàleg amb una prioritat major. Després, els objectes del catàleg mestre es dibuixen al cel i generalment estan disponibles en el &kstars;. </para>
+
+<para
+>Actualment, la desduplicació (l'assignació dels OID) només és admesa per les eines del <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
+>repositori d'empaquetatge de catàlegs</ulink
+>. L'objectiu d'aquesta cadena d'eines és crear catàlegs de forma reproduïble en un entorn homogeni. Cada catàleg s'implementa <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs/-/blob/master/catalogs/sharpless_2.py"
+>com un mòdul en Python</ulink
+> i proporciona mètodes estàndard per a adquirir les dades, analitzar-les i trobar els duplicats en els altres catàlegs. Tots els catàlegs descarregables s'implementen d'aquesta manera. Si us agradaria que el vostre propi catàleg estigui disponible per al &kstars;, es recomana que l'implementeu com un paquet en el repositori. Les eines proporcionades allà són tan flexibles que haurien de funcionar. Per a obtenir més informació sobre com fer-ho, vegeu la <ulink url="https://protagon.space/catalogs/"
+>documentació del repositori de catàlegs</ulink
+>. Si no esteu familiaritzat amb la programació en Python, podreu demanar l'addició d'un catàleg obrint un tiquet en el repositori o contactant amb <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs/-/project_members"
+>els mantenidors</ulink
+>. El &kstars; també proporciona mitjans per a crear catàlegs personalitzats introduint les dades manualment o important taules CSV, però són menys flexibles i no ofereixen desduplicació. </para>
+</sect2>
+<sect2 id="catalog_gui">
+<title
+>La &IGU; del Gestor de catàlegs</title>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+<secondary
+>IGU</secondary
+></indexterm>
+<para
+>A la &IGU; de la gestió de catàlegs s'arriba a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Gestiona els catàlegs DSO...</guimenuitem
+></menuchoice
+> i es mostra <link linkend="dso_manager"
+>a continuació</link
+>. <screenshot>
+<screeninfo
+>Gestor dels GSO</screeninfo>
+<mediaobject id="dso_manager">
+  <imageobject>
+    <imagedata fileref="dso_manager.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>La interfície de gestió de catàlegs DSO</phrase>
+  </textobject>
+  <caption
+>La interfície de gestió de catàlegs DSO</caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>A l'esquerra, es mostra una llista de catàlegs. En aquesta llista, es llegeixen les propietats clau del catàleg com a desactivades, incloent-hi si s'ha habilitat un catàleg, quin és el seu ID i el seu nom. La columna <guilabel
+>Mutable</guilabel
+> significa si es pot editar el catàleg o no. Els catàlegs que s'han descarregat des del repositori de catàlegs a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves...</guimenuitem
+></menuchoice
+> generalment són immutables, mentre que els catàlegs creats per l'usuari no ho són. Sempre podreu clonar un catàleg perquè sigui mutable. </para>
+<para
+>Els botons a la part superior dreta permeten afegir catàlegs a la base de dades. </para>
+<variablelist>
+<varlistentry id="import">
+<term
+><guibutton
+>Importa un catàleg...</guibutton
+></term>
+<listitem>
+  <para
+>Importa un catàleg en el format <literal role="extension"
+>.kscat</literal
+> des d'un fitxer.</para>
+  <para
+>En general, això es realitza per a provar versions noves de catàlegs que encara no han estat recollides pel servidor de descàrrega habitual.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para
+>Amb els botons a la cantonada inferior dreta, podreu afegir, eliminar, modificar i explorar els catàlegs. Les seves accions sempre es refereixen al catàleg seleccionat (la fila ressaltada a l'esquerra). <variablelist>
+<varlistentry>
+<term
+><guibutton
+>Crea un catàleg...</guibutton
+></term>
+<listitem>
+  <para
+>Crea un catàleg nou. Vegeu <xref linkend="create_catalog"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Activa / Desactiva</guibutton
+></term>
+<listitem>
+  <para
+>Activa o desactiva un catàleg.</para>
+  <para
+>Això es reflectirà en el mapa celeste quan es tanqui la &IGU; de gestió de catàlegs.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Elimina</guibutton
+></term>
+<listitem>
+  <para
+>Elimina un catàleg de la base de dades de catàlegs.</para>
+  <para
+>Això es reflectirà en el mapa celeste quan es tanqui la &IGU; de gestió de catàlegs.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Exporta...</guibutton
+></term>
+<listitem>
+  <para
+>Exporta un catàleg a un fitxer <literal role="extension"
+>.kscat</literal
+>.</para>
+  <para
+>El fitxer resultant es pot importar amb el botó <link linkend="import"
+><guibutton
+>Importa un catàleg...</guibutton
+></link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Clona...</guibutton
+></term>
+<listitem>
+  <para
+>Fa una còpia exacta del catàleg i l'insereix a la base de dades.</para>
+  <para
+>Això és útil si voleu fer modificacions a un catàleg immutable. <note
+><para
+>No obstant això, cal tenir en compte que aquesta no és la forma recomanada d'alterar els catàlegs que proporciona el <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
+>repositori d'empaquetatge de catàlegs</ulink
+>, &pex;, els catàlegs descarregats a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+><guimenuitem
+>Descarrega dades noves...</guimenuitem
+></menuchoice
+>. </para>
+    </note>
+  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Colors</guibutton
+></term>
+<listitem>
+  <para
+>Obre l'editor de colors del catàleg. (Vegeu <xref linkend="catalog_colors"/>). </para>
+  <para
+>Obrirà un diàleg que permetrà establir els colors en els quals es mostraran els objectes del catàleg seleccionat per a cada esquema de color. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Més...</guibutton
+></term>
+<listitem>
+  <para
+>Obre el diàleg Detalls del catàleg. (Vegeu <xref linkend="catalog_details"/>). </para>
+  <para
+>Allà veureu el contingut del catàleg, així com una major informació de meta. Entre altres coses, també podreu editar el seu contingut (si és mutable). </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2 id="create_catalog">
+<title
+>Crear un catàleg nou</title>
+<screenshot>
+<screeninfo
+>Diàleg de creació de catàlegs</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="create_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Diàleg de creació de catàlegs.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>A aquest diàleg s'arriba a través de la &IGU; de la gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). El camp <guilabel
+>ID:</guilabel
+> es triarà automàticament però es pot canviar. El camp <guilabel
+>Color:</guilabel
+> estableix en quin color es mostraran els objectes del catàleg. Tots els altres valors són opcionals o tenen valors predeterminats sensats. Per descomptat, podreu canviar-los en un punt posterior. </para>
+
+<para
+>En fer clic a <guilabel
+>D'acord</guilabel
+>, s'afegirà un catàleg buit a la base de dades amb les metadades introduïdes en el diàleg i que després es podrà omplir amb objectes. (Vegeu <xref linkend="catalog_details"/> i <xref linkend="csv_import"/>). </para>
+</sect2>
+
+<sect2 id="catalog_colors">
+<title
+>Editor de colors dels catàlegs</title>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+  <secondary
+>Editor de colors dels catàlegs</secondary
+></indexterm>
+
+<screenshot>
+<screeninfo
+>Editor de colors dels catàlegs</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="color_editor.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>L'editor de colors dels catàlegs.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>A aquest diàleg s'arriba mitjançant la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). Cada botó representa el color amb el qual es dibuixaran els objectes per a un esquema de color específic. En fer clic sobre un botó, podreu triar un color amb un selector de color. Els colors dels botons s'inicialitzen amb els colors predeterminats des de l'especificació del catàleg. El color <quote
+>predeterminat</quote
+> serà el color que es triarà per al catàleg si no hi ha un conjunt de colors per a un esquema de color. </para>
+</sect2>
+
+<sect2 id="catalog_details">
+<title
+>Diàleg de detalls del catàleg</title>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+  <secondary
+>Diàleg de detalls del catàleg</secondary
+></indexterm>
+
+<screenshot>
+<screeninfo
+>Diàleg de detalls del catàleg</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="catalog_details.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>El diàleg de detalls del catàleg.</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>A aquest diàleg s'arriba a través de la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). A la cantonada superior esquerra, es mostra el catàleg de metadades. A la dreta, es mostra una taula de tots els objectes en el catàleg. La línia de cerca a sobre la taula, filtra els objectes per nom. Fer doble clic sobre una fila obrirà el diàleg Detalls de l'objecte (vegeu <xref linkend="tool-details"/>). </para>
+<para
+>Seleccionar una fila permet el menú <guilabel
+>Objecte</guilabel
+> a l'esquerra. La selecció de múltiples files realitza l'acció d'un sol objecte per a cada objecte seleccionat. <variablelist>
+<varlistentry>
+<term
+><guibutton
+>Edita...</guibutton
+></term>
+<listitem>
+  <para
+>Edita l'objecte del catàleg. (Vegeu <xref linkend="add_object"/>). </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guibutton
+>Elimina</guibutton
+></term>
+<listitem>
+  <para
+>Elimina l'objecte del catàleg. </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+
+<para
+>A sota de la secció <guilabel
+>Objecte</guilabel
+>, es troben les opcions generals del catàleg. <variablelist>
+<varlistentry>
+    <term
+><menuchoice>
+        <guimenu
+>Edita la metainformació del catàleg...</guimenu>
+    </menuchoice
+></term>
+    <listitem>
+      <para
+>Edita les metadades del catàleg que es mostren a la part superior esquerra. Això obrirà el diàleg descrit a <xref linkend="create_catalog"/>. </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guibutton
+>Afegeix un objecte...</guibutton
+></term>
+    <listitem>
+      <para
+>Afegeix un objecte al catàleg. (Vegeu <xref linkend="add_object"/>). </para>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guibutton
+>Importa CSV...</guibutton
+></term>
+    <listitem>
+      <para
+>Importa els objectes des d'un format de text tabular (csv, tsv, &etc;) al catàleg. (Vegeu <xref linkend="csv_import"/>). </para>
+    </listitem>
+  </varlistentry>
+</variablelist>
+</para>
+<sect3 id="add_object">
+<title
+>Afegir/Editar els objectes</title>
+<indexterm
+><primary
+>Catàlegs del cel profund</primary>
+  <secondary
+>Afegir/Editar els objectes</secondary
+></indexterm>
+
+<screenshot>
+  <screeninfo
+>El diàleg Afegeix/Edita un DSO</screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="add_object.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>El diàleg Afegeix/Edita un DSO</phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+<para
+>Aquest diàleg permet crear o editar un objecte del cel profund (DSO). La secció <guilabel
+>Bàsics</guilabel
+> conté els camps que s'han d'omplir. </para>
+
+<variablelist>
+  <varlistentry>
+    <term
+><guilabel
+>Nom:</guilabel
+></term>
+    <listitem
+><para
+>El nom de l'objecte que es mostrarà en el cel.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>Tipus:</guilabel
+></term>
+    <listitem
+><para
+>El tipus de l'objecte.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>AR / Dec (°, J2000):</guilabel
+></term>
+    <listitem
+><para
+>Les coordenades de l'objecte en graus i pel que fa a l'època J2000.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>Magnitud aparent:</guilabel
+></term>
+    <listitem
+><para
+>La magnitud aparent de l'objecte.</para
+></listitem>
+  </varlistentry>
+</variablelist>
+
+<para
+>La secció <guilabel
+>Opcional</guilabel
+> conté els camps de dades que són opcionals, es divideixen en dues subseccions. Estan establerts i es poden deixar en els seus valors predeterminats. </para>
+
+<para
+>La subsecció <guilabel
+>Informació de la mida, en minuts d'arc</guilabel
+>. L'objecte es modela com una el·lipse que es descriu pel seu eix major i menor. </para>
+
+<para
+>La subsecció <guilabel
+>Miscel·lània</guilabel
+>. </para>
+
+<variablelist>
+  <varlistentry>
+    <term
+><guilabel
+>Nom llarg:</guilabel
+></term>
+    <listitem
+><para
+>Un nom més llarg, més descriptiu.</para>
+    <para
+>En general, el nom llarg és una cosa així com <quote
+>Galàxia Andròmeda</quote
+> per a l'objecte M31. També pot contenir designacions alternatives i noms en altres catàlegs.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>Identificador de catàleg:</guilabel
+></term>
+    <listitem
+><para
+>Un identificador intern del catàleg.</para>
+    <para
+>Per exemple, a la captura de pantalla anterior, l'objecte s'origina des del catàleg OpenNGC on s'identifica cada fila per <quote
+>NGCXXXX</quote
+>.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>Flux:</guilabel
+></term>
+    <listitem
+><para
+>El flux de l'objecte. Només s'aplica per a les fonts de ràdio.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term
+><guilabel
+>Angle de posició (°):</guilabel
+></term>
+    <listitem
+><para
+>Si l'objecte s'estén, haurà de tenir alguna orientació en el cel. L'angle de posició és l'angle entre el seu eix major i una línia recta cap al pol nord.</para
+></listitem>
+  </varlistentry>
+</variablelist>
+
+</sect3>
+<sect3 id="csv_import">
+<title
+>Importar en CSV (i formats similars)</title>
+<screenshot>
+<screeninfo
+>Important catàlegs en CSV</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_import.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Important catàlegs en CSV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>La captura de pantalla anterior mostra el diàleg <guilabel
+>Importació de CSV</guilabel
+> en el seu estat predeterminat. A la secció <guilabel
+>Entrada</guilabel
+>, podreu configurar l'analitzador de CSV. El <guilabel
+>Prefix del comentari:</guilabel
+> és el caràcter que assenyala les línies comentades a l'entrada. El <guilabel
+>Separador:</guilabel
+> s'ha d'ajustar per a adaptar-lo a la vostra entrada. En general, és <quote
+>,</quote
+> o <quote
+>;</quote
+>, però poden aparèixer altres separadors. Finalment, podeu optar per ometre una sèrie de línies al començament del fitxer. El botó <guibutton
+>Selecciona/Llegeix...</guibutton
+> permet triar un fitxer CSV per a llegir-lo amb la configuració anterior. Després d'això, el diàleg es veurà com en la captura de pantalla a continuació. </para>
+<screenshot>
+<screeninfo
+>Important catàlegs en CSV, poblats</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_import_populated.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Important catàlegs en CSV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>A la part superior dreta, podreu triar si les coordenades s'expressen en graus o hores/minuts/segons. La secció <guilabel
+>Mapatge</guilabel
+> permet mapar les columnes en el fitxer CSV als camps de dades en el &kstars;. Seleccionant <guilabel
+>Ignora</guilabel
+> s'assignarà el valor predeterminat per a aquest camp. Introduint el vostre propi text s'utilitzarà com el valor perquè es llegeixi cada objecte. La secció <guilabel
+>Tipus de mapatge</guilabel
+> mapa les cadenes als tipus d'objecte. Podeu afegir i eliminar els mapatges fent clic a <guilabel
+>+</guilabel
+> o <guilabel
+>-</guilabel
+>. En acabar de fer el mapatge, podreu provar la configuració fent clic a <guilabel
+>Vista prèvia</guilabel
+> per a llegir els primers objectes des del CSV. Si esteu satisfet, podreu fer clic a <guilabel
+>D'acord</guilabel
+> per a importar tot el catàleg o ajustar la configuració i fer una vista prèvia de nou. Com a referència, es mostra un mapatge per al catàleg d'OpenNGC en la captura de pantalla següent. </para>
+<screenshot>
+<screeninfo
+>Important catàlegs en CSV, OpenNGC</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="csv_openngc.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Important catàlegs en CSV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</sect3>
+</sect2>
+</sect1>
+
+<sect1 id="solar_system">
+<title
+>Sistema solar</title>
+<screenshot>
+<screeninfo
+>Finestra amb Sistema solar</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="solarsystem_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Sistema solar</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Sistema solar</secondary
+></indexterm
+>A la pàgina <guilabel
+>Sistema solar</guilabel
+>, podreu especificar si es mostraran el Sol, la Lluna, els planetes, els cometes i els asteroides, i si els principals cossos seran dibuixats com a cercles o amb imatges reals. També podreu decidir si els cossos del sistema solar tindran adjuntades etiquetes de nom i controlar quants cometes i asteroides tindran etiquetes de nom. Hi ha una opció per a adjuntar automàticament una <quote
+>traça orbital</quote
+> temporal sempre que se segueixi a un cos del sistema solar i una altra per a decidir si el color de la traça del planeta s'ha de desfer dins del color de fons del cel. </para>
+</sect1>
+
+<sect1 id="satellites">
+<title
+>Satèl·lits</title>
+<screenshot>
+<screeninfo
+>Finestra amb Satèl·lits</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="satellites_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Satèl·lits</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Satèl·lits</secondary
+></indexterm
+>La pàgina <guilabel
+>Satèl·lits</guilabel
+> permet establir les opcions de visualització per als satèl·lits. En primer lloc, podeu veure o ocultar els satèl·lits en el mapa celeste utilitzant la casella de selecció <guilabel
+>Mostra els satèl·lits</guilabel
+> de la secció superior <guilabel
+>Opcions de visualització</guilabel
+>. De manera predeterminada, els satèl·lits es dibuixen com a petits cercles plens de llum de color vermell amb una etiqueta opcional amb el nom de color vermell fosc al costat seu. Podeu activar o desactivar aquestes etiquetes marcant o no la casella de selecció <guilabel
+>Mostra les etiquetes</guilabel
+>. Es troba per sota de la casella de selecció <guilabel
+>Mostra els satèl·lits</guilabel
+>, dins de la secció <guilabel
+>Opcions</guilabel
+>. </para>
+<para
+>Els colors dels punts que representen els satèl·lits i les seves etiquetes de nom es poden personalitzar amb facilitat utilitzant la pàgina <guilabel
+>Colors</guilabel
+> des de la mateixa finestra <guilabel
+>Configuració - &kstars;</guilabel
+>. A més, els satèl·lits es poden dibuixar de la mateixa manera que les estrelles regulars, marcant la casella de selecció <guilabel
+>Mostra tant els satèl·lits com les estrelles</guilabel
+>. Per a només visualitzar els satèl·lits visibles des del vostre emplaçament geogràfic i l'hora actuals, seleccioneu <guilabel
+>Mostra únicament els satèl·lits visibles</guilabel
+>. </para>
+<para
+>El &kstars; pot dibuixar els satèl·lits artificials de molts grups predefinits. Per tant, podeu seleccionar la visualització d'un grup en particular, múltiples grups o subgrups seleccionats parcialment. Dins de cada grup, es presenta una llista de satèl·lits individuals. Per a seleccionar tots els satèl·lits d'un grup, cal marcar la casella de selecció del grup. També podeu seleccionar només els satèl·lits d'interès en cada grup. Els elements orbitals dels satèl·lits es poden actualitzar a través d'Internet prement el botó <guibutton
+>Actualitza els TLE</guibutton
+>. Una altra manera d'actualitzar els elements orbitals dels satèl·lits és utilitzar l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guisubmenu
+>Actualitzacions</guisubmenu
+> <guimenuitem
+>Actualitza els elements orbitals dels satèl·lits</guimenuitem
+></menuchoice
+>. Si coneixeu el nom d'un satèl·lit desitjat, podeu utilitzar el mètode cerca de satèl·lits que proporciona el &kstars;. Haureu d'introduir el nom del satèl·lit en el quadre de text <guilabel
+>Cerca satèl·lits</guilabel
+> i la llista es reduirà a només les millors coincidències. </para>
+<para
+>Podeu afegir satèl·lits nous als satèl·lits predeterminats del &kstars;, establint per a l'edició el fitxer <filename
+>kstars/data/satellites.dat</filename
+>. Cada línia en aquest fitxer és un grup de satèl·lits, cal que afegiu una entrada nova per al vostre grup de satèl·lits desitjat. Una entrada haurà de tenir el següent format: <userinput
+>Nom del grup;nom_fitxer_local;URL</userinput
+>. Per exemple: <userinput
+>Iridium;iridium.tle;https://celestrak.com/NORAD/elements/iridium.txt</userinput
+>. </para>
+</sect1>
+
+<sect1 id="supernovae">
+<title
+>Supernoves</title>
+<screenshot>
+<screeninfo
+>Finestra amb Supernoves</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="supernovae_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Supernoves</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Supernoves</secondary
+></indexterm
+>La pàgina <guilabel
+>Supernoves</guilabel
+> permet decidir si es mostraran o no les supernoves, marcant la casella de selecció <guilabel
+>Mostra les supernoves</guilabel
+>. De manera predeterminada, les supernoves es dibuixaran com una petita marca <quote
+>+</quote
+> de color taronja clar. Quant als satèl·lits, el color de les supernoves es pot personalitzar amb facilitat utilitzant la pàgina <guilabel
+>Colors</guilabel
+>. </para>
+<para
+>Podeu establir el límit de magnitud per a mostrar una supernova, així com un límit de magnitud per a les alertes de supernova utilitzant els botons de selecció de valors. La magnitud limitant és la magnitud aparent més gran d'un objecte en el cel que és visible amb l'ull nu o un telescopi. </para>
+<para
+>La llista de supernoves recents es pot actualitzar a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guisubmenu
+>Actualitzacions</guisubmenu
+> <guimenuitem
+>Actualitza la llista de supernoves recents</guimenuitem
+></menuchoice
+>. </para>
+</sect1>
+
+<sect1 id="guides">
+<title
+>Guies</title>
+<screenshot>
+<screeninfo
+>Finestra amb Guies</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="guides_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Guies</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Guies</secondary
+></indexterm
+>La pàgina <guilabel
+>Guies</guilabel
+> us permetrà decidir si mostrar certs objectes (&ead;, línies de les constel·lacions, el contorn de la Via Làctia, l'<link linkend="ai-cequator"
+>equador celeste</link
+>, l'<link linkend="ai-ecliptic"
+>eclíptica</link
+>, la <link linkend="ai-horizon"
+>línia de l'horitzó</link
+> i el terra opac. També podreu triar una cultura del cel, si voleu veure els noms llatins de les constel·lacions, les abreviatures <acronym
+>IAU</acronym
+> estàndards de tres lletres o els noms de les constel·lacions emprant la vostra llengua local. </para>
+</sect1>
+
+<sect1 id="terrain">
+<title
+>Terreny</title>
+<screenshot>
+<screeninfo
+>Finestra amb Terreny</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="terrain_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Terreny</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Terreny</secondary
+></indexterm
+>La pàgina <guilabel
+>Terreny</guilabel
+> permet configurar si la imatge del terreny (paisatge) es mostrarà en el mapa del cel. </para>
+<para
+>L'usuari és responsable de crear una imatge parcialment transparent, aquesta se superposarà en el mapa del cel. Aquesta imatge haurà de tenir regions transparents creades per l'usuari per a permetre que es mostri el mapa del cel, i regions opaques que representin els arbres, els edificis i el paisatge al voltant del telescopi. Es requereix un format particular, i aquest és un esforç significatiu. Hi ha molts recursos al web que expliquen com es fa això per a l'<ulink url="https://stellarium.org/landscapes.html"
+>Stellarium</ulink
+>. Els detalls per a la creació d'imatges són els mateixos. </para>
+<para
+>Inicialment, l'usuari captura una imatge de projecció cilíndrica equidistant de tota l'esfera des d'aproximadament el mateix punt de vista que el seu telescopi. Aquest tipus d'imatge es pot capturar amb l'aplicació Càmera de Google o l'aplicació YouTube de Google en un iPhone, o probablement amb moltes altres aplicacions de càmera. Després, l'usuari haurà d'editar la imatge final que el cel s'esborri/sigui transparent i desar-la com a PNG. Finalment, l'usuari haurà de determinar on es troba el nord en la imatge, perquè eventualment es pugui alinear amb el mapa del cel. Un cop fet tot això, el mapa del cel podrà simular la vista al cel local, inclòs el terreny local. </para>
+<para
+>Una vegada es creï la imatge, serà possible carregar-la a través de la pàgina <guilabel
+>Terreny</guilabel
+> i configurar el valor de correcció per a l'azimut (en graus) que permetrà a l'usuari fer girar la vista de manera que el nord en el mapa del cel estigui alineat amb el nord en la imatge. </para>
+<para
+>A més, es poden configurar algunes opcions d'acceleració per a aconseguir la millor experiència d'usuari en representar el terreny en el mapa del cel. </para>
+<tip>
+    <para
+>Podeu commutar la superposició del terreny emprant una drecera de teclat <keycombo
+>&Ctrl;&Maj;<keycap
+>T</keycap
+></keycombo
+> i l'element de menú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guimenuitem
+>Mostra el terreny</guimenuitem
+></menuchoice
+>. </para>
+</tip>
+</sect1>
+
+<sect1 id="colors">
+<title
+>Colors</title>
+<screenshot>
+<screeninfo
+>Finestra amb Colors</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="colors_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Colors</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Colors</secondary
+></indexterm>
+<indexterm
+><primary
+>Esquemes de color</primary>
+<secondary
+>Personalitzar</secondary
+></indexterm
+>La pàgina <guilabel
+>Colors</guilabel
+> permet establir l'esquema de color i definir esquemes de color personalitzats. La pestanya es divideix en dos plafons: </para>
+<para
+>El plafó de l'esquerra mostra una llista de tots els elements disponibles amb colors ajustables. Feu clic a sobre de qualsevol element per a llevar una finestra per a ajustar el color. Sota la llista hi ha la llista desplegable <guilabel
+>Mode de color de les estrelles:</guilabel
+>. De manera predeterminada, el &kstars; les dibuixa amb un tint de <link linkend="ai-colorandtemp"
+>color realista</link
+> segons el tipus espectral de l'estrella. Encara més, també podeu triar dibuixar-les com a cercles blancs, negres o roigs sòlids. Si esteu utilitzant colors realistes, podreu establir el nivell de saturació dels colors de les estrelles amb el botó de selecció de valors <guilabel
+>Intensitat del color de l'estrella:</guilabel
+>. </para>
+<para
+>El plafó dret llista els esquemes de color definits. Hi ha quatre esquemes predefinits: l'esquema <guilabel
+>Colors predeterminats</guilabel
+>, la <guilabel
+>Carta estel·lar</guilabel
+>, la qual empra estrelles negres sobre un fons blanc, la <guilabel
+>Visió nocturna</guilabel
+>, la qual només empra capes de roig per a protegir la visió adaptada a l'obscuritat i la <guilabel
+>Lluna nova</guilabel
+>, un tema més realista i obscur. Addicionalment, podeu desar la configuració actual com a un esquema de color a mida fent clic al botó <guibutton
+>Desa com a...</guibutton
+>. Se us demanarà per un nom per a l'esquema nou i aleshores aquest apareixerà a la llista en totes les sessions futures del &kstars;. Per a eliminar a un esquema personalitzat, simplement ressalteu-lo en la llista i premeu el botó <guibutton
+>Elimina</guibutton
+>. </para>
+</sect1>
+
+<sect1 id="fits-configure">
+<title
+>FITS</title>
+<screenshot>
+<screeninfo
+>Finestra amb FITS</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="fits_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb FITS</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina FITS</secondary
+></indexterm>
+<para
+><abbrev
+>FITS</abbrev
+> (sistema flexible per al transport d'imatges -Flexible Image Transport System-) és un popular estàndard obert per a l'emmagatzematge, la transmissió i el processament de dades digitals. Per als detalls, una referència és l'<ulink url="https://en.wikipedia.org/wiki/FITS"
+>article corresponent de la Wikipedia</ulink
+>. Aquesta pàgina permet configurar la presentació i el processament de les dades FITS al &kstars;. </para>
+<para
+>El plafó esquerre és per a configurar el visualitzador FITS. </para>
+<para
+>Marqueu l'element <guilabel
+>Usa el visualitzador FITS</guilabel
+> si voleu mostrar automàticament les imatges rebudes al visualitzador FITS. </para>
+<para
+>L'opció <guilabel
+>Pestanya de previsualització única</guilabel
+> és per a mostrar totes les imatges FITS capturades en una sola pestanya en lloc de múltiples pestanyes per imatge. L'opció <guilabel
+>Finestra única de captura</guilabel
+> és per a mostrar les imatges FITS capturades de totes les càmeres en una única finestra del visualitzador FITS, en lloc d'una finestra dedicada per a cada càmera. L'opció <guilabel
+>Obre una única finestra</guilabel
+> és per a mostrar les imatges FITS obertes en una única finestra del visualitzador FITS en lloc d'una finestra dedicada a cada fitxer i l'opció <guilabel
+>Finestra independent</guilabel
+> és per a fer que la finestra del visualitzador FITS sigui independent del &kstars;. </para>
+<para
+>El plafó dret mostra les opcions del processament. L'opció <guilabel
+>Autoestirat</guilabel
+> permet aplicar sempre l'estirament automàtic a les imatges en el visualitzador FITS, l'opció <guilabel
+>Mode de recursos limitats</guilabel
+> és per a habilitar el mode de recursos limitats per a desactivar qualsevol operació intensiva en recursos, és a dir: <guilabel
+>Reconstrucció automàtica des de Bayer</guilabel
+> (les imatges construïdes amb el filtre mosaic de Bayer on s'aplica el filtre de Bayer no seran reconstruïdes amb el filtre mosaic de Bayer, només es mostraran les imatges en l'escala de grisos), <guilabel
+>WCS automàtic</guilabel
+> (les dades del sistema de coordenades mundial -World Coordinate System- no seran processades; les coordenades celestes dels mapes WCS a les coordenades de la imatge; les línies de la graella equatorial, la identificació dels objectes i l'orientació del telescopi dins d'una imatge estan inhabilitades) i <guilabel
+>Cub en 3D</guilabel
+> (no es processaran les imatges RGB, només es mostraran les imatges en l'escala de grisos). També podeu desactivar algunes d'aquestes operacions voraces de recursos per separat. </para>
+</sect1>
+
+<sect1 id="indi_page">
+<title
+>INDI</title>
+<screenshot>
+<screeninfo
+>Finestra amb INDI</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="indi_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb INDI</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>Per a una explicació detallada de les opcions a la pàgina <guilabel
+>INDI</guilabel
+>, vegeu la secció <link linkend="indi-configure"
+>Configurar INDI</link
+>. </para>
+</sect1>
+
+<sect1 id="ekos">
+<title
+>Ekos</title>
+<screenshot>
+<screeninfo
+>Finestra amb l'Ekos</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="ekos_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb l'Ekos</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>L'Ekos és una suite d'astrofotografia, una solució completa que pot controlar tots els dispositius INDI incloent nombrosos telescopis, CCD, rèflex digitals, enfocadors, filtres i molt més. L'Ekos admet el seguiment d'alta precisió utilitzant un solucionador d'astrometria en línia i fora de línia, capacitats d'enfocament automàtic i guiatge automàtic, i la captura d'una o de múltiples imatges utilitzant la potent capacitat del gestor de seqüències integrat. Per a una explicació detallada sobre l'<guilabel
+>Ekos</guilabel
+>, vegeu la <link linkend="tool-ekos"
+>secció Ekos d'aquest manual</link
+>. </para>
+</sect1>
+
+<sect1 id="xplanet-configure">
+<title
+>Xplanet</title>
+<screenshot>
+<screeninfo
+>Finestra amb Xplanet</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="xplanet_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Xplanet</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>L'<ulink url="http://xplanet.sourceforge.net/"
+>Xplanet</ulink
+> (s'ha d'instal·lar per separat) és un renderitzador de la superfície planetària per al sistema solar. Aquesta pàgina permet configurar la presentació i el processament de les dades de l'<application
+>Xplanet </application
+> al &kstars;. </para>
+</sect1>
+
+<sect1 id="advanced">
+<title
+>Avançat</title>
+<screenshot>
+<screeninfo
+>Finestra amb Avançat</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="advanced_page.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra amb Avançat</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm
+><primary
+>Finestra de configuració del &kstars;</primary>
+<secondary
+>La pàgina Avançat</secondary
+></indexterm
+>La pàgina <guilabel
+>Avançat</guilabel
+> proveeix un acurat control sobre els comportaments més subtils del &kstars;. </para
+><para>
+<indexterm
+><primary
+>Refracció atmosfèrica</primary
+></indexterm
+> La casella de selecció <guilabel
+>Corregeix per a la refracció atmosfèrica</guilabel
+> controla si les posicions dels objectes estan corregides per als efectes de l'atmosfera. A causa que aquesta és una clofolla esfèrica, la llum de l'espai exterior és <quote
+>doblegada</quote
+> en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o temps establerts per als objectes en uns quants minuts! De fet, quan <quote
+>veieu</quote
+> una posta de Sol, la posició real d'aquest ja està ven bé per sota de l'horitzó, a efectes de la refracció atmosfèrica sembla com si el Sol encara estigués en el cel! Cal tenir present que la refracció atmosfèrica mai serà aplicada si esteu emprant <guilabel
+>coordenades equatorials</guilabel
+>. </para
+><para>
+<indexterm
+><primary
+>Transició animada</primary
+></indexterm
+> La casella de selecció <guilabel
+>Usa la transició animada</guilabel
+> controla com mostrar els canvis quan se selecciona una nova posició d'enfocament en el mapa. De manera predeterminada, veureu al cel moure's o anar <quote
+>transitivament</quote
+> cap a la nova posició. Si heu desseleccionat aquesta opció, la vista <quote
+>saltarà</quote
+> immediatament cap a la nova posició d'enfocament. </para
+><para>
+<indexterm
+><primary
+>Objectes en el cel</primary>
+<secondary
+>Etiquetar</secondary>
+<tertiary
+>Automàticament</tertiary>
+</indexterm
+>Si la casella de selecció <guilabel
+>Adjunta una etiqueta a l'objecte centrat</guilabel
+> està seleccionada, aleshores s'adjuntarà automàticament una etiqueta de nom a un objecte quan aquest sigui seguit pel programa. L'etiqueta serà eliminada quan l'objecte ja no sigui seguit. Cal tenir present que també podreu adjuntar manualment una etiqueta persistent de nom a qualsevol objecte amb el seu <link linkend="popup-menu"
+>menú emergent</link
+>. </para
+><para>
+<indexterm
+><primary
+>Objectes en el cel</primary>
+<secondary
+>Ocultar</secondary
+></indexterm
+>Hi ha tres situacions en què el &kstars; haurà de tornar a dibuixar la vista del cel molt ràpidament: quan se selecciona una posició d'enfocament nova (i <guilabel
+>Usa la transició animada</guilabel
+> està seleccionat), quan s'arrossega el cel amb el ratolí i quan el pas del temps és molt gran. En aquestes situacions, les posicions de tots els objectes hauran de ser recalculades com més ràpidament millor, el qual pot suposar una considerable càrrega sobre la <abbrev
+>CPU</abbrev
+>. Si la <abbrev
+>CPU</abbrev
+> no pot continuar amb la demanda, aleshores la vista apareixerà inactiva o desigual. Per a mitigar-ho, el &kstars; ocultarà certs objectes durant aquestes situacions, sempre que la casella de selecció <guilabel
+>Oculta els objectes en moure</guilabel
+> estigui seleccionada. El temps sobre el qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
+>Oculta també si el pas temporal és més gran que:</guilabel
+>. Podreu especificar els objectes que s'hauran d'ocultar a la secció <guilabel
+>Configura els objectes a ocultar</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="customize">
+<title
+>Personalitzar la vista</title>
+
+<para
+>Hi ha diverses maneres de modificar la pantalla segons les vostres preferències.</para>
+<itemizedlist>
+<listitem
+><para>
+<indexterm
+><primary
+>Rètols informatius</primary
+><secondary
+>Personalitzar</secondary
+></indexterm>
+<indexterm
+><primary
+>Rètols informatius</primary
+><secondary
+>Ocultar</secondary
+></indexterm
+>Mostra o oculta els rètols informatius des del submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Rètols informatius</guisubmenu
+></menuchoice
+>. A més, podeu manipular els tres rètols informatius amb el ratolí. Cadascun dels rètols conté línies addicionals de dades que resten ocultes de manera predeterminada. Podeu canviar-ne la <quote
+>visibilitat</quote
+> fent doble clic sobre seu. També és possible canviar-ne la ubicació arrossegant-lo amb el ratolí. Quan un rètol arriba a tocar la vora d'una finestra, serà <quote
+>adherida</quote
+> a aquesta quan es modifiqui la grandària de la finestra. </para
+></listitem>
+<listitem
+><para>
+<indexterm
+><primary
+>Barres d'eines</primary
+><secondary
+>Personalitzar</secondary
+></indexterm
+>Mostra o oculta les barres d'eines des del submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Barres d'eines mostrades</guisubmenu
+></menuchoice
+>. Com la majoria de les barres d'eines del &kde;, també es poden arrossegar per la pantalla i fixar-les a qualsevol vora de la finestra, fins i tot separar-les completament d'aquesta si no estan bloquejades. </para
+></listitem>
+<listitem
+><para>
+<indexterm
+><primary
+>Esquemes de color</primary
+><secondary
+>Selecció</secondary
+></indexterm
+>Seleccioneu un esquema de color diferent en el submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Esquemes de color</guimenuitem
+></menuchoice
+>. Hi ha quatre esquemes de color preestablerts, i també és possible definir el vostre propi a la finestra de <link linkend="config"
+><guilabel
+>Configuració - &kstars;</guilabel
+></link
+>. </para
+></listitem>
+<listitem>
+<para>
+<indexterm
+><primary
+>Símbols de camp de visió</primary
+><secondary
+>Descripció</secondary
+></indexterm
+>Escolliu un <quote
+>símbol del CDV</quote
+> utilitzant el submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Símbols del CDV</guisubmenu
+></menuchoice
+>. <firstterm
+>CDV</firstterm
+> és un acrònim per a <quote
+>camp de visió</quote
+>. Es dibuixarà un símbol de camp de visió al centre de la finestra per a indicar cap a on apunta la pantalla. Els distints símbols disposen de mides angulars diferents; en podeu utilitzar un per a mostrar com seria la vista a través d'un telescopi en concret. Per exemple, si escolliu el camp de visió <quote
+>Prismàtics 7x35</quote
+>, es dibuixarà un cercle a la pantalla amb un diàmetre de 9,2 graus; aquest és el camp de visió per a uns prismàtics 7x35. </para>
+<para>
+<indexterm
+><primary
+>Símbols de camp de visió</primary
+><secondary
+>Personalitzar</secondary
+></indexterm
+>Podeu definir els vostres propis símbols del CDV (o modificar-ne els existents) utilitzant l'element de menú <guimenuitem
+>Edita els símbols CDV</guimenuitem
+>, el qual ens oferirà l'editor del CDV: </para>
+<screenshot>
+<screeninfo
+>Editor de símbols del camp de visió</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="fovdialog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Editor de símbols CDV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>La llista dels símbols del CDV definits es mostra a l'esquerra. A la dreta es troben els botons per a afegir-ne un de nou, editar les propietats del seleccionat i eliminar-lo de la llista. Cal tenir en compte que també podeu modificar o eliminar els quatre símbols predefinits (si els elimineu tots els predefinits, es restauraran la pròxima vegada que inicieu el &kstars;). A sota d'aquests tres botons es troba la pantalla de vista prèvia gràfica que mostra el símbol seleccionat a la llista. Quan premeu algun dels botons <guibutton
+>Nou...</guibutton
+> o <guibutton
+>Edita...</guibutton
+>, s'obrirà la finestra <guilabel
+>Símbol nou del CDV</guilabel
+>: </para>
+
+<screenshot>
+<screeninfo
+>Nou símbol del camp de visió</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="newfov.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Símbol nou del CDV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para>
+<indexterm
+><primary
+>Símbols de camp de visió</primary
+><secondary
+>Defineix nou</secondary
+></indexterm
+>Aquesta finestra us permet modificar les quatre propietats que defineixen un símbol del CDV: nom, camp visual, forma i color. La distància focal d'aquest la podeu introduir directament en el quadre d'edició <guilabel
+>Camp visual</guilabel
+>, o podeu utilitzar les pestanyes Ocular/Càmera per a calcular l'angle del camp de visió, indicant-hi les dades de la vostra configuració de telescopi/ocular o telescopi/càmera. Les cinc formes disponibles són: quadrat, cercle, punts de mira, ull de bou i cercle semitransparent. Una vegada especificat, premeu <guibutton
+>D'acord</guibutton
+>, i el símbol apareixerà a la llista predefinida. També restarà disponible des del submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Símbols del CDV</guisubmenu
+></menuchoice
+>. </para>
+</listitem>
+</itemizedlist>
+
+</sect1
+>&hips; </chapter>

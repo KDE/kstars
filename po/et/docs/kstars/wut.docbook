@@ -1,0 +1,62 @@
+<sect1 id="tool-whatsup">
+<title
+>Abivahend <quote
+>Mis on täna vaadata?</quote
+></title>
+<indexterm
+><primary
+>Tööriistad</primary>
+<secondary
+>Abivahend <quote
+>Mis on täna vaadata?</quote
+></secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Abivahend <quote
+>Mis on täna vaadata?</quote
+> </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="wut.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Mis on täna vaadata?</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Abivahend <quote
+>Mis on täna vaadata?</quote
+> näitab taevakehi, mida võib ükspuha millises asukohas ükspuha millise kuupäeva öösel vaadelda. Vaikimisi määratakse kuupäev ja asukoht parajasti peaaknas kehtivate väärtuste põhjal, kuid seda on äärmiselt lihtne muuta, tarvitades abivahendi akna ülaosas asuvaid nuppe <guibutton
+>Muuda kuupäeva</guibutton
+> ja <guibutton
+>Muuda asukohta</guibutton
+> </para>
+<para
+>Abivahend näitab ka valitud kuupäeva kohta mõningaid tavapäraseid astronoomilise kalendri andmeid: Päikese ja Kuu tõusu- ja loojanguaeg, öö kestvus ning Kuu valgustatus. </para>
+<para
+>Nende andmete all on näha info taevakeha kohta. Objektid on jagatud vastavalt tüübile kategooriatesse. Taevakeha tüübi saab valida kastis <guilabel
+>Kategooria valimine</guilabel
+> ning kõiki antud tüüpi taevakehi, mis valitud ööl horisondi kohal asuvad, näeb kastis <guilabel
+>Sobivad objektid</guilabel
+>. Pildil on näiteks valitud kategooria <guilabel
+>Planeedid</guilabel
+> ning näha on neli planeeti, mida antud ööl näha võib (Marss, Neptuun, Pluuto ja Uraan). Nimekirjast mõnda taevakeha valides näeb all paremal asuval paneelil selle tõusu-, kulminatsiooni- ja loojumisaega. Lisaks võib klõpsata nupule <guibutton
+>Objekti üksikasjad...</guibutton
+>, mis avab antud objekti <link linkend="tool-details"
+>üksikasjaliku info akna</link
+> </para>
+<para
+>Vaikimisi näitab abivahend taevakehi, mis asuvad horisondi kohal päikeseloojangu ja kesköö vahel (s.t. <quote
+>õhtul</quote
+>). Mõistagi võid valida ka nende taevakehade näitamise, mis on horisondi kohal kesköö ja koidiku (<quote
+>hommikul</quote
+>) või loojangu ja koidiku (<quote
+>suvalisel ajal täna öösel</quote
+>) vahel. Seda aitab teha akna ülaosas asuv liitkast. </para>
+</sect1>
+

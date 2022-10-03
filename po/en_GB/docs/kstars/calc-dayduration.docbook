@@ -1,0 +1,31 @@
+<sect2 id="calc-dayduration">
+<title
+>Day Duration module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Day Duration module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Day Duration calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-daylength.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Day Duration</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This module computes the length of day as well as sunrise, sun-transit (noon), and sunset times for any calendar date, for any location on Earth. First fill in the desired geographic coordinates and date, then press the <guibutton
+>Compute</guibutton
+> button. </para>
+</sect2>

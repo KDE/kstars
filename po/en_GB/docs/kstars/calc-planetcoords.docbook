@@ -1,0 +1,43 @@
+<sect2 id="calc-planetcoords">
+<title
+>Planet Coordinates module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Planet Coordinates module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Planet Coordinates calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-planetcoords.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Planet Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The Planet Coordinates module computes positional data for any major solar system body, for any time and date and any geographic location. Simply select the <guilabel
+>solar system body</guilabel
+> from the drop-down list, and specify the desired date, time and geographic coordinates (these values are preset to the current &kstars; settings). Then press the <guibutton
+>Compute</guibutton
+> button to determine the <link linkend="equatorial"
+>Equatorial</link
+>, <link linkend="horizontal"
+>Horizontal</link
+> and <link linkend="ecliptic"
+>Ecliptic</link
+> coordinates of the body. </para>
+<para
+>There is a batch mode for this module. You must construct an input file in which each line specifies values for the input parameters (solar system body, date, time, longitude, and latitude). You may choose to specify a constant value for some of the parameters in the calculator window (these parameters should be skipped in the input file). You may also specify which of the output parameters (Equatorial, Horizontal and Ecliptic coordinates) should be calculated. Finally, specify the input and output filenames, and press the <guibutton
+>Run</guibutton
+> button to generate the output file with the computed values. </para>
+</sect2>

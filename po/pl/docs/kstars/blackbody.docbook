@@ -1,0 +1,124 @@
+<sect1 id="ai-blackbody">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Promieniowanie ciała doskonale czarnego</title>
+<indexterm
+><primary
+>Promieniowanie ciała doskonale czarnego</primary>
+<seealso
+>Barwy gwiazd i ich temperatury</seealso>
+</indexterm>
+
+<para
+>Termin <firstterm
+>ciało czarne</firstterm
+> odnosi się do ciemnego obiektu emitującego <firstterm
+>promieniowanie termiczne</firstterm
+>. Idealne ciało czarne to takie, które pochłania całe padające światło, nie odbija go nawet w najmniejszym stopniu. W temperaturze pokojowej takie ciało miałoby kolor idealnie czarny (stąd nazwa <emphasis
+>ciało doskonale czarne</emphasis
+>). Jednakże podgrzane do wysokiej temperatury ciało doskonale czarne zaczyna emitować <firstterm
+>promieniowanie termiczne</firstterm
+>. </para>
+
+<para
+>W rzeczywistości wszystkie obiekty niebieskie emitują promieniowanie termiczne (pod warunkiem, że ich temperatura jest powyżej zera bezwzględnego lub -273,15 stopni Celsjusza), ale żaden z obiektów nie emituje promieniowania idealnie; obiekty emitują/pochłaniają niektóre długości fali świetlnej bardziej niż inne. Takie nierówna efektywność utrudnia studiowanie wzajemnego oddziaływaniaświatła, ciepła i materii przy użyciu normalnych obiektów. </para>
+
+<para
+>Na szczęście istnieje możliwość budowy prawie idealnego ciała czarnego. Należy zastosować skrzynkę z materiału przewodzącego ciepło, takiego jak metal. Skrzynka powinna być szczelnie zamknięta ze wszystkich stron tak, by wnętrze było przestrzenią, do której nie wpada żadne światło z otoczenia. Następnie należy wykonać małą dziurkę gdzieś w skrzynce. Światło wychodzące z tej dziury będzie niemalże idealnie przypominać światło z idealnego ciała czarnego dla temparatury powietrza wewnątrz skrzynki. </para>
+
+<para
+>Na początku XX wieku naukowcy Lord Rayleigh i Max Planck (między innymi) badali promieniowanie ciała doskonale czarnego przy użyciu takiego urządzenia. Po długich badaniach Planck był w stanie empirycznie opisać intensywność światła emitowanego przez ciało czarne w funkcji długości fali. Co więcej, potrafił on opisać, jak będzie się zmieniać widmo po zmianie temperatury. Prace Plancka nad promieniowaniem ciała czarnego są jedną z dziedzin fizyki prowadzącą do powstania wspaniałej nauki: mechaniki kwantowej, ale jest to niestety poza zakresem tego artykułu. </para>
+
+<para
+>Planck i inni odkryli, że przy wzroście temperatury ciała doskonale czarnego całkowita ilość światła emitowanego w czasie jednej sekundy wzrasta. Wierzchołki rozkładu długości fali na wykresie widmowym przesuwają się w stronę kolorów niebieskich (zobacz Rysunek 1). </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="blackbody.png" format="PNG"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Rysunek 1</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Na przykład, sztabka żelaza po podgrzaniu do wysokiej temperatury staje się pomarańczowo-czerwona. Jej kolor stopniowo przesuwa się w stronę niebieskiego i białego przy dalszym ogrzewaniu. </para>
+
+<para
+>W 1893 w Niemczech fizyk Wilhelm Wien określił relacje pomiędzy temperaturą ciała doskonale czarnego i długością fali szczytu na wykresie widmowym następującym równaniem: </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="lambda_max.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>gdzie T jest temperarurą w stopniach w skali Kelwina. Prawo Wiena (znane także jako prawo zamiany Wiena) mówi, że długość fali maksymalnej emisji z ciała doskonale czarnego jest odwrotnie proporcjonalna do jego temperatury. Oznacza to, że krótsza długość fali (większa częstotliwość) światła odpowiada większej energii fotonów, czego można spodziewać się po obiektach o wyższej temperaturze. </para>
+
+<para
+>Przykład: Słońce ma średnią temperaturę 5800 K, czyli maksymalna emisja ma miejsce na następującej długości fali: <mediaobject
+> <imageobject>
+<imagedata fileref="lambda_ex.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>Ta długość fali należy do zielonych barw widma światła widzialnego, ale Słońce emituje fotony na o długości fali: zarówno dłuższej jak i krótszej niż lambda(max) i ludzkie oko odbiera kolor Słońca jako żółty/biały. </para>
+
+<para
+>W 1879 austriacki fizyk Stephan Josef Stefan pokazał, że jasność L ciała doskonale czarnego jest proporcjonalna do czwartej potęgi jego temperatury T. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="luminosity.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>gdzie A jest powierzchnią, alfa jest stałą proporcjonalności, a T jest temperaturą w skali Kelwina. Gdy dwukrotnie zwiększymy temperaturę (np. ze 1000 K na 2000 K), to wtedy całkowita energia promieniowania ciała doskonale czarnego wzrasta o współczynnik 2^4, czyli 16. </para>
+
+<para
+>Pięć lat później austriacki fizyk Ludwig Boltzman wyprowadził to samo równanie, znane obecnie jako prawo Stefana-Boltzmana. Jeżeli przyjmiemy, że promieńgwiazdy wynosi R, wtedy jasność tego ciała wynosi: </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="luminosity_ex.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>gdzie R jest promieniem gwiazdy w cm, a alfa jest stałą Stefana-Boltzmana, która  ma wartość: <mediaobject
+> <imageobject>
+<imagedata fileref="alpha.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+</sect1>

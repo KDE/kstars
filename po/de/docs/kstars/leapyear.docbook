@@ -1,0 +1,58 @@
+<sect1 id="ai-leapyear">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Schaltjahre</title>
+<indexterm
+><primary
+>Schaltjahre</primary>
+</indexterm>
+<para
+>Die Erde hat zwei Bewegungskomponenten. Einmal dreht sie sich um ihre eigene Rotationsachse, eine ganze Umdrehung dauert einen <firstterm
+>Tag</firstterm
+>. Zum anderen dreht sie sich um die Sonne, eine volle Umdrehung dauert ein <firstterm
+>Jahr</firstterm
+>. </para
+><para
+>Normalerweise besteht ein <emphasis
+>Kalender</emphasis
+>jahr aus 365 Tagen, aber es stellte sich heraus, dass ein <emphasis
+>wirkliches</emphasis
+> Jahr (d.h. eine volle Umdrehung der Erde um die Sonne, auch <firstterm
+>tropisches Jahr</firstterm
+> genannt) ein bisschen länger als 365 Tage ist. In anderen Worten macht die Erde während eines Umlaufs um die Sonne 365,24219 Umdrehungen um die eigene Achse. Seien Sie davon nicht überrascht, es gibt keinen Grund, weshalb die Eigenrotation und die Umdrehung um Sonne in irgendeiner Weise synchronisiert sein sollten. Dennoch macht es die Erstellung eines Kalenders etwas unangenehm! </para
+><para
+>Was würde passieren, wenn wir die 0,24219 Umdrehungen am Ende des Jahres ignorieren, und ein Kalenderjahr mit 365 Tagen definieren? Der Kalender ist grundsätzlich ein Plan für den Umlauf der Erde um die Sonne. Wenn wir die zusätzliche Umdrehung am Ende jedes Jahres ignorieren würden, wird mit jedem Jahr das Kalenderdatum im Vergleich zum tatsächlichen Standort der Sonne weiter zurückbleiben. In nur wenigen Jahrzehnten werden sich die Daten der Sonnenwenden und Tagundnachtgleichen erkennbar verschoben haben. </para
+><para
+>Tatsächlich <emphasis
+>wurden</emphasis
+> früher alle Jahre mit 365,0 Tagen angenommen und der Kalender <quote
+>entfernte</quote
+> sich immer mehr von den wirklichen Jahreszeiten. Im Jahre 46 <abbrev
+>v. Chr.</abbrev
+> führte Julius Cäsar den <firstterm
+>Julianischen Kalender</firstterm
+> ein, der die ersten <firstterm
+>Schaltjahre</firstterm
+> der Welt enthielt. Er verfügte, dass jedes 4. Jahr 366 Tage lang sein sollte, womit ein Jahr im Durchschnitt 365,25 Tag lang war. Das löste das Problem mit der Verschiebung des Kalenders schon ziemlich gut. </para
+><para
+>Dennoch wurde das Problem vom Julianischen Kalender nicht komplett gelöst, da das tropische Jahr nicht 365,25 Tage lang ist, sondern 365,24219 Tage. Man hatte immer noch ein Problem mit der Verschiebung des Kalenders. Es dauerte nun einfach länger, bis die Abweichung sich bemerkbar machte. Und so schuf Papst Gregor XIII 1582 den <firstterm
+>Gregorianischen Kalender</firstterm
+>, der ungefähr dem Julianischen entsprach, aber einen kleinen zusätzlichen Trick für die Schaltjahre enthielt: Die gerade Jahrhundertjahre (die auf <quote
+>00</quote
+> enden) sind nur Schaltjahre wenn sie durch 400 teilbar sind. Also waren die Jahre 1700, 1800 und 1900 keine Schaltjahre (obwohl sie nach dem Julianischen Kalender welche gewesen wären), wobei das Jahr 2000 ein Schaltjahr <emphasis
+>war</emphasis
+>. Diese Änderung ergibt eine durchschnittliche Länge eines Jahre von 365,2425 Tagen. Also gibt es immer noch eine kleine Kalenderverschiebung, aber daraus entstehen in 10.000 Jahren nur 3 Tage Unterschied! Der Gregorianische Kalender wird immer noch als Standardkalender in weiten Teilen der Welt benutzt. </para>
+<note>
+<para
+>Lustiger Nebeneffekt: Als Papst Gregor den Gregorianischen Kalender schuf, wurde der Julianische Kalender schon 1500 Jahre benutzt und das Datum war schon über eine Woche verschoben. Papst Gregor korrigierte den Kalender, indem er einfach 10 Tage <emphasis
+>ausließ</emphasis
+>. 1582 war der Tag nach dem 4. Oktober der 15. Oktober! </para>
+</note>
+</sect1>

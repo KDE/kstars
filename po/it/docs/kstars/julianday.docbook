@@ -1,0 +1,80 @@
+<sect1 id="ai-julianday">
+<sect1info>
+<author
+><firstname
+>John</firstname
+> <surname
+>Cirillo</surname
+> </author>
+</sect1info>
+<title
+>Giorno giuliano</title>
+<indexterm
+><primary
+>Giorno giuliano</primary>
+</indexterm>
+<para
+>Il calendario giuliano è un modo di calcolare la data corrente tramite un semplice conteggio dei giorni trascorsi da una qualche remota data arbitraria. Tale numero di giorni è chiamato <firstterm
+>giorno giuliano</firstterm
+>, abbreviato in <abbrev
+>GG</abbrev
+>. (o <abbrev
+>JD</abbrev
+>, da Julian Day) Il punto di partenza, <abbrev
+>GG=0</abbrev
+>, è il primo gennaio 4713 a.C. (o il primo gennaio del -4712, dato che non c'è stato alcun anno "zero"). Le date giuliane sono molto utili perché semplificano il compito di calcolare il numero di giorni tra due eventi, che si riduce a sottrarre i rispettivi giorni giuliani. Un calcolo del genere sarebbe difficile nel calendario standard (gregoriano), dato che i giorni sono raggruppati in mesi che possono contenerne un numero variabile, per non parlare della complicazione aggiuntiva degli <link linkend="ai-leapyear"
+>anni bisestili</link
+>. </para
+><para
+>È consigliabile lasciare che della conversione dal calendario standard (gregoriano) a quello giuliano e viceversa si occupino programmi appositamente scritti, come l'<link linkend="tool-calculator"
+>astrocalcolatrice</link
+> di &kstars;. Comunque, per chi fosse interessato, ecco un semplice esempio di convertitore gregoriano-giuliano. </para
+><para
+><abbrev
+>GG</abbrev
+> = <abbrev
+>G</abbrev
+> - 32075 + 1461*(<abbrev
+>A</abbrev
+> + 4800 * ( <abbrev
+>M</abbrev
+> - 14 ) / 12 ) / 4 + 367*(<abbrev
+>M</abbrev
+> - 2 - ( <abbrev
+>M</abbrev
+> - 14) / 12 * 12 ) / 12 - 3*((<abbrev
+>A</abbrev
+> + 4900 + (<abbrev
+>M</abbrev
+> - 14) / 12) / 100) / 4 </para
+><para
+>dove <abbrev
+>G</abbrev
+> è il giorno (da 1 a 31), <abbrev
+>M</abbrev
+> è il mese (da 1 a 12) e <abbrev
+>A</abbrev
+> è l'anno (dal 1801 al 2099). Nota che la formula funziona solo per gli anni dal 1801 al 2099. Date più antiche richiedono una trasformazione più complicata. </para
+><para
+>Un esempio di data giuliana è <abbrev
+>GG</abbrev
+> 2440588, che corrisponde al primo gennaio 1970. </para
+><para
+>I giorni giuliani possono anche essere usati per esprimere l'ora, espressa come frazione di un giorno intero, col mezzogiorno come punto iniziale. Così le 15 del primo gennaio 1970 diventano <abbrev
+>GG</abbrev
+> 2440588.125 (dato che le 15 sono tre ore dopo mezzogiorno, e 3/24 = 0.125 giorni). Nota che il giorno giuliano è sempre determinato dal <link linkend="ai-utime"
+>tempo universale</link
+>, e non dal tempo locale. </para
+><para
+>Gli astronomi usano certi valori del giorno giuliano come importanti punti di riferimento, detti <link linkend="ai-epoch"
+>epoche</link
+>. Un'epoca molto usata è chiamata J2000, e corrisponde alla data giuliana per il mezzogiorno del primo gennaio 2000: <abbrev
+>GG</abbrev
+> 2451545.0. </para
+><para
+>Molte altre informazioni sui giorni giuliani sono disponibili su Internet. Un buon punto di partenza è l'<ulink url="http://aa.usno.navy.mil/faq/docs/JD_Formula.html"
+>U.S. Naval Observatory</ulink
+> (in inglese). Se il sito non fosse disponibile, prova a cercare <quote
+>giorno giuliano</quote
+> col tuo motore di ricerca preferito. </para>
+</sect1>

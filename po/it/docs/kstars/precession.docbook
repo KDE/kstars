@@ -1,0 +1,58 @@
+<sect1 id="ai-precession">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Precessione</title>
+<indexterm
+><primary
+>Precessione</primary>
+</indexterm>
+<para
+>La <firstterm
+>precessione</firstterm
+> è il graduale cambiamento della direzione dell'asse di rotazione terrestre. Tale asse traccia un cono, completando il proprio percorso in 26.000 anni. Se hai mai fatto girare una trottola, la rotazione <quote
+>oscillante</quote
+> della punta è la precessione. </para
+><para
+>Poiché la direzione dell'asse terrestre cambia, così fa anche la posizione dei <link linkend="ai-cpoles"
+>poli celesti</link
+>. </para
+><para
+>La ragione della precessione terrestre è complicata. La Terra non è una sfera perfetta, ma è leggermente schiacciata, vale a dire che il <link linkend="ai-greatcircle"
+>cerchio massimo</link
+> dell'equatore è più lungo di un cerchio massimo <quote
+>meridonale</quote
+> che passa per i poli. Inoltre, il Sole e la Luna stanno al di fuori del piano equatoriale terrestre. Il risultato è che l'attrazione gravitazionale della Luna e del Sole sulla Terra oblata induce un leggero <emphasis
+>momento torcente</emphasis
+> in aggiunta alla forza lineare. Tale momento torcente sul corpo rotante della Terra dà origine al moto di precessione. </para>
+<tip>
+<para
+>Esercizio:</para>
+<para
+>Il modo più facile di vedere la precessione è osservando i <link linkend="ai-cpoles"
+>poli celesti</link
+>. Per trovare il polo, seleziona dapprima le coordinate equatoriali nella finestra <guilabel
+>Configura &kstars;</guilabel
+>, quindi tieni premuto il tasto <keycap
+>freccia in alto</keycap
+> fino a quando il display smette di scorrere. La declinazione mostrata al centro del <guilabel
+>pannello informazioni</guilabel
+> dovrebbe essere +90 gradi, e la brillante stella Polare dovrebbe essere pressappoco al centro dello schermo. Prova a spostarti con i tasti freccia a destra e sinistra. Nota che il cielo sembra ruotare attorno al polo. </para
+><para
+>Dimostreremo ora l'esistenza della precessione cambiando la data a un anno molto lontano, e osservando che la posizione del polo celeste non è più vicino alla stella Polare. Apri la finestra <guilabel
+>Imposta data/ora</guilabel
+> (<keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>S</keycap
+></keycombo
+>), e imposta la data all'anno 8000 (al momento &kstars; non può gestire date molto più lontane di questa, che è comunque sufficiente per i nostri scopi). Nota che la finestra del cielo è ora centrata su un punto tra le costellazioni del Cigno e di Cefeo. Verifica che si tratta effettivamente del polo spostando la mappa verso destra e sinistra: il cielo ruota attorno a questo punto. Nell'anno 8000, il polo nord celeste non sarà più vicino alla stella Polare. </para>
+</tip>
+</sect1>

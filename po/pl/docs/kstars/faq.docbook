@@ -1,0 +1,233 @@
+<chapter id="faq">
+<title
+>Pytania i odpowiedzi</title>
+&reporting.bugs; &updating.documentation; <qandaset id="faqlist">
+
+<qandaentry>
+<question>
+<para
+>Czym jest ikona &kstars;?</para>
+</question>
+<answer>
+<para
+><guiicon
+>Ikona &kstars;</guiicon
+> to sekstans, podręczny teleskop, który był używany przez nawigatorów na statkach, kiedy jeszcze do nawigacji korzystano z gwiazd. Dokładnie przeliczając pozycje gwiazd, nawigator mógł dość dobrze oszacować bieżącą <link linkend="ai-geocoords"
+>długość i szerokość geograficzną</link
+> statku. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Co oznaczają symbole obiektów odległych?</para>
+</question>
+<answer>
+<para
+>Symbole te oznaczają typ obiektu: <itemizedlist>
+<listitem
+><para
+>wypunktowany okrąg: gromadę otwartą</para
+></listitem>
+<listitem
+><para
+>krzyżyk w okręgu: gromadę kulistą</para
+></listitem>
+<listitem
+><para
+>kwadrat: mgławicę gazową</para
+></listitem>
+<listitem
+><para
+>romb: pozostałości po supernowych</para
+></listitem>
+<listitem
+><para
+>okrąg z liniami zewnętrznymi: mgławicę planetarną</para
+></listitem>
+<listitem
+><para
+>elipsa: galaktykę</para
+></listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Co oznaczają różne kolory obiektów odległych?</para>
+</question>
+<answer>
+<para
+>Ogólnie, różne kolory oznaczają katalog, do którego należy obiekt (Messier, NGC lub IC). Jednakże, niektóre obiekty posiadają odmienne kolory, które oznaczają, że dodatkowe obrazy są dostępne w <link linkend="popup-menu"
+>menu kontekstowym</link
+> (domyślnym kolorem dla <quote
+>dodatków</quote
+> jest kolor czerwony). </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dlaczego jest zdecydowanie więcej miast z USA w porównaniu z innymi krajami? </para>
+</question>
+<answer>
+<para
+>Kiedy tworzyliśmy &kstars;, mieliśmy trudności ze znalezieniem bazy danych szerokości/długości geograficznych miast na Ziemi. Jednakże, społeczność &kstars; już rozwiązuje ten problem! Otrzymaliśmy już listę miast od wielu użytkowników z całego świata. Jeżeli możesz pomóc nam w tym przedsięwzięciu, prześlij nam listę miast wraz z ich współrzędnymi. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dodałem/dodałam własną lokalizację do &kstars;, której już nie chcę. Jak mam ją usunąć z programu? </para>
+</question>
+<answer>
+<para
+>Musisz dokonać zmiany w pliku <filename
+>~/.kde/share/apps/kstars/mycities.dat</filename
+> i usunąć stamtąd wiersz z opisem tej lokalizacji. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dlaczego nie mogę wyświetlić podłoża, gdy korzystam ze współrzędnych równikowych?</para>
+</question>
+<answer>
+<para
+>Krótka odpowiedź: to jest tymczasowe ograniczenia. Problem pojawia się przy tworzeniu wypełnionego wielokąta reprezentującego ziemię w trybie współrzędnych równikowych. Z drugiej strony, rysowanie ziemi w tym trybie nie ma zbyt dużego sensu, dlatego poprawka tego zachowania ma niski priorytet. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dlaczego niektóre obiekty znikają podczas przewijania ekranu?</para>
+</question>
+<answer>
+<para
+>Kiedy obraz jest w ruchu, &kstars; musi przeliczyć współrzędne każdego obiektu ze swojej bazy danych, co wiąże się z dość skomplikowaną trygonometrią. Podczas przewijania ekranu (za pomocą strzałek albo przeciągając myszą), wyświetlanie staje się bardzo powolne, ponieważ komputer ma trudności z obliczeniami. Wyłączając część obiektów zmniejszamy obciążenie, co umożliwia płynniejsze przewijanie. Można wyłączyć tą funkcję w oknie <guilabel
+>Konfiguracja: &kstars;</guilabel
+>, a także wybrać obiekty, które mają być ukryte. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Nie rozumiem wszystkich terminów używanych w &kstars;. Gdzie mogę dowiedzieć się więcej o pojęciach astronomicznych wykorzystywanych w programie?</para>
+</question>
+<answer>
+<para
+>Podręcznik użytkownika &kstars; zawiera <link linkend="astroinfo"
+>Projekt AstroInfo</link
+>; serię krótkich artykułów na temat astronomii, które można przeglądać i ilustrowanych za pomocą &kstars;. AstroInfo to przedsięwzięcie społeczności, podobnie jak GNUpedia, czy Everything2. Jeżeli chcesz wziąć udział w projekcie AstroInfo, zapisz się na naszą listę dyskusyjną: <email
+>kstars-info@lists.sourceforge.net</email
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Chcę, aby &kstars; był uruchamiany z czasem i datą inną niż ta z mojego zegara systemowego. Czy jest to możliwe?</para>
+</question>
+<answer>
+<para
+>Tak; aby uruchomić kstars z inną datą/czasem, skorzystaj z opcji wiersza poleceń <quote
+>--date</quote
+>, po którym wprowadź datę i czas, na przykład <quote
+>4 July 1976 12:30:00</quote
+> </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Chcę żeby &kstars; był uruchamiany z wstrzymanym zegarem symulacji. Czy jest to możliwe?</para>
+</question>
+<answer>
+<para
+>Tak, aby uruchomić kstars z wstrzymanym zegarem, po prostu w użyj opcji<quote
+>--paused</quote
+> w wierszu poleceń. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Jak dokładny/precyzyjny jest &kstars;?</para>
+</question>
+<answer>
+<para
+>&kstars; jest dość dokładny, ale nie jest (jeszcze) tak dokładny jak mógłby być. Problemem obliczeń z dużą dokładnością jest to, że trzeba brać pod uwagę dużą liczbę skomplikowanych czynników. Jeżeli nie jesteś profesjonalnym astronomem, to prawdopodobnie nigdy doświadczysz problemów z dokładnością tego programu. </para>
+<para
+>Oto lista czynników, które ograniczają dokładność programu: <itemizedlist
+> <listitem>
+<para
+>Pozycje planet są obliczane dokładnie tylko dla z przedziału około 4000 lat w przeszłość i przyszłość od chwili obecnej. Pozycje planet są przewidywane za pomocą analizy Fouriera ich orbit, jakie obserwowane były przez kilka ostatnich wieków. W szkole uczyliśmy się, że planety krążą po eliptycznych orbitach wokół Słońca, jednakże nie jest to do końca prawdą. Byłoby tak tylko, gdyby w Układzie Słonecznym była tylko jedna planet i ona wraz ze Słońcem byłyby masami punktowymi. Jednakże w obecnej sytuacji, planety stale oddziałują na siebie i ich orbity się zmieniają. Wpływ na orbity ma też zjawisko pływowe. W rzeczywistości, ostatnie analizy wskazują, że orbity planet mogą być niestabilne nawet w długim okresie czasu (np. milionach, czy miliardach lat). Możesz spodziewać się, że pozycje planet będą zgadzać się z dokładnością do kilku sekund łukowych w latach od -2000 do 6000. </para
+><para
+>Pluton stanowi wyjątek; jego pozycja jest około dziesięciu razy mniej dokładna niż pozycja innych planet. Jednak w dalszym ciągu, dla dat bliskich bieżącej,można na niej polegać z dokładnością do mniej więcej sekundy łukowej. </para
+><para
+>Najtrudniejsza do przewidzenia z wysoką dokładnością jest pozycja Księżyca. Dzieje się tak z powodu dużych zakłóceń jego ruchu przez Ziemię. Oprócz tego, w związku z tym, że znajduje się bardzo blisko, różnica pozycji pomijalna w przypadku odległego ciała będzie wyrażnie widoczna w przypadku Księżyca. </para
+><para
+>Obiekty z najmniej dokładnie obliczoną pozycją to komety i planetoidy. Dla małych obiektów używamy bardzo uproszczonego modelu, który nie uwzględnia wpływu innych ciał. Stąd, można wierzyć tylko wynikom dla dat nieodległych od chwili obecnej. Nawet przy takim założeniu należy spodziewać się błędu pozycji na poziomie 10 sekund łukowych albo nawet więcej. </para>
+</listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dlaczego muszę pobierać poprawiony katalog NGC/IC oraz obrazy obiektów Messiera? Dlaczego nie można ich dołączyć do dystrybucji &kstars;?</para>
+</question>
+<answer>
+<para
+>Autor katalogu NGC/IC wydał go z ograniczeniami do użytku komercyjnego. Dla większości użytkowników &kstars; nie stanowi to problemu. Jednakże jest to sprzeczne z licencją &kstars; (<acronym
+>GPL</acronym
+>), aby w ten sposób ograniczać użytkowanie. Usunęliśmy obrazy obiektów Messiera ze standardowej dystrybucji z dwóch powodów: po pierwsze, aby ograniczyć rozmiar &kstars;, a także z przyczyn związanych z licencją dla niektórych obrazów. Wbudowane obrazy są silnie skompresowane względem ich oryginalnej formy, więc nie sądzimy, aby istniał tu problem związany z prawami autorskimi. Mimo to, uzyskaliśmy zgodę od autorów kilku obrazów, co do których istniały wątpliwości (zobacz: <filename
+>README.images</filename
+>). By jednak wszystko było na pewno w porządku, usunęliśmy je ze standardowej dystrybucji i oznaczyliśmy archiwum jako "do użytku niekomercyjnego". </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Na prawdę podobają mi się obrazy pobrane za pomocą &kstars;! Chcę się nimi podzielić z innymi; czy mogę opublikować kalendarz zawierający te obrazy (czy są jakieś ograniczenia dotyczące korzystania z tych obrazów)?</para>
+</question>
+<answer>
+<para
+>To zależy od obrazu, ale wiele z nich ma ograniczenia co do użycia komercyjnego. Pasek stanu przeglądarki obrazów zwykle będzie zawierał informacje o posiadaczu prawa autorskiego oraz o ograniczeniach nałożonych na obraz. Zasadą jest, że: wszystko opublikowane przez NASA może być wykorzystane publicznie (włącznie z obrazami HST) Dla całej reszty można przyjąć, że obrazy nie mogą być wykorzystywane komercyjnie bez zgody autorów. Gdy masz wątpliwości, skontaktuj się bezpośrednio z posiadaczem praw autorskich. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Czy mogę wziąć udział w tworzeniu kolejnych wersji &kstars;?</para>
+</question>
+<answer>
+<para
+>Oczywiście! Przedstaw się na liście dyskusyjnej: <email
+>kstars-devel@kde.org</email
+>. Jeżeli chcesz pomóc przy kodowaniu, pobierz najnowszą wersję kodu z <ulink url="http://edu.kde.org/kstars/cvs.html"
+>CVS</ulink
+> bierz się do pracy. W dystrybucji jest kilka plików README w dystrybucji, które wyjaśniają niektóre podsystemy. Jeżeli potrzebujesz pomysłów dotyczących tego, nad czym pracować, zajrzyj do pliku TODO. Możesz wysyłać poprawki na listę kstars-devel. Pisz na listę również wtedy, kiedy masz pytania dotyczące kodu. </para
+><para
+>Jeżeli nie potrafisz programować, to i tak możemy skorzystać z Twojej pomocy przy i18n, dokumentacji, artykułach AstroInfo, odnośnikach URL, czy raportach błędów. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</chapter>

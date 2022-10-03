@@ -1,0 +1,30 @@
+<sect1 id="ai-horizon">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>L'orizzonte</title>
+<indexterm
+><primary
+>Orizzonte</primary>
+<seealso
+>Coordinate orizzontali</seealso>
+</indexterm>
+<para
+>L'<firstterm
+>orizzonte</firstterm
+> è la linea che separa la Terra dal cielo. Più precisamente, è la linea che divide tutte le direzioni in cui si può guardare in due categorie: quelle che intersecano la Terra, e quelle che non lo fanno. In molti luoghi l'orizzonte è oscurato da alberi, edifici, montagne e così via. Trovandosi invece su un'imbarcazione in mare aperto, l'orizzonte è perfettamente visibile. </para
+><para
+>L'orizzonte è il <firstterm
+>piano fondamentale</firstterm
+> del <link linkend="horizontal"
+>sistema di coordinate orizzontali</link
+>. In altre parole, è il luogo dei punti che hanno un'<firstterm
+>altezza</firstterm
+> di zero gradi. </para>
+</sect1>

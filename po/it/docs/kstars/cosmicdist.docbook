@@ -1,0 +1,103 @@
+<sect1 id="ai-cosmicdist">
+<sect1info>
+<author
+><firstname
+>Akarsh</firstname
+> <surname
+>Simha</surname
+> </author>
+</sect1info>
+<title
+>Scala delle distanze cosmiche</title>
+<indexterm
+><primary
+>Scala delle distanze cosmiche</primary
+></indexterm>
+<para
+>La scala delle distanze cosmiche fa riferimento alla successione dei diversi metodi usati dagli astronomi per misurare le distanze di oggetti nel cielo. Alcuni metodi, ad esempio la <link linkend="ai-parallax"
+>parallasse</link
+>, funzionano bene solo per oggetti vicini. Altri metodi, ad esempio lo <firstterm
+>spostamento verso il rosso cosmologico</firstterm
+>, funzionano bene solo per galassie molto distanti. Per questo ci sono diversi metodi, ciascuno i propri limiti, e da qui il nome. </para>
+<sect2>
+<title
+>Misure dirette</title>
+<para
+>Alla base della scala ci sono gli oggetti le cui distanze possono essere misurate direttamente, quali la Luna (vedi l'<ulink url="https://it.wikipedia.org/wiki/Esperimento_Lunar_Laser_Ranging"
+>esperimento Lunar Laser Ranging</ulink
+>). La stessa tecnica, usando le onde radio, viene usata anche per misurare le distanze dei pianeti. </para>
+
+<para
+>Per le stelle vicine, è possibile misurare la <link linkend="ai-parallax"
+>parallasse</link
+> ottenendo la distanza della stella. </para>
+</sect2>
+
+<sect2>
+<title
+>Candele standard</title>
+<para
+>Le candele standard sono oggetti di cui si conosce con certezza la luminosità. La <link linkend="ai-magnitude"
+>magnitudine</link
+> apparente, facile da misurare, ci dice quanto luminoso appare un oggetto ma non quanto è effettivamente. Gli oggetti distanti appaiono meno luminosi poiché la loro luce si diffonde in un'area più ampia. </para
+><para
+>Secondo la <firstterm
+>legge dell'inverso del quadrato</firstterm
+> per le intensità di luce, la quantità di luce che riceviamo da un oggetto diminuisce proporzionalmente al quadrato della distanza. Possiamo quindi calcolare la distanza di un oggetto se sappiamo sia quanto è luminoso (la magnitudine assoluta, «M») sia quanto luminoso ci appare sulla Terra (la magnitudine apparente, «m»). Possiamo definire il <firstterm
+>modulo di distanza</firstterm
+> come segue: </para
+><para
+>Modulo di distanza = M - m = 5 log<subscript
+>10</subscript
+> d - 5 </para
+><para
+>Qui «d» è la distanza misurata in <link linkend="ai-parallax"
+>parsec</link
+>. </para>
+<para
+>Ci sono altri modi per conoscere la luminosità intrinseca di queste candele standard speciali, e quindi di calcolarne la distanza. </para>
+<para
+>Candele standard comunemente usati in astronomia sono: <itemizedlist>
+
+<listitem
+><para
+>Variabili Cefeidi: un tipo di stelle variabili periodiche, il cui periodo di variabilità è correlato alla luminosità.</para
+></listitem>
+
+<listitem
+><para
+>Variabili RR Lyrae: altre stelle variabili periodiche con una relazione periodo-luminosità ben conosciuta.</para
+></listitem>
+
+<listitem
+><para
+>Supernove di tipo Ia: queste supernove hanno una luminosità ben definita risultante dai processi fisici che le governano, e quindi possono essere usate come candele standard</para
+></listitem>
+
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Altri metodi</title>
+<para
+>Ci sono molti altri metodi. Alcuni si basano sulla fisica delle stelle, ad esempio la relazione tra la luminosità e il colore dei vari tipi di stelle (ciò di solito è rappresentato su un <firstterm
+>diagramma Hertzsprung-Russel</firstterm
+>). Altri si applicano agli ammassi stellari, ad esempio il <firstterm
+>metodo degli ammassi in movimento</firstterm
+> e il <firstterm
+>metodo del fit della sequenza principale</firstterm
+>. La <firstterm
+>relazione di Tully-Fisher</firstterm
+>, che relaziona la luminosità di una galassia a spirale alla sua rotazione, può essere usata per trovare il modulo di distanza, dato che la rotazione di una galassia può essere misurata facilmente usando l'<firstterm
+>effetto Doppler</firstterm
+>. Le distanze di galassie distanti possono essere ottenute misurando lo <firstterm
+>spostamento verso il rosso cosmologico</firstterm
+>, che è lo spostamento verso il rosso della luce di galassie distanti che si verifica a causa dell'espansione dell'universo. </para>
+<para
+>Per ulteriori informazioni, consulta la <ulink url="http://it.wikipedia.org/wiki/Scala_delle_distanze_cosmiche"
+>pagina di Wikipedia sulla scala delle distanze cosmiche</ulink
+> </para>
+</sect2>
+</sect1>

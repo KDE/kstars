@@ -1,0 +1,56 @@
+<sect1 id="ai-ecliptic">
+<sect1info>
+<author
+><firstname
+>John</firstname
+> <surname
+>Cirillo</surname
+> </author>
+</sect1info>
+<title
+>Ekliptyka</title>
+<indexterm
+><primary
+>Ekliptyka</primary>
+<seealso
+>Współrzędne ekliptyczne</seealso>
+</indexterm>
+<para
+>Ekliptyka to fikcyjne <link linkend="ai-greatcircle"
+>wielkie koło</link
+> na <link linkend="ai-csphere"
+>sferze niebieskiej</link
+> po którym porusza się Słońce w ciągu roku. Oczywiście to obrót Ziemi dookoła Słońca powoduje zmianę postrzegania kierunku Słońca. Ekliptyka jest odchylona od <link linkend="ai-cequator"
+>równika niebieskiego</link
+> o 23,5 stopnia. Dwa miejsca w których ekliptyka przecina równik niebieski noszą nazwę <link linkend="ai-equinox"
+>punktów równonocy</link
+>. </para
+><para
+>Ponieważ nasz Układ Słoneczny jest dość płaski, orbity planet również znajdują się w pobliżu płaszczyzny ekliptyki. Dodatkowo, wzdłuż ekliptyki umiejscowione są gwiazdozbiory zodiakalne. Czyni to ekliptykę bardzo użytecznym punktem odniesienia do lokalizowania planet i gwiazdozbiorów zodiakalnych, gdyż one dosłownie <quote
+>podążają za Słońcem</quote
+>. </para
+><para
+>Ze względu na 23,5-stopniowe odchylenie od ekliptyki, <firstterm
+>wysokość</firstterm
+> Słońca w południe zmienia się w trakcie roku wraz z podążaniem po ścieżce ekliptyki. Powoduje to pory roku. W lecie słońce znajduje się w południe wysoko na niebie i pozostaje ponad <link linkend="ai-horizon"
+>horyzontem</link
+> przez ponad dwanaście godzin. Natomiast w zimie, Słońce znajduje się w południe nisko na niebie i pozostaje nad horyzontem mniej niż 12 godzin. Dodatkowo, w lecie otrzymujemy światło słoneczne pod kątem bardziej zbliżonym do prostego, co oznacza, że dany obszar otrzymuje w lecie więcej energii na sekundę niż w zimie. Różnice w długości trwania dnia i ilości otrzymanej energii na jednostkę powierzchni prowadzą do różnicy temperatur między zimą a latem. </para>
+<tip>
+<para
+>Ćwiczenia:</para>
+<para
+>Dla tych ćwiczeń potrzebna jest lokalizacja niezyt blisko równika. Otwórz okno <guilabel
+>Konfiguracja &kstars;</guilabel
+> i przełącz się na współrzędne horyzontalne. Otwórz okno <guilabel
+>Ustaw czas</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+>) i zmień datę na jakąś ze środka lata i czas na godzinę 12. Wróć do głównego okna, wskaż południowy horyzont (wciśnij <keycap
+>S</keycap
+>). Zapisz wysokość Słońca nad horyzontem w południe w lecie. Teraz zmień datę na jąkąś ze środka zimy (godzinę pozostaw bez zmian). Słońce w tym przypadku jest znacznie niżej. Zobaczysz także, że czas trwania dnia jest krótszy, jeżeli otworzysz narzędzie <guilabel
+>Co dziś na niebie?</guilabel
+> dla każdej z dat. </para>
+</tip>
+</sect1>

@@ -1,0 +1,422 @@
+<chapter id="using-kstars">
+<title
+>Panoramica di &kstars;</title>
+
+<para
+>Questo capitolo introduce molte delle caratteristiche di &kstars; sotto forma di percorso guidato. </para>
+
+<screenshot>
+<screeninfo
+>Ecco un'immagine della finestra principale di &kstars;: </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="screen1.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra principale</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>L'immagine qui sopra mostra l'aspetto tipico di una finestra di &kstars;. Puoi vedere la mappa del cielo centrata su Betelgeuse, la stella più luminosa della costellazione di Orione. Orione è appena sorto dall'orizzonte orientale. Le stelle sono mostrate con <link linkend="ai-colorandtemp"
+>colori realistici</link
+> e le luminosità relative. In tre angoli del display si trovano delle caselle con la data e l'ora corrente (<quote
+>TL: 20:16:09 23 novembre 2010</quote
+>), la località geografica (<quote
+>Fremont, California, USA</quote
+>) e l'oggetto attualmente centrato (<quote
+>Centrato su: Betelgeuse (alfa Orionis)</quote
+>). Sopra la mappa celeste ci sono due barre degli strumenti. La barra principale contiene scorciatoie per <link linkend="kstars-menus"
+>le funzioni dei menu</link
+> e il regolatore del passo temporale, che controlla la velocità dell'orologio della simulazione. La barra di visualizzazione contiene pulsanti che mostrano o nascondono differenti categorie di oggetti celesti. Ai piedi della finestra c'è una barra di stato, che mostra il nome di ogni oggetto su cui fai clic, e le <link linkend="ai-skycoords"
+>coordinate celesti</link
+> (ascensione retta/declinazione o altezza/azimut) del puntatore del mouse. </para>
+
+<sect1 id="startwizard">
+<title
+>La procedura guidata di configurazione</title>
+<para>
+<indexterm
+><primary
+>Procedura guidata di configurazione</primary
+></indexterm
+> Alla prima esecuzione di &kstars; sarà avviata una procedura guidata di configurazione, che ti permetterà di impostare facilmente la tua località geografica e scaricare dei dati aggiuntivi. Puoi premere il pulsante <guilabel
+>OK</guilabel
+> in ogni momento per uscire dalla procedura. </para>
+
+<para
+>La prima seconda della procedura guidata ti permette di scegliere la località geografica iniziale, selezionandola dalla lista di oltre 2500 località conosciute, nella parte destra della finestra. La lista di località può essere filtrata in base a quanto inserito nelle caselle <guilabel
+>Città</guilabel
+>, <guilabel
+>Provincia</guilabel
+> e <guilabel
+>Nazione</guilabel
+>. Se la località che ti interessa non compare nella lista, puoi selezionare per il momento una città vicina. In seguito potrai aggiungere la tua località manualmente tramite la finestra <link linkend="setgeo"
+>Imposta località geografica</link
+>. Una volta selezionata una località iniziale, premi il pulsante <guilabel
+>Successivo</guilabel
+> </para>
+
+<para
+>L'ultima pagina della procedura guidata ti permette di scaricare dati aggiuntivi, non inclusi nella distribuzione standard di &kstars;. È sufficiente premere il pulsante <guilabel
+>Scarica dati aggiuntivi</guilabel
+> per aprire la finestra apposita. Quando hai finito, premi il pulsante <guilabel
+>OK</guilabel
+> nella procedura guidata per iniziare a esplorare &kstars;. </para>
+</sect1>
+
+<sect1 id="lookaround">
+<title
+>Dà un'occhiata in giro</title>
+<para>
+<indexterm
+><primary
+>Controlli di navigazione</primary>
+<secondary
+>Controlli di base</secondary
+></indexterm>
+Ora che abbiamo impostato l'ora e la località, diamo un'occhiata in giro. Puoi far scorrere la mappa usando i tasti freccia. Se tieni premuto il tasto &Shift; prima dello scorrimento, la velocità aumenta. La mappa si può anche far scorrere facendo clic e trascinando col mouse. Nota che, durante lo scorrimento della mappa, non tutti gli oggetti sono visualizzati. Ciò ha lo scopo di ridurre il carico di lavoro compiuto dalla <acronym
+>CPU</acronym
+> per ricalcolare le posizioni degli oggetti, con l'effetto di rendere più fluido lo scorrimento (nella finestra <link linkend="config"
+>Configura &kstars;</link
+> puoi definire quali oggetti debbano scomparire durante lo scorrimento). Ci sono vari modi per cambiare l'ingrandimento (o <firstterm
+>livello di zoom</firstterm
+>) della mappa:</para>
+
+<orderedlist>
+<listitem>
+	<para
+>Utilizzare i tasti <keycap
+>+</keycap
+> e <keycap
+>-</keycap
+></para>
+</listitem>
+<listitem>
+	<para
+>Premere i pulsanti di zoom avanti/indietro sulla barra degli strumenti</para>
+</listitem>
+<listitem>
+	<para
+>Selezionare <guimenuitem
+>Zoom avanti</guimenuitem
+>/<guimenuitem
+>Zoom indietro</guimenuitem
+> dal menu <guimenu
+>Visualizza</guimenu
+></para>
+</listitem>
+<listitem>
+	<para
+>Selezionare <guimenuitem
+>Zoom a scala angolare...</guimenuitem
+> dal menu <guimenu
+>Visualizza</guimenu
+>. Ciò ti permette di specificare la dimensione angolare del campo di vista del display, in gradi.</para>
+</listitem>
+<listitem>
+	<para
+>Utilizzare la rotellina del mouse</para>
+</listitem>
+<listitem>
+	<para
+>Trascinare su e giù il mouse tenendo premuto il tasto centrale.</para>
+</listitem>
+<listitem>
+	<para
+>Tenere premuto &Ctrl; mentre trascini il mouse. Ciò ti permette di definire un rettangolo sulla mappa. Quando rilasci il pulsante del mouse, lo zoom della mappa si adatta alle dimensioni del rettangolo.</para>
+</listitem>
+</orderedlist>
+
+<para
+>Nota che facendo zoom in avanti puoi vedere stelle più deboli che a livelli minori di ingrandimento.</para>
+
+<para
+>Riduci l'ingrandimento fino a vedere una curva verde; essa rappresenta il tuo <link linkend="ai-horizon"
+>orizzonte</link
+> locale. Se non hai modificato la configurazione di &kstars;, il display sarà verde sotto l'orizzonte, rappresentando la superficie solida della Terra. Ci sono anche una curva bianca, che rappresenta l'<link linkend="ai-cequator"
+>equatore celeste</link
+> e una curva marrone, che rappresenta l'<link linkend="ai-ecliptic"
+>eclittica</link
+>, il percorso che il Sole sembra seguire attraverso il cielo nel corso di un anno. Perciò il Sole si trova sempre da qualche parte lungo l'eclittica, e anche i pianeti non se ne distanziano mai troppo. </para>
+</sect1>
+
+<sect1 id="skyobjects">
+<title
+>Oggetti celesti</title>
+<para>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Panoramica</secondary
+></indexterm>
+&kstars; visualizza migliaia di oggetti celesti: stelle, pianeti, comete, asteroidi, ammassi, nebulose e galassie. Puoi interagire con gli oggetti visualizzati in vari modi, e ottenere maggiori informazioni sul loro conto. Facendo clic su un oggetto il suo nome apparirà nella barra di stato; posizionando il puntatore del mouse su un oggetto, il suo nome apparirà temporaneamente sulla mappa. Un doppio clic centrerà la mappa sull'oggetto e inizierà l'inseguimento (in modo che rimanga centrato col passare del tempo). Un clic col pulsante <mousebutton
+>destro</mousebutton
+> del mouse aprirà il menu contestuale dell'oggetto, che mette a disposizione altre opzioni. </para>
+
+<sect2 id="popupquick">
+<title
+>Il menu a comparsa</title>
+<indexterm
+><primary
+>Menu a comparsa</primary
+><secondary
+>Esempio</secondary
+></indexterm>
+
+<para
+>Ecco un esempio del menu che compare premendo il tasto <mousebutton
+>destro</mousebutton
+> del mouse, relativo alla nebulosa di Orione: </para>
+
+<screenshot>
+<screeninfo
+>Menu a comparsa per M 42</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="popup.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Menu a comparsa per M 42</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>L'aspetto del menu a comparsa dipende per certi versi dal tipo di oggetto su cui hai fatto clic col tasto <mousebutton
+>destro</mousebutton
+>, ma la struttura di base è descritta qui sotto. Sono disponibili <link linkend="popup-menu"
+>maggiori informazioni sul menu a comparsa</link
+>. </para>
+
+<para
+>La parte superiore contiene scritte informative non selezionabili: il nome dell'oggetto («M 42»; «Nebulosa di Orione»), il tipo di oggetto («nebulosa gassosa») e la costellazione che contiene l'oggetto («Orione»). Le tre righe che seguono mostrano gli istanti di levata, culminazione e tramonto. Se al posto degli istanti di levata e tramonto c'è la parola "circumpolare", significa che l'oggetto è sempre sopra l'orizzonte visto dalla località corrente. </para>
+<para
+>La parte centrale contiene azioni che possono essere eseguite sull'oggetto, come <guimenuitem
+>Centra e insegui</guimenuitem
+>, <guimenuitem
+>Dettagli...</guimenuitem
+> e <guimenuitem
+>Applica etichetta</guimenuitem
+>. Vedi la <link linkend="popup-menu"
+>descrizione del menu a comparsa</link
+> per una lista completa delle azioni e una spiegazione del loro funzionamento. </para>
+<para>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Collegamenti Internet</secondary>
+<seealso
+>Menu a comparsa</seealso
+></indexterm>
+La parte inferiore contiene collegamenti a immagini e/o pagine web con informazioni sull'oggetto selezionato. Se sei a conoscenza di &URL; aggiuntivi con informazioni o immagini su un dato oggetto, puoi aggiungere un collegamento personalizzato nel menu a comparsa dell'oggetto. Scegli <guimenuitem
+>Dettagli</guimenuitem
+> dal menu a comparsa per aprire la finestra di dialogo <guilabel
+>Dettagli oggetto</guilabel
+>. Nella scheda <guilabel
+>Collegamenti</guilabel
+> premi il pulsante <guimenuitem
+>Aggiungi collegamento...</guimenuitem
+>. </para>
+</sect2>
+
+<sect2 id="findobjects">
+<title
+>Trovare oggetti</title>
+<indexterm
+><primary
+>Strumento Trova oggetto</primary
+></indexterm>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Trovare oggetti per nome</secondary
+></indexterm>
+<para
+>Puoi cercare oggetti con nome tramite la finestra <guilabel
+>Trova oggetto</guilabel
+>, richiamabile facendo clic sull'icona <guiicon
+>cerca</guiicon
+> sulla barra degli strumenti, o selezionando <guimenuitem
+>Trova oggetto...</guimenuitem
+> dal menu <guimenu
+>Puntamento</guimenu
+>, o ancora premendo <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>. La finestra <guilabel
+>Trova oggetto</guilabel
+> è mostrata qui sotto: <screenshot>
+<screeninfo
+>Finestra Trova oggetto</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="find.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Finestra Trova oggetto</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Questa finestra elenca tutti gli oggetti con nome noti a &kstars;. Molti oggetti sono elencati soltanto col loro nome di catalogo (per esempio NGC 3077), ma alcuni sono anche riportati col loro nome comune (per esempio, Galassia vortice). Puoi filtrare la lista per nome o per tipo di oggetto. Se vuoi filtrare per nome, inserisci una stringa nella casella in cima alla finestra, e la lista si ridurrà ai soli oggetti il cui nome inizia per quella stringa. Se vuoi filtrare per tipo, selezionane uno dalla lista ai piedi della finestra.  </para
+><para
+>Per centrare la mappa su un oggetto, selezionalo nella lista e premi <guibutton
+>Ok</guibutton
+>. Nota che, se l'oggetto è sotto l'orizzonte, il programma ti avvertirà che potresti non vedere nulla eccetto il terreno (puoi rendere il terreno invisibile nella pagina di configurazione <guilabel
+>Guide</guilabel
+> o premendo il pulsante <guiicon
+>terreno</guiicon
+> nella barra degli strumenti di visualizzazione). </para>
+</sect2>
+
+<sect2 id="centertrack">
+<title
+>Centrare e inseguire</title>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Inseguimento</secondary
+></indexterm>
+<para
+>L'inseguimento è attivato automaticamente ogniqualvolta un oggetto è centrato nella mappa, tramite la finestra <guilabel
+>Trova oggetto</guilabel
+>, con un doppio clic sull'oggetto stesso o selezionando <guimenuitem
+>Centra e insegui</guimenuitem
+> dal menu contestuale attivato con un clic sul tasto <mousebutton
+>destro</mousebutton
+> del mouse. Puoi disattivare l'inseguimento facendo scorrere la mappa, premendo l'icona <guiicon
+>Arresta inseguimento</guiicon
+> nella barra degli strumenti principale o selezionando <guimenuitem
+>Arresta inseguimento</guimenuitem
+> dal menu <guimenu
+>Puntamento</guimenu
+>. </para>
+
+<note>
+<para>
+<indexterm
+><primary
+>Tracce orbitali</primary>
+<secondary
+>Associate all'oggetto centrato</secondary>
+</indexterm>
+Durante l'inseguimento di un corpo del sistema solare, &kstars; visualizzerà automaticamente una <quote
+>traccia orbitale</quote
+> che mostra il cammino dell'oggetto nel cielo. Molto probabilmente dovrai portare il passo temporale a un valore grande (per esempio <quote
+>un giorno</quote
+>) per vedere la traccia. </para>
+</note>
+</sect2>
+
+<sect2 id="objectactions">
+<title
+>Azioni da tastiera</title>
+<indexterm
+><primary
+>Oggetti celesti</primary>
+<secondary
+>Azioni da tastiera</secondary
+></indexterm>
+<para
+>Quando fai clic su un oggetto nella mappa, esso diventa l'<firstterm
+>oggetto selezionato</firstterm
+>, e il suo nome compare nella barra di stato. Ci sono alcuni comandi rapidi da tastiera che agiscono sull'oggetto selezionato: <variablelist>
+<varlistentry>
+<term
+><keycap
+>C</keycap
+></term>
+<listitem>
+<para
+>Centra e insegue l'oggetto selezionato</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>D</keycap
+></term>
+<listitem>
+<para
+>Mostra la <link linkend="tool-details"
+>finestra dei dettagli</link
+> per l'oggetto selezionato</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>L</keycap
+></term>
+<listitem>
+<para
+>Mostra/nasconde sulla mappa il nome dell'oggetto selezionato</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>O</keycap
+></term>
+<listitem>
+<para
+>Aggiunge l'oggetto selezionato alla <link linkend="tool-obsplanner"
+>lista delle osservazioni desiderate</link
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycap
+>T</keycap
+></term>
+<listitem>
+<para
+>Mostra/nasconde sulla mappa una traccia che mostra il cammino dell'oggetto sulla volta celeste (valido solo per i corpi del sistema solare) </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<note>
+<para
+>Tenendo premuto il tasto &Shift; puoi eseguire queste azioni sull'oggetto centrato, invece che su quello selezionato. </para>
+</note>
+</sect2
+> <!--object actions-->
+</sect1
+> <!--objects in the sky-->
+
+<sect1 id="endtour">
+<title
+>Fine della visita</title>
+<para
+>Con questo si conclude il tour di &kstars;, sebbene solo una piccola parte delle funzioni disponibili siano state descritte. &kstars; include parecchi <link linkend="tools"
+>strumenti astronomici</link
+> assai utili, può <link linkend="indi"
+>controllare il tuo telescopio</link
+> e offre un'ampia gamma di opzioni per la <link linkend="config"
+>configurazione e personalizzazione</link
+>. Inoltre questo manuale include il <link linkend="astroinfo"
+>progetto AstroInfo</link
+>, una serie di brevi articoli, legati da collegamenti ipertestuali, che spiegano alcuni dei concetti di astrofisica e meccanica celeste alla base di &kstars;. </para>
+</sect1>
+
+</chapter>

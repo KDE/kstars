@@ -1,0 +1,39 @@
+<sect1 id="tool-jmoons">
+<title
+>Narzędzie Księżyce Jowisza</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Narzędzie Księżyce Jowisza</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Narzędzie Księżyce Jowisza </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="jmoons.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Narzędzie Księżyce Jowisza</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Narzędzie wyświetla położenie czterech największych Księżyców Jowisza (Io, Europy, Ganimedesa i Kallisto), względem Jowisza w funkcji czasu. Wykres czasu znajduje się na osi pionowej; jednostkami są dni, a <quote
+>czas=0.0</quote
+> odpowiada chwili obecnej. Oś pozioma przedstawia przesunięcie kątowe względem Jowisza w minutach kątowych. Przesunięcie mierzone jest wzdłuż równika Jowisza. Pozycja każdego księżyca podczas jego przemieszczania się wokół Jowisza rysuje w funkcji czasu sinusoidę. W celu odróżnienia, pozycja każdego księżyca rysowana jest innym kolorem; etykiety na górze okna pokazują kolory przypisane poszczególnym księżycom. </para
+><para
+>Możliwe jest wpływanie na wykres przy pomocy klawiatury. Wciskając klawisze <keycap
+>+</keycap
+> i <keycap
+>-</keycap
+> rozszerza się lub skraca oś czasu. Czas wyświetlany w środku okna może być zmieniony przy pomocy klawiszy <keycap
+>[</keycap
+> i <keycap
+>]</keycap
+>. </para>
+</sect1>

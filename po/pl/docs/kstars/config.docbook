@@ -1,0 +1,497 @@
+<chapter id="config">
+<title
+>Konfiguracja &kstars;</title>
+
+<sect1 id="setgeo">
+<title
+>Ustawianie lokalizacji</title>
+
+<para
+>Oto zrzut ekranu okna <guilabel
+>Ustawienia lokalizacji</guilabel
+>: <screenshot>
+<screeninfo
+>Zmiana lokalizacji</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="geolocator.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Okno ustawiania lokalizacji</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Znajduje się tu lista ponad 2500 miast, z których można dokonać wyboru. Ustawienie lokalizacji dokonuje się przez podświetlenie jednegomiasta z tej listy. Każde z tych miast zaznaczone jest na mapie świata małą kropką, zaś po wybraniu oznaczane jest na mapie na czerwono. </para>
+
+<para>
+<indexterm
+><primary
+>Narzędzie lokalizacji</primary>
+<secondary
+>Filtrowanie</secondary
+></indexterm>
+Przewijanie listy 2500 miast w poszukiwaniu jednego jest niepraktyczne. W celu ułatwienia znajdowania lista może być filtrowana ze względu na tekst wpisany w polu pod mapą. W przykładzie na zrzucie ekranu w polu <guilabel
+>Filtr miasta</guilabel
+> wpisany jest tekst <quote
+>Ba</quote
+>, w <guilabel
+>Filtr prowincji</guilabel
+> znajduje się <quote
+>M</quote
+>, natomiast w <guilabel
+>Filtrze kraju</guilabel
+> - <quote
+>USA</quote
+>. Zostaje wyświetlonych 7 miast, z których wszystkie mając nazwą, nazwę prowincji i nazwę kraju zaczynającą się od ciągu znaków z filtrów. Komunikat poniżej pól filtrów pokazuje ile miast spełnia podane warunki. Warto zauważyć, że miasta spełniające warunki filtrów są oznaczone na mapie na biało, pozostałe pozostają szare. </para
+><para
+>Lista może być też filtrowana ze względu na lokalizację na mapie. Po kliknięciu w dowolnym miejscu zostaną wyświetlone jedynie miasta znajdujące się w obrębie dwóch stopni od wskazanego punktu. Możliwe jest poszukiwanie ze względu na nazwę lub lokalizację, ale nie na podstawie obu tych kryteriów równocześnie. Innymi słowami, po kliknięciu na mapie nazwy w filtrach są ignorowane i vice versa. </para
+><para>
+<indexterm
+><primary
+>Narzędzie lokalizacji</primary>
+<secondary
+>Dowolna lokalizacja</secondary
+></indexterm>
+<link linkend="ai-geocoords"
+>Długość i szerokość geograficzna</link
+> oraz <link linkend="ai-timezones"
+>strefa czasowa</link
+> wybranego punktu jest wyświetlana na górze okna. Jeżeli użytkownik stwierdzi, że wartości te są niepoprawne, może je zmienić i zapisać wprowadzone zmiany przez wciśnięcie przycisku <guibutton
+>Dodaj do listy</guibutton
+>. Istnieje również możliwość zdefiniowania własnego punktu po wciśnięciu przycisku <guibutton
+>Wyczyść pola</guibutton
+>, i wprowadzeniu danych dla tego punktu. Przed dodaniem do listy wszystkie pola poza opcjonalnym <guilabel
+>Stan/prowincja</guilabel
+> muszą być wypełnione. &kstars; automatycznie wczytuje dane lokalizacji w kolejnej sesji. Po dodaniu lokalizacji jedynym sposobem jej usunięciajest usunięcie odpowiedniego wiersza z pliku <filename
+>~/.kde/share/apps/kstars/mycities.dat</filename
+>. </para
+><para
+>Jeśli dodajesz własne lokalizacje (lub modyfikujesz istniejące), wyślij nam swój plik <filename
+>mycities.dat</filename
+>, abyśmy mogli dodać Twoje zmiany do głównej listy. </para>
+</sect1>
+
+<sect1 id="settime">
+<title
+>Ustawianie czasu</title>
+<para>
+<indexterm
+><primary
+>Data i czas</primary>
+<secondary
+>Zegar symulacji</secondary
+></indexterm>
+Po rozpoczęciu pracy &kstars; ustawiany jest czas na wartość podawaną przez zegar systemowy, a zegar &kstars; działa tak, by być zgodnym z czasem rzeczywistym. Chcąc zatrzymać zegar należy wybrać <guimenuitem
+>Zatrzymaj czas</guimenuitem
+> z menu<guimenu
+>Czas</guimenu
+> lub po prostu kliknąć ikonę <guiicon
+>Pauza</guiicon
+> w pasku narzędzi. Dokonując odpowiedniego wyboru z oknie kroku czasu można sprawić by czas płyną szybciej lub wolniej niż normalnie. Istnieje też możliwość sprawienia, żeby biegł on do tyłu. Okno wyboru posiada dwa zbiory przycisków góra/dół. Pierwszy umożliwia wybór kroku ze wszystkich możliwych 83 kroków, jeden po drugim. Drugi umożliwia przejście do następnej wyższej bądź niższej jednostki czasu, co pozwala na szybsze dokonywanie zmian kroku zegara. </para>
+<para>
+<indexterm
+><primary
+>Data i czas</primary>
+<secondary
+>Ustawianie</secondary
+></indexterm>
+Ustawień czasu i daty można dokonać przez wybór <guimenuitem
+>Ustaw czasu</guimenuitem
+> z menu<guimenu
+>Czas</guimenu
+>, bądź przez wciśnięcie ikony <guiicon
+>Ustaw czas</guiicon
+> w pasku narzędzi. Okno <guilabel
+>Ustaw czasu</guilabel
+> używa standardowego narzędzia wyboru danych środowiska &kde;: trzech okien wyboru do ustawienia godzin, minut i sekund. Jeżeli chce się ponownie ustawić zegar symulatora na obecny czas CPU należy wybrać <guimenuitem
+>Zrównaj czas z rzeczywistym</guimenuitem
+> z menu<guimenu
+>Czas</guimenu
+>.</para>
+
+<note
+><para>
+<indexterm
+><primary
+>Data i czas</primary>
+<secondary
+>Rozszerzony zakres dat</secondary
+></indexterm>
+&kstars; przyjmuje bardzo szeroki zakres danych czasowych, użytkownik ma możliwość dokonania ustawień daty z zakresu lat -50000 do +50000. W kolejnych wersjach zakres ten może być szerszy. Jednakże należy być świadomym faktu, że dokładność symulacji zostaje tym bardziej obniżona, im zakres dat jest szerszy. Jest to szczególnie ważne dla ciał Układu Słonecznego. </para
+></note>
+</sect1>
+
+<sect1 id="viewops">
+<title
+>Okno konfiguracji &kstars;</title>
+<para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary
+></indexterm
+> Okno <guilabel
+>Konfiguracja: &kstars;</guilabel
+> pozwala na modyfikację wielu opcji. Do okna można wejść po wciśnięciu ikony <guiicon
+>Konfiguracja</guiicon
+> w pasku narzędzi, lub po wybraniu <guimenuitem
+>Konfiguracja: &kstars;</guimenuitem
+> z menu <guimenu
+>Ustawienia</guimenu
+>. Wygląd tego okna pokazany jest poniżej: <screenshot>
+<screeninfo
+>Okno konfiguracji &kstars;</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="viewops.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Okno konfiguracji &kstars;</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Okno <guilabel
+>Konfiguracja - &kstars;</guilabel
+> podzielone jest na pięć kart: <guilabel
+>Katalogi</guilabel
+>, <guilabel
+>Przewodniki</guilabel
+>, <guilabel
+>Układ Słoneczny</guilabel
+>, <guilabel
+>Kolory</guilabel
+> i <guilabel
+>Zaawansowane</guilabel
+>. </para>
+<para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary>
+<secondary
+>Karta Katalogi</secondary
+></indexterm>
+W karcie <guilabel
+>Katalogi</guilabel
+>, użytkownik wybiera, obiekty z których katalogów są wyświetlane na mapie. W sekcji <guilabel
+>Gwiazdy</guilabel
+> dokonuje się wyboru <quote
+><link linkend="ai-magnitude"
+>najsłabszych</link
+> pokazywanych</quote
+> gwiazd, oraz wyboru limitu <link linkend="ai-magnitude"
+>wielkości gwiazdowej</link
+>, od którego wyświetlane mają być nazwy i/lub wielkości gwiazdowe. Poniżej znajduje się sekcja <guilabel
+>Dalekie obiekty</guilabel
+>, która steruje wyświetlaniem obiektów nie będących gwiazdami z kilku katalogów. Domyślnie lista zawiera katalogi Messiera, NGC i IC. Użytkownik ma możliwość dodania własnych katalogów obiektów. Aby to zrobić wystarczy użyć przycisku <guibutton
+>Importuj katalog</guibutton
+>. Szczegółowa instrukcja przygotowania pliku danych do katalogu znajduje się w pliku <filename
+>README.customize</filename
+> dołączonym do &kstars;. </para>
+<para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary>
+<secondary
+>Karta Układ Słoneczny</secondary
+></indexterm>
+Na karcie <guilabel
+>Układ Słoneczny</guilabel
+> można określić czy Słońce, Księżyc, planety, komety i planetoidy są wyświetlane, oraz czy są one wyświetlane jako kolorowe okręgi, czy jako rzeczywiste obrazy. Można także określić, czy ciała Układu Słonecznego będą miały etykiety z nazwami, oraz ile z komet i planetoid będzie posiadało takie etykiety. Dostępna jest opcja automatycznego dołączania chwilowego <quote
+>śladu orbiy</quote
+> w miejscu gdzie ciało Układu Słoneczonego znajduje się w danym momencie, a także możliwość włączenia blednięcia kolory orbity do koloru tła nieba. </para>
+<para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary>
+<secondary
+>Karta Przewodniki</secondary
+></indexterm>
+Na karcie <guilabel
+>Przewodniki</guilabel
+> dokonuje się ustawień nie dotyczących obiektów niebieskich (&ie;, linii gwiazdozbiorów, ich nazw, konturów Drogi Mlecznej, <link linkend="ai-cequator"
+>równika niebieskiego</link
+>, <link linkend="ai-ecliptic"
+>ekliptyki</link
+>, <link linkend="ai-horizon"
+>linii horyzontu</link
+>, przezroczystości ziemi). Można także określić, czy nazwy gwiazdozbiorów mają być wyświetlane w formie nazw łacińskich, standardowych skrótów trzyliterowych <acronym
+>IAU</acronym
+>, czy też w języku użytkownika. </para>
+<para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary>
+<secondary
+>Karta Kolory</secondary
+></indexterm>
+<indexterm
+><primary
+>Zestawy</primary>
+<secondary
+>Dostosowywanie ustawień</secondary
+></indexterm>
+Karta <guilabel
+>Kolory</guilabel
+> pozwala na wybranie zestawu kolorów oraz na zdefiniowanie własnych. Karta ta poddzielona jest na dwie częsci: </para>
+<para
+>Część z lewej strony pokazuje listę wszystkich wyświetlanych obiektów dając możliwość wyboru kolorów. Zmiany ustawień dokonuje się poprzez wybór obiektu. Pojawia się wtedy okno zmiany koloru, gdzie można zmienić bieżący. Pod listą znajduje się pole <guilabel
+>Tryb koloru gwiazdy</guilabel
+>. Domyślnie &kstars; rysuje gwiazdy w <link linkend="ai-colorandtemp"
+>rzeczywistych kolorach</link
+> cieniując je w zależności od typu widmowego. Jednakże istnieje możliwość rysowania gwiazd w formie czarnego, białego lub czerwonego koła.Jeśli wykorzystuje się realistyczne kolory, to w polu <guilabel
+>Intensywność kolorów gwiazd</guilabel
+> można ustawić poziom nasycenia kolorów. </para>
+<para
+>Po lewej stronie znajduje się lista zdefiniowanych zestawów kolorów. Standardowo dostępne są cztery: schemat <guilabel
+>Kolory domyślne</guilabel
+>, <guilabel
+>Mapa gwiezdna</guilabel
+>, która rysuje czarne gwiazdy na białym tle, <guilabel
+>Noktowizor</guilabel
+>, używający jedynie odcieni czerwonego w celu lepszej widoczności, oraz <guilabel
+>Bezksiężycowa noc</guilabel
+>, bardziej realistyczny ciemny schemat. Dodatkowo, bieżące ustawienia kolorów można zapisać wciskając przycisk <guibutton
+>Zapisz obecne kolory</guibutton
+>. Zostaje wtedy zadane pytanie o nazwę zestawu. W kolejnej sesji &kstars; zapisany zestaw zostanie wyświetlony w liście dostępnych zestawów. Aby usunąć istniejący zestaw wystarczy wybrać go z listy i wcisnąć przycisk <guibutton
+>Usuń zestaw kolorów</guibutton
+>. </para
+><para>
+<indexterm
+><primary
+>Okno konfiguracji &kstars;</primary>
+<secondary
+>Karta zaawansowane</secondary
+></indexterm>
+Karta <guilabel
+>Zaawansowane</guilabel
+> daje możliwość łatwej kontroli nad zaawansowanymi opcjami &kstars;. </para
+><para>
+<indexterm
+><primary
+>Refrakcja atmosferyczna</primary
+></indexterm
+> Pole wyboru <guilabel
+>Poprawka na refrakcję atmosferyczną</guilabel
+> określa, czy pozycja obiektów na niebie jest korygowana pod względem efektów zachodzących w atmosferze. We względu na to, że atmosfera jest powłoką sferyczną, światło z zewnątrz <quote
+>zagina się</quote
+> przechodząc przez atmosferę do naszych oczu na powierzchni Ziemi. Efekt ten jest bardziej widoczny dla obiektów blisko horyzontu i zmienia przewidywany czas wschodu i zachodu o kilka minut. Gdy <quote
+>widzimy</quote
+> zachód Słońca, pozycja Słońca jest już poniżej linii horyzontu; efekt refrakcji atmosferycznej sprawia, że Słońce wydaje się jakby dalej było powyżej linii horyzontu. Zjawisko refrakcji atmosferycznej nie jest uwzględniane gdy używamy <guilabel
+>Współrzędnych równikowych</guilabel
+>. </para
+><para>
+<indexterm
+><primary
+>Animacje obrotu</primary
+></indexterm
+> Pole wyboru <guilabel
+>Użyj animowanego obrotu</guilabel
+> kontroluje sposób zmiany wyświetlanego fragmentu mapy nieba po wybraniu na niej nowego punktu. Domyślnie niebo płynnie zmienia się lub <quote
+>przesuwa</quote
+> na nową pozycję; po wyłączeniu tej opcji widok od razu <quote
+>przeskakuje</quote
+> do nowej pozycji. </para
+><para>
+<indexterm
+><primary
+>Obiekty na niebie</primary>
+<secondary
+>Etykiety</secondary>
+<tertiary
+>Domyślne</tertiary>
+</indexterm>
+Gdy wybrana jest opcja <guilabel
+>Dołącz etykietę do wyśrodkowanego obiektu</guilabel
+>, to do obiektu dodawana jest etykieta z jego nazwą. Etykieta ta jest usuwana gdy obiekt przestaje być śledzony przez program. Można również przypisać na stałe etykietę do obiektu poprzez jego <link linkend="popup-menu"
+>menu kontekstowe</link
+>. </para
+><para>
+<indexterm
+><primary
+>Obiekty na niebie</primary>
+<secondary
+>Ukrywanie</secondary
+></indexterm>
+Istnieją trzy sytuacje w których &kstars; musi natychmiast zmienić wygląd nieba: gdy wybrana jest nowa pozycja do obserwacji (i jest zaznaczona opcja <guilabel
+>Użyj animowanego obrotu</guilabel
+>), gdy niebo zostaje przeciągnięte przy pomocy myszy, i gdy zostaje zwiększony krok zegara. W tych sytuacjach pozycje wszystkich obiektów muszą być możliwie szybko obliczone na nowo <abbrev
+>CPU</abbrev
+>. Jeżeli <abbrev
+>CPU</abbrev
+> ma problemy z podołaniem tym obliczeniom, to zmiana ekranu wydaje się powolna. By złagodzić ten efekt, &kstars; ukrywa niektóre obiekty podczas szybkiej zmiany wyglądu nieba, jeśli tylko wybrana jest opcja <guilabel
+>Ukryj obiekty podczas poruszania</guilabel
+>. Próg kroku czasu powyżej którego obiekty są ukrywane jest określony w polu<guilabel
+>Ukryj także jeśli krok czasu jest większy niż</guilabel
+>. Obiekty, które mają być ukryte można wybrać w części karty oznaczonej <guilabel
+>Konfiguracja ukrytych obiektów</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="customize">
+<title
+>Ustawienia wyświetlania</title>
+
+<para
+>Istnieje kilka sposobów dostosowania sposobu wyświetlania do własnych potrzeb.</para>
+<itemizedlist>
+<listitem
+><para>
+<indexterm
+><primary
+>Zestawy</primary
+><secondary
+>Wybór</secondary
+></indexterm>
+Wybranie innego zestaw kolorów za pomocą opcji <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Zestawy kolorów</guimenuitem
+></menuchoice
+>. Standardowo dostępne są cztery zestawy, można definiować własne w oknie <link linkend="config"
+><guilabel
+>Konfiguracja: &kstars;</guilabel
+></link
+>. </para
+></listitem>
+<listitem
+><para>
+<indexterm
+><primary
+>Paski narzędzi</primary>
+<secondary
+>Dostosowywanie ustawień</secondary
+></indexterm>
+Wyboru, czy paski narzędzi są pokazywane, dokonuje się w menu <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Paski narzędzi</guimenuitem
+></menuchoice
+>. Jak większość pasków narzędzi KDE, mogą one być przeciągane i ustawiane na obrzeżach okna lub nawet umieszone na poza oknem. </para
+></listitem>
+<listitem
+><para>
+<indexterm
+><primary
+>Okna informacyjne</primary
+><secondary
+>Dostosowywanie ustawień</secondary
+></indexterm>
+<indexterm
+><primary
+>Okna informacyjne</primary
+><secondary
+>Cieniowanie</secondary
+></indexterm>
+Wyboru, czy okna informacyjne są wyświetlane, dokonuje się w menu <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Okna informacyjne</guimenuitem
+></menuchoice
+>. Dodatkowo można manipulować wszystkimi trzema oknami informacyjnymi przy użyciu myszy. Każde z nich ma dodatkowe wiersze danych, domyślnie ukryte. Przez podwójne kliknięcie na obszarze okna informacyjnego pozwala ukrywać i pokazywać te dodatkowe wiersze (<quote
+>cieniowanie</quote
+>). Pozycję okien można zmienić przeciągając je po prostu myszą. Gdy okno zaczyna dotykać krawędzi zostaje do niej <quote
+>przymocowane</quote
+>; pozostanie na niej również po zmianie rozmiaru głównego okna. </para
+></listitem>
+<listitem>
+<para>
+<indexterm
+><primary
+>Symbole pola widzenia</primary
+><secondary
+>Opis</secondary
+></indexterm>
+Wyboru <quote
+>Symbolu pola widzenia</quote
+> dokonuje się w menu <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Symbole pola widzenia</guimenuitem
+></menuchoice
+>. Używany niekiedy skrót <firstterm
+>FOV</firstterm
+> oznacza właśnie <quote
+>pole widzenia</quote
+>. Symbol FOV jest rysowany w środku okna, wskazuje on gdzie nakierowany jest wyświetlacz. Różne symbole mają różne rozmiary kątowe; można ichużywać by pokazać widok przez różne teleskopy. Na przykład, po wybraniu symbolu FOV <quote
+>Lornetka 7x35</quote
+>, na wyświetlaczu rysowany jest okrąg o średnicy 9,2 stopnia, czyli taki jak pole widzenia przez lornetkę 7x35. </para>
+<para>
+<indexterm
+><primary
+>Symbole pola widzenia</primary
+><secondary
+>Dostosowywanie ustawień</secondary
+></indexterm>
+Można definiować własne symbole FOV (lub modyfikować istniejące) przy użyciu opcji <guimenuitem
+>Modyfikuj symbole pola widzenia...</guimenuitem
+>, której wybranie powoduje otwarcie edytora FOV: </para>
+<screenshot>
+<screeninfo
+>Edytor symboli pola widzenia</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="fovdialog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Edytor symboli FOV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Lista zdefiniowanych symboli FOV wyświetlana jest po lewej. Po prawej umieszczone są przycisk służące do dodawania nowych symboli, modyfikacji zaznaczonych właściwości symboli oraz usuwania symboli z listy. Możliwa jest również modyfikacja i usuwanie wcześniej zdefiniowanych symboli (jeżeli usunięte zostaną wszystkie symbole, przy kolejnym uruchomieniu &kstars; zostaną przywrócone cztery domyślne). Poniżej tych trzech przycisków pokazany jest wygląd symbolu wybranego z listy. Po wciśnięciu przycisków <guibutton
+>Nowy</guibutton
+> lub <guibutton
+>Edycja</guibutton
+>, otwiera się okno <guilabel
+>Nowy wskaźnik pola widzenia</guilabel
+>: </para>
+
+<screenshot>
+<screeninfo
+>Nowe symbole pola widzenia</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="newfov.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Nowy symbol FOV</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para>
+<indexterm
+><primary
+>Symbole pola widzenia</primary
+><secondary
+>Definiowanie nowych</secondary
+></indexterm>
+To okno pozwala na modyfikację czterech właściwości definiujących symbole FOV: nazwy, rozmiaru, kształtu i koloru. Rozmiar kątowy symbolu może być wprowadzony bezpośrednio w <guilabel
+>Polu widzenia</guilabel
+>; można też obliczyć kąt pola widzenia przy użyciu sekcji Okular, po podaniu parametrów teleskopu/okularu lub ustawienia telekskopu/kamery. Cztery dostępne kształty to: kółko, kwadrat, krzyżyk i oko. Po podaniu wszystkich czterech parametrów należy wcisnąć przycisk <guibutton
+>Ok</guibutton
+>, a symbol pojawi się na liście zdefiniowanych. Będzie również dostępne w menu <guimenu
+>Ustawienia</guimenu
+> | <guisubmenu
+>Symbole pola widzenia</guisubmenu
+>. </para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+
+</chapter>

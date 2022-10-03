@@ -1,0 +1,30 @@
+<sect1 id="ai-horizon">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>O Horizonte</title>
+<indexterm
+><primary
+>Horizonte</primary>
+<seealso
+>Coordenadas Horizontais</seealso>
+</indexterm>
+<para
+>O <firstterm
+>Horizonte</firstterm
+> é a linha que separa a Terra do Céu. Mais precisamente, é a linha que divide todas as direcções em que você possa olhar em duas categorias: aquelas que intersectam a Terra e as que não. Em muitas localizações, o Horizonte está obstruído por árvores, prédios, montanhas, &etc;. Contudo, se você estiver num navio em pleno mar, o Horizonte está perfeitamente definido. </para
+><para
+>O horizonte é o <firstterm
+>Plano Fundamental</firstterm
+> do <link linkend="horizontal"
+>Sistema de Coordenadas Horizontal</link
+>. Por outras palavras, é o conjunto de pontos que têm uma <firstterm
+>Altitude</firstterm
+> de zero graus. </para>
+</sect1>

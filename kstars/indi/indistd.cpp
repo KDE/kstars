@@ -101,9 +101,6 @@ void GenericDevice::handleTimeout()
     generateDevices();
     m_ReadyTimer->disconnect(this);
     m_Ready = true;
-
-    qDebug() << "####" << getDeviceName() << "is now ready...";
-
     emit ready();
 }
 
@@ -254,7 +251,6 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
 
         if (m_Connected == false && svp->s == IPS_OK && conSP->s == ISS_ON)
         {
-            qDebug() << "####" << getDeviceName() << "will connect now...";
             m_Ready = false;
             connect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout, Qt::UniqueConnection);
 

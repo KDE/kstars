@@ -1,0 +1,92 @@
+<sect1 id="ai-spiralgal">
+
+<sect1info>
+<author
+><firstname
+>Mike</firstname
+> <surname
+>Choatie</surname
+> </author>
+</sect1info>
+
+<title
+>Galáxias em Espiral</title>
+<indexterm
+><primary
+>Galáxias em Espiral</primary>
+</indexterm>
+
+<para
+>As galáxias em espiral são enormes conjuntos de biliões de estrelas, a maioria das quais está achatada em forma de um disco, com um aglomerado esférico e brilhante de estrelas no seu centro. Dentro do disco, existem braços tipicamente brilhantes onde as estrelas mais novas e brilhantes se encontram. Estes braços rodam a partir do centro num padrão em espiral, dando às galáxias esse nomes. As galáxias em espiral parecem-se com os furacões ou com a água a fluir por um buraco abaixo. São dos objectos mais bonitos do céu. </para>
+<para
+>As galáxias classificam-se segundo um <quote
+>diagrama em garfo ajustável</quote
+>. O fim do garfo classifica as <link linkend="ai-ellipgal"
+>galáxias elípticas</link
+> numa escala desde a mais redonda, que é uma E0, até aquelas que parecem quase achatadas, que são denominadas de E7. Os <quote
+>dentes</quote
+> do garfo são onde os dois tipos de galáxias em espiral se classificam: espirais normais e <quote
+>em barras</quote
+>. Uma espiral em barra é uma cujo núcleo está esticado numa linha, de modo que parece que tem uma <quote
+>barra</quote
+> de estrelas no seu centro. </para
+><para
+>Ambos os tipos de galáxias em espiral são sub-classificados de acordo com a proeminência do seu <quote
+>núcleo</quote
+> central de estrelas, o seu brilho total à superfície e quão apertados estão os seus braços em espiral. Estas características estão relacionadas, de modo que uma galáxia Sa tem um núcleo central grande, um brilho superficial elevado e braços em espiral apertados. Uma galáxia Sb tem um núcleo mais pequeno, um disco menos brilhante e braços mais soltos do que uma Sa, e assim por diante até à Sc e Sd. As galáxias em barra usam o mesmo esquema de classificação, indicado pelos tipos SBa, SBb, SBc e SBd. </para
+><para
+>Existe outra classe de galáxias chamada de S0, que é morfologicamente um tipo transitório entre as espirais verdadeiras e as elípticas. Os seus braços em espiral são tão apertados que são quase imperceptíveis; as galáxias S0 têm discos com um brilho uniforme e têm também um núcleo extremamente dominante. </para
+><para
+>A Via Láctea, que é onde se encontra a Terra e todas as estrelas no nosso céu, é uma Galáxia em Espiral, e crê-se que seja uma espiral em barra. O nome <quote
+>Via Láctea</quote
+> diz respeito a uma banda de estrelas muito fracas no céu. Esta banda é o resultado de olhar para o plano do disco na nossa galáxia, a partir da perspectiva que temos dela. </para
+><para
+>As galáxias em espiral são entidades muito dinâmicas. São os berços de formação das estrelas e contêm muitas estrelas novas nos seus discos. Os seus núcleos tendem a ser feitos de estrelas mais antigas e os seus halos difusos são criados a partir das estrelas mais antigas do Universo. A formação de estrelas está activa nos discos, porque é onde o gás e o pó estão mais concentrados; o gás e o pó são os blocos de construção da formação de estrelas. </para
+><para
+>Os telescópios modernos revelaram que muitas galáxias em espiral contêm buracos negros bastante activos nos seus centros, com massa que podem atingir o equivalente a milhares de milhões de Sóis! Tanto as galáxias elípticas como as em espiral são conhecidas por conter estes objectos exóticos; de facto, muitos astrónomos acreditam agora que <emphasis
+>todas</emphasis
+> as galáxias grandes contêm um buraco negro enorme no seu núcleo. A própria Via Láctea é conhecida por alojar um buraco negro com uma massa milhões de vezes maior que a massa de uma estrela. </para>
+
+<tip>
+<para
+>Existem vários exemplos de galáxias em espiral no &kstars;, e existem muitas imagens bonitas disponíveis no seu <link linkend="popup-menu"
+>menu de contexto</link
+>. Você poderá encontrá-las na janela <link linkend="findobjects"
+>Procurar um Objecto</link
+>. Aqui está uma lista de galáxias em espiral com imagens bonitas disponíveis: <itemizedlist>
+<listitem
+><para
+>M 64, a Galáxia Olho-Negro (tipo Sa)</para
+></listitem>
+<listitem
+><para
+>M 31, a Galáxia de Andrómeda (tipo Sb)</para
+></listitem>
+<listitem
+><para
+>M 81, a Galáxia do Bode (tipo Sb)</para
+></listitem>
+<listitem
+><para
+>M 51, a Galáxia do Remoinho (tipo Sc)</para
+></listitem>
+<listitem
+><para
+>NGC 300 (tipo Sd) [usar a ligação da imagem DSS]</para
+></listitem>
+<listitem
+><para
+>M 83 (tipo SBa)</para
+></listitem>
+<listitem
+><para
+>NGC 1530 (tipo SBb)</para
+></listitem>
+<listitem
+><para
+>NGC 1073 (tipo SBc)</para
+></listitem>
+</itemizedlist>
+</para>
+</tip>
+</sect1>

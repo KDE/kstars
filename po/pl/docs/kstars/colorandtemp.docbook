@@ -1,0 +1,123 @@
+<sect1 id="ai-colorandtemp">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Kolory i temperatury gwiazd</title>
+<indexterm
+><primary
+>Kolory i temperatury gwiazd</primary>
+<seealso
+>Promieniowanie ciała doskonale czarnego</seealso
+> <seealso
+>Skala jasności</seealso
+> </indexterm>
+
+<para
+>Na pierwszy rzut oka gwiazdy wydają się być białe. Jeżeli jednak przyjrzymy się im bliżej, możemy zauważyć szeroki zakres kolorów: niebieski, biały, czerwony, a nawet złoty. W widocznym w zimie gwiazdozbiorze Oriona można zauważyć piękny kontrast pomiędzy czerwoną Betelgezą oraz niebieską Bellatrix. Co powoduje taką różnicę kolorów wiemy od mniej więcej dwóch wieków. Wtedy to fizycy uzyskali wystarczające zrozumienie natury światła i własności materii w wysokich temperaturach. </para>
+
+<para
+>W szczególności to fizyka <link linkend="ai-blackbody"
+>promieniowania ciała czarnego</link
+> pozwoliła zrozumieć naturę kolorów gwiazd. Krótko po zrozumieniu promieniowania ciała doskonale czarnego zauważono, że widmo gwiazd wygląda bardzo podobnie do krzywych promieniowania ciała doskonale czarnego w różnych temperaturach, rozciągających się w zakresie od kilku tysięcy Kelwinów do mniej więcej 50.000 Kelwinów. Oczywistym wnioskiem jest to, że gwiazdy są podobne do ciała doskonale czarnego, a różnorodność kolorów gwiazd wynika bezpośrednio z temperatury ich powierzchni. </para>
+
+<para
+>Chłodne gwiazdy (czyli takie o typie widmowym K lub M) wypromieniowują najwięcej energii w okolicach czerwieni i podczerwieni widma elektromagnetycznego. Stąd wyglądają na czerwone. Gorące gwiazdy (o typie widmowym O lub B) promieniuje głównie niebieskie i ultrafioletowe długości fali przez co wyglądają na niebieskie lub białe. </para>
+
+<para
+>By oszacować temperaturę powierzchni gwiazdy, należy skorzystać w relacji pomiędzy temperaturą ciała doskonale czarnego oraz długością fali, gdzie widmo światła osiąga szczyt. Gdy temperatura ciała czarnego wzrasta, szczyty w widmie przesuwają się w stronę krótszych długości fal (bardziej niebieskich). Widać to na Rysunku 1 gdzie intensywność świecenia trzech gwiazd narysowana jest w funkcji długości fali. "Tęcza" wskazuje zakres długości fali widzialnych przez oko ludzkie. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+  <imagedata fileref="star_colors.png" format="PNG"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Rysunek 1</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Koncepcja tej prostej metody jest poprawna, ale nie pozwala ona na obliczenie dokładnej temperatury gwiazd, gdyż gwiazdy <emphasis
+>nie</emphasis
+> są idealnymi ciałami czarnymi. Obecność różnych pierwiastków w atmosferach gwiazd powoduje absorpcję światła o określonej długości fali. Ponieważ krzywe absorpcji nie są równe w całym widmie, tego typu efekty mogą przesuwać szczyty widma. Co więcej, uzyskanie wiarygodnego widma gwiazdy jest bardzo czasochłonnym procesem oraz bardzo nieefektywnym dla dużej liczby gwiazd. </para>
+
+<para
+>Alternatywna metoda korzysta z fotometrii by zmierzyć intensywność światła przechodzącego przez różne filtry. Każdy z filtrów pozwala na przejście <emphasis
+>tylko</emphasis
+> określonej części widma światła, a nie przepuszczapozostałej części. Powszechnie używany system fotometryczny jet nazywany <firstterm
+>system UBV Johnsona</firstterm
+>. Używa on trzech filtrów: U ("Ultrafiolet"), B ("Niebieski"), oraz V ("Widzialny"); z których każdy zajmuje inną część widma elektromagnetycznego. </para>
+
+<para
+>Procesie fotometrii UBV wykorzystuje światłoczułe urządzenia (takie jak kamery CCD) i polega na wycelowaniu w gwiazdę teleskopu, żeby zmierzyć intensywność światła przechodzącego przez każdy z filtrów osobno. Ta procedura daje trzy osobne jasności lub <link linkend="ai-flux"
+>strumienie pola</link
+> (ilość energii na cm^2 na sekundę) oznaczone jako Fu, Fb, i Fv. Współczynniki Fu/Fb i Fb/Fv są ilościową miarą "koloru" gwiazdy, mogą być także użyte do określenia skali temperatury gwiazd. Ogólnie mówiąc im większe współczynniki Fu/Fb i Fb/Fv, tym większa temperatura powierzchni gwiazdy. </para>
+
+<para
+>Przykład: współczynnik Fb/Fv = 1,22 dla gwiazdy Bellatrix w gwiazdozbiorze Oriona oznacza, że jest ona jaśniejsza oglądana przez filtr B niż przez filtr V. Co więcej, jej współczynnik Fu/Fb wynosi 2,22, więc jest jeszcze jaśniejsza przez filtr U. Oznacza to,że gwiazda ta jest bardzo gorąca, gdyż wierzchołek na widmie znajduje się w zakresie filtru U, lub nawet krótszych długości fal. Temperatura powierzchni Bellatrix (jak wynika z porównania jej widma ze modelem dla jej linii absorpcji) wynosi 25.000 stopni w skali Kelvina. </para>
+
+<para
+>Identyczną analizę możemy powtórzyć dla Betelgezy. Współczynniki Fb/Fv i Fu/Fb wynoszą odpowiednio 0,15 i 0,18, więc gwiazda jest jaśniejsza przez filtr V i ciemniejsza przez filtr U. Zatem wierzchołek w widmie Betelgezy musi znajdować się gdzieś w zakresie filtru V lub nawet dłuższych fal. Temperatura powierzchni Betelgezy wynosi jedynie 2.400 stopni w skali Kelvina. </para>
+
+<para
+>Astronomowie wolą wyrażać kolor gwiazd jako różnicę <link linkend="ai-magnitude"
+>wielkości gwiazdowej</link
+>, niż za pomocą stosunków <link linkend="ai-flux"
+>strumieni pola</link
+>. Dlatego, wracając do niebieskiej Bellatrix ,współczynnik koloru może być obliczony zgodnie ze wzorem </para>
+
+<para
+>B - V = -2,5 log (Fb/Fv) = -2,5 log (1,22) = -0,22, </para>
+
+<para
+>Podobnie, współczynnik kolory dla Betelgezy wynosi </para>
+
+<para
+>B - V = -2,5 log (Fb/Fv) = -2,5 log (0,18) = 1,85 </para>
+
+<para
+>Kolor odpowiada odwróconej <link linkend="ai-magnitude"
+>skali wielkości gwiazdowej</link
+>. <emphasis
+>Gorące i niebieskie</emphasis
+> gwiazdy mają <emphasis
+>mniejsze i ujemne</emphasis
+> wartości współczynnika B-V niż gwiazdy chłodniejsze i bardziej czerwone. </para>
+
+<para
+>Astronomowie potrafią używać wpółczynnika koloru gwiazdy, po wprowadzeniu poprawki z uwagi na czerwienienie oraz ekstynkcję międzygwiazdową, by obliczyć dokładną temperaturę gwiazdy. Relacja pomiędzy współczynnikiem B-V a temperaturą jest zilustrowana na rysunku 2. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+  <imagedata fileref="color_indices.png"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Rysunek 2</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Dla Słońca, którego temperatura powierzchni wynosi 5.800 stopni w skali Kelvina, współczynnik B-V ma wartość 0,62. </para>
+</sect1>

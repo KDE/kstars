@@ -1,0 +1,489 @@
+<sect2 id="ekos-scheduler">
+    <title
+>Ordonnanceur</title>
+    <indexterm>
+        <primary
+>Outils</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Ordonnanceur</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Module Ordonnanceur Ekos </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_scheduler.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Module Ordonnanceur Ekos</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="ekos-scheduler-introduction">
+        <title
+>Introduction</title>
+        <para
+>L'ordonnanceur d'Ekos est un outil indispensable pour la construction de votre observatoire robotique. Un observatoire robotique est composé de sous-systèmes fonctionnant ensemble pour réaliser un ensemble d'objectifs scientifiques sans intervention humaine. C'est le seul module d'Ekos qui ne requiert pas d'être démarré puisqu'il est utilisé pour <emphasis
+>démarrer</emphasis
+> et <emphasis
+>arrêter</emphasis
+> Ekos. Il est conçu pour être simple et intuitif. Toutefois, il ne devrait être utilisé qu'une fois que vous maîtrisez Ekos et connaissez toutes les particularités de votre matériel. Comme le processus complet est automatisé, mise au point, guidage et retournement au méridien inclus, tout le matériel et leurs options devraient être soigneusement utilisés pour obtenir les meilleurs résultats. </para>
+        <para
+>Avec Ekos l'utilisateur peut utiliser la puissante file d'attente de séquences pour réaliser l'acquisition d'images par lots d'une cible particulière. Dans les installations simples, l'utilisateur est censé faire la mise au point du CCD, aligner la monture, centrer la cible et démarrer le guidage avant d'initialiser la procédure d'acquisition. Dans les environnements d'observatoires plus complexes, il existe généralement des procédures personnalisées prédéfinies pour la préparation de l'observatoire à l'acquisition et d'autres pour l'arrêt. L'utilisateur souhaite peut-être imager une ou plusieurs cibles durant la nuit et s'attend à récupérer les données au matin. Dans &kstars; des outils tels que le <link linkend="tool-obsplanner"
+>planificateur d'observations</link
+> et <link linkend="tool-whatsup"
+>Dans le ciel cette nuit</link
+> aident l'utilisateur dans sa sélection de candidats d'observation. Après avoir fait sa sélection de cibles, il peut les ajouter à la liste de l'ordonnanceur pour évaluation. Il peut aussi lui ajouter directement des cibles ou sélectionner un fichier FITS d'une image précédente. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-settings">
+        <title
+>Réglages</title>
+        <para
+>L'ordonnanceur d'Ekos propose une interface simple pour aider l'utilisateur à configurer les conditions et les contraintes requises pour une tâche d'observation. Chaque tâche est composée de : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Nom de la cible et ses coordonnées</guilabel
+> : sélectionnez la cible depuis la <link linkend="findobjects"
+>Boîte de recherche</link
+> ou <guibutton
+>Ajouter</guibutton
+> la cible depuis le <link linkend="tool-obsplanner"
+>Planificateur d'observation</link
+>. Vous pouvez également indiquer un nom personnalisé. </para>
+            </listitem>
+            <listitem>
+                <para
+>Un <guilabel
+>fichier Fits</guilabel
+> facultatif : si vous spécifiez un fichier FITS, le résolveur astrométrique résoudra le fichier et utilisera la position centrale en AD et DEC comme coordonnées cibles. </para>
+            </listitem>
+            <listitem>
+                <para
+>Un fichier <guilabel
+>Séquence</guilabel
+> : le fichier est (préalablement) construit dans le <link linkend="ekos-capture"
+>module d'acquisition</link
+>. Il contient le nombre d'images à acquérir, les filtres à utiliser, les réglages de température, les préfixes, le répertoire d'enregistrement, &etc;. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Priorité</guilabel
+> : spécifie la priorité de la tâche entre 1 et 20 où 1 désigne la plus haute priorité et 20 la plus basse. Ce coefficient est utilisé pour calculer le poids pour la sélection de la prochaine cible à acquérir. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Profil</guilabel
+> : spécifie le profil d'équipement à utiliser au démarrage d'Ekos. Si Ekos &amp; INDI sont déjà démarrés, cette option est ignorée. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Étapes</guilabel
+> : l'utilisateur choisit le module Ekos à utiliser pour l'observation dans le processus d'exécution des tâches. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Conditions de démarrage</guilabel
+> : spécifie les conditions qui doivent être atteintes <emphasis role="bold"
+>avant</emphasis
+> que la tâche ne soit démarrée. Présentement, l'utilisateur peut choisir de démarrer tout de suite (<guimenuitem
+>ASAP</guimenuitem
+>), ou quand la cible est près ou a passé la culmination ou enfin à une heure spécifique. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Contraintes</guilabel
+> : ce sont des conditions qui doivent être remplies <emphasis role="bold"
+>à tout moment</emphasis
+> durant le processus d'exécution des tâches. Cela inclut l'altitude minimum de la cible, l'élongation minimale de la Lune, l'observation du crépuscule, les contraintes d'altitude des horizons artificiels et enfin les conditions météorologiques. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Condition d'achèvement</guilabel
+> : spécifie les conditions d'achèvement de la tâche d'observation. La sélection par défaut est de noter la tâche comme étant terminée une fois que le processus est achevé. Des conditions additionnelles permettent à l'utilisateur de répéter la séquence indéfiniment ou jusqu'à une heure spécifique. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>Vous devez sélectionner la <guilabel
+>Cible</guilabel
+> et la <guilabel
+>Séquence</guilabel
+> avant de pouvoir ajouter une tâche à l'ordonnanceur. À son démarrage l'ordonnanceur évalue toutes les tâches en fonction des conditions et des contraintes spécifiées et tente de choisir la plus appropriée pour exécution. Cette sélection dépend d'un algorithme heuristique simple qui donne un score à chaque tâche en fonction des conditions et des contraintes, chacune ayant un poids particulier en conséquence. Si deux cibles possèdent les mêmes conditions et contraintes, c'est généralement la cible ayant la priorité la plus haute suivie et l'altitude la plus élevée qui est sélectionnée pour exécution. </para>
+        <screenshot>
+            <screeninfo
+>Ordonnanceur + Planificateur </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="scheduler_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ordonnanceur + Planificateur</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>La description ci-dessus n'aborde que l'étape d'<emphasis role="bold"
+>acquisition de données</emphasis
+> du déroulement d'une observation. La procédure complète dans un observatoire peut être résumée par les trois étapes principales : </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Démarrage </para>
+            </listitem>
+            <listitem>
+                <para
+>Acquisition de données (incluant le prétraitement et le stockage) </para>
+            </listitem>
+            <listitem>
+                <para
+>Arrêt </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-procedure">
+        <title
+>Procédure de démarrage</title>
+        <para
+>La procédure de démarrage est unique à chaque observatoire mais peut inclure : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Mise sous tension du matériel </para>
+            </listitem>
+            <listitem>
+                <para
+>Contrôle de sécurité et vérifications </para>
+            </listitem>
+            <listitem>
+                <para
+>Vérification des conditions météorologiques </para>
+            </listitem>
+            <listitem>
+                <para
+>Extinction des lumières </para>
+            </listitem>
+            <listitem>
+                <para
+>Contrôle des ventilateurs et de la lumière </para>
+            </listitem>
+            <listitem>
+                <para
+>Déparcage du dôme </para>
+            </listitem>
+            <listitem>
+                <para
+>Déparcage de la monture </para>
+            </listitem>
+            <listitem>
+                <para
+>&etc; </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>L'ordonnanceur d'Ekos n'initialise la procédure de démarrage que lorsque l'heure de début de la première observation est proche (le <emphasis
+>délai</emphasis
+> par défaut est de 5 minutes avant l'heure de <emphasis
+>démarrage</emphasis
+>). Une fois que la procédure de démarrage s'est terminée avec succès, l'ordonnanceur sélectionne la cible de la tâche d'observation et démarre le processus de séquence. Si un script de démarrage est spécifié, il sera exécuté en premier. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-data-acquisition">
+        <title
+>Acquisition de données</title>
+        <para
+>Selon la sélection de l'utilisateur, un déroulement typique se déroule ainsi : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Pivotage de la monture vers la cible. Si un fichier FITS a été spécifié, il sera résolu et la monture pivotera vers les coordonnées de la position. </para>
+            </listitem>
+            <listitem>
+                <para
+>Mise au point de la cible. Le processus de mise au point automatique sélectionne automatiquement la meilleure étoile de la trame et exécute l'algorithme de mise au point. </para>
+            </listitem>
+            <listitem>
+                <para
+>Réalise la résolution, synchronise la monture et pivote vers les coordonnées de la cible. </para>
+            </listitem>
+            <listitem>
+                <para
+>Réalise une mise au point après l'alignement puisque la trame peut avoir bouger durant le processus de résolution. </para>
+            </listitem>
+            <listitem>
+                <para
+>Réalisation de la calibration et démarrage de l'autoguidage : le processus de calibration sélectionne automatiquement la meilleure étoile guide, réalise la calibration et démarre le processus d'autoguidage. </para>
+            </listitem>
+            <listitem>
+                <para
+>Charge le fichier de séquence dans le module d'<link linkend="ekos-capture"
+>acquisition</link
+> et démarre l'acquisition. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-shutdown">
+        <title
+>Arrêt</title>
+        <para
+>Une fois que la tâche s'est terminée avec succès, l'ordonnanceur choisit la prochaine cible. Si l'heure programmée de la prochaine cible n'est pas encore proche, la monture est parquée jusqu'à ce que la cible soit prête. De plus si la prochaine cible programmée n'est pas proche dans une limite de temps configurable par l'utilisateur, l'ordonnanceur réalise une extinction <emphasis
+>anticipée</emphasis
+> pour préserver les resources et réalisera la procédure de démarrage quand la cible sera prête. </para>
+        <para
+>Si une erreur irrécupérable se produit, l'observatoire initie une procédure d'arrêt. S'il existe un script d'arrêt, celui-ci sera exécuté en dernier. </para>
+        <para
+>La vidéo suivante illustre l'utilisation de l'ordonnanceur, et même si elle date un peu, les principes de base restent d'actualité : </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/v8vIXD1kois"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Ordonnanceur d'Ekos</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-weather-monitoring">
+        <title
+>Surveillance de la météo</title>
+        <para
+>Un autre aspect critique des observatoires robotiques commandés à distance est la surveillance de la météo. Ekos s'appuie sur le pilote météo d'INDI sélectionné pour surveiller en continu les conditions météorologiques. Par souci de simplicité, les conditions météorologiques se résument en trois états : </para>
+        <orderedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>OK</emphasis
+> : les conditions sont claires et optimales pour imager. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Avertissement</emphasis
+> : les conditions ne sont pas claires, la visibilité (seeing) est sous optimale ou partiellement obstruée et inadaptée pour imager. Tout processus d'acquisition est suspendu en attendant une amélioration. Cet état d'avertissement n'implique pas de danger pour le matériel de l'observatoire, ainsi il reste opérationnel. Les mesures exactes à prendre lors d'état d'avertissement peuvent être configurées. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Alerte</emphasis
+> : les conditions sont préjudiciables à la sécurité de l'observatoire et un arrêt doit être initié le plus rapidement possible. </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+        <title
+>Scripts de démarrage &amp; d'arrêt</title>
+        <para
+>Comme chaque observatoire est unique, Ekos offre la possibilité à l'utilisateur de choisir ses scripts de démarrage et d'arrêt. Les scripts s'occupent de toute procédure qui doivent être activée au démarrage et à l'arrêt. Ekos exécute le script et continue la procédure (déparcage du dôme et de la monture) qu'en cas de succès de l'exécution du script. Inversement, la procédure d'arrêt commence par parquer la monture et le dôme avant d'exécuter le script d'arrêt qui termine la procédure. </para>
+        <para
+>Les scripts peuvent être écrits dans n'importe quel language qui peut être exécuté sur la machine locale. Un script doit retourner la valeur 0 pour être considéré comme succès, tout autre valeur indique une erreur. La sortie standard du script est dirigée vers la fenêtre des fichiers journaux d'Ekos. Voici un exemple de script de démarrage écrit en Python : </para>
+        <programlisting language="python"
+>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import time
+import sys
+
+print "Mise sous tension de l'observatoire&hellip;"
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "Test de confiance&hellip;"
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "Tout est nominal."
+sys.stdout.flush()
+
+exit(0)
+        </programlisting>
+        <para
+>Les scripts doivent être <emphasis
+>exécutables</emphasis
+> pour qu'Ekos puisse les invoquer (&eg; utilisez la commande <userinput
+>chmod u+x startup_script.py</userinput
+> pour le rendre exécutable). L'ordonnanceur d'Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers événements de l'ordonnanceur. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-mosaic-Planner">
+        <title
+>Planificateur de mosaïques</title>
+        <screenshot>
+            <screeninfo
+>Planificateur de mosaïques </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Planificateur de mosaïques</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Les images super grand champ du télescope spacial Hubble de <ulink url="http://darkskyart.com/?page_id=96"
+>galaxies</ulink
+> ou de nébuleuses sont source d'émerveillement. Bien que des compétences pointues soient nécessaires pour obtenir de telles images et les traiter, les grands noms en astrophotographie emploient du matériel qui n'est pas <emphasis
+>très éloigné</emphasis
+> du vôtre ou du mien. Je souligne <emphasis
+>très éloigné</emphasis
+> parce certains ont en effet du matériel très impressionnant et des observatoires dédiés valant une fortune. Néanmoins, beaucoup d'amateurs peuvent obtenir des images grand champ en combinant plusieurs petites images en une seule et grande mosaïque. </para>
+        <para
+>Nous sommes souvent limités par le champ de vision de l'ensemble caméra et télescope. En augmentant le champ de vision à l'aide d'un réducteur de focale ou un tube plus court, on obtient une couverture du ciel plus importante au coût d'une diminution de la résolution spatiale. En même temps, beaucoup de cibles grand champ couvrent plusieurs champs de vision dans le ciel. Sans aucune modification de votre matériel, il est possible de créer une super mosaïque en <emphasis
+>joignant</emphasis
+> ensemble plusieurs images plus petites. Il y a deux étapes principales pour accomplir une mosaïque : </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Acquérir plusieurs images couvrant la cible qui se chevauchent partiellement. Le chevauchement est nécessaire pour permettre au logiciel de traitement d'aligner et de joindre les petites images. </para>
+            </listitem>
+            <listitem>
+                <para
+>Traiter les images et les <emphasis
+>joindre</emphasis
+> ensemble pour créer la mosaïque. </para>
+            </listitem>
+        </orderedlist>
+        <para
+>La seconde étape est gérée par des logiciels de traitement d'images comme <ulink url="https://pixinsight.com"
+>PixInsight</ulink
+> ou autres, mais cela ne sera pas le sujet ici. La première étape peut être accomplie par l'ordonnanceur d'Ekos qui permet l'acquisition d'images appropriée à votre équipement et qui couvre le champ de vision désiré. Ekos crée non seulement les panneaux pour votre cible mais il construit également les tâches nécessaires pour acquérir toutes les images. Cela facilite grandement la logistique d'acquisition d'images de différents filtres et trames de calibration d'une vaste région du ciel. </para>
+        <para
+>Le <guilabel
+>planificateur de mosaïques</guilabel
+> de l'ordonnanceur d'Ekos créera plusieurs tâches basées sur une cible centrale. Pour afficher le planificateur, cliquez sur le bouton <guibutton
+>Planificateur de mosaïques</guibutton
+> dans l'ordonnanceur d'Ekos ou sur la barre d'outils INDI de KStars comme illustré dans la capture d'écran. Le planificateur dessine la mosaïque directement sur la carte du ciel. Il est recommandé d'activer la superposition HiPS pour la meilleure expérience. Le planificateur est composé de quatre étapes : </para>
+        <orderedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Confirmation du matériel</emphasis
+> : Ekos tente de charger les réglages du matériel depuis INDI. En cas d'échec, il faut saisir les paramètres du matériel tels que longueur focale du télescope, les dimensions du capteur CCD (largeur, hauteur, taille des pixels). Ces réglages seront enregistrés pour les sessions futures. </para>
+            <screenshot>
+            <screeninfo
+>Confirmer le matériel </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_confirm_equipment.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Confirmer le matériel</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Ajustement de la grille</emphasis
+> : sélectionner la dimension des panneaux et le pourcentage de recouvrement. Le panneau de mosaïque est mis à jour en conséquence sur la carte du ciel. Ajuster l'angle de position pour correspondre à l'orientation désirée de la mosaïque dans le ciel. Si l'angle de position est différent de l'orientation usuelle de la caméra, il faudra soit tourner la caméra manuellement soit avec un rotateur mécanique lorsque les tâches seront exécutées. La transparence des tuiles est par défaut automatiquement calculée mais peut être désactivée et ajustée manuellement. Pour calculer le champ de la mosaïque à partir du nombre de tuiles, cliquer sur le bouton <guibutton
+>Couvrir CdV</guibutton
+>. La mosaïque peut être centrée sur la carte du ciel en cliquant sur le bouton <guibutton
+>Recentrer</guibutton
+>. </para>
+                <screenshot>
+            <screeninfo
+>Sélection de la grille </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_select_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Sélection de la grille</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Un grand chevauchement rendra la jointure des trames plus facile durant le traitement mais requiert davantage de panneaux pour couvrir la zone souhaitée. Toutefois, si vous connaissez déjà la quantité minimale de trames qui seront utilisée par l'algorithme de rejet durant la phase de post-traitement, vous pouvez vouloir augmenter le chevauchement pour atteindre cette quantité sur les zones couvertes par de multiples panneaux. Par exemple, une grille de mosaïque 4x4 avec 75% de chevauchement possède 16 sous-trames couvrant l'intersection centrale, ce qui est suffisant pour l'algorithme de rejet Winsorized Sigma. Bien que l'empilement résultant n'ait pas la même hauteur sur toutes les parties de la trame finale, cette méthode vous donne le contrôle sur le rapport signal sur bruit et vous permet de donner du contexte à votre cible tout en devant faire un nombre relativement bas d'acquisitions. </para>
+        <para
+>Le grand nombre dessiné dans le coin de chaque panneau de la grille représente l'ordre dans lequel chaque panneau sera traité. Le choix par défaut de la forme d'un S (ouest-est puis en alternance haut-bas/bas-haut) assure un mouvement minimal de la monture durant l'observation. Décochez <guilabel
+>Mouvement minimum de la monture</guilabel
+> pour inverser le comportement en ouest-est/haut-bas. Les coordonnées de chaque panneau (en degrés minutes et secondes) sont affichées en leur centre. Finalement l'angle de rotation de chaque panneau depuis le centre de la mosaïque est affiché en bas. Si votre champ de vision est grand ou si votre mosaïque se trouve près d'un pôle céleste, vous pourrez observer une rotation visible due à la position horizontale ou à une déclinaison importante. Veuillez utiliser <guilabel
+>Chevauchement</guilabel
+> pour vous assurer que les panneaux couvrent la zone correctement. </para>
+        <screenshot>
+            <screeninfo
+>Outil de mosaïque de l'ordonnanceur - grande rotation </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_close_pole.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Outil de mosaïque de l'ordonnanceur - grande rotation</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Ajustement de la grille</emphasis
+> : sélectionner la dimension des panneaux et le pourcentage de recouvrement. Le panneau de mosaïque est mise à jour en conséquence sur la carte du ciel. </para>
+            <screenshot>
+            <screeninfo
+>Ajustement de la grille </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_adjust_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ajustement de la grille</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Création des tâches</emphasis
+> : l'étape finale consiste en la sélection du fichier séquence et le dossier d'enregistrement des images. Le champ cible est automatiquement renseigné mais peut être modifié à convenance. Sélectionner les différentes étapes de la tâche (Suivre -> Mise au point -> Alignement -> Guidage -> Acquisition) et régler la fréquence de rafraichissement de l'alignement et de la mise au point durant l'exécution de la tâche. Par exemple, si <guilabel
+>Aligner tous les</guilabel
+> est réglé à 2 tâches, alors la première tâche exécutera un alignement alors que la suivante ne l'exécutera pas. Et la troisième l'exécutera à nouveau et ainsi de suite. </para>
+            <screenshot>
+            <screeninfo
+>Création des tâches </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_create_jobs.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Création des tâches</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+        </orderedlist
+>                
+        <para
+>Cliquer sur le bouton <guibutton
+>Créer les tâches</guibutton
+> pour générer les tâches d'ordonnancement de mosaïque et les ajouter à la file d'attente. </para>
+    </sect3>
+</sect2>

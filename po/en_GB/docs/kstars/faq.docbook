@@ -1,0 +1,192 @@
+<chapter id="faq">
+<title
+>Questions and Answers</title>
+&reporting.bugs; &updating.documentation; <qandaset id="faqlist">
+
+<qandaentry>
+<question>
+<para
+>What is the &kstars; Icon?</para>
+</question>
+<answer>
+<para
+>The <guiicon
+>&kstars; Icon</guiicon
+> is a sextant, a handheld telescope which was used by navigators on sailing ships back when the stars were important for navigation. By carefully reckoning the positions of the stars, the navigator could get an accurate estimate of the ship's current <link linkend="ai-geocoords"
+>longitude and latitude</link
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>What do the different symbols for deep-sky objects mean?</para>
+</question>
+<answer>
+<para
+>The symbol indicates the object type: <itemizedlist>
+<listitem
+><para
+>dotted circle: Open Cluster</para
+></listitem>
+<listitem
+><para
+>cross-in-circle: Globular Cluster</para
+></listitem>
+<listitem
+><para
+>box: Gaseous Nebula</para
+></listitem>
+<listitem
+><para
+>diamond: Supernova Remnant</para
+></listitem>
+<listitem
+><para
+>circle with outer lines: Planetary Nebula</para
+></listitem>
+<listitem
+><para
+>ellipse: Galaxy</para
+></listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>What do the different colours of Deep-sky objects mean?</para>
+</question>
+<answer>
+<para
+>Generally, the different colours indicate to which catalogue the object belongs (Messier, NGC or IC). However, some objects have a different colour which indicates that there are extra images available in the <link linkend="popup-menu"
+>popup menu</link
+> (the default <quote
+>extras</quote
+> colour is red). </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Why are there so many more U.S. cities than in other countries? Is it a conspiracy? </para>
+</question>
+<answer>
+<para
+>It may be a conspiracy, but &kstars; is not involved! We were unable to find a single longitude/latitude database that covers the globe equitably. We are currently working on adding many more non-U.S. cities to the database. We have already received city lists from users in Norway, Italy and Korea. If you can contribute to this effort, please let us know. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Why can I not display the ground when using Equatorial Coordinates</para>
+</question>
+<answer>
+<para
+>The short answer is, this is a temporary limitation. There is a problem when constructing the filled polygon that represents the ground when in Equatorial mode. However, it does not make too much sense to draw the ground in equatorial coordinates, which is why this fix has been given a low priority. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Why do some objects disappear when I am scrolling the display? </para>
+</question>
+<answer>
+<para
+>When the display is in motion, &kstars; must recompute the screen coordinates of every object in its database, which involves some pretty heavy trigonometry. When scrolling the display (either with the arrow keys or by dragging with the mouse), the display may become slow and jerky, because the computer is having trouble keeping up. By excluding many of the objects, the computational load is greatly reduced, which allows for smoother scrolling. You can turn off this feature in the <guilabel
+>Configure &kstars;</guilabel
+> window, and you can also configure which objects get hidden. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>I do not understand all the terms used in &kstars;. Where can I learn more about the astronomy behind the program?</para>
+</question>
+<answer>
+<para
+>The &kstars; Handbook includes the <link linkend="astroinfo"
+>AstroInfo Project</link
+>; a series of short, hyperlinked articles about astronomical topics that can be explored and illustrated with &kstars;. AstroInfo is a community effort, like GNUpedia or Everything2. If you'd like to contribute to AstroInfo, please join our mailing list: <email
+>kstars-info@lists.sourceforge.net</email
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>How accurate/precise is &kstars;?</para>
+</question>
+<answer>
+<para
+>&kstars; is pretty accurate, but it is not (yet) as precise as it can possibly be. The problem with high-precision calculations is that you start having to deal with a large number of complicating factors. If you are not a professional astronomer, you will probably never have a problem with its accuracy or precision. </para>
+<para
+>Here is a list of some of the complicating factors which limit the program's precision: <itemizedlist
+> <listitem>
+<para
+>Planet positions are only accurate for dates within 4000 years or so of the current epoch. The planet positions are predicted using a Fourier-like analysis of their orbits, as observed over the past few centuries. We learnt in school that planets follow simple elliptical orbits around the Sun, but this is not strictly true. It would be true only if there was only one planet in the Solar system, and if the Sun and the planet were both point masses. As it is, the planets are constantly tugging on each other, perturbing the orbits slightly, and tidal effects also induce precessional wobbling. In fact, recent analysis suggests that the planets' orbits may not even be stable in the long term (i.e., millions or billions of years). As a rule of thumb, you can expect the position of a planet to be accurate to a few arcseconds between the dates -2000 and 6000. </para
+><para
+>Pluto is the exception to this; its position is perhaps ten times less precise than the positions of the other planets. Still, for dates near the present epoch, its position can be trusted to about an arcsecond. </para
+><para
+>The moon's position is the most difficult to predict to high precision. This is because its motion is quite perturbed by the Earth. Also, since it is so nearby, even minute effects that would be undetectable in more distant bodies are easily apparent in the moon. </para
+><para
+>The objects with the worst long-term precision in the program are the comets and asteroids. We use a very simplistic orbital model for the minor planets that does not include third-body perturbations. Therefore, their positions can only be trusted for dates near the present epoch. Even for the present epoch, one can expect positional errors among the minor planets of order 10 arcseconds or more. </para>
+</listitem>
+</itemizedlist>
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Why do I have to download an improved NGC/IC catalogue and Messier object images? Why not just include them as part of the &kstars; distribution?</para>
+</question>
+<answer>
+<para
+>The author of the downloadable NGC/IC catalogue has released it with the restriction that it may not be used commercially. For most &kstars; users, this is not a problem. However, it is technically against the &kstars; license (the <acronym
+>GPL</acronym
+>) to restrict usage in this way. We removed the Messier object images from the standard distribution for two reasons: to simply reduce the size of &kstars;, and also because of similar licensing concerns with a couple of the images. The inline images are significantly compressed to a very low quality from their original form, so I doubt there is a real copyright concern, but I did obtain explicit permission from the images' authors to use the few images for which there was any question about it (see <filename
+>README.images</filename
+>). Still, just to be absolutely safe, I removed them from the standard distribution, and marked the download archive as being "free for non-commercial use". </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>I am really enjoying the beautiful images I have downloaded through &kstars;! I would like to share them with the world; can I publish a calendar featuring these images (or are there any usage restrictions on the images)?</para>
+</question>
+<answer>
+<para
+>It depends on the image, but many of the images restrict against commercial usage. The Image Viewer's statusbar will usually contain information about the image's copyright holder, and what usage restrictions apply. As a rule of thumb: anything published by NASA is in the public domain (including all HST images). For everything else, you can pretty safely assume that the images may not be used commercially without permission. When in doubt, contact the image's copyright holder directly. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Can I help contribute to future versions of &kstars;?</para>
+</question>
+<answer>
+<para
+>Yes, definitely! Introduce yourself on our mailing list: <email
+>kstars-devel@kde.org</email
+>. If you want to help with the coding, download the latest <ulink url="http://edu.kde.org/kstars/cvs.html"
+>CVS</ulink
+> version of the code and dive right in. There are several README files in the distribution that explain some of the code's subsystems. If you need ideas of what to work on, see the TODO file. You can submit patches to kstars-devel, and feel free to post any questions you have about the code there as well. </para
+><para
+>If you are not into coding, we can still use your help with i18n, docs, AstroInfo articles, URL links, bug reports and feature requests. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</chapter>

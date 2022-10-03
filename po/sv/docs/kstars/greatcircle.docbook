@@ -1,0 +1,32 @@
+<sect1 id="ai-greatcircle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Storcirklar</title>
+<indexterm
+><primary
+>Storcirklar</primary>
+<seealso
+>Himmelssfären</seealso>
+</indexterm>
+<para
+>Tänk dig ett klot, som jorden, eller <link linkend="ai-csphere"
+>himmelssfären</link
+>. Skärningen mellan vilket plan som helst och klotet ger en cirkel på ytan av klotet. Om planet råkar innehålla klotets centrum, är skärningscirkeln en <firstterm
+>storcirkel</firstterm
+>. Storcirklar är de största cirklar som kan ritas på ett klot. Dessutom är den kortaste vägen mellan två godtyckliga punkter på ett klot alltid längs en storcirkel. </para
+><para
+>Bland exempel på storcirklar på himmelssfären ingår: <link linkend="ai-horizon"
+>horisonten</link
+>, <link linkend="ai-cequator"
+>himmelsekvatorn</link
+> och <link linkend="ai-ecliptic"
+>ekliptikan</link
+>. </para>
+</sect1>

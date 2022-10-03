@@ -135,6 +135,11 @@ class Manager : public QDialog, public Ui::Manager
         {
             return m_SummaryView.get();
         }
+
+        // Filter Manager
+        void createFilterManager(ISD::FilterWheel *device);
+        bool getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm);
+
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
 
@@ -553,6 +558,8 @@ class Manager : public QDialog, public Ui::Manager
         // Port Selector
         std::unique_ptr<Selector::Dialog> m_PortSelector;
         QTimer m_PortSelectorTimer;
+
+        QMap<QString, QSharedPointer<FilterManager>> m_FilterManagers;
 
         // Logs
         QPointer<OpsLogs> opsLogs;

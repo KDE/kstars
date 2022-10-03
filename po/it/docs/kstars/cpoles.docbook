@@ -1,0 +1,62 @@
+<sect1 id="ai-cpoles">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>I poli celesti</title>
+<indexterm
+><primary
+>I poli celesti</primary>
+<seealso
+>Coordinate equatoriali</seealso>
+</indexterm>
+<para
+>Il cielo sembra spostarsi da est a ovest, compiendo un giro completo in 24 ore (<link linkend="ai-sidereal"
+>siderali</link
+>). Questo fenomeno è dovuto alla rotazione della Terra attorno al proprio asse. L'asse di rotazione terrestre interseca la <link linkend="ai-csphere"
+>sfera celeste</link
+> in due punti. Questi punti sono i <firstterm
+>poli celesti</firstterm
+>. Mentre la Terra ruota, essi rimangono fissi nel cielo, e tutti gli altri punti sembrano ruotare loro attorno. I poli celesti sono anche i poli del <link linkend="equatorial"
+>sistema di coordinate equatoriali</link
+>, il che significa che hanno una <firstterm
+>declinazione</firstterm
+> di +90 e -90 gradi (per il polo celeste nord e sud, rispettivamente). </para
+><para
+>Il polo celeste nord ha attualmente quasi le stesse coordinate della brillante stella <firstterm
+>Polaris</firstterm
+> (nome latino che sta per "stella polare"). Ciò rende Polaris utile alla navigazione: non solo è sempre sopra il punto nord dell'orizzonte, ma il suo angolo di <link linkend="horizontal"
+>altezza</link
+> è sempre (quasi) uguale alla <link linkend="ai-geocoords"
+>latitudine geografica</link
+> dell'osservatore (tuttavia, Polaris è visibile soltanto dall'emisfero nord). </para
+><para
+>Il fatto che Polaris sia vicina al polo è una pura coincidenza. A dire la verità, a causa della <link linkend="ai-precession"
+>precessione</link
+>, Polaris è vicina al polo solo per una piccola frazione del tempo. </para>
+<tip>
+<para
+>Esercizi:</para>
+<para
+>Usa la finestra <guilabel
+>Trova oggetto</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>) per localizzare Polaris. Nota che la sua declinazione è quasi (ma non esattamente) +90 gradi. Confronta la misura dell'altezza mentre Polaris è selezionata con la latitudine geografica della tua località: la loro differenza è sempre inferiore a un grado. Non sono esattamente uguali perché Polaris non è esattamente al polo (puoi puntare esattamente il polo passando alle coordinate equatoriali, e premendo la freccia verso l'alto finché il cielo smette di scorrere). </para
+><para
+>Usa la casella <guilabel
+>Passo</guilabel
+> nella barra degli strumenti per accelerare il tempo fino a un passo di 100 secondi. Puoi vedere che l'intero cielo sembra ruotare attorno a Polaris, che rimane invece quasi stazionaria. </para
+><para
+>Abbiamo detto che il polo celeste è il polo del sistema di coordinate equatoriali. Quale pensi che sia il polo del sistema di coordinate orizzontali (altezza/azimut)? (Lo <link linkend="ai-zenith"
+>zenit</link
+>). </para>
+</tip>
+</sect1>

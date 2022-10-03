@@ -1,0 +1,223 @@
+<sect1 id="tool-aavso">
+
+<sect1info>
+<author
+><firstname
+>Aaron</firstname
+> <surname
+>Price</surname
+> <affiliation
+><address
+> <email
+>aavso@aavso.org</email>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Krzywe jasności AAVSO</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Krzywe jasności AAVSO</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Narzędzie Krzywe jasności AAVSO </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="aavso.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Krzywe jasności AAVSO</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<sect2 id="aavso-intro">
+<title
+>Wprowadzenie</title>
+<para
+>&kstars; może wyświetlać krzywe jasności dla różnych gwiazd z programu obserwacyjnego <ulink url="http://www.aavso.org"
+>American Association of Variable Star Observers</ulink
+> (<abbrev
+>AAVSO</abbrev
+>). Program ten monitoruje ponad 6.000 różnych gwiazd i składa się z 10 milionów obserwacji z prawie całego wieku. &kstars; pobiera przez Internet najnowsze dane bezpośrednio z bazy danych <abbrev
+>AAVSO</abbrev
+>. Tak więc, połączenie internetowe dla tego narzędzia jest niezbędne. </para>
+<para
+>Aby skorzystać z narzędzia, zaznacz gwiazdę w lewym panelu wybierając ją przez <firstterm
+>określenie</firstterm
+> lub nazwę. Ustaw daty początku i końca. W panelu po prawej stronie wybierz rodzaj danych, które powinny przedstawione (zobacz poniżej). Po dokonaniu wyboru wciśnij przycisk <guibutton
+>Pobranie krzywej</guibutton
+>. &kstars; połączy się automatycznie z serwerem AAVSO, który wygeneruje krzywą jasności i wyśle ją na ekran Twojego wyświetlacza. Przykładowa krzywa jasności znajduje się poniżej: </para>
+
+<screenshot>
+<screeninfo
+>Przykładowa krzywa jasności </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="lightcurve.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Przykładowa krzywa jasności</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Pamiętaj, że te krzywe jasności <emphasis
+>NIGDY</emphasis
+> nie powinny być wykorzystywane w badaniach, dokumentach, prezentacjach, itp. Są one przeznaczone tylko do wykorzystywania jako źródło informacyjne w &kstars;. Nie zostały one potwierdzone i nie przeszły kontroli jakości <abbrev
+>AAVSO</abbrev
+>. Z chęcią udostępnimy Ci dane do badań. Po prostu o nie poproś na <ulink url="http://www.aavso.org/adata/onlinedata/"
+>http://www.aavso.org/adata/onlinedata/</ulink
+>. </para>
+<para
+>Szczegółowe pytania dotyczące danych wykorzystywanych do wykreślania krzywych jasności mogą być wysyłane na adres <email
+>aavso@aavso.org</email
+>. </para>
+</sect2>
+
+<sect2 id="aavso-about">
+<title
+>O gwiazdach zmiennych</title>
+<para
+><firstterm
+>Gwiazdy zmienne</firstterm
+> są gwiazdami, które zmieniają swoją jasność. <firstterm
+>Krzywa jasności</firstterm
+> jest wykresem jasności gwiazdy zmiennej w czasie. Patrząc na krzywą jasności możesz zobaczyć, jak zmieniała się jasność gwiazdy w ostatnim czasie i na tej podstawie przewidzieć jej przyszłe zachowanie. Astronomowie wykorzystują te dane także do modelowania procesów astrofizycznych w gwiazdach. Pozwala to lepiej poznać sposób funkcjonowania gwiazd. </para>
+</sect2>
+
+<sect2 id="aavso-data">
+<title
+>Dane</title>
+
+<para
+>Oto opis różnych rodzajów danych dostępnych dla krzywych jasności: <itemizedlist
+>  
+<listitem
+><para
+><firstterm
+>Widoczne</firstterm
+>: Jest to obserwacja zmiennej gwiazdy przez obserwatora ze zwykłym teleskopem. Oznacza to, że obserwator zauważył gwiazdę z jasnością Y w czasie X.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Słabsze niż</firstterm
+>: Czasami gwiazda jest za słaba, aby mógł zobaczyć ją obserwator. Kiedy tak się dzieje, obserwator odnotowuje najsłabiej świecącą gwiazdę w polu widzenia. To zjawisko oznacza się <quote
+>słabsze niż</quote
+>, ponieważ zmienna gwiazda była słabsza niż najsłabsza gwiazda, którą było widać.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Średnia</firstterm
+>: Jest to obliczona wartość średnia ze wszystkich obserwacji. Liczba <firstterm
+>dni</firstterm
+> mówi komputerowi ile dni należy brać pod uwagę przy obliczaniu średniej. Należy ją dostosować do częstotliwości prowadzonych obserwacji. Pasek błędu reprezentuje odchylenie standardowe 1 sigma.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDV</firstterm
+>: To obserwacje przy użyciu <abbrev
+>CCD</abbrev
+> z filtrem <abbrev
+>V</abbrev
+> Johnsona. Obserwacje <abbrev
+>CCDV</abbrev
+> są bardziej dokładne niż wizualne (jednakże nie zawsze).</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDB</firstterm
+>: Obserwacje <abbrev
+>CCD</abbrev
+> z filtrem <abbrev
+>B</abbrev
+> Johnsona.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDI</firstterm
+>: Obserwacje <abbrev
+>CCD</abbrev
+> z filtrem Cousins <abbrev
+>Ic</abbrev
+>.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>CCDR</firstterm
+>: Obserwacje <abbrev
+>CCD</abbrev
+> filtrem <abbrev
+>R</abbrev
+> Cousins.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Sprzeczne dane</firstterm
+>: Te dane zostały oznaczone przez członka zespołu <abbrev
+>AAVSO</abbrev
+> jako sprzeczne z zasadami <abbrev
+>HQ</abbrev
+>dotyczącymi walidacji. Aby uzyskać więcej informacji, skontaktuj się z <email
+>aavso@aavso.org</email
+>.</para
+></listitem>
+
+<listitem
+><para
+><firstterm
+>Daty</firstterm
+>: Baza danych, z której pobierane są dane, jest aktualizowana co dziesięć minut, więc dane możesz zbierać praktycznie w czasie rzeczywistym. Obecnie dane są dostępne wstecz tylko do roku 1961, ale w przyszłości zakres ten na pewno zostanie rozszerzony.</para
+></listitem>
+
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="aavso-update">
+<title
+>Uaktualnianie lokalnej kopii zmiennych gwiazd</title>
+<para
+><abbrev
+>AAVSO</abbrev
+> publikuje w ramach programu monitorującego <ulink url="http://www.aavso.org/valnam.txt"
+>pełną listę zmiennych gwiazd</ulink
+>. Plik ten jest aktualizowany co miesiąc o nowo odkryte gwiazdy zmienne. Aby zsynchronizować listę, z której korzysta &kstars; z listą <abbrev
+>AAVSO</abbrev
+> kliknij na przycisk <guibutton
+>Uaktualnienie listy</guibutton
+> w oknie <abbrev
+>AAVSO</abbrev
+>. &kstars; spróbuje połączyć się z bazą danych <abbrev
+>AAVSO</abbrev
+> i pobrać najnowszą listę. </para>
+<note>
+<para
+>Obsługa danych dostarczony przez AAVSO została zaimplementowana w &kstars; przez Aarona Price'a. Dziękujemy, Aaron! </para>
+</note>
+</sect2>
+</sect1>
+

@@ -1,0 +1,62 @@
+<sect1 id="ai-parallax">
+<sect1info>
+<author
+><firstname
+>James</firstname
+> <surname
+>Lindenschmidt</surname
+> </author>
+</sect1info>
+<title
+>Parallaks</title>
+<indexterm
+><primary
+>Parallaks</primary
+></indexterm>
+<indexterm
+><primary
+>Astronoomiline ühik</primary
+><see
+>Parallaks</see
+></indexterm>
+<indexterm
+><primary
+>Parsek</primary
+><see
+>Parallaks</see
+></indexterm>
+ <para
+><firstterm
+>Parallaks</firstterm
+> on vaadeldava taevakeha asukoha näiv muutumine, mida põhjustab vaatleja asukoha erinevus. Seda võib piltlikult selgitada näiteks nii: tõsta käsi otse ette õla kõrgusele, nii et mingi objekt toa teises otsas jääks käe taha. Nüüd kalluta pea paremale ja näed, et käsi jääb objektist vasakule. Kui kallutad pea vasakule, jääb käsi objektist paremale. </para>
+ <para
+>Kuna Maa tiirleb ümber Päikese, vaatleme taevast pidevalt muutuvast ruumipunktist. Seepärast võiks oodata <firstterm
+>aastaparallaksi</firstterm
+>, mille puhul lähemate taevakehade asukohad paistaksid vastavalt meie liikumisele ümber Päikese edasi-tagasi <quote
+>laperdavat</quote
+>. Nii see ka tegelikult on, kuid vahemaa isegi kõige lähema täheni on nii suur, et selle avastamiseks tuleb teleskoobiga väga hoolikalt vaatlusi korraldada<footnote
+><para
+>Juba Vana-Kreeka astronoomid tundsid parallaksi, ent kuna nad ei suutnud tabada aastaparallaksi tähtede asukohtade puhul, tegid nad järelduse, et Maa ei liigu ümber Päikese. Nad ei mõistnud aga, et tähed on Päikesega võrreldes meist miljoneid kordi kaugemal, mistõttu parallaksi pole palja silmaga võimalik tuvastada.</para
+></footnote
+>. </para>
+ <para
+>Tänapäevased teleskoobid võimaldavad astronoomidel kasutada aastaparallaksi trigonomeetria abil meid tähtedest lahutava vahemaa väljaarvutamiseks. Astronoomid mõõdavad ülitäpselt tähe positsiooni kahel erineval ajahetkel, mida lahutab teineteisest kuus kuud. Mida lähemal asub täht Päikesele, seda suurem on tema näiv asukohamuutus kahe ajahetke vahel. </para>
+ <para
+>Kuue kuuga on Maa läbinud pool oma teekonnast ümber Päikese ja selle ajaga on Maa positsioon muutunud kahe <firstterm
+>astronoomilise ühiku</firstterm
+> võrra (lühend a.ü.; 1 a.ü. võrdub Maa ja Päikese vahemaaga ehk ligikaudu 150 miljoni kilomeetriga). See võib tunduda päris pika vahemaana, kuid isegi Päikesele lähima täheni (alpha Centauri) on tervelt 40 <emphasis
+>triljonit</emphasis
+> kilomeetrit! Seepärast on aastaparallaks väga väike, tavaliselt väiksem kui üks <firstterm
+>kaaresekund</firstterm
+>, mis on kõigest 1/3600 kraadi. Käepärane tähtede kauguse mõõtühik on <firstterm
+>parsek</firstterm
+>, mis kujutab endast lühendit väljendist "PARallaksi kaareSEKund". Üks parsek on vahemaa täheni, mille aastaparallaks on üks kaaresekund. See võrdub 3,26 valgusaastaga ehk 31 triljoni kilomeetriga<footnote
+><para
+>Astronoomidele meeldib see ühik nii väga, et tänapäeval on kasutusel ka <quote
+>kiloparsekid</quote
+> galaktiliste ning <quote
+>megaparsekid</quote
+> galaktikatevaheliste vahemaade mõõtmiseks, kuigi tegelikult on sellised vahemaad liiga suured, et võimaldada parallaksi tegelikult jälgida. Selliste vahemaade määramiseks kasutatakse sootuks teisi meetodeid.</para
+></footnote
+>. </para>
+</sect1>

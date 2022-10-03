@@ -1,0 +1,44 @@
+<sect1 id="ai-zenith">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Der Zenit</title>
+<indexterm
+><primary
+>Zenit</primary>
+<seealso
+>Horizontale Koordinaten</seealso>
+</indexterm>
+<para
+>Der Zenit ist der Punkt im Himmel, den Sie sehen, wenn Sie vom Boden aus <quote
+>genau nach oben</quote
+> schauen. Genauer ist es der Punkt im Himmel mit einer <firstterm
+>Höhe</firstterm
+> von +90 Grad; Es ist der Pol des <link linkend="horizontal"
+>horizontalen Koordinatensystems</link
+>. Geometrisch ist er der Punkt auf der <link linkend="ai-csphere"
+>Himmelssphäre</link
+>, der entsteht, wenn die Himmelssphäre von einer Linie geschnitten wird, die vom Erdmittelpunkt durch Ihren Standort auf der Erdoberfläche geht. </para
+><para
+>Der Zenit ist gemäß der Definition ein Punkt auf dem <link linkend="ai-meridian"
+>lokalen Meridian</link
+>. </para>
+<tip>
+<para
+>Übung:</para>
+<para
+>Sie können auf den Zenit schauen, indem Sie <keycap
+>Z</keycap
+> drücken oder indem Sie <guimenuitem
+>Zenit</guimenuitem
+> aus dem Menü <guimenu
+>Sichtrichtung</guimenu
+> wählen. </para>
+</tip>
+</sect1>

@@ -1,0 +1,38 @@
+<sect1 id="ai-timezones">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tijdzones</title>
+<indexterm
+><primary
+>Tijdzones</primary>
+</indexterm>
+<para
+>De aarde is rond, en wordt altijd voor de helft verlicht door de zon. Omdat de aarde draait, verplaatst de verlichte helft zich echter voortdurend. Wij ervaren dit als de dagen die voorbijgaan, waar we ook op aarde zijn. Op elk moment zijn er plaatsen op aarde die van de donkere helft overgaan naar de verlichte helft (wat we als de <emphasis
+>dageraad</emphasis
+> ervaren). Tegelijkertijd, aan de andere kant van de aarde, gaan de plaatsen over van de verlichte naar de donkere helft (wat daar gezien wordt als de <emphasis
+>avondschemering</emphasis
+>). Dus is de tijd van de dag op de verschillende plaatsen op aarde in de regel niet dezelfde. De lokale zonnetijd is namelijk zo bepaald, dat de kloktijd overal op dezelfde manier de tijd van de dag aangeeft: (ongeveer) 12 uur in de middag als de zon de hoogste stand aan de hemel bereikt (door de lokale meridiaan gaat). </para
+><para
+>Deze lokalisatie van de tijd is tot stand gebracht door de aardbol in 24 stroken te verdelen, van pool tot pool, die we <firstterm
+>Tijdzones</firstterm
+> noemen. In een tijdzone is overal de lokale tijd gelijk, maar in elke zone is de tijd 1 uur <emphasis
+>vroeger</emphasis
+> dan in de naburige zone ten oosten ervan. Dit is eigenlijk een geïdealiseerde vereenvoudiging, de werkelijke grenzen van de tijdzones zijn geen rechte verticale lijnen, omdat ze veelal langs nationale grenzen lopen, en door andere politieke overwegingen.
+</para
+><para
+> Onder andere hierdoor is het gewoonlijk niet precies 12 uur als de zon door de meridiaan gaat, meestal scheelt dat wel een tijd die flink kan oplopen. In Nederland gemiddeld ongeveer 40 minuten in de winter en in de zomer zelfs wel 1 uur en 40 minuten, door de zomertijd. </para
+><para
+>Merk op dat de lokale tijd steeds 1 uur vooruit gaat, wanneer we van tijdzone naar tijdzone reizen in oostelijke richting. Als u op die manier door alle 24 tijdzones reist, loopt uw tijd een hele dag voor ten opzichte van de tijd waarmee u begon! Dit wordt verholpen door de instelling van de <firstterm
+>Internationale Datumgrens</firstterm
+>. Dit is een tijdzonegrens in de Stille oceaan, min of meer langs de meridiaan op 180 graden lengte. De tijd op locaties net ten oosten van de datumgrens loopt 24 uur (dus 1 dag) achter op de tijd juist ten westen ervan. Dit leidt tot interessante zaken. Een directe vlucht van Australië naar Californië komt aan voordat die is vertrokken. Wat ook leuk is is dat de Fiji-eilanden ter weerszijden van de datumgrens liggen. Als u dus een slechte dag heeft op Fiji ten westen van de datumgrens, dan kunt u naar het oosten van Fiji gaan, waarmee u de kans heeft die zelfde dag nog eens te beleven!
+ </para
+><para
+>Noot vertaler: ik zou dat liever op een goede dag doen. </para>
+</sect1>

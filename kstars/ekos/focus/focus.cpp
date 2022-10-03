@@ -15,6 +15,7 @@
 
 // Modules
 #include "ekos/guide/guide.h"
+#include "ekos/manager.h"
 
 // KStars Auxiliary
 #include "auxiliary/kspaths.h"
@@ -149,7 +150,6 @@ Focus::Focus()
         resetButtons();
     });
 
-    setupFilterManager();
     setupOpticalTrainManager();
 }
 
@@ -389,6 +389,27 @@ bool Focus::setFilterWheel(ISD::FilterWheel *device)
 
     m_FilterWheel = device;
 
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            focusFilter->setEnabled(true);
+            filterManagerB->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            focusFilter->setEnabled(false);
+            filterManagerB->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    focusFilter->setEnabled(isConnected);
+    filterManagerB->setEnabled(isConnected);
+
     FilterPosLabel->setEnabled(true);
     focusFilter->setEnabled(true);
 
@@ -520,7 +541,12 @@ void Focus::checkFilter()
         focusFilter->setEnabled(false);
         filterManagerB->setEnabled(false);
 
-        m_FilterManager.reset();
+        if (m_FilterManager)
+        {
+            m_FilterManager->disconnect(this);
+            disconnect(m_FilterManager.get());
+            m_FilterManager.reset();
+        }
         return;
     }
 
@@ -551,6 +577,18 @@ bool Focus::setFocuser(ISD::Focuser *device)
         m_Focuser->disconnect(this);
 
     m_Focuser = device;
+
+    if (m_Focuser)
+    {
+        connect(m_Focuser, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            resetButtons();
+        });
+        connect(m_Focuser, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            resetButtons();
+        });
+    }
 
     checkFocuser();
     return true;
@@ -683,19 +721,22 @@ bool Focus::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            controlGroup->setEnabled(true);
+            ccdGroup->setEnabled(true);
+            tabWidget->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
-            opticalTrainCombo->setEnabled(true);
-            trainLabel->setEnabled(true);
+            controlGroup->setEnabled(false);
+            ccdGroup->setEnabled(false);
+            tabWidget->setEnabled(false);
         });
     }
 
-    controlGroup->setEnabled(m_Camera);
-    ccdGroup->setEnabled(m_Camera);
-    tabWidget->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    controlGroup->setEnabled(isConnected);
+    ccdGroup->setEnabled(isConnected);
+    tabWidget->setEnabled(isConnected);
 
     if (!m_Camera)
         return false;
@@ -3221,7 +3262,7 @@ void Focus::resetButtons()
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
 
-    if (m_Focuser)
+    if (m_Focuser && m_Focuser->isConnected())
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
@@ -3711,31 +3752,15 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
     }
 }
 
-void Focus::refreshFilterManager(ISD::FilterWheel *device)
-{
-    if (m_FilterManager && m_FilterManager->filterWheel() == device)
-        m_FilterManager->refreshFilterModel();
-}
-
 void Focus::setupFilterManager()
 {
     // Do we have an existing filter manager?
     if (m_FilterManager)
-    {
-        // If same filter wheel, no need to setup again.
-        if (m_FilterManager->filterWheel() == m_FilterWheel)
-        {
-            m_FilterManager->refreshFilterProperties();
-            return;
-        }
+        return;
 
-        // Otherwise disconnect and create a new instance.
-        m_FilterManager->disconnect(this);
-        m_FilterManager->close();
-    }
-
-    m_FilterManager.reset(new FilterManager(this));
-    m_FilterManager->setFilterWheel(m_FilterWheel);
+    Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+    // Return global filter manager for this filter wheel.
+    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
     connect(filterManagerB, &QPushButton::clicked, this, [this]()
     {

@@ -1,0 +1,64 @@
+<sect1 id="ai-geocoords">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Współrzędne geograficzne</title>
+<indexterm
+><primary
+>Układ współrzędnych geograficznych</primary
+></indexterm>
+<indexterm
+><primary
+>Długość geograficzna</primary
+><see
+>Układ współrzędnych geograficznych</see
+></indexterm>
+<indexterm
+><primary
+>Szerokość geograficzna</primary
+><see
+>Układ współrzędnych geograficznych</see
+></indexterm>
+<para
+>Lokalizacje na Ziemi mogą być określone za pomocą sferycznego układu współrzędnych. Geograficzny układ współrzędnych jest dostosowany do osi obrotu Ziemi. Określa on dwa kąty, mierzone od środka Ziemi. Jeden kąt zwany jest <firstterm
+>szerokością geograficzną</firstterm
+>, oznacza kąt pomiędzy dowolnym punktem a równikiem. Kolejny kąt nosi nazwę <firstterm
+>długości geograficznej</firstterm
+>, i mierzy kąt <emphasis
+>wzdłuż</emphasis
+> równika dowolnego punktu na Ziemi (Greenwich w Anglii zostało przyjęte jako punkt o zerowej długości geograficznej). </para
+><para
+>Łącząc ze sobą te dwa kąty można wskazać dowolną lokalizację na Ziemi. Na przykład Warszawa ma szerokość geograficzną 52 stopni na północ oraz długość geograficzną 21 stopni na wschód. Tak więc wektor narysowany ze środka Ziemi do punktu 52 stopnie powyżej równika i 21 stopni na wschód od Greenwich będzie przechodził przez Warszawę. </para
+><para
+>Równik jest oczywiście bardzo ważną częścią tego układu współrzędnych; reprezentuje on <emphasis
+>punkt zero</emphasis
+> szerokości geograficznej i jednocześnie połowę drogi pomiędzy biegunami. Równik jest <firstterm
+>płaszczyzną podziału</firstterm
+> geograficznego układu współrzędnych. <link linkend="ai-skycoords"
+>Każdy sferyczny układ współrzędnych</link
+> definiuje taką płaszczyznę podziału. </para
+><para
+>Linie wyznaczające szerokość geograficzną noszą nazwę <firstterm
+>równoleżników</firstterm
+>. Kreślą one koła na powierzchni Ziemi, ale jedyny z nich będący <link linkend="ai-greatcircle"
+>wielkim kołem</link
+> to równik. Linie wyznaczające długość geograficzną to <firstterm
+>południki</firstterm
+>. Południk, który przechodzi przez Greenwich jest <firstterm
+>południkiem zerowym</firstterm
+> (długość geograficzna=0 stopni). W przeciwieństwie do równoleżników wszystkie południki są wielkimi kołami i nie są one względem siebie równoległe: przecinają się na północnym i południowym biegunie. </para>
+<tip>
+<para
+>Ćwiczenie:</para>
+<para
+>Jaka jest długość geograficzna bieguna północnego? Jego szerokość wynosi 90 stopni. </para>
+<para
+>Jest to podchwytliwe pytanie. Długość geograficzna nie ma znaczenia na biegunie północnym (również na biegunie południowym). Biegun posiada wszystkie długości geograficzne jednocześnie. </para>
+</tip>
+</sect1>

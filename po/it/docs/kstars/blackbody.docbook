@@ -1,0 +1,126 @@
+<sect1 id="ai-blackbody">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Radiazione di corpo nero</title>
+<indexterm
+><primary
+>Radiazione di corpo nero</primary>
+<seealso
+>Colori e temperature delle stelle</seealso>
+</indexterm>
+
+<para
+>Con <firstterm
+>corpo nero</firstterm
+> si fa riferimento a un oggetto che emette <firstterm
+>radiazione termica</firstterm
+>. Un corpo nero perfetto assorbe tutta la luce incidente senza rifletterla. Alla temperatura ambiente un oggetto di questo tipo apparirebbe perfettamente nero (da cui il termine <emphasis
+>corpo nero</emphasis
+>) Tuttavia, se portato ad alte temperature, un corpo nero inizierà ad emettere <firstterm
+>radiazione termica</firstterm
+>. </para>
+
+<para
+>Tutti gli oggetti emettono radiazione termica (fintantoché la loro temperatura è al di sopra dello zero assoluto, o -273,15 gradi Celsius), ma nessun oggetto è davvero un emettitore perfetto; piuttosto, emetterà/assorbirà certe lunghezze d'onda della luce meglio di altre. Queste efficienze variabili rendono difficile studiare l'interazione di luce, calore e materia usando oggetti comuni. </para>
+
+<para
+>Fortunatamente, è possibile realizzare un corpo nero quasi perfetto. Costruisci una scatola di materiale termoconduttivo, come il metallo. La scatola dovrebbe essere completamente chiusa da tutti i lati, in modo che l'interno non riceva luce dall'ambiente circostante. Quindi pratica un piccolo buco in un punto della scatola. La luce uscente da questo buco sarà quasi identica a quella di un corpo nero ideale, dato che la temperatura dell'aria nella scatola è costante. </para>
+
+<para
+>All'inizio del ventesimo secolo, gli scienziati Lord Rayleigh e Max Planck (tra gli altri) studiarono la radiazione di corpo nero con uno strumento simile. Dopo molto lavoro, Planck fu in grado di descrivere empiricamente l'intensità della luce emessa da un corpo nero in funzione della lunghezza d'onda. Riuscì inoltre a descrivere come questo spettro varia al variare della temperatura. Il lavoro di Planck sulla radiazione di corpo nero è uno dei campi della fisica che portarono alla fondazione della meravigliosa scienza della Meccanica Quantistica, ma ciò va sfortunatamente oltre lo scopo di questo articolo. </para>
+
+<para
+>Ciò che Planck e gli altri scoprirono è che, al crescere della temperatura di un corpo nero, la luce complessiva emessa per secondo aumenta, e la lunghezza d'onda del picco dello spettro si sposta verso colori più blu (vedi Figura 1). </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="blackbody.png" format="PNG"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Figura 1</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Per esempio, una barra di ferro diventa di colore rosso/arancione se scaldata ad alta temperatura, e il suo colore cambia progressivamente verso il blu e il bianco con l'aumentare della temperatura. </para>
+
+<para
+>Nel 1893, il fisico tedesco Wilhelm Wein quantificò la relazione tra temperatura del corpo nero e lunghezza d'onda del picco spettrale con la seguente equazione: </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="lambda_max.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>dove T è la temperatura in Kelvin. La legge di Wien (nota anche come legge dello spostamento di Wien) afferma che la lunghezza d'onda della massima emissione di un corpo nero è inversamente proporzionale alla sua temperatura. Ciò ha senso: la luce di minor lunghezza d'onda (e maggior frequenza) corrisponde a fotoni di energia più alta, come ci si aspetta da un oggetto a temperatura maggiore. </para>
+
+<para
+>Per esempio, il Sole ha una temperatura medio di 5800 K, con una lunghezza d'onda di massima emissione pari a: <mediaobject
+> <imageobject>
+<imagedata fileref="lambda_ex.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>Questa lunghezza d'onda cade nella regione verde dello spettro visibile, ma la radiazione continua del Sole emette fotoni a lunghezze d'onda maggiori e minori di lambda(max), e l'occhio umano percepisce come giallo/bianco il suo colore. </para>
+
+<para
+>Nel 1879, il fisico austriaco Stephan Josef Stefan dimostrò che la luminosità L di un corpo nero è proporzionale alla quarta potenza della sua temperatura T. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="luminosity.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>dove A è l'area superficiale, alfa è una costante di proporzionalità e T è la temperatura in Kelvin. Sarebbe a dire che se raddoppiamo la temperatura (per esempio da 1000 a 2000 K) l'energia totale irradiata da un corpo nero cresce di un fattore 2<superscript
+>4</superscript
+> o 16. </para>
+
+<para
+>Cinque anni dopo, il fisico austriaco Ludwig Boltzmann derivò la medesima equazione, che è ora nota come legge di Stefan-Boltzmann. Considerando una stella sferica di raggio R, la sua luminosità sarà pari a </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="luminosity_ex.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>dove R è il raggio stellare in cm, e alfa è la costante di Stefan-Boltzmann, che ha il valore: <mediaobject
+> <imageobject>
+<imagedata fileref="alpha.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+</sect1>

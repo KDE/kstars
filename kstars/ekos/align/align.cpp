@@ -215,7 +215,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     setupPlot();
     setupSolutionTable();
     setupOptions();
-    setupFilterManager();
 
     // Load all settings
     loadGlobalSettings();
@@ -617,20 +616,28 @@ bool Align::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            controlBox->setEnabled(true);
+            gotoBox->setEnabled(true);
+            plateSolverOptionsGroup->setEnabled(true);
+            tabWidget->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
+            controlBox->setEnabled(false);
+            gotoBox->setEnabled(false);
+            plateSolverOptionsGroup->setEnabled(false);
+            tabWidget->setEnabled(false);
+
             opticalTrainCombo->setEnabled(true);
             trainLabel->setEnabled(true);
         });
     }
 
-    controlBox->setEnabled(m_Camera);
-    gotoBox->setEnabled(m_Camera);
-    plateSolverOptionsGroup->setEnabled(m_Camera);
-    tabWidget->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    controlBox->setEnabled(isConnected);
+    gotoBox->setEnabled(isConnected);
+    plateSolverOptionsGroup->setEnabled(isConnected);
+    tabWidget->setEnabled(isConnected);
 
     if (!m_Camera)
         return false;
@@ -2816,8 +2823,23 @@ bool Align::setFilterWheel(ISD::FilterWheel *device)
 
     m_FilterWheel = device;
 
-    FilterPosLabel->setEnabled(true);
-    alignFilter->setEnabled(true);
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            alignFilter->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            alignFilter->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    alignFilter->setEnabled(isConnected);
 
     checkFilter();
     return true;
@@ -2859,8 +2881,9 @@ void Align::checkFilter()
         return;
     }
 
-    FilterPosLabel->setEnabled(true);
-    alignFilter->setEnabled(true);
+    auto isConnected = m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    alignFilter->setEnabled(isConnected);
 
     setupFilterManager();
 
@@ -3241,21 +3264,11 @@ void Align::setupFilterManager()
 {
     // Do we have an existing filter manager?
     if (m_FilterManager)
-    {
-        // If same filter wheel, no need to setup again.
-        if (m_FilterManager->filterWheel() == m_FilterWheel)
-        {
-            m_FilterManager->refreshFilterProperties();
-            return;
-        }
+        return;
 
-        // Otherwise disconnect and create a new instance.
-        m_FilterManager->disconnect(this);
-        m_FilterManager->close();
-    }
-
-    m_FilterManager.reset(new FilterManager(this));
-    m_FilterManager->setFilterWheel(m_FilterWheel);
+    Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+    // Return global filter manager for this filter wheel.
+    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
     connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
@@ -3265,8 +3278,7 @@ void Align::setupFilterManager()
             filterPositionPending = false;
             captureAndSolve();
         }
-    }
-           );
+    });
 
     connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {

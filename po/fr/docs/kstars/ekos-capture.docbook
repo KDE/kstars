@@ -1,0 +1,751 @@
+<sect2 id="ekos-capture">
+    <title
+>Acquisition</title>
+    <indexterm>
+        <primary
+>Outils</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Acquisition</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Acquisition Ekos </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_capture.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Acquisition Ekos</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>Le module CDD est le module d'acquisition d'images et de vidéos d'Ekos. Il permet l'acquisition d'image unique (aperçu), d'images multiples (file de séquence) et d'enregistrer des vidéos au format <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>SER</ulink
+> tout en gérant éventuellement une roue à filtres et un rotateur si ces périphériques sont disponibles. </para>
+    <sect3 id="capture-ccd-filter-wheel">
+        <title
+>CCD et roue à filtres</title>
+        <para
+>Veuillez sélectionner le CCD/APN et la roue à filtres (si disponible) pour l'acquisition. Réglez la température du CDD et la configuration des filtres. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Caméra</guilabel
+> : sélectionnez la caméra CCD active. Si la caméra possède un guide, vous pouvez également le sélectionner ici. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Roue à filtres (RF)</guilabel
+> : sélectionnez le périphérique actif de roue à filtre. Si votre caméra possède une roue à filtres intégrée, le périphérique sera le même que la caméra. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Refroidissement</guilabel
+> : (dés)activez le refroidisseur. Vous pouvez régler la température souhaitée de la caméra si elle possède un refroidisseur. Cochez cette option pour forcer les réglages de température avant l'acquisition. Celle-ci ne débute que lorsque la température mesurée se trouve dans la plage de tolérance de température. La tolérance <emphasis
+>par défaut</emphasis
+> est de 0,1 degrés Celsius mais peut être modifiée dans les options du module d'<guilabel
+>Acquisition</guilabel
+> d'Ekos. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+    <sect3 id="capture-settings">
+        <title
+>Réglages de l'acquisition</title>
+        <screenshot>
+            <screeninfo
+>Réglages de l'acquisition </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="capture_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages de l'acquisition</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Configurez tous les paramètres d'acquisition comme détaillé ci-dessous. Une fois réglé, vous pouvez acquérir un aperçu en cliquant sur le bouton <guibutton
+>Aperçu</guibutton
+> ou ajouter une tâche à la séquence. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Durée d'exposition</guilabel
+> : spécifie la durée d'exposition en secondes. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Filtre</guilabel
+> : spécifie le filtre désiré. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Nombre</guilabel
+> : spécifie le nombre d'images à acquérir. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Délai</guilabel
+> : spécifie la durée entre deux acquisitions en secondes. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Type</guilabel
+> : spécifie le type de trames CCD. Les options sont <guimenuitem
+>Light</guimenuitem
+>, <guimenuitem
+>Dark</guimenuitem
+>, <guimenuitem
+>Bias</guimenuitem
+> et <guimenuitem
+>Flat</guimenuitem
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>ISO</guilabel
+> : spécifie la valeur ISO (seulement pour les APN). </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Format</guilabel
+> : spécifie le format d'enregistrement des images. Pour tous les CCD, seule l'option <guimenuitem
+>FITS</guimenuitem
+> est disponible. Pour les APN, vous pouvez enregistrer les images au format <guimenuitem
+>Natif</guimenuitem
+> (&cad; RAW ou JPEG, mais préférez RAW) en plus du format <guimenuitem
+>FITS</guimenuitem
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Propriétés personnalisables</guilabel
+> : permet de régler les propriétés étendues disponibles dans la caméra pour la configuration des tâches. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Calibration</guilabel
+> : pour les trames Dark et Flat, vous pouvez spécifier des options additionnelles expliquées dans la section de la <link linkend="capture-calibration-frames"
+>calibrations des trames</link
+> ci-dessous. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Trame</guilabel
+> : spécifie l'origine gauche (X), haute (Y), la largeur (W) et la hauteur (H) des trames du CCD. Si vous avez modifié la dimension des trames, vous pouvez la réinitialiser en cliquant sur le bouton <guibutton
+>Réinitialiser</guibutton
+>. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Groupement de pixels</guilabel
+> : spécifie le groupement de pixels horizontal (X) et vertical (Y) (binning en anglais). </para>
+            </listitem>
+        </itemizedlist>
+        <sect4 id="capture-custom-properties">
+            <title
+>Propriétés personnalisables</title>
+            <para
+>Beaucoup de caméras proposent des propriétés additionnelles qui ne peuvent pas être directement contrôlées dans les réglages de l'acquisition en utilisant les commandes communes. Les commandes d'acquisition décrites ci-dessus représentent les réglages les plus courants qui sont partagés par les différentes caméras mais chaque caméra est unique et peut proposer des propriétés étendues propres. Bien que vous puissiez utiliser le tableau de bord d'INDI pour régler les propriétés du pilote, il est important de pouvoir régler ces propriétés pour chaque tâche de la séquence. Quand vous cliquez sur le bouton <guibutton
+>Propriétés personnalisables</guibutton
+>, une boîte de dialogue apparaît divisée en <guilabel
+>Propriétés disponibles</guilabel
+> et <guilabel
+>Propriétés de la tâche</guilabel
+>. En déplaçant une <guilabel
+>Propriétés disponibles</guilabel
+> vers la liste des <guilabel
+>Propriétés de la tâche</guilabel
+>, sa valeur courante peut être enregistrée en cliquant sur le bouton <guibutton
+>Appliquer</guibutton
+>. Quand vous ajoutez une tâche à la <guilabel
+>file d'attente des séquences</guilabel
+>, les valeurs des propriétés sélectionnées dans la liste des <guilabel
+>Propriétés de la tâche</guilabel
+> seront enregistrées. </para>
+            <para
+>La prochaine vidéo explique ce concept en détails avec un exemple concret : </para>
+            <mediaobject>
+                <videoobject>
+                    <videodata contentdepth="450" contentwidth="800" fileref="https://www.stellarmate.com/images/fss/videos/custom_properties.mp4"
+></videodata>
+                </videoobject>
+                <caption>
+                    <para>
+                        <phrase
+>Fonctionnalité des propriétés personnalisables</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        </sect4>
+    </sect3>
+
+    <sect3 id="capture-file-settings">
+        <title
+>Réglages des fichiers</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages des fichiers </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="file_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages des fichiers</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Les réglages qui spécifient le dossier d'enregistrement des images et la manière de générer des noms de fichier unique et également les modes de téléversement. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Préfixe</guilabel
+> : spécifie le préfixe à ajouter au nom généré. Vous pouvez également ajouter le type de trame, le filtre, la durée d'exposition et l'horodatage au format ISO 8601. Par exemple, si vous spécifiez un préfixe <userinput
+>M45</userinput
+> et cochez les cases Type et Filtre avec un filtre <guimenuitem
+>Rouge</guimenuitem
+> et un type <guimenuitem
+>Light</guimenuitem
+>, le nom généré ressemblera à : </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_Light_Rouge_001.fits </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_Light_Rouge_002.fits </para>
+                    </listitem>
+                </itemizedlist>
+                <para
+>Si la case <guilabel
+>HD</guilabel
+> est cochée, un horodatage sera ajouté au nom de fichier, &eg; : </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_Light_Rouge_001_2016-11-09T23-47-46.fits</para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_Light_Rouge_002_2016-11-09T23-48-34.fits</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Script</guilabel
+> : spécifie un script facultatif à exécuter après chaque acquisition. Le chemin complet du script doit être indiqué et il doit être exécutable. Une valeur de zéro doit être retournée en cas de succès afin de permettre à la séquence de continuer. Si une valeur différente de zéro est retournée par le script, alors la séquence sera interrompue. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Répertoire</guilabel
+> : spécifie le dossier local d'enregistrement des images. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Téléversement</guilabel
+> : spécifie comment les images doivent être téléversées. </para>
+                <orderedlist>
+                    <listitem>
+                        <para
+><guilabel
+>Client</guilabel
+> : les images sont téléversées vers Ekos et enregistrées dans le dossier local spécifié ci-dessus.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Local</guilabel
+> : les images sont enregistrées en local sur l'ordinateur distant.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Les deux</guilabel
+> : les images sont enregistrées sur l'ordinateur distant <emphasis role="bold"
+>et</emphasis
+> téléversées vers Ekos.</para>
+                    </listitem>
+                </orderedlist>
+                <para
+>Si vous spécifiez <guimenuitem
+>Local</guimenuitem
+> ou <guimenuitem
+>Les deux</guimenuitem
+>, vous devez indiquer le dossier distant pour l'enregistrement des images. Par défaut, toutes les images sont téléversées vers Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>À distance</guilabel
+> : si vous sélectionnez <guimenuitem
+>Local</guimenuitem
+> ou <guimenuitem
+>Les deux</guimenuitem
+>, vous devez indiquer le dossier distant d'enregistrement des images. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-limit-settings">
+        <title
+>Réglages des limites</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages des limites </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="limit_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages des limites</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Les réglages des limites sont applicables à toutes les images dans la file d'attente des séquences. Quand une limite est dépassée, Ekos déclenchera l'action appropriée pour remédier à la situation comme expliqué ci-dessous. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Déviation de guidage</guilabel
+> : si cette option est cochée, la déviation maximale de guidage pour une exposition est appliquée. Si la déviation de guidage (mesurée en secondes d'arc) est dépassée, la séquence est interrompue. Elle reprendra dès que la déviation de guidage redeviendra inférieure à la limite.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Mise au point automatique si HFR &gt;</guilabel
+> : si la mise au point automatique est activée dans le <link linkend="ekos-focus"
+>module de mise au point</link
+> et qu'au moins une opération de mise au point automatique s'est terminée avec succès, vous pouvez indiquer la valeur maximale de HFR acceptable. Si cette option est activée, alors la valeur HFR est recalculée entre chaque acquisition ; si cette valeur dépasse la valeur limite acceptable, une mise au point automatique est déclenchée. En cas de succès, la séquence reprend, sinon elle est interrompue.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Retournement au méridien</guilabel
+> : si cela est géré par la monture, spécifie l'angle horaire limite (en heures) avant qu'un <ulink url="https://astronomy.mdodd.com/gem_movement.html"
+>retournement au méridien</ulink
+> soit déclenché. Par exemple si vous spécifiez la durée de retournement au méridien à 0,1 heure, alors Ekos attendra que la monture dépasse le méridien de 0,1 heure (6 minutes) pour déclencher le retournement au méridien. Ensuite Ekos réalisera un alignement en utilisant astrometry.net (si <link linkend="ekos-align"
+>l'alignement</link
+> est utilisé) et reprendra le guidage (s'il était démarré avant cette opération) et l'acquisition.</para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-sequence-queue">
+        <title
+>File d'attente des séquences</title>
+
+        <para
+>La file d'attente des séquences est la plateforme principale du module d'acquisition d'Ekos. C'est l'endroit où vous planifiez et exécutez les tâches en utilisant le puissant ordonnanceur intégré. Pour ajouter une tâche, il suffit de sélectionner tous les paramètres des réglages de l'acquisition et du nommage de fichier comme indiqué ci-dessus. Ensuite, cliquez sur le bouton d'ajout <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> de la file d'attente des séquences pour l'ajouter à la file d'attente. </para>
+        <screenshot>
+            <screeninfo
+>File d'attente des séquences </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="sequence_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>File d'attente des séquences</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Vous pouvez ajouter autant de tâches que désirées. Bien que cela ne soit pas strictement nécessaire, il est préférable d'ajouter les tâches d'acquisition de Dark et de Flat après celles de Light. Une fois que vous avez terminé d'ajouter des tâches, cliquez simplement sur le bouton <guibutton
+>Démarrer séquence</guibutton
+> <inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-start.png" format="PNG"/></imageobject
+></inlinemediaobject
+> pour débuter l'exécution des tâches. L'état d'une tâche passe de <guilabel
+>Inactif</guilabel
+> à <guilabel
+>En progrès</guilabel
+> et enfin <guilabel
+>Complété</guilabel
+> une fois terminée. La file d'attente des séquences démarre ensuite automatiquement la prochaine tâche. Si une tâche est interrompue, elle peut être reprise. Pour mettre une tâche en pause, cliquez sur le bouton <inlinemediaobject
+><imageobject
+><imagedata fileref="view-refresh.png" format="PNG"/></imageobject
+></inlinemediaobject
+> et la tâche sera arrêtée <emphasis role="bold"
+>après que l'acquisition en cours soit terminée</emphasis
+>. Pour réinitialiser l'état de toutes les tâches, cliquez simplement sur le bouton de réinitialisation <inlinemediaobject
+><imageobject
+><imagedata fileref="view-refresh.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Veuillez noter que cela réinitialise également le compteur de progression de toutes les images. Pour afficher un aperçu d'une image dans l'afficheur FITS de &kstars;, cliquez sur le bouton <guibutton
+>Aperçu</guibutton
+>. </para>
+        <para
+>Les séquences peuvent être enregistrées dans un fichier au format &XML; d'extension <literal role="extension"
+>.esq</literal
+> (Ekos Sequence Queue). Pour charger une séquence, cliquez sur le bouton <inlinemediaobject
+><imageobject
+><imagedata fileref="document-open.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Veuillez noter que cela <emphasis
+>remplacera</emphasis
+> toute séquence déjà dans la file d'attente d'Ekos. </para>
+
+        <important>
+            <para
+><emphasis role="bold"
+>Progression des tâches</emphasis
+> : Ekos est conçu pour exécuter les séquences sur plusieurs nuits si nécessaire. Ainsi, si l'option <guilabel
+>Se rappeler de la progression des tâches</guilabel
+> est activée dans les <link linkend="ekos"
+>options d'Ekos</link
+>, Ekos fera un scan du système de fichiers pour déterminer le nombre d'images déjà présentes et terminées et reprendra la séquence au point où il s'était arrêté. Si ce n'est pas le comportement désiré, vous pouvez simplement désactiver cette option. </para>
+        </important>
+
+        <para
+>Pour modifier une tâche, il faut double cliquer sur son nom. Remarquez comment le bouton d'ajout <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> s'est modifié en un bouton coché <inlinemediaobject
+><imageobject
+><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Faites vos changements dans le panneau gauche du module CCD et ensuite cliquez sur la coche pour appliquer. Pour annuler la modification, cliquez n'importe où dans un espace vide de la table de séquences. </para>
+        <para
+>Si votre caméra gère les vidéos en direct, vous pouvez cliquer sur le bouton <guilabel
+>Vidéo en direct</guilabel
+> pour débuter la diffusion en continu. La fenêtre de diffusion permet l'enregistrement et l'extraction de trames de la vidéo. </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/qRsAqTL4ZZI"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Fonctionnalité d'enregistrement</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="capture-filter-settings">
+        <title
+>Réglages des filtres</title>
+
+        <screenshot>
+            <screeninfo
+>File d'attente des filtres </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="filter_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Filtre d'attente des filtres</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Cliquez sur l'icône du filtre <inlinemediaobject
+><imageobject
+><imagedata fileref="view-filter.png" format="PNG"/></imageobject
+></inlinemediaobject
+> pour ouvrir la boîte de dialogue de réglages des filtres. Si vous utilisez des filtres qui ne sont pas tous parfocaux entre eux et requièrent par conséquent des réglages de mise au point différents, vous pouvez configurer ces réglages dans cette fenêtre. </para>
+        <para
+>Configuration individuelle des réglages de chaque filtre : </para>
+        <orderedlist>
+            <listitem>
+                <para
+><guilabel
+>Filtre</guilabel
+> : spécifie le nom du filtre. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Exposition</guilabel
+> : spécifie la durée d'exposition lors de la réalisation de la mise au point avec ce filtre. Par défaut, cette valeur vaut une seconde. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Décalage</guilabel
+> : spécifie les décalages relatifs. Ekos déclenchera une mise au point avec ce décalage s'il existe une différence entre le décalage du filtre courant et le filtre cible. Par exemple avec les données de l'image, si le filtre courant est le <emphasis
+>Rouge</emphasis
+> et que le prochain filtre est le <emphasis
+>Vert</emphasis
+>, alors Ekos commandera au moteur de mise au point de rentrer de +300 crans. Des décalages relatifs de mise au point positifs indique un déplacement vers l'extérieur alors que des valeurs négatives indiquent un mouvement vers l'intérieur. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Mise au point automatique</guilabel
+> : sélectionnez cette option pour déclencher une mise au point automatique lorsque le filtre est changé pour ce filtre. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Verrouiller le filtre</guilabel
+> : spécifie le filtre à configurer et à <emphasis
+>verrouiller</emphasis
+> quand la mise au point automatique est réalisée pour ce filtre. </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Prenons un exemple. Supposons qu'une séquence d'acquisitions est en cours et que le filtre courant est le <guilabel
+>Vert</guilabel
+>, ainsi le décalage relatif est de +300. La prochaine image de la séquence utilise le filtre d'hydrogène alpha (Hα), donc avant qu'Ekos prenne la prochaine trame, les actions suivantes seront réalisées : </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Comme la luminosité est spécifiée comme étant le filtre verrouillé et que la mise au point automatique est activée, le filtre est changé en luminosité. </para>
+            </listitem>
+            <listitem>
+                <para
+>Un décalage de mise au point de -300 est appliqué puisque le filtre précédent <guilabel
+>Vert</guilabel
+> avait été déplacé à +300 auparavant. </para>
+            </listitem>
+            <listitem>
+                <para
+>La procédure de mise au point automatique est initialisée. </para>
+            </listitem>
+            <listitem>
+                <para
+>Dès qu'elle est terminée, le filtre est changé en Hα. </para>
+            </listitem>
+            <listitem>
+                <para
+>Un décalage de mise au point de -1200 est appliqué. </para>
+            </listitem>
+            <listitem>
+                <para
+>La séquence d'acquisition reprend. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-fits-viewer">
+        <title
+>Afficheur FITS</title>
+
+        <para
+>Les images sont affichées dans l'outil d'affichage de &kstars; ainsi que dans l'écran de résumé. Vous pouvez spécifier les options d'affichage de l'afficheur. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Dark automatique</guilabel
+> : vous pouvez soustraire automatiquement un Dark d'une image en cochant cette option. Veuillez noter que cette option n'est disponible que lors de l'utilisation de l'<guilabel
+>aperçu</guilabel
+>. Il n'est pas possible de l'utiliser en mode traitements par lots. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Effets</guilabel
+> : filtre d'amélioration d'une image à appliquer après son acquisition. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-rotation-settings">
+        <title
+>Réglages du rotateur</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages du rotateur </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_rotator_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages du rotateur</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Les rotateurs de champs sont gérés par INDI et Ekos. L'angle du rotateur est l'angle rapporté par le rotateur mais n'est pas nécessairement <ulink url="https://fr.wikipedia.org/wiki/Angle_de_position"
+>l'angle de position</ulink
+>. Un angle de position de zéro indique que le haut d'une trame (repéré par une petite flèche) pointe <emphasis
+>directement</emphasis
+> vers le pôle. L'angle de position est exprimé en degrés de l'est par rapport au nord, ainsi, un angle de position de 90 indique que le <emphasis
+>haut</emphasis
+> d'une trame pointe à 90 degrés (sens antihoraire) du pôle. Quelques <ulink url="http://www.dibonsmith.com/orbits.htm"
+>exemples</ulink
+> d'angle de position d'étoiles binaires. </para>
+        <para
+>Afin de calibrer l'angle de position (AP), prenez une image et resolvez-là dans le <link linkend="ekos-align"
+>module d'alignement</link
+> d'Ekos. Un <emphasis
+>décalage</emphasis
+> et un <emphasis
+>coefficient multiplicateur</emphasis
+> sont appliqués à l'angle brute pour calculer l'angle de position. La boîte de dialogue du rotateur d'Ekos permet un contrôle direct de l'angle brut et de l'angle de position. Le décalage et le coefficient multiplicateur peuvent être modifiés manuellement afin de synchroniser l'angle brute du rotateur avec l'angle de position actuel. Cochez <guilabel
+>Synchroniser CdV vers AP</guilabel
+> pour effectuer la rotation de l'indicateur du champ de vision courant sur la carte du ciel avec la valeur d'angle de position. </para>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/V_hRPMlPjmA"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Réglages du rotateur</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <para
+>On peut assigner à chaque tâche d'acquisition un angle de rotation différent mais soyez conscient que cela peut causer l'interruption du guidage puisque l'étoile guide sera perdue pendant la rotation. Ainsi, pour la plupart des séquences, l'angle du rotateur est identique pour toutes les tâches d'acquisition. </para>
+    </sect3>
+
+    <sect3 id="capture-calibration-frames">
+        <title
+>Trames de calibration</title>
+
+        <screenshot>
+            <screeninfo
+>Réglages de la calibration </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="calibration_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Réglages de la calibration</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Pour les trames de champ uniforme (Flat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames Dark et Bias. Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon antipoussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les Flats, vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul d'ADU (Analog Digital Unit ou pas de quantification). </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Source de lumière pour le Flat <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manuel</guilabel
+> : la source de lumière est manuelle.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Bouchon antipoussière avec source de lumière intégrée</guilabel
+> : pour l'utilisation de ce type d'appareil (p. ex. FlipFlat). Pour les trames Dark et Bias, veillez à fermer le bouchon antipoussière avant de commencer. Pour les trames Flat, fermez le bouchon antipoussière et allumez la source de lumière.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Bouchon antipoussière avec source de lumière externe</guilabel
+> : pour l'utilisation de bouchon antipoussière avec source de lumière externe. Pour les trames Dark et Bias, veuillez à fermer le bouchon antipoussière avant de commencer. Pour les trames Flat, fermez le bouchon antipoussière et allumer la source de lumière. L'emplacement de la source externe de lumière pour les Flats est présumée être la position de parcage.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Mur</guilabel
+> : la source de lumière est un panneau placé contre un mur. Spécifier les coordonnées d'azimut et d'altitude du panneau et la monture pivotera dans cette direction avant de débuter l'acquisition des trames de Flats. Si le panneau de lumière est contrôlable par INDI, Ekos se chargera de l'allumer et de l'éteindre.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Aube/Crépuscule</guilabel
+> : non géré actuellement.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+>Durée d'exposition de l'acquisition de Flat <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manuelle</guilabel
+> : la durée est spécifiée dans la file d'attente de la séquence.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>ADU</guilabel
+> : la durée est variable jusqu'à que la valeur ADU soit atteinte.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Avant le début de la procédure d'acquisition de la calibration, vous pouvez demander à Ekos de parquer la monture et/ou le dôme. Selon la sélection de la source de Flat ci-dessus, Ekos va utiliser la source de lumière appropriée pour les Flats avant de commencer l'acquisition des trames de Flat. Si une valeur ADU est spécifiée, Ekos commence par prendre une série d'images pour établir la courbe nécessaire pour atteindre la valeur ADU souhaitée. Une fois que cette valeur est calculée, une nouvelle image est prise et l'ADU est recalculée jusqu'à ce que la valeur souhaitée soit atteinte. </para>
+    </sect3>
+
+    <sect3 id="capture-video-tutorials">
+        <title
+>Tutoriels vidéos</title>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/Gz07j7VPnpc"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Acquisition</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/yfz9_UJIvLY"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Roues à filtres</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+</sect2>

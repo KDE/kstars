@@ -1,0 +1,32 @@
+<sect1 id="ai-greatcircle">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Great Circles</title>
+<indexterm
+><primary
+>Great Circles</primary>
+<seealso
+>Celestial Sphere</seealso>
+</indexterm>
+<para
+>Consider a sphere, such as the Earth, or the <link linkend="ai-csphere"
+>Celestial Sphere</link
+>. The intersection of any plane with the sphere will result in a circle on the surface of the sphere. If the plane happens to contain the centre of the sphere, the intersection circle is a <firstterm
+>Great Circle</firstterm
+>. Great circles are the largest circles that can be drawn on a sphere. Also, the shortest path between any two points on a sphere is always along a great circle. </para
+><para
+>Some examples of great circles on the celestial sphere include: the <link linkend="ai-horizon"
+>Horizon</link
+>, the <link linkend="ai-cequator"
+>Celestial Equator</link
+>, and the <link linkend="ai-ecliptic"
+>Ecliptic</link
+>. </para>
+</sect1>

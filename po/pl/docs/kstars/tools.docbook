@@ -1,0 +1,73 @@
+<chapter id="tools">
+<title
+>Narzędzia KStars</title>
+<para>
+<indexterm
+><primary
+>Narzędzia</primary
+></indexterm
+> &kstars; jest dostarczany z zestawem narzędzi, które pozwalają poznać niektóre bardziej zaawansowane aspekty astronomii i nocnego nieba. </para>
+
+<itemizedlist>
+<listitem
+><para
+><link linkend="tool-details"
+>Szczegóły obiektu</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-calculator"
+>Kalkulator</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-aavso"
+>Krzywe jasności AAVSO</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-altvstime"
+>Wysokość w czasie</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-whatsup"
+>Co dziś na niebie</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-scriptbuilder"
+>Budowanie skryptów</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-solarsys"
+>Widok Układu Słonecznego</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-jmoons"
+>Księżyce Jowisza</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-observinglist"
+>Lista obserwowanych</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="tool-fitsviewer"
+>Przeglądarka FITS</link
+></para
+></listitem>
+</itemizedlist>
+&tool-details; &tool-calculator; &tool-aavso; &tool-altvstime; &tool-whatsup; &tool-scriptbuilder; &tool-solarsys; &tool-jmoons; &tool-observinglist; &tool-fitsviewer; </chapter>

@@ -1,0 +1,102 @@
+<sect1 id="tool-calculator">
+<title
+>Калькулятор</title>
+<indexterm
+><primary
+>Инструменты</primary>
+<secondary
+>Калькулятор</secondary>
+</indexterm>
+
+<para
+>Калькулятор &kstars; содержит несколько модулей, которые предоставляют прямой доступ к алгоритмам, используемым в программе. Модули организованы по теме. <itemizedlist
+><title
+>Преобразование координат</title>
+<listitem
+><para
+><link linkend="calc-angdist"
+>Угловое расстояние</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-apcoords"
+>Видимые координаты</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-ecliptic"
+>Эклиптические координаты</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-eqgal"
+>Экваториальные/галактические координаты</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-horiz"
+>Горизонтальные координаты</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-precess"
+>Прецессия</link
+></para
+></listitem>
+</itemizedlist>
+<itemizedlist
+><title
+>Земные координаты</title>
+<listitem
+><para
+><link linkend="calc-geodetic"
+>Геодезические координаты</link
+></para
+></listitem>
+</itemizedlist>
+<itemizedlist
+><title
+>Солнечная система</title>
+<listitem
+><para
+><link linkend="calc-planetcoords"
+>Координаты планет</link
+></para
+></listitem>
+</itemizedlist>
+<itemizedlist
+><title
+>Вычисление времени</title>
+<listitem
+><para
+><link linkend="calc-dayduration"
+>Продолжительность дня</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-equinox"
+>Равноденствия и солнцестояния</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-julian"
+>Юлианский день</link
+></para
+></listitem>
+<listitem
+><para
+><link linkend="calc-sidereal"
+>Звёздное время</link
+></para
+></listitem>
+</itemizedlist>
+</para>
+&calc-angdist; &calc-apcoords; &calc-ecliptic; &calc-eqgal; &calc-horiz; &calc-precess; &calc-geodetic; &calc-planetcoords; &calc-dayduration; &calc-equinox; &calc-julian; &calc-sidereal; </sect1>
+

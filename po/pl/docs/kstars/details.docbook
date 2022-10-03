@@ -1,0 +1,110 @@
+<sect1 id="tool-details">
+<title
+>Okno Szczegóły obiektu</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Okno Szczegóły obiektów</secondary
+></indexterm>
+<indexterm
+><primary
+>Obiekty na niebie</primary>
+<secondary
+>Szczegóły</secondary
+></indexterm>
+
+<screenshot>
+<screeninfo
+>Okno Szczegóły obiektu </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="detaildialog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Okno Szczegóły obiektu</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Okno właściwości obiektów pokazuje szczegółowe dane na temat niektórych obiektów na niebie. Narzędzie to jest dostępne po kliknięciu <mousebutton
+>prawym</mousebutton
+> przyciskiem myszy i wybraniu opcji <guimenuitem
+>Szczegóły</guimenuitem
+> z menu. </para>
+<para
+>Okno podzielone jest na kilka części. Na karcie <guilabel
+>Ogólne</guilabel
+>prezentowane są szczegółowe dane na temat wybranego obiektu. Te dane to: nazwa, opis katalogowy, typ obiektu, <link linkend="ai-magnitude"
+>wielkość gwiazdowa</link
+>. Pokazane są także współrzędne równikowe i horyzontalne, a także czasy wschodu, zachodu i górowania. </para>
+<para>
+<indexterm
+><primary
+>Obiekty na niebie</primary>
+<secondary
+>Odnośniki</secondary>
+<tertiary
+>Dopasowanie</tertiary
+></indexterm>
+Na karcie <guilabel
+>Odnośniki</guilabel
+>, można zarządzać odnośnikami internetowymi związanymi z danym obiektem. Wyszczególnione są odnośniki do obrazów i informacji. Są to odnośniki pojawiające się w menu po kliknięciu na obiekcie <mousebutton
+>prawym</mousebutton
+> przyciskiem myszy. Dzięki opcji <guibutton
+>Dodaj odnośnik...</guibutton
+> można dodawać własne odnośniki internetowe. Otwiera to okno w którym wprowadzamy adres URL oraz nazwę nowego odnośnika (można także sprawdzić w oknie przeglądarki poprawność podanego adresu URL). Należy pamiętać o tym, że odnośnik może wskazywać na plik na dysku lokalnym, tak więc można użyć tej opcji do katalogowania własnych obrazów i plików obserwacji astronomicznych. </para>
+<para
+>Przy użyciu <guibutton
+>Zmień odnośnik...</guibutton
+> lub <guibutton
+>Usuń odnosnik...</guibutton
+> można zmodyfikować bądź usunąć odnośnik. </para>
+<para
+>Karta <guilabel
+>Zaawansowane</guilabel
+> pozwala na wysłanie zapytania do profesjonalnej internetowej bazy danych, dotyczącego obecnie obserwowanego obiektu. By użyć konkretnej bazy należy ją podświetlić oraz wcisnąć przycisk <guibutton
+>Widok</guibutton
+>, po czym zostaną wyświetlone wyniki zapytania. Zapytanie jest tworzone przy użyciu nazwy aktualnie zaznaczonego obiektu. Dostępne są następujące bazy danych: <itemizedlist>
+<listitem
+><para
+>High Energy Astrophysical Archive (HEASARC). Można z niej uzyskać dane o obiektach z aktualnej bazy licznych obserwatoriów <quote
+>wielkich energii</quote
+>, obserwujących pasma ultrafioletu i promieni X widma elektromagnetycznego.</para
+></listitem>
+<listitem
+><para
+>Multimission Archive at Space Telescope (MAST). The Space Telescope Science Institute umożliwia dostęp do obszernych zbiorów obrazów i widm wykonanych przez teleskop Hubbla oraz kilka innych obserwatoriów. </para
+></listitem>
+<listitem
+><para
+>NASA Astrophysical Data System (ADS). Ta niesamowita baza danych zawiera całą literaturę opublikowaną w recenzowanych na zasadach peer-review czasopismach astronomicznych i astrofizycznych. Baza danych jest podzielona na cztery główne części (astronomia i astrofizyka, preprinty astrofizyczne, oprzyrządowanie, fizyka i geofizyka). Każda z nich jest zawiera jeszcze trzy węzły, które wykonują różnego rodzaju zapytania. <quote
+>Keyword search</quote
+> zwraca znalezione frazy zgodnie z wpisanym wyrazem. <quote
+>Title word search</quote
+> zwraca znalezione frazy zgodnie z wpisaną nazwą obiektu, a <quote
+>Title &amp; Keyword search</quote
+> używa obu tych opcji. </para
+></listitem>
+<listitem
+><para
+>NASA/IPAC Extragalactic Database (NED). NED zawiera dane i odnośniki bibliograficzne na temat obiektów międzygalaktycznych. Bazy NED powinno się używać jedynie gdy szukamy obiektów międzygalaktycznych; &ie; jeśli chodzi nam o galaktykę. </para
+></listitem>
+<listitem
+><para
+>Set of Identifications, Measurements, and Bibliography for Astronomical Data (SIMBAD). SIMBAD jest podobna do NED, różni się tym, że zawiera dane na temat różnych typów obiektów, a nie tylko galaktyk. </para
+></listitem>
+<listitem
+><para
+>SkyView dostarcza obrazów z badań całego nieba All-Sky przeprowadzonych w różnych partiach widma od promieni gamma do fal radiowych. Interfejs &kstars; może pokazać te obrazy, dla wskazanego obiektu. </para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>I na koniec, w karcie <guilabel
+>Log</guilabel
+> można wpisać dowolny tekst, który zostanie związany z oknem szczegółów obiektu. Można tego użyć np. do wprowadzania własnych notatek. </para>
+</sect1>
+

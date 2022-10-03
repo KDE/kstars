@@ -1,0 +1,85 @@
+<sect1 id="ai-sidereal">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Tempo Sideral</title>
+<indexterm
+><primary
+>Tempo Sideral</primary>
+<seealso
+>Ângulo Horário</seealso>
+</indexterm>
+<para
+>O <firstterm
+>Tempo Sideral</firstterm
+> literalmente significa <quote
+>tempo estelar</quote
+>. O tempo que estamos habituados a usar no nosso dia-a-dia é o Tempo Solar. A unidade fundamental do Tempo Solar é um <firstterm
+>Dia</firstterm
+>: o tempo que leva o Sol a passar em 360 graus à volta do céu, devido à rotação da Terra. As unidade mais pequenas do Tempo Solar são apenas divisões de um Dia: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+>1/24 Dia = 1 Hora</para
+></listitem>
+<listitem
+><para
+>1/60 Hora = 1 Minuto</para
+></listitem>
+<listitem
+><para
+>1/60 Minuto = 1 Segundo</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Contudo, existe um problema com o Tempo Solar. A Terra não roda de facto 360 graus num Dia Solar. A terra está em órbita à volta do Sol e durante o curso de um dia, move-se cerca de um grau ao longo da sua órbita (360 graus/365.25 dias para uma órbita completa = cerca de um grau por dia). Por isso, em 24 horas, a direcção ao Sol varia em cerca de um grau. Como tal, a Terra tem de rodar 361 graus para fazer com que o Sol pareça ter viajado 360 graus à volta no céu. </para
+><para
+>Na astronomia, existe a preocupação sobre quanto tempo leva a Terra a rodar em relação às estrelas <quote
+>fixas</quote
+> e não ao Sol. Por isso, seria interessante uma escala temporal que removesse a complicação da órbita da Terra à volta do Sol e que se focasse no tempo que leva a terra a rodar 360 graus em relação às estrelas. Este período de rotação é chamado de <firstterm
+>Dia Sideral</firstterm
+>. Em média, é 4 minutos mais curto que um Dia Solar, devido ao grau extra que a Terra roda num Dia Solar. Em vez de definir um Dia Sideral como sendo igual a 23 horas, 56 minutos, definem-se Horas, Minutos e Segundos Siderais que são a mesma fracção de um dia para as unidades Solares correspondentes. Deste modo, um segundo solar = 1,00278 segundos siderais. </para
+><para
+>O Tempo Sideral é útil para determinar onde as estrelas se encontram numa dada altura. O Tempo Sideral divide uma rotação completa da Terra em 24 Horas Siderais; de forma similar, o mapa do céu é dividido em 24 Horas de <firstterm
+>Ascenção Recta</firstterm
+>. Não é nenhuma coincidência; o Tempo Sideral Local (<acronym
+>TSL</acronym
+>) indica a Ascenção Recta n o céu que está a passar de momento no <link linkend="ai-meridian"
+>Meridiano Local</link
+>. Por isso, se uma estrela tiver uma Ascenção Recta de 05h 32m 24s, estará no seu meridiano à LST=05:32:24. Mais genericamente, a diferença entre a <acronym
+>AR</acronym
+> de um objecto e o Tempo Sideral indica-lhe quão longe do meridiano está o objecto. Por exemplo, o mesmo objecto com TSL=06:32:24 (uma hora sideral depois), estará uma hora de Ascenção Recta a oeste do seu meridiano, o que equivale a 15 graus. Esta distância angular do meridiano chama-se o <link linkend="ai-hourangle"
+>Ângulo Horário</link
+> do objecto. </para>
+<tip>
+<para
+>O Tempo Sideral Local é mostrado pelo &kstars; na <guilabel
+>Informação da Hora</guilabel
+>, com o texto <quote
+>TS</quote
+> (você terá de abrir essa zona, carregando duas vezes nela para ver o tempo sideral). Repare que a alteração dos segundos siderais não está sincronizada com a mudança dos segundos do Tempo Local e do Universal. De facto, se você prestar atenção aos relógios durante algum tempo, você irá reparar que os segundos siderais são de facto ligeiramente mais pequenos que os segundos do TL e do TU. </para
+><para
+>Aponte para o <link linkend="ai-zenith"
+>Zénite</link
+> (carregue em <keycap
+>Z</keycap
+> ou seleccione o <guimenuitem
+>Zénite</guimenuitem
+> no menu <guimenu
+>Localização</guimenu
+>). O Zénite é o ponto no céu onde você fica a olhar <quote
+>exactamente para cima</quote
+> a partir do chão e é um ponto no seu <link linkend="ai-meridian"
+>Meridiano Local</link
+>. Repare na Ascenção Recta do Zénite: é exactamente a mesma que a do seu Tempo Sideral Local. </para>
+</tip>
+</sect1>
+

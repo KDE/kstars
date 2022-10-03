@@ -1,0 +1,92 @@
+<sect1 id="ai-spiralgal">
+
+<sect1info>
+<author
+><firstname
+>Mike</firstname
+> <surname
+>Choatie</surname
+> </author>
+</sect1info>
+
+<title
+>Galassie spirali</title>
+<indexterm
+><primary
+>Galassie spirali</primary>
+</indexterm>
+
+<para
+>Le galassie spirali sono enormi raggruppamenti di miliardi di stelle, ed hanno perlopiù forma di disco, con un brillante nucleo sferico di stelle al centro. Nel disco ci sono tipicamente dei bracci brillanti, dove si trovano le stelle più giovani e luminose. Questi bracci si dipartono dal centro seguendo un percorso a spirale, da cui il nome delle galassie. Le galassie spirali ricordano un po' degli uragani, o la forma dell'acqua risucchiata da uno scolo. Sono tra gli oggetti più belli del cielo. </para>
+<para
+>Le galassie sono classificate usando un <quote
+>diagramma a diapason</quote
+>. L'impugnatura del diapason comprende le <link linkend="ai-ellipgal"
+>galassie ellittiche</link
+> ordinate dalle più circolari, classificate come E0, alle più elongate, che sono le E7. Sui <quote
+>rebbi</quote
+> del diapason si trovano i due tipi di galassie spirali: spirali normali e <quote
+>barrate</quote
+>. Una spirale barrata presenta il nucleo centrale allungato a formare un segmento, così da avere a tutti gli effetti una <quote
+>barra</quote
+> di stelle al centro. </para
+><para
+>Entrambi i tipi di galassie spirali sono ulteriormente classificati in base alle dimensioni del loro <quote
+>nucleo</quote
+> centrale di stelle, alla brillanza superficiale complessiva e al grado di avvolgimento dei bracci. Queste caratteristiche sono correlate, così che una galassia Sa ha un grande nucleo centrale, un'alta brillanza superficiale e bracci a spirale avvolti strettamente. Una galassia Sb mostra un nucleo più piccolo, un disco meno luminoso e bracci meno avvolti rispetto a una Sa. La tendenza prosegue con le Sc e le Sd. Le galassie barrate adottano lo stesso schema di classificazione, indicato dalle sigle SBa, SBb, SBc e SBd. </para
+><para
+>C'è un'altra classe di galassie, chiamate S0, che morfologicamente segnano la transizione tra le spirali vere e proprie e le ellittiche. I loro bracci a spirale sono avvolti così strettamente da non essere più distinguibili. Le galassie S0 hanno dischi con brillanza superficiale uniforme e nuclei assai prominenti. </para
+><para
+>La Via Lattea, che ospita la Terra e tutte le stelle visibili nel cielo, è una galassia a spirale, e si ritiene che sia barrata. Il nome <quote
+>Via Lattea</quote
+> fa riferimento a una banda di stelle molto deboli visibili in cielo. Non si tratta che del piano del disco della nostra galassia visto dall'interno. </para
+><para
+>Le galassie spirali sono oggetti molto dinamici. Sono sedi di formazione stellare, e contengono molte stelle giovani nei loro dischi. I nuclei centrali sono tendenzialmente costituiti da stelle più vecchie, e gli aloni diffusi sono composti dagli astri più antichi dell'Universo. La formazione stellare è attiva nei dischi perché è lì che il gas e le polveri sono più concentrati. Gas e polveri sono le materie prime della formazione stellare. </para
+><para
+>I moderni telescopi hanno rivelato che molte galassie spirali ospitano al loro centro dei buchi neri di grande massa, che possono superare il miliardo di masse solari. È noto che sia le ellittiche sia le spirali contengono questi oggetti esotici; addirittura molti astronomi ritengono che <emphasis
+>tutte</emphasis
+> le grandi galassie contengano un buco nero di grande massa nel proprio nucleo. Sappiamo che la nostra Via Lattea ospita un buco nero la cui massa è milioni di volte maggiore di quella tipica di una stella. </para>
+
+<tip>
+<para
+>In &kstars; è possibile trovare molti notevoli esempi di galassie spirali, parecchie delle quali dispongono di belle immagini accessibili dai loro <link linkend="popup-menu"
+>menu a comparsa</link
+>. Puoi trovarle tramite la finestra <link linkend="findobjects"
+>Trova oggetto</link
+>. Segue un elenco di alcune galassie spirali con belle foto disponibili: <itemizedlist>
+<listitem
+><para
+>M 64, la galassia Occhio nero (tipo Sa)</para
+></listitem>
+<listitem
+><para
+>M 31, la galassia di Andromeda (tipo Sb)</para
+></listitem>
+<listitem
+><para
+>M 81, la galassia di Bode (tipo Sb)</para
+></listitem>
+<listitem
+><para
+>M 51, la galassia Vortice (tipo Sc)</para
+></listitem>
+<listitem
+><para
+>NGC 300 (tipo Sd) [utilizza collegamento a immagine DSS]</para
+></listitem>
+<listitem
+><para
+>M 83 (tipo SBa)</para
+></listitem>
+<listitem
+><para
+>NGC 1530 (tipo SBb)</para
+></listitem>
+<listitem
+><para
+>NGC 1073 (tipo SBc)</para
+></listitem>
+</itemizedlist>
+</para>
+</tip>
+</sect1>

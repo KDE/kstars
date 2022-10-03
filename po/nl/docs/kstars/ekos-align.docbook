@@ -1,0 +1,953 @@
+<sect2 id="ekos-align">
+    <title
+>Uitlijnen</title>
+    <indexterm>
+        <primary
+>Hulpmiddelen</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Uitlijnen</tertiary>
+    </indexterm>
+    <sect3 id="ekos-align-introduction">
+        <title
+>Inleiding</title>
+        <screenshot>
+            <screeninfo
+>Ekos Uitlijnmodule </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos Uitlijnmodule</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>De uitlijnmodule van Ekos maakt zeer accurate GOTO's mogelijk met een nauwkeurigheid van minder dan een boogseconde, en kan uitlijnfouten op de pool meten en corrigeren. Dit is mogelijk dankzij de oplosser (solver) van astrometry.net. Ekos begint met een opname te maken van een sterrengebied, en voert die in in de oplosser van <ulink url="https://astrometry.net"
+>astrometry.net</ulink
+>, voor het verkrijgen van de centrale coördinaten (RK, dec) van de afbeelding. In principe voert de oplosser een patroonherkenning uit aan de hand van een catalogus van miljoenen sterren. Als die coördinaten bekend zijn, is de werkelijke positie bekend waarop de kijker is gericht. </para>
+        <para
+>Vaak is er een verschil tussen de bekende kijkrichting van de telescoop, en de werkelijke kijkrichting. Dit verschil kan oplopen van een paar boogminuten, tot aan een aantal graden. Ekos kan dit verschil opheffen door of de coördinaten aan te passen, of door de opstelling te draaien tot aan het aanvankelijk gewenste doel. </para>
+        <para
+>Verder zijn er in Ekos twee hulpmiddelen aanwezig voor het meten en corrigeren van uitlijnfouten op de pool: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Hulpmiddel uitlijnen op pool</guilabel
+>: Een zeer eenvoudig hulpmiddel voor het meten en corrigeren van poolfouten. Hiervoor zijn drie afbeeldingen nodig van de omgeving van de hemelpool (op het Noordelijk Halfrond nabij Polaris), waarna het verschil wordt berekend tussen as van de kijker en de poolas. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Oud hulpmiddel uitlijnen op pool</guilabel
+>: Als Polaris (de poolster) niet zichtbaar is, kan dit hulpmiddel worden gebruikt voor het meten en corrigeren van uitlijnfouten op de pool. Er worden een aantal opnamen gemaakt nabij de meridiaan en oost/west van de meridiaan. Hiermee kan de opstelling worden bijgesteld totdat uitlijnfout zo klein mogelijk is. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>U heeft minstens een CCD/Webcam nodig en een telescoop die luistert naar commando's voor draaien &amp; sync. De meeste commerciële telescopen voldoen hier tegenwoordig aan. </para>
+        <para
+>Voor het werken met de uitlijnmodule van Ekos kunt u kiezen tussen het gebruiken van de <emphasis
+>online</emphasis
+> astrometry.net oplosser, de <emphasis
+>offline</emphasis
+>, of de <emphasis
+>externe</emphasis
+> oplosser: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Online oplosser</guilabel
+>: Voor de online oplosser zijn geen instellingen nodig, en afhankelijk van de bandbreedte van uw internetverbinding, kan het uploaden van een afbeelding enige tijd duren . </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Offline oplosser</guilabel
+>: Offline oplossen kan sneller zijn, en er is geen internetverbinding nodig. Om de offline oplosser te kunnen gebruiken moet u astrometry.net installeren, en een paar nodige index-bestanden. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Externe oplosser</guilabel
+>: De externe oplosser is een offline oplosser op een andere machine (bijvoorbeeld, u gebruikt de Astrometry solver in StellarMate). Opgenomen afbeeldingen worden opgelost op de externe machine. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="ekos-align-get-astrometry">
+        <title
+>Verkrijgen van astrometry.net</title>
+
+        <para
+>Indien u <emphasis
+>Offline</emphasis
+> astrometry wilt gebruiken, moet u de applicatie voor astrometry.net downloaden. </para>
+        <note>
+            <para
+>Astrometry zit al in StellarMate, dus hoeft het hier niet in te worden geïnstalleerd. Ook indexbestanden van 16 boogminuten en hoger (4206 tot 4019) zitten al in StellarMate. Extra indexbestanden moet u zelf waar nodig installeren. Als u Astrometry in StellarMate wilt gebruiken, vanaf een externe Ekos op &Linux;/&Windows;/&MacOS;, moet u de optie  <guimenuitem
+>Extern</guimenuitem
+> kiezen in de uitlijnmodule van Ekos. Verder moet u ervoor zorgen dat de <guimenuitem
+>Astrometry</guimenuitem
+>-driver is geselecteerd in het profiel van uw apparatuur. </para>
+        </note>
+        <screenshot>
+            <screeninfo
+>Ekos Externe astrometrie </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_remote_astrometry.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ekos Externe astrometrie</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <variablelist>
+            <varlistentry>
+                <term
+>&Windows;</term>
+                <listitem>
+                    <para
+>Om astrometry.net te kunnen gebruiken in &Windows;, moet u de <ulink url="https://adgsoftware.com/ansvr/"
+>ANSVR Local Astrometry.net solver</ulink
+> downloaden en installeren. De ANSVR bootst de online astrometry.net server na op uw lokale computer, en er is dus geen internetverbinding nodig. </para>
+                    <para
+>Na het installeren van de ANSVR-server en het downloaden van de toepasselijke indexbestanden, start u de ANSVR-server op, en gaat u daarna naar opties voor de Ekos uitlijnmodule, waarin u eenvoudig de  <guilabel
+>API URL</guilabel
+> wijzigt om de ANSVR-server te gebruiken, zoals hieronder: </para>
+                    <screenshot>
+                        <screeninfo
+>ANSVR -parameters </screeninfo>
+                        <mediaobject>
+                            <imageobject>
+                                <imagedata fileref="astrometry_windows_ansvr.png" format="PNG"/>
+                            </imageobject>
+                            <textobject>
+                                <phrase
+>ANSVR -parameters</phrase>
+                            </textobject>
+                        </mediaobject>
+                    </screenshot>
+                    <para
+>In de uitlijnmodule van Ekos moet u het oplostype instellen op <guimenuitem
+>Online</guimenuitem
+>, zodat die de lokale ANSVR-server gebruikt voor alle astrometry-vragen. U kunt daarna de uitlijnmodule op dezelfde manier gebruiken die u gewend bent. </para>
+                    <para
+>Onthoud dat, zoals hierboven al is gezegd, dat astrometry.net <emphasis
+>reeds</emphasis
+> in StellarMate aanwezig is. U kunt dus, als u StellarMate gebruikt voor het extern oplossen van uw afbeeldingen, eenvoudigweg het oplostype wijzigen in <guimenuitem
+>Extern</guimenuitem
+>, en ervoor zorgen dat het profiel van uw apparatuur de <emphasis role="bold"
+>Astrometry</emphasis
+>-driver bevat in het neerklapmenu <guilabel
+>Hulpapparatuur</guilabel
+>. Dit is van toepassing voor alle besturingssystemen, en niet alleen in &Windows;. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&MacOS;</term>
+                <listitem>
+                    <para
+>Astrometry.net is al in &kstars; voor &MacOS;, dus is installeren niet nodig. </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term
+>&Linux;</term>
+                <listitem>
+                    <para
+>Astrometry.net is al in de nieuwste versie van &kstars;. Maar indien niet geïnstalleerd, kunt u het installeren met de volgende opdracht in &ubuntu;: </para>
+                    <para>
+                        <command
+>sudo apt-get install astrometry.net</command>
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </sect3>
+
+    <sect3 id="ekos-align-download-index-files">
+        <title
+>Downloaden Index-bestanden</title>
+        <para
+>Voor offline (en externe) oplossers, zijn indexbestanden nodig. De complete verzameling indexbestanden is enorm (meer dan 30 GB), maar u hoeft alleen de nodige bestanden te downloaden. Indexbestanden zijn gesorteerd op GV (gezichtsveld, FOV: field of view)-bereik. Er zijn twee manieren voor het ophalen van de nodige indexbestanden: de nieuwe downloadondersteuning in de uitlijnmodule, en de oude handmatige manier. </para>
+        <sect4 id="ekos-align-automatic-download">
+            <title
+>Automatische download</title>
+            <screenshot>
+                <screeninfo
+>Astrometry.net Indexen download </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_indexes_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Astrometry.net Indexen download</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>Automatisch downloaden is alleen maar beschikbaar in &Linux; &amp; &MacOS;. Gebruikt u &Windows; dan kunt u de ANSVR-oplosser downloaden. </para>
+            <para
+>U krijgt toegang tot de downloadpagina met de knop <guibutton
+>Opties</guibutton
+> in de <link linkend="ekos-align"
+>Uitlijnmodule</link
+> waarna u het tabblad <guilabel
+>Astrometry indexbestanden</guilabel
+> selecteert. In deze pagina ziet u de huidige GV van uw huidige instellingen en eronder een lijst van de beschikbare en geïnstalleerde indexbestanden. Met drie pictogrammen wordt het belang aangeduid van de indexbestanden in uw instellingen als volgt: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-high.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Vereist</guilabel>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-medium.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Aanbevolen</guilabel>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <inlinemediaobject
+><imageobject
+><imagedata fileref="security-low.png" format="PNG"/></imageobject
+></inlinemediaobject
+> <guilabel
+>Optioneel</guilabel>
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para
+>U moet alle vereiste bestanden downloaden, en als u ruim voldoende ruimte heeft op de harde schijf, kunt u ook de aanbevolen indexbestanden downloaden. Als een indexbestand is geïnstalleerd, wordt dit met een merkteken aangegeven, en anders selecteert u het voor het ophalen van het betreffende indexbestand. Download de bestanden een voor een, vooral de grotere bestanden. Het kan zijn dat u het wachtwoord moet invoeren van de beheerder (root, standaard is  dit <userinput
+>smate</userinput
+> in StellarMate), als u de bestanden installeert. Na het installeren van alle vereiste bestanden kunt de offline astrometry.net oplosser direct gebruiken. </para>
+        </sect4>
+        <sect4 id="ekos-align-manual-download">
+                <title
+>Handmatig downloaden</title>
+                <para
+>U moet de nodige nodige indexbestanden, die geschikt zijn de GV van uw telescoop+CCD, <ulink url="http://data.astrometry.net"
+>downloaden</ulink
+> en installeren. U moet de indexbestanden installereen die 100% tot 10% van uw GV beslaan. Bijvoorbeeld, met een GV van 60 boogminuten, moet u indexbestanden installeren die 6 boogminuten (10%) tot 60 boogminuten (100%) in de hemelkaart beslaan. Er zijn veel online hulpmiddelen voor het berekenen van GV's (FOVs), zoals de <ulink url="http://starizona.com/acb/ccd/calc_pixel.aspx"
+>Starizona Field of View Calculator</ulink
+>. </para>
+                <table frame="all">
+                    <title
+>Indexbestanden</title>
+                    <tgroup cols='3' align='left' colsep='1' rowsep='1'>
+                        <thead>
+                            <row>
+                                <entry
+>Naam indexbestand</entry>
+                                <entry
+>GV (FOV, boogminuten)</entry>
+                                <entry
+>Debian Package</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry
+>index-4219.fits</entry>
+                                <entry
+>1400 - 2000</entry>
+                                <entry morerows="11" valign="middle"
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4208-4219_0.45_all.deb"
+>astrometry-data-4208-4219</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4218.fits</entry>
+                                <entry
+>1000 - 1400</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4217.fits</entry>
+                                <entry
+>680 - 1000</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4216.fits</entry>
+                                <entry
+>480 - 680</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4215.fits</entry>
+                                <entry
+>340 - 480</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4214.fits</entry>
+                                <entry
+>240 - 340</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4213.fits</entry>
+                                <entry
+>170 - 240</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4212.fits</entry>
+                                <entry
+>120 - 170</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4211.fits</entry>
+                                <entry
+>85 - 120</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4210.fits</entry>
+                                <entry
+>60 - 85</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4209.fits</entry>
+                                <entry
+>42 - 60</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4208.fits</entry>
+                                <entry
+>30 - 42</entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4207-*.fits</entry>
+                                <entry
+>22 - 30</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4207_0.45_all.deb"
+>astrometry-data-4207</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4206-*.fits</entry>
+                                <entry
+>16 - 22</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4206_0.45_all.deb"
+>astrometry-data-4206</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4205-*.fits</entry>
+                                <entry
+>11 - 16</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4205_0.45_all.deb"
+>astrometry-data-4205</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4204-*.fits</entry>
+                                <entry
+>8 - 11</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4204_0.45_all.deb"
+>astrometry-data-4204</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4203-*.fits</entry>
+                                <entry
+>5.6 - 8.0</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4203_0.45_all.deb"
+>astrometry-data-4203</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4202-*.fits</entry>
+                                <entry
+>4.0 - 5.6</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4202_0.45_all.deb"
+>astrometry-data-4202</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4201-*.fits</entry>
+                                <entry
+>2.8 - 4.0</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4201-1_0.45_all.deb"
+>astrometry-data-4201-1</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-2_0.45_all.deb"
+>astrometry-data-4201-2</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-3_0.45_all.deb"
+>astrometry-data-4201-3</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4201-4_0.45_all.deb"
+>astrometry-data-4201-4</ulink
+></entry>
+                            </row>
+                            <row>
+                                <entry
+>index-4200-*.fits</entry>
+                                <entry
+>2.0 - 2.8</entry>
+                                <entry
+><ulink url="http://data.astrometry.net/debian/astrometry-data-4200-1_0.45_all.deb"
+>astrometry-data-4200-1</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-2_0.45_all.deb"
+>astrometry-data-4200-2</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-3_0.45_all.deb"
+>astrometry-data-4200-3</ulink
+> <ulink url="http://data.astrometry.net/debian/astrometry-data-4200-4_0.45_all.deb"
+>astrometry-data-4200-4</ulink
+></entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table>
+                <para
+>De Debian-pakketten zijn geschikt voor elke distributie op basis van Debian (Ubuntu, Mint, &etc;). Indien u de Debian-pakketten hierboven heeft gedownload voor het bereik van uw GV, kunt u die met behulp van uw favoriete pakketbeheer installeren, of met de volgende opdracht: </para>
+                <para>
+                    <command
+>sudo dpkg -i astrometry-data-*.deb</command>
+                </para>
+                <para
+>En anders, indien u de FITS-bestanden direct heeft gedownload, kopieert u die naar de map <filename role="directory"
+>/usr/share/astrometry</filename
+>. </para>
+                <note>
+                    <para
+>Aan te raden is een downloadprogramma te gebruiken zoals <ulink url="https://addons.mozilla.org/en-US/firefox/addon/downthemall/"
+>DownThemAll!</ulink
+> voor &firefox;, voor het downloaden van Debian-pakketten, omdat de ingebouwde downloadmanager in browsers problemen kunnen hebben met het downloaden van grote pakketten. </para>
+                </note>
+            </sect4>
+        </sect3>
+
+        <sect3 id="ekos-align-how-to-use">
+            <title
+>Hoe te gebruiken?</title>
+            <para
+>De uitlijnmodule van Ekos heeft meerdere functies die u helpen met het verkrijgen van accurate GOTO's. Start met uw opstelling in de basispositie, met de telescoopbuis recht gericht op de hemelpool. Op het Noordelijk Halfrond richt u de telescoop zo goed mogelijk op de poolster, Polaris. Het is niet nodig uit te lijnen met 2 of 3 sterren, hoewel bij sommige opstellingen dit wel nuttig kan zijn. Let erop dat uw camera goed scherp is gesteld op de sterren. </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Opnemen &amp; Oplossen</guilabel
+>: Maak een afbeelding en bepaal op welk gebied aan de hemel de telescoop is gericht. De antwoorden van astrometry zijn onder meer de equatoriale coördinaten (RK &amp; dec) van de afbeelding, en daarnaast de pixelschaal en de veldrotatie. Afhankelijk van de instellingen van de oplosser, kunnen de antwoorden gebruikt voor het syncen van de opstelling of  syncen en daarna draaien naar de doellocatie. Bijvoorbeeld, stel dat u de opstelling heeft heeft gedraaid naar Wega, en daarna <emphasis
+>Opnemen &amp; Oplossen</emphasis
+> gebruikt. Indien de werkelijke kijkrichting van de telescoop niet precies naar Wega is, wordt die eerst gesynced naar de opgeloste coördinaten, en zal Ekos de telescoop naar Wega laten draaien.Na dit draaien herhaalt de uitlijnmodule  het proces van Opname &amp; Oplossen nog een keer, net zo lang totdat de fout tussen de berekende en actuele positie binnen de gewenste drempelwaarde valt (standaard 30 boogseconden). </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Inlezen &amp; Draaien</guilabel
+>: Een FITS- of JPEG-bestand inlezen, het oplossen, en daarna er naar toe draaien. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Assistent  uitlijnen op de pool</guilabel
+>: Een eenvoudig hulpmiddel voor het op de pool uitlijnen van Duitse equatoriale opstellingen. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Oud hulpmiddel voor op de pool uitlijnen</guilabel
+>: Meten van de uitlijnfout op de pool, wanneer een beeld van de hemelpool (&eg; Polaris op het Noordelijk Halfrond) niet beschikbaar is. </para>
+                </listitem>
+            </itemizedlist>
+            <warning>
+                <para
+><emphasis role="bold"
+>Nooit</emphasis
+> een afbeelding oplossen van een afbeelding op of nabij de hemelpool (behalve bij gebruik van de assistent voor uitlijnen op de pool). Draai minstens 20  graden weg van de hemelpool, voordat de eerste opname wordt opgelost. Oplossen heel dicht bij de polen maakt de richtfout van uw opstelling slechter, dus dat moet worden voorkomen. </para>
+            </warning>
+        </sect3>
+
+        <sect3 id="ekos-align-alignment-settings">
+            <title
+>Uitlijninstellingen</title>
+            <screenshot>
+                <screeninfo
+>Astrometry.net instellingen </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Astrometry.net instellingen</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>Voordat u met het uitlijnen begint, selecteert u de gewenste CCD &amp; Telescoop. U kunt de opties van astrometry.net die naar de oplosser van astrometry.net worden gestuurd, bij elke opname bekijken: </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>CCD</guilabel
+>: Selecteer CCD opname. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Belichting</guilabel
+>: Belichtingstijd in seconden. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Nauwkeurigheid</guilabel
+>: Toegestane verschil tussen de gerapporteerde telescoopcoördinaten en de werkelijke berekende waarden. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Bin X</guilabel
+>: Horizontale binning van de CCD instellen. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Bin Y</guilabel
+>: Verticale binning van de CCD instellen. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Telescoop</guilabel
+>: Stel de actieve telescoop in, in het geval dat u verschillende primaire en volgtelescopen gebruikt. GV (FOV) wordt berekend bij het selecteren van een andere telescoop. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Opties</guilabel
+>: Opties voor de oplosser van astrometry.net. Klik op de knop <inlinemediaobject
+><imageobject
+><imagedata fileref="document-edit.png" format="PNG"/></imageobject
+></inlinemediaobject
+> om de opties in detail te bekijken. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>OPlosser</guilabel
+>: Selecteer type oplosser (Online, Offline, Extern). De externe oplosser is alleen beschikbaar bij verbinden met een extern apparaat. </para>
+                </listitem>
+            </itemizedlist>
+            <para
+>Standaard zoekt de oplosser over de hele hemel voor het oplossen van de coördinaten van een afbeelding. Dit kan <emphasis
+>veel tijd kosten</emphasis
+>. Daarom, om het oplossen te versnellen, kunt het zoeken inperken tot het zoeken in een bepaald gebied aan de hemel, aangegeven met de bovenstaande opties <guilabel
+>RK</guilabel
+>, <guilabel
+>dec</guilabel
+>, en <guilabel
+>Straal</guilabel
+>. </para>
+        </sect3>
+
+        <sect3 id="ekos-align-astrometry-net-settings">
+            <title
+>Astrometry.net Opties</title>
+            <para
+>Opties voor offline en online oplossers. </para>
+            <screenshot>
+                <screeninfo
+>Astrometry.net Opties </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="astrometry_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Astrometry.net Opties</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+            <para
+>De meeste opties zijn standaard voldoende. Indien astrometry.net in een niet-standaard locatie is geïnstalleerd, kunt u de paden er naar toe wijzigen als nodig. </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>WCS</guilabel
+>: World-Coordinate-System is een systeem voor het inbedden van informatie over equatoriale coördinaten in de afbeelding. Dus, bij het beschouwen van een afbeelding, kunt u de muisaanwijzer er boven houden en de coördinaten bekijken van elke pixel afzonderlijk. U kunt ook ergens in de afbeelding klikken, en de telescoop opdracht geven daar naar toe te draaien. Het is zeer aan te raden deze optie in te schakelen. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Uitvoerig</guilabel
+>: Als het oplossen herhaaldelijk mislukt, kiest u deze optie voor <emphasis
+>uitvoerige</emphasis
+> uitvoer van de oplosser, om u te helpen met het onderzoeken van dit probleem. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Overleg</guilabel
+>: Opgenomen afbeeldingen overleggen op de hemelkaart van &kstars;. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Upload JPG</guilabel
+>: Als u online astrometry.net gebruikt, kan het uploaden van afbeeldingen als JPG- in plaats van als FITS-bestanden, veel bandbreedte schelen. </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+
+        <sect3 id="ekos-align-solver-options">
+            <title
+>Opties voor oplossen (solver)</title>
+            <para
+>Ekos selecteert en houdt de optimale opties standaard bij om de snelheid van het oplossen te verbeteren. U kunt kiezen of u de aan de solver door te geven opties wilt wijzigen, in het geval dat de standaard opties niet voldoen. </para>
+            <screenshot>
+                <screeninfo
+>Oplossen Instellingen </screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="solver_settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Oplossen Instellingen</phrase>
+                    </textobject>
+                </mediaobject>
+            </screenshot>
+        </sect3>
+
+        <sect3 id="ekos-align-capture-and-solve">
+            <title
+>Opnemen &amp; Oplossen</title>
+            <para
+>Voordat u de uitlijnmodule gebruikt van Ekos, is het uitlijnen van uw opstellingen met behulp van uitlijnen met 1, 2 of 3 sterren <emphasis
+>niet</emphasis
+> echt nodig, maar bij sommige opstellingen (monteringen) wordt eerst ruw uitlijnen met 1 of 2 sterren aanbevolen, voordat u meteen begint met de uitlijnmodule van Ekos. Als u EQMod gebruikt kunt u de uitlijnmodule van Ekos meteen gebruiken. GOTO uitlijnen houdt typisch de volgende stappen in: </para>
+            <orderedlist>
+                <listitem>
+                    <para
+>Breng uw opstelling naar zijn basispositie (gewoonlijk de NCP (noordelijke hemelpool) voor equatoriale opstellingen). </para>
+                </listitem>
+                <listitem>
+                    <para
+>Selecteer <guilabel
+>Draaien naar doel</guilabel
+>in de <guilabel
+>Oplosactie</guilabel
+>. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Draaien naar nabije heldere ster. </para>
+                </listitem>
+                <listitem>
+                    <para
+>Nadat draaien klaar is, klikken op <guibutton
+>Opnemen &amp; Oplossen</guibutton
+>. </para>
+                </listitem>
+            </orderedlist>
+            <para
+>Lukt het oplossen, dan zal Ekos naar de ster syncen en draaien. De resultaten worden getoond in het tabblad <guilabel
+>Oplosresultaten</guilabel
+>, samen met een doelwit-diagram waarin het verschil wordt getoond van de telescoopcoördinaten (&ie; dat is het punt waarnaar de telescoop <emphasis
+>meldt</emphasis
+> dat die kijkt) vs. de werkelijke positie aan de hemel, als berekend met oplossen. </para>
+            <para
+>Elke keer na het met succes oplossen, kan Ekos het volgende doen: </para>
+            <itemizedlist>
+                <listitem>
+                    <para
+><guilabel
+>Sync</guilabel
+>: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Draaien naar doel</guilabel
+>: Maakt de telescoopcoördinaten gelijk aan de berekende coördinaten, en draait de opstelling daarna naar het doel. </para>
+                </listitem>
+                <listitem>
+                    <para
+><guilabel
+>Niets</guilabel
+>: Alleen oplossen van afbeelding, en de oplossing tonen </para>
+                </listitem>
+            </itemizedlist>
+        </sect3>
+
+        <sect3 id="ekos-align-polaralignment">
+            <title
+>Op pool uitlijnen</title>
+            <sect4 id="ekos-align-plar-alignment-assistant">
+                <title
+>Assistent op pool uitlijnen</title>
+                <para
+>Wanneer een Duitse equatoriale opstelling (GEM: German Equatorial Mount) word ingesteld voor het maken van afbeeldingen, is het van veel belang, voor het maken van langdurige afbeeldingen, dat die goed op de pool wordt uitgelijnd. Een GEM heeft twee assen: een as voor de Rechte Klimming (RK), en een voor de declinatie (dec). Idealiter moet de as voor de RK evenwijdig zijn aan de poolas aan de hemel. De taak van de opstelling is het volgen van de ster in zijn baan langs het hemelgewelf, vanaf het moment van opkomst in het oosten, tot aan de ondergang in het westen. </para>
+
+                <mediaobject>
+                    <videoobject>
+                        <videodata contentdepth="595" contentwidth="800" fileref="https://www.stellarmate.com/images/videos/polar_align.webm"
+></videodata>
+                    </videoobject>
+                    <caption>
+                        <para>
+                            <phrase
+>Assistent op pool uitlijnen</phrase>
+                        </para>
+                    </caption>
+                </mediaobject>
+
+                <para
+>Bij het maken van afbeeldingen met lange belichtingstijden, is een camera vastgemaakt aan de telescoop, waarin een sensor de inkomende fotonen opvangt, die afkomstig zijn van een bepaald gebied aan de hemel. De invallende fotonen moeten de pixels in de sensor keer op keer treffen, willen we een heldere en scherpe afbeelding krijgen. Natuurlijk gedragen fotonen zich niet werkelijk op deze manier: optica, atmosfeer, seeing (is gewoon een Nederlands woord voor de versluierende effecten door turbulentie in de atmosfeer), veroorzaken verspreiding van de fotonen, en breking, op de een of andere manier. Verder komen de fotonen niet gelijkmatig aan, maar volgens een Poissonverdeling. Bij puntbronnen, zoals sterren, beschrijft een spreidingsfunctie hoe de fotonen ruimtelijk worden verdeeld over de pixels. Niettemin, het <emphasis
+>hele</emphasis
+> idee is dat we willen dat fotonen van dezelfde bron de zelfde pixels zullen treffen. Anders zijn we straks opgescheept met een afbeelding met allerlei volgfouten. </para>
+                <screenshot>
+                    <screeninfo
+>Uitlijnen op de pool </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="alignment_polaris.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Uitlijnen op de pool</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Omdat geen opstelling perfect is, kunnen die een object in zijn baan aan de hemel niet perfect volgen. Dit heeft vele oorzaken, waarvan er een een verkeerde uitlijning is, van de as voor de Rechte Klimming ten opzichte van de poolas aan de hemel. Uitlijnen op de pool voorkomt een van de grootste volgfouten van de opstelling, maar andere foutbronnen zijn dan nog niet weg. Bij een juiste uitlijning kunnen sommige opstellingen een object gedurende enkele minuten volgen binnen een afwijking van slechts 1 tot 2 boogseconden. </para>
+                <para
+>Maar, als u geen opstelling heeft van topkwaliteit, heeft u hoogstwaarschijnlijk een autovolger nodig, om de zelfde ster gedurende een hele tijd in dezelfde positie vast te houden. Maar desondanks, als de as van de opstelling niet goed op de hemelpool is uitgelijnd, zal zelfs een mechanisch perfecte opstelling de volgster kwijt raken na enige tijd. Volgfouten verhouden zich tot de grootte van de uitlijningsfout. Voor lange belichtingstijden is het dus erg belangrijk dat de opstelling goed is uitgelijnd op de pool, zodat overblijvende restfouten zo klein mogelijk blijven. </para>
+                <para
+>Voordat echt met uitlijnen wordt begonnen, moet de opstelling zoveel mogelijk op de pool worden gericht. Op het Noordelijk Halfrond richt u die zo goed mogelijk op de poolster, Polaris. </para>
+                <para
+>Door het hulpmiddel worden drie afbeeldingen opgenomen en opgelost. Na elke opname draait de opstelling over een vaste afstand, voordat de volgende opname wordt gemaakt en opgelost. </para>
+                <screenshot>
+                    <screeninfo
+>Assistent uitlijnen op pool </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_assistant_main.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Assistent op pool uitlijnen</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Na de eerste opname kunt u de opstelling over een vaste afstand draaien (standaard 30 graden), oost of west. Na de keuze van afstand en richting, klikt u op <guibutton
+>Volgende</guibutton
+>, waarna de opstelling wordt gedraaid. Zodra het draaien voltooid is, wordt u gevraagd een volgende opname te maken, behalve als <guilabel
+>Automodus</guilabel
+> is ingesteld. In de automatische modus gaat de rest van dit proces verder met dezelfde instellingen, totdat er drie afbeeldingen zijn gemaakt. </para>
+                <para
+>Omdat de werkelijke RK/dec van de opstelling is opgelost met astrometrie, kunnen we eenduidig een cirkel bepalen met behulp van de drie centrale punten in de gevonden oplossingen. De opstelling roteert om het middelpunt van deze cirkel (RK-as) en idealiter valt dit punt samen met de hemelpool. Maar, in het geval van een uitlijnfout, tekent Ekos een correctievector. Deze correctievector kan overal in de afbeelding zijn geplaatst. Daarna  <emphasis
+>reset</emphasis
+> u de camera, en draait u de knoppen van de opstelling voor het instellen van hoogte en azimut, totdat de ster in het midden van het hiervoor bestemde draadkruis is. Om dit gemakkelijker te maken, kunt u het beeld groter maken door op de knop Volledig scherm <inlinemediaobject
+><imageobject
+><imagedata fileref="view-fullscreen.png" format="PNG"/></imageobject
+></inlinemediaobject
+> te drukken. </para>
+                <screenshot>
+                    <screeninfo
+>Resultaat Uitlijnen op pool </screeninfo>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="polar_alignment_result.png" format="PNG"/>
+                        </imageobject>
+                        <textobject>
+                            <phrase
+>Resultaat Uitlijnen op pool</phrase>
+                        </textobject>
+                    </mediaobject>
+                </screenshot>
+                <para
+>Als PC of StellarMate niet in de buurt is, kunt u de camera beheren met behulp van een tablet terwijl u de correcties uitvoert. Gebruik de <link linkend="ekos-tutorials-viewer"
+>StellarMate's VNC viewer op het web</link
+> of enige andere VNC-client op uw tablet, waarmee u toegang heeft tot StellarMate.  Als Ekos op uw PC draait, kunt u toepassingen gebruiken als TeamViewer, voor hetzelfde resultaat. Hieronder is een videodemonstratie van hoe u de assistent kunt gebruiken voor het op de pool uitlijnen.  </para>
+                <mediaobject>
+                    <videoobject>
+                        <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/sx6Zz9lNd5Q"
+></videodata>
+                    </videoobject>
+                    <caption>
+                        <para>
+                            <phrase
+>Uitlijnen op de pool</phrase>
+                        </para>
+                    </caption>
+                </mediaobject>
+            </sect4>
+            <sect4 id="ekos-align-legacy-polar-alignment-workflow">
+                <title
+>Werken met het verouderde uitlijnen op de pool </title>
+                <para
+>In de modus voor uitlijnen op de pool, kan Ekos de uitlijnfouten op de pool meten en corrigeren. Als u de fout in azimut wilt meten, richt u de opstelling op een ster dicht bij de meridiaan. Op het Noordelijk Halfrond richt u de opstelling op de zuidelijke meridiaan. Klikken op <guibutton
+>Fout Az meten</guibutton
+> start het proces. Ekos zal het verloop proberen te meten tussen twee afbeeldingen en op die manier de fout berekenen. U kunt nu Ekos vragen de azimutfout te corrigeren door te klikken op de knop <guibutton
+>Corr. Az-fout</guibutton
+>. Ekos draait dan naar de nieuwe lokatie, en zal u vragen de azimutknoppen te draaien totdat de ster in het midden is van de GV (het gezichtsveld). Met de <link linkend="focus-focuser-group"
+>Framing-eigenschap</link
+> van de Focusmodule kunt u in de afbeelding uw correcties bekijken. </para>
+                <para
+>Soortgelijk, voor het meten van de fout in hoogte, klikt u op de knop <guibutton
+>Fout hoogte meten</guibutton
+>. U moet de opstelling of naar het oosten of naar het westen richten,en dit in het neerklapmenu <guilabel
+>Hoogterichting</guilabel
+> kiezen. Ekos maakt nu twee afbeeldingen, en berekent de fout. U kunt  Ekos de fout in hoogte laten corrigeren door te klikken op de knop <guibutton
+>Corr. Hgte-fout</guibutton
+>. Net zoals bij het corrigeren van het azimut, draait Ekos naar de nieuwe locatie, en wordt u gevraagd de knoppen van de opstelling net zolang te draaien totdat de ster in het midden is van de GV. </para>
+                <para
+>Na het maken van een correctie, is het aan te raden opnieuw de fouten te bepalen in azimut en hoogte, en het verschil te bepalen. Voor optimale resultaten kan het nodig zijn dit meerdere keren te herhalen (itereren). </para>
+                <para
+>Voordat u het hulpmiddel start voor het uitlijnen op de pool, moet u het bovenstaande GOTO-proces volledig uitvoeren voor minstens 1 punt aan de hemel. Als eenmaal uw opstelling is uitgelijnd, gaat u verder met het volgende (aangenomen wordt dat u zich op het Noordelijk Halfrond bevindt): </para>
+                <orderedlist>
+                    <listitem>
+                        <para
+>Draai naar een <emphasis role="bold"
+>heldere</emphasis
+> ster (magnitude 4 of lager) nabij de zuidelijke meridiaan (azimut 180). Let erop dat <guilabel
+>Draaien naar doel</guilabel
+> is geselecteerd. Opnemen en oplossen. De ster moet nu precies in het midden staan van het gezichtsveld van uw CCD. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Ga naar modus <guilabel
+>Uitlijnen op pool</guilabel
+>. Klik op <guibutton
+>Meten Az-fout</guibutton
+>. U wordt gevraagd naar een sterte draaien nabij de zuidelijke meridiaan, wat al is gedaan. Klik op <guibutton
+>Verder</guibutton
+>. Ekos gaat nu de foutberekening doen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Als alles goed gaat, ziet u de fout in de uitvoervakken. Om de fout te corrigeren klikt u op <guibutton
+>Corr Az-fout</guibutton
+>. Ekos draait nu naar een ander punt aan de hemel, en u hoeft  <emphasis role="bold"
+>ALLEEN</emphasis
+> maar de azimutknoppen van de opstelling te draaien totdat de ster in het midden van het gezichtsveld komt. De eenvoudigste manier voor het monitoren van het sterveldis door naar de <guilabel
+>Focus</guilabel
+>-module te gaan en te klikken op <guibutton
+>Framing starten</guibutton
+>.  Als de azimutfout groot is, kan mogelijk de ster niet zichtbaarzijn in het gezichtsveld van de CCD en moet u dus  <emphasis
+>blind</emphasis
+> corrigeren  (of in de volgtelescoop te kijken) totdat de ster in het gezichtsveld komt van de CCD. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Begin met de azimutcorrecties totdat de heldere ster waarnaar u aanvankelijk draaide zo dicht bij het midden is als mogelijk. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guibutton
+>Stop Framing</guibutton
+> in de <link linkend="focus-focuser-group"
+>Focusmodule</link
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Herhaal <guibutton
+>Meten Az-fout</guibutton
+> om er zeker van te zijn dat we de fout inderdaad hebben gecorrigeerd. Dit moet u mogelijk meerdere keren doen om er zeker van te zijn dat de resultaten echt goed zijn. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Modus schakelen naar <guilabel
+>GOTO</guilabel
+>. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+> Draai nu naar een  <emphasis role="bold"
+>heldere</emphasis
+> ster, oost of west, bij voorkeur hoger dan 20 graden. De ster moet zoveel mogelijk een azimut hebben van 90 of 270 graden. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Nadat het draaien klaar is, opnemen en oplossen. De ster moet nu precies in het midden zijn van het gezichtsveld van de CCD. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Modus naar <guilabel
+>Uitlijnen op de pool</guilabel
+> schakelen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Klik op <guibutton
+>Hgte-fout meten</guibutton
+>. U wordt gevraagd te draaien naar een ster in het oosten (azimut 90 graden) of in het westen (azimut 270 graden), wat al is gebeurd. Klik op <guibutton
+>Verder</guibutton
+>. Ekos zal nu de foutberekening doen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Om de fout te corrigeren, klikt u op <guibutton
+>Corr. hgte-fout</guibutton
+>. Ekos draait nu naar een ander punt aan de hemel, en u hoeft  <emphasis role="bold"
+>ALLEEN</emphasis
+> maar de hoogteknoppen van de opstelling te draaien totdat de ster in het midden van het gezichtsveld komt. Start framing zoal eerder is gedaan in de <link linkend="focus-focuser-group"
+>focus-focuser-groep</link
+> om het centreren gemakkelijker te maken. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Na het centreren, framing stoppen. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Herhaal <guibutton
+>Meten hgte-fout</guibutton
+> om er zeker van te zijn dat we de fout inderdaad hebben gecorrigeerd. Dit moet u mogelijk meerdere keren doen om er zeker van te zijn dat de resultaten echt goed zijn. </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>Het uitlijnen op de pool is nu voltooid!</para>
+                    </listitem>
+                </orderedlist>
+                <warning>
+                    <para
+>De opstelling kan naar een gevaarlijke positie draaien, en u loopt het risico dat de driepoot en/of andere apparatuur wordt geraakt. Kijk goed naar welke bewegingen uw telescoop kan maken. Alles is voor eigen risico. </para>
+                </warning>
+            </sect4>
+        </sect3>
+    </sect2>

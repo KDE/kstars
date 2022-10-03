@@ -1,0 +1,43 @@
+<sect1 id="tool-solarsys">
+<title
+>Widok Układu Słonecznego</title>
+<indexterm
+><primary
+>Narzędzia</primary>
+<secondary
+>Widok Układu Słonecznego</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>Widok Układu Słonecznego </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="solarsystem.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Widok Układu Słonecznego</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Narzędzie to pokazuje model naszego Układu Słonecznego widziany z góry. Słońce zaznaczone jest jak żółta kropka w środku wykresu, w orbity planet narysowane są jako elipsy o prawidłowych kształtach i orientacjach. Aktualna pozycja każdej planety na orbicie zaznaczona jest kolorową kropką, oznaczoną etykietą z nazwą planety. Widok może być zbliżany i oddalany przy pomocy klawiszy <keycap
+>+</keycap
+> i <keycap
+>-</keycap
+>, może być także wyśrodkowany przy użyciu strzałek, lub dwukrotnego kliknięcia w dowolnym miejscu okna. Wyśrodkowania na planetach dokonuje się klawiszami <keycap
+>0&ndash;9</keycap
+> (<keycap
+>0</keycap
+> to Słońce; <keycap
+>9</keycap
+> to Pluton). Po wyśrodkowaniu ekranu na danej planecie, jej ruch będzie śledzony. </para>
+<para
+>Widok Układu Słonecznego posiada własny zegar, niezależny od zegara głównego &kstars;. Podobnie posiada on możliwość regulacji kroku czasu, podobnie jak w głównym oknie programu. Domyślne ustawienie kroku to 1 dzień (by można było zaobserwować ruch planet). Po otwarciu okna zegar jest w stanie zatrzymanym. </para>
+<note>
+<para
+>Obecny model orbity Plutona będzie prawidłowy przez najbliższe 100 lat. Jeżeli przesuniemy zegar Układu Słonecznego poza ten okres, będzie można zaobserwować dziwne zachowanie Plutona. Jesteśmy świadomi tego faktu i postaramy się to niedługo naprawić. </para>
+</note>
+</sect1>

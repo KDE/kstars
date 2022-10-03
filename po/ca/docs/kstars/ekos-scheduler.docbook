@@ -1,0 +1,489 @@
+<sect2 id="ekos-scheduler">
+    <title
+>Programador</title>
+    <indexterm>
+        <primary
+>Eines</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Programador</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Mòdul del programador de l'Ekos </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_scheduler.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Mòdul del programador de l'Ekos</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <sect3 id="ekos-scheduler-introduction">
+        <title
+>Introducció</title>
+        <para
+>El programador de l'Ekos és un arsenal indispensable per a la construcció del vostre observatori robotitzat. Un observatori robotitzat és un observatori format per diversos subsistemes que s'organitzen junts per a aconseguir un conjunt d'objectius científics sense la intervenció humana. Aquest és l'únic mòdul de l'Ekos que no requereix que l'iniciï l'Ekos, ja que s'utilitza per a <emphasis
+>iniciar</emphasis
+> i <emphasis
+>aturar</emphasis
+> l'Ekos. Està dissenyat per a ser senzill i intuïtiu. Tanmateix, el programador només l'hauríeu d'utilitzar una vegada domineu l'Ekos i conegueu totes les peculiaritats del vostre equip. Atès que tot el procés està automatitzat, inclòs l'enfocament, el guiatge i la inversió del meridià, tot l'equip s'haurà d'emprar a fons amb l'Ekos i amb tots els paràmetres i opcions ajustades per a aconseguir el millor resultat. </para>
+        <para
+>Amb l'Ekos, l'usuari pot utilitzar la poderosa cua de seqüències per a generar lots d'imatges per a un objectiu determinat. En configuracions simples, s'espera que l'usuari enfoqui el CCD, alineï la muntura, enquadri l'objectiu i iniciï el guiatge abans d'iniciar el procés de captura. Per a entorns d'observatori més complexos, normalment hi ha procediments personalitzats predefinits que s'han d'executar per a preparar l'observatori per a l'obtenció de les imatges, i un altre conjunt de procediments en el tancament. L'usuari pot planificar la imatge d'un o més objectius durant la nit i espera que les dades estiguin preparades al matí. A les eines del &kstars;, com ara el <link linkend="tool-obsplanner"
+>Planificador de l'observació</link
+> i <link linkend="tool-whatsup"
+>Què passa aquesta nit</link
+> ajuden a l'usuari a seleccionar candidats per a l'obtenció de les imatges. Després de seleccionar els candidats desitjats, l'usuari podrà afegir-los a la llista del programador de l'Ekos per a avaluar-los. L'usuari també podrà afegir els objectius directament al programador de l'Ekos o seleccionar un fitxer FITS d'una imatge anterior. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-settings">
+        <title
+>Configuració</title>
+        <para
+>El programador de l'Ekos proporciona una interfície senzilla per a ajudar a l'usuari a establir les condicions i restriccions necessàries per a una tasca d'observació. Cada tasca d'observació es compon del següent: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Nom i coordenades de l'objectiu</guilabel
+>: Seleccioneu l'objectiu des del <link linkend="findobjects"
+>diàleg Cerca</link
+> o del botó <guibutton
+>Afegeix</guibutton
+> des del <link linkend="tool-obsplanner"
+>Planificador de l'observació</link
+>. També podeu introduir un nom personalitzat. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fitxer FITS</guilabel
+> opcional: Si s'especifica un fitxer FITS, el solucionador d'astrometria haurà de resoldre el fitxer i utilitzar l'AR/Dec central com a les coordenades de l'objectiu. </para>
+            </listitem>
+            <listitem>
+                <para
+>Fitxer de <guilabel
+>Seqüència</guilabel
+>: El fitxer de seqüències es construeix al <link linkend="ekos-capture"
+>Mòdul de captura</link
+> de l'Ekos. Conté la quantitat d'imatges a capturar, filtres, opcions de la temperatura, prefixos, directori de baixada, &etc; </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Prioritat</guilabel
+>: Estableix la prioritat de la tasca en l'interval des d'1 fins al 20, on 1 designa la prioritat més alta i 20 la prioritat més baixa. La prioritat s'aplicarà al càlcul del pes utilitzat per a seleccionar el següent objectiu per a la imatge. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Perfil</guilabel
+>: Selecciona quin perfil d'equip voleu utilitzar quan s'inicia l'Ekos. Si Ekos i INDI ja estan iniciats i en línia, s'ignorarà aquesta selecció. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Passos</guilabel
+>: L'usuari selecciona els mòduls de l'Ekos que s'utilitzaran durant el flux de treball d'execució de la tasca d'observació. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Condicions d'inici</guilabel
+>: Les condicions que s'han de complir <emphasis role="bold"
+>abans</emphasis
+> d'iniciar la tasca d'observació. Actualment, l'usuari pot seleccionar iniciar tan aviat com sigui possible, <guimenuitem
+>ASAP</guimenuitem
+>, o quan l'objectiu estigui a prop o més enllà de la culminació, o a un temps determinat. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Restriccions</guilabel
+>: Les restriccions són les condicions que s'hauran de complir <emphasis role="bold"
+>en tot moment</emphasis
+> durant el procés d'execució de la tasca d'observació. Aquestes inclouen l'altitud mínima de l'objectiu, la separació mínima de la Lluna, l'observació del crepuscle, restriccions d'altitud horitzontal artificial i el seguiment del clima. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Condicions de compleció</guilabel
+>: Condicions que activen la compleció de la tasca d'observació. La selecció predeterminada és simplement marcar la tasca d'observació com a completada una vegada que s'ha completat el procés de la seqüència. Les condicions addicionals permeten a l'usuari repetir el procés de la seqüència indefinidament o fins a un temps determinat. </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>Heu de seleccionar l'<guilabel
+>Objectiu</guilabel
+> i la <guilabel
+>Seqüència</guilabel
+> abans de poder afegir una tasca al programador. Quan s'iniciï el programador, aquest avaluarà totes les tasques d'acord amb les condicions i restriccions especificades i intentarà seleccionar la millor tasca a executar. La selecció de la tasca depèn d'un algorisme heurístic senzill que puntua cada tasca tenint en compte les condicions i les restriccions, cadascuna de les quals es ponderen en conseqüència. Si dos objectius tenen condicions i restriccions idèntiques, generalment se selecciona l'objectiu de prioritat més elevat seguit d'un objectiu d'altitud major per a la seva execució. Si no hi ha cap candidat disponible en el moment actual, el programador entrarà al mode de repòs i es despertarà quan la propera tasca estigui llesta per a la seva execució. </para>
+        <screenshot>
+            <screeninfo
+>Programador + Planificador </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="scheduler_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Programador + Planificador</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>La descripció anterior només aborda l'etapa d'<emphasis role="bold"
+>Adquisició de les dades</emphasis
+> del flux de treball de l'observatori. El procediment general típicament utilitzat en un observatori es pot resumir en tres etapes primàries: </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Inici </para>
+            </listitem>
+            <listitem>
+                <para
+>Adquisició de les dades (inclòs el preprocessament i l'emmagatzematge) </para>
+            </listitem>
+            <listitem>
+                <para
+>Tancament </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-procedure">
+        <title
+>Procediment d'inici</title>
+        <para
+>El procediment d'inici és únic per a cada observatori, però pot incloure: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Encenent l'alimentació en l'equip </para>
+            </listitem>
+            <listitem>
+                <para
+>Execució dels controls de seguretat/sanitat </para>
+            </listitem>
+            <listitem>
+                <para
+>Comprovació de les condicions meteorològiques </para>
+            </listitem>
+            <listitem>
+                <para
+>Apagar la llum </para>
+            </listitem>
+            <listitem>
+                <para
+>Control de la ventilació/llum </para>
+            </listitem>
+            <listitem>
+                <para
+>Desaparcar la cúpula </para>
+            </listitem>
+            <listitem>
+                <para
+>Desaparcar la muntura </para>
+            </listitem>
+            <listitem>
+                <para
+>&etc; </para>
+            </listitem>
+        </itemizedlist>
+        <para
+>El programador de l'Ekos només inicia el procediment d'inici una vegada que el temps d'inici de la primera tasca d'observació és propera (el temps de <emphasis
+>lliurament</emphasis
+> predeterminat és de 5 minuts abans del temps d'<emphasis
+>inici</emphasis
+>). Un cop finalitzat el procediment d'inici, el programador seleccionarà l'objectiu de la tasca d'observació i iniciarà el procés de la seqüència. Si s'especifica un script d'inici, aquest s'executarà primer. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-data-acquisition">
+        <title
+>Adquisició de les dades</title>
+        <para
+>Depenent de la selecció de l'usuari, el flux de treball típic procedirà de la següent manera: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Orientarà la muntura cap a l'objectiu. Si s'ha especificat un fitxer FITS, primer resoldrà els fitxers i orientarà cap a les coordenades del fitxer. </para>
+            </listitem>
+            <listitem>
+                <para
+>Enfocarà automàticament l'objectiu. El procés d'enfocament automàtic seleccionarà automàticament la millor estrella en el fotograma i executarà l'algorisme d'enfocament automàtic contra seu. </para>
+            </listitem>
+            <listitem>
+                <para
+>Realitzarà la resolució de la placa, sincronitzarà la muntura i orientarà cap a les coordenades de l'objectiu. </para>
+            </listitem>
+            <listitem>
+                <para
+>Realitzarà l'alineació posterior de l'enfocament, ja que el fotograma podria haver-se mogut durant el procés de resolució de la placa. </para>
+            </listitem>
+            <listitem>
+                <para
+>Realitzarà el calibratge i iniciarà el guiatge automàtic: el procés de calibratge seleccionarà automàticament la millor estrella guia, realitzarà el calibratge i iniciarà el procés de guiatge automàtic. </para>
+            </listitem>
+            <listitem>
+                <para
+>Carregarà el fitxer de seqüències al <link linkend="ekos-capture"
+>mòdul de captura</link
+> i iniciarà el procés d'obtenció de les imatges. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-shutdown">
+        <title
+>Tancament</title>
+        <para
+>Un cop finalitzada la tasca d'observació, el programador seleccionarà el següent objectiu. Si encara no ha vençut el pròxim temps programat, la muntura restarà aparcada fins que l'objectiu estigui a punt. A més, si el proper objectiu programat no està previst amb un límit de temps configurable per l'usuari, el programador realitzarà un tancament <emphasis
+>preventiu</emphasis
+> per tal de conservar els recursos, i tornarà a executar el procediment d'inici quan venci l'objectiu. </para>
+        <para
+>Si es produeix un error irrecuperable, l'observatori iniciarà el procediment de tancament. Si hi ha un script de tancament, s'executarà l'últim. </para>
+        <para
+>El següent vídeo mostra una versió anterior del programador, però els principis bàsics encara s'apliquen avui: </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/v8vIXD1kois"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Programador de l'Ekos</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-weather-monitoring">
+        <title
+>Seguiment del clima</title>
+        <para
+>Una altra característica crítica d'un observatori robotitzat operat remotament és el seguiment del clima. Per a les actualitzacions meteorològiques, l'Ekos es basa en el controlador meteorològic seleccionat de l'INDI per a seguir contínuament les condicions meteorològiques. Per motius de simplicitat, les condicions meteorològiques es poden resumir en tres estats: </para>
+        <orderedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>D'acord</emphasis
+>: Les condicions meteorològiques són clares i òptimes per a l'obtenció de les imatges. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Avís</emphasis
+>: Les condicions meteorològiques no són clares, la vista és insatisfactòria o està parcialment obstruïda, i no és adequada per a l'obtenció de les imatges. Qualsevol altre procés d'obtenció de les imatges serà suspès fins que millori el temps. L'estat meteorològic d'avís no suposa cap perill per a l'equip de l'observatori, de manera que es mantindrà operatiu. El comportament exacte sota l'estat d'avís es pot configurar. </para>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Alerta</emphasis
+>: Les condicions meteorològiques són perjudicials per a la seguretat de l'observatori i s'hauria d'iniciar el tancament tan aviat com sigui possible. </para>
+            </listitem>
+        </orderedlist>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-startup-and-shutdown-scripts">
+        <title
+>Scripts durant l'inici i tancament</title>
+        <para
+>A causa de la singularitat de cada observatori, l'Ekos permet a l'usuari seleccionar els scripts d'inici i tancament. Els scripts s'ocuparan dels procediments necessaris que s'hauran de realitzar en les etapes d'inici i tancament. A l'inici, l'Ekos executarà els scripts d'inici i només procedirà amb la resta del procediment d'inici (desaparcar la cúpula/desaparcar la muntura) si l'script finalitza amb èxit. A la inversa, el procediment de tancament començarà amb l'aparcament de la muntura i la cúpula abans d'executar l'script de tancament com a procediment final. </para>
+        <para
+>Els scripts d'inici i de tancament es poden escriure en qualsevol llenguatge que es pugui executar a l'ordinador local. Haurà de retornar 0 per a informar de l'èxit, qualsevol altre valor serà considerat com un indicador d'error. La sortida estàndard de l'script també es dirigirà a la finestra de registre de l'Ekos. El següent és un script d'inici de demostració escrit en Python: </para>
+        <programlisting language="python"
+>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import time
+import sys
+
+print "S'està encenent l'equip de l'observatori...
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "S'estan comprovant els commutadors de seguretat..."
+sys.stdout.flush()
+
+time.sleep(5)
+
+print "Tots els sistemes estan GO"
+sys.stdout.flush()
+
+exit(0)
+        </programlisting>
+        <para
+>Els scripts d'inici i de tancament hauran de ser <emphasis
+>executables</emphasis
+> per tal que l'Ekos els invoqui (&pex;, utilitzeu <userinput
+>chmod +x script_inici.py</userinput
+> per a marcar l'script com a executable). El programador de l'Ekos permet una operació robòtica veritablement senzilla sense la necessitat de cap intervenció humana en cap pas del procés. Sense presència humana, cada vegada és més crític recuperar amb facilitat els errors durant qualsevol etapa de l'observació. Emprant les notificacions del &plasma;, l'usuari podrà configurar alarmes audibles i notificacions per correu electrònic per als diferents esdeveniments del programador. </para>
+    </sect3>
+
+    <sect3 id="ekos-scheduler-mosaic-Planner">
+        <title
+>Planificador de mosaics</title>
+        <screenshot>
+            <screeninfo
+>Planificador de mosaics </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_planner.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Planificador de mosaics</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Les imatges amb un camp de gran abast, com ara les del Hubble, les <ulink url="http://darkskyart.com/?page_id=96"
+>galàxies</ulink
+> i nebuloses són realment espantoses, i si bé es necessiten grans habilitats per a obtenir aquestes imatges i processar-les, molts noms reconeguts en el camp de l'astrofotografia empren equip que no són <emphasis
+>molt</emphasis
+> diferents del vostre o del meu. Ho emfatitzo <emphasis
+>enormement</emphasis
+> perquè alguns realment tenen equip impressionant i observatoris dedicats per valor de desenes dels milers de dòlars. No obstant això, molts aficionats poden obtenir imatges estel·lars amb un camp de gran abast combinant imatges més petites en un sol i gran mosaic. </para>
+        <para
+>Sovint estem limitats pel camp de visió de la càmera+telescopi (CDV). En augmentar el CDV mitjançant un reductor focal o un tub més curt, obtindrem una cobertura del cel més gran a costa de la resolució espacial. Alhora, molts dels objectius amb un camp de gran abast ocupen múltiples CDV a través del cel. Sense cap canvi en el vostre equip d'astrofotografia, és possible crear una superimatge en mosaic <emphasis
+>enganxada</emphasis
+> a partir de diverses imatges més petites. Hi ha dos passos principals per a aconseguir una superimatge en mosaic: </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Captureu múltiples imatges que abastin l'objectiu amb certa superposició entre les imatges. La superposició és necessària per a permetre que el programari de processament alineï i uneixi les subimatges. </para>
+            </listitem>
+            <listitem>
+                <para
+>Processeu les imatges i <emphasis
+>enganxeu-les</emphasis
+> en una superimatge en mosaic. </para>
+            </listitem>
+        </orderedlist>
+        <para
+>El segon pas és gestionat per les aplicacions de processament de la imatge com <ulink url="https://pixinsight.com"
+>PixInsight</ulink
+>, entre d'altres, i no serà el tema de debat aquí. El primer pas es pot aconseguir al programador de l'Ekos, on aquest crearà un mosaic adequat per al vostre equip i d'acord amb el camp de visió desitjat. No només l'Ekos crea subfinestres en mosaic per al vostre objectiu, sinó que també construeix les tasques corresponents per a l'observatori, requerides per a capturar totes les imatges. Això facilita enormement la logística de capturar moltes imatges amb diferents filtres i calibratge de l'enquadrat en una àmplia àrea del cel. </para>
+        <para
+>El <guilabel
+>Planificador de mosaic</guilabel
+> al planificador de l'Ekos crearà múltiples tasques del planificador basant-se en un objectiu central. Per a commutar el planificador, feu clic al botó <guibutton
+>Planificador de mosaic</guibutton
+> a la barra d'eines Planificador de l'Ekos o de l'INDI del KStars tal com s'il·lustra a la captura de pantalla. El planificador dibuixa el plafó del mosaic directament al mapa celeste. Es recomana activar la superposició HiPS per a una experiència millor. El planificador està format per quatre etapes: </para>
+        <orderedlist>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Confirma l'equip</emphasis
+>: l'Ekos intenta carregar la configuració de l'equip des de l'INDI. Si no funciona, haureu d'introduir la configuració de l'equip, inclosa la distància focal del telescopi, a més de les dimensions de l'amplada, l'alçada i els píxels de la càmera. Els paràmetres es desen per a sessions futures. </para>
+            <screenshot>
+            <screeninfo
+>Confirma l'equip </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_confirm_equipment.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Confirma l'equip</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Ajusta la quadrícula</emphasis
+>: Seleccioneu la dimensió del plafó del mosaic i el percentatge de superposició. El plafó del mosaic s'actualitza en conseqüència en el mapa celeste. Ajusteu l'angle de posició perquè coincideixi amb l'orientació desitjada del mosaic al cel. Si l'angle de posició és diferent de l'orientació habitual de la càmera, és possible que hàgiu de girar la càmera manualment o mitjançant un rotor mecanitzat quan s'executin els treballs del planificador. La transparència del mosaic es calcula automàticament de manera predeterminada, però es pot desactivar i ajustar manualment. Per a calcular el camp del mosaic a partir del nombre de tessel·les, feu clic al botó <guibutton
+>Cobertura del CDV</guibutton
+>. El plafó del mosaic es pot centrar en el mapa celeste fent clic al botó <guibutton
+>Torna a centrar</guibutton
+>. </para>
+                <screenshot>
+            <screeninfo
+>Selecció de la quadrícula </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_select_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Selecció de la quadrícula</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Una superposició gran farà més fàcil la costura de fotogrames durant el postprocessament, però requerirà més subfinestres per a cobrir l'extensió desitjada. Tanmateix, si ja coneixeu la quantitat mínima de subfotogrames, el vostre algorisme de rebuig s'utilitzarà durant el postprocessament, possiblement voldreu fer augmentar la superposició per a assolir aquesta quantitat a les àrees cobertes per múltiples subfinestres. Per exemple, una quadrícula en mosaic de 4x4 amb un superposició del 75% tindrà 16 subfotogrames que cobriran la intersecció central, el qual és suficient per al rebuig Sigma «winsorized». Tot i que la pila resultant no té la mateixa alçada en totes les parts del fotograma final, aquest mètode proporciona control sobre la relació senyal a soroll i permet proporcionar context al vostre objectiu mentre s'exposen un nombre relativament baix de captures. </para>
+        <para
+>El nombre gran dibuixat a la cantonada de cada subfinestra en la quadrícula representa l'ordre en què s'han capturat les subfinestres. L'elecció predeterminada en forma de S (oest-est i alternant moviments alts-baixos/baixos-alts), garanteix un moviment mínim de la muntura durant l'observació. Desmarqueu <guilabel
+>Moviment mínim de la muntura</guilabel
+> per tornar als moviments oest-est/alts-baixos. Les coordenades de cada subfinestra es representen al seu centre com a graus, minuts i segons. Finalment, l'angle de cada subfinestra rotarà des del centre del mosaic mostrant-se a la part inferior. Si el vostre camp de visió és gran o si el mosaic es troba a prop d'un pol celeste, observareu que les subfinestres representades començaran a rotar visiblement a causa de la seva posició horitzontal o d'una declinació alta. Utilitzeu la <guilabel
+>Superposició</guilabel
+> per a assegurar-vos que les subfinestres cobreixin correctament l'extensió desitjada del fotograma. </para>
+        <screenshot>
+            <screeninfo
+>Eina de mosaic del planificador - Rotació gran </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_close_pole.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Eina de mosaic del planificador - Rotació gran</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Ajusta la quadrícula</emphasis
+>: Ajusta el centre de la quadrícula introduint manualment el centre J2000 o arrossegant el centre del mosaic en el mapa celeste. </para>
+            <screenshot>
+            <screeninfo
+>Ajusta la quadrícula </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_adjust_grid.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Ajusta la quadrícula</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+            <listitem>
+                <para
+><emphasis role="bold"
+>Crea tasques</emphasis
+>: El pas final és seleccionar el fitxer i el directori de seqüències per a emmagatzemar les imatges. El camp de destinació s'omple automàticament, però es pot canviar segons es desitgi. Seleccioneu els passos que cada tasca del planificador haurà d'executar en seqüència (Seguiment -> Enfocament -> Alineació -> Guiatge -> Captura), i ajusteu la freqüència de les rutines d'alineació i enfocament automàtics que s'han d'executar durant l'operació de mosaic. Per exemple, si <guilabel
+>Alinea cada</guilabel
+> està establert a 2 tasques dels planificador, llavors la primera tasca executarà l'alineació d'astrometria, mentre que la segona tasca l'ometrà. Quan s'executa la tercera tasca, l'alineació es torna a realitzar i així successivament. </para>
+            <screenshot>
+            <screeninfo
+>Crea tasques </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="mosaic_create_jobs.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Crea tasques</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+            </listitem>
+        </orderedlist
+>                
+        <para
+>Feu clic a <guibutton
+>Crea tasques</guibutton
+> per a generar les tasques del planificador de mosaic i afegir-les a la cua del planificador. </para>
+    </sect3>
+</sect2>

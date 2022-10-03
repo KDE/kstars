@@ -1,0 +1,45 @@
+<sect2 id="calc-apcoords">
+<title
+>Apparent Coordinates module</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Astrocalculator</secondary>
+<tertiary
+>Apparent Coordinates module</tertiary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Apparent Coordinates calculator module </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="calc-apcoords.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Apparent Coordinates</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>The Apparent Coordinates module converts the <firstterm
+>catalogue coordinates</firstterm
+> of a point in the sky to its <firstterm
+>apparent coordinates</firstterm
+> for any date. The coordinates of objects in the sky are not fixed, because of <link linkend="ai-precession"
+>precession</link
+>, nutation and aberration. This module takes these effects into account. </para>
+<para
+>To use the module, first enter the desired target date and time in the <guilabel
+>Target Time/Date</guilabel
+> section. Then, enter the catalogue coordinates in the <guilabel
+>Catalog Coordinates</guilabel
+> section. You can also specify the catalogue's epoch here (usually 2000.0 for modern object catalogues). Finally, press the <guibutton
+>Compute</guibutton
+> button, and the object's coordinates for the target date will be displayed in the <guilabel
+>Apparent Coordinates</guilabel
+> section. </para>
+</sect2>

@@ -1,0 +1,75 @@
+<sect1 id="ai-flux">
+
+<sect1info>
+
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Strumień pola</title>
+<indexterm
+><primary
+>Strumień pola</primary>
+<seealso
+>Jasność</seealso>
+</indexterm>
+
+<para
+><firstterm
+>Strumień pola</firstterm
+> jest to ilość energii, która przechodzi przez jednostkę powierzchni w jednostce czasu. </para>
+
+<para
+>Astronomowie korzystają ze strumienia pola, aby oszacować jasność ciała niebieskiego. Jasność jest definiowana jako ilość światła otrzymanego z gwiazdy ponad atmosferą Ziemi, która przechodzi przez jednostkę powierzchni w ciągu jednej sekundy. Tak więc, jasność jest po prostu strumieniem pola jaki otrzymujemy z gwiazdy. </para>
+
+<para
+>Strumień pola określa <emphasis
+>prędkość przepływu</emphasis
+> energii, która przechodzi przez każdy centymetr kwadratowy (lub inną jednostkę powierzchni) obiektu na sekundę. Wykryty strumień pola zależy od odległości źródła energii. Jest tak, ponieważ energia rozprzestrzenia się w kosmosie, zanim dotrze do nas. Wyobraźmy sobie balon zawierający gwiazdę. Każda kropka na balonie reprezentuje jednostkę energii emitowaną z gwiazdy. Na początku punkty na obszarze jednego centymetra kwadratowego są bardzo blisko siebie, strumień pola (energia emitowana na centymetr kwadratowy na sekundę) jest wysoki. Po tym, jak objętość balonu się zwiększy, punkty na jego powierzchni <emphasis
+>oddalą się</emphasis
+> od siebie. W konsekwencji, liczba punktów (energii) na jednym centymetrze kwadratowym spadnie, jak to przedstawia rysunek 1. </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="flux.png" format="PNG"/>
+</imageobject>
+<caption
+><para
+><phrase
+>Rysunek 1</phrase
+></para
+></caption>
+</mediaobject>
+</para>
+
+<para
+>Strumień pola jest odwrotnie proporcjonalny do odległości w stosunku r^2. Dlatego, jeżeli dystans zostanie podwojony, otrzymamy 1/2^2 lub 1/4 pierwotnego strumienia pola. Z fundamentalnego punktu widzenia, strumień pola jest to wartość <link linkend="ai-luminosity"
+>jasności</link
+> na jednostkę powierzchni: <mediaobject
+> <imageobject>
+<imagedata fileref="flux1.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+
+<para
+>gdzie (4 * PI * R^2) jest powierzchnią obszaru kuli (lub balona!) o promieniu R. Przepływ światła jest mierzony w wattach/m^2/s lub jak zwykle piszą astronomowie: erg/cm^2/s. Przykład: jasność Słońca to L = 3.90 * 10^26 W. Oznacza to, że w ciągu jednej Sekundy słońce uwalnia 3.90 * 10^26 dżuli energii do przestrzeni kosmicznej. Dlatego strumień pola, jaki otrzymujemy od Słońca z odległości 1 AU (1.496 * 10^13 cm) wynosi: </para>
+
+<para>
+<mediaobject>
+<imageobject>
+<imagedata fileref="flux2.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+</para>
+</sect1>

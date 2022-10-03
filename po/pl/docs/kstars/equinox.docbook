@@ -1,0 +1,44 @@
+<sect1 id="ai-equinox">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Równonoce</title>
+<indexterm
+><primary
+>Równonoce</primary>
+<seealso
+>Równik niebieski</seealso
+> <seealso
+>Ekliptyka</seealso
+> </indexterm>
+<para
+>Większość ludzi zna daty równonocy wiosennej i jesiennej, oznczające początek odpowiednio wiosny i jesieni na półkuli północnej. Czy wiesz, że równonoce są także pozycjami na niebie? </para
+><para
+><link linkend="ai-cequator"
+>Równik niebieski</link
+> i <link linkend="ai-ecliptic"
+>ekliptyka</link
+> są <link linkend="ai-greatcircle"
+>wielkimi kołami</link
+> na <link linkend="ai-csphere"
+>sferze niebieskiej</link
+>. Miedzy nimi jest kąt 23,5 stopniach. Dwa miejsca w których się przecinają nazywane są <firstterm
+>punktami równonocy</firstterm
+>. Punkt <firstterm
+>równonocy wiosennej</firstterm
+> ma współrzędne RA=0,0 godzin, Dec=0,0 stopni. Punkt <firstterm
+>równonocy jesiennej</firstterm
+> ma współrzędne RA=12,0 godzin, Dec=0,0 stopni. </para
+><para
+>Równonoce są ważne przy oznaczaniu pór roku. Ponieważ znajdują się na <link linkend="ai-ecliptic"
+>ekliptyce</link
+>, Słońce mija te punkty każdego roku. Gdy Słońce mija punkt równonocy wiosennej (zazwyczaj 21 marca), przecina <link linkend="ai-cequator"
+>równik niebieski</link
+> z południa na północ, co oznacza koniec zimy na półkuli północnej. Podobnie, gdy Słońce mija punkt równonocy jesiennej (zazwyczaj 21 września), przekracza równik niebieski z północy na południe, co oznacza koniec zimy na półkuli południowej. </para>
+</sect1>

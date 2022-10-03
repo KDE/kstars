@@ -1,0 +1,28 @@
+<sect1 id="ai-csphere">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Sfera niebieska</title>
+<indexterm
+><primary
+>Sfera niebieska</primary>
+<seealso
+>Układ współrzędnych niebieskich</seealso>
+</indexterm>
+<para
+>Sfera niebieska jest umowną sferą o wielkim promieniu, ze środkiem na Ziemi. Wszystkie obiekty widoczne na niebie wyglądają jakby leżały na powierzchni tej sfery. </para
+><para
+>Powszechnie wiadomo, że obiekty nie leżą na powierzchni sfery o środku na Ziemi, więc po co wprowadzono taką umowną sferę? Wszytkie obiekty są na tyle oddalone od Ziemi, że niemożliwym jest ocenienie ich odległości poprzez popatrzenie na nie. Ze względu na niemożliwość określena odległości, wystarczy jedynie znać <emphasis
+>kierunek</emphasis
+>, by zlokalizowac obiekt na niebie. W tym sensie sfera niebieska jest bardzo praktycznym modelem nieba. </para
+><para
+>Kierunki różnych obiektów na niebie mogą być określone dokładnie za pomocą<link linkend="ai-skycoords"
+>układu współrzędnych niebieskich</link
+>. </para>
+</sect1>

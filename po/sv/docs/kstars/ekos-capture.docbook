@@ -1,0 +1,745 @@
+<sect2 id="ekos-capture">
+    <title
+>Tagning</title>
+    <indexterm>
+        <primary
+>Verktyg</primary>
+        <secondary
+>Ekos</secondary>
+        <tertiary
+>Tagning</tertiary>
+    </indexterm>
+    <screenshot>
+        <screeninfo
+>Ekos tagning </screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="ekos_capture.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Ekos tagning</phrase>
+            </textobject>
+        </mediaobject>
+    </screenshot>
+    <para
+>CCD-modulen är den huvudsakliga bild- och videoinsamlingsmodul i Ekos. Den gör det möjligt att ta enkla bilder (förhandsgranskningar), flera bilder (sekvenskö) eller spela in <ulink url="https://sites.google.com/site/astropipp/ser-player"
+>SER</ulink
+>-videor tillsammans med val av filterhjul och rotator, om de är tillgängliga. </para>
+    <sect3 id="capture-ccd-filter-wheel">
+        <title
+>CCD- och filterhjulsgruppen</title>
+        <para
+>Välj önskad CCD eller spegelreflexkamera och filterhjul (om tillgängligt) för tagning. Ställ in CCD-temperatur och filterinställningar. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>CCD</guilabel
+>: Välj aktiv CCD-kamera. Om kameran har ett guidekamerakropp, kan det också väljas här. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>FH</guilabel
+>: Välj aktiv filterhjulenhet. Om kameran har ett inbyggt filterhjul, är enheten samma som kameran. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Kylenhet</guilabel
+>: Stäng av eller sätt på kylenhet. Ställ in önskad temperatur om kameran är utrustad med en kylenhet. Markera alternativet för att tvinga temperaturinställning innan varje tagning. Tagningsprocessen startas bara efter uppmätt temperatur är inom begärd temperaturtolerans. <emphasis
+>Förvald</emphasis
+> tolerans är 0,1 grader Celsius, men den kan justeras under <guilabel
+>Tagning</guilabel
+> i Ekos inställningar. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+    <sect3 id="capture-settings">
+        <title
+>Tagningsinställningar</title>
+        <screenshot>
+            <screeninfo
+>Tagningsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="capture_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Tagningsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Ställ in alla tagningsparametrar som beskrivs i detalj nedan. När de väl är inställda kan en förhandsgranskning tas genom att klicka på <guibutton
+>Förhandsgranskning</guibutton
+>, eller så kan ett jobb läggas till i sekvenskön. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Exponering</guilabel
+>: Ange exponeringstiden i sekunder. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Filter</guilabel
+>: Ange önskat filter. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Antal</guilabel
+>: Antal bilder att ta </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fördröjning</guilabel
+>: Fördröjning i sekunder mellan bildtagningar. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Typ</guilabel
+>: Ange typ av önskad CCD-bildruta. Alternativen är <guimenuitem
+>Ljus</guimenuitem
+>, <guimenuitem
+>Mörk</guimenuitem
+>, <guimenuitem
+>Avvikelse</guimenuitem
+> och <guimenuitem
+>Plan</guimenuitem
+> bildruta. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>ISO</guilabel
+>: Ange ISO-värdet för spegelreflexkameror. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Format</guilabel
+>: Ange format för att spara tagningen. För alla CCD:er, är bara alternativet <guimenuitem
+>FITS</guimenuitem
+> tillgängligt. För spegelreflexkameror kan ett ytterligare alternativ väljas för att spara med <guimenuitem
+>Inbyggt</guimenuitem
+> format (t.ex. obehandlat eller JPEG). </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Egna egenskaper</guilabel
+>: Ställ in utökade egenskaper tillgängliga för kameran i jobbinställningarna. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Kalibrering</guilabel
+>: För Mörka och plana bilder, kan ytterligare alternativ ställas in, som förklaras i avsnittet <link linkend="capture-calibration-frames"
+>Kalibreringsbilder</link
+> nedan. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Bildruta</guilabel
+>: Ange vänsterkant (X), överkant (Y), bredd (B) och höjd (H) för den önskade CCD-bildrutan. Om rutans dimensioner ändras kan de återställas till standardvärden genom att klicka på återställningsknappen. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Indelning</guilabel
+>: Ange horisontell (X) och vertikal (Y) indelning. </para>
+            </listitem>
+        </itemizedlist>
+        <sect4 id="capture-custom-properties">
+            <title
+>Egna egenskaper</title>
+            <para
+>Många kameror erbjuder ytterligare egenskaper som inte direkt kan ställas in i tagningsinställningarna med de vanliga kontrollerna. Tagningskontrollerna som beskrivs ovan representerar de vanligaste inställningarna som delas mellan olika kameror, men varje kamera är unik och kan erbjuda sina egna utökade egenskaper. Även om INDI-kontrollpanelen kan användas för att ställa in vilken egenskap som helst i drivrutinen är det viktigt att kunna ställa in sådana egenskaper för varje jobb i sekvensen. När man klickar på <guibutton
+>Egna egenskaper</guibutton
+>, visas en dialogruta uppdelad i <guilabel
+>Tillgängliga egenskaper</guilabel
+> och <guilabel
+>Jobbegenskaper</guilabel
+>. När en tillgänglig egenskap flyttas till listan <guilabel
+>Jobbegenskaper</guilabel
+> kan dess nuvarande värde lagras när man väl klickar på <guibutton
+>Verkställ</guibutton
+>. När ett jobb läggs till i sekvenskön, lagras och sparas egenskapsvärdena valda i listan <guilabel
+>Jobbegenskaper</guilabel
+>. </para>
+            <para
+>Följande video förklarar begreppet mer detaljerat med ett verkligt exempel: </para>
+            <mediaobject>
+                <videoobject>
+                    <videodata contentdepth="450" contentwidth="800" fileref="https://www.stellarmate.com/images/fss/videos/custom_properties.mp4"
+></videodata>
+                </videoobject>
+                <caption>
+                    <para>
+                        <phrase
+>Egna egenskapsfunktionen</phrase>
+                    </para>
+                </caption>
+            </mediaobject>
+        </sect4>
+    </sect3>
+
+    <sect3 id="capture-file-settings">
+        <title
+>Filinställningar</title>
+
+        <screenshot>
+            <screeninfo
+>Filinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="file_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Filinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Inställningar för att ange var tagna bilder lagras, och hur unika filnamn skapas förutom inställningar av uppladdningsmetod. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Prefix</guilabel
+>: Lägg till ett prefix att lägga till i det genererade filnamnet. Det går också att lägga till bildtyp, filter, exponeringstid och en ISO 8601-tidsstämpel. Om du exempelvis anger prefix som <userinput
+>M45</userinput
+> och markerar kryssrutorna Typ och Filter, blir de genererade filnamnen följande, med antagandet att filtret är inställt till <guimenuitem
+>Röd</guimenuitem
+> och bildtypen är <guimenuitem
+>Ljus</guimenuitem
+>: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_ljus_röd_001.fits </para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_ljus_röd_002.fits </para>
+                    </listitem>
+                </itemizedlist>
+                <para
+>Om <guilabel
+>TS</guilabel
+> är markerad, läggs en tidsstämpel till sist i filnamnet, t.ex.: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para
+>M45_ljusröd_001_2016-11-09T23-47-46.fits</para>
+                    </listitem>
+                    <listitem>
+                        <para
+>M45_ljusröd_002_2016-11-09T23-48-34.fits</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Skript</guilabel
+>: Ange ett <emphasis
+>valfritt</emphasis
+> skript att köra efter varje tagning är färdig. Den fullständiga sökvägen till skriptet måste anges, och det måste vara körbart. För att ange att det lyckas, måste skriptet returnera noll vilket tillåter att sekvensen fortsätter. Om ett värde skilt från noll returneras av skriptet, avbryts sekvensen. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Katalog</guilabel
+>: Lokal katalog där sekvensbilderna ska sparas. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Uppladdning</guilabel
+>: Välj hur tagna bilder laddas upp: </para>
+                <orderedlist>
+                    <listitem>
+                        <para
+><guilabel
+>Klient</guilabel
+>: : Tagna bilder laddas bara upp till Ekos och sparas i den lokala katalogen angiven ovan.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Lokal</guilabel
+>: Tagna bilder sparas bara lokalt på fjärrdatorn.</para>
+                    </listitem>
+                    <listitem>
+                        <para
+><guilabel
+>Båda</guilabel
+>: Tagna bilder sparas på fjärrenheten <emphasis role="bold"
+>och</emphasis
+> laddas upp till Ekos.</para>
+                    </listitem>
+                </orderedlist>
+                <para
+>När <guimenuitem
+>Lokal</guimenuitem
+> eller <guimenuitem
+>Båda</guimenuitem
+> väljes, måste fjärrkatalogen där fjärrbilderna sparas anges. Normalt laddas alla tagna bilder upp till Ekos. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Fjärrkatalog</guilabel
+>: När antingen <guimenuitem
+>Lokal</guimenuitem
+> eller <guimenuitem
+>Båda</guimenuitem
+> ovan väljes, måste fjärrkatalogen där fjärrbilder sparas anges. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-limit-settings">
+        <title
+>Begränsningsinställningar</title>
+
+        <screenshot>
+            <screeninfo
+>Begränsningsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="limit_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Begränsningsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Begränsningsinställningar gäller alla bilder i sekvenskön. När en begränsning överskrids, ska Ekos utföra lämplig åtgärd för att avhjälpa situationen som förklaras nedan: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Guidningsavvikelse</guilabel
+>: Om markerad, tvingar det en gräns för maximal tillåten guidningsavvikelse för exponeringen, om automatisk guidning används. Om guidningsavvikelsen överskrider gränsen i bågsekunder avbryts exponeringssekvensen. Exponeringssekvensen återupptas automatiskt igen när väl guidningsavvikelsen underskrider gränsen.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Automatisk fokusering om HFR &gt;</guilabel
+>: Om automatisk fokusering är aktiverad i <link linkend="ekos-focus"
+>fokuseringsmodulen</link
+> och åtminstone en automatisk fokuseringsåtgärd utfördes med lyckat resultat, kan det maximalt accepterade HFR-värdet ställas in. Om alternativet är aktiverat beräknas HFR-värdet igen mellan på varandra följande exponeringar, och om det överskrider det maximalt acceptabla HFR-värdet, utlöses en fokuseringsåtgärd automatiskt. Om den automatiska fokuseringsåtgärden utförs med lyckat resultat, återupptas sekvenskön, annars avbryts jobbet.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Meridianvändning</guilabel
+>: Om det stöds av stativet, ställ in timvinkelgränsen (i timmar) innan en <ulink url="https://astronomy.mdodd.com/gem_movement.html"
+>meridanvändning</ulink
+> kommenderas. Om du exempelvis ställer in meridianvändningens längd till 0,1 timmar ska Ekos vänta ända tills stativet har passerat 0,1 timmar (6 minuter), och därefter kommendera stativet att utföra en meridianvändning. Efter meridianvändningen är färdig, utför Ekos inriktning igen med användning av astrometry.net (om <link linkend="ekos-align"
+>inriktningen</link
+> användes) och återupptar guidning (om den  tidigare startats) och därefter återupptar tagningsprocessen automatiskt.</para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-sequence-queue">
+        <title
+>Sekvenskö</title>
+
+        <para
+>Sekvenskön är det primära navet i Ekos tagningsmodul. Det är har man kan planera och utföra jobb genom att använda sekvensköns kraftfulla inbyggda editor. Välj helt enkelt alla parametrar från tagnings- och filinställningarna som anges ovan för att lägga till ett jobb. När önskade parametrar välj har valts, klicka på tilläggsknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> i sekvenskön för att lägga till dem i kön. </para>
+        <screenshot>
+            <screeninfo
+>Sekvenskö </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="sequence_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Sekvenskö</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Du kan lägga till så många jobb som önskas. Även om det inte är strikt nödvändigt, är det lämpligt att lägga till mörka och plana jobb efter ljusa bilder. När du väl är klar med att lägga till jobb, klicka helt enkelt på <guilabel
+>Starta sekvens</guilabel
+> <inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-start.png" format="PNG"/></imageobject
+></inlinemediaobject
+> för att börja köra jobb. Ett jobbtillstånd ändras från <guilabel
+>Overksam</guilabel
+> till <guilabel
+>Pågår</guilabel
+> och slutligen till <guilabel
+>Färdig</guilabel
+> när det väl är klart. Sekvenskön startar automatiskt nästa jobb. Om ett jobb avbryts kan det återupptas igen. För att pausa en sekvens, klicka på pausknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="media-playback-pause.png" format="PNG"/></imageobject
+></inlinemediaobject
+> så stoppas sekvensen efter aktuell tagning är klar. För att återställa tillståndet för alla jobb, klicka helt enkelt på återställningsknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="view-refresh.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Var medveten om att alla bildtillståndsräknare också nollställs. Klicka på knappen <guibutton
+>Förhandsgranska</guibutton
+> för att förhandsgranska en bild i &kstars; FITS-visningsverktyg. </para>
+        <para
+>Sekvensköer kan sparas som en &XML;-fil med filändelsen <literal role="extension"
+>.esq</literal
+> (Ekos Sequence Queue). För att läsa in en sekvenskö, klicka på knappen för att öppna dokument <inlinemediaobject
+><imageobject
+> <imagedata fileref="document-open.png" format="PNG"/></imageobject
+> </inlinemediaobject
+>. Observera att det ersätter alla aktuella sekvensköer i Ekos. </para>
+
+        <important>
+            <para
+><emphasis role="bold"
+>Jobbtillstånd</emphasis
+>: Ekos är konstruerat för att köra och återuppta sekvensen över flera nätter om det krävs. Därför söker Ekos igenom filsystemet, om alternativet <guilabel
+>Kom ihåg jobbtillstånd</guilabel
+> är aktiverat i <link linkend="ekos"
+>Ekos alternativ</link
+>, för att räkna hur många bilder som redan är klara, och återupptar sekvensen där den lämnades. Om det här normala beteendet inte önskas, stäng helt enkelt av <guilabel
+>Kom ihåg jobbtillstånd</guilabel
+> under alternativen. </para>
+        </important>
+
+        <para
+>Dubbelklicka på ett jobb för att redigera det. Du märker att tilläggsknappen <inlinemediaobject
+><imageobject
+><imagedata fileref="list-add.png" format="PNG"/></imageobject
+></inlinemediaobject
+> nu ändras till en bock <inlinemediaobject
+><imageobject
+><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
+></inlinemediaobject
+>. Gör ändringarna på vänster sida om CCD-modulen, och när du väl är klar, klicka på bockknappen. Klicka var som helst på det tomma utrymmet inne i sekvenskötabellen för att avbryta redigering av ett jobb. </para>
+        <para
+>Om kameran stöder direkt videomatning kan man klicka på <guibutton
+>Direktsänd video</guibutton
+> för att börja strömma. Videofönstret möjliggör inspelning och inställning av delbildruta för videoströmmen. För mer information, titta på videon nedan: </para>
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/qRsAqTL4ZZI"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Inspelningsfunktion</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+
+    <sect3 id="capture-filter-settings">
+        <title
+>Filterinställningar</title>
+
+        <screenshot>
+            <screeninfo
+>Filterkö </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="filter_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Filterkö</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Klicka på filterikonen <inlinemediaobject
+><imageobject
+><imagedata fileref="view-filter.png" format="PNG"/></imageobject
+></inlinemediaobject
+> intill rutan för val av filterhjul för att visa filterinställningsdialogrutan. Om du använder filter som inte är samfokala med varandra och kräver en viss fokuseringsposition för att de ska vara riktiga, ställ då in alla relativa fokuseringspositioner i dialogrutan. </para>
+        <para
+>Anpassa inställningar för varje filter individuellt: </para>
+        <orderedlist>
+            <listitem>
+                <para
+><guilabel
+>Filter</guilabel
+>: Filternamn. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Exponering</guilabel
+>: Ställ in exponeringstiden som används när fokusering med det här filtret används. Normalt är den inställd till 1 sekund. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Position</guilabel
+>: Ange relativ position. Ekos utför en ändring av fokuseringsposition om det finns en skillnad mellan det aktuella filtrets och målfiltrets position. Givet värdena i exempelbilden, ska Ekos exempelvis ge ett kommando till fokuseringsenheten att fokusera inåt med +300 tick, om det aktuella filtret är inställt till <emphasis
+>Röd</emphasis
+> och nästa filter är <emphasis
+>Grön</emphasis
+>. Relativa positiva fokuseringspositioner anger fokusera utåt, medan negativa värden anger fokusera inåt. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Automatisk fokusering</guilabel
+>: Markera alternativet för att inleda den automatiska fokuseringsprocessen så fort filtret byts till det här filtret. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Lås filter</guilabel
+>: Ange vilket filter som ska ställas in och <emphasis
+>låsas</emphasis
+> när automatisk fokusering utförs för det här filtret. </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Låt oss ta ett exempel. Antag att tagningssekvensen pågår och aktuellt filter är <guilabel
+>Grön</guilabel
+>, så att den relativa positionen redan är inställd till +300. Nästa bild i sekvensen använder Väte alfa (H_Alpha), så innan Ekos tar nästa bild utförs följande åtgärder: </para>
+        <itemizedlist>
+            <listitem>
+                <para
+>Eftersom Luminositet anges när det låsta filtret och automatisk fokusering markeras, ändras filtret till Luminositet. </para>
+            </listitem>
+            <listitem>
+                <para
+>Fokuseringspositionen -300 appliceras, eftersom det föregående filtret <guilabel
+>Grön</guilabel
+> tidigare flyttades +300. </para>
+            </listitem>
+            <listitem>
+                <para
+>Den automatiska fokuseringsprocessen initieras. </para>
+            </listitem>
+            <listitem>
+                <para
+>När väl automatisk fokusering är färdig, ändras filtret till H_Alpha. </para>
+            </listitem>
+            <listitem>
+                <para
+>Fokuseringspositionen -1200 appliceras. </para>
+            </listitem>
+            <listitem>
+                <para
+>Tagningssekvensen återupptas. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-fits-viewer">
+        <title
+>FITS-visning</title>
+
+        <para
+>Tagna bilder visas i &kstars; FITS-visningsverktyg, och dessutom på översiktsskärmen. Ställ in alternativ relaterade hur bilderna visas i visningsverktyget. </para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Automatisk mörk bild</guilabel
+>: Du kan ta en bild och automatiskt subtrahera mörk bild genom att markera alternativet. Observera att alternativet gäller bara vid användning av <guilabel
+>Förhandsgranskning</guilabel
+>, det går inte att använda i sekvenskön med bakgrundsläge. </para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Effekter</guilabel
+>: Bildförbättringsfilter som appliceras på bilden efter tagning. </para>
+            </listitem>
+        </itemizedlist>
+    </sect3>
+
+    <sect3 id="capture-rotation-settings">
+        <title
+>Rotationsinställningar</title>
+
+        <screenshot>
+            <screeninfo
+>Rotationsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_rotator_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Rotationsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+
+        <para
+>Fältrotation stöds av INDI och Ekos. Rotatorvinkeln är den obehandlade vinkeln som rapporteras av rotatorn, och är inte nödvändigtvis <ulink url="https://en.wikipedia.org/wiki/Position_angle"
+>positionsvinkeln</ulink
+>. Positionsvinkeln <emphasis
+>noll</emphasis
+> anger att bildrutans överkant (angiven av en liten pil) pekar <emphasis
+>direct</emphasis
+> mot polen. Positionsvinkeln uttrycks som Ö om N (öster om nord), så 90 graders PV anger att bildrutans <emphasis
+>överkant</emphasis
+> pekar 90 grader bort från polen (moturs). Se <ulink url="https://nustarsoc.caltech.edu/NuSTAR_Public/NuSTAROperationSite/file/NuSTAR-PA.pdf"
+>exempel</ulink
+> på diverse positionsvinklar. </para>
+        <para
+>Ta och lös en bild i <link linkend="ekos-align"
+>Ekos inriktningsmodul</link
+> för att kalibrera positionsvinkeln (PV). En <emphasis
+>position</emphasis
+> och <emphasis
+>multiplikator</emphasis
+> används för den obehandlade vinkeln för att skapa positionsvinkeln. Ekos rotatordialogruta tillåter direkt kontroll av både den obehandlade vinkeln och positionsvinkeln. Position och multiplikator kan ändras manuellt för att synkronisera rotatorns obehandlade vinkel med verklig PV. Markera <guilabel
+>Synkronisera synfält med PV</guilabel
+> för att rotera aktuell synfältsindikator med PV-värdet när du ändrar det i dialogrutan. </para>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/V_hRPMlPjmA"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Rotationsinställningar</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <para
+>Varje tagningsjobb kan tilldelas olika rotatorvinklar, men var medveten om att det skulle göra att guidning avbryts eftersom den skulle tappa bort guidestjärnan vid rotation. Därför hålls rotatorvinkeln samma för alla tagningsjobb. </para>
+    </sect3>
+
+    <sect3 id="capture-calibration-frames">
+        <title
+>Kalibreringsbilder</title>
+
+        <screenshot>
+            <screeninfo
+>Kalibreringsinställningar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="calibration_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Kalibreringsinställningar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>För planfältsbilder kan kalibreringsinställningar ställas in för att automatisera processen. Kalibreringsinställningarna är konstruerade för att underlätta automatisk tagning av planfältsbilder utan tillsyn. De kan också användas för mörka bilder och avvikelsebilder om så önskas. Om kameran är utrustad med en mekanisk slutare är det inte nödvändigt att ange kalibreringsinställningar om man inte vill stänga dammskyddet för att säkerställa att inget ljus alls passerar genom optikröret. För planfält måste planfältets ljuskälla anges, och därefter längden på planfältsbilden. Längden kan antingen vara manuell eller baserad på ADU-beräkningar. </para>
+        <orderedlist>
+            <listitem>
+                <para
+>Planfältskälla <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manuell</guilabel
+>: Planljuskällan är manuell.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Dammskydd med inbyggt planljus</guilabel
+>: Om ett dammskydd med inbyggt planljus (t.ex. FlipFlat) används. För mörka bilder och avvikelsebilder, stäng dammskyddet innan du fortsätter. För plana bilder, stäng dammskyddet och sätt på ljuskällan.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Dammskydd med externt planljus</guilabel
+>: Om ett dammskydd med externt planljus används. För mörka bilder och avvikelsebilder, stäng dammskyddet innan du fortsätter. För plana bilder, öppna dammskyddet och sätt på ljuskällan. Platsen för den externa planljuskällan antas vara den parkerade positionen.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Vägg</guilabel
+>: Ljuskällan är en panel på observatoriets vägg. Ange azimut- och elevationskoordinater för panelen så förflyttas stativet dit innan planfältsbilderna tas. Om ljuspanelen kan styras från INDI, sätts den på och stängs av av Ekos efter behov.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>Gryning och skymning</guilabel
+>: Stöds för närvarande inte.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+            <listitem>
+                <para
+>Planfältslängd <itemizedlist>
+                        <listitem>
+                            <para
+><guilabel
+>Manuell</guilabel
+>: Längden är som specificerad i sekvenskön.</para>
+                        </listitem>
+                        <listitem>
+                            <para
+><guilabel
+>ADU</guilabel
+>: Längden är variabel ända tills angiven ADU uppfylls.</para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </listitem>
+        </orderedlist>
+        <para
+>Innan kalibreringsprocessen påbörjas kan man begära att Ekos parkerar stativet och/eller kupolen. Beroende på val av plankälla ovan, väljer Ekos lämplig planljuskälla innan tagning av planbildrutor. Om ADU anges, börjar Ekos med att ta några förhandsgranskningsbilder för att etablera kurvan som krävs för att uppnå önskat ADU-antal. När ett lämpligt värde väl har beräknats tas en ny bild och ADU-antalet räknas igen ända tills ett tillfredsställande värde uppnås. </para>
+    </sect3>
+
+    <sect3 id="capture-video-tutorials">
+        <title
+>Videohandledningar</title>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/Gz07j7VPnpc"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Tagning</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+
+        <mediaobject>
+            <videoobject>
+                <videodata contentdepth="315" contentwidth="560" fileref="https://www.youtube.com/embed/yfz9_UJIvLY"
+></videodata>
+            </videoobject>
+            <caption>
+                <para>
+                    <phrase
+>Filterhjul</phrase>
+                </para>
+            </caption>
+        </mediaobject>
+    </sect3>
+</sect2>

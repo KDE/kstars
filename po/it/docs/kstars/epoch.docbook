@@ -1,0 +1,28 @@
+<sect1 id="ai-epoch">
+<sect1info>
+<author
+><firstname
+>Akarsh</firstname
+> <surname
+>Simha</surname
+> </author>
+</sect1info>
+<title
+>Epoca</title>
+<indexterm
+><primary
+>Epoca</primary
+></indexterm>
+<para
+>Un'epoca è un preciso istante di tempo (di solito in passato) usato come riferimento in astronomia per la misurazione di tempo. Per semplificare i calcoli, gli astronomi di solito usano il numero di giorni passati da un preciso istante di tempo come modo per rappresentare il tempo in calcoli astronomici. Questo "punto di partenza" di riferimento scelto in modo arbitrario è chiamato epoca. </para>
+<para
+>Di solito un'epoca viene menzionata in cataloghi astronomici assieme a <link linkend="equatorial"
+>coordinate equatoriali</link
+>, dato che le coordinate equatoriali di oggetti del cielo cambiano (anche se lentamente) col tempo. Di solito in mappe del cielo e altanti stampati si trova l'indicazione di validità per un'epoca precisa. </para>
+<para
+>L'epoca più popolare usata al momento è J2000.0 (l'<link linkend="ai-julianday"
+>anno Giuliano</link
+> 2000.0), che corrisponde (quasi esattamente) alle 0:00 UTC del primo gennaio 2000. Tra le altre epoche ci sono anche B1900 e B1950. </para>
+<para
+>&kstars; supporta cataloghi basati sulle epoche J2000.0 e B1950.0. </para>
+</sect1>

@@ -322,15 +322,15 @@ bool Guide::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            controlGroupBox->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
-            opticalTrainCombo->setEnabled(true);
-            trainLabel->setEnabled(true);
+            controlGroupBox->setEnabled(false);
         });
     }
+
+    controlGroupBox->setEnabled(m_Camera && m_Camera->isConnected());
 
     // If camera was reset, return now.
     if (!m_Camera)
@@ -673,6 +673,20 @@ bool Guide::setGuider(ISD::Guider *device)
         m_Guider->disconnect(this);
 
     m_Guider = device;
+
+    if (m_Guider)
+    {
+        connect(m_Guider, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            guideB->setEnabled(true);
+        });
+        connect(m_Guider, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            guideB->setEnabled(false);
+        });
+    }
+
+    guideB->setEnabled(m_Guider && m_Guider->isConnected());
     return true;
 }
 

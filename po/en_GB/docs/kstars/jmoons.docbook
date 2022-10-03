@@ -1,0 +1,39 @@
+<sect1 id="tool-jmoons">
+<title
+>Jupiter Moons Tool</title>
+<indexterm
+><primary
+>Tools</primary>
+<secondary
+>Jupiter Moons Tool</secondary>
+</indexterm>
+
+<screenshot>
+<screeninfo
+>The Jupiter Moons Tool </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="jmoons.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Jupiter Moons Tool</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>This tool displays the positions of Jupiter's four largest moons (Io, Europa, Ganymede, and Callisto) relative to Jupiter, as a function of time. Time is plotted vertically; the units are days and <quote
+>time=0.0</quote
+> corresponds to the current simulation time. The horizontal axis displays the angular offset from Jupiter's position, in arcminutes. The offset is measured along the direction of Jupiter's equator. Each moon's position as a function of time traces a sinusoidal path in the plot, as the moon orbits around Jupiter. Each track is assigned a different colour to distinguish it from the others; the name labels at the top of the window indicate the colour used by each moon. </para
+><para
+>The plot can be manipulated with the keyboard. The time axis can be expanded or compressed using the <keycap
+>+</keycap
+> and <keycap
+>-</keycap
+> keys. The time displayed at the center of the window can be changed with the <keycap
+>[</keycap
+> and <keycap
+>]</keycap
+> keys. </para>
+</sect1>

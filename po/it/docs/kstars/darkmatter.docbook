@@ -1,0 +1,86 @@
+<sect1 id="ai-darkmatter">
+
+<sect1info>
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Materia oscura</title>
+<indexterm
+><primary
+>Materia oscura</primary>
+</indexterm>
+
+<para
+>Gli scienziati sono ormai a proprio agio con l'idea che il 90% della massa dell'Universo sia sotto forma di materia invisibile. </para>
+
+<para
+>Nonostante dettagliate mappe dell'Universo vicino che coprono lo spettro dal radio ai raggi gamma, siamo in grado di individuare solo il 10% della massa che deve esistere là fuori. Come disse nel 2001 al New York Times Bruce H. Margon, astronomo all'Università di Washington: <quote
+>È una situazione alquanto imbarazzante dover ammettere che non riusciamo a trovare il 90 per cento dell'Universo</quote
+>. </para>
+
+<para
+>Il nome dato a questa <quote
+>massa mancante</quote
+> è <firstterm
+>materia oscura</firstterm
+>, e queste due parole riassumono abbastanza bene tutto ciò che ne sappiamo al momento. Sappiamo che c'è <quote
+>materia</quote
+>, perché possiamo vedere gli effetti della sua influenza gravitazionale. Tuttavia, questa materia non emette alcuna radiazione elettromagnetica, da cui l'aggettivo <quote
+>oscura</quote
+>. Esistono parecchie teorie per spiegare la massa mancante, da particelle subatomiche esotiche a una popolazione di buchi neri isolati, fino a meno esotiche nane bianche e brune. Il termine <quote
+>massa mancante</quote
+> può essere fuorviante, dato che non è la massa a mancare, ma solo la sua luce. Ma che cos'è esattamente la materia oscura, e come facciamo a sapere che esiste, se non possiamo vederla? </para>
+
+<para
+>La storia ebbe inizio nel 1933, quando l'astronomo Fritz Zwicky stava studiando il moto di ammassi di galassie lontani e di grande massa, nella fattispecie l'ammasso della Chioma e quello della Vergine. Zwicky stimò la massa di ogni galassia dell'ammasso basandosi sulla sua luminosità, e sommò tutte le masse galattiche per ottenere la massa totale dell'ammasso. Ottenne poi una seconda stima indipendente della massa totale, basata sulla misura della dispersione delle velocità individuali delle galassie nell'ammasso. Con sua grande sorpresa, questa seconda stima di <firstterm
+>massa dinamica</firstterm
+> era <emphasis
+>400 volte</emphasis
+> più grande della stima basata sulla luce delle galassie. </para>
+
+<para
+>Sebbene l'evidenza sperimentale fosse già forte ai tempi di Zwicky, fu solo negli anni Settanta che gli scienziati iniziarono ad esplorare questa discrepanza in modo sistematico. Fu in quel periodo che l'esistenza della materia oscura iniziò ad essere presa sul serio. L'esistenza di tale materia non avrebbe solo risolto la mancanza di massa negli ammassi di galassie, ma avrebbe avuto conseguenze di ben più larga portata sull'evoluzione e il destino dell'Universo stesso. </para>
+
+<para
+>Un altro fenomeno che suggerì la necessità di materia oscura consiste nelle curve di rotazione delle <firstterm
+>galassie spirali</firstterm
+>. Le galassie spirali contengono una vasta popolazione di stelle in orbita attorno al centro galattico su orbite quasi circolari, un po' come pianeti in orbita attorno a una stella. Come accade per le orbite planetarie, ci si aspetta che stelle con orbite galattiche più grandi abbiano velocità orbitali minori (si tratta di una semplice enunciazione della terza legge di Keplero). Per la verità, la terza legge di Keplero è applicabile soltanto a stelle vicine alla periferia di una galassia spirale, poiché presuppone che la massa racchiusa dall'orbita sia costante. </para>
+
+<para
+>Tuttavia gli astronomi hanno condotto osservazioni delle velocità orbitali delle stelle nelle regioni periferiche di un gran numero di galassie spirali, e in nessun caso esse seguono la terza legge di Keplero. Invece di diminuire a grandi raggi, le velocità orbitali rimangono con ottima approssimazione costanti. L'implicazione è che la massa racchiusa da orbite di raggio via via maggiore aumenti, anche per stelle che sono apparentemente vicine al limite della galassia. Sebbene si trovino presso i confini della parte luminosa della galassia, questa ha un profilo di massa che apparentemente continua ben al di là delle regioni occupate dalle stelle. </para>
+
+<para
+>Ecco un altro modo di vedere il problema: consideriamo le stelle presso la periferia di una galassia spirale, con velocità orbitali osservate tipicamente di 200 chilometri al secondo. Se la galassia fosse composta solo dalla materia che possiamo vedere, queste stelle la abbandonerebbero in breve tempo, dato che le loro velocità orbitali sono quattro volte più grandi della velocità di fuga dalla galassia. Dato che non si osservano galassie che si stiano disperdendo in questo modo, al loro interno deve trovarsi della massa di cui non teniamo conto quando sommiamo tutte le parti che possiamo vedere. </para>
+
+<para
+>In letteratura sono comparse parecchie teorie per spiegare la massa mancante, come le <acronym
+>WIMP</acronym
+> (Weakly Interacting Massive Particles, particelle di grande massa debolmente interagenti), i <acronym
+>MACHO</acronym
+> (MAssive Compact Halo Objects, oggetti compatti di grande massa dell'alone), buchi neri primordiali, neutrini dotati di massa e così via, ciascuna con i suoi pro e contro. Nessuna singola teoria è stata finora accettata dalla comunità astronomica, poiché siamo privi dei mezzi per verificare in modo risolutivo una teoria rispetto all'altra.</para>
+
+<tip>
+<para
+>Puoi vedere gli ammassi di galassie studiati dal professor Zwicky per scoprire la materia oscura. Usa la finestra Trova oggetto di KStars (<keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+>) e posizionati su <quote
+>M 87</quote
+> per trovare l'ammasso della Vergine, e su <quote
+>NGC 4884</quote
+> per trovare l'ammasso della Chioma. Potrebbe essere necessario aumentare lo zoom per vedere le galassie. Nota che l'ammasso della Vergine appare molto più grande nel cielo. In realtà l'ammasso più grande è quello della Chioma, che appare più piccolo solamente perché è più distante. </para>
+</tip>
+</sect1>

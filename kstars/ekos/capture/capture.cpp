@@ -482,7 +482,6 @@ Capture::Capture()
     // display the capture status in the UI
     connect(this, &Ekos::Capture::newStatus, captureStatusWidget, &Ekos::LedStatusWidget::setCaptureState);
 
-    setupFilterManager();
     setupOpticalTrainManager();
 }
 
@@ -508,20 +507,28 @@ bool Capture::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            setEnabled(true);
+            CCDFWGroup->setEnabled(true);
+            sequenceBox->setEnabled(true);
+            for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+                oneChild->setEnabled(true);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            setEnabled(false);
+            CCDFWGroup->setEnabled(false);
+            sequenceBox->setEnabled(false);
+            for (auto &oneChild : sequenceControlsButtonGroup->buttons())
+                oneChild->setEnabled(false);
+
             opticalTrainCombo->setEnabled(true);
             trainLabel->setEnabled(true);
         });
     }
 
-    CCDFWGroup->setEnabled(m_Camera);
-    sequenceBox->setEnabled(m_Camera);
+    auto isConnected = m_Camera && m_Camera->isConnected();
+    CCDFWGroup->setEnabled(isConnected);
+    sequenceBox->setEnabled(isConnected);
     for (auto &oneChild : sequenceControlsButtonGroup->buttons())
-        oneChild->setEnabled(m_Camera);
+        oneChild->setEnabled(isConnected);
 
     if (!m_Camera)
     {
@@ -571,9 +578,26 @@ bool Capture::setFilterWheel(ISD::FilterWheel * device)
     m_FilterWheel = device;
     m_captureDeviceAdaptor->setFilterWheel(m_FilterWheel);
 
-    FilterPosLabel->setEnabled(true);
-    FilterPosCombo->setEnabled(true);
-    filterManagerB->setEnabled(true);
+    if (m_FilterWheel)
+    {
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(true);
+            FilterPosCombo->setEnabled(true);
+            filterManagerB->setEnabled(true);
+        });
+        connect(m_FilterWheel, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            FilterPosLabel->setEnabled(false);
+            FilterPosCombo->setEnabled(false);
+            filterManagerB->setEnabled(false);
+        });
+    }
+
+    auto isConnected = m_FilterWheel && m_FilterWheel->isConnected();
+    FilterPosLabel->setEnabled(isConnected);
+    FilterPosCombo->setEnabled(isConnected);
+    filterManagerB->setEnabled(isConnected);
 
     checkFilter();
 
@@ -1634,7 +1658,12 @@ void Capture::checkFilter()
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
 
-        m_FilterManager.reset();
+        if (m_FilterManager)
+        {
+            m_FilterManager->disconnect(this);
+            disconnect(m_FilterManager.get());
+            m_FilterManager.reset();
+        }
         m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
         return;
     }
@@ -2032,6 +2061,8 @@ IPState Capture::setCaptureComplete()
         metadata["type"] = activeJob->getFrameType();
         metadata["exposure"] = activeJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
         metadata["filter"] = activeJob->getCoreProperty(SequenceJob::SJ_Filter).toString();
+        metadata["width"] = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().width();
+        metadata["height"] = activeJob->getCoreProperty(SequenceJob::SJ_ROI).toRect().height();
         metadata["hfr"] = hfr;
         metadata["starCount"] = numStars;
         metadata["median"] = median;
@@ -6537,31 +6568,16 @@ void Capture::setAlignResults(double orientation, double ra, double de, double p
     m_RotatorControlPanel->refresh();
 }
 
-void Capture::refreshFilterManager(ISD::FilterWheel *device)
-{
-    if (m_FilterManager && m_FilterManager->filterWheel() == device)
-        m_FilterManager->refreshFilterModel();
-}
-
 void Capture::setupFilterManager()
 {
     // Do we have an existing filter manager?
     if (m_FilterManager)
-    {
-        // If same filter wheel, no need to setup again.
-        if (m_FilterManager->filterWheel() == m_FilterWheel)
-        {
-            m_FilterManager->refreshFilterProperties();
-            return;
-        }
+        return;
 
-        // Otherwise disconnect and create a new instance.
-        m_FilterManager->disconnect(this);
-        m_FilterManager->close();
-    }
+    Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+    // Return global filter manager for this filter wheel.
+    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
-    m_FilterManager.reset(new FilterManager(this));
-    m_FilterManager->setFilterWheel(m_FilterWheel);
     m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
 
     connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()

@@ -1,0 +1,113 @@
+<sect1 id="ai-stars">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Gwiazdy: Podstawowe <acronym
+>FAQ</acronym
+></title>
+<indexterm
+><primary
+>Gwiazdy</primary
+></indexterm>
+
+<qandaset id="stars-faq">
+
+<qandaentry>
+<question>
+<para
+>Czym są gwiazdy?</para>
+</question>
+<answer>
+<para
+><firstterm
+>Gwiazdy</firstterm
+> są to gigantyczne kule gazów (głównie wodoru). Są to także silniki termojądrowe; synteza jądrowa ma miejsce głęboko w jądrze gwiazd, gdzie gęstość jest bardzo wysoka, a temperatura sięga milionów stopni Celsjusza. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Czy Słońce jest gwiazdą?</para>
+</question>
+<answer>
+<para
+>Tak, Słońce jest gwiazdą. Jest to główny obiekt w Układzie Słonecznym. W porównaniu do innych gwiazd nasze Słońce jest dość przeciętne; dla nas zdaje się być dużo większe i jaśniejsze, ponieważ jest miliony razy bliżej niż każda inna gwiazda. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Dlaczego gwiazdy świecą?</para>
+</question>
+<answer>
+<para
+>Najprostsza odpowiedź: gwiazdy świecą, bo są bardzo gorące. To naprawdę nie jest bardziej skomplikowane. Każdy obiekt podgrzany do tysięcy stopni Celsjusza będzie wydzielał światło, tak jak gwiazdy. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Następnym pytaniem jest oczywiście: dlaczego gwiazdy są takie gorące?</para>
+</question>
+<answer>
+<para
+>To już trudniejsze pytanie. Najczęściej spotykana odpowiedź to: gwiazdy uzyskują ciepło z procesów fuzji termojądrowej w ich jądrach. Jednakże nie może to być pierwotną przyczyną ciepła gwiazd, bo gwiazda musiała być gorąca, żeby mogła rozpocząć się fuzja termojądrowa. Fuzja może tylko podtrzymywać ciepło gwiazdy; nie sprawi, aby stała się gorąca. Bardziej poprawną odpowiedzią jest taka, że gwiazdy są gorące, ponieważ się zapadły. Gwiazdy tworzą się z chmur gazowych. Kiedy chmura taka formuje się w gwiazdę, uwalniana jest potencjalna energia grawitacji materiały składowego gwiazdy;na początku jako energia kinetyczna, a potem, kiedy gęstość wzrośnie, jako ciepło. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Czy wszystkie gwiazdy są takie same?</para>
+</question>
+<answer>
+<para
+>Gwiazdy mają wiele wspólnego: wszystkie są kulami ciepłych, gęstych gazów (głównie wodoru), a w środkach niemal wszystkich gwiazd na niebie zachodzą procesy fuzji jądrowej. </para
+><para
+>Jednakże, pod pewnym kątem gwiazdy znacznie się od siebie różnią. Najjaśniejsze gwiazdy świecą prawie 100 milionów razy jaśniej od gwiazd najciemniejszych. Zakres temperatur na powierzchni gwiazd sięga od kilku tysięcy do prawie 50.000 stopni Celsjusza. Różnice te są głównie spowodowane różnicami w masie: masywne gwiazdy są zarówno gorętsze, jak i jaśniejsze w porównaniu do gwiazd o małej masie. Temperatura i jasność zależą również od <emphasis
+>stanu ewolucji</emphasis
+> gwiazdy. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Czym jest ciąg główny?</para>
+</question>
+<answer>
+<para
+><indexterm
+><primary
+>Ciąg główny</primary
+></indexterm
+> Ciąg główny jest stanem ewolucji gwiazdy w którym w jądrze gwiazdy następuje fuzja wodoru. Jest to pierwszy i najdłuższy etap życia gwiazdy. To, co się dzieje, gdy w jądrze gwiazdy skończy się wodór zostanie opisane w artykule o ewolucji gwiazd, który ukaże się już wkrótce. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Jak długo żyją gwiazdy?</para>
+</question>
+<answer>
+<para
+>Czas życia gwiazdy zależy w dużej mierze od jej masy. Bardziej masywne gwiazdy są gorętsze i znacznie jaśniejsze, co powoduje, że potrzebują w krótkim czasie znacznie większej ilości paliwa. Największym gwiazdom (około sto razy bardziej masywnym od Słońca), zabraknie paliwa już po kilku milionach lat; podczas gdy najmniejsze (około dziesięć procent masy Słońca) będą świeciły jeszcze przez <emphasis
+>biliony</emphasis
+> lat. Zauważ, że jest to zdecydowanie więcej czasu niż istnieje sam wszechświat. </para>
+</answer>
+</qandaentry>
+
+</qandaset>
+</sect1>
+
+

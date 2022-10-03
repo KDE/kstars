@@ -1,0 +1,30 @@
+<sect1 id="ai-horizon">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Horisonten</title>
+<indexterm
+><primary
+>Horisonten</primary>
+<seealso
+>Horisontella koordinater</seealso>
+</indexterm>
+<para
+><firstterm
+>Horisonten</firstterm
+> är linjen som skiljer jorden från himlen. Mer exakt är det linjen som skiljer alla riktningar som man har möjlighet att titta i två avdelningar: de som skär jorden och de som inte gör det. På många platser döljs horisonten av träd, byggnader, berg, etc. Om man befinner sig på ett skepp till havs, är horisonten dock fullständigt uppenbar. </para
+><para
+>Horisonten är <firstterm
+>grundplanet</firstterm
+> i det <link linkend="horizontal"
+>horisontella koordinatsystemet</link
+>. Med andra ord är det samlingen punkter som har en <firstterm
+>elevation</firstterm
+> på noll grader. </para>
+</sect1>

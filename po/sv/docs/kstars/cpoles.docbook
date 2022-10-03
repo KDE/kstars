@@ -1,0 +1,64 @@
+<sect1 id="ai-cpoles">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Himmelspolerna</title>
+<indexterm
+><primary
+>Himmelspolerna</primary>
+<seealso
+>Ekvatoriella koordinater</seealso>
+</indexterm>
+<para
+>Himlen verkar driva ovanför från öster till väster, och fullbordar en hel cirkel över himlen på 24 (<link linkend="ai-sidereal"
+>sideriska</link
+>) timmar. Det här fenomenet beror på jordens rotationen kring sin axel. Jordens axel sammanfaller med <link linkend="ai-csphere"
+>himmelssfären</link
+> i två punkter. De här punkterna är <firstterm
+>himmelspolerna</firstterm
+>. Alltmedan jorden snurrar, förblir de fasta på himlen, och alla andra punkter verkar rotera runt dem. Himmelspolerna är också polerna i det <link linkend="equatorial"
+>ekvatoriella koordinatsystemet</link
+>, vilket betyder att de har <firstterm
+>deklinationer</firstterm
+> som är +90 grader och -90 grader (för norra och södra himmelspolen). </para
+><para
+>Den norra himmelspolen har för närvarande nästan samma koordinater som den ljusstarka <firstterm
+>polstjärnan</firstterm
+> (på latin <quote
+>Polaris</quote
+>). Det här gör att polstjärnan är användbar för navigering: den är inte bara hela tiden över den norra punkten på horisonten, utan dess <link linkend="horizontal"
+>höjdvinkel</link
+> är alltid (nästan) samma som observatörens <link linkend="ai-geocoords"
+>geografiska latitud</link
+> (dock är polstjärnan bara synlig från platser på norra halvklotet). </para
+><para
+>Det faktum att polstjärnan är nära polen är en ren tillfällighet. I själva verket, på grund av <link linkend="ai-precession"
+>precession</link
+>, är polstjärnan bara nära polen en liten del av tiden. </para>
+<tip>
+<para
+>Övningar:</para>
+<para
+>Använd fönstret <guilabel
+>Sök objekt</guilabel
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+>) för att hitta polstjärnan. Observera att dess deklination är nästan (men inte precis) +90 grader. Jämför elevationen när du fokuserar på polstjärnan med din positions geografiska latitud. De är alltid inom en grad från varandra. De är inte exakt likadana eftersom polstjärnan inte befinner sig exakt vid polen (du kan peka exakt på polen genom att byta till ekvatoriella koordinater, och trycka på uppåtpilen tills himlen slutar panorera). </para
+><para
+>Använd rutan <guilabel
+>Tidsteg</guilabel
+> i verktygsraden för att accelerera tiden till ett steg på 100 sekunder. Du kan se att hela himlen verkar rotera runt polstjärnan, medan den själv verkar nästan stillastående. </para
+><para
+>Vi nämnde att himmelspolen är polen för det ekvatoriella koordinatsystemet. Vad tror du att polen för det horisontella (elevation/azimut) koordinatsystemet är? (<link linkend="ai-zenith"
+>Zenit</link
+>). </para>
+</tip>
+</sect1>

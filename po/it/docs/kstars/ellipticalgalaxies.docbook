@@ -1,0 +1,98 @@
+<sect1 id="ai-ellipgal">
+<sect1info>
+<author
+><firstname
+>Jasem</firstname
+> <surname
+>Mutlaq</surname
+> <affiliation
+><address>
+</address
+></affiliation>
+</author>
+</sect1info>
+
+<title
+>Galassie ellittiche</title>
+<indexterm
+><primary
+>Galassie ellittiche</primary>
+</indexterm>
+
+<para
+>Le galassie ellittiche sono concentrazioni sferoidali di miliardi di stelle che assomigliano ad ammassi globulari su grande scala. Non mostrano una struttura interna rilevante; la densità di stelle decresce regolarmente andando dall'alta densità del centro alle rarefatte estremità, e possono presentare un vasto intervallo di ellitticità (o rapporto tra gli assi). Contengono tipicamente quantità molto scarse di gas e polvere interstellare, e nessuna popolazione stellare giovane (anche se vi sono eccezioni a queste regole). Edwin Hubble si riferiva alle galassie ellittiche col nome di galassie di tipo primitivo (<quote
+>early-type</quote
+>), perché pensava che si evolvessero fino a formare le galassie spirali (che chiamava galassie di tipo avanzato, o <quote
+>late-type</quote
+>). Per la verità ora gli astronomi pensano che accada il contrario (e cioè che le galassie spirali possano trasformarsi in ellittiche), ma i nomi ideati da Hubble sono ancora usati. </para>
+
+<para
+>Inizialmente ritenute un tipo galattico semplice, le ellittiche sono ora note come oggetti abbastanza complessi. Parte di questa complessità è dovuta alla loro affascinante storia: si pensa che le ellittiche siano il risultato della fusione di due galassie spirali. Puoi vedere il filmato MPEG della simulazione al computer di una fusione simile presso <ulink url="http://oposite.stsci.edu/pubinfo/pr/2002/11/vid/v0211d3.mpg"
+>questa pagina HST della NASA</ulink
+> (avvertenza: il file è di 3,4 MByte). </para>
+
+<para
+>Le galassie ellittiche occupano un vasto intervallo di dimensioni e luminosità, dalle ellittiche giganti grandi centinaia di migliaia di anni luce e quasi mille miliardi di volte più luminose del Sole, fino alle ellittiche nane, appena più luminose di un ammasso globulare medio. Sono divise in diverse classi morfologiche: </para>
+
+<variablelist>
+<varlistentry>
+<term
+>Galassie cD:</term>
+<listitem
+><para
+>Oggetti immensi e luminosi che possono arrivare a quasi un Megaparsec (tre milioni di anni luce). Questi titani si trovano soltanto presso il centro di grandi e densi ammassi di galassie, e sono verosimilmente il risultato di molte fusioni tra galassie.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Galassie ellittiche normali</term>
+<listitem
+><para
+>Oggetti condensati con brillanze superficiali relativamente alte. Includono le ellittiche giganti (gE), le ellittiche di luminosità intermedia (E) e le ellittiche compatte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Galassie ellittiche nane (dE)</term>
+<listitem
+><para
+>Questa categoria di galassie presenta differenze sostanziali rispetto alle ellittiche normali. I loro diametri sono dell'ordine di 1-10 chiloparsec, con brillanze superficiali molto minori di quelle delle ellittiche normali, il che conferisce loro un aspetto molto più diffuso. Mostrano lo stesso caratteristico decremento graduale della densità di stelle da un nucleo relativamente denso a una periferia diffusa.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Galassie sferoidali nane (dSph)</term>
+<listitem
+><para
+>Caratterizzate da luminosità e brillanza superficiale estremamente basse, sono state osservate soltanto nelle vicinanze della Via Lattea, e forse in altri gruppi di galassie molto vicini, come quello del Leone. Le loro magnitudini assolute vanno soltanto da -8 a -15. La galassia nana sferoidale del Dragone ha una magnitudine assoluta di -8,6, che la rende più debole di un tipico ammasso globulare della Via Lattea! </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Galassie nane blu compatte (BCD)</term>
+<listitem>
+<para
+>Piccole galassie insolitamente blu. Hanno colori fotometrici B-V da 0,0 a 0,30 magnitudini, valori tipici di stelle relativamente giovani di <firstterm
+>tipo spettrale</firstterm
+> A. Ciò suggerisce che le BCD stiano al momento formando attivamente stelle. Questi sistemi dispongono inoltre di abbondante gas interstellare (a differenza di altre galassie ellittiche). </para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<tip>
+<para
+>Puoi vedere esempi di galassie ellittiche in &kstars; usando la finestra Trova oggetto (<keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+>). Cerca NGC 4881, che è la galassia cD gigante nell'ammasso di galassie della Chioma. M 86 è una galassia ellittica normale nell'ammasso di galassie della Vergine. M 32 è un'ellittica nana satellite della nostra vicina, la galassia di Andromeda (M31). M 110 è un'altra satellite di M31, ed è un caso limite di galassia sferoidale nana (<quote
+>caso limite</quote
+> perché è alquanto più luminosa della maggior parte delle altre nane sferoidali). </para>
+</tip>
+</sect1>

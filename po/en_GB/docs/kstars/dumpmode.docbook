@@ -1,0 +1,76 @@
+<chapter id="dumpmode">
+<title
+>Command-Line mode for Image Generation</title>
+<indexterm
+><primary
+>Image-dump Mode</primary
+></indexterm>
+
+<para
+>You can use &kstars; to generate an image of the sky without actually launching the <acronym
+>GUI</acronym
+> portion of the program. To use this feature, start &kstars; from a command prompt using arguments to specify the filename for the image, as well as the desired image dimensions: <cmdsynopsis
+><command
+>kstars</command
+> <arg choice="plain"
+>--dump</arg
+> <arg
+>--filename <replaceable
+>kstars.png</replaceable
+></arg
+> <arg
+>--height <replaceable
+>640</replaceable
+></arg
+> <arg
+>--width <replaceable
+>480</replaceable
+></arg
+> <arg
+>--script <replaceable
+>myscript.kstars</replaceable
+></arg
+> </cmdsynopsis>
+</para>
+<para
+>If no filename is specified, it generates a file named <filename
+>kstars.png</filename
+>. It will attempt to generate an image that matches the extension of your filename. The following extensions are recognised: <quote
+>png</quote
+>, <quote
+>jpg</quote
+>, <quote
+>jpeg</quote
+>, <quote
+>gif</quote
+>, <quote
+>pnm</quote
+>, and <quote
+>bmp</quote
+>. If the filename extension is not recognised, it defaults to the <acronym
+>PNG</acronym
+> image type. </para>
+<para
+>Likewise, if the image width and height are not specified, they default to 640 and 480, respectively. </para>
+<para
+>By default, &kstars; will read in the options values stored in your <filename
+>$KDEHOME/share/config/kstarsrc</filename
+> file to determine where the image will be centred, and how it is rendered. This means you need to run &kstars; in normal GUI mode, and exit the program when it is set up with the desired options for the generated images. This is not very flexible, so we also provide the ability to execute a &kstars; <acronym
+>DCOP</acronym
+> script to set the scene before generating the image. The filename you specify as the script argument should be a valid &kstars; <acronym
+>DCOP</acronym
+> script, such as one created with the <link linkend="tool-scriptbuilder"
+>Script Builder Tool</link
+>. The script can be used to set where the image is pointing, set the geographic location, set the time and date, change the Zoom level and adjust other view options. Some of the <acronym
+>DCOP</acronym
+> functions make no sense in non-GUI mode (such as <function
+>waitForKey()</function
+>); if these functions are encountered while parsing the script, they are simply ignored. </para>
+<para
+>As an alternative to having to execute a &kstars; <acronym
+>DCOP</acronym
+> script, we will provide an argument to specify an alternate <filename
+>kstarsrc</filename
+> config file, in a future version of &kstars;. </para>
+
+</chapter>

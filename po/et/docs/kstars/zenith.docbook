@@ -1,0 +1,44 @@
+<sect1 id="ai-zenith">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>Seniit</title>
+<indexterm
+><primary
+>Seniit</primary>
+<seealso
+>Horisondilised koordinaadid</seealso>
+</indexterm>
+<para
+>Seniit on punkt taevas, kuhu sa vaatad, kui vaatad maapinnalt <quote
+>otse üles</quote
+>. Täpsemalt on see punkt taevas, mille <firstterm
+>kõrgus</firstterm
+> on +90 kraadi; see on <link linkend="horizontal"
+>horisondilise koordinaatide süsteemi</link
+> poolus. Geomeetriliselt on see punkt <link linkend="ai-csphere"
+>taevasfääril</link
+>, mida läbib joon, mis on tõmmatud Maa keskpunktist läbi sinu asukoha maakera pinnal. </para
+><para
+>Seniit on definitsiooni kohaselt punkt <link linkend="ai-meridian"
+>kohalikul meridiaanil</link
+>. </para>
+<tip>
+<para
+>Ülesanne:</para>
+<para
+>Seniidi võib märkida vajutusega klahvile <keycap
+>Z</keycap
+> või valides menüüst <guimenu
+>Asukoht</guimenu
+> kirje <guimenuitem
+>Seniit</guimenuitem
+>. </para>
+</tip>
+</sect1>

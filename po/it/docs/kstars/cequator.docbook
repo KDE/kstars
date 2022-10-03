@@ -1,0 +1,34 @@
+<sect1 id="ai-cequator">
+<sect1info>
+<author
+><firstname
+>Jason</firstname
+> <surname
+>Harris</surname
+> </author>
+</sect1info>
+<title
+>L'equatore celeste</title>
+<indexterm
+><primary
+>Equatore celeste</primary>
+<seealso
+>Coordinate equatoriali</seealso>
+</indexterm>
+<para
+>L'<firstterm
+>equatore celeste</firstterm
+> è un <link linkend="ai-greatcircle"
+>cerchio massimo</link
+> immaginario sulla <link linkend="ai-csphere"
+>sfera celeste</link
+>. L'equatore celeste è il piano fondamentale del <link linkend="equatorial"
+>sistema di coordinate equatoriali</link
+>, ed è quindi definito come il luogo dei punti con declinazione nulla. È anche la proiezione dell'equatore terrestre sulla sfera celeste. </para>
+<para
+>L'equatore celeste e l'<link linkend="ai-ecliptic"
+>eclittica</link
+> formano un angolo di 23,5 gradi. I loro punti di intersezione sono gli <link linkend="ai-equinox"
+>equinozi</link
+> vernale e autunnale. </para>
+</sect1>

@@ -1,0 +1,1211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sect2 id="ekos-focus">
+  <title
+>Mise au point</title>
+
+  <indexterm>
+    <primary
+>Outils</primary>
+
+    <secondary
+>Ekos</secondary>
+
+    <tertiary
+>Mise au point</tertiary>
+  </indexterm>
+
+  <sect3 id="focus-theory">
+    <title
+>Théorie de la procédure</title>
+
+    <screenshot>
+      <screeninfo
+>Mise au point Ekos </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="ekos_focus.png" format="PNG" width="75%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Mise au point Ekos</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Afin d'effectuer la mise au point d'une image, Ekos a besoin d'utiliser une méthode numérique pour juger de la <emphasis
+>valeur</emphasis
+> de votre mise au point. Il est très facile pour un humain d'estimer si une image n'est pas <emphasis
+>nette</emphasis
+> puisque l'œil humain est très bon à cela, mais <emphasis
+>comment</emphasis
+> est-ce qu'Ekos peut le savoir ? </para>
+
+    <para
+>Il existe plusieurs méthodes. L'une d'entre elles est de calculer la largeur complète à mi-hauteur (FWHM ou Full Width at Half Maximum) du profil d'une étoile de l'image et ensuite ajuster la mise au point jusqu'à minimiser cette valeur. Le problème avec cette méthode est qu'elle suppose que la position initiale de mise au point est proche de la mise au point optimale. De plus, elle ne se comporte pas très bien pour des flux très faibles. Une méthode alternative est le HFR (Half-Flux-Radius) qui mesure la largeur en pixels en comptant du centre de l'étoile jusqu'à ce que la valeur accumulée de l'intensité vaut la moitié du flux total de l'étoile. Cette méthode est bien plus stable dans des conditions de ciel défavorables et quand le profil de luminosité des étoiles est faible ou encore quand la position de départ de la mise au point est éloignée de la position optimale. </para>
+
+    <para
+>Après qu'Ekos ait traité une image, il sélectionne l'étoile la plus brillante et commence à mesurer son HFR ou il sélectionne en ensemble d'étoiles correspondant aux critères qui ont été réglés et calcule un HFR moyen. Il peut sélectionner une étoile automatiquement ou vous pouvez lui indiquer quelle étoile utiliser. Il est en général recommandé de permettre à Ekos de choisir un ensemble d'étoiles. </para>
+
+    <para
+>Ekos propose 4 algorithmes différents de mise au point : Itératif, Polynomial, Linéaire et Linéaire 1 passe. </para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Itératif</emphasis
+> : dans cet algorithme, Ekos fonctionne de manière itérative en se déplaçant par pas discret, dont la valeur initiale a été décidée par l'utilisateur et ensuite par la pente de la courbe en V, pour être le plus près possible de la position optimale de la mise au point où il diminue ensuite la taille des pas pour se rapprocher encore plus de la position optimale. La procédure s'arrête quand le HFR mesuré se trouve dans une plage de tolérance configurable du HFR minimum enregistré. En d'autres termes, quand la procédure cherche une solution dans une plage étroite, il vérifie si le HFR courant est dans une plage de tolérance acceptable comparé au HFR minimum enregistré et si cette condition est remplie, la procédure de mise au point est considérée comme réussie. La valeur de tolérance par défaut est réglé à 1% et est suffisante pour la plupart des situations. Les options de pas spécifient le nombre initial d'encoches pour le déplacement du moteur. Si l'image est loin de la mise au point, on augmente ce nombre (&cad; plus grand que 250). Sinon, si la position de mise au point est proche de la position optimale, on réduit cette valeur à environ 50. C'est un processus d'essais et d'erreurs pour trouver la bonne valeur de départ, mais Ekos ne l'utilise que pour le premier déplacement de mise au point, tous les suivants dépendant de la pente de la courbe en V. Les fonctionnalités principales incluent : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>L'algorithme repose sur un jeu (backlash) du moteur de mise au point bien contrôlé. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme peut être rapide en utilisant un nombre minimum d'étapes. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme fonctionne grâce à un paradigme « acceptable » selon lequel il s'arrête quand le HFR se trouve dans un certain pourcentage de tolérance du minimum perçu. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Polynomial</emphasis
+> : avec cet algorithme, la procédure débute en mode Itératif mais une fois que l'on franchit l'autre côté de la courbe en V (quand les valeurs HFR recommencent d'augmenter après avoir diminué pour un moment), Ekos commence un calcul de régression polynomial afin de trouver une solution qui prédit la position HFR minimale. Les fonctionnalités principales incluent : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>L'algorithme repose sur un jeu (backlash) du moteur de mise au point bien contrôlé. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme peut être rapide en utilisant un nombre minimum d'étapes. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme utilise une interpolation pour déterminer la position optimale de mise au point. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Linéaire</emphasis
+> : dans cet algorithme, Ekos se déplace vers l'extérieur depuis son point de départ puis recule en prenant plusieurs points près de la position de mise au point optimale puis recule encore pour dessiner la courbe en V. Il effectue ensuite une régression sur la courbe quadratique et calcule le point optimal. Il repart ensuite vers l'extérieur en dépassant le point optimal, divise par deux le pas, et recule encore pour une seconde passe. Il essaie de suivre la courbe de la première passe et trouve la valeur de HFR minimale. Comme les mesures du HFR sont aléatoires, il utilise le pourcentage de tolérance pour décider si une solution a été trouvée. Les fonctionnalités principales incluent : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>L'algorithme peut compenser le jeu du moteur de mise au point et peut gérer aussi bien les jeux réguliers qu'irréguliers. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme est lent car il nécessite deux passes pour identifier la mise au point optimale. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme utilise une interpolation pour déterminer la position optimale de la mise au point à la première passe puis utilise un pourcentage de tolérance pour s'arrêter aussi près que possible de ce HFR à la seconde passe. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme peut être finement contrôlé par l'utilisateur grâce à de nombreux paramètres tels que la taille et le nombre de pas. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Linéaire 1 passe</emphasis
+> : cet algorithme débute comme l'algorithme linéaire en établissant une courbe en V puis en interpolant cette courbe pour trouver une solution. Puis il se déplace directement au minimum calculé. Les fonctionnalités principales incluent : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>L'algorithme compense le jeu du moteur de mise au point à condition que le jeu soit régulier. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme est rapide puisqu'il nécessite une passe pour identifier la mise au point optimale. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme utilise une interpolation plus sophistiquée pour identifier la position optimale de la mise au point. </para>
+          </listitem>
+
+          <listitem>
+            <para
+>L'algorithme peut être finement contrôlé par l'utilisateur grâce à de nombreux paramètres tels que la taille et le nombre de pas. </para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-focuser-group">
+    <title
+>Moteur de mise au point</title>
+
+    <screenshot>
+      <screeninfo
+>Réglages du moteur de mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focuser_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Réglages du moteur de mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Tout moteur de mise au point compatible INDI est géré. Il est recommandé d'utiliser des moteurs de mise au point à position <emphasis role="bold"
+>absolue</emphasis
+> puisque leur position absolue est connue à la mise sous tension. Dans INDI, la position <emphasis
+>zéro</emphasis
+> du moteur de mise au point correspond à un tube <emphasis role="bold"
+>complètement rentré</emphasis
+>. Quand la mise au point se fait vers l'extérieur, la position du moteur de mise au point augmente et inversement. Les types suivants de moteurs de mise au point sont gérés : </para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Position absolue</emphasis
+> : moteurs de mise au point à position absolue tels que RoboFocus, Moonlite, ASI ZWO </para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Position relative</emphasis
+> : moteur de mise au point à position relative. </para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Basé sur une durée</emphasis
+> : les moteurs de mise au point basés sur une durée n'ont pas de donnée de position mais ajuste la position de mise en se déplaçant pendant une certaine durée.  </para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Débutez en choisissant un moteur de mise au point dans la liste déroulante. </para>
+
+    <para
+>Pour les moteurs de mise au point à position absolue, vous pouvez régler le nombre initial d'encoches dans le champ Taille initiale de pas dans l'onglet <link linkend="focus-mechanics"
+>Mécaniques</link
+>. Les pas sont comptés en unité d'encoche pour les moteurs de mise au point à position absolue et relative et en <emphasis
+>millisecondes</emphasis
+> pour les moteurs simples ou basés sur le temps. Les boutons <guibutton
+>En avant</guibutton
+> et <guibutton
+>En arrière</guibutton
+> peuvent ensuite être utilisés pour déplacer le moteur de ce nombre de pas.</para>
+
+    <para
+>Les champs Pas contiennent initialement le point de départ de l'encoche du moteur de mise au point. Au cours de son déplacement, le champ de gauche sera mis à jour pour refléter la position courant du moteur. Le champ de droite contient initialement la position de départ mais ne sera mis à jour que lorsqu'une mise au point automatique aura réussi, cela afin de conserver la dernière bonne position. De plus, le champ de droite permet de régler une valeur choisie et de s'y rendre en cliquant sur le bouton <guibutton
+>Aller à</guibutton
+>.</para>
+
+    <para
+>Le bouton <guibutton
+>Aller à</guibutton
+> déplace le moteur de mise au point à la position indiquée dans le champ de droite. </para>
+
+    <para
+>Le bouton <guibutton
+>Arrêter mouvement</guibutton
+> arrête le mouvement du moteur de mise au point. </para>
+
+    <para
+>Le bouton <guibutton
+>Mise au point automatique</guibutton
+> démarre l'exécution de la procédure de mise au point automatique. Le bouton <guibutton
+>Stop</guibutton
+> l'arrête. </para>
+
+    <para
+>Le bouton <guibutton
+>Acquisition image</guibutton
+> démarre l'acquisition d'une image basée sur les réglages du <guilabel
+>CCD et de la roue à filtres</guilabel
+>. Le bouton <guibutton
+>En boucle</guibutton
+> démarre l'acquisition en boucle de trames jusqu'à ce que le bouton <guibutton
+>Arrêter</guibutton
+> est activé. </para>
+
+    <para
+>Certains algorithmes de mise au point essaient de se débrouiller quand la procédure débute loin de la position optimale de mise au point. Néanmoins, il est toujours mieux de débuter d'une position proche de la mise au point. Pour les premiers réglages, l'utilisation de l'acquisition <guibutton
+>En boucle</guibutton
+> et des boutons <guibutton
+>En avant</guibutton
+> et <guibutton
+>En arrière</guibutton
+> simplifie la recherche de la position de mise au point en cherchant un HFR grossier des images acquises. Lorsque l'acquisition en boucle est utilisée de cette manière, le graphique de la <link linkend="focus-v-curve"
+>courbe en V</link
+> est modifié pour afficher une série temporelle des trames et leur valeur de HFR associée. Cela rend la procédure beaucoup plus simple à réaliser.</para>
+
+    <para
+>Si vous êtes complètement novice en astronomie, c'est toujours une bonne idée de se familiariser avec son équipement de jour. Cela inclut de trouver la position approximative de la mise au point sur un objet distant et permettra d'avoir un bon point de départ à la nuit tombée.</para>
+  </sect3>
+
+  <sect3 id="focus-ccd-filter-wheel">
+    <title
+>CCD &amp; roue à filtres</title>
+
+    <screenshot>
+      <screeninfo
+>Mise au point CCD &amp; roue à filtres </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_ccdfw_group.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Mise au point CCD &amp; roue à filtres</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Choisir le CCD du menu déroulant pour la procédure de mise au point. Le bouton <guibutton
+>Vidéo en direct</guibutton
+> affiche la fenêtre contextuelle associée. Ensuite, réglez la durée d'exposition. Le bouton <guibutton
+>Activer plein écran</guibutton
+> permet d'afficher la trame de mise au point dans une fenêtre séparée. Un nouveau clic sur ce bouton la ramène dans la fenêtre de mise au point. Le bouton <guibutton
+>Afficher dans l'afficheur FITS</guibutton
+> lance une nouvelle fenêtre de l'afficheur FITS pour l'affichage de la trame de la mise au point en complément de celle affichée dans la fenêtre de mise au point.</para>
+
+    <para
+>La ligne suivante de réglages permet de régler les paramètres du CCD. Choisissez une valeur pour le groupement de pixels (binning) puis réglez le gain de la caméra ou son ISO.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Groupement de pixels</guilabel
+> : l'augmentation du groupement de pixels modifie l'échelle de l'image et permet d'obtenir des pixels plus clairs. Un bon point de départ est un groupement de pixels de 1x1 et ensuite tester si un groupement de pixels plus élevés comme 2x2 ou 4x4 donne de meilleurs résultats.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Gain/ISO</guilabel
+> : régler le gain ou l'ISO du CCD utilisé pour la mise au point. Cette valeur doit être assez grande pour donner un motif d'étoile clair mais pas trop grande pour éviter que le bruit ajouté interfère avec l'opération de mise au point. Il sera nécessaire de tester plusieurs valeurs pour trouver la valeur optimale. Si vous ne savez pas où commencer, réglez le gain à un et ajuster depuis là.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>La ligne suivante de réglages gère la roue à filtres si présente. Choisissez d'abord la roue à filtres depuis le menu déroulant et le filtre à utiliser. Pour débuter la procédure de mise au point, il sera probablement plus aisé de choisir un filtre qui laisse passer le plus de lumière comme le filtre de luminance. Le bouton <guibutton
+>Réglages des filtres</guibutton
+> fait apparaître la fenêtre de <link linkend="capture-filter-settings"
+>réglages des filtres</link
+>. Elle permet de régler un grand nombre de paramètres par filtre utilisé lors de la procédure de mise au point automatique autonome pour un utilisateur n'étant pas disponible pendant son exécution. En général, deux types d'exécution de la mise au point sont permis :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><emphasis role="bold"
+>Par filtre</emphasis
+> : quand un autre module, par exemple le module d'acquisition, nécessite un changement de filtre, il est possible d'exécuter une procédure de mise au point automatique pour ce nouveau filtre. La durée d'exposition pour chaque filtre est définie dans la fenêtre <link linkend="capture-filter-settings"
+>Réglage des filtres</link
+>. Cela est très utile pour les filtres à bande étroite qui demande des durées d'exposition plus élevée que ceux à bande large.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><emphasis role="bold"
+>Filtre bloqué</emphasis
+> : il est possible de spécifier un filtre bloqué quand un autre filtre est requis pour une mise à jour automatique. Par exemple, si un filtre rouge est utilisé et qu'une mise au point automatique est nécessaire, il est possible de lancer une mise au point automatique avec le filtre de luminance et une fois fait, d'ajuster la position de la mise au point en décalant la position d'une valeur correspondant à la différence de position entre les mises au point du filtre rouge et du filtre de luminance. Cela est utile quand, par exemple, il est difficile d'effectuer de mettre au point avec certains filtres qui demandent des durées d'exposition excessivement longues. Veuillez noter que cette approche peut également être utilisée avec le <link linkend="ekos-align"
+>module d'alignement</link
+> pour une résolution astrométrique.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Vous pouvez choisir le capteur de température du menu déroulant sur la ligne suivante de commandes. La température courante est affichée juste en dessous ainsi que la variation de température depuis la dernière mise au point automatique. C'est une pratique courante de relancer une mise au point quand la température varie significativement puisque cela altère la position de mise au point du télescope. </para>
+  </sect3>
+
+  <sect3 id="focus-settings">
+    <title
+>Réglages de la mise au point</title>
+
+    <screenshot>
+      <screeninfo
+>Réglages de la mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_settings.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Réglages de la mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Ensuite sont affichés trois onglets de panneau de réglages. Ces paramètres sont conservés entre sessions. Le premier est le panneau de réglages.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Sélection automatique d'étoile</guilabel
+> : permet à Ekos de choisir une ou des étoiles sur lesquelles mettre au point depuis l'image. Si cette case n'est pas cochée, c'est à l'utilisateur de choisir une étoile.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Trame Dark</guilabel
+> : cochez cette option pour réaliser une soustraction d'une trame Dark. Cette option peut être utile pour les images contenant beaucoup de bruit où un Dark est soustrait de l'image de mise au point avant tout autre traitement.</para>
+
+        <para
+>Les trames Dark sont utilisées pour la mise au point, l'alignement et le guidage. Veuillez consulter la fonctionnalité de bibliothèques de Dark dans le <link linkend="ekos-capture"
+>module d'acquisition</link
+> pour davantage de détails sur l'utilisation des trames Dark.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sous-trame</guilabel
+> : permet d'utiliser soit le champ complet de la caméra soit une sous-trame autour de l'étoile à mettre au point durant la procédure de mise au point automatique. Cela n'est pertinent que si une seule étoile est utilisée pour la mise au point. Cette option peut accélérer la procédure de mise au point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Taille de la boîte</guilabel
+> : règle la taille de la boîte qui délimite l'étoile de mise au point lors de l'utilisation d'une <emphasis role="bold"
+>sous-trame</emphasis
+>. Augmentez si vous avez de très grosses étoiles. Pour la mise au point avec un masque de Bathinov, vous pouvez encore plus l'augmenter pour inclure les motifs de diffraction.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Champ complet</guilabel
+> : permet d'utiliser soit le champ complet de la caméra soit une sous-trame autour de l'étoile à mettre au point durant la procédure de mise au point automatique. Cette option doit être sélectionnée lors de l'utilisation de l'option étoiles multiples.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Anneau</guilabel
+> : utilisée conjointement avec l'option Champ complet, cette option fournit deux champs qui définissent une région en forme de beignet qui recouvre le CdV de la caméra. Les étoiles en dehors de cette région ne sont pas prise en compte dans le traitement. En réglant la valeur intérieure au dessus de 0%, les étoiles au centre du CdV sont rejetées. Cela peut être utile pour éviter d'utiliser des étoiles de la cible de l'image (par exemple une galaxie) pour la procédure de mise au point. En réglant la valeur extérieure sous 100%, les étoiles se trouvant sur les bords du CdV sont rejetées. Cela peut être utile si vous ne disposez pas d'une image flat allant jusqu'aux coins du CdV.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Suspendre le guidage</guilabel
+> : cocher cette option pour suspendre le guidage durant la procédure de mise au point automatique. Une vérification supplémentaire est faite pour suspendre le guidage que s'il est effectué via le télescope imageur, par exemple lors de l'utilisation d'un guidage par diviseur optique (OAG). La raison est de prévenir le guidage d'avoir des problèmes avec des étoiles dont la mise au point n'est pas faite lors de la procédure de mise au point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Stabiliser</guilabel
+> : cette option est utilisée conjointement avec <guilabel
+>Suspendre le guidage</guilabel
+>. Elle permet d'attendre ce nombre de secondes pour que le train optique se stabilise après la procédure de mise au point automatique avant de reprendre le guidage.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Poids</guilabel
+> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Elle nécessite l'option Champ complet. Elle calcule la déviation standard du HFR des étoiles et utilise le carré de cette valeur (la variance mathématique) comme poids pour la courbe d'interpolation. L'avantage de cette méthode est que les points moins fiables, de déviation standard du HFR plus grande, auront un poids plus petit que les points plus fiables. Si cette option n'est pas cochée, tous les points auront un poids identique dans le calcul d'interpolation. </para>
+
+        <para
+>Voir le <link linkend="Levenberg-Marquardt"
+>résolveur de Levenberg-Marquardt</link
+> pour davantage de détails.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Limite r²</guilabel
+> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Faisant partie de l'algorithme linéaire à 1 passe, le degré de la courbe d'interpolation, ou <link linkend="Coefficient_of_Determination"
+>coefficient de détermination</link
+> est calculé. Cette option permet de définir une valeur minimale acceptable pour R² qui est comparée à la valeur obtenue par l'interpolation de la courbe. Si la valeur minimale n'a pas été atteinte, alors la procédure de mise au point automatique est relancée. Néanmoins, une seule relance du processus sera réalisée et même si le minimum de R² n'a pas été atteinte, le processus de mise au point automatique sera considérée comme étant un succès.</para>
+
+        <para
+>Testez pour trouver une valeur appropriée mais un bon point de départ serait 0,8 ou 0,9.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-process">
+    <title
+>Procédure de mise au point</title>
+
+    <screenshot>
+      <screeninfo
+>Procédure de mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_process.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Procédure de mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Ceci est le tableau de bord des paramètres de la procédure de mise au point.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Détection</guilabel
+> : choix de l'algorithme de détection d'étoile. Chaque algorithme a ses forces et ses faiblesses. Il est recommandé de conserver la valeur par défaut, SEP, sauf s'il échoue à détecter correctement les étoiles. Voici ce qui est disponible :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>SEP</emphasis
+> : la bibliothèque intégrée d'extraction de source et de photométrie (Source Extraction and Photometry). C'est la valeur par défaut.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Centroïde</emphasis
+> : une méthode d'extraction basée sur une estimation de la masse de l'étoile autour du pic du signal.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Gradient</emphasis
+> : une méthode d'extraction d'une source unique basée sur le filtre de Sobel. </para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Seuil</emphasis
+> : une méthode d'extraction d'une source unique basée sur la valeur des pixels. </para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Bathinov</emphasis
+> : cette méthode de détection peut être utilisée quand un masque de Bathinov est utilisé pour la mise au point. Prenez d'abord une image, puis sélectionnez l'étoile sur laquelle faire la mise au point. Une nouvelle image sera prise et le motif de diffraction sera analysé. Trois lignes seront affichées sur le motif de diffraction montrant la qualité de la détection et de la mise au point. Quand le motif n'est pas bien détecté, le paramètre <emphasis
+>Nombre de lignes</emphasis
+> peut être ajusté pour améliorer la détection. La ligne avec les cercles aux deux bouts est un indicateur grossi pour la mise au point. Plus cette ligne est courte et meilleure sera la mise au point.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Profile SEP</guilabel
+> : si l'algorithme de détection d'étoiles est réglé à <emphasis
+>SEP</emphasis
+>, il faut ensuite choisir un paramètre de profil pour l'utilisation de l'algorithme. Il est recommandé d'utiliser le profile par défaut 1-Focus-Default comme point de départ.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Seuil</guilabel
+> : la valeur en pourcentage du seuil est utilisée pour détecter les étoiles pour l'algorithme de détection <emphasis
+>Seuil</emphasis
+>. Augmentez cette valeur pour restreindre le centroïde aux cœurs brillants. Diminuez-là pour inclure les étoiles floues.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Algorithme</guilabel
+> : choisissez l'algorithme pour la procédure de mise au point automatique : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>Itératif</emphasis
+> : déplace le moteur de mise au point par pas discret de taille initiale fixée. Une fois que la pente de la courbe est calculée, les tailles de pas suivants sont calculées pour atteindre une solution optimale. L'algorithme s'arrête dès que la valeur HFR mesurée se trouve dans la plage de <emphasis role="bold"
+>tolérance</emphasis
+> définie.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Polynomial</emphasis
+> : débute avec la méthode itérative. Quand la position passe de l'autre côté de la courbe en V, une interpolation polynomiale est calculée pour déterminer la position de la solution minimale. Cet algorithme peut être plus rapide que la méthode itérative avec un bon ensemble de données.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Linéaire</emphasis
+> : cet algorithme construit une courbe en V avec approximativement un <emphasis role="bold"
+>multiple de pas extérieur</emphasis
+> de chaque côté du minimum. Une fois cette courbe en V construite, une interpolation quadratique est réalisée sur cette courbe (forme parabolique) et l'utilise pour calculer la position du moteur de mise au point, ce qui donne la valeur minimale du HFR. Une fois cette valeur minimale identifiée, une seconde passe est réalisée avec des pas divisés par deux pour recréer la courbe de la première passe. L'algorithme s'arrête une fois que la valeur est dans la <emphasis role="bold"
+>tolérance</emphasis
+> de la valeur minimale du HFR calculée lors de la première passe.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Linéaire à 1 passe</emphasis
+> : cet algorithme commence comme l'algorithme <emphasis role="bold"
+>linéaire</emphasis
+> en construisant une courbe en V. Une fois fait, une interpolation est réalisée selon le type de <emphasis role="bold"
+>courbe</emphasis
+> des points de données et ensuite calcule la position du moteur de mise au point ce qui donne la valeur minimale du HFR. Cette valeur étant identifiée, le moteur se déplace directement vers ce point d'une manière qui neutralise le jeu du moteur.</para>
+
+            <para
+>Cet algorithme gère l'ancien type de courbe quadratique ainsi que le nouveau <link linkend="Levenberg-Marquardt"
+>résolveur Levenberg-Marquardt</link
+> pour les courbes hyperboliques et paraboliques. Il déterminera aussi les poids des points d'interpolation si l'option Utiliser les poids est cochée.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Effets</guilabel
+> : vous pouvez aussi utiliser un filtre d'<guilabel
+>Effets</guilabel
+> pour améliorer l'image pour les aperçus. Il est grandement conseillé d'éteindre tout effet durant la procédure de mise au point automatique puisqu'il risque d'interférer avec les calculs de HFR. Pour les APN, vous pouvez modifier les réglages d'ISO.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Tolérance</guilabel
+> : le pourcentage de tolérance est le critère d'arrêt de la procédure de mise au point automatique pour l'algorithme <guilabel
+>Itératif</guilabel
+> et <guilabel
+>Linéaire</guilabel
+>. Durant cette procédure, les valeurs HFR sont enregistrées et une fois que le moteur de mise au point est proche de la position optimale, il compare les HFR aux valeurs de HFR minimales et s'arrête dès qu'une valeur HFR est dans cette plage de tolérance. Diminuez cette valeur pour restreindre le rayon de la solution et inversement. </para>
+
+        <warning>
+          <para
+>Veuillez noter que si cette valeur est trop faible, il est possible que l'algorithme entre dans une boucle qui fera échouer la procédure de mise au point automatique. </para>
+        </warning>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Taille du noyau</guilabel
+> : la taille du noyau du flou gaussien appliquée à l'image avant d'appliquer l'algorithme de détection des bords de Bathinov. Utilisé quand Bathinov est l'algorithme de <emphasis role="bold"
+>détection</emphasis
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Moyenner</guilabel
+> : nombre de trames à acquérir pour chaque point de données. Il est généralement raisonnable de commencer à 1 mais l'augmentation de ce nombre résultera dans un processus de calcul de la moyenne sur les HFR des étoiles.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sigma</guilabel
+> : le sigma du flou gaussien appliqué à l'image avant d'appliquer l'algorithme de détection des bords de Bathinov. Utilisé quand Bathinov est l'algorithme de <emphasis role="bold"
+>détection</emphasis
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Nombre de lignes</guilabel
+> : le nombre de lignes affiché à l'écran lors de l'utilisation d'un masque de Bathinov. Utilisé quand Bathinov est l'algorithme de <emphasis role="bold"
+>détection</emphasis
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Courbe d'interpolation</guilabel
+> : le type de courbe pour l'interpolation des points. </para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><emphasis role="bold"
+>Quadratique</emphasis
+> : utilise une équation quadratique avec l'algorithme de moindres carrés linéaire fourni par la bibliothèque GNU Science GSL.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Hyperbole</emphasis
+> : interpole une hyperbole avec l'algorithme non-linéaire de moindres carrés fourni par la bibliothèque GNU Science GSL. Veuillez voir le <link linkend="Levenberg-Marquardt"
+>résolveur Levenberg-Marquardt Solver</link
+> pour davantage de détails.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Parabole</emphasis
+> : interpole une parabole avec l'algorithme non-linéaire de moindres carrés fourni par la bibliothèque GNU Science GSL. Veuillez voir le <link linkend="Levenberg-Marquardt"
+>résolveur Levenberg-Marquardt Solver</link
+> pour davantage de détails.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-mechanics">
+    <title
+>Mise au point mécanique</title>
+
+    <screenshot>
+      <screeninfo
+>Mise au point mécanique </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_mechanics.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Mise au point mécanique</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Voici le panneau de configuration des paramètres de la mise au point mécanique.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Taille initiale du pas</guilabel
+> : règle la taille de pas utilisée par différents algorithmes de mise au point. Pour les moteurs de mises au point, cela correspond aux nombres d'encoches ; pour ceux basés sur le temps, cela correspond aux nombre de millisecondes.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Déplacement Max</guilabel
+> : place des bornes sur le déplacement depuis la position courante qui est autorisé pour l'algorithme de mise au point automatique. La raison est d'éviter que le moteur de se déplacer trop et ainsi le protège de s'endommager. Toutefois, il faut que la valeur soit assez grande pour permettre au moteur de se déplacer suffisamment pour terminer la procédure de mise au point automatique.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Taille maximale du pas</guilabel
+> : utilisé par l'algorithme de mise au point itératif pour limiter la taille maximale de pas qui peut être utilisé.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Jeu</guilabel
+> : toute mécanique à engrenages est touchée par un phénomène de jeu (backlash). Un moteur de mise au point typique possède une zone morte qui, au changement de direction, résulte dans un mouvement du moteur de quelques encoches mais sans aucun mouvement du train optique.</para>
+
+        <para
+>L'algorithme linéaire à 1 passe (comme l'algorithme linéaire) fournit une compensation du jeu aux deux endroits pendant la mise au point automatique quand le moteur se déplace vers l'extérieur :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Le mouvement initial vers l'extérieur de valeur Taille Initial du pas * Multiple du pas calculée au début de la course.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Quand la passe vers l'intérieur est terminée et qu'Ekos a déterminé la meilleure position de mise au point et se déplace vers elle en direction de l'extérieur.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para
+>L'algorithme linéaire à 1 passe étend le mouvement extérieur de x encoches et ensuite, dans un mouvement séparé, reviendra de x encoches. Il approche ainsi toujours la position désirée dans un mouvement vers l'intérieur.</para>
+
+        <para
+>Il existe deux schémas d'utilisation :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Régler le jeu à 0. Ekos utilisera une valeur de 5 * Taille initial du pas.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Régler le jeu à une valeur &gt; 0. Ekos utilisera cette valeur dans les calculs de jeu. Il existe probablement des instructions du constructeur de votre moteur de mise au point pour déterminer la valeur du jeu. Il n'est pas nécessaire de régler une valeur exacte pour que les algorithmes linéaire à 1 passe ou linéaire fonctionnent correctement. Tout ce qui est requis est que la valeur indiquée soit &gt;= à la vraie valeur du jeu. Ainsi, si vous mesurez une valeur autour de 100 par exemple, toute valeur &gt;= 100 fonctionnera tout aussi bien. Par exemple, réglez Jeu = 200.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Stabilisation</guilabel
+> : règle le nombre de secondes à attendre après déplacement du moteur de mise au point et avant de débuter une nouvelle acquisition. La raison est d'éviter toute vibration du train optique qui pourrait affecter la prochaine trame.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Multiple du pas extérieur</guilabel
+> : utilisé par les algorithmes de mise au point linéaire à 1 passe et linéaire. Ce paramètre spécifie le nombre initial de pas vers l'extérieur au début de la procédure de mise au point automatique.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Délai d'acquisition</guilabel
+> : spécifie le nombre de secondes à attendre pour qu'une image acquise soit reçue avant de déclarer une expiration du délai.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Expiration du mouvement</guilabel
+> : spécifie le nombre de secondes à attendre que le mouvement du moteur de mise au point soit à la position requise avant de déclarer une expiration du délai.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-display">
+    <title
+>Affichage de la mise au point</title>
+
+    <screenshot>
+      <screeninfo
+>Affichage de la mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_display.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Affichage de la mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>L'affichage de la mise au point affiche une fenêtre de l'afficheur FITS sur la trame prise durant la procédure de mise au point. Il affiche les valeur de l'<guilabel
+>anneau</guilabel
+> superposées sur l'image. Toutes les étoiles détectées par Ekos basées sur les paramètres sélectionnées ont leur HFR affichée à leur côté. </para>
+
+    <para
+>La fenêtre possède les options de l'afficheur FITS suivantes (au haut de la fenêtre) :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guibutton
+>Zoom avant</guibutton
+> et <guibutton
+>Zoom arrière</guibutton
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Zoom par défaut</guibutton
+> et <guibutton
+>Zoom pour ajuster</guibutton
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>(Dés)active étirement</guibutton
+> : (dés)active l'étirement.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>(dés)active mire</guibutton
+> : (dés)active la mire.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>(Dés)active grille</guibutton
+> : (dés)active la grille.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>(Dés)active étoiles</guibutton
+> : (dés)active les étoiles.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="focus-v-curve">
+    <title
+>Courbe en V</title>
+
+    <screenshot>
+      <screeninfo
+>Courbe en V de la mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_vcurve.png" format="PNG" width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Courbe en V de la mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>La courbe en V affiche le HFR (axe y) en fonction de la position du moteur de mise au point (axe x). Chaque point est dessiné sur le graphique par un cercle et un nombre représentant sa valeur. Le nombre de points et le déplacement du moteur sont déterminés par les paramètres choisis. </para>
+
+    <para
+>Pour certains algorithmes, Ekos dessinera également une courbe d'interpolation des points. Si l'option <guilabel
+>Utiliser Poids</guilabel
+> est sélectionnée, des barres d'erreurs sont indiquées qui correspondent à la déviation standard mesurée en unité HFR.</para>
+
+    <para
+>De nombreux paramètres sont affichés sous la courbe en V :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>HFR</guilabel
+> : la valeur HFR de l'étoile pour le dernier point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Étoiles</guilabel
+> : le nombre d'étoiles utilisé pour le dernier point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Itération</guilabel
+> : le nombre de points utilisés jusqu'ici.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>HFR</guibutton
+> : lance la fenêtre de <link linkend="focus-relative-profile"
+>profil relatif</link
+>.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Effacer données</guibutton
+> : réinitialise le graphique de la courbe en V en effaçant les données affichées.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Lors d'acquisitions en boucle, le format du graphique est modifié en une série temporelle où l'axe horizontal représente le numéro de la trame. Cela peut vous aider dans ce processus puisque vous pouvez voir comment le HFR change entre les trames. </para>
+
+    <screenshot>
+      <screeninfo
+>Courbe en V comme série temporelle.</screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_vcurve_timeseries.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Courbe en V de la mise au point comme série temporelle</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </sect3>
+
+  <sect3 id="focus-relative-profile">
+    <title
+>Profil relatif</title>
+
+    <screenshot>
+      <screeninfo
+>Profil relatif de la mise au point </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="focus_relative_profile.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Profil relatif de la mise au point</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>Le profil relatif est un graphique qui représente les valeurs HFR affichées les unes contre les autres. Les valeurs basses de HFR correspondent à des formes plus étroites et inversement. La courbe en rouge plein représente le profil de la valeur HFR courante, alors que la courbe en vert pointillé représente la valeur précédente. Enfin, la courbe en magenta montre la première valeur HFR mesurée. Ce graphique vous permet de juger de la qualité de la mise au point relative. </para>
+  </sect3>
+
+  <sect3 id="How_to_Setup_for_an_Auto_Focus_Run">
+    <title
+>Le réglage de la procédure de mise au point automatique</title>
+
+    <para
+>Le réglage exact qui fonctionne le mieux pour un équipement astronomique donné doit être trouvé par l'utilisateur par tâtonnements. Néanmoins, cette section donne quelques pistes pour bien démarrer. L'algorithme linéaire à 1 passe est utilisé ici.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>Débutez près de la position de mise au point trouvée manuellement. L'option <guibutton
+>En boucle</guibutton
+> permet de visualiser la recherche manuelle d'une mise au point approximative.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Sélectionnez l'algorithme linéaire à 1 passe et le type de courbe, par exemple hyperbole. Sélectionnez Utiliser Poids également.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>Assurez-vous d'obtenir assez d'étoiles.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Débutez avec la méthode de détection d'étoiles SEP et le profil 1-Focus-Default sauf si vous avez de bonnes raisons d'utiliser un autre réglage.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Dans l'onglet des réglages, cochez Champ complet (plutôt que Sous-trame) ce qui aura comme effet d'utiliser plusieurs étoiles plutôt qu'une seule. Enfin, sélectionner Sélection automatique d'étoiles pour laisser le système choisir les étoiles.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Assurez-vous que Anneau est sélectionné afin d'utiliser une grande quantité de trames pour utiliser autant d'étoiles que possible. Veuillez noter que d'autres facteurs peuvent empêcher d'utiliser tout le champ comme des problèmes de champ non-uniforme dans les coins du capteurs, mais quoiqu'il en soit, n'imposez pas des restrictions trop sévères.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Réglez les paramètres de la caméra tels que durée d'exposition, gain et groupement de pixels de telle manière d'obtenir un bon nombre d'étoiles. Il est impossible d'être parfaitement précis ici mais essayez d'obtenir entre 20 et 100 étoiles (évidemment, si la longueur focale et la cible ne permettent pas d'en obtenir autant, alors la procédure fonctionnera quand même mais en étant moins optimale du point de vue de l'interpolation de la courbe). Commencez avec une durée d'exposition de 2s, un gain unitaire et un groupement de pixels de 1x1.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Augmenter la durée d'exposition permet en général d'obtenir davantage d'étoiles mais rallonge également la procédure de mise au point. Vous pouvez essayer de prendre plusieurs trames au même point en réglant la moyenne sur champ &gt; 1.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+>Onglet de réglage de la mécanique</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+>Réglage du jeu. Voir la section du jeu pour davantage de détails mais si cette valeur n'est pas connue, mettre 0.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Réglage du déplacement maximale. Cette valeur devrait être adaptée au moteur de mise au point pour éviter un déplacement au delà de la course maximale. Elle doit être assez grande pour gérer les valeurs de Taille initiale de pas et Multiple de pas extérieur et sa valeur minimale doit être plus grande que le produit Taille initiale * Multiple de pas extérieur. Si vous le pouvez, réglez cette valeur au double de ce produit.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Stabilisation. Si le moteur de mise au point crée des vibrations dans le train optique, il faut alors régler cette valeur pour que le système attende ce nombre de secondes avant de prendre une nouvelle trame. Mettez le moteur en mouvement et arrêtez-le puis prenez quelques trames à cette position. Si la première trame après le mouvement possède un HFR plus grand que les suivantes, alors vous devrez probablement augmenter la durée de stabilisation.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Multiple de pas extérieur. Commencez avec 4 ou 5. Cela donnera 9-10 ou 11-12 points ce qui est un bon point de départ. Il faut assez de points pour former la courbe, mais plus vous avez de points et plus le processus prendra du temps.</para>
+          </listitem>
+
+          <listitem>
+            <para
+>Taille de pas initiale. La figure suivante montre une « bonne courbe ». Il y a assez de mouvement sur l'axe HFR pour clairement former la courbe ; dans ce cas, la valeur maximale du HFR vaut environ 2,2 tandis que sa valeur minimale vaut 0,75, ce qui donne un rapport max/min d'environ 3.</para>
+
+            <screenshot>
+              <screeninfo
+>Bonne courbe en V de la mise au point </screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="focus_good_focus.png" format="PNG"
+                             width="50%"/>
+                </imageobject>
+
+                <textobject>
+                  <phrase
+>Bonne courbe en V de la mise au point</phrase>
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </listitem>
+
+          <listitem>
+            <para
+>En revanche, la prochaine figure montre que la taille de pas initiale a été réglé à une valeur trop basse. Le HFR varie de 0,78 à 0,72, ce qui donne un rapport max/min juste au-dessus de 1. Un autre indice qui montre le mauvais choix de ce réglage est la taille des barres d'erreur qui sont très grandes par rapport aux valeurs de HFR, ce qui signifie que la courbe est interpolée avec beaucoup de bruit et donc que la précision des résultats n'est pas très bonne.</para>
+
+            <screenshot>
+              <screeninfo
+>Mauvaise courbe en V de la mise au point </screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="focus_bad_focus.png" format="PNG"
+                             width="50%"/>
+                </imageobject>
+
+                <textobject>
+                  <phrase
+>Mauvaise courbe en V de la mise au point</phrase>
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
+  <sect3 id="Coefficient_of_Determination">
+    <title
+>Coefficient de détermination R²</title>
+
+    <para
+>Le coefficient de détermination, ou R², est un indicateur utilisé pour juger de la qualité de l'interpolation. Davantage d'information est disponible <ulink url="https://fr.wikipedia.org/wiki/Coefficient_de_d%C3%A9termination"
+>ici</ulink
+>. C'est encore une fonctionnalité expérimentale disponible pour l'algorithme linéaire à 1 passe. En substance, ce coefficient R² est un nombre entre 0 et 1, avec 1 signifiant que tous les points se trouvent sur la courbe et 0 signifiant qu'il n'y a pas de corrélation entre les points et la courbe. L'utilisateur devrait expérimenter avec son matériel pour sentir quelle valeur peut être obtenue, mais toute valeur au-dessus d'environ 0,8 traduit une bonne interpolation.</para>
+
+    <para
+>Il y a une option pour régler la « limite R² » dans l'onglet des réglages de la fenêtre de mise au point qui est comparée au R² calculé après le processus de mise au point. Si cette limite n'a pas été atteinte, le processus est relancé.</para>
+
+    <para
+>Régler une limite pour R² peut être utile pour les observatoires automatisés si la procédure de mise au point donne de mauvais résultats pour une raison ponctuelle. Évidemment, si la raison n'est pas transitoire, une relance du processus n'apportera aucun gain.</para>
+
+    <para
+>Si la limite de R² n'est pas atteinte et qu'une relance ne permet pas non plus de l'atteindre, alors le processus est marqué comme un succès, cela afin d'éviter que le processus ne rentre dans une boucle infinie.</para>
+
+    <para
+>Cette fonctionnalité est désactivée en réglant la limite de R² à zéro.</para>
+  </sect3>
+
+  <sect3 id="Levenberg-Marquardt">
+    <title
+>Résolveur de Levenberg-Marquardt</title>
+
+    <para
+>L'algorithme de Levenberg-Marquardt (LM) est utilisé pour résoudre des problèmes de moindres carrés non-linéaires. La bibliothèque GNU Science fournit une implémentation du résolveur. Ces ressources fournissent davantage de détails : </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          <ulink url="https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm"
+></ulink>
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          <ulink url="https://www.gnu.org/software/gsl/doc/html/nls.html"
+></ulink>
+        </para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>L'algorithme de Levenberg-Marquardt est une nouvelle fonctionnalité ajoutée pour l'algorithme de mise au point linéaire à 1 passe. C'est un résolveur de moindres carrés non-linéaire et est donc approprié pour beaucoup d'équations différentes. L'idée de base est d'ajuster l'équation y = f(x,P) de telle manière que les valeurs y calculées sont aussi proches que possible des y des points de données pour trouver la meilleure courbe résultante. Le résolveur mesure la distance entre la courbe et chaque point, prend le carré du résultat et les additionne. Ce nombre est la valeur à minimiser et est appelée S. On donne au résolveur une première valeur du paramètre P. Il calcule S, ajuste P et calcule une nouvelle valeur pour S, S1. Si S1 &lt; S, alors on va dans la bonne direction. Cette procédure est itérée jusqu'à ce que :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+>le delta en S est plus petit qu'une valeur donnée (la suite a convergé), ou</para>
+      </listitem>
+
+      <listitem>
+        <para
+>le nombre maximale d'itération a été atteint, ou</para>
+      </listitem>
+
+      <listitem>
+        <para
+>le résolveur a rencontré une erreur.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>Le résolveur est capable de résoudre tant un ensemble de points sans poids qu'avec poids. En substance, un ensemble de points sans poids donne un poids équivalent à chaque point quand le résolveur cherche à interpoler la courbe. Une alternative est de donner un poids à chaque point qui mesure la précision de ce point. Dans ce cas, c'est la variance du HFR de l'étoile pour chaque point. La variance est le carré de la déviation standard.</para>
+
+    <para
+>Pour le moment le résolveur est utilisé pour interpoler une courbe hyperbolique ou parabolique.</para>
+  </sect3>
+</sect2>
