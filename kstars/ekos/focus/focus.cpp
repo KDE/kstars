@@ -151,6 +151,8 @@ Focus::Focus()
     });
 
     setupOpticalTrainManager();
+    // Needs to be done once
+    connectFilterManager();
 }
 
 void Focus::loadStellarSolverProfiles()
@@ -322,8 +324,10 @@ void Focus::syncCCDControls()
         m_Camera->getGainMinMaxStep(&min, &max, &step);
         if (m_Camera->getGain(&gain))
         {
-            focusGain->setMinimum(min);
-            focusGain->setMaximum(max);
+            // Allow the possibility of no gain value at all.
+            GainSpinSpecialValue = min - step;
+            focusGain->setRange(GainSpinSpecialValue, max);
+            focusGain->setSpecialValueText(i18n("--"));
             if (step > 0)
                 focusGain->setSingleStep(step);
 
@@ -331,7 +335,7 @@ void Focus::syncCCDControls()
             if (defaultGain.isValid())
                 focusGain->setValue(defaultGain.toDouble());
             else
-                focusGain->setValue(gain);
+                focusGain->setValue(GainSpinSpecialValue);
         }
     }
     else
@@ -1344,7 +1348,7 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
             targetChip->getISOIndex() != focusISO->currentIndex())
         targetChip->setISOIndex(focusISO->currentIndex());
 
-    if (focusGain->isEnabled())
+    if (focusGain->isEnabled() && focusGain->value() != GainSpinSpecialValue)
         m_Camera->setGain(focusGain->value());
 }
 
@@ -3737,7 +3741,6 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
         });
     }
 
-
     // Check Filter
     if (m_FilterWheel && m_FilterWheel->getDeviceName() == name)
     {
@@ -3762,66 +3765,29 @@ void Focus::setupFilterManager()
     // Return global filter manager for this filter wheel.
     Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
-    connect(filterManagerB, &QPushButton::clicked, this, [this]()
-    {
-        m_FilterManager->refreshFilterModel();
-        m_FilterManager->show();
-        m_FilterManager->raise();
-    });
+    ////////////////////////////////////////////////////////////////////////////////////////
+    /// Focus Module ----> Filter Manager connections
+    ////////////////////////////////////////////////////////////////////////////////////////
 
-    connect(m_FilterManager.get(), &FilterManager::updated, this, [this]()
-    {
-        emit filterManagerUpdated(m_FilterWheel);
-    });
-
-    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
-    {
-        if (filterPositionPending)
-        {
-            filterPositionPending = false;
-            capture();
-        }
-        else if (fallbackFilterPending)
-        {
-            fallbackFilterPending = false;
-            emit newStatus(state);
-        }
-    }
-           );
-
-    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
-    {
-        appendLogText(i18n("Filter operation failed."));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED);
-    }
-           );
-
-    connect(m_FilterManager.get(), &FilterManager::checkFocus, this, &Focus::checkFocus);
+    // Update focuser absolute position.
     connect(this, &Focus::absolutePositionChanged, m_FilterManager.get(), &FilterManager::setFocusAbsolutePosition);
+
+    // Update Filter Manager state
     connect(this, &Focus::newStatus, this, [this](Ekos::FocusState state)
     {
-        m_FilterManager->setFocusStatus(state);
-        if (focusFilter->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
+        if (m_FilterManager)
         {
-            m_FilterManager->setFilterAbsoluteFocusPosition(focusFilter->currentIndex(), currentPosition);
-        }
-    });
-
-    connect(m_FilterManager.get(), &FilterManager::newFocusOffset, this, &Focus::adjustFocusOffset);
-
-    // Resume guiding if suspended after focus position is adjusted.
-    connect(this, &Focus::focusPositionAdjusted, this, [this]()
-    {
-        m_FilterManager->setFocusOffsetComplete();
-        if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
-        {
-            QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+            m_FilterManager->setFocusStatus(state);
+            if (focusFilter->currentIndex() != -1 && canAbsMove && state == Ekos::FOCUS_COMPLETE)
             {
-                m_GuidingSuspended = false;
-                emit resumeGuiding();
-            });
+                m_FilterManager->setFilterAbsoluteFocusPosition(focusFilter->currentIndex(), currentPosition);
+            }
         }
     });
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    /// Filter Manager ----> Focus Module connections
+    ////////////////////////////////////////////////////////////////////////////////////////
 
     // Suspend guiding if filter offset is change with OAG
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
@@ -3837,12 +3803,35 @@ void Focus::setupFilterManager()
         }
     });
 
-    connect(focusExposure, &QDoubleSpinBox::editingFinished, this, [this]()
+    // Take action once filter manager completes filter position
+    connect(m_FilterManager.get(), &FilterManager::ready, this, [this]()
     {
-        if (m_FilterWheel)
-            m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
+        if (filterPositionPending)
+        {
+            filterPositionPending = false;
+            capture();
+        }
+        else if (fallbackFilterPending)
+        {
+            fallbackFilterPending = false;
+            emit newStatus(state);
+        }
     });
 
+    // Take action when filter operation fails
+    connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
+    {
+        appendLogText(i18n("Filter operation failed."));
+        completeFocusProcedure(Ekos::FOCUS_ABORTED);
+    });
+
+    // Check focus if required by filter manager
+    connect(m_FilterManager.get(), &FilterManager::checkFocus, this, &Focus::checkFocus);
+
+    // Adjust focus offset
+    connect(m_FilterManager.get(), &FilterManager::newFocusOffset, this, &Focus::adjustFocusOffset);
+
+    // Update labels
     connect(m_FilterManager.get(), &FilterManager::labelsChanged, this, [this]()
     {
         focusFilter->clear();
@@ -3850,20 +3839,63 @@ void Focus::setupFilterManager()
         currentFilterPosition = m_FilterManager->getFilterPosition();
         focusFilter->setCurrentIndex(currentFilterPosition - 1);
     });
+
+    // Position changed
     connect(m_FilterManager.get(), &FilterManager::positionChanged, this, [this]()
     {
         currentFilterPosition = m_FilterManager->getFilterPosition();
         focusFilter->setCurrentIndex(currentFilterPosition - 1);
     });
+
+    // Exposure Changed
     connect(m_FilterManager.get(), &FilterManager::exposureChanged, this, [this]()
     {
         focusExposure->setValue(m_FilterManager->getFilterExposure());
     });
+}
 
+void Focus::connectFilterManager()
+{
+    // Show filter manager if toggled.
+    connect(filterManagerB, &QPushButton::clicked, this, [this]()
+    {
+        if (m_FilterManager)
+        {
+            m_FilterManager->refreshFilterModel();
+            m_FilterManager->show();
+            m_FilterManager->raise();
+        }
+    });
+
+    // Resume guiding if suspended after focus position is adjusted.
+    connect(this, &Focus::focusPositionAdjusted, this, [this]()
+    {
+        if (m_FilterManager)
+            m_FilterManager->setFocusOffsetComplete();
+        if (m_GuidingSuspended && state != Ekos::FOCUS_PROGRESS)
+        {
+            QTimer::singleShot(focusSettleTime->value() * 1000, this, [this]()
+            {
+                m_GuidingSuspended = false;
+                emit resumeGuiding();
+            });
+        }
+    });
+
+    // Save focus exposure for a particular filter
+    connect(focusExposure, &QDoubleSpinBox::editingFinished, this, [this]()
+    {
+        if (m_FilterManager)
+            m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
+    });
+
+    // Load exposure if filter is changed.
     connect(focusFilter, &QComboBox::currentTextChanged, this, [this](const QString & text)
     {
-        focusExposure->setValue(m_FilterManager->getFilterExposure(text));
+        if (m_FilterManager)
+            focusExposure->setValue(m_FilterManager->getFilterExposure(text));
     });
+
 }
 
 void Focus::toggleVideo(bool enabled)
