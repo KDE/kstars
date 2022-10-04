@@ -19,7 +19,7 @@
   <para
 >Fins i tot podreu afegir algunes fotografies als objectes. La llista d'imatges és una llista de busca a Google. Per a afegir la imatge a un objecte tot el que heu de fer és prémer el botó <guibutton
 >Busca una imatge</guibutton
-> a la dreta i després trobar una imatge que vos agradi. Si no teniu una connexió a Internet, podeu obrir una imatge des del disc dur. Recordeu que les imatges que s'utilitzaran es retallaran a 600x600 píxels. </para>
+> a la dreta i després trobar una imatge que vos agrade. Si no teniu una connexió a Internet, podeu obrir una imatge des del disc dur. Recordeu que les imatges que s'utilitzaran es retallaran a 600x600 píxels. </para>
   <para
 >La primera manera de fer-ho és prement <keycombo action="simul"
 >&Ctrl;<keycap
@@ -206,7 +206,7 @@
   <para
 >Una altra forma d'afegir objectes al vostre pla d'observació és emprar el botó <guibutton
 >Afig per lots</guibutton
-> recentment introduït, s'obrirà un quadro de text on podreu escriure molts objectes per a afegir-los al planificador d'observació. Qualsevol objecte que no estiga a la base de dades de &kstars; es resoldrà utilitzant la base de dades astronòmica SIMBAD (sempre que s'haja habilitat a la configuració) i s'afegirà a la base de dades. Tot el procés d'afegir objectes és lent i pot tardar un temps, i es pot veure el progrés en la barra d'estat. Qualsevol objecte que no es puga trobar es llistarà en un missatge d'error, de manera que pugueu identificar-lo i solucionar els errors. En general, açò pot ser perquè SIMBAD espera una forma diferent d'especificar l'objecte (&pex;, Sim 147 en lloc de Simeis 147). Esta característica nova permet arreplegar amb facilitat les dades d'observació des de llistes al web, &etc; i afegir-les al vostre flux de treball en &kstars;. </para>
+> recentment introduït, s'obrirà un quadro de text on podreu escriure molts objectes per a afegir-los al planificador d'observació. Qualsevol objecte que no estiga a la base de dades de &kstars; es resoldrà utilitzant la base de dades astronòmica SIMBAD (sempre que s'haja habilitat a la configuració) i s'afegirà a la base de dades. Tot el procés d'afegir objectes és lent i pot tardar un temps, i es pot veure el progrés a la barra d'estat. Qualsevol objecte que no es puga trobar es llistarà en un missatge d'error, de manera que pugueu identificar-lo i solucionar els errors. En general, açò pot ser perquè SIMBAD espera una forma diferent d'especificar l'objecte (&pex;, Sim 147 en lloc de Simeis 147). Esta característica nova permet arreplegar amb facilitat les dades d'observació des de llistes al web, &etc; i afegir-les al vostre flux de treball en &kstars;. </para>
   <para
 >Este és l'aspecte de la finestra <guilabel
 >Executa la sessió</guilabel
