@@ -1662,12 +1662,6 @@ void Capture::checkFilter()
         FilterPosCombo->setEnabled(false);
         filterEditB->setEnabled(false);
 
-        if (m_FilterManager)
-        {
-            m_FilterManager->disconnect(this);
-            disconnect(m_FilterManager.get());
-            m_FilterManager.reset();
-        }
         m_captureDeviceAdaptor->setFilterManager(m_FilterManager);
         return;
     }
@@ -4132,7 +4126,8 @@ void Capture::setMeridianFlipStage(MeridianFlipState::MFStage stage)
                     m_MeridianFlipState->setMeridianFlipStage(stage);
                     m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
                 }
-                else if (!(m_MeridianFlipState->checkMeridianFlipRunning() || m_MeridianFlipState->getMeridianFlipStage() == MeridianFlipState::MF_COMPLETED))
+                else if (!(m_MeridianFlipState->checkMeridianFlipRunning()
+                           || m_MeridianFlipState->getMeridianFlipStage() == MeridianFlipState::MF_COMPLETED))
                 {
                     // if neither a MF has been requested (checked above) or is in a post
                     // MF calibration phase, no MF needs to take place.
