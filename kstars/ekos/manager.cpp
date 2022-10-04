@@ -516,6 +516,10 @@ void Manager::reset()
     mountProcess.reset();
     observatoryProcess.reset();
 
+    for (auto &oneManger : m_FilterManagers)
+        oneManger.reset();
+
+    m_FilterManagers.clear();
     DarkLibrary::Release();
     m_PortSelector.reset();
     m_PortSelectorTimer.stop();
@@ -3391,6 +3395,9 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
         newFM->setFilterWheel(device);
         m_FilterManagers[name] = newFM;
     }
+    else
+        m_FilterManagers[name]->setFilterWheel(device);
+
 }
 
 bool Manager::getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm)
