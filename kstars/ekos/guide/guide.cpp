@@ -666,7 +666,7 @@ void Guide::updateGuideParams()
 
 bool Guide::setGuider(ISD::Guider *device)
 {
-    if (guiderType != GUIDE_INTERNAL || device == m_Guider)
+    if (guiderType != GUIDE_INTERNAL || (m_Guider && device == m_Guider))
         return false;
 
     if (m_Guider)
@@ -692,7 +692,7 @@ bool Guide::setGuider(ISD::Guider *device)
 
 bool Guide::setAdaptiveOptics(ISD::AdaptiveOptics *device)
 {
-    if (guiderType != GUIDE_INTERNAL || device == m_AO)
+    if (guiderType != GUIDE_INTERNAL || (m_AO && device == m_AO))
         return false;
 
     if (m_AO)

@@ -773,7 +773,7 @@ class Capture : public QWidget, public Ui::Capture
          * @brief Access to the meridian flip state machine
          */
         QSharedPointer<MeridianFlipState> getMeridianFlipState();;
-        void setMeridianFlipState(QSharedPointer<MeridianFlipState> newMf_state);;
+        void setMeridianFlipState(QSharedPointer<MeridianFlipState> newm_MeridianFlipState);;
 
     private slots:
 
@@ -954,7 +954,7 @@ class Capture : public QWidget, public Ui::Capture
         bool isModelinDSLRInfo(const QString &model);
 
         /* Meridian Flip */
-        QSharedPointer<MeridianFlipState> mf_state;
+        QSharedPointer<MeridianFlipState> m_MeridianFlipState;
         /**
          * @brief Check whether a meridian flip has been requested and trigger it
          * @return true iff a meridian flip has been triggered

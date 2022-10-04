@@ -616,24 +616,26 @@ bool Align::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            controlBox->setEnabled(true);
-            gotoBox->setEnabled(true);
-            plateSolverOptionsGroup->setEnabled(true);
-            tabWidget->setEnabled(true);
+            auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
+            controlBox->setEnabled(isConnected);
+            gotoBox->setEnabled(isConnected);
+            plateSolverOptionsGroup->setEnabled(isConnected);
+            tabWidget->setEnabled(isConnected);
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            controlBox->setEnabled(false);
-            gotoBox->setEnabled(false);
-            plateSolverOptionsGroup->setEnabled(false);
-            tabWidget->setEnabled(false);
+            auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
+            controlBox->setEnabled(isConnected);
+            gotoBox->setEnabled(isConnected);
+            plateSolverOptionsGroup->setEnabled(isConnected);
+            tabWidget->setEnabled(isConnected);
 
             opticalTrainCombo->setEnabled(true);
             trainLabel->setEnabled(true);
         });
     }
 
-    auto isConnected = m_Camera && m_Camera->isConnected();
+    auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
     controlBox->setEnabled(isConnected);
     gotoBox->setEnabled(isConnected);
     plateSolverOptionsGroup->setEnabled(isConnected);
@@ -659,6 +661,35 @@ bool Align::setMount(ISD::Mount *device)
         m_Mount->disconnect(this);
 
     m_Mount = device;
+
+    if (m_Mount)
+    {
+        connect(m_Mount, &ISD::ConcreteDevice::Connected, this, [this]()
+        {
+            auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
+            controlBox->setEnabled(isConnected);
+            gotoBox->setEnabled(isConnected);
+            plateSolverOptionsGroup->setEnabled(isConnected);
+            tabWidget->setEnabled(isConnected);
+        });
+        connect(m_Mount, &ISD::ConcreteDevice::Disconnected, this, [this]()
+        {
+            auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
+            controlBox->setEnabled(isConnected);
+            gotoBox->setEnabled(isConnected);
+            plateSolverOptionsGroup->setEnabled(isConnected);
+            tabWidget->setEnabled(isConnected);
+
+            opticalTrainCombo->setEnabled(true);
+            trainLabel->setEnabled(true);
+        });
+    }
+
+    auto isConnected = m_Camera && m_Camera->isConnected() && m_Mount && m_Mount->isConnected();
+    controlBox->setEnabled(isConnected);
+    gotoBox->setEnabled(isConnected);
+    plateSolverOptionsGroup->setEnabled(isConnected);
+    tabWidget->setEnabled(isConnected);
 
     if (!m_Mount)
         return false;
@@ -1490,6 +1521,9 @@ bool Align::captureAndSolve()
         return true;
 
     appendLogText(i18n("Capturing image..."));
+
+    if (!m_Mount)
+        return true;
 
     //This block of code will create the row in the solution table and populate RA, DE, and object name.
     //It also starts the progress indicator.
