@@ -128,7 +128,7 @@ class Mount : public QWidget, public Ui::Mount
          * @brief getMeridianFlipState
          * @return
          */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return mf_state; }
+        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return m_MeridianFlipState; }
 
         /** @defgroup MountDBusInterface Ekos Mount DBus Interface
              * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -277,12 +277,12 @@ class Mount : public QWidget, public Ui::Mount
              */
         Q_SCRIPTABLE double initialHA()
         {
-            return mf_state->initialPositionHA();
+            return m_MeridianFlipState->initialPositionHA();
         }
 
         Q_SCRIPTABLE void setInitialHA(double RA)
         {
-            mf_state->setInitialPositionHA(RA);
+            m_MeridianFlipState->setInitialPositionHA(RA);
         }
 
         /** DBUS interface function.
@@ -587,7 +587,7 @@ private slots:
         void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
         /* Meridian flip state handling */
-        QSharedPointer<MeridianFlipState> mf_state;
+        QSharedPointer<MeridianFlipState> m_MeridianFlipState;
         QString pierSideStateString();
         void setupParkUI();
 

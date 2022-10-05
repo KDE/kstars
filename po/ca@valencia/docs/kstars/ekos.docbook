@@ -31,7 +31,7 @@
 <itemizedlist>
     <listitem>
         <para
->Controla el telescopi, els CCD (i DSLR), la roda de filtres, l'enfocador, el sistema de guiatge, la unitat d'òptica adaptativa i qualsevol dispositiu auxiliar compatible amb INDI des d'Ekos. </para>
+>Controla el telescopi, la càmera (i DSLR), la roda de filtres, l'enfocador, el sistema de guiatge, la unitat d'òptica adaptativa i qualsevol dispositiu auxiliar compatible amb INDI des d'Ekos. </para>
     </listitem>
     <listitem>
         <para

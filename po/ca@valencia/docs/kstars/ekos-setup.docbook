@@ -25,7 +25,7 @@
 <para
 ><emphasis role="bold"
 >Ekos</emphasis
-> forma part del <ulink url="https://edu.kde.org/kstars"
+> forma part de <ulink url="https://edu.kde.org/kstars"
 >&kstars;</ulink
 >. &kstars;/Ekos ja està inclòs amb el vostre giny de StellarMate. També està <ulink url="https://www.stellarmate.com/component/jdownloads/category/2-ekos.html?Itemid=507"
 >disponible per a &Linux;, &MacOS; i &Windows;</ulink
@@ -35,7 +35,7 @@
 >Eines</guimenu
 >, la icona <guiicon
 >Ekos</guiicon
-> en la barra d'eines principal o mitjançant una drecera de teclat (<keycombo
+> a la barra d'eines principal o mitjançant una drecera de teclat (<keycombo
 >&Ctrl;<keycap
 >K</keycap
 ></keycombo

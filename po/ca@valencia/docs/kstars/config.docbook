@@ -209,7 +209,7 @@
 <secondary
 >La pàgina Catàlegs</secondary
 ></indexterm
->A la pàgina <guilabel
+>En la pàgina <guilabel
 >Catàlegs</guilabel
 >, determinareu diverses propietats relatives a la visualització dels catàlegs d'objectes d'estreles i del cel profund. </para>
 
@@ -221,7 +221,7 @@
 <secondary
 >La pàgina Sistema solar</secondary
 ></indexterm
->A la pàgina <guilabel
+>En la pàgina <guilabel
 >Sistema solar</guilabel
 >, podreu especificar si es mostraran el Sol, la Lluna, els planetes, els cometes i els asteroides. </para>
 
@@ -395,7 +395,7 @@
 <secondary
 >Resum curt</secondary
 ></indexterm
->A la pàgina <guilabel
+>En la pàgina <guilabel
 >Catàlegs</guilabel
 >, podreu configurar quins catàlegs d'objectes es mostraran a &kstars;, així com la quantitat d'informació que vos agradaria incloure en el mapa celeste. De manera predeterminada, &kstars; inclou unes 300.000 estreles amb nom i sense nom fins a 8 de magnitud. Per als objectes del cel profund, el catàleg inclòs és el Nou catàleg general (<quote
 >NGC</quote
@@ -1287,7 +1287,7 @@
 <secondary
 >La pàgina Sistema solar</secondary
 ></indexterm
->A la pàgina <guilabel
+>En la pàgina <guilabel
 >Sistema solar</guilabel
 >, podreu especificar si es mostraran el Sol, la Lluna, els planetes, els cometes i els asteroides, i si els principals cossos seran dibuixats com a cercles o amb imatges reals. També podreu decidir si els cossos del sistema solar tindran adjuntades etiquetes de nom i controlar quants cometes i asteroides tindran etiquetes de nom. Hi ha una opció per a adjuntar automàticament una <quote
 >traça orbital</quote

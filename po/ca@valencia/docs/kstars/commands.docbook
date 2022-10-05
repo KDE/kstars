@@ -197,7 +197,7 @@
 ><para
 >Retrocedix un pas en el temps a la simulació de la carta estrel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
 >&gt;</guilabel
-> en la barra d'eines de &kstars;. </para
+> a la barra d'eines de &kstars;. </para
 ></listitem>
 </varlistentry>
 <varlistentry>
@@ -231,7 +231,7 @@
 ><para
 >Avança un pas en el temps a la simulació de la carta estrel·lar de &kstars;. La duració del pas temporal es pot configurar després prement el botó <guilabel
 >&gt;</guilabel
-> en la barra d'eines de &kstars;. </para
+> a la barra d'eines de &kstars;. </para
 ></listitem>
 </varlistentry>
 </variablelist>
@@ -1267,7 +1267,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu del temps. De manera predeterminada, el rètol informatiu del temps es troba a la part superior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu del temps. De manera predeterminada, el rètol informatiu del temps es troba en la part superior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
 ></listitem>
     </varlistentry>
 
@@ -1278,7 +1278,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba a la part superior dreta de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta el rètol informatiu de l'enfocament. De manera predeterminada, el rètol informatiu de l'enfocament es troba en la part superior dreta de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
 ></listitem>
     </varlistentry>
 
@@ -1289,7 +1289,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba a la part inferior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
+>Mostra o oculta la informació del rètol de l'emplaçament. De manera predeterminada, el rètol informatiu de l'emplaçament es troba en la part inferior esquerra de la pantalla. Podeu canviar la seua posició mantenint premut el &BER; i arrossegant-lo a la nova posició.</para
 ></listitem>
     </varlistentry>
   </variablelist
@@ -1576,7 +1576,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la barra d'estat. Es troba a la part inferior de la finestra de &kstars;.</para
+>Mostra o oculta la barra d'estat. Es troba en la part inferior de la finestra de &kstars;.</para
 ></listitem>
     </varlistentry>
 
@@ -1840,7 +1840,7 @@
 >Desinstal·la</guibutton
 >, podeu obrir la finestra Detalls utilitzant el botó <guibutton
 >Detalls</guibutton
-> o podeu avaluar un complement, assignant una sèrie d'estreles d'or, fins a cinc estreles. Si voleu enviar un correu electrònic a l'autor d'un complement, podreu fer-ho fent clic a la seua adreça de correu electrònic. A continuació, l'aplicació predeterminada de correu electrònic vos guiarà a través del procés d'enviament. Una vegada gestionats els vostres complements de &kstars;, podreu tancar la finestra prement el botó <guibutton
+> o podeu avaluar un complement, assignant una sèrie d'estreles d'or, fins a cinc estreles. Si voleu enviar un correu electrònic a l'autor d'un complement, podreu fer-ho fent clic en la seua adreça de correu electrònic. A continuació, l'aplicació predeterminada de correu electrònic vos guiarà a través del procés d'enviament. Una vegada gestionats els vostres complements de &kstars;, podreu tancar la finestra prement el botó <guibutton
 >Tanca</guibutton
 >. També podreu utilitzar després l'eina Descarrega els fitxers de dades extres, seleccionant <menuchoice
 ><guimenu
@@ -2899,13 +2899,13 @@
 >En moure el ratolí</term>
 <listitem
 ><para
->Les coordenades celestes (Az/Alt, AR/Dec i J2000.0 AR/Dec) del cursor del ratolí s'actualitzen en la barra d'estat. La barra d'estat es troba al cantó inferior dret de la pantalla. La barra d'estat es pot personalitzar seleccionant el submenú <menuchoice
+>Les coordenades celestes (Az/Alt, AR/Dec i J2000.0 AR/Dec) del cursor del ratolí s'actualitzen a la barra d'estat. La barra d'estat es troba en el cantó inferior dret de la pantalla. La barra d'estat es pot personalitzar seleccionant el submenú <menuchoice
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
 >Barra d'estat</guimenuitem
 ></menuchoice
->. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; en la barra d'estat. A més, pot amagar la barra d'estat desactivant la casella de selecció <guilabel
+>. Ací podreu triar quins sistemes de coordenades mostrarà &kstars; a la barra d'estat. A més, pot amagar la barra d'estat desactivant la casella de selecció <guilabel
 >Mostra la barra d'estat</guilabel
 >. </para
 ></listitem>

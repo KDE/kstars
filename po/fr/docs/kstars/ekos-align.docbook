@@ -483,7 +483,7 @@
                     <para
 ><guilabel
 >Ancien outil d'alignement polaire</guilabel
-> : permet de mesurer les erreurs d'alignement polaire pour les situations où la vue d'un pôle céleste (&eg; Polaris pour l'hémisphère Nord) n'est pas possible. </para>
+> : permet de mesurer les erreurs d'alignement polaire pour les situations où la vue d'un pôle céleste (&cad; Polaris pour l'hémisphère Nord) n'est pas possible. </para>
                 </listitem>
             </itemizedlist>
             <warning>
