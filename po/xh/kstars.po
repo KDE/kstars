@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-04 00:40+0000\n"
+"POT-Creation-Date: 2022-10-05 00:42+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -401,7 +401,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4733 ekos/scheduler/scheduler.cpp:4767
+#: ekos/capture/capture.cpp:4732 ekos/scheduler/scheduler.cpp:4767
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -452,14 +452,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Gcina umfanekiso"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3563
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3597
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:881
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr ""
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3566
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3600
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:884
 #, kde-format
@@ -552,8 +552,8 @@ msgstr "Cannes"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:130 ekos/analyze/analyze.cpp:132
-#: ekos/capture/sequencejob.cpp:26 ekos/manager.cpp:1047 ekos/manager.cpp:1062
-#: ekos/manager.cpp:1094 ekos/scheduler/schedulerjob.cpp:646
+#: ekos/capture/sequencejob.cpp:26 ekos/manager.cpp:1051 ekos/manager.cpp:1066
+#: ekos/manager.cpp:1098 ekos/scheduler/schedulerjob.cpp:646
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
 #: kstarsactions.cpp:496
@@ -1969,7 +1969,7 @@ msgstr "Iinkwenkwezi"
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
 #: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:158 ekos/ekos.h:184
-#: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:548
+#: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:552
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
 #: ekos/scheduler/scheduler.ui:1233 ekos/scheduler/schedulerjob.cpp:639
 #: ekos/scheduler/schedulerjob.cpp:663 indi/indidome.cpp:20
@@ -2560,10 +2560,10 @@ msgstr ""
 "URL ayisebenzi. Ungathanda ukuvula i  window yomkhangeli zincwadi\n"
 "kwinjini yophendlo ye Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3574
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3608
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4328
-#: ekos/capture/capture.cpp:4742 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4327
+#: ekos/capture/capture.cpp:4741 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4405 ekos/scheduler/scheduler.cpp:4777
 #: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:834
 #: tools/scriptbuilder.cpp:932
@@ -3783,13 +3783,13 @@ msgstr "0.0"
 #. i18n: ectx: property (text), widget (QLabel, l_FOV)
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:868
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:899
 #: ekos/analyze/analyze.ui:55 ekos/auxiliary/darklibrary.cpp:1053
 #: ekos/auxiliary/darklibrary.ui:273 ekos/auxiliary/darklibrary.ui:421
 #: ekos/auxiliary/darklibrary.ui:690 ekos/auxiliary/darklibrary.ui:710
 #: ekos/auxiliary/darklibrary.ui:730 ekos/auxiliary/darklibrary.ui:750
 #: ekos/auxiliary/darklibrary.ui:770 ekos/auxiliary/darklibrary.ui:790
-#: ekos/capture/capture.cpp:1276 ekos/capture/capture.cpp:1310
+#: ekos/capture/capture.cpp:1280 ekos/capture/capture.cpp:1314
 #: ekos/focus/focus.cpp:330 ekos/guide/guide.ui:525 ekos/guide/guide.ui:649
 #: indi/streamform.ui:368
 #, kde-format
@@ -5820,24 +5820,24 @@ msgstr "Clear Lake City"
 msgid "Solver timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:768
+#: ekos/align/align.cpp:799
 #, fuzzy, kde-format
 msgid "Mount does not support syncing."
 msgstr "Ubeko lwephepha"
 
-#: ekos/align/align.cpp:971
+#: ekos/align/align.cpp:1002
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr ""
 
-#: ekos/align/align.cpp:1008
+#: ekos/align/align.cpp:1039
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
 
-#: ekos/align/align.cpp:1047
+#: ekos/align/align.cpp:1078
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5845,79 +5845,79 @@ msgid ""
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1056
+#: ekos/align/align.cpp:1087
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1337
+#: ekos/align/align.cpp:1368
 #, kde-format
 msgid "Error: No camera detected."
 msgstr ""
 
-#: ekos/align/align.cpp:1343
+#: ekos/align/align.cpp:1374
 #, fuzzy, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Dibanisa"
 
-#: ekos/align/align.cpp:1344 ekos/align/align.cpp:2203
+#: ekos/align/align.cpp:1375 ekos/align/align.cpp:2237
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr ""
 
-#: ekos/align/align.cpp:1360
+#: ekos/align/align.cpp:1391
 #, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
 "train settings and try again."
 msgstr ""
 
-#: ekos/align/align.cpp:1366
+#: ekos/align/align.cpp:1397
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
 msgstr ""
 
-#: ekos/align/align.cpp:1374
+#: ekos/align/align.cpp:1405
 #, fuzzy, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Dibanisa"
 
-#: ekos/align/align.cpp:1394 ekos/capture/capture.cpp:3577
-#: ekos/capture/capture.cpp:6409 ekos/focus/focus.cpp:3919
+#: ekos/align/align.cpp:1425 ekos/capture/capture.cpp:3575
+#: ekos/capture/capture.cpp:6408 ekos/focus/focus.cpp:3919
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 
-#: ekos/align/align.cpp:1414
+#: ekos/align/align.cpp:1445
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 
-#: ekos/align/align.cpp:1421
+#: ekos/align/align.cpp:1452
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 
-#: ekos/align/align.cpp:1439 ekos/align/align.cpp:2758
+#: ekos/align/align.cpp:1470 ekos/align/align.cpp:2792
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1492 ekos/focus/focus.cpp:1315
+#: ekos/align/align.cpp:1523 ekos/focus/focus.cpp:1315
 #, fuzzy, kde-format
 msgid "Capturing image..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/align.cpp:1578 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1612 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:1913
 #, fuzzy, kde-format
 msgid "Image received."
 msgstr "Umfanekiso"
 
-#: ekos/align/align.cpp:1686
+#: ekos/align/align.cpp:1720
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -5925,77 +5925,77 @@ msgid ""
 "to the list."
 msgstr ""
 
-#: ekos/align/align.cpp:1745
+#: ekos/align/align.cpp:1779
 #, fuzzy, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/align.cpp:1753
+#: ekos/align/align.cpp:1787
 #, fuzzy, kde-format
 msgid "Solving with blind image position..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/align/align.cpp:1861
+#: ekos/align/align.cpp:1895
 #, fuzzy, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "Ikhaya"
 
-#: ekos/align/align.cpp:1877
+#: ekos/align/align.cpp:1911
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:1945
+#: ekos/align/align.cpp:1979
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:1962
+#: ekos/align/align.cpp:1996
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4)"
 msgstr ""
 
-#: ekos/align/align.cpp:1968
+#: ekos/align/align.cpp:2002
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr ""
 
-#: ekos/align/align.cpp:2039
+#: ekos/align/align.cpp:2073
 #, fuzzy, kde-format
 msgid "Setting position angle to %1 degrees E of N..."
 msgstr "Iyaququzela"
 
-#: ekos/align/align.cpp:2051
+#: ekos/align/align.cpp:2085
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2104
+#: ekos/align/align.cpp:2138
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2136
+#: ekos/align/align.cpp:2170
 #, kde-format
 msgid "Target is within acceptable range. Astrometric solver is successful."
 msgstr ""
 
-#: ekos/align/align.cpp:2156 ekos/align/align.cpp:2444
-#: ekos/align/align.cpp:2478
+#: ekos/align/align.cpp:2190 ekos/align/align.cpp:2478
+#: ekos/align/align.cpp:2512
 #, fuzzy, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Amanani akunika indawo ncam kwi Cartesian"
 
-#: ekos/align/align.cpp:2198
+#: ekos/align/align.cpp:2232
 #, fuzzy, kde-format
 msgid "Solver Failed."
 msgstr "Roll"
 
-#: ekos/align/align.cpp:2201
+#: ekos/align/align.cpp:2235
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6003,24 +6003,24 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2269
+#: ekos/align/align.cpp:2303
 #, fuzzy, kde-format
 msgid "Refresh is complete."
 msgstr "Ikhaya"
 
-#: ekos/align/align.cpp:2276 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2310 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1094
 #, fuzzy, kde-format
 msgid "Capture aborted."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align.cpp:2282
+#: ekos/align/align.cpp:2316
 #, fuzzy, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "Cwangcisa ixesha: "
 
-#: ekos/align/align.cpp:2325 ekos/capture/capture.cpp:2765
-#: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1879
+#: ekos/align/align.cpp:2359 ekos/capture/capture.cpp:2763
+#: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
 #: ekos/mount/mount.cpp:834 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
@@ -6028,161 +6028,161 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr ""
 
-#: ekos/align/align.cpp:2419
+#: ekos/align/align.cpp:2453
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2442
+#: ekos/align/align.cpp:2476
 #, kde-format
 msgid ""
 "Mount is synced to solution coordinates. Astrometric solver is successful."
 msgstr ""
 
-#: ekos/align/align.cpp:2471 ekos/align/align.cpp:2497
-#: ekos/align/align.cpp:3698 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2505 ekos/align/align.cpp:2531
+#: ekos/align/align.cpp:3732 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 msgid "Settling..."
 msgstr "Kettering"
 
-#: ekos/align/align.cpp:2477
+#: ekos/align/align.cpp:2511
 #, kde-format
 msgid "Differential slewing complete. Astrometric solver is successful."
 msgstr ""
 
-#: ekos/align/align.cpp:2487
+#: ekos/align/align.cpp:2521
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2489
+#: ekos/align/align.cpp:2523
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2532 ekos/align/align.cpp:2645
+#: ekos/align/align.cpp:2566 ekos/align/align.cpp:2679
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2534
+#: ekos/align/align.cpp:2568
 #, fuzzy, kde-format
 msgid "Slewing failed."
 msgstr "Bonisa igama"
 
-#: ekos/align/align.cpp:2568
+#: ekos/align/align.cpp:2602
 #, fuzzy, kde-format
 msgid "Rotator reached target position angle."
 msgstr "Indawo"
 
-#: ekos/align/align.cpp:2576
+#: ekos/align/align.cpp:2610
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Check power, "
 "backlash, or obstructions."
 msgstr ""
 
-#: ekos/align/align.cpp:2582
+#: ekos/align/align.cpp:2616
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Try to reverse "
 "rotation direction in Rotator Settings."
 msgstr ""
 
-#: ekos/align/align.cpp:2595
+#: ekos/align/align.cpp:2629
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Slew detected, suspend solving..."
 msgstr "Farmington"
 
-#: ekos/align/align.cpp:2639
+#: ekos/align/align.cpp:2673
 #, fuzzy, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Iyaququzela"
 
-#: ekos/align/align.cpp:2662
+#: ekos/align/align.cpp:2696
 #, fuzzy, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Iyaququzela"
 
-#: ekos/align/align.cpp:2675
+#: ekos/align/align.cpp:2709
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2730
+#: ekos/align/align.cpp:2764
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Ilayisha umfanekiso URLs"
 
-#: ekos/align/align.cpp:2922
+#: ekos/align/align.cpp:2956
 #, fuzzy, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Amanani akunika indawo ncam &Athe tye"
 
-#: ekos/align/align.cpp:2927
+#: ekos/align/align.cpp:2961
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr ""
 
-#: ekos/align/align.cpp:2946
+#: ekos/align/align.cpp:2980
 #, fuzzy, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align.cpp:2951 ekos/capture/capture.cpp:2827
-#: ekos/capture/capture.cpp:2895
+#: ekos/align/align.cpp:2985 ekos/capture/capture.cpp:2825
+#: ekos/capture/capture.cpp:2893
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3065
+#: ekos/align/align.cpp:3099
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Iqwalasele ku: "
 
-#: ekos/align/align.cpp:3144
+#: ekos/align/align.cpp:3178
 #, fuzzy, kde-format
 msgid "StellarSolver Options"
 msgstr "Iinketho zegama leqela leenkwenkwezi"
 
-#: ekos/align/align.cpp:3149
+#: ekos/align/align.cpp:3183
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3153
+#: ekos/align/align.cpp:3187
 #, fuzzy, kde-format
 msgid "Scale & Position"
 msgstr "Indawo"
 
-#: ekos/align/align.cpp:3157
+#: ekos/align/align.cpp:3191
 #, fuzzy, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Ukhetho Lwegalelo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3175 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3209 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 msgid "Index Files"
 msgstr "Igama lefayile Elingasebenziyo"
 
-#: ekos/align/align.cpp:3240 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3274 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 msgid "dRA (arcsec)"
 msgstr "Umatshini"
 
-#: ekos/align/align.cpp:3241 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3275 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 msgid "dDE (arcsec)"
 msgstr "Entsundu"
 
-#: ekos/align/align.cpp:3285 ekos/capture/capture.cpp:6612
+#: ekos/align/align.cpp:3319 ekos/capture/capture.cpp:6611
 #: ekos/focus/focus.cpp:3824
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6190,28 +6190,28 @@ msgstr "Entsundu"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3297 ekos/capture/capture.cpp:6629
+#: ekos/align/align.cpp:3331 ekos/capture/capture.cpp:6628
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3304 ekos/capture/capture.cpp:6634
+#: ekos/align/align.cpp:3338 ekos/capture/capture.cpp:6633
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3309 ekos/capture/capture.cpp:6639
+#: ekos/align/align.cpp:3343 ekos/capture/capture.cpp:6638
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Ikhaya"
 
-#: ekos/align/align.cpp:3415
+#: ekos/align/align.cpp:3449
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "URL Engasebenziyo"
 
-#: ekos/align/align.cpp:3550
+#: ekos/align/align.cpp:3584
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Clear Lake City"
@@ -6219,9 +6219,9 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Clear Lake City"
 
-#: ekos/align/align.cpp:3573 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4327
-#: ekos/capture/capture.cpp:4741 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/align.cpp:3607 ekos/align/mountmodel.cpp:263
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4326
+#: ekos/capture/capture.cpp:4740 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4404 ekos/scheduler/scheduler.cpp:4776
 #: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:834
 #: tools/scriptbuilder.cpp:931
@@ -6229,15 +6229,15 @@ msgstr "Clear Lake City"
 msgid "Invalid URL: %1"
 msgstr "URL Engasebenziyo"
 
-#: ekos/align/align.cpp:3582 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4764 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/align/align.cpp:3616 ekos/align/mountmodel.cpp:400
+#: ekos/capture/capture.cpp:4763 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4788 ekos/scheduler/scheduler.cpp:7133
 #, fuzzy, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ayinakuvula Ifayile"
 
-#: ekos/align/align.cpp:3583 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4343
+#: ekos/align/align.cpp:3617 ekos/align/mountmodel.cpp:283
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4342
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4448
 #: ekos/scheduler/scheduler.cpp:4789 ekos/scheduler/scheduler.cpp:7077
 #: ekos/scheduler/scheduler.cpp:7134 indi/drivermanager.cpp:1532
@@ -6254,28 +6254,28 @@ msgstr "Ayinakuvula Ifayile"
 msgid "Could Not Open File"
 msgstr "Ayinakuvula Ifayile"
 
-#: ekos/align/align.cpp:3604
+#: ekos/align/align.cpp:3638
 #, fuzzy, kde-format
 msgid "Error in table structure."
 msgstr "Imposiso Ukucimeni Ifayile"
 
-#: ekos/align/align.cpp:3613
+#: ekos/align/align.cpp:3647
 #, fuzzy, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Amanani akunika indawo ncam &Athe tye"
 
-#: ekos/align/align.cpp:3627
+#: ekos/align/align.cpp:3661
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Polar Alignment"
 msgstr "Iqwalasele ku: "
 
-#: ekos/align/align.cpp:4124
+#: ekos/align/align.cpp:4158
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align.cpp:4133
+#: ekos/align/align.cpp:4167
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Fumana umxholo"
@@ -6322,7 +6322,7 @@ msgstr "Dibanisa Incwadi yemifanekiso"
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:156 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:582
-#: ekos/capture/capture.cpp:3679 ekos/focus/focus.ui:325
+#: ekos/capture/capture.cpp:3677 ekos/focus/focus.ui:325
 #: ekos/guide/guide.ui:145 ekos/manager.cpp:207
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -6867,13 +6867,13 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Dibanisa kuluhlu"
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4342
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4341
 #: ekos/scheduler/scheduler.cpp:4447 ekos/scheduler/scheduler.cpp:7076
 #, fuzzy, kde-format
 msgid "Unable to open file %1"
 msgstr "Ayinakuvula Ifayile"
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4369
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4368
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7454,7 +7454,7 @@ msgstr "e-Iceland"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7414
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7413
 #: ekos/focus/focus.ui:1212
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -9468,7 +9468,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:572
-#: ekos/manager.cpp:128 ekos/manager.cpp:213 ekos/manager.cpp:556
+#: ekos/manager.cpp:128 ekos/manager.cpp:213 ekos/manager.cpp:560
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -9636,7 +9636,7 @@ msgstr "Ayinakuyicima ifayile: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #: ekos/analyze/analyze.cpp:1637 ekos/auxiliary/opslogs.ui:377
-#: ekos/manager.cpp:1998 ekos/manager/focusmanager.ui:101
+#: ekos/manager.cpp:2002 ekos/manager/focusmanager.ui:101
 #: ekos/scheduler/framingassistant.ui:1395 ekos/scheduler/scheduler.ui:279
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:425
 #, kde-format
@@ -9644,7 +9644,7 @@ msgid "Focus"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
-#: ekos/analyze/analyze.cpp:1638 ekos/manager.cpp:1972
+#: ekos/analyze/analyze.cpp:1638 ekos/manager.cpp:1976
 #: ekos/scheduler/framingassistant.ui:1167 ekos/scheduler/scheduler.ui:232
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:433
 #, fuzzy, kde-format
@@ -9658,7 +9658,7 @@ msgstr "Iqwalasele ku: "
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1639 ekos/analyze/analyze.ui:271
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:255 ekos/manager.cpp:2153
+#: ekos/guide/guide.ui:255 ekos/manager.cpp:2157
 #: ekos/scheduler/framingassistant.ui:1131 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:429
 #, fuzzy, kde-format
@@ -9676,7 +9676,7 @@ msgstr "Fairfield"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1641 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2082
+#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2086
 #: ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
@@ -11023,7 +11023,7 @@ msgstr "Framingham"
 msgid "Waiting..."
 msgstr "Bonisa igama"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2195
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2193
 #, fuzzy, kde-format
 msgid "Dithering..."
 msgstr "Bonisa igama"
@@ -11045,7 +11045,7 @@ msgstr "Ikhaya"
 msgid "Aligning..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2617
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2615
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -11331,7 +11331,7 @@ msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2193
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2197
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -12822,407 +12822,407 @@ msgstr "Ilizwe:"
 msgid "Park Dome"
 msgstr "Imibala yangoku"
 
-#: ekos/capture/capture.cpp:256 ekos/capture/capture.cpp:5167
+#: ekos/capture/capture.cpp:256 ekos/capture/capture.cpp:5166
 #, fuzzy, kde-format
 msgid "Add job to sequence queue"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5168
+#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5167
 #, fuzzy, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:724
+#: ekos/capture/capture.cpp:728
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/capture.cpp:731
+#: ekos/capture/capture.cpp:735
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/capture.cpp:735
+#: ekos/capture/capture.cpp:739
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
 msgid "Resume Sequence"
 msgstr "Spencer"
 
-#: ekos/capture/capture.cpp:745 ekos/capture/capture.cpp:887
+#: ekos/capture/capture.cpp:749 ekos/capture/capture.cpp:891
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
 msgid "Stop Sequence"
 msgstr "Spencer"
 
-#: ekos/capture/capture.cpp:751
+#: ekos/capture/capture.cpp:755
 #, fuzzy, kde-format
 msgid "Sequence resumed."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:836
+#: ekos/capture/capture.cpp:840
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 
-#: ekos/capture/capture.cpp:845
+#: ekos/capture/capture.cpp:849
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:846 ekos/capture/capture.cpp:4949
+#: ekos/capture/capture.cpp:850 ekos/capture/capture.cpp:4948
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "Indawo"
 
-#: ekos/capture/capture.cpp:860
+#: ekos/capture/capture.cpp:864
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/capture.cpp:893
+#: ekos/capture/capture.cpp:897
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:895
+#: ekos/capture/capture.cpp:899
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:897
+#: ekos/capture/capture.cpp:901
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/capture.cpp:926
+#: ekos/capture/capture.cpp:930
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture suspended"
 msgstr "Supernova Remnant"
 
-#: ekos/capture/capture.cpp:931
+#: ekos/capture/capture.cpp:935
 #, fuzzy, kde-format
 msgid "CCD capture aborted"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:936
+#: ekos/capture/capture.cpp:940
 #, fuzzy, kde-format
 msgid "CCD capture stopped"
 msgstr "Gcina umfanekiso"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1015 ekos/capture/capture.ui:2166
+#: ekos/capture/capture.cpp:1019 ekos/capture/capture.ui:2166
 #, fuzzy, kde-format
 msgid "Expose (-/-):"
 msgstr "Equator"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1025 ekos/capture/capture.ui:1994
+#: ekos/capture/capture.cpp:1029 ekos/capture/capture.ui:1994
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
 msgid "Start Sequence"
 msgstr "Spencer"
 
-#: ekos/capture/capture.cpp:1922
+#: ekos/capture/capture.cpp:1920
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/capture.cpp:1947
+#: ekos/capture/capture.cpp:1945
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1955
+#: ekos/capture/capture.cpp:1953
 #, fuzzy, kde-format
 msgid "Captured image received"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:2024
+#: ekos/capture/capture.cpp:2022
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2044
+#: ekos/capture/capture.cpp:2042
 #, fuzzy, kde-format
 msgid "Captured %1"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:2049
+#: ekos/capture/capture.cpp:2047
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2079
+#: ekos/capture/capture.cpp:2077
 #, fuzzy, kde-format
 msgid "Executing post capture script %1"
 msgstr "Ukutshona kwelanga:"
 
-#: ekos/capture/capture.cpp:2108
+#: ekos/capture/capture.cpp:2106
 #, fuzzy, kde-format
 msgid "Executing post job script %1"
 msgstr "Ukutshona kwelanga:"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/capture.cpp:2148
+#: ekos/capture/capture.cpp:2146
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "Supernova Remnant"
 
-#: ekos/capture/capture.cpp:2297 ekos/capture/capture.cpp:3640
+#: ekos/capture/capture.cpp:2295 ekos/capture/capture.cpp:3638
 #, fuzzy, kde-format
 msgid "Executing pre capture script %1"
 msgstr "Ukutshona kwelanga:"
 
-#: ekos/capture/capture.cpp:2355
+#: ekos/capture/capture.cpp:2353
 #, fuzzy, kde-format
 msgid "Scheduled refocus starting after %1 seconds..."
 msgstr "Cwangcisa ixesha: "
 
-#: ekos/capture/capture.cpp:2367
+#: ekos/capture/capture.cpp:2365
 #, fuzzy, kde-format
 msgid "Refocus starting because of temperature change of %1 °C..."
 msgstr "Iyaququzela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, meridianRefocusS)
-#: ekos/capture/capture.cpp:2375 ekos/capture/limits.ui:260
+#: ekos/capture/capture.cpp:2373 ekos/capture/limits.ui:260
 #, fuzzy, kde-format
 msgid "Refocus after meridian flip"
 msgstr "Qoboshela i Milky Way"
 
-#: ekos/capture/capture.cpp:2442 ekos/capture/capture.cpp:2688
+#: ekos/capture/capture.cpp:2440 ekos/capture/capture.cpp:2686
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2459
+#: ekos/capture/capture.cpp:2457
 #, kde-format
 msgid "Cannot start framing while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2464
+#: ekos/capture/capture.cpp:2462
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting framing..."
 msgstr "Farmington"
 
-#: ekos/capture/capture.cpp:2517
+#: ekos/capture/capture.cpp:2515
 #, fuzzy, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Dibanisa"
 
-#: ekos/capture/capture.cpp:2556
+#: ekos/capture/capture.cpp:2554
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2633
+#: ekos/capture/capture.cpp:2631
 #, fuzzy, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/capture/capture.cpp:2667
+#: ekos/capture/capture.cpp:2665
 #, fuzzy, kde-format
 msgid "Failed to set sub frame."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/capture/capture.cpp:2672
+#: ekos/capture/capture.cpp:2670
 #, fuzzy, kde-format
 msgid "Failed to set binning."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/capture/capture.cpp:2819 ekos/capture/capture.cpp:2887
+#: ekos/capture/capture.cpp:2817 ekos/capture/capture.cpp:2885
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2857
+#: ekos/capture/capture.cpp:2855
 #, fuzzy, kde-format
 msgid "Downloading..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/capture/capture.cpp:2988
+#: ekos/capture/capture.cpp:2986
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2994
+#: ekos/capture/capture.cpp:2992
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3152 ekos/capture/capture.cpp:3155
+#: ekos/capture/capture.cpp:3150 ekos/capture/capture.cpp:3153
 #, fuzzy, kde-format
 msgid "Dark Flat"
 msgstr "Igama lenkwenkwezi"
 
-#: ekos/capture/capture.cpp:3231
+#: ekos/capture/capture.cpp:3229
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3433
+#: ekos/capture/capture.cpp:3431
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3434
+#: ekos/capture/capture.cpp:3432
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Qoboshela Iilayini Zeqela leenkwenkwezi"
 
-#: ekos/capture/capture.cpp:3526
+#: ekos/capture/capture.cpp:3524
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3538
+#: ekos/capture/capture.cpp:3536
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3578 ekos/capture/capture.cpp:6410
+#: ekos/capture/capture.cpp:3576 ekos/capture/capture.cpp:6409
 #, fuzzy, kde-format
 msgid "Image Transfer"
 msgstr "&Indawo ekuyo"
 
-#: ekos/capture/capture.cpp:3603
+#: ekos/capture/capture.cpp:3601
 #, fuzzy, kde-format
 msgid "Executing pre job script %1"
 msgstr "Ukutshona kwelanga:"
 
-#: ekos/capture/capture.cpp:3708
+#: ekos/capture/capture.cpp:3706
 #, fuzzy, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Iyaququzela"
 
-#: ekos/capture/capture.cpp:3709
+#: ekos/capture/capture.cpp:3707
 #, fuzzy, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Iyaququzela"
 
-#: ekos/capture/capture.cpp:3712
+#: ekos/capture/capture.cpp:3710
 #, fuzzy, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:3713
+#: ekos/capture/capture.cpp:3711
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3717
+#: ekos/capture/capture.cpp:3715
 #, fuzzy, kde-format
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "Iyaququzela"
 
-#: ekos/capture/capture.cpp:3718
+#: ekos/capture/capture.cpp:3716
 #, fuzzy, kde-format
 msgid "Set Rotator to %1 deg..."
 msgstr "&Indawo ekuyo"
 
-#: ekos/capture/capture.cpp:3795
+#: ekos/capture/capture.cpp:3793
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3853
+#: ekos/capture/capture.cpp:3851
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3861
+#: ekos/capture/capture.cpp:3859
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3884
+#: ekos/capture/capture.cpp:3882
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3910
+#: ekos/capture/capture.cpp:3908
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3955
+#: ekos/capture/capture.cpp:3953
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3959
+#: ekos/capture/capture.cpp:3957
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3974
+#: ekos/capture/capture.cpp:3972
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4047 ekos/capture/capture.cpp:4048
+#: ekos/capture/capture.cpp:4045 ekos/capture/capture.cpp:4046
 #, fuzzy, kde-format
 msgid "Focus complete."
 msgstr "Ikhaya"
 
-#: ekos/capture/capture.cpp:4058
+#: ekos/capture/capture.cpp:4056
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4059
+#: ekos/capture/capture.cpp:4057
 #, fuzzy, kde-format
 msgid "Autofocus failed."
 msgstr "Ikhaya"
 
-#: ekos/capture/capture.cpp:4127
+#: ekos/capture/capture.cpp:4125
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4145
+#: ekos/capture/capture.cpp:4144
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "Qoboshela i Milky Way"
 
-#: ekos/capture/capture.cpp:4146
+#: ekos/capture/capture.cpp:4145
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "Qoboshela i Milky Way"
 
-#: ekos/capture/capture.cpp:4159
+#: ekos/capture/capture.cpp:4158
 #, fuzzy, kde-format
 msgid "Flip complete."
 msgstr "Ikhaya"
 
-#: ekos/capture/capture.cpp:4273 ekos/scheduler/framingassistantui.cpp:143
+#: ekos/capture/capture.cpp:4272 ekos/scheduler/framingassistantui.cpp:143
 #: ekos/scheduler/framingassistantui.cpp:182
 #: ekos/scheduler/framingassistantui.cpp:197
 #: ekos/scheduler/framingassistantui.cpp:561
@@ -13232,43 +13232,43 @@ msgstr "Ikhaya"
 msgid "unnamed"
 msgstr "engenagama"
 
-#: ekos/capture/capture.cpp:4308 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:4307 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "e-Iceland"
 
-#: ekos/capture/capture.cpp:4319
+#: ekos/capture/capture.cpp:4318
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Dibanisa kuluhlu"
 
-#: ekos/capture/capture.cpp:4431
+#: ekos/capture/capture.cpp:4430
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4712
+#: ekos/capture/capture.cpp:4711
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:4733
+#: ekos/capture/capture.cpp:4732
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4765
+#: ekos/capture/capture.cpp:4764
 #, fuzzy, kde-format
 msgid "Could not open file"
 msgstr "Ayinakuvula Ifayile"
 
-#: ekos/capture/capture.cpp:4785
+#: ekos/capture/capture.cpp:4784
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -13276,311 +13276,311 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4925
+#: ekos/capture/capture.cpp:4924
 #, fuzzy, kde-format
 msgid "Sequence queue saved to %1"
 msgstr "Cwangcisa ixesha: "
 
-#: ekos/capture/capture.cpp:4949
+#: ekos/capture/capture.cpp:4948
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5146
+#: ekos/capture/capture.cpp:5145
 #, fuzzy, kde-format
 msgid "Editing job #%1..."
 msgstr "Dibanisa ikhonkco..."
 
-#: ekos/capture/capture.cpp:5149 ekos/scheduler/scheduler.cpp:1633
+#: ekos/capture/capture.cpp:5148 ekos/scheduler/scheduler.cpp:1633
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5150
+#: ekos/capture/capture.cpp:5149
 #, fuzzy, kde-format
 msgid "Cancel job changes."
 msgstr "Imibala yangoku"
 
-#: ekos/capture/capture.cpp:5162
+#: ekos/capture/capture.cpp:5161
 #, fuzzy, kde-format
 msgid "Editing job canceled."
 msgstr "Dibanisa ikhonkco..."
 
-#: ekos/capture/capture.cpp:5440
+#: ekos/capture/capture.cpp:5439
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5442
+#: ekos/capture/capture.cpp:5441
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5472
+#: ekos/capture/capture.cpp:5471
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5487
+#: ekos/capture/capture.cpp:5486
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5515
+#: ekos/capture/capture.cpp:5514
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5534
+#: ekos/capture/capture.cpp:5533
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
 msgid "Sequence paused."
 msgstr "Spencer"
 
-#: ekos/capture/capture.cpp:5582
+#: ekos/capture/capture.cpp:5581
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:5608
+#: ekos/capture/capture.cpp:5607
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5627
+#: ekos/capture/capture.cpp:5626
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5632
+#: ekos/capture/capture.cpp:5631
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Ubeko lwephepha"
 
-#: ekos/capture/capture.cpp:5673
+#: ekos/capture/capture.cpp:5672
 #, fuzzy, kde-format
 msgid "Dithering succeeded."
 msgstr "Bonisa igama"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5680
+#: ekos/capture/capture.cpp:5679
 #, fuzzy, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:5688
+#: ekos/capture/capture.cpp:5687
 #, fuzzy, kde-format
 msgid "Dither complete."
 msgstr "Ikhaya"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5702
+#: ekos/capture/capture.cpp:5701
 #, fuzzy, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:5711
+#: ekos/capture/capture.cpp:5710
 #, fuzzy, kde-format
 msgid "Warning: Dithering failed."
 msgstr "Bonisa igama"
 
-#: ekos/capture/capture.cpp:5733
+#: ekos/capture/capture.cpp:5732
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:5742
+#: ekos/capture/capture.cpp:5741
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:5749
+#: ekos/capture/capture.cpp:5748
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6027
+#: ekos/capture/capture.cpp:6026
 #, fuzzy, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "Apparent Amanani akunika indawo ncam"
 
-#: ekos/capture/capture.cpp:6136
+#: ekos/capture/capture.cpp:6135
 #, fuzzy, kde-format
 msgid "Autoguiding resumed."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:6171
+#: ekos/capture/capture.cpp:6170
 #, fuzzy, kde-format
 msgid "Autoguiding suspended."
 msgstr "Fumana umxholo"
 
-#: ekos/capture/capture.cpp:6244
+#: ekos/capture/capture.cpp:6243
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6255
+#: ekos/capture/capture.cpp:6254
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6276
+#: ekos/capture/capture.cpp:6275
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6310
+#: ekos/capture/capture.cpp:6309
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6318
+#: ekos/capture/capture.cpp:6317
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6340
+#: ekos/capture/capture.cpp:6339
 #, fuzzy, kde-format
 msgid "Remote image saved to %1"
 msgstr "Cwangcisa ixesha: "
 
-#: ekos/capture/capture.cpp:6350
+#: ekos/capture/capture.cpp:6349
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6358
+#: ekos/capture/capture.cpp:6357
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6368
+#: ekos/capture/capture.cpp:6367
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Qoboshela i Milky Way"
 
-#: ekos/capture/capture.cpp:6373
+#: ekos/capture/capture.cpp:6372
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
 msgid "Resuming sequence..."
 msgstr "Spencer"
 
-#: ekos/capture/capture.cpp:6379
+#: ekos/capture/capture.cpp:6378
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6384
+#: ekos/capture/capture.cpp:6383
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6479
+#: ekos/capture/capture.cpp:6478
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Nakanye"
 
-#: ekos/capture/capture.cpp:6481
+#: ekos/capture/capture.cpp:6480
 #, fuzzy, kde-format
 msgid "Current Observer:"
 msgstr "Nakanye"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:6492 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:6491 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 msgid "Manage Observers"
 msgstr "Nakanye"
 
-#: ekos/capture/capture.cpp:6537
+#: ekos/capture/capture.cpp:6536
 #, kde-format
 msgid "Ekos will refocus in %1 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6542
+#: ekos/capture/capture.cpp:6541
 #, kde-format
 msgid "Ekos will refocus in %1 seconds, last procedure was %2 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6547
+#: ekos/capture/capture.cpp:6546
 #, kde-format
 msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6980
+#: ekos/capture/capture.cpp:6979
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6982
+#: ekos/capture/capture.cpp:6981
 #, fuzzy, kde-format
 msgid "Confirmation"
 msgstr "Ilayisha umfanekiso URLs"
 
-#: ekos/capture/capture.cpp:6998
+#: ekos/capture/capture.cpp:6997
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6998
+#: ekos/capture/capture.cpp:6997
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7009 ekos/focus/focus.cpp:3961
+#: ekos/capture/capture.cpp:7008 ekos/focus/focus.cpp:3961
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/capture/capture.cpp:7032 ekos/focus/focus.cpp:3966
+#: ekos/capture/capture.cpp:7031 ekos/focus/focus.cpp:3966
 #: ekos/guide/guide.cpp:879
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7369
+#: ekos/capture/capture.cpp:7368
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7370
+#: ekos/capture/capture.cpp:7369
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "inkwenkwezi"
 
-#: ekos/capture/capture.cpp:7406
+#: ekos/capture/capture.cpp:7405
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7412
+#: ekos/capture/capture.cpp:7411
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7420
+#: ekos/capture/capture.cpp:7419
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7430
+#: ekos/capture/capture.cpp:7429
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Iyaququzela"
 
-#: ekos/capture/capture.cpp:7461
+#: ekos/capture/capture.cpp:7460
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -18740,38 +18740,38 @@ msgstr "Fumana umxholo"
 msgid "Analyze"
 msgstr ""
 
-#: ekos/manager.cpp:580
+#: ekos/manager.cpp:584
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Iqwalasele ku: "
 
-#: ekos/manager.cpp:787 ekos/manager.cpp:813
+#: ekos/manager.cpp:791 ekos/manager.cpp:817
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 
-#: ekos/manager.cpp:876
+#: ekos/manager.cpp:880
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:877
+#: ekos/manager.cpp:881
 #, fuzzy, kde-format
 msgid "PTP Camera"
 msgstr "eCameroon"
 
-#: ekos/manager.cpp:892
+#: ekos/manager.cpp:896
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting INDI services..."
 msgstr "Farmington"
 
-#: ekos/manager.cpp:923
+#: ekos/manager.cpp:927
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -18779,80 +18779,80 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/manager.cpp:925 indi/opsindi.ui:347
+#: ekos/manager.cpp:929 indi/opsindi.ui:347
 #, fuzzy, kde-format
 msgid "INDI Server"
 msgstr "Nakanye"
 
-#: ekos/manager.cpp:940
+#: ekos/manager.cpp:944
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr ""
 
-#: ekos/manager.cpp:960
+#: ekos/manager.cpp:964
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 
-#: ekos/manager.cpp:964
+#: ekos/manager.cpp:968
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:977
+#: ekos/manager.cpp:981
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:997
+#: ekos/manager.cpp:1001
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1020
+#: ekos/manager.cpp:1024
 #, fuzzy, kde-format
 msgid "INDI services started on port %1."
 msgstr "St. Peter Port"
 
-#: ekos/manager.cpp:1023
+#: ekos/manager.cpp:1027
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1028
+#: ekos/manager.cpp:1032
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1038
+#: ekos/manager.cpp:1042
 #, fuzzy, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1040
+#: ekos/manager.cpp:1044
 #, fuzzy, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1053
+#: ekos/manager.cpp:1057
 #, fuzzy, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1055
+#: ekos/manager.cpp:1059
 #, fuzzy, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1134
+#: ekos/manager.cpp:1138
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1136
+#: ekos/manager.cpp:1140
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -18860,7 +18860,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1164
+#: ekos/manager.cpp:1168
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -18868,13 +18868,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1168 ekos/manager.cpp:1176 ekos/manager.cpp:1206
-#: ekos/manager.cpp:1214
+#: ekos/manager.cpp:1172 ekos/manager.cpp:1180 ekos/manager.cpp:1210
+#: ekos/manager.cpp:1218
 #, fuzzy, kde-format
 msgid "Ekos startup error"
 msgstr "Fumana umxholo"
 
-#: ekos/manager.cpp:1172
+#: ekos/manager.cpp:1176
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -18882,7 +18882,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1202
+#: ekos/manager.cpp:1206
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -18890,7 +18890,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1210
+#: ekos/manager.cpp:1214
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -18898,136 +18898,136 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1265
+#: ekos/manager.cpp:1269
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1276
+#: ekos/manager.cpp:1280
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1314
+#: ekos/manager.cpp:1318
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1389
+#: ekos/manager.cpp:1393
 #, fuzzy, kde-format
 msgid "Remote devices established."
 msgstr "Nakanye"
 
-#: ekos/manager.cpp:1391
+#: ekos/manager.cpp:1395
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1459
+#: ekos/manager.cpp:1463
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1466
+#: ekos/manager.cpp:1470
 #, fuzzy, kde-format
 msgid "%1 is disconnected."
 msgstr "Winskin"
 
-#: ekos/manager.cpp:1485 ekos/manager.cpp:1494 ekos/manager.cpp:1525
+#: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
 #: indi/indistd.cpp:617
 #, kde-format
 msgid "%1 is online."
 msgstr ""
 
-#: ekos/manager.cpp:1502
+#: ekos/manager.cpp:1506
 #, kde-format
 msgid "%1 filter is online."
 msgstr ""
 
-#: ekos/manager.cpp:1511
+#: ekos/manager.cpp:1515
 #, fuzzy, kde-format
 msgid "%1 focuser is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1518
+#: ekos/manager.cpp:1522
 #, fuzzy, kde-format
 msgid "Rotator %1 is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1532
+#: ekos/manager.cpp:1536
 #, fuzzy, kde-format
 msgid "%1 Weather is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1539
+#: ekos/manager.cpp:1543
 #, fuzzy, kde-format
 msgid "%1 GPS is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1552
 #, fuzzy, kde-format
 msgid "%1 Dust cap is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1555
+#: ekos/manager.cpp:1559
 #, fuzzy, kde-format
 msgid "%1 Light box is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1675
+#: ekos/manager.cpp:1679
 #, kde-format
 msgid "%1 is offline."
 msgstr ""
 
-#: ekos/manager.cpp:1929
+#: ekos/manager.cpp:1933
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr ""
 
-#: ekos/manager.cpp:2200
+#: ekos/manager.cpp:2204
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2390
+#: ekos/manager.cpp:2394
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr ""
 
-#: ekos/manager.cpp:2391
+#: ekos/manager.cpp:2395
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "Imposiso Ukucimeni Ifayile"
 
-#: ekos/manager.cpp:2443
+#: ekos/manager.cpp:2447
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2445
+#: ekos/manager.cpp:2449
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2660
+#: ekos/manager.cpp:2664
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2668
+#: ekos/manager.cpp:2672
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2694
+#: ekos/manager.cpp:2698
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2706
+#: ekos/manager.cpp:2710
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
