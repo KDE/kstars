@@ -1078,10 +1078,8 @@ void DarkLibrary::checkCamera()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::countDarkTotalTime()
 {
-
-    //double exposureCount = (maxExposureSpin->value() - minExposureSpin->value()) / exposureStepSin->value();
     double temperatureCount = 1;
-    if (m_Camera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
+    if (m_Camera && m_Camera->hasCoolerControl() && std::abs(maxTemperatureSpin->value() - minTemperatureSpin->value()) > 0)
         temperatureCount = (std::abs((maxTemperatureSpin->value() - minTemperatureSpin->value())) / temperatureStepSpin->value()) +
                            1;
     int binnings = 0;
