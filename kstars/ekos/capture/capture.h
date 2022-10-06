@@ -1201,6 +1201,7 @@ class Capture : public QWidget, public Ui::Capture
         QVariantMap m_Metadata;
         void processGuidingFailed();
 
+        bool m_StartingCapture {true};
         QSharedPointer<FilterManager> m_FilterManager;
 };
 }

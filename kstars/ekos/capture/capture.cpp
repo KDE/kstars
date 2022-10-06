@@ -1,4 +1,4 @@
-/*
+﻿/*
     SPDX-FileCopyrightText: 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
@@ -128,7 +128,8 @@ Capture::Capture()
     seqDelayTimer = new QTimer(this);
     connect(seqDelayTimer, &QTimer::timeout, this, &Ekos::Capture::captureImage);
     captureDelayTimer = new QTimer(this);
-    connect(captureDelayTimer, &QTimer::timeout, this, &Ekos::Capture::start);
+    captureDelayTimer->setSingleShot(true);
+    connect(captureDelayTimer, &QTimer::timeout, this, &Ekos::Capture::start, Qt::UniqueConnection);
 
     connect(startB, &QPushButton::clicked, this, &Ekos::Capture::toggleSequence);
     connect(pauseB, &QPushButton::clicked, this, &Ekos::Capture::pause);
@@ -801,6 +802,8 @@ void Capture::start()
     //        KSNotification::error(i18n("Auto dark subtract is not supported in batch mode."));
     //        return;
     //    }
+
+    m_StartingCapture = false;
 
     // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
     ignoreJobProgress = !capturedFramesMap.count() && Options::alwaysResetSequenceWhenStarting();
@@ -2614,6 +2617,7 @@ void Capture::captureImage()
     if (activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
         captureStatusWidget->setStatus(i18n("Calibrating..."), Qt::yellow);
 
+    m_StartingCapture = true;
     rc = activeJob->capture(m_AutoFocusReady,
                             activeJob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION ? FITS_CALIBRATE : FITS_NORMAL);
 
@@ -2930,7 +2934,7 @@ void Capture::setActiveJob(SequenceJob *value)
         {
             m_captureModuleState->setCaptureState(CAPTURE_PROGRESS);
             executeJob();
-        });
+        }, Qt::UniqueConnection);
         connect(activeJob, &SequenceJob::abortCapture, this, &Capture::abort);
         connect(activeJob, &SequenceJob::newLog, this, &Capture::newLog);
         // forward the devices and attributes
@@ -3851,6 +3855,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             appendLogText(i18n("Initial guiding deviation %1 below limit value of %2 arcsecs",
                                deviationText, m_LimitsUI->startGuiderDriftN->value()));
             m_DeviationDetected = false;
+            m_StartingCapture = false;
         }
         else
         {
@@ -3886,34 +3891,16 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         }
     }
 
-    // We don't enforce limit on previews or non-LIGHT frames
-    if (m_LimitsUI->limitGuideDeviationS->isChecked() == false || (activeJob
-            && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool()
-                || activeJob->getExposeLeft() == 0.0 || activeJob->getFrameType() != FRAME_LIGHT)))
-        return;
-
-    // If we have an active busy job, let's abort it if guiding deviation is exceeded.
-    // And we accounted for the spike
-    if (activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
+    // Check for initial deviation in the middle of a sequence (above just checks at the start of a sequence).
+    if (activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT
+            && m_StartingCapture && m_LimitsUI->startGuiderDriftS->isChecked())
     {
-        if (deviation_rms <= m_LimitsUI->limitGuideDeviationN->value())
-            m_SpikesDetected = 0;
-        else
+        m_StartingCapture = false;
+        if (deviation_rms > m_LimitsUI->startGuiderDriftN->value())
         {
-            // Require several consecutive spikes to fail.
-            constexpr int CONSECUTIVE_SPIKES_TO_FAIL = 3;
-            if (++m_SpikesDetected < CONSECUTIVE_SPIKES_TO_FAIL)
-                return;
-
-            appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive samples, "
-                               "suspending exposure and waiting for guider up to %3 seconds.",
-                               deviationText, m_LimitsUI->limitGuideDeviationN->value(),
-                               QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3),
-                               CONSECUTIVE_SPIKES_TO_FAIL));
-
+            appendLogText(i18n("Guiding deviation at capture startup %1 exceeded limit %2 arcsecs.",
+                               deviationText, m_LimitsUI->startGuiderDriftN->value()));
             suspend();
-
-            m_SpikesDetected    = 0;
             m_DeviationDetected = true;
 
             // Check if we need to start meridian flip. If yes, we need to start capturing
@@ -3922,8 +3909,54 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 start();
             else
                 guideDeviationTimer.start();
+            return;
         }
-        return;
+    }
+
+    if (!m_captureModuleState || m_captureModuleState->getCaptureState() != CAPTURE_SUSPENDED)
+    {
+
+        // We don't enforce limit on previews or non-LIGHT frames
+        if ((m_LimitsUI->limitGuideDeviationS->isChecked() == false)
+                ||
+                (activeJob  && (activeJob->getCoreProperty(SequenceJob::SJ_Preview).toBool() ||
+                                activeJob->getExposeLeft() == 0.0 ||
+                                activeJob->getFrameType() != FRAME_LIGHT)))
+            return;
+
+        // If we have an active busy job, let's abort it if guiding deviation is exceeded.
+        // And we accounted for the spike
+        if (activeJob && activeJob->getStatus() == JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
+        {
+            if (deviation_rms <= m_LimitsUI->limitGuideDeviationN->value())
+                m_SpikesDetected = 0;
+            else
+            {
+                // Require several consecutive spikes to fail.
+                constexpr int CONSECUTIVE_SPIKES_TO_FAIL = 3;
+                if (++m_SpikesDetected < CONSECUTIVE_SPIKES_TO_FAIL)
+                    return;
+
+                appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive samples, "
+                                   "suspending exposure and waiting for guider up to %3 seconds.",
+                                   deviationText, m_LimitsUI->limitGuideDeviationN->value(),
+                                   QString("%L1").arg(guideDeviationTimer.interval() / 1000.0, 0, 'f', 3),
+                                   CONSECUTIVE_SPIKES_TO_FAIL));
+
+                suspend();
+
+                m_SpikesDetected    = 0;
+                m_DeviationDetected = true;
+
+                // Check if we need to start meridian flip. If yes, we need to start capturing
+                // to ensure that capturing is recovered after the flip
+                if (checkMeridianFlipReady())
+                    start();
+                else
+                    guideDeviationTimer.start();
+            }
+            return;
+        }
     }
 
     // Find the first aborted job
@@ -3939,7 +3972,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     if (abortedJob && m_DeviationDetected)
     {
-        if (deviation_rms <= m_LimitsUI->limitGuideDeviationN->value())
+        if (deviation_rms <= m_LimitsUI->startGuiderDriftN->value())
         {
             guideDeviationTimer.stop();
 
@@ -3952,11 +3985,11 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                     if (seqDelay == 0)
                         appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                            "resuming exposure.",
-                                           deviationText, m_LimitsUI->limitGuideDeviationN->value()));
+                                           deviationText, m_LimitsUI->startGuiderDriftN->value()));
                     else
                         appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
                                            "resuming exposure in %3 seconds.",
-                                           deviationText, m_LimitsUI->limitGuideDeviationN->value(), seqDelay / 1000.0));
+                                           deviationText, m_LimitsUI->startGuiderDriftN->value(), seqDelay / 1000.0));
 
                     captureDelayTimer->start(seqDelay);
                 }
@@ -3970,7 +4003,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
                 captureDelayTimer->stop();
 
             appendLogText(i18n("Guiding deviation %1 is still higher than limit value of %2 arcsecs.",
-                               deviationText, m_LimitsUI->limitGuideDeviationN->value()));
+                               deviationText, m_LimitsUI->startGuiderDriftN->value()));
         }
     }
 }
@@ -6112,7 +6145,8 @@ IPState Capture::checkLightFramePendingTasks()
 
     // step 7: check guide deviation for non meridian flip stages if the initial guide limit is set.
     //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
-    if (m_captureModuleState->getCaptureState() == CAPTURE_PROGRESS && m_captureModuleState->getGuideState() == GUIDE_GUIDING &&
+    if (m_captureModuleState->getCaptureState() == CAPTURE_PROGRESS &&
+            m_captureModuleState->getGuideState() == GUIDE_GUIDING &&
             m_LimitsUI->startGuiderDriftS->isChecked())
         return IPS_BUSY;
 

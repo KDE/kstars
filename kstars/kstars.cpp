@@ -61,9 +61,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     setWindowTitle(i18nc("@title:window", "KStars"));
 
     // Set thread stack size to 32MB
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     QThreadPool::globalInstance()->setStackSize(33554432);
-#endif
 
     // Initialize logging settings
     if (Options::disableLogging())
