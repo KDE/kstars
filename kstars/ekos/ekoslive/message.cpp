@@ -115,7 +115,7 @@ void Message::onTextReceived(const QString &message)
 {
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
     QJsonParseError error;
-    auto serverMessage = QJsonDocument::fromJson(message.toLatin1(), &error);
+    auto serverMessage = QJsonDocument::fromJson(message.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError)
     {
         qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
