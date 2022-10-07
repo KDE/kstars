@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-06 00:41+0000\n"
-"PO-Revision-Date: 2022-10-04 10:25+0100\n"
+"PO-Revision-Date: 2022-10-06 09:09+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -14712,11 +14712,11 @@ msgid "Post meridian flip calibration completed successfully."
 msgstr "A calibração da inversão do meridiano terminou com sucesso."
 
 #: ekos/capture/capture.cpp:3901
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"O desvio inicial da guia %1 é superior ao valor-limite de %2 arco-segundos"
+"O desvio da guia de %1 no arranque da captura é superior ao valor-limite de "
+"%2 arco-segundos."
 
 #: ekos/capture/capture.cpp:3940
 #, kde-format

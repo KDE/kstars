@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-06 00:41+0000\n"
-"PO-Revision-Date: 2022-09-21 16:47+0200\n"
+"PO-Revision-Date: 2022-10-06 15:12+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -13583,8 +13583,8 @@ msgstr "Avís: El procés de calibratge ha finalitzat prematurament."
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
-"La desviació inicial del guiatge %1 és inferior al valor límit de %2 segons "
-"d'arc"
+"La desviació inicial del guiatge %1 està per davall del valor límit de %2 "
+"segons d'arc"
 
 #: ekos/capture/capture.cpp:3864
 #, kde-format
@@ -13599,11 +13599,11 @@ msgstr ""
 "El calibratge després de la inversió del meridià s'ha completat correctament."
 
 #: ekos/capture/capture.cpp:3901
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"La desviació inicial del guiatge %1 excedix el valor límit de %2 segons d'arc"
+"La desviació inicial del guiatge %1 excedix el valor límit de %2 segons "
+"d'arc."
 
 #: ekos/capture/capture.cpp:3940
 #, kde-format

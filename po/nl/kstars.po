@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-06 00:41+0000\n"
-"PO-Revision-Date: 2022-09-30 12:06+0200\n"
+"PO-Revision-Date: 2022-10-06 10:01+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -13475,10 +13475,11 @@ msgid "Post meridian flip calibration completed successfully."
 msgstr "Calibratie na meridiaanflip met succes voltooid."
 
 #: ekos/capture/capture.cpp:3901
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
-msgstr "Initiële volgafwijking %1 is boven de grenswaarde van %2 boogseconden."
+msgstr ""
+"Volgafwijking bij begin van opname %1 is boven de grenswaarde van %2 "
+"boogseconden."
 
 #: ekos/capture/capture.cpp:3940
 #, kde-format
