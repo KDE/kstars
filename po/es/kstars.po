@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-06 00:41+0000\n"
-"PO-Revision-Date: 2022-10-01 22:04+0200\n"
+"PO-Revision-Date: 2022-10-07 04:04+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -13593,11 +13593,11 @@ msgstr ""
 "éxito."
 
 #: ekos/capture/capture.cpp:3901
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"La desviación de guiado inicial %1 excede el valor límite de %2 arcosegundos"
+"La desviación de guiado al inicio de la captura %1 excede el límite de %2 "
+"arcosegundos."
 
 #: ekos/capture/capture.cpp:3940
 #, kde-format

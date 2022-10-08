@@ -76544,6 +76544,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Swap"
-#~ msgstr "Odkládací prostor"
