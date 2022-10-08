@@ -92,7 +92,7 @@ void EquipmentWriter::slotAddScope()
 
 void EquipmentWriter::slotRemoveScope()
 {
-    KStarsData::Instance()->userdb()->DeleteEquipment("telescope", ui.Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("telescope", ui.Id->text());
     ui.Model->clear();
     ui.Vendor->clear();
     ui.Aperture->setValue(0);
@@ -157,7 +157,7 @@ void EquipmentWriter::slotAddDSLRLens()
 
 void EquipmentWriter::slotRemoveDSLRLens()
 {
-    KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", ui.DSLR_id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", ui.DSLR_id->text());
     ui.DSLR_model->clear();
     ui.DSLR_vendor->clear();
     ui.DSLRFocalLength->setValue(24);
@@ -220,7 +220,7 @@ void EquipmentWriter::slotAddEyepiece()
 
 void EquipmentWriter::slotRemoveEyepiece()
 {
-    KStarsData::Instance()->userdb()->DeleteEquipment("eyepiece", ui.e_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("eyepiece", ui.e_Id->text());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -277,7 +277,7 @@ void EquipmentWriter::slotAddLens()
 
 void EquipmentWriter::slotRemoveLens()
 {
-    KStarsData::Instance()->userdb()->DeleteEquipment("lens", ui.l_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("lens", ui.l_Id->text());
     loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
@@ -337,7 +337,7 @@ void EquipmentWriter::slotAddFilter()
 
 void EquipmentWriter::slotRemoveFilter()
 {
-    KStarsData::Instance()->userdb()->DeleteEquipment("filter", ui.f_Id->text().toInt());
+    KStarsData::Instance()->userdb()->DeleteEquipment("filter", ui.f_Id->text());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();

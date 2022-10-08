@@ -1154,12 +1154,12 @@ QList<QStringList> KSUserDB::GetAllFlags()
 /*
  * Generic Section
  */
-void KSUserDB::DeleteEquipment(const QString &type, const int &id)
+void KSUserDB::DeleteEquipment(const QString &type, const QString &id)
 {
     m_UserDB.open();
     QSqlTableModel equip(nullptr, m_UserDB);
     equip.setTable(type);
-    equip.setFilter("id = " + QString::number(id));
+    equip.setFilter("id = " + id);
     equip.select();
 
     equip.removeRows(0, equip.rowCount());
