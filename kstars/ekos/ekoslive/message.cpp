@@ -1245,7 +1245,7 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[DELETE_SCOPE])
     {
-        KStarsData::Instance()->userdb()->DeleteEquipment("telescope", payload["id"].toInt());
+        KStarsData::Instance()->userdb()->DeleteEquipment("telescope", payload["id"].toString());
     }
 
     sendScopes();
@@ -1274,7 +1274,7 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
     }
     else if (command == commands[DSLR_DELETE_LENS])
     {
-        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toInt());
+        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toString());
     }
     else if (command == commands[DSLR_UPDATE_LENS])
     {
