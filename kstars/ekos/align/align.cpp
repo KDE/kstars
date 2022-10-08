@@ -138,15 +138,19 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
 
+    m_CurrentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
+    gotoModeButtonGroup->button(m_CurrentGotoMode)->setChecked(true);
+
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
-            [ = ](int id)
+    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this,
+            [ = ](int id, bool toggled)
 #else
-    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
-            [ = ](int id)
+    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled), this,
+            [ = ](int id, bool toggled)
 #endif
     {
-        this->m_CurrentGotoMode = static_cast<GotoMode>(id);
+        if (toggled)
+            this->m_CurrentGotoMode = static_cast<GotoMode>(id);
     });
 
     m_CaptureTimer.setSingleShot(true);
@@ -156,9 +160,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_AlignTimer.setInterval(Options::astrometryTimeout() * 1000);
     connect(&m_AlignTimer, &QTimer::timeout, this, &Ekos::Align::checkAlignmentTimeout);
 
-    m_CurrentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
-    gotoModeButtonGroup->button(m_CurrentGotoMode)->setChecked(true);
-
     pi.reset(new QProgressIndicator(this));
     stopLayout->addWidget(pi.get());
 
@@ -167,17 +168,20 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
     solverModeButtonGroup->setId(localSolverR, SOLVER_LOCAL);
     solverModeButtonGroup->setId(remoteSolverR, SOLVER_REMOTE);
-    //    localSolverR->setChecked(Options::solverMode() == SOLVER_LOCAL);
-    //    remoteSolverR->setChecked(Options::solverMode() == SOLVER_REMOTE);
+
+    setSolverMode(Options::solverMode());
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this,
-            &Align::setSolverMode);
+    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this,
+            [ = ](int id, bool toggled)
 #else
-    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idClicked), this,
-            &Align::setSolverMode);
+    connect(solverModeButtonGroup, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::idToggled), this,
+            [ = ](int id, bool toggled)
 #endif
-    setSolverMode(solverModeButtonGroup->checkedId());
+    {
+        if (toggled)
+            setSolverMode(id);
+    });
 
     connect(alignAccuracyThreshold, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]()
     {
