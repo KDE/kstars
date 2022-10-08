@@ -45,11 +45,7 @@ TimeSpinBox::TimeSpinBox(QWidget *parent, bool _daysonly) : QSpinBox(parent)
     uint wmax = 0;
     for (int i = 0; i < maximum(); ++i)
     {
-        #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
         uint w = fm.horizontalAdvance('-' + TimeString[i]);
-        #else
-        uint w = fm.width('-' + TimeString[i]);
-        #endif
 
         if (w > wmax)
             wmax = w;

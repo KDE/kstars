@@ -52,11 +52,7 @@ void InfoBoxWidget::updateSize()
     int w = 0;
     foreach (const QString &str, m_strings)
     {
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
         w = qMax(w, fm.horizontalAdvance(str));
-#else
-        w = qMax(w, fm.width(str));
-#endif
     }
 
     int h = fm.height() * (m_shaded ? 1 : m_strings.size());
