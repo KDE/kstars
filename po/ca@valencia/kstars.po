@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 09:35+0000\n"
-"PO-Revision-Date: 2022-10-06 15:12+0200\n"
+"POT-Creation-Date: 2022-10-09 00:41+0000\n"
+"PO-Revision-Date: 2022-10-08 22:34+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6043,7 +6043,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2363 ekos/capture/capture.cpp:2767
 #: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:834 ekos/observatory/observatory.cpp:951
+#: ekos/mount/mount.cpp:852 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -20158,7 +20158,7 @@ msgstr "Configuració de la muntura"
 msgid "Mount Control"
 msgstr "Control de la muntura"
 
-#: ekos/mount/mount.cpp:349
+#: ekos/mount/mount.cpp:367
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -20167,29 +20167,29 @@ msgstr ""
 "S'ha detectat un controlador del GPS. KStars i la configuració del temps i "
 "emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
-#: ekos/mount/mount.cpp:364
+#: ekos/mount/mount.cpp:382
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament al "
 "del GPS?"
 
-#: ekos/mount/mount.cpp:365
+#: ekos/mount/mount.cpp:383
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configuració del GPS"
 
-#: ekos/mount/mount.cpp:493
+#: ekos/mount/mount.cpp:511
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:512
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:581
+#: ekos/mount/mount.cpp:599
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -20197,7 +20197,7 @@ msgstr ""
 "L'altitud del telescopi està per davall del límit d'altitud mínima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:597
+#: ekos/mount/mount.cpp:615
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -20205,7 +20205,7 @@ msgstr ""
 "L'altitud del telescopi està per damunt del límit d'altitud màxima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:649
+#: ekos/mount/mount.cpp:667
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -20214,126 +20214,126 @@ msgstr ""
 "L'angle horari del telescopi està per damunt de l'angle horari màxim de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:729 ekos/mount/mount.cpp:1131
+#: ekos/mount/mount.cpp:747 ekos/mount/mount.cpp:1149
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Inversió del meridià inactiva (aparcat)"
 
-#: ekos/mount/mount.cpp:793
+#: ekos/mount/mount.cpp:811
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià restarà inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:807
+#: ekos/mount/mount.cpp:825
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:845
+#: ekos/mount/mount.cpp:863
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1117
+#: ekos/mount/mount.cpp:1135
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Inversió del meridià inactiva (cap telescopi connectat)"
 
-#: ekos/mount/mount.cpp:1124
+#: ekos/mount/mount.cpp:1142
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Inversió del meridià inactiva (no s'ha sol·licitat)"
 
-#: ekos/mount/mount.cpp:1137
+#: ekos/mount/mount.cpp:1156
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Inversió del meridià inactiva (no s'ha establit cap objectiu)"
 
-#: ekos/mount/mount.cpp:1177
+#: ekos/mount/mount.cpp:1196
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Inversió del meridià inactiva (orienta després del meridià)"
 
-#: ekos/mount/mount.cpp:1193
+#: ekos/mount/mount.cpp:1212
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Inversió del meridià en %1"
 
-#: ekos/mount/mount.cpp:1245
+#: ekos/mount/mount.cpp:1264
 #, kde-format
 msgid "Meridian flip failed - time too short, pier side unknown."
 msgstr ""
 "La inversió del meridià ha fallat - horari massa curt, costat del moll "
 "desconegut."
 
-#: ekos/mount/mount.cpp:1270
+#: ekos/mount/mount.cpp:1289
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "ha fallat la inversió del meridià, es tornarà a intentar en 4 minuts"
 
-#: ekos/mount/mount.cpp:1274
+#: ekos/mount/mount.cpp:1293
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "No s'ha efectuat correctament cap inversió del meridià, el retard és massa "
 "llarg"
 
-#: ekos/mount/mount.cpp:1282
+#: ekos/mount/mount.cpp:1301
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "S'ha completat la inversió del meridià correctament."
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1348
 #, kde-format
 msgid "Meridian flip slew started..."
 msgstr "S'ha iniciat l'orientació de la inversió del meridià..."
 
-#: ekos/mount/mount.cpp:1669
+#: ekos/mount/mount.cpp:1688
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1673
+#: ekos/mount/mount.cpp:1692
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "No s'ha pogut netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1783 ekos/scheduler/scheduler.cpp:6179
+#: ekos/mount/mount.cpp:1802 ekos/scheduler/scheduler.cpp:6179
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1808
+#: ekos/mount/mount.cpp:1827
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1817
+#: ekos/mount/mount.cpp:1836
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estiga en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1822
+#: ekos/mount/mount.cpp:1841
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1824
+#: ekos/mount/mount.cpp:1843
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu utilitzar l'aparcament automàtic quan el programador "
 "està actiu."
 
-#: ekos/mount/mount.cpp:1843
+#: ekos/mount/mount.cpp:1862
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1871
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic..."
@@ -22474,7 +22474,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Consell</span>: "
 "<span style=\" font-style:italic;\">El gestor web d'INDI</span> és un servei "
-"que s'executa en dispositius remots per ajudar-vos a iniciar i parar els "
+"que s'executa en dispositius remots per a ajudar-vos a iniciar i parar els "
 "serveis INDI de forma remota.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
@@ -64960,7 +64960,7 @@ msgstr "Temps de trànsit"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:302
 #, kde-kuit-format
 msgid "Set time"
-msgstr "Establiu la data i l'hora"
+msgstr "Establix la data i l'hora"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
 #, kde-kuit-format
@@ -64985,7 +64985,7 @@ msgstr "Afig un enllaç"
 #: kstarslite/qml/dialogs/FindDialog.qml:14
 #, kde-kuit-format
 msgid "Find an Object"
-msgstr "Busqueu un objecte"
+msgstr "Busca un objecte"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:37
 #, kde-kuit-format
@@ -65731,7 +65731,7 @@ msgstr "Gnomònica"
 #: kstarslite/qml/modules/TimePage.qml:13 tools/observinglist.ui:525
 #, kde-format, kde-kuit-format
 msgid "Set Time"
-msgstr "Establiu la data i l'hora"
+msgstr "Establix la data i l'hora"
 
 #: kstarslite/qml/modules/TimePage.qml:233
 #, kde-kuit-format
@@ -74349,7 +74349,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Podeu definir les vostres pròpies ubicacions geogràfiques.\n"
-"\t\t\tOmpliu els camps adequats en el diàleg «Establix l'emplaçament\n"
+"\t\t\tOmpliu els camps adequats en el diàleg «Establiment de l'emplaçament\n"
 "\t\t\tgeogràfic» i premeu el botó «Afig l'emplaçament a la llista».\n"
 "\t\t\tEls vostres emplaçaments estaran disponibles en totes les sessions "
 "futures.\n"

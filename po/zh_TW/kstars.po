@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 09:35+0000\n"
+"POT-Creation-Date: 2022-10-09 00:41+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -6140,7 +6140,7 @@ msgstr "識別器在 %1 秒後中止"
 
 #: ekos/align/align.cpp:2363 ekos/capture/capture.cpp:2767
 #: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:834 ekos/observatory/observatory.cpp:951
+#: ekos/mount/mount.cpp:852 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -20846,50 +20846,50 @@ msgstr "設定"
 msgid "Mount Control"
 msgstr "移動控制"
 
-#: ekos/mount/mount.cpp:349
+#: ekos/mount/mount.cpp:367
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:364
+#: ekos/mount/mount.cpp:382
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:365
+#: ekos/mount/mount.cpp:383
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "GPS Settings"
 msgstr "設定"
 
-#: ekos/mount/mount.cpp:493
+#: ekos/mount/mount.cpp:511
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:512
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "軌跡"
 
-#: ekos/mount/mount.cpp:581
+#: ekos/mount/mount.cpp:599
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr "望遠鏡高度低於 %1 的限制最低高度。將中止..."
 
-#: ekos/mount/mount.cpp:597
+#: ekos/mount/mount.cpp:615
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr "望遠鏡高度高於 %1 的限制最高高度。將中止..."
 
-#: ekos/mount/mount.cpp:649
+#: ekos/mount/mount.cpp:667
 #, fuzzy, kde-format
 #| msgid ""
 #| "Telescope altitude is above maximum altitude limit of %1. Aborting "
@@ -20899,131 +20899,131 @@ msgid ""
 "motion..."
 msgstr "望遠鏡高度高於 %1 的限制最高高度。將中止..."
 
-#: ekos/mount/mount.cpp:729 ekos/mount/mount.cpp:1131
+#: ekos/mount/mount.cpp:747 ekos/mount/mount.cpp:1149
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip inactive (parked)"
 msgstr "子午線翻轉..."
 
-#: ekos/mount/mount.cpp:793
+#: ekos/mount/mount.cpp:811
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:807
+#: ekos/mount/mount.cpp:825
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:845
+#: ekos/mount/mount.cpp:863
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1117
+#: ekos/mount/mount.cpp:1135
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "狀態："
 
-#: ekos/mount/mount.cpp:1124
+#: ekos/mount/mount.cpp:1142
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "狀態："
 
-#: ekos/mount/mount.cpp:1137
+#: ekos/mount/mount.cpp:1156
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (no target set)"
 msgstr "狀態："
 
-#: ekos/mount/mount.cpp:1177
+#: ekos/mount/mount.cpp:1196
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "子午線翻轉..."
 
-#: ekos/mount/mount.cpp:1193
+#: ekos/mount/mount.cpp:1212
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip in %1"
 msgstr "子午線翻轉..."
 
-#: ekos/mount/mount.cpp:1245
+#: ekos/mount/mount.cpp:1264
 #, kde-format
 msgid "Meridian flip failed - time too short, pier side unknown."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1270
+#: ekos/mount/mount.cpp:1289
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr ""
 
-#: ekos/mount/mount.cpp:1274
+#: ekos/mount/mount.cpp:1293
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 
-#: ekos/mount/mount.cpp:1282
+#: ekos/mount/mount.cpp:1301
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip completed OK."
 msgstr "子午線翻轉..."
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1348
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip slew started..."
 msgstr "子午線翻轉..."
 
-#: ekos/mount/mount.cpp:1669
+#: ekos/mount/mount.cpp:1688
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Alignment Model cleared."
 msgstr "靈敏度校正完成。"
 
-#: ekos/mount/mount.cpp:1673
+#: ekos/mount/mount.cpp:1692
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "Failed to clear Alignment Model."
 msgstr "極地校準"
 
-#: ekos/mount/mount.cpp:1783 ekos/scheduler/scheduler.cpp:6179
+#: ekos/mount/mount.cpp:1802 ekos/scheduler/scheduler.cpp:6179
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1808
+#: ekos/mount/mount.cpp:1827
 #, fuzzy, kde-format
 #| msgid "The Name field cannot be empty"
 msgid "Parking time cannot be in the past."
 msgstr "名稱欄位不能為空"
 
-#: ekos/mount/mount.cpp:1817
+#: ekos/mount/mount.cpp:1836
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1822
+#: ekos/mount/mount.cpp:1841
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1824
+#: ekos/mount/mount.cpp:1843
 #, fuzzy, kde-format
 #| msgid "Cannot switch modes while INDI services are running."
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "當 INDI 服務執行中時無法切換模式。"
 
-#: ekos/mount/mount.cpp:1843
+#: ekos/mount/mount.cpp:1862
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking timer is up."
 msgstr "定位望遠鏡中..."
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1871
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Starting auto park..."

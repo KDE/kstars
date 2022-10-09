@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 09:35+0000\n"
+"POT-Creation-Date: 2022-10-09 00:41+0000\n"
 "PO-Revision-Date: 2022-10-06 09:09+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -7193,7 +7193,7 @@ msgstr "A resolução interrompeu-se ao fim de %1 segundos."
 
 #: ekos/align/align.cpp:2363 ekos/capture/capture.cpp:2767
 #: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:834 ekos/observatory/observatory.cpp:951
+#: ekos/mount/mount.cpp:852 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -21245,7 +21245,7 @@ msgstr "Configuração da Montagem"
 msgid "Mount Control"
 msgstr "Controlo da Montagem"
 
-#: ekos/mount/mount.cpp:349
+#: ekos/mount/mount.cpp:367
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -21255,29 +21255,29 @@ msgstr ""
 "hora da montagem e da localização estão agora sincronizadas com o "
 "controlador de GPS."
 
-#: ekos/mount/mount.cpp:364
+#: ekos/mount/mount.cpp:382
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "Foi detectado um GPS. Deseja mudar a fonte da hora e da localização para o "
 "GPS?"
 
-#: ekos/mount/mount.cpp:365
+#: ekos/mount/mount.cpp:383
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configuração do GPS"
 
-#: ekos/mount/mount.cpp:493
+#: ekos/mount/mount.cpp:511
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Tem a certeza que deseja desligar o seguimento da montagem?"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:512
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguimento da Montagem"
 
-#: ekos/mount/mount.cpp:581
+#: ekos/mount/mount.cpp:599
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -21285,7 +21285,7 @@ msgstr ""
 "A altitude do telescópio está abaixo do limite mínimo de %1. A interromper o "
 "movimento..."
 
-#: ekos/mount/mount.cpp:597
+#: ekos/mount/mount.cpp:615
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -21293,7 +21293,7 @@ msgstr ""
 "A altitude do telescópio está acima do limite máximo de %1. A interromper o "
 "movimento..."
 
-#: ekos/mount/mount.cpp:649
+#: ekos/mount/mount.cpp:667
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -21302,124 +21302,124 @@ msgstr ""
 "O ângulo horário do telescópio está acima do limite máximo de %1. A "
 "interromper o movimento..."
 
-#: ekos/mount/mount.cpp:729 ekos/mount/mount.cpp:1131
+#: ekos/mount/mount.cpp:747 ekos/mount/mount.cpp:1149
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Inversão do meridiano inactiva (bloqueada)"
 
-#: ekos/mount/mount.cpp:793
+#: ekos/mount/mount.cpp:811
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "A inversão do meridiano fica inactiva durante o alinhamento polar."
 
-#: ekos/mount/mount.cpp:807
+#: ekos/mount/mount.cpp:825
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Os movimentos do alinhamento polar terminaram. Foi activada a inversão do "
 "meridiano."
 
-#: ekos/mount/mount.cpp:845
+#: ekos/mount/mount.cpp:863
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1117
+#: ekos/mount/mount.cpp:1135
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Inversão do meridiano inactiva (sem telescópio ligado)"
 
-#: ekos/mount/mount.cpp:1124
+#: ekos/mount/mount.cpp:1142
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Inversão do meridiano inactiva (inversão não pedida)"
 
-#: ekos/mount/mount.cpp:1137
+#: ekos/mount/mount.cpp:1156
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Inversão do meridiano inactiva (sem alvo definido)"
 
-#: ekos/mount/mount.cpp:1177
+#: ekos/mount/mount.cpp:1196
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Inversão do meridiano inactiva (deslocamento após o meridiano)"
 
-#: ekos/mount/mount.cpp:1193
+#: ekos/mount/mount.cpp:1212
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Inversão do meridiano em %1"
 
-#: ekos/mount/mount.cpp:1245
+#: ekos/mount/mount.cpp:1264
 #, kde-format
 msgid "Meridian flip failed - time too short, pier side unknown."
 msgstr ""
 "A inversão do meridiano falhou - o tempo é demasiado curto e o lado de "
 "observação é desconhecido."
 
-#: ekos/mount/mount.cpp:1270
+#: ekos/mount/mount.cpp:1289
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "a inversão do meridiano falhou, a repetir daqui a 4 minutos"
 
-#: ekos/mount/mount.cpp:1274
+#: ekos/mount/mount.cpp:1293
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "Não foi possível uma Inversão de Meridiano com sucesso; o atraso é demasiado "
 "grande"
 
-#: ekos/mount/mount.cpp:1282
+#: ekos/mount/mount.cpp:1301
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "A inversão do meridiano terminou com sucesso."
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1348
 #, kde-format
 msgid "Meridian flip slew started..."
 msgstr "O deslocamento da inversão do meridiano foi iniciado..."
 
-#: ekos/mount/mount.cpp:1669
+#: ekos/mount/mount.cpp:1688
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "O modelo de alinhamento foi limpo."
 
-#: ekos/mount/mount.cpp:1673
+#: ekos/mount/mount.cpp:1692
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Não foi possível limpar o modelo de alinhamento."
 
-#: ekos/mount/mount.cpp:1783 ekos/scheduler/scheduler.cpp:6179
+#: ekos/mount/mount.cpp:1802 ekos/scheduler/scheduler.cpp:6179
 #, kde-format
 msgid "Mount already parked."
 msgstr "A montagem já está bloqueada."
 
-#: ekos/mount/mount.cpp:1808
+#: ekos/mount/mount.cpp:1827
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "A hora do bloqueio não poderá ocorrer no passado."
 
-#: ekos/mount/mount.cpp:1817
+#: ekos/mount/mount.cpp:1836
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "O tempo de bloqueio deverá ser dentro das próximas 24 horas."
 
-#: ekos/mount/mount.cpp:1822
+#: ekos/mount/mount.cpp:1841
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Atenção! Ainda faltam mais de 12 horas até à hora de bloqueio."
 
-#: ekos/mount/mount.cpp:1824
+#: ekos/mount/mount.cpp:1843
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "Atenção: não use o Bloqueio Automático com o escalonamento activo."
 
-#: ekos/mount/mount.cpp:1843
+#: ekos/mount/mount.cpp:1862
 #, kde-format
 msgid "Parking timer is up."
 msgstr "O temporizador de bloqueio está activo."
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1871
 #, kde-format
 msgid "Starting auto park..."
 msgstr "A iniciar o bloqueio automático..."
