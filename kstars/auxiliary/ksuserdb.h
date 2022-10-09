@@ -190,7 +190,7 @@ class KSUserDB
          * @param id Unique id (same as row number)
          * @return void
          **/
-        void DeleteEquipment(const QString &type, const int &id);
+        void DeleteEquipment(const QString &type, const QString &id);
         /**
          * @brief Erases the whole equipment table of given type
          *

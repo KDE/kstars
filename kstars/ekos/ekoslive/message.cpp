@@ -115,7 +115,7 @@ void Message::onTextReceived(const QString &message)
 {
     qCInfo(KSTARS_EKOS) << "Websocket Message" << message;
     QJsonParseError error;
-    auto serverMessage = QJsonDocument::fromJson(message.toLatin1(), &error);
+    auto serverMessage = QJsonDocument::fromJson(message.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError)
     {
         qCWarning(KSTARS_EKOS) << "Ekos Live Parsing Error" << error.errorString();
@@ -1245,7 +1245,7 @@ void Message::processScopeCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[DELETE_SCOPE])
     {
-        KStarsData::Instance()->userdb()->DeleteEquipment("telescope", payload["id"].toInt());
+        KStarsData::Instance()->userdb()->DeleteEquipment("telescope", payload["id"].toString());
     }
 
     sendScopes();
@@ -1274,7 +1274,7 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
     }
     else if (command == commands[DSLR_DELETE_LENS])
     {
-        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toInt());
+        KStarsData::Instance()->userdb()->DeleteEquipment("dslrlens", payload["id"].toString());
     }
     else if (command == commands[DSLR_UPDATE_LENS])
     {

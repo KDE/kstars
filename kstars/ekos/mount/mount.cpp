@@ -241,7 +241,7 @@ void Mount::setupParkUI()
 
 bool Mount::setMount(ISD::Mount *device)
 {
-    if (device == m_Mount)
+    if (device && device == m_Mount)
         return false;
 
     if (m_Mount)
@@ -306,25 +306,43 @@ bool Mount::setMount(ISD::Mount *device)
         if (status == ISD::PARK_UNPARKED && parkEveryDay->isChecked() && autoParkTimer.isActive() == false)
             startTimerB->animateClick();
     });
+
+    // If mount is ready then let's set it up.
     if (m_Mount->isReady())
+    {
+        if (enableAltitudeLimits->isChecked())
+            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+
+        syncTelescopeInfo();
+
+        // Send initial status
+        m_Status = m_Mount->status();
+        emit newStatus(m_Status);
+
+        m_ParkStatus = m_Mount->parkStatus();
+        emit newParkStatus(m_ParkStatus);
         emit ready();
+    }
+    // Otherwise, let's wait for mount to be ready
     else
-        connect(m_Mount, &ISD::Mount::ready, this, &Mount::ready);
+    {
+        connect(m_Mount, &ISD::Mount::ready, this, [this]()
+        {
+            if (enableAltitudeLimits->isChecked())
+                m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
 
-    //Disable this for now since ALL INDI drivers now log their messages to verbose output
-    //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
+            syncTelescopeInfo();
 
-    if (enableAltitudeLimits->isChecked())
-        m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+            // Send initial status
+            m_Status = m_Mount->status();
+            emit newStatus(m_Status);
 
-    syncTelescopeInfo();
+            m_ParkStatus = m_Mount->parkStatus();
+            emit newParkStatus(m_ParkStatus);
+            emit ready();
+        });
+    }
 
-    // Send initial status
-    m_Status = m_Mount->status();
-    emit newStatus(m_Status);
-
-    m_ParkStatus = m_Mount->parkStatus();
-    emit newParkStatus(m_ParkStatus);
     return true;
 }
 
@@ -1132,7 +1150,8 @@ bool Mount::checkMeridianFlip(dms lst)
         return false;
     }
 
-    if (currentTargetPosition == nullptr || m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_INACTIVE)
+    if (currentTargetPosition == nullptr
+            || m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_INACTIVE)
     {
         m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (no target set)"));
         return false;
