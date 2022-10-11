@@ -213,3 +213,6 @@ install(FILES
     DESTINATION ${KSTARS_DATADIR}/kstars/skycultures/inuit
 )
 
+
+add_subdirectory(fr)
+add_subdirectory(nds)
