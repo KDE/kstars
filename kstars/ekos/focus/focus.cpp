@@ -771,8 +771,7 @@ void Focus::getAbsFocusPosition()
 
         // Restrict the travel if needed
         double const travel = std::abs(it->getMax() - it->getMin());
-        if (travel < focusMaxTravel->maximum())
-            focusMaxTravel->setMaximum(travel);
+        focusMaxTravel->setMaximum(travel);;
 
         absTicksLabel->setText(QString::number(currentPosition));
 
