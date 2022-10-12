@@ -435,6 +435,8 @@ void TestEkosHelper::prepareAlignmentModule()
     KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
     // disable rotator check in alignment
     Options::setAstrometryUseRotator(false);
+    // select Luminance filter
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), alignFilter, "Luminance");
 }
 
 void TestEkosHelper::prepareFocusModule()
@@ -493,6 +495,12 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=269.84,angR=270.362,angD=179.318,ramspas=104.501,decmspas=191.838,swap=0,ra= 143:57:35,dec=00:25:52,side=0,when=2022-09-11 12:05:16,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
+    // auto star select
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
+    // set the guide star box to size 32
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideSquareSize, "32");
+    // use 1x1 binning for guiding
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->guideModule(), guideBinning, "1x1");
     if (m_Guider == "PHD2")
     {
         KTRY_GADGET(Ekos::Manager::Instance()->guideModule(), QPushButton, externalConnectB);
@@ -652,16 +660,11 @@ bool TestEkosHelper::startGuiding(double expTime)
         return false;
     }
 
-    // switch to guiding module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule(), 1000));
+    // setup guiding
+    prepareGuidingModule();
+
     //set the exposure time
     KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->guideModule(), guideExposure, expTime);
-    // auto star select
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->guideModule(), guideAutoStar, true);
-    // set the guide star box to size 32
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guideSquareSize, "32");
-    // use 1x1 binning for guiding
-    KTRY_SET_COMBO_SUB(Ekos::Manager::Instance()->guideModule(), guideBinning, "1x1");
 
     // start guiding
     KTRY_GADGET_SUB(Ekos::Manager::Instance()->guideModule(), QPushButton, guideB);
@@ -754,6 +757,74 @@ bool TestEkosHelper::isAstrometryAvailable()
         m_astrometry_available = checkAstrometryFiles();
 
     return m_astrometry_available;
+}
+
+bool TestEkosHelper::executeFocusing(int initialFocusPosition)
+{
+    // check whether focusing is already running
+    if (! (getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE
+           || getFocusStatus() == Ekos::FOCUS_ABORTED))
+        return true;
+
+    // prepare for focusing tests
+    prepareFocusModule();
+
+    initialFocusPosition = 40000;
+    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), absTicksSpin, initialFocusPosition);
+    // start focusing
+    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startGotoB);
+    // wait one second for settling
+    QTest::qWait(3000);
+    // start focusing
+    expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
+    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startFocusB);
+    // wait for successful completion
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedFocusStates, 180000);
+    qCInfo(KSTARS_EKOS_TEST) << "Focusing finished.";
+    // all checks succeeded
+    return true;
+}
+
+bool TestEkosHelper::stopFocusing()
+{
+    // check whether focusing is already stopped
+    if (getFocusStatus() == Ekos::FOCUS_IDLE || getFocusStatus() == Ekos::FOCUS_COMPLETE
+            || getFocusStatus() == Ekos::FOCUS_ABORTED)
+        return true;
+
+    // switch to focus module
+    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000));
+    // stop focusing if necessary
+    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QPushButton, stopFocusB);
+    if (stopFocusB->isEnabled())
+        KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), stopFocusB);
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_IDLE
+                                 || getFocusStatus() == Ekos::FOCUS_COMPLETE ||
+                                 getFocusStatus() == Ekos::FOCUS_ABORTED || getFocusStatus() == Ekos::FOCUS_FAILED, 15000);
+
+    // all checks succeeded
+    return true;
+}
+
+int TestEkosHelper::secondsToMF(QString message)
+{
+    QRegExp mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
+
+    int pos = mfPattern.indexIn(message);
+    if (pos > -1)
+    {
+        int hh  = mfPattern.cap(1).toInt();
+        int mm  = mfPattern.cap(2).toInt();
+        int sec = mfPattern.cap(3).toInt();
+        if (hh >= 0)
+            return (((hh * 60) + mm) * 60 + sec);
+        else
+            return (((hh * 60) - mm) * 60 - sec);
+    }
+
+    // unknown time
+    return -1;
+
 }
 
 void TestEkosHelper::init()

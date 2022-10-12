@@ -65,7 +65,7 @@ class TestAdapter : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestAdapter();;
+    explicit TestAdapter();
 
     double m_ccdtemperature = 0.0, m_rotatorangle = 0.0, m_guiding_dev;
     double m_targetccdtemp, m_targetrotatorangle, m_target_guiding_dev;

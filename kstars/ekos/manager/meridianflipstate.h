@@ -11,6 +11,7 @@
 
 #include <ekos_mount_debug.h>
 
+#include "indi/indistd.h"
 #include "indi/indimount.h"
 
 /**
@@ -48,7 +49,7 @@ public:
         MOUNT_FLIP_NONE,      // this is the default state, comparing the hour angle with the next flip position
                               // it moves to MOUNT_FLIP_PLANNED when a flip is needed
         MOUNT_FLIP_PLANNED,   // a meridian flip is ready to be started due to the target position and the
-        // configured offsets and signals to the Capture class that a flip is required
+                              // configured offsets and signals to the Capture class that a flip is required
         MOUNT_FLIP_WAITING,   // step after FLUP_PLANNED waiting until Capture completes a running exposure
         MOUNT_FLIP_ACCEPTED,  // Capture is idle or has completed the exposure and will wait until the flip
                               // is completed.
@@ -57,9 +58,7 @@ public:
         MOUNT_FLIP_COMPLETED, // this checks that the flip was completed successfully or not and after tidying up
                               // moves to MOUNT_FLIP_NONE to wait for the next flip requirement.
                               // Capture sees this and resumes.
-        MOUNT_FLIP_ERROR,     // errors in the flip process should end up here
-        MOUNT_FLIP_INACTIVE   // do not execute a meridian flip since it will disturb other activities like
-        // a running polar alignment
+        MOUNT_FLIP_ERROR      // errors in the flip process should end up here
     } MeridianFlipMountState;
 
     // overall meridian flip stage
@@ -75,22 +74,43 @@ public:
         MF_GUIDING     /* guiding started after a successful flip                           */
     } MFStage;
 
+    // mount position
+    typedef struct {
+         SkyPoint position;
+         ISD::Mount::PierSide pierSide;
+         dms ha;
+         bool valid = false;
+    } MountPosition;
+
+    // flag if alignment should be executed after the meridian flip
+    bool resumeAlignmentAfterFlip() { return m_resumeAlignmentAfterFlip; }
+    void setResumeAlignmentAfterFlip(bool resume) { m_resumeAlignmentAfterFlip = resume; }
+
+    // flag if guiding should be resetarted after the meridian flip
+    bool resumeGuidingAfterFlip() { return m_resumeGuidingAfterFlip; }
+    void setResumeGuidingAfterFlip(bool resume) { m_resumeGuidingAfterFlip = resume; }
 
     /**
      * @brief Translate the state to a string value.
      */
     static QString MFStageString(MFStage stage);
 
-
-    SkyPoint initialMountCoords;
-    // flag if alignment should be executed after the meridian flip
-    bool resumeAlignmentAfterFlip { false };
-    // flag if guiding should be resetarted after the meridian flip
-    bool resumeGuidingAfterFlip { false };
+    // Is the meridian flip enabled?
+    bool isEnabled() const { return m_enabled; }
+    void setEnabled(bool value);
+    // offset past the meridian
+    double getOffset() const { return m_offset; }
+    void setOffset(double newOffset) { m_offset = newOffset; }
 
     MeridianFlipState::MFStage getMeridianFlipStage() const { return meridianFlipStage; };
 
-    void setMeridianFlipStage(const MFStage &value);
+    void setMeridianFlipStage(const MFStage &value) { meridianFlipStage = value; }
+
+    /**
+     * @brief Stop a meridian flip if necessary.
+     * @return true if a meridian flip was running
+     */
+    bool resetMeridianFlip();
 
     /**
      * @brief Check if a meridian flip has already been started
@@ -109,15 +129,23 @@ public:
         return meridianFlipStage != MF_NONE && meridianFlipStage != MF_REQUESTED;
     }
 
+    /**
+     * @brief Update the current target position
+     * @param pos new target (may be null if no target is set)
+     */
+    void setTargetPosition(SkyPoint *pos);
 
     /**
-     * @brief Hour angle of that time the mount has slewed to the current position.
+     * @brief Make current target position invalid
      */
-    double initialPositionHA() const {return m_initialPositionHA;};
+    void clearTargetPosition() { targetPosition.valid = false; }
+
     /**
-     * @brief Derive the initial position hour angle from the given RA value
+     * @brief Get the hour angle of that time the mount has slewed to the current position.
+     *        his is used to manage the meridian flip for mounts which do not report pier side.
+     *        (-12.0 < HA <= 12.0)
      */
-    void setInitialPositionHA(double RA);
+    double initialPositionHA() const;
 
     /**
      * @brief access to the meridian flip mount state
@@ -127,52 +155,65 @@ public:
     double getFlipDelayHrs() const { return flipDelayHrs; }
     void setFlipDelayHrs(double value) { flipDelayHrs = value; }
 
-    QDateTime getMinMeridianFlipEndTime() const { return minMeridianFlipEndTime; }
-    /**
-     * @brief Update the minimal meridian flip end time - current UTC plus {@see minMeridianFlipDurationSecs}
-     */
-    void updateMinMeridianFlipEndTime();
-
     /**
      * @brief Change the meridian flip mount state
      */
     void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
 
     /**
-     * @brief React upon a meridian flip status change of the mount.
-     */
-    void publishMFMountStatus(MeridianFlipMountState status);
-
-    /**
-     * @brief publish a new meridian flip mount status text
-     */
-    void publishMFMountStatusText(QString text);
-    /**
      * @brief return the string for the status
     */
     static QString meridianFlipStatusString(MeridianFlipMountState status);
 
     // Access to the current mount device
-    ISD::Mount *getMount() const { return m_Mount; }
-    void setMount(ISD::Mount *newMount) { m_Mount = newMount; }
+    void setMountConnected(bool connected) { m_hasMount = connected; }
 
+    // Access to the capture device
+    void setHasCaptureInterface(bool present) { m_hasCaptureInterface = present; }
+
+public slots:
+    /**
+     * @brief Slot for receiving an update to the mount status
+     */
+    void setMountStatus(ISD::Mount::Status status);
+    /**
+     * @brief Slot for receiving an update to the mount park status
+     */
+    void setMountParkStatus(ISD::ParkStatus status) { m_MountParkStatus = status; }
+    /**
+     * @brief Slot for receiving a new telescope position
+     * @param position new position
+     * @param pierSide current pier side
+     * @param ha current hour angle
+     */
+    void updateTelescopeCoord(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha);
 
 signals:
-    /**
-     * @brief mount meridian flip status update event
-     */
+    // mount meridian flip status update event
     void newMountMFStatus(MeridianFlipMountState status);
-
-    /**
-     * @brief Communicate a new meridian flip mount status message
-     */
+    // Communicate a new meridian flip mount status message
     void newMeridianFlipMountStatusText(const QString &text);
-
-
+    // slew the telescope to a target
+    void slewTelescope(SkyPoint &target);
 
 private:
+    // flag if meridian flip is enabled
+    bool m_enabled = false;
+    // offset post meridian (in degrees)
+    double m_offset;
+    // flag if alignment should be executed after the meridian flip
+    bool m_resumeAlignmentAfterFlip { false };
+    // flag if guiding should be resetarted after the meridian flip
+    bool m_resumeGuidingAfterFlip { false };
+
     // the mount device
-    ISD::Mount *m_Mount {nullptr};
+    bool m_hasMount { false };
+    // capture interface
+    bool m_hasCaptureInterface { false };
+    // the current mount status
+    ISD::Mount::Status m_MountStatus = ISD::Mount::MOUNT_IDLE;
+    // mount park status
+    ISD::ParkStatus m_MountParkStatus = ISD::PARK_UNKNOWN;
     // current overall meridian flip state
     MFStage meridianFlipStage { MF_NONE };
 
@@ -180,12 +221,15 @@ private:
     MeridianFlipMountState meridianFlipMountState { MOUNT_FLIP_NONE };
     // last message published to avoid double entries
     QString m_lastStatusText = "";
-    /**
-     * Get the hour angle of that time the mount has slewed to the current position.
-     * This is used to manage the meridian flip for mounts which do not report pier side.
-     * only one attempt to flip is done.
-     */
-    double m_initialPositionHA;
+
+    SkyPoint initialMountCoords;
+
+    // current position of the mount
+    MountPosition currentPosition;
+    // current target position (might be different from current position!)
+    MountPosition targetPosition;
+
+    static void updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha, const bool isValid);
 
     // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take at least
     // the time for that, currently set to 20 seconds
@@ -199,6 +243,38 @@ private:
      * @brief Internal method for changing the mount meridian flip state. From extermal, use {@see updateMFMountState()}
      */
     void setMeridianFlipMountState(MeridianFlipMountState newMeridianFlipMountState);
+
+    /**
+     * @brief Check if a meridian flip if necessary.
+     * @param lst local sideral time
+     */
+    bool checkMeridianFlip(dms lst);
+
+    /**
+     * @brief Start a meridian flip if necessary.
+     * @return true if a meridian flip was started
+     */
+    void startMeridianFlip();
+
+    /**
+     * @brief Calculate the minimal end time from now plus {@see minMeridianFlipEndTime}
+     */
+    void updateMinMeridianFlipEndTime();
+
+    /**
+     * @brief React upon a meridian flip status change of the mount.
+     */
+    void publishMFMountStatus(MeridianFlipMountState status);
+
+    /**
+     * @brief publish a new meridian flip mount status text
+     */
+    void publishMFMountStatusText(QString text);
+
+    /**
+     * @brief Add log message
+     */
+    void appendLogText(QString message);
 
 };
 } // namespace

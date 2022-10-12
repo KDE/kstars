@@ -533,6 +533,24 @@ public:
     bool isAstrometryAvailable();
 
     /**
+     * @brief Helper function for focusing
+     * @param initialFocusPosition starting point for focusing
+     */
+    bool executeFocusing(int initialFocusPosition = 40000);
+
+    /**
+     * @brief Helper function to stop focusing
+     */
+    bool stopFocusing();
+
+    /**
+     * @brief Determine the number of seconds until the meridian flip should take place by reading
+     *        the displayed meridian flip status.
+     * @param message text containing the seconds to the meridian flip
+     */
+    int secondsToMF(QString message);
+
+    /**
      * @brief Set a tree view combo to a given value
      * @param combo box with tree view
      * @param lookup target value

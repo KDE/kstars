@@ -35,6 +35,19 @@ class Mount : public ConcreteDevice
         typedef enum { MOTION_WEST, MOTION_EAST } HorizontalMotion;
         typedef enum { MOTION_START, MOTION_STOP } MotionCommand;
         typedef enum { PIER_UNKNOWN = -1, PIER_WEST = 0, PIER_EAST = 1 } PierSide;
+        static QString pierSideStateString(PierSide ps)
+        {
+            switch (ps)
+            {
+            case ISD::Mount::PierSide::PIER_EAST:
+                return "Pier Side: East (pointing West)";
+            case ISD::Mount::PierSide::PIER_WEST:
+                return "Pier Side: West (pointing East)";
+            default:
+                return "Pier Side: Unknown";
+            }
+        }
+
         typedef enum
         {
             MOUNT_IDLE,

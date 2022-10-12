@@ -90,12 +90,6 @@ private:
     bool prepareCapture();
 
     /**
-     * @brief Execute autofocus
-     * @return true iff it succeeded
-     */
-    bool executeFocusing();
-
-    /**
      * @brief Helper function translating simple QString input into QTest test data rows
      * @param exptime exposure time of the sequence
      * @param sequence filter and count as QString("<filter>:<count"), ... list

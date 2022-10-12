@@ -954,7 +954,7 @@ class Capture : public QWidget, public Ui::Capture
         bool isModelinDSLRInfo(const QString &model);
 
         /* Meridian Flip */
-        QSharedPointer<MeridianFlipState> m_MeridianFlipState;
+        QSharedPointer<MeridianFlipState> mf_state;
         /**
          * @brief Check whether a meridian flip has been requested and trigger it
          * @return true iff a meridian flip has been triggered
