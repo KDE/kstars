@@ -38,12 +38,6 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     m_CaptureHelper->prepareOpticalTrains();
     // prepare the mount module for testing (OAG guiding seems more robust)
     m_CaptureHelper->prepareMountModule(TestEkosHelper::SCOPE_FSQ85, TestEkosHelper::SCOPE_FSQ85);
-    // prepare for focusing tests
-    m_CaptureHelper->prepareFocusModule();
-    // prepare for alignment tests
-    m_CaptureHelper->prepareAlignmentModule();
-    // prepare for guiding tests
-    m_CaptureHelper->prepareGuidingModule();
 
     // Everything completed successfully
     return true;
@@ -136,7 +130,7 @@ void TestEkosMeridianFlipBase::cleanup()
 {
     // ensure that capturing, focusing and guiding is stopped
     QVERIFY(stopScheduler());
-    QVERIFY(stopFocusing());
+    QVERIFY(m_CaptureHelper->stopFocusing());
     QVERIFY(stopAligning());
     QVERIFY(stopCapturing());
     QVERIFY(m_CaptureHelper->stopGuiding());
@@ -270,8 +264,8 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
     Options::setDitherEnabled(dither);
 
     // set guide deviation guard
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, initialGuideDeviation);
-    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, guideDeviation);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, initialGuideDeviation);
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
 
     // create the capture directory
     QTemporaryDir destination;
@@ -301,7 +295,7 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
 
     // focus upfront if necessary to have a reliable delay
     if (initialFocus && (refocus_checked || autofocus_checked))
-        if (! startFocusing()) return false;
+        if (! m_CaptureHelper->executeFocusing()) return false;
 
     // all steps succeeded
     return true;
@@ -436,6 +430,8 @@ bool TestEkosMeridianFlipBase::executeAlignment(double expTime)
 {
     // mark alignment
     use_aligning = true;
+    // prepare for alignment tests
+    m_CaptureHelper->prepareAlignmentModule();
 
     m_CaptureHelper->expectedAlignStates.enqueue(Ekos::ALIGN_COMPLETE);
     KVERIFY_SUB(m_CaptureHelper->startAligning(expTime));
@@ -565,52 +561,6 @@ bool TestEkosMeridianFlipBase::stopScheduler()
     return true;
 }
 
-bool TestEkosMeridianFlipBase::startFocusing()
-{
-    // check whether focusing is already running
-    if (! (m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
-            || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED))
-        return true;
-
-    // switch to focus module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000));
-    initialFocusPosition = 40000;
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), absTicksSpin, initialFocusPosition);
-    // start focusing
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startGotoB);
-    // wait one second for settling
-    QTest::qWait(3000);
-    // start focusing
-    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startFocusB);
-    // wait for successful completion
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 180000);
-    qCInfo(KSTARS_EKOS_TEST) << "Focusing finished.";
-    // all checks succeeded
-    return true;
-}
-
-bool TestEkosMeridianFlipBase::stopFocusing()
-{
-    // check whether focusing is already stopped
-    if (m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
-            || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED)
-        return true;
-
-    // switch to focus module
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000));
-    // stop focusing if necessary
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QPushButton, stopFocusB);
-    if (stopFocusB->isEnabled())
-        KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), stopFocusB);
-    KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_IDLE
-                                 || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE ||
-                                 m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED, 15000);
-
-    // all checks succeeded
-    return true;
-}
-
 bool TestEkosMeridianFlipBase::enableMeridianFlip(double delay)
 {
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
@@ -681,22 +631,7 @@ int TestEkosMeridianFlipBase::secondsToMF()
 {
     const QString flipmsg = Ekos::Manager::Instance()->mountModule()->meridianFlipStatusWidget->getStatus();
 
-    QRegExp mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
-
-    int pos = mfPattern.indexIn(flipmsg);
-    if (pos > -1)
-    {
-        int hh  = mfPattern.cap(1).toInt();
-        int mm  = mfPattern.cap(2).toInt();
-        int sec = mfPattern.cap(3).toInt();
-        if (hh >= 0)
-            return (((hh * 60) + mm) * 60 + sec);
-        else
-            return (((hh * 60) - mm) * 60 - sec);
-    }
-
-    // unknown time
-    return -1;
+    return m_CaptureHelper->secondsToMF(flipmsg);
 }
 
 void TestEkosMeridianFlipBase::findMFTestTarget(int secsToMF, bool fast)

@@ -128,7 +128,7 @@ class Mount : public QWidget, public Ui::Mount
          * @brief getMeridianFlipState
          * @return
          */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return m_MeridianFlipState; }
+        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return mf_state; }
 
         /** @defgroup MountDBusInterface Ekos Mount DBus Interface
              * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -277,12 +277,7 @@ class Mount : public QWidget, public Ui::Mount
              */
         Q_SCRIPTABLE double initialHA()
         {
-            return m_MeridianFlipState->initialPositionHA();
-        }
-
-        Q_SCRIPTABLE void setInitialHA(double RA)
-        {
-            m_MeridianFlipState->setInitialPositionHA(RA);
+            return mf_state->initialPositionHA();
         }
 
         /** DBUS interface function.
@@ -348,22 +343,6 @@ class Mount : public QWidget, public Ui::Mount
 
         // Center mount in Sky Map
         Q_INVOKABLE void centerMount();
-
-        // Get list of scopes
-        //QJsonArray getScopes() const;
-
-        /**
-         * @brief Check if a meridian flip if necessary.
-         * @param lst local sideral time
-         * @return true if a meridian flip is necessary
-         */
-        bool checkMeridianFlip(dms lst);
-
-        /*
-         * @brief Execute a meridian flip if necessary.
-         * @return true if a meridian flip was necessary
-         */
-        Q_INVOKABLE bool startMeridianFlip();
 
         Q_INVOKABLE void setUpDownReversed(bool enabled);
         Q_INVOKABLE void setLeftRightReversed(bool enabled);
@@ -513,8 +492,6 @@ private slots:
         void stopParkTimer();
         void startAutoPark();
 
-        void meridianFlipSetupChanged();
-
     signals:
         void newLog(const QString &text);
         /**
@@ -587,19 +564,18 @@ private slots:
         void syncGPS();
         void setScopeStatus(ISD::Mount::Status status);
         /* Meridian flip state handling */
-        QSharedPointer<MeridianFlipState> m_MeridianFlipState;
-        QString pierSideStateString();
+        QSharedPointer<MeridianFlipState> mf_state;
         void setupParkUI();
 
-        QPointer<QDBusInterface> captureInterface { nullptr };
+        bool hasCaptureInterface { false };
 
         ISD::Mount *m_Mount {nullptr};
         ISD::GPS *m_GPS {nullptr};
         QList<ISD::GPS*> m_GPSes;
 
         QStringList m_LogText;
-        SkyPoint *currentTargetPosition {nullptr};
         SkyPoint telescopeCoord;
+        SkyPoint *targetPosition {nullptr};
         QString lastNotificationMessage;
 
         // Auto Park

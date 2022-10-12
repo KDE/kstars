@@ -31,20 +31,6 @@ TestEkosCaptureWorkflow::TestEkosCaptureWorkflow(QString guider, QObject *parent
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
 }
 
-bool TestEkosCaptureWorkflow::executeFocusing()
-{
-    // switch to focus module
-    Ekos::Focus *focus = Ekos::Manager::Instance()->focusModule();
-    KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(focus, 1000));
-
-    // run initial focus sequence
-    m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
-    KTRY_CLICK_SUB(focus, startFocusB);
-    KWRAP_SUB(KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 180000));
-    // success
-    return true;
-}
-
 void TestEkosCaptureWorkflow::testCaptureRefocus()
 {
     m_CaptureHelper->m_FocuserDevice = "Focuser Simulator";
@@ -53,7 +39,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocus()
 
     Ekos::Manager *manager = Ekos::Manager::Instance();
     QVERIFY(prepareCapture());
-    QVERIFY(executeFocusing());
+    QVERIFY(m_CaptureHelper->executeFocusing());
 
     // start capturing, expect focus after first captured frame
     Ekos::Capture *capture = manager->captureModule();
@@ -74,7 +60,7 @@ void TestEkosCaptureWorkflow::testCaptureRefocusAbort()
 
     Ekos::Manager *manager = Ekos::Manager::Instance();
     QVERIFY(prepareCapture());
-    QVERIFY(executeFocusing());
+    QVERIFY(m_CaptureHelper->executeFocusing());
 
     // start capturing, expect focus after first captured frame
     Ekos::Capture *capture = manager->captureModule();
@@ -719,7 +705,7 @@ void TestEkosCaptureWorkflow::testFlatSyncFocus()
     // set flat sync
     Options::setFlatSyncFocus(true);
     // run autofocus
-    QVERIFY(executeFocusing());
+    QVERIFY(m_CaptureHelper->executeFocusing());
 
     Ekos::Focus *focus = Ekos::Manager::Instance()->focusModule();
     // update the initial focuser position
@@ -871,8 +857,8 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     QWidget *darkLibraryDialog = nullptr;
     QTRY_VERIFY_WITH_TIMEOUT(darkLibraryDialog = Ekos::Manager::Instance()->findChild<QWidget *>("DarkLibrary"), 2000);
 
-    // select the CCD camera
-    KTRY_SET_COMBO(darkLibraryDialog, cameraS, m_CaptureHelper->m_CCDDevice);
+    // select the primary train for darks capturing
+    KTRY_SET_COMBO(darkLibraryDialog, opticalTrainCombo, m_CaptureHelper->m_primaryTrain);
 
     // set dark library values to 3x1s darks
     KTRY_SET_DOUBLESPINBOX(darkLibraryDialog, maxExposureSpin, 1);

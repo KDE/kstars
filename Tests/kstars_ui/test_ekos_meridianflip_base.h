@@ -76,7 +76,6 @@ protected:
     /**
      * @brief Determine the number of seconds until the meridian flip should take place by reading
      *        the displayed meridian flip status.
-     * @return
      */
     int secondsToMF();
 
@@ -170,16 +169,6 @@ protected:
      * @brief Helper function for stopping the scheduler
      */
     bool stopScheduler();
-
-    /**
-     * @brief Helper function for start focusing
-     */
-    bool startFocusing();
-
-    /**
-     * @brief Helper function to stop focusing
-     */
-    bool stopFocusing();
 
     /** @brief Check if after a meridian flip all features work as expected: capturing, aligning, guiding and focusing */
     bool checkPostMFBehavior();

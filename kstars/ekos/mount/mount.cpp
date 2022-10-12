@@ -66,13 +66,13 @@ Mount::Mount()
     m_AbortDispatch = -1;
 
     // initialize the state machine
-    m_MeridianFlipState.reset(new MeridianFlipState());
+    mf_state.reset(new MeridianFlipState());
     // set the status message in the mount tab and write it to the log
-    connect(m_MeridianFlipState.get(), &MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
+    connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, [&](const QString & text)
     {
         meridianFlipStatusWidget->setStatus(text);
-        if (m_MeridianFlipState->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_NONE &&
-                m_MeridianFlipState->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_PLANNED)
+        if (mf_state->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_NONE &&
+                mf_state->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_PLANNED)
             appendLogText(text);
     });
     connect(mountToolBoxB, &QPushButton::clicked, this, &Mount::toggleMountToolBox);
@@ -107,13 +107,8 @@ Mount::Mount()
     connect(enableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
     // meridian flip
-    connect(m_MeridianFlipState.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
+    connect(mf_state.get(), &MeridianFlipState::newMeridianFlipMountStatusText, meridianFlipStatusWidget,
             &MeridianFlipStatusWidget::setStatus);
-
-    // This is always in degrees
-    connect(executeMeridianFlip, &QCheckBox::toggled, this, &Ekos::Mount::meridianFlipSetupChanged);
-    connect(meridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-            &Ekos::Mount::meridianFlipSetupChanged);
 
     //    ParkTime->setTime(QTime::fromString(Options::parkTime()));
     //    connect(ParkTime, &QTimeEdit::editingFinished, this, [this]()
@@ -197,7 +192,6 @@ Mount::~Mount()
     autoParkTimer.stop();
     delete(m_Ctxt);
     delete(m_BaseObj);
-    delete(currentTargetPosition);
 }
 
 void Mount::setupParkUI()
@@ -268,7 +262,7 @@ bool Mount::setMount(ISD::Mount *device)
     mainLayout->setEnabled(true);
 
     // forward the new mount to the meridian flip state machine
-    m_MeridianFlipState->setMount(device);
+    mf_state->setMountConnected(device != nullptr);
 
     //    if (newTelescope == m_Mount)
     //    {
@@ -287,6 +281,8 @@ bool Mount::setMount(ISD::Mount *device)
     connect(m_Mount, &ISD::Mount::newTargetName, this, &Mount::newTargetName);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::newCoords);
     connect(m_Mount, &ISD::Mount::newCoords, this, &Mount::updateTelescopeCoords);
+    connect(m_Mount, &ISD::Mount::newCoords, mf_state.get(), &MeridianFlipState::updateTelescopeCoord);
+    connect(m_Mount, &ISD::Mount::newStatus, mf_state.get(), &MeridianFlipState::setMountStatus);
     connect(m_Mount, &ISD::Mount::slewRateChanged, this, &Mount::slewRateChanged);
     connect(m_Mount, &ISD::Mount::pierSideChanged, this, &Mount::pierSideChanged);
     connect(m_Mount, &ISD::Mount::axisReversed, this, &Mount::syncAxisReversed);
@@ -527,10 +523,10 @@ void Mount::syncTelescopeInfo()
 
 void Mount::registerNewModule(const QString &name)
 {
-    if (name == "Capture" && captureInterface == nullptr)
+    if (name == "Capture")
     {
-        captureInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos/Capture", "org.kde.kstars.Ekos.Capture",
-                                              QDBusConnection::sessionBus(), this);
+        hasCaptureInterface = true;
+        mf_state->setHasCaptureInterface(true);
     }
 
 }
@@ -654,7 +650,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
         qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << haHours <<
                                    " haLimit " << haLimit <<
-                                   " " << pierSideStateString() <<
+                                   " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
                                    " haLimitReached " << (haLimitReached ? "true" : "false") <<
                                    " lastHa " << m_LastHourAngle;
 
@@ -687,21 +683,6 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     {
         qCDebug(KSTARS_EKOS_MOUNT) << "Mount status changed from " << m_Mount->statusString(m_Status)
                                    << " to " << m_Mount->statusString(currentStatus);
-        // If we just finished a slew, let's update initialHA and the current target's position,
-        // but only if the meridian flip is not deactived
-        if (currentStatus == ISD::Mount::MOUNT_TRACKING && m_Status == ISD::Mount::MOUNT_SLEWING
-                && m_MeridianFlipState->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_INACTIVE)
-        {
-            if (m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE)
-            {
-                m_MeridianFlipState->setFlipDelayHrs(0);
-            }
-            setInitialHA((sgn == '-' ? -1 : 1) * ha.Hours());
-            delete currentTargetPosition;
-            currentTargetPosition = new SkyPoint(telescopeCoord.ra(), telescopeCoord.dec());
-            qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " << MeridianFlipState::meridianFlipStatusString(
-                                           m_MeridianFlipState->getMeridianFlipMountState());
-        }
 
         //setScopeStatus(currentStatus);
 
@@ -727,7 +708,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     }
 
     // handle pier side display
-    pierSideLabel->setText(pierSideStateString());
+    pierSideLabel->setText(ISD::Mount::pierSideStateString(m_Mount->pierSide()));
 
     // Auto Park Timer
     if (autoParkTimer.isActive())
@@ -736,21 +717,6 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         remainingTime = remainingTime.addMSecs(autoParkTimer.remainingTime());
         countdownLabel->setText(remainingTime.toString("hh:mm:ss"));
     }
-
-    // don't check the meridian flip while in motion
-    bool inMotion = (currentStatus == ISD::Mount::MOUNT_SLEWING || currentStatus == ISD::Mount::MOUNT_MOVING
-                     || currentStatus == ISD::Mount::MOUNT_PARKING);
-    if ((inMotion == false) && checkMeridianFlip(lst))
-        startMeridianFlip();
-    else
-    {
-        const QString message(i18n("Meridian flip inactive (parked)"));
-        if (m_Mount->isParked() && meridianFlipStatusWidget->getStatus() != message)
-        {
-            m_MeridianFlipState->publishMFMountStatusText(message);
-        }
-    }
-
 }
 
 void Mount::updateNumber(INumberVectorProperty * nvp)
@@ -786,8 +752,6 @@ void Mount::setMeridianFlipValues(bool activate, double degrees)
 {
     executeMeridianFlip->setChecked(activate);
     meridianFlipOffsetDegrees->setValue(degrees);
-
-    meridianFlipSetupChanged();
 }
 
 void Mount::paaStageChanged(int stage)
@@ -799,17 +763,17 @@ void Mount::paaStageChanged(int stage)
     // be set to nullptr.
 
     if (stage != PolarAlignmentAssistant::PAH_IDLE)
-        currentTargetPosition = nullptr;
+        mf_state->clearTargetPosition();
 
     switch (stage)
     {
         // deactivate the meridian flip when the first capture is taken
         case PolarAlignmentAssistant::PAH_FIRST_CAPTURE:
         case PolarAlignmentAssistant::PAH_FIRST_SOLVE:
-            if (m_MeridianFlipState->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_INACTIVE)
+            if (mf_state->isEnabled())
             {
                 appendLogText(i18n("Meridian flip set inactive during polar alignment."));
-                m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_INACTIVE);
+                mf_state->setEnabled(false);
             }
             break;
         // activate it when the last rotation is finished or stopped
@@ -820,20 +784,13 @@ void Mount::paaStageChanged(int stage)
         case PolarAlignmentAssistant::PAH_REFRESH:
         case PolarAlignmentAssistant::PAH_POST_REFRESH:
         case PolarAlignmentAssistant::PAH_IDLE:
-            if (m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_INACTIVE)
+            if (executeMeridianFlip->isChecked() && mf_state->isEnabled() == false)
             {
                 appendLogText(i18n("Polar alignment motions finished, meridian flip activated."));
-                m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
+                mf_state->setEnabled(executeMeridianFlip->isChecked());
             }
             break;
     }
-}
-
-void Mount::meridianFlipSetupChanged()
-{
-    if (executeMeridianFlip->isChecked() == false)
-        // reset meridian flip
-        m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
 }
 
 void Mount::updateSwitch(ISwitchVectorProperty * svp)
@@ -1091,276 +1048,35 @@ bool Mount::slew(double RA, double DEC)
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
 
-    // save the current hour angle
-    m_MeridianFlipState->setInitialPositionHA(RA);
+    // calculate the new target
+    targetPosition = new SkyPoint(RA, DEC);
+    SkyPoint J2000Coord(targetPosition->ra(), targetPosition->dec());
+    J2000Coord.catalogueCoord(KStarsData::Instance()->ut().djd());
+    targetPosition->setRA0(J2000Coord.ra());
+    targetPosition->setDec0(J2000Coord.dec());
 
-    // reset the meridian flip status if the slew is not the meridian flip itself
-    if (m_MeridianFlipState->getMeridianFlipMountState() != MeridianFlipState::MOUNT_FLIP_RUNNING)
-    {
-        m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
-        m_MeridianFlipState->setFlipDelayHrs(0);
-        qCDebug(KSTARS_EKOS_MOUNT) << "flipDelayHrs set to zero in slew, m_MFStatus=" <<
-                                   MeridianFlipState::meridianFlipStatusString(m_MeridianFlipState->getMeridianFlipMountState());
-    }
-
-    delete currentTargetPosition;
-    currentTargetPosition = new SkyPoint(RA, DEC);
-    SkyPoint J2000Coord(currentTargetPosition->ra(), currentTargetPosition->dec());
-    J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
-    currentTargetPosition->setRA0(J2000Coord.ra());
-    currentTargetPosition->setDec0(J2000Coord.dec());
-
+    mf_state->setTargetPosition(targetPosition);
+    mf_state->resetMeridianFlip();
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
-                               currentTargetPosition->ra().toHMSString() <<
-                               "DEC=" << currentTargetPosition->dec().toDMSString();
-    qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << m_MeridianFlipState->getFlipDelayHrs() <<
-                               "MFStatus " << MeridianFlipState::meridianFlipStatusString(m_MeridianFlipState->getMeridianFlipMountState());
+                               targetPosition->ra().toHMSString() <<
+                               "DEC=" << targetPosition->dec().toDMSString();
+    qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << mf_state->getFlipDelayHrs() <<
+                               "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
 
     // start the slew
-    return(m_Mount->Slew(currentTargetPosition));
-}
-
-///
-/// \brief Mount::checkMeridianFlip  This updates the Meridian Flip Status state machine using the LST supplied,
-/// the mount target position and the pier side if available.
-/// \param lst
-/// \return true if a flip slew can be started, false otherwise
-///
-bool Mount::checkMeridianFlip(dms lst)
-{
-    // checks if a flip is possible
-    if (m_Mount == nullptr || m_Mount->isConnected() == false)
-    {
-        m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (no scope connected)"));
-        m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
-        return false;
-    }
-
-    if (executeMeridianFlip->isChecked() == false)
-    {
-        m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (flip not requested)"));
-        return false;
-    }
-
-    // Will never get called when parked!
-    if (m_Mount->isParked())
-    {
-        m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (parked)"));
-        return false;
-    }
-
-    if (currentTargetPosition == nullptr
-            || m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_INACTIVE)
-    {
-        m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (no target set)"));
-        return false;
-    }
-
-    // get the time after the meridian that the flip is called for (Degrees --> Hours)
-    double offset = rangeHA(meridianFlipOffsetDegrees->value() / 15.0);
-
-    double hrsToFlip = 0;       // time to go to the next flip - hours  -ve means a flip is required
-
-    double ha = rangeHA(lst.Hours() - telescopeCoord.ra().Hours());     // -12 to 0 to +12
-
-    // calculate time to next flip attempt.  This uses the current hour angle, the pier side if available
-    // and the meridian flip offset to get the time to the flip
-    //
-    // *** should it use the target position so it will continue to track the target even if the mount is not tracking?
-    //
-    // Note: the PierSide code relies on the mount reporting the pier side correctly
-    // It is possible that a mount can flip before the meridian and this has caused problems so hrsToFlip is calculated
-    // assuming the the mount can flip up to three hours early.
-
-    static ISD::Mount::PierSide
-    initialPierSide;    // used when the flip has completed to determine if the flip was successful
-
-    // adjust ha according to the pier side.
-    switch (m_Mount->pierSide())
-    {
-        case ISD::Mount::PierSide::PIER_WEST:
-            // this is the normal case, tracking from East to West, flip is near Ha 0.
-            break;
-        case ISD::Mount::PierSide::PIER_EAST:
-            // this is the below the pole case, tracking West to East, flip is near Ha 12.
-            // shift ha by 12h
-            ha = rangeHA(ha + 12);
-            break;
-        default:
-            // This is the case where the PierSide is not available, make one attempt only
-            m_MeridianFlipState->setFlipDelayHrs(0);
-            // we can only attempt a flip if the mount started before the meridian, assumed in the unflipped state
-            if (initialHA() >= 0)
-            {
-                m_MeridianFlipState->publishMFMountStatusText(i18n("Meridian flip inactive (slew after meridian)"));
-                if (m_MeridianFlipState->getMeridianFlipMountState() == MeridianFlipState::MOUNT_FLIP_NONE)
-                    return false;
-            }
-            break;
-    }
-    // get the time to the next flip, allowing for the pier side and
-    // the possibility of an early flip
-    // adjust ha so an early flip is allowed for
-    if (ha >= 9.0)
-        ha -= 24.0;
-    hrsToFlip = offset + m_MeridianFlipState->getFlipDelayHrs() - ha;
-
-    int hh = static_cast<int> (hrsToFlip);
-    int mm = static_cast<int> ((hrsToFlip - hh) * 60);
-    int ss = static_cast<int> ((hrsToFlip - hh - mm / 60.0) * 3600);
-    QString message = i18n("Meridian flip in %1", QTime(hh, mm, ss).toString(Qt::TextDate));
-
-    // handle the meridian flip state machine
-    switch (m_MeridianFlipState->getMeridianFlipMountState())
-    {
-        case MeridianFlipState::MOUNT_FLIP_NONE:
-            m_MeridianFlipState->publishMFMountStatusText(message);
-
-            if (hrsToFlip <= 0)
-            {
-                // signal that a flip can be done
-                qCDebug(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
-                                           lst.toHMSString() <<
-                                           " scope RA=" << telescopeCoord.ra().toHMSString() <<
-                                           " ha=" << ha <<
-                                           ", meridian diff=" << offset <<
-                                           ", hrstoFlip=" << hrsToFlip <<
-                                           ", flipDelayHrs=" << m_MeridianFlipState->getFlipDelayHrs() <<
-                                           ", " << pierSideStateString();
-
-                initialPierSide = m_Mount->pierSide();
-                m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_PLANNED);
-            }
-            break;
-
-        case MeridianFlipState::MOUNT_FLIP_PLANNED:
-            // handle the case where there is no Capture module
-            if (captureInterface == nullptr)
-            {
-                qCDebug(KSTARS_EKOS_MOUNT) << "no capture interface, starting flip slew.";
-                m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
-                return true;
-            }
-            return false;
-
-        case MeridianFlipState::MOUNT_FLIP_ACCEPTED:
-            // set by the Capture module when it's ready
-            return true;
-
-        case MeridianFlipState::MOUNT_FLIP_RUNNING:
-            if (m_Mount->isTracking())
-            {
-                // meridian flip slew completed, did it work?
-                bool flipFailed = false;
-
-                // pointing state change check only for mounts that report pier side
-                if (m_Mount->pierSide() == ISD::Mount::PIER_UNKNOWN)
-                {
-                    // check how long it took
-                    if (m_MeridianFlipState->getMinMeridianFlipEndTime() > QDateTime::currentDateTimeUtc())
-                    {
-                        // don't fail, we have tried but we don't know where the mount was when it started
-                        appendLogText(i18n("Meridian flip failed - time too short, pier side unknown."));
-                        // signal that capture can resume
-                        m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_COMPLETED);
-                        return false;
-                    }
-                }
-                else if (m_Mount->pierSide() == initialPierSide)
-                {
-                    flipFailed = true;
-                    qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip failed, pier side not changed";
-                }
-
-                if (flipFailed)
-                {
-                    if (m_MeridianFlipState->getFlipDelayHrs() <= 1.0)
-                    {
-                        // Set next flip attempt to be 4 minutes in the future.
-                        // These depend on the assignment to flipDelayHrs above.
-                        constexpr double delayHours = 4.0 / 60.0;
-                        if (m_Mount->pierSide() == ISD::Mount::PierSide::PIER_EAST)
-                            m_MeridianFlipState->setFlipDelayHrs(rangeHA(ha + 12 + delayHours) - offset);
-                        else
-                            m_MeridianFlipState->setFlipDelayHrs(ha + delayHours - offset);
-
-                        // check to stop an infinite loop, 1.0 hrs for now but should use the Ha limit
-                        appendLogText(i18n("meridian flip failed, retrying in 4 minutes"));
-                    }
-                    else
-                    {
-                        appendLogText(i18n("No successful Meridian Flip done, delay too long"));
-                    }
-                    m_MeridianFlipState->updateMFMountState(
-                        MeridianFlipState::MOUNT_FLIP_COMPLETED);   // this will resume imaging and try again after the extra delay
-                }
-                else
-                {
-                    m_MeridianFlipState->setFlipDelayHrs(0);
-                    appendLogText(i18n("Meridian flip completed OK."));
-                    // signal that capture can resume
-                    m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_COMPLETED);
-                }
-            }
-            break;
-
-        case MeridianFlipState::MOUNT_FLIP_COMPLETED:
-            m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_NONE);
-            break;
-
-        default:
-            break;
-    }
-    return false;
-}
-
-bool Mount::startMeridianFlip()
-{
-    if (/*initialHA() > 0 || */ currentTargetPosition == nullptr)
-    {
-        // no meridian flip necessary
-        qCDebug(KSTARS_EKOS_MOUNT) << "No meridian flip: currentTargetPosition is null";
-        return false;
-    }
-
-    if (m_Mount->status() != ISD::Mount::MOUNT_TRACKING)
-    {
-        // no meridian flip necessary
-        qCDebug(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking";
-        return false;
-    }
-
-    dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
-    double HA = rangeHA(lst.Hours() - currentTargetPosition->ra().Hours());
-
-    // execute meridian flip
-    qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
-                              currentTargetPosition->ra().toHMSString() <<
-                              "DEC=" << currentTargetPosition->dec().toDMSString() <<
-                              " Hour Angle " << dms(HA).toHMSString();
-    m_MeridianFlipState->updateMFMountState(MeridianFlipState::MOUNT_FLIP_RUNNING);
-
-    m_MeridianFlipState->updateMinMeridianFlipEndTime();
-
-    if (slew(currentTargetPosition->ra().Hours(), currentTargetPosition->dec().Degrees()))
-    {
-        appendLogText(i18n("Meridian flip slew started..."));
-        return true;
-    }
-    else
-    {
-        qCWarning(KSTARS_EKOS_MOUNT) << "Meridian flip FAILED: slewing to RA=" <<
-                                     currentTargetPosition->ra().toHMSString() <<
-                                     "DEC=" << currentTargetPosition->dec().toDMSString();
-        return false;
-    }
+    return(m_Mount->Slew(targetPosition));
 }
 
 
 SkyPoint Mount::currentTarget()
 {
-    return *currentTargetPosition;
+    if (targetPosition != nullptr)
+        return *targetPosition;
+
+    qCWarning(KSTARS_EKOS_MOUNT) << "No target position defined!";
+    // since we need to answer something, we take the current mount position
+    return telescopeCoord;
 }
 
 
@@ -1874,19 +1590,6 @@ void Mount::startAutoPark()
     }
 }
 
-QString Mount::pierSideStateString()
-{
-    switch (m_Mount->pierSide())
-    {
-        case ISD::Mount::PierSide::PIER_EAST:
-            return "Pier Side: East (pointing West)";
-        case ISD::Mount::PierSide::PIER_WEST:
-            return "Pier Side: West (pointing East)";
-        default:
-            return "Pier Side: Unknown";
-    }
-}
-
 void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
 {
     if (axis == AXIS_RA)
@@ -2208,6 +1911,10 @@ void Mount::loadGlobalSettings()
             qCDebug(KSTARS_EKOS_MOUNT) << "Option" << key << "not found!";
     }
 
+    // initialize meridian flip state machine values
+    mf_state->setEnabled(Options::executeMeridianFlip());
+    mf_state->setOffset(Options::meridianFlipOffsetDegrees());
+
     m_GlobalSettings = m_Settings = settings;
 }
 
@@ -2235,6 +1942,13 @@ void Mount::connectSettings()
     // All QDateTimeEdit
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         connect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
+
+    // connections to the meridian flip state machine
+    connect(executeMeridianFlip, &QCheckBox::toggled, mf_state.get(), &MeridianFlipState::setEnabled);
+    connect(meridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+            mf_state.get(), &MeridianFlipState::setOffset);
+    connect(this, &Mount::newParkStatus, mf_state.get(), &MeridianFlipState::setMountParkStatus);
+    connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos) {m_Mount->Slew(&pos);});
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
@@ -2264,6 +1978,12 @@ void Mount::disconnectSettings()
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
 
+    // cut connections to the meridian flip state machine
+    disconnect(executeMeridianFlip, &QCheckBox::toggled, mf_state.get(), &MeridianFlipState::setEnabled);
+    disconnect(meridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+               mf_state.get(), &MeridianFlipState::setOffset);
+    disconnect(this, &Mount::newParkStatus, mf_state.get(), &MeridianFlipState::setMountParkStatus);
+    disconnect(mf_state.get(), &MeridianFlipState::slewTelescope, nullptr, nullptr);
 }
 
 }

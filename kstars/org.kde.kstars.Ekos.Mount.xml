@@ -53,9 +53,6 @@
         <method name="resetModel">
             <arg type="b" direction="out"/>
         </method>
-        <method name="startMeridianFlip">
-            <arg type="b" direction="out"/>
-        </method>
         <method name="setMeridianFlipValues">
             <arg name="activate" type="b" direction="in"/>
             <arg name="hours" type="d" direction="in"/>
