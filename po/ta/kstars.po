@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-09 00:41+0000\n"
+"POT-Creation-Date: 2022-10-13 00:41+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -270,21 +270,21 @@ msgid "FITS Image Object Label"
 msgstr "பொருள் பெயர்"
 
 #: auxiliary/colorscheme.cpp:134 kstarsdata.cpp:1055 options/opscolors.cpp:58
-#: tools/scriptbuilder.cpp:743
+#: tools/scriptbuilder.cpp:739
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
 msgstr "இயல்பான வண்ணங்கள்"
 
 #: auxiliary/colorscheme.cpp:136 kstarsdata.cpp:1057 options/opscolors.cpp:59
-#: tools/scriptbuilder.cpp:744
+#: tools/scriptbuilder.cpp:740
 #, kde-format
 msgctxt "use 'star chart' color scheme"
 msgid "Star Chart"
 msgstr "நட்சத்திர பட்டியல்"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1059 options/opscolors.cpp:60
-#: tools/scriptbuilder.cpp:745
+#: tools/scriptbuilder.cpp:741
 #, kde-format
 msgctxt "use 'night vision' color scheme"
 msgid "Night Vision"
@@ -399,7 +399,7 @@ msgid "Saved image to %1"
 msgstr "FITSயில் மாற்றங்களை சேமிக்க வேண்டுமா?"
 
 #: auxiliary/imageexporter.cpp:228 printing/foveditordialog.cpp:197
-#: tools/scriptbuilder.cpp:922
+#: tools/scriptbuilder.cpp:918
 #, kde-format
 msgid "Could not upload image to remote location: %1"
 msgstr "%1 தொலைவிடத்திற்கு உருவத்தை மேலேற்ற இயலவில்லை"
@@ -487,14 +487,14 @@ msgstr "&வான் படத்தை சேமி..."
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3601
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
-#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:881
+#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr " \"%1\"  என பெயரிடப்பட்ட கோப்பு ஏற்கனவே உள்ளது .மேல் எழுத வேண்டுமா?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3604
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
-#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:884
+#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "Overwrite File?"
 msgstr "கோப்பினை மேல் எழுது"
@@ -1459,8 +1459,8 @@ msgstr "மாதம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: auxiliary/xplanetimageviewer.cpp:444 ekos/auxiliary/darklibrary.ui:1185
-#: widgets/timespinbox.cpp:144 widgets/timespinbox.cpp:148
-#: widgets/timespinbox.cpp:149 widgets/timespinbox.cpp:150
+#: widgets/timespinbox.cpp:140 widgets/timespinbox.cpp:144
+#: widgets/timespinbox.cpp:145 widgets/timespinbox.cpp:146
 #, kde-format
 msgid "days"
 msgstr "தினங்கள்"
@@ -2653,8 +2653,8 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4360
 #: ekos/capture/capture.cpp:4774 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4405 ekos/scheduler/scheduler.cpp:4777
-#: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:834
-#: tools/scriptbuilder.cpp:932
+#: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
+#: tools/scriptbuilder.cpp:928
 #, kde-format
 msgid "Invalid URL"
 msgstr "தவறான வலை முகவரி"
@@ -6112,7 +6112,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "இணைப்பு"
 
 #: ekos/align/align.cpp:1429 ekos/capture/capture.cpp:3579
-#: ekos/capture/capture.cpp:6442 ekos/focus/focus.cpp:3919
+#: ekos/capture/capture.cpp:6442 ekos/focus/focus.cpp:3918
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6134,13 +6134,13 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1527 ekos/focus/focus.cpp:1315
+#: ekos/align/align.cpp:1527 ekos/focus/focus.cpp:1314
 #, fuzzy, kde-format
 msgid "Capturing image..."
 msgstr "கே-ஸ்டார்ஸ்-ஐ ஏற்றுகிறது"
 
 #: ekos/align/align.cpp:1616 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1913
+#: ekos/focus/focus.cpp:1912
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image received."
@@ -6241,7 +6241,7 @@ msgid "Refresh is complete."
 msgstr "%1 இணைப்பில் உள்ளது"
 
 #: ekos/align/align.cpp:2314 ekos/auxiliary/darklibrary.cpp:1411
-#: ekos/focus/focus.cpp:1094
+#: ekos/focus/focus.cpp:1093
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6254,8 +6254,8 @@ msgid "Solver aborted after %1 seconds."
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
 #: ekos/align/align.cpp:2363 ekos/capture/capture.cpp:2767
-#: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:852 ekos/observatory/observatory.cpp:951
+#: ekos/focus/focus.cpp:3159 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
+#: ekos/mount/mount.cpp:809 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6423,7 +6423,7 @@ msgid "dDE (arcsec)"
 msgstr "பார்சான்ஸ்"
 
 #: ekos/align/align.cpp:3323 ekos/capture/capture.cpp:6645
-#: ekos/focus/focus.cpp:3824
+#: ekos/focus/focus.cpp:3823
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -6463,8 +6463,8 @@ msgstr "எல்லா கோள்களின் அடிச்சுவட�
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4359
 #: ekos/capture/capture.cpp:4773 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4404 ekos/scheduler/scheduler.cpp:4776
-#: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:834
-#: tools/scriptbuilder.cpp:931
+#: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:830
+#: tools/scriptbuilder.cpp:927
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "முறையற்ற URL : %1"
@@ -6489,8 +6489,8 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:68
 #: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:910
-#: tools/observinglist.cpp:1176 tools/scriptbuilder.cpp:822
-#: tools/scriptbuilder.cpp:902 tools/scriptbuilder.cpp:985
+#: tools/observinglist.cpp:1176 tools/scriptbuilder.cpp:818
+#: tools/scriptbuilder.cpp:898 tools/scriptbuilder.cpp:981
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
 msgstr "கோப்பினைத் திறக்க இயலவில்லை"
@@ -13981,13 +13981,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7042 ekos/focus/focus.cpp:3961
+#: ekos/capture/capture.cpp:7042 ekos/focus/focus.cpp:3960
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/capture.cpp:7065 ekos/focus/focus.cpp:3966
+#: ekos/capture/capture.cpp:7065 ekos/focus/focus.cpp:3965
 #: ekos/guide/guide.cpp:879
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
@@ -14613,7 +14613,7 @@ msgstr "மறைக்கப்பட்ட பொருட்களை வட�
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
 #: ekos/capture/capture.ui:2090 ekos/mount/mount.ui:788
-#: tools/scriptbuilder.cpp:687
+#: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "வரம்புகள்"
@@ -15672,109 +15672,109 @@ msgstr ""
 msgid "Focus Options Profile Editor"
 msgstr "ஒன்றையும் தேர்ந்தெடுக்க வேணடாம்"
 
-#: ekos/focus/focus.cpp:897
+#: ekos/focus/focus.cpp:896
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "No Focuser connected."
 msgstr "INDI கருவி %1 இல்லை."
 
-#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3208
+#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3207
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "No CCD connected."
 msgstr "INDI கருவி %1 இல்லை."
 
-#: ekos/focus/focus.cpp:911
+#: ekos/focus/focus.cpp:910
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:919
+#: ekos/focus/focus.cpp:918
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1000
+#: ekos/focus/focus.cpp:999
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1002
+#: ekos/focus/focus.cpp:1001
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1021
+#: ekos/focus/focus.cpp:1020
 #, fuzzy, kde-format
 msgid "Autofocus operation started"
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/focus/focus.cpp:1100
+#: ekos/focus/focus.cpp:1099
 #, fuzzy, kde-format
 msgid "Detection in progress, please wait."
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/focus/focus.cpp:1135
+#: ekos/focus/focus.cpp:1134
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus aborted."
 msgstr "முடிந்தது"
 
-#: ekos/focus/focus.cpp:1215
+#: ekos/focus/focus.cpp:1214
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1222
+#: ekos/focus/focus.cpp:1221
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "இணைப்பு"
 
-#: ekos/focus/focus.cpp:1243
+#: ekos/focus/focus.cpp:1242
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1249
+#: ekos/focus/focus.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "இணைப்பு"
 
-#: ekos/focus/focus.cpp:1384 ekos/focus/focus.cpp:3549
+#: ekos/focus/focus.cpp:1383 ekos/focus/focus.cpp:3548
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1391 ekos/focus/focus.cpp:3556
+#: ekos/focus/focus.cpp:1390 ekos/focus/focus.cpp:3555
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "இணைப்பு"
 
-#: ekos/focus/focus.cpp:1397 ekos/focus/focus.cpp:1442
+#: ekos/focus/focus.cpp:1396 ekos/focus/focus.cpp:1441
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "outward"
 msgstr "சீவார்ட்"
 
-#: ekos/focus/focus.cpp:1397 ekos/focus/focus.cpp:1442
+#: ekos/focus/focus.cpp:1396 ekos/focus/focus.cpp:1441
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "inward"
 msgstr "சீவார்ட்"
 
-#: ekos/focus/focus.cpp:1413
+#: ekos/focus/focus.cpp:1412
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 steps..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1419
+#: ekos/focus/focus.cpp:1418
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 step..."
@@ -15782,58 +15782,58 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 msgstr[1] "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1425
+#: ekos/focus/focus.cpp:1424
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 ms..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1438
+#: ekos/focus/focus.cpp:1437
 #, kde-format
 msgid "Focuser is not responding to commands. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1446
+#: ekos/focus/focus.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing to %1 steps..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1451
+#: ekos/focus/focus.cpp:1450
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing %2 by %1 steps..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1457
+#: ekos/focus/focus.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing %2 by %1 ms..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:1501
+#: ekos/focus/focus.cpp:1500
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "முடிந்தது"
 
-#: ekos/focus/focus.cpp:1544
+#: ekos/focus/focus.cpp:1543
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Detecting sources..."
 msgstr "தரவினை இறக்கு..."
 
-#: ekos/focus/focus.cpp:1661
+#: ekos/focus/focus.cpp:1660
 #, fuzzy, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/focus/focus.cpp:1670
+#: ekos/focus/focus.cpp:1669
 #, fuzzy, kde-format
 msgid "Autofocus operation failed"
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/focus/focus.cpp:1698
+#: ekos/focus/focus.cpp:1697
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus procedure completed after %1 iteration."
@@ -15841,205 +15841,205 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "முடிந்தது"
 msgstr[1] "முடிந்தது"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1778
 #, fuzzy, kde-format
 msgid "Settling for %1s..."
 msgstr "கெட்டரிங்"
 
-#: ekos/focus/focus.cpp:1786
+#: ekos/focus/focus.cpp:1785
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "முடிந்தது"
 
-#: ekos/focus/focus.cpp:1799
+#: ekos/focus/focus.cpp:1798
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1835
+#: ekos/focus/focus.cpp:1834
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1989
+#: ekos/focus/focus.cpp:1988
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2085
+#: ekos/focus/focus.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "இடமதிப்பு கட்டம் மாற்று"
 
-#: ekos/focus/focus.cpp:2118
+#: ekos/focus/focus.cpp:2117
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2218
+#: ekos/focus/focus.cpp:2217
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2229 ekos/focus/focus.cpp:2837
+#: ekos/focus/focus.cpp:2228 ekos/focus/focus.cpp:2836
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2238 ekos/focus/focus.cpp:2843
+#: ekos/focus/focus.cpp:2237 ekos/focus/focus.cpp:2842
 #, fuzzy, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/focus/focus.cpp:2243 ekos/focus/focus.cpp:2848
+#: ekos/focus/focus.cpp:2242 ekos/focus/focus.cpp:2847
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2436
+#: ekos/focus/focus.cpp:2435
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2443
+#: ekos/focus/focus.cpp:2442
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2486
+#: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2488
+#: ekos/focus/focus.cpp:2487
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2548
+#: ekos/focus/focus.cpp:2547
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2554
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2660
+#: ekos/focus/focus.cpp:2659
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2724
+#: ekos/focus/focus.cpp:2723
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2735
+#: ekos/focus/focus.cpp:2734
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2745
+#: ekos/focus/focus.cpp:2744
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2774
+#: ekos/focus/focus.cpp:2773
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2822
+#: ekos/focus/focus.cpp:2821
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2826
+#: ekos/focus/focus.cpp:2825
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2912 ekos/focus/focus.cpp:2925
-#: ekos/focus/focus.cpp:3014 ekos/focus/focus.cpp:3062
-#: ekos/focus/focus.cpp:3111 ekos/focus/focus.cpp:3152
+#: ekos/focus/focus.cpp:2911 ekos/focus/focus.cpp:2924
+#: ekos/focus/focus.cpp:3013 ekos/focus/focus.cpp:3061
+#: ekos/focus/focus.cpp:3110 ekos/focus/focus.cpp:3151
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2994 ekos/focus/focus.cpp:3046
-#: ekos/focus/focus.cpp:3095 ekos/focus/focus.cpp:3127
+#: ekos/focus/focus.cpp:2993 ekos/focus/focus.cpp:3045
+#: ekos/focus/focus.cpp:3094 ekos/focus/focus.cpp:3126
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Restarting autofocus process..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/focus/focus.cpp:3226
+#: ekos/focus/focus.cpp:3225
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting continuous exposure..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/focus/focus.cpp:3431
+#: ekos/focus/focus.cpp:3430
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3436
+#: ekos/focus/focus.cpp:3435
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "எந்த பொருளும் தேர்ந்தெடுக்கப்படவில்லை!"
 
-#: ekos/focus/focus.cpp:3528
+#: ekos/focus/focus.cpp:3527
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3534
+#: ekos/focus/focus.cpp:3533
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:3659
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/focus/focus.cpp:3979
+#: ekos/focus/focus.cpp:3978
 #, fuzzy, kde-format
 msgid "Capturing image again..."
 msgstr "கே-ஸ்டார்ஸ்-ஐ ஏற்றுகிறது"
 
-#: ekos/focus/focus.cpp:3994
+#: ekos/focus/focus.cpp:3993
 #, fuzzy, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/focus/focus.cpp:4004
+#: ekos/focus/focus.cpp:4003
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure failure. Aborting..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/focus/focus.cpp:4179
+#: ekos/focus/focus.cpp:4178
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -19863,7 +19863,60 @@ msgstr "வழிகாட்டிகள்"
 msgid "guide star"
 msgstr "வழிகாட்டிகள்"
 
-#: ekos/manager/meridianflipstate.cpp:101 ekos/observatory/observatory.cpp:1027
+#: ekos/manager/meridianflipstate.cpp:58
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (no scope connected)"
+msgstr "நிலை"
+
+#: ekos/manager/meridianflipstate.cpp:65
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (flip not requested)"
+msgstr "நிலை"
+
+#: ekos/manager/meridianflipstate.cpp:72 ekos/manager/meridianflipstate.cpp:444
+#, fuzzy, kde-format
+msgid "Meridian flip inactive (parked)"
+msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
+
+#: ekos/manager/meridianflipstate.cpp:78
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (no target set)"
+msgstr "நிலை"
+
+#: ekos/manager/meridianflipstate.cpp:117
+#, fuzzy, kde-format
+msgid "Meridian flip inactive (slew after meridian)"
+msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
+
+#: ekos/manager/meridianflipstate.cpp:133
+#, fuzzy, kde-format
+msgid "Meridian flip in %1"
+msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
+
+#: ekos/manager/meridianflipstate.cpp:185
+#, kde-format
+msgid "Meridian flip failed - time too short, pier side unknown."
+msgstr ""
+
+#: ekos/manager/meridianflipstate.cpp:210
+#, fuzzy, kde-format
+msgid "meridian flip failed, retrying in 4 minutes"
+msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
+
+#: ekos/manager/meridianflipstate.cpp:214
+#, kde-format
+msgid "No successful Meridian Flip done, delay too long"
+msgstr ""
+
+#: ekos/manager/meridianflipstate.cpp:221
+#, fuzzy, kde-format
+msgid "Meridian flip completed OK."
+msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
+
+#: ekos/manager/meridianflipstate.cpp:338 ekos/observatory/observatory.cpp:1027
 #: ekos/observatory/observatory.cpp:1038
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -19872,27 +19925,27 @@ msgstr "வழிகாட்டிகள்"
 msgid "Status: inactive"
 msgstr "நிலை"
 
-#: ekos/manager/meridianflipstate.cpp:105
+#: ekos/manager/meridianflipstate.cpp:342
 #, fuzzy, kde-format
 msgid "Meridian flip planned..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/manager/meridianflipstate.cpp:109
+#: ekos/manager/meridianflipstate.cpp:346
 #, fuzzy, kde-format
 msgid "Meridian flip waiting..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/manager/meridianflipstate.cpp:113
+#: ekos/manager/meridianflipstate.cpp:350
 #, fuzzy, kde-format
-msgid "Meridian ready to start..."
+msgid "Meridian flip ready to start..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/manager/meridianflipstate.cpp:117
+#: ekos/manager/meridianflipstate.cpp:354
 #, fuzzy, kde-format
 msgid "Meridian flip running..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/manager/meridianflipstate.cpp:121
+#: ekos/manager/meridianflipstate.cpp:358
 #, fuzzy, kde-format
 msgid "Meridian flip completed."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
@@ -19916,181 +19969,123 @@ msgid "Mount Configuration"
 msgstr "உறுதிபடுத்தியதை அழி"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:138 ekos/mount/mount.ui:579
+#: ekos/mount/mount.cpp:133 ekos/mount/mount.ui:579
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Mount Control"
 msgstr "மான்ட்ரியல்"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:363
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:378
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:379
 #, fuzzy, kde-format
 msgid "GPS Settings"
 msgstr "கெட்டரிங்"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:507
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா ?"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:508
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "பாதை"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:595
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:611
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:663
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:747 ekos/mount/mount.cpp:1149
-#, fuzzy, kde-format
-msgid "Meridian flip inactive (parked)"
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:811
+#: ekos/mount/mount.cpp:775
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:825
+#: ekos/mount/mount.cpp:789
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:863
+#: ekos/mount/mount.cpp:820
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr ""
 
-#: ekos/mount/mount.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (no scope connected)"
-msgstr "நிலை"
-
-#: ekos/mount/mount.cpp:1142
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (flip not requested)"
-msgstr "நிலை"
-
-#: ekos/mount/mount.cpp:1156
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (no target set)"
-msgstr "நிலை"
-
-#: ekos/mount/mount.cpp:1196
-#, fuzzy, kde-format
-msgid "Meridian flip inactive (slew after meridian)"
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:1212
-#, fuzzy, kde-format
-msgid "Meridian flip in %1"
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:1264
-#, kde-format
-msgid "Meridian flip failed - time too short, pier side unknown."
-msgstr ""
-
-#: ekos/mount/mount.cpp:1289
-#, fuzzy, kde-format
-msgid "meridian flip failed, retrying in 4 minutes"
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:1293
-#, kde-format
-msgid "No successful Meridian Flip done, delay too long"
-msgstr ""
-
-#: ekos/mount/mount.cpp:1301
-#, fuzzy, kde-format
-msgid "Meridian flip completed OK."
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:1348
-#, fuzzy, kde-format
-msgid "Meridian flip slew started..."
-msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
-
-#: ekos/mount/mount.cpp:1688
+#: ekos/mount/mount.cpp:1404
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Alignment Model cleared."
 msgstr "காலியென்ட்"
 
-#: ekos/mount/mount.cpp:1692
+#: ekos/mount/mount.cpp:1408
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Failed to clear Alignment Model."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/mount/mount.cpp:1802 ekos/scheduler/scheduler.cpp:6179
+#: ekos/mount/mount.cpp:1518 ekos/scheduler/scheduler.cpp:6179
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1827
+#: ekos/mount/mount.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking time cannot be in the past."
 msgstr "தொலை நோக்கி"
 
-#: ekos/mount/mount.cpp:1836
+#: ekos/mount/mount.cpp:1552
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1841
+#: ekos/mount/mount.cpp:1557
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1843
+#: ekos/mount/mount.cpp:1559
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1862
+#: ekos/mount/mount.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking timer is up."
 msgstr "தொலை நோக்கி"
 
-#: ekos/mount/mount.cpp:1871
+#: ekos/mount/mount.cpp:1587
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -30031,7 +30026,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
-#: kstars.kcfg:740 tools/scriptbuilder.cpp:666
+#: kstars.kcfg:740 tools/scriptbuilder.cpp:662
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
 msgstr "அடிசுவடினை தானாகவே நடுநிலைப்படுத்தப்பட்ட சூரிய மண்டல உறுப்புடன் இணை?"
@@ -68692,8 +68687,8 @@ msgctxt "@title:window"
 msgid "Export Image"
 msgstr "காஸ்டர்"
 
-#: kstarsactions.cpp:1343 tools/scriptbuilder.cpp:797
-#: tools/scriptbuilder.cpp:865
+#: kstarsactions.cpp:1343 tools/scriptbuilder.cpp:793
+#: tools/scriptbuilder.cpp:861
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
@@ -69767,7 +69762,7 @@ msgid " Welcome to KStars "
 msgstr "கே-ஸ்டார்ஸ் நல்வரவு "
 
 #: kstarsinit.cpp:859 kstarsliteinit.cpp:65 skymap.cpp:342 skymaplite.cpp:324
-#: widgets/infoboxwidget.cpp:115
+#: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "ஒன்றுமில்லை"
@@ -70906,7 +70901,7 @@ msgstr "பொருள்_பெயர்"
 msgid "Constellation Lines"
 msgstr "நட்சத்திரக்கூட்ட கோடுகள்"
 
-#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:582
+#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:578
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
 msgstr "நட்சத்திரக்கூட்டப் பெயர்கள்"
@@ -76325,7 +76320,7 @@ msgstr ""
 msgid "Show objects of unknown magnitude"
 msgstr "இதனைவிட பிரகாசமான நட்சத்திரங்களுக்கு"
 
-#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:746
+#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:742
 #, kde-format
 msgctxt "use 'moonless night' color scheme"
 msgid "Moonless Night"
@@ -77656,7 +77651,7 @@ msgid "Field of View Snapshot Browser"
 msgstr "காட்சி புலம்()"
 
 #: printing/foveditordialog.cpp:198 printing/pwizprint.cpp:127
-#: tools/scriptbuilder.cpp:923
+#: tools/scriptbuilder.cpp:919
 #, kde-format
 msgid "Could not upload file"
 msgstr "கோப்பினை மேலேற்ற இயலவில்லை"
@@ -81003,13 +80998,13 @@ msgid ""
 "<b>Small red cross</b> in the combo box."
 msgstr ""
 
-#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:122
+#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
 msgctxt "Right Ascension"
 msgid "RA"
 msgstr "எ கோ"
 
-#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:122
+#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, fuzzy, kde-format
 msgctxt "Declination"
 msgid "Dec"
@@ -81094,14 +81089,14 @@ msgid "Region"
 msgstr "ரெஜினா"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:99 widgets/infoboxwidget.cpp:124
+#: tools/observinglist.cpp:99 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "திசைக்கோணம்"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:98 widgets/infoboxwidget.cpp:124
+#: tools/observinglist.cpp:98 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
@@ -81326,8 +81321,8 @@ msgstr "&சுட்டுதல் "
 #: tools/modcalcgeodcoord.cpp:230 tools/modcalcjd.cpp:116
 #: tools/modcalcplanets.cpp:194 tools/modcalcsidtime.cpp:204
 #: tools/modcalcvizequinox.cpp:68 tools/modcalcvlsr.cpp:289
-#: tools/scriptbuilder.cpp:822 tools/scriptbuilder.cpp:901
-#: tools/scriptbuilder.cpp:984
+#: tools/scriptbuilder.cpp:818 tools/scriptbuilder.cpp:897
+#: tools/scriptbuilder.cpp:980
 #, kde-format
 msgid "Could not open file %1."
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
@@ -83299,51 +83294,51 @@ msgctxt "@title:window"
 msgid "Options"
 msgstr "விருப்பத்தேர்வு:"
 
-#: tools/scriptbuilder.cpp:126
+#: tools/scriptbuilder.cpp:122
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Script Data"
 msgstr "சிறுநிரல் பெயர்:"
 
-#: tools/scriptbuilder.cpp:167
+#: tools/scriptbuilder.cpp:163
 #, fuzzy, kde-format
 #| msgid "Script Builder"
 msgctxt "@title:window"
 msgid "Script Builder"
 msgstr "சிறு நிரல் கட்டுபவன்"
 
-#: tools/scriptbuilder.cpp:177
+#: tools/scriptbuilder.cpp:173
 #, kde-format
 msgid ""
 "Point the display at the specified location. %1 can be the name of an "
 "object, a cardinal point on the compass, or 'zenith'."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:182
+#: tools/scriptbuilder.cpp:178
 #, fuzzy, kde-format
 #| msgid "Add time stamp to the file name"
 msgid "Add a name label to the object named %1."
 msgstr "நேர அச்சை கோப்பு பெயருடன் சேர்"
 
-#: tools/scriptbuilder.cpp:184
+#: tools/scriptbuilder.cpp:180
 #, fuzzy, kde-format
 #| msgid "Add time stamp to the file name"
 msgid "Remove the name label from the object named %1."
 msgstr "நேர அச்சை கோப்பு பெயருடன் சேர்"
 
-#: tools/scriptbuilder.cpp:187
+#: tools/scriptbuilder.cpp:183
 #, fuzzy, kde-format
 #| msgid "Automatically add trail to centered solar system body?"
 msgid "Add a trail to the solar system body named %1."
 msgstr "அடிசுவடினை தானாகவே நடுநிலைப்படுத்தப்பட்ட சூரிய மண்டல உறுப்புடன் இணை?"
 
-#: tools/scriptbuilder.cpp:189
+#: tools/scriptbuilder.cpp:185
 #, fuzzy, kde-format
 #| msgid "Automatically add trail to centered solar system body?"
 msgid "Remove the trail from the solar system body named %1."
 msgstr "அடிசுவடினை தானாகவே நடுநிலைப்படுத்தப்பட்ட சூரிய மண்டல உறுப்புடன் இணை?"
 
-#: tools/scriptbuilder.cpp:192
+#: tools/scriptbuilder.cpp:188
 #, fuzzy, kde-format
 msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
@@ -83352,7 +83347,7 @@ msgstr ""
 "குறிப்பிடப்பட RA/Dec ஒருங்கிணைப்புகளில் காட்சியைக் குறிப்பிடு. %1 மணிநேரங்களிலும்; %2 "
 "பாகைகளிலும் உள்ளது."
 
-#: tools/scriptbuilder.cpp:197
+#: tools/scriptbuilder.cpp:193
 #, fuzzy, kde-format
 msgid ""
 "Point the display at the specified Alt/Az coordinates.  Alt and Az are "
@@ -83361,76 +83356,76 @@ msgstr ""
 "குறிப்பிடப்பட RA/Dec ஒருங்கிணைப்புகளில் காட்சியைக் குறிப்பிடு. %1 மணிநேரங்களிலும்; %2 "
 "பாகைகளிலும் உள்ளது."
 
-#: tools/scriptbuilder.cpp:199
+#: tools/scriptbuilder.cpp:195
 #, kde-format
 msgid "Increase the display Zoom Level."
 msgstr "காட்சி பெரிதாக்கி நிலையை அதிகரி."
 
-#: tools/scriptbuilder.cpp:200
+#: tools/scriptbuilder.cpp:196
 #, kde-format
 msgid "Decrease the display Zoom Level."
 msgstr "காட்சி சிறிதாக்கும் நிலையை அதிகரி."
 
-#: tools/scriptbuilder.cpp:202
+#: tools/scriptbuilder.cpp:198
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
 msgstr "காட்சி பெரிதாக்கி நிலையை அதன் முன்னிருப்பு மதிப்புக்கு அமை."
 
-#: tools/scriptbuilder.cpp:204
+#: tools/scriptbuilder.cpp:200
 #, kde-format
 msgid "Set the display Zoom Level manually."
 msgstr "காட்சி பெரிதாக்கும் நிலையை கைம்முறையாக அமை."
 
-#: tools/scriptbuilder.cpp:206
+#: tools/scriptbuilder.cpp:202
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
 msgstr "அமைப்பு கடிகாரத்தை குறிப்பிட்ட உள்ளமைப்பு நேரத்திற்கு அமை."
 
-#: tools/scriptbuilder.cpp:209
+#: tools/scriptbuilder.cpp:205
 #, fuzzy, kde-format
 msgid "Pause script execution for specified number of seconds."
 msgstr "%1 க்கான குறுநிரல் செயலாக்கத்திற்கு நிறுத்தம்"
 
-#: tools/scriptbuilder.cpp:211
+#: tools/scriptbuilder.cpp:207
 #, kde-format
 msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:215
+#: tools/scriptbuilder.cpp:211
 #, kde-format
 msgid "Set whether the display is tracking the current location."
 msgstr "காட்சி நடப்பு இடத்தை பாதையிடுகிறதா என்பதை அமை."
 
-#: tools/scriptbuilder.cpp:217
+#: tools/scriptbuilder.cpp:213
 #, kde-format
 msgid "Change view option named %1 to value %2."
 msgstr "காட்சி விருப்பத்தேர்வை %1ல் இருந்து %2 மதிப்புக்கு மாற்று."
 
-#: tools/scriptbuilder.cpp:220
+#: tools/scriptbuilder.cpp:216
 #, fuzzy, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
 "country."
 msgstr "%1, %2  மற்றும் %3ஆல் குறிப்பிடப்பட்ட நகரத்திற்கு புவியியல் இடத்தை அமை."
 
-#: tools/scriptbuilder.cpp:223
+#: tools/scriptbuilder.cpp:219
 #, kde-format
 msgid "Set the color named %1 to the value %2."
 msgstr "%1 பெயருள்ள வண்ணட்தை %2 மதிப்புக்கு அமை."
 
-#: tools/scriptbuilder.cpp:225
+#: tools/scriptbuilder.cpp:221
 #, fuzzy, kde-format
 msgid "Load the color scheme specified by name."
 msgstr "%1 பெயருள்ள வண்ண அமைப்பை ஏற்று."
 
-#: tools/scriptbuilder.cpp:228
+#: tools/scriptbuilder.cpp:224
 #, fuzzy, kde-format
 msgid "Export the sky image to the file, with specified width and height."
 msgstr "%1 கோப்புக்கு வான பிம்பத்தை %2 அகலம் மற்றும் %3 உயரத்துடன் ஏற்றுகிறது."
 
-#: tools/scriptbuilder.cpp:232
+#: tools/scriptbuilder.cpp:228
 #, fuzzy, kde-format
 msgid ""
 "Print the sky image to a printer or file.  If %1 is true, it will show the "
@@ -83440,17 +83435,17 @@ msgstr ""
 "அச்சியந்திரத்துக்கு அல்லது கோப்புக்கு வான பிம்பத்தை அச்ச்டி. %1 சரியாக இருந்தால், அது "
 "அச்சடி உரையாடலை காட்டும், அச்சிடுவதற்கு ஸ்டார் சார்ட் வண்ண அமைப்பை பயன்படுத்தும்."
 
-#: tools/scriptbuilder.cpp:236
+#: tools/scriptbuilder.cpp:232
 #, kde-format
 msgid "Halt the simulation clock."
 msgstr "மாதிரி கடிகாரத்தை நிறுத்து"
 
-#: tools/scriptbuilder.cpp:237
+#: tools/scriptbuilder.cpp:233
 #, kde-format
 msgid "Start the simulation clock."
 msgstr "மாதிரி கடிகாரத்தை துவக்கு."
 
-#: tools/scriptbuilder.cpp:239
+#: tools/scriptbuilder.cpp:235
 #, fuzzy, kde-format
 msgid ""
 "Set the timescale of the simulation clock to specified scale.  1.0 means "
@@ -83459,390 +83454,390 @@ msgstr ""
 "மாதிரி கடிகாரத்தின் நேர அளவை %1க்கு அமை. 1.0 என்றால் சரியான நேரம்; 2.0 என்றால் "
 "இருமுறை சரியான நேரம்; இத்யாதி."
 
-#: tools/scriptbuilder.cpp:257
+#: tools/scriptbuilder.cpp:253
 #, fuzzy, kde-format
 msgid "Functions"
 msgstr "செயலைச் சேர்"
 
-#: tools/scriptbuilder.cpp:408
+#: tools/scriptbuilder.cpp:404
 #, kde-format
 msgid "InfoBoxes"
 msgstr "தகவல் பெட்டிகள்"
 
-#: tools/scriptbuilder.cpp:409
+#: tools/scriptbuilder.cpp:405
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
 msgstr "எல்லா தகவல் பெட்டிகளின் காட்சியையும் மாற்று"
 
-#: tools/scriptbuilder.cpp:409 tools/scriptbuilder.cpp:412
-#: tools/scriptbuilder.cpp:415 tools/scriptbuilder.cpp:418
-#: tools/scriptbuilder.cpp:421 tools/scriptbuilder.cpp:424
-#: tools/scriptbuilder.cpp:427 tools/scriptbuilder.cpp:441
-#: tools/scriptbuilder.cpp:444 tools/scriptbuilder.cpp:453
-#: tools/scriptbuilder.cpp:456 tools/scriptbuilder.cpp:463
-#: tools/scriptbuilder.cpp:466 tools/scriptbuilder.cpp:469
-#: tools/scriptbuilder.cpp:472 tools/scriptbuilder.cpp:475
-#: tools/scriptbuilder.cpp:478 tools/scriptbuilder.cpp:481
-#: tools/scriptbuilder.cpp:484 tools/scriptbuilder.cpp:487
-#: tools/scriptbuilder.cpp:490 tools/scriptbuilder.cpp:496
-#: tools/scriptbuilder.cpp:499 tools/scriptbuilder.cpp:520
-#: tools/scriptbuilder.cpp:523 tools/scriptbuilder.cpp:526
-#: tools/scriptbuilder.cpp:529 tools/scriptbuilder.cpp:532
-#: tools/scriptbuilder.cpp:535 tools/scriptbuilder.cpp:538
-#: tools/scriptbuilder.cpp:541 tools/scriptbuilder.cpp:544
-#: tools/scriptbuilder.cpp:547 tools/scriptbuilder.cpp:550
-#: tools/scriptbuilder.cpp:553 tools/scriptbuilder.cpp:556
-#: tools/scriptbuilder.cpp:559 tools/scriptbuilder.cpp:562
-#: tools/scriptbuilder.cpp:583 tools/scriptbuilder.cpp:586
-#: tools/scriptbuilder.cpp:589 tools/scriptbuilder.cpp:598
-#: tools/scriptbuilder.cpp:604 tools/scriptbuilder.cpp:607
-#: tools/scriptbuilder.cpp:610 tools/scriptbuilder.cpp:613
-#: tools/scriptbuilder.cpp:616 tools/scriptbuilder.cpp:619
-#: tools/scriptbuilder.cpp:622 tools/scriptbuilder.cpp:637
-#: tools/scriptbuilder.cpp:653 tools/scriptbuilder.cpp:656
-#: tools/scriptbuilder.cpp:659 tools/scriptbuilder.cpp:663
-#: tools/scriptbuilder.cpp:666 tools/scriptbuilder.cpp:670
+#: tools/scriptbuilder.cpp:405 tools/scriptbuilder.cpp:408
+#: tools/scriptbuilder.cpp:411 tools/scriptbuilder.cpp:414
+#: tools/scriptbuilder.cpp:417 tools/scriptbuilder.cpp:420
+#: tools/scriptbuilder.cpp:423 tools/scriptbuilder.cpp:437
+#: tools/scriptbuilder.cpp:440 tools/scriptbuilder.cpp:449
+#: tools/scriptbuilder.cpp:452 tools/scriptbuilder.cpp:459
+#: tools/scriptbuilder.cpp:462 tools/scriptbuilder.cpp:465
+#: tools/scriptbuilder.cpp:468 tools/scriptbuilder.cpp:471
+#: tools/scriptbuilder.cpp:474 tools/scriptbuilder.cpp:477
+#: tools/scriptbuilder.cpp:480 tools/scriptbuilder.cpp:483
+#: tools/scriptbuilder.cpp:486 tools/scriptbuilder.cpp:492
+#: tools/scriptbuilder.cpp:495 tools/scriptbuilder.cpp:516
+#: tools/scriptbuilder.cpp:519 tools/scriptbuilder.cpp:522
+#: tools/scriptbuilder.cpp:525 tools/scriptbuilder.cpp:528
+#: tools/scriptbuilder.cpp:531 tools/scriptbuilder.cpp:534
+#: tools/scriptbuilder.cpp:537 tools/scriptbuilder.cpp:540
+#: tools/scriptbuilder.cpp:543 tools/scriptbuilder.cpp:546
+#: tools/scriptbuilder.cpp:549 tools/scriptbuilder.cpp:552
+#: tools/scriptbuilder.cpp:555 tools/scriptbuilder.cpp:558
+#: tools/scriptbuilder.cpp:579 tools/scriptbuilder.cpp:582
+#: tools/scriptbuilder.cpp:585 tools/scriptbuilder.cpp:594
+#: tools/scriptbuilder.cpp:600 tools/scriptbuilder.cpp:603
+#: tools/scriptbuilder.cpp:606 tools/scriptbuilder.cpp:609
+#: tools/scriptbuilder.cpp:612 tools/scriptbuilder.cpp:615
+#: tools/scriptbuilder.cpp:618 tools/scriptbuilder.cpp:633
+#: tools/scriptbuilder.cpp:649 tools/scriptbuilder.cpp:652
+#: tools/scriptbuilder.cpp:655 tools/scriptbuilder.cpp:659
+#: tools/scriptbuilder.cpp:662 tools/scriptbuilder.cpp:666
 #, kde-format
 msgid "bool"
 msgstr "bool"
 
-#: tools/scriptbuilder.cpp:412
+#: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of Time InfoBox"
 msgstr "நேர தகவல்பெட்டியின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:415
+#: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
 msgstr "புவியியல் தகவல் பெட்டியின் காட்சியினை மாற்று"
 
-#: tools/scriptbuilder.cpp:418
+#: tools/scriptbuilder.cpp:414
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
 msgstr "குவிக்கும் தகவல்பெட்டியின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:421
+#: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "(un)Shade Time InfoBox"
 msgstr "நேர தகவல்பெட்டியை நிழலிடு (நிழலிடாதே)"
 
-#: tools/scriptbuilder.cpp:424
+#: tools/scriptbuilder.cpp:420
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
 msgstr "புவியியல் தகவல் பெட்டியை நிழலிடு(நிழலிடாதே)"
 
-#: tools/scriptbuilder.cpp:427
+#: tools/scriptbuilder.cpp:423
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
 msgstr "குவிக்கும் தகவல்பெட்டியை நிழலிடு(நிழலிடாதே)"
 
-#: tools/scriptbuilder.cpp:440
+#: tools/scriptbuilder.cpp:436
 #, kde-format
 msgid "Toolbars"
 msgstr "கருவிப்பட்டிகள்"
 
-#: tools/scriptbuilder.cpp:441
+#: tools/scriptbuilder.cpp:437
 #, kde-format
 msgid "Toggle display of main toolbar"
 msgstr "முக்கிய கருவிப்பட்டியின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:444
+#: tools/scriptbuilder.cpp:440
 #, kde-format
 msgid "Toggle display of view toolbar"
 msgstr "காட்சி கருவிப்பட்டியின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:452
+#: tools/scriptbuilder.cpp:448
 #, kde-format
 msgid "Show Objects"
 msgstr "பொருள்களைக் காட்டு"
 
-#: tools/scriptbuilder.cpp:453
+#: tools/scriptbuilder.cpp:449
 #, kde-format
 msgid "Toggle display of Stars"
 msgstr "நட்சத்திரங்களின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:456
+#: tools/scriptbuilder.cpp:452
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
 msgstr "எல்லா ஆழ-வான பொருள்களின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:463
+#: tools/scriptbuilder.cpp:459
 #, kde-format
 msgid "Toggle display of all solar system bodies"
 msgstr "எல்லா சூரிய அமைப்புகளின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:466
+#: tools/scriptbuilder.cpp:462
 #, kde-format
 msgid "Toggle display of Sun"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:469
+#: tools/scriptbuilder.cpp:465
 #, kde-format
 msgid "Toggle display of Moon"
 msgstr "சந்திரனின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:472
+#: tools/scriptbuilder.cpp:468
 #, kde-format
 msgid "Toggle display of Mercury"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:475
+#: tools/scriptbuilder.cpp:471
 #, kde-format
 msgid "Toggle display of Venus"
 msgstr "வீனசின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:478
+#: tools/scriptbuilder.cpp:474
 #, kde-format
 msgid "Toggle display of Mars"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:481
+#: tools/scriptbuilder.cpp:477
 #, kde-format
 msgid "Toggle display of Jupiter"
 msgstr "ஜூபிடரின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:484
+#: tools/scriptbuilder.cpp:480
 #, kde-format
 msgid "Toggle display of Saturn"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:487
+#: tools/scriptbuilder.cpp:483
 #, kde-format
 msgid "Toggle display of Uranus"
 msgstr "யுரானஸின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:490
+#: tools/scriptbuilder.cpp:486
 #, kde-format
 msgid "Toggle display of Neptune"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:496
+#: tools/scriptbuilder.cpp:492
 #, kde-format
 msgid "Toggle display of Asteroids"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:499
+#: tools/scriptbuilder.cpp:495
 #, kde-format
 msgid "Toggle display of Comets"
 msgstr "வால் நட்சத்திரத்தின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:519
+#: tools/scriptbuilder.cpp:515
 #, kde-format
 msgid "Show Other"
 msgstr "மற்றதைக் காட்டு"
 
-#: tools/scriptbuilder.cpp:520
+#: tools/scriptbuilder.cpp:516
 #, fuzzy, kde-format
 #| msgid "Toggle display of constellation names"
 msgid "Toggle display of constellation lines"
 msgstr "விண்மீன் தொகுதி பெயர்களின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:523
+#: tools/scriptbuilder.cpp:519
 #, kde-format
 msgid "Toggle display of constellation boundaries"
 msgstr "விண்மீன் தொகுதி எல்லையின் வண்ணம்."
 
-#: tools/scriptbuilder.cpp:526
+#: tools/scriptbuilder.cpp:522
 #, kde-format
 msgid "Toggle display of constellation names"
 msgstr "விண்மீன் தொகுதி பெயர்களின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:529
+#: tools/scriptbuilder.cpp:525
 #, kde-format
 msgid "Toggle display of Milky Way"
 msgstr "பால் வீதி மாற்று"
 
-#: tools/scriptbuilder.cpp:532
+#: tools/scriptbuilder.cpp:528
 #, kde-format
 msgid "Toggle display of the coordinate grid"
 msgstr "ஒருங்கிணைப்பு கட்டத்தின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:535
+#: tools/scriptbuilder.cpp:531
 #, kde-format
 msgid "Toggle display of the celestial equator"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: tools/scriptbuilder.cpp:538
+#: tools/scriptbuilder.cpp:534
 #, kde-format
 msgid "Toggle display of the ecliptic"
 msgstr "சூரியனின் தோற்றப்பாதையின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:541
+#: tools/scriptbuilder.cpp:537
 #, kde-format
 msgid "Toggle display of the horizon line"
 msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
 
-#: tools/scriptbuilder.cpp:544
+#: tools/scriptbuilder.cpp:540
 #, kde-format
 msgid "Toggle display of the opaque ground"
 msgstr "ஒளி ஊடுருவாத இடத்தின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:547
+#: tools/scriptbuilder.cpp:543
 #, kde-format
 msgid "Toggle display of star name labels"
 msgstr "நட்சத்திர பெயர் சிட்டைகளின் வண்ணம்."
 
-#: tools/scriptbuilder.cpp:550
+#: tools/scriptbuilder.cpp:546
 #, kde-format
 msgid "Toggle display of star magnitude labels"
 msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
 
-#: tools/scriptbuilder.cpp:553
+#: tools/scriptbuilder.cpp:549
 #, kde-format
 msgid "Toggle display of asteroid name labels"
 msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
 
-#: tools/scriptbuilder.cpp:556
+#: tools/scriptbuilder.cpp:552
 #, kde-format
 msgid "Toggle display of comet name labels"
 msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
 
-#: tools/scriptbuilder.cpp:559
+#: tools/scriptbuilder.cpp:555
 #, kde-format
 msgid "Toggle display of planet name labels"
 msgstr "கோள் பெயர் சிட்டையின் வண்ணம்"
 
-#: tools/scriptbuilder.cpp:562
+#: tools/scriptbuilder.cpp:558
 #, kde-format
 msgid "Toggle display of planet images"
 msgstr "கோள் பிம்பங்களின் காட்சியை மாற்று"
 
-#: tools/scriptbuilder.cpp:583
+#: tools/scriptbuilder.cpp:579
 #, kde-format
 msgid "Show Latin constellation names"
 msgstr "லத்தீன் விண்மீன் கூட்ட பெயர்களை உபயோகிக்கவும் "
 
-#: tools/scriptbuilder.cpp:586
+#: tools/scriptbuilder.cpp:582
 #, kde-format
 msgid "Show constellation names in local language"
 msgstr "விண்மீன் பெயர்களை வானபடத்தோடு வரைய வேண்டுமா?"
 
-#: tools/scriptbuilder.cpp:589
+#: tools/scriptbuilder.cpp:585
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
 msgstr "விண்மீன் கூட்ட வரிகளை காட்ட வேண்டுமா?"
 
-#: tools/scriptbuilder.cpp:597
+#: tools/scriptbuilder.cpp:593
 #, kde-format
 msgid "Hide Items"
 msgstr "ஒளித்தோற்றம் தாரை"
 
-#: tools/scriptbuilder.cpp:598
+#: tools/scriptbuilder.cpp:594
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
 msgstr "காட்சியினை நகர்த்தும்போது மறைக்கப்பட்ட IC  பொருட்கள் சோதித்து இருநிலை மாற்று."
 
-#: tools/scriptbuilder.cpp:601
+#: tools/scriptbuilder.cpp:597
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:601 tools/scriptbuilder.cpp:640
-#: tools/scriptbuilder.cpp:643 tools/scriptbuilder.cpp:708
-#: tools/scriptbuilder.cpp:711 tools/scriptbuilder.cpp:714
-#: tools/scriptbuilder.cpp:718 tools/scriptbuilder.cpp:722
+#: tools/scriptbuilder.cpp:597 tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:639 tools/scriptbuilder.cpp:704
+#: tools/scriptbuilder.cpp:707 tools/scriptbuilder.cpp:710
+#: tools/scriptbuilder.cpp:714 tools/scriptbuilder.cpp:718
 #, kde-format
 msgid "double"
 msgstr "இரட்டிப்பு"
 
-#: tools/scriptbuilder.cpp:604
+#: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Hide faint stars while slewing?"
 msgstr "மங்கிய நட்சத்திரங்களை நகர்த்தும்போது மறைக்கவும்?"
 
-#: tools/scriptbuilder.cpp:607
+#: tools/scriptbuilder.cpp:603
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
 msgstr "நீக்கும்போது சூரிய மண்டல உறுப்புகளை மறைக்கவும்?"
 
-#: tools/scriptbuilder.cpp:610
+#: tools/scriptbuilder.cpp:606
 #, kde-format
 msgid "Hide Milky Way while slewing?"
 msgstr "பால் வெளி வடிவ விளம்பு வரையினை நகர்த்தும்போது மறைக்கவும்?"
 
-#: tools/scriptbuilder.cpp:613
+#: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide constellation names while slewing?"
 msgstr "நகரும்பொழுது நட்சத்திரக்கூட்ட பெயர்களை மறைக்கவேண்டுமா?"
 
-#: tools/scriptbuilder.cpp:616
+#: tools/scriptbuilder.cpp:612
 #, kde-format
 msgid "Hide constellation lines while slewing?"
 msgstr "நட்சத்திரக்கூட்ட வரிகளை நகர்த்தும்போது மறைக்கவும்?"
 
-#: tools/scriptbuilder.cpp:619
+#: tools/scriptbuilder.cpp:615
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
 msgstr "விண்மீன் குழு வரைகள் எல்லாம் மறைக்கவும்?"
 
-#: tools/scriptbuilder.cpp:622
+#: tools/scriptbuilder.cpp:618
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
 msgstr "அழிக்கும்போது ஒருங்கிணைப்பு கட்டத்தை மறைக்க வேண்டுமா?"
 
-#: tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:632
 #, kde-format
 msgid "Skymap Options"
 msgstr "மேக வரைப்பட விருப்பத்தேர்வுகள்"
 
-#: tools/scriptbuilder.cpp:637
+#: tools/scriptbuilder.cpp:633
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
 msgstr "கிடைமட்ட ஒருங்கிணைப்புப் முறைமையை பயன்படுத்து"
 
-#: tools/scriptbuilder.cpp:640
+#: tools/scriptbuilder.cpp:636
 #, kde-format
 msgid "Set the Zoom Factor"
 msgstr "பெரிதாக்கும் காரணியை அமை"
 
-#: tools/scriptbuilder.cpp:643
+#: tools/scriptbuilder.cpp:639
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
 msgstr "FOV சின்னத்திற்கான கோண அளவினை தேர்ந்தெடுக்கவும்"
 
-#: tools/scriptbuilder.cpp:646
+#: tools/scriptbuilder.cpp:642
 #, kde-format
 msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr "காட்சி புல குறியீட்டின்( FOV)  உருவத்தை தேர்ந்தெடுக்கவும்,"
 
-#: tools/scriptbuilder.cpp:647
+#: tools/scriptbuilder.cpp:643
 #, kde-format
 msgid "int"
 msgstr "சார்ந்திருப்பவன்"
 
-#: tools/scriptbuilder.cpp:650
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "Select color for the FOV symbol"
 msgstr "காட்சி புல குறியீட்டின் நிறத்தை தேர்ந்தெடுக்கவும்"
 
-#: tools/scriptbuilder.cpp:650
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "string"
 msgstr "தொடர்ச்சி"
 
-#: tools/scriptbuilder.cpp:653
+#: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr "நகரும் உயிரூட்டப்பட்டதை பயன்படுத்து (இல்லையென்றால், புது குவியலுக்கு \"எடு\")"
 
-#: tools/scriptbuilder.cpp:656
+#: tools/scriptbuilder.cpp:652
 #, kde-format
 msgid "Correct for atmospheric refraction?"
 msgstr "வளிமண்டல ஒளி விலகலை சரி செய்"
 
-#: tools/scriptbuilder.cpp:659
+#: tools/scriptbuilder.cpp:655
 #, kde-format
 msgid "Automatically attach name label to centered object?"
 msgstr "விளக்கச்சீட்டை நடுவில் உள்ள இலக்கில் இணை."
 
-#: tools/scriptbuilder.cpp:662
+#: tools/scriptbuilder.cpp:658
 #, kde-format
 msgid "Attach temporary name label when hovering mouse over an object?"
 msgstr "தற்காலிக பட்டியலை சேர், ஹவரிங் சுட்டியை அமைக்கும் போது"
 
-#: tools/scriptbuilder.cpp:669
+#: tools/scriptbuilder.cpp:665
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
 msgstr ""
@@ -83864,55 +83859,55 @@ msgstr ""
 #. fields.clear();
 #.
 #. FIXME: This description is incorrect! Fix after strings freeze
-#: tools/scriptbuilder.cpp:708
+#: tools/scriptbuilder.cpp:704
 #, fuzzy, kde-format
 #| msgid "magnitude of faintest star drawn on map when zoomed in"
 msgid "magnitude of faintest star labeled on map"
 msgstr ""
 "நட்சத்திரங்களை வரைய மங்கிய நிலை அளவினை வரையவும்,உள்ளே முழுமையாக பெரியதான போது."
 
-#: tools/scriptbuilder.cpp:711
+#: tools/scriptbuilder.cpp:707
 #, fuzzy, kde-format
 #| msgid "magnitude of faintest star drawn on map when zoomed in"
 msgid "magnitude of brightest star hidden while slewing"
 msgstr ""
 "நட்சத்திரங்களை வரைய மங்கிய நிலை அளவினை வரையவும்,உள்ளே முழுமையாக பெரியதான போது."
 
-#: tools/scriptbuilder.cpp:714
+#: tools/scriptbuilder.cpp:710
 #, fuzzy, kde-format
 #| msgid "magnitude of faintest star drawn on map when zoomed in"
 msgid "magnitude of faintest asteroid drawn on map"
 msgstr ""
 "நட்சத்திரங்களை வரைய மங்கிய நிலை அளவினை வரையவும்,உள்ளே முழுமையாக பெரியதான போது."
 
-#: tools/scriptbuilder.cpp:718
+#: tools/scriptbuilder.cpp:714
 #, fuzzy, kde-format
 #| msgid "magnitude of faintest star drawn on map when zoomed in"
 msgid "magnitude of faintest asteroid labeled on map"
 msgstr ""
 "நட்சத்திரங்களை வரைய மங்கிய நிலை அளவினை வரையவும்,உள்ளே முழுமையாக பெரியதான போது."
 
-#: tools/scriptbuilder.cpp:721
+#: tools/scriptbuilder.cpp:717
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr "வரைபடத்தில் உள்ளதை விட சூரியனுக்கு அருகில் வால்நட்சத்திரம் (AUவில்)"
 
-#: tools/scriptbuilder.cpp:816
+#: tools/scriptbuilder.cpp:812
 #, kde-format
 msgid "Could not download remote file."
 msgstr "கோப்பினை கீழிறக்கம் செய்ய இயலவில்லை."
 
-#: tools/scriptbuilder.cpp:816
+#: tools/scriptbuilder.cpp:812
 #, kde-format
 msgid "Download Error"
 msgstr "கீழிறக்க பிழை"
 
-#: tools/scriptbuilder.cpp:948
+#: tools/scriptbuilder.cpp:944
 #, kde-format
 msgid "Save Changes to Script?"
 msgstr "FITSயில் மாற்றங்களை சேமிக்க வேண்டுமா?"
 
-#: tools/scriptbuilder.cpp:949
+#: tools/scriptbuilder.cpp:945
 #, kde-format
 msgid ""
 "The current script has unsaved changes.  Would you like to save before "
@@ -83921,30 +83916,30 @@ msgstr ""
 "தற்போதைய FITS கோப்புகள் சேமிக்கப்படாத மாற்றங்களைக் கொண்டுள்ளது. இதனை மூடும் முன் சேமிக்க "
 "விரும்புகிறீர்களா?"
 
-#: tools/scriptbuilder.cpp:1111
+#: tools/scriptbuilder.cpp:1107
 #, kde-format
 msgid "Could not parse script.  Line was: %1"
 msgstr "குறுநிரலை பிரிக்க இயலவில்லை. கோடு: %1"
 
-#: tools/scriptbuilder.cpp:1522 tools/scriptbuilder.cpp:1526
-#: tools/scriptbuilder.cpp:1580 tools/scriptbuilder.cpp:2006
-#: tools/scriptbuilder.cpp:2190 tools/scriptbuilder.cpp:2191
+#: tools/scriptbuilder.cpp:1518 tools/scriptbuilder.cpp:1522
+#: tools/scriptbuilder.cpp:1576 tools/scriptbuilder.cpp:2002
+#: tools/scriptbuilder.cpp:2186 tools/scriptbuilder.cpp:2187
 #, kde-format
 msgid "true"
 msgstr "உண்மை"
 
-#: tools/scriptbuilder.cpp:1667
+#: tools/scriptbuilder.cpp:1663
 #, kde-format
 msgid "Function index out of bounds."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:2006 tools/scriptbuilder.cpp:2190
-#: tools/scriptbuilder.cpp:2191
+#: tools/scriptbuilder.cpp:2002 tools/scriptbuilder.cpp:2186
+#: tools/scriptbuilder.cpp:2187
 #, kde-format
 msgid "false"
 msgstr "தவறு"
 
-#: tools/scriptbuilder.cpp:2833
+#: tools/scriptbuilder.cpp:2829
 #, kde-format
 msgid "Mismatch between function and Arg widget (expected %1.)"
 msgstr ""
@@ -85012,25 +85007,25 @@ msgstr "புதிய..."
 msgid "Previous Year"
 msgstr ""
 
-#: widgets/infoboxwidget.cpp:74
+#: widgets/infoboxwidget.cpp:70
 #, kde-format
 msgctxt "Local Time"
 msgid "LT: "
 msgstr "தள நேரம்"
 
-#: widgets/infoboxwidget.cpp:78
+#: widgets/infoboxwidget.cpp:74
 #, kde-format
 msgctxt "Universal Time"
 msgid "UT: "
 msgstr "க்ரீன்விச் நேரம்"
 
-#: widgets/infoboxwidget.cpp:87
+#: widgets/infoboxwidget.cpp:83
 #, kde-format
 msgctxt "Sidereal Time"
 msgid "ST: "
 msgstr "த.நே:"
 
-#: widgets/infoboxwidget.cpp:87
+#: widgets/infoboxwidget.cpp:83
 #, kde-format
 msgctxt "Julian Day"
 msgid "JD: "
@@ -85038,119 +85033,119 @@ msgstr "ஜுலியன் நாள்"
 
 #. i18nc("Longitude", "Long:") + ' ' + QLocale().toString(geo->lng()->Degrees(), 3) + "   " +
 #. i18nc("Latitude", "Lat:") + ' ' + QLocale().toString(geo->lat()->Degrees(), 3);
-#: widgets/infoboxwidget.cpp:102
+#: widgets/infoboxwidget.cpp:98
 #, kde-format
 msgctxt "Longitude"
 msgid "Long:"
 msgstr "தீர்க்க ரேகை"
 
-#: widgets/infoboxwidget.cpp:103
+#: widgets/infoboxwidget.cpp:99
 #, kde-format
 msgctxt "Latitude"
 msgid "Lat:"
 msgstr "அட்ச ரேகை"
 
-#: widgets/infoboxwidget.cpp:135
+#: widgets/infoboxwidget.cpp:131
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgctxt "Hour Angle"
 msgid "HA"
 msgstr "புதிய RA:"
 
-#: widgets/infoboxwidget.cpp:135
+#: widgets/infoboxwidget.cpp:131
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgctxt "Zenith Angle"
 msgid "ZA"
 msgstr "புதிய RA:"
 
-#: widgets/timespinbox.cpp:120 widgets/timespinbox.cpp:121
-#: widgets/timespinbox.cpp:122 widgets/timespinbox.cpp:123
-#: widgets/timespinbox.cpp:125 widgets/timespinbox.cpp:126
-#: widgets/timespinbox.cpp:127 widgets/timespinbox.cpp:128
-#: widgets/timespinbox.cpp:129
+#: widgets/timespinbox.cpp:116 widgets/timespinbox.cpp:117
+#: widgets/timespinbox.cpp:118 widgets/timespinbox.cpp:119
+#: widgets/timespinbox.cpp:121 widgets/timespinbox.cpp:122
+#: widgets/timespinbox.cpp:123 widgets/timespinbox.cpp:124
+#: widgets/timespinbox.cpp:125
 #, kde-format
 msgctxt "seconds"
 msgid "secs"
 msgstr "நொடிகள்"
 
-#: widgets/timespinbox.cpp:124
+#: widgets/timespinbox.cpp:120
 #, kde-format
 msgctxt "second"
 msgid "sec"
 msgstr "நொடி"
 
-#: widgets/timespinbox.cpp:130
+#: widgets/timespinbox.cpp:126
 #, kde-format
 msgctxt "minute"
 msgid "min"
 msgstr "நிமிடம்"
 
-#: widgets/timespinbox.cpp:131 widgets/timespinbox.cpp:132
-#: widgets/timespinbox.cpp:133 widgets/timespinbox.cpp:134
-#: widgets/timespinbox.cpp:135
+#: widgets/timespinbox.cpp:127 widgets/timespinbox.cpp:128
+#: widgets/timespinbox.cpp:129 widgets/timespinbox.cpp:130
+#: widgets/timespinbox.cpp:131
 #, kde-format
 msgctxt "minutes"
 msgid "mins"
 msgstr "நிமிடங்கள்"
 
-#: widgets/timespinbox.cpp:136
+#: widgets/timespinbox.cpp:132
 #, kde-format
 msgid "hour"
 msgstr "மணி"
 
-#: widgets/timespinbox.cpp:137 widgets/timespinbox.cpp:138
-#: widgets/timespinbox.cpp:139 widgets/timespinbox.cpp:140
+#: widgets/timespinbox.cpp:133 widgets/timespinbox.cpp:134
+#: widgets/timespinbox.cpp:135 widgets/timespinbox.cpp:136
 #, kde-format
 msgctxt "hours"
 msgid "hrs"
 msgstr "மணிகள்"
 
-#: widgets/timespinbox.cpp:146
+#: widgets/timespinbox.cpp:142
 #, fuzzy, kde-format
 #| msgid "day"
 msgctxt "sidereal day"
 msgid "sid day"
 msgstr "நாள்"
 
-#: widgets/timespinbox.cpp:147
+#: widgets/timespinbox.cpp:143
 #, kde-format
 msgid "day"
 msgstr "நாள்"
 
-#: widgets/timespinbox.cpp:151
+#: widgets/timespinbox.cpp:147
 #, kde-format
 msgid "week"
 msgstr "வாரம்"
 
-#: widgets/timespinbox.cpp:152 widgets/timespinbox.cpp:153
+#: widgets/timespinbox.cpp:148 widgets/timespinbox.cpp:149
 #, kde-format
 msgctxt "weeks"
 msgid "wks"
 msgstr "வாரங்கள்"
 
-#: widgets/timespinbox.cpp:154
+#: widgets/timespinbox.cpp:150
 #, kde-format
 msgid "month"
 msgstr "மாதம்"
 
-#: widgets/timespinbox.cpp:155 widgets/timespinbox.cpp:156
-#: widgets/timespinbox.cpp:157 widgets/timespinbox.cpp:158
-#: widgets/timespinbox.cpp:159
+#: widgets/timespinbox.cpp:151 widgets/timespinbox.cpp:152
+#: widgets/timespinbox.cpp:153 widgets/timespinbox.cpp:154
+#: widgets/timespinbox.cpp:155
 #, kde-format
 msgctxt "months"
 msgid "mths"
 msgstr "மாதங்கள்"
 
-#: widgets/timespinbox.cpp:160
+#: widgets/timespinbox.cpp:156
 #, kde-format
 msgid "year"
 msgstr "வருடம்"
 
+#: widgets/timespinbox.cpp:157 widgets/timespinbox.cpp:158
+#: widgets/timespinbox.cpp:159 widgets/timespinbox.cpp:160
 #: widgets/timespinbox.cpp:161 widgets/timespinbox.cpp:162
-#: widgets/timespinbox.cpp:163 widgets/timespinbox.cpp:164
-#: widgets/timespinbox.cpp:165 widgets/timespinbox.cpp:166
-#: widgets/timespinbox.cpp:167
+#: widgets/timespinbox.cpp:163
 #, kde-format
 msgctxt "years"
 msgid "yrs"
@@ -85810,6 +85805,10 @@ msgstr "பின்னனி வண்ணத்திற்கான போல�
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "பின்புலனில் அடிச்சுவட்டு வண்ணங்களை போலியாக்கவும்."
+
+#, fuzzy
+#~ msgid "Meridian flip slew started..."
+#~ msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
 #, fuzzy
 #~ msgid "Meridian flip inactive"

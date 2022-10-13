@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-09 00:41+0000\n"
+"POT-Creation-Date: 2022-10-13 00:41+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -253,21 +253,21 @@ msgid "FITS Image Object Label"
 msgstr "चीज लेबल"
 
 #: auxiliary/colorscheme.cpp:134 kstarsdata.cpp:1055 options/opscolors.cpp:58
-#: tools/scriptbuilder.cpp:743
+#: tools/scriptbuilder.cpp:739
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
 msgstr "डिफाल्ट रंग"
 
 #: auxiliary/colorscheme.cpp:136 kstarsdata.cpp:1057 options/opscolors.cpp:59
-#: tools/scriptbuilder.cpp:744
+#: tools/scriptbuilder.cpp:740
 #, kde-format
 msgctxt "use 'star chart' color scheme"
 msgid "Star Chart"
 msgstr "तारा चार्ट"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1059 options/opscolors.cpp:60
-#: tools/scriptbuilder.cpp:745
+#: tools/scriptbuilder.cpp:741
 #, kde-format
 msgctxt "use 'night vision' color scheme"
 msgid "Night Vision"
@@ -378,7 +378,7 @@ msgid "Saved image to %1"
 msgstr "फोटू ल डिस्क मं सहेजव"
 
 #: auxiliary/imageexporter.cpp:228 printing/foveditordialog.cpp:197
-#: tools/scriptbuilder.cpp:922
+#: tools/scriptbuilder.cpp:918
 #, kde-format
 msgid "Could not upload image to remote location: %1"
 msgstr "रिमोट जगह: %1पर फोटू अपलोड नइ कर सकिस"
@@ -468,14 +468,14 @@ msgstr "आकास फोटू सहेजव... (&S)"
 
 #: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3601
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
-#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:881
+#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "एक फाइल नाम \"%1\" से पहिली से ही अस्तित्व मं हे. एखर ऊपर ही लिखव?"
 
 #: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3604
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
-#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:884
+#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "Overwrite File?"
 msgstr "फाइल ल मेटाय के लिखव?"
@@ -1443,8 +1443,8 @@ msgstr "महिना"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: auxiliary/xplanetimageviewer.cpp:444 ekos/auxiliary/darklibrary.ui:1185
-#: widgets/timespinbox.cpp:144 widgets/timespinbox.cpp:148
-#: widgets/timespinbox.cpp:149 widgets/timespinbox.cpp:150
+#: widgets/timespinbox.cpp:140 widgets/timespinbox.cpp:144
+#: widgets/timespinbox.cpp:145 widgets/timespinbox.cpp:146
 #, kde-format
 msgid "days"
 msgstr "दिन"
@@ -2650,8 +2650,8 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:1028 ekos/capture/capture.cpp:4360
 #: ekos/capture/capture.cpp:4774 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4405 ekos/scheduler/scheduler.cpp:4777
-#: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:834
-#: tools/scriptbuilder.cpp:932
+#: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
+#: tools/scriptbuilder.cpp:928
 #, kde-format
 msgid "Invalid URL"
 msgstr "अवैध यूआरएल"
@@ -6074,7 +6074,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "कनेक्सन"
 
 #: ekos/align/align.cpp:1429 ekos/capture/capture.cpp:3579
-#: ekos/capture/capture.cpp:6442 ekos/focus/focus.cpp:3919
+#: ekos/capture/capture.cpp:6442 ekos/focus/focus.cpp:3918
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6096,14 +6096,14 @@ msgstr ""
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1527 ekos/focus/focus.cpp:1315
+#: ekos/align/align.cpp:1527 ekos/focus/focus.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "फोटू लोड करत हे ..."
 
 #: ekos/align/align.cpp:1616 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1913
+#: ekos/focus/focus.cpp:1912
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image received."
@@ -6209,7 +6209,7 @@ msgid "Refresh is complete."
 msgstr "%1 आनलाइन हे."
 
 #: ekos/align/align.cpp:2314 ekos/auxiliary/darklibrary.cpp:1411
-#: ekos/focus/focus.cpp:1094
+#: ekos/focus/focus.cpp:1093
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6222,8 +6222,8 @@ msgid "Solver aborted after %1 seconds."
 msgstr "एफआईटीएस फाइल ल %1 मं सहेजिस"
 
 #: ekos/align/align.cpp:2363 ekos/capture/capture.cpp:2767
-#: ekos/focus/focus.cpp:3160 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:852 ekos/observatory/observatory.cpp:951
+#: ekos/focus/focus.cpp:3159 ekos/guide/guide.cpp:1105 ekos/manager.cpp:1883
+#: ekos/mount/mount.cpp:809 ekos/observatory/observatory.cpp:951
 #: ekos/scheduler/scheduler.cpp:891
 #, fuzzy, kde-format
 #| msgid "%1 and %2"
@@ -6400,7 +6400,7 @@ msgid "dDE (arcsec)"
 msgstr "आर्कसेकन्ड"
 
 #: ekos/align/align.cpp:3323 ekos/capture/capture.cpp:6645
-#: ekos/focus/focus.cpp:3824
+#: ekos/focus/focus.cpp:3823
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -6440,8 +6440,8 @@ msgstr "सब्बो परिक्रमापथ पुछल्ले स
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4359
 #: ekos/capture/capture.cpp:4773 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4404 ekos/scheduler/scheduler.cpp:4776
-#: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:834
-#: tools/scriptbuilder.cpp:931
+#: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:830
+#: tools/scriptbuilder.cpp:927
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "अवैध यूआरएल: %1"
@@ -6466,8 +6466,8 @@ msgstr "फोटू : %1 सहेजेने मं अक्छम"
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:68
 #: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:910
-#: tools/observinglist.cpp:1176 tools/scriptbuilder.cpp:822
-#: tools/scriptbuilder.cpp:902 tools/scriptbuilder.cpp:985
+#: tools/observinglist.cpp:1176 tools/scriptbuilder.cpp:818
+#: tools/scriptbuilder.cpp:898 tools/scriptbuilder.cpp:981
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
 msgstr "फाइल खोल नइ सकिस"
@@ -14112,13 +14112,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7042 ekos/focus/focus.cpp:3961
+#: ekos/capture/capture.cpp:7042 ekos/focus/focus.cpp:3960
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/capture/capture.cpp:7065 ekos/focus/focus.cpp:3966
+#: ekos/capture/capture.cpp:7065 ekos/focus/focus.cpp:3965
 #: ekos/guide/guide.cpp:879
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -14760,7 +14760,7 @@ msgstr "लुकाए चीज कान्फिगर करव"
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
 #: ekos/capture/capture.ui:2090 ekos/mount/mount.ui:788
-#: tools/scriptbuilder.cpp:687
+#: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "सीमा"
@@ -15848,112 +15848,112 @@ msgstr ""
 msgid "Focus Options Profile Editor"
 msgstr "छोटेफोटू संपादक "
 
-#: ekos/focus/focus.cpp:897
+#: ekos/focus/focus.cpp:896
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No Focuser connected."
 msgstr "आईएनडीआई के उपकरन कनेक्सन पोर्ट सेट करव."
 
-#: ekos/focus/focus.cpp:904 ekos/focus/focus.cpp:3208
+#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3207
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
 msgstr "आईएनडीआई के उपकरन कनेक्सन पोर्ट सेट करव."
 
-#: ekos/focus/focus.cpp:911
+#: ekos/focus/focus.cpp:910
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:919
+#: ekos/focus/focus.cpp:918
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1000
+#: ekos/focus/focus.cpp:999
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1002
+#: ekos/focus/focus.cpp:1001
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1021
+#: ekos/focus/focus.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation started"
 msgstr "इनपुट निर्देसांक चुनव"
 
-#: ekos/focus/focus.cpp:1100
+#: ekos/focus/focus.cpp:1099
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "डोम क्रीक"
 
-#: ekos/focus/focus.cpp:1135
+#: ekos/focus/focus.cpp:1134
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus aborted."
 msgstr "पूरा"
 
-#: ekos/focus/focus.cpp:1215
+#: ekos/focus/focus.cpp:1214
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1222
+#: ekos/focus/focus.cpp:1221
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "कनेक्सन"
 
-#: ekos/focus/focus.cpp:1243
+#: ekos/focus/focus.cpp:1242
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1249
+#: ekos/focus/focus.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "कनेक्सन"
 
-#: ekos/focus/focus.cpp:1384 ekos/focus/focus.cpp:3549
+#: ekos/focus/focus.cpp:1383 ekos/focus/focus.cpp:3548
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1391 ekos/focus/focus.cpp:3556
+#: ekos/focus/focus.cpp:1390 ekos/focus/focus.cpp:3555
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "कनेक्सन"
 
-#: ekos/focus/focus.cpp:1397 ekos/focus/focus.cpp:1442
+#: ekos/focus/focus.cpp:1396 ekos/focus/focus.cpp:1441
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "outward"
 msgstr "सीवार्ड"
 
-#: ekos/focus/focus.cpp:1397 ekos/focus/focus.cpp:1442
+#: ekos/focus/focus.cpp:1396 ekos/focus/focus.cpp:1441
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "inward"
 msgstr "सीवार्ड"
 
-#: ekos/focus/focus.cpp:1413
+#: ekos/focus/focus.cpp:1412
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 steps..."
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1419
+#: ekos/focus/focus.cpp:1418
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 step..."
@@ -15961,60 +15961,60 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "ये मं फोकसः"
 msgstr[1] "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1425
+#: ekos/focus/focus.cpp:1424
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 ms..."
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1438
+#: ekos/focus/focus.cpp:1437
 #, kde-format
 msgid "Focuser is not responding to commands. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1446
+#: ekos/focus/focus.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing to %1 steps..."
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1451
+#: ekos/focus/focus.cpp:1450
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing %2 by %1 steps..."
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1457
+#: ekos/focus/focus.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out. Focusing %2 by %1 ms..."
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:1501
+#: ekos/focus/focus.cpp:1500
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "पूरा"
 
-#: ekos/focus/focus.cpp:1544
+#: ekos/focus/focus.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "नवा डाटा डाउनलोड करव..."
 
-#: ekos/focus/focus.cpp:1661
+#: ekos/focus/focus.cpp:1660
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "इनपुट निर्देसांक चुनव"
 
-#: ekos/focus/focus.cpp:1670
+#: ekos/focus/focus.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation failed"
 msgstr "इनपुट निर्देसांक चुनव"
 
-#: ekos/focus/focus.cpp:1698
+#: ekos/focus/focus.cpp:1697
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus procedure completed after %1 iteration."
@@ -16022,207 +16022,207 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "पूरा"
 msgstr[1] "पूरा"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1778
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling for %1s..."
 msgstr "सेटिंग (&S)"
 
-#: ekos/focus/focus.cpp:1786
+#: ekos/focus/focus.cpp:1785
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "पूरा"
 
-#: ekos/focus/focus.cpp:1799
+#: ekos/focus/focus.cpp:1798
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1835
+#: ekos/focus/focus.cpp:1834
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1989
+#: ekos/focus/focus.cpp:1988
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2085
+#: ekos/focus/focus.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "निर्देसांक ग्रिड टागल करव"
 
-#: ekos/focus/focus.cpp:2118
+#: ekos/focus/focus.cpp:2117
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2218
+#: ekos/focus/focus.cpp:2217
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2229 ekos/focus/focus.cpp:2837
+#: ekos/focus/focus.cpp:2228 ekos/focus/focus.cpp:2836
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2238 ekos/focus/focus.cpp:2843
+#: ekos/focus/focus.cpp:2237 ekos/focus/focus.cpp:2842
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "फोटू लोड करे मं फेल"
 
-#: ekos/focus/focus.cpp:2243 ekos/focus/focus.cpp:2848
+#: ekos/focus/focus.cpp:2242 ekos/focus/focus.cpp:2847
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2436
+#: ekos/focus/focus.cpp:2435
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2443
+#: ekos/focus/focus.cpp:2442
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2486
+#: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2488
+#: ekos/focus/focus.cpp:2487
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2548
+#: ekos/focus/focus.cpp:2547
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2554
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2660
+#: ekos/focus/focus.cpp:2659
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2724
+#: ekos/focus/focus.cpp:2723
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2735
+#: ekos/focus/focus.cpp:2734
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2745
+#: ekos/focus/focus.cpp:2744
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2774
+#: ekos/focus/focus.cpp:2773
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2822
+#: ekos/focus/focus.cpp:2821
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2826
+#: ekos/focus/focus.cpp:2825
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2912 ekos/focus/focus.cpp:2925
-#: ekos/focus/focus.cpp:3014 ekos/focus/focus.cpp:3062
-#: ekos/focus/focus.cpp:3111 ekos/focus/focus.cpp:3152
+#: ekos/focus/focus.cpp:2911 ekos/focus/focus.cpp:2924
+#: ekos/focus/focus.cpp:3013 ekos/focus/focus.cpp:3061
+#: ekos/focus/focus.cpp:3110 ekos/focus/focus.cpp:3151
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2994 ekos/focus/focus.cpp:3046
-#: ekos/focus/focus.cpp:3095 ekos/focus/focus.cpp:3127
+#: ekos/focus/focus.cpp:2993 ekos/focus/focus.cpp:3045
+#: ekos/focus/focus.cpp:3094 ekos/focus/focus.cpp:3126
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Restarting autofocus process..."
 msgstr "मं चालू:"
 
-#: ekos/focus/focus.cpp:3226
+#: ekos/focus/focus.cpp:3225
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting continuous exposure..."
 msgstr "मं चालू:"
 
-#: ekos/focus/focus.cpp:3431
+#: ekos/focus/focus.cpp:3430
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3436
+#: ekos/focus/focus.cpp:3435
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "कोई चीज चुने नइ गे हे."
 
-#: ekos/focus/focus.cpp:3528
+#: ekos/focus/focus.cpp:3527
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3534
+#: ekos/focus/focus.cpp:3533
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3660
+#: ekos/focus/focus.cpp:3659
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "ये मं फोकसः"
 
-#: ekos/focus/focus.cpp:3979
+#: ekos/focus/focus.cpp:3978
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image again..."
 msgstr "फोटू लोड करत हे ..."
 
-#: ekos/focus/focus.cpp:3994
+#: ekos/focus/focus.cpp:3993
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "फोटू लोड करे मं फेल"
 
-#: ekos/focus/focus.cpp:4004
+#: ekos/focus/focus.cpp:4003
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/focus/focus.cpp:4179
+#: ekos/focus/focus.cpp:4178
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -20133,7 +20133,65 @@ msgstr "मार्गदर्सक"
 msgid "guide star"
 msgstr "मार्गदर्सक"
 
-#: ekos/manager/meridianflipstate.cpp:101 ekos/observatory/observatory.cpp:1027
+#: ekos/manager/meridianflipstate.cpp:58
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (no scope connected)"
+msgstr "स्थिति"
+
+#: ekos/manager/meridianflipstate.cpp:65
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (flip not requested)"
+msgstr "स्थिति"
+
+#: ekos/manager/meridianflipstate.cpp:72 ekos/manager/meridianflipstate.cpp:444
+#, fuzzy, kde-format
+#| msgid "&Automatic display of FITS"
+msgid "Meridian flip inactive (parked)"
+msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
+
+#: ekos/manager/meridianflipstate.cpp:78
+#, fuzzy, kde-format
+#| msgid "Status"
+msgid "Meridian flip inactive (no target set)"
+msgstr "स्थिति"
+
+#: ekos/manager/meridianflipstate.cpp:117
+#, fuzzy, kde-format
+#| msgid "&Automatic display of FITS"
+msgid "Meridian flip inactive (slew after meridian)"
+msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
+
+#: ekos/manager/meridianflipstate.cpp:133
+#, fuzzy, kde-format
+#| msgid "&Automatic display of FITS"
+msgid "Meridian flip in %1"
+msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
+
+#: ekos/manager/meridianflipstate.cpp:185
+#, kde-format
+msgid "Meridian flip failed - time too short, pier side unknown."
+msgstr ""
+
+#: ekos/manager/meridianflipstate.cpp:210
+#, fuzzy, kde-format
+#| msgid "&Automatic display of FITS"
+msgid "meridian flip failed, retrying in 4 minutes"
+msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
+
+#: ekos/manager/meridianflipstate.cpp:214
+#, kde-format
+msgid "No successful Meridian Flip done, delay too long"
+msgstr ""
+
+#: ekos/manager/meridianflipstate.cpp:221
+#, fuzzy, kde-format
+#| msgid "&Automatic display of FITS"
+msgid "Meridian flip completed OK."
+msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
+
+#: ekos/manager/meridianflipstate.cpp:338 ekos/observatory/observatory.cpp:1027
 #: ekos/observatory/observatory.cpp:1038
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -20142,31 +20200,31 @@ msgstr "मार्गदर्सक"
 msgid "Status: inactive"
 msgstr "स्थिति"
 
-#: ekos/manager/meridianflipstate.cpp:105
+#: ekos/manager/meridianflipstate.cpp:342
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip planned..."
 msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
-#: ekos/manager/meridianflipstate.cpp:109
+#: ekos/manager/meridianflipstate.cpp:346
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip waiting..."
 msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
-#: ekos/manager/meridianflipstate.cpp:113
+#: ekos/manager/meridianflipstate.cpp:350
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
-msgid "Meridian ready to start..."
+msgid "Meridian flip ready to start..."
 msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
-#: ekos/manager/meridianflipstate.cpp:117
+#: ekos/manager/meridianflipstate.cpp:354
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip running..."
 msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
-#: ekos/manager/meridianflipstate.cpp:121
+#: ekos/manager/meridianflipstate.cpp:358
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip completed."
@@ -20192,189 +20250,125 @@ msgid "Mount Configuration"
 msgstr "मिटाना पुस्टिकरन"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:138 ekos/mount/mount.ui:579
+#: ekos/mount/mount.cpp:133 ekos/mount/mount.ui:579
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
 msgid "Mount Control"
 msgstr "मांट्रियल"
 
-#: ekos/mount/mount.cpp:367
+#: ekos/mount/mount.cpp:363
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:382
+#: ekos/mount/mount.cpp:378
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:383
+#: ekos/mount/mount.cpp:379
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "GPS Settings"
 msgstr "सेटिंग (&S)"
 
-#: ekos/mount/mount.cpp:511
+#: ekos/mount/mount.cpp:507
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "का आप मन सही मं क्लायंट %1 ल मिटाना चाहथो ?"
 
-#: ekos/mount/mount.cpp:512
+#: ekos/mount/mount.cpp:508
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "ट्रैक"
 
-#: ekos/mount/mount.cpp:599
+#: ekos/mount/mount.cpp:595
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:615
+#: ekos/mount/mount.cpp:611
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:667
+#: ekos/mount/mount.cpp:663
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:747 ekos/mount/mount.cpp:1149
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "Meridian flip inactive (parked)"
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:811
+#: ekos/mount/mount.cpp:775
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:825
+#: ekos/mount/mount.cpp:789
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:863
+#: ekos/mount/mount.cpp:820
 #, fuzzy, kde-format
 #| msgid "1"
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "1"
 
-#: ekos/mount/mount.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (no scope connected)"
-msgstr "स्थिति"
-
-#: ekos/mount/mount.cpp:1142
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (flip not requested)"
-msgstr "स्थिति"
-
-#: ekos/mount/mount.cpp:1156
-#, fuzzy, kde-format
-#| msgid "Status"
-msgid "Meridian flip inactive (no target set)"
-msgstr "स्थिति"
-
-#: ekos/mount/mount.cpp:1196
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "Meridian flip inactive (slew after meridian)"
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:1212
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "Meridian flip in %1"
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:1264
-#, kde-format
-msgid "Meridian flip failed - time too short, pier side unknown."
-msgstr ""
-
-#: ekos/mount/mount.cpp:1289
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "meridian flip failed, retrying in 4 minutes"
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:1293
-#, kde-format
-msgid "No successful Meridian Flip done, delay too long"
-msgstr ""
-
-#: ekos/mount/mount.cpp:1301
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "Meridian flip completed OK."
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:1348
-#, fuzzy, kde-format
-#| msgid "&Automatic display of FITS"
-msgid "Meridian flip slew started..."
-msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
-
-#: ekos/mount/mount.cpp:1688
+#: ekos/mount/mount.cpp:1404
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Alignment Model cleared."
 msgstr "केलिएन्टे"
 
-#: ekos/mount/mount.cpp:1692
+#: ekos/mount/mount.cpp:1408
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Failed to clear Alignment Model."
 msgstr "ये मं फोकसः"
 
-#: ekos/mount/mount.cpp:1802 ekos/scheduler/scheduler.cpp:6179
+#: ekos/mount/mount.cpp:1518 ekos/scheduler/scheduler.cpp:6179
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1827
+#: ekos/mount/mount.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking time cannot be in the past."
 msgstr "रेडियोटेलिस्कोप"
 
-#: ekos/mount/mount.cpp:1836
+#: ekos/mount/mount.cpp:1552
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1841
+#: ekos/mount/mount.cpp:1557
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1843
+#: ekos/mount/mount.cpp:1559
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1862
+#: ekos/mount/mount.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking timer is up."
 msgstr "रेडियोटेलिस्कोप"
 
-#: ekos/mount/mount.cpp:1871
+#: ekos/mount/mount.cpp:1587
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting auto park..."
@@ -30472,7 +30466,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
-#: kstars.kcfg:740 tools/scriptbuilder.cpp:666
+#: kstars.kcfg:740 tools/scriptbuilder.cpp:662
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
 msgstr "केंद्रित सौर मन्डल के अवयव पुछल्ला अपने अपन जोड़व?"
@@ -70718,8 +70712,8 @@ msgctxt "@title:window"
 msgid "Export Image"
 msgstr "ईस्टपोर्ट"
 
-#: kstarsactions.cpp:1343 tools/scriptbuilder.cpp:797
-#: tools/scriptbuilder.cpp:865
+#: kstarsactions.cpp:1343 tools/scriptbuilder.cpp:793
+#: tools/scriptbuilder.cpp:861
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
@@ -71763,7 +71757,7 @@ msgid " Welcome to KStars "
 msgstr "के-स्टार मं आप मन के स्वागत हे"
 
 #: kstarsinit.cpp:859 kstarsliteinit.cpp:65 skymap.cpp:342 skymaplite.cpp:324
-#: widgets/infoboxwidget.cpp:115
+#: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "कुछ नइ"
@@ -72920,7 +72914,7 @@ msgstr "चीज-नाम"
 msgid "Constellation Lines"
 msgstr "नक्छत्र पंक्तियाँ"
 
-#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:582
+#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:578
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
 msgstr "नक्छत्र नाम"
@@ -78487,7 +78481,7 @@ msgstr ""
 msgid "Show objects of unknown magnitude"
 msgstr "एखर से जादा चमकीले चीज मन ल चुनव:"
 
-#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:746
+#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:742
 #, kde-format
 msgctxt "use 'moonless night' color scheme"
 msgid "Moonless Night"
@@ -79758,7 +79752,7 @@ msgid "Field of View Snapshot Browser"
 msgstr "फील्ड-ओफ-व्यू (आर्कमिन):"
 
 #: printing/foveditordialog.cpp:198 printing/pwizprint.cpp:127
-#: tools/scriptbuilder.cpp:923
+#: tools/scriptbuilder.cpp:919
 #, kde-format
 msgid "Could not upload file"
 msgstr "फाइल अपलोड नइ कर सकिस"
@@ -83006,13 +83000,13 @@ msgid ""
 "<b>Small red cross</b> in the combo box."
 msgstr ""
 
-#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:122
+#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
 msgctxt "Right Ascension"
 msgid "RA"
 msgstr "आरए"
 
-#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:122
+#: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
 msgctxt "Declination"
 msgid "Dec"
@@ -83092,14 +83086,14 @@ msgid "Region"
 msgstr "रेजऊना"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:99 widgets/infoboxwidget.cpp:124
+#: tools/observinglist.cpp:99 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Az"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:98 widgets/infoboxwidget.cpp:124
+#: tools/observinglist.cpp:98 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
@@ -83328,8 +83322,8 @@ msgstr "दुसरा स्थिति"
 #: tools/modcalcgeodcoord.cpp:230 tools/modcalcjd.cpp:116
 #: tools/modcalcplanets.cpp:194 tools/modcalcsidtime.cpp:204
 #: tools/modcalcvizequinox.cpp:68 tools/modcalcvlsr.cpp:289
-#: tools/scriptbuilder.cpp:822 tools/scriptbuilder.cpp:901
-#: tools/scriptbuilder.cpp:984
+#: tools/scriptbuilder.cpp:818 tools/scriptbuilder.cpp:897
+#: tools/scriptbuilder.cpp:980
 #, kde-format
 msgid "Could not open file %1."
 msgstr "फाइल %1 खोल नइ सकिस."
@@ -85318,133 +85312,133 @@ msgctxt "@title:window"
 msgid "Options"
 msgstr "विकल्प"
 
-#: tools/scriptbuilder.cpp:126
+#: tools/scriptbuilder.cpp:122
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgctxt "@title:window"
 msgid "Script Data"
 msgstr "स्क्रिप्ट डाटा"
 
-#: tools/scriptbuilder.cpp:167
+#: tools/scriptbuilder.cpp:163
 #, fuzzy, kde-format
 #| msgid "Script Builder"
 msgctxt "@title:window"
 msgid "Script Builder"
 msgstr "स्क्रिप्ट बिल्डर"
 
-#: tools/scriptbuilder.cpp:177
+#: tools/scriptbuilder.cpp:173
 #, kde-format
 msgid ""
 "Point the display at the specified location. %1 can be the name of an "
 "object, a cardinal point on the compass, or 'zenith'."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:182
+#: tools/scriptbuilder.cpp:178
 #, fuzzy, kde-format
 #| msgid "Show name label of centered object?"
 msgid "Add a name label to the object named %1."
 msgstr "केंद्रित चीज के नाम लेबल देखाव?"
 
-#: tools/scriptbuilder.cpp:184
+#: tools/scriptbuilder.cpp:180
 #, kde-format
 msgid "Remove the name label from the object named %1."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:187
+#: tools/scriptbuilder.cpp:183
 #, fuzzy, kde-format
 #| msgid "Automatically add trail to centered solar system body?"
 msgid "Add a trail to the solar system body named %1."
 msgstr "केंद्रित सौर मन्डल के अवयव पुछल्ला अपने अपन जोड़व?"
 
-#: tools/scriptbuilder.cpp:189
+#: tools/scriptbuilder.cpp:185
 #, kde-format
 msgid "Remove the trail from the solar system body named %1."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:192
+#: tools/scriptbuilder.cpp:188
 #, kde-format
 msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
 "Hours; Dec is expressed in Degrees."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:197
+#: tools/scriptbuilder.cpp:193
 #, kde-format
 msgid ""
 "Point the display at the specified Alt/Az coordinates.  Alt and Az are "
 "expressed in Degrees."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:199
+#: tools/scriptbuilder.cpp:195
 #, kde-format
 msgid "Increase the display Zoom Level."
 msgstr "जूम स्तर प्रदर्सक बढ़ाव"
 
-#: tools/scriptbuilder.cpp:200
+#: tools/scriptbuilder.cpp:196
 #, kde-format
 msgid "Decrease the display Zoom Level."
 msgstr "जूम स्तर प्रदर्सक घटाव"
 
-#: tools/scriptbuilder.cpp:202
+#: tools/scriptbuilder.cpp:198
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
 msgstr "प्रदर्सक जूम स्तर एखर डिफाल्ट मान मं सेट करथे ."
 
-#: tools/scriptbuilder.cpp:204
+#: tools/scriptbuilder.cpp:200
 #, kde-format
 msgid "Set the display Zoom Level manually."
 msgstr "जूम स्तर प्रदर्सक हस्तचालित सेट करव"
 
-#: tools/scriptbuilder.cpp:206
+#: tools/scriptbuilder.cpp:202
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
 msgstr "तंत्र घड़ी ल निरधारित लोकल समय मं सेट करव."
 
-#: tools/scriptbuilder.cpp:209
+#: tools/scriptbuilder.cpp:205
 #, kde-format
 msgid "Pause script execution for specified number of seconds."
 msgstr "स्क्रिप्ट ल चलाना निरधारित सेकन्डों तक ठहराए रहें."
 
-#: tools/scriptbuilder.cpp:211
+#: tools/scriptbuilder.cpp:207
 #, kde-format
 msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:215
+#: tools/scriptbuilder.cpp:211
 #, kde-format
 msgid "Set whether the display is tracking the current location."
 msgstr "नियत करव कि का प्रदर्सक अभी हाल के जगह ल ट्रेक करथे "
 
-#: tools/scriptbuilder.cpp:217
+#: tools/scriptbuilder.cpp:213
 #, kde-format
 msgid "Change view option named %1 to value %2."
 msgstr " %1 नाम के दृस्य विकल्प ल मूल्य %2 मं बदलव."
 
-#: tools/scriptbuilder.cpp:220
+#: tools/scriptbuilder.cpp:216
 #, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
 "country."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:223
+#: tools/scriptbuilder.cpp:219
 #, kde-format
 msgid "Set the color named %1 to the value %2."
 msgstr " %1 नाम के रंग ल मूल्य %2 मं बदलव."
 
-#: tools/scriptbuilder.cpp:225
+#: tools/scriptbuilder.cpp:221
 #, kde-format
 msgid "Load the color scheme specified by name."
 msgstr "नाम से निरधारित रंग योजना लोड करव."
 
-#: tools/scriptbuilder.cpp:228
+#: tools/scriptbuilder.cpp:224
 #, kde-format
 msgid "Export the sky image to the file, with specified width and height."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:232
+#: tools/scriptbuilder.cpp:228
 #, kde-format
 msgid ""
 "Print the sky image to a printer or file.  If %1 is true, it will show the "
@@ -85452,406 +85446,406 @@ msgid ""
 "printing."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:236
+#: tools/scriptbuilder.cpp:232
 #, kde-format
 msgid "Halt the simulation clock."
 msgstr "सिमुलेसन घड़ी बन्द करव"
 
-#: tools/scriptbuilder.cpp:237
+#: tools/scriptbuilder.cpp:233
 #, kde-format
 msgid "Start the simulation clock."
 msgstr "सिमुलेसन घड़ी चालू करव"
 
-#: tools/scriptbuilder.cpp:239
+#: tools/scriptbuilder.cpp:235
 #, kde-format
 msgid ""
 "Set the timescale of the simulation clock to specified scale.  1.0 means "
 "real-time; 2.0 means twice real-time; etc."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:257
+#: tools/scriptbuilder.cpp:253
 #, kde-format
 msgid "Functions"
 msgstr "फंक्सन्स"
 
-#: tools/scriptbuilder.cpp:408
+#: tools/scriptbuilder.cpp:404
 #, kde-format
 msgid "InfoBoxes"
 msgstr "जानकारी-बक्से"
 
-#: tools/scriptbuilder.cpp:409
+#: tools/scriptbuilder.cpp:405
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
 msgstr "सब्बो जानकारी-डब्बा मन ल दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:409 tools/scriptbuilder.cpp:412
-#: tools/scriptbuilder.cpp:415 tools/scriptbuilder.cpp:418
-#: tools/scriptbuilder.cpp:421 tools/scriptbuilder.cpp:424
-#: tools/scriptbuilder.cpp:427 tools/scriptbuilder.cpp:441
-#: tools/scriptbuilder.cpp:444 tools/scriptbuilder.cpp:453
-#: tools/scriptbuilder.cpp:456 tools/scriptbuilder.cpp:463
-#: tools/scriptbuilder.cpp:466 tools/scriptbuilder.cpp:469
-#: tools/scriptbuilder.cpp:472 tools/scriptbuilder.cpp:475
-#: tools/scriptbuilder.cpp:478 tools/scriptbuilder.cpp:481
-#: tools/scriptbuilder.cpp:484 tools/scriptbuilder.cpp:487
-#: tools/scriptbuilder.cpp:490 tools/scriptbuilder.cpp:496
-#: tools/scriptbuilder.cpp:499 tools/scriptbuilder.cpp:520
-#: tools/scriptbuilder.cpp:523 tools/scriptbuilder.cpp:526
-#: tools/scriptbuilder.cpp:529 tools/scriptbuilder.cpp:532
-#: tools/scriptbuilder.cpp:535 tools/scriptbuilder.cpp:538
-#: tools/scriptbuilder.cpp:541 tools/scriptbuilder.cpp:544
-#: tools/scriptbuilder.cpp:547 tools/scriptbuilder.cpp:550
-#: tools/scriptbuilder.cpp:553 tools/scriptbuilder.cpp:556
-#: tools/scriptbuilder.cpp:559 tools/scriptbuilder.cpp:562
-#: tools/scriptbuilder.cpp:583 tools/scriptbuilder.cpp:586
-#: tools/scriptbuilder.cpp:589 tools/scriptbuilder.cpp:598
-#: tools/scriptbuilder.cpp:604 tools/scriptbuilder.cpp:607
-#: tools/scriptbuilder.cpp:610 tools/scriptbuilder.cpp:613
-#: tools/scriptbuilder.cpp:616 tools/scriptbuilder.cpp:619
-#: tools/scriptbuilder.cpp:622 tools/scriptbuilder.cpp:637
-#: tools/scriptbuilder.cpp:653 tools/scriptbuilder.cpp:656
-#: tools/scriptbuilder.cpp:659 tools/scriptbuilder.cpp:663
-#: tools/scriptbuilder.cpp:666 tools/scriptbuilder.cpp:670
+#: tools/scriptbuilder.cpp:405 tools/scriptbuilder.cpp:408
+#: tools/scriptbuilder.cpp:411 tools/scriptbuilder.cpp:414
+#: tools/scriptbuilder.cpp:417 tools/scriptbuilder.cpp:420
+#: tools/scriptbuilder.cpp:423 tools/scriptbuilder.cpp:437
+#: tools/scriptbuilder.cpp:440 tools/scriptbuilder.cpp:449
+#: tools/scriptbuilder.cpp:452 tools/scriptbuilder.cpp:459
+#: tools/scriptbuilder.cpp:462 tools/scriptbuilder.cpp:465
+#: tools/scriptbuilder.cpp:468 tools/scriptbuilder.cpp:471
+#: tools/scriptbuilder.cpp:474 tools/scriptbuilder.cpp:477
+#: tools/scriptbuilder.cpp:480 tools/scriptbuilder.cpp:483
+#: tools/scriptbuilder.cpp:486 tools/scriptbuilder.cpp:492
+#: tools/scriptbuilder.cpp:495 tools/scriptbuilder.cpp:516
+#: tools/scriptbuilder.cpp:519 tools/scriptbuilder.cpp:522
+#: tools/scriptbuilder.cpp:525 tools/scriptbuilder.cpp:528
+#: tools/scriptbuilder.cpp:531 tools/scriptbuilder.cpp:534
+#: tools/scriptbuilder.cpp:537 tools/scriptbuilder.cpp:540
+#: tools/scriptbuilder.cpp:543 tools/scriptbuilder.cpp:546
+#: tools/scriptbuilder.cpp:549 tools/scriptbuilder.cpp:552
+#: tools/scriptbuilder.cpp:555 tools/scriptbuilder.cpp:558
+#: tools/scriptbuilder.cpp:579 tools/scriptbuilder.cpp:582
+#: tools/scriptbuilder.cpp:585 tools/scriptbuilder.cpp:594
+#: tools/scriptbuilder.cpp:600 tools/scriptbuilder.cpp:603
+#: tools/scriptbuilder.cpp:606 tools/scriptbuilder.cpp:609
+#: tools/scriptbuilder.cpp:612 tools/scriptbuilder.cpp:615
+#: tools/scriptbuilder.cpp:618 tools/scriptbuilder.cpp:633
+#: tools/scriptbuilder.cpp:649 tools/scriptbuilder.cpp:652
+#: tools/scriptbuilder.cpp:655 tools/scriptbuilder.cpp:659
+#: tools/scriptbuilder.cpp:662 tools/scriptbuilder.cpp:666
 #, kde-format
 msgid "bool"
 msgstr "बूल"
 
-#: tools/scriptbuilder.cpp:412
+#: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of Time InfoBox"
 msgstr "समय जानकारी-डब्बा प्रदर्सन टागल करव"
 
-#: tools/scriptbuilder.cpp:415
+#: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
 msgstr "जियोग्राफिक जानकारी-डब्बा प्रदर्सन टागल करव"
 
-#: tools/scriptbuilder.cpp:418
+#: tools/scriptbuilder.cpp:414
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
 msgstr "फोकस जानकारी-डब्बा प्रदर्सन टागल करव"
 
-#: tools/scriptbuilder.cpp:421
+#: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "(un)Shade Time InfoBox"
 msgstr "समय जानकारी-डब्बा छइंहादार (नइ) करव"
 
-#: tools/scriptbuilder.cpp:424
+#: tools/scriptbuilder.cpp:420
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
 msgstr "जियोग्राफिक जानकारी-डब्बा छइंहादार (नइ) करव"
 
-#: tools/scriptbuilder.cpp:427
+#: tools/scriptbuilder.cpp:423
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
 msgstr "फोकस जानकारी-डब्बा छइंहादार (नइ) करव"
 
-#: tools/scriptbuilder.cpp:440
+#: tools/scriptbuilder.cpp:436
 #, kde-format
 msgid "Toolbars"
 msgstr "औजार पट्टी मन"
 
-#: tools/scriptbuilder.cpp:441
+#: tools/scriptbuilder.cpp:437
 #, kde-format
 msgid "Toggle display of main toolbar"
 msgstr "मुख्य औजारपट्टी दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:444
+#: tools/scriptbuilder.cpp:440
 #, kde-format
 msgid "Toggle display of view toolbar"
 msgstr "दृस्य औजारपट्टी दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:452
+#: tools/scriptbuilder.cpp:448
 #, kde-format
 msgid "Show Objects"
 msgstr "चीज देखाव"
 
-#: tools/scriptbuilder.cpp:453
+#: tools/scriptbuilder.cpp:449
 #, kde-format
 msgid "Toggle display of Stars"
 msgstr "तारे दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:456
+#: tools/scriptbuilder.cpp:452
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
 msgstr "गहरे आकास के चीज दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:463
+#: tools/scriptbuilder.cpp:459
 #, kde-format
 msgid "Toggle display of all solar system bodies"
 msgstr "सौर मन्डल के सब्बो अवयव मन ल दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:466
+#: tools/scriptbuilder.cpp:462
 #, kde-format
 msgid "Toggle display of Sun"
 msgstr "सुरुज दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:469
+#: tools/scriptbuilder.cpp:465
 #, kde-format
 msgid "Toggle display of Moon"
 msgstr "चन्द्रमा दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:472
+#: tools/scriptbuilder.cpp:468
 #, kde-format
 msgid "Toggle display of Mercury"
 msgstr "बुध ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:475
+#: tools/scriptbuilder.cpp:471
 #, kde-format
 msgid "Toggle display of Venus"
 msgstr "सुक्र ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:478
+#: tools/scriptbuilder.cpp:474
 #, kde-format
 msgid "Toggle display of Mars"
 msgstr "मंगल ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:481
+#: tools/scriptbuilder.cpp:477
 #, kde-format
 msgid "Toggle display of Jupiter"
 msgstr "वृहस्पति दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:484
+#: tools/scriptbuilder.cpp:480
 #, kde-format
 msgid "Toggle display of Saturn"
 msgstr "सनि ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:487
+#: tools/scriptbuilder.cpp:483
 #, kde-format
 msgid "Toggle display of Uranus"
 msgstr "उरन ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:490
+#: tools/scriptbuilder.cpp:486
 #, kde-format
 msgid "Toggle display of Neptune"
 msgstr "वरून ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:496
+#: tools/scriptbuilder.cpp:492
 #, kde-format
 msgid "Toggle display of Asteroids"
 msgstr "छुद्र ग्रह दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:499
+#: tools/scriptbuilder.cpp:495
 #, kde-format
 msgid "Toggle display of Comets"
 msgstr "धूमकेतु दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:519
+#: tools/scriptbuilder.cpp:515
 #, kde-format
 msgid "Show Other"
 msgstr "अऊ दूसर देखाव"
 
-#: tools/scriptbuilder.cpp:520
+#: tools/scriptbuilder.cpp:516
 #, kde-format
 msgid "Toggle display of constellation lines"
 msgstr "नक्छत्र पंक्तियों ल दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:523
+#: tools/scriptbuilder.cpp:519
 #, kde-format
 msgid "Toggle display of constellation boundaries"
 msgstr "नक्छत्र सीमा दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:526
+#: tools/scriptbuilder.cpp:522
 #, kde-format
 msgid "Toggle display of constellation names"
 msgstr "नक्छत्र नाम दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:529
+#: tools/scriptbuilder.cpp:525
 #, kde-format
 msgid "Toggle display of Milky Way"
 msgstr "मिल्की ओ मन दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:532
+#: tools/scriptbuilder.cpp:528
 #, kde-format
 msgid "Toggle display of the coordinate grid"
 msgstr "निर्देसांक ग्रिड ल दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:535
+#: tools/scriptbuilder.cpp:531
 #, kde-format
 msgid "Toggle display of the celestial equator"
 msgstr "खगोलीय भूमध्य लकीर दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:538
+#: tools/scriptbuilder.cpp:534
 #, kde-format
 msgid "Toggle display of the ecliptic"
 msgstr "एक्लिप्टिक दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:541
+#: tools/scriptbuilder.cpp:537
 #, kde-format
 msgid "Toggle display of the horizon line"
 msgstr "छितिज लकीर दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:544
+#: tools/scriptbuilder.cpp:540
 #, kde-format
 msgid "Toggle display of the opaque ground"
 msgstr "अपारदर्सी मैदान दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:547
+#: tools/scriptbuilder.cpp:543
 #, kde-format
 msgid "Toggle display of star name labels"
 msgstr "तारा नाम लेबल्स दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:550
+#: tools/scriptbuilder.cpp:546
 #, kde-format
 msgid "Toggle display of star magnitude labels"
 msgstr "परिमान लेबल्स दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:553
+#: tools/scriptbuilder.cpp:549
 #, kde-format
 msgid "Toggle display of asteroid name labels"
 msgstr "छुद्रग्रह नाम लेबल्स दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:556
+#: tools/scriptbuilder.cpp:552
 #, kde-format
 msgid "Toggle display of comet name labels"
 msgstr "धूमकेतु नाम लेबल्स दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:559
+#: tools/scriptbuilder.cpp:555
 #, kde-format
 msgid "Toggle display of planet name labels"
 msgstr "ग्रह नाम लेबल्स दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:562
+#: tools/scriptbuilder.cpp:558
 #, kde-format
 msgid "Toggle display of planet images"
 msgstr "ग्रह फोटू दिखाना टागल करव"
 
-#: tools/scriptbuilder.cpp:583
+#: tools/scriptbuilder.cpp:579
 #, kde-format
 msgid "Show Latin constellation names"
 msgstr "लातिन नक्छत्र नाम देखाव"
 
-#: tools/scriptbuilder.cpp:586
+#: tools/scriptbuilder.cpp:582
 #, kde-format
 msgid "Show constellation names in local language"
 msgstr "नक्छत्र नाम लोकल भाखा मं देखाव"
 
-#: tools/scriptbuilder.cpp:589
+#: tools/scriptbuilder.cpp:585
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
 msgstr "आईएयू-मानक नक्छत्र संक्छिप्त नाम देखाव"
 
-#: tools/scriptbuilder.cpp:597
+#: tools/scriptbuilder.cpp:593
 #, kde-format
 msgid "Hide Items"
 msgstr "चीज लुकायव"
 
-#: tools/scriptbuilder.cpp:598
+#: tools/scriptbuilder.cpp:594
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
 msgstr "टागल करव कि जब प्रदर्सक ल घुमाइस जाय तहां का चीज लुकायया जाए"
 
-#: tools/scriptbuilder.cpp:601
+#: tools/scriptbuilder.cpp:597
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
 msgstr "चीज मन ल लुकाय बर टाइमस्टेप सीमा (सेकन्डों में)"
 
-#: tools/scriptbuilder.cpp:601 tools/scriptbuilder.cpp:640
-#: tools/scriptbuilder.cpp:643 tools/scriptbuilder.cpp:708
-#: tools/scriptbuilder.cpp:711 tools/scriptbuilder.cpp:714
-#: tools/scriptbuilder.cpp:718 tools/scriptbuilder.cpp:722
+#: tools/scriptbuilder.cpp:597 tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:639 tools/scriptbuilder.cpp:704
+#: tools/scriptbuilder.cpp:707 tools/scriptbuilder.cpp:710
+#: tools/scriptbuilder.cpp:714 tools/scriptbuilder.cpp:718
 #, kde-format
 msgid "double"
 msgstr "डबल"
 
-#: tools/scriptbuilder.cpp:604
+#: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Hide faint stars while slewing?"
 msgstr "जब घुमाइस जाए, धुंधले तारों ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:607
+#: tools/scriptbuilder.cpp:603
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
 msgstr "जब घुमाय जाए, सौर मन्डल चीज मन ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:610
+#: tools/scriptbuilder.cpp:606
 #, kde-format
 msgid "Hide Milky Way while slewing?"
 msgstr "जब घुमाइस जाए, मिल्की ओ मन ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:613
+#: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide constellation names while slewing?"
 msgstr "जब घुमाइस जाए, नक्छत्र नांव मन ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:616
+#: tools/scriptbuilder.cpp:612
 #, kde-format
 msgid "Hide constellation lines while slewing?"
 msgstr "जब घुमाइस जाए, नक्छत्र पंक्तियों ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:619
+#: tools/scriptbuilder.cpp:615
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
 msgstr "जब घुमाइस जाए, नक्छत्र नांव मन ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:622
+#: tools/scriptbuilder.cpp:618
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
 msgstr "जब घुमाइस जाए, निर्देसांक ग्रिड ल लुकाव?"
 
-#: tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:632
 #, kde-format
 msgid "Skymap Options"
 msgstr "आकास नक्सा विकल्प"
 
-#: tools/scriptbuilder.cpp:637
+#: tools/scriptbuilder.cpp:633
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
 msgstr "छैतिज निर्देसांक उपयोग करव? (नइ तो, उपयोग करव भूमध्यरेखीय)"
 
-#: tools/scriptbuilder.cpp:640
+#: tools/scriptbuilder.cpp:636
 #, kde-format
 msgid "Set the Zoom Factor"
 msgstr "जूम फैक्टर सेट करव"
 
-#: tools/scriptbuilder.cpp:643
+#: tools/scriptbuilder.cpp:639
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
 msgstr "एफओवी चिनहा बर कोनीय आकार सेट करव (आर्क मिन में)"
 
-#: tools/scriptbuilder.cpp:646
+#: tools/scriptbuilder.cpp:642
 #, kde-format
 msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr "एफओवी चिनहा बर आकृति चुनव (0=वर्ग, 1=वृत्त, 2=क्रासहेयर्स, 4=बुल्सआई)"
 
-#: tools/scriptbuilder.cpp:647
+#: tools/scriptbuilder.cpp:643
 #, kde-format
 msgid "int"
 msgstr "int"
 
-#: tools/scriptbuilder.cpp:650
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "Select color for the FOV symbol"
 msgstr "एफओवी चिनहा बर एक रंग चुनव"
 
-#: tools/scriptbuilder.cpp:650
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "string"
 msgstr "स्ट्रिंग"
 
-#: tools/scriptbuilder.cpp:653
+#: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr "एनिमेटेड घुमाव उपयोग करव? (नइ तो, नये फोकस मं \"snap\" करव )"
 
-#: tools/scriptbuilder.cpp:656
+#: tools/scriptbuilder.cpp:652
 #, kde-format
 msgid "Correct for atmospheric refraction?"
 msgstr "वायुमन्डल अपवर्तन बर सुधार करव?"
 
-#: tools/scriptbuilder.cpp:659
+#: tools/scriptbuilder.cpp:655
 #, kde-format
 msgid "Automatically attach name label to centered object?"
 msgstr "केंद्रित चीज मन मनाम लेबल्स अपने अपन लगाव?"
 
-#: tools/scriptbuilder.cpp:662
+#: tools/scriptbuilder.cpp:658
 #, kde-format
 msgid "Attach temporary name label when hovering mouse over an object?"
 msgstr "यदि मुसुवा संकेतक कोनो चीज के ऊपर आथे  तहां अस्थाई नाम लेबल संलग्न करव"
 
-#: tools/scriptbuilder.cpp:669
+#: tools/scriptbuilder.cpp:665
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
 msgstr "ग्रह पुछल्ले आकास रंग मं विलीन हों? (नइ तहां ले रंग स्थिर रहेंगे)"
@@ -85873,77 +85867,77 @@ msgstr "ग्रह पुछल्ले आकास रंग मं वि�
 #. fields.clear();
 #.
 #. FIXME: This description is incorrect! Fix after strings freeze
-#: tools/scriptbuilder.cpp:708
+#: tools/scriptbuilder.cpp:704
 #, kde-format
 msgid "magnitude of faintest star labeled on map"
 msgstr "नक्सा मं लेबल करे बहुत धुंधले तारे के परिमान"
 
-#: tools/scriptbuilder.cpp:711
+#: tools/scriptbuilder.cpp:707
 #, kde-format
 msgid "magnitude of brightest star hidden while slewing"
 msgstr "जब घुमाइस जाय तहां बहुत चमकीले तारे के परिमान"
 
-#: tools/scriptbuilder.cpp:714
+#: tools/scriptbuilder.cpp:710
 #, kde-format
 msgid "magnitude of faintest asteroid drawn on map"
 msgstr "नक्सा मं आरेखित बहुत धुंधले छुद्र ग्रह के परिमान"
 
-#: tools/scriptbuilder.cpp:718
+#: tools/scriptbuilder.cpp:714
 #, kde-format
 msgid "magnitude of faintest asteroid labeled on map"
 msgstr "नक्सा मं लेबल करे बहुत धुंधले छुद्र ग्रह के परिमान"
 
-#: tools/scriptbuilder.cpp:721
+#: tools/scriptbuilder.cpp:717
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:816
+#: tools/scriptbuilder.cpp:812
 #, kde-format
 msgid "Could not download remote file."
 msgstr "रिमोट फाइल डाउनलोड नइ कर सकिस."
 
-#: tools/scriptbuilder.cpp:816
+#: tools/scriptbuilder.cpp:812
 #, kde-format
 msgid "Download Error"
 msgstr "डाउनलोड गलती"
 
-#: tools/scriptbuilder.cpp:948
+#: tools/scriptbuilder.cpp:944
 #, kde-format
 msgid "Save Changes to Script?"
 msgstr "बदलाव मन ल स्क्रिप्ट मं सहेजव?"
 
-#: tools/scriptbuilder.cpp:949
+#: tools/scriptbuilder.cpp:945
 #, kde-format
 msgid ""
 "The current script has unsaved changes.  Would you like to save before "
 "closing it?"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:1111
+#: tools/scriptbuilder.cpp:1107
 #, kde-format
 msgid "Could not parse script.  Line was: %1"
 msgstr "स्क्रिप्ट के व्याख्या नइ करे जा सकिस.  लकीर रहिस: %1"
 
-#: tools/scriptbuilder.cpp:1522 tools/scriptbuilder.cpp:1526
-#: tools/scriptbuilder.cpp:1580 tools/scriptbuilder.cpp:2006
-#: tools/scriptbuilder.cpp:2190 tools/scriptbuilder.cpp:2191
+#: tools/scriptbuilder.cpp:1518 tools/scriptbuilder.cpp:1522
+#: tools/scriptbuilder.cpp:1576 tools/scriptbuilder.cpp:2002
+#: tools/scriptbuilder.cpp:2186 tools/scriptbuilder.cpp:2187
 #, kde-format
 msgid "true"
 msgstr "सही"
 
-#: tools/scriptbuilder.cpp:1667
+#: tools/scriptbuilder.cpp:1663
 #, kde-format
 msgid "Function index out of bounds."
 msgstr "बाउन्ड्स से बाहिर फंक्सन इंडेक्स."
 
-#: tools/scriptbuilder.cpp:2006 tools/scriptbuilder.cpp:2190
-#: tools/scriptbuilder.cpp:2191
+#: tools/scriptbuilder.cpp:2002 tools/scriptbuilder.cpp:2186
+#: tools/scriptbuilder.cpp:2187
 #, kde-format
 msgid "false"
 msgstr "गलत"
 
-#: tools/scriptbuilder.cpp:2833
+#: tools/scriptbuilder.cpp:2829
 #, kde-format
 msgid "Mismatch between function and Arg widget (expected %1.)"
 msgstr "फंक्सन अउ आर्ग विजेट के बीच मिसमैच (वांछित %1.)"
@@ -86943,25 +86937,25 @@ msgstr "नवा..."
 msgid "Previous Year"
 msgstr ""
 
-#: widgets/infoboxwidget.cpp:74
+#: widgets/infoboxwidget.cpp:70
 #, kde-format
 msgctxt "Local Time"
 msgid "LT: "
 msgstr "LT: "
 
-#: widgets/infoboxwidget.cpp:78
+#: widgets/infoboxwidget.cpp:74
 #, kde-format
 msgctxt "Universal Time"
 msgid "UT: "
 msgstr "UT: "
 
-#: widgets/infoboxwidget.cpp:87
+#: widgets/infoboxwidget.cpp:83
 #, kde-format
 msgctxt "Sidereal Time"
 msgid "ST: "
 msgstr "ST: "
 
-#: widgets/infoboxwidget.cpp:87
+#: widgets/infoboxwidget.cpp:83
 #, kde-format
 msgctxt "Julian Day"
 msgid "JD: "
@@ -86969,118 +86963,118 @@ msgstr "JD: "
 
 #. i18nc("Longitude", "Long:") + ' ' + QLocale().toString(geo->lng()->Degrees(), 3) + "   " +
 #. i18nc("Latitude", "Lat:") + ' ' + QLocale().toString(geo->lat()->Degrees(), 3);
-#: widgets/infoboxwidget.cpp:102
+#: widgets/infoboxwidget.cpp:98
 #, kde-format
 msgctxt "Longitude"
 msgid "Long:"
 msgstr "देसां:"
 
-#: widgets/infoboxwidget.cpp:103
+#: widgets/infoboxwidget.cpp:99
 #, kde-format
 msgctxt "Latitude"
 msgid "Lat:"
 msgstr "अच्छां.:"
 
-#: widgets/infoboxwidget.cpp:135
+#: widgets/infoboxwidget.cpp:131
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgctxt "Hour Angle"
 msgid "HA"
 msgstr "RA:"
 
-#: widgets/infoboxwidget.cpp:135
+#: widgets/infoboxwidget.cpp:131
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgctxt "Zenith Angle"
 msgid "ZA"
 msgstr "RA:"
 
-#: widgets/timespinbox.cpp:120 widgets/timespinbox.cpp:121
-#: widgets/timespinbox.cpp:122 widgets/timespinbox.cpp:123
-#: widgets/timespinbox.cpp:125 widgets/timespinbox.cpp:126
-#: widgets/timespinbox.cpp:127 widgets/timespinbox.cpp:128
-#: widgets/timespinbox.cpp:129
+#: widgets/timespinbox.cpp:116 widgets/timespinbox.cpp:117
+#: widgets/timespinbox.cpp:118 widgets/timespinbox.cpp:119
+#: widgets/timespinbox.cpp:121 widgets/timespinbox.cpp:122
+#: widgets/timespinbox.cpp:123 widgets/timespinbox.cpp:124
+#: widgets/timespinbox.cpp:125
 #, kde-format
 msgctxt "seconds"
 msgid "secs"
 msgstr "सेक."
 
-#: widgets/timespinbox.cpp:124
+#: widgets/timespinbox.cpp:120
 #, kde-format
 msgctxt "second"
 msgid "sec"
 msgstr "सेक."
 
-#: widgets/timespinbox.cpp:130
+#: widgets/timespinbox.cpp:126
 #, kde-format
 msgctxt "minute"
 msgid "min"
 msgstr "मि."
 
-#: widgets/timespinbox.cpp:131 widgets/timespinbox.cpp:132
-#: widgets/timespinbox.cpp:133 widgets/timespinbox.cpp:134
-#: widgets/timespinbox.cpp:135
+#: widgets/timespinbox.cpp:127 widgets/timespinbox.cpp:128
+#: widgets/timespinbox.cpp:129 widgets/timespinbox.cpp:130
+#: widgets/timespinbox.cpp:131
 #, kde-format
 msgctxt "minutes"
 msgid "mins"
 msgstr "मिनट"
 
-#: widgets/timespinbox.cpp:136
+#: widgets/timespinbox.cpp:132
 #, kde-format
 msgid "hour"
 msgstr "घंटा"
 
-#: widgets/timespinbox.cpp:137 widgets/timespinbox.cpp:138
-#: widgets/timespinbox.cpp:139 widgets/timespinbox.cpp:140
+#: widgets/timespinbox.cpp:133 widgets/timespinbox.cpp:134
+#: widgets/timespinbox.cpp:135 widgets/timespinbox.cpp:136
 #, kde-format
 msgctxt "hours"
 msgid "hrs"
 msgstr "घंटा"
 
-#: widgets/timespinbox.cpp:146
+#: widgets/timespinbox.cpp:142
 #, fuzzy, kde-format
 msgctxt "sidereal day"
 msgid "sid day"
 msgstr "दिन"
 
-#: widgets/timespinbox.cpp:147
+#: widgets/timespinbox.cpp:143
 #, kde-format
 msgid "day"
 msgstr "दिन"
 
-#: widgets/timespinbox.cpp:151
+#: widgets/timespinbox.cpp:147
 #, kde-format
 msgid "week"
 msgstr "हफ्ता"
 
-#: widgets/timespinbox.cpp:152 widgets/timespinbox.cpp:153
+#: widgets/timespinbox.cpp:148 widgets/timespinbox.cpp:149
 #, kde-format
 msgctxt "weeks"
 msgid "wks"
 msgstr "हफ्ता"
 
-#: widgets/timespinbox.cpp:154
+#: widgets/timespinbox.cpp:150
 #, kde-format
 msgid "month"
 msgstr "महिना"
 
-#: widgets/timespinbox.cpp:155 widgets/timespinbox.cpp:156
-#: widgets/timespinbox.cpp:157 widgets/timespinbox.cpp:158
-#: widgets/timespinbox.cpp:159
+#: widgets/timespinbox.cpp:151 widgets/timespinbox.cpp:152
+#: widgets/timespinbox.cpp:153 widgets/timespinbox.cpp:154
+#: widgets/timespinbox.cpp:155
 #, kde-format
 msgctxt "months"
 msgid "mths"
 msgstr "महिना"
 
-#: widgets/timespinbox.cpp:160
+#: widgets/timespinbox.cpp:156
 #, kde-format
 msgid "year"
 msgstr "साल"
 
+#: widgets/timespinbox.cpp:157 widgets/timespinbox.cpp:158
+#: widgets/timespinbox.cpp:159 widgets/timespinbox.cpp:160
 #: widgets/timespinbox.cpp:161 widgets/timespinbox.cpp:162
-#: widgets/timespinbox.cpp:163 widgets/timespinbox.cpp:164
-#: widgets/timespinbox.cpp:165 widgets/timespinbox.cpp:166
-#: widgets/timespinbox.cpp:167
+#: widgets/timespinbox.cpp:163
 #, kde-format
 msgctxt "years"
 msgid "yrs"
@@ -87711,6 +87705,11 @@ msgstr "जानकारी-डब्बा पिछोत अंगना �
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "आकास के पिछोत अंगना के रंग."
+
+#, fuzzy
+#~| msgid "&Automatic display of FITS"
+#~ msgid "Meridian flip slew started..."
+#~ msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
 #, fuzzy
 #~| msgid "&Automatic display of FITS"
