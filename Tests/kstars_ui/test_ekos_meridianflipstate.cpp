@@ -98,7 +98,7 @@ void TestEkosMeridianFlipState::testMeridianFlip_data()
     QTest::addColumn<bool>("upper");            /*!< upper culmination? */
     QTest::addColumn<double>("offset");         /*!< meridian flip offset (in degrees) */
 
-    for (auto loc: {"Greenwich", "Cape Town"})
+    for (auto loc: {"Cape Town", "Greenwich"})
     {
         QTest::newRow(QString("loc=%1 enabled=no").arg(loc).toLatin1()) << loc << false << false << true << 0.0;
         QTest::newRow(QString("loc=%1 enabled=yes, capture=no").arg(loc).toLatin1()) << loc << true << false << true << 0.0;
@@ -233,8 +233,8 @@ void TestEkosMeridianFlipState::init()
     expectedMeridianFlipMountStates.clear();
     expectedMountStates.clear();
 
-    // run 10x as fast
-    KStarsData::Instance()->clock()->setClockScale(10.0);
+    // run 50x as fast
+    KStarsData::Instance()->clock()->setClockScale(50.0);
     // start the clock
     KStarsData::Instance()->clock()->start();
     // initialize the state machine

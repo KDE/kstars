@@ -272,7 +272,7 @@
 
 <copyright>
 <year
->2001-2021</year>
+>2001-2022</year>
 <holder
 >&Jason.Harris; en het team van &kstars;</holder>
 </copyright>
@@ -281,9 +281,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2022-07-24</date>
+>2022-09-29</date>
 <releaseinfo
->3.6.0</releaseinfo>
+>3.6.1</releaseinfo>
 
 <abstract>
 <para
