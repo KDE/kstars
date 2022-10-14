@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-13 00:41+0000\n"
-"PO-Revision-Date: 2022-10-06 09:09+0100\n"
+"PO-Revision-Date: 2022-10-13 12:10+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -21263,10 +21263,9 @@ msgid "Meridian flip waiting..."
 msgstr "Inversão do meridiano em espera..."
 
 #: ekos/manager/meridianflipstate.cpp:350
-#, fuzzy, kde-format
-#| msgid "Meridian ready to start..."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "O meridiano está prestes a iniciar..."
+msgstr "A inversão do meridiano está prestes a iniciar..."
 
 #: ekos/manager/meridianflipstate.cpp:354
 #, kde-format
@@ -81511,6 +81510,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "Meridian flip slew started..."
-#~ msgstr "O deslocamento da inversão do meridiano foi iniciado..."

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-13 00:41+0000\n"
-"PO-Revision-Date: 2022-10-12 14:28+0300\n"
+"PO-Revision-Date: 2022-10-13 06:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -67639,11 +67639,10 @@ msgid "Extrema"
 msgstr "Uç değerler"
 
 #: libindi_strings.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgid "FITS Header"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FITS Header"
-msgstr "FITS Başlığı"
+msgstr "FITS Üstbilgisi"
 
 #: libindi_strings.cpp:149
 #, kde-kuit-format
@@ -67664,11 +67663,10 @@ msgid "Factory"
 msgstr "Üretici"
 
 #: libindi_strings.cpp:152
-#, fuzzy, kde-kuit-format
-#| msgid "and"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Fan"
-msgstr "ve"
+msgstr "Fan"
 
 #: libindi_strings.cpp:153
 #, kde-kuit-format
@@ -67686,7 +67684,7 @@ msgstr "Besleme"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Feedback"
-msgstr "Geribildirim"
+msgstr "Geri Bildirim"
 
 #: libindi_strings.cpp:156
 #, kde-kuit-format

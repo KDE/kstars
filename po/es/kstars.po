@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-13 00:41+0000\n"
-"PO-Revision-Date: 2022-10-07 04:04+0200\n"
+"PO-Revision-Date: 2022-10-13 12:29+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -20166,10 +20166,9 @@ msgid "Meridian flip waiting..."
 msgstr "Inversión de meridiano en espera..."
 
 #: ekos/manager/meridianflipstate.cpp:350
-#, fuzzy, kde-format
-#| msgid "Meridian ready to start..."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "Meridiano listo para iniciar..."
+msgstr "Inversión de meridiano lista para iniciar..."
 
 #: ekos/manager/meridianflipstate.cpp:354
 #, kde-format
