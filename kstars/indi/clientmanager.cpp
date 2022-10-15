@@ -281,7 +281,10 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exitCode)
 {
-    qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exitCode;
+    if (m_PendingConnection)
+        qCDebug(KSTARS_INDI) << "INDI server connection refused.";
+    else
+        qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exitCode;
 
     for (auto &oneDriverInfo : m_ManagedDrivers)
     {
@@ -297,8 +300,11 @@ void ClientManager::serverDisconnected(int exitCode)
             // Connect again in 1 second.
             QTimer::singleShot(1000, this, [this]()
             {
-                qCDebug(KSTARS_INDI) << "Retrying connection again";
-                connectServer();
+                qCDebug(KSTARS_INDI) << "Retrying connection again...";
+                if (connectServer() == false)
+                    serverDisconnected(0);
+                else
+                    m_PendingConnection = false;
             });
         }
         // Nope cannot connect to server.
@@ -329,28 +335,9 @@ void ClientManager::establishConnection()
     m_ConnectionRetries = 2;
 
     if (connectServer() == false)
-    {
-        if (m_PendingConnection)
-        {
-            // Should we retry again?
-            if (m_ConnectionRetries-- > 0)
-            {
-                // Connect again in 1 second.
-                QTimer::singleShot(1000, this, [this]()
-                {
-                    qCDebug(KSTARS_INDI) << "Retrying connection again";
-                    connectServer();
-                });
-            }
-            // Nope cannot connect to server.
-            else
-            {
-                m_PendingConnection = false;
-                m_ConnectionRetries = MAX_RETRIES;
-                emit failed(i18n("Failed to connect to INDI server %1:%2", getHost(), getPort()));
-            }
-        }
-    }
+        serverDisconnected(0);
+    else
+        m_PendingConnection = false;
 }
 
 DriverInfo *ClientManager::findDriverInfoByName(const QString &name)

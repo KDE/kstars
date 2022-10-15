@@ -1546,7 +1546,7 @@ void DriverManager::saveHosts()
         hostData += "' hostname='";
         hostData += host->getHost();
         hostData += "' port='";
-        hostData += host->getPort();
+        hostData += QString::number(host->getPort());
         hostData += "' />\n";
 
         outstream << hostData;
@@ -1595,7 +1595,7 @@ QString DriverManager::getUniqueDeviceLabel(const QString &label)
 
     for (auto &cm : clients)
     {
-        auto &devices = cm->getDevices();
+        auto devices = cm->getDevices();
 
         for (auto &dv : devices)
         {
