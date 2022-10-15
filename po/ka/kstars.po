@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-13 00:41+0000\n"
-"PO-Revision-Date: 2022-09-16 19:40+0200\n"
+"PO-Revision-Date: 2022-10-14 03:26+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -725,7 +725,7 @@ msgstr "ჩაწერის შეცდომა %s %1: %2"
 #, kde-format
 msgctxt "@title:window"
 msgid "Startup Wizard"
-msgstr ""
+msgstr "გაშვების ოსტატი"
 
 #: auxiliary/kswizard.cpp:72 printing/printingwizard.cpp:413
 #: tools/obslistwizard.cpp:37
@@ -749,14 +749,14 @@ msgstr "დასრულებულია"
 #: auxiliary/kswizard.cpp:268
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
-msgstr ""
+msgstr "აპის პაკეტში მონაცემების ნაგულისხმები საქაღალდე ვერ ვიპოვე."
 
 #: auxiliary/kswizard.cpp:277
 #, kde-format
 msgid ""
 "There was a problem creating the data directory ~/Library/Application "
 "Support/."
-msgstr ""
+msgstr "საქაღალდის შექმნის შეცდომა: ~/Library/Application Support/."
 
 #: auxiliary/kswizard.cpp:383
 #, kde-format
@@ -868,7 +868,7 @@ msgstr "გამოსახულების მოხსნა"
 #, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
-msgstr ""
+msgstr "XPlanet მზის სისტემის სიმულატორი: %1"
 
 #. i18n?
 #. i18nc("Asteroid name (optional)", "Pluto");
@@ -1286,7 +1286,7 @@ msgstr "ხედის ბრუნვის საწყის მნიშვ
 #: auxiliary/xplanetimageviewer.cpp:379
 #, kde-format
 msgid "Bring up XPlanet Options"
-msgstr ""
+msgstr "XPlanet-ის პარამეტრების გახსნა"
 
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
@@ -1301,7 +1301,7 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:419
 #, kde-format
 msgid "Current XPlanet Time"
-msgstr ""
+msgstr "XPlanet-ის მიმდინარე დრო"
 
 #: auxiliary/xplanetimageviewer.cpp:422 auxiliary/xplanetimageviewer.cpp:878
 #: auxiliary/xplanetimageviewer.cpp:1039 auxiliary/xplanetimageviewer.cpp:1052
@@ -1314,7 +1314,7 @@ msgstr "%1, %2"
 msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
-msgstr ""
+msgstr "XPlanet-ის დროის KStars-ის მიმდინარე დროზე დაყენება"
 
 #: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
@@ -2192,7 +2192,7 @@ msgstr "მაგ.. PGC 54559"
 #: dialogs/addcatalogobject.ui:50
 #, kde-format
 msgid "RA / Dec (J2000):"
-msgstr ""
+msgstr "RA / Dec (J2000):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/addcatalogobject.ui:72
@@ -2679,7 +2679,7 @@ msgstr "ხაზი"
 #: dialogs/catalogcsvimport.ui:77
 #, kde-format
 msgid "Skip first:"
-msgstr ""
+msgstr "გამოტოვება პირველი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/catalogcsvimport.ui:84
@@ -6616,7 +6616,7 @@ msgstr ""
 #: ekos/align/manualrotator.ui:128
 #, kde-format
 msgid "Take Another Image"
-msgstr ""
+msgstr "კიდევ ერთი სურათის გადაღება"
 
 #: ekos/align/mountmodel.cpp:255
 #, kde-format
@@ -6628,7 +6628,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:4447 ekos/scheduler/scheduler.cpp:7076
 #, kde-format
 msgid "Unable to open file %1"
-msgstr ""
+msgstr "ფაილის გახსნა შეუძლებელია: %1"
 
 #: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4401
 #, kde-format
@@ -6666,7 +6666,7 @@ msgstr "წერტილის გამოთვლის შეცდომ�
 #: ekos/align/mountmodel.cpp:650
 #, kde-format
 msgid "Sky Point"
-msgstr ""
+msgstr "ცის წერტილი"
 
 #: ekos/align/mountmodel.cpp:858
 #, kde-format
@@ -7055,7 +7055,7 @@ msgstr ""
 #: ekos/align/opsalign.ui:76
 #, kde-format
 msgid "Internal SEP"
-msgstr ""
+msgstr "შიდა SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:81
@@ -18615,10 +18615,9 @@ msgid "Meridian flip waiting..."
 msgstr ""
 
 #: ekos/manager/meridianflipstate.cpp:350
-#, fuzzy, kde-format
-#| msgid "Calibration failed to start."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "კალიბრაციის დაწყების შეცდომა."
+msgstr "მერიდიანის გადაბრუნება მზადაა დასაწყებად..."
 
 #: ekos/manager/meridianflipstate.cpp:354
 #, kde-format
@@ -61382,29 +61381,29 @@ msgstr "საინტერესო რამების ჩართ/გა
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
-msgstr ""
+msgstr "Ekos"
 
 #: kstarsinit.cpp:607
 #, kde-format
 msgid "Toggle Ekos"
-msgstr ""
+msgstr "Ekos-ის გადართვა"
 
 #: kstarsinit.cpp:609
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
-msgstr ""
+msgstr "INDI -ის მართვის პანელი"
 
 #: kstarsinit.cpp:611
 #, kde-format
 msgid "Toggle INDI Control Panel"
-msgstr ""
+msgstr "INDI -ის მართვის პანელის გადართვა"
 
 #: kstarsinit.cpp:614
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
-msgstr ""
+msgstr "FITS -ის ნახვა"
 
 #: kstarsinit.cpp:616
 #, kde-format
@@ -67904,7 +67903,7 @@ msgstr ""
 #: options/opsguides.ui:278
 #, kde-format
 msgid "Draw flags?"
-msgstr ""
+msgstr "დავხატო დროშები?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:281
@@ -68783,7 +68782,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Printing Wizard"
-msgstr ""
+msgstr "ბეჭდვის ოსტატი"
 
 #: printing/printingwizard.cpp:414
 #, kde-format
