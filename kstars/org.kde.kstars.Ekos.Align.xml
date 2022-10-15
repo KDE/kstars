@@ -41,6 +41,11 @@
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
+    <method name="telescopeInfo">
+      <arg type="ad" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QList&lt;double&gt;"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
+    </method>
     <method name="getLoadAndSlewStatus">
       <arg type="i" direction="out"/>
     </method>
