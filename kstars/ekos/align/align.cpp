@@ -707,22 +707,6 @@ bool Align::setMount(ISD::Mount *device)
         m_isRateSynced = false;
     });
 
-    if (m_isRateSynced == false)
-    {
-        auto speed = m_Settings["PAHMountSpeed"];
-        auto slewRates = m_Mount->slewRates();
-        if (speed.isValid())
-        {
-            RUN_PAH(syncMountSpeed(speed.toString()));
-        }
-        else if (!slewRates.isEmpty())
-        {
-            RUN_PAH(syncMountSpeed(slewRates.last()));
-        }
-
-        m_isRateSynced = !slewRates.empty();
-    }
-
     syncTelescopeInfo();
     return true;
 }
@@ -794,6 +778,22 @@ bool Align::syncTelescopeInfo()
 {
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
+
+    if (m_isRateSynced == false)
+    {
+        auto speed = m_Settings["PAHMountSpeed"];
+        auto slewRates = m_Mount->slewRates();
+        if (speed.isValid())
+        {
+            RUN_PAH(syncMountSpeed(speed.toString()));
+        }
+        else if (!slewRates.isEmpty())
+        {
+            RUN_PAH(syncMountSpeed(slewRates.last()));
+        }
+
+        m_isRateSynced = !slewRates.empty();
+    }
 
     canSync = m_Mount->canSync();
 
