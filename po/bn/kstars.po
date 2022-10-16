@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -19696,7 +19696,7 @@ msgid "%1 is disconnected."
 msgstr "সংযোগ বিচ্ছিন্ন করো"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 অনলাইনে আছে।"
@@ -26860,13 +26860,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "তথ্যের ইউ.আর.এল. লোড করা হচ্ছে"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Configure INDI..."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -27447,19 +27447,19 @@ msgstr ""
 msgid "Upload"
 msgstr "আপলোড"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "অবস্থান নির্ধারণ..."
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "অবস্থান নির্ধারণ..."
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "তথ্যের ফাইল %1-এ সংরক্ষণ করা হয়েছে"

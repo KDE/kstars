@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -18983,7 +18983,7 @@ msgid "%1 is disconnected."
 msgstr "Aftengja"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, fuzzy, kde-format
 msgid "%1 is online."
 msgstr "%1 er tengd(ur)."
@@ -25898,12 +25898,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Hleð inn upplýsingaslóðum"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "villa."
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "villa."
@@ -26463,19 +26463,19 @@ msgstr ""
 msgid "Upload"
 msgstr "Uppsala"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "Stilla staðsetningu..."
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "Stilla staðsetningu..."
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "Vistað í skrá: %1"

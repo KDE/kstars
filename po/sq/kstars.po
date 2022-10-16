@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -19341,7 +19341,7 @@ msgid "%1 is disconnected."
 msgstr "konstelacion"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 është në linjë."
@@ -26447,13 +26447,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Duke ngarkuar URL-të e informacionit"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Nuk mundëm të nisim serverin INDI: gabim në port."
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -27031,19 +27031,19 @@ msgstr ""
 msgid "Upload"
 msgstr "Ngarko"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 #| msgid "Set Geographic Location"
 msgid "GPS Location"
 msgstr "Vendos Vendndodhjen Gjeografike"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 #| msgid "Set Geographic Location"
 msgid "Mount Location"
 msgstr "Vendos Vendndodhjen Gjeografike"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Skedarët e të dhënave u regjistruan tek %1"

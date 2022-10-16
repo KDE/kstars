@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -20175,7 +20175,7 @@ msgid "%1 is disconnected."
 msgstr "Αποσύνδεση"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
@@ -27515,13 +27515,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Φόρτωση πληροφοριών χρήστη"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -28100,19 +28100,19 @@ msgstr ""
 msgid "Upload"
 msgstr "Αποστολή"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "Ορισμός θέσης..."
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "Ορισμός θέσης..."
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Το αρχείο δεδομένων αποθηκεύτηκε στο %1"

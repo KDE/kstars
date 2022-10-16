@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -18381,7 +18381,7 @@ msgid "%1 is disconnected."
 msgstr "Putus"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, fuzzy, kde-format
 msgid "%1 is online."
 msgstr "Mandriva Online"
@@ -25046,13 +25046,13 @@ msgstr ""
 "Memuatkan maklumat pencetak.\n"
 "Sila tunggu..."
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Sambung"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "Sambung atau Nyahsambung."
@@ -25580,17 +25580,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Muatnaik"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "Lokasi Baru"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "Lokasi Baru"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "Tidak dapat memuatkan fail!"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2022-10-08 22:34+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -19815,7 +19815,7 @@ msgid "%1 is disconnected."
 msgstr "El %1 està desconnectat."
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "El %1 està en línia."
@@ -27258,12 +27258,12 @@ msgstr "Mostra el HiPS mentre es fa la panoràmica"
 msgid "Linear interpolation"
 msgstr "Interpolació lineal"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "No s'ha pogut connectar amb el servidor INDI %1:%2"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -27811,17 +27811,17 @@ msgstr "Permet la transferència binària d'esta propietat a KStars i viceversa.
 msgid "Upload"
 msgstr "Puja"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, kde-format
 msgid "GPS Location"
 msgstr "Ubicació del GPS"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, kde-format
 msgid "Mount Location"
 msgstr "Emplaçament de la muntura"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "El fitxer de dades s'ha guardat a %1"

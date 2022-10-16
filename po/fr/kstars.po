@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2022-09-14 08:22+0200\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -19871,7 +19871,7 @@ msgid "%1 is disconnected."
 msgstr "Le périphérique %1 est déconnecté."
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "Le périphérique %1 est connecté."
@@ -27330,12 +27330,12 @@ msgstr "Afficher HiPS pendant le panorama"
 msgid "Linear interpolation"
 msgstr "Interpolation linéaire"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Impossible de se connecter au serveur INDI %1:%2"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -27890,17 +27890,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Envoyer"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, kde-format
 msgid "GPS Location"
 msgstr "Position GPS"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, kde-format
 msgid "Mount Location"
 msgstr "Position monture"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Fichier de données enregistré dans %1"

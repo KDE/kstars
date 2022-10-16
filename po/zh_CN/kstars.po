@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2022-10-02 15:49\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18715,7 +18715,7 @@ msgid "%1 is disconnected."
 msgstr "%1 已断开连接。"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 在线。"
@@ -25570,12 +25570,12 @@ msgstr "平移时显示 HiPS"
 msgid "Linear interpolation"
 msgstr "线性插值"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr ""
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -26109,17 +26109,17 @@ msgstr "允许此属性二进制数据传输至 KStars，反之亦然。"
 msgid "Upload"
 msgstr "上传"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, kde-format
 msgid "GPS Location"
 msgstr "GPS 定位"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, kde-format
 msgid "Mount Location"
 msgstr "支架位置"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "数据文件已保存到 %1"

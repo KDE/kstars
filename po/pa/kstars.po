@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -19602,7 +19602,7 @@ msgid "%1 is disconnected."
 msgstr "ਬੰਦ ਕਰੋ"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 ਆਨਲਾਈਨ ਹੈ।"
@@ -26836,13 +26836,13 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "ਧੁਰਾ ਗਰਿੱਡ"
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "ਜੋੜੋ"
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
@@ -27414,19 +27414,19 @@ msgstr ""
 msgid "Upload"
 msgstr "ਅੱਪਲੋਡ"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 #| msgid "Date & Location"
 msgid "GPS Location"
 msgstr "ਮਿਤੀ ਅਤੇ ਟਿਕਾਣਾ"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 #| msgid "Date & Location"
 msgid "Mount Location"
 msgstr "ਮਿਤੀ ਅਤੇ ਟਿਕਾਣਾ"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "ਡਾਟਾ ਫਾਇਲ  %1 ਵਿੱਚ ਸੰਭਾਲੀ ਗਈ"

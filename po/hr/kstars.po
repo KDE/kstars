@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:41+0000\n"
+"POT-Creation-Date: 2022-10-16 00:42+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -19077,7 +19077,7 @@ msgid "%1 is disconnected."
 msgstr "Prekini vezu"
 
 #: ekos/manager.cpp:1489 ekos/manager.cpp:1498 ekos/manager.cpp:1529
-#: indi/indistd.cpp:617
+#: indi/indistd.cpp:622
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 is online."
@@ -26048,12 +26048,12 @@ msgstr ""
 msgid "Linear interpolation"
 msgstr "Dohvaćanje podataka instalacije..."
 
-#: indi/clientmanager.cpp:309 indi/clientmanager.cpp:350
+#: indi/clientmanager.cpp:315
 #, fuzzy, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Pogreška pri povezivanju s poslužiteljem web-galerije."
 
-#: indi/clientmanager.cpp:314
+#: indi/clientmanager.cpp:320
 #, fuzzy, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "Učini RAID uređajem"
@@ -26611,17 +26611,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Učitaj"
 
-#: indi/indistd.cpp:332
+#: indi/indistd.cpp:337
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "Geografska lokacija"
 
-#: indi/indistd.cpp:334
+#: indi/indistd.cpp:339
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "Geografska lokacija"
 
-#: indi/indistd.cpp:566
+#: indi/indistd.cpp:571
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "Error writing data to file (%s/%s)."
