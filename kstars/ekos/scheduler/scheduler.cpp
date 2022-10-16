@@ -797,7 +797,8 @@ void Scheduler::watchJobChanges(bool enable)
     QDoubleSpinBox * const dspinBoxes[] =
     {
         minMoonSeparation,
-        minAltitude
+        minAltitude,
+        positionAngleSpin,
     };
 
     if (enable)

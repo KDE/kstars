@@ -517,6 +517,11 @@ class Align : public QWidget, public Ui::Align
 
         // Manual Rotator Dialog
         void toggleManualRotator(bool toggled);
+        /**
+         * @brief checkIfRotationRequired Check whether we need to perform an ALIGN_ROTATING action, whether manual or automatic.
+         * @return True if rotation is required as per the settings, false is not required.
+         */
+        bool checkIfRotationRequired();
 
         // Settings
         QVariantMap getAllSettings() const;
@@ -601,7 +606,7 @@ class Align : public QWidget, public Ui::Align
     private:
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();        
+        void refreshOpticalTrain();
 
         ////////////////////////////////////////////////////////////////////
         /// Settings

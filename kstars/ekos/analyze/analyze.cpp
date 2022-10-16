@@ -98,6 +98,7 @@ const QBrush offBrush(Qt::gray, Qt::SolidPattern);
 const QBrush progressBrush(Qt::blue, Qt::SolidPattern);
 const QBrush progress2Brush(QColor(0, 165, 255), Qt::SolidPattern);
 const QBrush progress3Brush(Qt::cyan, Qt::SolidPattern);
+const QBrush progress4Brush(Qt::darkGreen, Qt::SolidPattern);
 const QBrush stoppedBrush(Qt::yellow, Qt::SolidPattern);
 const QBrush stopped2Brush(Qt::darkYellow, Qt::SolidPattern);
 
@@ -2607,6 +2608,7 @@ const QBrush alignBrush(AlignState state)
         case ALIGN_IDLE:
             return offBrush;
         case ALIGN_COMPLETE:
+        case ALIGN_SUCCESSFUL:
             return successBrush;
         case ALIGN_FAILED:
             return failureBrush;
@@ -2616,6 +2618,8 @@ const QBrush alignBrush(AlignState state)
             return progress2Brush;
         case ALIGN_SLEWING:
             return progressBrush;
+        case ALIGN_ROTATING:
+            return progress4Brush;
         case ALIGN_ABORTED:
             return failureBrush;
         case ALIGN_SUSPENDED:

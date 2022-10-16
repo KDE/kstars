@@ -1103,7 +1103,7 @@ void MountModel::setAlignStatus(Ekos::AlignState state)
 {
     switch (state)
     {
-        case ALIGN_COMPLETE:
+        case ALIGN_SUCCESSFUL:
             if (m_IsRunning)
                 finishAlignmentPoint(true);
             break;
@@ -1111,6 +1111,7 @@ void MountModel::setAlignStatus(Ekos::AlignState state)
         case ALIGN_FAILED:
             if (m_IsRunning)
                 finishAlignmentPoint(false);
+            break;
         default:
             break;
     }
