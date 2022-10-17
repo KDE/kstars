@@ -8162,7 +8162,7 @@ msgstr ""
 "astrometry.net/doc/readme.html\"><span style=\" text-decoration: underline; "
 "color:#0000ff;\">README</span></a> d'Astrometry.net. La llista següent "
 "proporciona una llista completa dels fitxers d'índex, junt amb els fitxers "
-"d'índex a instal·lar amb el camp de visió actual del CCD. Els fitxers "
+"d'índex que s'instal·laran amb el camp de visió actual del CCD. Els fitxers "
 "d'índex instal·lats es comprovaran. Al costat de cada fitxer d'índex hi ha "
 "una icona que representa el següent:</p></body></html>"
 
@@ -9028,8 +9028,8 @@ msgid ""
 "Choose your current setup from the list to load the typical paths to those "
 "programs for your computer "
 msgstr ""
-"Tria la configuració actual de la llista a carregar dels camins típics a "
-"aquells programes de l'ordinador "
+"Tria la configuració actual de la llista que es carregarà dels camins típics "
+"a aquells programes de l'ordinador "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:27
@@ -12739,15 +12739,17 @@ msgid ""
 "include (a/b), this will allow you to exclude elliptical sources like "
 "galaxies or badly distorted stars."
 msgstr ""
-"La relació màxima entre l'eix semimajor i el semimenor de les estreles a "
-"incloure (a/b), açò permet excloure fonts el·líptiques com galàxies o "
+"La relació màxima entre l'eix semimajor i el semimenor de les estreles que "
+"s'inclouran (a/b), açò permet excloure fonts el·líptiques com galàxies o "
 "estreles mal distorsionades."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, brightestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:699
 #, kde-format
 msgid "The percentage of brightest stars to remove from the list"
-msgstr "El percentatge de les d'estreles més brillants a eliminar de la llista"
+msgstr ""
+"El percentatge de les d'estreles més brillants que s'han d'eliminar de la "
+"llista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_41)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:709
@@ -12759,7 +12761,8 @@ msgstr "Retalla les més febles"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
 #, kde-format
 msgid "The percentage of dimmest stars to remove from the list"
-msgstr "El percentatge de les d'estreles més febles a eliminar de la llista"
+msgstr ""
+"El percentatge de les d'estreles més febles que s'han d'eliminar de la llista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_52)
 #. i18n: ectx: property (text), widget (QLabel, label_51)
@@ -12793,8 +12796,8 @@ msgid ""
 "The minimum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"La mida mínima de les estreles a incloure a la llista final en píxels basada "
-"en l'eix semimajor i el semimenor"
+"La mida mínima de les estreles que s'inclouran a la llista final en píxels "
+"basada en l'eix semimajor i el semimenor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
@@ -12821,8 +12824,8 @@ msgid ""
 "The maximum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
-"La mida màxima de les estreles a incloure a la llista final en píxels basada "
-"en l'eix semimajor i el semimenor"
+"La mida màxima de les estreles que s'inclouran a la llista final en píxels "
+"basada en l'eix semimajor i el semimenor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
 #. i18n: ectx: property (text), widget (QLabel, label_49)
@@ -12858,7 +12861,7 @@ msgid ""
 "parameter is based on magnitude and is most useful to speed up plate "
 "solving, such as in the Align Module."
 msgstr ""
-"El nombre d'estreles a mantindre a la llista després de l'extracció "
+"El nombre d'estreles que es mantindran a la llista després de l'extracció "
 "d'estreles. Este paràmetre està basat en la magnitud i és molt útil per a "
 "accelerar la solució de les plaques, així com també en el mòdul d'alineació."
 
@@ -12870,8 +12873,8 @@ msgid ""
 "the size of the stars.  It is primarily useful for speeding up star "
 "extraction with HFR such as in Focus, Guide, and HFR monitoring.  "
 msgstr ""
-"El nombre d'estreles a mantindre inicialment a la llista. Este filtre està "
-"basat en la mida de les estreles. Principalment és útil per a accelerar "
+"El nombre d'estreles que es mantindran inicialment a la llista. Este filtre "
+"està basat en la mida de les estreles. Principalment és útil per a accelerar "
 "l'extracció de les estreles amb l'HFR, com en l'enfocament, el guiatge i el "
 "monitoratge HFR."
 
@@ -14250,8 +14253,8 @@ msgid ""
 "Post-capture script to be executed after an image is captured. The capture "
 "sequence is resumed when the script is executed successfully."
 msgstr ""
-"Script que s'ha d'executar després de capturar una imatge. La seqüència de "
-"la captura es reprendrà quan l'script s'haja executat correctament."
+"Script que s'executarà després de capturar una imatge. La seqüència de la "
+"captura es reprendrà quan l'script s'haja executat correctament."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/capture.ui:911
@@ -18617,7 +18620,7 @@ msgstr "Invertix el Dec en canvi del costat del moll en reusar el calibratge."
 #, kde-format
 msgid "Number of pixels to move the guiding square in a random direction."
 msgstr ""
-"El nombre de píxels a moure el quadrat del sistema de guiatge en una "
+"El nombre de píxels que es mouran el quadrat del sistema de guiatge en una "
 "direcció aleatòria."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
@@ -20176,10 +20179,9 @@ msgid "Meridian flip waiting..."
 msgstr "S'espera la inversió del meridià..."
 
 #: ekos/manager/meridianflipstate.cpp:350
-#, fuzzy, kde-format
-#| msgid "Meridian ready to start..."
+#, kde-format
 msgid "Meridian flip ready to start..."
-msgstr "El meridià està preparat per a iniciar-se..."
+msgstr "La inversió del meridià està preparada per a iniciar-se..."
 
 #: ekos/manager/meridianflipstate.cpp:354
 #, kde-format
@@ -23302,7 +23304,8 @@ msgstr ""
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
-"Selecciona els passos a executar abans de començar el procés de captura."
+"Selecciona els passos que s'executaran abans de començar el procés de "
+"captura."
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
 #: ekos/scheduler/framingassistant.ui:1199 ekos/scheduler/mosaic.ui:817
@@ -23566,7 +23569,7 @@ msgstr ""
 "\">Canviar el valor de superposició actualitza immediatament el nombre de "
 "tessel·les per tal de cobrir completament el camp del mosaic. Així, les "
 "tessel·les generades poden cobrir més camp que el requerit. Per este motiu, "
-"la superposició hauria de ser la primera opció a considerar. Per a "
+"la superposició hauria de ser la primera opció que calga considerar. Per a "
 "recalcular el camp cobert pel mosaic a partir del nombre de tessel·les "
 "considerant la superposició actual, feu clic a «Cobertura de CDV».</p><p "
 "align=\" justify\">En processar una pila única, <span style=\" font-"
@@ -25371,8 +25374,8 @@ msgid ""
 "weight:600; text-decoration: underline;\">after</span> the shutdown "
 "procedures (e.g. parking), if selected, are completed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Procediment de tancament a executar una única vegada "
-"després de completar totes les tasques del programador. Si està "
+"<html><head/><body><p>Procediment de tancament que s'executarà una única "
+"vegada després de completar totes les tasques del programador. Si està "
 "seleccionada, l'script s'executarà <span style=\" font-weight:600; text-"
 "decoration: underline;\">després</span> dels procediments de tancament (p. "
 "ex., aparcar).</p></body></html>"
@@ -25550,9 +25553,9 @@ msgid ""
 "decoration: underline;\">before</span> the startup procedures (e.g. unpark "
 "scope), if selected, are executed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Procediment d'inici a executar una única vegada abans "
-"d'iniciar Ekos. Si està seleccionada, l'script s'executarà <span style=\" "
-"font-weight:600; text-decoration: underline;\">abans</span> dels "
+"<html><head/><body><p>Procediment d'inici que s'executarà una única vegada "
+"abans d'iniciar Ekos. Si està seleccionada, l'script s'executarà <span style="
+"\" font-weight:600; text-decoration: underline;\">abans</span> dels "
 "procediments d'inici (p. ex., desaparcar el telescopi).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
@@ -25697,8 +25700,8 @@ msgid ""
 msgstr ""
 "La duració de la tasca «%1» que tardarà a completar-se quan s'inicie, "
 "estimada pel programador.\n"
-"Depén de les accions que s'han d'executar i de la tasca en seqüència que es "
-"processa."
+"Depén de les accions que s'executaran i de la tasca en seqüència que es "
+"processarà."
 
 #: ekos/scheduler/schedulerjob.cpp:640
 #, kde-format
@@ -30839,8 +30842,8 @@ msgid ""
 "The maximum magnitude (visibility) to filter the asteroid data download from "
 "JPL."
 msgstr ""
-"La magnitud màxima (visibilitat) a filtrar de les dades dels asteroides a "
-"descarregar des del JPL."
+"La magnitud màxima (visibilitat) que es filtrarà de les dades dels "
+"asteroides a descarregar des del JPL."
 
 #. i18n: ectx: label, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:789
@@ -63975,10 +63978,10 @@ msgid ""
 msgstr ""
 "El fitxer de registre de notes %1 de l'usuari està mal format en l'obertura "
 "de l'entrada a partir de %2. KStars encara es pot executar sense llegir "
-"completament este fitxer. Premeu Continua per executar KStars amb qualsevol "
-"lectura parcial reeixida. El fitxer es pot truncar si KStars escriu en el "
-"fitxer més avant. Premeu Cancel·la per a cancel·lar ara i corregir "
-"manualment el problema."
+"completament este fitxer. Premeu Continua per a executar KStars amb "
+"qualsevol lectura parcial reeixida. El fitxer es pot truncar si KStars "
+"escriu en el fitxer més avant. Premeu Cancel·la per a cancel·lar ara i "
+"corregir manualment el problema."
 
 #: kstarsdata.cpp:798
 #, kde-format
@@ -69584,7 +69587,7 @@ msgstr "Guarda la imatge del cel a un fitxer."
 #: main.cpp:191
 #, kde-format
 msgid "Script to execute."
-msgstr "Script que s'ha d'executar."
+msgstr "Script que s'executarà."
 
 #: main.cpp:192
 #, kde-format
@@ -69609,7 +69612,7 @@ msgstr "Comença amb el rellotge parat."
 #: main.cpp:198
 #, kde-format
 msgid "FITS file(s) to open."
-msgstr "Fitxers FITS a obrir."
+msgstr "Fitxers FITS que s'han d'obrir."
 
 #: main.cpp:234 printing/foveditordialog.cpp:176
 #, kde-format
@@ -77192,10 +77195,10 @@ msgid ""
 "settings, to the CDS Sesame resolver. Objects that are internet resolved "
 "will be added to the database."
 msgstr ""
-"Especifiqueu una llista d'objectes amb un objecte a cada línia a afegir. Els "
-"noms cal que els entenga KStars, o si s'ha activat el resolutor d'Internet a "
-"la configuració, el resolutor CDS Sesame. Els resolts a Internet s'afegiran "
-"a la base de dades."
+"Especifiqueu una llista d'objectes amb un objecte en cada línia que s'ha "
+"d'afegir. Els noms cal que els entenga KStars, o si s'ha activat el "
+"resolutor d'Internet a la configuració, el resolutor CDS Sesame. Els resolts "
+"a Internet s'afegiran a la base de dades."
 
 #: tools/observinglist.cpp:808
 #, kde-format
@@ -78774,7 +78777,7 @@ msgstr "Magnitud de l'estrela més feble a etiquetar en el mapa"
 #: tools/scriptbuilder.cpp:707
 #, kde-format
 msgid "magnitude of brightest star hidden while slewing"
-msgstr "Magnitud de l'estrela més brillant a ocultar durant l'orientació"
+msgstr "Magnitud de l'estrela més brillant que s'ocultarà durant l'orientació"
 
 #: tools/scriptbuilder.cpp:710
 #, kde-format
@@ -80685,6 +80688,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Meridian flip slew started..."
-#~ msgstr "S'ha iniciat l'orientació de la inversió del meridià..."
