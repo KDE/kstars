@@ -15,10 +15,8 @@
 #include "scheduler.h"
 #include "skymap.h"
 #include "ekos/manager.h"
-#include "projections/projector.h"
 #include "skymapcomposite.h"
-
-#include "ekos_scheduler_debug.h"
+#include "ksparser.h"
 
 namespace Ekos
 {
@@ -99,6 +97,9 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         }
     });
     connect(ui->goSolveB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::goAndSolve);
+
+    // Import
+    connect(ui->importB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::selectImport);
 
     // Page Navigation Controls
     connect(ui->nextToAdjustGrid, &QPushButton::clicked, this, [this]()
@@ -688,6 +689,78 @@ void FramingAssistantUI::selectSequence()
         ui->sequenceEdit->setText(file);
         ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
                                     !ui->directoryEdit->text().isEmpty());
+    }
+}
+
+void FramingAssistantUI::selectImport()
+{
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Select Mosaic Import"),
+                   QDir::homePath(),
+                   i18n("Telescopius CSV (*.csv)"));
+
+    if (!file.isEmpty())
+    {
+        QList< QPair<QString, KSParser::DataTypes> > csv_sequence;
+        csv_sequence.append(qMakePair(QString("Pane"), KSParser::D_QSTRING));
+        csv_sequence.append(qMakePair(QString("RA"), KSParser::D_QSTRING));
+        csv_sequence.append(qMakePair(QString("DEC"), KSParser::D_QSTRING));
+        csv_sequence.append(qMakePair(QString("Position Angle (East)"), KSParser::D_DOUBLE));
+        csv_sequence.append(qMakePair(QString("Pane width (arcmins)"), KSParser::D_DOUBLE));
+        csv_sequence.append(qMakePair(QString("Pane height (arcmins)"), KSParser::D_DOUBLE));
+        csv_sequence.append(qMakePair(QString("Overlap"), KSParser::D_QSTRING));
+        csv_sequence.append(qMakePair(QString("Row"), KSParser::D_INT));
+        csv_sequence.append(qMakePair(QString("Column"), KSParser::D_INT));
+        KSParser csvParser(file, ',', csv_sequence);
+
+        QHash<QString, QVariant> row_content;
+        int maxRow = 1, maxCol = 1;
+        auto haveCenter = false;
+        while (csvParser.HasNextRow())
+        {
+            row_content = csvParser.ReadNextRow();
+            auto pane = row_content["Pane"].toString();
+            if (pane != "Center")
+            {
+                auto row = row_content["Row"].toInt();
+                maxRow = qMax(row, maxRow);
+                auto col = row_content["Column"].toInt();
+                maxCol = qMax(col, maxCol);
+                continue;
+            }
+
+            haveCenter = true;
+
+            auto ra = row_content["RA"].toString().trimmed();
+            auto dec = row_content["DEC"].toString().trimmed();
+
+            ui->raBox->setText(ra.replace("hr", "h"));
+            ui->decBox->setText(dec.remove("º"));
+
+            auto pa      = row_content["Position Angle (East)"].toDouble();
+            ui->positionAngleSpin->setValue(pa);
+
+            // eg. 10% --> 10
+            auto overlap = row_content["Overlap"].toString().trimmed().midRef(0, 2).toDouble();
+            ui->overlapSpin->setValue(overlap);
+        }
+
+        if (haveCenter == false)
+            KSNotification::sorry(i18n("Import must contain center coordinates."), i18n("Sorry"), 15);
+        else
+        {
+            // Set WxH
+            ui->mosaicWSpin->setValue(maxRow);
+            ui->mosaicHSpin->setValue(maxCol);
+            // Set J2000 Center
+            m_CenterPoint.setRA0(ui->raBox->createDms());
+            m_CenterPoint.setDec0(ui->decBox->createDms());
+            m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+            // Slew to center
+            SkyMap::Instance()->setDestination(m_CenterPoint);
+            SkyMap::Instance()->slewFocus();
+            // Now go to position adjustments
+            ui->nextToAdjustGrid->click();
+        }
     }
 }
 
