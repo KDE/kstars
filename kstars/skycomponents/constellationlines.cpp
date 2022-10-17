@@ -18,7 +18,7 @@
 #include "skypainter.h"
 #include "skycomponents/culturelist.h"
 #include "skycomponents/starcomponent.h"
-#include "ksparser.h"
+#include "ksfilereader.h"
 
 ConstellationLines::ConstellationLines(SkyComposite *parent, CultureList *cultures)
     : LineListIndex(parent, i18n("Constellation Lines")), m_reindexNum(J2000)
