@@ -136,20 +136,23 @@ const QString getFocusStatusString(FocusState state, bool translated = true);
 
 // Align States
 static const QList<const char *> alignStates = { I18N_NOOP("Idle"),    I18N_NOOP("Complete"),  I18N_NOOP("Failed"),
-                                                 I18N_NOOP("Aborted"), I18N_NOOP("In Progress"), I18N_NOOP("Syncing"),
-                                                 I18N_NOOP("Slewing"), I18N_NOOP("Suspended")
+                                                 I18N_NOOP("Aborted"), I18N_NOOP("In Progress"), I18N_NOOP("Successful"),
+                                                 I18N_NOOP("Syncing"), I18N_NOOP("Slewing"), I18N_NOOP("Rotating"),
+                                                 I18N_NOOP("Suspended")
                                                };
 
 typedef enum
 {
-    ALIGN_IDLE,
-    ALIGN_COMPLETE,
-    ALIGN_FAILED,
-    ALIGN_ABORTED,
-    ALIGN_PROGRESS,
-    ALIGN_SYNCING,
-    ALIGN_SLEWING,
-    ALIGN_SUSPENDED
+    ALIGN_IDLE,                 /**< No ongoing operations */
+    ALIGN_COMPLETE,             /**< Alignment successfully completed. No operations pending. */
+    ALIGN_FAILED,               /**< Alignment failed. No operations pending. */
+    ALIGN_ABORTED,              /**< Alignment aborted by user or agent. */
+    ALIGN_PROGRESS,             /**< Alignment operation in progress. This include capture and sovling. */
+    ALIGN_SUCCESSFUL,           /**< Alignment Astrometry solver successfully solved the image. */
+    ALIGN_SYNCING,              /**< Syncing mount to solution coordinates. */
+    ALIGN_SLEWING,              /**< Slewing mount to target coordinates.  */
+    ALIGN_ROTATING,             /**< Rotating (Automatic or Manual) to target position angle. */
+    ALIGN_SUSPENDED             /**< Alignment operations suspended. */
 } AlignState;
 
 const QString getAlignStatusString(AlignState state, bool translated = true);

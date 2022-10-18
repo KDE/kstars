@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>425</width>
+    <width>441</width>
     <height>299</height>
    </rect>
   </property>
@@ -36,6 +36,21 @@
      </property>
      <widget class="QWidget" name="equipment">
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="equipmentGroup">
          <property name="sizePolicy">
@@ -324,6 +339,21 @@
      </widget>
      <widget class="QWidget" name="createGrid">
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="fovGroup">
          <property name="enabled">
@@ -901,6 +931,16 @@
           </spacer>
          </item>
          <item>
+          <widget class="QPushButton" name="importB">
+           <property name="toolTip">
+            <string>Import Mosaic from Telescopius</string>
+           </property>
+           <property name="text">
+            <string>Import...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="recenterB">
            <property name="toolTip">
             <string>Reset mosaic center to sky map center</string>
@@ -934,6 +974,21 @@
      </widget>
      <widget class="QWidget" name="adjustGrid">
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="fovGroup_2">
          <property name="enabled">
@@ -1104,6 +1159,21 @@
      </widget>
      <widget class="QWidget" name="jobs">
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="jobsGroup">
          <property name="sizePolicy">

@@ -797,7 +797,8 @@ void Scheduler::watchJobChanges(bool enable)
     QDoubleSpinBox * const dspinBoxes[] =
     {
         minMoonSeparation,
-        minAltitude
+        minAltitude,
+        positionAngleSpin,
     };
 
     if (enable)
@@ -4833,7 +4834,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     }
 
     int index = 0;
-    foreach (SchedulerJob *job, jobs)
+    for (auto &job : jobs)
     {
         outstream << "<Job>" << Qt::endl;
 
@@ -4852,7 +4853,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << Qt::endl;
 
-        if (useMosaicInfo)
+        if (useMosaicInfo && index < tiles->tiles().size())
         {
             auto oneTile = tiles->tiles().at(index++);
             outstream << "<TileCenter>" << Qt::endl;

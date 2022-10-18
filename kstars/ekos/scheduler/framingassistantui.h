@@ -70,6 +70,8 @@ class FramingAssistantUI : public QDialog
         void selectSequence();
         // Select jobs directory
         void selectDirectory();
+        // Select mosaic import
+        void selectImport();
 
     public slots:
         void updateTargetFOVFromGrid();

@@ -99,7 +99,12 @@ GenericDevice::~GenericDevice()
 void GenericDevice::handleTimeout()
 {
     generateDevices();
-    m_ReadyTimer->disconnect(this);
+    // N.B. JM 2022.10.15: Do not disconnect timer.
+    // It is possible that other properties can come later.
+    // Even they do not make it in the 250ms window. Increasing timeout value alone
+    // to 1000ms or more would improve the situation but is not sufficient to account for
+    // unexpected delays. Therefore, the best solution is to keep the timer active.
+    //m_ReadyTimer->disconnect(this);
     m_Ready = true;
     emit ready();
 }

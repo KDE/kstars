@@ -707,22 +707,6 @@ bool Align::setMount(ISD::Mount *device)
         m_isRateSynced = false;
     });
 
-    if (m_isRateSynced == false)
-    {
-        auto speed = m_Settings["PAHMountSpeed"];
-        auto slewRates = m_Mount->slewRates();
-        if (speed.isValid())
-        {
-            RUN_PAH(syncMountSpeed(speed.toString()));
-        }
-        else if (!slewRates.isEmpty())
-        {
-            RUN_PAH(syncMountSpeed(slewRates.last()));
-        }
-
-        m_isRateSynced = !slewRates.empty();
-    }
-
     syncTelescopeInfo();
     return true;
 }
@@ -794,6 +778,22 @@ bool Align::syncTelescopeInfo()
 {
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
+
+    if (m_isRateSynced == false)
+    {
+        auto speed = m_Settings["PAHMountSpeed"];
+        auto slewRates = m_Mount->slewRates();
+        if (speed.isValid())
+        {
+            RUN_PAH(syncMountSpeed(speed.toString()));
+        }
+        else if (!slewRates.isEmpty())
+        {
+            RUN_PAH(syncMountSpeed(slewRates.last()));
+        }
+
+        m_isRateSynced = !slewRates.empty();
+    }
 
     canSync = m_Mount->canSync();
 
@@ -1964,7 +1964,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     SolverRAOut->setText(ra_dms);
     SolverDecOut->setText(dec_dms);
 
-
     if (Options::astrometrySolverWCS())
     {
         auto ccdRotation = m_Camera->getNumber("CCD_ROTATION");
@@ -2026,85 +2025,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         statusReport->setFlags(Qt::ItemIsSelectable);
     }
 
-    if (m_SolveFromFile && Options::astrometryUseRotator())
-    {
-        loadSlewTargetPA = solverPA;
-        qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
-    }
-    else if (Options::astrometryUseRotator())
-    {
-        currentRotatorPA = solverPA;
-
-        // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
-        if (m_Rotator != nullptr && m_Rotator->isConnected())
-        {
-            // Update Rotator offsets
-            auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE");
-            if (absAngle)
-            {
-                // 1. PA = (RawAngle * Multiplier) - Offset
-                // 2. Offset = (RawAngle * Multiplier) - PA
-                // 3. RawAngle = (Offset + PA) / Multiplier
-                double rawAngle = absAngle->at(0)->getValue();
-                double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
-
-                auto reverseStatus = "Unknown";
-                auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
-                if (reverseProperty)
-                {
-                    if (reverseProperty->at(0)->getState() == ISS_ON)
-                        reverseStatus = "Reversed Direction";
-                    else
-                        reverseStatus = "Normal Direction";
-                }
-
-                qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
-                                           << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
-
-                if (m_Mount)
-                    Options::setPAPierSide(m_Mount->pierSide());
-                Options::setPAOffset(offset);
-            }
-
-            if (absAngle && std::isnan(loadSlewTargetPA) == false
-                    && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
-            {
-                // 3. RawAngle = (Offset + PA) / Multiplier
-                double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
-                absAngle->at(0)->setValue(rawAngle);
-                ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
-                clientManager->sendNewNumber(absAngle);
-                appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
-                return;
-            }
-        }
-        else if (std::isnan(loadSlewTargetPA) == false)
-        {
-            double current = currentRotatorPA;
-            double target = loadSlewTargetPA;
-
-            double diff = SolverUtils::rangePA(current - target);
-            double threshold = Options::astrometryRotatorThreshold() / 60.0;
-
-            appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
-
-            emit manualRotatorChanged(current, target, threshold);
-
-            m_ManualRotator->setRotatorDiff(current, target, diff);
-            if (fabs(diff) > threshold)
-            {
-                targetAccuracyNotMet = true;
-                m_ManualRotator->show();
-                m_ManualRotator->raise();
-            }
-            else
-            {
-                loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
-                targetAccuracyNotMet = false;
-            }
-        }
-    }
-
+    // Send Solver results
     emit newSolverResults(orientation, ra, dec, pixscale);
     QJsonObject solution =
     {
@@ -2119,6 +2040,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"fov", FOVOut->text()},
     };
     emit newSolution(solution.toVariantMap());
+
+    state = ALIGN_SUCCESSFUL;
+    emit newStatus(state);
+    solverIterations = 0;
+    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
+                          KSNotification::Align);
 
     switch (m_CurrentGotoMode)
     {
@@ -2164,21 +2091,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 return;
             }
 
-            if (!m_SolveFromFile)
-            {
-                stopProgressAnimation();
-                statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-                solutionTable->setItem(currentRow, 3, statusReport.release());
-            }
+            stopProgressAnimation();
+            statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
+            solutionTable->setItem(currentRow, 3, statusReport.release());
 
             appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
-
-            //            if (mountModelRunning)
-            //            {
-            //                finishAlignmentPoint(true);
-            //                if (mountModelRunning)
-            //                    return;
-            //            }
             break;
 
         case GOTO_NOTHING:
@@ -2191,12 +2108,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             break;
     }
 
-    KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
-                          KSNotification::Align);
-    state = ALIGN_COMPLETE;
-    emit newStatus(state);
-    solverIterations = 0;
-
     solverFOV->setProperty("visible", true);
 
     if (!matchPAHStage(PAA::PAH_IDLE))
@@ -2205,6 +2116,14 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 m_StellarSolver->getSolutionIndexNumber());
     else
     {
+
+        if (checkIfRotationRequired())
+            return;
+
+        // We are done!
+        state = ALIGN_COMPLETE;
+        emit newStatus(state);
+
         solveB->setEnabled(true);
         loadSlewB->setEnabled(true);
     }
@@ -2261,6 +2180,100 @@ void Align::solverFailed()
     solverFOV->setProperty("visible", false);
 
     setAlignTableResult(ALIGN_RESULT_FAILED);
+}
+
+bool Align::checkIfRotationRequired()
+{
+    // Check if we need to perform any rotations.
+    if (Options::astrometryUseRotator())
+    {
+        if (m_SolveFromFile)
+        {
+            loadSlewTargetPA = solverFOV->PA();
+            // We are not done yet.
+            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+        }
+        else
+        {
+            currentRotatorPA = solverFOV->PA();
+
+            // When Load&Slew image is solved, we check if we need to rotate the rotator to match the position angle of the image
+            if (m_Rotator != nullptr && m_Rotator->isConnected())
+            {
+                // Update Rotator offsets
+                auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE");
+                if (absAngle)
+                {
+                    // 1. PA = (RawAngle * Multiplier) - Offset
+                    // 2. Offset = (RawAngle * Multiplier) - PA
+                    // 3. RawAngle = (Offset + PA) / Multiplier
+                    double rawAngle = absAngle->at(0)->getValue();
+                    double offset   = range360((rawAngle * Options::pAMultiplier()) - currentRotatorPA);
+
+                    auto reverseStatus = "Unknown";
+                    auto reverseProperty = m_Rotator->getSwitch("REVERSE_ROTATOR");
+                    if (reverseProperty)
+                    {
+                        if (reverseProperty->at(0)->getState() == ISS_ON)
+                            reverseStatus = "Reversed Direction";
+                        else
+                            reverseStatus = "Normal Direction";
+                    }
+
+                    qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << rawAngle << "Rotator PA:" << currentRotatorPA
+                                               << "Rotator Offset:" << offset << "Direction:" << reverseStatus;
+
+                    if (m_Mount)
+                        Options::setPAPierSide(m_Mount->pierSide());
+                    Options::setPAOffset(offset);
+                }
+
+                if (absAngle && std::isnan(loadSlewTargetPA) == false
+                        && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+                {
+                    // 3. RawAngle = (Offset + PA) / Multiplier
+                    double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
+                    absAngle->at(0)->setValue(rawAngle);
+                    ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
+                    clientManager->sendNewNumber(absAngle);
+                    appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
+                    state = ALIGN_ROTATING;
+                    emit newStatus(state);
+                    return true;
+                }
+            }
+            else if (std::isnan(loadSlewTargetPA) == false)
+            {
+                double current = currentRotatorPA;
+                double target = loadSlewTargetPA;
+
+                double diff = SolverUtils::rangePA(current - target);
+                double threshold = Options::astrometryRotatorThreshold() / 60.0;
+
+                appendLogText(i18n("Current PA is %1; Target PA is %2; diff: %3", current, target, diff));
+
+                emit manualRotatorChanged(current, target, threshold);
+
+                m_ManualRotator->setRotatorDiff(current, target, diff);
+                if (fabs(diff) > threshold)
+                {
+                    targetAccuracyNotMet = true;
+                    m_ManualRotator->show();
+                    m_ManualRotator->raise();
+                    state = ALIGN_ROTATING;
+                    emit newStatus(state);
+                    return true;
+                }
+                else
+                {
+                    loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+                    targetAccuracyNotMet = false;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 void Align::stop(Ekos::AlignState mode)
@@ -2374,7 +2387,7 @@ void Align::clearLog()
     emit newLog(QString());
 }
 
-void Align::processSwitch(ISwitchVectorProperty *svp)
+void Align::processSwitch(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "DOME_MOTION"))
     {
@@ -2403,7 +2416,7 @@ void Align::processSwitch(ISwitchVectorProperty *svp)
 
 }
 
-void Align::processNumber(INumberVectorProperty *nvp)
+void Align::processNumber(INumberVectorProperty * nvp)
 {
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD") || !strcmp(nvp->name, "EQUATORIAL_COORD"))
     {
@@ -2477,7 +2490,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         }
                         else
                         {
-                            appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
+                            appendLogText(i18n("Mount is synced to solution coordinates."));
+
+                            if (checkIfRotationRequired())
+                                return;
+
                             KSNotification::event(QLatin1String("AlignSuccessful"),
                                                   i18n("Astrometry alignment completed successfully"), KSNotification::Align);
                             state = ALIGN_COMPLETE;
@@ -2501,6 +2518,8 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         if (m_SolveFromFile)
                         {
                             m_SolveFromFile = false;
+                            loadSlewTargetPA = solverFOV->PA();
+                            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
 
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
@@ -2512,7 +2531,11 @@ void Align::processNumber(INumberVectorProperty *nvp)
                         }
                         else if (differentialSlewingActivated)
                         {
-                            appendLogText(i18n("Differential slewing complete. Astrometric solver is successful."));
+                            appendLogText(i18n("Differential slewing complete."));
+
+                            if (checkIfRotationRequired())
+                                return;
+
                             KSNotification::event(QLatin1String("AlignSuccessful"), i18n("Astrometry alignment completed successfully"),
                                                   KSNotification::Align);
                             state = ALIGN_COMPLETE;
@@ -2848,7 +2871,7 @@ void Align::setBinningIndex(int binIndex)
         calculateFOV();
 }
 
-bool Align::setFilterWheel(ISD::FilterWheel *device)
+bool Align::setFilterWheel(ISD::FilterWheel * device)
 {
     if (m_FilterWheel && m_FilterWheel == device)
     {
@@ -2972,7 +2995,7 @@ void Align::setWCSEnabled(bool enable)
         clientManager->sendNewSwitch(wcsControl);
 }
 
-void Align::checkCameraExposureProgress(ISD::CameraChip *targetChip, double remaining, IPState state)
+void Align::checkCameraExposureProgress(ISD::CameraChip * targetChip, double remaining, IPState state)
 {
     INDI_UNUSED(targetChip);
     INDI_UNUSED(remaining);
@@ -3146,7 +3169,7 @@ void Align::setAstrometryDevice(const QSharedPointer<ISD::GenericDevice> &device
     }
 }
 
-bool Align::setRotator(ISD::Rotator *device)
+bool Align::setRotator(ISD::Rotator * device)
 {
     if (device == m_Rotator)
         return false;
