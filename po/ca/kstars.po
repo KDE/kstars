@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-10-13 12:21+0200\n"
+"PO-Revision-Date: 2022-10-18 09:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6069,13 +6069,9 @@ msgstr ""
 "per a verificar-ho."
 
 #: ekos/align/align.cpp:2493
-#, fuzzy, kde-format
-#| msgid ""
-#| "Mount is synced to solution coordinates. Astrometric solver is successful."
+#, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr ""
-"La muntura s'ha sincronitzat amb les coordenades de la solució. El "
-"solucionador d'astrometria ha tingut èxit."
+msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 
 #: ekos/align/align.cpp:2528 ekos/align/align.cpp:2558
 #: ekos/align/align.cpp:3759 ekos/align/polaralignmentassistant.cpp:637
@@ -6084,10 +6080,9 @@ msgid "Settling..."
 msgstr "Posicionament..."
 
 #: ekos/align/align.cpp:2534
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Differential slewing complete."
-msgstr "Posicionament completat."
+msgstr "S'ha completat l'orientació diferencial."
 
 #: ekos/align/align.cpp:2548
 #, kde-format
@@ -15567,8 +15562,7 @@ msgid "Framing"
 msgstr "Captura"
 
 #: ekos/ekos.h:139
-#, fuzzy, kde-format
-#| msgid "Success"
+#, kde-format
 msgid "Successful"
 msgstr "Correcte"
 
@@ -15578,10 +15572,9 @@ msgid "Syncing"
 msgstr "Sincronització"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotating"
-msgstr "Rotació"
+msgstr "Gir"
 
 #: ekos/ekos.h:161
 #, kde-format
@@ -23199,14 +23192,13 @@ msgstr "Confirma l'equip"
 #: ekos/scheduler/framingassistant.ui:936
 #, kde-format
 msgid "Import Mosaic from Telescopius"
-msgstr ""
+msgstr "Importa un mosaic des del Telescopius"
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:939
-#, fuzzy, kde-format
-#| msgid "Import CSV..."
+#, kde-format
 msgid "Import..."
-msgstr "Importa CSV..."
+msgstr "Importa..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:946
@@ -23446,21 +23438,20 @@ msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Cua de seqüències de l'Ekos (*.esq)"
 
 #: ekos/scheduler/framingassistantui.cpp:697
-#, fuzzy, kde-format
-#| msgid "Select Serial port"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
-msgstr "Seleccioneu el port sèrie"
+msgstr "Selecció del mosaic a importar"
 
 #: ekos/scheduler/framingassistantui.cpp:699
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
-msgstr ""
+msgstr "CSV del Telescopius (*.csv)"
 
 #: ekos/scheduler/framingassistantui.cpp:748
 #, kde-format
 msgid "Import must contain center coordinates."
-msgstr ""
+msgstr "Cal que la importació contingui les coordenades del centre."
 
 #: ekos/scheduler/framingassistantui.cpp:769
 #, kde-format
