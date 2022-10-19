@@ -503,6 +503,9 @@ void Guide::checkCamera()
 
 void Ekos::Guide::checkUseGuideHead()
 {
+    if (m_Camera == nullptr)
+        return;
+
     if (m_Camera->hasGuideHead() && Options::useGuideHead())
         useGuideHead = true;
     else

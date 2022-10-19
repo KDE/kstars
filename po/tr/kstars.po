@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-10-13 06:18+0300\n"
+"PO-Revision-Date: 2022-10-18 06:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6169,10 +6169,9 @@ msgid "Setting position angle to %1 degrees E of N..."
 msgstr "Sıcaklığı %1 C olarak ayarlar..."
 
 #: ekos/align/align.cpp:2253
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1% Next exposure is %2 seconds."
+#, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
-msgstr "Mevcut ADU %1% Sonraki pozlama %2 saniye."
+msgstr ""
 
 #: ekos/align/align.cpp:2320
 #, fuzzy, kde-format
@@ -14317,10 +14316,9 @@ msgid ""
 msgstr ""
 
 #: ekos/capture/capture.cpp:6288
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1% Next exposure is %2 seconds."
+#, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
-msgstr "Mevcut ADU %1% Sonraki pozlama %2 saniye."
+msgstr ""
 
 #: ekos/capture/capture.cpp:6309
 #, kde-format
@@ -14338,10 +14336,9 @@ msgid ""
 msgstr "En uygun pozlama ayarları hesaplanamıyor, lütfen flatleri elle yapın."
 
 #: ekos/capture/capture.cpp:6351
-#, fuzzy, kde-format
-#| msgid "Current ADU is %1% Next exposure is %2 seconds."
+#, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
-msgstr "Mevcut ADU %1% Sonraki pozlama %2 saniye."
+msgstr ""
 
 #: ekos/capture/capture.cpp:6373
 #, fuzzy, kde-format
@@ -16491,7 +16488,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
-msgstr "FITS alındı. HFR %1 @ %2. Delta (%3%)"
+msgstr "FITS alındı. HFR %1 @ %2. Delta (%​%3)"
 
 #: ekos/focus/focus.cpp:2487
 #, kde-format

@@ -2797,6 +2797,8 @@ bool Align::loadAndSlew(QString fileURL)
         return false;
 
     QFileInfo fileInfo(fileURL);
+    if (fileInfo.exists() == false)
+        return false;
 
     dirPath = fileInfo.absolutePath();
 

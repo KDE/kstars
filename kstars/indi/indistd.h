@@ -220,7 +220,11 @@ class GenericDevice : public GDInterface
         void createDeviceInit();
         void updateTime();
         void updateLocation();
-        void generateDevices();
+        /**
+         * @brief generateDevices Generate concrete devices based on DRIVER_INTERFACE
+         * @return True if at least one device is generated, false otherwise.
+         */
+        bool generateDevices();
         void handleTimeout();
 
     protected:

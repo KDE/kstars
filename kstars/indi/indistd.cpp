@@ -391,9 +391,12 @@ void GenericDevice::processText(ITextVectorProperty *tvp)
 
             // If devices were already created but we receieved an update to DRIVER_INTERFACE
             // then we need to re-generate the concrete devices to account for the change.
-            // TODO maybe be smart about it and only regenerate interfaces that were not previously defined?
             if (m_ConcreteDevices.isEmpty() == false)
-                generateDevices();
+            {
+                // If we generated ANY concrete device due to interface update, then we emit ready immediately.
+                if (generateDevices())
+                    emit ready();
+            }
         }
 
         tp = IUFindText(tvp, "DRIVER_VERSION");
@@ -1078,13 +1081,15 @@ ISD::Auxiliary *GenericDevice::getAuxiliary()
     return nullptr;
 }
 
-void GenericDevice::generateDevices()
+bool GenericDevice::generateDevices()
 {
+    auto generated = false;
     // Mount
     if (m_DriverInterface & INDI::BaseDevice::TELESCOPE_INTERFACE &&
             m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].isNull())
     {
         auto mount = new ISD::Mount(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].reset(mount);
         mount->registeProperties();
         if (m_Connected)
@@ -1106,6 +1111,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].isNull())
     {
         auto camera = new ISD::Camera(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].reset(camera);
         camera->registeProperties();
         if (m_Connected)
@@ -1128,6 +1134,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].isNull())
     {
         auto guider = new ISD::Guider(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].reset(guider);
         guider->registeProperties();
         if (m_Connected)
@@ -1149,6 +1156,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].isNull())
     {
         auto focuser = new ISD::Focuser(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].reset(focuser);
         focuser->registeProperties();
         if (m_Connected)
@@ -1170,6 +1178,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].isNull())
     {
         auto filterWheel = new ISD::FilterWheel(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].reset(filterWheel);
         filterWheel->registeProperties();
         if (m_Connected)
@@ -1191,6 +1200,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].isNull())
     {
         auto dome = new ISD::Dome(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(dome);
         dome->registeProperties();
         if (m_Connected)
@@ -1212,6 +1222,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].isNull())
     {
         auto gps = new ISD::GPS(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].reset(gps);
         gps->registeProperties();
         if (m_Connected)
@@ -1233,6 +1244,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].isNull())
     {
         auto weather = new ISD::Weather(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].reset(weather);
         weather->registeProperties();
         if (m_Connected)
@@ -1254,6 +1266,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].isNull())
     {
         auto ao = new ISD::AdaptiveOptics(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].reset(ao);
         ao->registeProperties();
         if (m_Connected)
@@ -1275,6 +1288,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].isNull())
     {
         auto dustCap = new ISD::DustCap(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].reset(dustCap);
         dustCap->registeProperties();
         if (m_Connected)
@@ -1296,6 +1310,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].isNull())
     {
         auto lightBox = new ISD::LightBox(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].reset(lightBox);
         lightBox->registeProperties();
         if (m_Connected)
@@ -1317,6 +1332,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].isNull())
     {
         auto rotator = new ISD::Rotator(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].reset(rotator);
         rotator->registeProperties();
         if (m_Connected)
@@ -1338,6 +1354,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].isNull())
     {
         auto detector = new ISD::Detector(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].reset(detector);
         detector->registeProperties();
         if (m_Connected)
@@ -1359,6 +1376,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].isNull())
     {
         auto spectrograph = new ISD::Spectrograph(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].reset(spectrograph);
         spectrograph->registeProperties();
         if (m_Connected)
@@ -1380,6 +1398,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].isNull())
     {
         auto correlator = new ISD::Correlator(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].reset(correlator);
         correlator->registeProperties();
         if (m_Connected)
@@ -1401,6 +1420,7 @@ void GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].isNull())
     {
         auto aux = new ISD::Auxiliary(this);
+        generated = true;
         m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].reset(aux);
         aux->registeProperties();
         if (m_Connected)
@@ -1416,6 +1436,8 @@ void GenericDevice::generateDevices()
             });
         }
     }
+
+    return generated;
 }
 
 void propertyToJson(ISwitchVectorProperty *svp, QJsonObject &propObject, bool compact)
