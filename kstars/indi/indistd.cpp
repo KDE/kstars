@@ -277,6 +277,7 @@ void GenericDevice::processSwitch(ISwitchVectorProperty *svp)
         }
         else if (m_Connected && conSP->s == ISS_OFF)
         {
+            disconnect(m_ReadyTimer, &QTimer::timeout, this, &GenericDevice::handleTimeout);
             m_Connected = false;
             m_Ready = false;
             emit Disconnected();
