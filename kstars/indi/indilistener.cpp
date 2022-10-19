@@ -100,25 +100,12 @@ void INDIListener::removeClient(ClientManager *cm)
     qCDebug(KSTARS_INDI) << "INDIListener: Removing client manager for server"
                          << cm->getHost() << "@" << cm->getPort();
 
-    QList<QSharedPointer<ISD::GenericDevice>>::iterator it = m_Devices.begin();
+    cm->disconnect(this);
     clients.removeOne(cm);
 
-    while (it != m_Devices.end())
-    {
-        DriverInfo *dv  = (*it)->getDriverInfo();
-        bool hostSource = (dv->getDriverSource() == HOST_SOURCE) ||
-                          (dv->getDriverSource() == GENERATED_SOURCE);
-
-        if (cm->isDriverManaged(dv))
-        {
-            cm->removeManagedDriver(dv);
-            cm->disconnect(this);
-            if (hostSource)
-                return;
-        }
-        else
-            ++it;
-    }
+    auto managedDrivers = cm->getManagedDrivers();
+    for (auto &oneDriverInfo : managedDrivers)
+        cm->removeManagedDriver(oneDriverInfo);
 }
 
 void INDIListener::processDevice(DeviceInfo *dv)
