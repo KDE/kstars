@@ -5413,6 +5413,16 @@ void Scheduler::startAstrometry()
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
     {
+        // check if the file exists
+        QFileInfo fileInfo(currentJob->getFITSFile().toString());
+        if (fileInfo.exists() == false)
+        {
+            appendLogText(i18n("Warning: job '%1' target FITS file does not exist.", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+            stop();
+            return;
+        }
+
         QList<QVariant> solveArgs;
         solveArgs.append(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
 
@@ -5420,10 +5430,20 @@ void Scheduler::startAstrometry()
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "loadAndSlew", solveArgs)).type() ==
                 QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' loadAndSlew request received DBUS error: %2").arg(
-                                                  currentJob->getName(), reply.errorMessage());
+            appendLogText(i18n("Warning: job '%1' loadAndSlew request received DBUS error: %2",
+                               currentJob->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
+            {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
+                stop();
+            }
+            return;
+        }
+        else if (reply.arguments().first().toBool() == false)
+        {
+            appendLogText(i18n("Warning: job '%1' loadAndSlew request failed.", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+            stop();
             return;
         }
 
@@ -5443,10 +5463,13 @@ void Scheduler::startAstrometry()
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords",
                      targetArgs)).type() == QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setTargetCoords request received DBUS error: %2").arg(
-                                                  currentJob->getName(), reply.errorMessage());
+            appendLogText(i18n("Warning: job '%1' setTargetCoords request received DBUS error: %2",
+                               currentJob->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
+            {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
+                stop();
+            }
             return;
         }
 
@@ -5457,11 +5480,13 @@ void Scheduler::startAstrometry()
             if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetPositionAngle",
                          rotationArgs)).type() == QDBusMessage::ErrorMessage)
             {
-                qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                                  QString("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
-                                                      currentJob->getName(), reply.errorMessage());
+                appendLogText(i18n("Warning: job '%1' setTargetPositionAngle request received DBUS error: %2").arg(
+                                  currentJob->getName(), reply.errorMessage()));
                 if (!manageConnectionLoss())
+                {
                     currentJob->setState(SchedulerJob::JOB_ERROR);
+                    stop();
+                }
                 return;
             }
         }
@@ -5469,10 +5494,20 @@ void Scheduler::startAstrometry()
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "captureAndSolve");
         if ((reply = alignInterface->call(QDBus::AutoDetect, "captureAndSolve")).type() == QDBusMessage::ErrorMessage)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' captureAndSolve request received DBUS error: %2").arg(
-                                                  currentJob->getName(), reply.errorMessage());
+            appendLogText(i18n("Warning: job '%1' captureAndSolve request received DBUS error: %2").arg(
+                              currentJob->getName(), reply.errorMessage()));
             if (!manageConnectionLoss())
+            {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
+                stop();
+            }
+            return;
+        }
+        else if (reply.arguments().first().toBool() == false)
+        {
+            appendLogText(i18n("Warning: job '%1' captureAndSolve request failed.", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_ERROR);
+            stop();
             return;
         }
 
