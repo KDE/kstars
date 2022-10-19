@@ -754,7 +754,8 @@ void Observatory::setWeatherStatus(ISD::Weather::Status status)
     }
 
     // update weather sensor data
-    updateSensorData(m_WeatherSource->data());
+    if (m_WeatherSource)
+        updateSensorData(m_WeatherSource->data());
 
 }
 
