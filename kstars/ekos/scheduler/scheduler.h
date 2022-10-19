@@ -218,6 +218,13 @@ class Scheduler : public QWidget, public Ui::Scheduler
              */
         void setSolverAction(Align::GotoMode mode);
 
+        /**
+         * @brief importMosaic Import mosaic into planner and generate jobs for the scheduler.
+         * @param payload metadata for the mosaic information.
+         * @note Only Telescopius.com mosaic format is now supported.
+         */
+        void importMosaic(const QJsonObject &payload);
+
         /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
              * Ekos::Align interface provides primary functions to run and stop the scheduler.
             */

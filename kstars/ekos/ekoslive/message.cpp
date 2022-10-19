@@ -879,6 +879,10 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     {
         scheduler->toggleScheduler();
     }
+    else if(command == commands[SCHEDULER_IMPORT_MOSAIC])
+    {
+        scheduler->importMosaic(payload);
+    }
 
 }
 

@@ -72,6 +72,8 @@ class FramingAssistantUI : public QDialog
         void selectDirectory();
         // Select mosaic import
         void selectImport();
+        // Import mosaic CSV
+        void importMosaic(const QString &filename);
 
     public slots:
         void updateTargetFOVFromGrid();
