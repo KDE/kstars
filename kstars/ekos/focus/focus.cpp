@@ -3717,12 +3717,10 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
         if (oneSource->getDeviceName() == name)
         {
             m_TemperatureSources.removeAll(oneSource);
-            defaultFocusTemperatureSource->removeItem(defaultFocusTemperatureSource->findText(name));
-            QTimer::singleShot(1000, this, [this]()
+            QTimer::singleShot(1000, this, [this, name]()
             {
-                checkTemperatureSource();
+                defaultFocusTemperatureSource->removeItem(defaultFocusTemperatureSource->findText(name));
             });
-
             break;
         }
     }
