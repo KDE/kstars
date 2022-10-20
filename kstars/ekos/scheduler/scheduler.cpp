@@ -9,11 +9,10 @@
 
 #include "scheduler.h"
 
-#include "ksalmanac.h"
+#include "ekos/scheduler/framingassistantui.h"
 #include "ksnotification.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "mosaic.h"
 #include "Options.h"
@@ -8744,15 +8743,10 @@ QJsonObject Scheduler::getSchedulerSettings()
 
 }
 
-void Scheduler::importMosaic(const QJsonObject &payload)
+bool Scheduler::importMosaic(const QJsonObject &payload)
 {
-    auto csv      = payload["csv"].toString();
-    auto sequence = payload["sequence"].toString();
-    auto target   = payload["target"].toString();
-    auto track    = payload["track"].toBool();
-    auto focus    = payload["focus"].toBool();
-    auto align    = payload["align"].toBool();
-    auto guide    = payload["guide"].toBool();
+    QScopedPointer<FramingAssistantUI> assistant(new FramingAssistantUI());
+    return assistant->importMosaic(payload);
 }
 
 }

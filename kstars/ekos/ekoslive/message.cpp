@@ -881,7 +881,10 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     }
     else if(command == commands[SCHEDULER_IMPORT_MOSAIC])
     {
-        scheduler->importMosaic(payload);
+        if (scheduler->importMosaic(payload))
+            sendSchedulerJobs();
+        else
+            sendEvent(i18n("Mosaic import failed."), KSNotification::Scheduler, KSNotification::Alert);
     }
 
 }
