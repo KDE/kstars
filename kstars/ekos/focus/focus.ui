@@ -446,6 +446,39 @@
         <property name="spacing">
          <number>3</number>
         </property>
+        <item row="1" column="3">
+         <widget class="QComboBox" name="focusISO">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QPushButton" name="resetFrameB">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Reset focus subframe to full capture</string>
+          </property>
+          <property name="text">
+           <string>Reset</string>
+          </property>
+          <property name="icon">
+           <iconset theme="edit-delete">
+            <normaloff>.</normaloff>.</iconset>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="3">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <property name="spacing">
@@ -529,13 +562,16 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="ISOLabel">
-          <property name="enabled">
-           <bool>false</bool>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="defaultFocusTemperatureSource">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
           </property>
-          <property name="text">
-           <string>ISO:</string>
+          <property name="toolTip">
+           <string>Select focuser temperature source</string>
           </property>
          </widget>
         </item>
@@ -554,46 +590,6 @@
            <string>Filter:</string>
           </property>
          </widget>
-        </item>
-        <item row="1" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QComboBox" name="focusBinning">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="gainLabel">
-            <property name="toolTip">
-             <string>Exposure time in seconds</string>
-            </property>
-            <property name="text">
-             <string>Gain:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="focusGain">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
         <item row="0" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout">
@@ -626,122 +622,6 @@
            </widget>
           </item>
          </layout>
-        </item>
-        <item row="1" column="3">
-         <widget class="QComboBox" name="focusISO">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Bin:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QPushButton" name="resetFrameB">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Reset focus subframe to full capture</string>
-          </property>
-          <property name="text">
-           <string>Reset</string>
-          </property>
-          <property name="icon">
-           <iconset theme="edit-delete">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QComboBox" name="focusFilter">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>32</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="filterManagerB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Filter Settings</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="view-filter">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="toolTip">
-           <string>Exposure time in seconds</string>
-          </property>
-          <property name="text">
-           <string>Exp:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="temperatureSourceLabel">
-          <property name="toolTip">
-           <string>Focuser temperature source</string>
-          </property>
-          <property name="text">
-           <string>TS.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QComboBox" name="defaultFocusTemperatureSource">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Select focuser temperature source</string>
-          </property>
-         </widget>
         </item>
         <item row="3" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,1,0,1">
@@ -817,11 +697,134 @@
           </item>
          </layout>
         </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Bin:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="ISOLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>ISO:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="focusBinning">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="gainLabel">
+            <property name="toolTip">
+             <string>Exposure time in seconds</string>
+            </property>
+            <property name="text">
+             <string>Gain:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="focusGain">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="toolTip">
+           <string>Exposure time in seconds</string>
+          </property>
+          <property name="text">
+           <string>Exp:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="temperatureSourceLabel">
+          <property name="toolTip">
+           <string>Focuser temperature source</string>
+          </property>
+          <property name="text">
+           <string>TS.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="focusFilter">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="filterManagerB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Filter Settings</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="view-filter">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QTabWidget" name="tabWidget">
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
        <property name="tabShape">
         <enum>QTabWidget::Rounded</enum>
        </property>
@@ -1088,7 +1091,7 @@
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R² when performing an Auto Focus run. If the minimum is not met, Auto Focus will rerun once to try to improve the R². Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set a minimum for the acceptable R² when performing an Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is a good start. If the minimum is not met, Auto Focus will rerun once to try to improve the R². Currently only available for the Linear 1 Pass algorithm when using a Curve Fit of Hyperbola or Parabola. This feature is experimental.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="minimum">
               <double>0.000000000000000</double>
@@ -1104,7 +1107,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1" colspan="3">
+           <item row="0" column="1">
             <widget class="QCheckBox" name="useFocusDarkFrame">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1117,6 +1120,25 @@
              </property>
              <property name="text">
               <string>Dark Frame</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QCheckBox" name="focusAFBacklashComp">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable to have AutoFocus perform Backlash Compensation. Use in conjunction with the Backlash field.  Either the autofocus algorithm or the driver/focuser should perform backlash compensation but not both.&lt;/p&gt;&lt;p&gt;Used by Linear and Linear 1 Pass algorithms.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>AF Backlash Comp</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1525,29 +1547,19 @@
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
            <property name="spacing">
             <number>3</number>
            </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="toolTip">
-              <string/>
-             </property>
-             <property name="whatsThis">
-              <string/>
-             </property>
+           <item row="2" column="2">
+            <widget class="QLabel" name="label_12b">
              <property name="text">
-              <string>Initial Step size:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_12">
-             <property name="toolTip">
-              <string/>
-             </property>
-             <property name="text">
-              <string>Max Travel:</string>
+              <string>Out Step Multiple:</string>
              </property>
             </widget>
            </item>
@@ -1576,6 +1588,33 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_27">
+             <property name="text">
+              <string>Motion Timeout:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Settle:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QSpinBox" name="focusCaptureTimeout">
+             <property name="toolTip">
+              <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
+             </property>
+             <property name="minimum">
+              <number>5</number>
+             </property>
+             <property name="maximum">
+              <number>300</number>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="1">
             <widget class="QSpinBox" name="focusTicks">
              <property name="sizePolicy">
@@ -1601,10 +1640,33 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_9">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Settle:</string>
+              <string>Max Step size:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="focusMaxSingleStep">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum single step size the algorithm is allowed to command as it searches for the critical focus zone. The calculated step size would be limited to this maximum value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <number>10</number>
+             </property>
+             <property name="maximum">
+              <number>100000</number>
+             </property>
+             <property name="value">
+              <number>100000</number>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Capture Timeout:</string>
              </property>
             </widget>
            </item>
@@ -1643,10 +1705,29 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="label_12b">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="toolTip">
+              <string/>
+             </property>
+             <property name="whatsThis">
+              <string/>
+             </property>
              <property name="text">
-              <string>Out Step Multiple:</string>
+              <string>Initial Step size:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QSpinBox" name="focusMotionTimeout">
+             <property name="toolTip">
+              <string>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>120</number>
              </property>
             </widget>
            </item>
@@ -1685,66 +1766,13 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QSpinBox" name="focusMaxSingleStep">
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_12">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum single step size the algorithm is allowed to command as it searches for the critical focus zone. The calculated step size would be limited to this maximum value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string/>
              </property>
-             <property name="minimum">
-              <number>10</number>
-             </property>
-             <property name="maximum">
-              <number>100000</number>
-             </property>
-             <property name="value">
-              <number>100000</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Max Step size:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Capture Timeout:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QSpinBox" name="focusCaptureTimeout">
-             <property name="toolTip">
-              <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
-             </property>
-             <property name="minimum">
-              <number>5</number>
-             </property>
-             <property name="maximum">
-              <number>300</number>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_27">
-             <property name="text">
-              <string>Motion Timeout:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QSpinBox" name="focusMotionTimeout">
-             <property name="toolTip">
-              <string>Maximum time in seconds to wait for a focuser to move to desired position before declaring a timeout.</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="maximum">
-              <number>120</number>
+              <string>Max Travel:</string>
              </property>
             </widget>
            </item>

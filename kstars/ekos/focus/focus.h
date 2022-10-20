@@ -636,7 +636,7 @@ class Focus : public QWidget, public Ui::Focus
         // we will then scan back in (back to the originally requested position). This "dance" is done
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
         // For LINEAR1PASS algo use the user-defined backlash value to adjust by
-        int adjustLinearPosition(int position, int newPosition, int backlash);
+        int adjustLinearPosition(int position, int newPosition, bool backlashEnabled, int backlash);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center

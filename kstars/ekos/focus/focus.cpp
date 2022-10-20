@@ -979,7 +979,11 @@ void Focus::start()
                                << " Autostar: " << ( focusAutoStarEnabled->isChecked() ? "yes" : "no" )
                                << " Full frame: " << ( focusUseFullField->isChecked() ? "yes" : "no " )
                                << " [" << focusFullFieldInnerRadius->value() << "%," << focusFullFieldOuterRadius->value() << "%]"
-                               << " Step Size: " << focusTicks->value() << " Threshold: " << focusThreshold->value()
+                               << " Step Size: " << focusTicks->value()
+                               << " Number Steps " << focusOutSteps->value()
+                               << " Autofocus Backlash Comp " << ( focusAFBacklashComp->isChecked() ? "yes" : "no" )
+                               << " Backlash " << focusBacklash->value()
+                               << " Threshold: " << focusThreshold->value()
                                << " Gaussian Sigma: " << focusGaussianSigma->value()
                                << " Gaussian Kernel size: " << focusGaussianKernelSize->value()
                                << " Multi row average: " << focusMultiRowAverage->value()
@@ -1036,7 +1040,8 @@ void Focus::start()
         linearFocuser.reset(MakeLinearFocuser(params));
         curveFitting.reset(new CurveFitting());
         linearRequestedPosition = linearFocuser->initialPosition();
-        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusBacklash->value());
+        const int newPosition = adjustLinearPosition(position, linearRequestedPosition, focusAFBacklashComp->isChecked(),
+                                focusBacklash->value());
         if (newPosition != position)
         {
             if (!changeFocus(newPosition - position))
@@ -1050,9 +1055,9 @@ void Focus::start()
     capture();
 }
 
-int Focus::adjustLinearPosition(int position, int newPosition, int backlash)
+int Focus::adjustLinearPosition(int position, int newPosition, bool backlashEnabled, int backlash)
 {
-    if (newPosition > position)
+    if (backlashEnabled && newPosition > position)
     {
         constexpr int extraMotionSteps = 5;
         int adjustment;
@@ -2411,7 +2416,8 @@ void Focus::autoFocusLinear()
         // Update the graph with the next datapoint, draw the curve, etc.
         plotLinearFocus();
 
-    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusBacklash->value());
+    nextPosition = adjustLinearPosition(currentPosition, linearRequestedPosition, focusAFBacklashComp->isChecked(),
+                                        focusBacklash->value());
 
     if (linearFocuser->isDone())
     {
@@ -2904,7 +2910,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             int temp = focuserAdditionalMovement;
             focuserAdditionalMovement = 0;
-            qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: un-doing extension. Moving back in by %1").arg(temp);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("Undoing backlash extension. Moving back in by %1").arg(temp);
 
             if (!focusIn(temp))
             {
@@ -4326,42 +4332,50 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
     switch(algorithm)
     {
         case FOCUS_ITERATIVE:
-            focusOutSteps->setEnabled(false); // Out step multiple
+            focusOutSteps->setEnabled(false);             // Out step multiple
             focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                  // Initial Step Size
+            focusTicks->setEnabled(true);                 // Initial Step Size
             focusMaxSingleStep->setEnabled(true);         // Max Step Size
             focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);          // Curve fit can only be QUADRATIC
+            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            focusAFBacklashComp->setEnabled(false);       // Autofocus Backlash Comp off
+            focusAFBacklashComp->setChecked(false);
             break;
 
         case FOCUS_POLYNOMIAL:
-            focusOutSteps->setEnabled(false); // Out step multiple
+            focusOutSteps->setEnabled(false);             // Out step multiple
             focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                  // Initial Step Size
+            focusTicks->setEnabled(true);                 // Initial Step Size
             focusMaxSingleStep->setEnabled(true);         // Max Step Size
             focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);          // Curve fit can only be QUADRATIC
+            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            focusAFBacklashComp->setEnabled(false);       // Autofocus Backlash Comp off
+            focusAFBacklashComp->setChecked(false);
             break;
 
         case FOCUS_LINEAR:
-            focusOutSteps->setEnabled(true);  // Out step multiple
+            focusOutSteps->setEnabled(true);              // Out step multiple
             focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                  // Initial Step Size
+            focusTicks->setEnabled(true);                 // Initial Step Size
             focusMaxSingleStep->setEnabled(false);        // Max Step Size
             focusTolerance->setEnabled(true);             // Solution tolerance
-            focusCurveFit->setEnabled(false);          // Curve fit can only be QUADRATIC
+            focusCurveFit->setEnabled(false);             // Curve fit can only be QUADRATIC
             focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
+            focusAFBacklashComp->setEnabled(true);        // Autofocus Backlash Comp on
+            focusAFBacklashComp->setChecked(true);
             break;
 
         case FOCUS_LINEAR1PASS:
-            focusOutSteps->setEnabled(true);  // Out step multiple
+            focusOutSteps->setEnabled(true);              // Out step multiple
             focusMaxTravel->setEnabled(true);             // Max Travel
-            focusTicks->setEnabled(true);                  // Initial Step Size
+            focusTicks->setEnabled(true);                 // Initial Step Size
             focusMaxSingleStep->setEnabled(false);        // Max Step Size
             focusTolerance->setEnabled(false);            // Solution tolerance
-            focusCurveFit->setEnabled(true);           // Curve fit
+            focusCurveFit->setEnabled(true);              // Curve fit
+            focusAFBacklashComp->setEnabled(true);        // Autofocus Backlash Comp on
+            focusAFBacklashComp->setChecked(true);
             break;
     }
 }
