@@ -523,7 +523,7 @@
               <para> <emphasis role="bold">Backlash Managed by
               Focuser</emphasis>: If your focuser had the ability to manage
               backlash itself then you can use this facility and turn off AF
-              Backlash Comp. Alternatively, if its possible, you could turn
+              Backlash Comp. Alternatively, if it's possible, you could turn
               off the focuser's backlash facility and set AF Backlash Comp
               on.</para>
             </listitem>
@@ -532,7 +532,7 @@
               <para> <emphasis role="bold">Backlash Managed by Device
               Driver</emphasis>: If your device driver had the ability to
               manage backlash itself then you can use this facility and turn
-              off AF Backlash Como. Alternatively, if its possible, you could
+              off AF Backlash Comp. Alternatively, if it's possible, you could
               turn off the device driver's backlash facility and set AF
               Backlash Comp on.</para>
             </listitem>
