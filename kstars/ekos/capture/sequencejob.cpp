@@ -501,7 +501,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
     const auto frameType = getFrameType();
     // Only change filters for FLAT and LIGHT frames.
     // TODO add support for setting a dark filter to block all light
-    if (stateMachine->targetFilterID != -1 && captureDeviceAdaptor.data()->getFilterWheel() != nullptr &&
+    if (stateMachine->targetFilterID != INVALID_VALUE && captureDeviceAdaptor.data()->getFilterWheel() != nullptr &&
             (frameType == FRAME_FLAT || frameType == FRAME_LIGHT))
     {
         if (stateMachine->targetFilterID != stateMachine->m_CaptureModuleState->currentFilterID)

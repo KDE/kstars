@@ -43,7 +43,7 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool enforc
     // Filter changes are actually done in capture(), therefore prepareActions are always true
     prepareActions[CaptureModuleState::ACTION_FILTER] = true;
     // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != -1 && targetFilterID != m_CaptureModuleState->currentFilterID)
+    if (targetFilterID != INVALID_VALUE && targetFilterID != m_CaptureModuleState->currentFilterID)
         emit prepareState(CAPTURE_CHANGING_FILTER);
 
 
@@ -84,7 +84,7 @@ void SequenceJobState::prepareFlatFrameCapture(bool enforceCCDTemp, bool isPrevi
     // Filter changes are actually done in capture(), therefore prepareActions are always true
     prepareActions[CaptureModuleState::ACTION_FILTER] = true;
     // nevertheless, emit an event so that Capture changes m_state
-    if (targetFilterID != -1 && targetFilterID != m_CaptureModuleState->currentFilterID)
+    if (targetFilterID != INVALID_VALUE && targetFilterID != m_CaptureModuleState->currentFilterID)
         emit prepareState(CAPTURE_CHANGING_FILTER);
 
     // Check if we need to update temperature (only skip if the value is initialized and within the limits)
