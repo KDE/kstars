@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-19 05:16+0200\n"
+"PO-Revision-Date: 2022-10-21 07:01+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5575,7 +5575,7 @@ msgstr ""
 #: dialogs/wizwelcome.ui:61
 #, kde-format
 msgid "Welcome to the KStars Startup Wizard"
-msgstr ""
+msgstr "მოგესალმებათ KStars-ის გაშვების ოსტატი"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: dialogs/wizwelcome.ui:84
@@ -20441,7 +20441,7 @@ msgstr "გუმბათი:"
 #: ekos/profileeditor.ui:539
 #, kde-format
 msgid "AO:"
-msgstr ""
+msgstr "AO:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:572
@@ -20567,7 +20567,7 @@ msgstr ""
 #: ekos/profilewizard.ui:26
 #, kde-format
 msgid "Ekos Profile Wizard"
-msgstr ""
+msgstr "Ekos -ის პროფილის ოსტატი"
 
 #. i18n: ectx: property (text), widget (QLabel, intoPageLabel)
 #: ekos/profilewizard.ui:119
@@ -26009,7 +26009,7 @@ msgstr ""
 #: indi/streamform.ui:279
 #, kde-format
 msgid "Frame (s)"
-msgstr ""
+msgstr "კადრ(ებ)-ი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:320
@@ -26050,7 +26050,7 @@ msgstr "ვიდეოს ჩაწერის გაჩერება"
 #: indi/telescopewizard.ui:31
 #, kde-format
 msgid "Telescope Wizard"
-msgstr ""
+msgstr "ტელესკოპის ოსტატი"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: indi/telescopewizard.ui:64
@@ -26199,7 +26199,7 @@ msgstr ""
 #: indi/telescopewizardprocess.cpp:354
 #, kde-format
 msgid "Telescope Wizard completed successfully."
-msgstr ""
+msgstr "ტელესკოპის ოსტატმა მუშაობა წარმატებით დაასრულა."
 
 #: kspopupmenu.cpp:87
 #, kde-format
@@ -26210,7 +26210,7 @@ msgstr ""
 #, kde-format
 msgctxt "the time at which an object falls below the horizon"
 msgid "Set time: %1"
-msgstr ""
+msgstr "დროის დაყენება: %1"
 
 #: kspopupmenu.cpp:92
 #, kde-format
@@ -60953,12 +60953,12 @@ msgstr "&სკრიპტის გაშვება..."
 #, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
-msgstr ""
+msgstr "ბეჭდვის &ოსტატი..."
 
 #: kstarsinit.cpp:180
 #, kde-format
 msgid "Set Time to &Now"
-msgstr "დროის მიმდინარეზე დაყენება"
+msgstr "დროის &მიმდინარეზე დაყენება"
 
 #: kstarsinit.cpp:184
 #, kde-format
@@ -68539,7 +68539,7 @@ msgstr ""
 #: options/opssolarsystem.ui:597
 #, kde-format
 msgid "Clear all orbit trails"
-msgstr ""
+msgstr "ყველა ორბიტის კვალის გასუფთავება"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, ClearAllTrails)
 #: options/opssolarsystem.ui:600
@@ -68589,7 +68589,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Terrain Image Filename"
-msgstr ""
+msgstr "რელიეფის გამოსახულების ფაილის სახელი"
 
 #: options/opsterrain.cpp:54
 #, kde-format
@@ -68612,7 +68612,7 @@ msgstr "რელიეფის ჩვენება"
 #: options/opsterrain.ui:46
 #, kde-format
 msgid "Specify the terrain file to use."
-msgstr ""
+msgstr "მიუთითეთ გამოსაყენებელი რელიფერის ფაილი."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainFileLabel)
 #: options/opsterrain.ui:49
@@ -68655,7 +68655,7 @@ msgstr ""
 #: options/opsterrain.ui:214
 #, kde-format
 msgid "Speedup options"
-msgstr ""
+msgstr "აჩქარების მორგება"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainDownsamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainDownsampling)
@@ -68722,12 +68722,12 @@ msgstr "B - V ინდექსი:"
 #: printing/detailstable.cpp:448
 #, kde-format
 msgid "Asteroid/Comet details"
-msgstr ""
+msgstr "ასტეროიდის/კომეტის დეტალები"
 
 #: printing/finderchart.cpp:82
 #, kde-format
 msgid "Date, time and location: "
-msgstr ""
+msgstr "თარიღი, დრო და მდებარეობა:"
 
 #: printing/foveditordialog.cpp:28
 #, kde-format
@@ -68797,7 +68797,7 @@ msgstr "პლანეტარული ნისლეული"
 #: printing/legend.cpp:364 printing/legend.cpp:399 skyobjects/skyobject.cpp:357
 #, kde-format
 msgid "Supernova Remnant"
-msgstr ""
+msgstr "ზეახალი ვარსკვლავის ნარჩენები"
 
 #: printing/legend.cpp:368 printing/legend.cpp:403 skyobjects/skyobject.cpp:359
 #, kde-format
@@ -68827,7 +68827,7 @@ msgstr ""
 #: printing/loggingform.cpp:36
 #, kde-format
 msgid "Observer:"
-msgstr ""
+msgstr "დამკვირვებელი:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #. i18n: ectx: property (text), widget (QLabel, dateLabel)
@@ -68857,7 +68857,7 @@ msgstr ""
 #: printing/loggingform.cpp:53
 #, kde-format
 msgid "Power:"
-msgstr ""
+msgstr "სიმძლავრე:"
 
 #: printing/printingwizard.cpp:220
 #, kde-format
@@ -69200,7 +69200,7 @@ msgstr ""
 #: printing/pwizobjectselection.ui:71
 #, kde-format
 msgid "Select Sky Object"
-msgstr ""
+msgstr "აირჩიეთ ციური ობიექტი"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizobjectselection.ui:95
@@ -69469,7 +69469,7 @@ msgstr ""
 #: skycomponents/notifyupdatesui.ui:68
 #, kde-format
 msgid "New supernova(e) discovered"
-msgstr ""
+msgstr "აღმოჩანილია ახალი ზეახალი ვარსკვლავი"
 
 #: skycomponents/satellitescomponent.cpp:43
 #, kde-format
@@ -69490,7 +69490,7 @@ msgstr "%1 თანამგზავრის განახლება"
 #, kde-format
 msgctxt "@title:window"
 msgid "Satellite Orbital Elements Update"
-msgstr ""
+msgstr "თანამგზავრის ორბიტალური ელემენტების განახლება"
 
 #: skycomponents/skymapcomposite.cpp:126
 #, kde-format
@@ -69528,12 +69528,12 @@ msgstr "ზეახალი ვარსკვლავის განახ�
 #: skycomponents/supernovaecomponent.cpp:240
 #, kde-format
 msgid "Downloading Supernovae updates..."
-msgstr ""
+msgstr "ზეახალი ვარსკვლავების განახლებების გადმოწერა..."
 
 #: skycomponents/supernovaecomponent.cpp:266
 #, kde-format
 msgid "Error downloading supernova data: %1"
-msgstr ""
+msgstr "ზეახალი ვარსკვლავების მონაცემების გადმოწერის შეცდომა: %1"
 
 #: skymap.cpp:386 skymaplite.cpp:355
 #, kde-format
@@ -69718,7 +69718,7 @@ msgstr "წარმატება"
 #: skyobjects/satellite.cpp:1241
 #, kde-format
 msgid "Eccentricity >= 1.0 or < -0.001"
-msgstr ""
+msgstr "ექსცენტრიულობა >= 1.0 or < -0.001"
 
 #: skyobjects/satellite.cpp:1244
 #, kde-format
@@ -70009,12 +70009,12 @@ msgstr ""
 #: time/timezonerule.cpp:104
 #, kde-format
 msgid "Could not parse %1 as a valid month code."
-msgstr ""
+msgstr "%1 სწორი თვის კოდი არაა."
 
 #: time/timezonerule.cpp:217
 #, kde-format
 msgid "Could not parse %1 as a valid day code."
-msgstr ""
+msgstr "%1 სწორი დღის კოდი არაა."
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:2
@@ -71796,7 +71796,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Flag Manager"
-msgstr ""
+msgstr "ალმების მმართველი"
 
 #: tools/flagmanager.cpp:63
 #, kde-format

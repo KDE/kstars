@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-20 12:43+0200\n"
+"PO-Revision-Date: 2022-10-21 13:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16415,13 +16415,7 @@ msgstr "Límit R²:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1094
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16431,8 +16425,9 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Estableix un mínim per a l'R² acceptable quan es "
-"realitza una execució d'enfocament automàtic. Si no es compleix el mínim, "
-"l'enfocament automàtic es tornarà a executar una vegada per intentar "
+"realitza una execució d'enfocament automàtic. El valor és entre 0 (sense "
+"ajust) i 1 (ajust perfecte). 0,8 és un bon començament. Si no es compleix el "
+"mínim, l'enfocament automàtic es tornarà a executar una vegada per intentar "
 "millorar l'R². Actualment només està disponible per a l'algorisme lineal d'1 "
 "pas quan s'utilitza un ajust de corba d'hipèrbola o paràbola. Aquesta "
 "característica és experimental.</p></body></html>"
@@ -16459,14 +16454,17 @@ msgid ""
 "compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Activeu-ho per a que l'enfocament automàtic realitzi "
+"la compensació del rebot. Useu conjuntament amb el camp de rebot. Tant "
+"l'algorisme d'enfocament automàtic com el controlador/enfocador han de "
+"realitzar una compensació del rebot, però no tots dos.</p><p>Usat per "
+"algorismes de pas lineal i lineal 1.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "AF Backlash Comp"
-msgstr "Rebot"
+msgstr "Compensació del rebot AF"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1164

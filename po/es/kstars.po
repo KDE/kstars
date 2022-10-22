@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-18 13:34+0200\n"
+"PO-Revision-Date: 2022-10-21 17:24+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16384,13 +16384,7 @@ msgstr "Límite de R²:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1094
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16400,11 +16394,12 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Define un mínimo para el R² aceptable al realizar una "
-"ejecución de enfoque automático. Si no se alcanza el mínimo, el enfoque "
-"automático se volverá a ejecutar una vez más para intentar mejorar el R². "
-"Actualmente solo está disponible para el algoritmo «Lineal de 1 paso» cuando "
-"se usa un ajuste de curva de hipérbola o de parábola. Esta función es "
-"experimental.</p></body></html>"
+"ejecución de enfoque automático. El valor está entre 0 (sin ajuste) y 1 "
+"(ajuste perfecto). 0.8 es un buen punto de partida. Si no se alcanza el "
+"mínimo, el enfoque automático se volverá a ejecutar una vez más para "
+"intentar mejorar el R². Actualmente solo está disponible para el algoritmo "
+"«Lineal de 1 paso» cuando se usa un ajuste de curva de hipérbola o de "
+"parábola. Esta función es experimental.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/focus.ui:1119
@@ -16431,11 +16426,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "AF Backlash Comp"
-msgstr "Rebote"
+msgstr "Compensación de rebote de enfoque automático"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1164
@@ -24428,21 +24421,21 @@ msgstr[1] ""
 "reinicia."
 
 #: ekos/scheduler/scheduler.cpp:5420
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
-msgstr "Advertencia: la alineación del trabajo «%1» ha fallado."
+msgstr "Advertencia: el archivo FITS de destino del trabajo «%1» no existe."
 
 #: ekos/scheduler/scheduler.cpp:5433
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
+"Advertencia: la petición «loadAndSlew» del trabajo «%1» ha recibido el error "
+"de DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5444
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
-msgstr "Advertencia: la alineación del trabajo «%1» ha fallado."
+msgstr "Advertencia: la petición «loadAndSlew» del trabajo «%1» ha fallado."
 
 #: ekos/scheduler/scheduler.cpp:5451
 #, kde-format
@@ -24453,30 +24446,29 @@ msgstr "El trabajo «%1» está resolviendo la placa %2."
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
+"Advertencia: la petición «setTargetCoords» del trabajo «%1» ha recibido el "
+"error de DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5483
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' repositioning failed, marking terminated due to errors."
+#, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr ""
-"Advertencia: el reposicionamiento del trabajo «%1» ha fallado. Se marca como "
-"terminado debido a errores."
+"Advertencia: la petición «setTargetPositionAngle» del trabajo «%1» ha "
+"recibido el error de DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5497
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' capture procedure failed, marking aborted."
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
-"Advertencia: el procedimiento de captura del trabajo «%1» ha fallado. Se "
-"marca como interrumpido."
+"Advertencia: la petición «captureAndSolve» del trabajo «%1» ha recibido el "
+"error de DBUS: %2"
 
 #: ekos/scheduler/scheduler.cpp:5508
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' calibration failed."
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr "Advertencia: la calibración del trabajo «%1» ha fallado."
+msgstr ""
+"Advertencia: la petición «captureAndSolve» del trabajo «%1» ha fallado."
 
 #: ekos/scheduler/scheduler.cpp:5514
 #, kde-format

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-20 15:04+0200\n"
+"PO-Revision-Date: 2022-10-21 13:16+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -16235,13 +16235,7 @@ msgstr "R²-grens:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1094
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16251,7 +16245,8 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Stelt een minimum in voor de acceptabele R² bij "
-"uitvoeren van een Auto Focus run. Als het minimum niet wordt bereikt, zal "
+"uitvoeren van een autofocus run. De waarde is tussen 0 en 1 (perfect "
+"passen). 0.8 is een goede start. Als het minimum niet wordt bereikt, zal "
 "Auto Focus nog een keer worden uitgevoerd om te proberen de R² te "
 "verbeteren. Nu alleen beschikbaar voor het algoritme Lineair 1 doorgang bij "
 "gebruik van fitten van kromme met hyperbool of parabool. Deze mogelijkheid "
@@ -16279,14 +16274,17 @@ msgid ""
 "compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Inschakelen om AutoFocus compensatie voor speling te "
+"laten doen. In samenhang gebruiken met het veld Speling.  Ofwel het "
+"autofocus algoritme of het apparaatstuurprogramma/focuser zou compensatie "
+"van speling moeten doen maar niet beiden.</p><p>Gebruikt door Lineair en "
+"Lineair 1 doorgang algoritmen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "AF Backlash Comp"
-msgstr "Speling"
+msgstr "AF comp voor speling"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1164

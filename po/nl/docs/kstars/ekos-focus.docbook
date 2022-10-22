@@ -161,6 +161,47 @@
     </itemizedlist>
   </sect3>
 
+  <sect3 id="optical-train-group">
+    <title
+>Optische treingroep</title>
+
+    <screenshot>
+      <screeninfo
+>Optische trein </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="optical_train_group.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Instellingen optische trein</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>De optische treingroep toont de nu geselecteerde optische trein. Standaard zal dat de primaire afbeeldingstrein zijn, maar andere treinen kunnen geselecteerd worden. De groep bestaat uit:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guibutton
+>Trein</guibutton
+>: de optische trein nu in gebruik door het tabblad Focus. Zweef met de muis boven dit veld voor een meer gedetailleerde beschrijving van de geselecteerde trein.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Bewerkingsknop</guibutton
+>: maakt de dialoog optical trein zichtbaar om de optische treinen te bekijken en potentieel te wijzigen.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
   <sect3 id="focus-focuser-group">
     <title
 >Focuser groep</title>
@@ -283,11 +324,11 @@
 
   <sect3 id="focus-ccd-filter-wheel">
     <title
->CCD &amp; Filterwiel groep</title>
+>Camera &amp; filterwielgroep</title>
 
     <screenshot>
       <screeninfo
->Focus CCD &amp; Filterwiel Groep </screeninfo>
+>Focus camera &amp; filterwielgroep </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -296,22 +337,49 @@
 
         <textobject>
           <phrase
->Focus CCD &amp; Filterwiel Groep</phrase>
+>Focus Camera &amp; filterwielgroep</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
     <para
->Stel de in het focusproces te gebruiken CCD  in vanuit het afrolmenu. De knop <guibutton
->Live video</guibutton
-> brengt de bijbehorende popup. Stel vervolgens de belichtingsduur in. De knop <guibutton
->Naar volledig scherm omschakelen </guibutton
-> laat het venster die het focusframe toont verschijnen in een apart venster. Opnieuw indrukken brengt het terug in het focusvenster. De knop <guibutton
->In FITS-viewer tonen</guibutton
-> verschijnt in een apart venster FITS-viewer om het focusframe te tonen, naast het focusframe getoond in het focusvenster.</para>
+>Deze sectie parameters gaat over de te gebruiken camera en filterinstellingen bij focussen.</para>
 
     <para
->De volgende rij besturingen bieden het instellen van CCD-parameters. Kies een waarde uit de binning-afrol en stel daarna ofwel de versterking van de camera of ISO.</para>
+>De bovenste rij besturingen bieden het instellen van CCD-parameters.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Exp</guilabel
+>: de belichtingstijd in seconden.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>De knop <guibutton
+>Volledig scherm omschakelen</guibutton
+> laat het venster met het focusframe verschijnen in een apart venster. Het opnieuw indrukken laat het terugkeren binnen het focusvenster.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>De knop <guibutton
+>In FITS-viewer tonen</guibutton
+> laat een apart FITS-viewervenster verschijnen om het focusframe te tonen, naast het focusframe getoond binnen het focusvenster.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>De knop<guibutton
+>Live video</guibutton
+> laat de bijbehorende verschijning zien.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>De volgende rij besturingen bieden het instellen van camera-parameters. Kies een waarde uit de binning-afrol en stel daarna ofwel de versterking van de camera of ISO.</para>
 
     <itemizedlist>
       <listitem>
@@ -324,42 +392,70 @@
       <listitem>
         <para
 ><guilabel
->Versterking / ISO</guilabel
->: stelt de versterking / ISO voor de CCD in die gebruikt wordt om te focusseren. De waarde moet hoog genoeg zijn om een helder sterpatroon te geven maar niet zo hoog om te veel ruis te creëren die interfereert met de focusbewerking. Enig experimenteren zal nodig zijn om een optimale waarde te vinden. Als u niet weet waar te beginnen probeer versterking één voor uw camera en pas het vandaar aan.</para>
+>Versterking</guilabel
+>: stelt de versterking voor de camera in die gebruikt wordt om te focusseren. De waarde moet hoog genoeg zijn om een helder sterpatroon te geven maar niet zo hoog om te veel ruis te creëren die interfereert met de focusbewerking. Enig experimenteren zal nodig zijn om een optimale waarde te vinden. Als u niet weet waar te beginnen probeer versterking één voor uw camera en pas het vandaar aan.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>ISO</guilabel
+>: stelt de ISO voor de camera in die wordt gebruikt om te focusseren. Enig experimenteren zal nodig zijn om een optimale waarde te vinden.</para>
       </listitem>
     </itemizedlist>
 
     <para
->De volgende rij besturingen behandelen het filterwiel, als er die er is. Kies eerst het filterwiel en het te gebruiken filter uit het afrolmenu. Om met focussen te beginnen zal het waarschijnlijk gemakkelijker zijn om het filter te selecteren dat het meeste licht doorlaat, bijvoorbeeld het Lum-filter. De knop <guibutton
+>De derde rij besturingen gaat over de temperatuurbron en filter, als er een is:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>TS</guilabel
+>: selecteer de temperatuurbron uit het afrolmenu. Eronder worden de huidige temperatuur uit de geselecteerde temperatuurbron getoond en de wijziging in temperatuur tussen het moment van de laatste met succes uitgevoerde autofocus en de huidige temperatuur. Het is algemene praktijk om te focussen opnieuw te doen na aanzienlijke temperatuur wijzigingen die het focuspunt van de telescoop verandert.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Filter</guilabel
+>: selecteert het te gebruiken filter.</para>
+
+        <para
+>Om met focussen te beginnen zal het waarschijnlijk gemakkelijker zijn om het filter te selecteren dat het meeste licht doorlaat, bijvoorbeeld het Lum-filter. De knop <guibutton
 >Filterinstellingen</guibutton
 > laat de popup <link linkend="capture-filter-settings"
 >Filterinstellingen</link
 > verschijnen. Dit biedt een aantal per filter in te stellen parameters om te gebruiken tijdens het uitvoeren van autofocus die onbewaakt gedaan kan worden zodat een gebruiker niet beschikbaar hoeft te zijn om parameters in te stellen bij uitvoeren. Deze bieden ruwweg twee typen van doen van focusseren:</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Per filter</emphasis
 >: wanneer een ander module, bijvoorbeeld, de module Opnemen een wijziging van filter vereist, dan is het mogelijk om automatisch opnieuw te focussen voor het nieuwe filter. De te gebruiken belichting voor elk filter wordt genomen uit de popup <link linkend="capture-filter-settings"
 >Filterinstellingen</link
 >. Dit is erg nuttig waar, bijvoorbeeld, een filter met smalle bandbreedte een langere belichtingstijd vereist dan filters met brede bandbreedte.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Filter vergrendelen</emphasis
 >: het is mogelijk om een te vergrendelen filter te gebruiken wanneer het vereist is om een ander filter te focussen. Bijvoorbeeld, als een rood filter wordt gebruikt en een autofocus is vereist, dan is het mogelijk de autofocus te doen met het Lum-filter en daarna, na voltooiing, de focuspositie aan te passen met een offsetwaarde overeenkomend met het eerder bepaalde focusverschil tussen de Lum en rood filters. Dit is nuttig wanneer, bijvoorbeeld, het moeilijk is sommige filters direct te focusseren zonder excessief lange belichtingstijden. Merk op dat deze methode van vergrendeld filter ook gebruikt kan worden in de <link linkend="ekos-align"
 >Uitlijnmodule</link
 > wanneer het een opname doet voor astrometrie.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+>Knop <guibutton
+>Reset</guibutton
+> zal het focuseringssubframe resetten naar een volledig frame.</para>
       </listitem>
     </itemizedlist>
-
-    <para
->U kunt de temperatuurbron selecteren uit het afrolmenu op de volgende rij besturingen. Eronder worden de huidige temperatuur uit de geselecteerde temperatuurbron getoond en de wijziging in temperatuur tussen het moment van de laatste met succes uitgevoerde autofocus en de huidige temperatuur. Het is algemene praktijk om te focussen opnieuw te doen na aanzienlijke temperatuur wijzigingen die het focuspunt van de telescoop verandert. U kunt het subframe voor focussen resetten naar opnemen van volledig frame als u op de knop <guibutton
->Reset</guibutton
-> drukt. </para>
   </sect3>
 
   <sect3 id="focus-settings">
@@ -403,6 +499,48 @@
 >Donkere frames worden door focussen, uitlijnen en volgen gebruikt. Zie de functie Donkere bibliotheek in de <link linkend="ekos-capture"
 >Opnamemodule</link
 > voor meer details over hoe Donkere frames op te zetten.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>AF comp van speling</guilabel
+>: activeer deze optie om het autofocusalgoritme compensatie voor speling uit te voeren. Deze optie is beschikbaar wanneer de lineaire en lineair 1 doorgang algoritmen worden gebruikt. Dit veld zou ingesteld moeten zijn samen met het veld <guilabel
+>Speling</guilabel
+>. Zie de sectie <link linkend="focus-mechanics"
+>Focus mechanismen</link
+> voor meer details.</para>
+
+        <para
+>Speling in de opzet van de focuser is hoogst waarschijnlijk een combinatie van speling in de elektronische focuser zelf (bijv. in het versnellingsmechanisme), in de verbinding van de elektronische focuser met de trekbuis van de telescoop en in het mechanisme van de trekbuis van de telescoop . Dus, elke opstelling zal zijn eigen spelingskarakteristieken hebben.</para>
+
+        <para
+>Er zijn verschillende zaken om te beschouwen bij het uitwerken van hoe om te gaan met speling: <itemizedlist>
+            <listitem>
+              <para
+><emphasis role="bold"
+>Geen speling</emphasis
+>: als u zo gelukkig bent om een opstelling te hebben zonder speling dan maakt het zinvol om AFcomp voor speling uit te zetten. Het zou goed werken als AF comp voor speling aan is, maar de autofocusroutine zal onnodige bewegingen maken.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Speling beheerd door focuser</emphasis
+>: als uw focuser de mogelijkheid heeft om speling zelf te beheren dan kunt u deze faciliteit gebruiken en AF comp voor speling uitzetten. Alternatief, als het mogelijk is, dan kunt u de faciliteit van de speling van de focuser uitschakelen en AF comp voor speling aanzetten.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Speling beheerd door apparaatstuurprogramma</emphasis
+>: als uw apparaatstuurprogramma de mogelijkheid heeft om speling zelf te beheren dan kunt u deze faciliteit gebruiken en AF comp voor speling uit te zetten. Alternatief, als het mogelijk is, dan kunt u de faciliteit van de speling van het apparaatstuurprogramma uitschakelen en AF comp voor speling aanzetten.</para>
+            </listitem>
+          </itemizedlist
+> </para>
+
+        <para
+>Het is belangrijk om speling op een plek te laten beheren om conflicten te vermijden.</para>
       </listitem>
 
       <listitem>

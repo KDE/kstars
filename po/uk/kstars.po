@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-20 16:12+0300\n"
+"PO-Revision-Date: 2022-10-21 15:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -16354,13 +16354,7 @@ msgstr "Обмеження R²:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1094
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16370,11 +16364,12 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Встановити мінімальне прийнятне значення R² при "
-"виконанні автофокусування. Якщо мінімального значення досягти не вдасться, "
-"буде виконано одну повторну спробу автофокусування для поліпшення R². У "
-"поточній версії доступне лише для лінійного однопрохідного алгоритму при "
-"використанні апроксимації кривої гіперболою або параболою. Ця можливість є "
-"експериментальною.</p></body></html>"
+"виконанні автофокусування. Значенням може бути число від 0 (немає збігу) до "
+"1 (ідеальний збіг). Почати варто з 0,8. Якщо мінімального значення досягти "
+"не вдасться, буде виконано одну повторну спробу автофокусування для "
+"поліпшення R². У поточній версії доступне лише для лінійного однопрохідного "
+"алгоритму при використанні апроксимації кривої гіперболою або параболою. Ця "
+"можливість є експериментальною.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/focus.ui:1119
@@ -16398,14 +16393,18 @@ msgid ""
 "compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Увімкнути виконання засобом автоматичного фокусування "
+"компенсації люфту. Слід використовувати разом із полем люфту. Компенсацію "
+"люфту має виконати або алгоритм автоматичного фокусування, або драйвер чи "
+"засіб фокусування, але не обидва інструменти одночасно.</"
+"p><p>Використовується у лінійному та лінійному однопрохідному алгоритмах.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "AF Backlash Comp"
-msgstr "Люфт"
+msgstr "Комп. люфту АФ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1164
