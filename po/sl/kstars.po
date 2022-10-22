@@ -1,7 +1,7 @@
 # translation of kstars.po to Slovenian
 # Translation of kstars.po to Slovenian
 # Copyright (C) 2002,2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-# $Id: kstars.po 1636470 2022-10-21 01:41:27Z scripty $
+# $Id: kstars.po 1636533 2022-10-22 05:56:35Z matjazjeran $
 # $Source$
 #
 #
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-20 08:57+0200\n"
+"PO-Revision-Date: 2022-10-22 04:11+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7670,9 +7670,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
 #: ekos/align/opsastap.ui:166
-#, fuzzy, kde-format
+#, kde-format
 msgid "Force Large Search Window"
-msgstr "Prisili veliko iskalno okno"
+msgstr "Vsili veliko iskalno okno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/opsastrometry.ui:32
@@ -8146,7 +8146,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/align/opsastrometryindexfiles.ui:231
-#, fuzzy, kde-format
+#, kde-format
 msgid "Index Files Location: "
 msgstr "Mesto indeksnih datotek: "
 
@@ -8171,9 +8171,9 @@ msgstr "Podrobnosti mape:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:253
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add a folder where index files are stored"
-msgstr "Dodaj mapo, v kateri so shranjene indeksne datoteke"
+msgstr "Dodajte mapo, v kateri so shranjene indeksne datoteke"
 
 #. i18n: ectx: property (text), widget (QPushButton, addIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomInB)
@@ -9749,7 +9749,7 @@ msgid "Cannot open file %1 for reading."
 msgstr "Datoteke %1 ni mogoče odpreti za branje."
 
 #: ekos/align/remoteastrometryparser.cpp:61
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to find solver properties."
 msgstr "Iskanje lastnosti reševalca ni uspelo."
 
@@ -16382,7 +16382,7 @@ msgstr "Posnetek teme"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1135
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
 "Compensation. Use in conjunction with the Backlash field.  Either the "
@@ -16390,6 +16390,11 @@ msgid ""
 "compensation but not both.</p><p>Used by Linear and Linear 1 Pass algorithms."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Omogočite, da samodejno ostrenje izvede kompenzacijo "
+"za odpor. Uporabite v povezavi s poljem Backlash.  Algoritem samodejnega "
+"ostrenja ali gonilnik/ostrilnik bi moral opraviti kompenzacijo, vendar ne "
+"oba hkrati.</p><p>Uporabljajo ga linearni in linearni 1-prehodnI algoritmi.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138

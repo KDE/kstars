@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:42+0000\n"
-"PO-Revision-Date: 2022-10-19 13:22\n"
+"PO-Revision-Date: 2022-10-22 05:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -15668,11 +15668,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
 #: ekos/focus/focus.ui:1138
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "AF Backlash Comp"
-msgstr "回差"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
 #: ekos/focus/focus.ui:1164
@@ -22928,10 +22926,9 @@ msgid_plural ""
 msgstr[0] ""
 
 #: ekos/scheduler/scheduler.cpp:5420
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
-msgstr "警告：任务“%1”的对齐校准失败。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5433
 #, kde-format
@@ -22939,10 +22936,9 @@ msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5444
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' alignment failed."
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
-msgstr "警告：任务“%1”的对齐校准失败。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5451
 #, kde-format
@@ -22955,24 +22951,20 @@ msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5483
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: job '%1' repositioning failed, marking terminated due to errors."
+#, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
-msgstr "警告：任务“%1”重新定位失败，标记为因错误而终止。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5497
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' capture procedure failed, marking aborted."
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
-msgstr "警告：任务“%1”的拍摄失败，标记为已中止。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5508
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' calibration failed."
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr "警告：任务“%1”的校准失败。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:5514
 #, kde-format
