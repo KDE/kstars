@@ -191,6 +191,42 @@
     </itemizedlist>
   </sect3>
 
+  <sect3 id="optical-train-group">
+    <title>Optical Train Group</title>
+
+    <screenshot>
+      <screeninfo> Optical Train </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="optical_train_group.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase>Optical Train Settings</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para> The Optical Train group displays the currently selected Optical
+    Train. By default this will be the primary imaging train, but other trains
+    can be selected. The group consists of:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guibutton>Train</guibutton>: The Optical Train currently in
+        use by the Focus tab. Hover the mouse over this field for a more
+        detailed description of the selected train.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guibutton>Edit Button</guibutton>: Brings up the Optical Train
+        dialog to view and potentially change the optical trains.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
   <sect3 id="focus-focuser-group">
     <title>Focuser Group</title>
 
@@ -288,10 +324,10 @@
   </sect3>
 
   <sect3 id="focus-ccd-filter-wheel">
-    <title>CCD &amp; Filter Wheel Group</title>
+    <title>Camera &amp; Filter Wheel Group</title>
 
     <screenshot>
-      <screeninfo> Focus CCD &amp; Filter Wheel Group </screeninfo>
+      <screeninfo> Focus Camera &amp; Filter Wheel Group </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -299,22 +335,41 @@
         </imageobject>
 
         <textobject>
-          <phrase>Focus CCD &amp; Filter Wheel Group</phrase>
+          <phrase>Focus Camera &amp; Filter Wheel Group</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
-    <para> Set the CCD to be used in the focus process from the dropdown. The
-    <guibutton>Live Video</guibutton> button brings up the associated popup.
-    Next set the exposure length. The <guibutton>Toggle Full
-    Screen</guibutton> button pops the window displaying the focus frame out
-    to a separate window. Pressing it again returns it within the focus
-    window. The <guibutton>Show in FITS Viewer</guibutton> button pops-up a
-    separate FITS Viewer window to display the focus frame, in addition to
-    focus frame displayed within the focus window.</para>
+    <para> This section of parameters deals with the Camera and Filter
+    settings to use when focusing.</para>
 
-    <para> The next row of controls allows CCD parameters to be set. Choose a
-    value from the binning dropdown and then set either the camera gain or
+    <para> The top row of controls allows CCD parameters to be set.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para> <guilabel>Exp</guilabel>: The exposure time in seconds.</para>
+      </listitem>
+
+      <listitem>
+        <para> The <guibutton>Toggle Full Screen</guibutton> button pops the
+        window displaying the focus frame out to a separate window. Pressing
+        it again returns it within the focus window.</para>
+      </listitem>
+
+      <listitem>
+        <para> The <guibutton>Show in FITS Viewer</guibutton> button pops-up a
+        separate FITS Viewer window to display the focus frame, in addition to
+        the focus frame displayed within the focus window.</para>
+      </listitem>
+
+      <listitem>
+        <para> The <guibutton>Live Video</guibutton> button brings up the
+        associated popup.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para> The next row of controls allows Camera parameters to be set. Choose
+    a value from the binning dropdown and then set either the camera gain or
     ISO.</para>
 
     <itemizedlist>
@@ -326,60 +381,79 @@
       </listitem>
 
       <listitem>
-        <para> <guilabel>Gain / ISO</guilabel>: Set the Gain / ISO for the CCD
-        being used to focus. The value needs to be high enough to give a clear
-        star pattern but not so high as to create too much noise to interfere
-        with the focus operation. Some experimentation will be required to
-        find an optimum value. If you are unsure where to start try unity gain
-        for your camera and adjust from there.</para>
+        <para> <guilabel>Gain</guilabel>: Set the Gain for the Camera being
+        used to focus. The value needs to be high enough to give a clear star
+        pattern but not so high as to create too much noise to interfere with
+        the focus operation. Some experimentation will be required to find an
+        optimum value. If you are unsure where to start try unity gain for
+        your camera and adjust from there.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>ISO</guilabel>: Set the ISO for the Camera being used
+        to focus. Some experimentation will be required to find an optimum
+        value.</para>
       </listitem>
     </itemizedlist>
 
-    <para> The next row of controls deals with the Filter Wheel, if there is
-    one. Firstly, choose the Filter Wheel from the dropdown and the filter to
-    use. To start focusing it will probably be easier to select the filter
-    that allows the most light through, for example the Lum filter. The
-    <guibutton>Filter Settings</guibutton> button brings up the <link
-    linkend="capture-filter-settings">Filter Settings</link> popup. This
-    allows a number of parameters to be set per filter to be used during an
-    Autofocus run which could be unattended so a user would not be available
-    to set parameters at run time. Broadly these allow two types of focus
-    runs:</para>
+    <para> The third row of controls deals with the Temperature Source and
+    Filter, if there is one:</para>
 
     <itemizedlist>
       <listitem>
-        <para> <emphasis role="bold">Per Filter</emphasis>: When another
-        module, for example, the Capture module requires a filter change, it
-        is possible to automatically refocus for the new filter. The exposure
-        to use for each filter is taken from the <link
-        linkend="capture-filter-settings">Filter Settings</link> popup. This
-        is very useful where, for example, narrowband filter require longer
-        exposure times than broadband filters.</para>
+        <para> <guilabel>TS</guilabel>: Select the temperature source from the
+        dropdown. Underneath are displayed the current temperature from the
+        selected temperature source and the change in temperature between when
+        the last successful Autofocus run completed and the current
+        temperature. It is common practice to redo focus after significant
+        temperature changes that alter the telescope's focus point.</para>
       </listitem>
 
       <listitem>
-        <para> <emphasis role="bold">Lock Filter</emphasis>: It is possible to
-        specify a Lock filter to use when it is required to focus another
-        filter. For example, if a Red filter is used and an Autofocus run
-        required, it is possible to run the Autofocus using the Lum filter and
-        then, when complete, adjust the focus position by an Offset value
-        corresponding to the predetermined focus difference between the Lum
-        and Red filters. This is useful when, for example, it is difficult to
-        focus some filters directly without excessively long exposure times.
-        Note that this locked filter approach may also used in the <link
-        linkend="ekos-align">Alignment Module</link> whenever it performs a
-        capture for astrometry.</para>
+        <para> <guilabel>Filter</guilabel>: Select the filter to use.</para>
+
+        <para>To start focusing it will probably be easier to select the
+        filter that allows the most light through, for example the Lum filter.
+        The <guibutton>Filter Settings</guibutton> button brings up the <link
+        linkend="capture-filter-settings">Filter Settings</link> popup. This
+        allows a number of parameters to be set per filter to be used during
+        an Autofocus run which could be unattended so a user would not be
+        available to set parameters at run time. Broadly these allow two types
+        of focus runs:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para> <emphasis role="bold">Per Filter</emphasis>: When another
+            module, for example, the Capture module requires a filter change,
+            it is possible to automatically refocus for the new filter. The
+            exposure to use for each filter is taken from the <link
+            linkend="capture-filter-settings">Filter Settings</link> popup.
+            This is very useful where, for example, narrowband filter require
+            longer exposure times than broadband filters.</para>
+          </listitem>
+
+          <listitem>
+            <para> <emphasis role="bold">Lock Filter</emphasis>: It is
+            possible to specify a Lock filter to use when it is required to
+            focus another filter. For example, if a Red filter is used and an
+            Autofocus run required, it is possible to run the Autofocus using
+            the Lum filter and then, when complete, adjust the focus position
+            by an Offset value corresponding to the predetermined focus
+            difference between the Lum and Red filters. This is useful when,
+            for example, it is difficult to focus some filters directly
+            without excessively long exposure times. Note that this locked
+            filter approach may also be used in the <link
+            linkend="ekos-align">Alignment Module</link> whenever it performs
+            a capture for astrometry.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para> <guibutton>Reset</guibutton> button will reset the focusing
+        subframe to full frame.</para>
       </listitem>
     </itemizedlist>
-
-    <para> You may select the temperature source from the dropdown on the next
-    row of controls. Underneath are displayed the current temperature from the
-    selected temperature source and the change in temperature between when the
-    last successful Autofocus run completed and the current temperature. It is
-    common practice to redo focus after significant temperature changes that
-    alter the telescope's focus point. You may reset the focusing subframe to
-    full frame capture if you click the <guibutton>Reset</guibutton> button.
-    </para>
   </sect3>
 
   <sect3 id="focus-settings">
@@ -418,6 +492,54 @@
         <para> Dark frames are used by Focus, Alignment and Guiding. See the
         Dark Library feature within the <link linkend="ekos-capture">Capture
         Module</link> for more details on how to setup Dark Frames.</para>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>AF Backlash Comp</guilabel>: Check this option to
+        have the Autofocus algorithm perform backlash compensation. This
+        option is available when using the Linear and Linear 1 Pass
+        algorithms. This field should be set together with the
+        <guilabel>Backlash</guilabel> field. See the <link
+        linkend="focus-mechanics">Focus Mechanics</link> section for more
+        details.</para>
+
+        <para>Backlash in the focuser setup is likely to a combination of
+        backlash in the electronic focuser itself (e.g. in the gearing
+        mechanism), in the binding of the electronic focuser to the telescope
+        drawtube, and in the telescope drawtube's mechanism. Thus, each setup
+        will have its own backlash characteristic.</para>
+
+        <para> There are several things to consider when working out how to
+        deal with backlash: <itemizedlist>
+            <listitem>
+              <para> <emphasis role="bold">No Backlash</emphasis>: If you are
+              fortunate enough to have a setup with no backlash then it would
+              make sense to set AF Backlash Comp off. It should work fine if
+              AF Backlash Comp is on, but the AutoFocus routine will make
+              unnecessary movements.</para>
+            </listitem>
+
+            <listitem>
+              <para> <emphasis role="bold">Backlash Managed by
+              Focuser</emphasis>: If your focuser had the ability to manage
+              backlash itself then you can use this facility and turn off AF
+              Backlash Comp. Alternatively, if it's possible, you could turn
+              off the focuser's backlash facility and set AF Backlash Comp
+              on.</para>
+            </listitem>
+
+            <listitem>
+              <para> <emphasis role="bold">Backlash Managed by Device
+              Driver</emphasis>: If your device driver had the ability to
+              manage backlash itself then you can use this facility and turn
+              off AF Backlash Comp. Alternatively, if it's possible, you could
+              turn off the device driver's backlash facility and set AF
+              Backlash Comp on.</para>
+            </listitem>
+          </itemizedlist> </para>
+
+        <para>It is important to have backlash managed in one place to avoid
+        conflicts.</para>
       </listitem>
 
       <listitem>
@@ -495,12 +617,12 @@
         of Hyperbola and Parabola. As part of the Linear 1 Pass algorithm, the
         degree to which the curve fits the datapoints, or <link
         linkend="Coefficient_of_Determination">Coefficient of Determination,
-        R²</link>, is calculated. This option allows a minimum acceptable value
-        of R² to be defined that is compared to the value obtained from the
-        curve fitting process. If the minimum value has not been achieved then
-        Autofocus will rerun. Only one rerun will be performed and even if the
-        minimum R² has not been met the second time, the Autofocus run will
-        still be deemed successful.</para>
+        R²</link>, is calculated. This option allows a minimum acceptable
+        value of R² to be defined that is compared to the value obtained from
+        the curve fitting process. If the minimum value has not been achieved
+        then Autofocus will rerun. Only one rerun will be performed and even
+        if the minimum R² has not been met the second time, the Autofocus run
+        will still be deemed successful.</para>
 
         <para> Experiment to find an appropriate value but a good starting
         point would be 0.8 or 0.9</para>
@@ -1165,8 +1287,8 @@
     obtain, but as a guide, a value above, say 0.8 would be a good fit.</para>
 
     <para> There is an option to set an “R² Limit” in the Settings tab of the
-    Focus window that is compared to the calculated R² after the auto focus run
-    has completed. If the limit value has not been achieved, then the auto
+    Focus window that is compared to the calculated R² after the auto focus
+    run has completed. If the limit value has not been achieved, then the auto
     focus is rerun.</para>
 
     <para> Setting an R² Limit could be useful for unattended observation if

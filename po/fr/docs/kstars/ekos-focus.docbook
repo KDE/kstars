@@ -161,6 +161,47 @@
     </itemizedlist>
   </sect3>
 
+  <sect3 id="optical-train-group">
+    <title
+>Optical Train Group</title>
+
+    <screenshot>
+      <screeninfo
+>Optical Train </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="optical_train_group.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Optical Train Settings</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>The Optical Train group displays the currently selected Optical Train. By default this will be the primary imaging train, but other trains can be selected. The group consists of:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guibutton
+>Train</guibutton
+>: The Optical Train currently in use by the Focus tab. Hover the mouse over this field for a more detailed description of the selected train.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Edit Button</guibutton
+>: Brings up the Optical Train dialog to view and potentially change the optical trains.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
   <sect3 id="focus-focuser-group">
     <title
 >Moteur de mise au point</title>
@@ -277,11 +318,11 @@
 
   <sect3 id="focus-ccd-filter-wheel">
     <title
->CCD &amp; roue à filtres</title>
+>Camera &amp; Filter Wheel Group</title>
 
     <screenshot>
       <screeninfo
->Mise au point CCD &amp; roue à filtres </screeninfo>
+>Focus Camera &amp; Filter Wheel Group </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -290,22 +331,49 @@
 
         <textobject>
           <phrase
->Mise au point CCD &amp; roue à filtres</phrase>
+>Focus Camera &amp; Filter Wheel Group</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
     <para
->Choisir le CCD du menu déroulant pour la procédure de mise au point. Le bouton <guibutton
->Vidéo en direct</guibutton
-> affiche la fenêtre contextuelle associée. Ensuite, réglez la durée d'exposition. Le bouton <guibutton
->Activer plein écran</guibutton
-> permet d'afficher la trame de mise au point dans une fenêtre séparée. Un nouveau clic sur ce bouton la ramène dans la fenêtre de mise au point. Le bouton <guibutton
->Afficher dans l'afficheur FITS</guibutton
-> lance une nouvelle fenêtre de l'afficheur FITS pour l'affichage de la trame de la mise au point en complément de celle affichée dans la fenêtre de mise au point.</para>
+>This section of parameters deals with the Camera and Filter settings to use when focusing.</para>
 
     <para
->La ligne suivante de réglages permet de régler les paramètres du CCD. Choisissez une valeur pour le groupement de pixels (binning) puis réglez le gain de la caméra ou son ISO.</para>
+>The top row of controls allows CCD parameters to be set.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Exp</guilabel
+>: The exposure time in seconds.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>The <guibutton
+>Toggle Full Screen</guibutton
+> button pops the window displaying the focus frame out to a separate window. Pressing it again returns it within the focus window.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>The <guibutton
+>Show in FITS Viewer</guibutton
+> button pops-up a separate FITS Viewer window to display the focus frame, in addition to the focus frame displayed within the focus window.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>The <guibutton
+>Live Video</guibutton
+> button brings up the associated popup.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>The next row of controls allows Camera parameters to be set. Choose a value from the binning dropdown and then set either the camera gain or ISO.</para>
 
     <itemizedlist>
       <listitem>
@@ -318,40 +386,70 @@
       <listitem>
         <para
 ><guilabel
->Gain/ISO</guilabel
-> : régler le gain ou l'ISO du CCD utilisé pour la mise au point. Cette valeur doit être assez grande pour donner un motif d'étoile clair mais pas trop grande pour éviter que le bruit ajouté interfère avec l'opération de mise au point. Il sera nécessaire de tester plusieurs valeurs pour trouver la valeur optimale. Si vous ne savez pas où commencer, réglez le gain à un et ajuster depuis là.</para>
+>Gain</guilabel
+>: Set the Gain for the Camera being used to focus. The value needs to be high enough to give a clear star pattern but not so high as to create too much noise to interfere with the focus operation. Some experimentation will be required to find an optimum value. If you are unsure where to start try unity gain for your camera and adjust from there.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>ISO</guilabel
+>: Set the ISO for the Camera being used to focus. Some experimentation will be required to find an optimum value.</para>
       </listitem>
     </itemizedlist>
 
     <para
->La ligne suivante de réglages gère la roue à filtres si présente. Choisissez d'abord la roue à filtres depuis le menu déroulant et le filtre à utiliser. Pour débuter la procédure de mise au point, il sera probablement plus aisé de choisir un filtre qui laisse passer le plus de lumière comme le filtre de luminance. Le bouton <guibutton
->Réglages des filtres</guibutton
-> fait apparaître la fenêtre de <link linkend="capture-filter-settings"
->réglages des filtres</link
->. Elle permet de régler un grand nombre de paramètres par filtre utilisé lors de la procédure de mise au point automatique autonome pour un utilisateur n'étant pas disponible pendant son exécution. En général, deux types d'exécution de la mise au point sont permis :</para>
+>The third row of controls deals with the Temperature Source and Filter, if there is one:</para>
 
     <itemizedlist>
       <listitem>
         <para
+><guilabel
+>TS</guilabel
+>: Select the temperature source from the dropdown. Underneath are displayed the current temperature from the selected temperature source and the change in temperature between when the last successful Autofocus run completed and the current temperature. It is common practice to redo focus after significant temperature changes that alter the telescope's focus point.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Filter</guilabel
+>: Select the filter to use.</para>
+
+        <para
+>To start focusing it will probably be easier to select the filter that allows the most light through, for example the Lum filter. The <guibutton
+>Filter Settings</guibutton
+> button brings up the <link linkend="capture-filter-settings"
+>Filter Settings</link
+> popup. This allows a number of parameters to be set per filter to be used during an Autofocus run which could be unattended so a user would not be available to set parameters at run time. Broadly these allow two types of focus runs:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Par filtre</emphasis
 > : quand un autre module, par exemple le module d'acquisition, nécessite un changement de filtre, il est possible d'exécuter une procédure de mise au point automatique pour ce nouveau filtre. La durée d'exposition pour chaque filtre est définie dans la fenêtre <link linkend="capture-filter-settings"
 >Réglage des filtres</link
 >. Cela est très utile pour les filtres à bande étroite qui demande des durées d'exposition plus élevée que ceux à bande large.</para>
+          </listitem>
+
+          <listitem>
+            <para
+><emphasis role="bold"
+>Lock Filter</emphasis
+>: It is possible to specify a Lock filter to use when it is required to focus another filter. For example, if a Red filter is used and an Autofocus run required, it is possible to run the Autofocus using the Lum filter and then, when complete, adjust the focus position by an Offset value corresponding to the predetermined focus difference between the Lum and Red filters. This is useful when, for example, it is difficult to focus some filters directly without excessively long exposure times. Note that this locked filter approach may also be used in the <link linkend="ekos-align"
+>Alignment Module</link
+> whenever it performs a capture for astrometry.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
 
       <listitem>
         <para
-><emphasis role="bold"
->Filtre bloqué</emphasis
-> : il est possible de spécifier un filtre bloqué quand un autre filtre est requis pour une mise à jour automatique. Par exemple, si un filtre rouge est utilisé et qu'une mise au point automatique est nécessaire, il est possible de lancer une mise au point automatique avec le filtre de luminance et une fois fait, d'ajuster la position de la mise au point en décalant la position d'une valeur correspondant à la différence de position entre les mises au point du filtre rouge et du filtre de luminance. Cela est utile quand, par exemple, il est difficile d'effectuer de mettre au point avec certains filtres qui demandent des durées d'exposition excessivement longues. Veuillez noter que cette approche peut également être utilisée avec le <link linkend="ekos-align"
->module d'alignement</link
-> pour une résolution astrométrique.</para>
+><guibutton
+>Reset</guibutton
+> button will reset the focusing subframe to full frame.</para>
       </listitem>
     </itemizedlist>
-
-    <para
->Vous pouvez choisir le capteur de température du menu déroulant sur la ligne suivante de commandes. La température courante est affichée juste en dessous ainsi que la variation de température depuis la dernière mise au point automatique. C'est une pratique courante de relancer une mise au point quand la température varie significativement puisque cela altère la position de mise au point du télescope. </para>
   </sect3>
 
   <sect3 id="focus-settings">
@@ -395,6 +493,48 @@
 >Les trames Dark sont utilisées pour la mise au point, l'alignement et le guidage. Veuillez consulter la fonctionnalité de bibliothèques de Dark dans le <link linkend="ekos-capture"
 >module d'acquisition</link
 > pour davantage de détails sur l'utilisation des trames Dark.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>AF Backlash Comp</guilabel
+>: Check this option to have the Autofocus algorithm perform backlash compensation. This option is available when using the Linear and Linear 1 Pass algorithms. This field should be set together with the <guilabel
+>Backlash</guilabel
+> field. See the <link linkend="focus-mechanics"
+>Focus Mechanics</link
+> section for more details.</para>
+
+        <para
+>Backlash in the focuser setup is likely to a combination of backlash in the electronic focuser itself (e.g. in the gearing mechanism), in the binding of the electronic focuser to the telescope drawtube, and in the telescope drawtube's mechanism. Thus, each setup will have its own backlash characteristic.</para>
+
+        <para
+>There are several things to consider when working out how to deal with backlash: <itemizedlist>
+            <listitem>
+              <para
+><emphasis role="bold"
+>No Backlash</emphasis
+>: If you are fortunate enough to have a setup with no backlash then it would make sense to set AF Backlash Comp off. It should work fine if AF Backlash Comp is on, but the AutoFocus routine will make unnecessary movements.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Backlash Managed by Focuser</emphasis
+>: If your focuser had the ability to manage backlash itself then you can use this facility and turn off AF Backlash Comp. Alternatively, if its possible, you could turn off the focuser's backlash facility and set AF Backlash Comp on.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Backlash Managed by Device Driver</emphasis
+>: If your device driver had the ability to manage backlash itself then you can use this facility and turn off AF Backlash Como. Alternatively, if its possible, you could turn off the device driver's backlash facility and set AF Backlash Comp on.</para>
+            </listitem>
+          </itemizedlist
+> </para>
+
+        <para
+>It is important to have backlash managed in one place to avoid conflicts.</para>
       </listitem>
 
       <listitem>

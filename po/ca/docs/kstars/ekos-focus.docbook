@@ -159,6 +159,47 @@
     </itemizedlist>
   </sect3>
 
+  <sect3 id="optical-train-group">
+    <title
+>Grup del tren òptic</title>
+
+    <screenshot>
+      <screeninfo
+>Tren òptic </screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="optical_train_group.png" format="PNG"
+                     width="50%"/>
+        </imageobject>
+
+        <textobject>
+          <phrase
+>Configuració del tren òptic</phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+
+    <para
+>El grup del tren òptic mostra el tren òptic seleccionat actualment. De manera predeterminada, aquest serà el tren d'imatge principal, però es poden seleccionar altres trens. El grup consisteix en:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guibutton
+>Tren</guibutton
+>: El tren òptic actualment en ús a la pestanya Enfocament. Passeu el ratolí per sobre d'aquest camp per a una descripció més detallada del tren seleccionat.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guibutton
+>Botó Edita</guibutton
+>: Obre el diàleg del tren òptic per a veure i canviar potencialment els trens òptics.</para>
+      </listitem>
+    </itemizedlist>
+  </sect3>
+
   <sect3 id="focus-focuser-group">
     <title
 >Grup de l'enfocador</title>
@@ -281,11 +322,11 @@
 
   <sect3 id="focus-ccd-filter-wheel">
     <title
->Grup de CCD i roda de filtres</title>
+>Grup de càmera i roda de filtres</title>
 
     <screenshot>
       <screeninfo
->Grup de CCD i roda de filtres d'enfocament </screeninfo>
+>Grup de càmera i roda de filtres d'enfocament </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -294,22 +335,49 @@
 
         <textobject>
           <phrase
->Grup de CCD i roda de filtres d'enfocament</phrase>
+>Grup de càmera i roda de filtres d'enfocament</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
     <para
->Establiu el CCD a usar en el procés d'enfocament des de la llista desplegable. El botó <guibutton
->Vídeo en directe</guibutton
-> obre la finestra emergent associada. Després establiu la longitud de l'exposició. El botó <guibutton
->Commuta a pantalla completa</guibutton
-> mostra la finestra mostrant el fotograma d'enfocament a una finestra separada. Quan es prem de nou, retorna a dins de la finestra d'enfocament. El botó <guibutton
->Mostra en el visualitzador FITS</guibutton
-> obre una finestra separada del visualitzador FITS per a mostrar el fotograma d'enfocament, a més del fotograma d'enfocament que es mostra dins de la finestra d'enfocament.</para>
+>Aquesta secció de paràmetres tracta la configuració de la càmera i el filtre a usar en enfocar.</para>
 
     <para
->La fila següent de controls permet establir els paràmetres del CCD. Trieu un valor des del desplegable acoblament i després establiu el guany de la càmera o l'ISO.</para>
+>La fila superior de controls permet establir els paràmetres del CCD.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>Exp</guilabel
+>: Temps d'exposició en segons.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>El botó <guibutton
+>Commuta a pantalla completa</guibutton
+> mostra la finestra mostrant el marc d'enfocament cap a una finestra separada. En prémer-lo de nou, es torna a dins de la finestra d'enfocament.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>El botó <guibutton
+>Mostra en el visor FITS</guibutton
+> obre una finestra separada del visor FITS per a mostrar el marc d'enfocament, a més del marc d'enfocament que es mostra dins de la finestra d'enfocament.</para>
+      </listitem>
+
+      <listitem>
+        <para
+>El botó <guibutton
+>Vídeo en directe</guibutton
+> obre la finestra emergent associada.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para
+>La fila següent de controls permet establir els paràmetres de la càmera. Trieu un valor des del desplegable acoblament i després establiu el guany de la càmera o l'ISO.</para>
 
     <itemizedlist>
       <listitem>
@@ -322,42 +390,70 @@
       <listitem>
         <para
 ><guilabel
->Guany / ISO</guilabel
->: Estableix el guany / ISO per al CCD que s'utilitza per a enfocar. El valor ha de ser prou alt per a donar un patró estel·lar clar, però no tan alt com per a crear massa soroll per interferir amb l'operació d'enfocament. Caldrà experimentar per a trobar un valor òptim. Si no esteu segur d'on començar a provar guany d'unitat per a la càmera i ajustar des d'allà.</para>
+>Guany</guilabel
+>: Estableix el guany de la càmera que s'utilitza per a enfocar. El valor ha de ser prou alt per a donar un patró estel·lar clar, però no tan alt com per a crear massa soroll per interferir amb l'operació d'enfocament. Caldrà experimentar per a trobar un valor òptim. Si no esteu segur d'on començar a provar guany d'unitat per a la càmera i ajustar des d'allà.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>ISO</guilabel
+>: Estableix l'ISO de la càmera que s'utilitza per a enfocar. Caldrà experimentar per a trobar un valor òptim.</para>
       </listitem>
     </itemizedlist>
 
     <para
->La fila següent de controls tracta amb la roda de filtres, si n'hi ha. En primer lloc, trieu la roda de filtres des de la llista desplegable i el filtre a utilitzar. Per a començar a enfocar, probablement serà més fàcil seleccionar el filtre que permeti la quantitat de llum més gran, per exemple, el filtre Lum. El botó <guibutton
+>La tercera fila de controls tracta sobre la font i el filtre de temperatura, si n'hi ha un:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para
+><guilabel
+>TS</guilabel
+>: Seleccioneu la font de la temperatura des de la llista desplegable. A sota es mostra la temperatura actual des de la font de la temperatura seleccionada i el canvi de temperatura entre quan es va completar l'últim enfocament automàtic reeixit i la temperatura actual. És una pràctica habitual refer el focus després de canvis significatius de temperatura que alteren el punt d'enfocament del telescopi.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Filtre</guilabel
+>: Seleccioneu el filtre a usar.</para>
+
+        <para
+>Per a començar a enfocar, probablement serà més fàcil seleccionar el filtre que permeti la quantitat de llum més gran, per exemple, el filtre Lum. El botó <guibutton
 >Configuració del filtre</guibutton
 > obre la finestra emergent <link linkend="capture-filter-settings"
 >Configuració del filtre</link
 >. Això permet establir un nombre de paràmetres per filtre que s'utilitzaran durant una execució d'enfocament automàtic que podria ser desatesa, de manera que un usuari no estigui disponible per establir paràmetres en temps d'execució. A grans trets permeten dos tipus d'execucions d'enfocament:</para>
 
-    <itemizedlist>
-      <listitem>
-        <para
+        <itemizedlist>
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Per filtre</emphasis
 >: Quan un altre mòdul, per exemple, el mòdul de captura requereix un canvi de filtre, és possible reenfocar automàticament el filtre nou. L'exposició a utilitzar per a cada filtre es pren de la finestra emergent <link linkend="capture-filter-settings"
 >Configuració del filtre</link
 >. Això és molt útil quan, per exemple, el filtre de banda estreta requereix temps d'exposició més llargs que els filtres de banda ampla.</para>
-      </listitem>
+          </listitem>
 
-      <listitem>
-        <para
+          <listitem>
+            <para
 ><emphasis role="bold"
 >Bloqueja el filtre</emphasis
 >: És possible especificar un bloqueig de filtre a usar quan es requereix enfocar un altre filtre. Per exemple, si s'utilitza un filtre vermell i es requereix una execució d'enfocament automàtic, és possible executar l'enfocament automàtic utilitzant el filtre Lum i després, quan es completi, ajustar la posició de l'enfocament amb un valor de desplaçament corresponent a la diferència d'enfocament predeterminada entre els filtres Lum i vermell. Això és útil quan, per exemple, és difícil enfocar directament alguns filtres sense temps d'exposició excessivament llargs. Tingueu en compte que aquesta aproximació de filtre bloquejat també es pot utilitzar en el <link linkend="ekos-align"
 >Mòdul d'alineació</link
 > sempre que realitza una captura per l'astrometria.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+>El botó <guibutton
+>Restableix</guibutton
+> restablirà el submarc d'enfocament al fotograma complet.</para>
       </listitem>
     </itemizedlist>
-
-    <para
->Podeu seleccionar la font de la temperatura des de la llista desplegable a la fila següent de controls. A sota es mostra la temperatura actual des de la font de la temperatura seleccionada i el canvi de temperatura entre quan es va completar l'últim enfocament automàtic reeixit i la temperatura actual. És una pràctica habitual refer el focus després de canvis significatius de temperatura que alteren el punt d'enfocament del telescopi. Podeu reiniciar el submarc d'enfocament a la captura de fotograma complet si feu clic al botó <guibutton
->Reinicialitza</guibutton
->. </para>
   </sect3>
 
   <sect3 id="focus-settings">
@@ -401,6 +497,48 @@
 >Els fotogrames foscos s'utilitzen per a l'enfocament, l'alineació i el guiatge. Vegeu la característica «Biblioteca fosca» en el <link linkend="ekos-capture"
 >Mòdul de captura</link
 > per a més detalls sobre com configurar els fotogrames foscos.</para>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Compensació del rebot de l'AF</guilabel
+>: Marqueu aquesta opció per a tenir l'algorisme d'enfocament automàtic que realitza una compensació de rebot. Aquesta opció està disponible quan s'usen els algorismes lineal i lineal d'1 pas. Aquest camp s'ha d'establir juntament amb el camp <guilabel
+>Rebot</guilabel
+>. Vegeu la secció <link linkend="focus-mechanics"
+>Mecànica de l'enfocament</link
+> per a més detalls.</para>
+
+        <para
+>El rebot en la configuració de l'enfocador és probable que sigui una combinació del rebot en el mateix enfocador electrònic (p. ex. en el mecanisme d'engranatge), en la unió de l'enfocador electrònic amb el tub del telescopi, i en el mecanisme del tub del telescopi. Així, cada configuració tindrà la seva pròpia característica de rebot.</para>
+
+        <para
+>Hi ha diverses coses a tenir en compte a l'hora d'esbrinar com tractar el rebot: <itemizedlist>
+            <listitem>
+              <para
+><emphasis role="bold"
+>Sense rebot</emphasis
+>: Si teniu la sort de tenir una configuració sense rebot, llavors tindria sentit desactivar la compensació del rebot de l'AF. Hauria de funcionar bé si la compensació del rebot de l'AF està activa, però la rutina d'enfocament automàtic farà moviments innecessaris.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Rebot gestionat per l'enfocador</emphasis
+>: Si l'enfocador té la capacitat de gestionar el rebot per si mateix, podeu utilitzar aquesta funcionalitat i desactivar la compensació del rebot de l'AF. Alternativament, si és possible, podeu desactivar la funcionalitat del rebot de l'enfocador i activar la compensació del rebot de l'AF.</para>
+            </listitem>
+
+            <listitem>
+              <para
+><emphasis role="bold"
+>Rebot gestionat pel controlador del dispositiu</emphasis
+>: Si el controlador del dispositiu té la capacitat de gestionar el rebot per si mateix, podeu utilitzar aquesta funcionalitat i desactivar la compensació del rebot de l'AF. Alternativament, si és possible, podeu desactivar la funcionalitat del rebot del controlador del dispositiu i activar la compensació del rebot de l'AF.</para>
+            </listitem>
+          </itemizedlist
+> </para>
+
+        <para
+>És important que es gestioni el rebot en un lloc per a evitar conflictes.</para>
       </listitem>
 
       <listitem>
