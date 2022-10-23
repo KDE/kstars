@@ -44,6 +44,9 @@ class FramingAssistantUI : public QDialog
             PAGE_CREATE_JOBS
         };
 
+        // Import Mosaic JSON Data
+        bool importMosaic(const QJsonObject &payload);
+
     protected:
         /// @brief Camera information validity checker.
         bool isEquipmentValid() const;
@@ -72,6 +75,10 @@ class FramingAssistantUI : public QDialog
         void selectDirectory();
         // Select mosaic import
         void selectImport();
+        // Import mosaic CSV
+        bool parseMosaicCSV(const QString &filename);
+        // Sanitize target name
+        void sanitizeTarget();
 
     public slots:
         void updateTargetFOVFromGrid();

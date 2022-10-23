@@ -9,11 +9,10 @@
 
 #include "scheduler.h"
 
-#include "ksalmanac.h"
+#include "ekos/scheduler/framingassistantui.h"
 #include "ksnotification.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "mosaic.h"
 #include "Options.h"
@@ -8743,4 +8742,11 @@ QJsonObject Scheduler::getSchedulerSettings()
     return schedulerSettings;
 
 }
+
+bool Scheduler::importMosaic(const QJsonObject &payload)
+{
+    QScopedPointer<FramingAssistantUI> assistant(new FramingAssistantUI());
+    return assistant->importMosaic(payload);
+}
+
 }

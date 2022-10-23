@@ -138,27 +138,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     });
 
     // Update target name after edit
-    connect(ui->targetEdit, &QLineEdit::editingFinished, this, [this]()
-    {
-        QString sanitized = ui->targetEdit->text();
-        if (sanitized != i18n("unnamed"))
-        {
-            // Remove illegal characters that can be problematic
-            sanitized = sanitize(sanitized);
-            ui->targetEdit->blockSignals(true);
-            ui->targetEdit->setText(sanitized);
-            ui->targetEdit->blockSignals(false);
-
-            if (m_JobsDirectory.isEmpty())
-                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
-            else
-                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
-
-            ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
-                                        !ui->directoryEdit->text().isEmpty());
-        }
-
-    });
+    connect(ui->targetEdit, &QLineEdit::editingFinished, this, &FramingAssistantUI::sanitizeTarget);
 
     // Recenter
     connect(ui->recenterB, &QPushButton::clicked, this, [this]()
@@ -699,69 +679,124 @@ void FramingAssistantUI::selectImport()
                    i18n("Telescopius CSV (*.csv)"));
 
     if (!file.isEmpty())
+        parseMosaicCSV(file);
+}
+
+bool FramingAssistantUI::parseMosaicCSV(const QString &filename)
+{
+    QList< QPair<QString, KSParser::DataTypes> > csv_sequence;
+    csv_sequence.append(qMakePair(QString("Pane"), KSParser::D_QSTRING));
+    csv_sequence.append(qMakePair(QString("RA"), KSParser::D_QSTRING));
+    csv_sequence.append(qMakePair(QString("DEC"), KSParser::D_QSTRING));
+    csv_sequence.append(qMakePair(QString("Position Angle (East)"), KSParser::D_DOUBLE));
+    csv_sequence.append(qMakePair(QString("Pane width (arcmins)"), KSParser::D_DOUBLE));
+    csv_sequence.append(qMakePair(QString("Pane height (arcmins)"), KSParser::D_DOUBLE));
+    csv_sequence.append(qMakePair(QString("Overlap"), KSParser::D_QSTRING));
+    csv_sequence.append(qMakePair(QString("Row"), KSParser::D_INT));
+    csv_sequence.append(qMakePair(QString("Column"), KSParser::D_INT));
+    KSParser csvParser(filename, ',', csv_sequence);
+
+    QHash<QString, QVariant> row_content;
+    int maxRow = 1, maxCol = 1;
+    auto haveCenter = false;
+    while (csvParser.HasNextRow())
     {
-        QList< QPair<QString, KSParser::DataTypes> > csv_sequence;
-        csv_sequence.append(qMakePair(QString("Pane"), KSParser::D_QSTRING));
-        csv_sequence.append(qMakePair(QString("RA"), KSParser::D_QSTRING));
-        csv_sequence.append(qMakePair(QString("DEC"), KSParser::D_QSTRING));
-        csv_sequence.append(qMakePair(QString("Position Angle (East)"), KSParser::D_DOUBLE));
-        csv_sequence.append(qMakePair(QString("Pane width (arcmins)"), KSParser::D_DOUBLE));
-        csv_sequence.append(qMakePair(QString("Pane height (arcmins)"), KSParser::D_DOUBLE));
-        csv_sequence.append(qMakePair(QString("Overlap"), KSParser::D_QSTRING));
-        csv_sequence.append(qMakePair(QString("Row"), KSParser::D_INT));
-        csv_sequence.append(qMakePair(QString("Column"), KSParser::D_INT));
-        KSParser csvParser(file, ',', csv_sequence);
-
-        QHash<QString, QVariant> row_content;
-        int maxRow = 1, maxCol = 1;
-        auto haveCenter = false;
-        while (csvParser.HasNextRow())
+        row_content = csvParser.ReadNextRow();
+        auto pane = row_content["Pane"].toString();
+        if (pane != "Center")
         {
-            row_content = csvParser.ReadNextRow();
-            auto pane = row_content["Pane"].toString();
-            if (pane != "Center")
-            {
-                auto row = row_content["Row"].toInt();
-                maxRow = qMax(row, maxRow);
-                auto col = row_content["Column"].toInt();
-                maxCol = qMax(col, maxCol);
-                continue;
-            }
-
-            haveCenter = true;
-
-            auto ra = row_content["RA"].toString().trimmed();
-            auto dec = row_content["DEC"].toString().trimmed();
-
-            ui->raBox->setText(ra.replace("hr", "h"));
-            ui->decBox->setText(dec.remove("º"));
-
-            auto pa      = row_content["Position Angle (East)"].toDouble();
-            ui->positionAngleSpin->setValue(pa);
-
-            // eg. 10% --> 10
-            auto overlap = row_content["Overlap"].toString().trimmed().midRef(0, 2).toDouble();
-            ui->overlapSpin->setValue(overlap);
+            auto row = row_content["Row"].toInt();
+            maxRow = qMax(row, maxRow);
+            auto col = row_content["Column"].toInt();
+            maxCol = qMax(col, maxCol);
+            continue;
         }
 
-        if (haveCenter == false)
-            KSNotification::sorry(i18n("Import must contain center coordinates."), i18n("Sorry"), 15);
-        else
-        {
-            // Set WxH
-            ui->mosaicWSpin->setValue(maxRow);
-            ui->mosaicHSpin->setValue(maxCol);
-            // Set J2000 Center
-            m_CenterPoint.setRA0(ui->raBox->createDms());
-            m_CenterPoint.setDec0(ui->decBox->createDms());
-            m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
-            // Slew to center
-            SkyMap::Instance()->setDestination(m_CenterPoint);
-            SkyMap::Instance()->slewFocus();
-            // Now go to position adjustments
-            ui->nextToAdjustGrid->click();
-        }
+        haveCenter = true;
+
+        auto ra = row_content["RA"].toString().trimmed();
+        auto dec = row_content["DEC"].toString().trimmed();
+
+        ui->raBox->setText(ra.replace("hr", "h"));
+        ui->decBox->setText(dec.remove("º"));
+
+        auto pa      = row_content["Position Angle (East)"].toDouble();
+        ui->positionAngleSpin->setValue(pa);
+
+        // eg. 10% --> 10
+        auto overlap = row_content["Overlap"].toString().trimmed().midRef(0, 2).toDouble();
+        ui->overlapSpin->setValue(overlap);
     }
+
+    if (haveCenter == false)
+    {
+        KSNotification::sorry(i18n("Import must contain center coordinates."), i18n("Sorry"), 15);
+        return false;
+    }
+
+    // Set WxH
+    ui->mosaicWSpin->setValue(maxRow);
+    ui->mosaicHSpin->setValue(maxCol);
+    // Set J2000 Center
+    m_CenterPoint.setRA0(ui->raBox->createDms());
+    m_CenterPoint.setDec0(ui->decBox->createDms());
+    m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+    // Slew to center
+    SkyMap::Instance()->setDestination(m_CenterPoint);
+    SkyMap::Instance()->slewFocus();
+    // Now go to position adjustments
+    ui->nextToAdjustGrid->click();
+
+    return true;
+}
+
+bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
+{
+    // CSV should contain postion angle, ra/de of each panel, and center coordinates.
+    auto csv      = payload["csv"].toString();
+    // Full path to sequence file to be used for imaging.
+    auto sequence = payload["sequence"].toString();
+    // Name of target (needs sanitization)
+    auto target   = payload["target"].toString();
+    // Jobs directory
+    auto directory = payload["directory"].toString();
+
+    // Scheduler steps
+    auto track    = payload["track"].toBool();
+    auto focus    = payload["focus"].toBool();
+    auto align    = payload["align"].toBool();
+    auto guide    = payload["guide"].toBool();
+
+    // Create temporary file to save the CSV info
+    QTemporaryFile csvFile;
+    if (!csvFile.open())
+        return false;
+    csvFile.write(csv.toLatin1());
+    csvFile.close();
+
+    if (parseMosaicCSV(csvFile.fileName()) == false)
+        return false;
+
+    m_JobsDirectory = directory;
+
+    // Set scheduler options.
+    ui->trackStepCheck->setChecked(track);
+    ui->focusStepCheck->setChecked(focus);
+    ui->alignStepCheck->setChecked(align);
+    ui->guideStepCheck->setChecked(guide);
+
+    ui->sequenceEdit->setText(sequence);
+    ui->targetEdit->setText(target);
+
+    sanitizeTarget();
+
+    // If create job is still disabled, then some configuation is missing or wrong.
+    if (ui->createJobsB->isEnabled() == false)
+        return false;
+
+    ui->createJobsB->click();
+
+    return true;
 }
 
 void FramingAssistantUI::selectDirectory()
@@ -789,4 +824,24 @@ void FramingAssistantUI::selectDirectory()
     }
 }
 
+void FramingAssistantUI::sanitizeTarget()
+{
+    QString sanitized = ui->targetEdit->text();
+    if (sanitized != i18n("unnamed"))
+    {
+        // Remove illegal characters that can be problematic
+        sanitized = sanitize(sanitized);
+        ui->targetEdit->blockSignals(true);
+        ui->targetEdit->setText(sanitized);
+        ui->targetEdit->blockSignals(false);
+
+        if (m_JobsDirectory.isEmpty())
+            ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+        else
+            ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+
+        ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
+                                    !ui->directoryEdit->text().isEmpty());
+    }
+}
 }

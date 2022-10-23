@@ -164,6 +164,7 @@ enum COMMANDS
     SCHEDULER_REMOVE_JOBS,
     SCHEDULER_GET_SETTINGS,
     SCHEDULER_START_JOB,
+    SCHEDULER_IMPORT_MOSAIC,
 
     // Polar Assistant Helper
     PAH_START,
@@ -171,7 +172,7 @@ enum COMMANDS
     PAH_REFRESH,
     PAH_SET_CROSSHAIR,
     PAH_SELECT_STAR_DONE,
-    PAH_REFRESHING_DONE,    
+    PAH_REFRESHING_DONE,
     PAH_RESET_VIEW,
     PAH_SLEW_DONE,
     PAH_PAH_SET_ZOOM,
@@ -349,7 +350,7 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_LOOP, "focus_loop"},
     {FOCUS_SET_ALL_SETTINGS, "focus_set_all_settings"},
     {FOCUS_GET_ALL_SETTINGS, "focus_get_all_settings"},
-    {FOCUS_SET_CROSSHAIR, "focus_set_crosshair"},    
+    {FOCUS_SET_CROSSHAIR, "focus_set_crosshair"},
 
 
     {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
@@ -364,6 +365,7 @@ static QMap<COMMANDS, QString> const commands =
     {SCHEDULER_REMOVE_JOBS, "scheduler_remove_jobs"},
     {SCHEDULER_GET_SETTINGS, "scheduler_get_settings"},
     {SCHEDULER_START_JOB, "scheduler_start_job"},
+    {SCHEDULER_IMPORT_MOSAIC, "scheduler_import_mosaic"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},
@@ -386,7 +388,7 @@ static QMap<COMMANDS, QString> const commands =
     {ALIGN_MANUAL_ROTATOR_TOGGLE, "align_manual_rotator_toggle"},
 
     {PAH_START, "polar_start"},
-    {PAH_STOP, "polar_stop"},    
+    {PAH_STOP, "polar_stop"},
     {PAH_REFRESH, "polar_refresh"},
     {PAH_SET_CROSSHAIR, "polar_set_crosshair"},
     {PAH_SELECT_STAR_DONE, "polar_star_select_done"},
