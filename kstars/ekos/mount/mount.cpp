@@ -242,7 +242,10 @@ void Mount::setupParkUI()
 bool Mount::setMount(ISD::Mount *device)
 {
     if (device && device == m_Mount)
+    {
+        syncTelescopeInfo();
         return false;
+    }
 
     if (m_Mount)
         m_Mount->disconnect(this);
@@ -269,14 +272,6 @@ bool Mount::setMount(ISD::Mount *device)
 
     // forward the new mount to the meridian flip state machine
     m_MeridianFlipState->setMount(device);
-
-    //    if (newTelescope == m_Mount)
-    //    {
-    //        if (EnableAltitudeLimits->isChecked())
-    //            m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
-    //        syncTelescopeInfo();
-    //        return;
-    //    }
 
     if (m_GPS != nullptr)
         syncGPS();
