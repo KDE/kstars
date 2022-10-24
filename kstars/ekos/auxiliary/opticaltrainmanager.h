@@ -37,7 +37,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
         static OpticalTrainManager *Instance();
         static void release();
 
-        void setProfile(const QSharedPointer<ProfileInfo> &profile);        
+        void setProfile(const QSharedPointer<ProfileInfo> &profile);
 
         const QVariantMap getOpticalTrain(uint8_t id) const;
         const QVariantMap getOpticalTrain(const QString &name) const;
@@ -115,6 +115,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     protected:
         void initModel();
+        bool checkMissingDevice() const;
 
         // Delegates
         QPointer<ComboDelegate> m_MountDelegate;

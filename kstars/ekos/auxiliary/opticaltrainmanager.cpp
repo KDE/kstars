@@ -256,7 +256,17 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         emit configurationRequested(true);
     }
     else
+    {
         emit updated();
+        // Double check the sanity of the train. If devices are added or missing, then we need to show it to alert the user.
+        if (checkMissingDevice())
+        {
+            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Missing devices detected. Please reconfigure the optical trains before proceeding any further."), KSNotification::General, KSNotification::Warn);
+            show();
+            raise();
+            emit configurationRequested(true);
+        }
+    }
 }
 ////////////////////////////////////////////////////////////////////////////
 /// This method tries to guess possible optical train configuration
@@ -713,4 +723,43 @@ QString OpticalTrainManager::name(int id) const
     return QString();
 }
 
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::checkMissingDevice() const
+{
+    for (auto &oneTrain : m_OpticalTrains)
+    {
+        auto mount = oneTrain["mount"].toString();
+        if (mount != "--" && m_MountDelegate->values().contains(mount) == false)
+            return true;
+
+        auto camera = oneTrain["camera"].toString();
+        if (camera != "--" && m_CameraDelegate->values().contains(camera) == false)
+            return true;
+
+        auto dustcap = oneTrain["dustcap"].toString();
+        if (dustcap != "--" && m_DustCapDelegate->values().contains(dustcap) == false)
+            return true;
+
+        auto lightbox = oneTrain["lightbox"].toString();
+        if (lightbox != "--" && m_LightBoxDelegate->values().contains(lightbox) == false)
+            return true;
+
+        auto focuser = oneTrain["focuser"].toString();
+        if (focuser != "--" && m_FocuserDelegate->values().contains(focuser) == false)
+            return true;
+
+        auto filterwheel = oneTrain["filterwheel"].toString();
+        if (filterwheel != "--" && m_FilterWheelDelegate->values().contains(filterwheel) == false)
+            return true;
+
+        auto guider = oneTrain["guider"].toString();
+        if (guider != "--" && m_GuiderDelegate->values().contains(guider) == false)
+            return true;
+
+    }
+
+    return false;
+}
 }
