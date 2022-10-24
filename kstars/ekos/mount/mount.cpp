@@ -236,7 +236,10 @@ void Mount::setupParkUI()
 bool Mount::setMount(ISD::Mount *device)
 {
     if (device && device == m_Mount)
+    {
+        syncTelescopeInfo();
         return false;
+    }
 
     if (m_Mount)
         m_Mount->disconnect(this);
@@ -263,14 +266,6 @@ bool Mount::setMount(ISD::Mount *device)
 
     // forward the new mount to the meridian flip state machine
     mf_state->setMountConnected(device != nullptr);
-
-    //    if (newTelescope == m_Mount)
-    //    {
-    //        if (EnableAltitudeLimits->isChecked())
-    //            m_Mount->setAltLimits(MinimumAltLimit->value(), MaximumAltLimit->value());
-    //        syncTelescopeInfo();
-    //        return;
-    //    }
 
     if (m_GPS != nullptr)
         syncGPS();
@@ -1948,7 +1943,10 @@ void Mount::connectSettings()
     connect(meridianFlipOffsetDegrees, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
             mf_state.get(), &MeridianFlipState::setOffset);
     connect(this, &Mount::newParkStatus, mf_state.get(), &MeridianFlipState::setMountParkStatus);
-    connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos) {m_Mount->Slew(&pos);});
+    connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos)
+    {
+        m_Mount->Slew(&pos);
+    });
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
