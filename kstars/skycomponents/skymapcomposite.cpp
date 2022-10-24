@@ -443,8 +443,7 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
         }
     }
 
-    // TODO: Add support for deep star catalogs
-    rTry = rBest;
+    rTry = maxrad;
     oTry = m_Catalogs->objectNearest(p, rTry);
     if (oTry && rTry < rBest)
     {
