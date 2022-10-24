@@ -399,21 +399,7 @@ QString MeridianFlipState::meridianFlipStatusString(MeridianFlipMountState statu
 
 
 void MeridianFlipState::setMountStatus(ISD::Mount::Status status) {
-    // If we just finished a slew, let's update initialHA and the current target's position,
-    // but only if the meridian flip is enabled
-    if (status == ISD::Mount::MOUNT_TRACKING && m_MountStatus == ISD::Mount::MOUNT_SLEWING
-            && isEnabled())
-    {
-        if (meridianFlipMountState == MOUNT_FLIP_NONE)
-        {
-            setFlipDelayHrs(0);
-        }
-        // set the target position
-        updatePosition(targetPosition, currentPosition.position, currentPosition.pierSide, currentPosition.ha, true);
-        qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " <<
-                                      meridianFlipStatusString(meridianFlipMountState);
-    }
-
+    m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
 }
 
@@ -429,6 +415,21 @@ void MeridianFlipState::updatePosition(MountPosition &pos, const SkyPoint &posit
 void MeridianFlipState::updateTelescopeCoord(const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha)
 {
     updatePosition(currentPosition, position, pierSide, ha, true);
+
+    // If we just finished a slew, let's update initialHA and the current target's position,
+    // but only if the meridian flip is enabled
+    if (m_MountStatus == ISD::Mount::MOUNT_TRACKING && m_PrevMountStatus == ISD::Mount::MOUNT_SLEWING
+            && isEnabled())
+    {
+        if (meridianFlipMountState == MOUNT_FLIP_NONE)
+        {
+            setFlipDelayHrs(0);
+        }
+        // set the target position
+        updatePosition(targetPosition, currentPosition.position, currentPosition.pierSide, currentPosition.ha, true);
+        qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " <<
+                                      meridianFlipStatusString(meridianFlipMountState);
+    }
 
     QChar sgn(ha.Hours() <= 12.0 ? '+' : '-');
 
@@ -456,6 +457,7 @@ void MeridianFlipState::setTargetPosition(SkyPoint *pos)
         dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
         dms ha = dms(lst.Degrees() - pos->ra().Degrees());
 
+        qCDebug(KSTARS_EKOS_MOUNT) << "Setting target RA=" << pos->ra().toHMSString() << "DEC=" << pos->dec().toDMSString();
         updatePosition(targetPosition, *pos, ISD::Mount::PIER_UNKNOWN, ha, true);
     }
     else
