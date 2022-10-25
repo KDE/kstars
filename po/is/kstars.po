@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-24 00:44+0000\n"
+"POT-Creation-Date: 2022-10-25 00:42+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -563,7 +563,7 @@ msgid "Error"
 msgstr ""
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/scheduler/framingassistantui.cpp:733
+#: ekos/scheduler/framingassistantui.cpp:738
 #, kde-format
 msgid "Sorry"
 msgstr ""
@@ -938,7 +938,7 @@ msgstr "Sólkerfis skoðari"
 #: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
-#: skycomponents/skymapcomposite.cpp:595 skyglpainter.cpp:288
+#: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
 #: skymapdrawabstract.cpp:166 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
@@ -960,7 +960,7 @@ msgstr "Sól"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mercury)
 #: auxiliary/xplanetimageviewer.cpp:203
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:204
-#: skycomponents/skymapcomposite.cpp:597 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:596 skyglpainter.cpp:296
 #: skymapdrawabstract.cpp:168 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
@@ -978,7 +978,7 @@ msgstr "Merkúr"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Venus)
 #: auxiliary/xplanetimageviewer.cpp:203 options/opssolarsystem.ui:140
-#: skycomponents/skymapcomposite.cpp:599 skymapdrawabstract.cpp:170
+#: skycomponents/skymapcomposite.cpp:598 skymapdrawabstract.cpp:170
 #: skyobjects/ksplanet.cpp:127 skyobjects/ksplanet.cpp:161
 #: skyobjects/ksplanet.cpp:369 skyobjects/ksplanet.cpp:409
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
@@ -1015,7 +1015,7 @@ msgstr "Jörðin"
 #: dialogs/detaildialog.cpp:272 ekos/scheduler/schedulerjob.cpp:156
 #: printing/detailstable.cpp:145 printing/detailstable.cpp:162
 #: printing/detailstable.cpp:173 printing/detailstable.cpp:186
-#: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:601
+#: printing/pwizobjectselection.cpp:124 skycomponents/skymapcomposite.cpp:600
 #: skymapdrawabstract.cpp:172 skyobjects/ksmoon.cpp:64
 #: skyobjects/ksplanet.cpp:177 skyobjects/ksplanetbase.cpp:204
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/skyobject.cpp:287
@@ -1039,7 +1039,7 @@ msgstr "Tungl"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mars)
 #: auxiliary/xplanetimageviewer.cpp:207
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
-#: skycomponents/skymapcomposite.cpp:603 skyglpainter.cpp:292
+#: skycomponents/skymapcomposite.cpp:602 skyglpainter.cpp:292
 #: skymapdrawabstract.cpp:174 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
@@ -1070,7 +1070,7 @@ msgstr "Mimosa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Jupiter)
 #: auxiliary/xplanetimageviewer.cpp:209
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:172
-#: skycomponents/skymapcomposite.cpp:605 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:604 skyglpainter.cpp:296
 #: skymapdrawabstract.cpp:176 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
@@ -1110,7 +1110,7 @@ msgstr "Júpiter s"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:297 skymap.cpp:1329
+#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1329
 #: skymapdrawabstract.cpp:178 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1185,7 +1185,7 @@ msgstr "Phoenix"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
 #: auxiliary/xplanetimageviewer.cpp:213 options/opssolarsystem.ui:252
-#: skycomponents/skymapcomposite.cpp:609 skymapdrawabstract.cpp:180
+#: skycomponents/skymapcomposite.cpp:608 skymapdrawabstract.cpp:180
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
@@ -1235,7 +1235,7 @@ msgstr "Oberlin"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
 #: auxiliary/xplanetimageviewer.cpp:215 options/opssolarsystem.ui:220
-#: skycomponents/skymapcomposite.cpp:611 skymapdrawabstract.cpp:182
+#: skycomponents/skymapcomposite.cpp:610 skymapdrawabstract.cpp:182
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
@@ -6023,7 +6023,7 @@ msgstr "Vistað í skrá: %1"
 
 #: ekos/align/align.cpp:2376 ekos/capture/capture.cpp:2767
 #: ekos/focus/focus.cpp:3165 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1883
-#: ekos/mount/mount.cpp:809 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:804 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:891
 #, fuzzy, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -11562,14 +11562,21 @@ msgstr "Erding"
 msgid "Device receiving guiding correction pulses"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:267
+#: ekos/auxiliary/opticaltrainmanager.cpp:264
+#, kde-format
+msgid ""
+"Missing devices detected. Please reconfigure the optical trains before "
+"proceeding any further."
+msgstr ""
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:277
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Primghar"
 msgid "Primary"
 msgstr "Primghar"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:270
+#: ekos/auxiliary/opticaltrainmanager.cpp:280
 #, fuzzy, kde-format
 msgid "Secondary"
 msgstr "sekúndur"
@@ -13232,8 +13239,8 @@ msgstr "halastjarna"
 #: ekos/capture/capture.cpp:4305 ekos/scheduler/framingassistantui.cpp:163
 #: ekos/scheduler/framingassistantui.cpp:178
 #: ekos/scheduler/framingassistantui.cpp:542
-#: ekos/scheduler/framingassistantui.cpp:811
-#: ekos/scheduler/framingassistantui.cpp:830 skyobjects/ksplanetbase.h:60
+#: ekos/scheduler/framingassistantui.cpp:816
+#: ekos/scheduler/framingassistantui.cpp:835 skyobjects/ksplanetbase.h:60
 #: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
@@ -19327,7 +19334,7 @@ msgstr "Staða"
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Staða"
 
-#: ekos/manager/meridianflipstate.cpp:72 ekos/manager/meridianflipstate.cpp:444
+#: ekos/manager/meridianflipstate.cpp:72 ekos/manager/meridianflipstate.cpp:445
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Sól"
@@ -19427,112 +19434,112 @@ msgstr "Eyða Staðfesting"
 msgid "Mount Control"
 msgstr "Montreal"
 
-#: ekos/mount/mount.cpp:363
+#: ekos/mount/mount.cpp:358
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:378
+#: ekos/mount/mount.cpp:373
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:379
+#: ekos/mount/mount.cpp:374
 #, fuzzy, kde-format
 msgid "GPS Settings"
 msgstr "Kettering"
 
-#: ekos/mount/mount.cpp:507
+#: ekos/mount/mount.cpp:502
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Ertu viss um að þú vilir fjarlægja biðlarann %1?"
 
-#: ekos/mount/mount.cpp:508
+#: ekos/mount/mount.cpp:503
 #, fuzzy, kde-format
 msgid "Mount Tracking"
 msgstr "Til &baka"
 
-#: ekos/mount/mount.cpp:595
+#: ekos/mount/mount.cpp:590
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:611
+#: ekos/mount/mount.cpp:606
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:663
+#: ekos/mount/mount.cpp:658
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:775
+#: ekos/mount/mount.cpp:770
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:789
+#: ekos/mount/mount.cpp:784
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:820
+#: ekos/mount/mount.cpp:818
 #, fuzzy, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "1"
 
-#: ekos/mount/mount.cpp:1404
+#: ekos/mount/mount.cpp:1415
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Alignment Model cleared."
 msgstr "Caliente"
 
-#: ekos/mount/mount.cpp:1408
+#: ekos/mount/mount.cpp:1419
 #, fuzzy, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "á "
 
-#: ekos/mount/mount.cpp:1518 ekos/scheduler/scheduler.cpp:6214
+#: ekos/mount/mount.cpp:1529 ekos/scheduler/scheduler.cpp:6214
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1543
+#: ekos/mount/mount.cpp:1554
 #, fuzzy, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Sjónaukaálfur"
 
-#: ekos/mount/mount.cpp:1552
+#: ekos/mount/mount.cpp:1563
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1557
+#: ekos/mount/mount.cpp:1568
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1559
+#: ekos/mount/mount.cpp:1570
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1578
+#: ekos/mount/mount.cpp:1589
 #, fuzzy, kde-format
 msgid "Parking timer is up."
 msgstr "Sjónaukaálfur"
 
-#: ekos/mount/mount.cpp:1587
+#: ekos/mount/mount.cpp:1598
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -22384,12 +22391,12 @@ msgstr "Velja ekkert"
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:733
+#: ekos/scheduler/framingassistantui.cpp:738
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:804
+#: ekos/scheduler/framingassistantui.cpp:809
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
