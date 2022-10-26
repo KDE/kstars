@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-25 00:42+0000\n"
-"PO-Revision-Date: 2022-10-25 00:15+0200\n"
+"PO-Revision-Date: 2022-10-26 01:19+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11894,6 +11894,8 @@ msgid ""
 "Missing devices detected. Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
+"Se han detectado dispositivos ausentes. Vuelva a configurar los trenes "
+"ópticos antes de seguir avanzando."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:277
 #, kde-format
