@@ -5414,7 +5414,7 @@ void Scheduler::startAstrometry()
     if (currentJob->getFITSFile().isEmpty() == false)
     {
         // check if the file exists
-        QFileInfo fileInfo(currentJob->getFITSFile().toString());
+        QFileInfo fileInfo(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
         if (fileInfo.exists() == false)
         {
             appendLogText(i18n("Warning: job '%1' target FITS file does not exist.", currentJob->getName()));
