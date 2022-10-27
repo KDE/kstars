@@ -5412,9 +5412,9 @@ void Scheduler::startAstrometry()
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
     {
+        auto path = currentJob->getFITSFile().toString(QUrl::PreferLocalFile);
         // check if the file exists
-        QFileInfo fileInfo(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
-        if (fileInfo.exists() == false)
+        if (QFile::exists(path) == false)
         {
             appendLogText(i18n("Warning: job '%1' target FITS file does not exist.", currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_ERROR);
@@ -5423,7 +5423,7 @@ void Scheduler::startAstrometry()
         }
 
         QList<QVariant> solveArgs;
-        solveArgs.append(currentJob->getFITSFile().toString(QUrl::PreferLocalFile));
+        solveArgs.append(path);
 
         TEST_PRINT(stderr, "sch%d @@@dbus(%s): sending %s\n", __LINE__, "alignInterface", "loadAndSlew");
         if ((reply = alignInterface->callWithArgumentList(QDBus::AutoDetect, "loadAndSlew", solveArgs)).type() ==
