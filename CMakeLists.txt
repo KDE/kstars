@@ -443,6 +443,12 @@ IF (NOT ANDROID)
     find_package(KF5DocTools CONFIG)
     if(KF5DocTools_FOUND)
         kdoctools_install(po)
+
+        if(${KF5DocTools_VERSION} VERSION_LESS 5.92.0)
+            message(STATUS "KF5DocTools_VERSION is ${KF5DocTools_VERSION}, the Catalan (Valencian) documentation won't be installed. It needs 5.92")
+            _kdoctools_create_target_name(_targ "${CMAKE_BINARY_DIR}/po/ca@valencia/docs/kstars/index.cache.bz2")
+            set_target_properties(${_targ} PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+        endif()
     endif()
 
 ENDIF ()
