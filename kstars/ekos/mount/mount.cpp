@@ -811,6 +811,9 @@ void Mount::appendLogText(const QString &text)
 
 void Mount::updateLog(int messageID)
 {
+    if (m_Mount == nullptr)
+        return;
+
     auto message = m_Mount->getMessage(messageID);
     m_LogText.insert(0, i18nc("Message shown in Ekos Mount module", "%1", message));
 
@@ -825,6 +828,9 @@ void Mount::clearLog()
 
 void Mount::motionCommand(int command, int NS, int WE)
 {
+    if (m_Mount == nullptr || !m_Mount->isConnected())
+        return;
+
     if (NS != -1)
     {
         m_Mount->MoveNS(static_cast<ISD::Mount::VerticalMotion>(NS),
@@ -841,11 +847,17 @@ void Mount::motionCommand(int command, int NS, int WE)
 
 void Mount::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs)
 {
+    if (m_Mount == nullptr || !m_Mount->isConnected())
+        return;
+
     m_Mount->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
 
 void Mount::saveLimits()
 {
+    if (m_Mount == nullptr)
+        return;
+
     m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
 }
 
@@ -1130,6 +1142,9 @@ bool Mount::sync(double RA, double DEC)
 
 bool Mount::abort()
 {
+    if (m_Mount == nullptr)
+        return false;
+
     return m_Mount->abort();
 }
 
@@ -1143,10 +1158,11 @@ IPState Mount::slewStatus()
 
 QList<double> Mount::equatorialCoords()
 {
-    double ra, dec;
+    double ra {0}, dec {0};
     QList<double> coords;
 
-    m_Mount->getEqCoords(&ra, &dec);
+    if (m_Mount)
+        m_Mount->getEqCoords(&ra, &dec);
     coords.append(ra);
     coords.append(dec);
 
@@ -1945,7 +1961,8 @@ void Mount::connectSettings()
     connect(this, &Mount::newParkStatus, mf_state.get(), &MeridianFlipState::setMountParkStatus);
     connect(mf_state.get(), &MeridianFlipState::slewTelescope, [&](SkyPoint pos)
     {
-        m_Mount->Slew(&pos);
+        if (m_Mount)
+            m_Mount->Slew(&pos);
     });
 
     // Train combo box should NOT be synced.

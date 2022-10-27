@@ -703,6 +703,11 @@ bool FramingAssistantUI::parseMosaicCSV(const QString &filename)
     {
         row_content = csvParser.ReadNextRow();
         auto pane = row_content["Pane"].toString();
+
+        // Skip first line
+        if (pane == "Pane")
+            continue;
+
         if (pane != "Center")
         {
             auto row = row_content["Row"].toInt();
@@ -771,7 +776,7 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     QTemporaryFile csvFile;
     if (!csvFile.open())
         return false;
-    csvFile.write(csv.toLatin1());
+    csvFile.write(csv.toUtf8());
     csvFile.close();
 
     if (parseMosaicCSV(csvFile.fileName()) == false)

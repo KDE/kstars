@@ -212,6 +212,8 @@ private:
     bool m_hasCaptureInterface { false };
     // the current mount status
     ISD::Mount::Status m_MountStatus = ISD::Mount::MOUNT_IDLE;
+    // the previous mount status
+    ISD::Mount::Status m_PrevMountStatus = ISD::Mount::MOUNT_IDLE;
     // mount park status
     ISD::ParkStatus m_MountParkStatus = ISD::PARK_UNKNOWN;
     // current overall meridian flip state
