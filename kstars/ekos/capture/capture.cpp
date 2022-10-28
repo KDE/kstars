@@ -6605,9 +6605,11 @@ void Capture::setupFilterManager()
 {
     // Do we have an existing filter manager?
     if (m_FilterManager)
-        return;
+        m_FilterManager->disconnect(this);
 
+    // Create new or refresh device
     Ekos::Manager::Instance()->createFilterManager(m_FilterWheel);
+
     // Return global filter manager for this filter wheel.
     Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), m_FilterManager);
 
