@@ -234,10 +234,6 @@
          <whatsthis>INDI server will attempt to bind with ports ending with this port</whatsthis>
          <default>8623</default>
       </entry>
-      <entry name="filterAlias" type="StringList">
-         <label>Aliases for filter wheel slots.</label>
-         <whatsthis>List of the aliases for filter wheel slots.</whatsthis>
-      </entry>
       <entry name="indiServer" type="String">
          <label>PATH to indiserver binary</label>
          <whatsthis>PATH to indiserver binary</whatsthis>
