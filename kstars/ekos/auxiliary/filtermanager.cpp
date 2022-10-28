@@ -217,7 +217,10 @@ void FilterManager::refreshFilterProperties()
     {
         if (m_FilterConfirmSet == nullptr)
             m_FilterConfirmSet = m_FilterWheel->getSwitch("CONFIRM_FILTER_SET");
-        return;
+
+        // All filters are synced up?
+        if (m_currentFilterLabels.count() == m_FilterNameProperty->ntp)
+            return;
     }
 
     filterNameLabel->setText(m_FilterWheel->getDeviceName());
@@ -245,18 +248,10 @@ QStringList FilterManager::getFilterLabels(bool forceRefresh)
 
     QStringList filterList;
 
-    QStringList filterAlias = Options::filterAlias();
-
     for (int i = 0; i < m_FilterPositionProperty->np[0].max; i++)
     {
-        QString item;
-
         if (m_FilterNameProperty != nullptr && (i < m_FilterNameProperty->ntp))
-            item = m_FilterNameProperty->tp[i].text;
-        else if (i < filterAlias.count() && filterAlias[i].isEmpty() == false)
-            item = filterAlias.at(i);
-
-        filterList.append(item);
+            filterList.append(m_FilterNameProperty->tp[i].text);
     }
 
     return filterList;

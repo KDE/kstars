@@ -4597,6 +4597,8 @@ bool Scheduler::processJobInfo(XMLEle *root)
 
     // We expect all data read from the XML to be in the C locale - QLocale::c()
     QLocale cLocale = QLocale::c();
+    fitsURL = QUrl();
+    fitsEdit->clear();
 
     for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
     {
