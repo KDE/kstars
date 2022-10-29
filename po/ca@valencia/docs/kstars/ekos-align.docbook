@@ -68,7 +68,7 @@
                 <para
 ><guilabel
 >Solucionador desconnectat</guilabel
->: El solucionador fora de línia pot ser més ràpid i no requerix connexió a Internet. Per a utilitzar el solucionador fora de línia, haureu d'instal·lar l'«astrometry.net» a més dels fitxers d'índex necessaris. </para>
+>: El solucionador fora de línia pot ser més ràpid i no requerix connexió amb Internet. Per a utilitzar el solucionador fora de línia, haureu d'instal·lar l'«astrometry.net» a més dels fitxers d'índex necessaris. </para>
             </listitem>
             <listitem>
                 <para
@@ -197,7 +197,7 @@
             <para
 >La baixada automàtica només estarà disponible per als usuaris d'Ekos a &Linux; i &MacOS;. Per als usuaris de &Windows;, baixeu el solucionador ANSVR. </para>
             <para
->Per accedir a la pàgina de baixada, feu clic en el botó <guibutton
+>Per a accedir a la pàgina de baixada, feu clic en el botó <guibutton
 >Opcions</guibutton
 > en el <link linkend="ekos-align"
 >mòdul per a l'alineació</link
@@ -605,7 +605,7 @@
                     <para
 ><guilabel
 >WCS</guilabel
->: El sistema de coordenades mundial és un sistema per a incrustar la informació de les coordenades equatorials dins de la imatge. Per tant, quan visualitzeu la imatge, podreu desplaçar-la i veure la coordenada per a cada píxel. També podeu fer clic a qualsevol lloc de la imatge i orientar-hi el telescopi. Es recomana mantindre activada esta opció. </para>
+>: El sistema de coordenades mundial és un sistema per a incrustar la informació de les coordenades equatorials dins de la imatge. Per tant, quan visualitzeu la imatge, podreu desplaçar-la i veure la coordenada per a cada píxel. També podeu fer clic en qualsevol lloc de la imatge i orientar-hi el telescopi. Es recomana mantindre activada esta opció. </para>
                 </listitem>
                 <listitem>
                     <para
@@ -666,7 +666,7 @@
                     <para
 >Seleccioneu <guilabel
 >Orienta cap a l'objectiu</guilabel
-> a l'<guilabel
+> en l'<guilabel
 >Acció del solucionador</guilabel
 >. </para>
                 </listitem>
@@ -676,7 +676,7 @@
                 </listitem>
                 <listitem>
                     <para
->Una vegada completada l'orientació, feu clic a <guibutton
+>Una vegada completada l'orientació, feu clic en <guibutton
 >Captura i soluciona</guibutton
 >. </para>
                 </listitem>
@@ -770,7 +770,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->Després de la primera captura, podeu fer girar la muntura en una quantitat específica (el valor predeterminat és 30 graus) a l'oest o a l'est. Després de seleccionar la magnitud i la direcció, feu clic a <guibutton
+>Després de la primera captura, podeu fer girar la muntura en una quantitat específica (el valor predeterminat és 30 graus) a l'oest o a l'est. Després de seleccionar la magnitud i la direcció, feu clic en <guibutton
 >Següent</guibutton
 > per a continuar i la muntura serà girada. Una vegada finalitzada la rotació, se us demanarà prendre una altra captura, tret que hàgeu marcat el mode automàtic. En el mode automatitzat, la resta del procés continuarà amb la mateixa configuració i direcció fins que es capturen un total de tres imatges. </para>
                 <para
@@ -815,7 +815,7 @@
                 <title
 >Flux de treball de l'alineació polar antiga</title>
                 <para
->Mitjançant el mode alineació polar, Ekos podrà mesurar i corregir els errors de l'alineació polar. Per a mesurar l'error en l'azimut, apunteu la muntura a una estrela propera al meridià. Si viviu a l'hemisferi nord, apuntareu cap al meridià sud. Feu clic a <guibutton
+>Mitjançant el mode alineació polar, Ekos podrà mesurar i corregir els errors de l'alineació polar. Per a mesurar l'error en l'azimut, apunteu la muntura a una estrela propera al meridià. Si viviu a l'hemisferi nord, apuntareu cap al meridià sud. Feu clic en <guibutton
 >Mesura l'error de l'Az</guibutton
 > per a iniciar el procés. Ekos intentarà mesurar la deriva entre les dues imatges i calcular l'error en conseqüència. Podeu demanar a Ekos que corregisca l'error en l'azimut fent clic en el botó <guibutton
 >Correcció de l'error de l'Az</guibutton
@@ -847,21 +847,21 @@
                         <para
 >Canvieu el mode a <guilabel
 >Alineació polar</guilabel
->. Feu clic a <guibutton
+>. Feu clic en <guibutton
 >Mesura l'error de l'Az</guibutton
->. Se us demanarà que orienteu cap a una estrela al meridià sud, el qual ja ho hem fet. Feu clic a <guibutton
+>. Se us demanarà que orienteu cap a una estrela al meridià sud, el qual ja ho hem fet. Feu clic en <guibutton
 >Continua</guibutton
 >. Ekos ara realitzarà el càlcul de l'error. </para>
                     </listitem>
                     <listitem>
                         <para
->Si tot va bé, l'error es mostrarà als quadros d'eixida. Per a corregir l'error, feu clic a <guibutton
+>Si tot va bé, l'error es mostrarà als quadros d'eixida. Per a corregir l'error, feu clic en <guibutton
 >Correcció de l'error de l'Az</guibutton
 >. Ekos ara orientarà cap a un punt diferent en el cel, i se us demanarà que <emphasis role="bold"
 >només</emphasis
 > ajusteu els botons d'azimut de la muntura per a centrar l'estrela en el camp de visió. La manera més pràctica de controlar el camp estrel·lar és anar al mòdul per a l'<guilabel
 >Enfocament</guilabel
-> i fer clic a <guibutton
+> i fer clic en <guibutton
 >Inicia la captura</guibutton
 >. Si l'error en l'azimut és gran, l'estrela podria no ser visible en el camp de visió del CCD i, per tant, haureu de fer ajustos <emphasis
 >cecs</emphasis
@@ -909,15 +909,15 @@
                     </listitem>
                     <listitem>
                         <para
->Feu clic a <guibutton
+>Feu clic en <guibutton
 >Mesura l'error de l'Alt</guibutton
->. Vos demanarà que orienteu cap a una estrela a l'horitzó oriental (Azimut 90) o occidental (Azimut 270), el qual ja ho hem fet. Feu clic a <guibutton
+>. Vos demanarà que orienteu cap a una estrela a l'horitzó oriental (Azimut 90) o occidental (Azimut 270), el qual ja ho hem fet. Feu clic en <guibutton
 >Continua</guibutton
 >. Ekos ara realitzarà el càlcul de l'error. </para>
                     </listitem>
                     <listitem>
                         <para
->Per a corregir l'error, feu clic a <guibutton
+>Per a corregir l'error, feu clic en <guibutton
 >Correcció de l'error de l'Alt</guibutton
 >. Ekos ara orientarà cap a un punt diferent en el cel, i se us demanarà que <emphasis role="bold"
 >només</emphasis

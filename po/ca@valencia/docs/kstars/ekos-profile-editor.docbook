@@ -124,7 +124,7 @@
                 <para
 >Connecta amb el servidor INDI. Basant-se en els dispositius connectats, s'establiran els mòduls d'Ekos (CCD, Enfocament, Guiatge, &etc;) per a utilitzar-los. </para>
                 <para
->Una vegada que esteu preparat, feu clic a <guibutton
+>Una vegada que esteu preparat, feu clic en <guibutton
 >Inicia INDI</guibutton
 > per a establir el servidor INDI i la connexió amb el vostre equip. Ekos crearà les diferents icones del mòdul (Muntura, Captura, Enfocament, &etc;) a mesura que s'establisca la connexió amb el dispositiu. </para>
             </listitem>

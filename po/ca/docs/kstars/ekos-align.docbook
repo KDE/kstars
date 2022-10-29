@@ -625,7 +625,7 @@
                     <para
 ><guilabel
 >Puja en JPG</guilabel
->: Quan utilitzeu l'«astrometry.net» en línia, es pujaran totes les imatges en JPEG per tal de preservar l'amplada de banda, a causa del fet que les imatges FITS poden ser grans. </para>
+>: Quan utilitzeu l'«astrometry.net» en línia, es pujaran totes les imatges en JPEG per tal d'estalviar l'amplada de banda, a causa del fet que les imatges FITS poden ser grans. </para>
                 </listitem>
             </itemizedlist>
         </sect3>

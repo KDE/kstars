@@ -69,7 +69,7 @@
 >Seqüència</guilabel
 >: El fitxer de seqüències es construïx al <link linkend="ekos-capture"
 >Mòdul de captura</link
-> d'Ekos. Conté la quantitat d'imatges a capturar, filtres, opcions de la temperatura, prefixos, directori de baixada, &etc; </para>
+> d'Ekos. Conté la quantitat d'imatges que es capturaran, filtres, opcions de la temperatura, prefixos, directori de baixada, &etc; </para>
             </listitem>
             <listitem>
                 <para
@@ -119,7 +119,7 @@
 >Objectiu</guilabel
 > i la <guilabel
 >Seqüència</guilabel
-> abans de poder afegir una tasca al programador. Quan s'inicie el programador, este avaluarà totes les tasques d'acord amb les condicions i restriccions especificades i intentarà seleccionar la millor tasca a executar. La selecció de la tasca depén d'un algorisme heurístic senzill que puntua cada tasca tenint en compte les condicions i les restriccions, cadascuna de les quals es ponderen en conseqüència. Si dos objectius tenen condicions i restriccions idèntiques, generalment se selecciona l'objectiu de prioritat més elevat seguit d'un objectiu d'altitud major per a la seua execució. Si no hi ha cap candidat disponible en el moment actual, el programador entrarà al mode de repòs i es despertarà quan la propera tasca estiga llesta per a la seua execució. </para>
+> abans de poder afegir una tasca al programador. Quan s'inicie el programador, este avaluarà totes les tasques d'acord amb les condicions i restriccions especificades i intentarà seleccionar la millor tasca per a executar. La selecció de la tasca depén d'un algorisme heurístic senzill que puntua cada tasca tenint en compte les condicions i les restriccions, cadascuna de les quals es ponderen en conseqüència. Si dos objectius tenen condicions i restriccions idèntiques, generalment se selecciona l'objectiu de prioritat més elevat seguit d'un objectiu d'altitud major per a la seua execució. Si no hi ha cap candidat disponible en el moment actual, el programador entrarà al mode de repòs i es despertarà quan la propera tasca estiga llesta per a la seua execució. </para>
         <screenshot>
             <screeninfo
 >Programador + Planificador </screeninfo>
@@ -482,7 +482,7 @@ exit(0)
         </orderedlist
 >                
         <para
->Feu clic a <guibutton
+>Feu clic en <guibutton
 >Crea tasques</guibutton
 > per a generar les tasques del planificador del mosaic i afegir-les a la cua del planificador. </para>
     </sect3>

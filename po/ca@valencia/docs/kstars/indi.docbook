@@ -181,12 +181,12 @@
 >, o prement la icona amb forma de <guiicon
 >rellotge</guiicon
 > que hi ha en la barra d'eines. La finestra <guilabel
->Establix el temps</guilabel
+>Establiu la data i l'hora</guilabel
 > utilitza un giny selector de dates estàndard de &kde;. Si sempre necessiteu reajustar el rellotge al temps actual, senzillament seleccioneu <menuchoice
 ><guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix el temps a ara</guimenuitem
+>Establix el temps a Ara</guimenuitem
 ></menuchoice
 >. </para>
 </listitem>
@@ -220,7 +220,7 @@
 
 <listitem>
 <para
->Feu clic a <guibutton
+>Feu clic en <guibutton
 >Tanca</guibutton
 > per a tancar el diàleg del gestor de dispositius. </para>
 </listitem>

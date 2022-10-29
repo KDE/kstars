@@ -229,7 +229,7 @@
 ></listitem>
                 <listitem
 ><para
->Imatges recents: mostra les imatges recentment obertes. Si feu clic a qualsevol imatge, serà carregada.</para
+>Imatges recents: mostra les imatges recentment obertes. Si feu clic en qualsevol imatge, serà carregada.</para
 ></listitem>
             </itemizedlist>
     </listitem>
@@ -275,7 +275,7 @@
 ></keycombo
 >. </para>
 <para
->Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador a dispositius incrustats amb poca potència, podeu canviar el seu comportament a la <link linkend="fits-configure"
+>Atés que les operacions com ara la reconstrucció des de Bayer i el WCS automàtic són cares en recursos i posen èmfasi en el processador en dispositius incrustats amb poca potència, podeu canviar el seu comportament a la <link linkend="fits-configure"
 >pàgina de configuració FITS de &kstars;</link
 >. </para>
 <screenshot>
@@ -503,7 +503,7 @@
     <para
 >Per a utilitzar la nova característica, l'usuari haurà de seleccionar la icona <guiicon
 >Visualitza el perfil de l'estrela</guiicon
-> en una de les vistes del mòdul Ekos o en el visor FITS. A continuació, la regió seleccionada al quadro de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
+> en una de les vistes del mòdul Ekos o en el visor FITS. A continuació, la regió seleccionada en el quadro de seguiment verd apareixerà al gràfic en 3D tal com es mostra a dalt. L'usuari tindrà una de les següents barres d'eines a la part inferior. </para>
     <screenshot>
         <screeninfo
 >Barra d'eines 1 del perfil de l'estrela </screeninfo>

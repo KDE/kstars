@@ -111,7 +111,7 @@
 >immensament</emphasis
 > útils per a reduir el soroll en els fotogrames guia. Es recomana prendre fotogrames foscos abans de començar amb el procediment de calibratge o guiatge. Per a prendre un fotograma fosc, marqueu la casella de selecció <guilabel
 >Fosc</guilabel
-> i feu clic a <guibutton
+> i feu clic en <guibutton
 >Captura</guibutton
 >. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament a la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar a la <link linkend="ekos"
 >configuració d'Ekos</link
@@ -151,11 +151,11 @@
             </mediaobject>
         </screenshot>
         <para
->En la fase del calibratge, haureu de capturar una imatge, seleccionar una estrela guia i fer clic a <guibutton
+>En la fase del calibratge, haureu de capturar una imatge, seleccionar una estrela guia i fer clic en <guibutton
 >Guiatge</guibutton
 > per a iniciar el procés del calibratge. Si el calibratge ja s'ha completat amb èxit abans, llavors el procés del guiatge automàtic començarà immediatament, en cas contrari, començaria el procés de calibratge. Si l'opció <guilabel
 >Estrela automàtica</guilabel
-> està marcada, només caldrà que feu clic a <guibutton
+> està marcada, només caldrà que feu clic en <guibutton
 >Captura</guibutton
 > i Ekos seleccionarà automàticament l'estrela guia més adequada que trobe a la imatge i continuarà automàticament el procés de calibratge. Si <guilabel
 >Estrela automàtica</guilabel
@@ -388,7 +388,7 @@
         <para
 >El control lliscant horitzontal <guilabel
 >Traça</guilabel
-> que hi ha en la part inferior es pot utilitzar per a desplaçar-se per l'historial del guiatge. D'altra banda, podeu fer clic a la casella de selecció <guilabel
+> que hi ha en la part inferior es pot utilitzar per a desplaçar-se per l'historial del guiatge. D'altra banda, podeu fer clic en la casella de selecció <guilabel
 >Màx</guilabel
 > per a bloquejar el gràfic en el punt més recent de manera que els gràfics de la deriva es desplacen automàticament. Els botons que apareixen a la dreta del control lliscant s'utilitzen per a escalar automàticament els gràfics, exportar les dades del guiatge a un fitxer CSV, netejar totes les dades del guiatge i escalar l'objectiu amb el <guilabel
 >Traçat de la deriva</guilabel
@@ -443,7 +443,7 @@
 >Connecta</guibutton
 > i <guibutton
 >Desconnecta</guibutton
-> estaran habilitats per a permetre establir una connexió amb el servidor del PHD2. Podeu controlar la configuració de l'exposició i Dec del guiatge al PHD2. En fer clic a <guibutton
+> estaran habilitats per a permetre establir una connexió amb el servidor del PHD2. Podeu controlar la configuració de l'exposició i Dec del guiatge al PHD2. Fent clic en <guibutton
 >Guiatge</guibutton
 >, el PHD2 <emphasis role="bold"
 >haurà</emphasis

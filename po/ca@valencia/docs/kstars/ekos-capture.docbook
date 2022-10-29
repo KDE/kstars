@@ -93,7 +93,7 @@
                 <para
 ><guilabel
 >Comptador</guilabel
->: El nombre d'imatges a capturar. </para>
+>: El nombre d'imatges que es capturaran. </para>
             </listitem>
             <listitem>
                 <para
@@ -162,7 +162,7 @@
             <title
 >Propietats personalitzades</title>
             <para
->Moltes càmeres oferixen propietats addicionals que no es poden establir directament en la configuració de la captura mitjançant el control comú. Els controls de la captura descrits anteriorment representen les opcions més freqüents compartides entre les diferents càmeres, però cada càmera és única i pot oferir les seues pròpies propietats esteses. Tot i que podeu utilitzar el quadro de control INDI per a establir qualsevol propietat del controlador; és important poder establir esta propietat per a cada tasca en la seqüència. Quan feu clic a <guibutton
+>Moltes càmeres oferixen propietats addicionals que no es poden establir directament en la configuració de la captura mitjançant el control comú. Els controls de la captura descrits anteriorment representen les opcions més freqüents compartides entre les diferents càmeres, però cada càmera és única i pot oferir les seues pròpies propietats esteses. Tot i que podeu utilitzar el quadro de control INDI per a establir qualsevol propietat del controlador; és important poder establir esta propietat per a cada tasca en la seqüència. Quan feu clic en <guibutton
 >Propietats personalitzades</guibutton
 >, es mostrarà un diàleg dividit en <guilabel
 >Propietats disponibles</guilabel
@@ -172,7 +172,7 @@
 >Propietats disponibles</guilabel
 > a la de <guilabel
 >Propietats de la tasca</guilabel
->, el seu valor actual es podrà registrar una vegada que feu clic a <guibutton
+>, el seu valor actual es podrà registrar una vegada que feu clic en <guibutton
 >Aplica</guibutton
 >. Quan afegiu una tasca a la <guilabel
 >Cua de seqüències</guilabel
@@ -220,7 +220,7 @@
                 <para
 ><guilabel
 >Prefix</guilabel
->: Especifiqueu el prefix a afegir al nom de fitxer generat. També podeu afegir el tipus de fotograma, filtre, duració de l'exposició i la marca de temps ISO 8601. Per exemple, si especifiqueu el prefix com a <userinput
+>: Especifiqueu el prefix que s'afegirà al nom de fitxer generat. També podeu afegir el tipus de fotograma, filtre, duració de l'exposició i la marca de temps ISO 8601. Per exemple, si especifiqueu el prefix com a <userinput
 >M45</userinput
 > i marqueu les caselles de selecció tipus i filtre, i suposant que el vostre filtre s'ha establit a <guimenuitem
 >Roig</guimenuitem
@@ -384,7 +384,7 @@
             </mediaobject>
         </screenshot>
         <para
->Podeu afegir-hi tantes tasques com vulgueu. Si bé no és estrictament necessari, és preferible afegir-hi tasques per a fotogrames foscos i plans després dels de llum. Una vegada hàgeu acabat d'afegir les tasques, feu clic a <guilabel
+>Podeu afegir-hi tantes tasques com vulgueu. Si bé no és estrictament necessari, és preferible afegir-hi tasques per a fotogrames foscos i plans després dels de llum. Una vegada hàgeu acabat d'afegir les tasques, feu clic en <guilabel
 >Inicia la seqüència</guilabel
 > <inlinemediaobject
 ><imageobject
@@ -438,7 +438,7 @@
 ><imageobject
 ><imagedata fileref="dialog-ok-apply.png" format="PNG"/></imageobject
 ></inlinemediaobject
->. Feu els canvis al costat esquerre del mòdul per al CCD i, una vegada fet, feu clic en el botó marca de selecció. Per a cancel·lar una tasca editada, feu clic a qualsevol lloc de l'espai buit de la taula en la cua de seqüències. </para>
+>. Feu els canvis al costat esquerre del mòdul per al CCD i, una vegada fet, feu clic en el botó marca de selecció. Per a cancel·lar una tasca editada, feu clic en qualsevol lloc de l'espai buit de la taula en la cua de seqüències. </para>
         <para
 >Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic en el botó <guibutton
 >Vídeo en directe</guibutton

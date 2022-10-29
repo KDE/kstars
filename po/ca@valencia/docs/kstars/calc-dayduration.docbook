@@ -12,7 +12,7 @@
 
 <screenshot>
 <screeninfo
->Mòdul per a calcular la duració del dia </screeninfo>
+>El mòdul per a calcular la duració del dia </screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="calc-daylength.png" format="PNG"/>

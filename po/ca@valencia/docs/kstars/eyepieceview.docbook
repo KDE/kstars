@@ -20,7 +20,7 @@
 >Vista d'exemple </phrase>
   </textobject>
   <caption
->Al costat esquerre hi ha el mapa celeste pres des de &kstars;. Al costat dret hi ha la imatge POSS (DSS) de la mateixa regió. L'orientació en l'exemple anterior s'ha ajustat perquè coincidisca amb la vista a través d'un telescopi Dobson en l'emplaçament i hora de la simulació a &kstars;. </caption>
+>Al costat esquerre hi ha el mapa celeste pres des de &kstars;. Al costat dret hi ha la imatge POSS (DSS) de la mateixa regió. L'orientació en l'exemple anterior s'ha ajustat perquè coincidisca amb la vista a través d'un telescopi Dobson en l'emplaçament i hora de la simulació en &kstars;. </caption>
 </mediaobject>
 </screenshot>
 
@@ -36,15 +36,15 @@
 >Hi ha dues maneres d'invocar esta característica: <itemizedlist>
     <listitem
 ><para
->Al mapa celeste, feu clic dret sobre l'objecte desitjat i després feu clic a <guilabel
+>Al mapa celeste, feu clic dret sobre l'objecte desitjat i després feu clic en <guilabel
 >Simula la vista de l'ocular</guilabel
-> al menú emergent.</para
+> en el menú emergent.</para
 ></listitem>
     <listitem
 ><para
->Al planificador de l'observació, feu clic dret sobre un objecte i després feu clic a <guilabel
+>Al planificador de l'observació, feu clic dret sobre un objecte i després feu clic en <guilabel
 >Simula la vista de l'ocular</guilabel
-> al menú emergent.</para
+> en el menú emergent.</para
 ></listitem>
 </itemizedlist>
 </para>

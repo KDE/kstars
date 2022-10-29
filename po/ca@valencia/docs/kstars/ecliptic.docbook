@@ -42,7 +42,7 @@
 >Per a estos tipus d'experiments assegureu-vos que el vostre emplaçament està establit a algun lloc que no reste proper a l'equador. Obriu la finestra <guilabel
 >Configuració - &kstars;</guilabel
 > i establiu-hi les coordenades horitzontals, amb l'opció de mostrar el Terra opac. Obriu la finestra <guilabel
->Establix temps</guilabel
+>Establiu la data i l'hora</guilabel
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >S</keycap
