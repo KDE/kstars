@@ -120,7 +120,6 @@ void TestEkosSchedulerOps::init()
 
     Options::setSchedulerAlgorithm(Scheduler::ALGORITHM_CLASSIC);
 
-    Options::setSortSchedulerJobs(false);
     Options::setDitherEnabled(false);
 
     // define START_ASAP and FINISH_SEQUENCE as default startup/completion conditions.
