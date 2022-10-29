@@ -194,17 +194,6 @@ QList<SchedulerJob *> GreedyScheduler::prepareJobsForEvaluation(
         }
     }
 
-    // If option says so, reorder by altitude and priority before sequencing.
-    // This was inheritied from the previous scheduler.
-    // FIXME: Consider removing priority and and sort-by-altitude.
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
-    if (Options::sortSchedulerJobs())
-    {
-        using namespace std::placeholders;
-        std::stable_sort(sortedJobs.begin(), sortedJobs.end(),
-                         std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, now));
-        std::stable_sort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
-    }
     return sortedJobs;
 }
 
