@@ -457,7 +457,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>Guider:</string>
+         <string>Camera 2:</string>
         </property>
        </widget>
       </item>
@@ -618,7 +618,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>CCD:</string>
+         <string>Camera 1:</string>
         </property>
        </widget>
       </item>
