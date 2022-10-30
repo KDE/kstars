@@ -127,7 +127,7 @@
 ><guimenuitem
 >Edita els símbols CDV</guimenuitem
 ></menuchoice
->. En fer clic a <guibutton
+>. Fent clic en <guibutton
 >Nou</guibutton
 > s'obrirà un diàleg amb quatre pestanyes diferents: <guilabel
 >Ocular</guilabel
@@ -137,7 +137,7 @@
 >Prismàtics</guilabel
 > i <guilabel
 >Radiotelescopi</guilabel
->. Per a calcular el camp de visió, seleccioneu la pestanya que corresponga i introduïu les especificacions de l'equip. Finalment, en fer clic a <guibutton
+>. Per a calcular el camp de visió, seleccioneu la pestanya que corresponga i introduïu les especificacions de l'equip. Finalment, fent clic en <guibutton
 >Calcula CDV</guibutton
 > es calcularà i mostrarà el camp de visió immediatament. &kstars; ara també ho pot mostrar com una forma d'esta mida en el cel virtual. Per a fer-ho, introduïu un nom per a este camp de visió en particular (com <userinput
 >Ocular 20 mm</userinput
@@ -161,7 +161,7 @@
 > <guisubmenu
 >Símbols de CDV</guisubmenu
 ></menuchoice
-> i seleccioneu el nou element amb el nom que li heu donat. Per a desactivar-lo, feu clic una altra vegada sobre l'element de menú. </para>
+> i seleccioneu l'element nou amb el nom que li heu donat. Per a desactivar-lo, feu clic una altra vegada sobre l'element de menú. </para>
 </tip>
 
 </sect2>
@@ -207,7 +207,7 @@
 <para
 >Els <firstterm
 >telescopis de reflexió</firstterm
->, a l'altre costat, utilitzen espills en lloc de lents per tal d'obtindre la imatge final. Substituint la lent d'objectiu amb un espill, s'obté un punt focal que es troba en el camí de la llum entrant. Un observador situat en este punt podria veure una imatge, però podria bloquejar part de la llum entrant. El punt focal de l'espill principal s'anomena <firstterm
+>, en l'altre costat, utilitzen espills en lloc de lents per tal d'obtindre la imatge final. Substituint la lent d'objectiu amb un espill, s'obté un punt focal que es troba en el camí de la llum entrant. Un observador situat en este punt podria veure una imatge, però podria bloquejar part de la llum entrant. El punt focal de l'espill principal s'anomena <firstterm
 >enfocament primari</firstterm
 >, i este és també el nom de la primera categoria dels telescopis reflectors. Per tant, els telescopis d'enfocament primari utilitzen un espill per a captar la llum d'un objecte celeste i per a reflectir la imatge de l'objecte de manera que es puga observar des de l'enfocament primari del telescopi. Altres tipus de telescopis reflectors són <firstterm
 >Newtonià</firstterm
@@ -272,6 +272,6 @@
 >telescopi espacial Hubble (Hubble Space Telescope -HST-)</firstterm
 > que té un espill primari de 2,4, F/24, l'espill més suau mai s'haja construït. Este telescopi espacial es troba en una òrbita baixa al voltant de la Terra i per la falta d'atmosfera es poden observar objectes molt dèbils. Un altre telescopi espacial és el <firstterm
 >telescopi espacial James Webb (James Webb Space Telescope -JWST-)</firstterm
->, que està previst per a ser llançat el 2018. Comptarà amb un espill primari de 6,5 metres i orbitarà al voltant d'un punt de gravitació estable a la línia Sol-Terra, conegut com el segon punt de Lagrange (L2). Ací les atraccions gravitacionals a causa tant del Sol com de la Terra equilibren la força centrífuga d'un objecte posat en moviment al voltant del sol. Este punt té la característica especial que si un objecte es col·loca ací, restarà en equilibri pel que fa al sistema Sol-Terra. El segon punt de Lagrange es troba en la línia que connecta Sol i Terra, a l'altre costat de la Terra. De manera que un telescopi disposat ací rebrà menys radiació tèrmica, el qual millorarà les observacions infraroges. </para>
+>, que està previst per a ser llançat el 2018. Comptarà amb un espill primari de 6,5 metres i orbitarà al voltant d'un punt de gravitació estable a la línia Sol-Terra, conegut com el segon punt de Lagrange (L2). Ací les atraccions gravitacionals a causa tant del Sol com de la Terra equilibren la força centrífuga d'un objecte posat en moviment al voltant del sol. Este punt té la característica especial que si un objecte es col·loca ací, restarà en equilibri pel que fa al sistema Sol-Terra. El segon punt de Lagrange es troba en la línia que connecta Sol i Terra, en l'altre costat de la Terra. De manera que un telescopi disposat ací rebrà menys radiació tèrmica, el qual millorarà les observacions infraroges. </para>
 </sect2>
 </sect1>

@@ -33,8 +33,8 @@
 >Dibuixa</guibutton
 >. Si el text que introduïu es troba a la base de dades d'objectes, la corba de l'objecte serà afegida a la gràfica. També podeu prémer el botó <guibutton
 >Busca un objecte...</guibutton
-> per a obrir la finestra <link linkend="findobjects"
->«Busqueu un objecte»</link
+> per a obrir la <link linkend="findobjects"
+>finestra «Busqueu un objecte»</link
 > per a seleccionar-ne un de la llista d'objectes coneguts. Si voleu afegir un punt que no existia a la base de dades, senzillament introduïu un nom per al punt i després completeu les coordenades en els camps d'entrada <guilabel
 >AR:</guilabel
 > i <guilabel

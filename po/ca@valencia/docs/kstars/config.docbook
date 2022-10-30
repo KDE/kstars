@@ -135,7 +135,7 @@
 <secondary
 >Interval estés de dades</secondary
 ></indexterm
->&kstars; pot acceptar dates molt antigues, fins i tot més enllà dels límits imposats per QDate. En l'actualitat, podeu establir dates entre els anys -100.000 i +100.000. Encara més. Està previst que s'amplie dit interval en futures versions. No obstant açò, cal tindre en compte que la precisió de la simulació es veurà més afectada com més remota siga la data a examinar. Açò resulta especialment cert per a les posicions dels cossos en el sistema solar. </para
+>&kstars; pot acceptar dates molt antigues, fins i tot més enllà dels límits imposats per QDate. En l'actualitat, podeu establir dates entre els anys -100.000 i +100.000. Encara més. Està previst que s'amplie dit interval en futures versions. No obstant açò, cal tindre en compte que la precisió de la simulació es veurà més afectada com més remota siga la data que s'haja d'examinar. Açò resulta especialment cert per a les posicions dels cossos en el sistema solar. </para
 ></note>
 </sect1>
 
@@ -375,14 +375,14 @@
 ></indexterm>
 <screenshot>
 <screeninfo
->Finestra de catàlegs</screeninfo>
+>Finestra amb Catàlegs</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="viewops.png" format="PNG"/>
   </imageobject>
   <textobject>
     <phrase
->Finestra de catàlegs</phrase>
+>Finestra amb Catàlegs</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -397,7 +397,7 @@
 ></indexterm
 >En la pàgina <guilabel
 >Catàlegs</guilabel
->, podreu configurar quins catàlegs d'objectes es mostraran a &kstars;, així com la quantitat d'informació que vos agradaria incloure en el mapa celeste. De manera predeterminada, &kstars; inclou unes 300.000 estreles amb nom i sense nom fins a 8 de magnitud. Per als objectes del cel profund, el catàleg inclòs és el Nou catàleg general (<quote
+>, podreu configurar quins catàlegs d'objectes es mostraran en &kstars;, així com la quantitat d'informació que vos agradaria incloure en el mapa celeste. De manera predeterminada, &kstars; inclou unes 300.000 estreles amb nom i sense nom fins a 8 de magnitud. Per als objectes del cel profund, el catàleg inclòs és el Nou catàleg general (<quote
 >NGC</quote
 >), que inclou el Catàleg d'índex (<quote
 >IC</quote
@@ -915,7 +915,7 @@
 > establix en quin color es mostraran els objectes del catàleg. Tots els altres valors són opcionals o tenen valors predeterminats sensats. Per descomptat, podreu canviar-los en un punt posterior. </para>
 
 <para
->En fer clic a <guilabel
+>Fent clic en <guilabel
 >D'acord</guilabel
 >, s'afegirà un catàleg buit a la base de dades amb les metadades introduïdes en el diàleg i que després es podrà omplir amb objectes. (Vegeu <xref linkend="catalog_details"/> i <xref linkend="csv_import"/>). </para>
 </sect2>
@@ -1232,11 +1232,11 @@
 </mediaobject>
 </screenshot>
 <para
->A la part superior dreta, podreu triar si les coordenades s'expressen en graus o hores/minuts/segons. La secció <guilabel
+>En la part superior dreta, podreu triar si les coordenades s'expressen en graus o hores/minuts/segons. La secció <guilabel
 >Mapatge</guilabel
 > permet mapar les columnes en el fitxer CSV als camps de dades en &kstars;. Seleccionant <guilabel
 >Ignora</guilabel
-> s'assignarà el valor predeterminat per a este camp. Introduint el vostre propi text s'utilitzarà com el valor perquè es lligga cada objecte. La secció <guilabel
+> s'assignarà el valor predeterminat per a este camp. Introduint el vostre propi text s'utilitzarà com el valor perquè es llija cada objecte. La secció <guilabel
 >Tipus de mapatge</guilabel
 > mapa les cadenes als tipus d'objecte. Podeu afegir i eliminar els mapatges fent clic a <guilabel
 >+</guilabel
@@ -1244,7 +1244,7 @@
 >-</guilabel
 >. En acabar de fer el mapatge, podreu provar la configuració fent clic a <guilabel
 >Vista prèvia</guilabel
-> per a llegir els primers objectes des del CSV. Si esteu satisfet, podreu fer clic a <guilabel
+> per a llegir els primers objectes des del CSV. Si esteu satisfet, podreu fer clic en <guilabel
 >D'acord</guilabel
 > per a importar tot el catàleg o ajustar la configuració i fer una vista prèvia de nou. Com a referència, es mostra un mapatge per al catàleg d'OpenNGC en la captura de pantalla següent. </para>
 <screenshot>
@@ -1583,7 +1583,7 @@
 >FITS</abbrev
 > (sistema flexible per al transport d'imatges -Flexible Image Transport System-) és un popular estàndard obert per a l'emmagatzematge, la transmissió i el processament de dades digitals. Per als detalls, una referència és l'<ulink url="https://en.wikipedia.org/wiki/FITS"
 >article corresponent de la Wikipedia</ulink
->. Esta pàgina permet configurar la presentació i el processament de les dades FITS a &kstars;. </para>
+>. Esta pàgina permet configurar la presentació i el processament de les dades FITS en &kstars;. </para>
 <para
 >El quadro esquerre és per a configurar el visor FITS. </para>
 <para
@@ -1683,7 +1683,7 @@
 >Xplanet</ulink
 > (s'ha d'instal·lar per separat) és un renderitzador de la superfície planetària per al sistema solar. Esta pàgina permet configurar la presentació i el processament de les dades d'<application
 >Xplanet </application
-> a &kstars;. </para>
+> en &kstars;. </para>
 </sect1>
 
 <sect1 id="advanced">
@@ -1770,7 +1770,7 @@
 > estiga seleccionada. El temps sobre el qual els objectes restaran ocults és determinat pel botó de selecció de valors <guilabel
 >Oculta també si el pas temporal és més gran que:</guilabel
 >. Podreu especificar els objectes que s'hauran d'ocultar a la secció <guilabel
->Configura els objectes a ocultar</guilabel
+>Configura els objectes que s'han d'ocultar</guilabel
 >. </para>
 </sect1>
 
@@ -1821,7 +1821,7 @@
 > <guisubmenu
 >Barres d'eines mostrades</guisubmenu
 ></menuchoice
->. Com la majoria de les barres d'eines de &kde;, també es poden arrossegar per la pantalla i fixar-les a qualsevol vora de la finestra, fins i tot separar-les completament d'esta si no estan bloquejades. </para
+>. Com la majoria de les barres d'eines de &kde;, també es poden arrossegar per la pantalla i fixar-les en qualsevol vora de la finestra, fins i tot separar-les completament d'esta si no estan bloquejades. </para
 ></listitem>
 <listitem
 ><para>

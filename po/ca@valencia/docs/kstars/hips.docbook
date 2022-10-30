@@ -21,7 +21,7 @@
 ></menuchoice
 >.</para>
 <para
->A davall del submenú, es mostra una llista de les enquestes habilitades. Feu clic a l'enquesta d'interés per a activar-la. Només podeu activar una superposició a la vegada. Després d'activar l'enquesta, &kstars; començarà a baixar les dades en segon pla i, de manera progressiva, superposarà les imatges en el mapa celeste a mesura que estiguen preparades. Fer zoom normalment requerix un altre parell d'imatges, el qual hauria d'activar un altre cicle de baixada.</para>
+>A davall del submenú, es mostra una llista de les enquestes habilitades. Feu clic en l'enquesta d'interés per a activar-la. Només podeu activar una superposició a la vegada. Després d'activar l'enquesta, &kstars; començarà a baixar les dades en segon pla i, de manera progressiva, superposarà les imatges en el mapa celeste a mesura que estiguen preparades. Fer zoom normalment requerix un altre parell d'imatges, el qual hauria d'activar un altre cicle de baixada.</para>
 
 <screenshot>
   <screeninfo
@@ -38,7 +38,7 @@
 </screenshot>
 
 <para
->La captura de pantalla de dalt mostra la superposició visual del color DSS a &kstars;.</para>
+>La captura de pantalla de dalt mostra la superposició visual del color DSS en &kstars;.</para>
 
 <para
 >L'element de menú <guimenuitem

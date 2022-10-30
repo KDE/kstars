@@ -151,7 +151,7 @@
 > <guimenu
 >Temps</guimenu
 > <guimenuitem
->Establix el temps a ara</guimenuitem
+>Establix el temps a Ara</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -352,7 +352,7 @@
 > <guimenu
 >Apunta</guimenu
 > <guimenuitem
->Apunta manualment...</guimenuitem
+>Establix manualment les coordenades...</guimenuitem
 > </menuchoice
 ></term>
 <listitem
@@ -1339,7 +1339,7 @@
 ></term>
       <listitem
 ><para
->Mostra o oculta la barra d'eines de visualització. Esta controla quins objectes es dibuixaran en el mapa celeste a &kstars; (estreles, objectes del cel profund, objectes del sistema solar, supernoves o satèl·lits), així com quina informació s'inclourà quant a les constel·lacions (línies de les constel·lacions, noms de les constel·lacions, art de les constel·lacions o límits de les constel·lacions). També proporciona icones de drecera per a: mostrar la via làctia (dibuixada amb un color gris fosc), mostrar la quadrícula de coordenades equatorials i horitzontals, i mostrar el terra opac en color verd. Recordeu que quan l'horitzó està apagat, els efectes de la refracció es desactivaran temporalment. Esta barra d'eines es pot configurar emprant l'element de menú <menuchoice
+>Mostra o oculta la barra d'eines de visualització. Esta controla quins objectes es dibuixaran en el mapa celeste en &kstars; (estreles, objectes del cel profund, objectes del sistema solar, supernoves o satèl·lits), així com quina informació s'inclourà quant a les constel·lacions (línies de les constel·lacions, noms de les constel·lacions, art de les constel·lacions o límits de les constel·lacions). També proporciona icones de drecera per a: mostrar la via làctia (dibuixada amb un color gris fosc), mostrar la quadrícula de coordenades equatorials i horitzontals, i mostrar el terra opac en color verd. Recordeu que quan l'horitzó està apagat, els efectes de la refracció es desactivaran temporalment. Esta barra d'eines es pot configurar emprant l'element de menú <menuchoice
 ><guimenu
 >Configuració</guimenu
 ><guimenuitem
@@ -1679,9 +1679,9 @@
 >+</guibutton
 > (Afig una regió) o la podeu traure, seleccionant-la a la llista de regions i després prement el botó <guibutton
 >-</guibutton
-> (Elimina la regió). Per tal de dibuixar una regió, necessitareu definir una llista de punts que abasten l'àrea bloquejada. Podeu afegir un nou punt prement el botó <guibutton
+> (Elimina la regió). Per tal de dibuixar una regió, necessitareu definir una llista de punts que abasten l'àrea bloquejada. Podeu afegir un punt nou prement el botó <guibutton
 >+</guibutton
-> (Afig un punt) des de la secció Punts correctes. També podeu eliminar un punt ressaltat de la llista de punts o els podeu netejar tots. Hi ha dues maneres d'afegir un nou punt a una regió seleccionada: manualment introduint les coordenades del punt o seleccionant-lo en el mapa celeste i després fent clic en el botó <guibutton
+> (Afig un punt) des de la secció Punts correctes. També podeu eliminar un punt ressaltat de la llista de punts o els podeu netejar tots. Hi ha dues maneres d'afegir un punt nou a una regió seleccionada: manualment introduint les coordenades del punt o seleccionant-lo en el mapa celeste i després fent clic en el botó <guibutton
 >Punts seleccionats</guibutton
 >. Recordeu que cada punt és descrit per un conjunt de coordenades horitzontals: Az (azimut) i Alt (altitud). Si voleu modificar les coordenades d'un punt, només cal fer doble clic sobre el seu valor al quadro de text Az/Alt i escriure el valor nou. Els punts primer i últim hauran d'estar a l'horitzó. Els polígons hauran d'estar tancats per a ser considerats regions vàlides. El Gestor de l'horitzó artificial proporciona una manera fàcil de canviar el nom de les vostres regions. De manera predeterminada, les regions s'anomenen com: «Regió» a més d'un índex (&ead;, «Regió 1» o «Regió 2»). Per a canviar el nom d'una regió, només cal fer doble clic sobre el seu nom i després se vos convidarà a completar un nom nou per a la regió. També podeu controlar quines regions estaran activades o desactivades marcant-les en el mapa amb un simple clic a la casella de selecció al davant de cada regió. Una vegada hàgeu definit les vostres regions desitjades, ho podreu aplicar prement el botó <guibutton
 >Aplica</guibutton
@@ -2006,7 +2006,7 @@
 ><guimenuitem
 >Adjunta-hi una etiqueta</guimenuitem
 >: Adjunta una etiqueta de nom permanent a l'objecte. Si este ja en té una, dit element canviarà a <guilabel
->Elimina etiqueta</guilabel
+>Elimina l'etiqueta</guilabel
 >. </para
 ></listitem>
 </varlistentry>
@@ -2063,7 +2063,7 @@
 ><para
 ><guimenuitem
 >Recursos d'imatge</guimenuitem
->: oferix una llista d'enllaços a imatges per a l'objecte del sistema solar. Les imatges es mostraran a l'eina del visor d'imatges de &kstars;. L'eina del visor d'imatges permet invertir els colors i guardar la imatge a l'ordinador. </para
+>: oferix una llista d'enllaços cap a imatges per a l'objecte del sistema solar. Les imatges es mostraran a l'eina del visor d'imatges de &kstars;. L'eina del visor d'imatges permet invertir els colors i guardar la imatge a l'ordinador. </para
 ></listitem>
 </varlistentry>
 
@@ -2074,7 +2074,7 @@
 ><para
 ><guimenuitem
 >Recursos d'informació</guimenuitem
->: oferix una llista d'enllaços a documentació per a l'objecte del sistema solar. Els enllaços s'obriran en el navegador predeterminat. </para
+>: oferix una llista d'enllaços cap a documentació per a l'objecte del sistema solar. Els enllaços s'obriran en el navegador predeterminat. </para
 ></listitem>
 </varlistentry>
 
@@ -2511,7 +2511,7 @@
 ></term>
 <listitem
 ><para
->Afig un nou element observador als vostres registres de l'observació.</para
+>Afig un element nou observador als vostres registres de l'observació.</para
 ></listitem>
 </varlistentry>
 
@@ -2723,7 +2723,7 @@
 ><para
 >Obri la <link linkend="findobjects"
 >finestra «Busqueu un objecte»</link
->, a on podreu especificar un objecte celeste a centrar.</para
+>, a on podreu especificar un objecte celeste que cal centrar.</para
 ></listitem>
 </varlistentry>
 

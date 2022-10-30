@@ -485,14 +485,10 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     queueUpB->setIcon(QIcon::fromTheme("go-up"));
-    queueUpB->setToolTip(i18n("Move selected job one line up in the list.\n"
-                              "Order only affect observation jobs that are scheduled to start at the same time.\n"
-                              "Not available if option \"Sort jobs by Altitude and Priority\" is set."));
+    queueUpB->setToolTip(i18n("Move selected job one line up in the list.\n"));
     queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueDownB->setIcon(QIcon::fromTheme("go-down"));
-    queueDownB->setToolTip(i18n("Move selected job one line down in the list.\n"
-                                "Order only affect observation jobs that are scheduled to start at the same time.\n"
-                                "Not available if option \"Sort jobs by Altitude and Priority\" is set."));
+    queueDownB->setToolTip(i18n("Move selected job one line down in the list.\n"));
     queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     evaluateOnlyB->setIcon(QIcon::fromTheme("system-reboot"));
@@ -502,7 +498,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setToolTip(
         i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
              "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
-             "Option \"Sort Jobs by Altitude and Priority\" keeps the job list sorted this way, but with current time as reference.\n"
              "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
@@ -1426,7 +1421,7 @@ void Scheduler::saveJob()
     queueSaveB->setEnabled(true);
     startB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
-    setJobManipulation(!Options::sortSchedulerJobs(), true);
+    setJobManipulation(true, true);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
 
@@ -1534,7 +1529,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     updateNightTime(job);
 
-    setJobManipulation(!Options::sortSchedulerJobs(), true);
+    setJobManipulation(true, true);
 }
 
 void Scheduler::updateNightTime(SchedulerJob const *job)
@@ -1615,7 +1610,7 @@ void Scheduler::queueTableSelectionChanged(QModelIndex current, QModelIndex prev
 
 void Scheduler::clickQueueTable(QModelIndex index)
 {
-    setJobManipulation(!Options::sortSchedulerJobs() && index.isValid(), index.isValid());
+    setJobManipulation(index.isValid(), index.isValid());
 }
 
 void Scheduler::setJobAddApply(bool add_mode)
@@ -1686,10 +1681,6 @@ bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
 
 void Scheduler::moveJobUp()
 {
-    /* No move if jobs are sorted automatically */
-    if (Options::sortSchedulerJobs())
-        return;
-
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
     int const destinationRow = currentRow - 1;
@@ -1711,7 +1702,7 @@ void Scheduler::moveJobUp()
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
-    setJobManipulation(!Options::sortSchedulerJobs(), true);
+    setJobManipulation(true, true);
 
     /* Jobs are now sorted, so reset all later jobs */
     for (int row = destinationRow; row < jobs.size(); row++)
@@ -1724,10 +1715,6 @@ void Scheduler::moveJobUp()
 
 void Scheduler::moveJobDown()
 {
-    /* No move if jobs are sorted automatically */
-    if (Options::sortSchedulerJobs())
-        return;
-
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
     int const destinationRow = currentRow + 1;
@@ -1749,7 +1736,7 @@ void Scheduler::moveJobDown()
 
     /* Move selection to destination row */
     queueTable->selectRow(destinationRow);
-    setJobManipulation(!Options::sortSchedulerJobs(), true);
+    setJobManipulation(true, true);
 
     /* Jobs are now sorted, so reset all later jobs */
     for (int row = currentRow; row < jobs.size(); row++)
@@ -1799,7 +1786,7 @@ void Scheduler::resetJobEdit()
     setJobAddApply(true);
 
     /* Refresh state of job manipulation buttons */
-    setJobManipulation(!Options::sortSchedulerJobs(), true);
+    setJobManipulation(true, true);
 
     /* Restore scheduler operation buttons */
     evaluateOnlyB->setEnabled(true);
@@ -2349,18 +2336,6 @@ QList<SchedulerJob *> Scheduler::prepareJobsForEvaluation( QList<SchedulerJob *>
         *possiblyDelay = true;
     }
 
-    /* If option says so, reorder by altitude and priority before sequencing */
-    /* FIXME: refactor so all sorts are using the same predicates */
-    /* FIXME: use std::stable_sort as qStableSort is deprecated */
-    /* FIXME: dissociate altitude and priority, it's difficult to choose which predicate to use first */
-    qCInfo(KSTARS_EKOS_SCHEDULER) << "Option to sort jobs based on priority and altitude is" << Options::sortSchedulerJobs();
-    if (Options::sortSchedulerJobs())
-    {
-        using namespace std::placeholders;
-        std::stable_sort(sortedJobs.begin(), sortedJobs.end(),
-                         std::bind(SchedulerJob::decreasingAltitudeOrder, _1, _2, getLocalTime()));
-        std::stable_sort(sortedJobs.begin(), sortedJobs.end(), SchedulerJob::increasingPriorityOrder);
-    }
     return sortedJobs;
 }
 

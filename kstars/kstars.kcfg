@@ -2480,10 +2480,6 @@
       <whatsthis>Log Ekos Scheduler Module activity.</whatsthis>
       <default>false</default>
     </entry>
-    <entry name="SortSchedulerJobs" type="Bool">
-      <whatsthis>Sort scheduler jobs by priority and altitude.</whatsthis>
-      <default>true</default>
-    </entry>
     <entry name="StopEkosAfterShutdown" type="Bool">
           <label>After shutdown procedure is successfully executed, shutdown INDI and Ekos.</label>
           <default>true</default>

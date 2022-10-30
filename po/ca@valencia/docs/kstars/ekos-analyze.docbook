@@ -68,7 +68,7 @@
         <para
 >La línia de temps mostra els principals processos d'Ekos i quan han sigut actius. Per exemple, la línia <guilabel
 >Captura</guilabel
-> mostra quan es van prendre les imatges (seccions en verd) i quan es va interrompre (seccions en roig). En fer clic a una secció en verd es proporcionarà informació sobre esta imatge, i en fer-hi doble clic sobre una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
+> mostra quan es van prendre les imatges (seccions en verd) i quan es va interrompre (seccions en roig). Fent clic en una secció en verd es proporcionarà informació sobre esta imatge, i en fer-hi doble clic sobre una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
         <note>
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel

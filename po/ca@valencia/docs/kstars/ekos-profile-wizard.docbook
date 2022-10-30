@@ -30,7 +30,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->La primera pantalla de benvinguda conté alguns enllaços per a aprendre més sobre Ekos i INDI. Feu clic a <guibutton
+>La primera pantalla de benvinguda conté alguns enllaços per a aprendre més sobre Ekos i INDI. Feu clic en <guibutton
 >Següent</guibutton
 > per a continuar. </para>
             </listitem>
@@ -57,8 +57,8 @@
                     <listitem>
                         <para
 ><guilabel
->L'equip està connectat a StellarMate</guilabel
->: Seleccioneu esta opció si Ekos s'està executant al vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat a StellarMate. </para>
+>L'equip està connectat amb StellarMate</guilabel
+>: Seleccioneu esta opció si Ekos s'està executant al vostre ordinador amb &Windows;, &Linux; o &MacOS;, i este està connectat amb StellarMate. </para>
                     </listitem>
                 </itemizedlist>
                 <screenshot>
@@ -75,7 +75,7 @@
                     </mediaobject>
                 </screenshot>
                 <para
->Feu clic a <guibutton
+>Feu clic en <guibutton
 >Següent</guibutton
 > per a continuar. </para>
             </listitem>
@@ -110,7 +110,7 @@
                 <para
 >Per a la pregunta del gestor INDI, seleccioneu sempre <emphasis role="bold"
 >Sí</emphasis
->, per a fer que el gestor web de StellarMate s'execute de manera predeterminada a la unitat. Feu clic a <guibutton
+>, per a fer que el gestor web de StellarMate s'execute de manera predeterminada a la unitat. Feu clic en <guibutton
 >Següent</guibutton
 > per a continuar. </para>
             </listitem>
@@ -120,9 +120,9 @@
 >Pàgina de creació del perfil</term>
             <listitem>
                 <para
->Ara podeu anomenar el perfil de l'equip. A continuació, seleccioneu l'aplicació de guia a utilitzar. El <guilabel
+>Ara podeu anomenar el perfil de l'equip. A continuació, seleccioneu l'aplicació de guia que s'utilitzarà. El <guilabel
 >Sistema de guiatge intern</guilabel
-> és l'única selecció oficial a StellarMate. Podeu optar per seleccionar <guimenuitem
+> és l'única selecció oficial en StellarMate. Podeu optar per seleccionar <guimenuitem
 >PHD2/LinGuider</guimenuitem
 >, però els detalls queden fora de l'àmbit d'esta documentació. Si voleu serveis addicionals, marqueu els que voleu executar. </para>
                 <screenshot>

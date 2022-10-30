@@ -35,7 +35,7 @@
 >Detalls...</guimenuitem
 > des del menú emergent. </para>
 <para
->La finestra restarà dividida en un cert nombre de pestanyes. A la pestanya <guilabel
+>La finestra restarà dividida en un cert nombre de pestanyes. En la pestanya <guilabel
 >General</guilabel
 > se vos presenta un resum de les dades sobre l'objecte en qüestió. Esta inclou els noms i designacions del catàleg, tipus d'objecte i la <link linkend="ai-magnitude"
 >magnitud</link
@@ -51,9 +51,9 @@
 <tertiary
 >Personalitzar</tertiary
 ></indexterm
->A la pestanya <guilabel
+>En la pestanya <guilabel
 >Enllaços</guilabel
-> podreu gestionar els enllaços d'internet associats amb este objecte. S'hi llisten els enllaços a imatges i informació associada amb el mateix. Estos enllaços són els que apareixeran en el menú emergent amb un clic <mousebutton
+> podreu gestionar els enllaços d'internet associats amb este objecte. S'hi llisten els enllaços cap a imatges i informació associada amb el mateix. Estos enllaços són els que apareixeran en el menú emergent amb un clic <mousebutton
 >dret</mousebutton
 > sobre l'objecte. Podeu afegir enllaços personalitzats a l'objecte amb el botó <guibutton
 >Afig un enllaç...</guibutton
@@ -104,7 +104,7 @@ for solar system objects -->
 >Base de dades extragalàctica de la NASA/IPAC</guimenuitem
 > (<guimenuitem
 >NASA/IPAC Extragalactic Database</guimenuitem
-> -NED-): La NED proporciona dades encapsulades i enllaços a bibliografia sobre objectes extragalàctics. Tan sols haureu d'utilitzar la NED si el vostre objectiu és extragalàctic, &pex;, si es tracta d'una galàxia. </para
+> -NED-): La NED proporciona dades encapsulades i enllaços cap a bibliografia sobre objectes extragalàctics. Tan sols haureu d'utilitzar la NED si el vostre objectiu és extragalàctic, &pex;, si es tracta d'una galàxia. </para
 ></listitem>
 <listitem
 ><para

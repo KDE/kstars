@@ -24,7 +24,7 @@
 >colors realistes</link
 > i lluminositat relativa. En tres racons de la vista del cel, hi ha tres rètols informatius en pantalla mostrant la data sobre l'hora actual («TL: 18:10:30 dimecres, 6 de juliol de 2016»), l'actual emplaçament geogràfic («València, Espanya») i l'objecte al centre de la vista («Apuntat sobre: Betelgeuse (alpha Orionis)»). Sobre la vista del cel hi ha dues barres d'eines. La barra d'eines principal conté dreceres per a les <link linkend="kstars-menus"
 >funcions del menú</link
->, així com un giny regulador de passos temporals que controla la velocitat de simulació del rellotge. La barra d'eines de vista conté botons que vos permeten canviar la vista de diferents tipus d'objectes en el cel. A la part inferior de la finestra, hi ha una barra d'estat que mostra el nom de qualsevol objecte sobre el qual feu clic i les <link linkend="ai-skycoords"
+>, així com un giny regulador de passos temporals que controla la velocitat de simulació del rellotge. La barra d'eines de vista conté botons que vos permeten canviar la vista de diferents tipus d'objectes en el cel. En la part inferior de la finestra, hi ha una barra d'estat que mostra el nom de qualsevol objecte sobre el qual feu clic i les <link linkend="ai-skycoords"
 >coordenades celestes</link
 > (ascensió recta/declinació i azimut/altitud) del cursor del ratolí. </para>
 
@@ -48,7 +48,7 @@
 > i <guilabel
 >Filtre de país:</guilabel
 >. Si l'emplaçament que esteu buscant no apareix en la llista, per ara podeu seleccionar-ne un altra que siga proper. Més avant podreu afegir el vostre emplaçament de forma manual utilitzant l'<link linkend="setgeo"
->eina per a establir l'emplaçament geogràfic</link
+>eina Establiu l'emplaçament geogràfic</link
 >. Una vegada seleccionat un emplaçament inicial, premeu el botó <guilabel
 >Següent</guilabel
 >. </para>
@@ -246,11 +246,11 @@
 <seealso
 >Menú emergent</seealso
 ></indexterm
->La secció inferior conté enllaços a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç a mida al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
+>La secció inferior conté enllaços cap a imatges i/o pàgines web informatives sobre l'objecte seleccionat. Si coneixeu algun &URL; addicional amb informació o una imatge d'algun objecte, podeu afegir un enllaç a mida al menú emergent de l'objecte. Utilitzeu l'element <guimenuitem
 >Detalls</guimenuitem
 > en el menú emergent per a obrir el diàleg <guilabel
 >Detalls de l'objecte</guilabel
->. A la pestanya <guilabel
+>. En la pestanya <guilabel
 >Enllaços</guilabel
 > utilitzeu el botó <guibutton
 >Afig un enllaç...</guibutton
@@ -262,7 +262,7 @@
 >Trobar objectes</title>
 <indexterm
 ><primary
->Eina de Busca d'objectes</primary
+>Eina Busqueu un objecte</primary
 ></indexterm>
 <indexterm
 ><primary
@@ -271,9 +271,9 @@
 >Busca per nom</secondary
 ></indexterm>
 <para
->Podeu buscar els objectes per nom utilitzant la finestra <guilabel
+>Podeu buscar els objectes per nom utilitzant l'eina <guilabel
 >Busqueu un objecte</guilabel
->, la qual també es pot obrir fent clic damunt de la icona <guiicon
+>, la qual es pot obrir fent clic sobre la icona <guiicon
 >Busca un objecte</guiicon
 > de la barra d'eines, seleccionant l'element de menú <menuchoice
 ><guimenu
@@ -305,11 +305,11 @@
 <para
 >La finestra conté una llista (quasi, vegeu <xref linkend="catalogs"/>) de tots els noms d'objectes que reconeix &kstars;. La majoria tan sols estan llistats per un nom de catàleg numèric (per exemple, NGC 3077), però d'altres també es llisten pel seu nom comú (per exemple, la galàxia Whirlpool). Podeu filtrar la llista per nom o per tipus d'objecte. Per a filtrar per nom, introduïu una cadena en el quadro d'edició a la part superior de la finestra. Aleshores la llista tan sols contindrà els noms que comencen amb esta cadena. Per a filtrar per tipus, seleccioneu un tipus des del quadro combinat a la part inferior de la finestra. </para>
 <para
->&kstars; proporciona un altre mètode per a la resolució dels objectes que falten en qualsevol dels seus catàlegs predefinits, utilitzant una connexió a Internet. Per tant, si voleu buscar un objecte que &kstars; no reconeix, podeu fer-ho amb facilitat fent una consulta a diverses bases de dades astronòmiques professionals com: SIMBAD, NED o VizieR. Açò es pot fer introduint el nom de l'objecte i després prement el botó <guibutton
+>&kstars; proporciona un altre mètode per a la resolució dels objectes que falten en qualsevol dels seus catàlegs predefinits, utilitzant una connexió amb Internet. Per tant, si voleu buscar un objecte que &kstars; no reconeix, podeu fer-ho amb facilitat fent una consulta a diverses bases de dades astronòmiques professionals com: SIMBAD, NED o VizieR. Açò es pot fer introduint el nom de l'objecte i després prement el botó <guibutton
 >o buscar <replaceable
 >nom_objecte</replaceable
 > a Internet</guibutton
->. Una vegada trobat el vostre objecte, el podreu utilitzar exactament com qualsevol objecte que ja estiga carregat a &kstars; (&ead;, afegir-lo a la llista de desitjos de l'observació). Si no s'ha trobat l'objecte a les bases de dades en línia, es mostrarà un diàleg d'avís. Una vegada resoleu un objecte utilitzant este mètode, s'emmagatzemarà a la base de dades de &kstars;, de manera que si tanqueu &kstars; i l'obriu de nou, l'objecte encara hi serà. </para>
+>. Una vegada trobat el vostre objecte, el podreu utilitzar exactament com qualsevol objecte que ja estiga carregat en &kstars; (&ead;, afegir-lo a la llista de desitjos de l'observació). Si no s'ha trobat l'objecte a les bases de dades en línia, es mostrarà un diàleg d'avís. Una vegada resoleu un objecte utilitzant este mètode, s'emmagatzemarà a la base de dades de &kstars;, de manera que si tanqueu &kstars; i l'obriu de nou, l'objecte encara hi serà. </para>
 
 <para
 >Podeu optar per habilitar o inhabilitar esta característica marcant o desmarcant la casella de selecció <guibutton
