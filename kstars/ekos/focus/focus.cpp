@@ -95,7 +95,7 @@ Focus::Focus()
     appendLogText(i18n("Idle."));
 
     // Focus motion timeout
-    m_FocusMotionTimer.setInterval(Options::focusMotionTimeout() * 1000);
+    m_FocusMotionTimer.setInterval(focusMotionTimeout->value() * 1000);
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
     // Create an autofocus CSV file, dated at startup time
@@ -1441,6 +1441,7 @@ void Focus::handleFocusMotionTimeout()
     {
         appendLogText(i18n("Focuser is not responding to commands. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED);
+        return;
     }
 
     const QString dirStr = m_LastFocusDirection == FOCUS_OUT ? i18n("outward") : i18n("inward");
