@@ -74,7 +74,7 @@
                 <para
 ><guilabel
 >Solucionador remot</guilabel
->: El solucionador remot és un solucionador fora de línia que residix en una màquina diferent (per exemple, podeu utilitzar el solucionador d'astrometria en StellarMate). Les imatges capturades es resoldran a la màquina remota. </para>
+>: El solucionador remot és un solucionador fora de línia que residix en una màquina diferent (per exemple, podeu utilitzar el solucionador d'astrometria en StellarMate). Les imatges capturades es resoldran en la màquina remota. </para>
             </listitem>
         </itemizedlist>
     </sect3>
@@ -202,7 +202,7 @@
 > en el <link linkend="ekos-align"
 >mòdul per a l'alineació</link
 > i, a continuació, seleccioneu la pestanya <guilabel
->Fitxers d'índex d'astrometria</guilabel
+>Fitxers d'índex de l'astrometria</guilabel
 >. La pàgina mostrarà CDV actual de la configuració actual i, a continuació, una llista dels fitxers d'índex disponibles i els instal·lats. S'utilitzen tres icones per a designar la importància dels fitxers d'índex indicats a la configuració actual de la següent manera: </para>
             <itemizedlist>
                 <listitem>
@@ -625,7 +625,7 @@
                     <para
 ><guilabel
 >Puja en JPG</guilabel
->: Quan utilitzeu l'«astrometry.net» en línia, es pujaran totes les imatges en JPEG per tal de preservar l'amplada de banda, a causa del fet que les imatges FITS poden ser grans. </para>
+>: Quan utilitzeu l'«astrometry.net» en línia, es pujaran totes les imatges en JPG per tal d'estalviar l'amplada de banda, a causa del fet que les imatges FITS poden ser grans. </para>
                 </listitem>
             </itemizedlist>
         </sect3>
