@@ -1921,7 +1921,15 @@ IPState Capture::setCaptureComplete()
         if (m_captureDeviceAdaptor->getActiveCamera()->isFastExposureEnabled() == false)
         {
             captureStatusWidget->setStatus(i18n("Framing..."), Qt::darkGreen);
-            activeJob->capture(m_AutoFocusReady, FITS_NORMAL);
+            if (seqDelay > 0)
+            {
+                QTimer::singleShot(seqDelay, this, [this]()
+                {
+                    activeJob->capture(m_AutoFocusReady, FITS_NORMAL);
+                });
+            }
+            else
+                activeJob->capture(m_AutoFocusReady, FITS_NORMAL);
         }
         return IPS_OK;
     }
