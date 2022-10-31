@@ -52,7 +52,7 @@ void OpticalTrainManager::release()
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-OpticalTrainManager::OpticalTrainManager() : QDialog(Ekos::Manager::Instance())
+OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -276,7 +276,7 @@ void OpticalTrainManager::generateOpticalTrains()
     // We should have primary train
     addOpticalTrain(true, i18n("Primary"));
     // Check if need secondary train
-    if (m_CameraDelegate->values().count() > 1)
+    if (m_CameraDelegate->values().count() > 2)
         addOpticalTrain(false, i18n("Secondary"));
 }
 
