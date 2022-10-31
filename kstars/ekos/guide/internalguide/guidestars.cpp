@@ -156,12 +156,12 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
     // Find the bottom 25% HFR value.
     QVector<float> hfrs;
     for (int i = 0; i < maxIndex; i++)
-      hfrs.push_back(stars[i].HFR);
+        hfrs.push_back(stars[i].HFR);
     std::sort(hfrs.begin(), hfrs.end());
     float tooLowHFR = 0.0;
     if (maxIndex / 4 > 0)
-      tooLowHFR = hfrs[maxIndex / 4];
-    
+        tooLowHFR = hfrs[maxIndex / 4];
+
     QList<Edge> guideStarNeighbors;
     for (int i = 0; i < maxIndex; i++)
     {
@@ -181,7 +181,7 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
 
         // Try not to use a star with an HFR in bottom 25%.
         if (center.HFR < tooLowHFR)
-          score -= 1000;
+            score -= 1000;
 
         // Add advantage to stars with SNRs between 40-100.
         auto bg = skybackground();
@@ -646,7 +646,8 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
                                << "guidestar" << gStar.x << gStar.y
                                << "so offsets:" << (reticle_x - gStar.x) << (reticle_y - gStar.y);
     // Revoke multistar if we're that far away.
-    constexpr double maxDriftForMultistar = 4.0;  // arc-seconds
+    // Currently disabled by large constant.
+    constexpr double maxDriftForMultistar = 4000000.0;  // arc-seconds
 
     if (!calibrationInitialized)
         return false;
