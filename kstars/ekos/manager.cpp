@@ -184,6 +184,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
             else if (m_CurrentProfile->autoConnect)
                 setPortSelectionComplete();
         }
+        else if (m_CurrentProfile->autoConnect)
+            setPortSelectionComplete();
     });
     connect(portSelectorB, &QPushButton::clicked, this, [&]()
     {
@@ -1393,13 +1395,6 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
                 appendLogText(i18n("Remote devices established."));
             else
                 appendLogText(i18n("Remote devices established. Please connect devices."));
-        }
-
-        if (!m_PortSelector)
-        {
-            portSelectorB->setEnabled(false);
-            m_PortSelector.reset(new Selector::Dialog(KStars::Instance()));
-            connect(m_PortSelector.get(), &Selector::Dialog::accepted, this, &Manager::setPortSelectionComplete);
         }
     }
 }
@@ -2719,6 +2714,7 @@ void Manager::announceEvent(const QString &message, KSNotification::EventSource 
 
 void Manager::connectModules()
 {
+    // Dark Library
     connect(DarkLibrary::Instance(), &DarkLibrary::newImage, ekosLiveClient.get()->media(),
             &EkosLive::Media::sendDarkLibraryData, Qt::UniqueConnection);
     connect(DarkLibrary::Instance(), &DarkLibrary::trainChanged, ekosLiveClient.get()->message(),
@@ -2842,6 +2838,15 @@ void Manager::connectModules()
         // Mount Status
         connect(mountProcess.get(), &Ekos::Mount::newStatus, captureProcess.get(), &Ekos::Capture::setMountStatus,
                 Qt::UniqueConnection);
+    }
+
+    // Optical Train Manager ---> EkosLive connections
+    if (ekosLiveClient)
+    {
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
+                &EkosLive::Message::sendTrains, Qt::UniqueConnection);
+        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
+                &EkosLive::Message::requestOpticalTrains, Qt::UniqueConnection);
     }
 
     // Capture <---> EkosLive connections
@@ -3357,10 +3362,23 @@ void Manager::setDeviceReady()
         if (device)
         {
 
-            if (device->isConnected() == false && m_CurrentProfile->autoConnect && m_CurrentProfile->portSelector == false)
+            if (device->isConnected() == false && m_CurrentProfile->autoConnect)
             {
-                qCInfo(KSTARS_EKOS) << "Connecting to" << device->getDeviceName();
-                device->Connect();
+                // Do we have port selector checked?
+                if (m_CurrentProfile->portSelector)
+                {
+                    // If port selector was not initialized, kick off the timer
+                    // so we can check if all devices should be connected.
+                    // Otherwise, if port selector is started, then let user
+                    // select ports first and then manually connect time.
+                    if (!m_PortSelector)
+                        m_PortSelectorTimer.start();
+                }
+                else
+                {
+                    qCInfo(KSTARS_EKOS) << "Connecting to" << device->getDeviceName();
+                    device->Connect();
+                }
             }
             else
                 qCInfo(KSTARS_EKOS) << device->getDeviceName() << "is connected and ready.";
@@ -3374,16 +3392,9 @@ void Manager::setDeviceReady()
     for (auto &device : INDIListener::devices())
         syncGenericDevice(device);
 
-    // Optical Train Manager ---> EkosLive connections
-    if (ekosLiveClient)
-    {
-        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, ekosLiveClient->message(),
-                &EkosLive::Message::sendTrains, Qt::UniqueConnection);
-        connect(OpticalTrainManager::Instance(), &OpticalTrainManager::configurationRequested, ekosLiveClient->message(),
-                &EkosLive::Message::requestOpticalTrains, Qt::UniqueConnection);
-    }
-
-    OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
+    // If port selector is active, then do not show optical train dialog unless it is dismissed first.
+    if (m_CurrentProfile->portSelector == false || !m_PortSelector)
+        OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
 }
 
 void Manager::createFilterManager(ISD::FilterWheel *device)
