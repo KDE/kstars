@@ -353,7 +353,7 @@ class KSUserDB
 
         /**
          * @brief Add a new optical train to the database
-         * @param oneTrain optical train data         
+         * @param oneTrain optical train data
          **/
         void AddOpticalTrain(const QVariantMap &oneTrain);
 
@@ -378,7 +378,7 @@ class KSUserDB
 
         /**
          * @brief Add new profile settings to the database
-         * @param settings JSON settings         
+         * @param settings JSON settings
          **/
         void AddProfileSettings(uint32_t profile, const QByteArray &settings);
 
@@ -475,5 +475,5 @@ class KSUserDB
         /** XML reader for importing old formats **/
         QXmlStreamReader *reader_ { nullptr };
 
-        static const uint16_t SCHEMA_VERSION = 311;
+        static const uint16_t SCHEMA_VERSION = 312;
 };

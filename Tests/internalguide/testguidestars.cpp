@@ -167,12 +167,7 @@ void TestGuideStars::basicTest()
     SkyBackground bg(10, 10, 1000);
     g.setSkyBackground(bg);
 
-    // Test computing the overall drift.
-    // This should fail if the passed in main guide star drift is too big (> 4 arc-seconds).
-    bool success = g.getDrift(10, 100, 70, &dRa, &dDec);
-    QVERIFY(!success);
-
-    success = g.getDrift(1, 100, 70, &dRa, &dDec);
+    bool success = g.getDrift(1, 100, 70, &dRa, &dDec);
     QVERIFY(success);
     // drift should be 0.
     CompareFloat(dRa, 0);

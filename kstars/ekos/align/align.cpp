@@ -71,6 +71,11 @@ namespace Ekos
 
 using PAA = PolarAlignmentAssistant;
 
+bool isEqual(double a, double b)
+{
+    return std::abs(a - b) < 0.01;
+}
+
 Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile(activeProfile)
 {
     setupUi(this);
@@ -988,7 +993,7 @@ void Align::getCalculatedFOVScale(double &fov_w, double &fov_h, double &fov_scal
 
 void Align::calculateEffectiveFocalLength(double newFOVW)
 {
-    if (newFOVW < 0 || newFOVW == m_FOVWidth)
+    if (newFOVW < 0 || isEqual(newFOVW, m_FOVWidth))
         return;
 
     auto reducedFocalLength = m_Reducer * m_FocalLength;
@@ -1919,7 +1924,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
     // When solving (without Load&Slew), update effective FOV and focal length accordingly.
     if (!m_SolveFromFile &&
-            (m_FOVWidth == 0 || m_EffectiveFOVPending || std::fabs(pixscale - m_FOVPixelScale) > 0.005) &&
+            (isEqual(m_FOVWidth, 0) || m_EffectiveFOVPending || std::fabs(pixscale - m_FOVPixelScale) > 0.005) &&
             pixscale > 0)
     {
         double newFOVW = m_CameraWidth * pixscale / binx / 60.0;
@@ -3392,13 +3397,15 @@ QVariantMap Align::getEffectiveFOV()
 
     for (auto &map : effectiveFOVs)
     {
-        if (map["Profile"].toString() == m_ActiveProfile->name)
+        if (map["Profile"].toString() == m_ActiveProfile->name && map["Train"].toString() == opticalTrain())
         {
-            if (map["Width"].toInt() == m_CameraWidth &&
-                    map["Height"].toInt() == m_CameraHeight &&
-                    map["PixelW"].toDouble() == m_CameraPixelWidth &&
-                    map["PixelH"].toDouble() == m_CameraPixelHeight &&
-                    map["FocalLength"].toDouble() == m_FocalLength)
+            if (isEqual(map["Width"].toInt(), m_CameraWidth) &&
+                    isEqual(map["Height"].toInt(), m_CameraHeight) &&
+                    isEqual(map["PixelW"].toDouble(), m_CameraPixelWidth) &&
+                    isEqual(map["PixelH"].toDouble(), m_CameraPixelHeight) &&
+                    isEqual(map["FocalLength"].toDouble(), m_FocalLength) &&
+                    isEqual(map["FocalRedcuer"].toDouble(), m_Reducer) &&
+                    isEqual(map["FocalRatio"].toDouble(), m_FocalRatio))
             {
                 m_FOVWidth = map["FovW"].toDouble();
                 m_FOVHeight = map["FovH"].toDouble();
@@ -3412,7 +3419,7 @@ QVariantMap Align::getEffectiveFOV()
 
 void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
 {
-    if (newFOVW < 0 || newFOVH < 0 || (newFOVW == m_FOVWidth && newFOVH == m_FOVHeight))
+    if (newFOVW < 0 || newFOVH < 0 || (isEqual(newFOVW, m_FOVWidth) && isEqual(newFOVH, m_FOVHeight)))
         return;
 
     QVariantMap effectiveMap = getEffectiveFOV();
@@ -3429,11 +3436,14 @@ void Align::saveNewEffectiveFOV(double newFOVW, double newFOVH)
     }
 
     effectiveMap["Profile"] = m_ActiveProfile->name;
+    effectiveMap["Train"] = opticalTrainCombo->currentText();
     effectiveMap["Width"] = m_CameraWidth;
     effectiveMap["Height"] = m_CameraHeight;
     effectiveMap["PixelW"] = m_CameraPixelWidth;
     effectiveMap["PixelH"] = m_CameraPixelHeight;
     effectiveMap["FocalLength"] = m_FocalLength;
+    effectiveMap["FocalReducer"] = m_Reducer;
+    effectiveMap["FocalRatio"] = m_FocalRatio;
     effectiveMap["FovW"] = newFOVW;
     effectiveMap["FovH"] = newFOVH;
 

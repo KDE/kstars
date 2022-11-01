@@ -293,6 +293,19 @@ bool KSUserDB::Initialize()
             qCWarning(KSTARS) << query.lastError();
     }
 
+    // Adjust effective FOV
+    if (currentDBVersion < 312)
+    {
+        QSqlQuery query(m_UserDB);
+
+        if (!query.exec("ALTER TABLE effectivefov ADD COLUMN Train TEXT DEFAULT NULL"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE effectivefov ADD COLUMN FocalReducer REAL DEFAULT 0.0"))
+            qCWarning(KSTARS) << query.lastError();
+        if (!query.exec("ALTER TABLE effectivefov ADD COLUMN FocalRatio REAL DEFAULT 0.0"))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     m_UserDB.close();
     return true;
 }
@@ -508,12 +521,15 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE effectivefov ( "
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "Train TEXT DEFAULT NULL, "
                   "Profile TEXT DEFAULT NULL, "
                   "Width INTEGER DEFAULT NULL, "
                   "Height INTEGER DEFAULT NULL, "
                   "PixelW REAL DEFAULT 5.0,"
                   "PixelH REAL DEFAULT 5.0,"
                   "FocalLength REAL DEFAULT 0.0,"
+                  "FocalReducer REAL DEFAULT 0.0,"
+                  "FocalRatio REAL DEFAULT 0.0,"
                   "FovW REAL DEFAULT 0.0,"
                   "FovH REAL DEFAULT 0.0)");
 
