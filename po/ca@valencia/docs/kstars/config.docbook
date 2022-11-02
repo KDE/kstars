@@ -99,7 +99,7 @@
 > <guimenuitem
 >Para el rellotge</guimenuitem
 ></menuchoice
-> o bé feu clic sobre la icona <guiicon
+> o bé feu clic damunt de la icona <guiicon
 >Para el rellotge</guiicon
 > de la barra d'eines. Podeu fer que el rellotge funcione més lent o més ràpid del normal, o fins i tot que vaja arrere, utilitzant el botó de selecció de valors de passos de temps que hi ha en la barra d'eines. Este botó de selecció de valors posseïx dos jocs de botons amunt/avall. El primer estarà disponible per als primers 83 passos de temps, un a un. El segon saltarà a la següent unitat de temps més gran (o més xicoteta), el qual us permetrà realitzar canvis més grans de passos de temps d'una manera ràpida. </para>
 <para>
@@ -944,7 +944,7 @@
 </mediaobject>
 </screenshot>
 <para
->A este diàleg s'arriba mitjançant la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). Cada botó representa el color amb el qual es dibuixaran els objectes per a un esquema de color específic. En fer clic sobre un botó, podreu triar un color amb un selector de color. Els colors dels botons s'inicialitzen amb els colors predeterminats des de l'especificació del catàleg. El color <quote
+>A este diàleg s'arriba mitjançant la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). Cada botó representa el color amb el qual es dibuixaran els objectes per a un esquema de color específic. En fer clic damunt d'un botó, podreu triar un color amb un selector de color. Els colors dels botons s'inicialitzen amb els colors predeterminats des de l'especificació del catàleg. El color <quote
 >predeterminat</quote
 > serà el color que es triarà per al catàleg si no hi ha un conjunt de colors per a un esquema de color. </para>
 </sect2>
@@ -973,7 +973,7 @@
 </mediaobject>
 </screenshot>
 <para
->A este diàleg s'arriba a través de la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). En el cantó superior esquerre, es mostra el catàleg de metadades. A la dreta, es mostra una taula de tots els objectes en el catàleg. La línia de busca damunt la taula, filtra els objectes per nom. Fer doble clic sobre una fila obrirà el diàleg Detalls de l'objecte (vegeu <xref linkend="tool-details"/>). </para>
+>A este diàleg s'arriba a través de la &IGU; de gestió de catàlegs (vegeu <xref linkend="catalog_gui"/>). En el cantó superior esquerre, es mostra el catàleg de metadades. A la dreta, es mostra una taula de tots els objectes en el catàleg. La línia de busca damunt la taula, filtra els objectes per nom. Fer doble clic damunt d'una fila obrirà el diàleg Detalls de l'objecte (vegeu <xref linkend="tool-details"/>). </para>
 <para
 >Seleccionar una fila permet el menú <guilabel
 >Objecte</guilabel
@@ -1238,11 +1238,11 @@
 >Ignora</guilabel
 > s'assignarà el valor predeterminat per a este camp. Introduint el vostre propi text s'utilitzarà com el valor perquè es llija cada objecte. La secció <guilabel
 >Tipus de mapatge</guilabel
-> mapa les cadenes als tipus d'objecte. Podeu afegir i eliminar els mapatges fent clic a <guilabel
+> mapa les cadenes als tipus d'objecte. Podeu afegir i eliminar els mapatges fent clic en <guilabel
 >+</guilabel
 > o <guilabel
 >-</guilabel
->. En acabar de fer el mapatge, podreu provar la configuració fent clic a <guilabel
+>. En acabar de fer el mapatge, podreu provar la configuració fent clic en <guilabel
 >Vista prèvia</guilabel
 > per a llegir els primers objectes des del CSV. Si esteu satisfet, podreu fer clic en <guilabel
 >D'acord</guilabel
@@ -1803,7 +1803,7 @@
 ></menuchoice
 >. A més, podeu manipular els tres rètols informatius amb el ratolí. Cadascun dels rètols conté línies addicionals de dades que resten ocultes de manera predeterminada. Podeu canviar-ne la <quote
 >visibilitat</quote
-> fent doble clic sobre seu. També és possible canviar-ne la ubicació arrossegant-lo amb el ratolí. Quan un rètol arriba a tocar la vora d'una finestra, serà <quote
+> fent doble clic damunt seu. També és possible canviar-ne la ubicació arrossegant-lo amb el ratolí. Quan un rètol arriba a tocar la vora d'una finestra, serà <quote
 >adherida</quote
 > a esta quan es modifique la grandària de la finestra. </para
 ></listitem>

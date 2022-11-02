@@ -23,10 +23,9 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include "polyfills/qstring_hash.h"
 #include <unordered_map>
+
 #include "config-kstars.h"
-#include "kstars_debug.h"
 
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
@@ -354,5 +353,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
  * @return availableRAM Available (free and unclaimed) system RAM in bytes. 0 if failed to determine RAM
  */
 double getAvailableRAM();
+
+void setGlobalSettings(const QVariantMap &settings);
 
 } // namespace KSUtils

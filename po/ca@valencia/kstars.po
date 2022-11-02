@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 00:43+0000\n"
-"PO-Revision-Date: 2022-10-29 20:00+0200\n"
+"PO-Revision-Date: 2022-11-01 13:52+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18625,7 +18625,7 @@ msgid ""
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Emmagatzema i intenta tornara emprar els calibratges. "
-"Açò només funciona als costats oposats del meridià si es pot determinar "
+"Açò només funciona en els costats oposats del meridià si es pot determinar "
 "automàticament el costat del moll a partir de la muntura. L'opció de dalt, "
 "«Reinicia el calibratge del guiatge després de cada orientació de la "
 "muntura», per a intentar açò cal que estiga desactivada.</p></body></html>"
@@ -21098,8 +21098,8 @@ msgid ""
 "<html><head/><body><p>Current data of the weather sensors. Click on the "
 "sensor name to display its data over time.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic al "
-"nom del sensor per a mostrar les seues dades amb el pas del temps.</p></"
+"<html><head/><body><p>Dades actuals dels sensors meteorològics. Feu clic en "
+"el nom del sensor per a mostrar les seues dades amb el pas del temps.</p></"
 "body></html>"
 
 #: ekos/observatory/observatorydomemodel.cpp:49
@@ -22145,10 +22145,9 @@ msgstr "Aux. 4:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
-#, fuzzy, kde-format
-#| msgid "Camera W:"
+#, kde-format
 msgid "Camera 2:"
-msgstr "Amp. de la càmera:"
+msgstr "Càmera 2:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
@@ -22229,10 +22228,9 @@ msgstr "Aux. 2:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profileeditor.ui:621
-#, fuzzy, kde-format
-#| msgid "Camera W:"
+#, kde-format
 msgid "Camera 1:"
-msgstr "Amp. de la càmera:"
+msgstr "Càmera 1:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/profileeditor.ui:658
@@ -23675,16 +23673,14 @@ msgstr ""
 "l'eliminació."
 
 #: ekos/scheduler/scheduler.cpp:488
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line up in the list.\n"
-msgstr "Buida tots els elements seleccionats de la llista"
+msgstr "Mou la tasca seleccionada una línia cap amunt en la llista.\n"
 
 #: ekos/scheduler/scheduler.cpp:491
-#, fuzzy, kde-format
-#| msgid "Clear all selected items in the list"
+#, kde-format
 msgid "Move selected job one line down in the list.\n"
-msgstr "Buida tots els elements seleccionats de la llista"
+msgstr "Mou la tasca seleccionada una línia cap avall en la llista.\n"
 
 #: ekos/scheduler/scheduler.cpp:495
 #, kde-format
@@ -23694,16 +23690,7 @@ msgstr ""
 "d'observació."
 
 #: ekos/scheduler/scheduler.cpp:499
-#, fuzzy, kde-format
-#| msgid ""
-#| "Reset state and sort observation jobs per altitude and movement in sky, "
-#| "using the start time of the first job.\n"
-#| "This action sorts setting targets before rising targets, and may help "
-#| "scheduling when starting your observation.\n"
-#| "Option \"Sort Jobs by Altitude and Priority\" keeps the job list sorted "
-#| "this way, but with current time as reference.\n"
-#| "Note the algorithm first calculates all altitudes using the same time, "
-#| "then evaluates jobs."
+#, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
 "using the start time of the first job.\n"
@@ -23716,8 +23703,6 @@ msgstr ""
 "moviment al cel, utilitzant el temps d'inici de la primera tasca.\n"
 "Esta acció ordena els objectius que es ponen abans que els objectius que "
 "ascendixen, i pot ajudar la planificació en iniciar l'observació.\n"
-"L'opció «Ordena les tasques per altitud i prioritat» manté la llista de "
-"tasques ordenada d'esta manera, però amb l'hora actual com a referència.\n"
 "Cal tindre en compte que l'algorisme primer calcula totes les elevacions "
 "utilitzant la mateixa hora, després avalua les tasques."
 
@@ -74049,8 +74034,8 @@ msgstr ""
 "posta, \n"
 "\t\t\tenllaços d'Internet i les vostres anotacions personalitzades. Accediu "
 "a la finestra \n"
-"\t\t\tde Detalls a través del menú emergent, o bé fent clic sobre un objecte "
-"i prement «D».\n"
+"\t\t\tde Detalls a través del menú emergent, o bé fent clic damunt d'un "
+"objecte i prement «D».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -80768,42 +80753,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Guider:"
-#~ msgstr "Sistema de guiatge:"
-
-#~ msgid "CCD:"
-#~ msgstr "CCD:"
-
-#~ msgid "High priority and altitude jobs are executed first"
-#~ msgstr "Les tasques d'alta prioritat i altitud s'executen primer"
-
-#~ msgid "Sort jobs by altitude and priority"
-#~ msgstr "Ordena les tasques per altitud i prioritat"
-
-#~ msgid ""
-#~ "Move selected job one line up in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Mou la tasca seleccionada una línia amunt en la llista.\n"
-#~ "L'ordre només afectarà les tasques d'observació que estan programades per "
-#~ "a començar al mateix temps.\n"
-#~ "No estarà disponible si està establida l'opció «Ordena les tasques per\n"
-#~ "altitud i prioritat»."
-
-#~ msgid ""
-#~ "Move selected job one line down in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Mou la tasca seleccionada una línia avall en la llista.\n"
-#~ "L'ordre només afectarà les tasques d'observació que estan programades per "
-#~ "a començar al mateix temps.\n"
-#~ "No estarà disponible si està marcada l'opció «Ordena les tasques per "
-#~ "altitud i prioritat»."
-
-#~ msgid "Sort scheduler jobs by priority and altitude."
-#~ msgstr "Ordena les tasques del programador per prioritat i altitud."

@@ -573,7 +573,11 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[GUIDE_CLEAR])
         guide->clearCalibration();
     else if (command == commands[GUIDE_SET_ALL_SETTINGS])
-        guide->setAllSettings(payload.toVariantMap());
+    {
+        auto settings = payload.toVariantMap();
+        guide->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
+    }
     else if (command == commands[GUIDE_GET_ALL_SETTINGS])
         sendGuideSettings(guide->getAllSettings());
     else if(command == commands[GUIDE_SET_CALIBRATION_SETTINGS])
@@ -622,7 +626,12 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[FOCUS_LOOP])
         focus->startFraming();
     else if (command == commands[FOCUS_SET_ALL_SETTINGS])
-        focus->setAllSettings(payload.toVariantMap());
+    {
+        auto settings = payload.toVariantMap();
+        focus->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
+    }
+
     else if (command == commands[FOCUS_GET_ALL_SETTINGS])
         sendFocusSettings(focus->getAllSettings());
     else if (command == commands[FOCUS_GET_ALL_SETTINGS])
@@ -681,7 +690,11 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
             mount->setSlewRate(rate);
     }
     else if (command == commands[MOUNT_SET_ALL_SETTINGS])
-        mount->setAllSettings(payload.toVariantMap());
+    {
+        auto settings = payload.toVariantMap();
+        mount->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
+    }
     else if (command == commands[MOUNT_GET_ALL_SETTINGS])
         sendMountSettings(mount->getAllSettings());
     else if (command == commands[MOUNT_SET_MOTION])
@@ -756,7 +769,11 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
         align->captureAndSolve();
     }
     else if (command == commands[ALIGN_SET_ALL_SETTINGS])
-        align->setAllSettings(payload.toVariantMap());
+    {
+        auto settings = payload.toVariantMap();
+        align->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
+    }
     else if (command == commands[ALIGN_GET_ALL_SETTINGS])
         sendAlignSettings(align->getAllSettings());
     else if(command == commands[ALIGN_SET_ASTROMETRY_SETTINGS])
@@ -1387,7 +1404,11 @@ void Message::processDarkLibraryCommands(const QString &command, const QJsonObje
     if (command == commands[DARK_LIBRARY_START])
         Ekos::DarkLibrary::Instance()->start();
     else if(command == commands[DARK_LIBRARY_SET_ALL_SETTINGS])
-        Ekos::DarkLibrary::Instance()->setAllSettings(payload.toVariantMap());
+    {
+        auto settings = payload.toVariantMap();
+        Ekos::DarkLibrary::Instance()->setAllSettings(settings);
+        KSUtils::setGlobalSettings(settings);
+    }
     else if(command == commands[DARK_LIBRARY_GET_ALL_SETTINGS])
         sendDarkLibrarySettings(Ekos::DarkLibrary::Instance()->getAllSettings());
     else if(command == commands[DARK_LIBRARY_GET_DEFECT_SETTINGS])

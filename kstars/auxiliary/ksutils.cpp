@@ -1789,4 +1789,22 @@ MPCParser::MPCParser(const QString &path)
         qCritical(KSTARS) << "Failed to read MPC comets data file" << path;
 }
 
+void setGlobalSettings(const QVariantMap &settings)
+{
+    for (auto name : settings.keys())
+    {
+        // Anything starting with kcfg_ must be processed to remove the
+        // prefix and ensure first letter is lower case.
+        if (name.startsWith("kcfg_"))
+        {
+            name.remove("kcfg_");
+            name.replace(0, 1, name.at(0).toLower());
+        }
+        Options::self()->setProperty(name.toLatin1(), settings[name]);
+    }
+
+    Options::self()->save();
+}
+
+
 } // namespace KSUtils

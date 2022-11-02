@@ -68,7 +68,7 @@
         <para
 >La línia de temps mostra els principals processos d'Ekos i quan han sigut actius. Per exemple, la línia <guilabel
 >Captura</guilabel
-> mostra quan es van prendre les imatges (seccions en verd) i quan es va interrompre (seccions en roig). Fent clic en una secció en verd es proporcionarà informació sobre esta imatge, i en fer-hi doble clic sobre una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
+> mostra quan es van prendre les imatges (seccions en verd) i quan es va interrompre (seccions en roig). Fent clic en una secció en verd es proporcionarà informació sobre esta imatge, i en fer-hi doble clic damunt d'una apareixerà la imatge presa en un visor FITS, si està disponible. </para>
         <note>
             <para
 >Si heu mogut les imatges capturades, podreu establir un <guilabel
@@ -76,9 +76,9 @@
 > al menú d'entrada a un directori que serà la base d'una part del camí del fitxer original. </para>
         </note>
         <para
->En fer clic sobre un segment a <guilabel
+>En fer clic damunt d'un segment a <guilabel
 >Enfocament</guilabel
->, es mostrarà la informació de la sessió d'enfocament i es mostrarà la posició al davant dels mesuraments HFR d'esta sessió. En fer clic sobre un segment al <guilabel
+>, es mostrarà la informació de la sessió d'enfocament i es mostrarà la posició al davant dels mesuraments HFR d'esta sessió. En fer clic damunt d'un segment al <guilabel
 >Sistema de guiatge</guilabel
 >, es mostrarà un gràfic de deriva des d'esta sessió (si s'està guiant) i les estadístiques RMS de la sessió. Les altres línies de temps mostraran informació d'estat quan es fa clic damunt seu. </para>
     </sect3>

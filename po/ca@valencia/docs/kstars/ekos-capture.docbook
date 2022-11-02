@@ -73,7 +73,7 @@
             </mediaobject>
         </screenshot>
         <para
->Establiu tots els paràmetres de captura tal com es detalla a continuació. Una vegada establits, podreu capturar una vista prèvia fent clic a <guibutton
+>Establiu tots els paràmetres de captura tal com es detalla a continuació. Una vegada establits, podreu capturar una vista prèvia fent clic en <guibutton
 >Vista prèvia</guibutton
 > o afegint una tasca a la cua de seqüències. </para>
         <itemizedlist>
@@ -480,7 +480,7 @@
 ><imageobject
 ><imagedata fileref="view-filter.png" format="PNG"/></imageobject
 ></inlinemediaobject
-> que hi ha al costat de la casella de selecció de la roda de filtres per a obrir el diàleg de configuració del filtre. Si utilitzeu filtres que no són parafocals i que requerixen una quantitat específica de desplaçament de l'enfocament per tal d'obtindre resultats adequats, establiu en el diàleg tots els desplaçaments relatius a l'enfocament. </para>
+> que hi ha en el costat de la casella de selecció de la roda de filtres per a obrir el diàleg de configuració del filtre. Si utilitzeu filtres que no són parafocals i que requerixen una quantitat específica de desplaçament de l'enfocament per tal d'obtindre resultats adequats, establiu en el diàleg tots els desplaçaments relatius a l'enfocament. </para>
         <para
 >Configureu les opcions de cada filtre individualment: </para>
         <orderedlist>
@@ -560,7 +560,7 @@
 >Visor FITS</title>
 
         <para
->Les imatges capturades es mostren a l'eina de visor FITS de &kstars;, i també a la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges a l'espectador. </para>
+>Les imatges capturades es mostren en l'eina de visor FITS de &kstars;, i també a la pantalla de resum. Establix les opcions relacionades amb com es mostraran les imatges a l'espectador. </para>
         <itemizedlist>
             <listitem>
                 <para
