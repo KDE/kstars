@@ -1791,16 +1791,17 @@ MPCParser::MPCParser(const QString &path)
 
 void setGlobalSettings(const QVariantMap &settings)
 {
-    for (auto name : settings.keys())
+    for (auto &key : settings.keys())
     {
+        auto property = key;
         // Anything starting with kcfg_ must be processed to remove the
         // prefix and ensure first letter is lower case.
-        if (name.startsWith("kcfg_"))
+        if (property.startsWith("kcfg_"))
         {
-            name.remove("kcfg_");
-            name.replace(0, 1, name.at(0).toLower());
+            property.remove("kcfg_");
+            property.replace(0, 1, property.at(0).toLower());
         }
-        Options::self()->setProperty(name.toLatin1(), settings[name]);
+        Options::self()->setProperty(property.toLatin1(), settings[key]);
     }
 
     Options::self()->save();
