@@ -191,7 +191,7 @@
 ></listitem>
                 <listitem
 ><para
->Centra el telescopi: alterna el mode de centrar el telescopi. Quan estiga actiu i si la imatge conté una capçalera WCS vàlida, fent clic a qualsevol punt de la imatge, es desencadenarà que el telescopi s'oriente fins al punt on s'ha fet clic.</para
+>Centra el telescopi: alterna el mode de centrar el telescopi. Quan estiga actiu i si la imatge conté una capçalera WCS vàlida, fent clic en qualsevol punt de la imatge, es desencadenarà que el telescopi s'oriente fins al punt on s'ha fet clic.</para
 ></listitem>
                 <listitem
 ><para

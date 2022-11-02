@@ -187,7 +187,7 @@
 <secondary
 >Descripció</secondary
 ></indexterm
->&kstars; mostra milers d'objectes celestes: estreles, planetes, cometes, asteroides, cúmuls, nebuloses i galàxies. Podeu interactuar amb estos objectes per a realitzar accions sobre seu o obtindre més informació. Fent clic sobre un objecte, s'identificarà en la barra d'estat, i senzillament mantenint el cursor del ratolí sobre un objecte s'etiquetarà temporalment sobre el mapa. Fent doble clic, se centrarà la pantalla sobre l'objecte i es començarà a seguir (de manera que seguirà estant centrat a mesura que transcorre el temps). Fent clic amb el &BDR; sobre un objecte es desplegarà el seu menú emergent, el qual us permetrà més opcions. </para>
+>&kstars; mostra milers d'objectes celestes: estreles, planetes, cometes, asteroides, cúmuls, nebuloses i galàxies. Podeu interactuar amb estos objectes per a realitzar accions sobre seu o obtindre més informació. Fent clic damunt d'un objecte, s'identificarà en la barra d'estat, i senzillament mantenint el cursor del ratolí sobre un objecte s'etiquetarà temporalment sobre el mapa. Fent doble clic, se centrarà la pantalla sobre l'objecte i es començarà a seguir (de manera que seguirà estant centrat a mesura que transcorre el temps). Fent clic amb el &BDR; sobre un objecte es desplegarà el seu menú emergent, el qual us permetrà més opcions. </para>
 
 <sect2 id="popupquick">
 <title
@@ -273,7 +273,7 @@
 <para
 >Podeu buscar els objectes per nom utilitzant l'eina <guilabel
 >Busqueu un objecte</guilabel
->, la qual es pot obrir fent clic sobre la icona <guiicon
+>, la qual es pot obrir fent clic damunt de la icona <guiicon
 >Busca un objecte</guiicon
 > de la barra d'eines, seleccionant l'element de menú <menuchoice
 ><guimenu
@@ -400,7 +400,7 @@
 >Accions del teclat</secondary
 ></indexterm>
 <para
->Quan feu clic sobre un objecte en el mapa, este es convertirà en l'<firstterm
+>Quan feu clic damunt d'un objecte en el mapa, este es convertirà en l'<firstterm
 >objecte seleccionat</firstterm
 > i el seu nom serà mostrat en la barra d'estat. Disposeu de diverses ordres de teclat per actuar amb l'objecte seleccionat: <variablelist>
 <varlistentry>

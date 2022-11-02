@@ -185,7 +185,7 @@
 >Efectes</guilabel
 > per a millorar-la. </para>
         <para
->Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura a l'AR i Dec. Si falla el procés de calibratge per una corba curta, intenteu augmentar la duració del pols. Per a netejar el calibratge, feu clic en la icona de paperera que hi ha al costat del botó <guibutton
+>Ekos començarà el procés de calibratge mitjançant l'enviament de polsos per a moure la muntura a l'AR i Dec. Si falla el procés de calibratge per una corba curta, intenteu augmentar la duració del pols. Per a netejar el calibratge, feu clic en la icona de paperera que hi ha en el costat del botó <guibutton
 >Guiatge</guibutton
 >. </para>
         <warning>

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-01 00:43+0000\n"
-"PO-Revision-Date: 2022-10-30 06:41+0100\n"
+"PO-Revision-Date: 2022-11-01 06:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1390,12 +1390,12 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:542
 #, kde-format
 msgid "Xplanet binary path is empty in config panel."
-msgstr ""
+msgstr "კონფიგურაციის პანელში Xplanet-ის გამშვები ფაილის ბილიკი ცარიელია."
 
 #: auxiliary/xplanetimageviewer.cpp:550
 #, kde-format
 msgid "The configured Xplanet binary does not exist or is not executable."
-msgstr ""
+msgstr "Xplanet-ის მითითებული გამშვები ფაილი არ არსებობს ან გამშვები არაა."
 
 #: auxiliary/xplanetimageviewer.cpp:750
 #, kde-format
@@ -1418,6 +1418,8 @@ msgid ""
 "XPlanet failed to generate the image for object %1 before the timeout "
 "expired."
 msgstr ""
+"Xplanet-ის ობიექტისთვის (%1) ვადის ამოწურვამდე გამოსახულების გენერაციის "
+"შეცდომა."
 
 #: auxiliary/xplanetimageviewer.cpp:792 indi/servermanager.cpp:88
 #, kde-format
@@ -1487,27 +1489,27 @@ msgstr "გამოტანის ფაილის მიმაგრებ�
 #: catalogsdb/catalogsdb.cpp:754
 #, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
-msgstr ""
+msgstr "კატალოგის გამოტანილ ფაილში კოპირების შეცდომა.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:758
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
-msgstr ""
+msgstr "გამოტანილ ფაილში კატალოგის რეესტრის შექმნის შეცდომა.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:770
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
-msgstr ""
+msgstr "გამოტანილი ფაილის რეესტრში კატალოგის ჩასმის შეცდომა.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:776
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
-msgstr ""
+msgstr "დაყენებული გატანილი ბაზის ვერსიის ჩასმის შეცდომა. <br>%1"
 
 #: catalogsdb/catalogsdb.cpp:783
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
-msgstr ""
+msgstr "დაყენებული გატანილი ბაზის აპლიკაციის ID-ის ჩასმის შეცდომა. <br>%1"
 
 #: catalogsdb/catalogsdb.cpp:799
 #, kde-format
@@ -1527,7 +1529,7 @@ msgstr "კატალოგის არასწორი ფაილი."
 #: catalogsdb/catalogsdb.cpp:825
 #, kde-format
 msgid "Could not migrate old catalog format.<br>%1"
-msgstr ""
+msgstr "ძველი კატალოგის ფორმატის მიგრაციის შეცდომა.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:831
 #, kde-format
@@ -1557,7 +1559,7 @@ msgstr "მომხმარებლის კატალოგის წა�
 #: catalogsdb/catalogsdb.cpp:892
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
-msgstr ""
+msgstr "რეესტრიდან კატალოგის წაშლის შეცდომა.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:906
 #, kde-format
@@ -1567,12 +1569,12 @@ msgstr "ორივე კატალოგი უნდა არსებო
 #: catalogsdb/catalogsdb.cpp:909
 #, kde-format
 msgid "Destination catalog has to be mutable!"
-msgstr ""
+msgstr "სამიზნე კატალოგი დადუმებადი უნდა იყოს!"
 
 #: catalogsdb/catalogsdb.cpp:925
 #, kde-format
 msgid "Cannot update nonexisting catalog."
-msgstr ""
+msgstr "არარსებული კატალოგის განახლება შეუძლებელია."
 
 #. i18n: ectx: Menu (file)
 #: data/fitsviewerui.rc:5 data/kstarsui.rc:5
@@ -1700,7 +1702,7 @@ msgstr "ტელესკოპის ხელსაწყოთა ზოლ�
 #: data/kstarsui.rc:209
 #, kde-format
 msgid "Dome Toolbar"
-msgstr ""
+msgstr "გუმბათის ხელსაწყოების ზოლი"
 
 #: data/qml/mount/mountbox.qml:428
 #, kde-kuit-format
@@ -2065,7 +2067,7 @@ msgstr "იტვირთება..."
 #: data/qml/whatisinteresting/wiview.qml:1543
 #, kde-kuit-format
 msgid "Explanation of the What's Interesting Panel"
-msgstr ""
+msgstr "რა არის საინტერესო პანელის ახსნა"
 
 #: data/qml/whatisinteresting/wiview.qml:1557
 #, kde-kuit-format
@@ -2205,13 +2207,13 @@ msgstr "/"
 #: dialogs/addcatalogobject.ui:91
 #, kde-format
 msgid "Apparent magnitude:"
-msgstr ""
+msgstr "ხილული ვარსკვლავური სიდიდე:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:110
 #, kde-format
 msgid "Check if magnitude is unknown"
-msgstr ""
+msgstr "შემოწმება, ვარსკვლავური სიდიდე უცნობია, თუ არა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/schedulerjob.cpp:647
@@ -2309,7 +2311,7 @@ msgstr ""
 #: dialogs/addcatalogobject.ui:254
 #, kde-format
 msgid "Guess from &Text"
-msgstr ""
+msgstr "&ტექსტიდან მიხვედრა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: dialogs/addcatdialog.ui:32
@@ -2558,7 +2560,7 @@ msgstr "კრიტიკული შეცდომა"
 #: dialogs/catalogcoloreditor.cpp:22
 #, kde-format
 msgid "Catalog with id %1 not found."
-msgstr ""
+msgstr "კატალოგი ID-ით %1 ნაპოვნი არაა."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
@@ -2624,7 +2626,7 @@ msgstr "ნებისმიერი ფაილი"
 #: dialogs/catalogcsvimport.cpp:116
 #, kde-format
 msgid "Could not open the csv file.<br>It does not exist."
-msgstr ""
+msgstr "CSV ფაილის გახსნის შეცდომა. <br> ის არ არსებობს."
 
 #: dialogs/catalogcsvimport.cpp:167 widgets/draglistbox.cpp:70
 #: widgets/draglistbox.cpp:87
@@ -2993,7 +2995,7 @@ msgstr "დეკ"
 #: dialogs/catalogobjectlistmodel.cpp:71
 #, kde-format
 msgid "Mag"
-msgstr ""
+msgstr "ვარს. სიდ"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
@@ -3588,7 +3590,7 @@ msgstr "მანძილი:"
 #: dialogs/details_data.ui:352 oal/execute.ui:132 printing/detailstable.cpp:330
 #, kde-format
 msgid "Magnitude:"
-msgstr ""
+msgstr "ვარსკვლავური სიდიდე:"
 
 #. i18n: ectx: property (text), widget (QLabel, IllumLabel)
 #: dialogs/details_data.ui:362 printing/detailstable.cpp:338
@@ -4036,7 +4038,7 @@ msgstr ""
 #: dialogs/exportimagedialog.cpp:96
 #, kde-format
 msgid "Only magnitudes"
-msgstr ""
+msgstr "მხოლოდ ვარკსვლავური სიდიდეები"
 
 #: dialogs/exportimagedialog.cpp:97
 #, kde-format
@@ -8595,7 +8597,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:115
 #, kde-format
 msgid "wcsinfo:"
-msgstr ""
+msgstr "wcsinfo:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometrySolverBinary)
 #: ekos/align/opsprograms.ui:122
@@ -10799,7 +10801,7 @@ msgstr ""
 #: kstarsactions.cpp:1129 kstarsinit.cpp:443
 #, kde-format
 msgid "Ekos"
-msgstr ""
+msgstr "Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
@@ -10976,7 +10978,7 @@ msgstr "დეტექტორი"
 #: ekos/auxiliary/opslogs.ui:361 ekos/profileeditor.ui:536
 #, kde-format
 msgid "Adaptive Optics"
-msgstr ""
+msgstr "ადაპტიური ოპტიკა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIAOLogging)
 #: ekos/auxiliary/opslogs.ui:364
@@ -11737,7 +11739,7 @@ msgstr "ხელით"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:451
 #, kde-format
 msgid "Gaussian"
-msgstr ""
+msgstr "გაუსის"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:456
@@ -13320,7 +13322,7 @@ msgstr ""
 #: ekos/capture/capture.ui:911
 #, kde-format
 msgid "Postfix:"
-msgstr ""
+msgstr "Postfix:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fileFilterS)
 #: ekos/capture/capture.ui:923
@@ -13620,7 +13622,7 @@ msgstr ""
 #: ekos/capture/capture.ui:1814
 #, kde-format
 msgid "Bin"
-msgstr ""
+msgstr "ბინ"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/capture/capture.ui:1819
@@ -15074,7 +15076,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:350
 #, kde-format
 msgid "Steps:"
-msgstr ""
+msgstr "ნაბიჯები:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:370
@@ -16730,7 +16732,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1252
 #, kde-format
 msgid "SNR"
-msgstr ""
+msgstr "SNR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1262
@@ -17110,7 +17112,7 @@ msgstr ""
 #: ekos/guide/manualdither.ui:22 kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
-msgstr ""
+msgstr "ვარსკვლავური სიდიდე"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -17943,7 +17945,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:451
 #, kde-format
 msgid "Smart"
-msgstr ""
+msgstr "ჭკვიანი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
 #: ekos/guide/opsguide.ui:461
@@ -18113,7 +18115,7 @@ msgstr "&ანალიზი"
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
-msgstr ""
+msgstr "Ekos"
 
 #: ekos/manager.cpp:793 ekos/manager.cpp:819
 #, kde-format
@@ -18454,7 +18456,7 @@ msgstr ""
 #: ekos/manager.ui:421 kstarslite/qml/indi/INDIControlPanel.qml:15
 #, kde-format, kde-kuit-format
 msgid "INDI Control Panel"
-msgstr ""
+msgstr "INDI -ის მართვის პანელი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
 #: ekos/manager.ui:450
@@ -18958,7 +18960,7 @@ msgstr ""
 #: ekos/mount/mount.ui:785
 #, kde-format
 msgid "<html><head/><body><p><br/></p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
@@ -20391,10 +20393,9 @@ msgstr "დამ #4:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 2:"
-msgstr "კამერა:"
+msgstr "კამერა 2:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
@@ -20459,10 +20460,9 @@ msgstr "დამ #2:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profileeditor.ui:621
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 1:"
-msgstr "კამერა:"
+msgstr "კამერა 1:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/profileeditor.ui:658
@@ -24098,7 +24098,7 @@ msgstr "საშუალო"
 #: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Gaussian blur"
-msgstr ""
+msgstr "გაუსის ბუნდოვნება"
 
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:99
 #, kde-format
@@ -24874,7 +24874,7 @@ msgstr ""
 #: fitsviewer/statform.ui:96
 #, kde-format
 msgid "Mean"
-msgstr ""
+msgstr "მნიშვნელობა"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:106
@@ -25290,7 +25290,7 @@ msgstr "კავშირი"
 #, kde-format
 msgctxt "@title:window"
 msgid "INDI Control Panel"
-msgstr ""
+msgstr "INDI -ის მართვის პანელი"
 
 #: indi/guimanager.cpp:151
 #, kde-format
@@ -26168,7 +26168,7 @@ msgstr "<b>პორტი:</b>"
 #: indi/telescopewizardprocess.cpp:103
 #, kde-format
 msgid "Are you sure you want to cancel?"
-msgstr ""
+msgstr "დარწმუნებული ხართ, რომ გსურთ გაუქმება?"
 
 #: indi/telescopewizardprocess.cpp:217
 #, kde-format
@@ -61394,7 +61394,7 @@ msgstr "ჰორიზონტალური კოორდინატე�
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
-msgstr ""
+msgstr "მიწა"
 
 #: kstarsinit.cpp:584
 #, kde-format
@@ -62636,7 +62636,7 @@ msgstr ""
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:66
 #, kde-kuit-format
 msgid "Start tutorial"
-msgstr ""
+msgstr "სახელმძღვანელოს გაშვება"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
 #, kde-kuit-format
@@ -63306,7 +63306,7 @@ msgstr "თარიღი"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Date/Time"
-msgstr ""
+msgstr "თარიღი / დრო"
 
 #: libindi_strings.cpp:98
 #, kde-kuit-format
@@ -64752,7 +64752,7 @@ msgstr "პარამეტრები"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Outdoor"
-msgstr ""
+msgstr "სახლგარეთ"
 
 #: libindi_strings.cpp:342
 #, kde-kuit-format
@@ -64860,7 +64860,7 @@ msgstr "პლუტონი"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Polar"
-msgstr ""
+msgstr "პოლარული"
 
 #: libindi_strings.cpp:360
 #, kde-kuit-format
@@ -65124,7 +65124,7 @@ msgstr "შემობრუნება"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "SAO"
-msgstr ""
+msgstr "SAO"
 
 #: libindi_strings.cpp:404
 #, kde-kuit-format
@@ -65334,7 +65334,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Site Name"
-msgstr ""
+msgstr "საიტის სახელი"
 
 #: libindi_strings.cpp:439
 #, kde-kuit-format
@@ -66338,22 +66338,22 @@ msgstr ""
 #: main.cpp:190
 #, kde-format
 msgid "Dump sky image to file."
-msgstr ""
+msgstr "ცის გამოსახულების ფაილში ჩაწერა."
 
 #: main.cpp:191
 #, kde-format
 msgid "Script to execute."
-msgstr ""
+msgstr "შესასრულებელი სკრიპტი."
 
 #: main.cpp:192
 #, kde-format
 msgid "Width of sky image."
-msgstr ""
+msgstr "ცის გამოსახულების სიგანე."
 
 #: main.cpp:193
 #, kde-format
 msgid "Height of sky image."
-msgstr ""
+msgstr "ცის გამოსახულების სიმაღლე."
 
 #: main.cpp:194
 #, kde-format
@@ -72495,7 +72495,7 @@ msgstr "აირჩიეთ შეყვანის კოორდინა�
 #: tools/modcalcgeod.ui:71
 #, kde-format
 msgid "Cartesian"
-msgstr ""
+msgstr "დეკარტის"
 
 #. i18n: ectx: property (text), widget (QRadioButton, spheRadio)
 #: tools/modcalcgeod.ui:78
@@ -72993,7 +72993,7 @@ msgstr "დახრ (J2000)"
 #, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
-msgstr ""
+msgstr "ვარს. სიდ"
 
 #: tools/observinglist.cpp:94
 #, kde-format

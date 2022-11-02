@@ -23,7 +23,7 @@
 </screenshot>
 
 <para
->Esta eina representa gràficament l'altitud de qualsevol objecte en funció del temps, per a qualsevol data i emplaçament sobre la Terra. La secció superior és una representació gràfica de l'angle de l'altitud a l'eix vertical i l'hora a l'eix horitzontal. L'hora es mostra com a hora local estàndard al llarg de la part inferior i l'<link linkend="ai-sidereal"
+>Esta eina representa gràficament l'altitud de qualsevol objecte en funció del temps, per a qualsevol data i emplaçament sobre la Terra. La secció superior és una representació gràfica de l'angle de l'altitud en l'eix vertical i l'hora en l'eix horitzontal. L'hora es mostra com a hora local estàndard al llarg de la part inferior i l'<link linkend="ai-sidereal"
 >hora sidèria</link
 > al llarg de la part superior. La meitat inferior de la representació gràfica és verda amb ombres per a indicar que els punts en esta regió resten per davall de l'horitzó. </para>
 <para
@@ -53,7 +53,7 @@
 <para
 >Es pot ampliar i fer panoràmiques de la representació gràfica amb facilitat utilitzant el ratolí. El nivell de zoom es pot ajustar amb la <mousebutton
 >roda</mousebutton
-> del ratolí. Quan s'allunya la representació gràfica, el nivell de zoom es limitarà automàticament a un valor mínim predeterminat, com els intervals dels eixos són capaços de cobrir tot el gràfic (&ead;, en l'eix vertical, el valor màxim de l'altitud ha de tocar la part superior del marc de la representació gràfica). El mateix principi s'aplica quan es fa una panoràmica de la representació gràfica utilitzant el moviment del ratolí. Per a la panoràmica de la representació gràfica, tot el que heu de fer, és fer clic al punt de la representació gràfica de la qual voleu fer una panoràmica i després arrossegar el ratolí en la direcció desitjada: esquerra, dreta, amunt o avall. </para>
+> del ratolí. Quan s'allunya la representació gràfica, el nivell de zoom es limitarà automàticament a un valor mínim predeterminat, com els intervals dels eixos són capaços de cobrir tot el gràfic (&ead;, en l'eix vertical, el valor màxim de l'altitud ha de tocar la part superior del marc de la representació gràfica). El mateix principi s'aplica quan es fa una panoràmica de la representació gràfica utilitzant el moviment del ratolí. Per a la panoràmica de la representació gràfica, tot el que heu de fer, és fer clic damunt del punt de la representació gràfica de la qual voleu fer una panoràmica i després arrossegar el ratolí en la direcció desitjada: esquerra, dreta, amunt o avall. </para>
 <para
 >Una altra característica útil que oferix l'eina altitud en funció del temps, és la seua capacitat per a calcular i marcar els temps d'Eixida/Posta/Trànsit. Açò es pot aconseguir amb una simple pressió d'un dels botons <guibutton
 >Eixida</guibutton

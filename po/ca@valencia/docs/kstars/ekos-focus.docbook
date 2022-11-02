@@ -433,7 +433,7 @@
             <para
 ><emphasis role="bold"
 >Per filtre</emphasis
->: Quan un altre mòdul, per exemple, el mòdul de captura requerix un canvi de filtre, és possible tornar a enfocar automàticament amb el filtre nou. L'exposició que s'utilitzarà per a cada filtre es pren de la finestra emergent <link linkend="capture-filter-settings"
+>: Quan un altre mòdul, per exemple, el mòdul de captura requerix un canvi de filtre, és possible tornar a enfocar automàticament el filtre nou. L'exposició que s'utilitzarà per a cada filtre es pren de la finestra emergent <link linkend="capture-filter-settings"
 >Configureu el filtre</link
 >. Açò és molt útil quan, per exemple, el filtre de banda estreta requerix temps d'exposició més llargs que els filtres de banda ampla.</para>
           </listitem>
@@ -442,7 +442,7 @@
             <para
 ><emphasis role="bold"
 >Bloqueja el filtre</emphasis
->: És possible especificar un bloqueig de filtre que s'utilitzarà quan es requerisca enfocar amb un altre filtre. Per exemple, si s'utilitza un filtre roig i es requerix una execució d'enfocament automàtic, és possible executar l'enfocament automàtic utilitzant el filtre Lum i després, quan es complete, ajustar la posició de l'enfocament amb un valor de desplaçament corresponent a la diferència d'enfocament predeterminada entre els filtres Lum i Roig. Açò és útil quan, per exemple, és difícil enfocar directament amb alguns filtres sense temps d'exposició excessivament llargs. Cal tindre en compte que esta aproximació de filtre bloquejat també es pot utilitzar en el <link linkend="ekos-align"
+>: És possible especificar un bloqueig de filtre que s'utilitzarà quan es requerisca enfocar amb un altre filtre. Per exemple, si s'utilitza un filtre roig i es requerix una execució d'enfocament automàtic, és possible executar l'enfocament automàtic utilitzant el filtre Lum i després, quan es complete, ajustar la posició de l'enfocament amb un valor de desplaçament corresponent a la diferència d'enfocament predeterminada entre els filtres Lum i roig. Açò és útil quan, per exemple, és difícil enfocar directament amb alguns filtres sense temps d'exposició excessivament llargs. Cal tindre en compte que esta aproximació de filtre bloquejat també es pot utilitzar en el <link linkend="ekos-align"
 >Mòdul d'alineació</link
 > sempre que es realitza una captura per a astrometria.</para>
           </listitem>
