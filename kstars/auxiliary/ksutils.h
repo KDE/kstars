@@ -26,6 +26,8 @@
 #include <unordered_map>
 
 #include "config-kstars.h"
+// N.B. DO not remove, it is required for compilation.
+#include "polyfills/qstring_hash.h"
 
 #if __GNUC__ > 5
 #pragma GCC diagnostic push
