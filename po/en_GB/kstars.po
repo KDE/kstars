@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 00:43+0000\n"
+"POT-Creation-Date: 2022-11-03 00:41+0000\n"
 "PO-Revision-Date: 2022-09-18 12:13+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -15453,7 +15453,7 @@ msgstr "Automatically connect to EkosLive service on startup."
 msgid "Auto Start"
 msgstr "Auto Start"
 
-#: ekos/ekoslive/message.cpp:887
+#: ekos/ekoslive/message.cpp:904
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 00:43+0000\n"
-"PO-Revision-Date: 2022-11-01 12:57+0300\n"
+"POT-Creation-Date: 2022-11-03 00:41+0000\n"
+"PO-Revision-Date: 2022-11-02 11:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16233,7 +16233,7 @@ msgstr "Kalibrasyon yıldızını otomatik olarak seç."
 msgid "Auto Start"
 msgstr "Otomatik Yıldız"
 
-#: ekos/ekoslive/message.cpp:887
+#: ekos/ekoslive/message.cpp:904
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."
@@ -27740,7 +27740,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:127
 #, kde-format
 msgid "Item"
-msgstr "Öğe"
+msgstr "Öge"
 
 #: fitsviewer/starprofileviewer.cpp:137
 #, kde-format
@@ -65149,10 +65149,9 @@ msgid "Update Comets Orbital Elements"
 msgstr "Kuyruklu yıldız yörünce cisimlerini güncelle"
 
 #: kstarsinit.cpp:404
-#, fuzzy, kde-format
-#| msgid "Update asteroids orbital elements"
+#, kde-format
 msgid "Update Asteroids Orbital Elements"
-msgstr "Küçük gezegenlerin yörünge öğelerini güncelle"
+msgstr "Asteroidlerin Yörünge Ögelerini Güncelle"
 
 #: kstarsinit.cpp:406
 #, fuzzy, kde-format
@@ -65161,10 +65160,9 @@ msgid "Update Recent Supernovae Data"
 msgstr "Son Supernove verisini güncelle"
 
 #: kstarsinit.cpp:408
-#, fuzzy, kde-format
-#| msgid "Update satellites orbital elements"
+#, kde-format
 msgid "Update Satellites Orbital Elements"
-msgstr "Uyduların yörünge öğelerini güncelle"
+msgstr "Uyduların Yörünge Ögelerini Güncelle"
 
 #: kstarsinit.cpp:412
 #, kde-format
@@ -73348,7 +73346,7 @@ msgid ""
 "press <b>Next</b> to proceed.</p>"
 msgstr ""
 "<p>Arayıcı grafiği, ayrıntılı tablolar ve günlükleme biçimleri gibi ek "
-"öğeler içerebilir. Arayıcı grafiğe eklemek istedikleriniz seçin ve "
+"ögeler içerebilir. Arayıcı grafiğe eklemek istedikleriniz seçin ve "
 "<b>Sonraki</b> düğmesine basın.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, tablesLabel)
@@ -81703,98 +81701,4 @@ msgstr "Arka plan rengi:"
 #: xplanet/opsxplanet.ui:1070
 #, kde-format
 msgid "Set the color for the background."
-msgstr "Arka planın rengini ayarla."
-
-#~ msgid "Guider:"
-#~ msgstr "Kılavuz:"
-
-#~ msgid "CCD:"
-#~ msgstr "CCD:"
-
-#~ msgid "Aliases for filter wheel slots."
-#~ msgstr "Filtre tekeri yuvaları için takma isimler."
-
-#~ msgid "List of the aliases for filter wheel slots."
-#~ msgstr "Filtre tekeri yuvaları için isim listesi."
-
-#, fuzzy
-#~| msgid "Meridian Flip..."
-#~ msgid "Meridian flip slew started..."
-#~ msgstr "Meridyen Döndürme..."
-
-#~ msgid ""
-#~ "Swap DEC direction pulses. This value is determined automatically from "
-#~ "the calibration procedure, only override if necessary."
-#~ msgstr ""
-#~ "DEC yön sinyallerini değiştir. Bu değer, kalibrasyon yönteminden otomatik "
-#~ "olarak belirlenir, sadece gerekliyse üstüne yazın."
-
-#~ msgid "Swap"
-#~ msgstr "Takas"
-
-#, fuzzy
-#~| msgid "Meridian Flip..."
-#~ msgid "Meridian flip inactive"
-#~ msgstr "Meridyen Döndürme..."
-
-#, fuzzy
-#~| msgid "Meridian Flip..."
-#~ msgid "Meridian flip waiting."
-#~ msgstr "Meridyen Döndürme..."
-
-#, fuzzy
-#~| msgid "Meridian Flip..."
-#~ msgid "Meridian flip started."
-#~ msgstr "Meridyen Döndürme..."
-
-#, fuzzy
-#~| msgid "Use name labels"
-#~ msgid "pier side label"
-#~ msgstr "İsim etiketleri kullan"
-
-#, fuzzy
-#~| msgid "Default hour angle to perform meridian flip"
-#~ msgid "Default hour angle to perform meridian flip (obsolete)"
-#~ msgstr "Meridyen döndürmesi için varsayılan saat açısı"
-
-#, fuzzy
-#~| msgid "Mount:"
-#~ msgid "Mount: "
-#~ msgstr "Bağla:"
-
-#, fuzzy
-#~| msgid "Focus"
-#~ msgid "Focus: "
-#~ msgstr "Odak"
-
-#, fuzzy
-#~| msgid "Status:"
-#~ msgid "Status: inactive (parked)"
-#~ msgstr "Durum:"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#~| "is above this limit, it will be commanded to stop.</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Set Hour Angle unit to Degrees. If the mount is "
-#~ "configured to flip at 5 degrees, set the value in Ekos to 3 degrees less "
-#~ "(2 degrees).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu "
-#~ "sınırın üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
-
-#~ msgid ""
-#~ "Use specified filter index when performing astrometry regardless of "
-#~ "current filter settings."
-#~ msgstr ""
-#~ "Mevcut filtre ayarlarından bağımsız olarak astrometri gerçekleştirirken "
-#~ "belirtilen filtre indeksini kullanın."
-
-#~ msgid "Default CCD binning index while in alignment mode"
-#~ msgstr "Hizalama modundayken varsayılan CCD gruplama indeksi"
-
-#, fuzzy
-#~| msgid "Set vertical binning of CCD camera while in alignment mode."
-#~ msgid "Set gain of camera while in alignment mode."
-#~ msgstr "Hizalama kipindeyken, CCD kameranın dikey katlamayı ayarla."
+msgstr "Arka plan rengini ayarla."

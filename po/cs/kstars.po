@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 00:43+0000\n"
+"POT-Creation-Date: 2022-11-03 00:41+0000\n"
 "PO-Revision-Date: 2022-06-28 15:19+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -14704,7 +14704,7 @@ msgstr ""
 msgid "Auto Start"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:887
+#: ekos/ekoslive/message.cpp:904
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
