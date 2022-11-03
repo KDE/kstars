@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 00:43+0000\n"
+"POT-Creation-Date: 2022-11-03 00:41+0000\n"
 "PO-Revision-Date: 2022-10-31 10:38+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -16778,7 +16778,7 @@ msgstr "Ligar automaticamente ao serviço EkosLive no arranque."
 msgid "Auto Start"
 msgstr "Arranque Automático"
 
-#: ekos/ekoslive/message.cpp:887
+#: ekos/ekoslive/message.cpp:904
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "A importação do mosaico falhou."

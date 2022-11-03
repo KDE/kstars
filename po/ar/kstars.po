@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-01 00:43+0000\n"
+"POT-Creation-Date: 2022-11-03 00:41+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -15141,7 +15141,7 @@ msgstr "تبديل تنسيق"
 msgid "Auto Start"
 msgstr "تحجيم تلقائي"
 
-#: ekos/ekoslive/message.cpp:887
+#: ekos/ekoslive/message.cpp:904
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
