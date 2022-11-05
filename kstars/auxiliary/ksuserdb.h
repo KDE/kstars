@@ -55,6 +55,9 @@ class KSUserDB
 
         bool DeleteProfile(const QSharedPointer<ProfileInfo> &pi);
 
+        // Delete profile and all related settings.
+        bool PurgeProfile(const QSharedPointer<ProfileInfo> &pi);
+
         void SaveProfile(const QSharedPointer<ProfileInfo> &pi);
 
         /**

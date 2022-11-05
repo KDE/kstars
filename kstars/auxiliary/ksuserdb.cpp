@@ -2061,6 +2061,32 @@ bool KSUserDB::DeleteProfile(const QSharedPointer<ProfileInfo> &pi)
     return rc;
 }
 
+bool KSUserDB::PurgeProfile(const QSharedPointer<ProfileInfo> &pi)
+{
+    m_UserDB.open();
+
+    QSqlQuery query(m_UserDB);
+    bool rc;
+
+    rc = query.exec("DELETE FROM profile WHERE id=" + QString::number(pi->id));
+    if (rc == false)
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
+    rc = query.exec("DELETE FROM profilesettings WHERE profile=" + QString::number(pi->id));
+    if (rc == false)
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
+    rc = query.exec("DELETE FROM opticaltrainsettings WHERE opticaltrain IN (select id FROM opticaltrains WHERE profile=" +
+                    QString::number(pi->id) + ")");
+    if (rc == false)
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
+    rc = query.exec("DELETE FROM opticaltrains WHERE profile=" + QString::number(pi->id));
+    if (rc == false)
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
+
+    m_UserDB.close();
+
+    return rc;
+}
+
 void KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     // Remove all drivers
@@ -2552,14 +2578,10 @@ void KSUserDB::UpdateOpticalTrainSettings(uint32_t train, const QByteArray &sett
 void KSUserDB::DeleteOpticalTrainSettings(uint32_t train)
 {
     m_UserDB.open();
-    QSqlTableModel OpticalTrainSettings(nullptr, m_UserDB);
-    OpticalTrainSettings.setTable("opticaltrainsettings");
-    OpticalTrainSettings.setFilter(QString("opticaltrain=%1").arg(train));
-
-    OpticalTrainSettings.select();
-    OpticalTrainSettings.removeRows(0, OpticalTrainSettings.rowCount() - 1);
-    OpticalTrainSettings.submitAll();
-
+    QSqlQuery query(m_UserDB);
+    auto rc = query.exec(QString("DELETE FROM opticaltrainsettings WHERE opticaltrain=%1").arg(train));
+    if (rc == false)
+        qCWarning(KSTARS) << query.lastQuery() << query.lastError().text();
     m_UserDB.close();
 }
 
