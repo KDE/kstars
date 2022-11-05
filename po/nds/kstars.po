@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -3820,7 +3820,7 @@ msgid "Could not update the user log."
 msgstr "Datei lett sik nich wegdoon: %1"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4546,20 +4546,20 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "Koordinaten vun Hand instellen"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr ""
 "De Weert för de Rektaszenschoon mutt twischen 0,0 un 24,0 Stünnen wesen."
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr ""
 "De Weert för de Deklinatschoon mutt twischen -90,0 un 90,0 Graad wesen."
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Leeg Koordinaten"
@@ -83587,13 +83587,13 @@ msgstr "Lüttbild"
 msgid "Label"
 msgstr "Beteker"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "Leeg Koordinaten"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "Teleskoop \"%1\" is afkoppelt. Bitte tokoppeln un nochmaal versöken."

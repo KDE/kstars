@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -3685,7 +3685,7 @@ msgid "Could not update the user log."
 msgstr "Brisanje konteksta datoteke za %s nije moguće"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4416,18 +4416,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "&Ručni odabir sesije"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, fuzzy, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "Najveći ukupni broj veza mora biti između 1 i 999."
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, fuzzy, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "IPv4 prefiks mora biti između 0 i 32"
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, fuzzy, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Pogreška u podacima"
@@ -80547,12 +80547,12 @@ msgstr "Icheon"
 msgid "Label"
 msgstr "Oznaka"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 msgid "Invalid coordinates."
 msgstr "Pogreška u podacima"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, fuzzy, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "Poklopac skenera je podignut. Spustite poklopac i pokušajte ponovno."

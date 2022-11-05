@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3686,7 +3686,7 @@ msgid "Could not update the user log."
 msgstr "파일을 삭제할 수 없음: %1"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4414,18 +4414,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "천체 위치 수동 설정"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "적경은 0.0 이상 24.0 이하여야 합니다."
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "적위는 -90.0 이상 +90.0 이하여야 합니다."
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "잘못된 좌표 데이터"
@@ -75743,13 +75743,13 @@ msgstr "아이콘"
 msgid "Label"
 msgstr "라벨"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "부적합한 좌표 자료"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "망원경 %1이(가) 오프라인입니다. 연결하고 다시 시도하십시오."

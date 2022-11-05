@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -3796,7 +3796,7 @@ msgid "Could not update the user log."
 msgstr "Methwyd agor y ffeil : %1"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4541,18 +4541,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr " Corinth"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr ""
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr ""
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, fuzzy, kde-format
 msgid "Invalid Coordinate Data"
 msgstr " Corinth"
@@ -80742,12 +80742,12 @@ msgstr "Icheon"
 msgid "Label"
 msgstr "Label:"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 msgid "Invalid coordinates."
 msgstr " Corinth"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr ""

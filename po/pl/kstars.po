@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1637337 $
+# Version: $Revision: 1637379 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2022-09-23 13:24+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3599,7 +3599,7 @@ msgid "Could not update the user log."
 msgstr "Nie można uaktualnić dziennika użytkownika."
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, kde-format
@@ -4311,18 +4311,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "Ustaw współrzędne ręcznie"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "Wartość rektascensji musi zawierać się pomiędzy 0.0 a 24.0."
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "Wartość deklinacji musi zawierać się między -90.0 a 90.0."
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Niepoprawne współrzędne"
@@ -75259,12 +75259,12 @@ msgstr "Ikona"
 msgid "Label"
 msgstr "Etykieta"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, kde-format
 msgid "Invalid coordinates."
 msgstr "Nieprawidłowe współrzędne."
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "Teleskop %1 jest niedostępny. Podłącz go i spróbuj ponownie."

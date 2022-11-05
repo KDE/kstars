@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:42+0000\n"
+"POT-Creation-Date: 2022-11-05 00:42+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -3728,7 +3728,7 @@ msgid "Could not update the user log."
 msgstr "Nepodarilo sa odstrániť súbor: %1"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4451,18 +4451,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "Nastaviť súradnice ručne"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "Hodnota rektascenzie musí byť medzi 0,0 a 24,0."
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "Hodnota deklinácie musí byť medzi -90,0 až 90,0."
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Neplatné súradnice"
@@ -76446,13 +76446,13 @@ msgstr "Ikona"
 msgid "Label"
 msgstr "Štítok"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "Neplatné súradnice"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "Ďalekohľad %1 je odpojený. Pripojte ho a pokúste sa znovu."
