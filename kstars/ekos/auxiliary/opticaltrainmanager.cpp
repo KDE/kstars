@@ -117,12 +117,8 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 
     connect(removeB, &QPushButton::clicked, this, [this]()
     {
-        int row = trainView->currentIndex().row();
-        m_OpticalTrainsModel->removeRow(row);
-        m_OpticalTrainsModel->submitAll();
-
-        refreshModel();
-
+        auto record = m_OpticalTrainsModel->record(trainView->currentIndex().row());
+        removeOpticalTrain(record.value("id").toInt());
         removeB->setEnabled(false);
     });
 
@@ -261,7 +257,9 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
         // Double check the sanity of the train. If devices are added or missing, then we need to show it to alert the user.
         if (checkMissingDevice())
         {
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Missing devices detected. Please reconfigure the optical trains before proceeding any further."), KSNotification::General, KSNotification::Warn);
+            KSNotification::event(QLatin1String("IndiServerMessage"),
+                                  i18n("Missing devices detected. Please reconfigure the optical trains before proceeding any further."),
+                                  KSNotification::General, KSNotification::Warn);
             show();
             raise();
             emit configurationRequested(true);
