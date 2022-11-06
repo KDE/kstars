@@ -1448,7 +1448,7 @@ bool Align::captureAndSolve()
     {
         appendLogText(i18n("Cannot capture while focus module is busy. Retrying in %1 seconds...", CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return false;
+        return true;
     }
 
     if (targetChip->isCapturing())
@@ -1456,7 +1456,7 @@ bool Align::captureAndSolve()
         appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
-        return false;
+        return true;
     }
 
     m_AlignView->setBaseSize(alignWidget->size());
