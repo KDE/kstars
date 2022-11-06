@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:42+0000\n"
+"POT-Creation-Date: 2022-11-06 00:42+0000\n"
 "PO-Revision-Date: 2012-01-12 17:10+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <>\n"
@@ -3419,7 +3419,7 @@ msgstr "بزرگی"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/auxiliary/opticaltrainmanager.cpp:194 ekos/scheduler/scheduler.ui:1041
+#: ekos/auxiliary/opticaltrainmanager.cpp:190 ekos/scheduler/scheduler.ui:1041
 #: indi/drivermanager.ui:327 tools/observinglist.cpp:92
 #: tools/observinglist.cpp:96
 #, kde-format
@@ -5530,7 +5530,7 @@ msgid "Compute FOV"
 msgstr "محاسبه FOV"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
-#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:210
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:206
 #, kde-format
 msgid "Camera"
 msgstr "دوربین"
@@ -10252,7 +10252,7 @@ msgstr "فرفیلد"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1642 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2081
+#: ekos/auxiliary/opticaltrainmanager.cpp:191 ekos/manager.cpp:2081
 #: ekos/manager.ui:665
 #, fuzzy, kde-format
 #| msgid "Count:"
@@ -11595,7 +11595,7 @@ msgstr "تنظیمات رنگ جاری"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:22 ekos/auxiliary/opslogs.ui:272
-#: ekos/auxiliary/opticaltrainmanager.cpp:209 ekos/profileeditor.ui:641
+#: ekos/auxiliary/opticaltrainmanager.cpp:205 ekos/profileeditor.ui:641
 #, kde-format
 msgid "Filter Wheel"
 msgstr "چرخ پالایه"
@@ -12019,7 +12019,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:208
+#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:204
 #: ekos/focus/focus.ui:105
 #, fuzzy, kde-format
 #| msgid "Focused on: "
@@ -12027,7 +12027,7 @@ msgid "Focuser"
 msgstr "تمرکز بر: "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
-#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:207
+#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:203
 #, fuzzy, kde-format
 msgid "Rotator"
 msgstr "دوتان"
@@ -12143,73 +12143,73 @@ msgstr "فهرست راهنمای پیش‌فرض FITS:"
 msgid "New Train"
 msgstr "دست‌نوشته جدید"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:197
+#: ekos/auxiliary/opticaltrainmanager.cpp:193
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Telescope cover"
 msgstr "برگزیدن مختصات ورودی"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:198
+#: ekos/auxiliary/opticaltrainmanager.cpp:194
 #, fuzzy, kde-format
 #| msgctxt "City in United Kingdom"
 #| msgid "Dover"
 msgid "Dust Cap"
 msgstr "دوور"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:200
+#: ekos/auxiliary/opticaltrainmanager.cpp:196
 #, kde-format
 msgid "Flat field light source"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:201
+#: ekos/auxiliary/opticaltrainmanager.cpp:197
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "Light Box"
 msgstr "ارتفاع:"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:203
+#: ekos/auxiliary/opticaltrainmanager.cpp:199
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Telescope or Lens"
 msgstr "برگزیدن مختصات ورودی"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:204
+#: ekos/auxiliary/opticaltrainmanager.cpp:200
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Scope/Lens"
 msgstr "دامنه"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:206
+#: ekos/auxiliary/opticaltrainmanager.cpp:202
 #, kde-format
 msgid "Reducer/Barlow"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:212
+#: ekos/auxiliary/opticaltrainmanager.cpp:208
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guider"
 msgstr "راهنماییها"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:213
+#: ekos/auxiliary/opticaltrainmanager.cpp:209
 #, kde-format
 msgid "Device receiving guiding correction pulses"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:264
+#: ekos/auxiliary/opticaltrainmanager.cpp:261
 #, kde-format
 msgid ""
 "Missing devices detected. Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:277
+#: ekos/auxiliary/opticaltrainmanager.cpp:275
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parma"
 msgid "Primary"
 msgstr "پارما"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:280
+#: ekos/auxiliary/opticaltrainmanager.cpp:278
 #, fuzzy, kde-format
 msgid "Secondary"
 msgstr "%1 ثانیه"
@@ -19989,43 +19989,43 @@ msgstr ""
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2389
+#: ekos/manager.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "مطمئن هستید که می‌خواهید %1 کارخواه را حذف کنید؟"
 
-#: ekos/manager.cpp:2390
+#: ekos/manager.cpp:2389
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "خطای حذف پرونده"
 
-#: ekos/manager.cpp:2442
+#: ekos/manager.cpp:2441
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2444
+#: ekos/manager.cpp:2443
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2659
+#: ekos/manager.cpp:2658
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2666
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2693
+#: ekos/manager.cpp:2692
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2705
+#: ekos/manager.cpp:2704
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""

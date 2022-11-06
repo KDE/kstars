@@ -1,7 +1,7 @@
 # translation of kstars.po to Slovenian
 # Translation of kstars.po to Slovenian
 # Copyright (C) 2002,2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-# $Id: kstars.po 1637379 2022-11-05 01:37:25Z scripty $
+# $Id: kstars.po 1637496 2022-11-06 01:37:30Z scripty $
 # $Source$
 #
 #
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:42+0000\n"
+"POT-Creation-Date: 2022-11-06 00:42+0000\n"
 "PO-Revision-Date: 2022-10-26 09:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -3083,7 +3083,7 @@ msgstr "Mag."
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/auxiliary/opticaltrainmanager.cpp:194 ekos/scheduler/scheduler.ui:1041
+#: ekos/auxiliary/opticaltrainmanager.cpp:190 ekos/scheduler/scheduler.ui:1041
 #: indi/drivermanager.ui:327 tools/observinglist.cpp:92
 #: tools/observinglist.cpp:96
 #, kde-format
@@ -5082,7 +5082,7 @@ msgid "Compute FOV"
 msgstr "Izračunaj VP"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
-#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:210
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:206
 #, kde-format
 msgid "Camera"
 msgstr "Fotoaparat"
@@ -9879,7 +9879,7 @@ msgstr "Prezrcali"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1642 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2081
+#: ekos/auxiliary/opticaltrainmanager.cpp:191 ekos/manager.cpp:2081
 #: ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
@@ -11258,7 +11258,7 @@ msgstr "Nastavitve filtra"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:22 ekos/auxiliary/opslogs.ui:272
-#: ekos/auxiliary/opticaltrainmanager.cpp:209 ekos/profileeditor.ui:641
+#: ekos/auxiliary/opticaltrainmanager.cpp:205 ekos/profileeditor.ui:641
 #, kde-format
 msgid "Filter Wheel"
 msgstr "Kolo s filtri"
@@ -11659,14 +11659,14 @@ msgstr "Beleži dejavnost modula za ostrenje Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:208
+#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:204
 #: ekos/focus/focus.ui:105
 #, kde-format
 msgid "Focuser"
 msgstr "Ostrilec"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
-#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:207
+#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:203
 #, fuzzy, kde-format
 msgid "Rotator"
 msgstr "Vrtilnik"
@@ -11783,53 +11783,53 @@ msgstr "Odpri mapo dnevnikov"
 msgid "New Train"
 msgstr "New vlak"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:197
+#: ekos/auxiliary/opticaltrainmanager.cpp:193
 #, kde-format
 msgid "Telescope cover"
 msgstr "Prekrivalo teleskopa"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:198
+#: ekos/auxiliary/opticaltrainmanager.cpp:194
 #, kde-format
 msgid "Dust Cap"
 msgstr "Protiprašni pokrov"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:200
+#: ekos/auxiliary/opticaltrainmanager.cpp:196
 #, fuzzy, kde-format
 msgid "Flat field light source"
 msgstr "Vir svetlobe ravnih polj"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:201
+#: ekos/auxiliary/opticaltrainmanager.cpp:197
 #, fuzzy, kde-format
 msgid "Light Box"
 msgstr "Svetilna škatla"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:203
+#: ekos/auxiliary/opticaltrainmanager.cpp:199
 #, kde-format
 msgid "Telescope or Lens"
 msgstr "Teleskop ali objektiv"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:204
+#: ekos/auxiliary/opticaltrainmanager.cpp:200
 #, fuzzy, kde-format
 msgid "Scope/Lens"
 msgstr "Daljnogled/objektiv"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:206
+#: ekos/auxiliary/opticaltrainmanager.cpp:202
 #, fuzzy, kde-format
 #| msgid "Reducer"
 msgid "Reducer/Barlow"
 msgstr "Reduktor"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:212
+#: ekos/auxiliary/opticaltrainmanager.cpp:208
 #, fuzzy, kde-format
 msgid "Guider"
 msgstr "Vodnik"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:213
+#: ekos/auxiliary/opticaltrainmanager.cpp:209
 #, kde-format
 msgid "Device receiving guiding correction pulses"
 msgstr "Naprava, ki prejema ukaze za popravljanje vodenja"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:264
+#: ekos/auxiliary/opticaltrainmanager.cpp:261
 #, fuzzy, kde-format
 msgid ""
 "Missing devices detected. Please reconfigure the optical trains before "
@@ -11838,12 +11838,12 @@ msgstr ""
 "Zaznane so manjkajoče naprave. Preden nadaljujete, ponovno prilagodite "
 "optične vlake."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:277
+#: ekos/auxiliary/opticaltrainmanager.cpp:275
 #, kde-format
 msgid "Primary"
 msgstr "Primarna"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:280
+#: ekos/auxiliary/opticaltrainmanager.cpp:278
 #, kde-format
 msgid "Secondary"
 msgstr "Sekundarna"
@@ -19964,42 +19964,42 @@ msgstr "CCD"
 msgid "Guider port from %1 is ready."
 msgstr "Vrata vodnika z %1 so pripravljena."
 
-#: ekos/manager.cpp:2389
+#: ekos/manager.cpp:2388
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Ali ste prepričani, da želite izbrisati profil?"
 
-#: ekos/manager.cpp:2390
+#: ekos/manager.cpp:2389
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potrditev izbrisa"
 
-#: ekos/manager.cpp:2442
+#: ekos/manager.cpp:2441
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Položaj mesta posodobljen v %1."
 
-#: ekos/manager.cpp:2444
+#: ekos/manager.cpp:2443
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Ni bilo mogoče posodobiti položaja mesta v %1. Mesto ni bilo najdeno."
 
-#: ekos/manager.cpp:2659
+#: ekos/manager.cpp:2658
 #, fuzzy, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Omogočanje dnevnika odpravljanja napak za %1..."
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2666
 #, fuzzy, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Onemogočenje dnevnika odpravljanja napak za %1 ..."
 
-#: ekos/manager.cpp:2693
+#: ekos/manager.cpp:2692
 #, fuzzy, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1 ..."
 
-#: ekos/manager.cpp:2705
+#: ekos/manager.cpp:2704
 #, fuzzy, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ponovno onemogočitev dnevnika odpravljanja napak za %1 ..."
