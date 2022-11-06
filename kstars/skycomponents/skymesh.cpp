@@ -63,24 +63,12 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 
     if (radius == 1.0)
     {
-#ifndef KSTARS_LITE
-        printf("\n ra0 = %8.4f   dec0 = %8.4f\n", p0->ra().Degrees(), p0->dec().Degrees());
-        printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra().Degrees(), p1.dec().Degrees());
-#endif
         SkyPoint p2 = p1;
         p2.updateCoordsNow(data->updateNum());
-
-#ifndef KSTARS_LITE
-        printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra().Degrees(), p2.dec().Degrees());
-        printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo(&p1).Degrees());
-        printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo(&p2).Degrees());
-#endif
     }
 
     HTMesh::intersect(p1.ra().Degrees(), p1.dec().Degrees(), radius, (BufNum)bufNum);
     m_drawID++;
-//    if (m_inDraw && bufNum != DRAW_BUF)
-//        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
 Trixel SkyMesh::index(const SkyPoint *p)
@@ -106,8 +94,6 @@ void SkyMesh::indexStar(StarObject *star1, StarObject *star2)
 void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum)
 {
     HTMesh::intersect(p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum)bufNum);
-//    if (m_inDraw && bufNum != DRAW_BUF)
-//        printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
 void SkyMesh::index(const SkyPoint *p1, const SkyPoint *p2)
@@ -165,8 +151,6 @@ const IndexHash &SkyMesh::indexStarLine(SkyList *points)
         }
         pLast = pThis;
     }
-
-    //printf("indexStarLine %d -> %d\n", points->size(), indexHash.size() );
     return indexHash;
 }
 
@@ -195,11 +179,6 @@ const IndexHash &SkyMesh::indexLine(SkyList *points, IndexHash *skip)
 
         if (region.size() > errLimit)
         {
-            printf("\nSkyMesh::indexLine: too many trixels: %d\n", region.size());
-            printf("    ra1  = %f;\n", pThis->ra0().Degrees());
-            printf("    ra2  = %f;\n", pLast->ra0().Degrees());
-            printf("    dec1 = %f;\n", pThis->dec0().Degrees());
-            printf("    dec2 = %f;\n", pLast->dec0().Degrees());
             HTMesh::setDebug(10);
             index(pThis, pLast);
             HTMesh::setDebug(0);
@@ -250,25 +229,6 @@ const IndexHash &SkyMesh::indexPoly(SkyList *points)
         }
 
         MeshIterator region(this);
-
-        if (region.size() > errLimit)
-        {
-            printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size());
-
-            printf("    ra1 = %f;\n", startP->ra0().Degrees());
-            printf("    ra2 = %f;\n", points->at(p)->ra0().Degrees());
-            printf("    ra3 = %f;\n", points->at(p + 1)->ra0().Degrees());
-            if (p < end)
-                printf("    ra4 = %f;\n", points->at(p + 2)->ra0().Degrees());
-
-            printf("    dec1 = %f;\n", startP->dec0().Degrees());
-            printf("    dec2 = %f;\n", points->at(p)->dec0().Degrees());
-            printf("    dec3 = %f;\n", points->at(p + 1)->dec0().Degrees());
-            if (p < end)
-                printf("    dec4 = %f;\n", points->at(p + 2)->dec0().Degrees());
-
-            printf("\n");
-        }
         while (region.hasNext())
         {
             indexHash[region.next()] = true;
@@ -300,25 +260,6 @@ const IndexHash &SkyMesh::indexPoly(const QPolygonF *points)
         }
 
         MeshIterator region(this);
-
-        if (region.size() > errLimit)
-        {
-            printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size());
-
-            printf("    ra1 = %f;\n", startP.x());
-            printf("    ra2 = %f;\n", points->at(p).x());
-            printf("    ra3 = %f;\n", points->at(p + 1).x());
-            if (p < end)
-                printf("    ra4 = %f;\n", points->at(p + 2).x());
-
-            printf("    dec1 = %f;\n", startP.y());
-            printf("    dec2 = %f;\n", points->at(p).y());
-            printf("    dec3 = %f;\n", points->at(p + 1).y());
-            if (p < end)
-                printf("    dec4 = %f;\n", points->at(p + 2).y());
-
-            printf("\n");
-        }
         while (region.hasNext())
         {
             indexHash[region.next()] = true;

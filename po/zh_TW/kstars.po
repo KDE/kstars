@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:41+0000\n"
+"POT-Creation-Date: 2022-11-06 00:42+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -3176,7 +3176,7 @@ msgstr "星等"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/auxiliary/opticaltrainmanager.cpp:194 ekos/scheduler/scheduler.ui:1041
+#: ekos/auxiliary/opticaltrainmanager.cpp:190 ekos/scheduler/scheduler.ui:1041
 #: indi/drivermanager.ui:327 tools/observinglist.cpp:92
 #: tools/observinglist.cpp:96
 #, kde-format
@@ -3730,7 +3730,7 @@ msgid "Could not update the user log."
 msgstr "無法刪除檔案：%1"
 
 #: dialogs/detaildialog.cpp:1100 dialogs/detaildialog.cpp:1131
-#: kstarsactions.cpp:301 tools/flagmanager.cpp:265 tools/flagmanager.cpp:290
+#: kstarsactions.cpp:301 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
 #: tools/observinglist.cpp:687 tools/observinglist.cpp:709
 #: tools/whatsinteresting/wiview.cpp:339 tools/whatsinteresting/wiview.cpp:364
 #, fuzzy, kde-format
@@ -4453,18 +4453,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "手動設定座標"
 
-#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:182
+#: dialogs/focusdialog.cpp:127 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "赤經的值必須在 0.0 與 24.0 之間。"
 
-#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:129 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "赤緯的值必須在 -90.0 與 90.0 之間。"
 
 #: dialogs/focusdialog.cpp:132 dialogs/focusdialog.cpp:185
-#: tools/flagmanager.cpp:187
+#: tools/flagmanager.cpp:189
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "不合法的座標資料"
@@ -5216,7 +5216,7 @@ msgid "Compute FOV"
 msgstr "計算視場"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
-#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:210
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:206
 #, kde-format
 msgid "Camera"
 msgstr "相機"
@@ -5989,7 +5989,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "錯誤：失去與過濾輪的連線。"
 
 #: ekos/align/align.cpp:1434 ekos/capture/capture.cpp:3587
-#: ekos/capture/capture.cpp:6450 ekos/focus/focus.cpp:3925
+#: ekos/capture/capture.cpp:6450 ekos/focus/focus.cpp:3939
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6013,13 +6013,13 @@ msgstr "自動對焦處理中..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1532 ekos/focus/focus.cpp:1319
+#: ekos/align/align.cpp:1532 ekos/focus/focus.cpp:1324
 #, kde-format
 msgid "Capturing image..."
 msgstr "抓取影像中..."
 
 #: ekos/align/align.cpp:1621 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:1918
+#: ekos/focus/focus.cpp:1922
 #, kde-format
 msgid "Image received."
 msgstr "影像已接收。"
@@ -6127,7 +6127,7 @@ msgid "Refresh is complete."
 msgstr "%1  過濾器已上線。"
 
 #: ekos/align/align.cpp:2332 ekos/auxiliary/darklibrary.cpp:1411
-#: ekos/focus/focus.cpp:1098
+#: ekos/focus/focus.cpp:1103
 #, kde-format
 msgid "Capture aborted."
 msgstr "抓取已中止。"
@@ -6140,7 +6140,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "識別器在 %1 秒後中止"
 
 #: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2775
-#: ekos/focus/focus.cpp:3166 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
+#: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
 #: ekos/mount/mount.cpp:804 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:886
 #, kde-format
@@ -6314,7 +6314,7 @@ msgid "dDE (arcsec)"
 msgstr "赤緯（弧秒）"
 
 #: ekos/align/align.cpp:3355 ekos/capture/capture.cpp:6655
-#: ekos/focus/focus.cpp:3830
+#: ekos/focus/focus.cpp:3844
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Filter operation failed."
@@ -10105,7 +10105,7 @@ msgstr "翻轉檢視"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1642 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:195 ekos/manager.cpp:2081
+#: ekos/auxiliary/opticaltrainmanager.cpp:191 ekos/manager.cpp:2081
 #: ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
@@ -11595,7 +11595,7 @@ msgstr "模擬器設定"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:22 ekos/auxiliary/opslogs.ui:272
-#: ekos/auxiliary/opticaltrainmanager.cpp:209 ekos/profileeditor.ui:641
+#: ekos/auxiliary/opticaltrainmanager.cpp:205 ekos/profileeditor.ui:641
 #, kde-format
 msgid "Filter Wheel"
 msgstr "過濾器輪"
@@ -12020,14 +12020,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:208
+#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:204
 #: ekos/focus/focus.ui:105
 #, kde-format
 msgid "Focuser"
 msgstr "焦點器"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
-#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:207
+#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:203
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Rotanev"
@@ -12145,74 +12145,74 @@ msgstr "目錄："
 msgid "New Train"
 msgstr "New Britian"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:197
+#: ekos/auxiliary/opticaltrainmanager.cpp:193
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope cover"
 msgstr "望遠鏡座標"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:198
+#: ekos/auxiliary/opticaltrainmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Just solve"
 msgid "Dust Cap"
 msgstr "只識別"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:200
+#: ekos/auxiliary/opticaltrainmanager.cpp:196
 #, kde-format
 msgid "Flat field light source"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:201
+#: ekos/auxiliary/opticaltrainmanager.cpp:197
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light Box"
 msgstr "亮"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:203
+#: ekos/auxiliary/opticaltrainmanager.cpp:199
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope or Lens"
 msgstr "望遠鏡座標"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:204
+#: ekos/auxiliary/opticaltrainmanager.cpp:200
 #, fuzzy, kde-format
 #| msgctxt "Show the selected object in the telescope"
 #| msgid "Scope"
 msgid "Scope/Lens"
 msgstr "範圍"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:206
+#: ekos/auxiliary/opticaltrainmanager.cpp:202
 #, kde-format
 msgid "Reducer/Barlow"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:212
+#: ekos/auxiliary/opticaltrainmanager.cpp:208
 #, fuzzy, kde-format
 #| msgid "Guider:"
 msgid "Guider"
 msgstr "Guider："
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:213
+#: ekos/auxiliary/opticaltrainmanager.cpp:209
 #, kde-format
 msgid "Device receiving guiding correction pulses"
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:264
+#: ekos/auxiliary/opticaltrainmanager.cpp:261
 #, kde-format
 msgid ""
 "Missing devices detected. Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:277
+#: ekos/auxiliary/opticaltrainmanager.cpp:275
 #, fuzzy, kde-format
 #| msgctxt "City in Iowa USA"
 #| msgid "Primghar"
 msgid "Primary"
 msgstr "Primghar"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:280
+#: ekos/auxiliary/opticaltrainmanager.cpp:278
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "Secondary"
@@ -14325,13 +14325,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7052 ekos/focus/focus.cpp:3967
+#: ekos/capture/capture.cpp:7052 ekos/focus/focus.cpp:3981
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/capture/capture.cpp:7075 ekos/focus/focus.cpp:3972
+#: ekos/capture/capture.cpp:7075 ekos/focus/focus.cpp:3986
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
@@ -16164,7 +16164,7 @@ msgstr "縮圖編輯器"
 msgid "No Focuser connected."
 msgstr "INDI 服務已停止。"
 
-#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3214
+#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3228
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No CCD connected."
@@ -16181,330 +16181,330 @@ msgstr ""
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1003
+#: ekos/focus/focus.cpp:1008
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "自動對焦處理中..."
 
-#: ekos/focus/focus.cpp:1005
+#: ekos/focus/focus.cpp:1010
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr "請稍候，等待影像擷取完成..."
 
-#: ekos/focus/focus.cpp:1024
+#: ekos/focus/focus.cpp:1029
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "自動對焦選項"
 
-#: ekos/focus/focus.cpp:1104
+#: ekos/focus/focus.cpp:1109
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Detection in progress, please wait."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1139
+#: ekos/focus/focus.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "自動對焦已完成。"
 
-#: ekos/focus/focus.cpp:1219
+#: ekos/focus/focus.cpp:1224
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1226
+#: ekos/focus/focus.cpp:1231
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "錯誤：失去與焦點器的連線。"
 
-#: ekos/focus/focus.cpp:1247
+#: ekos/focus/focus.cpp:1252
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1253
+#: ekos/focus/focus.cpp:1258
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to filter wheel."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "錯誤：失去與過濾輪的連線。"
 
-#: ekos/focus/focus.cpp:1388 ekos/focus/focus.cpp:3555
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3569
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1395 ekos/focus/focus.cpp:3562
+#: ekos/focus/focus.cpp:1400 ekos/focus/focus.cpp:3576
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "錯誤：失去與焦點器的連線。"
 
-#: ekos/focus/focus.cpp:1401 ekos/focus/focus.cpp:1447
+#: ekos/focus/focus.cpp:1406 ekos/focus/focus.cpp:1451
 #, fuzzy, kde-format
 #| msgctxt "City in Oklahoma USA"
 #| msgid "Woodward"
 msgid "outward"
 msgstr "Woodward"
 
-#: ekos/focus/focus.cpp:1401 ekos/focus/focus.cpp:1447
+#: ekos/focus/focus.cpp:1406 ekos/focus/focus.cpp:1451
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1417
+#: ekos/focus/focus.cpp:1421
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "內部對焦中..."
 
-#: ekos/focus/focus.cpp:1423
+#: ekos/focus/focus.cpp:1427
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "內部對焦中..."
 
-#: ekos/focus/focus.cpp:1429
+#: ekos/focus/focus.cpp:1433
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "內部對焦中..."
 
-#: ekos/focus/focus.cpp:1442
+#: ekos/focus/focus.cpp:1446
 #, kde-format
 msgid "Focuser is not responding to commands. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1451
+#: ekos/focus/focus.cpp:1455
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
-msgid "Focus motion timed out. Focusing to %1 steps..."
+msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "外部對焦中..."
 
-#: ekos/focus/focus.cpp:1456
+#: ekos/focus/focus.cpp:1460
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
-msgid "Focus motion timed out. Focusing %2 by %1 steps..."
+msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
 msgstr "內部對焦中..."
 
-#: ekos/focus/focus.cpp:1462
+#: ekos/focus/focus.cpp:1466
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
-msgid "Focus motion timed out. Focusing %2 by %1 ms..."
+msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 msgstr "內部對焦中..."
 
-#: ekos/focus/focus.cpp:1506
+#: ekos/focus/focus.cpp:1510
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "已完成"
 
-#: ekos/focus/focus.cpp:1549
+#: ekos/focus/focus.cpp:1553
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "下載中..."
 
-#: ekos/focus/focus.cpp:1666
+#: ekos/focus/focus.cpp:1670
 #, fuzzy, kde-format
 #| msgid "Post flip re-alignment completed successfully."
 msgid "Autofocus operation completed successfully"
 msgstr "後翻轉重新調校已成功完成。"
 
-#: ekos/focus/focus.cpp:1675
+#: ekos/focus/focus.cpp:1679
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "自動對焦選項"
 
-#: ekos/focus/focus.cpp:1703
+#: ekos/focus/focus.cpp:1707
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "自動對焦已完成。"
 
-#: ekos/focus/focus.cpp:1784
+#: ekos/focus/focus.cpp:1788
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "設定"
 
-#: ekos/focus/focus.cpp:1791
+#: ekos/focus/focus.cpp:1795
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "已完成"
 
-#: ekos/focus/focus.cpp:1804
+#: ekos/focus/focus.cpp:1808
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr "自動對焦失敗，改使用原始對焦點 %1。"
 
-#: ekos/focus/focus.cpp:1840
+#: ekos/focus/focus.cpp:1844
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "收到 FITS。沒有偵測到星體。"
 
-#: ekos/focus/focus.cpp:1994
+#: ekos/focus/focus.cpp:1998
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "自動選取星體失敗。請手動選取。"
 
-#: ekos/focus/focus.cpp:2090
+#: ekos/focus/focus.cpp:2094
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "影像擷取完成。請選擇要對焦的星體。"
 
-#: ekos/focus/focus.cpp:2123
+#: ekos/focus/focus.cpp:2127
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "沒有偵測到星體，再次抓取..."
 
-#: ekos/focus/focus.cpp:2223
+#: ekos/focus/focus.cpp:2227
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr "自動對焦無法對到適當的焦距。請試著增加容錯值。"
 
-#: ekos/focus/focus.cpp:2234 ekos/focus/focus.cpp:2843
+#: ekos/focus/focus.cpp:2238 ekos/focus/focus.cpp:2847
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "沒有偵測到星體，再次抓取..."
 
-#: ekos/focus/focus.cpp:2243 ekos/focus/focus.cpp:2849
+#: ekos/focus/focus.cpp:2247 ekos/focus/focus.cpp:2853
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "自動選取星體失敗。請手動選取。"
 
-#: ekos/focus/focus.cpp:2248 ekos/focus/focus.cpp:2854
+#: ekos/focus/focus.cpp:2252 ekos/focus/focus.cpp:2858
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "自動選取星體失敗。請手動選取。"
 
-#: ekos/focus/focus.cpp:2442
+#: ekos/focus/focus.cpp:2446
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2449
+#: ekos/focus/focus.cpp:2453
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2492
+#: ekos/focus/focus.cpp:2496
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "收到 FITS。HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:2494
+#: ekos/focus/focus.cpp:2498
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "收到 FITS。HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:2554
+#: ekos/focus/focus.cpp:2558
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr "HFR 的變更太小了。請試著增加單步大小或降低容錯值。"
 
-#: ekos/focus/focus.cpp:2561
+#: ekos/focus/focus.cpp:2565
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2666
+#: ekos/focus/focus.cpp:2670
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2730
+#: ekos/focus/focus.cpp:2734
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2741
+#: ekos/focus/focus.cpp:2745
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2751
+#: ekos/focus/focus.cpp:2755
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "遇到死結。請試著用不同的設定。"
 
-#: ekos/focus/focus.cpp:2780
+#: ekos/focus/focus.cpp:2784
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2828
+#: ekos/focus/focus.cpp:2832
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "收到 FITS。HFR %1. Delta (%2%)"
 
-#: ekos/focus/focus.cpp:2832
+#: ekos/focus/focus.cpp:2836
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr "自動對焦無法對到適當的焦距。請試著調整容錯值。"
 
-#: ekos/focus/focus.cpp:2918 ekos/focus/focus.cpp:2931
-#: ekos/focus/focus.cpp:3020 ekos/focus/focus.cpp:3068
-#: ekos/focus/focus.cpp:3117 ekos/focus/focus.cpp:3158
+#: ekos/focus/focus.cpp:2922 ekos/focus/focus.cpp:2935
+#: ekos/focus/focus.cpp:3034 ekos/focus/focus.cpp:3082
+#: ekos/focus/focus.cpp:3131 ekos/focus/focus.cpp:3172
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "對焦器錯誤。請檢查 INDI 面板。"
 
-#: ekos/focus/focus.cpp:3000 ekos/focus/focus.cpp:3052
-#: ekos/focus/focus.cpp:3101 ekos/focus/focus.cpp:3133
+#: ekos/focus/focus.cpp:3014 ekos/focus/focus.cpp:3066
+#: ekos/focus/focus.cpp:3115 ekos/focus/focus.cpp:3147
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "重新啟動自動對焦程序..."
 
-#: ekos/focus/focus.cpp:3232
+#: ekos/focus/focus.cpp:3246
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "開始持續曝光..."
 
-#: ekos/focus/focus.cpp:3437
+#: ekos/focus/focus.cpp:3451
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3442
+#: ekos/focus/focus.cpp:3456
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "偵測到 %1 個星體。"
 
-#: ekos/focus/focus.cpp:3534
+#: ekos/focus/focus.cpp:3548
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "沒有偵測到星體，再次抓取..."
 
-#: ekos/focus/focus.cpp:3540
+#: ekos/focus/focus.cpp:3554
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "沒有偵測到星體，再次抓取..."
 
-#: ekos/focus/focus.cpp:3666
+#: ekos/focus/focus.cpp:3680
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -16512,31 +16512,31 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "焦點計時器"
 
-#: ekos/focus/focus.cpp:3985
+#: ekos/focus/focus.cpp:3999
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing image again..."
 msgstr "抓取影像中..."
 
-#: ekos/focus/focus.cpp:4000
+#: ekos/focus/focus.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "設定子框架失敗。"
 
-#: ekos/focus/focus.cpp:4010
+#: ekos/focus/focus.cpp:4024
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/focus/focus.cpp:4015
+#: ekos/focus/focus.cpp:4029
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failure. Restarting exposure..."
 msgstr "自動對焦失敗。將中止曝光..."
 
-#: ekos/focus/focus.cpp:4185
+#: ekos/focus/focus.cpp:4199
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
@@ -20578,44 +20578,44 @@ msgstr "CCD"
 msgid "Guider port from %1 is ready."
 msgstr "%1 的 Guider 連接埠已就緒。"
 
-#: ekos/manager.cpp:2389
+#: ekos/manager.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/manager.cpp:2390
+#: ekos/manager.cpp:2389
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "設定檔"
 
-#: ekos/manager.cpp:2442
+#: ekos/manager.cpp:2441
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2444
+#: ekos/manager.cpp:2443
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2659
+#: ekos/manager.cpp:2658
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2666
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2693
+#: ekos/manager.cpp:2692
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2705
+#: ekos/manager.cpp:2704
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -76691,13 +76691,13 @@ msgstr "圖示"
 msgid "Label"
 msgstr "標籤"
 
-#: tools/flagmanager.cpp:176
+#: tools/flagmanager.cpp:178
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "不合法的座標資料"
 
-#: tools/flagmanager.cpp:277
+#: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "望遠鏡 %1 目前離線中。請連接後再試一次。"

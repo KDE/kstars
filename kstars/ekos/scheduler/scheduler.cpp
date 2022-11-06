@@ -5386,6 +5386,11 @@ void Scheduler::startAstrometry()
     //QVariant arg(true);
     //alignInterface->call(QDBus::AutoDetect, "setUpdateCoords", arg);
 
+    // Reset the solver speedup (using the last successful index file and healpix for the
+    // pointing check) when re-aligning.
+    m_IndexToUse = -1;
+    m_HealpixToUse = -1;
+
     // If FITS file is specified, then we use load and slew
     if (currentJob->getFITSFile().isEmpty() == false)
     {
@@ -8388,6 +8393,7 @@ void Scheduler::setCaptureComplete(const QVariantMap &metadata)
             m_Solver->useScale(Options::astrometryUseImageScale(), lowScale, highScale);
             m_Solver->usePosition(Options::astrometryUsePosition(), currentJob->getTargetCoords().ra().Degrees(),
                                   currentJob->getTargetCoords().dec().Degrees());
+            m_Solver->setHealpix(m_IndexToUse, m_HealpixToUse);
             m_Solver->runSolver(filename);
         }
     }
@@ -8400,10 +8406,26 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
     if (!currentJob)
         return;
 
+    QString healpixString = "";
+    if (m_IndexToUse != -1 || m_HealpixToUse != -1)
+        healpixString = QString("Healpix %1 Index %2").arg(m_HealpixToUse).arg(m_IndexToUse);
+
+    if (timedOut || !success)
+    {
+        // Don't use the previous index and healpix next time we solve.
+        m_IndexToUse = -1;
+        m_HealpixToUse = -1;
+    }
+    else
+    {
+        // Get the index and healpix from the successful solve.
+        m_Solver->getSolutionHealpix(&m_IndexToUse, &m_HealpixToUse);
+    }
+
     if (timedOut)
-        appendLogText(i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+        appendLogText(i18n("Solver timed out: %1s %2", QString("%L1").arg(elapsedSeconds, 0, 'f', 1), healpixString));
     else if (!success)
-        appendLogText(i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1)));
+        appendLogText(i18n("Solver failed: %1s %2", QString("%L1").arg(elapsedSeconds, 0, 'f', 1), healpixString));
     else
     {
         const double ra = solution.ra;
@@ -8425,12 +8447,13 @@ void Scheduler::solverDone(bool timedOut, bool success, const FITSImage::Solutio
         // Note--the RA output is in DMS. This is because we're looking at differences in arcseconds
         // and HMS coordinates are misleading (one HMS second is really 6 arc-seconds).
         qCDebug(KSTARS_EKOS_SCHEDULER) <<
-                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) solved in %6s")
+                                       QString("Target Distance: %1\" Target (RA: %2 DE: %3) Current (RA: %4 DE: %5) %6 solved in %7s")
                                        .arg(QString("%L1").arg(diffTotal, 0, 'f', 0),
                                             target.ra().toDMSString(),
                                             target.dec().toDMSString(),
                                             alignCoord.ra().toDMSString(),
                                             alignCoord.dec().toDMSString(),
+                                            healpixString,
                                             QString("%L1").arg(elapsedSeconds, 0, 'f', 2));
         emit targetDistance(diffTotal);
 

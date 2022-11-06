@@ -1266,6 +1266,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Used when solving position every nth capture.
         uint32_t m_SolverIteration {0};
 
+        // Restricts (the internal solver) to using the index and healpix
+        // from the previous solve, if that solve was successful, when
+        // doing the pointing check. -1 means no restriction.
+        int m_IndexToUse { -1 };
+        int m_HealpixToUse { -1 };
+
         void syncGreedyParams();
         QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
 

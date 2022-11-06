@@ -924,6 +924,11 @@ void Focus::start()
 
     waitStarSelectTimer.stop();
 
+    // Reset the focus motion timer
+    m_FocusMotionTimerCounter = 0;
+    m_FocusMotionTimer.stop();
+    m_FocusMotionTimer.setInterval(focusMotionTimeout->value() * 1000);
+
     starsHFR.clear();
 
     lastHFR = 0;
@@ -1407,7 +1412,6 @@ bool Focus::changeFocus(int amount)
         m_Focuser->focusIn();
 
     // Keep track of motion in case it gets stuck.
-    m_FocusMotionTimerCounter = 0;
     m_FocusMotionTimer.start();
 
     if (canAbsMove)
@@ -1448,19 +1452,19 @@ void Focus::handleFocusMotionTimeout()
     if (canAbsMove)
     {
         m_Focuser->moveAbs(m_LastFocusSteps);
-        appendLogText(i18n("Focus motion timed out. Focusing to %1 steps...", m_LastFocusSteps));
+        appendLogText(i18n("Focus motion timed out (%1). Focusing to %2 steps...", m_FocusMotionTimerCounter, m_LastFocusSteps));
     }
     else if (canRelMove)
     {
         m_Focuser->moveRel(m_LastFocusSteps);
-        appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 steps...", m_LastFocusSteps,
+        appendLogText(i18n("Focus motion timed out (%1). Focusing %3 by %2 steps...", m_FocusMotionTimerCounter, m_LastFocusSteps,
                            dirStr));
     }
     else
     {
         m_Focuser->moveByTimer(m_LastFocusSteps);
-        appendLogText(i18n("Focus motion timed out. Focusing %2 by %1 ms...",
-                           m_LastFocusSteps, dirStr));
+        appendLogText(i18n("Focus motion timed out (%1). Focusing %3 by %2 ms...",
+                           m_FocusMotionTimerCounter, m_LastFocusSteps, dirStr));
     }
 }
 
@@ -2980,7 +2984,17 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             }
         }
 
-        if (nvp->s == IPS_OK)
+        if (nvp->s != IPS_OK)
+        {
+            if (inAutoFocus)
+            {
+                // We had something back from the focuser but we're not done yet, so
+                // restart motion timer in case focuser gets stuck.
+                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer...";
+                m_FocusMotionTimer.start();
+            }
+        }
+        else
         {
             // Systematically reset UI when focuser finishes moving
             resetButtons();

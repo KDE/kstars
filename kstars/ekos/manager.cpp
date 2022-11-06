@@ -2294,8 +2294,7 @@ void Manager::deleteNamedProfile(const QString &name)
         if (pi->name == "Simulators" || pi->name != name || (pi.get() == m_CurrentProfile && ekosStatus() != Idle))
             continue;
 
-        KStarsData::Instance()->userdb()->DeleteProfile(pi);
-
+        KStarsData::Instance()->userdb()->PurgeProfile(pi);
         profiles.clear();
         loadProfiles();
         getCurrentProfile(m_CurrentProfile);
@@ -2373,7 +2372,7 @@ void Manager::deleteProfile()
 
     auto executeDeleteProfile = [&]()
     {
-        KStarsData::Instance()->userdb()->DeleteProfile(m_CurrentProfile);
+        KStarsData::Instance()->userdb()->PurgeProfile(m_CurrentProfile);
         profiles.clear();
         loadProfiles();
         getCurrentProfile(m_CurrentProfile);

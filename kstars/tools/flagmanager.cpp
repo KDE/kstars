@@ -78,6 +78,8 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
 
     ui->saveButton->setEnabled(false);
 
+    ui->raBox->setUnits(dmsBox::HOURS);
+
     //Fill the list
     imageList = m_Ks->data()->skyComposite()->flags()->imageList();
     flagNames = m_Ks->data()->skyComposite()->flags()->getNames();
