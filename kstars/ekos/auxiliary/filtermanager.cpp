@@ -592,8 +592,7 @@ bool FilterManager::setFilterExposure(int index, double exposure)
         if (color == m_ActiveFilters[i]->color())
         {
             m_FilterModel->setData(m_FilterModel->index(i, 5), exposure);
-            m_FilterModel->submitAll();
-            refreshFilterModel();
+            reloadFilters();
             return true;
         }
     }
@@ -612,8 +611,7 @@ bool FilterManager::setFilterAbsoluteFocusPosition(int index, int absFocusPos)
         if (color == m_ActiveFilters[i]->color())
         {
             m_FilterModel->setData(m_FilterModel->index(i, 9), absFocusPos);
-            m_FilterModel->submitAll();
-            refreshFilterModel();
+            reloadFilters();
             return true;
         }
     }
@@ -647,8 +645,7 @@ bool FilterManager::setFilterLock(int index, QString name)
         if (color == m_ActiveFilters[i]->color())
         {
             m_FilterModel->setData(m_FilterModel->index(i, 8), name);
-            m_FilterModel->submitAll();
-            refreshFilterModel();
+            reloadFilters();
             return true;
         }
     }
@@ -791,10 +788,8 @@ void FilterManager::setFilterData(const QJsonObject &settings)
         m_FilterModel->setData(m_FilterModel->index(row, FM_FLAT_FOCUS), oneFilter["flat"].toInt());
     }
 
-    m_FilterModel->submitAll();
     setFilterNames(labels);
-
-    refreshFilterModel();
+    reloadFilters();
 }
 
 }
