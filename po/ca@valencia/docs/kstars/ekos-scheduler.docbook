@@ -293,7 +293,7 @@
         <para
 >A causa de la singularitat de cada observatori, Ekos permet a l'usuari seleccionar els scripts d'inici i tancament. Els scripts s'ocuparan dels procediments necessaris que s'hauran de realitzar en les etapes d'inici i tancament. A l'inici, Ekos executarà els scripts d'inici i només procedirà amb la resta del procediment d'inici (desaparcar la cúpula/desaparcar la muntura) si l'script finalitza amb èxit. A la inversa, el procediment de tancament començarà amb l'aparcament de la muntura i la cúpula abans d'executar l'script de tancament com a procediment final. </para>
         <para
->Els scripts d'inici i de tancament es poden escriure en qualsevol llenguatge que es puga executar a l'ordinador local. Haurà de retornar 0 per a informar de l'èxit, qualsevol altre valor serà considerat com un indicador d'error. L'eixida estàndard de l'script també es dirigirà a la finestra de registre d'Ekos. El següent és un script d'inici de demostració escrit en Python: </para>
+>Els scripts d'inici i de tancament es poden escriure en qualsevol llenguatge que es puga executar en l'ordinador local. Haurà de retornar 0 per a informar de l'èxit, qualsevol altre valor serà considerat com un indicador d'error. L'eixida estàndard de l'script també es dirigirà a la finestra de registre d'Ekos. El següent és un script d'inici de demostració escrit en Python: </para>
         <programlisting language="python"
 >#!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -374,7 +374,7 @@ exit(0)
 >Planificador de mosaic</guilabel
 > en el Planificador d'Ekos crearà múltiples tasques del planificador basant-se en un objectiu central. Per a canviar al planificador, feu clic en el botó <guibutton
 >Planificador de mosaic</guibutton
-> en el Planificador d'Ekos o a la barra d'eines INDI de KStars, tal com s'il·lustra a la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
+> en el Planificador d'Ekos o en la barra d'eines INDI de KStars, tal com s'il·lustra a la captura de pantalla. El planificador dibuixa el Quadro del mosaic directament davall el mapa celeste. Es recomana activar la superposició HiPS per a una millor experiència. El planificador està format per quatre etapes: </para>
         <orderedlist>
             <listitem>
                 <para

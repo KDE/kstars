@@ -1209,7 +1209,7 @@
 >Entrada</guilabel
 >, podreu configurar l'analitzador de CSV. El <guilabel
 >Prefix del comentari:</guilabel
-> és el caràcter que assenyala les línies comentades a l'entrada. El <guilabel
+> és el caràcter que assenyala les línies comentades en l'entrada. El <guilabel
 >Separador:</guilabel
 > s'ha d'ajustar per a adaptar-lo a la vostra entrada. En general, és <quote
 >,</quote

@@ -50,7 +50,7 @@
 >Refrigerador</guilabel
 >: Encendre/apagar la refrigeració. Establiu la temperatura desitjada, si la vostra càmera està equipada amb un refrigerador. Marqueu l'opció per a forçar l'opció de la temperatura abans de qualsevol captura. El procés de captura només s'iniciarà després que la temperatura mesurada es trobe dins de la tolerància de la temperatura requerida. La tolerància <emphasis
 >predeterminada</emphasis
-> és de 0,1 graus centígrads, però es pot ajustar a les opcions de <guilabel
+> és de 0,1 graus centígrads, però es pot ajustar en les opcions de <guilabel
 >Captura</guilabel
 > davall la configuració d'Ekos. </para>
             </listitem>
@@ -135,7 +135,7 @@
                 <para
 ><guilabel
 >Propietats personalitzades</guilabel
->: Establiu les propietats esteses disponibles a la càmera a la configuració de la tasca. </para>
+>: Establiu les propietats esteses disponibles en la càmera a la configuració de la tasca. </para>
             </listitem>
             <listitem>
                 <para
@@ -282,7 +282,7 @@
                         <para
 ><guilabel
 >Local</guilabel
->: Les imatges capturades només es guardaran localment a l'ordinador remot.</para>
+>: Les imatges capturades només es guardaran localment en l'ordinador remot.</para>
                     </listitem>
                     <listitem>
                         <para
@@ -422,11 +422,11 @@
 >Progrés de la tasca</emphasis
 >: Ekos està dissenyat per a executar i reprendre la seqüència durant múltiples nits si és necessari. Per tant, si l'opció <guilabel
 >Recorda el progrés de la tasca</guilabel
-> està habilitada a les <link linkend="ekos"
+> està habilitada en les <link linkend="ekos"
 >Opcions d'Ekos</link
 >, Ekos examinarà el sistema de fitxers per a comptar quantes imatges ja s'han completat i reprendrà la seqüència des d'on es va deixar. Si no es desitja este comportament predeterminat, senzillament desactiveu <guilabel
 >Recorda el progrés de la tasca</guilabel
-> a les opcions. </para>
+> en les opcions. </para>
         </important>
 
         <para
