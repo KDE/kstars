@@ -162,8 +162,9 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         /**
            * @brief syncDelegatesToDevices Parses INDI devices and updates delegates accordingly.
+           * @return True if all devices synced. False if no new devices synced.
            */
-        void syncDelegatesToDevices();
+        bool syncDelegatesToDevices();
 
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;
