@@ -223,8 +223,18 @@ void OpticalTrainManager::refreshModel()
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 {
-    m_Profile = profile;
-    syncDelegatesToDevices();
+    // If there is nothing new, return.
+    if (m_Profile && m_Profile == profile)
+    {
+        if (syncDelegatesToDevices() == false)
+            return;
+    }
+    else
+    {
+        m_Profile = profile;
+        syncDelegatesToDevices();
+    }
+
     refreshModel();
 
     if (m_OpticalTrains.empty())
@@ -390,13 +400,16 @@ bool OpticalTrainManager::removeOpticalTrain(uint32_t id)
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-void OpticalTrainManager::syncDelegatesToDevices()
+bool OpticalTrainManager::syncDelegatesToDevices()
 {
+    auto changed = false;
+
     // Mounts
     auto mounts = INDIListener::devicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
     QStringList values;
     for (auto &oneMount : mounts)
         values << oneMount->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_MountDelegate->values();
     m_MountDelegate->setValues(values);
 
     // Dust Caps
@@ -404,6 +417,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto dustcaps = INDIListener::devicesByInterface(INDI::BaseDevice::DUSTCAP_INTERFACE);
     for (auto &oneCap : dustcaps)
         values << oneCap->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_DustCapDelegate->values();
     m_DustCapDelegate->setValues(values);
 
     // Light Boxes
@@ -411,16 +425,20 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto lightboxes = INDIListener::devicesByInterface(INDI::BaseDevice::LIGHTBOX_INTERFACE);
     for (auto &oneBox : lightboxes)
         values << oneBox->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_LightBoxDelegate->values();
     m_LightBoxDelegate->setValues(values);
 
     // Scopes
-    m_ScopeDelegate->setValues(KStars::Instance()->data()->userdb()->getOpticalElementNames());
+    values = KStars::Instance()->data()->userdb()->getOpticalElementNames();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_ScopeDelegate->values();
+    m_ScopeDelegate->setValues(values);
 
     // Rotators
     values.clear();
     auto rotators = INDIListener::devicesByInterface(INDI::BaseDevice::ROTATOR_INTERFACE);
     for (auto &oneRotator : rotators)
         values << oneRotator->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_RotatorDelegate->values();
     m_RotatorDelegate->setValues(values);
 
     // Focusers
@@ -428,6 +446,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto focusers = INDIListener::devicesByInterface(INDI::BaseDevice::FOCUSER_INTERFACE);
     for (auto &oneFocuser : focusers)
         values << oneFocuser->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_FocuserDelegate->values();
     m_FocuserDelegate->setValues(values);
 
     // Filter Wheels
@@ -435,6 +454,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto filterwheels = INDIListener::devicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
     for (auto &oneFilterWheel : filterwheels)
         values << oneFilterWheel->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_FilterWheelDelegate->values();
     m_FilterWheelDelegate->setValues(values);
 
     // Cameras
@@ -442,6 +462,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto cameras = INDIListener::devicesByInterface(INDI::BaseDevice::CCD_INTERFACE);
     for (auto &oneCamera : cameras)
         values << oneCamera->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_CameraDelegate->values();
     m_CameraDelegate->setValues(values);
 
     // Guiders
@@ -449,7 +470,10 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto guiders = INDIListener::devicesByInterface(INDI::BaseDevice::GUIDER_INTERFACE);
     for (auto &oneGuider : guiders)
         values << oneGuider->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_GuiderDelegate->values();
     m_GuiderDelegate->setValues(values);
+
+    return changed;
 }
 
 ////////////////////////////////////////////////////////////////////////////
