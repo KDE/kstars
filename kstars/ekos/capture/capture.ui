@@ -67,6 +67,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="trainB">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -2385,11 +2388,11 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="sequenceControlsButtonGroup"/>
   <buttongroup name="queueEditButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="sequenceControlsButtonGroup"/>
  </buttongroups>
 </ui>
