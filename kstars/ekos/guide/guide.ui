@@ -58,6 +58,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="trainB">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>24</width>
@@ -1298,7 +1301,6 @@
              <property name="font">
               <font>
                <pointsize>16</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1327,7 +1329,6 @@
              <property name="font">
               <font>
                <pointsize>16</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1488,15 +1489,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>NonLinearDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>auxiliary/nonlineardoublespinbox.h</header>
+  </customwidget>
+  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>NonLinearDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>auxiliary/nonlineardoublespinbox.h</header>
   </customwidget>
   <customwidget>
    <class>GuideDriftGraph</class>
