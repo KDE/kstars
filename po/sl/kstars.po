@@ -1,7 +1,7 @@
 # translation of kstars.po to Slovenian
 # Translation of kstars.po to Slovenian
 # Copyright (C) 2002,2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-# $Id: kstars.po 1637633 2022-11-08 01:35:56Z scripty $
+# $Id: kstars.po 1637673 2022-11-09 01:37:01Z scripty $
 # $Source$
 #
 #
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-08 00:42+0000\n"
+"POT-Creation-Date: 2022-11-09 00:43+0000\n"
 "PO-Revision-Date: 2022-10-26 09:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -3083,7 +3083,7 @@ msgstr "Mag."
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/auxiliary/opticaltrainmanager.cpp:190 ekos/scheduler/scheduler.ui:1041
+#: ekos/auxiliary/opticaltrainmanager.cpp:193 ekos/scheduler/scheduler.ui:1041
 #: indi/drivermanager.ui:327 tools/observinglist.cpp:92
 #: tools/observinglist.cpp:96
 #, kde-format
@@ -5082,7 +5082,7 @@ msgid "Compute FOV"
 msgstr "Izračunaj VP"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
-#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:206
+#: dialogs/newfov.ui:433 ekos/auxiliary/opticaltrainmanager.cpp:209
 #, kde-format
 msgid "Camera"
 msgstr "Fotoaparat"
@@ -9879,7 +9879,7 @@ msgstr "Prezrcali"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:1642 ekos/analyze/analyze.ui:289
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:420
-#: ekos/auxiliary/opticaltrainmanager.cpp:191 ekos/manager.cpp:2081
+#: ekos/auxiliary/opticaltrainmanager.cpp:194 ekos/manager.cpp:2081
 #: ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
@@ -11258,7 +11258,7 @@ msgstr "Nastavitve filtra"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
 #. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:22 ekos/auxiliary/opslogs.ui:272
-#: ekos/auxiliary/opticaltrainmanager.cpp:205 ekos/profileeditor.ui:641
+#: ekos/auxiliary/opticaltrainmanager.cpp:208 ekos/profileeditor.ui:641
 #, kde-format
 msgid "Filter Wheel"
 msgstr "Kolo s filtri"
@@ -11659,14 +11659,14 @@ msgstr "Beleži dejavnost modula za ostrenje Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
-#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:204
+#: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:207
 #: ekos/focus/focus.ui:105
 #, kde-format
 msgid "Focuser"
 msgstr "Ostrilec"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
-#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:203
+#: ekos/auxiliary/opslogs.ui:397 ekos/auxiliary/opticaltrainmanager.cpp:206
 #, fuzzy, kde-format
 msgid "Rotator"
 msgstr "Vrtilnik"
@@ -11783,70 +11783,79 @@ msgstr "Odpri mapo dnevnikov"
 msgid "New Train"
 msgstr "New vlak"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:193
+#: ekos/auxiliary/opticaltrainmanager.cpp:196
 #, kde-format
 msgid "Telescope cover"
 msgstr "Prekrivalo teleskopa"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:194
+#: ekos/auxiliary/opticaltrainmanager.cpp:197
 #, kde-format
 msgid "Dust Cap"
 msgstr "Protiprašni pokrov"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:196
+#: ekos/auxiliary/opticaltrainmanager.cpp:199
 #, fuzzy, kde-format
 msgid "Flat field light source"
 msgstr "Vir svetlobe ravnih polj"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:197
+#: ekos/auxiliary/opticaltrainmanager.cpp:200
 #, fuzzy, kde-format
 msgid "Light Box"
 msgstr "Svetilna škatla"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:199
+#: ekos/auxiliary/opticaltrainmanager.cpp:202
 #, kde-format
 msgid "Telescope or Lens"
 msgstr "Teleskop ali objektiv"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:200
+#: ekos/auxiliary/opticaltrainmanager.cpp:203
 #, fuzzy, kde-format
 msgid "Scope/Lens"
 msgstr "Daljnogled/objektiv"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:202
+#: ekos/auxiliary/opticaltrainmanager.cpp:205
 #, fuzzy, kde-format
 #| msgid "Reducer"
 msgid "Reducer/Barlow"
 msgstr "Reduktor"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:208
+#: ekos/auxiliary/opticaltrainmanager.cpp:211
 #, fuzzy, kde-format
 msgid "Guider"
 msgstr "Vodnik"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:209
+#: ekos/auxiliary/opticaltrainmanager.cpp:212
 #, kde-format
 msgid "Device receiving guiding correction pulses"
 msgstr "Naprava, ki prejema ukaze za popravljanje vodenja"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:261
+#: ekos/auxiliary/opticaltrainmanager.cpp:279
+#, kde-format
+msgid "Primary"
+msgstr "Primarna"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:282
+#, kde-format
+msgid "Secondary"
+msgstr "Sekundarna"
+
+#: ekos/auxiliary/opticaltrainmanager.cpp:754
 #, fuzzy, kde-format
 msgid ""
-"Missing devices detected. Please reconfigure the optical trains before "
+"Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
 "Zaznane so manjkajoče naprave. Preden nadaljujete, ponovno prilagodite "
 "optične vlake."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:275
-#, kde-format
-msgid "Primary"
-msgstr "Primarna"
-
-#: ekos/auxiliary/opticaltrainmanager.cpp:278
-#, kde-format
-msgid "Secondary"
-msgstr "Sekundarna"
+#: ekos/auxiliary/opticaltrainmanager.cpp:761
+#, fuzzy, kde-format
+msgid ""
+"Missing devices detected (%1). Please reconfigure the optical trains before "
+"proceeding any further."
+msgstr ""
+"Zaznane so manjkajoče naprave. Preden nadaljujete, ponovno prilagodite "
+"optične vlake."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
 #: ekos/auxiliary/opticaltrains.ui:14
