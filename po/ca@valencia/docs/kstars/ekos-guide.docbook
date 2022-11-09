@@ -262,7 +262,7 @@
 >Verd</guilabel
 > reflectix les desviacions en l'AR i el <guilabel
 >Blau</guilabel
-> en la Dec. Els colors de les línies de l'AR/Dec es poden canviar a l'<link linkend="colors"
+> en la Dec. Els colors de les línies de l'AR/Dec es poden canviar en l'<link linkend="colors"
 >esquema de color de &kstars;</link
 > al diàleg de configuració. L'eix vertical indica la desviació en segons d'arc des de la posició central de l'estrela guia i l'eix horitzontal indica el temps. Podeu passar el cursor per damunt de la línia per a obtindre la desviació exacta en este moment concret. A més, també podeu fer zoom i arrossegar/desplaçar el gràfic per a inspeccionar una regió específica. </para>
         <para
@@ -286,7 +286,7 @@
 >Interromp el guiatge automàtic en fallar</guilabel
 > per a seleccionar el comportament desitjat. </para>
         <para
->També s'admet el tramat sense guiatge. Açò és útil quan no hi ha cap càmera guia o quan es fan exposicions curtes. En este cas, es pot ordenar que la muntura faça el tramat en una direcció aleatòria fins al pols especificat a l'opció <guilabel
+>També s'admet el tramat sense guiatge. Açò és útil quan no hi ha cap càmera guia o quan es fan exposicions curtes. En este cas, es pot ordenar que la muntura faça el tramat en una direcció aleatòria fins al pols especificat en l'opció <guilabel
 >Pols del tramat sense guiatge</guilabel
 >. </para>
         <para
@@ -394,8 +394,8 @@
 >Traçat de la deriva</guilabel
 >. A més, el gràfic del guiatge inclourà una etiqueta per a indicar quan s'ha produït un tramat, de manera que l'usuari sabrà que el guiatge no estava malament en estos punts. </para>
         <para
->Els colors de cada eix es poden personalitzar a l'<link linkend="colors"
->esquema de color a la configuració de &kstars;</link
+>Els colors de cada eix es poden personalitzar en l'<link linkend="colors"
+>esquema de color en la configuració de &kstars;</link
 >. </para>
     </sect3>
 

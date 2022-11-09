@@ -267,7 +267,7 @@
 <para
 >Quan carregueu una imatge construïda amb el filtre mosaic de Bayer, el visor podrà reconstruir automàticament la imatge si la <emphasis
 >Reconstrucció automàtica des de Bayer</emphasis
-> està marcada a la configuració FITS. L'operació de reconstrucció obté el patró de Bayer (&pex;, RGGB) de la capçalera FITS. Si no n'hi ha cap, pot alterar l'algorisme i el patró de reconstrucció des de Bayer des del menú <guimenu
+> està marcada en la configuració FITS. L'operació de reconstrucció obté el patró de Bayer (&pex;, RGGB) de la capçalera FITS. Si no n'hi ha cap, pot alterar l'algorisme i el patró de reconstrucció des de Bayer des del menú <guimenu
 >Fitxer</guimenu
 > o utilitzant la drecera <keycombo
 >&Ctrl; <keycap

@@ -115,7 +115,7 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
     protected:
         void initModel();
-        bool checkMissingDevice() const;
+        QStringList getMissingDevices() const;
 
         // Delegates
         QPointer<ComboDelegate> m_MountDelegate;
@@ -160,13 +160,17 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
 
         void addOpticalTrain(bool main, const QString &name);
 
+        void checkMissingDevices();
+
         /**
            * @brief syncDelegatesToDevices Parses INDI devices and updates delegates accordingly.
+           * @return True if all devices synced. False if no new devices synced.
            */
-        void syncDelegatesToDevices();
+        bool syncDelegatesToDevices();
 
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;
+        QTimer m_CheckMissingDevicesTimer;
 
         // Table model
         QSqlTableModel *m_OpticalTrainsModel = { nullptr };

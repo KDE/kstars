@@ -135,6 +135,9 @@ OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
         refreshOpticalElements();
     });
 
+    m_CheckMissingDevicesTimer.setInterval(2000);
+    m_CheckMissingDevicesTimer.setSingleShot(true);
+    connect(&m_CheckMissingDevicesTimer, &QTimer::timeout, this, &OpticalTrainManager::checkMissingDevices);
     initModel();
 }
 
@@ -223,9 +226,19 @@ void OpticalTrainManager::refreshModel()
 ////////////////////////////////////////////////////////////////////////////
 void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
 {
-    m_Profile = profile;
-    syncDelegatesToDevices();
-    refreshModel();
+    // Are we still updating delegates? If yes, return.
+    if (syncDelegatesToDevices())
+    {
+        m_CheckMissingDevicesTimer.start();
+        return;
+    }
+
+    // Once we're done, let's continue with train generation.
+    if (m_Profile != profile)
+    {
+        m_Profile = profile;
+        refreshModel();
+    }
 
     if (m_OpticalTrains.empty())
     {
@@ -253,17 +266,8 @@ void OpticalTrainManager::setProfile(const QSharedPointer<ProfileInfo> &profile)
     }
     else
     {
+        m_CheckMissingDevicesTimer.start();
         emit updated();
-        // Double check the sanity of the train. If devices are added or missing, then we need to show it to alert the user.
-        if (checkMissingDevice())
-        {
-            KSNotification::event(QLatin1String("IndiServerMessage"),
-                                  i18n("Missing devices detected. Please reconfigure the optical trains before proceeding any further."),
-                                  KSNotification::General, KSNotification::Warn);
-            show();
-            raise();
-            emit configurationRequested(true);
-        }
     }
 }
 ////////////////////////////////////////////////////////////////////////////
@@ -390,13 +394,16 @@ bool OpticalTrainManager::removeOpticalTrain(uint32_t id)
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-void OpticalTrainManager::syncDelegatesToDevices()
+bool OpticalTrainManager::syncDelegatesToDevices()
 {
+    auto changed = false;
+
     // Mounts
     auto mounts = INDIListener::devicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
     QStringList values;
     for (auto &oneMount : mounts)
         values << oneMount->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_MountDelegate->values();
     m_MountDelegate->setValues(values);
 
     // Dust Caps
@@ -404,6 +411,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto dustcaps = INDIListener::devicesByInterface(INDI::BaseDevice::DUSTCAP_INTERFACE);
     for (auto &oneCap : dustcaps)
         values << oneCap->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_DustCapDelegate->values();
     m_DustCapDelegate->setValues(values);
 
     // Light Boxes
@@ -411,16 +419,20 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto lightboxes = INDIListener::devicesByInterface(INDI::BaseDevice::LIGHTBOX_INTERFACE);
     for (auto &oneBox : lightboxes)
         values << oneBox->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_LightBoxDelegate->values();
     m_LightBoxDelegate->setValues(values);
 
     // Scopes
-    m_ScopeDelegate->setValues(KStars::Instance()->data()->userdb()->getOpticalElementNames());
+    values = KStars::Instance()->data()->userdb()->getOpticalElementNames();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_ScopeDelegate->values();
+    m_ScopeDelegate->setValues(values);
 
     // Rotators
     values.clear();
     auto rotators = INDIListener::devicesByInterface(INDI::BaseDevice::ROTATOR_INTERFACE);
     for (auto &oneRotator : rotators)
         values << oneRotator->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_RotatorDelegate->values();
     m_RotatorDelegate->setValues(values);
 
     // Focusers
@@ -428,6 +440,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto focusers = INDIListener::devicesByInterface(INDI::BaseDevice::FOCUSER_INTERFACE);
     for (auto &oneFocuser : focusers)
         values << oneFocuser->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_FocuserDelegate->values();
     m_FocuserDelegate->setValues(values);
 
     // Filter Wheels
@@ -435,6 +448,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto filterwheels = INDIListener::devicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);
     for (auto &oneFilterWheel : filterwheels)
         values << oneFilterWheel->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_FilterWheelDelegate->values();
     m_FilterWheelDelegate->setValues(values);
 
     // Cameras
@@ -442,6 +456,7 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto cameras = INDIListener::devicesByInterface(INDI::BaseDevice::CCD_INTERFACE);
     for (auto &oneCamera : cameras)
         values << oneCamera->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_CameraDelegate->values();
     m_CameraDelegate->setValues(values);
 
     // Guiders
@@ -449,7 +464,10 @@ void OpticalTrainManager::syncDelegatesToDevices()
     auto guiders = INDIListener::devicesByInterface(INDI::BaseDevice::GUIDER_INTERFACE);
     for (auto &oneGuider : guiders)
         values << oneGuider->getDeviceName();
+    changed |= !values.empty() && (QStringList() << "--" << values) != m_GuiderDelegate->values();
     m_GuiderDelegate->setValues(values);
+
+    return changed;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -724,40 +742,70 @@ QString OpticalTrainManager::name(int id) const
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-bool OpticalTrainManager::checkMissingDevice() const
+void OpticalTrainManager::checkMissingDevices()
 {
+    // Double check the sanity of the train. If devices are added or missing, then we need to show it to alert the user.
+    auto devices = getMissingDevices();
+    if (!devices.empty())
+    {
+        if (devices.count() == 1)
+        {
+            KSNotification::event(QLatin1String("IndiServerMessage"),
+                                  i18n("Missing device detected (%1). Please reconfigure the optical trains before proceeding any further.",
+                                       devices.first()),
+                                  KSNotification::General, KSNotification::Warn);
+        }
+        else
+        {
+            KSNotification::event(QLatin1String("IndiServerMessage"),
+                                  i18n("Missing devices detected (%1). Please reconfigure the optical trains before proceeding any further.",
+                                       devices.join(", ")),
+                                  KSNotification::General, KSNotification::Warn);
+        }
+        show();
+        raise();
+        emit configurationRequested(true);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////
+///
+////////////////////////////////////////////////////////////////////////////
+QStringList OpticalTrainManager::getMissingDevices() const
+{
+    auto missing = QStringList();
     for (auto &oneTrain : m_OpticalTrains)
     {
         auto mount = oneTrain["mount"].toString();
         if (mount != "--" && m_MountDelegate->values().contains(mount) == false)
-            return true;
+            missing << mount;
 
         auto camera = oneTrain["camera"].toString();
         if (camera != "--" && m_CameraDelegate->values().contains(camera) == false)
-            return true;
+            missing << camera;
 
         auto dustcap = oneTrain["dustcap"].toString();
         if (dustcap != "--" && m_DustCapDelegate->values().contains(dustcap) == false)
-            return true;
+            missing << dustcap;
 
         auto lightbox = oneTrain["lightbox"].toString();
         if (lightbox != "--" && m_LightBoxDelegate->values().contains(lightbox) == false)
-            return true;
+            missing << lightbox;
 
         auto focuser = oneTrain["focuser"].toString();
         if (focuser != "--" && m_FocuserDelegate->values().contains(focuser) == false)
-            return true;
+            missing << focuser;
 
         auto filterwheel = oneTrain["filterwheel"].toString();
         if (filterwheel != "--" && m_FilterWheelDelegate->values().contains(filterwheel) == false)
-            return true;
+            missing << filterwheel;
 
         auto guider = oneTrain["guider"].toString();
         if (guider != "--" && m_GuiderDelegate->values().contains(guider) == false)
-            return true;
+            missing << guider;
 
     }
 
-    return false;
+    return missing;
 }
 }

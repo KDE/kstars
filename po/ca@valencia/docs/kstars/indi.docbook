@@ -806,7 +806,7 @@
 </screenshot>
 
 <para
->Després que afegiu un amfitrió, fer clic dret sobre la mateixa per a <guimenuitem
+>Després que afegiu un amfitrió, fer clic dret damunt de la mateixa per a <guimenuitem
 >Connecta</guimenuitem
 > o <guimenuitem
 >Desconnecta</guimenuitem
@@ -1090,7 +1090,7 @@ controlador : Executable o [dispositiu]@amfitrió[:port]
 <para
 >&kstars; rep les coordenades AR i Dec dels telescopis sobre la connexió. Si l'alineació ha sigut realitzada correctament, llavors hauríeu de veure el punt de mira en el mapa celeste al voltant del vostre objectiu. No obstant açò, les coordenades AR i Dec proporcionades pel telescopi podrien ser incorrectes (fins i tot trobar-se davall l'horitzó) i necessitareu <link linkend="indi-sync"
 >Sincronitzar</link
-> el vostre telescopi a l'objectiu actual. Podeu utilitzar el menú del clic dret per a centrar i seguir el punt de mira en el mapa celeste. </para>
+> el vostre telescopi amb l'objectiu actual. Podeu utilitzar el menú del clic dret per a centrar i seguir el punt de mira en el mapa celeste. </para>
 </answer>
 </qandaentry>
 

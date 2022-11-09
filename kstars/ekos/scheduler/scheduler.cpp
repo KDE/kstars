@@ -2104,12 +2104,11 @@ void Scheduler::setCurrentJob(SchedulerJob *job)
 
 void Scheduler::syncGreedyParams()
 {
-    constexpr int abortQueueSeconds = 3600;
     m_GreedyScheduler->setParams(
         errorHandlingRestartImmediatelyButton->isChecked(),
         errorHandlingRestartQueueButton->isChecked(),
         errorHandlingRescheduleErrorsCB->isChecked(),
-        abortQueueSeconds,
+        errorHandlingDelaySB->value(),
         errorHandlingDelaySB->value());
 }
 
@@ -5001,7 +5000,10 @@ void Scheduler::startFocusing()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' canAutoFocus request received DBUS error: %2").arg(
                                               currentJob->getName(), QDBusError::errorString(focusModeReply.error().type()));
         if (!manageConnectionLoss())
+        {
             currentJob->setState(SchedulerJob::JOB_ERROR);
+            findNextJob();
+        }
         return;
     }
 
@@ -5028,7 +5030,10 @@ void Scheduler::startFocusing()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' resetFrame request received DBUS error: %2").arg(
                                               currentJob->getName(), reply.errorMessage());
         if (!manageConnectionLoss())
+        {
             currentJob->setState(SchedulerJob::JOB_ERROR);
+            findNextJob();
+        }
         return;
     }
 
@@ -5052,7 +5057,10 @@ void Scheduler::startFocusing()
             qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setAutoFocusStar request received DBUS error: %1").arg(
                                                   currentJob->getName(), reply.errorMessage());
             if (!manageConnectionLoss())
+            {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
+                findNextJob();
+            }
             return;
         }
     }
@@ -5064,7 +5072,10 @@ void Scheduler::startFocusing()
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' startFocus request received DBUS error: %2").arg(
                                               currentJob->getName(), reply.errorMessage());
         if (!manageConnectionLoss())
+        {
             currentJob->setState(SchedulerJob::JOB_ERROR);
+            findNextJob();
+        }
         return;
     }
 
@@ -5400,7 +5411,7 @@ void Scheduler::startAstrometry()
         {
             appendLogText(i18n("Warning: job '%1' target FITS file does not exist.", currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_ERROR);
-            stop();
+            findNextJob();
             return;
         }
 
@@ -5416,15 +5427,15 @@ void Scheduler::startAstrometry()
             if (!manageConnectionLoss())
             {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-                stop();
+                findNextJob();
             }
             return;
         }
         else if (reply.arguments().first().toBool() == false)
         {
             appendLogText(i18n("Warning: job '%1' loadAndSlew request failed.", currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_ERROR);
-            stop();
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            findNextJob();
             return;
         }
 
@@ -5449,7 +5460,7 @@ void Scheduler::startAstrometry()
             if (!manageConnectionLoss())
             {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-                stop();
+                findNextJob();
             }
             return;
         }
@@ -5466,7 +5477,7 @@ void Scheduler::startAstrometry()
                 if (!manageConnectionLoss())
                 {
                     currentJob->setState(SchedulerJob::JOB_ERROR);
-                    stop();
+                    findNextJob();
                 }
                 return;
             }
@@ -5480,15 +5491,15 @@ void Scheduler::startAstrometry()
             if (!manageConnectionLoss())
             {
                 currentJob->setState(SchedulerJob::JOB_ERROR);
-                stop();
+                findNextJob();
             }
             return;
         }
         else if (reply.arguments().first().toBool() == false)
         {
             appendLogText(i18n("Warning: job '%1' captureAndSolve request failed.", currentJob->getName()));
-            currentJob->setState(SchedulerJob::JOB_ERROR);
-            stop();
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            findNextJob();
             return;
         }
 
