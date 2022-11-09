@@ -2,11 +2,14 @@
 <ui version="4.0">
  <class>Focus</class>
  <widget class="QWidget" name="Focus">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
+    <width>886</width>
     <height>547</height>
    </rect>
   </property>
@@ -64,6 +67,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="trainB">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>24</width>

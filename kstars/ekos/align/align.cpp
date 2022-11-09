@@ -3806,6 +3806,7 @@ void Align::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+    trainB->setEnabled(opticalTrainCombo->count() > 0);
 
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::AlignOpticalTrain);
 
