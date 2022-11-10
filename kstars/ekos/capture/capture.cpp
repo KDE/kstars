@@ -4361,7 +4361,7 @@ void Capture::syncTelescopeInfo()
             if (activeTelescope)
             {
                 activeTelescope->setText(m_captureDeviceAdaptor->getMount()->getDeviceName().toLatin1().constData());
-                m_Camera->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                m_Camera->sendNewText(activeDevices);
             }
         }
     }
