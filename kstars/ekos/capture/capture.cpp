@@ -4579,8 +4579,8 @@ bool Capture::processJobInfo(XMLEle * root)
             //FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
             if (FilterPosCombo->findText(pcdataXMLEle(ep)) == -1)
             {
-                appendLogText(i18n("Warning: Filter %1 not found in filter wheel!", pcdataXMLEle(ep)));
-                qWarning(KSTARS_EKOS_CAPTURE) << QString("Filter  %1 not found in filter wheel!").arg(pcdataXMLEle(ep));
+                appendLogText(i18n("Warning: Filter %1 not found in filter wheel.", pcdataXMLEle(ep)));
+                qWarning(KSTARS_EKOS_CAPTURE) << QString("Filter  %1 not found in filter wheel.").arg(pcdataXMLEle(ep));
             }
             FilterPosCombo->setCurrentText(pcdataXMLEle(ep));
         }
