@@ -102,7 +102,12 @@ Mount::Mount()
         }
     });
 
-    connect(enableAltitudeLimits, &QCheckBox::toggled, this, &Mount::setAltitudeLimitsEnabled);
+    connect(enableAltitudeLimits, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        m_AltitudeLimitEnabled = toggled;
+        setAltitudeLimits(toggled);
+
+    });
     m_AltitudeLimitEnabled = enableAltitudeLimits->isChecked();
     connect(enableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
@@ -887,17 +892,18 @@ void Mount::setAltitudeLimits(bool enable)
     }
 }
 
-void Mount::enableAltLimits()
+// Used for meridian flip
+void Mount::resumeAltLimits()
 {
     //Only enable if it was already enabled before and the MinimumAltLimit is currently disabled.
     if (m_AltitudeLimitEnabled && minimumAltLimit->isEnabled() == false)
         setAltitudeLimits(true);
 }
 
-void Mount::disableAltLimits()
+// Used for meridian flip
+void Mount::suspendAltLimits()
 {
     m_AltitudeLimitEnabled = enableAltitudeLimits->isChecked();
-
     setAltitudeLimits(false);
 }
 

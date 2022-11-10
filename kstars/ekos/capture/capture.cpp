@@ -1284,6 +1284,7 @@ void Capture::syncCameraInfo()
         captureGainN->setEnabled(true);
         captureGainN->setSingleStep(step);
         m_Camera->getGain(&value);
+        currentGainLabel->setText(QString::number(value, 'f', 0));
 
         targetCustomGain = getGain();
 
@@ -1303,7 +1304,10 @@ void Capture::syncCameraInfo()
         });
     }
     else
+    {
         captureGainN->setEnabled(false);
+        currentGainLabel->clear();
+    }
 
     // Offset checks
     if (m_Camera->hasOffset())
@@ -1318,6 +1322,7 @@ void Capture::syncCameraInfo()
         captureOffsetN->setEnabled(true);
         captureOffsetN->setSingleStep(step);
         m_Camera->getOffset(&value);
+        currentOffsetLabel->setText(QString::number(value, 'f', 0));
 
         targetCustomOffset = getOffset();
 
@@ -1337,7 +1342,10 @@ void Capture::syncCameraInfo()
         });
     }
     else
+    {
         captureOffsetN->setEnabled(false);
+        currentOffsetLabel->clear();
+    }
 }
 
 void Capture::setGuideChip(ISD::CameraChip * guideChip)
@@ -1599,6 +1607,23 @@ void Capture::processCCDNumber(INumberVectorProperty * nvp)
     else if ((!strcmp(nvp->name, "CCD_INFO") && useGuideHead == false) ||
              (!strcmp(nvp->name, "GUIDER_INFO") && useGuideHead))
         updateFrameProperties(2);
+    else if (!strcmp(nvp->name, "CCD_CONTROLS"))
+    {
+        auto gain = IUFindNumber(nvp, "Gain");
+        if (gain)
+            currentGainLabel->setText(QString::number(gain->value, 'f', 0));
+        auto offset = IUFindNumber(nvp, "Offset");
+        if (offset)
+            currentOffsetLabel->setText(QString::number(offset->value, 'f', 0));
+    }
+    else if (!strcmp(nvp->name, "CCD_GAIN"))
+    {
+        currentGainLabel->setText(QString::number(nvp->np[0].value, 'f', 0));
+    }
+    else if (!strcmp(nvp->name, "CCD_OFFSET"))
+    {
+        currentOffsetLabel->setText(QString::number(nvp->np[0].value, 'f', 0));
+    }
 }
 
 void Capture::resetFrame()

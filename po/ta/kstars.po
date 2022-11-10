@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-09 00:43+0000\n"
+"POT-Creation-Date: 2022-11-10 00:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -432,7 +432,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:383
-#: ekos/capture/capture.cpp:4773 ekos/scheduler/scheduler.cpp:4743
+#: ekos/capture/capture.cpp:4798 ekos/scheduler/scheduler.cpp:4743
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:288 oal/equipmentwriter.ui:724
@@ -604,7 +604,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:44
-#: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:656
+#: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, fuzzy, kde-format
 #| msgid "InfoBoxes"
 msgid "Info"
@@ -1352,7 +1352,7 @@ msgid "Recenters the XPlanet image once it has been moved"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:379
+#: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:382
 #, kde-format
 msgid "FOV:"
 msgstr ""
@@ -1459,7 +1459,7 @@ msgid "months"
 msgstr "மாதம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: auxiliary/xplanetimageviewer.cpp:444 ekos/auxiliary/darklibrary.ui:1185
+#: auxiliary/xplanetimageviewer.cpp:444 ekos/auxiliary/darklibrary.ui:1188
 #: widgets/timespinbox.cpp:140 widgets/timespinbox.cpp:144
 #: widgets/timespinbox.cpp:145 widgets/timespinbox.cpp:146
 #, kde-format
@@ -1474,7 +1474,7 @@ msgstr "மணி"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
-#: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:233
+#: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:250
 #, fuzzy, kde-format
 #| msgctxt "minutes"
@@ -1891,7 +1891,7 @@ msgstr "xi"
 #. i18n: ectx: property (text), widget (QCheckBox, RACheckBatch)
 #: data/qml/mount/mountbox.qml:530 data/qml/mount/mountbox.qml:701
 #: data/qml/mount/mountbox.qml:765 dialogs/catalogcsvimport.ui:178
-#: dialogs/focusdialog.ui:107 ekos/align/align.ui:335 ekos/align/align.ui:423
+#: dialogs/focusdialog.ui:107 ekos/align/align.ui:338 ekos/align/align.ui:426
 #: ekos/manager.ui:789 tools/altvstime.ui:97 tools/argsetradec.ui:37
 #: tools/modcalcgalcoord.ui:288 tools/modcalcplanets.ui:251
 #: tools/modcalcvlsr.ui:508
@@ -1912,7 +1912,7 @@ msgstr "புதிய RA:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/qml/mount/mountbox.qml:566 data/qml/mount/mountbox.qml:723
 #: data/qml/mount/mountbox.qml:766 data/qml/mount/mountbox.qml:838
-#: dialogs/focusdialog.ui:64 ekos/align/align.ui:291 ekos/align/align.ui:393
+#: dialogs/focusdialog.ui:64 ekos/align/align.ui:294 ekos/align/align.ui:396
 #: ekos/manager.ui:773
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
@@ -1953,7 +1953,7 @@ msgstr "சார்ஜென்ட்"
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:745 dialogs/addcatalogobject.ui:40
-#: dialogs/detaildialog.cpp:317 ekos/capture/capture.ui:736
+#: dialogs/detaildialog.cpp:317 ekos/capture/capture.ui:791
 #: oal/equipmentwriter.ui:195 oal/equipmentwriter.ui:1005 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
@@ -2651,8 +2651,8 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3649
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
-#: ekos/analyze/analyze.cpp:1029 ekos/capture/capture.cpp:4368
-#: ekos/capture/capture.cpp:4782 ekos/guide/guidedriftgraph.cpp:475
+#: ekos/analyze/analyze.cpp:1029 ekos/capture/capture.cpp:4393
+#: ekos/capture/capture.cpp:4807 ekos/guide/guidedriftgraph.cpp:475
 #: ekos/scheduler/scheduler.cpp:4379 ekos/scheduler/scheduler.cpp:4753
 #: fitsviewer/fitstab.cpp:728 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:928
@@ -2855,7 +2855,7 @@ msgstr "மேற்கு"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/capture.ui:1809 tools/observinglist.cpp:93
+#: ekos/capture/capture.ui:1864 tools/observinglist.cpp:93
 #: tools/observinglist.cpp:97 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
@@ -3205,10 +3205,10 @@ msgstr "திருத்துக...."
 #. i18n: ectx: property (text), widget (QLabel, l_01)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:906
-#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:416
+#: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:909
+#: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:419
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
-#: ekos/mount/mount.ui:141 ekos/scheduler/scheduler.ui:452
+#: ekos/mount/mount.ui:144 ekos/scheduler/scheduler.ui:452
 #: fitsviewer/solveInfo.ui:66
 #, kde-format
 msgid "RA"
@@ -3268,8 +3268,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, coldPixelsEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, hotPixelsEnabled)
-#: dialogs/catalogsdbui.cpp:25 ekos/auxiliary/darklibrary.ui:854
-#: ekos/auxiliary/darklibrary.ui:903
+#: dialogs/catalogsdbui.cpp:25 ekos/auxiliary/darklibrary.ui:857
+#: ekos/auxiliary/darklibrary.ui:906
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
@@ -3843,7 +3843,7 @@ msgstr "mag"
 
 #. i18n: ectx: property (text), widget (QLabel, AngSizeLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
-#: dialogs/details_data.ui:289 ekos/capture/capture.ui:299
+#: dialogs/details_data.ui:289 ekos/capture/capture.ui:302
 #: printing/detailstable.cpp:326
 #, kde-format
 msgid "Size:"
@@ -3901,12 +3901,12 @@ msgstr "0.0"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:908
 #: ekos/analyze/analyze.ui:55 ekos/auxiliary/darklibrary.cpp:1053
-#: ekos/auxiliary/darklibrary.ui:273 ekos/auxiliary/darklibrary.ui:421
-#: ekos/auxiliary/darklibrary.ui:690 ekos/auxiliary/darklibrary.ui:710
-#: ekos/auxiliary/darklibrary.ui:730 ekos/auxiliary/darklibrary.ui:750
-#: ekos/auxiliary/darklibrary.ui:770 ekos/auxiliary/darklibrary.ui:790
-#: ekos/capture/capture.cpp:1283 ekos/capture/capture.cpp:1317
-#: ekos/focus/focus.cpp:330 ekos/guide/guide.ui:525 ekos/guide/guide.ui:649
+#: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
+#: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
+#: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
+#: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
+#: ekos/capture/capture.cpp:1283 ekos/capture/capture.cpp:1321
+#: ekos/focus/focus.cpp:330 ekos/guide/guide.ui:528 ekos/guide/guide.ui:652
 #: indi/streamform.ui:368
 #, kde-format
 msgid "--"
@@ -4039,7 +4039,7 @@ msgstr "அல்பிரோ"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2289
+#: dialogs/details_data_comet.ui:218 ekos/capture/capture.ui:2344
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -4133,7 +4133,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #. i18n: ectx: property (title), widget (QGroupBox, Coordinates)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: ekos/mount/mount.ui:117 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: ekos/mount/mount.ui:120 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:509
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -4170,7 +4170,7 @@ msgstr "RA (2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:499 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:502 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr ""
@@ -4587,7 +4587,7 @@ msgstr "RA/Dec"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
-#: dialogs/focusdialog.ui:61 ekos/manager.ui:770 ekos/mount/mount.ui:155
+#: dialogs/focusdialog.ui:61 ekos/manager.ui:770 ekos/mount/mount.ui:158
 #, kde-format
 msgid "Declination"
 msgstr "கீழ்நோக்கி சரிவது:"
@@ -4607,7 +4607,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:138
+#: dialogs/focusdialog.ui:104 ekos/manager.ui:786 ekos/mount/mount.ui:141
 #, kde-format
 msgid "Right Ascension"
 msgstr "வலப்புற மேலேற்றம்"
@@ -4629,7 +4629,7 @@ msgstr "Az/Alt"
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, azLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#: dialogs/focusdialog.ui:148 ekos/manager.ui:754 ekos/mount/mount.ui:175
+#: dialogs/focusdialog.ui:148 ekos/manager.ui:754 ekos/mount/mount.ui:178
 #: kstarslite/qml/dialogs/DetailsDialog.qml:264
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Azimuth:"
@@ -5367,8 +5367,8 @@ msgstr "காமிரா"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_10)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_16)
-#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/capture.ui:227
-#: ekos/capture/capture.ui:821
+#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/capture.ui:230
+#: ekos/capture/capture.ui:876
 #, kde-format
 msgid "H:"
 msgstr ""
@@ -6112,8 +6112,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "இணைப்பு"
 
-#: ekos/align/align.cpp:1434 ekos/capture/capture.cpp:3587
-#: ekos/capture/capture.cpp:6450 ekos/focus/focus.cpp:3939
+#: ekos/align/align.cpp:1434 ekos/capture/capture.cpp:3612
+#: ekos/capture/capture.cpp:6475 ekos/focus/focus.cpp:3939
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6254,7 +6254,7 @@ msgstr "படிமங்கள் கவர்தல்"
 msgid "Solver aborted after %1 seconds."
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2775
+#: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2800
 #: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
 #: ekos/mount/mount.cpp:804 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:886
@@ -6371,8 +6371,8 @@ msgstr "வெளியீட்டு கோப்பில் புலங்�
 msgid "Capture error. Aborting..."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:3019 ekos/capture/capture.cpp:2837
-#: ekos/capture/capture.cpp:2905
+#: ekos/align/align.cpp:3019 ekos/capture/capture.cpp:2862
+#: ekos/capture/capture.cpp:2930
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6423,7 +6423,7 @@ msgstr "<i>arcmin</i>"
 msgid "dDE (arcsec)"
 msgstr "பார்சான்ஸ்"
 
-#: ekos/align/align.cpp:3355 ekos/capture/capture.cpp:6655
+#: ekos/align/align.cpp:3355 ekos/capture/capture.cpp:6680
 #: ekos/focus/focus.cpp:3844
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6431,17 +6431,17 @@ msgstr "பார்சான்ஸ்"
 msgid "Filter operation failed."
 msgstr "காலியென்ட்"
 
-#: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6672
+#: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6697
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3374 ekos/capture/capture.cpp:6677
+#: ekos/align/align.cpp:3374 ekos/capture/capture.cpp:6702
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3379 ekos/capture/capture.cpp:6682
+#: ekos/align/align.cpp:3379 ekos/capture/capture.cpp:6707
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6461,8 +6461,8 @@ msgid "Export Solution Points"
 msgstr "எல்லா கோள்களின் அடிச்சுவடுகளையும் துடை"
 
 #: ekos/align/align.cpp:3648 ekos/align/mountmodel.cpp:263
-#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4367
-#: ekos/capture/capture.cpp:4781 ekos/guide/guidedriftgraph.cpp:474
+#: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4392
+#: ekos/capture/capture.cpp:4806 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4378 ekos/scheduler/scheduler.cpp:4752
 #: fitsviewer/fitstab.cpp:727 tools/scriptbuilder.cpp:830
 #: tools/scriptbuilder.cpp:927
@@ -6471,7 +6471,7 @@ msgid "Invalid URL: %1"
 msgstr "முறையற்ற URL : %1"
 
 #: ekos/align/align.cpp:3657 ekos/align/mountmodel.cpp:400
-#: ekos/capture/capture.cpp:4804 ekos/guide/guidedriftgraph.cpp:483
+#: ekos/capture/capture.cpp:4829 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4764 ekos/scheduler/scheduler.cpp:7161
 #, fuzzy, kde-format
 #| msgid "Unable to read FITS data from file. %1.\n"
@@ -6479,7 +6479,7 @@ msgid "Unable to write to file %1"
 msgstr "%1 கோப்பில் இருந்து FITS  தரவை படிக்க இயலவில்லை.\n"
 
 #: ekos/align/align.cpp:3658 ekos/align/mountmodel.cpp:283
-#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4383
+#: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4408
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4422
 #: ekos/scheduler/scheduler.cpp:4765 ekos/scheduler/scheduler.cpp:7105
 #: ekos/scheduler/scheduler.cpp:7162 indi/drivermanager.cpp:1532
@@ -6513,13 +6513,13 @@ msgstr "இடம் வலமான இடமதிப்பு"
 msgid "Polar Alignment"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/align/align.cpp:4199
+#: ekos/align/align.cpp:4200
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:4208
+#: ekos/align/align.cpp:4209
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "பொருளை தேடு"
@@ -6528,7 +6528,7 @@ msgstr "பொருளை தேடு"
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: ekos/align/align.ui:42 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:45 ekos/guide/guide.ui:39
+#: ekos/capture/capture.ui:48 ekos/focus/focus.ui:48 ekos/guide/guide.ui:39
 #: ekos/mount/mount.ui:47
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6537,27 +6537,27 @@ msgid "Train:"
 msgstr "டர்ராசா"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlBox)
-#: ekos/align/align.ui:101
+#: ekos/align/align.ui:104
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "Solver Control"
 msgstr "விண்மீன் கூட்ட பெயர் விருப்பங்கள்"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
-#: ekos/align/align.ui:128
+#: ekos/align/align.ui:131
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture && Solve"
 msgstr "படிமங்கள் கவர்தல்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSlewB)
-#: ekos/align/align.ui:141
+#: ekos/align/align.ui:144
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
-#: ekos/align/align.ui:144
+#: ekos/align/align.ui:147
 #, fuzzy, kde-format
 msgid "Load && Slew..."
 msgstr "அட்டவணை-ஐ சேர்க்க..."
@@ -6566,10 +6566,10 @@ msgstr "அட்டவணை-ஐ சேர்க்க..."
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
-#: ekos/align/align.ui:156 ekos/align/polaralignmentassistant.ui:819
-#: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:582
-#: ekos/capture/capture.cpp:3689 ekos/focus/focus.ui:325
-#: ekos/guide/guide.ui:145 ekos/manager.cpp:209
+#: ekos/align/align.ui:159 ekos/align/polaralignmentassistant.ui:819
+#: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
+#: ekos/capture/capture.cpp:3714 ekos/focus/focus.ui:331
+#: ekos/guide/guide.ui:148 ekos/manager.cpp:209
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6579,38 +6579,38 @@ msgid "Stop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:168
+#: ekos/align/align.ui:171
 #, kde-format
 msgid "Select which action to perform after the captured image is solved"
 msgstr ""
 
 #. i18n: ectx: property (statusTip), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:171
+#: ekos/align/align.ui:174
 #, kde-format
 msgid "Select what action to take once a solution is found."
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, gotoBox)
-#: ekos/align/align.ui:174
+#: ekos/align/align.ui:177
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "Solver Action"
 msgstr "விண்மீன் கூட்ட பெயர் விருப்பங்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, syncR)
-#: ekos/align/align.ui:195
+#: ekos/align/align.ui:198
 #, fuzzy, kde-format
 msgid "Synchronize the telescope to the solution coordinates"
 msgstr "தனிப்படுத்தப்பட்ட பொருள்களுக்கான விவரங்கள் சாளரத்தை திற"
 
 #. i18n: ectx: property (text), widget (QRadioButton, syncR)
-#: ekos/align/align.ui:201
+#: ekos/align/align.ui:204
 #, kde-format
 msgid "S&ync"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, slewR)
-#: ekos/align/align.ui:214
+#: ekos/align/align.ui:217
 #, fuzzy, kde-format
 msgid ""
 "Synchronize the telescope to the solution coordinates and then slew to the "
@@ -6618,33 +6618,33 @@ msgid ""
 msgstr "தனிப்படுத்தப்பட்ட பொருள்களுக்கான விவரங்கள் சாளரத்தை திற"
 
 #. i18n: ectx: property (text), widget (QRadioButton, slewR)
-#: ekos/align/align.ui:220
+#: ekos/align/align.ui:223
 #, fuzzy, kde-format
 msgid "S&lew to Target"
 msgstr "பட்டியலில் இருந்து பொருளைத் தேர்ந்தெடு"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, nothingR)
-#: ekos/align/align.ui:230
+#: ekos/align/align.ui:233
 #, kde-format
 msgid "Just solve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, nothingR)
-#: ekos/align/align.ui:236
+#: ekos/align/align.ui:239
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgid "&Nothing"
 msgstr "ஒன்றுமில்லை"
 
 #. i18n: ectx: property (title), widget (QGroupBox, telescopeCoordinateGroup)
-#: ekos/align/align.ui:251
+#: ekos/align/align.ui:254
 #, fuzzy, kde-format
 msgid "Telescope Coordinates (JNow)"
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/align/align.ui:272 ekos/align/align.ui:342
+#: ekos/align/align.ui:275 ekos/align/align.ui:345
 #, kde-format
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates. "
@@ -6654,7 +6654,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
-#: ekos/align/align.ui:305 ekos/align/align.ui:322
+#: ekos/align/align.ui:308 ekos/align/align.ui:325
 #, kde-format
 msgid ""
 "After telescope completes slewing, wait until it settles for this many "
@@ -6663,7 +6663,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/align/align.ui:308 ekos/guide/opsdither.ui:65
+#: ekos/align/align.ui:311 ekos/guide/opsdither.ui:65
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seattle"
@@ -6671,14 +6671,14 @@ msgid "Settle"
 msgstr "சீட்டல்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/align/align.ui:345
+#: ekos/align/align.ui:348
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Accuracy"
 msgstr "கருவி"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
-#: ekos/align/align.ui:355
+#: ekos/align/align.ui:358
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Coordinates (JNow)"
@@ -6686,7 +6686,7 @@ msgstr "இடம் வலமான இடமதிப்பு"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVOut)
-#: ekos/align/align.ui:376 ekos/align/align.ui:511
+#: ekos/align/align.ui:379 ekos/align/align.ui:514
 #, fuzzy, kde-format
 #| msgid "Desired field-of-view size, in arcminutes"
 msgid "Effective field of view size in arcminutes."
@@ -6694,60 +6694,60 @@ msgstr "தேவையான காட்சி புல அளவு"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
-#: ekos/align/align.ui:400 ekos/align/align.ui:410
+#: ekos/align/align.ui:403 ekos/align/align.ui:413
 #, fuzzy, kde-format
 msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
 msgstr "தனிப்படுத்தப்பட்ட பொருள்களுக்கான விவரங்கள் சாளரத்தை திற"
 
 #. i18n: ectx: property (text), widget (QLabel, err)
-#: ekos/align/align.ui:403
+#: ekos/align/align.ui:406
 #, kde-format
 msgid "Err:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pixScaleOut)
-#: ekos/align/align.ui:430 ekos/align/align.ui:467
+#: ekos/align/align.ui:433 ekos/align/align.ui:470
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image scale in arcsecs/pixel"
 msgstr "பிம்ப  குறைப்பு செயலாக்கம்..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/align/align.ui:433
+#: ekos/align/align.ui:436
 #, kde-format
 msgid "Pix:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
-#: ekos/align/align.ui:447
+#: ekos/align/align.ui:450
 #, kde-format
 msgid "Image rotation angle, East of North"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/align/align.ui:450
+#: ekos/align/align.ui:453
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "PA:"
 msgstr "புதிய RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
-#: ekos/align/align.ui:457
+#: ekos/align/align.ui:460
 #, fuzzy, kde-format
 msgid "Position angle in degrees, East of North"
 msgstr "&சுட்டுதல் "
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: ekos/align/align.ui:477
+#: ekos/align/align.ui:480
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "FL:"
 msgstr "புதிய RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
-#: ekos/align/align.ui:484
+#: ekos/align/align.ui:487
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Active telescope supplied (effective) focal length in "
@@ -6756,7 +6756,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/align/align.ui:494
+#: ekos/align/align.ui:497
 #, fuzzy, kde-format
 msgid "F/:"
 msgstr ""
@@ -6764,7 +6764,7 @@ msgstr ""
 "மேற்கு"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalRatioOut)
-#: ekos/align/align.ui:501
+#: ekos/align/align.ui:504
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Active telescope calculated (effective) focal ratio. "
@@ -6772,7 +6772,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/align/align.ui:524
+#: ekos/align/align.ui:527
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "R:"
@@ -6780,13 +6780,13 @@ msgstr "புதிய RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ReducerOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Reducer)
-#: ekos/align/align.ui:531 ekos/guide/guide.ui:646
+#: ekos/align/align.ui:534 ekos/guide/guide.ui:649
 #, kde-format
 msgid "Reducer"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, plateSolverOptionsGroup)
-#: ekos/align/align.ui:541
+#: ekos/align/align.ui:544
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "Plate Solve Capture Options"
@@ -6795,28 +6795,28 @@ msgstr "விண்மீன் கூட்ட பெயர் விருப
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
-#: ekos/align/align.ui:562 ekos/auxiliary/darklibrary.ui:474
-#: ekos/capture/capture.ui:144 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:741
+#: ekos/align/align.ui:565 ekos/auxiliary/darklibrary.ui:477
+#: ekos/capture/capture.ui:147 ekos/capture/captureprocessoverlay.ui:296
+#: ekos/focus/focus.ui:747
 #, kde-format
 msgid "Gain:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:569 ekos/focus/focus.ui:703 ekos/guide/guide.ui:393
+#: ekos/align/align.ui:572 ekos/focus/focus.ui:709 ekos/guide/guide.ui:396
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:591 ekos/focus/focus.ui:518 ekos/guide/guide.ui:158
+#: ekos/align/align.ui:594 ekos/focus/focus.ui:524 ekos/guide/guide.ui:161
 #, fuzzy, kde-format
 msgid "Show in FITS Viewer"
 msgstr "கே-ஸ்டார்ஸ் நல்வரவு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
-#: ekos/align/align.ui:607
+#: ekos/align/align.ui:610
 #, kde-format
 msgid ""
 "Subtract dark frame. If no suitable dark frame is available, a dark frame "
@@ -6826,13 +6826,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:610 ekos/capture/capture.ui:2129 ekos/guide/guide.ui:232
+#: ekos/align/align.ui:613 ekos/capture/capture.ui:2184 ekos/guide/guide.ui:235
 #, kde-format
 msgid "Dark"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignBinning)
-#: ekos/align/align.ui:617
+#: ekos/align/align.ui:620
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -6840,13 +6840,13 @@ msgid "Camera binning"
 msgstr "ஒளி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:636
+#: ekos/align/align.ui:639
 #, fuzzy, kde-format
 msgid "Toggle full screen"
 msgstr "கே-ஸ்டார்ஸ் நல்வரவு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignExposure)
-#: ekos/align/align.ui:652
+#: ekos/align/align.ui:655
 #, fuzzy, kde-format
 #| msgid "Day Duration"
 msgid "Exposure duration in seconds"
@@ -6855,9 +6855,8 @@ msgstr "பகல் கால அளவு"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, alignGain)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
-#: ekos/align/align.ui:677 ekos/auxiliary/darklibrary.ui:468
-#: ekos/auxiliary/darklibrary.ui:487 ekos/capture/capture.ui:138
-#: ekos/capture/capture.ui:378
+#: ekos/align/align.ui:680 ekos/auxiliary/darklibrary.ui:471
+#: ekos/auxiliary/darklibrary.ui:490 ekos/capture/capture.ui:141
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -6868,7 +6867,7 @@ msgstr "ஒளி"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:693 ekos/capture/capture.ui:487 ekos/focus/focus.ui:590
+#: ekos/align/align.ui:696 ekos/capture/capture.ui:516 ekos/focus/focus.ui:596
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, fuzzy, kde-format
 msgid "Filter:"
@@ -6876,8 +6875,8 @@ msgstr "நகர வடிகட்டி"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
-#: ekos/align/align.ui:700 ekos/auxiliary/darklibrary.ui:513
-#: ekos/capture/capture.ui:178
+#: ekos/align/align.ui:703 ekos/auxiliary/darklibrary.ui:516
+#: ekos/capture/capture.ui:181
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "Camera ISO"
@@ -6885,7 +6884,7 @@ msgstr "காமிரா"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:707 ekos/focus/focus.ui:763 ekos/guide/guide.ui:367
+#: ekos/align/align.ui:710 ekos/focus/focus.ui:769 ekos/guide/guide.ui:370
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -6893,7 +6892,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/align/align.ui:720 ekos/align/opsalign.ui:257
+#: ekos/align/align.ui:723 ekos/align/opsalign.ui:257
 #: ekos/capture/rotatorsettings.ui:14
 #, fuzzy, kde-format
 #| msgid "Current color settings"
@@ -6902,21 +6901,21 @@ msgstr "நடப்பு நிற அமைப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
-#: ekos/align/align.ui:740 ekos/auxiliary/darklibrary.ui:503
-#: ekos/capture/capture.ui:1120 ekos/focus/focus.ui:713
+#: ekos/align/align.ui:743 ekos/auxiliary/darklibrary.ui:506
+#: ekos/capture/capture.ui:1175 ekos/focus/focus.ui:719
 #, kde-format
 msgid "ISO:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, stellarSolverOptionsGroup)
-#: ekos/align/align.ui:750
+#: ekos/align/align.ui:753
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Mode"
 msgstr "FOV இல்லை"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localSolverR)
-#: ekos/align/align.ui:771
+#: ekos/align/align.ui:774
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Pantelleria"
@@ -6924,20 +6923,20 @@ msgid "StellarSolver"
 msgstr "பாண்டலேரியா"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteSolverR)
-#: ekos/align/align.ui:787
+#: ekos/align/align.ui:790
 #, fuzzy, kde-format
 msgid "Remote"
 msgstr "இணைப்பை நீக்கு"
 
 #. i18n: ectx: attribute (title), widget (QWidget, solutionResults)
-#: ekos/align/align.ui:843
+#: ekos/align/align.ui:846
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Results"
 msgstr "இடம் வலமான இடமதிப்பு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/align/align.ui:870
+#: ekos/align/align.ui:873
 #, kde-format
 msgid ""
 "The results from Astrometric Solutions from the Capture and Solve Tool, the "
@@ -6951,10 +6950,10 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, l_02)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/align/align.ui:911 ekos/align/opsastrometry.ui:389
-#: ekos/guide/guide.ui:334 ekos/guide/guide.ui:1219
+#: ekos/align/align.ui:914 ekos/align/opsastrometry.ui:389
+#: ekos/guide/guide.ui:337 ekos/guide/guide.ui:1222
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
-#: ekos/mount/mount.ui:158 ekos/scheduler/scheduler.ui:472
+#: ekos/mount/mount.ui:161 ekos/scheduler/scheduler.ui:472
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "DC"
@@ -6962,7 +6961,7 @@ msgid "DEC"
 msgstr "டிசி"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:916
+#: ekos/align/align.ui:919
 #, fuzzy, kde-format
 #| msgid "Object Name"
 msgid "Obj Name"
@@ -6970,20 +6969,20 @@ msgstr "பொருள் பெயர்"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/align.ui:921 ekos/align/mountmodel.ui:463
+#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:463
 #, kde-format
 msgid "~~"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:926
+#: ekos/align/align.ui:929
 #, fuzzy, kde-format
 #| msgid "RA"
 msgid "dRA"
 msgstr "RA"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/align/align.ui:931
+#: ekos/align/align.ui:934
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "DC"
@@ -6991,7 +6990,7 @@ msgid "dDE"
 msgstr "டிசி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllSolutionsB)
-#: ekos/align/align.ui:956
+#: ekos/align/align.ui:959
 #, kde-format
 msgid ""
 "Clear all of the solutions from the solutions table.  Be careful because you "
@@ -6999,7 +6998,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeSolutionB)
-#: ekos/align/align.ui:978
+#: ekos/align/align.ui:981
 #, kde-format
 msgid ""
 "Remove the selected row from the solutions table.  This can be useful for "
@@ -7009,7 +7008,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportSolutionsCSV)
-#: ekos/align/align.ui:1000
+#: ekos/align/align.ui:1003
 #, kde-format
 msgid ""
 "Export all of the solutions in the Solution Results table to CSV file of "
@@ -7017,13 +7016,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoScaleGraphB)
-#: ekos/align/align.ui:1022
+#: ekos/align/align.ui:1025
 #, kde-format
 msgid "Auto scale and center the Solution Results graph."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1045
+#: ekos/align/align.ui:1048
 #, kde-format
 msgid ""
 "Launch the mount model tool. This tool enables you to create pre-programmed "
@@ -7032,7 +7031,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, mountModelB)
-#: ekos/align/align.ui:1048
+#: ekos/align/align.ui:1051
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Mario"
@@ -7135,14 +7134,14 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "பட்டியலை பார்க்கிறது...."
 
-#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4382
+#: ekos/align/mountmodel.cpp:282 ekos/capture/capture.cpp:4407
 #: ekos/scheduler/scheduler.cpp:4421 ekos/scheduler/scheduler.cpp:7104
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4409
+#: ekos/align/mountmodel.cpp:304 ekos/capture/capture.cpp:4434
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7726,7 +7725,7 @@ msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:423
+#: ekos/align/opsalign.ui:247 ekos/mount/mount.ui:426
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Park"
@@ -7734,8 +7733,8 @@ msgstr "தானியங்கி அளவுகோள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7457
-#: ekos/focus/focus.ui:1234
+#: ekos/align/opsalign.ui:265 ekos/capture/capture.cpp:7482
+#: ekos/focus/focus.ui:1240
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -8331,8 +8330,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, eastRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:256 ekos/analyze/analyze.ui:148
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:213 ekos/guide/guide.ui:296
-#: ekos/guide/guide.ui:448 kstarslite/qml/indi/modules/MotionControl.qml:294
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:213 ekos/guide/guide.ui:299
+#: ekos/guide/guide.ui:451 kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
 msgid "+"
 msgstr ""
@@ -8350,8 +8349,8 @@ msgstr "இடத்தை அமைக்கவும்"
 #. i18n: ectx: property (text), widget (QCheckBox, westRAGuideEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, southDECGuideEnabled)
 #: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:196
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:306
-#: ekos/guide/guide.ui:458 kstarslite/qml/indi/modules/MotionControl.qml:264
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:309
+#: ekos/guide/guide.ui:461 kstarslite/qml/indi/modules/MotionControl.qml:264
 #, kde-format, kde-kuit-format
 msgid "-"
 msgstr ""
@@ -9634,7 +9633,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1199
+#: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
 #: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
@@ -9783,7 +9782,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
-#: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:572
+#: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
 #: ekos/manager.cpp:128 ekos/manager.cpp:215 ekos/manager.cpp:562
 #: ekos/observatory/observatorydomemodel.cpp:123
 #: ekos/observatory/observatorydomemodel.cpp:125
@@ -9803,7 +9802,7 @@ msgstr "தொடங்கு"
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:1637
 #: ekos/analyze/analyze.ui:307 ekos/auxiliary/opslogs.ui:285
-#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:129
+#: ekos/capture/capturepreviewwidget.ui:79 ekos/guide/guide.ui:132
 #: ekos/opsekos.ui:505
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -9910,7 +9909,7 @@ msgstr "FITS யை ஏற்றுகிறது..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, trackingGroup)
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
-#: ekos/mount/mount.ui:608 indi/indidome.cpp:21 indi/indimount.cpp:33
+#: ekos/mount/mount.ui:611 indi/indidome.cpp:21 indi/indimount.cpp:33
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Tracking"
@@ -9980,7 +9979,7 @@ msgstr "இதில் ஃபோகஸ் செய்யப்பட்டு�
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #: ekos/analyze/analyze.cpp:1640 ekos/analyze/analyze.ui:271
 #: ekos/auxiliary/opslogs.ui:120 ekos/guide/guide.cpp:55
-#: ekos/guide/guide.ui:255 ekos/manager.cpp:2152
+#: ekos/guide/guide.ui:258 ekos/manager.cpp:2152
 #: ekos/scheduler/framingassistant.ui:1201 ekos/scheduler/scheduler.ui:254
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:429
 #, fuzzy, kde-format
@@ -10820,7 +10819,7 @@ msgid "Prefer:"
 msgstr "முன்னொட்டு:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDarksRadio)
-#: ekos/auxiliary/darklibrary.ui:112
+#: ekos/auxiliary/darklibrary.ui:115
 #, kde-format
 msgid ""
 "For the selected camera, remove noise by means of dark frame subtraction."
@@ -10829,8 +10828,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, preferDarksRadio)
 #. i18n: ectx: attribute (title), widget (QWidget, darkTab)
 #. i18n: ectx: property (text), widget (QPushButton, darkLibraryB)
-#: ekos/auxiliary/darklibrary.ui:115 ekos/auxiliary/darklibrary.ui:164
-#: ekos/capture/capture.ui:2080
+#: ekos/auxiliary/darklibrary.ui:118 ekos/auxiliary/darklibrary.ui:167
+#: ekos/capture/capture.ui:2135
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sparks"
@@ -10838,13 +10837,13 @@ msgid "Darks"
 msgstr "ஸ்பார்க்ஸ்"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, preferDefectsRadio)
-#: ekos/auxiliary/darklibrary.ui:128
+#: ekos/auxiliary/darklibrary.ui:131
 #, kde-format
 msgid "For the selected camera, remove noise by means of defect map filtering."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDefectsRadio)
-#: ekos/auxiliary/darklibrary.ui:131
+#: ekos/auxiliary/darklibrary.ui:134
 #, kde-format
 msgid "Defects"
 msgstr ""
@@ -10852,7 +10851,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_9)
-#: ekos/auxiliary/darklibrary.ui:190 ekos/capture/capture.ui:1087
+#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/capture.ui:1142
 #: ekos/capture/captureprocessoverlay.ui:433
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -10861,13 +10860,13 @@ msgid "Binning:"
 msgstr "ஃபின்னிங்லே"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/auxiliary/darklibrary.ui:210
+#: ekos/auxiliary/darklibrary.ui:213
 #, kde-format
 msgid "Exp. Range:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
-#: ekos/auxiliary/darklibrary.ui:218
+#: ekos/auxiliary/darklibrary.ui:221
 #, fuzzy, kde-format
 #| msgid "Average"
 msgid "Average"
@@ -10875,53 +10874,53 @@ msgstr "சராசரி வரை"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, temperatureStepLabel)
-#: ekos/auxiliary/darklibrary.ui:226 ekos/auxiliary/darklibrary.ui:260
+#: ekos/auxiliary/darklibrary.ui:229 ekos/auxiliary/darklibrary.ui:263
 #, fuzzy, kde-format
 #| msgid "Square"
 msgid "Step:"
 msgstr "சதுரம்"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureLabel)
-#: ekos/auxiliary/darklibrary.ui:253
+#: ekos/auxiliary/darklibrary.ui:256
 #, kde-format
 msgid "T. Range:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, totalTime)
-#: ekos/auxiliary/darklibrary.ui:267
+#: ekos/auxiliary/darklibrary.ui:270
 #, kde-format
 msgid "Total estimated time until all dark frames are captured and processed."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin1Check)
-#: ekos/auxiliary/darklibrary.ui:288
+#: ekos/auxiliary/darklibrary.ui:291
 #, fuzzy, kde-format
 #| msgid "xi"
 msgid "1x1"
 msgstr "xi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
-#: ekos/auxiliary/darklibrary.ui:301
+#: ekos/auxiliary/darklibrary.ui:304
 #, kde-format
 msgid "2x2"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
-#: ekos/auxiliary/darklibrary.ui:311
+#: ekos/auxiliary/darklibrary.ui:314
 #, kde-format
 msgid "4x4"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
-#: ekos/auxiliary/darklibrary.ui:336 ekos/capture/capture.ui:1113
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/capture.ui:1168
 #, kde-format
 msgid "Count:"
 msgstr "எண்:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: ekos/auxiliary/darklibrary.ui:343 ekos/focus/focus.ui:1210
+#: ekos/auxiliary/darklibrary.ui:346 ekos/focus/focus.ui:1216
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Algorab"
@@ -10929,28 +10928,28 @@ msgid "Algorithm:"
 msgstr "அல்கோரப்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, exposureStepSin)
-#: ekos/auxiliary/darklibrary.ui:363
+#: ekos/auxiliary/darklibrary.ui:366
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Step size in seconds"
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/auxiliary/darklibrary.ui:379
+#: ekos/auxiliary/darklibrary.ui:382
 #, fuzzy, kde-format
 #| msgid "Local Time"
 msgid "Total Time:"
 msgstr "உள் நேரம்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minExposureSpin)
-#: ekos/auxiliary/darklibrary.ui:386
+#: ekos/auxiliary/darklibrary.ui:389
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Minimum exposure time in seconds."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, countSpin)
-#: ekos/auxiliary/darklibrary.ui:402
+#: ekos/auxiliary/darklibrary.ui:405
 #, kde-format
 msgid ""
 "Captures per configuration. This number of images would be averaged to "
@@ -10960,47 +10959,47 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, temperatureToLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/auxiliary/darklibrary.ui:431 ekos/auxiliary/darklibrary.ui:454
+#: ekos/auxiliary/darklibrary.ui:434 ekos/auxiliary/darklibrary.ui:457
 #: tools/obslistwizard.ui:779
 #, fuzzy, kde-format
 msgid "To:"
 msgstr "UT:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxExposureSpin)
-#: ekos/auxiliary/darklibrary.ui:438
+#: ekos/auxiliary/darklibrary.ui:441
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Maximum exposure time in seconds."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/auxiliary/darklibrary.ui:461
+#: ekos/auxiliary/darklibrary.ui:464
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "Total Images:"
 msgstr "பிம்ப சேரிடங்களை ஏற்றுகிறது."
 
 #. i18n: ectx: property (format), widget (QProgressBar, darkProgress)
-#: ekos/auxiliary/darklibrary.ui:547
+#: ekos/auxiliary/darklibrary.ui:550
 #, no-c-format, kde-format
 msgid "%v/%m"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, defectMapsTab)
-#: ekos/auxiliary/darklibrary.ui:592
+#: ekos/auxiliary/darklibrary.ui:595
 #, kde-format
 msgid "Defect Maps"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/auxiliary/darklibrary.ui:618
+#: ekos/auxiliary/darklibrary.ui:621
 #, fuzzy, kde-format
 msgid "Master Dark:"
 msgstr "நெதர்லாந்து"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/auxiliary/darklibrary.ui:677 oal/execute.ui:417
+#: ekos/auxiliary/darklibrary.ui:680 oal/execute.ui:417
 #: printing/loggingform.cpp:41
 #, fuzzy, kde-format
 #| msgid "Time"
@@ -11011,28 +11010,28 @@ msgstr "நேரம்"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel_2)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/auxiliary/darklibrary.ui:700 ekos/capture/capture.ui:510
+#: ekos/auxiliary/darklibrary.ui:703 ekos/capture/capture.ui:539
 #: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1025
 #, kde-format
 msgid "Exposure:"
 msgstr "வெளிதோற்றம்:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/auxiliary/darklibrary.ui:720
+#: ekos/auxiliary/darklibrary.ui:723
 #, fuzzy, kde-format
 msgid "Temperature:"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, minLabel_2)
-#: ekos/auxiliary/darklibrary.ui:740 fitsviewer/fitshistogramui.ui:150
+#: ekos/auxiliary/darklibrary.ui:743 fitsviewer/fitshistogramui.ui:150
 #, kde-format
 msgid "Mean:"
 msgstr "சராசரி:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #. i18n: ectx: property (text), widget (QLabel, maxLabel_2)
-#: ekos/auxiliary/darklibrary.ui:760 fitsviewer/fitshistogramui.ui:157
+#: ekos/auxiliary/darklibrary.ui:763 fitsviewer/fitshistogramui.ui:157
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Meriden"
@@ -11040,44 +11039,44 @@ msgid "Median:"
 msgstr "மெரிடன்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: ekos/auxiliary/darklibrary.ui:780
+#: ekos/auxiliary/darklibrary.ui:783
 #, fuzzy, kde-format
 msgid "Std. Deviation:"
 msgstr "கீழ்நோக்கி சரிவது:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:803
+#: ekos/auxiliary/darklibrary.ui:806
 #, kde-format
 msgid "Bad Pixels"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: ekos/auxiliary/darklibrary.ui:824
+#: ekos/auxiliary/darklibrary.ui:827
 #, kde-format
 msgid "Hot Pixels"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
-#: ekos/auxiliary/darklibrary.ui:831 ekos/auxiliary/darklibrary.ui:949
+#: ekos/auxiliary/darklibrary.ui:834 ekos/auxiliary/darklibrary.ui:952
 #, kde-format
 msgid "Detected pixels after aggressiveness filter"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/auxiliary/darklibrary.ui:844
+#: ekos/auxiliary/darklibrary.ui:847
 #, kde-format
 msgid "Cold Pixels"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, coldPixelsEnabled)
-#: ekos/auxiliary/darklibrary.ui:851
+#: ekos/auxiliary/darklibrary.ui:854
 #, kde-format
 msgid "Enable cold pixel detection in the master dark frame."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessHotSlider)
-#: ekos/auxiliary/darklibrary.ui:869
+#: ekos/auxiliary/darklibrary.ui:872
 #, kde-format
 msgid ""
 "Aggressiveness level. Increase value to include more hot pixels. Click "
@@ -11085,13 +11084,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hotPixelsEnabled)
-#: ekos/auxiliary/darklibrary.ui:900
+#: ekos/auxiliary/darklibrary.ui:903
 #, kde-format
 msgid "Enable detection of hot pixels in the master dark frame."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessColdSlider)
-#: ekos/auxiliary/darklibrary.ui:918
+#: ekos/auxiliary/darklibrary.ui:921
 #, kde-format
 msgid ""
 "Aggressiveness level. Increase value to include more cold pixels.  Click "
@@ -11099,7 +11098,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
-#: ekos/auxiliary/darklibrary.ui:976
+#: ekos/auxiliary/darklibrary.ui:979
 #, kde-format
 msgid "Reset aggressiveness sliders to default values."
 msgstr ""
@@ -11107,8 +11106,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:979 ekos/focus/focus.ui:474
-#: ekos/mount/mount.ui:343
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:480
+#: ekos/mount/mount.ui:346
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arese"
@@ -11116,33 +11115,33 @@ msgid "Reset"
 msgstr "அரெஸ்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateMapB)
-#: ekos/auxiliary/darklibrary.ui:1005
+#: ekos/auxiliary/darklibrary.ui:1008
 #, kde-format
 msgid "Detect hot and cold pixels within the aggressiveness threshold."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, generateMapB)
-#: ekos/auxiliary/darklibrary.ui:1008
+#: ekos/auxiliary/darklibrary.ui:1011
 #, fuzzy, kde-format
 #| msgid "General"
 msgid "Generate Map"
 msgstr "பொது"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveMapB)
-#: ekos/auxiliary/darklibrary.ui:1027
+#: ekos/auxiliary/darklibrary.ui:1030
 #, kde-format
 msgid "Save defect map to disk once the map results are satisfactory."
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, mastersTab)
-#: ekos/auxiliary/darklibrary.ui:1063
+#: ekos/auxiliary/darklibrary.ui:1066
 #, fuzzy, kde-format
 #| msgid "asteroid"
 msgid "Masters"
 msgstr "கோள்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRowB)
-#: ekos/auxiliary/darklibrary.ui:1089
+#: ekos/auxiliary/darklibrary.ui:1092
 #, kde-format
 msgid ""
 "Remove one row from the database and delete the associated dark frame from "
@@ -11150,14 +11149,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, clearRowB)
-#: ekos/auxiliary/darklibrary.ui:1092
+#: ekos/auxiliary/darklibrary.ui:1095
 #, fuzzy, kde-format
 msgid "Clear Row"
 msgstr "கிளியர்"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: label, entry (MaxDarkTemperatureDiff), group (DarkLibrary)
-#: ekos/auxiliary/darklibrary.ui:1099 kstars.kcfg:1540
+#: ekos/auxiliary/darklibrary.ui:1102 kstars.kcfg:1540
 #, kde-format
 msgid ""
 "Maximum acceptable difference between current and recorded dark frame "
@@ -11166,7 +11165,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/auxiliary/darklibrary.ui:1102
+#: ekos/auxiliary/darklibrary.ui:1105
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -11174,13 +11173,13 @@ msgid "T. threshold:"
 msgstr "ஃப்ரீஹொல்ட்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllB)
-#: ekos/auxiliary/darklibrary.ui:1109
+#: ekos/auxiliary/darklibrary.ui:1112
 #, kde-format
 msgid "Remove all dark frames data and files"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, clearAllB)
-#: ekos/auxiliary/darklibrary.ui:1112
+#: ekos/auxiliary/darklibrary.ui:1115
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Calar Alto"
@@ -11189,14 +11188,14 @@ msgstr "கலர் ஆல்டொ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/auxiliary/darklibrary.ui:1119 ekos/opsekos.ui:541
+#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:541
 #, kde-format
 msgid "° C"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (DarkLibraryDuration), group (Capture)
-#: ekos/auxiliary/darklibrary.ui:1126 kstars.kcfg:1744
+#: ekos/auxiliary/darklibrary.ui:1129 kstars.kcfg:1744
 #, kde-format
 msgid ""
 "Reuse dark frames from the dark library for this many days. If exceeded, a "
@@ -11204,33 +11203,33 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/auxiliary/darklibrary.ui:1129
+#: ekos/auxiliary/darklibrary.ui:1132
 #, kde-format
 msgid "Dark validity:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openDarksFolderB)
-#: ekos/auxiliary/darklibrary.ui:1165
+#: ekos/auxiliary/darklibrary.ui:1168
 #, kde-format
 msgid "Open folder where dark frames are stored"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, openDarksFolderB)
-#: ekos/auxiliary/darklibrary.ui:1168
+#: ekos/auxiliary/darklibrary.ui:1171
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Darks Folder"
 msgstr "நட்சத்திரப் பெயர்"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearExpiredB)
-#: ekos/auxiliary/darklibrary.ui:1192
+#: ekos/auxiliary/darklibrary.ui:1195
 #, fuzzy, kde-format
 #| msgid "Clear Fields"
 msgid "Clear Expired"
 msgstr "புலங்களை அழி"
 
 #. i18n: ectx: property (toolTip), widget (QTableView, darkTableView)
-#: ekos/auxiliary/darklibrary.ui:1208
+#: ekos/auxiliary/darklibrary.ui:1211
 #, fuzzy, kde-format
 msgid "Double click to load dark frame"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
@@ -11245,8 +11244,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, fileFilterS)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:926
-#: ekos/capture/capture.ui:1794 oal/equipmentwriter.ui:940
+#: ekos/auxiliary/filtermanager.cpp:54 ekos/capture/capture.ui:981
+#: ekos/capture/capture.ui:1849 oal/equipmentwriter.ui:940
 #, fuzzy, kde-format
 msgid "Filter"
 msgstr "படிமங்களை வடிகட்டு"
@@ -11269,7 +11268,7 @@ msgid "Relative offset in steps"
 msgstr "&சுட்டுதல் "
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1824
+#: ekos/auxiliary/filtermanager.cpp:60 ekos/capture/capture.ui:1879
 #, fuzzy, kde-format
 msgid "Offset"
 msgstr "UT எதிரீடு :"
@@ -11281,7 +11280,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr "முடிந்தது"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:402
+#: ekos/auxiliary/filtermanager.cpp:63 ekos/ekos.h:162 ekos/focus/focus.ui:408
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Auto Focus"
@@ -11321,8 +11320,8 @@ msgstr "பிழை நீக்கும் கோப்பு"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
-#: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:421
-#: ekos/focus/focus.ui:801
+#: ekos/auxiliary/filtersettings.ui:14 ekos/capture/capture.ui:450
+#: ekos/focus/focus.ui:807
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Filter Settings"
@@ -11388,7 +11387,7 @@ msgstr "ஃப்ரெமிங்கம்"
 msgid "Waiting..."
 msgstr "வேறு"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2204
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/capture.cpp:2229
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -11413,7 +11412,7 @@ msgstr "முடிந்தது"
 msgid "Aligning..."
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2626
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/capture.cpp:2651
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -11600,7 +11599,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:201
+#: ekos/auxiliary/opslogs.ui:202 ekos/capture/capture.ui:204
 #: kstarsactions.cpp:1119
 #, fuzzy, kde-format
 msgid "FITS"
@@ -11753,7 +11752,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFocuserLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
 #: ekos/auxiliary/opslogs.ui:387 ekos/auxiliary/opticaltrainmanager.cpp:207
-#: ekos/focus/focus.ui:105
+#: ekos/focus/focus.ui:111
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser"
@@ -12017,7 +12016,7 @@ msgstr "துறை"
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
 #: ekos/auxiliary/portselector.cpp:190 ekos/ekoslive/ekosliveclient.cpp:213
-#: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:321
+#: ekos/ekoslive/ekoslivedialog.ui:287 ekos/guide/guide.ui:324
 #: ekos/manager.ui:567 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -12028,7 +12027,7 @@ msgstr "இணை "
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
 #: ekos/auxiliary/portselector.cpp:197 ekos/ekoslive/ekosliveclient.cpp:187
-#: ekos/guide/guide.ui:383 ekos/manager.ui:583 indi/drivermanager.ui:368
+#: ekos/guide/guide.ui:386 ekos/manager.ui:583 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
@@ -12579,7 +12578,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_thresh)
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:478
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:481
 #, kde-format
 msgid "32"
 msgstr ""
@@ -13216,7 +13215,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1280
+#: ekos/capture/calibrationoptions.ui:203 ekos/focus/focus.ui:1286
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Torrance"
@@ -13242,13 +13241,13 @@ msgstr "எண்:"
 msgid "Park Dome"
 msgstr "சிறுநிரலை சேமி"
 
-#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5207
+#: ekos/capture/capture.cpp:257 ekos/capture/capture.cpp:5232
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "படிமங்கள் கவர்தல் தொடர்ச்சி..."
 
-#: ekos/capture/capture.cpp:258 ekos/capture/capture.cpp:5208
+#: ekos/capture/capture.cpp:258 ekos/capture/capture.cpp:5233
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -13294,7 +13293,7 @@ msgid ""
 "restart capturing?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/capture.cpp:853 ekos/capture/capture.cpp:4989
+#: ekos/capture/capture.cpp:853 ekos/capture/capture.cpp:5014
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "&சுட்டுதல் "
@@ -13345,327 +13344,327 @@ msgid "CCD capture stopped"
 msgstr "படிமங்கள் கவர்தல்"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/capture.cpp:1022 ekos/capture/capture.ui:2166
+#: ekos/capture/capture.cpp:1022 ekos/capture/capture.ui:2221
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "வெளிதோற்றம்:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/capture.cpp:1032 ekos/capture/capture.ui:1994
+#: ekos/capture/capture.cpp:1032 ekos/capture/capture.ui:2049
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Start Sequence"
 msgstr " Frequency அதிர்வலை:"
 
-#: ekos/capture/capture.cpp:1923
+#: ekos/capture/capture.cpp:1948
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "ஃப்ரெமிங்கம்"
 
-#: ekos/capture/capture.cpp:1956
+#: ekos/capture/capture.cpp:1981
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/capture.cpp:1964
+#: ekos/capture/capture.cpp:1989
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "படிமங்கள் கவர்தலின் தொடர்ச்சி"
 
-#: ekos/capture/capture.cpp:2033
+#: ekos/capture/capture.cpp:2058
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2053
+#: ekos/capture/capture.cpp:2078
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/capture/capture.cpp:2058
+#: ekos/capture/capture.cpp:2083
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/capture.cpp:2088
+#: ekos/capture/capture.cpp:2113
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing post capture script %1"
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/capture/capture.cpp:2117
+#: ekos/capture/capture.cpp:2142
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing post job script %1"
 msgstr "உயர்வு நேரம்: %1"
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/capture.cpp:2157
+#: ekos/capture/capture.cpp:2182
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "சூப்பர் நோவா மீதி"
 
-#: ekos/capture/capture.cpp:2306 ekos/capture/capture.cpp:3650
+#: ekos/capture/capture.cpp:2331 ekos/capture/capture.cpp:3675
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing pre capture script %1"
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/capture/capture.cpp:2364
+#: ekos/capture/capture.cpp:2389
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduled refocus starting after %1 seconds..."
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/capture.cpp:2376
+#: ekos/capture/capture.cpp:2401
 #, fuzzy, kde-format
 msgid "Refocus starting because of temperature change of %1 °C..."
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, meridianRefocusS)
-#: ekos/capture/capture.cpp:2384 ekos/capture/limits.ui:260
+#: ekos/capture/capture.cpp:2409 ekos/capture/limits.ui:260
 #, fuzzy, kde-format
 msgid "Refocus after meridian flip"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/capture.cpp:2451 ekos/capture/capture.cpp:2698
+#: ekos/capture/capture.cpp:2476 ekos/capture/capture.cpp:2723
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2468
+#: ekos/capture/capture.cpp:2493
 #, kde-format
 msgid "Cannot start framing while focus module is busy."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2473
+#: ekos/capture/capture.cpp:2498
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting framing..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/capture/capture.cpp:2526
+#: ekos/capture/capture.cpp:2551
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "இணைப்பு"
 
-#: ekos/capture/capture.cpp:2565
+#: ekos/capture/capture.cpp:2590
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2643
+#: ekos/capture/capture.cpp:2668
 #, fuzzy, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "கே-ஸ்டார்ஸ்-ஐ ஏற்றுகிறது"
 
-#: ekos/capture/capture.cpp:2677
+#: ekos/capture/capture.cpp:2702
 #, fuzzy, kde-format
 msgid "Failed to set sub frame."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/capture/capture.cpp:2682
+#: ekos/capture/capture.cpp:2707
 #, fuzzy, kde-format
 msgid "Failed to set binning."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/capture/capture.cpp:2829 ekos/capture/capture.cpp:2897
+#: ekos/capture/capture.cpp:2854 ekos/capture/capture.cpp:2922
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/capture.cpp:2867
+#: ekos/capture/capture.cpp:2892
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Downloading..."
 msgstr "தரவினை இறக்கு..."
 
-#: ekos/capture/capture.cpp:2998
+#: ekos/capture/capture.cpp:3023
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3004
+#: ekos/capture/capture.cpp:3029
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3162 ekos/capture/capture.cpp:3165
+#: ekos/capture/capture.cpp:3187 ekos/capture/capture.cpp:3190
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Dark Flat"
 msgstr "நட்சத்திரப் பெயர்"
 
-#: ekos/capture/capture.cpp:3241
+#: ekos/capture/capture.cpp:3266
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3443
+#: ekos/capture/capture.cpp:3468
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3444
+#: ekos/capture/capture.cpp:3469
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "காட்சி கருவிப்பட்டியின் காட்சியை மாற்று"
 
-#: ekos/capture/capture.cpp:3536
+#: ekos/capture/capture.cpp:3561
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3548
+#: ekos/capture/capture.cpp:3573
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3588 ekos/capture/capture.cpp:6451
+#: ekos/capture/capture.cpp:3613 ekos/capture/capture.cpp:6476
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
 msgstr "படிமத்தின் வடிவம்"
 
-#: ekos/capture/capture.cpp:3613
+#: ekos/capture/capture.cpp:3638
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing pre job script %1"
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/capture/capture.cpp:3718
+#: ekos/capture/capture.cpp:3743
 #, fuzzy, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "எல்லா அளபுருக்கள்"
 
-#: ekos/capture/capture.cpp:3719
+#: ekos/capture/capture.cpp:3744
 #, fuzzy, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "எல்லா அளபுருக்கள்"
 
-#: ekos/capture/capture.cpp:3722
+#: ekos/capture/capture.cpp:3747
 #, fuzzy, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:3723
+#: ekos/capture/capture.cpp:3748
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3727
+#: ekos/capture/capture.cpp:3752
 #, fuzzy, kde-format
 msgid "Setting rotation to %1 degrees E of N..."
 msgstr "எல்லா அளபுருக்கள்"
 
-#: ekos/capture/capture.cpp:3728
+#: ekos/capture/capture.cpp:3753
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Rotator to %1 deg..."
 msgstr "இடத்தை அமைக்கவும்"
 
-#: ekos/capture/capture.cpp:3805
+#: ekos/capture/capture.cpp:3830
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3863
+#: ekos/capture/capture.cpp:3888
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3872
+#: ekos/capture/capture.cpp:3897
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/capture.cpp:3895
+#: ekos/capture/capture.cpp:3920
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3909
+#: ekos/capture/capture.cpp:3934
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3948
+#: ekos/capture/capture.cpp:3973
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3994
+#: ekos/capture/capture.cpp:4019
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/capture.cpp:3998
+#: ekos/capture/capture.cpp:4023
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4013
+#: ekos/capture/capture.cpp:4038
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4086 ekos/capture/capture.cpp:4087
+#: ekos/capture/capture.cpp:4111 ekos/capture/capture.cpp:4112
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "முடிந்தது"
 
-#: ekos/capture/capture.cpp:4097
+#: ekos/capture/capture.cpp:4122
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4098
+#: ekos/capture/capture.cpp:4123
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "முடிந்தது"
 
-#: ekos/capture/capture.cpp:4166
+#: ekos/capture/capture.cpp:4191
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4185
+#: ekos/capture/capture.cpp:4210
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/capture.cpp:4186
+#: ekos/capture/capture.cpp:4211
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/capture.cpp:4199
+#: ekos/capture/capture.cpp:4224
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "முடிந்தது"
 
-#: ekos/capture/capture.cpp:4313 ekos/scheduler/framingassistantui.cpp:163
+#: ekos/capture/capture.cpp:4338 ekos/scheduler/framingassistantui.cpp:163
 #: ekos/scheduler/framingassistantui.cpp:178
 #: ekos/scheduler/framingassistantui.cpp:542
 #: ekos/scheduler/framingassistantui.cpp:816
@@ -13675,46 +13674,46 @@ msgstr "முடிந்தது"
 msgid "unnamed"
 msgstr "பெயரிடப்படாதது"
 
-#: ekos/capture/capture.cpp:4348 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/capture.cpp:4373 ekos/scheduler/framingassistant.cpp:221
 #: ekos/scheduler/mosaic.cpp:212
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "முன்னிருப்பு FITS அடைவு:"
 
-#: ekos/capture/capture.cpp:4359
+#: ekos/capture/capture.cpp:4384
 #, fuzzy, kde-format
 #| msgid "Observing List..."
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "பட்டியலை பார்க்கிறது...."
 
-#: ekos/capture/capture.cpp:4471
+#: ekos/capture/capture.cpp:4496
 #, kde-format
 msgid ""
 "Meridian flip configuration has been shifted to the mount module. Please "
 "configure the meridian flip there."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4752
+#: ekos/capture/capture.cpp:4777
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "படிமங்கள் கவர்தல் தொடர்ச்சி..."
 
-#: ekos/capture/capture.cpp:4773
+#: ekos/capture/capture.cpp:4798
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/capture.cpp:4805
+#: ekos/capture/capture.cpp:4830
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not open file"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை"
 
-#: ekos/capture/capture.cpp:4825
+#: ekos/capture/capture.cpp:4850
 #, kde-format
 msgid ""
 "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value to "
@@ -13722,94 +13721,94 @@ msgid ""
 "file."
 msgstr ""
 
-#: ekos/capture/capture.cpp:4965
+#: ekos/capture/capture.cpp:4990
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Sequence queue saved to %1"
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/capture.cpp:4989
+#: ekos/capture/capture.cpp:5014
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/capture.cpp:5186
+#: ekos/capture/capture.cpp:5211
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "இணைப்பை திருத்து"
 
-#: ekos/capture/capture.cpp:5189 ekos/scheduler/scheduler.cpp:1628
+#: ekos/capture/capture.cpp:5214 ekos/scheduler/scheduler.cpp:1628
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5190
+#: ekos/capture/capture.cpp:5215
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "FITSயில் மாற்றங்களை சேமிக்க வேண்டுமா?"
 
-#: ekos/capture/capture.cpp:5202
+#: ekos/capture/capture.cpp:5227
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
 msgstr "இணைப்பை திருத்து"
 
-#: ekos/capture/capture.cpp:5480
+#: ekos/capture/capture.cpp:5505
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5482
+#: ekos/capture/capture.cpp:5507
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/capture.cpp:5512
+#: ekos/capture/capture.cpp:5537
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5527
+#: ekos/capture/capture.cpp:5552
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5555
+#: ekos/capture/capture.cpp:5580
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5574
+#: ekos/capture/capture.cpp:5599
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr " Frequency அதிர்வலை:"
 
-#: ekos/capture/capture.cpp:5622
+#: ekos/capture/capture.cpp:5647
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:5648
+#: ekos/capture/capture.cpp:5673
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5667
+#: ekos/capture/capture.cpp:5692
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/capture.cpp:5672
+#: ekos/capture/capture.cpp:5697
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "தொலை நோக்கி"
 
-#: ekos/capture/capture.cpp:5713
+#: ekos/capture/capture.cpp:5738
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -13817,234 +13816,234 @@ msgid "Dithering succeeded."
 msgstr "வேறு"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5720
+#: ekos/capture/capture.cpp:5745
 #, fuzzy, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:5728
+#: ekos/capture/capture.cpp:5753
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Dither complete."
 msgstr "முடிந்தது"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capture.cpp:5742
+#: ekos/capture/capture.cpp:5767
 #, fuzzy, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:5751
+#: ekos/capture/capture.cpp:5776
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Dithering failed."
 msgstr "வேறு"
 
-#: ekos/capture/capture.cpp:5773
+#: ekos/capture/capture.cpp:5798
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:5782
+#: ekos/capture/capture.cpp:5807
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:5789
+#: ekos/capture/capture.cpp:5814
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6067
+#: ekos/capture/capture.cpp:6092
 #, fuzzy, kde-format
 msgid "Wall coordinates are invalid."
 msgstr "தவறான இட அமைப்பு"
 
-#: ekos/capture/capture.cpp:6177
+#: ekos/capture/capture.cpp:6202
 #, fuzzy, kde-format
 msgid "Autoguiding resumed."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:6212
+#: ekos/capture/capture.cpp:6237
 #, fuzzy, kde-format
 msgid "Autoguiding suspended."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/capture.cpp:6285
+#: ekos/capture/capture.cpp:6310
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6296
+#: ekos/capture/capture.cpp:6321
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6317
+#: ekos/capture/capture.cpp:6342
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6351
+#: ekos/capture/capture.cpp:6376
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6359
+#: ekos/capture/capture.cpp:6384
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6381
+#: ekos/capture/capture.cpp:6406
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "%1யில் தரவு கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/capture.cpp:6391
+#: ekos/capture/capture.cpp:6416
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6399
+#: ekos/capture/capture.cpp:6424
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6409
+#: ekos/capture/capture.cpp:6434
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/capture.cpp:6414
+#: ekos/capture/capture.cpp:6439
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resuming sequence..."
 msgstr " Frequency அதிர்வலை:"
 
-#: ekos/capture/capture.cpp:6420
+#: ekos/capture/capture.cpp:6445
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6425
+#: ekos/capture/capture.cpp:6450
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6520
+#: ekos/capture/capture.cpp:6545
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "சேவையகம்"
 
-#: ekos/capture/capture.cpp:6522
+#: ekos/capture/capture.cpp:6547
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "சேவையகம்"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/capture.cpp:6533 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/capture.cpp:6558 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "சேவையகம்"
 
-#: ekos/capture/capture.cpp:6578
+#: ekos/capture/capture.cpp:6603
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Ekos will refocus in %1 seconds."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/capture.cpp:6583
+#: ekos/capture/capture.cpp:6608
 #, kde-format
 msgid "Ekos will refocus in %1 seconds, last procedure was %2 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:6588
+#: ekos/capture/capture.cpp:6613
 #, kde-format
 msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7023
+#: ekos/capture/capture.cpp:7048
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7025
+#: ekos/capture/capture.cpp:7050
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "உறுதிபடுத்தியதை அழி"
 
-#: ekos/capture/capture.cpp:7041
+#: ekos/capture/capture.cpp:7066
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7041
+#: ekos/capture/capture.cpp:7066
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7052 ekos/focus/focus.cpp:3981
+#: ekos/capture/capture.cpp:7077 ekos/focus/focus.cpp:3981
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/capture.cpp:7075 ekos/focus/focus.cpp:3986
+#: ekos/capture/capture.cpp:7100 ekos/focus/focus.cpp:3986
 #: ekos/guide/guide.cpp:882
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/capture.cpp:7412
+#: ekos/capture/capture.cpp:7437
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா ?"
 
-#: ekos/capture/capture.cpp:7413
+#: ekos/capture/capture.cpp:7438
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "நட்சத்திரம்"
 
-#: ekos/capture/capture.cpp:7449
+#: ekos/capture/capture.cpp:7474
 #, kde-format
 msgctxt "Temperature ramp celcius per minute"
 msgid "Ramp (C/min):"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7455
+#: ekos/capture/capture.cpp:7480
 #, kde-format
 msgid ""
 "Maximum temperature change per minute when cooling or warming the camera. "
 "Set zero to disable."
 msgstr ""
 
-#: ekos/capture/capture.cpp:7463
+#: ekos/capture/capture.cpp:7488
 #, kde-format
 msgid "Maximum difference between camera and target temperatures"
 msgstr ""
 
-#: ekos/capture/capture.cpp:7473
+#: ekos/capture/capture.cpp:7498
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "எல்லா அளபுருக்கள்"
 
-#: ekos/capture/capture.cpp:7504
+#: ekos/capture/capture.cpp:7529
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -14053,51 +14052,51 @@ msgstr[1] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CCDFWGroup)
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/capture/capture.ui:117 ekos/focus/focus.ui:431
+#: ekos/capture/capture.ui:120 ekos/focus/focus.ui:437
 #, fuzzy, kde-format
 msgid "Camera && Filter Wheel"
 msgstr "படிமங்களை வடிகட்டு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/capture/capture.ui:156
+#: ekos/capture/capture.ui:159
 #, fuzzy, kde-format
 msgid "<b>File Settings</b>"
 msgstr "கெட்டரிங்"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
-#: ekos/capture/capture.ui:190
+#: ekos/capture/capture.ui:193
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image capture format"
 msgstr "பிம்ப  குறைப்பு செயலாக்கம்..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
-#: ekos/capture/capture.ui:197
+#: ekos/capture/capture.ui:200
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image transfer format"
 msgstr "படிமத்தின் வடிவம்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/capture/capture.ui:206
+#: ekos/capture/capture.ui:209
 #, kde-format
 msgid "Native"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinHN)
-#: ekos/capture/capture.ui:240
+#: ekos/capture/capture.ui:243
 #, fuzzy, kde-format
 msgid "Horizontal binning"
 msgstr "தொடுவானம்"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_11)
-#: ekos/capture/capture.ui:262
+#: ekos/capture/capture.ui:265
 #, kde-format
 msgid "V:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
-#: ekos/capture/capture.ui:275
+#: ekos/capture/capture.ui:278
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
@@ -14105,14 +14104,14 @@ msgid "Vertical binning"
 msgstr "ஒளி"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
-#: ekos/capture/capture.ui:306
+#: ekos/capture/capture.ui:309
 #, kde-format
 msgid "Delay in seconds between consecutive images"
 msgstr "தொடரும் படிமங்களுக்கு இடையே நொடியில் தாமதி"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:312 ekos/guide/guide.ui:403
+#: ekos/capture/capture.ui:315 ekos/guide/guide.ui:406
 #, kde-format
 msgid "Delay:"
 msgstr "தாமதம்:"
@@ -14120,7 +14119,7 @@ msgstr "தாமதம்:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_13)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_26)
-#: ekos/capture/capture.ui:330 ekos/guide/manualdither.ui:67
+#: ekos/capture/capture.ui:333 ekos/guide/manualdither.ui:67
 #: ekos/guide/opscalibration.ui:178
 #, kde-format
 msgid "X:"
@@ -14129,28 +14128,53 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_14)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, l_27)
-#: ekos/capture/capture.ui:353 ekos/guide/manualdither.ui:88
+#: ekos/capture/capture.ui:356 ekos/guide/manualdither.ui:88
 #: ekos/guide/opscalibration.ui:195
 #, kde-format
 msgid "Y:"
 msgstr ""
 
+#. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
+#: ekos/capture/capture.ui:386
+#, fuzzy, kde-format
+#| msgid "Current Script"
+msgid "Current camera gain"
+msgstr "நடப்பு சிறுநிரல்"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
+#: ekos/capture/capture.ui:405
+#, fuzzy, kde-format
+#| msgid "Delete Confirmation"
+msgid "Target camera gain"
+msgstr "உறுதிபடுத்தியதை அழி"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
-#: ekos/capture/capture.ui:459
+#: ekos/capture/capture.ui:488
 #, fuzzy, kde-format
 #| msgid "City filter:"
 msgid "Edit filter names"
 msgstr "நகர வடிகட்டி"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, exposureLabel_2)
-#: ekos/capture/capture.ui:504
+#: ekos/capture/capture.ui:533
 #, kde-format
 msgid "Set the exposure time in seconds for individual images, if applicable"
 msgstr "வெளிகாட்டும் நேரத்தை நொடியில் தனித்தனி படிமங்களாக, ஏற்றுக்கொண்டால் அமை"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
+#: ekos/capture/capture.ui:557
+#, fuzzy, kde-format
+msgid "Current camera offset"
+msgstr "UT எதிரீடு :"
+
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
+#: ekos/capture/capture.ui:576
+#, fuzzy, kde-format
+msgid "Target camera offset"
+msgstr "UT எதிரீடு :"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
-#: ekos/capture/capture.ui:523 ekos/capture/capture.ui:539
+#: ekos/capture/capture.ui:594
 #, fuzzy, kde-format
 msgid "Camera Offset"
 msgstr "UT எதிரீடு :"
@@ -14158,39 +14182,39 @@ msgstr "UT எதிரீடு :"
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/capture/capture.ui:545 ekos/capture/captureprocessoverlay.ui:154
+#: ekos/capture/capture.ui:600 ekos/capture/captureprocessoverlay.ui:154
 #: oal/equipmentwriter.ui:1054
 #, fuzzy, kde-format
 msgid "Offset:"
 msgstr "UT எதிரீடு :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/capture.ui:565
+#: ekos/capture/capture.ui:620
 #, fuzzy, kde-format
 #| msgid "Valid date formats: "
 msgid "Format:"
 msgstr "செல்லுபடியாகும் தேதி வடிவமைப்புகள்:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
-#: ekos/capture/capture.ui:592
+#: ekos/capture/capture.ui:647
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
-#: ekos/capture/capture.ui:618
+#: ekos/capture/capture.ui:673
 #, kde-format
 msgid "Manage INDI sequence properties"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/capture/capture.ui:650
+#: ekos/capture/capture.ui:705
 #, kde-format
 msgid "Reset CCD frame & size values to default values"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
-#: ekos/capture/capture.ui:679
+#: ekos/capture/capture.ui:734
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Generate Dark Flats after adding Flat frames to the "
@@ -14198,7 +14222,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
-#: ekos/capture/capture.ui:708
+#: ekos/capture/capture.ui:763
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -14206,7 +14230,7 @@ msgid "Rotator Control"
 msgstr "மான்ட்ரியல்"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
-#: ekos/capture/capture.ui:795
+#: ekos/capture/capture.ui:850
 #, fuzzy, kde-format
 msgid "W:"
 msgstr ""
@@ -14214,32 +14238,32 @@ msgstr ""
 "மேற்கு"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/capture.ui:851
+#: ekos/capture/capture.ui:906
 #, kde-format
 msgid "/home/pi"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:890
+#: ekos/capture/capture.ui:945
 #, fuzzy, kde-format
 #| msgid "Local"
 msgid "Locally"
 msgstr "உள்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:895
+#: ekos/capture/capture.ui:950
 #, fuzzy, kde-format
 msgid "Remotely"
 msgstr "இணைப்பை நீக்கு"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/capture.ui:900
+#: ekos/capture/capture.ui:955
 #, kde-format
 msgid "Both"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:908
+#: ekos/capture/capture.ui:963
 #, kde-format
 msgid ""
 "Post-capture script to be executed after an image is captured. The capture "
@@ -14247,54 +14271,54 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/capture/capture.ui:911
+#: ekos/capture/capture.ui:966
 #, fuzzy, kde-format
 #| msgid "Prefix:"
 msgid "Postfix:"
 msgstr "முன்னொட்டு:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fileFilterS)
-#: ekos/capture/capture.ui:923
+#: ekos/capture/capture.ui:978
 #, kde-format
 msgid "Append the active filter slot to the prefix"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fileDurationS)
-#: ekos/capture/capture.ui:933
+#: ekos/capture/capture.ui:988
 #, kde-format
 msgid "Append the expose duration to the prefix"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fileDurationS)
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/capture.ui:936 indi/recordingoptions.ui:40
+#: ekos/capture/capture.ui:991 indi/recordingoptions.ui:40
 #, fuzzy, kde-format
 msgid "Duration"
 msgstr "பகல் கால அளவு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fileTimestampS)
-#: ekos/capture/capture.ui:943
+#: ekos/capture/capture.ui:998
 #, fuzzy, kde-format
 #| msgid "Add time stamp to the file name"
 msgid "Append time stamp to the prefix"
 msgstr "நேர அச்சை கோப்பு பெயருடன் சேர்"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fileTimestampS)
-#: ekos/capture/capture.ui:946
+#: ekos/capture/capture.ui:1001
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgid "TS"
 msgstr "UT:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/capture.ui:974
+#: ekos/capture/capture.ui:1029
 #, kde-format
 msgid "Local directory to save sequence images"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/capture.ui:980 ekos/scheduler/mosaic.ui:974
+#: ekos/capture/capture.ui:1035 ekos/scheduler/mosaic.ui:974
 #: indi/recordingoptions.ui:94
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
@@ -14302,7 +14326,7 @@ msgid "Directory:"
 msgstr "முன்னிருப்பு FITS அடைவு:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/capture.ui:993
+#: ekos/capture/capture.ui:1048
 #, kde-format
 msgid ""
 "<p>Prefix is used to generate file names ( e.g. M42_HA_240_secs_001.fits)</"
@@ -14319,13 +14343,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
-#: ekos/capture/capture.ui:999
+#: ekos/capture/capture.ui:1054
 #, kde-format
 msgid "Prefix:"
 msgstr "முன்னொட்டு:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/capture/capture.ui:1006
+#: ekos/capture/capture.ui:1061
 #, kde-format
 msgid ""
 "When storing images on remote devices, specify the directory where captured "
@@ -14334,13 +14358,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/capture.ui:1009 ekos/profileeditor.ui:480
+#: ekos/capture/capture.ui:1064 ekos/profileeditor.ui:480
 #, fuzzy, kde-format
 msgid "Remote:"
 msgstr "இணைப்பை நீக்கு"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:1019
+#: ekos/capture/capture.ui:1074
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select how captured images are uploaded:</p><ol style="
@@ -14364,13 +14388,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/capture.ui:1022
+#: ekos/capture/capture.ui:1077
 #, fuzzy, kde-format
 msgid "Save:"
 msgstr "பதிவைச் சேமி"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filePrefixT)
-#: ekos/capture/capture.ui:1029
+#: ekos/capture/capture.ui:1084
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
@@ -14378,19 +14402,19 @@ msgid "Target"
 msgstr "சார்ஜென்ட்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/capture/capture.ui:1059
+#: ekos/capture/capture.ui:1114
 #, kde-format
 msgid "<b>Capture Settings</b>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
-#: ekos/capture/capture.ui:1081
+#: ekos/capture/capture.ui:1136
 #, kde-format
 msgid "Horizontal and Vertical binning"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
-#: ekos/capture/capture.ui:1100
+#: ekos/capture/capture.ui:1155
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Frame:"
@@ -14400,78 +14424,78 @@ msgstr "பெயர்:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/capture.ui:1107 ekos/capture/limits.ui:60
-#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:584
+#: ekos/capture/capture.ui:1162 ekos/capture/limits.ui:60
+#: ekos/capture/limits.ui:169 ekos/focus/focus.ui:590
 #, kde-format
 msgid "Number of images to capture"
 msgstr "படமாக்க வேண்டிய படிமத்தின் எண்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
-#: ekos/capture/capture.ui:1156
+#: ekos/capture/capture.ui:1211
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Restart camera driver"
 msgstr "முன்னிருப்பு FITS அடைவு:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/capture.ui:1188
+#: ekos/capture/capture.ui:1243
 #, fuzzy, kde-format
 msgid "Temperature regulation"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/capture.ui:1223
+#: ekos/capture/capture.ui:1278
 #, fuzzy, kde-format
 msgid "Set CCD temperature"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
-#: ekos/capture/capture.ui:1258
+#: ekos/capture/capture.ui:1313
 #, fuzzy, kde-format
 msgid "Desired CCD temperature"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
-#: ekos/capture/capture.ui:1271
+#: ekos/capture/capture.ui:1326
 #, fuzzy, kde-format
 msgid "Current CCD temperature"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
-#: ekos/capture/capture.ui:1293
+#: ekos/capture/capture.ui:1348
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Clear camera configuration"
 msgstr "உறுதிபடுத்தியதை அழி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1327
+#: ekos/capture/capture.ui:1382
 #, kde-format
 msgid "Turn cooler on"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
-#: ekos/capture/capture.ui:1338
+#: ekos/capture/capture.ui:1393
 #, fuzzy, kde-format
 msgid "On"
 msgstr "ஓரான்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
-#: ekos/capture/capture.ui:1357
+#: ekos/capture/capture.ui:1412
 #, kde-format
 msgid "Turn cooler off"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
-#: ekos/capture/capture.ui:1368 ekos/indihub.ui:84
+#: ekos/capture/capture.ui:1423 ekos/indihub.ui:84
 #, fuzzy, kde-format
 #| msgid "of"
 msgid "Off"
 msgstr "அதன்"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1378
+#: ekos/capture/capture.ui:1433
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -14479,19 +14503,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/capture.ui:1381
+#: ekos/capture/capture.ui:1436
 #, kde-format
 msgid "Tº"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/capture/capture.ui:1393
+#: ekos/capture/capture.ui:1448
 #, kde-format
 msgid "Cooler:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/capture/capture.ui:1400 ekos/scheduler/framingassistant.ui:117
+#: ekos/capture/capture.ui:1455 ekos/scheduler/framingassistant.ui:117
 #: ekos/scheduler/mosaic.ui:301
 #, fuzzy, kde-format
 #| msgid "Camera"
@@ -14499,40 +14523,40 @@ msgid "Camera:"
 msgstr "காமிரா"
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/capture.ui:1437
+#: ekos/capture/capture.ui:1492
 #, kde-format
 msgid "Sequence Queue"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/capture.ui:1621
+#: ekos/capture/capture.ui:1676
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/capture.ui:1646
+#: ekos/capture/capture.ui:1701
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Select Observer"
 msgstr "சேவையகம்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/capture.ui:1687
+#: ekos/capture/capture.ui:1742
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Load capture sequence from file"
 msgstr "சூப்பர் நோவா மீதி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/capture.ui:1721
+#: ekos/capture/capture.ui:1776
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save capture sequence"
 msgstr "சூப்பர் நோவா மீதி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/capture.ui:1755
+#: ekos/capture/capture.ui:1810
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Save capture sequence as ..."
@@ -14542,7 +14566,7 @@ msgstr "சூப்பர் நோவா மீதி"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/capture.ui:1789 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/capture.ui:1844 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/scheduler/scheduler.ui:1046 indi/drivermanager.ui:66
 #: indi/drivermanager.ui:322
 #, kde-format
@@ -14550,39 +14574,39 @@ msgid "Status"
 msgstr "நிலை"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1799
+#: ekos/capture/capture.ui:1854
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Count"
 msgstr "எண்:"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1804
+#: ekos/capture/capture.ui:1859
 #, fuzzy, kde-format
 msgid "Exp"
 msgstr "காஸ்டர்"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1814
+#: ekos/capture/capture.ui:1869
 #, fuzzy, kde-format
 msgid "Bin"
 msgstr "சார்ந்திருப்பவன்"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/capture.ui:1819
+#: ekos/capture/capture.ui:1874
 #, kde-format
 msgid "ISO/Gain"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/capture.ui:1852
+#: ekos/capture/capture.ui:1907
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Capture a preview"
 msgstr "படிமங்கள் கவர்தலின் தொடர்ச்சி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/capture.ui:1893
+#: ekos/capture/capture.ui:1948
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -14590,27 +14614,27 @@ msgid "Start framing (looping)"
 msgstr "ஃபார்மிங்டன்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/capture.ui:1931 ekos/focus/focus.ui:543
+#: ekos/capture/capture.ui:1986 ekos/focus/focus.ui:549
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgid "Live Video"
 msgstr "ஒளித்தோற்றம் துறை:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/capture.ui:2028
+#: ekos/capture/capture.ui:2083
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Pause Sequence"
 msgstr " Frequency அதிர்வலை:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/capture/capture.ui:2056
+#: ekos/capture/capture.ui:2111
 #, fuzzy, kde-format
 msgid "Tools"
 msgstr "கருவிப்பட்டைகள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
-#: ekos/capture/capture.ui:2077
+#: ekos/capture/capture.ui:2132
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Clear Lake City"
@@ -14618,7 +14642,7 @@ msgid "Create and manage Dark Library"
 msgstr "கிளியர் லேக் சிட்டி"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
-#: ekos/capture/capture.ui:2087
+#: ekos/capture/capture.ui:2142
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Configure Guide & Focus limits"
@@ -14626,14 +14650,14 @@ msgstr "மறைக்கப்பட்ட பொருட்களை வட�
 
 #. i18n: ectx: property (text), widget (QPushButton, limitsB)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/capture.ui:2090 ekos/mount/mount.ui:788
+#: ekos/capture/capture.ui:2145 ekos/mount/mount.ui:791
 #: tools/scriptbuilder.cpp:683
 #, kde-format
 msgid "Limits"
 msgstr "வரம்புகள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
-#: ekos/capture/capture.ui:2103
+#: ekos/capture/capture.ui:2158
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage sequence scripts"
@@ -14641,14 +14665,14 @@ msgstr "சேவையகம்"
 
 #. i18n: ectx: property (text), widget (QPushButton, scriptManagerB)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/capture.ui:2106 ekos/profileeditor.ui:721
+#: ekos/capture/capture.ui:2161 ekos/profileeditor.ui:721
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Scripts"
 msgstr "சிறுநிரல் பெயர்:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/capture.ui:2126
+#: ekos/capture/capture.ui:2181
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
@@ -14656,7 +14680,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/capture.ui:2154
+#: ekos/capture/capture.ui:2209
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "total remaining:"
@@ -14669,7 +14693,7 @@ msgstr "பிம்ப சேரிடங்களை ஏற்றுகிற�
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/capture.ui:2197 ekos/capture/capture.ui:2235
+#: ekos/capture/capture.ui:2252 ekos/capture/capture.ui:2290
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -14682,21 +14706,21 @@ msgid "--:--:--"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/capture.ui:2217
+#: ekos/capture/capture.ui:2272
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "துறை"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/capture.ui:2245
+#: ekos/capture/capture.ui:2300
 #, fuzzy, kde-format
 #| msgid "&Download Data..."
 msgid "Avg. Download:"
 msgstr "தரவினை இறக்கு..."
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/capture.ui:2255
+#: ekos/capture/capture.ui:2310
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -14704,7 +14728,7 @@ msgid "sec"
 msgstr "நொடி"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/capture.ui:2279
+#: ekos/capture/capture.ui:2334
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
@@ -14714,7 +14738,7 @@ msgstr "சார்ஜென்ட்"
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
-#: ekos/capture/capture.ui:2299 ekos/capture/limits.ui:66
+#: ekos/capture/capture.ui:2354 ekos/capture/limits.ui:66
 #: ekos/capture/limits.ui:102
 #, kde-format
 msgid "\""
@@ -15185,7 +15209,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, settingsTab)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
-#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:836
+#: ekos/capture/rotatorsettings.ui:79 ekos/focus/focus.ui:842
 #: ekos/guide/opscalibration.ui:34 ekos/guide/opsgpg.ui:103
 #, fuzzy, kde-format
 msgid "Settings"
@@ -15519,7 +15543,7 @@ msgid "Aligning"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, MeridianFlipGroup)
-#: ekos/ekos.h:75 ekos/mount/mount.ui:251
+#: ekos/ekos.h:75 ekos/mount/mount.ui:254
 #, fuzzy, kde-format
 msgid "Meridian Flip"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
@@ -16080,58 +16104,58 @@ msgstr "சோதனையை நீக்கு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/focus/focus.ui:126 ekos/profileeditor.ui:651
+#: ekos/focus/focus.ui:132 ekos/profileeditor.ui:651
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser:"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:142
+#: ekos/focus/focus.ui:148
 #, fuzzy, kde-format
 msgid "Stop focuser motion"
 msgstr "வலப்புற மேலேற்றம்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:171
+#: ekos/focus/focus.ui:177
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus In"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:203
+#: ekos/focus/focus.ui:209
 #, fuzzy, kde-format
 msgid "Go to an absolute focus position"
 msgstr "வலப்புற மேலேற்றம்"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:238
+#: ekos/focus/focus.ui:244
 #, fuzzy, kde-format
 msgid "Desired absolute focus position"
 msgstr "வலப்புற மேலேற்றம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:245
+#: ekos/focus/focus.ui:251
 #, fuzzy, kde-format
 msgid "Start:"
 msgstr "தொடங்கு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:261
+#: ekos/focus/focus.ui:267
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture image"
 msgstr "படிமங்கள் கவர்தல்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:290
+#: ekos/focus/focus.ui:296
 #, kde-format
 msgid "Focus Out"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:322
+#: ekos/focus/focus.ui:328
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -16139,7 +16163,7 @@ msgid "Stop Auto Focus process"
 msgstr "ஃபார்மிங்டன்"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:341
+#: ekos/focus/focus.ui:347
 #, fuzzy, kde-format
 msgid "Current absolute focuser position"
 msgstr "வலப்புற மேலேற்றம்"
@@ -16147,14 +16171,14 @@ msgstr "வலப்புற மேலேற்றம்"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:354 ekos/scheduler/framingassistant.ui:1256
+#: ekos/focus/focus.ui:360 ekos/scheduler/framingassistant.ui:1256
 #: ekos/scheduler/scheduler.ui:350
 #, kde-format
 msgid "Steps:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:370
+#: ekos/focus/focus.ui:376
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -16162,7 +16186,7 @@ msgid "Start framing"
 msgstr "ஃபார்மிங்டன்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:399
+#: ekos/focus/focus.ui:405
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -16170,19 +16194,19 @@ msgid "Start Auto Focus process"
 msgstr "ஃபார்மிங்டன்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:471
+#: ekos/focus/focus.ui:477
 #, kde-format
 msgid "Reset focus subframe to full capture"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/focus/focus.ui:496
+#: ekos/focus/focus.ui:502
 #, fuzzy, kde-format
 msgid "Toggle Full Screen"
 msgstr "கே-ஸ்டார்ஸ் நல்வரவு"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:574
+#: ekos/focus/focus.ui:580
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Select focuser temperature source"
@@ -16190,21 +16214,21 @@ msgstr "முன்னிருப்பு FITS அடைவு:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:634 ekos/focus/focus.ui:650
+#: ekos/focus/focus.ui:640 ekos/focus/focus.ui:656
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Source temperature in Celsius"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:637
+#: ekos/focus/focus.ui:643
 #, fuzzy, kde-format
 msgid "Temp. ="
 msgstr "வகை:"
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:656 ekos/focus/focus.ui:691
+#: ekos/focus/focus.ui:662 ekos/focus/focus.ui:697
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -16213,7 +16237,7 @@ msgstr "செயல்படுத்த இயலாதது"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:666 ekos/focus/focus.ui:685
+#: ekos/focus/focus.ui:672 ekos/focus/focus.ui:691
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -16221,7 +16245,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:669
+#: ekos/focus/focus.ui:675
 #, kde-format
 msgid "ΔT ="
 msgstr ""
@@ -16229,68 +16253,68 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:738 ekos/focus/focus.ui:760 ekos/guide/guide.ui:364
+#: ekos/focus/focus.ui:744 ekos/focus/focus.ui:766 ekos/guide/guide.ui:367
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure time in seconds"
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:770
+#: ekos/focus/focus.ui:776
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser temperature source"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:773
+#: ekos/focus/focus.ui:779
 #, fuzzy, kde-format
 #| msgid "UT:"
 msgid "TS."
 msgstr "UT:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:874
+#: ekos/focus/focus.ui:880
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Automatically select the best focus star from the image"
 msgstr "இடமதிப்பு கட்டம் மாற்று"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/focus.ui:877
+#: ekos/focus/focus.ui:883
 #, fuzzy, kde-format
 msgid "Auto Select Star"
 msgstr "உள்ளீட்டை தேர்ந்தெடு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:893
+#: ekos/focus/focus.ui:899
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/focus.ui:896
+#: ekos/focus/focus.ui:902
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Suspend Guiding"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideSettleTime)
-#: ekos/focus/focus.ui:909
+#: ekos/focus/focus.ui:915
 #, kde-format
 msgid "Wait this many seconds before resuming guiding."
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, guideSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:912 ekos/focus/focus.ui:1759
+#: ekos/focus/focus.ui:918 ekos/focus/focus.ui:1765
 #, kde-format
 msgid " s"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:922 ekos/focus/focus.ui:1601
+#: ekos/focus/focus.ui:928 ekos/focus/focus.ui:1607
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seattle"
@@ -16298,7 +16322,7 @@ msgid "Settle:"
 msgstr "சீட்டல்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
-#: ekos/focus/focus.ui:938
+#: ekos/focus/focus.ui:944
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are inside this "
@@ -16311,15 +16335,15 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusTolerance)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusThreshold)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/focus/focus.ui:941 ekos/focus/focus.ui:963 ekos/focus/focus.ui:1315
-#: ekos/focus/focus.ui:1452 ekos/scheduler/framingassistant.ui:854
+#: ekos/focus/focus.ui:947 ekos/focus/focus.ui:969 ekos/focus/focus.ui:1321
+#: ekos/focus/focus.ui:1458 ekos/scheduler/framingassistant.ui:854
 #: ekos/scheduler/mosaic.ui:380
 #, no-c-format, kde-format
 msgid " %"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
-#: ekos/focus/focus.ui:960
+#: ekos/focus/focus.ui:966
 #, no-c-format, kde-format
 msgid ""
 "<html><body><p>During full field focusing, stars which are outside this "
@@ -16328,13 +16352,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/focus/focus.ui:979
+#: ekos/focus/focus.ui:985
 #, kde-format
 msgid "Annulus:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:995
+#: ekos/focus/focus.ui:1001
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Size of the subframe to constrain capture to, in pixels.</p></"
@@ -16342,33 +16366,33 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/focus.ui:998
+#: ekos/focus/focus.ui:1004
 #, kde-format
 msgid " px"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1017 ekos/guide/guide.ui:357
+#: ekos/focus/focus.ui:1023 ekos/guide/guide.ui:360
 #, kde-format
 msgid "Box:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1033
+#: ekos/focus/focus.ui:1039
 #, kde-format
 msgid "Subframe around the focus star during the autofocus procedure"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSubFrame)
-#: ekos/focus/focus.ui:1036
+#: ekos/focus/focus.ui:1042
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Sub Frame"
 msgstr "பெயர்:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1052
+#: ekos/focus/focus.ui:1058
 #, kde-format
 msgid ""
 "<html><head/><body><p>Measure average HFR from all stars combined in a full "
@@ -16378,14 +16402,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseFullField)
-#: ekos/focus/focus.ui:1055
+#: ekos/focus/focus.ui:1061
 #, fuzzy, kde-format
 #| msgid "Clear Fields"
 msgid "Full Field"
 msgstr "புலங்களை அழி"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1068
+#: ekos/focus/focus.ui:1074
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to use the standard deviation of the star HFR as "
@@ -16396,20 +16420,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
-#: ekos/focus/focus.ui:1071
+#: ekos/focus/focus.ui:1077
 #, fuzzy, kde-format
 #| msgid "Use images"
 msgid "Use Weights"
 msgstr "உருக்களை பயன்படுத்து."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/focus/focus.ui:1078
+#: ekos/focus/focus.ui:1084
 #, fuzzy, kde-format
 msgid "R² Limit:"
 msgstr "வாயுதிரள்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
-#: ekos/focus/focus.ui:1094
+#: ekos/focus/focus.ui:1100
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
@@ -16421,20 +16445,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1119
+#: ekos/focus/focus.ui:1125
 #, fuzzy, kde-format
 msgid "Use dark frames from the library."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/focus.ui:1122
+#: ekos/focus/focus.ui:1128
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Dark Frame"
 msgstr "நட்சத்திரப் பெயர்"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1135
+#: ekos/focus/focus.ui:1141
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable to have AutoFocus perform Backlash "
@@ -16445,21 +16469,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAFBacklashComp)
-#: ekos/focus/focus.ui:1138
+#: ekos/focus/focus.ui:1144
 #, fuzzy, kde-format
 #| msgid "Info Box Background"
 msgid "AF Backlash Comp"
 msgstr "தகவல் பெட்டியின் பின்னணி"
 
 #. i18n: ectx: attribute (title), widget (QWidget, processTab)
-#: ekos/focus/focus.ui:1164
+#: ekos/focus/focus.ui:1170
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Process"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: ekos/focus/focus.ui:1190
+#: ekos/focus/focus.ui:1196
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cubi Point"
@@ -16467,21 +16491,21 @@ msgid "Num. of rows:"
 msgstr "க்யூபி பாய்ண்ட்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: ekos/focus/focus.ui:1200
+#: ekos/focus/focus.ui:1206
 #, fuzzy, kde-format
 #| msgid "Country filter:"
 msgid "SEP Profile:"
 msgstr "நாடு வடிகட்டி:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:1244
+#: ekos/focus/focus.ui:1250
 #, fuzzy, kde-format
 #| msgid "Average"
 msgid "Average over:"
 msgstr "சராசரி வரை"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: ekos/focus/focus.ui:1251
+#: ekos/focus/focus.ui:1257
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Fort Riley"
@@ -16489,7 +16513,7 @@ msgid "Kernel size:"
 msgstr "ஃபோர்ட் ரிலே"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1264
+#: ekos/focus/focus.ui:1270
 #, kde-format
 msgid ""
 "<html><body><p>Number of frames to capture in order to average the HFR value "
@@ -16497,14 +16521,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
-#: ekos/focus/focus.ui:1267
+#: ekos/focus/focus.ui:1273
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid " frames"
 msgstr "பெயர்:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
-#: ekos/focus/focus.ui:1287
+#: ekos/focus/focus.ui:1293
 #, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
@@ -16513,7 +16537,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
-#: ekos/focus/focus.ui:1312
+#: ekos/focus/focus.ui:1318
 #, kde-format
 msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
@@ -16521,7 +16545,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1340
+#: ekos/focus/focus.ui:1346
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
@@ -16554,14 +16578,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1347
+#: ekos/focus/focus.ui:1353
 #, fuzzy, kde-format
 #| msgid "Interactive Mode"
 msgid "Iterative"
 msgstr "உள்செயல் வகை"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1352
+#: ekos/focus/focus.ui:1358
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "French Polynesia"
@@ -16569,21 +16593,21 @@ msgid "Polynomial"
 msgstr "ஃப்ரெஞ்சு பாலைனேஸ்சியா"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1357
+#: ekos/focus/focus.ui:1363
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Linear"
 msgstr "நேரான"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
-#: ekos/focus/focus.ui:1362
+#: ekos/focus/focus.ui:1368
 #, fuzzy, kde-format
 #| msgid "Linear Scale"
 msgid "Linear 1 Pass"
 msgstr "நேர் அளவுகோல்"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1376
+#: ekos/focus/focus.ui:1382
 #, kde-format
 msgid ""
 "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: 0px; "
@@ -16610,7 +16634,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1383
+#: ekos/focus/focus.ui:1389
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -16618,13 +16642,13 @@ msgid "Gradient"
 msgstr "காலியென்ட்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1388
+#: ekos/focus/focus.ui:1394
 #, fuzzy, kde-format
 msgid "Centroid"
 msgstr "சார்ந்திருப்பவன்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1393
+#: ekos/focus/focus.ui:1399
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -16633,7 +16657,7 @@ msgstr "ஃப்ரீஹொல்ட்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
-#: ekos/focus/focus.ui:1398 ekos/guide/opsguide.ui:456
+#: ekos/focus/focus.ui:1404 ekos/guide/opsguide.ui:456
 #, fuzzy, kde-format
 msgid "SEP"
 msgstr ""
@@ -16641,7 +16665,7 @@ msgstr ""
 "SE"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
-#: ekos/focus/focus.ui:1403
+#: ekos/focus/focus.ui:1409
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lahti"
@@ -16649,13 +16673,13 @@ msgid "Bahtinov"
 msgstr "லஹ்டி"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/focus.ui:1414
+#: ekos/focus/focus.ui:1420
 #, fuzzy, kde-format
 msgid "Detection:"
 msgstr "இணைப்பு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
-#: ekos/focus/focus.ui:1421
+#: ekos/focus/focus.ui:1427
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
@@ -16663,7 +16687,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusThreshold)
-#: ekos/focus/focus.ui:1449
+#: ekos/focus/focus.ui:1455
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Increase to restrict the centroid to bright cores. Decrease "
@@ -16671,7 +16695,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
-#: ekos/focus/focus.ui:1471
+#: ekos/focus/focus.ui:1477
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur kernel size. Used for blurring the "
@@ -16679,20 +16703,20 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: ekos/focus/focus.ui:1490
+#: ekos/focus/focus.ui:1496
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
-#: ekos/focus/focus.ui:1500
+#: ekos/focus/focus.ui:1506
 #, kde-format
 msgid "Curve Fit:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1507
+#: ekos/focus/focus.ui:1513
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
@@ -16714,20 +16738,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1511
+#: ekos/focus/focus.ui:1517
 #, fuzzy, kde-format
 msgid "Quadradic"
 msgstr "பாராடைஸ்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1516
+#: ekos/focus/focus.ui:1522
 #, fuzzy, kde-format
 #| msgid "Horizon"
 msgid "Hyperbola"
 msgstr "தொடுவானம்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
-#: ekos/focus/focus.ui:1521
+#: ekos/focus/focus.ui:1527
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Baraboo"
@@ -16735,19 +16759,19 @@ msgid "Parabola"
 msgstr "பராபூ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, mechanicsTab)
-#: ekos/focus/focus.ui:1545
+#: ekos/focus/focus.ui:1551
 #, fuzzy, kde-format
 msgid "Mechanics"
 msgstr "ப்யுசெரெஸ்ட்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12b)
-#: ekos/focus/focus.ui:1562
+#: ekos/focus/focus.ui:1568
 #, kde-format
 msgid "Out Step Multiple:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
-#: ekos/focus/focus.ui:1575
+#: ekos/focus/focus.ui:1581
 #, kde-format
 msgid ""
 "<html><body><p>This number multiplied by initial-step-size is number of "
@@ -16756,14 +16780,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
-#: ekos/focus/focus.ui:1594
+#: ekos/focus/focus.ui:1600
 #, fuzzy, kde-format
 msgid "Motion Timeout:"
 msgstr "நேரம்"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
 #. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
-#: ekos/focus/focus.ui:1608 kstars.kcfg:1822
+#: ekos/focus/focus.ui:1614 kstars.kcfg:1822
 #, kde-format
 msgid ""
 "Maximum time in seconds to wait for a captured image to be received before "
@@ -16771,7 +16795,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
-#: ekos/focus/focus.ui:1627
+#: ekos/focus/focus.ui:1633
 #, kde-format
 msgid ""
 "<b>Initial</b> step size in ticks to cause a noticeable change in HFR value. "
@@ -16780,14 +16804,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/focus/focus.ui:1646
+#: ekos/focus/focus.ui:1652
 #, fuzzy, kde-format
 #| msgid "Square"
 msgid "Max Step size:"
 msgstr "சதுரம்"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
-#: ekos/focus/focus.ui:1653
+#: ekos/focus/focus.ui:1659
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum single step size the algorithm is allowed "
@@ -16796,14 +16820,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: ekos/focus/focus.ui:1669
+#: ekos/focus/focus.ui:1675
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture Timeout:"
 msgstr "படிமங்கள் கவர்தல்"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
-#: ekos/focus/focus.ui:1682
+#: ekos/focus/focus.ui:1688
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Maximum travel in steps before the autofocus process "
@@ -16811,14 +16835,14 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/focus/focus.ui:1704
+#: ekos/focus/focus.ui:1710
 #, fuzzy, kde-format
 #| msgid "Info Box Background"
 msgid "Backlash:"
 msgstr "தகவல் பெட்டியின் பின்னணி"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/focus.ui:1717
+#: ekos/focus/focus.ui:1723
 #, fuzzy, kde-format
 #| msgid "Square"
 msgid "Initial Step size:"
@@ -16826,7 +16850,7 @@ msgstr "சதுரம்"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
-#: ekos/focus/focus.ui:1724 kstars.kcfg:1826
+#: ekos/focus/focus.ui:1730 kstars.kcfg:1826
 #, kde-format
 msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
@@ -16834,7 +16858,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
-#: ekos/focus/focus.ui:1743
+#: ekos/focus/focus.ui:1749
 #, kde-format
 msgid ""
 "<html><head/><body><p>For backlash-aware focuser, the amount of backlash to "
@@ -16844,7 +16868,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/focus.ui:1756
+#: ekos/focus/focus.ui:1762
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Wait for this many seconds after moving the focuser "
@@ -16852,26 +16876,26 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/focus/focus.ui:1775
+#: ekos/focus/focus.ui:1781
 #, kde-format
 msgid "Max Travel:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1845
+#: ekos/focus/focus.ui:1851
 #, kde-format
 msgid "V-Curve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/focus.ui:1887
+#: ekos/focus/focus.ui:1893
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "HFR: "
 msgstr "உயர்வு நேரம்: %1"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1906
+#: ekos/focus/focus.ui:1912
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>HFR value in pixels consolidated at the current focuser "
@@ -16879,14 +16903,14 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1938
+#: ekos/focus/focus.ui:1944
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stars: "
 msgstr "நட்சத்திரங்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1951
+#: ekos/focus/focus.ui:1957
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Number of stars used for HFR computation at the current "
@@ -16894,26 +16918,26 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:1977
+#: ekos/focus/focus.ui:1983
 #, fuzzy, kde-format
 msgid "Iteration: "
 msgstr "டரான்டோ"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:1990
+#: ekos/focus/focus.ui:1996
 #, fuzzy, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:2019
+#: ekos/focus/focus.ui:2025
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgid "Relative Profile..."
 msgstr "சோதனையை நீக்கு"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
-#: ekos/focus/focus.ui:2026
+#: ekos/focus/focus.ui:2032
 #, fuzzy, kde-format
 #| msgid "Clear List"
 msgid "Clear Data"
@@ -17552,7 +17576,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
-#: ekos/guide/guide.ui:87
+#: ekos/guide/guide.ui:90
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -17560,7 +17584,7 @@ msgid "Control"
 msgstr "மான்ட்ரியல்"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:113
+#: ekos/guide/guide.ui:116
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Automatically select the calibration star. <br/>Please "
@@ -17569,14 +17593,14 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideAutoStar)
-#: ekos/guide/guide.ui:116
+#: ekos/guide/guide.ui:119
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Star"
 msgstr "தானியங்கி அளவுகோள்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearCalibrationB)
-#: ekos/guide/guide.ui:180
+#: ekos/guide/guide.ui:183
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -17584,7 +17608,7 @@ msgid "Clear calibration data."
 msgstr "காலியென்ட்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualDitherB)
-#: ekos/guide/guide.ui:209
+#: ekos/guide/guide.ui:212
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Vanuatu"
@@ -17592,7 +17616,7 @@ msgid "Manual Dither"
 msgstr "வானட்டு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
-#: ekos/guide/guide.ui:229
+#: ekos/guide/guide.ui:232
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. If no dark frame is available, a "
@@ -17600,13 +17624,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loopB)
-#: ekos/guide/guide.ui:239
+#: ekos/guide/guide.ui:242
 #, kde-format
 msgid "Loop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:268
+#: ekos/guide/guide.ui:271
 #, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
@@ -17618,39 +17642,39 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
-#: ekos/guide/guide.ui:271
+#: ekos/guide/guide.ui:274
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "Subframe"
 msgstr "பெயர்:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
-#: ekos/guide/guide.ui:293
+#: ekos/guide/guide.ui:296
 #, kde-format
 msgid "East Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, westRAGuideEnabled)
-#: ekos/guide/guide.ui:303
+#: ekos/guide/guide.ui:306
 #, kde-format
 msgid "West Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalConnectB)
-#: ekos/guide/guide.ui:318
+#: ekos/guide/guide.ui:321
 #, kde-format
 msgid "Connect to external guiding application."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECGuideEnabled)
-#: ekos/guide/guide.ui:328
+#: ekos/guide/guide.ui:331
 #, fuzzy, kde-format
 #| msgid "Declination:"
 msgid "Guide Declination Axis"
 msgstr "கீழ்நோக்கி சரிவது:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/guide/guide.ui:354
+#: ekos/guide/guide.ui:357
 #, kde-format
 msgid ""
 "Guide star tracking box size. Box size must be set in accordance to the "
@@ -17658,109 +17682,109 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalDisconnectB)
-#: ekos/guide/guide.ui:380
+#: ekos/guide/guide.ui:383
 #, kde-format
 msgid "Disconnect from external guiding application."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
-#: ekos/guide/guide.ui:390
+#: ekos/guide/guide.ui:393
 #, kde-format
 msgid "Apply filter to image after capture to enhance it"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/guide/guide.ui:400
+#: ekos/guide/guide.ui:403
 #, kde-format
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
-#: ekos/guide/guide.ui:410
+#: ekos/guide/guide.ui:413
 #, fuzzy, kde-format
 msgid "Guide Right Ascention Axis"
 msgstr "வலது மேலேற்றம்:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
-#: ekos/guide/guide.ui:423
+#: ekos/guide/guide.ui:426
 #, fuzzy, kde-format
 msgid "Directions"
 msgstr "இணைப்பு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
-#: ekos/guide/guide.ui:430
+#: ekos/guide/guide.ui:433
 #, fuzzy, kde-format
 #| msgid "Wait for this key to be pressed"
 msgid "Delay next guide exposure this many seconds after a pulse is sent"
 msgstr "இந்த விசை அழுத்துவதற்கு காத்திரு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
-#: ekos/guide/guide.ui:445
+#: ekos/guide/guide.ui:448
 #, kde-format
 msgid "North Direction Guiding"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, southDECGuideEnabled)
-#: ekos/guide/guide.ui:455
+#: ekos/guide/guide.ui:458
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "South Direction Guiding"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:468
+#: ekos/guide/guide.ui:471
 #, kde-format
 msgid "8"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:473
+#: ekos/guide/guide.ui:476
 #, kde-format
 msgid "16"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:483
+#: ekos/guide/guide.ui:486
 #, kde-format
 msgid "64"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
-#: ekos/guide/guide.ui:488
+#: ekos/guide/guide.ui:491
 #, kde-format
 msgid "128"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
-#: ekos/guide/guide.ui:501
+#: ekos/guide/guide.ui:504
 #, fuzzy, kde-format
 #| msgid "Setup Telescopes"
 msgid "Scope / Lens Info"
 msgstr "தொலை நோக்கியின் அமைப்பு"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
-#: ekos/guide/guide.ui:522
+#: ekos/guide/guide.ui:525
 #, fuzzy, kde-format
 #| msgid "Field of view (arcmin):"
 msgid "Field of View (arcmin)"
 msgstr "காட்சி புலம்()"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
-#: ekos/guide/guide.ui:576
+#: ekos/guide/guide.ui:579
 #, fuzzy, kde-format
 msgid "Aperture (mm)"
 msgstr "எல்லா அளபுருக்கள்"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Focal)
-#: ekos/guide/guide.ui:630
+#: ekos/guide/guide.ui:633
 #, fuzzy, kde-format
 msgid "Focal Length (mm)"
 msgstr "பகல் நீளம்:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
-#: ekos/guide/guide.ui:656 oal/equipmentwriter.ui:573
+#: ekos/guide/guide.ui:659 oal/equipmentwriter.ui:573
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Boca Raton"
@@ -17768,77 +17792,77 @@ msgid "Focal Ratio"
 msgstr "போக்கா ராட்டன்"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
-#: ekos/guide/guide.ui:694
+#: ekos/guide/guide.ui:697
 #, fuzzy, kde-format
 #| msgid "Setup Telescopes"
 msgid "Guide Info"
 msgstr "தொலை நோக்கியின் அமைப்பு"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
-#: ekos/guide/guide.ui:720
+#: ekos/guide/guide.ui:723
 #, fuzzy, kde-format
 msgid "Pulse Length (ms)"
 msgstr "பகல் நீளம்:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
-#: ekos/guide/guide.ui:727
+#: ekos/guide/guide.ui:730
 #, fuzzy, kde-format
 msgid "Guiding Delta \""
 msgstr "கீழ்நோக்கி சரிவது:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
-#: ekos/guide/guide.ui:739
+#: ekos/guide/guide.ui:742
 #, kde-format
 msgid "Generated RA pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseDEC)
-#: ekos/guide/guide.ui:752
+#: ekos/guide/guide.ui:755
 #, kde-format
 msgid "Generated DEC pulse"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaRA)
-#: ekos/guide/guide.ui:772
+#: ekos/guide/guide.ui:775
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
-#: ekos/guide/guide.ui:785
+#: ekos/guide/guide.ui:788
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:800
+#: ekos/guide/guide.ui:803
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding RMS error"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
-#: ekos/guide/guide.ui:803
+#: ekos/guide/guide.ui:806
 #, kde-format
 msgid "RMS\" (RA/DEC)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
-#: ekos/guide/guide.ui:815
+#: ekos/guide/guide.ui:818
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding RA RMS error"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
-#: ekos/guide/guide.ui:828
+#: ekos/guide/guide.ui:831
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding DEC RMS error"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/guide/guide.ui:843
+#: ekos/guide/guide.ui:846
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -17847,21 +17871,21 @@ msgstr "மான்ட்ரியல்"
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
-#: ekos/guide/guide.ui:853 ekos/guide/guide.ui:873
+#: ekos/guide/guide.ui:856 ekos/guide/guide.ui:876
 #, fuzzy, kde-format
 #| msgid "xi"
 msgid "xxx"
 msgstr "xi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
-#: ekos/guide/guide.ui:863
+#: ekos/guide/guide.ui:866
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide SNR"
 msgstr "வழிகாட்டிகள்"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
-#: ekos/guide/guide.ui:1045
+#: ekos/guide/guide.ui:1048
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to adjust the scale of the Corrections "
@@ -17869,13 +17893,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: ekos/guide/guide.ui:1092
+#: ekos/guide/guide.ui:1095
 #, fuzzy, kde-format
 msgid "Drift Plot"
 msgstr "க்ரெஸ்டு வுட்"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: ekos/guide/guide.ui:1127
+#: ekos/guide/guide.ui:1130
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -17883,7 +17907,7 @@ msgid "Calibration Plot"
 msgstr "காலியென்ட்"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1183
+#: ekos/guide/guide.ui:1186
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
@@ -17891,14 +17915,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1186
+#: ekos/guide/guide.ui:1189
 #, fuzzy, kde-format
 #| msgid "RA"
 msgid "RA "
 msgstr "RA"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1196
+#: ekos/guide/guide.ui:1199
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
@@ -17907,13 +17931,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #. i18n: ectx: property (text), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1199 ekos/guide/guide.ui:1232
+#: ekos/guide/guide.ui:1202 ekos/guide/guide.ui:1235
 #, kde-format
 msgid "Corr"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1216
+#: ekos/guide/guide.ui:1219
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
@@ -17921,7 +17945,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1229
+#: ekos/guide/guide.ui:1232
 #, kde-format
 msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
@@ -17929,7 +17953,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1249
+#: ekos/guide/guide.ui:1252
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
@@ -17937,13 +17961,13 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1252
+#: ekos/guide/guide.ui:1255
 #, kde-format
 msgid "SNR"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1262
+#: ekos/guide/guide.ui:1265
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
@@ -17951,32 +17975,32 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
-#: ekos/guide/guide.ui:1265
+#: ekos/guide/guide.ui:1268
 #, kde-format
 msgid "RMS"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
-#: ekos/guide/guide.ui:1306
+#: ekos/guide/guide.ui:1308
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
-#: ekos/guide/guide.ui:1335
+#: ekos/guide/guide.ui:1336
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/guide/guide.ui:1361
+#: ekos/guide/guide.ui:1362
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Trace:"
 msgstr "பாதை"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
-#: ekos/guide/guide.ui:1368
+#: ekos/guide/guide.ui:1369
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to scroll through guide history while "
@@ -17986,7 +18010,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1384
+#: ekos/guide/guide.ui:1385
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
@@ -17994,13 +18018,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1387
+#: ekos/guide/guide.ui:1388
 #, kde-format
 msgid "Max "
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
-#: ekos/guide/guide.ui:1407
+#: ekos/guide/guide.ui:1408
 #, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
@@ -18010,7 +18034,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
-#: ekos/guide/guide.ui:1429
+#: ekos/guide/guide.ui:1430
 #, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
@@ -18018,14 +18042,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
-#: ekos/guide/guide.ui:1451
+#: ekos/guide/guide.ui:1452
 #, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
-#: ekos/guide/guide.ui:1467
+#: ekos/guide/guide.ui:1468
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
@@ -19794,7 +19818,7 @@ msgstr "INDI... கட்டமை"
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:738 ekos/mount/mount.ui:192 ekos/scheduler/scheduler.ui:1062
+#: ekos/manager.ui:738 ekos/mount/mount.ui:195 ekos/scheduler/scheduler.ui:1062
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:97
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -20020,7 +20044,7 @@ msgid "Mount Configuration"
 msgstr "உறுதிபடுத்தியதை அழி"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:133 ekos/mount/mount.ui:579
+#: ekos/mount/mount.cpp:133 ekos/mount/mount.ui:582
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -20152,48 +20176,48 @@ msgid "Optical Train"
 msgstr "ஒளி"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/mount/mount.ui:178
+#: ekos/mount/mount.ui:181
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "AZ"
 msgstr "புதிய RA:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/mount/mount.ui:195
+#: ekos/mount/mount.ui:198
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "ALT"
 msgstr "புதிய RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/mount/mount.ui:209
+#: ekos/mount/mount.ui:212
 #, fuzzy, kde-format
 #| msgid "Hour angle:"
 msgid "Hour Angle"
 msgstr "மணிநேர கோணம்:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/mount/mount.ui:212
+#: ekos/mount/mount.ui:215
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgid "HA"
 msgstr "புதிய RA:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
-#: ekos/mount/mount.ui:226
+#: ekos/mount/mount.ui:229
 #, fuzzy, kde-format
 #| msgid "Local Sidereal Time"
 msgid "Local Sidereal TIme"
 msgstr "உள்ளமைப்பு நேரம்"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/mount/mount.ui:229
+#: ekos/mount/mount.ui:232
 #, fuzzy, kde-format
 msgid "LST"
 msgstr "ST:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:272
+#: ekos/mount/mount.ui:275
 #, kde-format
 msgid ""
 "<html><head/><body><p>Request a meridian flip if the hour angle exceeds the "
@@ -20202,13 +20226,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:275
+#: ekos/mount/mount.ui:278
 #, kde-format
 msgid "Flip if HA >"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, meridianFlipOffsetDegrees)
-#: ekos/mount/mount.ui:291
+#: ekos/mount/mount.ui:294
 #, kde-format
 msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
@@ -20217,7 +20241,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:316 oal/equipmentwriter.ui:499
+#: ekos/mount/mount.ui:319 oal/equipmentwriter.ui:499
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Evergreen"
@@ -20225,7 +20249,7 @@ msgid "deg"
 msgstr "எவர்க்ரீன்"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
-#: ekos/mount/mount.ui:364
+#: ekos/mount/mount.ui:367
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Peking"
@@ -20233,7 +20257,7 @@ msgid "Clear Parking"
 msgstr "பெகிங்"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:381
+#: ekos/mount/mount.ui:384
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -20241,48 +20265,48 @@ msgid "Deletes all mount alignment points"
 msgstr "ஃபார்மிங்டன்"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:384
+#: ekos/mount/mount.ui:387
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "Clear  Model"
 msgstr "காமிரா"
 
 #. i18n: ectx: property (text), widget (QPushButton, purgeConfigB)
-#: ekos/mount/mount.ui:401
+#: ekos/mount/mount.ui:404
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Purge all configuration"
 msgstr "உறுதிபடுத்தியதை அழி"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/mount/mount.ui:444
+#: ekos/mount/mount.ui:447
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Park At:"
 msgstr "எண்:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:462
+#: ekos/mount/mount.ui:465
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Automatically start the park timer on startup"
 msgstr "இடமதிப்பு கட்டம் மாற்று"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:465
+#: ekos/mount/mount.ui:468
 #, fuzzy, kde-format
 #| msgid "day"
 msgid "Every day"
 msgstr "நாள்"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.ui:592
+#: ekos/mount/mount.ui:595
 #, kde-format
 msgid "Ctrl+S"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, trackOnB)
-#: ekos/mount/mount.ui:649
+#: ekos/mount/mount.ui:652
 #, fuzzy, kde-format
 msgid "ON"
 msgstr ""
@@ -20290,13 +20314,13 @@ msgstr ""
 "N"
 
 #. i18n: ectx: property (text), widget (QPushButton, trackOffB)
-#: ekos/mount/mount.ui:682
+#: ekos/mount/mount.ui:685
 #, kde-format
 msgid "OFF"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, parkingTitle)
-#: ekos/mount/mount.ui:695
+#: ekos/mount/mount.ui:698
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Peking"
@@ -20305,7 +20329,7 @@ msgstr "பெகிங்"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:739 ekos/observatory/observatory.cpp:266
+#: ekos/mount/mount.ui:742 ekos/observatory/observatory.cpp:266
 #: ekos/observatory/observatory.cpp:314 ekos/observatory/observatory.cpp:343
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
 #, fuzzy, kde-format
@@ -20316,7 +20340,7 @@ msgstr "பார்க்ஸ்"
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
-#: ekos/mount/mount.ui:769 ekos/observatory/observatory.ui:498
+#: ekos/mount/mount.ui:772 ekos/observatory/observatory.ui:498
 #: kspopupmenu.cpp:659
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -20325,14 +20349,14 @@ msgid "UnPark"
 msgstr "பார்க்ஸ்"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
-#: ekos/mount/mount.ui:785
+#: ekos/mount/mount.ui:788
 #, fuzzy, kde-format
 msgid "<html><head/><body><p><br/></p></body></html>"
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:818 ekos/mount/mount.ui:907
+#: ekos/mount/mount.ui:821 ekos/mount/mount.ui:910
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -20341,7 +20365,7 @@ msgid ""
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:837
+#: ekos/mount/mount.ui:840
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount travel range limits. Once "
@@ -20351,14 +20375,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:840
+#: ekos/mount/mount.ui:843
 #, fuzzy, kde-format
 #| msgid "Final declination:"
 msgid "Enable Alt Limits"
 msgstr "இறுதி கீழ்நோக்கி சரிதல்:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
-#: ekos/mount/mount.ui:856
+#: ekos/mount/mount.ui:859
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Minimum telescope altitude limit. If the telescope is "
@@ -20367,7 +20391,7 @@ msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:878 ekos/mount/mount.ui:930
+#: ekos/mount/mount.ui:881 ekos/mount/mount.ui:933
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -20376,7 +20400,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:894 kstars.kcfg:1559
+#: ekos/mount/mount.ui:897 kstars.kcfg:1559
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -20384,7 +20408,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:897
+#: ekos/mount/mount.ui:900
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Palo Alto"
@@ -20392,13 +20416,13 @@ msgid "Min. Alt:"
 msgstr "பாலொ அல்டொ"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:910
+#: ekos/mount/mount.ui:913
 #, kde-format
 msgid "Max. HA (hours):"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:917
+#: ekos/mount/mount.ui:920
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -20410,14 +20434,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:920
+#: ekos/mount/mount.ui:923
 #, fuzzy, kde-format
 #| msgid "Final declination:"
 msgid "Enable HA Limits"
 msgstr "இறுதி கீழ்நோக்கி சரிதல்:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:933
+#: ekos/mount/mount.ui:936
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Palo Alto"

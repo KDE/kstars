@@ -128,7 +128,10 @@ class Mount : public QWidget, public Ui::Mount
          * @brief getMeridianFlipState
          * @return
          */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState() const { return mf_state; }
+        QSharedPointer<MeridianFlipState> getMeridianFlipState() const
+        {
+            return mf_state;
+        }
 
         /** @defgroup MountDBusInterface Ekos Mount DBus Interface
              * Mount interface provides advanced scripting capabilities to control INDI mounts.
@@ -419,14 +422,14 @@ class Mount : public QWidget, public Ui::Mount
         void setAltitudeLimits(bool enable);
 
         /**
-             * @brief enableAltLimits calls enableAltitudeLimits(true). This function is mostly used to enable altitude limit after a meridian flip is complete.
+             * @brief resumeAltLimits calls enableAltitudeLimits(true). This function is mostly used to enable altitude limit after a meridian flip is complete.
              */
-        void enableAltLimits();
+        void resumeAltLimits();
 
         /**
-             * @brief disableAltLimits calls enableAltitudeLimits(false). This function is mostly used to disable altitude limit once a meridial flip process is started.
+             * @brief suspendAltLimits calls enableAltitudeLimits(false). This function is mostly used to disable altitude limit once a meridial flip process is started.
              */
-        void disableAltLimits();
+        void suspendAltLimits();
 
         /**
              * @brief enableHourAngleLimits Enable or disable hour angle limits
@@ -487,7 +490,7 @@ class Mount : public QWidget, public Ui::Mount
          */
         void stopTimers();
 
-private slots:
+    private slots:
         void startParkTimer();
         void stopParkTimer();
         void startAutoPark();
