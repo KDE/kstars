@@ -2827,9 +2827,9 @@ void Manager::connectModules()
         mountProcess->registerNewModule("Capture");
 
         // Meridian Flip states
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::disableAltLimits,
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::suspendAltLimits,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::enableAltLimits,
+        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::resumeAltLimits,
                 Qt::UniqueConnection);
         connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, captureProcess.get(),
                 &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);
