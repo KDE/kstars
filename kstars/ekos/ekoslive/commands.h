@@ -87,6 +87,7 @@ enum COMMANDS
     CAPTURE_GET_FILE_SETTINGS,
     CAPTURE_LOOP,
     CAPTURE_GENERATE_DARK_FLATS,
+    CAPTURE_INVOKE_METHOD,
 
     // Mount
     MOUNT_PARK,
@@ -104,6 +105,7 @@ enum COMMANDS
     MOUNT_GET_ALL_SETTINGS,
     MOUNT_SET_ALL_SETTINGS,
     MOUNT_TOGGLE_AUTOPARK,
+    MOUNT_INVOKE_METHOD,
 
     // Dome
     DOME_PARK,
@@ -127,6 +129,7 @@ enum COMMANDS
     FOCUS_SET_ALL_SETTINGS,
     FOCUS_GET_ALL_SETTINGS,
     FOCUS_SET_CROSSHAIR,
+    FOCUS_INVOKE_METHOD,
 
 
     // Guide
@@ -139,6 +142,7 @@ enum COMMANDS
     GUIDE_SET_ALL_SETTINGS,
     GUIDE_GET_ALL_SETTINGS,
     GUIDE_SET_CALIBRATION_SETTINGS,
+    GUIDE_INVOKE_METHOD,
 
     // Align
     ALIGN_SOLVE,
@@ -150,6 +154,7 @@ enum COMMANDS
     ALIGN_SET_ASTROMETRY_SETTINGS,
     ALIGN_MANUAL_ROTATOR_STATUS,
     ALIGN_MANUAL_ROTATOR_TOGGLE,
+    ALIGN_INVOKE_METHOD,
 
     // Scheduler
     SCHEDULER_SET_PRIMARY_SETTINGS,
@@ -165,6 +170,7 @@ enum COMMANDS
     SCHEDULER_GET_SETTINGS,
     SCHEDULER_START_JOB,
     SCHEDULER_IMPORT_MOSAIC,
+    SCHEDULER_INVOKE_METHOD,
 
     // Polar Assistant Helper
     PAH_START,
@@ -315,6 +321,7 @@ static QMap<COMMANDS, QString> const commands =
     {CAPTURE_GET_FILE_SETTINGS, "capture_get_file_settings"},
     {CAPTURE_LOOP, "capture_loop"},
     {CAPTURE_GENERATE_DARK_FLATS, "capture_generate_dark_flats"},
+    {CAPTURE_INVOKE_METHOD, "capture_invoke_method"},
 
     {MOUNT_PARK, "mount_park"},
     {MOUNT_UNPARK, "mount_unpark"},
@@ -331,6 +338,7 @@ static QMap<COMMANDS, QString> const commands =
     {MOUNT_GET_ALL_SETTINGS, "mount_get_all_settings"},
     {MOUNT_SET_ALL_SETTINGS, "mount_set_all_settings"},
     {MOUNT_TOGGLE_AUTOPARK, "mount_toggle_autopark"},
+    {MOUNT_INVOKE_METHOD, "mount_invoke_method"},
 
     {DOME_PARK, "dome_park"},
     {DOME_UNPARK, "dome_unpark"},
@@ -351,6 +359,7 @@ static QMap<COMMANDS, QString> const commands =
     {FOCUS_SET_ALL_SETTINGS, "focus_set_all_settings"},
     {FOCUS_GET_ALL_SETTINGS, "focus_get_all_settings"},
     {FOCUS_SET_CROSSHAIR, "focus_set_crosshair"},
+    {FOCUS_INVOKE_METHOD, "focus_invoke_method"},
 
 
     {SCHEDULER_SET_PRIMARY_SETTINGS, "scheduler_set_primary_settings"},
@@ -366,6 +375,7 @@ static QMap<COMMANDS, QString> const commands =
     {SCHEDULER_GET_SETTINGS, "scheduler_get_settings"},
     {SCHEDULER_START_JOB, "scheduler_start_job"},
     {SCHEDULER_IMPORT_MOSAIC, "scheduler_import_mosaic"},
+    {SCHEDULER_INVOKE_METHOD, "scheduler_invoke_method"},
 
     {GUIDE_START, "guide_start"},
     {GUIDE_CAPTURE, "guide_capture"},
@@ -376,6 +386,7 @@ static QMap<COMMANDS, QString> const commands =
     {GUIDE_SET_ALL_SETTINGS, "guide_set_all_settings"},
     {GUIDE_GET_ALL_SETTINGS, "guide_get_all_settings"},
     {GUIDE_SET_CALIBRATION_SETTINGS, "guide_set_calibration_settings"},
+    {GUIDE_INVOKE_METHOD, "guide_invoke_method"},
 
     {ALIGN_SOLVE, "align_solve"},
     {ALIGN_STOP, "align_stop"},
@@ -386,6 +397,7 @@ static QMap<COMMANDS, QString> const commands =
     {ALIGN_SET_ASTROMETRY_SETTINGS, "align_set_astrometry_settings"},
     {ALIGN_MANUAL_ROTATOR_STATUS, "align_manual_rotator_status"},
     {ALIGN_MANUAL_ROTATOR_TOGGLE, "align_manual_rotator_toggle"},
+    {ALIGN_INVOKE_METHOD, "scheduler_invoke_method"},
 
     {PAH_START, "polar_start"},
     {PAH_STOP, "polar_stop"},

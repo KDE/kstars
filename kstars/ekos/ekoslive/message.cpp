@@ -479,6 +479,10 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         capture->generateDarkFlats();
     }
+    else if(command == commands[CAPTURE_INVOKE_METHOD])
+    {
+        invokeMethod(capture, payload);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -593,6 +597,10 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
         sendGuideSettings(m_Manager->guideModule()->getAllSettings());
     }
+    else if(command == commands[GUIDE_INVOKE_METHOD])
+    {
+        invokeMethod(guide, payload);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -641,6 +649,10 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
         double x = payload["x"].toDouble();
         double y = payload["y"].toDouble();
         focus->selectFocusStarFraction(x, y);
+    }
+    else if(command == commands[FOCUS_INVOKE_METHOD])
+    {
+        invokeMethod(focus, payload);
     }
 }
 
@@ -749,6 +761,10 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_TOGGLE_AUTOPARK])
         mount->setAutoParkEnabled(payload["toggled"].toBool());
+    else if(command == commands[MOUNT_INVOKE_METHOD])
+    {
+        invokeMethod(mount, payload);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -799,6 +815,10 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[ALIGN_MANUAL_ROTATOR_TOGGLE])
     {
         align->toggleManualRotator(payload["toggled"].toBool());
+    }
+    else if(command == commands[ALIGN_INVOKE_METHOD])
+    {
+        invokeMethod(align, payload);
     }
 }
 
@@ -902,6 +922,10 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
             sendSchedulerJobs();
         else
             sendEvent(i18n("Mosaic import failed."), KSNotification::Scheduler, KSNotification::Alert);
+    }
+    else if(command == commands[SCHEDULER_INVOKE_METHOD])
+    {
+        invokeMethod(scheduler, payload);
     }
 
 }
@@ -2532,6 +2556,97 @@ void Message::sendModuleState(const QString &name)
             sendResponse(commands[NEW_POLAR_STATE], polarState);
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
+{
+    QGenericArgument genericArgument;
+
+    switch (arg.type())
+    {
+        case QVariant::Type::Int:
+            types.number_integer = arg.toInt();
+            genericArg = Q_ARG(int, types.number_integer);
+            return true;
+        case QVariant::Type::UInt:
+            types.number_unsigned_integer = arg.toUInt();
+            genericArg = Q_ARG(uint, types.number_unsigned_integer);
+            return true;
+        case QVariant::Type::LongLong:
+            types.number_integer = arg.toLongLong();
+            genericArg = Q_ARG(int, types.number_integer);
+            return true;
+        case QVariant::Type::ULongLong:
+            types.number_unsigned_integer = arg.toULongLong();
+            genericArg = Q_ARG(uint, types.number_unsigned_integer);
+            return true;
+        case QVariant::Type::Double:
+            types.number_double = arg.toDouble();
+            genericArg = Q_ARG(double, types.number_double);
+            return true;
+        case QVariant::Type::Bool:
+            types.boolean = arg.toBool();
+            genericArg = Q_ARG(bool, types.boolean);
+            return true;
+        case QVariant::Type::String:
+            types.text = arg.toString();
+            genericArg = Q_ARG(QString, types.text);
+            return true;
+        default:
+            break;
+    }
+
+    return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::invokeMethod(QObject *context, const QJsonObject &payload)
+{
+    QGenericArgument arg1, arg2, arg3, arg4;
+    SimpleTypes types1, types2, types3, types4;
+    uint8_t validArgs = 0;
+    auto map = payload.toVariantMap();
+
+    auto name = map["name"].toString().toLatin1();
+
+    if (map.contains("arg1"))
+    {
+        if (parseArgument(map["arg1"], arg1, types1))
+            validArgs++;
+    }
+    if (map.contains("arg2") && parseArgument(map["arg2"], arg1, types2))
+        validArgs++;
+    if (map.contains("arg3") && parseArgument(map["arg3"], arg1, types3))
+        validArgs++;
+    if (map.contains("arg4") && parseArgument(map["arg4"], arg1, types4))
+        validArgs++;
+
+    switch (validArgs)
+    {
+        // No arguments
+        case 0:
+            QMetaObject::invokeMethod(context, name);
+            break;
+        case 1:
+            QMetaObject::invokeMethod(context, name, arg1);
+            break;
+        case 2:
+            QMetaObject::invokeMethod(context, name, arg1, arg2);
+            break;
+        case 3:
+            QMetaObject::invokeMethod(context, name, arg1, arg2, arg3);
+            break;
+        case 4:
+            QMetaObject::invokeMethod(context, name, arg1, arg2, arg3, arg4);
+            break;
+    }
+
+
 }
 
 }

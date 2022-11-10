@@ -205,6 +205,18 @@ class Message : public QObject
         void processAstronomyCommands(const QString &command, const QJsonObject &payload);
         KStarsDateTime getNextDawn();
 
+        typedef struct
+        {
+            int number_integer;
+            uint number_unsigned_integer;
+            double number_double;
+            bool boolean;
+            QString text;
+        } SimpleTypes;
+
+        void invokeMethod(QObject *context, const QJsonObject &payload);
+        bool parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
+
         QWebSocket m_WebSocket;
         QJsonObject m_AuthResponse;
         uint16_t m_ReconnectTries {0};
