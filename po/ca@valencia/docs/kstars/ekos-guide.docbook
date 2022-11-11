@@ -113,7 +113,7 @@
 >Fosc</guilabel
 > i feu clic en <guibutton
 >Captura</guibutton
->. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament a la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar a la <link linkend="ekos"
+>. Es realitzarà per primera vegada, Ekos vos demanarà sobre l'obturador de la càmera. Si la vostra càmera no té obturador, Ekos vos avisarà en qualsevol moment mentre preneu el fotograma fosc perquè cobriu la càmera/telescopi abans de continuar amb la captura. D'altra banda, si la càmera ja inclou un obturador, Ekos procedirà directament amb el fotograma fosc. Tots els fotogrames foscos es guardaran automàticament en la biblioteca de fotogrames foscos d'Ekos. De manera predeterminada, la biblioteca fosca mantindrà els fotogrames foscos per a la seua reutilització durant 30 dies després del qual capturarà fotogrames foscos nous. Este valor és configurable i es pot ajustar a la <link linkend="ekos"
 >configuració d'Ekos</link
 >, al diàleg de configuració de &kstars;. </para>
         <screenshot>

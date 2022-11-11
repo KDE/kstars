@@ -780,7 +780,7 @@
 </varlistentry>
 </variablelist>
 <para
->Amb els botons al cantó inferior dret, podreu afegir, eliminar, modificar i explorar els catàlegs. Les seues accions sempre es referixen al catàleg seleccionat (la fila ressaltada a l'esquerra). <variablelist>
+>Amb els botons en el cantó inferior dret, podreu afegir, eliminar, modificar i explorar els catàlegs. Les seues accions sempre es referixen al catàleg seleccionat (la fila ressaltada a l'esquerra). <variablelist>
 <varlistentry>
 <term
 ><guibutton
@@ -844,7 +844,7 @@
 ></term>
 <listitem>
   <para
->Fa una còpia exacta del catàleg i l'inserix a la base de dades.</para>
+>Fa una còpia exacta del catàleg i l'inserix a dins de la base de dades.</para>
   <para
 >Açò és útil si voleu fer modificacions a un catàleg immutable. <note
 ><para
