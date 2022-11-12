@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-11 00:41+0000\n"
-"PO-Revision-Date: 2022-11-10 14:25+0200\n"
+"PO-Revision-Date: 2022-11-11 17:32+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -13676,10 +13676,9 @@ msgstr ""
 "налаштуйте перехід за меридіаном там."
 
 #: ekos/capture/capture.cpp:4582
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing failed."
+#, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
-msgstr "Увага! Помилка фокусування у завданні «%1»."
+msgstr "Увага! У барабані фільтрів не виявлено фільтра %1."
 
 #: ekos/capture/capture.cpp:4782
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-11 00:41+0000\n"
-"PO-Revision-Date: 2022-11-08 03:57+0100\n"
+"PO-Revision-Date: 2022-11-11 06:53+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -13227,17 +13227,15 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "მიმდინარე სკრიპტი"
+msgstr "მიმდინარე კამერის გაძლიერება"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
-#, fuzzy, kde-format
-#| msgid "Clear camera configuration"
+#, kde-format
 msgid "Target camera gain"
-msgstr "კამერის მორგების გასუფთავება"
+msgstr "სამიზნე კამერის გაძლიერება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -13253,17 +13251,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "კამერის წანაცვლება"
+msgstr "მიმდინარე კამერის წანაცვლება"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "კამერის წანაცვლება"
+msgstr "სამიზნე კამერის წანაცვლება"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -15883,7 +15879,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:284
 #, kde-format
 msgid "The following error occurred: %1."
-msgstr ""
+msgstr "აღმოჩენილია შემდეგი შეცდომა: %1."
 
 #: ekos/guide/externalguide/linguider.cpp:99
 #: ekos/guide/externalguide/linguider.cpp:107
@@ -75075,17 +75071,17 @@ msgstr ""
 #: tools/whatsinteresting/wiview.cpp:557
 #, kde-kuit-format
 msgid "Magnitude:  --"
-msgstr ""
+msgstr "ვარსკვლავური სიდიდე:  --"
 
 #: tools/whatsinteresting/wiview.cpp:559
 #, kde-kuit-format
 msgid "Magnitude: %1"
-msgstr ""
+msgstr "ვარსკვლავური სიდიდე: %1"
 
 #: tools/whatsinteresting/wiview.cpp:561
 #, kde-kuit-format
 msgid "Surface Brightness: %1"
-msgstr ""
+msgstr "ზედაპირის სიკაშკაშე: %1"
 
 #: tools/whatsinteresting/wiview.cpp:563
 #, kde-kuit-format
@@ -75227,13 +75223,13 @@ msgstr "თარიღის შეცვლა..."
 #: tools/wutdialog.ui:79
 #, kde-format
 msgid "at LOCATION"
-msgstr ""
+msgstr "მდებარეობაზე"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:86
 #, kde-format
 msgid "Choose a new geographic location"
-msgstr ""
+msgstr "აირჩიეთ ახალი გეოგრაფიული მდებარეობა"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
@@ -75402,7 +75398,7 @@ msgstr ""
 #: tools/wutdialog.ui:333
 #, no-c-format, kde-format
 msgid "Moon illum: 42%"
-msgstr ""
+msgstr "მთვარის განათება: 42%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel15)
 #: tools/wutdialog.ui:356
