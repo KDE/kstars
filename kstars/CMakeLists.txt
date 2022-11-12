@@ -216,6 +216,7 @@ if (INDI_FOUND)
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
+            ekos/capture/refocusstate.cpp
             ekos/capture/sequencejob.cpp
             ekos/capture/sequencejobstate.cpp
             ekos/capture/dslrinfodialog.cpp

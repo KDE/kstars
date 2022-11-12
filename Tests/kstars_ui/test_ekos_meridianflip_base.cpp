@@ -38,6 +38,8 @@ bool TestEkosMeridianFlipBase::startEkosProfile()
     m_CaptureHelper->prepareOpticalTrains();
     // prepare the mount module for testing (OAG guiding seems more robust)
     m_CaptureHelper->prepareMountModule(TestEkosHelper::SCOPE_FSQ85, TestEkosHelper::SCOPE_FSQ85);
+    // prepare for focusing tests
+    m_CaptureHelper->prepareFocusModule();
 
     // Everything completed successfully
     return true;
@@ -101,11 +103,11 @@ void TestEkosMeridianFlipBase::init()
     // disable FITS viewer
     Options::setUseFITSViewer(false);
 
-    // Reduce the noise setting to ensure a working focusing and plate solving
+    // Eliminate the noise setting to ensure a working focusing and plate solving
     KTRY_INDI_PROPERTY("CCD Simulator", "Simulator Config", "SIMULATOR_SETTINGS", ccd_settings);
     INDI_E *noise_setting = ccd_settings->getElement("SIM_NOISE");
     QVERIFY(ccd_settings != nullptr);
-    noise_setting->setValue(2.0);
+    noise_setting->setValue(0.0);
     ccd_settings->processSetButton();
 
     // close INDI window
@@ -266,6 +268,8 @@ bool TestEkosMeridianFlipBase::prepareMFTestcase(bool initialFocus, bool guideDe
     // set guide deviation guard
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftS, initialGuideDeviation);
     KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationS, guideDeviation);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), startGuiderDriftN, 3.0);
+    KTRY_SET_DOUBLESPINBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitGuideDeviationN, 3.0);
 
     // create the capture directory
     QTemporaryDir destination;
@@ -413,11 +417,14 @@ bool TestEkosMeridianFlipBase::checkRefocusing()
     {
         // wait until focusing has started
         KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_PROGRESS, 60000);
+        qCInfo(KSTARS_EKOS_TEST()) << "Focus progress detected.";
         KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(m_CaptureHelper->expectedFocusStates, 60000);
+        qCInfo(KSTARS_EKOS_TEST()) << "All expected focus states received.";
         // check if focus completion is reached (successful or not)
         KTRY_VERIFY_WITH_TIMEOUT_SUB(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_COMPLETE
                                      || m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_FAILED ||
                                      m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_ABORTED, 120000);
+        qCInfo(KSTARS_EKOS_TEST()) << "Focusing completed.";
     }
     // focusing might have suspended guiding
     if (m_CaptureHelper->use_guiding)

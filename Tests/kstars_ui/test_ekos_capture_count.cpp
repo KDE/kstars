@@ -252,6 +252,9 @@ bool TestEkosCaptureCount::prepareCapture()
     // create the destination for images
     qCInfo(KSTARS_EKOS_TEST) << "FITS path: " << imagepath;
 
+    // clear the refocus check
+    KTRY_SET_CHECKBOX_SUB(Ekos::Manager::Instance()->captureModule(), limitRefocusS, false);
+
     // create capture sequences
     for (int i = 0; i < iterations; i++)
         KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));

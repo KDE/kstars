@@ -6,6 +6,10 @@
 
 #pragma once
 
+#include <QObject>
+
+#include "Options.h"
+
 #include "ekos/ekos.h"
 #include "indiapi.h"
 #include "indi/indistd.h"
@@ -13,10 +17,14 @@
 #include "indi/indimount.h"
 #include "indi/indidome.h"
 
-#include <QObject>
+#include "ekos/manager/meridianflipstate.h"
+#include "ekos/capture/refocusstate.h"
 
 namespace Ekos
 {
+
+class SequenceJob;
+
 class CaptureModuleState: public QObject
 {
     Q_OBJECT
@@ -62,6 +70,12 @@ public:
     CaptureModuleState(QObject *parent = nullptr);
 
     // ////////////////////////////////////////////////////////////////////
+    // sequence jobs
+    // ////////////////////////////////////////////////////////////////////
+    SequenceJob *getActiveJob() const { return m_activeJob; }
+    void setActiveJob(SequenceJob *value) {m_activeJob = value; };
+
+    // ////////////////////////////////////////////////////////////////////
     // capture attributes
     // ////////////////////////////////////////////////////////////////////
     // current filter ID
@@ -95,7 +109,7 @@ public:
     // state accessors
     // ////////////////////////////////////////////////////////////////////
     CaptureState getCaptureState() const { return m_CaptureState; }
-    void setCaptureState(CaptureState value) { m_CaptureState = value; }
+    void setCaptureState(CaptureState value);
 
     FocusState getFocusState() const { return m_FocusState;}
     void setFocusState(FocusState value) { m_FocusState = value; }
@@ -127,7 +141,81 @@ public:
     ISD::Dome::Status getDomeState() const { return m_domeState;}
     void setDomeState(ISD::Dome::Status value) { m_domeState = value; }
 
+    QSharedPointer<MeridianFlipState> getMeridianFlipState();
+    void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
+
+    QSharedPointer<RefocusState> getRefocusState() const { return m_refocusState; }
+
+    // ////////////////////////////////////////////////////////////////////
+    // counters
+    // ////////////////////////////////////////////////////////////////////
+
+    int getAlignmentRetries() const { return m_AlignmentRetries;}
+    int increaseAlignmentRetries() { return ++m_AlignmentRetries; }
+    void resetAlignmentRetries() { m_AlignmentRetries = 0; }
+
+    int getDitherCounter() const { return ditherCounter;}
+    void decreaseDitherCounter();
+    void resetDitherCounter() { ditherCounter = Options::ditherFrames(); }
+
+    // ////////////////////////////////////////////////////////////////////
+    // Action checks
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Check, whether dithering is necessary and, in that case initiate it.
+     *
+     *  Dithering is only required for batch images and does not apply for PREVIEW.
+     *
+     * There are several situations that determine, if dithering is necessary:
+     * 1. the current job captures light frames AND the dither counter has reached 0 AND
+     * 2. guiding is running OR the manual dithering option is selected AND
+     * 3. there is a guiding camera active AND
+     * 4. there hasn't just a meridian flip been finised.
+     *
+     * @return true iff dithering is necessary.
+     */
+
+    bool checkDithering();
+
+    /**
+     * @brief Check whether a meridian flip has been requested and trigger it
+     * @return true iff a meridian flip has been triggered
+     */
+    bool checkMeridianFlipReady();
+
+    /**
+     * @brief Check if the mount's flip has been completed and start guiding
+     * if necessary. Starting guiding after the meridian flip works through
+     * the signal {@see startGuidingAfterFlip()}
+     * @return true if guiding needs to start but is not running yet
+     */
+    bool checkGuidingAfterFlip();
+
+    /**
+     * @brief Check if an alignment needs to be executed after completing
+     * a meridian flip.
+     * @return
+     */
+    bool checkAlignmentAfterFlip();
+
+    /**
+     * @brief Check if focusing is running (abbreviating function for focus state
+     * neither idle nor completed nor aborted).
+     */
+    bool checkFocusRunning() {return (m_FocusState != FOCUS_IDLE && m_FocusState != FOCUS_COMPLETE && m_FocusState != FOCUS_ABORTED); }
+
+signals:
+    // guiding should be started after a successful meridian flip
+    void guideAfterMeridianFlip();
+    // new capture state
+    void newStatus(Ekos::CaptureState status);
+    // stop focusing and reset to the last known position
+    void resetFocus();
+
 private:
+    // Currently active sequence job.
+    SequenceJob *m_activeJob { nullptr };
+
     // ////////////////////////////////////////////////////////////////////
     // device states
     // ////////////////////////////////////////////////////////////////////
@@ -142,6 +230,24 @@ private:
     ISD::Mount::Status m_scopeState { ISD::Mount::MOUNT_IDLE };
     ISD::ParkStatus m_scopeParkState { ISD::PARK_UNKNOWN };
     ISD::Dome::Status m_domeState { ISD::Dome::DOME_IDLE };
+
+    // ////////////////////////////////////////////////////////////////////
+    // counters
+    // ////////////////////////////////////////////////////////////////////
+    // Number of alignment retries
+    int m_AlignmentRetries { 0 };
+    // How many images to capture before dithering operation is executed?
+    uint ditherCounter { 0 };
+
+    /* Refocusing */
+     QSharedPointer<RefocusState> m_refocusState;
+    /* Meridian Flip */
+    QSharedPointer<MeridianFlipState> mf_state;
+
+    /**
+     * @brief Add log message
+     */
+    void appendLogText(QString message);
 
 };
 

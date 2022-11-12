@@ -9,6 +9,8 @@
 #include "kstarsdata.h"
 #include "indicom.h"
 
+#include <ekos_capture_debug.h>
+
 namespace Ekos
 {
 MeridianFlipState::MeridianFlipState(QObject *parent) : QObject(parent)
@@ -29,8 +31,6 @@ QString MeridianFlipState::MFStageString(MFStage stage)
             return "MF_INITIATED";
         case MF_FLIPPING:
             return "MF_FLIPPING";
-        case MF_SLEWING:
-            return "MF_SLEWING";
         case MF_COMPLETED:
             return "MF_COMPLETED";
         case MF_ALIGNING:
@@ -46,6 +46,65 @@ void MeridianFlipState::setEnabled(bool value) {
     // reset meridian flip if disabled
     if (m_enabled == false)
         updateMFMountState(MOUNT_FLIP_NONE);
+}
+
+void MeridianFlipState::updateMeridianFlipStage(const MFStage &stage) {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "updateMeridianFlipStage: " << MeridianFlipState::MFStageString(stage);
+
+    if (meridianFlipStage != stage)
+    {
+        switch (stage)
+        {
+            case MeridianFlipState::MF_NONE:
+                 meridianFlipStage = stage;
+                break;
+
+            case MeridianFlipState::MF_READY:
+                if (getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
+                {
+                    // we keep the stage on requested until the mount starts the meridian flip
+                    updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
+                }
+                else if (m_CaptureState == CAPTURE_PAUSED)
+                {
+                    // paused after meridian flip requested
+                    meridianFlipStage = stage;
+                    updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
+                }
+                else if (!(checkMeridianFlipRunning()
+                           || getMeridianFlipStage() == MeridianFlipState::MF_COMPLETED))
+                {
+                    // if neither a MF has been requested (checked above) or is in a post
+                    // MF calibration phase, no MF needs to take place.
+                    // Hence we set to the stage to NONE
+                     meridianFlipStage = MeridianFlipState::MF_NONE;
+                    break;
+                }
+                // in any other case, ignore it
+                break;
+
+            case MeridianFlipState::MF_INITIATED:
+                 meridianFlipStage = MeridianFlipState::MF_INITIATED;
+                break;
+
+            case MeridianFlipState::MF_REQUESTED:
+                if (m_CaptureState == CAPTURE_PAUSED)
+                    // paused before meridian flip requested
+                    updateMFMountState(MeridianFlipState::MOUNT_FLIP_ACCEPTED);
+                else
+                    updateMFMountState(MeridianFlipState::MOUNT_FLIP_WAITING);
+                 meridianFlipStage = stage;
+                break;
+
+            case MeridianFlipState::MF_COMPLETED:
+                 meridianFlipStage = MeridianFlipState::MF_COMPLETED;
+                break;
+
+            default:
+                 meridianFlipStage = stage;
+                break;
+        }
+    }
 }
 
 
@@ -284,6 +343,19 @@ bool MeridianFlipState::resetMeridianFlip()
     return true;
 }
 
+void MeridianFlipState::processFlipCompleted()
+{
+    appendLogText(i18n("Telescope completed the meridian flip."));
+    if (m_CaptureState == CAPTURE_IDLE || m_CaptureState == CAPTURE_ABORTED || m_CaptureState == CAPTURE_COMPLETE)
+    {
+        // reset the meridian flip stage and jump directly MF_NONE, since no
+        // restart of guiding etc. necessary
+        updateMeridianFlipStage(MeridianFlipState::MF_NONE);
+        return;
+    }
+
+}
+
 
 void MeridianFlipState::setMeridianFlipMountState(MeridianFlipMountState newMeridianFlipMountState)
 {
@@ -398,6 +470,8 @@ QString MeridianFlipState::meridianFlipStatusString(MeridianFlipMountState statu
 
 
 
+
+
 void MeridianFlipState::setMountStatus(ISD::Mount::Status status) {
     m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
@@ -429,6 +503,8 @@ void MeridianFlipState::updateTelescopeCoord(const SkyPoint &position, ISD::Moun
         updatePosition(targetPosition, currentPosition.position, currentPosition.pierSide, currentPosition.ha, true);
         qCDebug(KSTARS_EKOS_MOUNT) << "Slew finished, MFStatus " <<
                                       meridianFlipStatusString(meridianFlipMountState);
+        // ensure that this is executed only once
+        m_PrevMountStatus = m_MountStatus;
     }
 
     QChar sgn(ha.Hours() <= 12.0 ? '+' : '-');
