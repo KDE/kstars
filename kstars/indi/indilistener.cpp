@@ -116,13 +116,10 @@ void INDIListener::processDevice(DeviceInfo *dv)
     qCDebug(KSTARS_INDI) << "INDIListener: New device" << dv->getDeviceName();
 
     QSharedPointer<ISD::GenericDevice> gd;
-    gd.reset(new ISD::GenericDevice(*dv, cm));
-    m_Devices.append(std::move(gd));
+    gd.reset(new ISD::GenericDevice(*dv, cm, this));
 
-    emit newDevice(gd);
-
-    // If already connected, we need to process all the properties as well
     auto isConnected = gd->isConnected();
+    // If already connected, we need to process all the properties as well
     // Register all existing properties
     for (auto &oneProperty : dv->getBaseDevice()->getProperties())
     {
@@ -148,6 +145,10 @@ void INDIListener::processDevice(DeviceInfo *dv)
             }
         }
     }
+
+    m_Devices.append(std::move(gd));
+    emit newDevice(gd);
+
 }
 
 void INDIListener::removeDevice(const QString &deviceName)

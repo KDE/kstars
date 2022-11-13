@@ -49,7 +49,7 @@ class Message : public QObject
         // Send devices as they come
         void sendEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
         void sendScopes();
-        void sendDSLRLenses();        
+        void sendDSLRLenses();
         void sendDrivers();
         void sendDevices();
         void sendTrains();
@@ -214,6 +214,7 @@ class Message : public QObject
             QString text;
         } SimpleTypes;
 
+        QObject *findObject(const QString &name);
         void invokeMethod(QObject *context, const QJsonObject &payload);
         bool parseArgument(const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
 

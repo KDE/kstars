@@ -370,7 +370,7 @@ void Camera::processSwitch(ISwitchVectorProperty *svp)
     else if (QString(svp->name).endsWith("VIDEO_STREAM"))
     {
         // If BLOB is not enabled for this camera, then ignore all VIDEO_STREAM calls.
-        if (isBLOBEnabled() == false)
+        if (isBLOBEnabled() == false || m_StreamingEnabled == false)
             return;
 
         HasVideoStream = true;
