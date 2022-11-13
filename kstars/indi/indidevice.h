@@ -35,7 +35,7 @@ class INDI_D : public QWidget
 {
         Q_OBJECT
     public:
-        INDI_D(QWidget *parent, INDI::BaseDevice *in_idv, ClientManager *in_cm);
+        INDI_D(QWidget *parent, const std::shared_ptr<INDI::BaseDevice> &in_idv, ClientManager *in_cm);
 
 
         ClientManager *getClientManager() const
@@ -45,7 +45,7 @@ class INDI_D : public QWidget
 
         INDI_G *getGroup(const QString &groupName) const;
 
-        INDI::BaseDevice *getBaseDevice() const
+        const std::shared_ptr<INDI::BaseDevice> &getBaseDevice() const
         {
             return m_BaseDevice;
         }
@@ -83,7 +83,7 @@ class INDI_D : public QWidget
         QTextEdit *msgST_w { nullptr };
 
         // Managers
-        INDI::BaseDevice *m_BaseDevice { nullptr };
+        std::shared_ptr<INDI::BaseDevice> m_BaseDevice;
         ClientManager *m_ClientManager { nullptr };
 
         QList<INDI_G *> groupsList;

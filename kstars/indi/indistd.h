@@ -172,7 +172,7 @@ class GenericDevice : public GDInterface
         {
             return m_Ready;
         }
-        virtual INDI::BaseDevice *getBaseDevice() const
+        virtual const std::shared_ptr<INDI::BaseDevice> &getBaseDevice() const
         {
             return m_BaseDevice;
         }
@@ -283,7 +283,7 @@ class GenericDevice : public GDInterface
         QString m_Name;
         DriverInfo *m_DriverInfo { nullptr };
         DeviceInfo *m_DeviceInfo { nullptr };
-        INDI::BaseDevice *m_BaseDevice { nullptr };
+        std::shared_ptr<INDI::BaseDevice> m_BaseDevice;
         ClientManager *m_ClientManager { nullptr };
         QTimer *watchDogTimer { nullptr };
         QTimer *m_ReadyTimer {nullptr};

@@ -45,7 +45,7 @@
 
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
-INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QWidget(parent)
+INDI_D::INDI_D(QWidget *parent, const std::shared_ptr<INDI::BaseDevice> &in_dv, ClientManager *in_cm) : QWidget(parent)
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -301,7 +301,7 @@ bool INDI_D::updateBLOBGUI(IBLOB *bp)
 
 void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
 {
-    if (idv != m_BaseDevice)
+    if (idv != m_BaseDevice.get())
         return;
 
     QString message = QString::fromStdString(m_BaseDevice->messageQueue(messageID));

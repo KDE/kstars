@@ -45,10 +45,12 @@ class BlobManager : public QObject, public INDI::BaseClient
     void setEnabled(bool enabled);
 
   protected:
-    virtual void newDevice(INDI::BaseDevice *device) override;
-    virtual void newProperty(INDI::Property *) override {}
-    virtual void removeProperty(INDI::Property *) override {}
-    virtual void removeDevice(INDI::BaseDevice *) override {}
+    virtual void newDevice(const std::shared_ptr<INDI::BaseDevice> &dp) override;
+    virtual void removeDevice(const std::shared_ptr<INDI::BaseDevice> &) override {};
+
+    virtual void newProperty(INDI::Property) override {};
+    virtual void removeProperty(INDI::Property) override {};
+
     virtual void newSwitch(ISwitchVectorProperty *) override {}
     virtual void newNumber(INumberVectorProperty *) override {}
     virtual void newBLOB(IBLOB *bp) override;
