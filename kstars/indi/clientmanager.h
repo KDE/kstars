@@ -85,12 +85,10 @@ class ClientManager : public QObject, public INDI::BaseClient
         void establishConnection();
 
     protected:
-        virtual void newDevice(const std::shared_ptr<INDI::BaseDevice> &dp) override;
-        virtual void removeDevice(const std::shared_ptr<INDI::BaseDevice> &dp) override;
-
-        virtual void newProperty(INDI::Property property) override;
-        virtual void removeProperty(INDI::Property property) override;
-
+        virtual void newDevice(INDI::BaseDevice *dp) override;
+        virtual void newProperty(INDI::Property *prop) override;
+        virtual void removeProperty(INDI::Property *prop) override;
+        virtual void removeDevice(INDI::BaseDevice *dp) override;
         virtual void newBLOB(IBLOB *bp) override;
         virtual void newSwitch(ISwitchVectorProperty *svp) override;
         virtual void newNumber(INumberVectorProperty *) override;

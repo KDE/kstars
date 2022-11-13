@@ -6,8 +6,9 @@
 
 #include "deviceinfo.h"
 
-DeviceInfo::DeviceInfo(DriverInfo *parent, const std::shared_ptr<INDI::BaseDevice> &dp) :
-    m_Parent(parent), m_BaseDevice(dp)
+DeviceInfo::DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd)
 {
-    m_Name = dp->getDeviceName();
+    drv = parent;
+    dp  = ibd;
+    m_Name = ibd->getDeviceName();
 }

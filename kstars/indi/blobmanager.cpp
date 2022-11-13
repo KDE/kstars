@@ -4,12 +4,16 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "blobmanager.h"
+#include "clientmanager.h"
 
-#include <basedevice.h>
+#include "deviceinfo.h"
+#include "drivermanager.h"
+#include "guimanager.h"
+#include "indilistener.h"
+#include "Options.h"
+#include "servermanager.h"
 
 #include <indi_debug.h>
-#include <memory>
 
 BlobManager::BlobManager(QObject *parent, const QString &host, int port, const QString &device,
                          const QString &prop) : QObject(parent), m_Device(device), m_Property(prop)
@@ -35,7 +39,7 @@ void BlobManager::newBLOB(IBLOB *bp)
     emit newINDIBLOB(bp);
 }
 
-void BlobManager::newDevice(const std::shared_ptr<INDI::BaseDevice> &device)
+void BlobManager::newDevice(INDI::BaseDevice *device)
 {
     // Got out target device, let's now set to BLOB ONLY for the particular property we want
     if (QString(device->getDeviceName()) == m_Device)

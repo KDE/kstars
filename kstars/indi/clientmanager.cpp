@@ -7,12 +7,13 @@
 #include "clientmanager.h"
 
 #include "deviceinfo.h"
+#include "drivermanager.h"
 #include "guimanager.h"
 #include "indilistener.h"
+#include "Options.h"
 #include "servermanager.h"
 
 #include <indi_debug.h>
-#include <KLocalizedString>
 #include <QTimer>
 
 ClientManager::ClientManager()
@@ -29,7 +30,7 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
     });
 }
 
-void ClientManager::newDevice(const std::shared_ptr<INDI::BaseDevice> &dp)
+void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
     //setBLOBMode(B_ALSO, dp->getDeviceName());
     // JM 2018.09.27: ClientManager will no longer handle BLOB, just messages.
@@ -84,27 +85,29 @@ void ClientManager::newDevice(const std::shared_ptr<INDI::BaseDevice> &dp)
     emit newINDIDevice(devInfo);
 }
 
-void ClientManager::newProperty(INDI::Property property)
+void ClientManager::newProperty(INDI::Property *pprop)
 {
+    INDI::Property prop(*pprop);
+
     // Do not emit the signal if the server is disconnected or disconnecting (deadlock between signals)
     if (!isServerConnected())
     {
-        IDLog("Received new property %s for disconnected device %s, discarding\n", property->getName(), property->getDeviceName());
+        IDLog("Received new property %s for disconnected device %s, discarding\n", prop.getName(), prop.getDeviceName());
         return;
     }
 
     //IDLog("Received new property %s for device %s\n", prop->getName(), prop->getgetDeviceName());
-    emit newINDIProperty(property);
+    emit newINDIProperty(prop);
 }
 
-void ClientManager::removeProperty(INDI::Property property)
+void ClientManager::removeProperty(INDI::Property *prop)
 {
-    const QString name = property->getName();
-    const QString device = property->getDeviceName();
+    const QString name = prop->getName();
+    const QString device = prop->getDeviceName();
     emit removeINDIProperty(device, name);
 
     // If BLOB property is removed, remove its corresponding property if one exists.
-    if (blobManagers.empty() == false && property->getType() == INDI_BLOB && property->getPermission() != IP_WO)
+    if (blobManagers.empty() == false && prop->getType() == INDI_BLOB && prop->getPermission() != IP_WO)
         emit removeBLOBManager(device, name);
 }
 
@@ -148,7 +151,7 @@ void ClientManager::disconnectAll()
         oneManager->disconnectServer();
 }
 
-void ClientManager::removeDevice(const std::shared_ptr<INDI::BaseDevice> &dp)
+void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
     QString deviceName = dp->getDeviceName();
 
