@@ -724,6 +724,21 @@ void Mount::updateNumber(INumberVectorProperty * nvp)
     if (m_GPS != nullptr && (nvp->device == m_GPS->getDeviceName()) && !strcmp(nvp->name, "GEOGRAPHIC_COORD")
             && nvp->s == IPS_OK)
         syncGPS();
+
+    // if the meridian flip state machine is not initialized, return
+    if (getMeridianFlipState().isNull())
+        return;
+
+    switch (getMeridianFlipState()->getMeridianFlipStage())
+    {
+        case MeridianFlipState::MF_INITIATED:
+        if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
+            getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
+        break;
+
+        default:
+            break;
+    }
 }
 
 bool Mount::setSlewRate(int index)

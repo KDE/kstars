@@ -58,7 +58,7 @@ void TestEkosMeridianFlipState::testMeridianFlip()
         if (captureInterface)
         {
             // acknowledge as requested (TODO: this should be shifted to the state machine!)
-            m_stateMachine->setMeridianFlipStage(Ekos::MeridianFlipState::MF_REQUESTED);
+            m_stateMachine->updateMeridianFlipStage(Ekos::MeridianFlipState::MF_REQUESTED);
             qCInfo(KSTARS_EKOS_TEST) << "Meridian flip requested.";
             // accept the flip
             m_stateMachine->updateMFMountState(Ekos::MeridianFlipState::MOUNT_FLIP_ACCEPTED);

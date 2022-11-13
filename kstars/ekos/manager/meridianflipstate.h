@@ -10,6 +10,7 @@
 #include "skypoint.h"
 
 #include <ekos_mount_debug.h>
+#include "ekos/ekos.h"
 
 #include "indi/indistd.h"
 #include "indi/indimount.h"
@@ -68,7 +69,6 @@ public:
         MF_READY,      /* confirmations received, the meridian flip may start               */
         MF_INITIATED,  /* meridian flip started                                             */
         MF_FLIPPING,   /* slew started to the target position                               */
-        MF_SLEWING,    /* slew started to the target position (where is the difference???)  */
         MF_COMPLETED,  /* meridian flip completed, re-calibration required                  */
         MF_ALIGNING,   /* alignment running after a successful flip                         */
         MF_GUIDING     /* guiding started after a successful flip                           */
@@ -104,7 +104,10 @@ public:
 
     MeridianFlipState::MFStage getMeridianFlipStage() const { return meridianFlipStage; };
 
-    void setMeridianFlipStage(const MFStage &value) { meridianFlipStage = value; }
+    /**
+     * @brief Update the meridian flip stage
+     */
+    void updateMeridianFlipStage(const MFStage &stage);
 
     /**
      * @brief Stop a meridian flip if necessary.
@@ -113,12 +116,17 @@ public:
     bool resetMeridianFlip();
 
     /**
+     * @brief Execute actions after the flipping slew has completed.
+     */
+    void processFlipCompleted();
+
+    /**
      * @brief Check if a meridian flip has already been started
      * @return true iff the scope has started the meridian flip
      */
     inline bool checkMeridianFlipRunning()
     {
-        return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING || meridianFlipStage == MF_SLEWING;
+        return meridianFlipStage == MF_INITIATED || meridianFlipStage == MF_FLIPPING;
     }
 
     /**
@@ -173,6 +181,10 @@ public:
 
 public slots:
     /**
+     * @brief Slot for receiving an update of the capture status
+     */
+    void setCaptureState(CaptureState state) { m_CaptureState = state; }
+    /**
      * @brief Slot for receiving an update to the mount status
      */
     void setMountStatus(ISD::Mount::Status status);
@@ -210,6 +222,8 @@ private:
     bool m_hasMount { false };
     // capture interface
     bool m_hasCaptureInterface { false };
+    // the current capture status
+    CaptureState m_CaptureState { CAPTURE_IDLE };
     // the current mount status
     ISD::Mount::Status m_MountStatus = ISD::Mount::MOUNT_IDLE;
     // the previous mount status

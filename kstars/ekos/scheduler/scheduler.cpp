@@ -11,6 +11,7 @@
 
 #include "ekos/scheduler/framingassistantui.h"
 #include "ksnotification.h"
+#include "ksmessagebox.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -3392,7 +3393,7 @@ bool Scheduler::checkStartupState()
                 if (startupScriptURL.isEmpty() == false)
                     appendLogText(i18n("Ekos is already started, skipping startup script..."));
 
-                if (currentJob->getLightFramesRequired())
+                if (!currentJob || currentJob->getLightFramesRequired())
                     startupState = STARTUP_UNPARK_DOME;
                 else
                     startupState = STARTUP_COMPLETE;
@@ -7220,23 +7221,20 @@ void Scheduler::runStartupProcedure()
 {
     if (startupState == STARTUP_IDLE || startupState == STARTUP_ERROR || startupState == STARTUP_COMPLETE)
     {
-        /* FIXME: Probably issue a warning only, in case the user wants to run the startup script alone */
-        if (indiState == INDI_IDLE)
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
-            KSNotification::sorry(i18n("Cannot run startup procedure while INDI devices are not online."));
-            return;
-        }
+            KSMessageBox::Instance()->disconnect(this);
 
-        if (KMessageBox::questionYesNo(
-                    nullptr, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
-        {
             appendLogText(i18n("Warning: executing startup procedure manually..."));
             startupB->setIcon(
                 QIcon::fromTheme("media-playback-stop"));
             startupState = STARTUP_IDLE;
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
-        }
+
+        });
+
+        KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to execute the startup procedure manually?"));
     }
     else
     {
@@ -7311,16 +7309,18 @@ void Scheduler::runShutdownProcedure()
 {
     if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
     {
-        if (KMessageBox::questionYesNo(
-                    nullptr, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
         {
+            KSMessageBox::Instance()->disconnect(this);
             appendLogText(i18n("Warning: executing shutdown procedure manually..."));
             shutdownB->setIcon(
                 QIcon::fromTheme("media-playback-stop"));
             shutdownState = SHUTDOWN_IDLE;
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
-        }
+        });
+
+        KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to execute the shutdown procedure manually?"));
     }
     else
     {

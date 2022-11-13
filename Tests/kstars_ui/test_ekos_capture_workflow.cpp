@@ -215,7 +215,7 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     // add target to path to emulate the behavior of the scheduler
     QString imagepath = getImageLocation()->path() + "/test";
     // build a simple 5xL sequence
-    KTRY_CAPTURE_ADD_LIGHT(30.0, 5, 5.0, "Luminance", imagepath);
+    KTRY_CAPTURE_ADD_LIGHT(45.0, 5, 5.0, "Luminance", imagepath);
     // set Dubhe as target and slew there
     SkyObject *target = KStars::Instance()->data()->skyComposite()->findByName("Dubhe");
     m_CaptureHelper->slewTo(target->ra().Hours(), target->dec().Degrees(), true);
@@ -239,7 +239,7 @@ void TestEkosCaptureWorkflow::testGuidingDeviationAbortCapture()
     qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA+DEC guiding pulses.";
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
     // wait that capturing gets suspended
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 10000);
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 15000);
     // abort capturing
     m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_ABORTED);
     KTRY_CLICK(capture, startB);
@@ -988,7 +988,7 @@ bool TestEkosCaptureWorkflow::prepareTestCase()
     // prepare optical trains for testing
     m_CaptureHelper->prepareOpticalTrains();
     // prepare the mount module for testing with OAG guiding
-    m_CaptureHelper->prepareMountModule();
+    m_CaptureHelper->prepareMountModule(TestEkosCaptureHelper::SCOPE_FSQ85, TestEkosCaptureHelper::SCOPE_FSQ85);
     // prepare for focusing tests
     m_CaptureHelper->prepareFocusModule();
     // prepare for alignment tests

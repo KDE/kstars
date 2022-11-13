@@ -61,7 +61,7 @@ ADD_TEST(NAME TestEkosFilterWheel COMMAND test_ekos_filterwheel)
 ADD_EXECUTABLE(test_ekos_capture_count ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture_count.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture_count ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosCaptureCount COMMAND test_ekos_capture_count)
-#SET_TESTS_PROPERTIES( TestEkosCaptureCount PROPERTIES LABELS "stable;ui" TIMEOUT 1200 )
+SET_TESTS_PROPERTIES( TestEkosCaptureCount PROPERTIES LABELS "stable;ui" TIMEOUT 1200 )
 
 ADD_EXECUTABLE(test_ekos_capture_workflow ${KSTARS_UI_EKOS_SRC} test_ekos_helper.cpp test_ekos_capture_helper.cpp test_ekos_capture_workflow.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_capture_workflow ${KSTARS_UI_EKOS_LIBS})

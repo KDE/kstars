@@ -19,7 +19,7 @@ TestEkosHelper::TestEkosHelper(QString guider)
     m_MountDevice = "Telescope Simulator";
     m_CCDDevice   = "CCD Simulator";
     if (guider != nullptr)
-        m_GuiderDevice = "CCD Simulator";
+        m_GuiderDevice = "Guide Simulator";
     m_astrometry_available = false;
 }
 
@@ -402,12 +402,20 @@ void TestEkosHelper::prepareOpticalTrains()
     {
         // setup guiding scope train
         QVariantMap guidingTrain = otm->getOpticalTrain(m_guidingTrain);
+        bool isNew = guidingTrain.size() == 0;
         guidingTrain["mount"] = m_MountDevice;
         guidingTrain["camera"] = m_GuiderDevice;
         guidingTrain["filterwheel"] = "-";
         guidingTrain["focuser"] = "-";
         guidingTrain["guider"] = m_MountDevice;
-        KStarsData::Instance()->userdb()->UpdateOpticalTrain(guidingTrain, guidingTrain["id"].toInt());
+        if (isNew)
+        {
+            // create guiding train if missing
+            guidingTrain["name"] = m_guidingTrain;
+            otm->addOpticalTrain(QJsonObject::fromVariantMap(guidingTrain));
+        }
+        else
+            KStarsData::Instance()->userdb()->UpdateOpticalTrain(guidingTrain, guidingTrain["id"].toInt());
     }
     // ensure that the OTM initializes from the database
     otm->refreshModel();
@@ -449,8 +457,8 @@ void TestEkosHelper::prepareFocusModule()
     KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), focusUseFullField, true);
     //initial step size 5000
     KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), focusTicks, 5000);
-    // max travel 50000
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusMaxTravel, 50000.0);
+    // max travel 100000
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusMaxTravel, 100000.0);
     // focus tolerance 20% - make focus fast and robust, precision does not matter
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, focusTolerance);
     focusTolerance->setMaximum(20.0);
@@ -459,24 +467,32 @@ void TestEkosHelper::prepareFocusModule()
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusAlgorithm, "Linear 1 Pass");
     // select star detection
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusSEPProfile, "1-Focus-Default");
-    // set annulus to 0% - 50%
+    // set annulus to 0% - 100%
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldInnerRadius, 0.0);
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 50.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 100.0);
     // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 1);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 1.0);
     // select the Luminance filter
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusFilter, "Luminance");
     // select SEP algorithm for star detection
     KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetection, "SEP");
     // set exp time for current filter
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusExposure, 3.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusExposure, 1.0);
     // set exposure times for all filters
     auto filtermanager = Ekos::Manager::Instance()->focusModule()->filterManager();
     for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
     {
-        filtermanager->setFilterExposure(pos, 3.0);
+        filtermanager->setFilterExposure(pos, 1.0);
         filtermanager->setFilterLock(pos, "Luminance");
     }
+
+    // Eliminate the noise setting to ensure a working focusing and plate solving
+    KTRY_INDI_PROPERTY(m_CCDDevice, "Simulator Config", "SIMULATOR_SETTINGS", ccd_settings);
+    INDI_E *noise_setting = ccd_settings->getElement("SIM_NOISE");
+    QVERIFY(ccd_settings != nullptr);
+    noise_setting->setValue(0.0);
+    ccd_settings->processSetButton();
+
     // gain 100
     KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusGain, 100.0);
     // suspend guiding while focusing
@@ -492,7 +508,8 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setReuseGuideCalibration(true);
     Options::setResetGuideCalibration(false);
     // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
-    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=269.84,angR=270.362,angD=179.318,ramspas=104.501,decmspas=191.838,swap=0,ra= 143:57:35,dec=00:25:52,side=0,when=2022-09-11 12:05:16,calEnd");
+    // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
+    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0052,ph=0.0052,fl=450,ang=268.48,angR=270.003,angD=176.956,ramspas=139.827,decmspas=132.191,swap=0,ra= 344:23:02,dec=00:25:52,side=0,when=2022-11-08 20:36:46,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
     // auto star select

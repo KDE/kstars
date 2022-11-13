@@ -31,17 +31,17 @@
 >Nom:</guilabel
 > en el camp d'entrada i prémer &Intro; o el botó <guibutton
 >Dibuixa</guibutton
->. Si el text que introduïu es troba a la base de dades d'objectes, la corba de l'objecte serà afegida a la gràfica. També podeu prémer el botó <guibutton
+>. Si el text que introduïu es troba en la base de dades d'objectes, la corba de l'objecte serà afegida a la gràfica. També podeu prémer el botó <guibutton
 >Busca un objecte...</guibutton
 > per a obrir la <link linkend="findobjects"
 >finestra «Busqueu un objecte»</link
-> per a seleccionar-ne un de la llista d'objectes coneguts. Si voleu afegir un punt que no existia a la base de dades, senzillament introduïu un nom per al punt i després completeu les coordenades en els camps d'entrada <guilabel
+> per a seleccionar-ne un de la llista d'objectes coneguts. Si voleu afegir un punt que no existia en la base de dades, senzillament introduïu un nom per al punt i després completeu les coordenades en els camps d'entrada <guilabel
 >AR:</guilabel
 > i <guilabel
 >Dec:</guilabel
 >. Aleshores premeu el botó <guibutton
 >Dibuixa</guibutton
-> per a afegir la corba per al vostre objecte personalitzat a la representació gràfica (cal tindre en compte que perquè açò funcione, haureu d'escollir un nom que no existira anteriorment a la base de dades d'objectes). </para>
+> per a afegir la corba per al vostre objecte personalitzat a la representació gràfica (cal tindre en compte que perquè açò funcione, haureu d'escollir un nom que no existira anteriorment en la base de dades d'objectes). </para>
 <para
 >Quan afegiu un objecte a la representació gràfica, la seua altitud en funció del temps és representada gràficament amb una gruixuda línia blanca i el seu nom serà afegit al quadro de llista (a la dreta, davall). Qualsevol objecte que ja estiguera present es traça amb una corba roja més fina. Podeu triar quin objecte és traçat amb la corba gruixuda blanca ressaltant el seu nom al quadro de llista. </para>
 <para

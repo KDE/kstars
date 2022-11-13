@@ -469,9 +469,13 @@ class Capture : public QWidget, public Ui::Capture
         Q_SCRIPTABLE Q_NOREPLY void start();
 
         /** DBUS interface function.
-             * Stop all jobs and set current job status to aborted if abort is set to true, otherwise status is idle until
-             * sequence is resumed or restarted.
-             * @param targetState status of the job after abortion
+             * Stops currently running jobs:
+             *           CAPTURE_IDLE: capture in idle state waiting for further action (e.g. single sequence
+             *                         is complete, next one starting)
+             *       CAPTURE_COMPLETE: all capture sequences are complete
+             *          CAPTURE_ABORT: capture aborted either by user interaction or by a technical error
+             *        CAPTURE_SUSPEND: capture suspended and waiting to be restarted
+             * @param targetState status of the job after stop
              */
         Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE);
 
@@ -634,12 +638,6 @@ class Capture : public QWidget, public Ui::Capture
         void processCCDNumber(INumberVectorProperty *nvp);
 
         /**
-             * @brief processTelescopeNumber Process number properties arriving from telescope for meridian flip purposes.
-             * @param nvp pointer to number property.
-             */
-        void processTelescopeNumber(INumberVectorProperty *nvp);
-
-        /**
          * @brief processNewTargetName If mount slews to a new object, process it as it can be used for prefix
          * @param name new sky object under tracking.
          */
@@ -772,8 +770,8 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief Access to the meridian flip state machine
          */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState();;
-        void setMeridianFlipState(QSharedPointer<MeridianFlipState> newm_MeridianFlipState);;
+        QSharedPointer<MeridianFlipState> getMeridianFlipState();
+        void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
 
     private slots:
 
@@ -804,18 +802,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // AutoGuide
         void checkGuideDeviationTimeout();
-
-        // Auto Focus
-        // Timed refocus
-        void startRefocusEveryNTimer()
-        {
-            startRefocusTimer(false);
-        }
-        void restartRefocusEveryNTimer()
-        {
-            startRefocusTimer(true);
-        }
-        int getRefocusEveryNTimerElapsedSec();
 
         // Flat field
         void openCalibrationDialog();
@@ -863,7 +849,7 @@ class Capture : public QWidget, public Ui::Capture
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
-        Q_SCRIPTABLE void meridianFlipCompleted();
+        Q_SCRIPTABLE void guideAfterMeridianFlip();
         Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
@@ -952,26 +938,8 @@ class Capture : public QWidget, public Ui::Capture
         void cullToDSLRLimits();
         //void syncDriverToDSLRLimits();
         bool isModelinDSLRInfo(const QString &model);
-
-        /* Meridian Flip */
-        QSharedPointer<MeridianFlipState> mf_state;
-        /**
-         * @brief Check whether a meridian flip has been requested and trigger it
-         * @return true iff a meridian flip has been triggered
-         */
-        bool checkMeridianFlipReady();
-
-        bool checkGuidingAfterFlip();
-        bool checkAlignmentAfterFlip();
-
         // check if a pause has been planned
         bool checkPausing();
-
-        /**
-         * @brief Check whether dithering is necessary and trigger it if required.
-         * @return true iff dithering has been triggered
-         */
-        bool checkDithering();
 
         void resetFrameToZero();
 
@@ -1033,6 +1001,11 @@ class Capture : public QWidget, public Ui::Capture
          */
         bool setDarkFlatExposure(SequenceJob *job);
 
+        /**
+         * @brief Sync refocus options to the GUI settings
+         */
+        void syncRefocusOptionsFromGUI();
+
         double seqExpose { 0 };
         int seqTotalCount;
         int seqCurrentCount { 0 };
@@ -1043,7 +1016,6 @@ class Capture : public QWidget, public Ui::Capture
         QTime sequenceCountDown;
 
         int seqDelay { 0 };
-        int retries { 0 };
         // Timer for starting the next capture sequence with delay
         // @see startNextExposure()
         QTimer *seqDelayTimer { nullptr };
@@ -1097,28 +1069,14 @@ class Capture : public QWidget, public Ui::Capture
          * @brief updateHFRThreshold calculate new HFR threshold based on median value for current selected filter
          */
         void updateHFRThreshold();
-        bool isInSequenceFocus { false };
-        bool m_AutoFocusReady { false };
         //bool requiredAutoFocusStarted { false };
         //bool firstAutoFocus { true };
         double focusHFR { 0 }; // HFR value as received from the Ekos focus module
         QMap<QString, QList<double>> HFRMap;
         double fileHFR { 0 };  // HFR value as loaded from the sequence file
 
-        // Refocus in progress because of time forced refocus or temperature change
-        bool isRefocus { false };
-
         // Fast Exposure
         bool m_RememberFastExposure {false};
-        // Focus on Temperature change
-        bool isTemperatureDeltaCheckActive { false };
-        double focusTemperatureDelta { 0 }; // Temperature delta as received from the Ekos focus module
-
-        // Refocus every N minutes
-        int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
-        QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
-
-        bool refocusAfterMeridianFlip { false };// set to true at meridian flip to request refocus
 
         // Flat field automation
         QVector<double> ExpRaw, ADURaw;
@@ -1166,10 +1124,6 @@ class Capture : public QWidget, public Ui::Capture
 
         // Rotator Settings
         std::unique_ptr<RotatorSettings> m_RotatorControlPanel;
-
-        // How many images to capture before dithering operation is executed?
-        uint ditherCounter { 0 };
-        uint inSequenceFocusCounter { 0 };
 
         std::unique_ptr<CustomProperties> customPropertiesDialog;
 

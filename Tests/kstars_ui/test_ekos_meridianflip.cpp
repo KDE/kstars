@@ -69,7 +69,7 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
     // switch to mount module
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->mountModule(), 1000);
 
-    double delay = 12.0;
+    double delay = 4.8;
     // activate meridian flip
     QVERIFY(enableMeridianFlip(delay));
 
@@ -81,8 +81,8 @@ void TestEkosMeridianFlip::testSimpleMFDelay()
     qCInfo(KSTARS_EKOS_TEST()) << distance << "seconds to meridian flip...";
     QTRY_VERIFY(delay < distance && distance < delay + 7);
 
-    // check if meridian flip runs and completes successfully
-    QVERIFY(checkMFStarted(static_cast<int>(delay) + 7));
+    // check if meridian flip runs and completes successfully (15 secs buffer for startup)
+    QVERIFY(checkMFStarted(static_cast<int>(delay) + 7 + 15));
 }
 
 
@@ -195,7 +195,7 @@ void TestEkosMeridianFlip::testCaptureMFAbortFlipping()
 void TestEkosMeridianFlip::testCaptureGuidingMF()
 {
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(20, true, false, true));
+    QVERIFY(prepareCaptureTestcase(20, true, false, false));
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -283,7 +283,7 @@ void TestEkosMeridianFlip::testCaptureAlignGuidingMF()
 
 void TestEkosMeridianFlip::testSimpleMF_data()
 {
-    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Dubai"}, {true, false}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
+    prepareTestData(18.0, {"Greenwich", "Reykjavik", "San Diego", "Hilo", "Hong Kong", "Kuwait City"}, {true, false}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlip::testSimpleMFDelay_data()

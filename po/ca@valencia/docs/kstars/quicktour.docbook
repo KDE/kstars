@@ -309,7 +309,7 @@
 >o buscar <replaceable
 >nom_objecte</replaceable
 > a Internet</guibutton
->. Una vegada trobat el vostre objecte, el podreu utilitzar exactament com qualsevol objecte que ja estiga carregat en &kstars; (&ead;, afegir-lo a la llista de desitjos de l'observació). Si no s'ha trobat l'objecte a les bases de dades en línia, es mostrarà un diàleg d'avís. Una vegada resoleu un objecte utilitzant este mètode, s'emmagatzemarà a la base de dades de &kstars;, de manera que si tanqueu &kstars; i l'obriu de nou, l'objecte encara hi serà. </para>
+>. Una vegada trobat el vostre objecte, el podreu utilitzar exactament com qualsevol objecte que ja estiga carregat en &kstars; (&ead;, afegir-lo a la llista de desitjos de l'observació). Si no s'ha trobat l'objecte en les bases de dades en línia, es mostrarà un diàleg d'avís. Una vegada resoleu un objecte utilitzant este mètode, s'emmagatzemarà en la base de dades de &kstars;, de manera que si tanqueu &kstars; i l'obriu de nou, l'objecte encara hi serà. </para>
 
 <para
 >Podeu optar per habilitar o inhabilitar esta característica marcant o desmarcant la casella de selecció <guibutton

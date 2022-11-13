@@ -2750,7 +2750,7 @@ void Manager::connectModules()
         // Meridian Flip
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, guideProcess.get(), &Ekos::Guide::abort,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, guideProcess.get(),
+        connect(captureProcess.get(), &Ekos::Capture::guideAfterMeridianFlip, guideProcess.get(),
                 &Ekos::Guide::guideAfterMeridianFlip, Qt::UniqueConnection);
     }
 
@@ -2829,7 +2829,7 @@ void Manager::connectModules()
         // Meridian Flip states
         connect(captureProcess.get(), &Ekos::Capture::meridianFlipStarted, mountProcess.get(), &Ekos::Mount::suspendAltLimits,
                 Qt::UniqueConnection);
-        connect(captureProcess.get(), &Ekos::Capture::meridianFlipCompleted, mountProcess.get(), &Ekos::Mount::resumeAltLimits,
+        connect(captureProcess.get(), &Ekos::Capture::guideAfterMeridianFlip, mountProcess.get(), &Ekos::Mount::resumeAltLimits,
                 Qt::UniqueConnection);
         connect(mountProcess->getMeridianFlipState().get(), &Ekos::MeridianFlipState::newMountMFStatus, captureProcess.get(),
                 &Ekos::Capture::meridianFlipStatusChanged, Qt::UniqueConnection);

@@ -40,9 +40,8 @@ void TestEkosMeridianFlipSpecials::testCaptureGuidingDeviationMF()
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_SUSPENDED);
 
     // now send motion north to create a guiding deviation
-    Ekos::Mount *mount = Ekos::Manager::Instance()->mountModule();
-    mount->doPulse(RA_INC_DIR, 2000, NO_DIR, 0);
-    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA guiding.";
+    Ekos::Manager::Instance()->mountModule()->doPulse(RA_INC_DIR, 2000, DEC_INC_DIR, 2000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Sent 2000ms RA+DEC guiding.";
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 20000);
 
     // check if meridian flip runs and completes successfully
@@ -162,7 +161,7 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
     QVERIFY(checkMFExecuted(40));
 
     // check if capture remains paused (after a meridian flip it is marked as idle - bug or feature?)
-    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_IDLE, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_PAUSED, 5000);
 
     // Lets wait a little bit
     QTest::qWait(5000);
@@ -177,10 +176,10 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF()
 
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
 {
-    // select suspend guiding
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // set up the capture sequence
-    QVERIFY(prepareCaptureTestcase(80, true, false, false));
+    QVERIFY(prepareCaptureTestcase(20, true, false, false));
+    // add additional 5 degrees for delay to prevent a meridian flip before focusing starts
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->mountModule(), meridianFlipOffsetDegrees, 5.0);
 
     // start guiding
     QVERIFY(m_CaptureHelper->startGuiding(2.0));
@@ -188,10 +187,18 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
     // start capturing
     QVERIFY(startCapturing());
 
-    // expect focusing starts and aborts within 90 secends
+    // expect focusing starts and aborts
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_ABORTED);
+
+    // wait until focusing starts
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_PROGRESS, 90000);
+    // trigger the meridian flip by clearing the offset
+    meridianFlipOffsetDegrees->setValue(0.0);
+    qCInfo(KSTARS_EKOS_TEST) << "Meridian flip offset cleared.";
+    // expect focus abort due to started meridian flip
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 90000);
+    qCInfo(KSTARS_EKOS_TEST) << "Focusing aborted.";
 
     // check if meridian flip runs and completes successfully
     QVERIFY(checkMFExecuted(40));
@@ -214,20 +221,29 @@ void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
 
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
 {
-    // select suspend guiding
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), suspendGuideCheck, true);
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(30, true, Ekos::Scheduler::ALGORITHM_CLASSIC, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(10, true, Ekos::Scheduler::ALGORITHM_CLASSIC, SchedulerJob::FINISH_LOOP, 1));
     // update the initial focuser position
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     initialFocusPosition = absTicksLabel->text().toInt();
     // start the scheduled procedure
     QVERIFY(startScheduler());
+    // add additional 5 degrees for delay to prevent a meridian flip before focusing starts
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->mountModule(), meridianFlipOffsetDegrees, 5.0);
 
-    // expect focusing starts and aborts within 90 secends
+    // expect focusing starts and aborts
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_PROGRESS);
     m_CaptureHelper->expectedFocusStates.append(Ekos::FOCUS_ABORTED);
-    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 120000);
+
+    // wait until focusing starts
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getFocusStatus() == Ekos::FOCUS_PROGRESS, 90000);
+    // trigger the meridian flip by clearing the offset after 1 sec
+    QTest::qWait(1000.0);
+    meridianFlipOffsetDegrees->setValue(0.0);
+    qCInfo(KSTARS_EKOS_TEST) << "Meridian flip offset cleared.";
+    // expect focus abort due to started meridian flip
+    KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates, 90000);
+    qCInfo(KSTARS_EKOS_TEST) << "Focusing aborted.";
     // check if the focuser moved back to the last known focus position
     // moving back should be finished 5 secs after focusing aborted
     QTRY_VERIFY2_WITH_TIMEOUT(initialFocusPosition == absTicksLabel->text().toInt(),
@@ -299,7 +315,7 @@ void TestEkosMeridianFlipSpecials::testCaptureAlignGuidingPausedMF_data()
 
 void TestEkosMeridianFlipSpecials::testAbortRefocusMF_data()
 {
-    prepareTestData(25.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {true}, {false}, {false}, {false});
+    prepareTestData(32.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {true}, {false}, {false}, {false});
 }
 
 void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF_data()
