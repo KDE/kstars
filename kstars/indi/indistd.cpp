@@ -65,6 +65,9 @@ GenericDevice::GenericDevice(DeviceInfo &idv, ClientManager *cm, QObject *parent
     Q_ASSERT_X(m_ClientManager, __FUNCTION__, "Client manager is invalid.");
 
     m_Name = m_BaseDevice->getDeviceName();
+
+    setObjectName(m_Name);
+
     m_DriverInterface = m_BaseDevice->getDriverInterface();
     m_DriverVersion = m_BaseDevice->getDriverVersion();
 
@@ -1090,6 +1093,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].isNull())
     {
         auto mount = new ISD::Mount(this);
+        mount->setObjectName("Mount:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].reset(mount);
         mount->registeProperties();
@@ -1112,6 +1116,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].isNull())
     {
         auto camera = new ISD::Camera(this);
+        camera->setObjectName("Camera:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].reset(camera);
         camera->registeProperties();
@@ -1135,6 +1140,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].isNull())
     {
         auto guider = new ISD::Guider(this);
+        guider->setObjectName("Guider:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].reset(guider);
         guider->registeProperties();
@@ -1157,6 +1163,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].isNull())
     {
         auto focuser = new ISD::Focuser(this);
+        focuser->setObjectName("Focuser:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].reset(focuser);
         focuser->registeProperties();
@@ -1179,6 +1186,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].isNull())
     {
         auto filterWheel = new ISD::FilterWheel(this);
+        filterWheel->setObjectName("FilterWheel:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].reset(filterWheel);
         filterWheel->registeProperties();
@@ -1201,6 +1209,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].isNull())
     {
         auto dome = new ISD::Dome(this);
+        dome->setObjectName("Dome:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].reset(dome);
         dome->registeProperties();
@@ -1223,6 +1232,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].isNull())
     {
         auto gps = new ISD::GPS(this);
+        gps->setObjectName("GPS:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].reset(gps);
         gps->registeProperties();
@@ -1245,6 +1255,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].isNull())
     {
         auto weather = new ISD::Weather(this);
+        weather->setObjectName("Weather:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].reset(weather);
         weather->registeProperties();
@@ -1267,6 +1278,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].isNull())
     {
         auto ao = new ISD::AdaptiveOptics(this);
+        ao->setObjectName("AdaptiveOptics:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].reset(ao);
         ao->registeProperties();
@@ -1289,6 +1301,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].isNull())
     {
         auto dustCap = new ISD::DustCap(this);
+        dustCap->setObjectName("DustCap:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].reset(dustCap);
         dustCap->registeProperties();
@@ -1311,6 +1324,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].isNull())
     {
         auto lightBox = new ISD::LightBox(this);
+        lightBox->setObjectName("LightBox:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].reset(lightBox);
         lightBox->registeProperties();
@@ -1333,6 +1347,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].isNull())
     {
         auto rotator = new ISD::Rotator(this);
+        rotator->setObjectName("Rotator:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].reset(rotator);
         rotator->registeProperties();
@@ -1355,6 +1370,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].isNull())
     {
         auto detector = new ISD::Detector(this);
+        detector->setObjectName("Detector:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].reset(detector);
         detector->registeProperties();
@@ -1377,6 +1393,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].isNull())
     {
         auto spectrograph = new ISD::Spectrograph(this);
+        spectrograph->setObjectName("Spectrograph:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].reset(spectrograph);
         spectrograph->registeProperties();
@@ -1399,6 +1416,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].isNull())
     {
         auto correlator = new ISD::Correlator(this);
+        correlator->setObjectName("Correlator:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].reset(correlator);
         correlator->registeProperties();
@@ -1421,6 +1439,7 @@ bool GenericDevice::generateDevices()
             m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].isNull())
     {
         auto aux = new ISD::Auxiliary(this);
+        aux->setObjectName("Auxiliary:" + objectName());
         generated = true;
         m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].reset(aux);
         aux->registeProperties();

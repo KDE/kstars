@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
-"PO-Revision-Date: 2022-11-11 09:17+0100\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"PO-Revision-Date: 2022-11-13 09:34+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -13371,10 +13371,9 @@ msgid "CCD capture suspended"
 msgstr "S'ha suspès la captura del CCD"
 
 #: ekos/capture/capture.cpp:938
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Captura completada."
+msgstr "Captura completada del CCD."
 
 #: ekos/capture/capture.cpp:943
 #, kde-format
@@ -15733,7 +15732,7 @@ msgstr "Connecta automàticament amb el servei EkosLive en iniciar."
 msgid "Auto Start"
 msgstr "Inici automàtic"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
@@ -19916,7 +19915,7 @@ msgid "%1 is disconnected."
 msgstr "%1 està desconnectat."
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "El %1 està en línia."
@@ -24194,6 +24193,11 @@ msgstr ""
 "Avís: el dispositiu de la cúpula no està preparat després del temps "
 "d'espera, s'intenta recuperar..."
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -27854,7 +27858,7 @@ msgstr "No s'ha pogut obrir el fitxer %1 per a lectura"
 msgid "Not enough memory for file %1"
 msgstr "No hi ha memòria suficient per al fitxer %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Missatge del servidor INDI"
@@ -27952,17 +27956,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Puja"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr "Localització de GPS"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, kde-format
 msgid "Mount Location"
 msgstr "Emplaçament de la muntura"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "El fitxer de dades s'ha desat a %1"

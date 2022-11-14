@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2015-03-19 04:30-0400\n"
 "Last-Translator: Axel Rousseau <axel584@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -14938,7 +14938,7 @@ msgstr "Ŝarĝante konstelaciajn nomojn"
 msgid "Auto Start"
 msgstr "Azimuto:"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Konservado de la bildo %1 malsukcesis!"
@@ -18650,7 +18650,7 @@ msgid "%1 is disconnected."
 msgstr "Kalkulu"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr ""
@@ -22494,6 +22494,11 @@ msgstr "Kalkulu"
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -25898,7 +25903,7 @@ msgstr "Ne eblis malfermi dosieron"
 msgid "Not enough memory for file %1"
 msgstr ""
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 msgid "INDI Server Message"
 msgstr "Servilo"
@@ -25996,17 +26001,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Upsala"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "Elektu lokon"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "Elektu lokon"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "nevalida URLo"

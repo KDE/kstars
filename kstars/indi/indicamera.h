@@ -47,6 +47,7 @@ class CameraChip;
 class Camera : public ConcreteDevice
 {
         Q_OBJECT
+        Q_PROPERTY(bool StreamingEnabled MEMBER m_StreamingEnabled)
 
     public:
         explicit Camera(ISD::GenericDevice *parent);
@@ -288,6 +289,7 @@ class Camera : public ConcreteDevice
         QString m_EncodingFormat {"FITS"};
         QStringList m_EncodingFormats;
         QStringList m_CaptureFormats;
+        bool m_StreamingEnabled {true};
         int m_CaptureFormatIndex;
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };
 

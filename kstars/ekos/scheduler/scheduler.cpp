@@ -3302,7 +3302,7 @@ bool Scheduler::checkINDIState()
                     stopEkos();
                 }
 
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "Dome unpark required but dome is not yet ready.";
+                appendLogText(i18n("Dome unpark required but dome is not yet ready."));
                 return false;
             }
 

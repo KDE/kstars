@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
-"PO-Revision-Date: 2022-11-11 04:13+0100\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"PO-Revision-Date: 2022-11-13 15:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -13342,10 +13342,9 @@ msgid "CCD capture suspended"
 msgstr "Captura CCD suspendida"
 
 #: ekos/capture/capture.cpp:938
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "Captura completada."
+msgstr "Captura CCD completada"
 
 #: ekos/capture/capture.cpp:943
 #, kde-format
@@ -15701,7 +15700,7 @@ msgstr "Conectar automáticamente con el servicio EkosLive al iniciar."
 msgid "Auto Start"
 msgstr "Inicio automático"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -19885,7 +19884,7 @@ msgid "%1 is disconnected."
 msgstr "%1 está desconectado."
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 está en línea."
@@ -24185,6 +24184,11 @@ msgstr ""
 "Advertencia: el dispositivo de la cúpula no está preparado haberse agotado "
 "su tiempo. Se está intentando recuperarlo..."
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -27835,7 +27839,7 @@ msgstr "No se puede abrir archivo %1 para lectura"
 msgid "Not enough memory for file %1"
 msgstr "No hay memoria suficiente para el archivo %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Mensaje del servidor INDI"
@@ -27935,17 +27939,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Enviar"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr "Posición GPS"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, kde-format
 msgid "Mount Location"
 msgstr "Ubicación de la montura"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Archivo de datos guardado en %1"

@@ -182,6 +182,34 @@ void Message::onTextReceived(const QString &message)
         sendScopes();
     else if (command == commands[GET_DSLR_LENSES])
         sendDSLRLenses();
+    else if(command == commands[INVOKE_METHOD])
+    {
+        auto object = findObject(payload["object"].toString());
+        if (object)
+            invokeMethod(object, payload);
+    }
+    else if(command == commands[SET_PROPERTY])
+    {
+        auto object = findObject(payload["object"].toString());
+        if (object)
+            object->setProperty(payload["name"].toString().toLatin1().constData(), payload["value"].toVariant());
+    }
+    else if(command == commands[GET_PROPERTY])
+    {
+        auto map = QVariantMap();
+        map["result"] = false;
+        auto object = findObject(payload["object"].toString());
+        if (object)
+        {
+            auto value = object->property(payload["name"].toString().toLatin1().constData());
+            if (value.isValid())
+            {
+                map["result"] = true;
+                map["value"] = value;
+            }
+        }
+        sendResponse(commands[GET_PROPERTY], QJsonObject::fromVariantMap(map));
+    }
     else if (command.startsWith("scope_"))
         processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
@@ -479,10 +507,6 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     {
         capture->generateDarkFlats();
     }
-    else if(command == commands[CAPTURE_INVOKE_METHOD])
-    {
-        invokeMethod(capture, payload);
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -597,10 +621,6 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
         Options::setReverseDecOnPierSideChange(payload["reverseCalibration"].toBool());
         sendGuideSettings(m_Manager->guideModule()->getAllSettings());
     }
-    else if(command == commands[GUIDE_INVOKE_METHOD])
-    {
-        invokeMethod(guide, payload);
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -642,17 +662,11 @@ void Message::processFocusCommands(const QString &command, const QJsonObject &pa
 
     else if (command == commands[FOCUS_GET_ALL_SETTINGS])
         sendFocusSettings(focus->getAllSettings());
-    else if (command == commands[FOCUS_GET_ALL_SETTINGS])
-        sendResponse(commands[FOCUS_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(focus->getAllSettings()));
     else if (command == commands[FOCUS_SET_CROSSHAIR])
     {
         double x = payload["x"].toDouble();
         double y = payload["y"].toDouble();
         focus->selectFocusStarFraction(x, y);
-    }
-    else if(command == commands[FOCUS_INVOKE_METHOD])
-    {
-        invokeMethod(focus, payload);
     }
 }
 
@@ -761,10 +775,6 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_TOGGLE_AUTOPARK])
         mount->setAutoParkEnabled(payload["toggled"].toBool());
-    else if(command == commands[MOUNT_INVOKE_METHOD])
-    {
-        invokeMethod(mount, payload);
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -815,10 +825,6 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     else if (command == commands[ALIGN_MANUAL_ROTATOR_TOGGLE])
     {
         align->toggleManualRotator(payload["toggled"].toBool());
-    }
-    else if(command == commands[ALIGN_INVOKE_METHOD])
-    {
-        invokeMethod(align, payload);
     }
 }
 
@@ -923,11 +929,6 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
         else
             sendEvent(i18n("Mosaic import failed."), KSNotification::Scheduler, KSNotification::Alert);
     }
-    else if(command == commands[SCHEDULER_INVOKE_METHOD])
-    {
-        invokeMethod(scheduler, payload);
-    }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2602,6 +2603,24 @@ bool Message::parseArgument(const QVariant &arg, QGenericArgument &genericArg, S
     return false;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QObject *Message::findObject(const QString &name)
+{
+    QObject *object {nullptr};
+    // Try Manager first
+    object = m_Manager->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Then INDI Listener
+    object = INDIListener::Instance()->findChild<QObject *>(name);
+    if (object)
+        return object;
+    // Finally KStars
+    object = KStars::Instance()->findChild<QObject *>(name);
+    return object;
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
