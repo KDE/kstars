@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2022-09-18 12:13+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -15493,7 +15493,7 @@ msgstr "Automatically connect to EkosLive service on startup."
 msgid "Auto Start"
 msgstr "Auto Start"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."
@@ -19577,7 +19577,7 @@ msgid "%1 is disconnected."
 msgstr "%1 is disconnected."
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 is online."
@@ -23777,6 +23777,11 @@ msgstr "INDI devices disconnected."
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr "Warning: dome device not ready after timeout, attempting to recover..."
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -27333,7 +27338,7 @@ msgstr "Cannot open file %1 for reading"
 msgid "Not enough memory for file %1"
 msgstr "Not enough memory for file %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, kde-format
 msgid "INDI Server Message"
 msgstr "INDI Server Message"
@@ -27431,17 +27436,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Upload"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr "GPS Location"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, kde-format
 msgid "Mount Location"
 msgstr "Mount Location"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Data file saved to %1"

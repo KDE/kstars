@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2022-11-06 01:06\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15009,7 +15009,7 @@ msgstr "启动时自动连接到 EkosLive 服务。"
 msgid "Auto Start"
 msgstr "自动选星"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
@@ -18791,7 +18791,7 @@ msgid "%1 is disconnected."
 msgstr "%1 已断开连接。"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 在线。"
@@ -22738,6 +22738,11 @@ msgstr "INDI 设备已断开连接。"
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr "警告：超时后圆顶尚未准备好，尝试恢复中..."
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -26136,7 +26141,7 @@ msgstr "无法打开文件 %1 读取"
 msgid "Not enough memory for file %1"
 msgstr "没有足够的内存用于文件 %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, kde-format
 msgid "INDI Server Message"
 msgstr "INDI 服务器消息"
@@ -26230,17 +26235,17 @@ msgstr "允许此属性二进制数据传输至 KStars，反之亦然。"
 msgid "Upload"
 msgstr "上传"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr "GPS 定位"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, kde-format
 msgid "Mount Location"
 msgstr "支架位置"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "数据文件已保存到 %1"

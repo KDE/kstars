@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
-"PO-Revision-Date: 2022-11-02 11:20+0300\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"PO-Revision-Date: 2022-11-13 14:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16275,7 +16275,7 @@ msgstr "Kalibrasyon yıldızını otomatik olarak seç."
 msgid "Auto Start"
 msgstr "Otomatik Yıldız"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."
@@ -20517,7 +20517,7 @@ msgid "%1 is disconnected."
 msgstr "Bağlantıyı Kes"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 çevrimiçi."
@@ -24923,6 +24923,11 @@ msgstr "INDI cihazları bağlandı."
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -28570,7 +28575,7 @@ msgstr "%1 dosyası okumak için açılamadı"
 msgid "Not enough memory for file %1"
 msgstr "%1 ögesini yüklemek için yeterli bellek yok"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 #| msgid "INDI Server"
 msgid "INDI Server Message"
@@ -28676,18 +28681,18 @@ msgstr ""
 msgid "Upload"
 msgstr "Gönder"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr ""
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "Konumu Ayarla..."
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Veri dosyası %1 konumuna kaydedildi"
@@ -31633,7 +31638,7 @@ msgstr "Odaklanma seviyesi. Radyan başına piksel olarak ölçülür."
 #: kstars.kcfg:768
 #, kde-format
 msgid "Zoom scroll sensitivity."
-msgstr ""
+msgstr "Yakınlaştırma sarma duyarlılığı."
 
 #. i18n: ectx: whatsthis, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:769
@@ -71336,10 +71341,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsadvanced.ui:434
-#, fuzzy, kde-format
-#| msgid "Zoom Scroll Speed:"
+#, kde-format
 msgid "Zoom scroll speed:"
-msgstr "Yakınlaştırma Kaydırma Hızı:"
+msgstr "Yakınlaştırma sarma hızı:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAutoLabel)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseHoverLabel)

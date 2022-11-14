@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -15354,7 +15354,7 @@ msgstr "તારીખ અને સમય તેની જાતે સ્થ�
 msgid "Auto Start"
 msgstr "તારીખ & સમય"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Loading of the image %1 failed."
 msgid "Mosaic import failed."
@@ -19201,7 +19201,7 @@ msgid "%1 is disconnected."
 msgstr "જોડાઓ"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr ""
@@ -23201,6 +23201,11 @@ msgstr "જોડાઓ"
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -26686,7 +26691,7 @@ msgstr "લખવા માટે <filename>%1</filename> ફાઇલ ખોલ
 msgid "Not enough memory for file %1"
 msgstr ""
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 msgid "INDI Server Message"
 msgstr "DNS સર્વર"
@@ -26783,17 +26788,17 @@ msgstr ""
 msgid "Upload"
 msgstr "અપલોડ"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "જગ્યા ફેરફાર કરો"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "જગ્યા ફેરફાર કરો"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "પરિણામો ફાઇલમાં સંગ્રહાઇ ગયા\n"

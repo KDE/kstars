@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -15800,7 +15800,7 @@ msgstr "Caliente"
 msgid "Auto Start"
 msgstr "Kogn an azimut"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -19759,7 +19759,7 @@ msgid "%1 is disconnected."
 msgstr "Digevreañ"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "Enlinenn eo %1."
@@ -23855,6 +23855,11 @@ msgstr "Digevreañ"
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -27519,7 +27524,7 @@ msgstr "N'hellan ket digeriñ ar restr evit lenn %1"
 msgid "Not enough memory for file %1"
 msgstr "N'eus ket a-walc'h a vemor da gargañ %1."
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server Message"
@@ -27627,19 +27632,19 @@ msgstr ""
 msgid "Upload"
 msgstr "Ezkargañ"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "GPS Location"
 msgstr "Lakaat an lec'hiadur ..."
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Mount Location"
 msgstr "Lakaat an lec'hiadur ..."
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Enrollet eo restr ar roadoù e-barzh %1"

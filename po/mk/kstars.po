@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -15381,7 +15381,7 @@ msgstr "Вклучи/Исклучи Координатна Мрежа"
 msgid "Auto Start"
 msgstr "Азимут:"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Зачувувањето на сликата %1 не успеа!"
@@ -19237,7 +19237,7 @@ msgid "%1 is disconnected."
 msgstr "Отповрзи се"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 е на линија."
@@ -23228,6 +23228,11 @@ msgstr "Отповрзи се"
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -26760,7 +26765,7 @@ msgstr "Не можам да ја отворам датотеката"
 msgid "Not enough memory for file %1"
 msgstr "KStars::slotFind() - Нема доволно меморија за дијалог"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 msgid "INDI Server Message"
 msgstr "St. Peter Port"
@@ -26867,17 +26872,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Uppsala"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "Подеси Географска Локација..."
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "Подеси Географска Локација..."
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "Време на изгревање: %1"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -14776,7 +14776,7 @@ msgstr "Tetap Sistem Koordinat Euclidean"
 msgid "Auto Start"
 msgstr "Auto _Pilih"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Gagal untuk muatkan imej \"%1\"\n"
@@ -18454,7 +18454,7 @@ msgid "%1 is disconnected."
 msgstr "Putus"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, fuzzy, kde-format
 msgid "%1 is online."
 msgstr "Mandriva Online"
@@ -22255,6 +22255,11 @@ msgstr "s."
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -25606,7 +25611,7 @@ msgstr "Fail tidak dapat dibuka untuk dibaca."
 msgid "Not enough memory for file %1"
 msgstr "Tidak hingga 1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server Message"
@@ -25699,17 +25704,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Muatnaik"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 msgid "GPS Location"
 msgstr "Lokasi Baru"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 msgid "Mount Location"
 msgstr "Lokasi Baru"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, fuzzy, kde-format
 msgid "Data file saved to %1"
 msgstr "Tidak dapat memuatkan fail!"

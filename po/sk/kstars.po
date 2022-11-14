@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -16016,7 +16016,7 @@ msgstr "Automaticky vybrať kalibračnú hviezdu."
 msgid "Auto Start"
 msgstr "Automatické spustenie"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -20146,7 +20146,7 @@ msgid "%1 is disconnected."
 msgstr "%1 je odpojené"
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je pripojený."
@@ -24434,6 +24434,11 @@ msgstr "INDI zariadenia pripojené."
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, fuzzy, kde-format
 #| msgid "Operation timeout. Restarting operation..."
@@ -28139,7 +28144,7 @@ msgstr "Nie je možné otvoriť súbor %1 na čítanie"
 msgid "Not enough memory for file %1"
 msgstr "Nedostatok pamäti na načítanie %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, fuzzy, kde-format
 #| msgid "INDI Server"
 msgid "INDI Server Message"
@@ -28234,19 +28239,19 @@ msgstr "Povoliť binárny prenos dát z tejto vlastnosti do KStars a naopak."
 msgid "Upload"
 msgstr "Poslať"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, fuzzy, kde-format
 #| msgid "Set Location"
 msgid "GPS Location"
 msgstr "Nastaviť polohu"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, fuzzy, kde-format
 #| msgid "Set Location"
 msgid "Mount Location"
 msgstr "Nastaviť polohu"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Dátový súbor uložený do %1"

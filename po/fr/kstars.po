@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:41+0000\n"
+"POT-Creation-Date: 2022-11-14 00:41+0000\n"
 "PO-Revision-Date: 2022-09-14 08:22+0200\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -15753,7 +15753,7 @@ msgstr "Se connecter automatiquement au service Ekos Live au démarrage."
 msgid "Auto Start"
 msgstr "Démarrage automatique"
 
-#: ekos/ekoslive/message.cpp:924
+#: ekos/ekoslive/message.cpp:930
 #, fuzzy, kde-format
 #| msgid "Rescaling image failed."
 msgid "Mosaic import failed."
@@ -19969,7 +19969,7 @@ msgid "%1 is disconnected."
 msgstr "Le périphérique %1 est déconnecté."
 
 #: ekos/manager.cpp:1484 ekos/manager.cpp:1493 ekos/manager.cpp:1524
-#: indi/indistd.cpp:626
+#: indi/indistd.cpp:629
 #, kde-format
 msgid "%1 is online."
 msgstr "Le périphérique %1 est connecté."
@@ -24290,6 +24290,11 @@ msgstr ""
 "Attention : le périphérique du dôme n'est pas prêt dans le temps imparti. "
 "Tentative de reprise…"
 
+#: ekos/scheduler/scheduler.cpp:3305
+#, kde-format
+msgid "Dome unpark required but dome is not yet ready."
+msgstr ""
+
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
@@ -27947,7 +27952,7 @@ msgstr "Impossible d'ouvrir le fichier %1 en lecture"
 msgid "Not enough memory for file %1"
 msgstr "Mémoire insuffisante pour le fichier %1"
 
-#: indi/indilistener.cpp:296
+#: indi/indilistener.cpp:297
 #, kde-format
 msgid "INDI Server Message"
 msgstr "Message du serveur INDI"
@@ -28047,17 +28052,17 @@ msgstr ""
 msgid "Upload"
 msgstr "Envoyer"
 
-#: indi/indistd.cpp:338
+#: indi/indistd.cpp:341
 #, kde-format
 msgid "GPS Location"
 msgstr "Position GPS"
 
-#: indi/indistd.cpp:340
+#: indi/indistd.cpp:343
 #, kde-format
 msgid "Mount Location"
 msgstr "Position monture"
 
-#: indi/indistd.cpp:575
+#: indi/indistd.cpp:578
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Fichier de données enregistré dans %1"
