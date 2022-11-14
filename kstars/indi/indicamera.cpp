@@ -660,9 +660,12 @@ bool Camera::processBLOB(IBLOB *bp)
     QString format = QString(bp->format).toLower();
 
     // If stream, process it first
-    if (format.contains("stream") && streamWindow)
+    if (format.contains("stream"))
     {
-        processStream(bp);
+        if (m_StreamingEnabled == false)
+            return true;
+        else if (streamWindow)
+            processStream(bp);
         return true;
     }
 
