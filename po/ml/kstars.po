@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -2850,7 +2850,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
@@ -26353,29 +26353,29 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, fuzzy, kde-format
 msgid "Image Write Failed"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, fuzzy, kde-format
 msgid "%1 file saved to %2"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, fuzzy, kde-format
 msgid "Image file is received"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
-"PO-Revision-Date: 2022-11-11 06:53+0100\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"PO-Revision-Date: 2022-11-14 06:37+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1228,6 +1228,7 @@ msgstr ""
 #, kde-format
 msgid "Recenters the XPlanet image once it has been moved"
 msgstr ""
+"XPlanet-ის გამოსახულების ცენტრზე თავიდან გასწორება მისი გადაადგილების შემდეგ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:382
@@ -1272,7 +1273,7 @@ msgstr "შემობრუნება:"
 #: auxiliary/xplanetimageviewer.cpp:352
 #, kde-format
 msgid "Set the view rotation to the desired angle"
-msgstr ""
+msgstr "ხედის მობრუნების სასურველ კუთხეზე დაყენება"
 
 #: auxiliary/xplanetimageviewer.cpp:361
 #, kde-format
@@ -1292,12 +1293,12 @@ msgstr "XPlanet-ის პარამეტრების გახსნა"
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
-msgstr ""
+msgstr "საშუალებას გაძლევთ, XPlanet-ის დრო KStars-ის დროსგან განსხვავდებოდეს"
 
 #: auxiliary/xplanetimageviewer.cpp:414
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
-msgstr ""
+msgstr "XPlanet-ის დროის KStars-ის მიმდინარე დროზე დაყენება"
 
 #: auxiliary/xplanetimageviewer.cpp:419
 #, kde-format
@@ -1320,7 +1321,7 @@ msgstr "XPlanet-ის დროის KStars-ის მიმდინარე
 #: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
-msgstr ""
+msgstr "აყენებს დროის ბიჯს XPlanet-ის მიმდინარე დროიდან"
 
 #: auxiliary/xplanetimageviewer.cpp:442
 #, kde-format
@@ -1375,7 +1376,7 @@ msgstr "წამი"
 #: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr ""
+msgstr "საშუალებას გაძლევთ, ანიმაციაში დროის შტამპის ერთეული შეცვალოთ"
 
 #: auxiliary/xplanetimageviewer.cpp:462
 #, kde-format
@@ -2747,7 +2748,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "გადახედვა"
@@ -4033,7 +4034,7 @@ msgstr ""
 #: dialogs/exportimagedialog.cpp:96 printing/pwizfovconfig.cpp:55
 #, kde-format
 msgid "Only scale"
-msgstr ""
+msgstr "მხოლოდ მასშტაბი"
 
 #: dialogs/exportimagedialog.cpp:96
 #, kde-format
@@ -4575,7 +4576,7 @@ msgstr "ველები ცარიელია"
 #: dialogs/locationdialog.cpp:323
 #, kde-format
 msgid "Could not parse the Latitude/Longitude."
-msgstr ""
+msgstr "გრძედის/განედის დამუშავების შეცდომა."
 
 #: dialogs/locationdialog.cpp:324
 #, kde-format
@@ -4585,7 +4586,7 @@ msgstr "არასწორი კოორდინატები"
 #: dialogs/locationdialog.cpp:329
 #, kde-format
 msgid "UTC Offset must be selected."
-msgstr ""
+msgstr "UTC წანაცვლების არჩევა აუცილებელია."
 
 #: dialogs/locationdialog.cpp:330
 #, kde-format
@@ -5063,7 +5064,7 @@ msgstr ""
 #: dialogs/newfov.ui:650
 #, kde-format
 msgid "Detect from Ekos"
-msgstr ""
+msgstr "Ekos-დან წაშლა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab3)
 #: dialogs/newfov.ui:676
@@ -5606,7 +5607,7 @@ msgstr ""
 #: ekos/align/align.cpp:452
 #, kde-format
 msgid "Clear Solution Points"
-msgstr ""
+msgstr "გადაწყვეტის წერტილების გასუფთავება"
 
 #: ekos/align/align.cpp:523
 #, kde-format
@@ -5621,7 +5622,7 @@ msgstr ""
 #: ekos/align/align.cpp:1011
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
-msgstr ""
+msgstr "ეფექტური ტელესკოპის ფოკალური სიგრძე %1 მმ-მდე განახლდა."
 
 #: ekos/align/align.cpp:1048
 #, kde-format
@@ -5641,7 +5642,7 @@ msgstr ""
 #: ekos/align/align.cpp:1096
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
-msgstr ""
+msgstr "<p>ხედის ზომის ეფექტური ველი, არკწუთებში.</p>"
 
 #: ekos/align/align.cpp:1377
 #, kde-format
@@ -12472,10 +12473,9 @@ msgid "CCD capture suspended"
 msgstr "ნშმ-ით გადაღება შეჩერებულია"
 
 #: ekos/capture/capture.cpp:938
-#, fuzzy, kde-format
-#| msgid "CCD capture aborted"
+#, kde-format
 msgid "CCD capture complete"
-msgstr "ნშმ-ით გადაღება გაუქმებულია"
+msgstr "CCD გადაღება დასრულდა"
 
 #: ekos/capture/capture.cpp:943
 #, kde-format
@@ -25350,29 +25350,29 @@ msgstr "ვიდეოს ჩაწერა გაჩერებულია"
 msgid "Video Recording Started"
 msgstr "ვიდეოს ჩაწერა დაწყებულია"
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, kde-format
 msgid "Image Write Failed"
 msgstr "გამოსახულების ჩაწერის შეცდომა"
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr ""
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "გამოსახულების ფაილი მიღებულია"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1-ის ხედი"

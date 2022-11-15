@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
-"PO-Revision-Date: 2022-11-13 15:13+0100\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"PO-Revision-Date: 2022-11-14 03:46+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2843,7 +2843,7 @@ msgstr "Mapeado del tipo"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Vista previa"
@@ -24188,6 +24188,8 @@ msgstr ""
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr ""
+"Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
+"preparada."
 
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
@@ -27718,7 +27720,7 @@ msgstr "Se ha detenido la grabación de vídeo"
 msgid "Video Recording Started"
 msgstr "Se ha iniciado la grabación de vídeo"
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -27727,22 +27729,22 @@ msgstr ""
 "No se ha podido escribir la imagen en %1\n"
 "Compruebe la carpeta, el archivo y los permisos."
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, kde-format
 msgid "Image Write Failed"
 msgstr "La escritura de la imagen ha fallado"
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "%1 archivo guardado en %2"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "El archivo de imagen se ha recibido"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista previa de %1"

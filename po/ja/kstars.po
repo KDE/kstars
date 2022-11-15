@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2982,7 +2982,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Preview"
@@ -27833,32 +27833,32 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image Write Failed"
 msgstr "画像を保存"
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "%1 file saved to %2"
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image file is received"
 msgstr "画像を保存"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "%1 Preview"
