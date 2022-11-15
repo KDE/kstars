@@ -606,7 +606,7 @@
                 <double>10.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>300.000000000000000</double>
+                <double>900.000000000000000</double>
                </property>
                <property name="value">
                 <double>24.000000000000000</double>
