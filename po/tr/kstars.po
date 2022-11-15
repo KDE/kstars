@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
-"PO-Revision-Date: 2022-11-13 14:14+0300\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"PO-Revision-Date: 2022-11-14 13:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2906,7 +2906,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Önizleme"
@@ -28440,30 +28440,30 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "Görüntü alındı."
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "%1 dosyası %2 konumuna kaydedildi"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "Görüntü dosyası alındı"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Önizleme"
@@ -74774,17 +74774,17 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Görüntüyü yaklaştırıp uzaklaştırmak için farenin kaydırma tekerleği\n"
-"\t\t\tkullanılabilir veya orta tuşu basılı iken fareyi ileri geri "
+"\t\t<p>Görüntüyü yaklaştırıp uzaklaştırmak için farenin sarma tekerleği\n"
+"\t\t\tkullanılabilir veya orta düğmesi basılı iken fareyi ileri geri "
 "kaydırabilirsiniz.  Ayrıca\n"
-"\t\t\t +/- tuşlarını veya araçlar çubuğundaki ve Görünüm menüsündeki  "
+"\t\t\t +/- düğmelerini veya araçlar çubuğundaki ve Görünüm menüsündeki  "
 "\"Yaklaş\"/\"Uzaklaş\"\n"
 "\t\t\tögelerini kullanabilirsiniz.  Yaklaşma miktarı Görünüm menüsündeki "
 "\"Açı Büyüklüğüne Yaklaş\"\n"
-"\t\t\t (Shift+Ctrl+Z) ögesi ile ve Ctrl tuşu basılı iken fareyi "
-"sürükleyerekoluşturacağınız\n"
+"\t\t\t (Shift+Ctrl+Z) ögesi ile ve Ctrl tuşu basılı iken fareyi sürükleyerek "
+"oluşturacağınız\n"
 "\t\t\tbir dikdörtgen ile yeni pencere sınırlarını grafiksel olarak "
-"belirleyerekayrıca \n"
+"belirleyerek ayrıca \n"
 "\t\t\tayarlanabilir.\n"
 "\t\t</p>\n"
 "\t\n"

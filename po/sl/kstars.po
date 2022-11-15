@@ -1,7 +1,7 @@
 # translation of kstars.po to Slovenian
 # Translation of kstars.po to Slovenian
 # Copyright (C) 2002,2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-# $Id: kstars.po 1638125 2022-11-14 01:35:34Z scripty $
+# $Id: kstars.po 1638204 2022-11-15 01:37:57Z scripty $
 # $Source$
 #
 #
@@ -15,18 +15,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
-"PO-Revision-Date: 2022-10-26 09:43+0200\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"PO-Revision-Date: 2022-11-14 17:51+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2824,7 +2824,7 @@ msgstr "Vrsta preslikave"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -27961,7 +27961,7 @@ msgstr "Snemanje videoposnetkov je ustavljeno"
 msgid "Video Recording Started"
 msgstr "Snemanje videoposnetkov se je začelo"
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, fuzzy, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -27970,23 +27970,23 @@ msgstr ""
 "Slika pisanja v %1 ni uspela\n"
 "Preverite mapo, ime datoteke & dovoljenja."
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, fuzzy, kde-format
 #| msgid "Image received."
 msgid "Image Write Failed"
 msgstr "Slika prejeta."
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Datoteka %1 shranjena v %2"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "Slika prejeta"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "Predogled %1"

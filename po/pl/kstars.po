@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1638125 $
+# Version: $Revision: 1638204 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
 "PO-Revision-Date: 2022-09-23 13:24+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -2828,7 +2828,7 @@ msgstr "Mapowanie rodzaju"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Podgląd"
@@ -27520,7 +27520,7 @@ msgstr "Zatrzymano nagrywanie obrazu"
 msgid "Video Recording Started"
 msgstr "Rozpoczęto nagrywanie obrazu"
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -27529,22 +27529,22 @@ msgstr ""
 "Nie udało się zapisać obrazu do %1\n"
 "Sprawdź katalog, nazwę pliku oraz uprawnienia."
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Nie udało się zapisać obrazu"
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Plik %1 zapisano do %2"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "Pobrano plik obrazu"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Podgląd"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
 "PO-Revision-Date: 2022-06-28 15:19+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2745,7 +2745,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Náhled"
@@ -25435,29 +25435,29 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, kde-format
 msgid "Image Write Failed"
 msgstr ""
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Soubor %1 uložen do %2"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr ""
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Náhled"

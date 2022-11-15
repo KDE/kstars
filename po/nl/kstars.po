@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
-"PO-Revision-Date: 2022-11-13 15:18+0100\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"PO-Revision-Date: 2022-11-14 13:00+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -2830,7 +2830,7 @@ msgstr "Type van mapping"
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, kde-format
 msgid "Preview"
 msgstr "Voorbeeldweergave"
@@ -23918,7 +23918,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:3305
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Unpark van dome gevraagd maar dome is nog niet gereed."
 
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
@@ -27387,7 +27387,7 @@ msgstr "Video-opname gestopt"
 msgid "Video Recording Started"
 msgstr "Video-opname gestart"
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -27396,22 +27396,22 @@ msgstr ""
 "Schrijven van afbeelding naar %1 is mislukt\n"
 "Controleer de map, bestandsnaam & rechten."
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Afbeelding schrijven is mislukt."
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, kde-format
 msgid "%1 file saved to %2"
 msgstr "Bestand %1 opgeslagen in %2"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, kde-format
 msgid "Image file is received"
 msgstr "Afbeeldingsbestand wordt ontvangen"
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, kde-format
 msgid "%1 Preview"
 msgstr "Voorbeeld %1"

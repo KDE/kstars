@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-14 00:41+0000\n"
+"POT-Creation-Date: 2022-11-15 00:42+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -2946,7 +2946,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/capturecountswidget.cpp:235
-#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:906
+#: fitsviewer/fitsviewer.cpp:594 indi/indicamera.cpp:909
 #, fuzzy, kde-format
 msgid "Preview"
 msgstr "Каталоги Ситора"
@@ -27120,32 +27120,32 @@ msgstr ""
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:728
+#: indi/indicamera.cpp:731
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: indi/indicamera.cpp:730
+#: indi/indicamera.cpp:733
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image Write Failed"
 msgstr "Сохтани тасвири майдашуда..."
 
-#: indi/indicamera.cpp:741
+#: indi/indicamera.cpp:744
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "%1 file saved to %2"
 msgstr "Файли FITS-ро нигоҳ доштан дар %1"
 
-#: indi/indicamera.cpp:748
+#: indi/indicamera.cpp:751
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image file is received"
 msgstr "Сохтани тасвири майдашуда..."
 
-#: indi/indicamera.cpp:903
+#: indi/indicamera.cpp:906
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "Каталоги Ситора"
