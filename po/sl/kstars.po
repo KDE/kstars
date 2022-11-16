@@ -1,7 +1,7 @@
 # translation of kstars.po to Slovenian
 # Translation of kstars.po to Slovenian
 # Copyright (C) 2002,2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-# $Id: kstars.po 1638204 2022-11-15 01:37:57Z scripty $
+# $Id$
 # $Source$
 #
 #
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-15 00:42+0000\n"
-"PO-Revision-Date: 2022-11-14 17:51+0100\n"
+"PO-Revision-Date: 2022-11-15 12:59+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -9167,9 +9167,8 @@ msgstr "Drugo zajemanje"
 
 #: ekos/align/polaralignmentassistant.cpp:34
 #, fuzzy, kde-format
-#| msgid "Second Capture"
 msgid "Second Solve"
-msgstr "Drugo zajemanje"
+msgstr "Drugo reševanje"
 
 #: ekos/align/polaralignmentassistant.cpp:35
 #, kde-format
@@ -9214,16 +9213,14 @@ msgstr ""
 "<p>Orodje za polarno poravnavo zahteva nemški ekvatorialni nosilec.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:176
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Refresh solver timed out: %1s"
-msgstr "Časovna omejitev za reševalnik je potekla."
+msgstr "Osvežitev reševalnika je potekla: %1 s"
 
 #: ekos/align/polaralignmentassistant.cpp:181
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Refresh solver failed: %1s"
-msgstr "Reševalnik ni uspel."
+msgstr "Osvežitev reševalnika je spodletela: %1 s"
 
 #: ekos/align/polaralignmentassistant.cpp:574
 #, fuzzy, kde-format
@@ -10771,9 +10768,9 @@ msgstr "Za izbrano kamero odstranite hrup s filtriranjem zemljevida napak."
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDefectsRadio)
 #: ekos/auxiliary/darklibrary.ui:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "Defects"
-msgstr "Napake"
+msgstr "Okvare"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
@@ -10964,27 +10961,26 @@ msgstr "Std. odklon:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/auxiliary/darklibrary.ui:806
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bad Pixels"
 msgstr "Slabe slikovne točke"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/darklibrary.ui:827
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Hot Pixels"
 msgstr "Vroče slikovne točke"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, coldPixelsCount)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hotPixelsCount)
 #: ekos/auxiliary/darklibrary.ui:834 ekos/auxiliary/darklibrary.ui:952
-#, fuzzy, kde-format
+#, kde-format
 msgid "Detected pixels after aggressiveness filter"
 msgstr "Zaznane slikovne točke po filtru agresivnosti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/darklibrary.ui:847
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cold Pixels"
 msgstr "Hladne slikovne točke"
 
@@ -10992,40 +10988,39 @@ msgstr "Hladne slikovne točke"
 #: ekos/auxiliary/darklibrary.ui:854
 #, fuzzy, kde-format
 msgid "Enable cold pixel detection in the master dark frame."
-msgstr "Omogočite zaznavanje hladnih pik v glavnem posnetku teme."
+msgstr "Omogočite zaznavanje hladnih slikovnih topčk v glavnem posnetku teme."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessHotSlider)
 #: ekos/auxiliary/darklibrary.ui:872
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Aggressiveness level. Increase value to include more hot pixels. Click "
 "Generate Map to execute."
 msgstr ""
-"Stopnja agresivnosti. Povečajte vrednost, da vključite več vročih pik. "
-"Kliknite Ustvari zemljevid, če želite izvršiti."
+"Stopnja agresivnosti. Povečajte vrednost, da vključite več vročih slikovnih "
+"točk. Kliknite Ustvari zemljevid za izvršitev."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hotPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:903
 #, fuzzy, kde-format
 msgid "Enable detection of hot pixels in the master dark frame."
-msgstr "Omogočite odkrivanje vročih pik v glavnem posnetku teme."
+msgstr "Omogočite odkrivanje vročih slikovnih točk v glavnem posnetku teme."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessColdSlider)
 #: ekos/auxiliary/darklibrary.ui:921
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Aggressiveness level. Increase value to include more cold pixels.  Click "
 "Generate Map to execute."
 msgstr ""
-"Stopnja agresivnosti. Povečajte vrednost, da vključite več hladnih pik.  "
-"Kliknite Ustvari zemljevid, če želite izvršiti."
+"Stopnja agresivnosti. Povečajte vrednost, da vključite več hladnih slikovnih "
+"točk.  Kliknite Ustvari zemljevid za izvršitev."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
 #: ekos/auxiliary/darklibrary.ui:979
-#, fuzzy, kde-format
-#| msgid "Reset CCD frame & size values to default values"
+#, kde-format
 msgid "Reset aggressiveness sliders to default values."
-msgstr "Ponastavi vrednosti posnetka in velikosti CCD na privzete vrednosti"
+msgstr "Ponastavi vrednosti posnetka in velikosti CCD na privzete vrednosti."
 
 #. i18n: ectx: property (text), widget (QPushButton, resetMapParametersB)
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
@@ -11038,22 +11033,22 @@ msgstr "Ponastavi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateMapB)
 #: ekos/auxiliary/darklibrary.ui:1008
-#, fuzzy, kde-format
+#, kde-format
 msgid "Detect hot and cold pixels within the aggressiveness threshold."
-msgstr "Zaznajte vroče in hladne pike znotraj praga agresivnosti."
+msgstr "Zaznajte vroče in hladne slikovne točke znotraj praga agresivnosti."
 
 #. i18n: ectx: property (text), widget (QPushButton, generateMapB)
 #: ekos/auxiliary/darklibrary.ui:1011
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Generate Map"
-msgstr "Usredini na karti"
+msgstr "Ustvari zemljevid"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveMapB)
 #: ekos/auxiliary/darklibrary.ui:1030
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save defect map to disk once the map results are satisfactory."
-msgstr "Shranite mapo napake na disk, ko so rezultati zemljevida zadovoljivi."
+msgstr ""
+"Shranite zemljevid napak na disk, ko so rezultati zemljevida zadovoljivi."
 
 #. i18n: ectx: attribute (title), widget (QWidget, mastersTab)
 #: ekos/auxiliary/darklibrary.ui:1066
@@ -15979,7 +15974,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:2832
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
-msgstr "Prejeta slika FITS. HFR %1. Delta (%2 %) najm. HFR (%3)"
+msgstr "Prejeta slika FITS. HFR %1. Delta (%2 %), najm. HFR (%3)"
 
 #: ekos/focus/focus.cpp:2836
 #, kde-format
@@ -20579,7 +20574,7 @@ msgstr "Parkiraj pri:"
 #: ekos/mount/mount.ui:465
 #, fuzzy, kde-format
 msgid "Automatically start the park timer on startup"
-msgstr "Samodejno zaženi časovnik parka ob zagonu"
+msgstr "Samodejno zaženi časovnik parkiranja ob zagonu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:468
@@ -20607,10 +20602,9 @@ msgstr "Izključeno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, parkingTitle)
 #: ekos/mount/mount.ui:698
-#, fuzzy, kde-format
-#| msgid "Parking"
+#, kde-format
 msgid "Parking Status"
-msgstr "Parkiranje"
+msgstr "Stanje parkiranja"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
@@ -20709,7 +20703,7 @@ msgstr "Najm. viš.:"
 #: ekos/mount/mount.ui:913
 #, fuzzy, kde-format
 msgid "Max. HA (hours):"
-msgstr "Max. HA (ure):"
+msgstr "Najv. HA (ure):"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:920
@@ -20741,9 +20735,9 @@ msgid "Max. Alt:"
 msgstr "Najv. viš.:"
 
 #: ekos/observatory/observatory.cpp:243
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 error. See INDI log for details."
-msgstr "%1 e rror. Podrobnosti najdete v dnevniku INDI."
+msgstr "Napaka %1. Podrobnosti najdete v zapisniku INDI."
 
 #: ekos/observatory/observatory.cpp:244 ekos/observatory/observatory.cpp:255
 #: ekos/observatory/observatory.cpp:295 ekos/observatory/observatory.cpp:310
@@ -20771,7 +20765,7 @@ msgstr "Odparkiranje"
 #: ekos/observatory/observatory.cpp:267
 #, fuzzy, kde-format
 msgid "Rolloff roof opening..."
-msgstr "Odpiranje strehe..."
+msgstr "Odpiranje strehe ..."
 
 #: ekos/observatory/observatory.cpp:271
 #, kde-format
@@ -20793,7 +20787,7 @@ msgstr "Razparkiram"
 #: ekos/observatory/observatory.cpp:284
 #, fuzzy, kde-format
 msgid "Rolloff roof is closing..."
-msgstr "Streha se zapira..."
+msgstr "Streha se zapira ..."
 
 #: ekos/observatory/observatory.cpp:288
 #, kde-format
@@ -20912,15 +20906,15 @@ msgstr "Premakni (abs)"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, relativeMotionSB)
 #: ekos/observatory/observatory.ui:189
-#, fuzzy, kde-format
+#, kde-format
 msgid "Relative position the dome should move."
 msgstr "Relativni položaj kupole bi se moral premakniti."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionMoveRelButton)
 #: ekos/observatory/observatory.ui:217
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move the dome for the given degrees and direction."
-msgstr "Kupolo premaknite za dane stopnje in smer."
+msgstr "Kupolo premaknite za podane stopnje in smer."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionMoveRelButton)
 #: ekos/observatory/observatory.ui:228
@@ -24253,9 +24247,9 @@ msgstr ""
 "obnoviti ..."
 
 #: ekos/scheduler/scheduler.cpp:3305
-#, kde-format
+#, fuzzy, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Odparkiranje kupole je potrebno, vendar kupola še ni pripravljena."
 
 #: ekos/scheduler/scheduler.cpp:3315
 #, fuzzy, kde-format
@@ -81136,56 +81130,3 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#, fuzzy
-#~| msgid "Cannot switch modes while INDI services are running."
-#~ msgid "Cannot run startup procedure while INDI devices are not online."
-#~ msgstr "Med izvajanjem storitev INDI ni mogoče preklopiti med načini."
-
-#~ msgid "Guider:"
-#~ msgstr "Vodnik:"
-
-#~ msgid "CCD:"
-#~ msgstr "CCD:"
-
-#, fuzzy
-#~ msgid "High priority and altitude jobs are executed first"
-#~ msgstr "Prednostna in višinska delovna mesta se najprej"
-
-#, fuzzy
-#~ msgid "Sort jobs by altitude and priority"
-#~ msgstr "Razvrščanje delovnih mest po višini in prednostni nalogi"
-
-#, fuzzy
-#~ msgid ""
-#~ "Move selected job one line up in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Premaknite izbrani posel za eno vrstico na seznamu.\n"
-#~ "Naročilo vpliva samo na opravila opazovanja, ki naj bi se začela hkrati.\n"
-#~ "Ni na voljo, če je nastavljena možnost »Razvrsti opravila po višini in "
-#~ "prioriteti«."
-
-#, fuzzy
-#~ msgid ""
-#~ "Move selected job one line down in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Premaknite izbrani posel za eno vrstico navzdol na seznamu.\n"
-#~ "Naročilo vpliva samo na opravila opazovanja, ki naj bi se začela hkrati.\n"
-#~ "Ni na voljo, če je nastavljena možnost »Razvrsti opravila po višini in "
-#~ "prioriteti«."
-
-#, fuzzy
-#~ msgid "Sort scheduler jobs by priority and altitude."
-#~ msgstr "Razvrstite razporejevalnike po prioriteti in višini."
-
-#~ msgid "Aliases for filter wheel slots."
-#~ msgstr "Vzdevki za mesta na kolesu s filtri."
-
-#~ msgid "List of the aliases for filter wheel slots."
-#~ msgstr "Seznam vseh vzdevkov za mesta na kolesu s filtri."

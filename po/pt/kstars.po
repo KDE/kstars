@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-15 00:42+0000\n"
-"PO-Revision-Date: 2022-11-07 16:08+0000\n"
+"PO-Revision-Date: 2022-11-15 18:23+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -13021,27 +13021,21 @@ msgid "Secondary"
 msgstr "Secundário"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:754
-#, fuzzy, kde-format
-#| msgid ""
-#| "Missing devices detected. Please reconfigure the optical trains before "
-#| "proceeding any further."
+#, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
-"Detectou-se a falta de dispositivos. Por favor, reconfigure os treinos "
+"Detectou-se a falta do dispositivo (%1). Por favor, reconfigure os treinos "
 "ópticos antes de prosseguir."
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:761
-#, fuzzy, kde-format
-#| msgid ""
-#| "Missing devices detected. Please reconfigure the optical trains before "
-#| "proceeding any further."
+#, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
 "proceeding any further."
 msgstr ""
-"Detectou-se a falta de dispositivos. Por favor, reconfigure os treinos "
+"Detectou-se a falta de dispositivos (%1). Por favor, reconfigure os treinos "
 "ópticos antes de prosseguir."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpticalTrain)
@@ -14472,10 +14466,9 @@ msgid "CCD capture suspended"
 msgstr "Captura do CCD suspensa"
 
 #: ekos/capture/capture.cpp:938
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "A captura está completa."
+msgstr "Captura do CCD completa"
 
 #: ekos/capture/capture.cpp:943
 #, kde-format
@@ -14846,10 +14839,9 @@ msgstr ""
 "montagem. Por favor, configure lá a inversão do meridiano."
 
 #: ekos/capture/capture.cpp:4484
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing failed."
+#, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
-msgstr "Atenção: a focagem da tarefa '%1' foi mal-sucedida."
+msgstr "Atenção: o filtro %1 não foi encontrado na roda de filtros."
 
 #: ekos/capture/capture.cpp:4684
 #, kde-format
@@ -15261,17 +15253,15 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "Programa Actual"
+msgstr "Ganho actual da câmara"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
-#, fuzzy, kde-format
-#| msgid "Clear camera configuration"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Limpar a configuração da câmara"
+msgstr "Ganho pretendido da câmara"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -15289,17 +15279,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "Deslocamento da Câmara"
+msgstr "Deslocamento actual da câmara"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "Deslocamento da Câmara"
+msgstr "Deslocamento pretendido da câmara"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -25276,7 +25264,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:3305
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Foi pedido o desbloqueio do 'dome', mas o mesmo não está ainda pronto."
 
 #: ekos/scheduler/scheduler.cpp:3315
 #, kde-format
@@ -81628,8 +81616,3 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
-
-#~ msgid "Cannot run startup procedure while INDI devices are not online."
-#~ msgstr ""
-#~ "Não é possível executar o procedimento de arranque enquanto os "
-#~ "dispositivos INDI não estiverem ligados."

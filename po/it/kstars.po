@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-15 00:42+0000\n"
-"PO-Revision-Date: 2022-10-06 20:16+0200\n"
+"PO-Revision-Date: 2022-11-09 23:41+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6074,13 +6074,9 @@ msgstr ""
 "di nuovo per verificare."
 
 #: ekos/align/align.cpp:2498
-#, fuzzy, kde-format
-#| msgid ""
-#| "Mount is synced to solution coordinates. Astrometric solver is successful."
+#, kde-format
 msgid "Mount is synced to solution coordinates."
-msgstr ""
-"La montatura è sincronizzata alle coordinate della soluzione. Il risolutore "
-"astrometrico ha avuto successo."
+msgstr "La montatura è sincronizzata alle coordinate della soluzione."
 
 #: ekos/align/align.cpp:2533 ekos/align/align.cpp:2563
 #: ekos/align/align.cpp:3773 ekos/align/polaralignmentassistant.cpp:637
@@ -6089,10 +6085,9 @@ msgid "Settling..."
 msgstr "Stabilizzazione..."
 
 #: ekos/align/align.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Differential slewing complete."
-msgstr "Stabilizzazione completata."
+msgstr "Rotazione differenziale completata."
 
 #: ekos/align/align.cpp:2553
 #, kde-format
@@ -15594,10 +15589,9 @@ msgid "Framing"
 msgstr "Inquadratura"
 
 #: ekos/ekos.h:139
-#, fuzzy, kde-format
-#| msgid "Success"
+#, kde-format
 msgid "Successful"
-msgstr "Successo"
+msgstr "Riuscito"
 
 #: ekos/ekos.h:140
 #, kde-format
@@ -15605,8 +15599,7 @@ msgid "Syncing"
 msgstr "Sincronizzazione"
 
 #: ekos/ekos.h:140
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotating"
 msgstr "Rotazione"
 
@@ -15725,10 +15718,9 @@ msgid "Auto Start"
 msgstr "Avvio automatico"
 
 #: ekos/ekoslive/message.cpp:930
-#, fuzzy, kde-format
-#| msgid "Rescaling image failed."
+#, kde-format
 msgid "Mosaic import failed."
-msgstr "Ridimensionamento dell'immagine non riuscito."
+msgstr "Importazione del mosaico non riuscita."
 
 #: ekos/focus/focus.cpp:95
 #, kde-format
@@ -15965,11 +15957,15 @@ msgstr "Impossibile rilevare stelle. Ripristina il fotogramma e riprova."
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
+"Controllo Adattamento curva non riuscito R2=%1 focusR2Limit=%2, sto "
+"ritentando..."
 
 #: ekos/focus/focus.cpp:2453
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
+"Controllo Adattamento curva di nuovo non riuscito R2=%1 focusR2Limit=%2, ma "
+"sto continuando..."
 
 #: ekos/focus/focus.cpp:2496
 #, kde-format
@@ -16081,11 +16077,10 @@ msgid "No star was selected. Aborting..."
 msgstr "Non è stata selezionata alcuna stella. Interruzione..."
 
 #: ekos/focus/focus.cpp:3680
-#, fuzzy, kde-format
-#| msgid "Local Time"
+#, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
-msgstr "Tempo locale"
+msgstr "Fotogramma della messa a fuoco"
 
 #: ekos/focus/focus.cpp:3999
 #, kde-format
@@ -16444,13 +16439,7 @@ msgstr "Limite R²:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/focus.ui:1100
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set a minimum for the acceptable R² when performing "
-#| "an Auto Focus run. If the minimum is not met, Auto Focus will rerun once "
-#| "to try to improve the R². Currently only available for the Linear 1 Pass "
-#| "algorithm when using a Curve Fit of Hyperbola or Parabola. This feature "
-#| "is experimental.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set a minimum for the acceptable R² when performing an "
 "Auto Focus run. The value is between 0 (no fit) and 1 (perfect fit). 0.8 is "
@@ -16460,11 +16449,13 @@ msgid ""
 "experimental.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Imposta un valore minimo per la R² accettabile durante "
-"l'esecuzione di una messa a fuoco automatica. Se il minimo non viene "
-"soddisfatto, la messa a fuoco automatica verrà riavviata una volta per "
-"tentare di migliorare la R². Attualmente disponibile solo per l'algoritmo "
-"Lineare 1 passo quando si utilizza un curve fitting dell'iperbole o della "
-"parabola. Questa funzionalità è sperimentale.</p></body></html>"
+"l'esecuzione di una messa a fuoco automatica. Il valore è tra 0 (nessun "
+"adattamento) e 1 (adattamento perfetto). 0,8 è un buon inizio. Se il minimo "
+"non viene soddisfatto, la messa a fuoco automatica verrà riavviata una volta "
+"per tentare di migliorare la R². Attualmente disponibile solo per "
+"l'algoritmo Lineare 1 passo quando si utilizza un adattamento della curva "
+"dell'iperbole o della parabola. Questa funzionalità è sperimentale.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/focus.ui:1125
@@ -16564,6 +16555,8 @@ msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
 "expand solution radius"
 msgstr ""
+"Riduci il valore per restringere il raggio di risoluzione del punto focale "
+"ottimale. Aumenta per espandere il raggio di risoluzione"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1346
@@ -16627,7 +16620,7 @@ msgstr ""
 "weight:600;\">Lineare 1 passo</span>: inizia come <span style=\" font-"
 "weight:600;\">Lineare</span> ma dopo aver completato il primo passo anziché "
 "eseguire un secondo passo si sposta direttamente al valore HFR minimo "
-"calcolato. Usa Curve fitting dell'iperbole o della parabola.</li></ul></"
+"calcolato. Usa Adattamento curva dell'iperbole o della parabola.</li></ul></"
 "body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
@@ -16800,10 +16793,9 @@ msgstr "Sigma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/focus/focus.ui:1506
-#, fuzzy, kde-format
-#| msgid "Hy Murveit"
+#, kde-format
 msgid "Curve Fit:"
-msgstr "Hy Murveit"
+msgstr "Adattamento curva:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/focus.ui:1513
@@ -17959,7 +17951,7 @@ msgstr "Errore di guida in AR"
 #: ekos/guide/guide.ui:806
 #, kde-format
 msgid "RMS\" (RA/DEC)"
-msgstr ""
+msgstr "RMS\" (AR/DEC)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:818
@@ -17977,10 +17969,9 @@ msgstr "Errore di guida in AR"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/guide/guide.ui:846
-#, fuzzy, kde-format
-#| msgid "<b>Total RMS\"</b>"
+#, kde-format
 msgid "Total RMS\""
-msgstr "<b>Totale RMS\"</b>"
+msgstr "Totale RMS\""
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
@@ -17991,11 +17982,9 @@ msgstr "xxx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
 #: ekos/guide/guide.ui:866
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guide N/S"
+#, kde-format
 msgid "Guide SNR"
-msgstr "Guida N/S"
+msgstr "SNR guida"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1048
@@ -25758,10 +25747,9 @@ msgid "Calibrate"
 msgstr "Calibra"
 
 #: fitsviewer/fitsdata.cpp:232
-#, fuzzy, kde-format
-#| msgid "Error reading fits buffer."
+#, kde-format
 msgid "Error reading fits buffer: %1."
-msgstr "Errore di lettura del buffer di fits."
+msgstr "Errore di lettura del buffer di fit: %1."
 
 #: fitsviewer/fitsdata.cpp:245
 #, kde-format
@@ -25769,28 +25757,24 @@ msgid "Failed to unpack compressed fits"
 msgstr "Estrazione dei fits compressi non riuscita"
 
 #: fitsviewer/fitsdata.cpp:261
-#, fuzzy, kde-format
-#| msgid "Error opening fits file %1"
+#, kde-format
 msgid "Error opening fits file %1 : %2"
-msgstr "Errore all'apertura del file fits %1"
+msgstr "Errore all'apertura del file fits %1: %2"
 
 #: fitsviewer/fitsdata.cpp:274
-#, fuzzy, kde-format
-#| msgid "Error reading fits buffer."
+#, kde-format
 msgid "Error reading fits buffer: %1"
-msgstr "Errore di lettura del buffer di fits."
+msgstr "Errore di lettura del buffer di fits: %1"
 
 #: fitsviewer/fitsdata.cpp:286
-#, fuzzy, kde-format
-#| msgid "Could not locate image HDU."
+#, kde-format
 msgid "Could not locate image HDU: %1"
-msgstr "Impossibile trovare immagine HDU."
+msgstr "Impossibile trovare immagine HDU: %1"
 
 #: fitsviewer/fitsdata.cpp:293
-#, fuzzy, kde-format
-#| msgid "FITS file open error (fits_get_img_param)."
+#, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
-msgstr "Errore di apertura del file FITS (fits_get_img_param)."
+msgstr "Errore di apertura del file FITS (fits_get_img_param): %1"
 
 #: fitsviewer/fitsdata.cpp:307
 #, kde-format
@@ -25817,6 +25801,8 @@ msgstr "Errore di lettura dell'immagine: %1"
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
+"Dati FITS: non vi è memoria sufficiente per il canale image_buffer. "
+"Richiesti: %1 byte"
 
 #: fitsviewer/fitsdata.cpp:585
 #, kde-format
@@ -25831,13 +25817,12 @@ msgstr "Impossibile aprire il buffer: %1"
 #: fitsviewer/fitsdata.cpp:609
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
-msgstr ""
+msgstr "Impossibile eseguire unpack_thumb : %1"
 
 #: fitsviewer/fitsdata.cpp:616
-#, fuzzy, kde-format
-#| msgid "Cannot write to user log file"
+#, kde-format
 msgid "Cannot dcraw_process: %1"
-msgstr "Non è possibile scrivere sul file di registro dell'utente"
+msgstr "Impossibile eseguire dcraw_process: %1"
 
 #: fitsviewer/fitsdata.cpp:624
 #, kde-format
@@ -25850,46 +25835,39 @@ msgid "Saving compressed files is not supported."
 msgstr "Il salvataggio di file compressi non è supportato."
 
 #: fitsviewer/fitsdata.cpp:816
-#, fuzzy, kde-format
-#| msgid "Failed to open the file %1: %2"
+#, kde-format
 msgid "Failed to close file: %1"
-msgstr "Impossibile aprire il file %1: %2"
+msgstr "Impossibile chiudere il file: %1"
 
 #: fitsviewer/fitsdata.cpp:823
-#, fuzzy, kde-format
-#| msgid "Failed to open the file %1: %2"
+#, kde-format
 msgid "Failed to create file: %1"
-msgstr "Impossibile aprire il file %1: %2"
+msgstr "Creazione del file non riuscita: %1"
 
 #: fitsviewer/fitsdata.cpp:838
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to create image: %1"
-msgstr "Impossibile caricare l'immagine in %1"
+msgstr "Creazione dell'immagine non riuscita: %1"
 
 #: fitsviewer/fitsdata.cpp:847 fitsviewer/fitsdata.cpp:854
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to update key: %1"
-msgstr "Impossibile impostare il sottoframe"
+msgstr "Aggiornamento della chiave non riuscito: %1"
 
 #: fitsviewer/fitsdata.cpp:943
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to update date: %1"
-msgstr "Impossibile caricare l'immagine in %1"
+msgstr "Aggiornamento della data non riuscito: %1"
 
 #: fitsviewer/fitsdata.cpp:952
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "Failed to update history: %1"
-msgstr "Impossibile modificare la città"
+msgstr "Aggiornamento della cronologia non riuscito: %1"
 
 #: fitsviewer/fitsdata.cpp:974
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to write image: %1"
-msgstr "Impossibile caricare l'immagine in %1"
+msgstr "Scrittura dell''immagine non riuscita: %1"
 
 #: fitsviewer/fitsdata.cpp:2585 fitsviewer/fitsdata.cpp:2595
 #: fitsviewer/fitsdata.cpp:2663 fitsviewer/fitsdata.cpp:2674
@@ -25910,10 +25888,9 @@ msgid "Unsupported bayer pattern %1."
 msgstr "Schema Bayer %1 non supportato."
 
 #: fitsviewer/fitsdata.cpp:3580
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unsupported bayer offsets %1 %2."
-msgstr "Schema Bayer %1 non supportato."
+msgstr "Scostamenti Bayer non supportati %1 %2."
 
 #: fitsviewer/fitsdata.cpp:3648 fitsviewer/fitsdata.cpp:3695
 #: fitsviewer/fitsdata.cpp:3740 fitsviewer/fitsdata.cpp:3787
@@ -33337,16 +33314,15 @@ msgstr "Tipo di risorsa"
 
 #. i18n: ectx: label, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:1938
-#, fuzzy, kde-format
-#| msgid "Observatory is in the shutdown process"
+#, kde-format
 msgid "Use weights in the curve fitting process."
-msgstr "L'osservatorio si sta arrestando"
+msgstr "Usa i pesi nel processo di adattamento della curva."
 
 #. i18n: ectx: label, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:1942
 #, kde-format
 msgid "Acceptable limit on R2 from curve fit."
-msgstr ""
+msgstr "Limite accettabile su R2 dall'adattamento curva."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:1948
@@ -34722,10 +34698,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
 #: kstars.kcfg:2833
-#, fuzzy, kde-format
-#| msgid "Down Sample"
+#, kde-format
 msgid "Terrain Downsampling"
-msgstr "Sottocampiona"
+msgstr "Sottocampionamento del terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
 #: kstars.kcfg:2834
@@ -34741,10 +34716,9 @@ msgstr "Terreno durante il movimento."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
 #: kstars.kcfg:2839
-#, fuzzy, kde-format
-#| msgid "Redraw HiPS while panning."
+#, kde-format
 msgid "Redraw terrain while panning."
-msgstr "Ridisegna HiPS durante il movimento."
+msgstr "Ridisegna il terreno durante il movimento."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
 #: kstars.kcfg:2843
@@ -34754,10 +34728,9 @@ msgstr "Disegna il terreno"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
 #: kstars.kcfg:2844
-#, fuzzy, kde-format
-#| msgid "Toggle whether the Sun is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
-msgstr "Se il Sole debba essere disegnato sulla mappa celeste."
+msgstr "Se il terreno debba essere disegnato sulla mappa celeste."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
 #: kstars.kcfg:2848
@@ -34776,7 +34749,7 @@ msgstr ""
 #: kstars.kcfg:2853
 #, kde-format
 msgid "Terrain Transparency Speedup."
-msgstr ""
+msgstr "Accelerazione della trasparenza del terreno."
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
 #: kstars.kcfg:2858
@@ -34886,6 +34859,8 @@ msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
 "auto selection downsampling."
 msgstr ""
+"Sottocampiona prima di risolvere. Detto anche binning. Un valore 0 "
+"restituirà il sottocampionamento automatico della selezione."
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
@@ -34895,6 +34870,8 @@ msgid ""
 "The program will search in a square spiral around the start position up to "
 "this radius."
 msgstr ""
+"Il programma ricercherà eseguendo una spirale quadrata dalla posizione di "
+"partenza fino a questo raggio."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
 #: kstars.kcfg:2946
@@ -34913,12 +34890,13 @@ msgstr "Aumenta la dimensione della finestra di ricerca."
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr ""
+"Gestisci automaticamente il livello di trasparenza del pannello del mosaico."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
 #: kstars.kcfg:2960
 #, kde-format
 msgid "Control mosaic panel transparency level."
-msgstr ""
+msgstr "Controlla il livello di trasparenza del mosaico."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -38130,7 +38108,7 @@ msgstr "FUNGASIA"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Western (sternenkarten.com)"
-msgstr ""
+msgstr "C occidentali (sternenkarten.com)"
 
 #: kstars_i18n.cpp:638
 #, kde-kuit-format
@@ -39705,7 +39683,7 @@ msgstr "Bali"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Balmorhea SP (Toyahvale)"
-msgstr ""
+msgstr "Balmorhea SP (Toyahvale)"
 
 #: kstars_i18n.cpp:913
 #, kde-kuit-format
@@ -40317,13 +40295,13 @@ msgstr "Oss. solare Big Bear"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Big Bend Ranch SP (Marfa) IDS"
-msgstr ""
+msgstr "Big Bend Ranch SP (Marfa) IDS"
 
 #: kstars_i18n.cpp:1015
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Big Cypress National Preserve (Ochopee) IDS"
-msgstr ""
+msgstr "Big Cypress National Preserve (Ochopee) IDS"
 
 #: kstars_i18n.cpp:1016
 #, kde-kuit-format
@@ -40449,7 +40427,7 @@ msgstr "Black Birch"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Black Gap WMA (Marathon) IDS"
-msgstr ""
+msgstr "Black Gap WMA (Marathon) IDS"
 
 #: kstars_i18n.cpp:1037
 #, kde-kuit-format
@@ -40467,7 +40445,7 @@ msgstr "Blackwell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Blanco SP (Blanco)"
-msgstr ""
+msgstr "Blanco SP (Blanco)"
 
 #: kstars_i18n.cpp:1040
 #, kde-kuit-format
@@ -40833,7 +40811,7 @@ msgstr "Braunschweig"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Brazos Bend SP (Needville)"
-msgstr ""
+msgstr "Brazos Bend SP (Needville)"
 
 #: kstars_i18n.cpp:1101
 #, kde-kuit-format
@@ -41043,7 +41021,7 @@ msgstr "Bryansk"
 #, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Bryce Canyon National Park (Tropic) IDS"
-msgstr ""
+msgstr "Bryce Canyon National Park (Tropic) IDS"
 
 #: kstars_i18n.cpp:1136
 #, kde-kuit-format
@@ -41463,7 +41441,7 @@ msgstr "Città del Capo"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Caprock Canyon SP (Quitaque)"
-msgstr ""
+msgstr "Caprock Canyon SP (Quitaque)"
 
 #: kstars_i18n.cpp:1206
 #, kde-kuit-format
@@ -42393,7 +42371,7 @@ msgstr "Colon"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Colorado Bend SP (Bend)"
-msgstr ""
+msgstr "Colorado Bend SP (Bend)"
 
 #: kstars_i18n.cpp:1361
 #, kde-kuit-format
@@ -42531,7 +42509,7 @@ msgstr "Copenaghen"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Copper Breaks SP (Quanah) IDS"
-msgstr ""
+msgstr "Copper Breaks SP (Quanah) IDS"
 
 #: kstars_i18n.cpp:1384
 #, kde-kuit-format
@@ -42939,7 +42917,7 @@ msgstr "Davidson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Davis Mountains SP (Fort Davis) IDS"
-msgstr ""
+msgstr "Davis Mountains SP (Fort Davis) IDS"
 
 #: kstars_i18n.cpp:1452
 #, kde-kuit-format
@@ -43161,7 +43139,7 @@ msgstr "Devils Lake"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Devils River State Natural Area (Del Rio) IDS"
-msgstr ""
+msgstr "Devils River State Natural Area (Del Rio) IDS"
 
 #: kstars_i18n.cpp:1489
 #, kde-kuit-format
@@ -43915,9 +43893,7 @@ msgid "Elkhart"
 msgstr "Elkhart"
 
 #: kstars_i18n.cpp:1614
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Indiana USA"
-#| msgid "Elkhart"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Elkhart"
 msgstr "Elkhart"
@@ -43980,7 +43956,7 @@ msgstr "Emerson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Enchanted Rock State Natural Area (Fredricksburg) IDS"
-msgstr ""
+msgstr "Enchanted Rock State Natural Area (Fredricksburg) IDS"
 
 #: kstars_i18n.cpp:1625
 #, kde-kuit-format
@@ -47526,7 +47502,7 @@ msgstr "Khmel'nyts'kyi"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Kickapoo Cavern  SP (Bracketville)"
-msgstr ""
+msgstr "Kickapoo Cavern  SP (Bracketville)"
 
 #: kstars_i18n.cpp:2216
 #, kde-kuit-format
@@ -48948,7 +48924,7 @@ msgstr "Los Angeles"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
-msgstr ""
+msgstr "Lost Maples State Natural Area (Vanderpool)"
 
 #: kstars_i18n.cpp:2453
 #, kde-kuit-format
@@ -51291,12 +51267,10 @@ msgid "Ndola"
 msgstr "Ndola"
 
 #: kstars_i18n.cpp:2843
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk South Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Neches"
-msgstr "Jecheon"
+msgstr "Neches"
 
 #: kstars_i18n.cpp:2844
 #, kde-kuit-format
@@ -52451,12 +52425,10 @@ msgid "Palermo"
 msgstr "Palermo"
 
 #: kstars_i18n.cpp:3036
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Valentine"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Palestine"
-msgstr "Valentine"
+msgstr "Palestine"
 
 #: kstars_i18n.cpp:3037
 #, kde-kuit-format
@@ -55121,7 +55093,7 @@ msgstr "Selter"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Seminole Canyon SP (Comstock)"
-msgstr ""
+msgstr "Seminole Canyon SP (Comstock)"
 
 #: kstars_i18n.cpp:3481
 #, kde-kuit-format
@@ -55529,7 +55501,7 @@ msgstr "Slidell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Slocum"
-msgstr ""
+msgstr "Slocum"
 
 #: kstars_i18n.cpp:3549
 #, kde-kuit-format
@@ -55703,7 +55675,7 @@ msgstr "South Kauai VORTAC"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "South Llano River SP (Llano) IDS"
-msgstr ""
+msgstr "South Llano River SP (Llano) IDS"
 
 #: kstars_i18n.cpp:3578
 #, kde-kuit-format
@@ -63435,16 +63407,19 @@ msgid ""
 "items is currently not possible. <br> Please uninstall and reinstall them to "
 "update."
 msgstr ""
+"A causa di un problema in KDE frameworks, non è al momento possibile "
+"l'aggiornamento degli elementi già scaricati. <br> Rimuovili e installali di "
+"nuovo per aggiornarli."
 
 #: kstarsactions.cpp:479
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
-msgstr "Il catalogo «%1» è corrotto."
+msgstr "Il catalogo «%1» è danneggiato."
 
 #: kstarsactions.cpp:487
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
-msgstr "Il catalogo «%1» è corrotto.<br>Id atteso=%2 ma id ottenuto=%3"
+msgstr "Il catalogo «%1» è danneggiato.<br>Id atteso=%2 ma id ottenuto=%3"
 
 #: kstarsactions.cpp:497
 #, kde-format
@@ -63506,11 +63481,9 @@ msgid "Xplanet"
 msgstr "Xplanet"
 
 #: kstarsactions.cpp:1144
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Penelope"
+#, kde-format
 msgid "Developer"
-msgstr "Penelope"
+msgstr "Sviluppatore"
 
 #: kstarsactions.cpp:1162 kstarsactions.cpp:1881 kstarsinit.cpp:268
 #, kde-format
@@ -63694,6 +63667,8 @@ msgstr "Lettura regole fuso orario"
 #, kde-format
 msgid "Upgrade existing user city db to support geographic elevation."
 msgstr ""
+"Aggiorna la banca dati utente delle città esistenti per supportare "
+"l'elevazione geografica."
 
 #: kstarsdata.cpp:160
 #, kde-format
@@ -63739,12 +63714,17 @@ msgid ""
 "file may get truncated if KStars writes to the file later. Press Cancel to "
 "instead abort now and manually fix the problem. "
 msgstr ""
+"Il file del registro %1 delle note utente, durante l'apertura della voce a "
+"partire da %2, è malformato. KStars riesce ancora ad avviarsi senza dover "
+"leggere in modo completo questo file. Premi Continua per avviare KStars con "
+"una lettura parziale, seppur riuscita. Il file potrebbe essere troncato se "
+"KStars scrivesse nel file in un momento successivo. Premi invece Annulla per "
+"interrompere ora e  risolvere manualmente il problema."
 
 #: kstarsdata.cpp:798
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Malformed file %1"
-msgstr "File non valido: %1"
+msgstr "File malformato %1"
 
 #: kstarsdata.cpp:1143
 #, kde-format
@@ -63777,7 +63757,7 @@ msgstr ""
 #: kstarsdata.cpp:1654 kstarsdata.cpp:1676
 #, kde-format
 msgid "Userdata at index %1 does not exist."
-msgstr ""
+msgstr "I dati utente all'indice %1 non esistono."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
 #: kstarsdbus.cpp:78 tools/arglooktoward.ui:92
@@ -64436,17 +64416,15 @@ msgid "Toggle Sensor FOV"
 msgstr "Mostra o nascondi il CDV del sensore"
 
 #: kstarsinit.cpp:627
-#, fuzzy, kde-format
-#| msgid "Mosaic FOV:"
+#, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
-msgstr "CDV del mosaico:"
+msgstr "Pannello del mosaico"
 
 #: kstarsinit.cpp:629
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Toggle Mosaic Panel"
-msgstr "Attiva o disattiva il pannello di controllo della montatura"
+msgstr "Attiva/disattiva il pannello del mosaico"
 
 #: kstarsinit.cpp:634
 #, kde-format
@@ -67681,11 +67659,10 @@ msgid "OTA Update"
 msgstr "Aggiornamento OTA"
 
 #: libindi_strings.cpp:331
-#, fuzzy, kde-kuit-format
-#| msgid "arcminutes"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Oag Offset (arcminutes)"
-msgstr "arcominuti"
+msgstr "Scostamento Oag (in minuti d'arco)"
 
 #: libindi_strings.cpp:332
 #, kde-kuit-format
@@ -67748,18 +67725,16 @@ msgid "Outdoor"
 msgstr "All'aperto"
 
 #: libindi_strings.cpp:342
-#, fuzzy, kde-kuit-format
-#| msgid "(arcminutes)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PAE (arcminutes)"
-msgstr "(arcominuti)"
+msgstr "PAE (minuti d'arco)"
 
 #: libindi_strings.cpp:343
-#, fuzzy, kde-kuit-format
-#| msgid "arcminutes"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PAE Drift (minutes)"
-msgstr "arcominuti"
+msgstr "Deriva PAE (minuti)"
 
 #: libindi_strings.cpp:344
 #, kde-kuit-format
@@ -70502,13 +70477,7 @@ msgstr "Gestisci i cataloghi di oggetti del profondo cielo..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:607
-#, fuzzy, kde-format
-#| msgid ""
-#| "If this checkbox is checked, when an object name unknown to KStars is "
-#| "entered in the Find Dialog, KStars will contact online services (such as "
-#| "CDS Sesame) to learn about the object and then add it to the database.\n"
-#| "                The objects acquired in this manner are stored under a "
-#| "catalog that is called _Internet_Resolved as of this writing."
+#, kde-format
 msgid ""
 "If this checkbox is checked, when an object name unknown to KStars is "
 "entered in the Find Dialog, KStars will contact online services (such as CDS "
@@ -70519,8 +70488,9 @@ msgstr ""
 "Se questa casella è spuntata, quando viene inserito nella finestra Trova un "
 "nome non conosciuto da KStars, esso contatterà un servizio in linea (ad "
 "esempio CDS Sesame) per conoscere l'oggetto ed aggiungerlo alla banca dati.\n"
-"                Gli oggetti acquisiti in questo modo vengono vengono salvati "
-"in un catalogo chiamato _Internet_Resolved."
+"Gli oggetti acquisiti in questo modo vengono vengono salvati in un catalogo "
+"chiamato utente, e può essere modificato utilizzando la funzionalità "
+"«Gestisci cataloghi DSO»."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:610
@@ -70531,13 +70501,10 @@ msgstr "Risolvi i nomi non noti a KStars utilizzando i servizi online"
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:653 options/opscatalog.ui:663
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limit for deep-sky objects when zoomed out."
 msgstr ""
-"La magnitudine limite per disegnare gli oggetti del profondo cielo, "
+"Imposta la magnitudine limite per gli oggetti del profondo cielo, "
 "all'ingrandimento minimo."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSkyZoomOut)
@@ -70548,14 +70515,11 @@ msgstr "Magnitudine limite all'ingrandimento minimo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag4)
 #: options/opscatalog.ui:673
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed out."
 msgstr ""
 "La magnitudine limite per disegnare gli oggetti del profondo cielo, "
-"all'ingrandimento minimo."
+"all'ingrandimento massimo."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMag4)
 #. i18n: ectx: property (text), widget (QLabel, LabelMag3)
@@ -70574,14 +70538,11 @@ msgstr "mag"
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag3)
 #: options/opscatalog.ui:683 options/opscatalog.ui:693
 #: options/opscatalog.ui:703
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "in."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed in."
 msgstr ""
-"La magnitudine limite per disegnare gli oggetti del profondo cielo, "
-"all'ingrandimento massimo."
+"Imposta i limiti della magnitudine limite per disegnare gli oggetti del "
+"profondo cielo, all'ingrandimento massimo."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSky)
 #: options/opscatalog.ui:686
@@ -71865,14 +71826,13 @@ msgstr "Mostra il terreno durante il movimento"
 #: options/opsterrain.ui:279
 #, kde-format
 msgid "Creates a smoother image at the cost of some extra computation."
-msgstr ""
+msgstr "Crea un'immagine più morbida al costo di qualche calcolo aggiuntivo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:282
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Smooth pixels"
-msgstr "pixel"
+msgstr "Pixel morbidi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSkipSpeedup)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainTransparencySpeedup)
@@ -72570,6 +72530,8 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
+"Importare oggetti risolti internet e personalizzati dalla vecchia banca dati "
+"DSO in quella nuova?"
 
 #: skycomponents/catalogscomponent.cpp:447
 #: skycomponents/catalogscomponent.cpp:454
@@ -72637,7 +72599,7 @@ msgstr "Caricamento di %1"
 #: skycomponents/localmeridiancomponent.cpp:20
 #, kde-format
 msgid "Local Meridian Component"
-msgstr ""
+msgstr "Componente meridiano locale"
 
 #. i18n("Loading Milky Way"));
 #. Magellanic clouds
@@ -72735,6 +72697,9 @@ msgid ""
 "This will move the current DSO database \"%1\"\n"
 "to \"%2\""
 msgstr ""
+"Vuoi iniziare su una banca dati vuota?\n"
+"Questo sposterà la banca dati DSO «%1» attuale\n"
+"in «%2»"
 
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
@@ -72791,16 +72756,13 @@ msgid "Keep Position"
 msgstr "Mantieni posizione"
 
 #: skymap.cpp:480
-#, fuzzy, kde-format
-#| msgid ""
-#| "Digitized Sky Survey image provided by the Space Telescope Science "
-#| "Institute [public domain]."
+#, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
 "[free for non-commercial use]."
 msgstr ""
 "Immagine della Digitized Sky Survey fornita dallo Space Telescope Science "
-"Institute [pubblico dominio]."
+"Institute [gratuita per uso non commerciale]."
 
 #: skymap.cpp:519
 #, kde-format
@@ -75495,11 +75457,9 @@ msgid "Towards Zenith"
 msgstr "Verso lo zenit"
 
 #: tools/exporteyepieceview.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgid "Dobsonian View"
-msgstr "Estonia"
+msgstr "Vista dobsoniana"
 
 #: tools/exporteyepieceview.cpp:90
 #, kde-format
@@ -76765,6 +76725,8 @@ msgstr "Calendario delle fasi lunari"
 #, kde-kuit-format
 msgid "Error: sesameResolver failed. Could not resolve name on CDS Sesame."
 msgstr ""
+"Errore: sesameResolver non riuscito. Impossibile risolvere il nome nel CDS "
+"Sesame."
 
 #: tools/nameresolver.cpp:53
 #, kde-kuit-format
@@ -76775,6 +76737,7 @@ msgstr "Tentativo di risolvere l'oggetto %1 usando CDS Sesame."
 #, kde-kuit-format
 msgid "Error trying to get XML response from CDS Sesame server: %1"
 msgstr ""
+"Errore nel tentativo di ottenere risposta XML dal server CDS Sesame: %1"
 
 #: tools/nameresolver.cpp:86
 #, kde-kuit-format
@@ -76782,11 +76745,13 @@ msgid ""
 "Empty result instead of expected XML from CDS Sesame. Maybe bad Internet "
 "connection?"
 msgstr ""
+"Risultato vuoto al posto del XML atteso da CDS Sesame. Potrebbe dipendere da "
+"una cattiva connessione Internet?"
 
 #: tools/nameresolver.cpp:219
 #, kde-kuit-format
 msgid "Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3"
-msgstr ""
+msgstr "Errore di interpretare XML da CDS Sesame: %1 in linea %2 @ col = %3"
 
 #: tools/nameresolver.cpp:232
 #, kde-kuit-format
@@ -76907,16 +76872,14 @@ msgid "%1 mag %2 in %3"
 msgstr "%2 di magnitudo %1 di %3"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Save the observing session"
+#, kde-format
 msgid "Batch add to observing session"
-msgstr "Salva la sessione di osservazione"
+msgstr "Aggiungi in serie alla sessione di osservazione"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Add to Observing WishList"
+#, kde-format
 msgid "Batch add to observing wishlist"
-msgstr "Aggiungi alla lista delle osservazioni desiderate"
+msgstr "Aggiungi in serie alla lista delle osservazioni desiderate"
 
 #: tools/observinglist.cpp:776
 #, kde-format
@@ -77013,15 +76976,14 @@ msgid "Observing List Wizard"
 msgstr "Procedura guidata oggetti preferiti"
 
 #: tools/observinglist.cpp:1083
-#, fuzzy, kde-format
-#| msgid "Please wait while loading objects..."
+#, kde-format
 msgid "Please wait while loading observing wishlist..."
-msgstr "Attendi mentre vengono caricati gli oggetti..."
+msgstr "Attendi mentre vengono caricate le osservazioni desiderate..."
 
 #: tools/observinglist.cpp:1106
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
-msgstr ""
+msgstr "L'annullamento troncherà la lista dei desiderati"
 
 #: tools/observinglist.cpp:1107
 #, kde-format
@@ -77030,6 +76992,9 @@ msgid ""
 "following objects will be removed from the wishlist when you exit KStars. "
 "Are you sure this is okay?"
 msgstr ""
+"Se annulli questa operazione, la lista dei desiderati verrà troncata e gli "
+"oggetti seguenti verranno rimossi dalla lista all'uscita da KStars. Vuoi "
+"davvero procedere?"
 
 #: tools/observinglist.cpp:1149
 #, kde-format
@@ -77272,10 +77237,9 @@ msgstr "Cosa si vede stanotte..."
 
 #. i18n: ectx: property (text), widget (QPushButton, batchAddButton)
 #: tools/observinglist.ui:355
-#, fuzzy, kde-format
-#| msgid "Batch Mode"
+#, kde-format
 msgid "Batch add"
-msgstr "Modalità non interattiva"
+msgstr "Aggiunta in serie"
 
 #. i18n: ectx: attribute (title), widget (QWidget, WishList)
 #: tools/observinglist.ui:404
@@ -78906,7 +78870,7 @@ msgstr "triangolo equilatero"
 #: tools/starhopper.cpp:340
 #, kde-format
 msgid " within %1% of FOV of the marked star"
-msgstr ""
+msgstr " entro %1% di CDV della stella contrassegnata"
 
 #: tools/starhopperdialog.cpp:64
 #, kde-format
@@ -79764,22 +79728,22 @@ msgstr ""
 #: widgets/timeunitbox.cpp:29
 #, kde-format
 msgid "Increase Time Scale"
-msgstr ""
+msgstr "Aumenta la scala temporale"
 
 #: widgets/timeunitbox.cpp:30
 #, kde-format
 msgid "Increase time scale to the next largest unit"
-msgstr ""
+msgstr "Aumenta la scala temporale alla successiva unità più grande"
 
 #: widgets/timeunitbox.cpp:40
 #, kde-format
 msgid "Decrease Time Scale"
-msgstr ""
+msgstr "Riduci la scala temporale"
 
 #: widgets/timeunitbox.cpp:41
 #, kde-format
 msgid "Decrease time scale to the next smallest unit"
-msgstr ""
+msgstr "Riduci la scala temporale alla successiva unità più piccola"
 
 #: xplanet/opsxplanet.cpp:31
 #, kde-format
@@ -79884,10 +79848,10 @@ msgid "Select XPlanet Star Map File"
 msgstr "Seleziona file mappa stellare XPlanet"
 
 #: xplanet/opsxplanet.cpp:244
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
-msgstr "Seleziona file Arc di XPlanet"
+msgstr "Seleziona file Arc XPlanet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_xplanetIsInternal)
 #: xplanet/opsxplanet.ui:45
