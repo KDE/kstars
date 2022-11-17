@@ -133,6 +133,14 @@ Mount::Mount()
     // QML Stuff
     m_BaseView = new QQuickView();
 
+    // Must set context *before* loading the QML file.
+    m_Ctxt = m_BaseView->rootContext();
+    ///Use instead of KDeclarative
+    m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
+
+    m_Ctxt->setContextProperty("mount", this);
+
+    // Load QML file after setting context
     m_BaseView->setSource(QUrl("qrc:/qml/mount/mountbox.qml"));
 
     m_BaseView->setTitle(i18n("Mount Control"));
@@ -146,12 +154,6 @@ Mount::Mount()
     m_BaseView->setColor(Qt::black);
 
     m_BaseObj = m_BaseView->rootObject();
-
-    m_Ctxt = m_BaseView->rootContext();
-    ///Use instead of KDeclarative
-    m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
-
-    m_Ctxt->setContextProperty("mount", this);
 
     m_BaseView->setResizeMode(QQuickView::SizeViewToRootObject);
 
@@ -732,9 +734,9 @@ void Mount::updateNumber(INumberVectorProperty * nvp)
     switch (getMeridianFlipState()->getMeridianFlipStage())
     {
         case MeridianFlipState::MF_INITIATED:
-        if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
-            getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
-        break;
+            if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
+                getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
+            break;
 
         default:
             break;
