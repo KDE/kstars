@@ -31,7 +31,7 @@ class SequenceJob : public QObject
 
     public:
         static QString const &ISOMarker;
-        static const QStringList StatusStrings;
+        static const QStringList StatusStrings();
 
         // Core Properties
         typedef enum
@@ -123,7 +123,7 @@ class SequenceJob : public QObject
         }
         const QString &getStatusString()
         {
-            return StatusStrings[getStatus()];
+            return StatusStrings()[getStatus()];
         }
         // Setter: Set how many captures have completed thus far
         void setCompleted(int value);
