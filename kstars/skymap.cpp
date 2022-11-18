@@ -991,7 +991,7 @@ void SkyMap::updateFocus()
     {
         if (focusObject())
         {
-            focusObject()->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+            focusObject()->updateCoordsNow(data->updateNum());
             setDestination(*focusObject());
         }
         else
