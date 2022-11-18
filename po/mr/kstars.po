@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"POT-Creation-Date: 2022-11-18 00:41+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -554,7 +554,7 @@ msgstr "रद्द करा"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
-#: ekos/capture/sequencejob.cpp:26 ekos/manager.cpp:1053 ekos/manager.cpp:1068
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
 #: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
@@ -1915,7 +1915,7 @@ msgstr "स्थिती"
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
 #: ekos/analyze/analyze.cpp:2369 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:20 ekos/ekos.h:71
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
@@ -5947,7 +5947,7 @@ msgstr "कॅपचर: %1"
 
 #: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2733
 #: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
-#: ekos/mount/mount.cpp:824 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -9634,7 +9634,7 @@ msgid ""
 msgstr ""
 
 #: ekos/analyze/analyze.cpp:2371 ekos/auxiliary/ledstatuswidget.cpp:78
-#: ekos/capture/sequencejob.cpp:27 ekos/ekos.h:21 ekos/ekos.h:72
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:645
 #, kde-format
@@ -14879,13 +14879,13 @@ msgstr ""
 msgid "Post-Job Script:"
 msgstr "स्क्रिप्ट उघडा"
 
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:71 ekos/ekos.h:119
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
 #, fuzzy, kde-format
 msgid "In Progress"
 msgstr "प्रगतीपथावर आहे/चालू आहे"
 
-#: ekos/capture/sequencejob.cpp:28 ekos/ekos.h:75 ekos/ekos.h:118
+#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Complete"
@@ -19456,118 +19456,118 @@ msgid "Mount Configuration"
 msgstr "संयोजना"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:138 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
 #, fuzzy, kde-format
 msgid "Mount Control"
 msgstr "नियंत्रण"
 
-#: ekos/mount/mount.cpp:363
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:378
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:379
+#: ekos/mount/mount.cpp:381
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "GPS Settings"
 msgstr "संयोजना"
 
-#: ekos/mount/mount.cpp:507
+#: ekos/mount/mount.cpp:509
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:508
+#: ekos/mount/mount.cpp:510
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "ट्रॅक"
 
-#: ekos/mount/mount.cpp:595
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:611
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:663
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:790
+#: ekos/mount/mount.cpp:792
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:804
+#: ekos/mount/mount.cpp:806
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:838
+#: ekos/mount/mount.cpp:840
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr ""
 
-#: ekos/mount/mount.cpp:1436
+#: ekos/mount/mount.cpp:1438
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Alignment Model cleared."
 msgstr "पूर्ण"
 
-#: ekos/mount/mount.cpp:1440
+#: ekos/mount/mount.cpp:1442
 #, fuzzy, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "जुळवा (&A)"
 
-#: ekos/mount/mount.cpp:1550 ekos/scheduler/scheduler.cpp:6208
+#: ekos/mount/mount.cpp:1552 ekos/scheduler/scheduler.cpp:6208
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1575
+#: ekos/mount/mount.cpp:1577
 #, fuzzy, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "छापा (&P)..."
 
-#: ekos/mount/mount.cpp:1584
+#: ekos/mount/mount.cpp:1586
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1589
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1591
+#: ekos/mount/mount.cpp:1593
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1610
+#: ekos/mount/mount.cpp:1612
 #, fuzzy, kde-format
 msgid "Parking timer is up."
 msgstr "छापा (&P)..."
 
-#: ekos/mount/mount.cpp:1619
+#: ekos/mount/mount.cpp:1621
 #, fuzzy, kde-format
 msgid "Starting auto park..."
 msgstr "प्रतिमा साठवू शकत नाही"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"POT-Creation-Date: 2022-11-18 00:41+0000\n"
 "PO-Revision-Date: 2022-11-14 08:55+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -544,7 +544,7 @@ msgstr "Cancel·la"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
-#: ekos/capture/sequencejob.cpp:26 ekos/manager.cpp:1053 ekos/manager.cpp:1068
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
 #: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
@@ -1920,7 +1920,7 @@ msgstr "Estat:"
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
 #: ekos/analyze/analyze.cpp:2369 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:20 ekos/ekos.h:71
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
@@ -6054,7 +6054,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2733
 #: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
-#: ekos/mount/mount.cpp:824 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -9980,7 +9980,7 @@ msgstr ""
 "tindran les seves estrelles detectades."
 
 #: ekos/analyze/analyze.cpp:2371 ekos/auxiliary/ledstatuswidget.cpp:78
-#: ekos/capture/sequencejob.cpp:27 ekos/ekos.h:21 ekos/ekos.h:72
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:645
 #, kde-format
@@ -15432,13 +15432,13 @@ msgstr "Script posterior a la captura:"
 msgid "Post-Job Script:"
 msgstr "Script posterior a la tasca:"
 
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:71 ekos/ekos.h:119
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
 #, kde-format
 msgid "In Progress"
 msgstr "En curs"
 
-#: ekos/capture/sequencejob.cpp:28 ekos/ekos.h:75 ekos/ekos.h:118
+#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Complete"
@@ -20314,12 +20314,12 @@ msgid "Mount Configuration"
 msgstr "Configuració de la muntura"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:138 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
 #, kde-format
 msgid "Mount Control"
 msgstr "Control de la muntura"
 
-#: ekos/mount/mount.cpp:363
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
@@ -20328,29 +20328,29 @@ msgstr ""
 "S'ha detectat un controlador del GPS. El KStars i la configuració de temps i "
 "emplaçament de la muntura ara se sincronitzaran amb el controlador del GPS."
 
-#: ekos/mount/mount.cpp:378
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 "S'ha detectat un GPS. Voleu canviar la font de l'hora i de l'emplaçament al "
 "del GPS?"
 
-#: ekos/mount/mount.cpp:379
+#: ekos/mount/mount.cpp:381
 #, kde-format
 msgid "GPS Settings"
 msgstr "Configuració del GPS"
 
-#: ekos/mount/mount.cpp:507
+#: ekos/mount/mount.cpp:509
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:508
+#: ekos/mount/mount.cpp:510
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:595
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -20358,7 +20358,7 @@ msgstr ""
 "L'altitud del telescopi està per sota del límit d'altitud mínima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:611
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -20366,7 +20366,7 @@ msgstr ""
 "L'altitud del telescopi està per sobre del límit d'altitud màxima de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:663
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -20375,67 +20375,67 @@ msgstr ""
 "L'angle horari del telescopi està per sobre de l'angle horari màxim de %1, "
 "s'interromp el moviment..."
 
-#: ekos/mount/mount.cpp:790
+#: ekos/mount/mount.cpp:792
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià és inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:804
+#: ekos/mount/mount.cpp:806
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:838
+#: ekos/mount/mount.cpp:840
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1436
+#: ekos/mount/mount.cpp:1438
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1440
+#: ekos/mount/mount.cpp:1442
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Ha fallat en netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1550 ekos/scheduler/scheduler.cpp:6208
+#: ekos/mount/mount.cpp:1552 ekos/scheduler/scheduler.cpp:6208
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1575
+#: ekos/mount/mount.cpp:1577
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1584
+#: ekos/mount/mount.cpp:1586
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estigui en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1589
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1591
+#: ekos/mount/mount.cpp:1593
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu usar l'aparcament automàtic quan el programador està "
 "actiu."
 
-#: ekos/mount/mount.cpp:1610
+#: ekos/mount/mount.cpp:1612
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1619
+#: ekos/mount/mount.cpp:1621
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic..."
