@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-18 00:41+0000\n"
+"POT-Creation-Date: 2022-11-19 00:41+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -531,7 +531,7 @@ msgstr "Юджин"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerYesR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:435
-#: dialogs/detaildialog.cpp:493 ekos/profilewizard.ui:616
+#: dialogs/detaildialog.cpp:493 ekos/profilewizard.ui:560
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:39
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, fuzzy, kde-format, kde-kuit-format
@@ -542,7 +542,7 @@ msgstr "Еосу"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNoR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:437
-#: dialogs/detaildialog.cpp:495 ekos/profilewizard.ui:623
+#: dialogs/detaildialog.cpp:495 ekos/profilewizard.ui:567
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, fuzzy, kde-format
 #| msgid "Now"
@@ -1149,7 +1149,7 @@ msgstr "Аврупо"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1329
+#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1287
 #: skymapdrawabstract.cpp:178 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -2221,8 +2221,8 @@ msgstr "Тирезаи матни"
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, stellarMateEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
-#: data/qml/whatisinteresting/wiview.qml:1335 ekos/profilewizard.ui:169
-#: ekos/profilewizard.ui:694 ekos/profilewizard.ui:811
+#: data/qml/whatisinteresting/wiview.qml:1335 ekos/profilewizard.ui:252
+#: ekos/profilewizard.ui:638 ekos/profilewizard.ui:755
 #: kstarslite/qml/modules/tutorial/TutorialPane.qml:50
 #: tools/starhopperdialog.ui:53
 #, fuzzy, kde-format, kde-kuit-format
@@ -19726,7 +19726,7 @@ msgstr "Ягон чизро интихоб накардан"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/manager.ui:129 ekos/profilewizard.ui:993
+#: ekos/manager.ui:129 ekos/profilewizard.ui:937
 #: ekos/scheduler/scheduler.ui:427
 #, fuzzy, kde-format
 #| msgid "Country filter:"
@@ -21677,8 +21677,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/profileeditor.ui:151 ekos/profileeditor.ui:164
-#: ekos/profileeditor.ui:197 ekos/profilewizard.ui:582
-#: ekos/profilewizard.ui:774 indi/indihostconf.ui:40
+#: ekos/profileeditor.ui:197 ekos/profilewizard.ui:526
+#: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
 msgstr "Порт:"
@@ -21695,7 +21695,7 @@ msgstr "Ҳузфи истинодот"
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ekos/profileeditor.ui:184 ekos/profileeditor.ui:352
-#: ekos/profilewizard.ui:568 ekos/profilewizard.ui:747 indi/indihostconf.ui:30
+#: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
 msgstr "Хидматгор:"
@@ -21727,8 +21727,8 @@ msgstr "Ҷустуҷӯи объект"
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:257 ekos/profilewizard.ui:589
-#: ekos/profilewizard.ui:781
+#: ekos/profileeditor.ui:257 ekos/profilewizard.ui:533
+#: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr ""
@@ -21786,7 +21786,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:374 ekos/profilewizard.ui:1034
+#: ekos/profileeditor.ui:374 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr ""
@@ -22065,7 +22065,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: ekos/profilewizard.ui:214
+#: ekos/profilewizard.ui:155
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:</"
@@ -22073,7 +22073,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, INDIInfoB)
-#: ekos/profilewizard.ui:243
+#: ekos/profilewizard.ui:171
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid ""
@@ -22082,7 +22082,7 @@ msgid ""
 msgstr "Сар кардан"
 
 #. i18n: ectx: property (text), widget (QPushButton, discoverEkosB)
-#: ekos/profilewizard.ui:266
+#: ekos/profilewizard.ui:194
 #, kde-format
 msgid ""
 "Discover\n"
@@ -22090,7 +22090,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, videoTutorialsB)
-#: ekos/profilewizard.ui:289
+#: ekos/profilewizard.ui:217
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Victoria"
@@ -22100,13 +22100,13 @@ msgid ""
 msgstr "Виктория"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/profilewizard.ui:332
+#: ekos/profilewizard.ui:276
 #, kde-format
 msgid "Where is your equipment connected?"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, localEquipmentB)
-#: ekos/profilewizard.ui:355
+#: ekos/profilewizard.ui:299
 #, kde-format
 msgid ""
 "Equipment is attached\n"
@@ -22114,7 +22114,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentB)
-#: ekos/profilewizard.ui:399
+#: ekos/profilewizard.ui:343
 #, kde-format
 msgid ""
 "Equipment is attached to\n"
@@ -22122,7 +22122,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/profilewizard.ui:437
+#: ekos/profilewizard.ui:381
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Which <span style=\" color:#ff5500;\">remote</span> "
@@ -22130,7 +22130,7 @@ msgid ""
 msgstr "Ҷустуҷӯи объект"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentAtikbaseB)
-#: ekos/profilewizard.ui:460
+#: ekos/profilewizard.ui:404
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Atik"
@@ -22138,7 +22138,7 @@ msgid "AtikBase"
 msgstr "Атик"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
-#: ekos/profilewizard.ui:488
+#: ekos/profilewizard.ui:432
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -22146,7 +22146,7 @@ msgid "Other"
 msgstr "Дигар"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentStellarmateB)
-#: ekos/profilewizard.ui:507
+#: ekos/profilewizard.ui:451
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Pantelleria"
@@ -22154,21 +22154,21 @@ msgid "StellarMate"
 msgstr "Пантеллерия"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/profilewizard.ui:559
+#: ekos/profilewizard.ui:503
 #, fuzzy, kde-format
 msgid "Enter the remote computer information:"
 msgstr "Тасвирро нигоҳ дашта натавонист:%1 "
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteHostEdit)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, PiHost)
-#: ekos/profilewizard.ui:575 ekos/profilewizard.ui:757
+#: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
 #, fuzzy, kde-format
 #| msgid "Enter author's name"
 msgid "Enter IP address or host name"
 msgstr "Номи муҳаррирро ворид кунед"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/profilewizard.ui:604
+#: ekos/profilewizard.ui:548
 #, kde-format
 msgid ""
 "<html><head/><body><p><a href=\"https://github.com/knro/indiwebmanager"
@@ -22177,13 +22177,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNotSureB)
-#: ekos/profilewizard.ui:630
+#: ekos/profilewizard.ui:574
 #, fuzzy, kde-format
 msgid "Not Sure"
 msgstr "на баромад"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/profilewizard.ui:660
+#: ekos/profilewizard.ui:604
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: <span "
@@ -22193,26 +22193,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/profilewizard.ui:735
+#: ekos/profilewizard.ui:679
 #, kde-format
 msgid "Enter host name and port. If you do not know, leave as is."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, PiHost)
-#: ekos/profilewizard.ui:754
+#: ekos/profilewizard.ui:698
 #, kde-format
 msgid "stellarmate.local"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, PiAutoDetectB)
-#: ekos/profilewizard.ui:767
+#: ekos/profilewizard.ui:711
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Detect"
 msgstr "Худмасштаб"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/profilewizard.ui:845
+#: ekos/profilewizard.ui:789
 #, kde-format
 msgid ""
 "<html><head/><body><p>Using Ekos locally on Windows is not supported. You "
@@ -22220,13 +22220,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/profilewizard.ui:865
+#: ekos/profilewizard.ui:809
 #, kde-format
 msgid "Which INDI Server do you want to use?"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, useInternalINDIB)
-#: ekos/profilewizard.ui:888
+#: ekos/profilewizard.ui:832
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid ""
@@ -22235,7 +22235,7 @@ msgid ""
 msgstr "Хидматгор"
 
 #. i18n: ectx: property (text), widget (QPushButton, useExternalINDIB)
-#: ekos/profilewizard.ui:924
+#: ekos/profilewizard.ui:868
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid ""
@@ -22244,7 +22244,7 @@ msgid ""
 msgstr "Хидматгор"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/profilewizard.ui:949
+#: ekos/profilewizard.ui:893
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: External "
@@ -22255,13 +22255,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/profilewizard.ui:971
+#: ekos/profilewizard.ui:915
 #, kde-format
 msgid "<html><head/><body><p>You're almost done...</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/profilewizard.ui:984
+#: ekos/profilewizard.ui:928
 #, kde-format
 msgid ""
 "<html><head/><body><p>What do you want to name your profile?</p></body></"
@@ -22269,13 +22269,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, profileNameEdit)
-#: ekos/profilewizard.ui:1000
+#: ekos/profilewizard.ui:944
 #, kde-format
 msgid "My Astro Gear"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/profilewizard.ui:1015
+#: ekos/profilewizard.ui:959
 #, kde-format
 msgid ""
 "<html><head/><body><p>Which guider application do you want to use?</p></"
@@ -22283,21 +22283,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, useInternalGuiderR)
-#: ekos/profilewizard.ui:1024
+#: ekos/profilewizard.ui:968
 #, fuzzy, kde-format
 #| msgid "Interactive Mode"
 msgid "Internal Guider"
 msgstr "Муҳовараи намуд"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useLinGuiderR)
-#: ekos/profilewizard.ui:1041
+#: ekos/profilewizard.ui:985
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Lin Guider"
 msgstr "Равонакунанда"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/profilewizard.ui:1068
+#: ekos/profilewizard.ui:1012
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: Internal "
@@ -22306,7 +22306,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/profilewizard.ui:1087
+#: ekos/profilewizard.ui:1031
 #, kde-format
 msgid ""
 "<html><head/><body><p>Do you want to select additional services?</p></body></"
@@ -22314,7 +22314,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useJoystickCheck)
-#: ekos/profilewizard.ui:1101
+#: ekos/profilewizard.ui:1045
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use INDI Joystick driver to enable control of mounts, "
@@ -22322,13 +22322,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useJoystickCheck)
-#: ekos/profilewizard.ui:1104
+#: ekos/profilewizard.ui:1048
 #, fuzzy, kde-format
 msgid "Joystick"
 msgstr "Дикинсон"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useRemoteAstrometryCheck)
-#: ekos/profilewizard.ui:1114
+#: ekos/profilewizard.ui:1058
 #, kde-format
 msgid ""
 "<html><head/><body><p>If the remote computer has astrometry.net installed, "
@@ -22337,13 +22337,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
-#: ekos/profilewizard.ui:1117
+#: ekos/profilewizard.ui:1061
 #, fuzzy, kde-format
 msgid "Remote Astrometry"
 msgstr "Ҳузфи истинодот"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWatchDogCheck)
-#: ekos/profilewizard.ui:1127
+#: ekos/profilewizard.ui:1071
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use the INDI WatchDog driver. It monitors connection "
@@ -22353,14 +22353,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWatchDogCheck)
-#: ekos/profilewizard.ui:1130
+#: ekos/profilewizard.ui:1074
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Watch Dog"
 msgstr "Гурӯҳи ҳолат"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useSkySafariCheck)
-#: ekos/profilewizard.ui:1137
+#: ekos/profilewizard.ui:1081
 #, kde-format
 msgid ""
 "<html><head/><body><p>If you plan to use SkySafari to monitor and/or control "
@@ -22373,13 +22373,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
-#: ekos/profilewizard.ui:1140
+#: ekos/profilewizard.ui:1084
 #, kde-format
 msgid "SkySafari"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, createProfileB)
-#: ekos/profilewizard.ui:1174
+#: ekos/profilewizard.ui:1118
 #, fuzzy, kde-format
 msgid ""
 "Create Profile &&\n"
@@ -28372,7 +28372,7 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:327 kstarsactions.cpp:1538 skymap.cpp:412
+#: kstars.cpp:327 kstarsactions.cpp:1538 skymap.cpp:395
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Аз кор мондани соат"
@@ -78696,12 +78696,12 @@ msgstr "&Пурборкунии маълумот..."
 msgid "Error downloading supernova data: %1"
 msgstr "Хатогӣ: Тасвирро нигоҳ дошта натавонист:%1 "
 
-#: skymap.cpp:386 skymaplite.cpp:355
+#: skymap.cpp:369 skymaplite.cpp:355
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Дархости Ҳолати Поёни Уфуқ"
 
-#: skymap.cpp:387 skymaplite.cpp:356
+#: skymap.cpp:370 skymaplite.cpp:356
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"
@@ -78710,17 +78710,17 @@ msgstr ""
 "Ҳолати дархост дар поёни уқуф мебошад.\n"
 "Бинобарин, ба онҷо рафтан мехоҳед?"
 
-#: skymap.cpp:388
+#: skymap.cpp:371
 #, kde-format
 msgid "Go Anyway"
 msgstr ""
 
-#: skymap.cpp:389
+#: skymap.cpp:372
 #, fuzzy, kde-format
 msgid "Keep Position"
 msgstr "&Нуқта"
 
-#: skymap.cpp:480
+#: skymap.cpp:463
 #, fuzzy, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
@@ -78729,7 +78729,7 @@ msgstr ""
 "Нигориши тасвири Осмон ба Фосилаи Телескопи Институти Илмӣ таъмин карда "
 "шудааст."
 
-#: skymap.cpp:519
+#: skymap.cpp:502
 #, kde-format
 msgctxt "Equatorial & Horizontal Coordinates"
 msgid ""
@@ -78738,51 +78738,51 @@ msgid ""
 "AzAlt:\t%5\t%6"
 msgstr ""
 
-#: skymap.cpp:584
+#: skymap.cpp:567
 #, kde-format
 msgid ""
 "Sloan Digital Sky Survey image provided by the Astrophysical Research "
 "Consortium [free for non-commercial use]."
 msgstr ""
 
-#: skymap.cpp:660
+#: skymap.cpp:643
 #, fuzzy, kde-format
 msgid "Angular distance: %1"
 msgstr "Фосилаи кунҷ: "
 
-#: skymap.cpp:674
+#: skymap.cpp:657
 #, fuzzy, kde-format
 msgid "; Physical distance: %1 pc"
 msgstr "Фосилаи кунҷ: "
 
-#: skymap.cpp:711
+#: skymap.cpp:694
 #, fuzzy, kde-format
 #| msgid "Select a shape for the field-of-view symbol"
 msgid "Star Hopper: Choose a field-of-view"
 msgstr "Интихоб кардани шакл барои фазои тасаввуроти рамз"
 
-#: skymap.cpp:712
+#: skymap.cpp:695
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr ""
 
-#: skymap.cpp:719
+#: skymap.cpp:702
 #, fuzzy, kde-format
 #| msgid "Select a shape for the field-of-view symbol"
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr "Интихоб кардани шакл барои фазои тасаввуроти рамз"
 
-#: skymap.cpp:720
+#: skymap.cpp:703
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:887
+#: skymap.cpp:870
 #, kde-format
 msgid "No object selected."
 msgstr "Ягон объект интихоб кардагӣ нест."
 
-#: skymap.cpp:887
+#: skymap.cpp:870
 #, kde-format
 msgid "Object Details"
 msgstr "Маълумот дар бораи объект"
