@@ -614,4 +614,16 @@ void TestSkyPoint::testUpdateCoords()
 
 }
 
+void TestSkyPoint::testDeltaAngle()
+{
+    SkyPoint p1(dms("00:43:13", false), dms("40:45:42"));
+    SkyPoint p2(dms("00:43:44", false), dms("41:23:07"));
+
+    auto diffRA = p1.ra().deltaAngle(p2.ra());
+    auto diffDE = p1.dec().deltaAngle(p2.dec());
+
+    QVERIFY(diffRA.Degrees() < 1);
+    QVERIFY(diffDE.Degrees() < 1);
+}
+
 QTEST_GUILESS_MAIN(TestSkyPoint)
