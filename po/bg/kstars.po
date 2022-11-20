@@ -76936,15 +76936,3 @@ msgstr "Цвят на фона:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Избледняване на траекториите до фоновия цвят"
-
-#, fuzzy
-#~ msgid "Guider:"
-#~ msgstr "Гид-телескопи"
-
-#, fuzzy
-#~ msgid "Aliases for filter wheel slots."
-#~ msgstr "Задаване на цветове за филтъра на слотовете"
-
-#, fuzzy
-#~ msgid "List of the aliases for filter wheel slots."
-#~ msgstr "Задаване на цветове за филтъра на слотовете"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-19 00:41+0000\n"
-"PO-Revision-Date: 2022-11-06 01:06\n"
+"PO-Revision-Date: 2022-11-19 14:48\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -12745,10 +12745,9 @@ msgid "CCD capture suspended"
 msgstr "CCD 拍摄挂起"
 
 #: ekos/capture/capture.cpp:938
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "CCD capture complete"
-msgstr "拍摄完成。"
+msgstr ""
 
 #: ekos/capture/capture.cpp:943
 #, kde-format
@@ -13090,10 +13089,9 @@ msgid ""
 msgstr "中天翻转配置已移到赤道仪模块。请在那里配置中天翻转。"
 
 #: ekos/capture/capture.cpp:4484
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing failed."
+#, kde-format
 msgid "Warning: Filter %1 not found in filter wheel."
-msgstr "警告：任务“%1”对焦失败。"
+msgstr ""
 
 #: ekos/capture/capture.cpp:4684
 #, kde-format
@@ -13488,17 +13486,15 @@ msgstr "Y："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/capture.ui:386
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "当前脚本"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/capture.ui:405
-#, fuzzy, kde-format
-#| msgid "Clear camera configuration"
+#, kde-format
 msgid "Target camera gain"
-msgstr "清除相机配置"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/capture.ui:488
@@ -13514,17 +13510,15 @@ msgstr "如果可用的话，设置单张图像的曝光时间秒数"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/capture.ui:557
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "相机偏移"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/capture.ui:576
-#, fuzzy, kde-format
-#| msgid "Camera Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "相机偏移"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #: ekos/capture/capture.ui:594
@@ -23474,16 +23468,14 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:8437
-#, fuzzy, kde-format
-#| msgid "Solver timed out: %1s"
+#, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "解析器超时：%1s"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:8439
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "解析器失败： %1s"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:8474
 #, kde-format
@@ -77456,6 +77448,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Cannot run startup procedure while INDI devices are not online."
-#~ msgstr "INDI 设备不在线，不能执行启动程序。"
