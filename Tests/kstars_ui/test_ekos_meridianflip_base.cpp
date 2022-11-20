@@ -327,7 +327,7 @@ bool TestEkosMeridianFlipBase::prepareCaptureTestcase(int secsToMF, bool initial
     return true;
 }
 
-bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFocus,
+bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFocus, bool useAlign,
         Ekos::Scheduler::SchedulerAlgorithm algorithm,
         SchedulerJob::CompletionCondition completionCondition, int iterations)
 {
@@ -343,7 +343,7 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFo
     KVERIFY_SUB(prepareMFTestcase(useFocus, false, false));
 
     // determine the target and sync close to it
-    findMFTestTarget(secsToMF, false);
+    findMFTestTarget(secsToMF, true);
 
     // save current capture sequence to Ekos sequence file
     QString sequenceFile = m_CaptureHelper->destination->filePath("test.esq");
@@ -362,7 +362,7 @@ bool TestEkosMeridianFlipBase::prepareSchedulerTestcase(int secsToMF, bool useFo
     QFETCH(bool, guide);
     KTRY_SET_CHECKBOX_SUB(scheduler, trackStepCheck, true);
     KTRY_SET_CHECKBOX_SUB(scheduler, focusStepCheck, false); // initial focusing during capture preparation
-    KTRY_SET_CHECKBOX_SUB(scheduler, alignStepCheck, false);
+    KTRY_SET_CHECKBOX_SUB(scheduler, alignStepCheck, useAlign);
     KTRY_SET_CHECKBOX_SUB(scheduler, guideStepCheck, guide);
     // ignore twilight
     KTRY_SET_CHECKBOX_SUB(scheduler, twilightCheck, false);
@@ -631,6 +631,7 @@ bool TestEkosMeridianFlipBase::checkPostMFBehavior()
     // After the first capture dithering should take place
     KWRAP_SUB(QVERIFY(checkDithering()));
 
+    qCInfo(KSTARS_EKOS_TEST()) << "Post meridian flip steps completed.";
     return true;
 }
 
@@ -658,6 +659,7 @@ void TestEkosMeridianFlipBase::findMFTestTarget(int secsToMF, bool fast)
     // for the upper culmination, we use an azimuth of 45 deg, for the lower culmination half way between pole and horizont
     double lat = KStarsData::Instance()->geo()->lat()->Degrees();
     target = new SkyPoint(range24(meridianRA + delta), culmination ? (lat - 45) : (90 - lat / 2));
+    m_CaptureHelper->updateJ2000Coordinates(target);
     if (fast)
     {
         // reset mount model

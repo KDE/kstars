@@ -551,6 +551,11 @@ public:
     int secondsToMF(QString message);
 
     /**
+     * @brief update J2000 coordinates
+     */
+    void updateJ2000Coordinates(SkyPoint *target);
+
+    /**
      * @brief Set a tree view combo to a given value
      * @param combo box with tree view
      * @param lookup target value

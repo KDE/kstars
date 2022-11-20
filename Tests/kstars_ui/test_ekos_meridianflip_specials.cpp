@@ -210,7 +210,7 @@ void TestEkosMeridianFlipSpecials::testAbortRefocusMF()
 void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
 {
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(15, false, Ekos::Scheduler::ALGORITHM_GREEDY, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(15, false, false, Ekos::Scheduler::ALGORITHM_GREEDY, SchedulerJob::FINISH_LOOP, 1));
     // start the scheduled procedure
     QVERIFY(startScheduler());
     // check if meridian flip runs and completes successfully
@@ -222,7 +222,7 @@ void TestEkosMeridianFlipSpecials::testSchedulerCaptureMF()
 void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
 {
     // setup the scheduler
-    QVERIFY(prepareSchedulerTestcase(10, true, Ekos::Scheduler::ALGORITHM_CLASSIC, SchedulerJob::FINISH_LOOP, 1));
+    QVERIFY(prepareSchedulerTestcase(10, true, false, Ekos::Scheduler::ALGORITHM_CLASSIC, SchedulerJob::FINISH_LOOP, 1));
     // update the initial focuser position
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     initialFocusPosition = absTicksLabel->text().toInt();
@@ -286,6 +286,42 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF()
     indi_setprop->start(QString("indi_setprop"), {QString("-n"), QString("%1.MeridianFlipState::MOUNT_FLIP_HA.MeridianFlipState::MOUNT_FLIP_HA=%2").arg(m_CaptureHelper->m_MountDevice).arg(0)});
 }
 
+void TestEkosMeridianFlipSpecials::testCaptureRealignMF()
+{
+    if (!astrometry_available)
+        QSKIP("No astrometry files available to run test");
+
+    // prepare for alignment tests
+    m_CaptureHelper->prepareAlignmentModule();
+    // enforce re-alignment
+    Options::setAlignCheckFrequency(1);
+    Options::setAlignCheckThreshold(0.0);
+    // setup the scheduler
+    QVERIFY(prepareSchedulerTestcase(17, false, true, Ekos::Scheduler::ALGORITHM_GREEDY, SchedulerJob::FINISH_REPEAT, 1));
+    // start the scheduled procedure
+    QVERIFY(startScheduler());
+    // make the alignment exposure so long that the flip happens while capturing the frame for alignment
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 60000);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->alignModule(), alignExposure, 60.0);
+    qCInfo(KSTARS_EKOS_TEST()) << "Setting alignment exposure to 60s.";
+    // check if meridian flip has been started
+    QVERIFY(checkMFStarted(120));
+    // set the alignment exposure time back
+    alignExposure->setValue(5.0);
+    qCInfo(KSTARS_EKOS_TEST()) << "Setting alignment exposure back to 5s.";
+    // check if meridian flip has been completed
+    QVERIFY(checkMFExecuted(120));
+    // Now check if after the flip everything continues as it should be
+    QVERIFY(checkPostMFBehavior());
+    // check if capturing starts right now
+    QFETCH(double, exptime);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 2*exptime*1000);
+    qCInfo(KSTARS_EKOS_TEST()) << "Capturing started.";
+    // check if an image has been captured
+    m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 30000);
+}
+
 
 /* *********************************************************************************
  *
@@ -333,6 +369,10 @@ void TestEkosMeridianFlipSpecials::testSimpleRepeatedMF_data()
     prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
 }
 
+void TestEkosMeridianFlipSpecials::testCaptureRealignMF_data()
+{
+    prepareTestData(18.0, {"Greenwich"}, {true}, {{"Luminance", 6}}, {false}, {false}, {false}, {false});
+}
 
 QTEST_KSTARS_WITH_GUIDER_MAIN(TestEkosMeridianFlipSpecials)
 

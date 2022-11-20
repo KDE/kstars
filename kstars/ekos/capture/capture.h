@@ -1098,7 +1098,7 @@ class Capture : public QWidget, public Ui::Capture
         bool suspendGuideOnDownload { false };
         QJsonArray m_SequenceArray;
 
-        PauseFunctionPointer pauseFunction;
+        PauseFunctionPointer pauseFunction { nullptr };
 
         // CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;

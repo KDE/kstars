@@ -443,8 +443,14 @@ void TestEkosHelper::prepareAlignmentModule()
     KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->alignModule(), slewR, true);
     // disable rotator check in alignment
     Options::setAstrometryUseRotator(false);
-    // select Luminance filter
+    // select the Luminance filter
     KTRY_SET_COMBO(Ekos::Manager::Instance()->alignModule(), alignFilter, "Luminance");
+    // set the exposure time to a standard
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->alignModule(), alignExposure, 3.0);
+    // reduce the accuracy to avoid testing problems
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->alignModule(), alignAccuracyThreshold, 300);
+    // disable re-alignment
+    Options::setAlignCheckFrequency(0);
 }
 
 void TestEkosHelper::prepareFocusModule()
@@ -842,6 +848,14 @@ int TestEkosHelper::secondsToMF(QString message)
     // unknown time
     return -1;
 
+}
+
+void TestEkosHelper::updateJ2000Coordinates(SkyPoint *target)
+{
+    SkyPoint J2000Coord(target->ra(), target->dec());
+    J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+    target->setRA0(J2000Coord.ra());
+    target->setDec0(J2000Coord.dec());
 }
 
 void TestEkosHelper::init()
