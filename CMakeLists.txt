@@ -16,9 +16,6 @@ option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 # Build KStars documentation
 option(BUILD_DOC "Build Documentation" ON)
 
-# Fetch translations with -DFETCH_TRANSLATIONS=ON
-option(FETCH_TRANSLATIONS "Fetch Translations" OFF)
-
 # Build the Python bindings for the SkyMesh indexation
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
 
@@ -29,17 +26,6 @@ string(TIMESTAMP KSTARS_BUILD_TS UTC)
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
   set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES
     ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
-endif()
-
-# For KStars Lite, we ALWAYS need to fetch translations
-if(BUILD_KSTARS_LITE)
-    SET(FETCH_TRANSLATIONS ON)
-endif()
-
-# Set options for fetching translations
-if (FETCH_TRANSLATIONS)
-SET(KDE_L10N_AUTO_TRANSLATIONS ON)
-SET(KDE_L10N_BRANCH "trunk")
 endif()
 
 # Find includes in corresponding build directories
@@ -452,16 +438,13 @@ IF (NOT ANDROID)
     enable_testing(true)
     add_subdirectory(Tests)
     ENDIF()
-    # Make it possible to use the po files fetched by the fetch-translations step
-    if (FETCH_TRANSLATIONS)
-        ki18n_install("${CMAKE_CURRENT_BINARY_DIR}/po")
-    else()
-        ki18n_install(po)
-        find_package(KF5DocTools CONFIG)
-        if(KF5DocTools_FOUND)
-            kdoctools_install(po)
-        endif()
+    # Make it possible to use the po files fetched by the fetch-translations step    
+    ki18n_install(po)
+    find_package(KF5DocTools CONFIG)
+    if(KF5DocTools_FOUND)
+        kdoctools_install(po)
     endif()
+
 ENDIF ()
 
 if(NOT APPLE) #This is not used on MacOS

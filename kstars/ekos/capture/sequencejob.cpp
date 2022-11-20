@@ -6,12 +6,8 @@
 
 #include "sequencejob.h"
 
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "Options.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
-#include "ekos/scheduler/schedulerjob.h"
 
 #include <KNotifications/KNotification>
 #include <ekos_capture_debug.h>
@@ -23,9 +19,13 @@ namespace Ekos
 {
 QString const &SequenceJob::ISOMarker("_ISO8601");
 
-const QStringList SequenceJob::StatusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") <<
-        i18n("Aborted")
-        << i18n("Complete");
+const QStringList SequenceJob::StatusStrings()
+{
+    static const QStringList names = {i18n("Idle"), i18n("In Progress"), i18n("Error"), i18n("Aborted"),
+                                      i18n("Complete")
+                                     };
+    return names;
+}
 
 
 SequenceJob::SequenceJob()
@@ -298,7 +298,7 @@ void SequenceJob::setStatus(JOBStatus const in_status)
 {
     stateMachine->reset(in_status);
     if( !getCoreProperty(SequenceJob::SJ_Preview).toBool() && nullptr != statusCell)
-        statusCell->setText(StatusStrings[in_status]);
+        statusCell->setText(StatusStrings()[in_status]);
 }
 
 void SequenceJob::setStatusCell(QTableWidgetItem* cell)

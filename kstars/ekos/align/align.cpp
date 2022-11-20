@@ -454,23 +454,25 @@ void Align::slotClearAllSolutionPoints()
 
 void Align::slotRemoveSolutionPoint()
 {
-    QCPAbstractItem *abstractItem = alignPlot->item(solutionTable->currentRow());
+    auto abstractItem = alignPlot->item(solutionTable->currentRow());
     if (abstractItem)
     {
-        QCPItemText *item = qobject_cast<QCPItemText *>(abstractItem);
+        auto item = qobject_cast<QCPItemText *>(abstractItem);
         if (item)
         {
             double point = item->position->key();
             alignPlot->graph(0)->data()->remove(point);
         }
     }
+
     alignPlot->removeItem(solutionTable->currentRow());
+
     for (int i = 0; i < alignPlot->itemCount(); i++)
     {
-        QCPAbstractItem *abstractItem = alignPlot->item(i);
-        if (abstractItem)
+        auto oneItem = alignPlot->item(i);
+        if (oneItem)
         {
-            QCPItemText *item = qobject_cast<QCPItemText *>(abstractItem);
+            auto item = qobject_cast<QCPItemText *>(oneItem);
             if (item)
                 item->setText(QString::number(i + 1));
         }
@@ -501,24 +503,24 @@ void Align::slotMountModel()
 bool Align::isParserOK()
 {
     return true; //For now
-    Q_ASSERT_X(parser, __FUNCTION__, "Astrometry parser is not valid.");
+    //    Q_ASSERT_X(parser, __FUNCTION__, "Astrometry parser is not valid.");
 
-    bool rc = parser->init();
+    //    bool rc = parser->init();
 
-    if (rc)
-    {
-        connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
-        connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
-    }
+    //    if (rc)
+    //    {
+    //        connect(parser, &AstrometryParser::solverFinished, this, &Ekos::Align::solverFinished, Qt::UniqueConnection);
+    //        connect(parser, &AstrometryParser::solverFailed, this, &Ekos::Align::solverFailed, Qt::UniqueConnection);
+    //    }
 
-    return rc;
+    //    return rc;
 }
 
 void Align::checkAlignmentTimeout()
 {
     if (m_SolveFromFile || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
         abort();
-    else if (!m_SolveFromFile)
+    else
     {
         appendLogText(i18n("Solver timed out."));
         parser->stopSolver();
@@ -586,6 +588,7 @@ void Align::checkCamera()
         case ALIGN_COMPLETE:
         case ALIGN_FAILED:
         case ALIGN_ABORTED:
+        case ALIGN_SUCCESSFUL:
             break;
 
         // Busy, camera change is not OK.
@@ -593,6 +596,7 @@ void Align::checkCamera()
         case ALIGN_SYNCING:
         case ALIGN_SLEWING:
         case ALIGN_SUSPENDED:
+        case ALIGN_ROTATING:
             return;
     }
 
@@ -813,7 +817,7 @@ bool Align::syncTelescopeInfo()
     if (m_FocalLength == -1 || m_Aperture == -1)
         return false;
 
-    if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1 && m_FocalLength != -1 && m_Aperture != -1)
+    if (m_CameraPixelWidth != -1 && m_CameraPixelHeight != -1)
     {
         calculateFOV();
         return true;
@@ -1289,17 +1293,17 @@ QStringList Align::generateRemoteArgs(const QSharedPointer<FITSData> &data)
             {
                 QString fov_low, fov_high;
                 double fov_w = m_FOVWidth;
-                double fov_h = m_FOVHeight;
+                //double fov_h = m_FOVHeight;
 
                 if (Options::astrometryImageScaleUnits() == SSolver::DEG_WIDTH)
                 {
                     fov_w /= 60;
-                    fov_h /= 60;
+                    //fov_h /= 60;
                 }
                 else if (Options::astrometryImageScaleUnits() == SSolver::ARCSEC_PER_PIX)
                 {
                     fov_w = m_FOVPixelScale;
-                    fov_h = m_FOVPixelScale;
+                    //fov_h = m_FOVPixelScale;
                 }
 
                 // If effective FOV is pending, let's set a wider tolerance range
@@ -1595,7 +1599,8 @@ bool Align::captureAndSolve()
 
 void Align::processData(const QSharedPointer<FITSData> &data)
 {
-    if (data->property("chip").toInt() == ISD::CameraChip::GUIDE_CCD)
+    auto chip = data->property("chip");
+    if (chip.isValid() && chip.toInt() == ISD::CameraChip::GUIDE_CCD)
         return;
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
@@ -1712,7 +1717,7 @@ void Align::startSolving()
                 && Options::solverType() != SSolver::SOLVER_WATNEYASTROMETRY) //You don't need astrometry index files to use ASTAP or Watney
         {
             bool foundAnIndex = false;
-            for(QString dataDir : astrometryDataDirs)
+            for(auto &dataDir : astrometryDataDirs)
             {
                 QDir dir = QDir(dataDir);
                 if(dir.exists())
@@ -2194,9 +2199,9 @@ bool Align::checkIfRotationRequired()
     {
         if (m_SolveFromFile)
         {
-            loadSlewTargetPA = solverFOV->PA();
+            m_TargetPositionAngle = solverFOV->PA();
             // We are not done yet.
-            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+            qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Setting target PA to:" << m_TargetPositionAngle;
         }
         else
         {
@@ -2233,24 +2238,24 @@ bool Align::checkIfRotationRequired()
                     Options::setPAOffset(offset);
                 }
 
-                if (absAngle && std::isnan(loadSlewTargetPA) == false
-                        && fabs(currentRotatorPA - loadSlewTargetPA) * 60 > Options::astrometryRotatorThreshold())
+                if (absAngle && std::isnan(m_TargetPositionAngle) == false
+                        && fabs(currentRotatorPA - m_TargetPositionAngle) * 60 > Options::astrometryRotatorThreshold())
                 {
                     // 3. RawAngle = (Offset + PA) / Multiplier
-                    double rawAngle = range360((Options::pAOffset() + loadSlewTargetPA) / Options::pAMultiplier());
+                    double rawAngle = range360((Options::pAOffset() + m_TargetPositionAngle) / Options::pAMultiplier());
                     absAngle->at(0)->setValue(rawAngle);
                     ClientManager *clientManager = m_Rotator->getDriverInfo()->getClientManager();
                     clientManager->sendNewNumber(absAngle);
-                    appendLogText(i18n("Setting position angle to %1 degrees E of N...", loadSlewTargetPA));
+                    appendLogText(i18n("Setting position angle to %1 degrees E of N...", m_TargetPositionAngle));
                     state = ALIGN_ROTATING;
                     emit newStatus(state);
                     return true;
                 }
             }
-            else if (std::isnan(loadSlewTargetPA) == false)
+            else if (std::isnan(m_TargetPositionAngle) == false)
             {
                 double current = currentRotatorPA;
-                double target = loadSlewTargetPA;
+                double target = m_TargetPositionAngle;
 
                 double diff = SolverUtils::rangePA(current - target);
                 double threshold = Options::astrometryRotatorThreshold() / 60.0;
@@ -2271,7 +2276,7 @@ bool Align::checkIfRotationRequired()
                 }
                 else
                 {
-                    loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+                    m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
                     targetAccuracyNotMet = false;
                 }
             }
@@ -2314,7 +2319,7 @@ void Align::stop(Ekos::AlignState mode)
         m_Camera->setFastExposureEnabled(true);
     }
 
-    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
     if (matchPAHStage(PAA::PAH_POST_REFRESH))
@@ -2523,8 +2528,8 @@ void Align::processNumber(INumberVectorProperty * nvp)
                         if (m_SolveFromFile)
                         {
                             m_SolveFromFile = false;
-                            loadSlewTargetPA = solverFOV->PA();
-                            qCDebug(KSTARS_EKOS_ALIGN) << "loaSlewTargetPA:" << loadSlewTargetPA;
+                            m_TargetPositionAngle = solverFOV->PA();
+                            qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file: Setting target PA to" << m_TargetPositionAngle;
 
                             state = ALIGN_PROGRESS;
                             emit newStatus(state);
@@ -2623,17 +2628,17 @@ void Align::processNumber(INumberVectorProperty * nvp)
     {
         // 1. PA = (RawAngle * Multiplier) - Offset
         currentRotatorPA = SolverUtils::rangePA( (nvp->np[0].value * Options::pAMultiplier()) - Options::pAOffset());
-        if (std::isnan(loadSlewTargetPA) == false && nvp->s == IPS_OK)
+        if (std::isnan(m_TargetPositionAngle) == false && nvp->s == IPS_OK)
         {
-            auto diff = fabs(currentRotatorPA - loadSlewTargetPA) * 60;
+            auto diff = fabs(currentRotatorPA - m_TargetPositionAngle) * 60;
             qCDebug(KSTARS_EKOS_ALIGN) << "Raw Rotator Angle:" << nvp->np[0].value << "Current PA:" << currentRotatorPA
-                                       << "Target PA:" << loadSlewTargetPA << "Diff (arcmin):" << diff << "Offset:" << Options::pAOffset();
+                                       << "Target PA:" << m_TargetPositionAngle << "Diff (arcmin):" << diff << "Offset:" << Options::pAOffset();
 
             if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached target position angle."));
                 targetAccuracyNotMet = true;
-                loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+                m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
                 QTimer::singleShot(alignSettlingTime->value(), this, &Ekos::Align::executeGOTO);
             }
             // If close, but not quite there
@@ -2660,11 +2665,6 @@ void Align::handleMountMotion()
             // whoops, mount slews during alignment
             appendLogText(i18n("Slew detected, suspend solving..."));
             suspend();
-            // reset the state to busy so that solving restarts after slewing finishes
-            m_SolveFromFile = true;
-            // if mount model is running, retry the current alignment point
-            //            if (mountModelRunning)
-            //                appendLogText(i18n("Restarting alignment point %1", currentAlignmentPoint + 1));
         }
 
         state = ALIGN_SLEWING;
@@ -3528,8 +3528,8 @@ QList<double> Align::getTargetCoords()
 
 void Align::setTargetPositionAngle(double value)
 {
-    loadSlewTargetPA =  value;
-    qCDebug(KSTARS_EKOS_ALIGN) << "Target Rotation updated to: " << loadSlewTargetPA;
+    m_TargetPositionAngle =  value;
+    qCDebug(KSTARS_EKOS_ALIGN) << "Target PA updated to: " << m_TargetPositionAngle;
 }
 
 void Align::calculateAlignTargetDiff()
@@ -3611,7 +3611,7 @@ void Align::calculateAlignTargetDiff()
 QStringList Align::getStellarSolverProfiles()
 {
     QStringList profiles;
-    for (auto param : m_StellarSolverProfiles)
+    for (auto &param : m_StellarSolverProfiles)
         profiles << param.listName;
 
     return profiles;
@@ -3713,7 +3713,7 @@ void Align::setupManualRotator()
     // for any subsequent solves.
     connect(m_ManualRotator, &Ekos::ManualRotator::rejected, this, [this]()
     {
-        loadSlewTargetPA = std::numeric_limits<double>::quiet_NaN();
+        m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
     });
 }
 
@@ -3844,7 +3844,6 @@ void Align::refreshOpticalTrain()
         if (camera)
         {
             camera->setScopeInfo(m_FocalLength * m_Reducer, m_Aperture);
-            auto scope = OpticalTrainManager::Instance()->getScope(name);
             opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
         }
         setCamera(camera);

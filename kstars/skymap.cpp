@@ -353,23 +353,6 @@ void SkyMap::slotCenter()
     else
         foc = &ClickedPoint;
 
-    if (Options::useAltAz())
-    {
-        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
-        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
-        // works correctly for all different body types as I tested.
-        //DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>(focusObject());
-        //if (dso)
-        //    foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-
-        // JM 2018-05-06: No need to do the above
-        foc->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-    }
-    else
-        foc->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-
-    qCDebug(KSTARS) << "Centering on " << foc->ra().toHMSString() << foc->dec().toDMSString();
-
     //clear the planet trail of old focusObject, if it was temporary
     if (trailObj && data->temporaryTrail)
     {
@@ -1004,43 +987,18 @@ void SkyMap::updateFocus()
         return;
 
     //Tracking on an object
-    if (Options::isTracking() && focusObject() != nullptr)
+    if (Options::isTracking())
     {
-        if (Options::useAltAz())
+        if (focusObject())
         {
-            //Tracking any object in Alt/Az mode requires focus updates
-            focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setFocusAltAz(focusObject()->alt(), focusObject()->az());
-            focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
-            setDestination(*focus());
+            focusObject()->updateCoordsNow(data->updateNum());
+            setDestination(*focusObject());
         }
         else
-        {
-            //Tracking in equatorial coords
-            setFocus(focusObject());
-            focus()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setDestination(*focus());
-        }
-
-        //Tracking on empty sky
-    }
-    else if (Options::isTracking() && focusPoint() != nullptr)
-    {
-        if (Options::useAltAz())
-        {
-            //Tracking on empty sky in Alt/Az mode
-            setFocus(focusPoint());
-            focus()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
-            setDestination(*focus());
-        }
-
-        // Not tracking and not slewing, let sky drift by
-        // This means that horizontal coordinates are constant.
+            setDestination(*focusPoint());
     }
     else
-    {
         focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
-    }
 }
 
 void SkyMap::slewFocus()

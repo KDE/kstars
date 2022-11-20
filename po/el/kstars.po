@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-15 00:42+0000\n"
+"POT-Creation-Date: 2022-11-19 00:41+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -510,7 +510,7 @@ msgstr "Κέσνελ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerYesR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:435
-#: dialogs/detaildialog.cpp:493 ekos/profilewizard.ui:616
+#: dialogs/detaildialog.cpp:493 ekos/profilewizard.ui:560
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:39
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, kde-format, kde-kuit-format
@@ -519,7 +519,7 @@ msgstr "Ναι"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNoR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:437
-#: dialogs/detaildialog.cpp:495 ekos/profilewizard.ui:623
+#: dialogs/detaildialog.cpp:495 ekos/profilewizard.ui:567
 #: printing/detailstable.cpp:372 printing/detailstable.cpp:410
 #, kde-format
 msgid "No"
@@ -560,7 +560,7 @@ msgstr "Ακύρωση"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:133
-#: ekos/capture/sequencejob.cpp:26 ekos/manager.cpp:1053 ekos/manager.cpp:1068
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1053 ekos/manager.cpp:1068
 #: ekos/manager.cpp:1100 ekos/scheduler/schedulerjob.cpp:646
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:34 kstarsactions.cpp:478 kstarsactions.cpp:486
@@ -1092,7 +1092,7 @@ msgstr "Ευρώπη"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1329
+#: skycomponents/skymapcomposite.cpp:606 skyglpainter.cpp:297 skymap.cpp:1287
 #: skymapdrawabstract.cpp:178 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1976,7 +1976,7 @@ msgstr "Κατάσταση"
 #: ekos/analyze/analyze.cpp:119 ekos/analyze/analyze.cpp:138
 #: ekos/analyze/analyze.cpp:2369 ekos/auxiliary/darklibrary.cpp:46
 #: ekos/auxiliary/ledstatuswidget.cpp:19 ekos/auxiliary/ledstatuswidget.cpp:27
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:20 ekos/ekos.h:71
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:20 ekos/ekos.h:71
 #: ekos/ekos.h:118 ekos/ekos.h:138 ekos/ekos.h:161 ekos/ekos.h:187
 #: ekos/guide/guidestatewidget.ui:38 ekos/manager.cpp:554
 #: ekos/manager/guidemanager.cpp:129 ekos/manager/guidemanager.ui:117
@@ -2172,8 +2172,8 @@ msgstr "Κείμενο πλαισίου πληροφοριών"
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, stellarMateEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
-#: data/qml/whatisinteresting/wiview.qml:1335 ekos/profilewizard.ui:169
-#: ekos/profilewizard.ui:694 ekos/profilewizard.ui:811
+#: data/qml/whatisinteresting/wiview.qml:1335 ekos/profilewizard.ui:252
+#: ekos/profilewizard.ui:638 ekos/profilewizard.ui:755
 #: kstarslite/qml/modules/tutorial/TutorialPane.qml:50
 #: tools/starhopperdialog.ui:53
 #, fuzzy, kde-format, kde-kuit-format
@@ -6238,7 +6238,7 @@ msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
 #: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2733
 #: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
-#: ekos/mount/mount.cpp:824 ekos/observatory/observatory.cpp:952
+#: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -10110,7 +10110,7 @@ msgid ""
 msgstr ""
 
 #: ekos/analyze/analyze.cpp:2371 ekos/auxiliary/ledstatuswidget.cpp:78
-#: ekos/capture/sequencejob.cpp:27 ekos/ekos.h:21 ekos/ekos.h:72
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:188
 #: ekos/scheduler/schedulerjob.cpp:645
 #, fuzzy, kde-format
@@ -15632,14 +15632,14 @@ msgstr "Τρέχον σενάριο"
 msgid "Post-Job Script:"
 msgstr "Δοκιμή σεναρίου"
 
-#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:71 ekos/ekos.h:119
+#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
 #, fuzzy, kde-format
 #| msgid "In progress"
 msgid "In Progress"
 msgstr "Σε εξέλιξη"
 
-#: ekos/capture/sequencejob.cpp:28 ekos/ekos.h:75 ekos/ekos.h:118
+#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/schedulerjob.cpp:644
 #, kde-format
 msgid "Complete"
@@ -20373,7 +20373,7 @@ msgstr "1. Επιλογή λειτουργίας του INDI"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/manager.ui:129 ekos/profilewizard.ui:993
+#: ekos/manager.ui:129 ekos/profilewizard.ui:937
 #: ekos/scheduler/scheduler.ui:427
 #, fuzzy, kde-format
 #| msgid "Config file:"
@@ -20695,124 +20695,124 @@ msgid "Mount Configuration"
 msgstr "Διαμόρφωση"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.cpp:138 ekos/mount/mount.ui:582
+#: ekos/mount/mount.cpp:146 ekos/mount/mount.ui:582
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Movement Control"
 msgid "Mount Control"
 msgstr "Έλεγχος κίνησης"
 
-#: ekos/mount/mount.cpp:363
+#: ekos/mount/mount.cpp:365
 #, kde-format
 msgid ""
 "GPS driver detected. KStars and mount time and location settings are now "
 "synced to the GPS driver."
 msgstr ""
 
-#: ekos/mount/mount.cpp:378
+#: ekos/mount/mount.cpp:380
 #, kde-format
 msgid "GPS is detected. Do you want to switch time and location source to GPS?"
 msgstr ""
 
-#: ekos/mount/mount.cpp:379
+#: ekos/mount/mount.cpp:381
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "GPS Settings"
 msgstr "Ρυθμίσεις"
 
-#: ekos/mount/mount.cpp:507
+#: ekos/mount/mount.cpp:509
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/mount/mount.cpp:508
+#: ekos/mount/mount.cpp:510
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Mount Tracking"
 msgstr "Ανίχνευση"
 
-#: ekos/mount/mount.cpp:595
+#: ekos/mount/mount.cpp:597
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:611
+#: ekos/mount/mount.cpp:613
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:663
+#: ekos/mount/mount.cpp:665
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:790
+#: ekos/mount/mount.cpp:792
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:804
+#: ekos/mount/mount.cpp:806
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:838
+#: ekos/mount/mount.cpp:840
 #, fuzzy, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "1"
 
-#: ekos/mount/mount.cpp:1436
+#: ekos/mount/mount.cpp:1438
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Alignment Model cleared."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/mount/mount.cpp:1440
+#: ekos/mount/mount.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Failed to clear Alignment Model."
 msgstr "Στοίχιση"
 
-#: ekos/mount/mount.cpp:1550 ekos/scheduler/scheduler.cpp:6208
+#: ekos/mount/mount.cpp:1552 ekos/scheduler/scheduler.cpp:6208
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1575
+#: ekos/mount/mount.cpp:1577
 #, fuzzy, kde-format
 #| msgid "The Name field cannot be empty"
 msgid "Parking time cannot be in the past."
 msgstr "Το πεδίο ονόματος δεν μπορεί αν είναι κενό"
 
-#: ekos/mount/mount.cpp:1584
+#: ekos/mount/mount.cpp:1586
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1589
+#: ekos/mount/mount.cpp:1591
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1591
+#: ekos/mount/mount.cpp:1593
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1610
+#: ekos/mount/mount.cpp:1612
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking timer is up."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/mount/mount.cpp:1619
+#: ekos/mount/mount.cpp:1621
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting auto park..."
@@ -22358,8 +22358,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/profileeditor.ui:151 ekos/profileeditor.ui:164
-#: ekos/profileeditor.ui:197 ekos/profilewizard.ui:582
-#: ekos/profilewizard.ui:774 indi/indihostconf.ui:40
+#: ekos/profileeditor.ui:197 ekos/profilewizard.ui:526
+#: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
 msgstr "Θύρα:"
@@ -22377,7 +22377,7 @@ msgstr "Απομακρυσμένη"
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: ekos/profileeditor.ui:184 ekos/profileeditor.ui:352
-#: ekos/profilewizard.ui:568 ekos/profilewizard.ui:747 indi/indihostconf.ui:30
+#: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
 msgstr "Υπολογιστής:"
@@ -22412,8 +22412,8 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:257 ekos/profilewizard.ui:589
-#: ekos/profilewizard.ui:781
+#: ekos/profileeditor.ui:257 ekos/profilewizard.ui:533
+#: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr "7624"
@@ -22474,7 +22474,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:374 ekos/profilewizard.ui:1034
+#: ekos/profileeditor.ui:374 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr ""
@@ -22758,7 +22758,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: ekos/profilewizard.ui:214
+#: ekos/profilewizard.ui:155
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22767,7 +22767,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QPushButton, INDIInfoB)
-#: ekos/profilewizard.ui:243
+#: ekos/profilewizard.ui:171
 #, fuzzy, kde-format
 #| msgid "Start INDI"
 msgid ""
@@ -22776,7 +22776,7 @@ msgid ""
 msgstr "Εκκίνηση του INDI"
 
 #. i18n: ectx: property (text), widget (QPushButton, discoverEkosB)
-#: ekos/profilewizard.ui:266
+#: ekos/profilewizard.ui:194
 #, kde-format
 msgid ""
 "Discover\n"
@@ -22784,7 +22784,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, videoTutorialsB)
-#: ekos/profilewizard.ui:289
+#: ekos/profilewizard.ui:217
 #, fuzzy, kde-format
 #| msgctxt "City in Seychelles"
 #| msgid "Victoria"
@@ -22794,13 +22794,13 @@ msgid ""
 msgstr "Βικτόρια"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/profilewizard.ui:332
+#: ekos/profilewizard.ui:276
 #, kde-format
 msgid "Where is your equipment connected?"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, localEquipmentB)
-#: ekos/profilewizard.ui:355
+#: ekos/profilewizard.ui:299
 #, kde-format
 msgid ""
 "Equipment is attached\n"
@@ -22808,7 +22808,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentB)
-#: ekos/profilewizard.ui:399
+#: ekos/profilewizard.ui:343
 #, kde-format
 msgid ""
 "Equipment is attached to\n"
@@ -22816,7 +22816,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/profilewizard.ui:437
+#: ekos/profilewizard.ui:381
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22825,7 +22825,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentAtikbaseB)
-#: ekos/profilewizard.ui:460
+#: ekos/profilewizard.ui:404
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Atik"
@@ -22833,7 +22833,7 @@ msgid "AtikBase"
 msgstr "Ατίκ"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
-#: ekos/profilewizard.ui:488
+#: ekos/profilewizard.ui:432
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -22841,14 +22841,14 @@ msgid "Other"
 msgstr "Άλλο"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentStellarmateB)
-#: ekos/profilewizard.ui:507
+#: ekos/profilewizard.ui:451
 #, fuzzy, kde-format
 #| msgid "Satellite"
 msgid "StellarMate"
 msgstr "Δορυφόρος"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/profilewizard.ui:559
+#: ekos/profilewizard.ui:503
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Enter the remote computer information:"
@@ -22856,14 +22856,14 @@ msgstr "Αποτυχία καθορισμού συνένωσης εικονοσ�
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteHostEdit)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, PiHost)
-#: ekos/profilewizard.ui:575 ekos/profilewizard.ui:757
+#: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
 #, fuzzy, kde-format
 #| msgid "Enter author's name"
 msgid "Enter IP address or host name"
 msgstr "Εισάγετε το όνομα συγγραφέα"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/profilewizard.ui:604
+#: ekos/profilewizard.ui:548
 #, kde-format
 msgid ""
 "<html><head/><body><p><a href=\"https://github.com/knro/indiwebmanager"
@@ -22872,14 +22872,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNotSureB)
-#: ekos/profilewizard.ui:630
+#: ekos/profilewizard.ui:574
 #, fuzzy, kde-format
 #| msgid "Does not rise"
 msgid "Not Sure"
 msgstr "Δεν ανατέλλει"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/profilewizard.ui:660
+#: ekos/profilewizard.ui:604
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: <span "
@@ -22889,26 +22889,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/profilewizard.ui:735
+#: ekos/profilewizard.ui:679
 #, kde-format
 msgid "Enter host name and port. If you do not know, leave as is."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, PiHost)
-#: ekos/profilewizard.ui:754
+#: ekos/profilewizard.ui:698
 #, kde-format
 msgid "stellarmate.local"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, PiAutoDetectB)
-#: ekos/profilewizard.ui:767
+#: ekos/profilewizard.ui:711
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Auto Detect"
 msgstr "Αυτόματη επιμήκυνση"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/profilewizard.ui:845
+#: ekos/profilewizard.ui:789
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22917,13 +22917,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/profilewizard.ui:865
+#: ekos/profilewizard.ui:809
 #, kde-format
 msgid "Which INDI Server do you want to use?"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, useInternalINDIB)
-#: ekos/profilewizard.ui:888
+#: ekos/profilewizard.ui:832
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid ""
@@ -22932,7 +22932,7 @@ msgid ""
 msgstr "Εξυπηρετητής του INDI:"
 
 #. i18n: ectx: property (text), widget (QPushButton, useExternalINDIB)
-#: ekos/profilewizard.ui:924
+#: ekos/profilewizard.ui:868
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid ""
@@ -22941,7 +22941,7 @@ msgid ""
 msgstr "Εξυπηρετητής του INDI:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/profilewizard.ui:949
+#: ekos/profilewizard.ui:893
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: External "
@@ -22952,14 +22952,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/profilewizard.ui:971
+#: ekos/profilewizard.ui:915
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>You're almost done...</p></body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/profilewizard.ui:984
+#: ekos/profilewizard.ui:928
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22968,13 +22968,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLineEdit, profileNameEdit)
-#: ekos/profilewizard.ui:1000
+#: ekos/profilewizard.ui:944
 #, kde-format
 msgid "My Astro Gear"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/profilewizard.ui:1015
+#: ekos/profilewizard.ui:959
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22983,21 +22983,21 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useInternalGuiderR)
-#: ekos/profilewizard.ui:1024
+#: ekos/profilewizard.ui:968
 #, fuzzy, kde-format
 #| msgid "Interval dividers"
 msgid "Internal Guider"
 msgstr "Διαχωριστές χρονικού διαστήματος"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useLinGuiderR)
-#: ekos/profilewizard.ui:1041
+#: ekos/profilewizard.ui:985
 #, fuzzy, kde-format
 #| msgid "Guider:"
 msgid "Lin Guider"
 msgstr "Οδηγός:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/profilewizard.ui:1068
+#: ekos/profilewizard.ui:1012
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: Internal "
@@ -23006,7 +23006,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/profilewizard.ui:1087
+#: ekos/profilewizard.ui:1031
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -23015,7 +23015,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useJoystickCheck)
-#: ekos/profilewizard.ui:1101
+#: ekos/profilewizard.ui:1045
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use INDI Joystick driver to enable control of mounts, "
@@ -23023,13 +23023,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useJoystickCheck)
-#: ekos/profilewizard.ui:1104
+#: ekos/profilewizard.ui:1048
 #, fuzzy, kde-format
 msgid "Joystick"
 msgstr "Έρικσον"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useRemoteAstrometryCheck)
-#: ekos/profilewizard.ui:1114
+#: ekos/profilewizard.ui:1058
 #, kde-format
 msgid ""
 "<html><head/><body><p>If the remote computer has astrometry.net installed, "
@@ -23038,14 +23038,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
-#: ekos/profilewizard.ui:1117
+#: ekos/profilewizard.ui:1061
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Remote Astrometry"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWatchDogCheck)
-#: ekos/profilewizard.ui:1127
+#: ekos/profilewizard.ui:1071
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use the INDI WatchDog driver. It monitors connection "
@@ -23055,14 +23055,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWatchDogCheck)
-#: ekos/profilewizard.ui:1130
+#: ekos/profilewizard.ui:1074
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Watch Dog"
 msgstr "Ομαδική λειτουργία"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useSkySafariCheck)
-#: ekos/profilewizard.ui:1137
+#: ekos/profilewizard.ui:1081
 #, kde-format
 msgid ""
 "<html><head/><body><p>If you plan to use SkySafari to monitor and/or control "
@@ -23075,13 +23075,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
-#: ekos/profilewizard.ui:1140
+#: ekos/profilewizard.ui:1084
 #, kde-format
 msgid "SkySafari"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, createProfileB)
-#: ekos/profilewizard.ui:1174
+#: ekos/profilewizard.ui:1118
 #, fuzzy, kde-format
 #| msgid "2. Select Devices"
 msgid ""
@@ -29318,7 +29318,7 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:327 kstarsactions.cpp:1538 skymap.cpp:412
+#: kstars.cpp:327 kstarsactions.cpp:1538 skymap.cpp:395
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Σταμάτημα ανί&χνευσης"
@@ -75342,12 +75342,12 @@ msgstr "Λήψη νέων δεδομένων..."
 msgid "Error downloading supernova data: %1"
 msgstr "Σφάλμα: Αδυναμία αποθήκευσης της εικόνας: %1 "
 
-#: skymap.cpp:386 skymaplite.cpp:355
+#: skymap.cpp:369 skymaplite.cpp:355
 #, kde-format
 msgid "Requested Position Below Horizon"
 msgstr "Η ζητούμενη θέση είναι κάτω από ορίζοντα"
 
-#: skymap.cpp:387 skymaplite.cpp:356
+#: skymap.cpp:370 skymaplite.cpp:356
 #, kde-format
 msgid ""
 "The requested position is below the horizon.\n"
@@ -75356,17 +75356,17 @@ msgstr ""
 "Η ζητούμενη θέση είναι κάτω από τον ορίζοντα.\n"
 "Επιθυμείτε να μετακινηθείτε εκεί ούτως ή άλλως;"
 
-#: skymap.cpp:388
+#: skymap.cpp:371
 #, kde-format
 msgid "Go Anyway"
 msgstr "Μετάβαση"
 
-#: skymap.cpp:389
+#: skymap.cpp:372
 #, kde-format
 msgid "Keep Position"
 msgstr "Διατήρηση θέσης"
 
-#: skymap.cpp:480
+#: skymap.cpp:463
 #, fuzzy, kde-format
 #| msgid ""
 #| "Digitized Sky Survey image provided by the Space Telescope Science "
@@ -75378,7 +75378,7 @@ msgstr ""
 "Η ψηφιοποιημένη εικόνα περιήγησης του ουρανού προέρχεται από το Space "
 "Telescope Science Institute [δημόσια χρήση]."
 
-#: skymap.cpp:519
+#: skymap.cpp:502
 #, kde-format
 msgctxt "Equatorial & Horizontal Coordinates"
 msgid ""
@@ -75387,7 +75387,7 @@ msgid ""
 "AzAlt:\t%5\t%6"
 msgstr ""
 
-#: skymap.cpp:584
+#: skymap.cpp:567
 #, kde-format
 msgid ""
 "Sloan Digital Sky Survey image provided by the Astrophysical Research "
@@ -75396,45 +75396,45 @@ msgstr ""
 "Εικόνα Sloan Digital Sky Survey που προσφέρεται από το Astrophysical "
 "Research Consortium [ελεύυερη για μη εμπορική χρήση]."
 
-#: skymap.cpp:660
+#: skymap.cpp:643
 #, kde-format
 msgid "Angular distance: %1"
 msgstr "Γωνιακή απόσταση: %1"
 
-#: skymap.cpp:674
+#: skymap.cpp:657
 #, fuzzy, kde-format
 #| msgid "Angular distance: %1"
 msgid "; Physical distance: %1 pc"
 msgstr "Γωνιακή απόσταση: %1"
 
-#: skymap.cpp:711
+#: skymap.cpp:694
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
 msgstr "Συστατικό αστρο-αλμάτων: Επιλογή πεδίου παρατήρησης"
 
-#: skymap.cpp:712
+#: skymap.cpp:695
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr "To FOV που θα χρησιμοποιηθεί στα αστρο-άλματα:"
 
-#: skymap.cpp:719
+#: skymap.cpp:702
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr ""
 "Συστατικό αστρο-αλμάτων: Καταχωρήστε το πεδίο παρατήρησης που θα "
 "χρησιμοποιηθεί"
 
-#: skymap.cpp:720
+#: skymap.cpp:703
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr "To FOV που θα χρησιμοποιηθεί στα αστρο-άλματα (σε λεπτά του τόξου):"
 
-#: skymap.cpp:887
+#: skymap.cpp:870
 #, kde-format
 msgid "No object selected."
 msgstr "Δεν επιλέχθηκε αντικείμενο."
 
-#: skymap.cpp:887
+#: skymap.cpp:870
 #, kde-format
 msgid "Object Details"
 msgstr "Λεπτομέρειες αντικειμένου"
