@@ -109,11 +109,12 @@ protected:
      *        by @see prepareCaptureTestcase(int,bool,bool,bool)
      * @param secsToMF seconds until the meridian will be crossed
      * @param useFocus use focusing for the scheduler job
+     * @param useAlign use alignment for the scheduler job
      * @param completionCondition completion condition for the scheduler
      * @param iterations number of iterations to be executed (only relevant if completionCondition == FINISH_REPEAT)
      * @return true iff preparation was successful
      */
-    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, Ekos::Scheduler::SchedulerAlgorithm algorithm, SchedulerJob::CompletionCondition completionCondition, int iterations);
+    bool prepareSchedulerTestcase(int secsToMF, bool useFocus, bool useAlign, Ekos::Scheduler::SchedulerAlgorithm algorithm, SchedulerJob::CompletionCondition completionCondition, int iterations);
 
     /**
      * @brief Prepare test data iterating over all combination of parameters.

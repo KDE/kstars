@@ -82,6 +82,14 @@ private slots:
 
     /** @brief Test data for @see testSimpleRepeatedMF() */
     void testSimpleRepeatedMF_data();
+
+    /** @brief Test if a re-alignment is aborted during a meridian flip and post flip actions are executed.
+     */
+    void testCaptureRealignMF();
+
+    /** @brief Test data for @see testRelignMF() */
+    void testCaptureRealignMF_data();
+
 };
 
 #endif // HAVE_INDI

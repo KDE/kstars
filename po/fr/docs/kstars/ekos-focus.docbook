@@ -57,7 +57,7 @@
         <para
 ><emphasis role="bold"
 >Itératif</emphasis
-> : dans cet algorithme, Ekos fonctionne de manière itérative en se déplaçant par pas discret, dont la valeur initiale a été décidée par l'utilisateur et ensuite par la pente de la courbe en V, pour être le plus près possible de la position optimale de la mise au point où il diminue ensuite la taille des pas pour se rapprocher encore plus de la position optimale. La procédure s'arrête quand le HFR mesuré se trouve dans une plage de tolérance configurable du HFR minimum enregistré. En d'autres termes, quand la procédure cherche une solution dans une plage étroite, il vérifie si le HFR courant est dans une plage de tolérance acceptable comparé au HFR minimum enregistré et si cette condition est remplie, la procédure de mise au point est considérée comme réussie. La valeur de tolérance par défaut est réglé à 1% et est suffisante pour la plupart des situations. Les options de pas spécifient le nombre initial d'encoches pour le déplacement du moteur. Si l'image est loin de la mise au point, on augmente ce nombre (&cad; plus grand que 250). Sinon, si la position de mise au point est proche de la position optimale, on réduit cette valeur à environ 50. C'est un processus d'essais et d'erreurs pour trouver la bonne valeur de départ, mais Ekos ne l'utilise que pour le premier déplacement de mise au point, tous les suivants dépendant de la pente de la courbe en V. Les fonctionnalités principales incluent : </para>
+> : dans cet algorithme, Ekos fonctionne de manière itérative en se déplaçant par pas discret, dont la valeur initiale a été décidée par l'utilisateur et ensuite par la pente de la courbe en V, pour être le plus près possible de la position optimale de la mise au point où il diminue ensuite la taille des pas pour se rapprocher encore plus de la position optimale. La procédure s'arrête quand le HFR mesuré se trouve dans une plage de tolérance configurable du HFR minimum enregistré. En d'autres termes, quand la procédure cherche une solution dans une plage étroite, il vérifie si le HFR courant est dans une plage de tolérance acceptable comparé au HFR minimum enregistré et si cette condition est remplie, la procédure de mise au point est considérée comme réussie. La valeur de tolérance par défaut est réglé à 1% et est suffisante pour la plupart des situations. Les options de pas spécifient le nombre initial d'encoches pour le déplacement du moteur. Si l'image est loin de la mise au point, on augmente ce nombre (c'est-à-dire plus grand que 250). Sinon, si la position de mise au point est proche de la position optimale, on réduit cette valeur à environ 50. C'est un processus d'essais et d'erreurs pour trouver la bonne valeur de départ, mais Ekos ne l'utilise que pour le premier déplacement de mise au point, tous les suivants dépendant de la pente de la courbe en V. Les fonctionnalités principales incluent : </para>
 
         <itemizedlist>
           <listitem>
@@ -96,7 +96,7 @@
 
           <listitem>
             <para
->L'algorithme utilise une interpolation pour déterminer la position optimale de mise au point. </para>
+>L'algorithme utilise une régression pour déterminer la position optimale de mise au point. </para>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -120,7 +120,7 @@
 
           <listitem>
             <para
->L'algorithme utilise une interpolation pour déterminer la position optimale de la mise au point à la première passe puis utilise un pourcentage de tolérance pour s'arrêter aussi près que possible de ce HFR à la seconde passe. </para>
+>L'algorithme utilise une régression pour déterminer la position optimale de la mise au point à la première passe puis utilise un pourcentage de tolérance pour s'arrêter aussi près que possible de ce HFR à la seconde passe. </para>
           </listitem>
 
           <listitem>
@@ -149,7 +149,7 @@
 
           <listitem>
             <para
->L'algorithme utilise une interpolation plus sophistiquée pour identifier la position optimale de la mise au point. </para>
+>L'algorithme utilise une régression plus sophistiquée pour identifier la position optimale de la mise au point. </para>
           </listitem>
 
           <listitem>
@@ -163,11 +163,11 @@
 
   <sect3 id="optical-train-group">
     <title
->Optical Train Group</title>
+>Groupe du train optique</title>
 
     <screenshot>
       <screeninfo
->Optical Train </screeninfo>
+>Train optique </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -177,27 +177,27 @@
 
         <textobject>
           <phrase
->Optical Train Settings</phrase>
+>Réglages du train optique</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
     <para
->The Optical Train group displays the currently selected Optical Train. By default this will be the primary imaging train, but other trains can be selected. The group consists of:</para>
+>Le groupe du train optique affiche le train optique actuellement sélectionné. C'est par défaut le train d'acquisition primaire mais d'autres trains peuvent être sélectionnée. Il consiste en :</para>
 
     <itemizedlist>
       <listitem>
         <para
 ><guibutton
 >Train</guibutton
->: The Optical Train currently in use by the Focus tab. Hover the mouse over this field for a more detailed description of the selected train.</para>
+> : le train optique en cours d'utilisation dans l'onglet de mise au point. En passant la souris sur ce champ, une description plus détaillé du train sélectionné s'affichera.</para>
       </listitem>
 
       <listitem>
         <para
 ><guibutton
->Edit Button</guibutton
->: Brings up the Optical Train dialog to view and potentially change the optical trains.</para>
+>Bouton Modifier</guibutton
+> : affiche la boîte de dialogue permettant des modifier les trains optiques.</para>
       </listitem>
     </itemizedlist>
   </sect3>
@@ -318,11 +318,11 @@
 
   <sect3 id="focus-ccd-filter-wheel">
     <title
->Camera &amp; Filter Wheel Group</title>
+>Caméra &amp; Roue à filtres</title>
 
     <screenshot>
       <screeninfo
->Focus Camera &amp; Filter Wheel Group </screeninfo>
+>Caméra de mise au point &amp; roue à filtres </screeninfo>
 
       <mediaobject>
         <imageobject>
@@ -331,49 +331,49 @@
 
         <textobject>
           <phrase
->Focus Camera &amp; Filter Wheel Group</phrase>
+>Caméra de mise au point &amp; roue à filtres</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
 
     <para
->This section of parameters deals with the Camera and Filter settings to use when focusing.</para>
+>Cette partie de paramètres gèrent les réglages de la caméra et des filtres à utiliser lors de la mise au point.</para>
 
     <para
->The top row of controls allows CCD parameters to be set.</para>
+>La première ligne de boutons de contrôle permet de régler les paramètres de la caméra.</para>
 
     <itemizedlist>
       <listitem>
         <para
 ><guilabel
 >Exp</guilabel
->: The exposure time in seconds.</para>
+> : la durée d'exposition en secondes.</para>
       </listitem>
 
       <listitem>
         <para
->The <guibutton
->Toggle Full Screen</guibutton
-> button pops the window displaying the focus frame out to a separate window. Pressing it again returns it within the focus window.</para>
+>Le bouton <guibutton
+>Mode plein écran</guibutton
+> ouvre une fenêtre séparée affichant la trame de mise au point. Un nouveau clic bascule vers l'affichage intégré.</para>
       </listitem>
 
       <listitem>
         <para
->The <guibutton
->Show in FITS Viewer</guibutton
-> button pops-up a separate FITS Viewer window to display the focus frame, in addition to the focus frame displayed within the focus window.</para>
+>Le bouton <guibutton
+>Afficher dans l'afficheur FITS</guibutton
+> ouvre une fenêtre séparée de l'afficheur FITS pour l'affichage de la trame de mise au point, en plus de celle affichée dans la fenêtre de mise au point.</para>
       </listitem>
 
       <listitem>
         <para
->The <guibutton
->Live Video</guibutton
-> button brings up the associated popup.</para>
+>Le bouton <guibutton
+>Vidéo en direct</guibutton
+> ouvre la fenêtre associée..</para>
       </listitem>
     </itemizedlist>
 
     <para
->The next row of controls allows Camera parameters to be set. Choose a value from the binning dropdown and then set either the camera gain or ISO.</para>
+>La ligne suivante de réglages permet de régler les paramètres de la caméra. Choisissez une valeur pour le groupement de pixels (binning) puis réglez le gain de la caméra ou son ISO.</para>
 
     <itemizedlist>
       <listitem>
@@ -387,40 +387,40 @@
         <para
 ><guilabel
 >Gain</guilabel
->: Set the Gain for the Camera being used to focus. The value needs to be high enough to give a clear star pattern but not so high as to create too much noise to interfere with the focus operation. Some experimentation will be required to find an optimum value. If you are unsure where to start try unity gain for your camera and adjust from there.</para>
+> : régler le gain de la caméra utilisée pour la mise au point. Cette valeur doit être assez grande pour donner un motif d'étoile clair mais pas trop grande pour éviter que le bruit ajouté interfère avec l'opération de mise au point. Il sera nécessaire de tester plusieurs valeurs pour trouver la valeur optimale. Si vous ne savez pas où commencer, réglez le gain à un et ajuster depuis là.</para>
       </listitem>
 
       <listitem>
         <para
 ><guilabel
 >ISO</guilabel
->: Set the ISO for the Camera being used to focus. Some experimentation will be required to find an optimum value.</para>
+> : règle l'ISO de la caméra utilisée pour la mise au point. Un peu de tâtonnement sera nécessaire pour trouver la valeur optimale.</para>
       </listitem>
     </itemizedlist>
 
     <para
->The third row of controls deals with the Temperature Source and Filter, if there is one:</para>
+>La troisième ligne de boutons de contrôle gère la source de température et les filtre, s'il en existe une :</para>
 
     <itemizedlist>
       <listitem>
         <para
 ><guilabel
 >TS</guilabel
->: Select the temperature source from the dropdown. Underneath are displayed the current temperature from the selected temperature source and the change in temperature between when the last successful Autofocus run completed and the current temperature. It is common practice to redo focus after significant temperature changes that alter the telescope's focus point.</para>
+> : choisissez la source de température depuis la liste déroulante. La température courante est affichée juste en dessous ainsi que la variation de température depuis la dernière mise au point automatique. C'est une pratique courante de relancer une mise au point quand la température varie significativement puisque cela altère la position de mise au point du télescope.</para>
       </listitem>
 
       <listitem>
         <para
 ><guilabel
->Filter</guilabel
->: Select the filter to use.</para>
+>Filtre</guilabel
+> : choix du filtre à utiliser</para>
 
         <para
->To start focusing it will probably be easier to select the filter that allows the most light through, for example the Lum filter. The <guibutton
->Filter Settings</guibutton
-> button brings up the <link linkend="capture-filter-settings"
->Filter Settings</link
-> popup. This allows a number of parameters to be set per filter to be used during an Autofocus run which could be unattended so a user would not be available to set parameters at run time. Broadly these allow two types of focus runs:</para>
+>La mise au point sera probablement plus aisée à obtenir en choisissant un filtre laissant passer le plus de lumière comme par exemple le filtre Lum. Le bouton <guibutton
+>Réglages de filtres</guibutton
+> ouvre la fenêtre contenant les <link linkend="capture-filter-settings"
+>réglages de filtres</link
+> où un certain nombres de paramètres peut être réglé par filtre durant la mise au point automatique, et cela même si l'opérateur n'est pas disponible sur site. En général, ils permettent deux types de mise au point :</para>
 
         <itemizedlist>
           <listitem>
@@ -435,19 +435,19 @@
           <listitem>
             <para
 ><emphasis role="bold"
->Lock Filter</emphasis
->: It is possible to specify a Lock filter to use when it is required to focus another filter. For example, if a Red filter is used and an Autofocus run required, it is possible to run the Autofocus using the Lum filter and then, when complete, adjust the focus position by an Offset value corresponding to the predetermined focus difference between the Lum and Red filters. This is useful when, for example, it is difficult to focus some filters directly without excessively long exposure times. Note that this locked filter approach may also be used in the <link linkend="ekos-align"
->Alignment Module</link
-> whenever it performs a capture for astrometry.</para>
+>Filtre bloqué</emphasis
+> : il est possible de spécifier un filtre bloqué quand un autre filtre est requis pour une mise au point. Par exemple, si un filtre rouge est utilisé et qu'une mise au point automatique est nécessaire, il est possible de lancer une mise au point automatique avec le filtre de luminance et une fois fait, d'ajuster la position de la mise au point en décalant la position d'une valeur correspondant à la différence de position entre les mises au point du filtre rouge et du filtre de luminance. Cela est utile quand, par exemple, il est difficile d'effectuer de mettre au point avec certains filtres qui demandent des durées d'exposition excessivement longues. Veuillez noter que cette approche peut également être utilisée avec le <link linkend="ekos-align"
+>module d'alignement</link
+> pour une résolution astrométrique.</para>
           </listitem>
         </itemizedlist>
       </listitem>
 
       <listitem>
         <para
-><guibutton
->Reset</guibutton
-> button will reset the focusing subframe to full frame.</para>
+>Le bouton <guibutton
+>Réinitialiser</guibutton
+> permet de réinitialiser la sous-trame de mise au point en une trame complète.</para>
       </listitem>
     </itemizedlist>
   </sect3>
@@ -498,43 +498,43 @@
       <listitem>
         <para
 ><guilabel
->AF Backlash Comp</guilabel
->: Check this option to have the Autofocus algorithm perform backlash compensation. This option is available when using the Linear and Linear 1 Pass algorithms. This field should be set together with the <guilabel
->Backlash</guilabel
-> field. See the <link linkend="focus-mechanics"
->Focus Mechanics</link
-> section for more details.</para>
+>Compensation jeu de mise au point</guilabel
+> : cochez cette option pour que l'algorithme de mise au point automatique réalise une compensation du jeu. Cette option est disponible lors de l'utilisation des algorithmes Linéaire et Linéaire 1 passe. Ce champ devrait être réglé en même temps que le champ <guilabel
+>Jeu</guilabel
+>. Voyez la section <link linkend="focus-mechanics"
+>Mécanique de mise au point</link
+> pour davantage d'informations.</para>
 
         <para
->Backlash in the focuser setup is likely to a combination of backlash in the electronic focuser itself (e.g. in the gearing mechanism), in the binding of the electronic focuser to the telescope drawtube, and in the telescope drawtube's mechanism. Thus, each setup will have its own backlash characteristic.</para>
+>Le jeu du moteur de mise au point provient très probablement d'une combinaison du jeu du moteur lui-même (e.g. dans les rouages mécaniques), de son attache au télescope et enfin du mécanisme du télescope. Par conséquent, chaque équipement aura ses propres caractéristiques de jeu.</para>
 
         <para
->There are several things to consider when working out how to deal with backlash: <itemizedlist>
+>Il y a plusieurs points à considérer quand il s'agit de gérer le jeu : <itemizedlist>
             <listitem>
               <para
 ><emphasis role="bold"
->No Backlash</emphasis
->: If you are fortunate enough to have a setup with no backlash then it would make sense to set AF Backlash Comp off. It should work fine if AF Backlash Comp is on, but the AutoFocus routine will make unnecessary movements.</para>
+>Pas de jeu</emphasis
+> : si la chance est de votre côté et que votre équipement n'a pas de jeu, alors vous pourriez désactiver la compensation de jeu. La laisser active devrait faire l'affaire même si elle engendrera des mouvements non nécessaires.</para>
             </listitem>
 
             <listitem>
               <para
 ><emphasis role="bold"
->Backlash Managed by Focuser</emphasis
->: If your focuser had the ability to manage backlash itself then you can use this facility and turn off AF Backlash Comp. Alternatively, if its possible, you could turn off the focuser's backlash facility and set AF Backlash Comp on.</para>
+>Jeu géré par le moteur de mise au point</emphasis
+> : si le moteur de mise au point possède la capacité de gérer le jeu nativement, alors vous pouvez utiliser cette fonctionnalité et désactivez la compensation. Ou alors, faire le contraire en désactivant cette fonctionnalité du moteur de mise au point et utiliser la compensation.</para>
             </listitem>
 
             <listitem>
               <para
 ><emphasis role="bold"
->Backlash Managed by Device Driver</emphasis
->: If your device driver had the ability to manage backlash itself then you can use this facility and turn off AF Backlash Como. Alternatively, if its possible, you could turn off the device driver's backlash facility and set AF Backlash Comp on.</para>
+>Jeu géré par le pilote du périphérique</emphasis
+> : si le pilote du périphérique possède la capacité de gérer le jeu lui-même, alors vous pouvez l'utiliser et désactiver la compensation. Ou alors faire le contraire en désactivant cette fonctionnalité du pilote et utiliser la compensation.</para>
             </listitem>
           </itemizedlist
 > </para>
 
         <para
->It is important to have backlash managed in one place to avoid conflicts.</para>
+>Il est important de gérer le jeu à un endroit afin d'éviter tout conflit.</para>
       </listitem>
 
       <listitem>
@@ -587,7 +587,7 @@
         <para
 ><guilabel
 >Poids</guilabel
-> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Elle nécessite l'option Champ complet. Elle calcule la déviation standard du HFR des étoiles et utilise le carré de cette valeur (la variance mathématique) comme poids pour la courbe d'interpolation. L'avantage de cette méthode est que les points moins fiables, de déviation standard du HFR plus grande, auront un poids plus petit que les points plus fiables. Si cette option n'est pas cochée, tous les points auront un poids identique dans le calcul d'interpolation. </para>
+> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Elle nécessite l'option Champ complet. Elle calcule la déviation standard du HFR des étoiles et utilise le carré de cette valeur (la variance mathématique) comme poids pour la courbe de régression. L'avantage de cette méthode est que les points moins fiables, de déviation standard du HFR plus grande, auront un poids plus petit que les points plus fiables. Si cette option n'est pas cochée, tous les points auront un poids identique dans le calcul de régression. </para>
 
         <para
 >Voir le <link linkend="Levenberg-Marquardt"
@@ -599,9 +599,9 @@
         <para
 ><guilabel
 >Limite r²</guilabel
-> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Faisant partie de l'algorithme linéaire à 1 passe, le degré de la courbe d'interpolation, ou <link linkend="Coefficient_of_Determination"
+> : cette option est encore expérimentale et n'est disponible qu'avec l'algorithme de mise au point linéaire à 1 passe et le type de courbe hyperbole et parabole. Faisant partie de l'algorithme linéaire à 1 passe, le degré de la courbe de régression, ou <link linkend="Coefficient_of_Determination"
 >coefficient de détermination</link
-> est calculé. Cette option permet de définir une valeur minimale acceptable pour R² qui est comparée à la valeur obtenue par l'interpolation de la courbe. Si la valeur minimale n'a pas été atteinte, alors la procédure de mise au point automatique est relancée. Néanmoins, une seule relance du processus sera réalisée et même si le minimum de R² n'a pas été atteinte, le processus de mise au point automatique sera considérée comme étant un succès.</para>
+> est calculé. Cette option permet de définir une valeur minimale acceptable pour R² qui est comparée à la valeur obtenue par la régression. Si la valeur minimale n'a pas été atteinte, alors la procédure de mise au point automatique est relancée. Néanmoins, une seule relance du processus sera réalisée et même si le minimum de R² n'a pas été atteinte, le processus de mise au point automatique sera considérée comme étant un succès.</para>
 
         <para
 >Testez pour trouver une valeur appropriée mais un bon point de départ serait 0,8 ou 0,9.</para>
@@ -717,7 +717,7 @@
             <para
 ><emphasis role="bold"
 >Polynomial</emphasis
-> : débute avec la méthode itérative. Quand la position passe de l'autre côté de la courbe en V, une interpolation polynomiale est calculée pour déterminer la position de la solution minimale. Cet algorithme peut être plus rapide que la méthode itérative avec un bon ensemble de données.</para>
+> : débute avec la méthode itérative. Quand la position passe de l'autre côté de la courbe en V, une régression polynomiale est calculée pour déterminer la position de la solution minimale. Cet algorithme peut être plus rapide que la méthode itérative avec un bon ensemble de données.</para>
           </listitem>
 
           <listitem>
@@ -726,7 +726,7 @@
 >Linéaire</emphasis
 > : cet algorithme construit une courbe en V avec approximativement un <emphasis role="bold"
 >multiple de pas extérieur</emphasis
-> de chaque côté du minimum. Une fois cette courbe en V construite, une interpolation quadratique est réalisée sur cette courbe (forme parabolique) et l'utilise pour calculer la position du moteur de mise au point, ce qui donne la valeur minimale du HFR. Une fois cette valeur minimale identifiée, une seconde passe est réalisée avec des pas divisés par deux pour recréer la courbe de la première passe. L'algorithme s'arrête une fois que la valeur est dans la <emphasis role="bold"
+> de chaque côté du minimum. Une fois cette courbe en V construite, une régression quadratique est réalisée sur cette courbe (forme parabolique) et l'utilise pour calculer la position du moteur de mise au point, ce qui donne la valeur minimale du HFR. Une fois cette valeur minimale identifiée, une seconde passe est réalisée avec des pas divisés par deux pour recréer la courbe de la première passe. L'algorithme s'arrête une fois que la valeur est dans la <emphasis role="bold"
 >tolérance</emphasis
 > de la valeur minimale du HFR calculée lors de la première passe.</para>
           </listitem>
@@ -737,14 +737,14 @@
 >Linéaire à 1 passe</emphasis
 > : cet algorithme commence comme l'algorithme <emphasis role="bold"
 >linéaire</emphasis
-> en construisant une courbe en V. Une fois fait, une interpolation est réalisée selon le type de <emphasis role="bold"
+> en construisant une courbe en V. Une fois fait, une régression est réalisée selon le type de <emphasis role="bold"
 >courbe</emphasis
 > des points de données et ensuite calcule la position du moteur de mise au point ce qui donne la valeur minimale du HFR. Cette valeur étant identifiée, le moteur se déplace directement vers ce point d'une manière qui neutralise le jeu du moteur.</para>
 
             <para
 >Cet algorithme gère l'ancien type de courbe quadratique ainsi que le nouveau <link linkend="Levenberg-Marquardt"
 >résolveur Levenberg-Marquardt</link
-> pour les courbes hyperboliques et paraboliques. Il déterminera aussi les poids des points d'interpolation si l'option Utiliser les poids est cochée.</para>
+> pour les courbes hyperboliques et paraboliques. Il déterminera aussi les poids des points de régression si l'option Utiliser les poids est cochée.</para>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -811,8 +811,8 @@
       <listitem>
         <para
 ><guilabel
->Courbe d'interpolation</guilabel
-> : le type de courbe pour l'interpolation des points. </para>
+>Courbe de régression</guilabel
+> : le type de courbe pour la régression des points. </para>
 
         <itemizedlist>
           <listitem>
@@ -1060,7 +1060,7 @@
 >La courbe en V affiche le HFR (axe y) en fonction de la position du moteur de mise au point (axe x). Chaque point est dessiné sur le graphique par un cercle et un nombre représentant sa valeur. Le nombre de points et le déplacement du moteur sont déterminés par les paramètres choisis. </para>
 
     <para
->Pour certains algorithmes, Ekos dessinera également une courbe d'interpolation des points. Si l'option <guilabel
+>Pour certains algorithmes, Ekos dessinera également une courbe de régression des points. Si l'option <guilabel
 >Utiliser Poids</guilabel
 > est sélectionnée, des barres d'erreurs sont indiquées qui correspondent à la déviation standard mesurée en unité HFR.</para>
 
@@ -1194,7 +1194,7 @@
 
           <listitem>
             <para
->Réglez les paramètres de la caméra tels que durée d'exposition, gain et groupement de pixels de telle manière d'obtenir un bon nombre d'étoiles. Il est impossible d'être parfaitement précis ici mais essayez d'obtenir entre 20 et 100 étoiles (évidemment, si la longueur focale et la cible ne permettent pas d'en obtenir autant, alors la procédure fonctionnera quand même mais en étant moins optimale du point de vue de l'interpolation de la courbe). Commencez avec une durée d'exposition de 2s, un gain unitaire et un groupement de pixels de 1x1.</para>
+>Réglez les paramètres de la caméra tels que durée d'exposition, gain et groupement de pixels de telle manière d'obtenir un bon nombre d'étoiles. Il est impossible d'être parfaitement précis ici mais essayez d'obtenir entre 20 et 100 étoiles (évidemment, si la longueur focale et la cible ne permettent pas d'en obtenir autant, alors la procédure fonctionnera quand même mais en étant moins optimale du point de vue de la régression de la courbe). Commencez avec une durée d'exposition de 2s, un gain unitaire et un groupement de pixels de 1x1.</para>
           </listitem>
 
           <listitem>
@@ -1282,9 +1282,9 @@
 >Coefficient de détermination R²</title>
 
     <para
->Le coefficient de détermination, ou R², est un indicateur utilisé pour juger de la qualité de l'interpolation. Davantage d'information est disponible <ulink url="https://fr.wikipedia.org/wiki/Coefficient_de_d%C3%A9termination"
+>Le coefficient de détermination, ou R², est un indicateur utilisé pour juger de la qualité de la régression. Davantage d'information est disponible <ulink url="https://fr.wikipedia.org/wiki/Coefficient_de_d%C3%A9termination"
 >ici</ulink
->. C'est encore une fonctionnalité expérimentale disponible pour l'algorithme linéaire à 1 passe. En substance, ce coefficient R² est un nombre entre 0 et 1, avec 1 signifiant que tous les points se trouvent sur la courbe et 0 signifiant qu'il n'y a pas de corrélation entre les points et la courbe. L'utilisateur devrait expérimenter avec son matériel pour sentir quelle valeur peut être obtenue, mais toute valeur au-dessus d'environ 0,8 traduit une bonne interpolation.</para>
+>. C'est encore une fonctionnalité expérimentale disponible pour l'algorithme linéaire à 1 passe. En substance, ce coefficient R² est un nombre entre 0 et 1, avec 1 signifiant que tous les points se trouvent sur la courbe et 0 signifiant qu'il n'y a pas de corrélation entre les points et la courbe. L'utilisateur devrait expérimenter avec son matériel pour sentir quelle valeur peut être obtenue, mais toute valeur au-dessus d'environ 0,8 traduit une bonne régression.</para>
 
     <para
 >Il y a une option pour régler la « limite R² » dans l'onglet des réglages de la fenêtre de mise au point qui est comparée au R² calculé après le processus de mise au point. Si cette limite n'a pas été atteinte, le processus est relancé.</para>

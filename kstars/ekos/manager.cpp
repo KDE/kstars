@@ -3102,6 +3102,10 @@ void Manager::syncActiveDevices()
             {
                 devs = INDIListener::devicesByInterface(INDI::BaseDevice::ROTATOR_INTERFACE);
             }
+            else if (it.isNameMatch("ACTIVE_FOCUSER"))
+            {
+                devs = INDIListener::devicesByInterface(INDI::BaseDevice::FOCUSER_INTERFACE);
+            }
             else if (it.isNameMatch("ACTIVE_FILTER"))
             {
                 devs = INDIListener::devicesByInterface(INDI::BaseDevice::FILTER_INTERFACE);

@@ -2006,9 +2006,15 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     m_SlewErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
 
-    appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)",
-                       m_AlignCoord.ra().toHMSString(), m_AlignCoord.dec().toDMSString(), m_TelescopeCoord.ra().toHMSString(),
-                       m_TelescopeCoord.dec().toDMSString()));
+    appendLogText(
+        i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4) Target Coordinates: RA (%5) DEC (%6)",
+             m_AlignCoord.ra().toHMSString(),
+             m_AlignCoord.dec().toDMSString(),
+             m_TelescopeCoord.ra().toHMSString(),
+             m_TelescopeCoord.dec().toDMSString(),
+             m_TargetCoord.ra().toHMSString(),
+             m_TargetCoord.dec().toDMSString()));
+
     if (!m_SolveFromFile && m_CurrentGotoMode == GOTO_SLEW)
     {
         dms diffDeg(m_TargetDiffTotal / 3600.0);
@@ -2686,6 +2692,11 @@ void Align::executeGOTO()
     if (m_SolveFromFile)
     {
         m_TargetCoord = m_AlignCoord;
+
+        qCDebug(KSTARS_EKOS_ALIGN) << "Solving from file. Setting Target Coordinates align coords. RA:"
+                                   << m_TargetCoord.ra().toHMSString()
+                                   << "DE:" << m_TargetCoord.dec().toDMSString();
+
         SlewToTarget();
     }
     else if (m_CurrentGotoMode == GOTO_SYNC)
@@ -2754,8 +2765,9 @@ void Align::SlewToTarget()
 
             differentialSlewingActivated = true;
 
-            qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing...";
-
+            qCDebug(KSTARS_EKOS_ALIGN) << "Using differential slewing. Setting Target Coordinates to RA:"
+                                       << m_TargetCoord.ra().toHMSString()
+                                       << "DE:" << m_TargetCoord.dec().toDMSString();
             Slew();
         }
         else

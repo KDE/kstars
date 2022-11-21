@@ -324,10 +324,25 @@ bool InternalGuider::dither(double pixels)
         double totalXOffset = ret_x - m_DitherOrigin.x();
         double totalYOffset = ret_y - m_DitherOrigin.y();
 
-        if (fabs(diff_x + totalXOffset) > MAX_DITHER_TRAVEL)
+        // if we've dithered too far, and diff_x or diff_y is pushing us even further away, then change its direction.
+        // Note: it is possible that we've dithered too far, but diff_x/y is pointing in the right direction.
+        // Don't change it in that 2nd case.
+        if (((diff_x + totalXOffset > MAX_DITHER_TRAVEL) && (diff_x > 0)) ||
+                ((diff_x + totalXOffset < -MAX_DITHER_TRAVEL) && (diff_x < 0)))
+        {
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << QString("Dithering target off by too much in X (abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
+                    .arg(diff_x).arg(totalXOffset).arg(MAX_DITHER_TRAVEL).arg(diff_x).arg(diff_x * -1.5);
             diff_x *= -1.5;
-        if (fabs(diff_y + totalYOffset) > MAX_DITHER_TRAVEL)
+        }
+        if (((diff_y + totalYOffset > MAX_DITHER_TRAVEL) && (diff_y > 0)) ||
+                ((diff_y + totalYOffset < -MAX_DITHER_TRAVEL) && (diff_y < 0)))
+        {
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << QString("Dithering target off by too much in Y (abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
+                    .arg(diff_y).arg(totalYOffset).arg(MAX_DITHER_TRAVEL).arg(diff_y).arg(diff_y * -1.5);
             diff_y *= -1.5;
+        }
 
         m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
 

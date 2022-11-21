@@ -63,6 +63,8 @@ class TestSkyPoint : public QObject
 
         void testUpdateCoords();
 
+        void testDeltaAngle();
+
     private:
         bool useRelativistic {false};
 };

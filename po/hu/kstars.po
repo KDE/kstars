@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-19 00:41+0000\n"
+"POT-Creation-Date: 2022-11-21 00:42+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -442,14 +442,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3638
+#: auxiliary/imageviewer.cpp:320 ekos/align/align.cpp:3650
 #: ekos/guide/guidedriftgraph.cpp:464 kstarsactions.cpp:1311
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:877
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Már létezik \"%1\" nevű fájl. Felül szeretné írni?"
 
-#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3641
+#: auxiliary/imageviewer.cpp:323 ekos/align/align.cpp:3653
 #: ekos/guide/guidedriftgraph.cpp:467 kstarsactions.cpp:1312
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:880
 #, kde-format
@@ -2527,7 +2527,7 @@ msgstr ""
 "A megadott URL érvénytelen. Szeretne megnyitni egy böngészőablakot,\n"
 "hogy a Google keresőszolgáltatón ellenőrizni lehessen a címet?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3649
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3661
 #: ekos/align/mountmodel.cpp:264 ekos/align/mountmodel.cpp:390
 #: ekos/analyze/analyze.cpp:1029 ekos/capture/capture.cpp:4294
 #: ekos/capture/capture.cpp:4714 ekos/guide/guidedriftgraph.cpp:475
@@ -3797,7 +3797,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_FOV)
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:908
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:912
 #: ekos/analyze/analyze.ui:55 ekos/auxiliary/darklibrary.cpp:1053
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -5926,30 +5926,30 @@ msgstr "Biztosan el szeretné távolítani a(z) %1 klienst?"
 msgid "Clear Solution Points"
 msgstr "Az összes nyomvonal törlése"
 
-#: ekos/align/align.cpp:523
+#: ekos/align/align.cpp:525
 #, kde-format
 msgid "Solver timed out."
 msgstr ""
 
-#: ekos/align/align.cpp:808
+#: ekos/align/align.cpp:812
 #, fuzzy, kde-format
 #| msgid "Telescope driver is missing."
 msgid "Mount does not support syncing."
 msgstr "Hiányzik a teleszkóp meghajtója."
 
-#: ekos/align/align.cpp:1011
+#: ekos/align/align.cpp:1015
 #, kde-format
 msgid "Effective telescope focal length is updated to %1 mm."
 msgstr ""
 
-#: ekos/align/align.cpp:1048
+#: ekos/align/align.cpp:1052
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
 
-#: ekos/align/align.cpp:1087
+#: ekos/align/align.cpp:1091
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -5957,30 +5957,30 @@ msgid ""
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
 
-#: ekos/align/align.cpp:1096
+#: ekos/align/align.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Desired field-of-view size, in arcminutes"
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "A kért látómező mérete, szögpercben"
 
-#: ekos/align/align.cpp:1377
+#: ekos/align/align.cpp:1381
 #, kde-format
 msgid "Error: No camera detected."
 msgstr ""
 
-#: ekos/align/align.cpp:1383
+#: ekos/align/align.cpp:1387
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: lost connection to camera."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/align/align.cpp:1384 ekos/align/align.cpp:2165
+#: ekos/align/align.cpp:1388 ekos/align/align.cpp:2176
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Astrometry alignment failed"
 msgstr "Igazítás"
 
-#: ekos/align/align.cpp:1400
+#: ekos/align/align.cpp:1404
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sorry. KStars failed to detect any attached telescopes, please check your "
@@ -5992,7 +5992,7 @@ msgstr ""
 "Egy teleszkópot sem sikerült találni, kérjük ellenőrizze a beállításokat és "
 "próbálkozzon újra."
 
-#: ekos/align/align.cpp:1406
+#: ekos/align/align.cpp:1410
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sorry. KStars failed to detect any attached telescopes, please check your "
@@ -6003,50 +6003,50 @@ msgstr ""
 "Egy teleszkópot sem sikerült találni, kérjük ellenőrizze a beállításokat és "
 "próbálkozzon újra."
 
-#: ekos/align/align.cpp:1414
+#: ekos/align/align.cpp:1418
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: lost connection to filter wheel."
 msgstr "Hiba: Megszakadt a kapcsolat a fókuszálóval"
 
-#: ekos/align/align.cpp:1434 ekos/capture/capture.cpp:3547
+#: ekos/align/align.cpp:1438 ekos/capture/capture.cpp:3547
 #: ekos/capture/capture.cpp:6235 ekos/focus/focus.cpp:3939
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 
-#: ekos/align/align.cpp:1454
+#: ekos/align/align.cpp:1458
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/align/align.cpp:1461
+#: ekos/align/align.cpp:1465
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr "Autofókusz folyamatban..."
 
-#: ekos/align/align.cpp:1479 ekos/align/align.cpp:2826
+#: ekos/align/align.cpp:1483 ekos/align/align.cpp:2838
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1532 ekos/focus/focus.cpp:1324
+#: ekos/align/align.cpp:1536 ekos/focus/focus.cpp:1324
 #, kde-format
 msgid "Capturing image..."
 msgstr "Képek készítés..."
 
-#: ekos/align/align.cpp:1621 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1626 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:1922
 #, fuzzy, kde-format
 #| msgid "Image captured..."
 msgid "Image received."
 msgstr "A kép elkészítve..."
 
-#: ekos/align/align.cpp:1729
+#: ekos/align/align.cpp:1734
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6054,73 +6054,73 @@ msgid ""
 "to the list."
 msgstr ""
 
-#: ekos/align/align.cpp:1788
+#: ekos/align/align.cpp:1793
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Solving with blind image scale..."
 msgstr "Képek készítés..."
 
-#: ekos/align/align.cpp:1796
+#: ekos/align/align.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Solving with blind image position..."
 msgstr "Képek készítés..."
 
-#: ekos/align/align.cpp:1904
+#: ekos/align/align.cpp:1909
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Solver completed after %1 seconds."
 msgstr "Autofókusz kész"
 
-#: ekos/align/align.cpp:1920
+#: ekos/align/align.cpp:1925
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:1987
+#: ekos/align/align.cpp:1992
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:2004
+#: ekos/align/align.cpp:2010
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
-"(%4)"
+"(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2010
+#: ekos/align/align.cpp:2021
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "A teleszkóp pozíciójának megjelenítése az égtérképen"
 
-#: ekos/align/align.cpp:2052 ekos/align/align.cpp:2504
-#: ekos/align/align.cpp:2544
+#: ekos/align/align.cpp:2063 ekos/align/align.cpp:2515
+#: ekos/align/align.cpp:2555
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Astrometry alignment completed successfully"
 msgstr "Bemeneti koordináták"
 
-#: ekos/align/align.cpp:2074
+#: ekos/align/align.cpp:2085
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2103
+#: ekos/align/align.cpp:2114
 #, kde-format
 msgid "Target is within acceptable range. Astrometric solver is successful."
 msgstr ""
 
-#: ekos/align/align.cpp:2160
+#: ekos/align/align.cpp:2171
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "Nincs FOV"
 
-#: ekos/align/align.cpp:2163
+#: ekos/align/align.cpp:2174
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6128,37 +6128,37 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2244
+#: ekos/align/align.cpp:2255
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting position angle to %1 degrees E of N..."
 msgstr "A cél CCD-csip hőmérsékletének beállítása."
 
-#: ekos/align/align.cpp:2258
+#: ekos/align/align.cpp:2269
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2325
+#: ekos/align/align.cpp:2336
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 elérhető."
 
-#: ekos/align/align.cpp:2332 ekos/auxiliary/darklibrary.cpp:1411
+#: ekos/align/align.cpp:2343 ekos/auxiliary/darklibrary.cpp:1411
 #: ekos/focus/focus.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
 msgstr "A kép lementése"
 
-#: ekos/align/align.cpp:2338
+#: ekos/align/align.cpp:2349
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Solver aborted after %1 seconds."
 msgstr "A FITS-fájl el lett mentve %1 néven"
 
-#: ekos/align/align.cpp:2381 ekos/capture/capture.cpp:2733
+#: ekos/align/align.cpp:2392 ekos/capture/capture.cpp:2733
 #: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
 #: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
@@ -6167,128 +6167,128 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2475
+#: ekos/align/align.cpp:2486
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2498
+#: ekos/align/align.cpp:2509
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Mount is synced to solution coordinates."
 msgstr "A teleszkóp pozíciójának megjelenítése az égtérképen"
 
-#: ekos/align/align.cpp:2533 ekos/align/align.cpp:2563
-#: ekos/align/align.cpp:3773 ekos/align/polaralignmentassistant.cpp:637
+#: ekos/align/align.cpp:2544 ekos/align/align.cpp:2574
+#: ekos/align/align.cpp:3785 ekos/align/polaralignmentassistant.cpp:637
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling..."
 msgstr "&Beállítások"
 
-#: ekos/align/align.cpp:2539
+#: ekos/align/align.cpp:2550
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Differential slewing complete."
 msgstr "befejezve"
 
-#: ekos/align/align.cpp:2553
+#: ekos/align/align.cpp:2564
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2555
+#: ekos/align/align.cpp:2566
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2598 ekos/align/align.cpp:2711
+#: ekos/align/align.cpp:2609 ekos/align/align.cpp:2722
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2600
+#: ekos/align/align.cpp:2611
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Slewing failed."
 msgstr "Egyéb"
 
-#: ekos/align/align.cpp:2634
+#: ekos/align/align.cpp:2645
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached target position angle."
 msgstr "Pozíciószög"
 
-#: ekos/align/align.cpp:2642
+#: ekos/align/align.cpp:2653
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Check power, "
 "backlash, or obstructions."
 msgstr ""
 
-#: ekos/align/align.cpp:2648
+#: ekos/align/align.cpp:2659
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle. Try to reverse "
 "rotation direction in Rotator Settings."
 msgstr ""
 
-#: ekos/align/align.cpp:2661
+#: ekos/align/align.cpp:2672
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Nem találtam csillagot, újra próbálkozás..."
 
-#: ekos/align/align.cpp:2705
+#: ekos/align/align.cpp:2716
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Bemeneti koordináták"
 
-#: ekos/align/align.cpp:2728
+#: ekos/align/align.cpp:2739
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Bemeneti koordináták"
 
-#: ekos/align/align.cpp:2741
+#: ekos/align/align.cpp:2752
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:2796
+#: ekos/align/align.cpp:2808
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "A képek URL-jeinek betöltése"
 
-#: ekos/align/align.cpp:2990
+#: ekos/align/align.cpp:3002
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Koordinátarendszer a kimeneti fájlhoz"
 
-#: ekos/align/align.cpp:2995
+#: ekos/align/align.cpp:3007
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Koordinátarendszer a kimeneti fájlhoz"
 
-#: ekos/align/align.cpp:3014
+#: ekos/align/align.cpp:3026
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture error. Aborting..."
 msgstr "A kép lementése"
 
-#: ekos/align/align.cpp:3019 ekos/capture/capture.cpp:2795
+#: ekos/align/align.cpp:3031 ekos/capture/capture.cpp:2795
 #: ekos/capture/capture.cpp:2863
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3133
+#: ekos/align/align.cpp:3145
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Alignment"
@@ -6296,86 +6296,86 @@ msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Igazítás"
 
-#: ekos/align/align.cpp:3212
+#: ekos/align/align.cpp:3224
 #, fuzzy, kde-format
 #| msgid "Calibration Options"
 msgid "StellarSolver Options"
 msgstr "Kalibrációk beállítása"
 
-#: ekos/align/align.cpp:3217
+#: ekos/align/align.cpp:3229
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3221
+#: ekos/align/align.cpp:3233
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "A pozíció alaphelyzetbe hozása"
 
-#: ekos/align/align.cpp:3225
+#: ekos/align/align.cpp:3237
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Előnézet-szerkesztő"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3243 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3255 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Invalid File"
 msgid "Index Files"
 msgstr "Érvénytelen fájl"
 
-#: ekos/align/align.cpp:3308 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3320 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "RA (arcmin)"
 msgid "dRA (arcsec)"
 msgstr "RA (szögperc)"
 
-#: ekos/align/align.cpp:3309 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3321 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "szögmásodperc"
 
-#: ekos/align/align.cpp:3355 ekos/capture/capture.cpp:6435
+#: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6435
 #: ekos/focus/focus.cpp:3844
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Kalibrálás"
 
-#: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6452
+#: ekos/align/align.cpp:3379 ekos/capture/capture.cpp:6452
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3374 ekos/capture/capture.cpp:6457
+#: ekos/align/align.cpp:3386 ekos/capture/capture.cpp:6457
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3379 ekos/capture/capture.cpp:6462
+#: ekos/align/align.cpp:3391 ekos/capture/capture.cpp:6462
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
 msgstr "Autofókusz kész"
 
-#: ekos/align/align.cpp:3490
+#: ekos/align/align.cpp:3502
 #, fuzzy, kde-format
 #| msgid "Invalid"
 msgid "Invalid FOV."
 msgstr "Érvénytelen"
 
-#: ekos/align/align.cpp:3625
+#: ekos/align/align.cpp:3637
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Az összes nyomvonal törlése"
 
-#: ekos/align/align.cpp:3648 ekos/align/mountmodel.cpp:263
+#: ekos/align/align.cpp:3660 ekos/align/mountmodel.cpp:263
 #: ekos/align/mountmodel.cpp:389 ekos/capture/capture.cpp:4293
 #: ekos/capture/capture.cpp:4713 ekos/guide/guidedriftgraph.cpp:474
 #: ekos/scheduler/scheduler.cpp:4379 ekos/scheduler/scheduler.cpp:4753
@@ -6385,14 +6385,14 @@ msgstr "Az összes nyomvonal törlése"
 msgid "Invalid URL: %1"
 msgstr "Érvénytelen URL: %1"
 
-#: ekos/align/align.cpp:3657 ekos/align/mountmodel.cpp:400
+#: ekos/align/align.cpp:3669 ekos/align/mountmodel.cpp:400
 #: ekos/capture/capture.cpp:4736 ekos/guide/guidedriftgraph.cpp:483
 #: ekos/scheduler/scheduler.cpp:4765 ekos/scheduler/scheduler.cpp:7162
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "A(z) %1 fájl nem írható"
 
-#: ekos/align/align.cpp:3658 ekos/align/mountmodel.cpp:283
+#: ekos/align/align.cpp:3670 ekos/align/mountmodel.cpp:283
 #: ekos/align/mountmodel.cpp:401 ekos/capture/capture.cpp:4309
 #: ekos/guide/guidedriftgraph.cpp:484 ekos/scheduler/scheduler.cpp:4423
 #: ekos/scheduler/scheduler.cpp:4766 ekos/scheduler/scheduler.cpp:7106
@@ -6410,31 +6410,31 @@ msgstr "A(z) %1 fájl nem írható"
 msgid "Could Not Open File"
 msgstr "A fájl megnyitása nem sikerült"
 
-#: ekos/align/align.cpp:3679
+#: ekos/align/align.cpp:3691
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Hibák"
 
-#: ekos/align/align.cpp:3688
+#: ekos/align/align.cpp:3700
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Horizontális koordináták"
 
-#: ekos/align/align.cpp:3702
+#: ekos/align/align.cpp:3714
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Polar Alignment"
 msgstr "Igazítás"
 
-#: ekos/align/align.cpp:4200
+#: ekos/align/align.cpp:4211
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "A kép lementése"
 
-#: ekos/align/align.cpp:4209
+#: ekos/align/align.cpp:4220
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -18601,73 +18601,73 @@ msgstr ""
 msgid "Calibration Successful"
 msgstr "Kalibrálás"
 
-#: ekos/guide/internalguide/internalguider.cpp:420
+#: ekos/guide/internalguide/internalguider.cpp:435
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:490
+#: ekos/guide/internalguide/internalguider.cpp:505
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "Egyéb"
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:555
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:541
+#: ekos/guide/internalguide/internalguider.cpp:556
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "Jellemzők"
 
-#: ekos/guide/internalguide/internalguider.cpp:566
+#: ekos/guide/internalguide/internalguider.cpp:581
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration restored"
 msgstr "Kalibrálás"
 
-#: ekos/guide/internalguide/internalguider.cpp:618
+#: ekos/guide/internalguide/internalguider.cpp:633
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:621
+#: ekos/guide/internalguide/internalguider.cpp:636
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide Star lost."
 msgstr "Vezető"
 
-#: ekos/guide/internalguide/internalguider.cpp:653
+#: ekos/guide/internalguide/internalguider.cpp:668
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration failed"
 msgstr "Kalibrálás"
 
-#: ekos/guide/internalguide/internalguider.cpp:660
+#: ekos/guide/internalguide/internalguider.cpp:675
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Guiding calibration completed successfully"
 msgstr "Kalibrálás befejezve."
 
-#: ekos/guide/internalguide/internalguider.cpp:981
+#: ekos/guide/internalguide/internalguider.cpp:996
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:983
+#: ekos/guide/internalguide/internalguider.cpp:998
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1167
+#: ekos/guide/internalguide/internalguider.cpp:1182
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to find any suitable guide stars. Aborting..."

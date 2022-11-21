@@ -319,7 +319,7 @@
 >Chercher <replaceable
 >ObjectName</replaceable
 > sur Internet</guibutton
->. Une fois l'objet trouvé, vous pouvez l'utiliser de la même manière que n'importe quel autre objet déjà chargé dans &kstars; (&cad; l'ajouter dans votre liste de souhaits). Si l'objet n'a pas été trouvé dans les bases de données en ligne, un message d'avertissement apparaîtra. Une fois qu'un objet a été trouvé par cette méthode, il sera ajouté à la base de données de &kstars; pour pouvoir être utilisé ultérieurement. </para>
+>. Une fois l'objet trouvé, vous pouvez l'utiliser de la même manière que n'importe quel autre objet déjà chargé dans &kstars; (c'est-à-dire l'ajouter dans votre liste de souhaits). Si l'objet n'a pas été trouvé dans les bases de données en ligne, un message d'avertissement apparaîtra. Une fois qu'un objet a été trouvé par cette méthode, il sera ajouté à la base de données de &kstars; pour pouvoir être utilisé ultérieurement. </para>
 
 <para
 >Vous pouvez choisir d'activer ou de désactiver cette fonctionnalité en cochant ou en décochant la case à cocher <guibutton
