@@ -393,6 +393,11 @@ const QString _dso_by_maglim = "SELECT %1 FROM master WHERE magnitude < :maglim 
 
 const QString dso_by_maglim = QString(_dso_by_maglim).arg(object_fields).arg(mag_asc);
 
+const QString _dso_by_lim = "SELECT %1 FROM master "
+                               "ORDER BY %2 LIMIT :limit";
+
+const QString dso_by_lim = QString(_dso_by_lim).arg(object_fields).arg(mag_asc);
+
 inline const QString dso_in_catalog_by_maglim(const int id)
 {
     return QString("SELECT %1 FROM cat_%2 WHERE magnitude < :maglim "

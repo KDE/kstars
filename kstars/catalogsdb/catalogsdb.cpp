@@ -177,6 +177,7 @@ DBManager::DBManager(const QString &filename)
     m_q_obj_by_trixel_null_mag = make_query(m_db, SqlStatements::dso_by_trixel_null_mag, false);
     m_q_obj_by_name       = make_query(m_db, SqlStatements::dso_by_name, true);
     m_q_obj_by_name_exact = make_query(m_db, SqlStatements::dso_by_name_exact, true);
+    m_q_obj_by_lim        = make_query(m_db, SqlStatements::dso_by_lim, true);
     m_q_obj_by_maglim     = make_query(m_db, SqlStatements::dso_by_maglim, true);
     m_q_obj_by_maglim_and_type =
         make_query(m_db, SqlStatements::dso_by_maglim_and_type, true);
@@ -564,6 +565,14 @@ CatalogObjectList DBManager::get_objects(float maglim, int limit)
     m_q_obj_by_maglim.bindValue(":limit", limit);
 
     return fetch_objects(m_q_obj_by_maglim);
+}
+
+CatalogObjectList DBManager::get_objects_all()
+{
+    QMutexLocker _{ &m_mutex };
+    m_q_obj_by_lim.bindValue(":limit", -1);
+
+    return fetch_objects(m_q_obj_by_lim);
 }
 
 CatalogObjectList DBManager::get_objects(SkyObject::TYPE type, float maglim, int limit)
