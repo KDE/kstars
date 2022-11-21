@@ -1316,7 +1316,7 @@
 ></term>
       <listitem
 ><para
->(Dés)active l'affichage de la barre principale. Par défaut, la barre principale fournit des raccourcis utiles pour contrôler la vue de la carte du ciel (&cad; Zoom avant et Zoom arrière) et aussi pour contrôler l'horloge de &kstars;. Vous pouvez Démarrer/Arrêter l'horloge, avancer ou reculer d'un pas temporel et aussi facilement régler l'heure utilisée par &kstars;. Le pas temporel correspond au taux de temps dans la simulation. Pour régler le pas de temps, vous pouvez utiliser la boîte des unités de temps et celle des valeurs d'un pas temporel. La barre principale permet également de rapidement ouvrir les fenêtres <guilabel
+>(Dés)active l'affichage de la barre principale. Par défaut, la barre principale fournit des raccourcis utiles pour contrôler la vue de la carte du ciel (c'est-à-dire Zoom avant et Zoom arrière) et aussi pour contrôler l'horloge de &kstars;. Vous pouvez Démarrer/Arrêter l'horloge, avancer ou reculer d'un pas temporel et aussi facilement régler l'heure utilisée par &kstars;. Le pas temporel correspond au taux de temps dans la simulation. Pour régler le pas de temps, vous pouvez utiliser la boîte des unités de temps et celle des valeurs d'un pas temporel. La barre principale permet également de rapidement ouvrir les fenêtres <guilabel
 >Trouver un objet</guilabel
 >, <guilabel
 >Régler l'horloge</guilabel
@@ -1675,7 +1675,7 @@
 ></term>
     <listitem
 ><para
->Si vous sélectionnez ce sous-menu, alors la fenêtre du gestionnaire d'horizon artificiel s'ouvrira. Il permet de définir une ou plusieurs zones sur la carte du ciel qui sont masquées depuis votre position actuelle (&cad; par des grands arbres ou des immeubles). La fenêtre est séparée en deux parties : sur la partie gauche se trouve la section Régions et sur la partie droite la section Points. Vous pouvez ajouter une zone en appuyant sur le bouton <guibutton
+>Si vous sélectionnez ce sous-menu, alors la fenêtre du gestionnaire d'horizon artificiel s'ouvrira. Il permet de définir une ou plusieurs zones sur la carte du ciel qui sont masquées depuis votre position actuelle (c'est-à-dire par des grands arbres ou des immeubles). La fenêtre est séparée en deux parties : sur la partie gauche se trouve la section Régions et sur la partie droite la section Points. Vous pouvez ajouter une zone en appuyant sur le bouton <guibutton
 >+</guibutton
 > (ajouter Région) ou vous pouvez en supprimer une en la choisissant dans la liste et appuyer sur le bouton <guibutton
 >-</guibutton
@@ -1685,7 +1685,7 @@
 >Sélectionner Point</guibutton
 >. Veuillez noter que chaque point est décrit par des coordonnées horizontales : Az (Azimuth) et Alt (Altitude). Si vous souhaitez modifier les coordonnées d'un point, il suffit de double-cliquer sur sa valeur Az/Alt dans la boîte et indiquer de nouvelles valeurs. Le premier et le dernier point doivent se trouver sur l'horizon. Les polygones doivent être fermés pour être considérés comme des régions valables. Le gestionnaire d'horizon artificiel fournit un moyen simple pour renommer vos régions. Par défaut, les régions sont nommées : <quote
 >Région</quote
-> plus un index (&cad; <quote
+> plus un index (c'est-à-dire <quote
 >Région 1</quote
 > ou <quote
 >Région 2</quote
@@ -1775,7 +1775,7 @@
 ></listitem>
         <listitem
 ><para
->Ensuite, sélectionnez l'action à laquelle vous souhaitez rattacher un raccourci (&cad; horizon artificiel). Vous pouvez utiliser la méthode de recherche fournie par &kstars;. Veuillez simplement saisir <quote
+>Ensuite, sélectionnez l'action à laquelle vous souhaitez rattacher un raccourci (c'est-à-dire horizon artificiel). Vous pouvez utiliser la méthode de recherche fournie par &kstars;. Veuillez simplement saisir <quote
 >art</quote
 > et la liste sera réduite à seulement trois actions. L'horizon artificiel est la dernière des trois dans la liste.</para
 ></listitem>
@@ -1907,7 +1907,7 @@
 ><para
 >Identification et info rapide : les premières lignes sont dévolues au(x) nom(s) de l'objet, son type et la constellation dans laquelle il se trouve. La magnitude est indiquée avec l'exposant <quote
 >m</quote
-> si disponible. Pour les étoiles, le type spectral est aussi montré ici. Pour les objets du ciel profond, la dimension, si connue, est indiquée en minutes d'arc (&cad; 6'x3') et le catalogue de la source est aussi montré. </para
+> si disponible. Pour les étoiles, le type spectral est aussi montré ici. Pour les objets du ciel profond, la dimension, si connue, est indiquée en minutes d'arc (c'est-à-dire 6'x3') et le catalogue de la source est aussi montré. </para
 ></listitem>
 </varlistentry>
 
@@ -1962,7 +1962,7 @@
 >flagSmall_red_cross.gif</quote
 > sera affiché comme Small red cross dans la boîte. Après avoir spécifié l'information du nouveau drapeau, vous pouvez l'ajouter à la liste de drapeaux en utilisant le bouton <guibutton
 >Ajouter</guibutton
->. Vous pouvez aussi modifier les détails du drapeau (&cad; AD/DEC, l'étiquette ou l'icône) et ensuite les enregistrer avec le bouton <guibutton
+>. Vous pouvez aussi modifier les détails du drapeau (c'est-à-dire AD/DEC, l'étiquette ou l'icône) et ensuite les enregistrer avec le bouton <guibutton
 >Enregistrer les changements</guibutton
 >. Avec le gestionnaire de drapeaux, vous pouvez facilement centrer un objet dans la carte ou dans le télescope en cliquant sut le bouton <guibutton
 >Centrer sur la carte</guibutton
@@ -1983,7 +1983,7 @@
 >Distance angulaire à…</guimenuitem
 > : entre en <quote
 >mode distance angulaire</quote
->. Dans ce mode, une ligne pointillée est dessinée depuis le premier objet ciblé vers la position courante de la souris. Quand vous invoquez le menu contextuel avec le &BDS; sur un second objet, cela affichera la distance angulaire entre deux objets à proximité du second objet. Vous pouvez actionner la touche <keycap
+>. Dans ce mode, une ligne pointillée est dessinée depuis le premier objet ciblé vers la position courante de la souris. Quand vous invoquez le menu contextuel avec le bouton droite de la souris sur un second objet, cela affichera la distance angulaire entre deux objets à proximité du second objet. Vous pouvez actionner la touche <keycap
 >Esc</keycap
 > pour quitter le mode de distance angulaire sans mesurer d'angle. </para
 ></listitem>

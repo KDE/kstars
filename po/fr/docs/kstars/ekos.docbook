@@ -31,7 +31,7 @@
 <itemizedlist>
     <listitem>
         <para
->Control your telescope, Camera (&amp; DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos. </para>
+>Contrôle de télescope, de caméra (&amp; APN), de roue à filtres, de moteur de mise au point, de guide, de périphérique d'optique adaptative et de tout périphérique compatible avec le protocole INDI (Instrument Neutral Distributed Interface) directement depuis Ekos. </para>
     </listitem>
     <listitem>
         <para

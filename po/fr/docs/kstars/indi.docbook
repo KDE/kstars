@@ -45,7 +45,7 @@
 ><para
 ><guilabel
 >Local</guilabel
-> : le mode local est le plus commun et sert à contrôler le matériel local (&cad; attaché à votre machine). </para
+> : le mode local est le plus commun et sert à contrôler le matériel local (c'est-à-dire attaché à votre machine). </para
 ></listitem>
 
 <listitem
@@ -1008,7 +1008,7 @@
 >Pivoter</command
 > ordonne au télescope de se déplacer vers une cible particulière, et, une fois que le télescope a atteint sa cible, le télescope continue à suivre la cible à une vitesse <emphasis
 >sidérale</emphasis
-> (&cad; la vitesse à laquelle l'objet se déplace dans le ciel). Ceci fonctionne bien pour les étoiles, les objets Messier, et à peu près tout hors du système solaire. Mais les objets du système solaire voyagent différemment à travers le ciel, et le télescope doit <command
+> (c'est-à-dire la vitesse à laquelle l'objet se déplace dans le ciel). Ceci fonctionne bien pour les étoiles, les objets Messier, et à peu près tout hors du système solaire. Mais les objets du système solaire voyagent différemment à travers le ciel, et le télescope doit <command
 >Suivre</command
 > les objets comme ils bougent. </para>
 <para

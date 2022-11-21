@@ -320,7 +320,7 @@ exit(0)
         <para
 >Les scripts doivent être <emphasis
 >exécutables</emphasis
-> pour qu'Ekos puisse les invoquer (&cad; utilisez la commande <userinput
+> pour qu'Ekos puisse les invoquer (c'est-à-dire utilisez la commande <userinput
 >chmod u+x startup_script.py</userinput
 > pour le rendre exécutable). L'ordonnanceur d'Ekos permet d'opérer un observatoire de manière complètement robotisée sans aucune intervention humaine. Il est donc critique que le système puisse se rétablir après des erreurs, et cela à n'importe quelle étape du processus d'observation. L'utilisation des notifications &plasma; permet de configurer des alarmes audibles et l'envoi automatique de courriels pour divers événements de l'ordonnanceur. </para>
     </sect3>

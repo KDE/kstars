@@ -129,7 +129,7 @@
 >FITS</guimenuitem
 > est disponible. Pour les APN, vous pouvez enregistrer les images au format <guimenuitem
 >Natif</guimenuitem
-> (&cad; RAW ou JPEG, mais préférez RAW) en plus du format <guimenuitem
+> (c'est-à-dire RAW ou JPEG, mais préférez RAW) en plus du format <guimenuitem
 >FITS</guimenuitem
 >. </para>
             </listitem>
@@ -244,7 +244,7 @@
                 <para
 >Si la case <guilabel
 >HD</guilabel
-> est cochée, un horodatage sera ajouté au nom de fichier, &cad; : </para>
+> est cochée, un horodatage sera ajouté au nom de fichier, c'est-à-dire : </para>
                 <itemizedlist>
                     <listitem>
                         <para

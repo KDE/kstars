@@ -271,7 +271,7 @@
 <para
 >Quand une image bayerisé est chargée, l'afficheur peur automatiquement la débayériser si le réglage FITS <quote
 >Auto débayerisation</quote
-> est coché. Cette opération lit le motif de Bayer (&cad; RGGB) dans l'en-tête FITS. Si aucun n'est trouvé, vous pouvez modifier l'algorithme et le motif dans le menu <guimenu
+> est coché. Cette opération lit le motif de Bayer (c'est-à-dire RGGB) dans l'en-tête FITS. Si aucun n'est trouvé, vous pouvez modifier l'algorithme et le motif dans le menu <guimenu
 >Fichier</guimenu
 > ou avec le raccourci <keycombo
 >&Ctrl; <keycap
@@ -409,7 +409,7 @@
 >Fournit des statistiques simples : moyenne, écart-type moyen et médiane moyenne de la région sélectionnée par l'utilisateur dans une infobulle. </para>
                 <para
 >L'utilisateur peut soit sélectionner une région en glissant le pointeur après un <keycombo
->&Shift; <keycap
+>&Maj; <keycap
 >Clic gauche</keycap
 ></keycombo
 > ou en choisissant une entrée du menu déroulant du bouton de sélection de rectangle. De plus, l'utilisateur peut translater la région d'un simple <keycap

@@ -259,7 +259,7 @@
 ></indexterm
 >La page des <guilabel
 >Guides</guilabel
-> vous permet d'afficher ou non les non-objets (&cad; les lignes de constellations, leurs noms ou encore le contour de la Voie Lactée). </para>
+> vous permet d'afficher ou non les non-objets (c'est-à-dire les lignes de constellations, leurs noms ou encore le contour de la Voie Lactée). </para>
 
 <variablelist>
   <varlistentry>
@@ -854,7 +854,7 @@
 ><para
 >Veuillez noter que ce n'est pas la méthode recommandée pour modifier des catalogues qui sont fournit par le <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
 >dépôt de paquets de catalogues</ulink
->, &cad; les catalogues téléchargés via le menu <menuchoice
+>, c'est-à-dire les catalogues téléchargés via le menu <menuchoice
 ><guimenu
 >Données</guimenu
 ><guimenuitem
@@ -1431,7 +1431,7 @@
 ></indexterm
 >L'onglet <guilabel
 >Guides</guilabel
-> vous permet de (dés)activer l'affichage des éléments qui ne sont pas des objets célestes (&cad; les lignes des constellations, les noms des constellations, le contour de la Voie Lactée, l'<link linkend="ai-cequator"
+> vous permet de (dés)activer l'affichage des éléments qui ne sont pas des objets célestes (c'est-à-dire les lignes des constellations, les noms des constellations, le contour de la Voie Lactée, l'<link linkend="ai-cequator"
 >équateur céleste</link
 >, l'<link linkend="ai-ecliptic"
 >écliptique</link

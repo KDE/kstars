@@ -99,7 +99,7 @@ for solar system objects -->
 ><para
 ><guimenuitem
 >NASA Extragalactic Database (NED)</guimenuitem
->. NED fournit des liens de données et bibliographie encapsulés sur les objets extragalactiques. Vous ne devez utiliser NED que si votre cible est extragalactique, &cad; si c'est elle-même une galaxie. </para
+>. NED fournit des liens de données et bibliographie encapsulés sur les objets extragalactiques. Vous ne devez utiliser NED que si votre cible est extragalactique, c'est-à-dire si c'est elle-même une galaxie. </para
 ></listitem>
 <listitem
 ><para

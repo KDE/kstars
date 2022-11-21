@@ -213,7 +213,7 @@
             </listitem>
             <listitem>
                 <para
->Essayez différents filtres (&eg; à haut contraste) et voyez si cela permet de réduire le bruit. </para>
+>Essayez différents filtres (c'est-à-dire à haut contraste) et voyez si cela permet de réduire le bruit. </para>
             </listitem>
             <listitem>
                 <para
@@ -412,9 +412,9 @@
 
     <sect3 id="guide-gpg">
         <title
->Guiding with GPG</title>
+>Guidage avec GPG</title>
         <para
->The internal guider can use predictive and adaptive guiding by enabling GPG guiding. This adaptively models the periodic error of the mount, and adds its predicted contribution to each guide pulse. Optionally, by enabling Dark Guiding, it can output the predicted corrections much faster than the guide camera exposure rate, effectively performing periodic error correction and allowing longer guide camera exposures. </para>
+>Le guidage interne peut utiliser le guidage prédictif et adaptatif en activant le guidage avec GPG. Il utilise un modèle de l'erreur périodique de la monture et ajoute la contribution prédite à chaque impulsion du guidage. En activant l'option Guidage Dark, il peut générer les corrections prédites bien plus rapidement que le taux d'exposition de la caméra guide et ainsi réaliser les corrections de l'erreur périodique, permettant des durées d'exposition de la caméra guide bien plus importantes. </para>
     </sect3>
 
     <sect3 id="guide-phd2-support">
