@@ -438,7 +438,7 @@ class Manager : public QDialog, public Ui::Manager
         // Mount Summary
         void updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pierSide, const dms &ha);
         void updateMountStatus(ISD::Mount::Status status);
-        void setTarget(QString name);
+        void setTarget(const QString &name);
 
         // Capture Summary
         void updateCaptureStatus(CaptureState status);
