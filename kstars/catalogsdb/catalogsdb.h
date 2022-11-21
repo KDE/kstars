@@ -206,6 +206,7 @@ class DBManager
         swap(m_q_obj_by_trixel_null_mag, other.m_q_obj_by_trixel_null_mag);
         swap(m_q_obj_by_name, other.m_q_obj_by_name);
         swap(m_q_obj_by_name_exact, other.m_q_obj_by_name_exact);
+        swap(m_q_obj_by_lim, other.m_q_obj_by_lim);
         swap(m_q_obj_by_maglim, other.m_q_obj_by_maglim);
         swap(m_q_obj_by_maglim_and_type, other.m_q_obj_by_maglim_and_type);
         swap(m_q_obj_by_oid, other.m_q_obj_by_oid);
@@ -327,6 +328,11 @@ class DBManager
      * brighter) from the database.
      */
     CatalogObjectList get_objects(float maglim = default_maglim, int limit = -1);
+
+    /**
+     * Get all objects from the database.
+     */
+    CatalogObjectList get_objects_all();
 
     /**
      * Get \p limit objects of \p type with magnitude smaller than \p
@@ -565,6 +571,7 @@ class DBManager
     QSqlQuery m_q_obj_by_trixel_no_nulls;
     QSqlQuery m_q_obj_by_name;
     QSqlQuery m_q_obj_by_name_exact;
+    QSqlQuery m_q_obj_by_lim;
     QSqlQuery m_q_obj_by_maglim;
     QSqlQuery m_q_obj_by_maglim_and_type;
     QSqlQuery m_q_obj_by_oid;

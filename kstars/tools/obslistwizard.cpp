@@ -664,16 +664,13 @@ void ObsListWizard::applyFilters(bool doBuildList)
         //filtering by region or magnitude
         if (needRegion || olw->SelectByMagnitude->isChecked() || olw->SelectByDate->isChecked())
         {
-
             CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+            CatalogsDB::CatalogObjectList cObjectList = manager.get_objects_all(); // JFD: Can't skip faint objects because counting down
 
-            for(auto& o : manager.get_objects(olw->SelectByMagnitude->isChecked() ? maglimit : 99))
+            for(auto& o : cObjectList)
             {
                 //Skip unselected object types
                 bool typeSelected = false;
-                // if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) &&
-                //       isItemSelected( i18n( "Stars" ), olw->TypeList ) )
-    //                         typeSelected = true;
                 switch (o.type())
                 {
                     case SkyObject::OPEN_CLUSTER:
@@ -705,58 +702,33 @@ void ObsListWizard::applyFilters(bool doBuildList)
                 if (!typeSelected)
                     continue;
 
-                if (olw->SelectByMagnitude->isChecked())
-                {
-                    if (o.mag() > 90.)
-                    {
-                        if (olw->IncludeNoMag->isChecked())
-                        {
-                            auto *obj = &o;
-                            if(doBuildList)
-                                obj = &data->skyComposite()->catalogsComponent()
-                                           ->insertStaticObject(o);
-
-                            if (needRegion)
-                                filterPass = applyRegionFilter(obj, doBuildList);
-                            if (olw->SelectByDate->isChecked() && filterPass)
-                                applyObservableFilter(obj, doBuildList);
-                        }
-                        else if (!doBuildList)
-                            --ObjectCount;
-                    }
-                    else
-                    {
-                        if (o.mag() <= maglimit)
-                        {
-                            auto *obj = &o;
-                            if(doBuildList)
-                                obj = &data->skyComposite()->catalogsComponent()
-                                           ->insertStaticObject(o);
-
-                            if (needRegion)
-                                filterPass = applyRegionFilter(obj, doBuildList);
-                            if (olw->SelectByDate->isChecked() && filterPass)
-                                applyObservableFilter(obj, doBuildList);
-                        }
-                        else if (!doBuildList)
-                            --ObjectCount;
-                    }
+                if (olw->SelectByMagnitude->isChecked() && (
+                       (std::isnan(o.mag()) && (!olw->IncludeNoMag->isChecked()) ) ||
+                       (o.mag() > maglimit)
+                   )
+                ) {
+                    --ObjectCount;
+                    continue;
                 }
-                else
-                {
-                    auto *obj = &o;
-                    if(doBuildList)
-                        obj = &data->skyComposite()->catalogsComponent()
-                                   ->insertStaticObject(o);
 
-                    if (needRegion)
-                        filterPass = applyRegionFilter(obj, doBuildList);
-                    if (olw->SelectByDate->isChecked() && filterPass)
-                        applyObservableFilter(obj, doBuildList);
+                auto *obj = &o;
+                if(doBuildList)
+                {
+                    obj = &data->skyComposite()->catalogsComponent()->insertStaticObject(o);
                 }
-            }
-        }
-    }
+                filterPass  = true; // Added per object
+                if (needRegion)
+                {
+                    filterPass = applyRegionFilter(obj, doBuildList);
+                }
+                if (filterPass && olw->SelectByDate->isChecked())
+                {
+                    filterPass = applyObservableFilter(obj, doBuildList);
+                }
+
+            } // end for objects
+        } // end if conditions region etc.
+    } // end loop dso
 
     //Comets
     if (isItemSelected(i18n("Comets"), olw->TypeList))
