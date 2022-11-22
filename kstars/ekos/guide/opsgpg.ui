@@ -290,7 +290,7 @@
            <string>Maximum time between emitting predictive corrections while capturing guide images. This might be on the order of 1 second or less, with the guide exposure much longer. The exact values and the ratio between them will depend greatly on your mount and environmental conditions; but generally, the worse periodic error of your mount, the greater the ratio between guide exposure and dark guiding interval.</string>
           </property>
           <property name="minimum">
-           <double>0.000000000000000</double>
+           <double>0.5</double>
           </property>
           <property name="maximum">
            <double>3600.000000000000000</double>

@@ -60,8 +60,27 @@ double getSNR(const GuideStars *guideStars, const double raArcsecError)
         return guideStars->getGuideStarSNR();
 }
 
+const QString directionStr(GuideDirection dir)
+{
+    switch (dir)
+    {
+        case RA_DEC_DIR:
+            return "Decrease RA";
+        case RA_INC_DIR:
+            return "Increase RA";
+        case DEC_DEC_DIR:
+            return "Decrease DEC";
+        case DEC_INC_DIR:
+            return "Increase DEC";
+        default:
+            return "NO DIR";
+    }
+}
+
 }  // namespace
-double GPG::predictionContribution() {
+
+double GPG::predictionContribution()
+{
     if (gpg.get() == nullptr)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Nullptr in predictionContribution()";
@@ -69,6 +88,7 @@ double GPG::predictionContribution() {
     }
     return gpg->getPredictionContribution();
 }
+
 void GPG::updateParameters()
 {
     // Parameters would be set when the gpg stars up.
@@ -244,14 +264,14 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
     const double gpgPulse = convertCorrectionToPulseMilliseconds(cal, pulseLength, pulseDir, gpgResult);
 
     qCDebug(KSTARS_EKOS_GUIDE)
-            << QString("GPG: elapsed %1s. RA in %2, result: %3 * %4 --> %5 : len %6 dir %7")
+            << QString("GPG: elapsed %1s. RA in %2, result: %3 * %4 --> %5 : %6ms %7")
             .arg(gpgTime / 1000.0)
             .arg(raArcsecError)
             .arg(gpgResult)
             .arg(cal.raPulseMillisecondsPerArcsecond())
             .arg(gpgPulse)
             .arg(*pulseLength)
-            .arg(*pulseDir);
+            .arg(directionStr(*pulseDir));
     if (Options::gPGEstimatePeriod())
     {
         double period_length = gpg->GetGPHyperparameters()[PKPeriodLength];
@@ -261,49 +281,43 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
 }
 
 double GPG::convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pulseLength,
-                                                 GuideDirection *pulseDir, const double gpgResult)
+        GuideDirection *pulseDir, const double gpgResult)
 {
     const double gpgPulse = gpgResult * cal.raPulseMillisecondsPerArcsecond();
 
     *pulseDir = gpgPulse > 0 ? RA_DEC_DIR : RA_INC_DIR;
     *pulseLength = fabs(gpgPulse);
-
-    if (*pulseDir == RA_DEC_DIR)
-        qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length  [RA] ="  << *pulseLength << "Direction     : Decrease";
-    else
-        qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length  [RA] ="  << *pulseLength << "Direction     : Increase";
-
     return gpgPulse;
 }
 
 bool GPG::darkGuiding(int *pulseLength, GuideDirection *pulseDir, const Calibration &cal,
                       Seconds timeStep)
 {
-  if (!Options::gPGEnabled() || !Options::gPGDarkGuiding())
-  {
-      qCDebug(KSTARS_EKOS_GUIDE) << "dark guiding isn't enabled!";
-      return false;
-  }
+    if (!Options::gPGEnabled() || !Options::gPGDarkGuiding())
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "dark guiding isn't enabled!";
+        return false;
+    }
 
-  // GPG uses proportional gain and min-move from standard controls. Make sure they're using up-to-date values.
-  gpg->SetControlGain(Options::rAProportionalGain());
-  gpg->SetMinMove(Options::rAMinimumPulseArcSec());
+    // GPG uses proportional gain and min-move from standard controls. Make sure they're using up-to-date values.
+    gpg->SetControlGain(Options::rAProportionalGain());
+    gpg->SetMinMove(Options::rAMinimumPulseArcSec());
 
-  QElapsedTimer gpgTimer;
-  gpgTimer.restart();
-  const double gpgResult = gpg->deduceResult(timeStep.count());
-  const double gpgTime = gpgTimer.elapsed();
+    QElapsedTimer gpgTimer;
+    gpgTimer.restart();
+    const double gpgResult = gpg->deduceResult(timeStep.count());
+    const double gpgTime = gpgTimer.elapsed();
 
-  // GPG output is in RA arcseconds.
-  const double gpgPulse = convertCorrectionToPulseMilliseconds(cal, pulseLength, pulseDir, gpgResult);
+    // GPG output is in RA arcseconds.
+    const double gpgPulse = convertCorrectionToPulseMilliseconds(cal, pulseLength, pulseDir, gpgResult);
 
-  qCDebug(KSTARS_EKOS_GUIDE)
-          << QString("GPG dark guiding: elapsed %1s. RA result: %2 * %3 --> %4 : len %5 dir %6")
-          .arg(gpgTime / 1000.0)
-          .arg(gpgResult)
-          .arg(cal.raPulseMillisecondsPerArcsecond())
-          .arg(gpgPulse)
-          .arg(*pulseLength)
-          .arg(*pulseDir);
-  return true;
+    qCDebug(KSTARS_EKOS_GUIDE)
+            << QString("GPG dark guiding: elapsed %1s. RA result: %2 * %3 --> %4 : %5ms %6")
+            .arg(gpgTime / 1000.0)
+            .arg(gpgResult)
+            .arg(cal.raPulseMillisecondsPerArcsecond())
+            .arg(gpgPulse)
+            .arg(*pulseLength)
+            .arg(directionStr(*pulseDir));
+    return true;
 }

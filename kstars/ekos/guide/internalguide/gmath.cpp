@@ -340,7 +340,8 @@ void cgmath::outputGuideLog()
     }
 }
 
-void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide, const Seconds &timeStep)
+void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide, const Seconds &timeStep,
+                         const QString &label)
 {
     // zero all out commands
     GuideDirection pulseDirection = NO_DIR;
@@ -381,7 +382,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             drift_integral[k] += drift[k][i];
         drift_integral[k] /= (double)CIRCULAR_BUFFER_SIZE;
 
-        qCDebug(KSTARS_EKOS_GUIDE) << "drift[" << axisStr(k) << "] = " << arcsecDrift
+        qCDebug(KSTARS_EKOS_GUIDE) << label << "drift[" << axisStr(k) << "] = " << arcsecDrift
                                    << " integral[" << axisStr(k) << "] = " << drift_integral[k];
 
         const double arcsecPerMsPulse = k == GUIDE_RA ? calibration.raPulseMillisecondsPerArcsecond() :
@@ -417,7 +418,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         }
 
     }
-    qCDebug(KSTARS_EKOS_GUIDE) << "pulse_length[" << axisStr(k) << "] = " << pulseLength
+    qCDebug(KSTARS_EKOS_GUIDE) << label << "pulse_length[" << axisStr(k) << "] = " << pulseLength
                                << "ms, Direction = " << directionStr(pulseDirection);
 
     updateOutParams(k, arcsecDrift, pulseLength, pulseDirection);
@@ -425,13 +426,10 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
 
 void cgmath::calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep)
 {
-    qCDebug(KSTARS_EKOS_GUIDE) << "Processing Axes";
-
     const bool dithering = configureInParams(state);
 
-    // process axes...
-    processAxis(GUIDE_RA, dithering, false, timeStep.first);
-    processAxis(GUIDE_DEC, dithering, false, timeStep.second);
+    processAxis(GUIDE_RA, dithering, false, timeStep.first, "Guiding:");
+    processAxis(GUIDE_DEC, dithering, false, timeStep.second, "Guiding:");
 
     outputGuideLog();
 }
@@ -597,7 +595,7 @@ void cgmath::performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds,
     const bool dithering = configureInParams(state);
     //out_params.sigma[GUIDE_RA] = 0;
 
-    processAxis(GUIDE_RA, dithering, true, timeStep.first);
+    processAxis(GUIDE_RA, dithering, true, timeStep.first, "Dark Guiding:");
 
     // Don't guide in DEC when dark guiding
     updateOutParams(GUIDE_DEC, 0, 0, NO_DIR);
