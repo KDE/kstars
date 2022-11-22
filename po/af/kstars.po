@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-21 00:42+0000\n"
+"POT-Creation-Date: 2022-11-22 00:41+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -1493,136 +1493,136 @@ msgstr "Planete"
 msgid "Saving of the image to %1 failed."
 msgstr "Stooring van die beeld %1 gevaal!"
 
-#: catalogsdb/catalogsdb.cpp:320
+#: catalogsdb/catalogsdb.cpp:321
 #, kde-format
 msgid "Catalog with that ID already exists."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:596 catalogsdb/catalogsdb.cpp:732
+#: catalogsdb/catalogsdb.cpp:605 catalogsdb/catalogsdb.cpp:741
 #, fuzzy, kde-format
 msgid "Catalog could not be found."
 msgstr "Kon nie Open Lêer"
 
-#: catalogsdb/catalogsdb.cpp:685 catalogsdb/catalogsdb.cpp:1038
+#: catalogsdb/catalogsdb.cpp:694 catalogsdb/catalogsdb.cpp:1047
 #, fuzzy, kde-format
 msgid "Catalog with id=%1 not found."
 msgstr "Nee voorwerp genaamd %1 gevind."
 
-#: catalogsdb/catalogsdb.cpp:688 catalogsdb/catalogsdb.cpp:1041
+#: catalogsdb/catalogsdb.cpp:697 catalogsdb/catalogsdb.cpp:1050
 #, fuzzy, kde-format
 #| msgid "Catalog Star"
 msgid "Catalog is immutable!"
 msgstr "Katalogus Ster"
 
-#: catalogsdb/catalogsdb.cpp:704 catalogsdb/catalogsdb.cpp:1057
+#: catalogsdb/catalogsdb.cpp:713 catalogsdb/catalogsdb.cpp:1066
 #, fuzzy, kde-format
 #| msgid "This City already exists in the database."
 msgid "The object is already in the catalog!"
 msgstr "Hierdie Stad alreeds bestaan in die databasis."
 
-#: catalogsdb/catalogsdb.cpp:706 catalogsdb/catalogsdb.cpp:1059
+#: catalogsdb/catalogsdb.cpp:715 catalogsdb/catalogsdb.cpp:1068
 #, fuzzy, kde-format
 msgid "Could not insert object! %1"
 msgstr "Kon nie Open Lêer"
 
-#: catalogsdb/catalogsdb.cpp:736
+#: catalogsdb/catalogsdb.cpp:745
 #, kde-format
 msgid "Output file is not writable."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:744
+#: catalogsdb/catalogsdb.cpp:753
 #, fuzzy, kde-format
 msgid "Could not attach output file.<br>%1"
 msgstr "Kon nie Open Lêer"
 
-#: catalogsdb/catalogsdb.cpp:754
+#: catalogsdb/catalogsdb.cpp:763
 #, fuzzy, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
 msgstr "Kon nie open pasmaak data lêer: "
 
-#: catalogsdb/catalogsdb.cpp:758
+#: catalogsdb/catalogsdb.cpp:767
 #, kde-format
 msgid "Could not create catalog registry in output file.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:770
+#: catalogsdb/catalogsdb.cpp:779
 #, kde-format
 msgid "Could not insert catalog into registry in output file.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:776
+#: catalogsdb/catalogsdb.cpp:785
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:783
+#: catalogsdb/catalogsdb.cpp:792
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:799
+#: catalogsdb/catalogsdb.cpp:808
 #, kde-format
 msgid "Catalog file is not readable."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:808
+#: catalogsdb/catalogsdb.cpp:817
 #, fuzzy, kde-format
 msgid "Could not attach input file.<br>%1"
 msgstr "Kon nie Open Lêer"
 
-#: catalogsdb/catalogsdb.cpp:818
+#: catalogsdb/catalogsdb.cpp:827
 #, fuzzy, kde-format
 msgid "Invalid catalog file."
 msgstr "Ongeldige Lêernaam"
 
-#: catalogsdb/catalogsdb.cpp:825
+#: catalogsdb/catalogsdb.cpp:834
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not migrate old catalog format.<br>%1"
 msgstr "Kon nie uitvee die lêer: %1"
 
-#: catalogsdb/catalogsdb.cpp:831
+#: catalogsdb/catalogsdb.cpp:840
 #, kde-format
 msgid "Could read the catalog id.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:841
+#: catalogsdb/catalogsdb.cpp:850
 #, fuzzy, kde-format
 #| msgid "This City already exists in the database."
 msgid "Catalog already exists in the database!"
 msgstr "Hierdie Stad alreeds bestaan in die databasis."
 
-#: catalogsdb/catalogsdb.cpp:858 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:867 dialogs/catalogsdbui.cpp:211
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:863
+#: catalogsdb/catalogsdb.cpp:872
 #, kde-format
 msgid "Could not refresh the master catalog.<br>"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:872
+#: catalogsdb/catalogsdb.cpp:881
 #, kde-format
 msgid "Removing the user catalog is not allowed."
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:892
+#: catalogsdb/catalogsdb.cpp:901
 #, kde-format
 msgid "Could not remove the catalog from the registry.<br>%1"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:906
+#: catalogsdb/catalogsdb.cpp:915
 #, kde-format
 msgid "Both catalogs have to exist!"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:909
+#: catalogsdb/catalogsdb.cpp:918
 #, kde-format
 msgid "Destination catalog has to be mutable!"
 msgstr ""
 
-#: catalogsdb/catalogsdb.cpp:925
+#: catalogsdb/catalogsdb.cpp:934
 #, kde-format
 msgid "Cannot update nonexisting catalog."
 msgstr ""
@@ -1983,7 +1983,7 @@ msgstr "Aangaande die Maan Beelde"
 #: data/qml/whatisinteresting/wiview.qml:359 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:304
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:289
-#: tools/obslistwizard.cpp:422 tools/obslistwizard.cpp:804
+#: tools/obslistwizard.cpp:422 tools/obslistwizard.cpp:776
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
@@ -1995,7 +1995,7 @@ msgstr ""
 #: data/qml/whatisinteresting/wiview.qml:391 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:320
 #: tools/conjunctions.cpp:98 tools/obslistwizard.cpp:288
-#: tools/obslistwizard.cpp:420 tools/obslistwizard.cpp:762
+#: tools/obslistwizard.cpp:420 tools/obslistwizard.cpp:734
 #: tools/obslistwizard.ui:115 tools/wutdialog.cpp:101
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Comets"
@@ -2006,7 +2006,7 @@ msgstr "Bereken"
 #: data/qml/whatisinteresting/wiview.qml:426 dialogs/finddialog.cpp:42
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:104
 #: tools/obslistwizard.cpp:281 tools/obslistwizard.cpp:424
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:700
+#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:697
 #: tools/obslistwizard.ui:145 tools/wutdialog.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Galaxies"
@@ -76182,14 +76182,14 @@ msgid "Remove from Session Plan"
 msgstr "Beeld"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:224 tools/obslistwizard.cpp:877
+#: tools/obslistwizard.cpp:224 tools/obslistwizard.cpp:849
 #: tools/obslistwizard.ui:345
 #, kde-format
 msgid "in a rectangular region"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:226 tools/obslistwizard.cpp:913
+#: tools/obslistwizard.cpp:226 tools/obslistwizard.cpp:885
 #: tools/obslistwizard.ui:350
 #, kde-format
 msgid "in a circular region"
@@ -76204,7 +76204,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:426
-#: tools/obslistwizard.cpp:656 tools/obslistwizard.cpp:680
+#: tools/obslistwizard.cpp:656 tools/obslistwizard.cpp:677
 #: tools/obslistwizard.ui:125
 #, fuzzy, kde-format
 msgid "Open clusters"
@@ -76212,7 +76212,7 @@ msgstr "Open Klusters"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:278 tools/obslistwizard.cpp:428
-#: tools/obslistwizard.cpp:657 tools/obslistwizard.cpp:685
+#: tools/obslistwizard.cpp:657 tools/obslistwizard.cpp:682
 #: tools/obslistwizard.ui:130
 #, fuzzy, kde-format
 msgid "Globular clusters"
@@ -76220,7 +76220,7 @@ msgstr "Willekeurige teken. Klusters"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:279 tools/obslistwizard.cpp:430
-#: tools/obslistwizard.cpp:658 tools/obslistwizard.cpp:691
+#: tools/obslistwizard.cpp:658 tools/obslistwizard.cpp:688
 #: tools/obslistwizard.ui:135
 #, kde-format
 msgid "Gaseous nebulae"
@@ -76228,7 +76228,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:280 tools/obslistwizard.cpp:432
-#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:696
+#: tools/obslistwizard.cpp:659 tools/obslistwizard.cpp:693
 #: tools/obslistwizard.ui:140
 #, fuzzy, kde-format
 msgid "Planetary nebulae"
@@ -76246,7 +76246,7 @@ msgstr "Planete"
 msgid "Illegal circle specified, no region selection possible."
 msgstr ""
 
-#: tools/obslistwizard.cpp:849
+#: tools/obslistwizard.cpp:821
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
@@ -76254,7 +76254,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
-#: tools/obslistwizard.cpp:856 tools/obslistwizard.ui:340
+#: tools/obslistwizard.cpp:828 tools/obslistwizard.ui:340
 #, fuzzy, kde-format
 msgid "by constellation"
 msgstr "Leo"
