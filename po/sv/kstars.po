@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 00:41+0000\n"
+"POT-Creation-Date: 2022-11-23 00:43+0000\n"
 "PO-Revision-Date: 2022-06-15 22:27+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -883,7 +883,7 @@ msgstr "XPlanet solsystemsimulator: %1"
 #: data/qml/whatisinteresting/wiview.qml:141
 #: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
 #: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
+#: indi/indimount.cpp:767 indi/indimount.cpp:782 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
@@ -27668,7 +27668,7 @@ msgstr "Stativ parkerat"
 msgid "Mount unparked"
 msgstr "Stativ frigjort"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:796
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -27677,19 +27677,19 @@ msgstr ""
 "Varning: Att titta på solen utan ordentligt skydd kan leda till irreversibla "
 "ögonskador!"
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:797
 #, kde-format
 msgid "Sun Warning"
 msgstr "Solvarning"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:815
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "Begärd elevation %1 är utanför den angivna elevationsgränsen (%2, %3)."
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:846
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -27697,7 +27697,7 @@ msgstr ""
 "Den begärda elevationen är under horisonten. Är du säker på att du vill "
 "fortsätta?"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:847
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Teleskoprörelse"

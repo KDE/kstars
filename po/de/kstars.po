@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 00:41+0000\n"
+"POT-Creation-Date: 2022-11-23 00:43+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -901,7 +901,7 @@ msgstr "Xplanet-Sonnensystemsimulator: %1"
 #: data/qml/whatisinteresting/wiview.qml:141
 #: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
 #: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
+#: indi/indimount.cpp:767 indi/indimount.cpp:782 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
@@ -28038,27 +28038,27 @@ msgstr "Mount Ekar"
 msgid "Mount unparked"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:796
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:797
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgid "Sun Warning"
 msgstr "Warnung"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:815
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:846
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -28066,7 +28066,7 @@ msgstr ""
 "Die angeforderte Höhe liegt unterhalb des Horizonts. Möchten Sie wirklich "
 "fortfahren?"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:847
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Teleskop-Bewegung"

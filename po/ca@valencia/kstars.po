@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 00:41+0000\n"
-"PO-Revision-Date: 2022-11-21 16:51+0100\n"
-"Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"PO-Revision-Date: 2022-11-22 14:02+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
@@ -900,7 +900,7 @@ msgstr "Simulador del sistema solar Xplanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:141
 #: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
 #: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
+#: indi/indimount.cpp:767 indi/indimount.cpp:782 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
@@ -5923,7 +5923,7 @@ msgstr "S'està capturant una imatge..."
 #: ekos/focus/focus.cpp:1922
 #, kde-format
 msgid "Image received."
-msgstr "Imatge rebuda."
+msgstr "S'ha rebut la imatge."
 
 #: ekos/align/align.cpp:1734
 #, kde-format
@@ -15826,19 +15826,19 @@ msgstr "endins"
 #: ekos/focus/focus.cpp:1421
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
-msgstr "Enfocant %2 a %1 passos..."
+msgstr "S'està enfocant %2 a %1 passos..."
 
 #: ekos/focus/focus.cpp:1427
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
-msgstr[0] "Enfocant %2 a %1 pas..."
-msgstr[1] "Enfocant %2 a %1 passos..."
+msgstr[0] "S'està enfocant %2 a %1 pas..."
+msgstr[1] "S'està enfocant %2 a %1 passos..."
 
 #: ekos/focus/focus.cpp:1433
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
-msgstr "Enfocant %2 a %1 ms..."
+msgstr "S'està enfocant %2 a %1 ms..."
 
 #: ekos/focus/focus.cpp:1446
 #, kde-format
@@ -15869,7 +15869,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:1510
 #, kde-format
 msgid "Detection complete."
-msgstr "Detecció completada."
+msgstr "S'ha completat la detecció."
 
 #: ekos/focus/focus.cpp:1553
 #, kde-format
@@ -15897,24 +15897,24 @@ msgstr[1] ""
 #: ekos/focus/focus.cpp:1788
 #, kde-format
 msgid "Settling for %1s..."
-msgstr "Posicionament durant %1s..."
+msgstr "S'està fent el posicionament durant %1 s..."
 
 #: ekos/focus/focus.cpp:1795
 #, kde-format
 msgid "Settling complete."
-msgstr "Posicionament completat."
+msgstr "S'ha completat el posicionament."
 
 #: ekos/focus/focus.cpp:1808
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
-"No s'ha pogut fer l'enfocament automàtic, està retornant a la posició "
+"No s'ha pogut fer l'enfocament automàtic, s'està retornant a la posició "
 "inicial de l'enfocament %1."
 
 #: ekos/focus/focus.cpp:1844
 #, kde-format
 msgid "FITS received. No stars detected."
-msgstr "FITS rebut. No s'ha detectat cap estrela."
+msgstr "S'ha rebut FITS. No s'ha detectat cap estrela."
 
 #: ekos/focus/focus.cpp:1998
 #, kde-format
@@ -15931,19 +15931,19 @@ msgstr "S'ha completat la captura. Seleccioneu l'estrela que s'enfocarà."
 #: ekos/focus/focus.cpp:2127
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
-msgstr "No s'han detectat estreles en provar l'HFR. Es tornarà a capturar..."
+msgstr "No s'ha detectat cap estrela en provar l'HFR. Es tornarà a capturar..."
 
 #: ekos/focus/focus.cpp:2227
 #, kde-format
 msgid "Autofocus failed to reach proper focus. Try increasing tolerance value."
 msgstr ""
-"L'enfocament automàtic no ha aconseguit enfocar. Proveu d'incrementar el "
+"L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho incrementant el "
 "valor de la tolerància."
 
 #: ekos/focus/focus.cpp:2238 ekos/focus/focus.cpp:2847
 #, kde-format
 msgid "No stars detected, capturing again..."
-msgstr "No s'han detectat estreles. S'està tornant a capturar..."
+msgstr "No s'ha detectat cap estrela. S'està tornant a capturar..."
 
 #: ekos/focus/focus.cpp:2247 ekos/focus/focus.cpp:2853
 #, kde-format
@@ -15976,12 +15976,12 @@ msgstr ""
 #: ekos/focus/focus.cpp:2496
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
-msgstr "FITS rebut. HFR %1 @ %2. Delta (%3%)"
+msgstr "S'ha rebut FITS. HFR %1 @ %2. Delta (%3%)"
 
 #: ekos/focus/focus.cpp:2498
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
-msgstr "FITS rebut. HFR %1 @ %2."
+msgstr "S'ha rebut FITS. HFR %1 @ %2."
 
 #: ekos/focus/focus.cpp:2558
 #, kde-format
@@ -15996,8 +15996,8 @@ msgstr ""
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
-"No s'ha pogut detectar una estrela que s'enfocarà en el fotograma. Captureu "
-"i seleccioneu una estrela que s'enfocarà."
+"No s'ha pogut detectar una estrela que s'haja d'enfocar en el fotograma. "
+"Captureu i seleccioneu una estrela que s'haja d'enfocar."
 
 #: ekos/focus/focus.cpp:2670
 #, kde-format
@@ -16016,8 +16016,8 @@ msgstr ""
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
-"Fluctuacions inestables. Intenteu incrementar la mida del pas inicial o el "
-"temps d'exposició."
+"Fluctuacions inestables. Intenteu-ho incrementant la mida del pas inicial o "
+"el temps d'exposició."
 
 #: ekos/focus/focus.cpp:2755
 #, kde-format
@@ -16034,14 +16034,14 @@ msgstr ""
 #: ekos/focus/focus.cpp:2832
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
-msgstr "FITS rebut. HFR %1. Delta (%2%) HFR mínim (%3)"
+msgstr "S'ha rebut FITS. HFR %1. Delta (%2%) HFR mínim (%3)"
 
 #: ekos/focus/focus.cpp:2836
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
-"L'enfocament automàtic no ha aconseguit enfocar. Proveu d'ajustar el valor "
+"L'enfocament automàtic no ha aconseguit enfocar. Proveu-ho ajustant el valor "
 "de la tolerància."
 
 #: ekos/focus/focus.cpp:2922 ekos/focus/focus.cpp:2935
@@ -25330,7 +25330,7 @@ msgstr "inicia la tasca en la data i hora especificades"
 #: ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "O&n"
-msgstr "E&ncés"
+msgstr "E&ncén"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, culminationOffset)
 #: ekos/scheduler/scheduler.ui:1513
@@ -27884,7 +27884,7 @@ msgstr "La muntura està aparcada"
 msgid "Mount unparked"
 msgstr "La muntura està desaparcada"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:796
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -27893,12 +27893,12 @@ msgstr ""
 "Avís! Mirar el Sol sense una protecció adequada pot provocar danys oculars "
 "irreversibles!"
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:797
 #, kde-format
 msgid "Sun Warning"
 msgstr "Avís del Sol"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:815
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -27906,7 +27906,7 @@ msgid ""
 msgstr ""
 "L'altitud requerida %1 està fora dels límits d'altitud especificats (%2, %3)."
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:846
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -27914,7 +27914,7 @@ msgstr ""
 "L'altitud requerida es troba per davall de l'horitzó. Segur que voleu "
 "continuar?"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:847
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Moviment del telescopi"

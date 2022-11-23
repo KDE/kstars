@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 00:41+0000\n"
-"PO-Revision-Date: 2022-11-14 06:37+0100\n"
+"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"PO-Revision-Date: 2022-11-22 07:31+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -881,7 +881,7 @@ msgstr "XPlanet მზის სისტემის სიმულატო�
 #: data/qml/whatisinteresting/wiview.qml:141
 #: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
 #: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
+#: indi/indimount.cpp:767 indi/indimount.cpp:782 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
@@ -2036,7 +2036,7 @@ msgstr "ობიექტის ინფორმაცია"
 #: data/qml/whatisinteresting/wiview.qml:1160
 #, kde-kuit-format
 msgid "Wikipedia Infotext"
-msgstr ""
+msgstr "Wikipedia -ის ტექსტი"
 
 #: data/qml/whatisinteresting/wiview.qml:1272
 #, kde-kuit-format
@@ -15495,7 +15495,7 @@ msgstr ""
 #: ekos/focus/focus.ui:1358
 #, kde-format
 msgid "Polynomial"
-msgstr ""
+msgstr "პოლინომური"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/focus.ui:1363
@@ -25514,32 +25514,32 @@ msgstr "სამაგრი დამაგრებულია"
 msgid "Mount unparked"
 msgstr "სამაგრი მოხსნილია"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:796
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:797
 #, kde-format
 msgid "Sun Warning"
 msgstr ""
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:815
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:846
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:847
 #, kde-format
 msgid "Telescope Motion"
 msgstr "ტელესკოპის მოძრაობა"
@@ -70924,7 +70924,7 @@ msgstr "ობიექტის პოვნა..."
 #: tools/altvstime.ui:129
 #, kde-format
 msgid "Plot"
-msgstr ""
+msgstr "გრაფიკი"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearFieldsButton)
 #: tools/altvstime.ui:148
