@@ -364,6 +364,12 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         gpg->darkGuiding(&pulseLength, &dir, calibration, timeStep);
         pulseDirection = dir;
     }
+    else if (darkGuide)
+    {
+        // We should not be dark guiding without GPG
+        qCDebug(KSTARS_EKOS_GUIDE) << "Warning: dark guiding without GPG or while dithering.";
+        return;
+    }
     else if (useGPG && gpg->computePulse(arcsecDrift,
                                          usingSEPMultiStar() ? &guideStars : nullptr, &pulseLength, &dir, calibration, timeStep))
     {
