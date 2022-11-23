@@ -131,6 +131,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     connect(connectB, &QPushButton::clicked, this, &Ekos::Manager::connectDevices);
     connect(disconnectB, &QPushButton::clicked, this, &Ekos::Manager::disconnectDevices);
 
+    // Init EkosLive client
     ekosLiveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ekosLiveClient.reset(new EkosLive::Client(this));
     connect(ekosLiveClient.get(), &EkosLive::Client::connected, this, [this]()
@@ -142,8 +143,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         emit ekosLiveStatusChanged(false);
     });
 
-    // INDI Control Panel
-    //connect(controlPanelB, &QPushButton::clicked, GUIManager::Instance(), SLOT(show()));
+    // Ekos live client toggle
     connect(ekosLiveB, &QPushButton::clicked, this, [&]()
     {
         ekosLiveClient.get()->show();
@@ -316,10 +316,10 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Scheduler"));
     capturePreview->shareSchedulerProcess(schedulerProcess.get());
     connect(schedulerProcess.get(), &Scheduler::newLog, this, &Ekos::Manager::updateLog);
-    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, [&](const QString & target)
-    {
-        setTarget(target);
-    });
+    connect(schedulerProcess.get(), &Ekos::Scheduler::newTarget, this, &Manager::setTarget);
+    // Scheduler <---> EkosLive connections
+    connect(schedulerProcess.get(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
+            &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
 
     // Initialize Ekos Analyze Module
     analyzeProcess.reset(new Ekos::Analyze());
@@ -2596,10 +2596,10 @@ void Manager::updateGuideStatus(Ekos::GuideState status)
     ekosLiveClient.get()->message()->updateGuideStatus(cStatus);
 }
 
-void Manager::setTarget(QString name)
+void Manager::setTarget(const QString &name)
 {
-    capturePreview->targetLabel->setVisible(name != "");
-    capturePreview->mountTarget->setVisible(name != "");
+    capturePreview->targetLabel->setVisible(!name.isEmpty());
+    capturePreview->mountTarget->setVisible(!name.isEmpty());
     capturePreview->mountTarget->setText(name);
     ekosLiveClient.get()->message()->updateMountStatus(QJsonObject({{"target", name}}));
 }
@@ -2861,13 +2861,6 @@ void Manager::connectModules()
                 &EkosLive::Message::sendCaptureSettings, Qt::UniqueConnection);
         connect(captureProcess.get(), &Ekos::Capture::trainChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendTrainProfiles, Qt::UniqueConnection);
-    }
-
-    // Scheduler <---> EkosLive connections
-    if(schedulerProcess && ekosLiveClient)
-    {
-        connect(schedulerProcess.get(), &Ekos::Scheduler::jobsUpdated, ekosLiveClient.get()->message(),
-                &EkosLive::Message::sendSchedulerJobs, Qt::UniqueConnection);
     }
 
     // Focus <---> Align connections

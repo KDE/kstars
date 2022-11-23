@@ -255,7 +255,6 @@ class GaussianProcessGuider
             auto const period_length = GetGPHyperparameters()[PKPeriodLength];
             if (get_number_of_measurements() <= 10)
             {
-                qCDebug(KSTARS_EKOS_GUIDE) << "Less than 10 measurements!";
                 return 0.0;
             }
 
@@ -268,8 +267,8 @@ class GaussianProcessGuider
             }
 
             auto time = std::chrono::duration<double>(current_time - start_time_).count()
-                    - (delta_measurement_time / 2.0) // use the midpoint as time stamp
-                    + dither_offset_; // correct for the gear time offset from dithering
+                        - (delta_measurement_time / 2.0) // use the midpoint as time stamp
+                        + dither_offset_; // correct for the gear time offset from dithering
             return time / (parameters.min_periods_for_inference_ * period_length);
         }
 

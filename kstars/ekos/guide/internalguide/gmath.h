@@ -222,5 +222,5 @@ class cgmath : public QObject
         bool configureInParams(Ekos::GuideState state);
         void updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection);
         void outputGuideLog();
-        void processAxis(const int k, const bool dithering, const bool darkGuiding, const Seconds &timeStep);
+        void processAxis(const int k, const bool dithering, const bool darkGuiding, const Seconds &timeStep, const QString &label);
 };

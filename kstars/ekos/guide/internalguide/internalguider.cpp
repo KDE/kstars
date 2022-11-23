@@ -75,7 +75,8 @@ void InternalGuider::setTimer(std::unique_ptr<QTimer> &timer, Seconds seconds)
 
 void InternalGuider::setDarkGuideTimerInterval()
 {
-    const Seconds seconds(Options::gPGDarkGuidingInterval());
+    constexpr double kMinInterval = 0.5;  // 0.5s is the shortest allowed dark-guiding period.
+    const Seconds seconds(std::max(kMinInterval, Options::gPGDarkGuidingInterval()));
     setTimer(m_darkGuideTimer, seconds);
 }
 
@@ -862,6 +863,9 @@ bool InternalGuider::processGuiding()
             emit guideInfo(info);
         }
 
+        // Restart the dark-guiding timer, so we get the full interval on its 1st timeout.
+        if (this->m_darkGuideTimer->isActive())
+            this->m_darkGuideTimer->start();
     }
 
     if (state == GUIDE_SUSPENDED)
@@ -959,18 +963,14 @@ void InternalGuider::darkGuide()
 {
     if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
     {
-        qCDebug(KSTARS_EKOS_GUIDE) << "##########BEGIN DARK GUIDING############";
         const cproc_out_params *out;
         auto const timeStep = calculateGPGTimeStep();
         pmath->performDarkGuiding(state, timeStep);
 
         out = pmath->getOutputParameters();
-
-        emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], DontCaptureAfterPulses);
+        emit newSinglePulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], DontCaptureAfterPulses);
 
         emitAxisPulse(out);
-        qCDebug(KSTARS_EKOS_GUIDE) << "##########END DARK GUIDING############";
     }
 }
 

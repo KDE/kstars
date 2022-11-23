@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-22 00:41+0000\n"
+"POT-Creation-Date: 2022-11-23 00:43+0000\n"
 "PO-Revision-Date: 2022-11-22 00:11+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -896,7 +896,7 @@ msgstr "Simulador del Sistema Solar XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:141
 #: data/qml/whatisinteresting/wiview.qml:152 dialogs/detaildialog.cpp:214
 #: dialogs/detaildialog.cpp:272 dialogs/detaildialog.cpp:1120
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 printing/detailstable.cpp:140
+#: indi/indimount.cpp:767 indi/indimount.cpp:782 printing/detailstable.cpp:140
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:594 skyglpainter.cpp:288
@@ -27886,7 +27886,7 @@ msgstr "Montura aparcada"
 msgid "Mount unparked"
 msgstr "Montura desaparcada"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:796
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -27895,12 +27895,12 @@ msgstr ""
 "Advertencia: Mirar al Sol sin la protección adecuada puede ocasionar daños "
 "irreversibles en los ojos."
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:797
 #, kde-format
 msgid "Sun Warning"
 msgstr "Advertencia sobre el Sol"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:815
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -27909,7 +27909,7 @@ msgstr ""
 "La altitud solicitada de %1 está fuera de los límites de altitud indicados "
 "(%2, %3)."
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:846
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -27917,7 +27917,7 @@ msgstr ""
 "La altitud solicitada está por debajo del horizonte. ¿Seguro que quiere "
 "continuar?"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:847
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Movimiento del telescopio"

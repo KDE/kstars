@@ -686,6 +686,10 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
             emit newTarget(*ScopeTarget);
             if (currentObject)
                 emit newTargetName(currentObject->name());
+            // If there is no object, we must clear target as it might give wrong
+            // indication we are still on it.
+            else
+                emit newTargetName(QString());
         }
 
         if (EqProp)

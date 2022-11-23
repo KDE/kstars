@@ -420,10 +420,10 @@ SkyObject *SkyMapComposite::objectNearest(SkyPoint *p, double &maxrad)
         rBest *= 0.75;
     // For stars fainter than 12th mag
     else if (oBest && oBest->mag() > 12.0)
-        rBest *= 1.75;
+        rBest *= 2.00;
     // For stars between 4th and 12th mag
     else if (oBest)
-        rBest *= 1.5;
+        rBest *= 2.5;
 
     oTry = m_Satellites->objectNearest(p, rTry);
     if (rTry < rBest)
