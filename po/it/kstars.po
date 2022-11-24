@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2022-11-09 23:41+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18508,12 +18508,12 @@ msgstr "Calibrazione della guida non riuscita"
 msgid "Guiding calibration completed successfully"
 msgstr "Calibrazione della guida completata correttamente"
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Inseguimento della stella guida perso. Ricerca di stelle guida..."
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
@@ -18521,7 +18521,7 @@ msgstr ""
 "Si è persa la traccia della stella guida. Interruzione della guida "
 "automatica..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Impossibile trovare una stella guida adatta. Interruzione..."

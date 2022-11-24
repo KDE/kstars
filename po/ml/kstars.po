@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -17800,17 +17800,17 @@ msgstr "കാലിയെന്റെ"
 msgid "Guiding calibration completed successfully"
 msgstr "കാലിയെന്റെ"
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"

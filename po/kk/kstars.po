@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -19020,7 +19020,7 @@ msgstr "Калибрлеу"
 msgid "Guiding calibration completed successfully"
 msgstr "Телескоп шебері сәтті аяқтады."
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, fuzzy, kde-format
 #| msgid ""
 #| "Lost track of the guide star. Try increasing the square size and check "
@@ -19030,7 +19030,7 @@ msgstr ""
 "Жұлдыз қадағалаудан шығып кеті. Квадратты үлғайтып көріңіз және қондырғының "
 "жалғауын тексеріп шығыңыз."
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, fuzzy, kde-format
 #| msgid ""
 #| "Lost track of the guide star. Try increasing the square size and check "
@@ -19040,7 +19040,7 @@ msgstr ""
 "Жұлдыз қадағалаудан шығып кеті. Квадратты үлғайтып көріңіз және қондырғының "
 "жалғауын тексеріп шығыңыз."
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to find any suitable guide stars. Aborting..."

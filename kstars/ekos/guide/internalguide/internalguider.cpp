@@ -290,8 +290,7 @@ bool InternalGuider::dither(double pixels)
     {
         // If the star position is lost, just lose this iteration.
         // If it happens too many time, abort.
-        constexpr int abortStarLostThreshold = MAX_LOST_STAR_THRESHOLD * 3;
-        if (++m_starLostCounter > abortStarLostThreshold)
+        if (++m_starLostCounter > MAX_LOST_STAR_THRESHOLD)
         {
             qCDebug(KSTARS_EKOS_GUIDE) << "Too many consecutive lost stars." << m_starLostCounter << "Aborting dither.";
             return abortDither();
@@ -961,6 +960,10 @@ std::pair<Seconds, Seconds> InternalGuider::calculateGPGTimeStep()
 
 void InternalGuider::darkGuide()
 {
+    // Only dark guide when guiding--e.g. don't dark guide if dithering.
+    if (state != GUIDE_GUIDING)
+        return;
+
     if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
     {
         const cproc_out_params *out;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -18785,17 +18785,17 @@ msgstr "कालियन्टे"
 msgid "Guiding calibration completed successfully"
 msgstr "कालियन्टे"
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "छवि लोड गर्न असफल भयो"

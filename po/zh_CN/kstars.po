@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2022-11-19 14:48\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17524,17 +17524,17 @@ msgstr "导星校准失败"
 msgid "Guiding calibration completed successfully"
 msgstr "已成功完成导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "丢失被导星。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS 超出阈值。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "找不到合适的导星目标。正在中止..."
