@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:43+0000\n"
+"POT-Creation-Date: 2022-11-24 00:41+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -18831,7 +18831,7 @@ msgstr "Βαθμονόμηση"
 msgid "Guiding calibration completed successfully"
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/guide/internalguide/internalguider.cpp:996
+#: ekos/guide/internalguide/internalguider.cpp:999
 #, fuzzy, kde-format
 #| msgid ""
 #| "Change in HFR is too small. Try increasing the step size or decreasing "
@@ -18841,7 +18841,7 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/guide/internalguide/internalguider.cpp:998
+#: ekos/guide/internalguide/internalguider.cpp:1001
 #, fuzzy, kde-format
 #| msgid ""
 #| "Change in HFR is too small. Try increasing the step size or decreasing "
@@ -18851,7 +18851,7 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/guide/internalguide/internalguider.cpp:1182
+#: ekos/guide/internalguide/internalguider.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to find any suitable guide stars. Aborting..."
