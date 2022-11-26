@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.6.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-24 00:41+0000\n"
+"POT-Creation-Date: 2022-11-26 00:42+0000\n"
 "PO-Revision-Date: 2022-11-22 07:54+0100\n"
 "Last-Translator: Steve <stax@ik.me>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -5912,7 +5912,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Erreur : perte de connexion à la roue à filtres."
 
 #: ekos/align/align.cpp:1438 ekos/capture/capture.cpp:3547
-#: ekos/capture/capture.cpp:6235 ekos/focus/focus.cpp:3939
+#: ekos/capture/capture.cpp:6235 ekos/focus/focus.cpp:3949
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6075,7 +6075,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "La résolution a été annulée après %1 secondes."
 
 #: ekos/align/align.cpp:2392 ekos/capture/capture.cpp:2733
-#: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
+#: ekos/focus/focus.cpp:3190 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
 #: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, kde-format
@@ -6241,7 +6241,7 @@ msgid "dDE (arcsec)"
 msgstr "dDEC (secondes d'arc)"
 
 #: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6435
-#: ekos/focus/focus.cpp:3844
+#: ekos/focus/focus.cpp:3854
 #, kde-format
 msgid "Filter operation failed."
 msgstr "L'opération de filtrage a échoué."
@@ -14032,12 +14032,12 @@ msgstr "Refroidissement activé"
 msgid "Cooler is off"
 msgstr "Refroidissement désactivé"
 
-#: ekos/capture/capture.cpp:6834 ekos/focus/focus.cpp:3981
+#: ekos/capture/capture.cpp:6834 ekos/focus/focus.cpp:3991
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Durée d'exposition écoulée. Annulation…"
 
-#: ekos/capture/capture.cpp:6857 ekos/focus/focus.cpp:3986
+#: ekos/capture/capture.cpp:6857 ekos/focus/focus.cpp:3996
 #: ekos/guide/guide.cpp:882
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15761,7 +15761,7 @@ msgstr "Modificateur de profils pour les options de mise au point"
 msgid "No Focuser connected."
 msgstr "Aucun dispositif de mise au point connecté."
 
-#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3228
+#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3238
 #, kde-format
 msgid "No CCD connected."
 msgstr "Aucun CCD connecté."
@@ -15826,12 +15826,12 @@ msgstr "Erreur : aucune roue à filtres détectée."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Erreur : perte de connexion à la roue à filtres."
 
-#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3579
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Erreur : aucun moteur de mise au point détecté."
 
-#: ekos/focus/focus.cpp:1400 ekos/focus/focus.cpp:3576
+#: ekos/focus/focus.cpp:1400 ekos/focus/focus.cpp:3586
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Erreur : connexion au moteur de mise au point perdue."
@@ -16066,72 +16066,72 @@ msgstr ""
 "correcte. Essayez d'ajuster la valeur de tolérance."
 
 #: ekos/focus/focus.cpp:2922 ekos/focus/focus.cpp:2935
-#: ekos/focus/focus.cpp:3034 ekos/focus/focus.cpp:3082
-#: ekos/focus/focus.cpp:3131 ekos/focus/focus.cpp:3172
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3092
+#: ekos/focus/focus.cpp:3141 ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Erreur de mise au point, vérifiez le panneau INDI."
 
-#: ekos/focus/focus.cpp:3014 ekos/focus/focus.cpp:3066
-#: ekos/focus/focus.cpp:3115 ekos/focus/focus.cpp:3147
+#: ekos/focus/focus.cpp:3024 ekos/focus/focus.cpp:3076
+#: ekos/focus/focus.cpp:3125 ekos/focus/focus.cpp:3157
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Nouveau démarrage du processus de mise au point automatique…"
 
-#: ekos/focus/focus.cpp:3246
+#: ekos/focus/focus.cpp:3256
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Démarrage de l'exposition en continue…"
 
-#: ekos/focus/focus.cpp:3451
+#: ekos/focus/focus.cpp:3461
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Désactivation de la sélection automatique d'étoiles car la boîte de dialogue "
 "de sélection d'étoiles a été déplacée manuellement."
 
-#: ekos/focus/focus.cpp:3456
+#: ekos/focus/focus.cpp:3466
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Une étoile à focaliser est sélectionnée."
 
-#: ekos/focus/focus.cpp:3548
+#: ekos/focus/focus.cpp:3558
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Aucune étoile détectée. Utilisation de la dernière position connue…"
 
-#: ekos/focus/focus.cpp:3554
+#: ekos/focus/focus.cpp:3564
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Aucune étoile sélectionnée. Annulation…"
 
-#: ekos/focus/focus.cpp:3680
+#: ekos/focus/focus.cpp:3690
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Trame de mise au point"
 
-#: ekos/focus/focus.cpp:3999
+#: ekos/focus/focus.cpp:4009
 #, kde-format
 msgid "Capturing image again..."
 msgstr "Nouvelle acquisition d'image…"
 
-#: ekos/focus/focus.cpp:4014
+#: ekos/focus/focus.cpp:4024
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Impossible d'enregistrer une image. Annulation en cours…"
 
-#: ekos/focus/focus.cpp:4024
+#: ekos/focus/focus.cpp:4034
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Échec de l'exposition. Annulation…"
 
-#: ekos/focus/focus.cpp:4029
+#: ekos/focus/focus.cpp:4039
 #, kde-format
 msgid "Exposure failure. Restarting exposure..."
 msgstr "Échec de l'exposition. Redémarrage de l'exposition…"
 
-#: ekos/focus/focus.cpp:4199
+#: ekos/focus/focus.cpp:4209
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"

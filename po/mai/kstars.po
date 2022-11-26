@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-24 00:41+0000\n"
+"POT-Creation-Date: 2022-11-26 00:42+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -6044,7 +6044,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "कनेक्शन"
 
 #: ekos/align/align.cpp:1438 ekos/capture/capture.cpp:3547
-#: ekos/capture/capture.cpp:6235 ekos/focus/focus.cpp:3939
+#: ekos/capture/capture.cpp:6235 ekos/focus/focus.cpp:3949
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6187,7 +6187,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "समय"
 
 #: ekos/align/align.cpp:2392 ekos/capture/capture.cpp:2733
-#: ekos/focus/focus.cpp:3180 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
+#: ekos/focus/focus.cpp:3190 ekos/guide/guide.cpp:1108 ekos/manager.cpp:1878
 #: ekos/mount/mount.cpp:826 ekos/observatory/observatory.cpp:952
 #: ekos/scheduler/scheduler.cpp:887
 #, fuzzy, kde-format
@@ -6367,7 +6367,7 @@ msgid "dDE (arcsec)"
 msgstr "सकेण्ड"
 
 #: ekos/align/align.cpp:3367 ekos/capture/capture.cpp:6435
-#: ekos/focus/focus.cpp:3844
+#: ekos/focus/focus.cpp:3854
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Filter operation failed."
@@ -14058,13 +14058,13 @@ msgstr ""
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/capture.cpp:6834 ekos/focus/focus.cpp:3981
+#: ekos/capture/capture.cpp:6834 ekos/focus/focus.cpp:3991
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure timeout. Aborting..."
 msgstr "स्ट्रिंग"
 
-#: ekos/capture/capture.cpp:6857 ekos/focus/focus.cpp:3986
+#: ekos/capture/capture.cpp:6857 ekos/focus/focus.cpp:3996
 #: ekos/guide/guide.cpp:882
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15875,7 +15875,7 @@ msgstr "कोनो केँ नहि चुनू"
 msgid "No Focuser connected."
 msgstr "डिसकनेक्ट करू"
 
-#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3228
+#: ekos/focus/focus.cpp:903 ekos/focus/focus.cpp:3238
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No CCD connected."
@@ -15943,12 +15943,12 @@ msgstr ""
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "कनेक्शन"
 
-#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:1393 ekos/focus/focus.cpp:3579
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1400 ekos/focus/focus.cpp:3576
+#: ekos/focus/focus.cpp:1400 ekos/focus/focus.cpp:3586
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
@@ -16171,76 +16171,76 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focus.cpp:2922 ekos/focus/focus.cpp:2935
-#: ekos/focus/focus.cpp:3034 ekos/focus/focus.cpp:3082
-#: ekos/focus/focus.cpp:3131 ekos/focus/focus.cpp:3172
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3092
+#: ekos/focus/focus.cpp:3141 ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3014 ekos/focus/focus.cpp:3066
-#: ekos/focus/focus.cpp:3115 ekos/focus/focus.cpp:3147
+#: ekos/focus/focus.cpp:3024 ekos/focus/focus.cpp:3076
+#: ekos/focus/focus.cpp:3125 ekos/focus/focus.cpp:3157
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3246
+#: ekos/focus/focus.cpp:3256
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3451
+#: ekos/focus/focus.cpp:3461
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3456
+#: ekos/focus/focus.cpp:3466
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Focus star is selected."
 msgstr "निर्देश"
 
-#: ekos/focus/focus.cpp:3548
+#: ekos/focus/focus.cpp:3558
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3554
+#: ekos/focus/focus.cpp:3564
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3680
+#: ekos/focus/focus.cpp:3690
 #, fuzzy, kde-format
 #| msgid "Time"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "समय"
 
-#: ekos/focus/focus.cpp:3999
+#: ekos/focus/focus.cpp:4009
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Capturing image again..."
 msgstr "स्ट्रिंग"
 
-#: ekos/focus/focus.cpp:4014
+#: ekos/focus/focus.cpp:4024
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "चित्र सहेजबामे विफल"
 
-#: ekos/focus/focus.cpp:4024
+#: ekos/focus/focus.cpp:4034
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure failure. Aborting..."
 msgstr "स्ट्रिंग"
 
-#: ekos/focus/focus.cpp:4029
+#: ekos/focus/focus.cpp:4039
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure failure. Restarting exposure..."
 msgstr "स्ट्रिंग"
 
-#: ekos/focus/focus.cpp:4199
+#: ekos/focus/focus.cpp:4209
 #, fuzzy, kde-format
 #| msgid "Remove Link"
 msgctxt "@title:window"
