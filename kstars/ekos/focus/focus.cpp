@@ -2970,19 +2970,29 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             // Therefore we ignore it if both value and state are the same as last time.
             // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
             if (currentPosition == newPosition && currentPositionState == nvp->s)
+            {
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser still at " << currentPosition << ". State: " << pstateStr(
+                                               currentPositionState);
                 return;
+            }
 
             currentPositionState = nvp->s;
 
             if (currentPosition != newPosition)
             {
                 currentPosition = newPosition;
-                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << "State:" << pstateStr(
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser position changed to " << currentPosition << ". State: " << pstateStr(
                                                currentPositionState);
                 absTicksLabel->setText(QString::number(currentPosition));
                 emit absolutePositionChanged(currentPosition);
             }
+            else
+                qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser still at " << currentPosition << ". State: " << pstateStr(
+                                               currentPositionState);
         }
+        else
+            qCDebug(KSTARS_EKOS_FOCUS) << "Abs Focuser unable to get focuser position. Last position " << currentPosition << ". State: "
+                                       << pstateStr(nvp->s);
 
         if (nvp->s != IPS_OK)
         {
@@ -2990,7 +3000,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             {
                 // We had something back from the focuser but we're not done yet, so
                 // restart motion timer in case focuser gets stuck.
-                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer...";
+                qCDebug(KSTARS_EKOS_FOCUS) << "Restarting focus motion timer. State: " << pstateStr(nvp->s);
                 m_FocusMotionTimer.start();
             }
         }
