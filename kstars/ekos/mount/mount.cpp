@@ -405,7 +405,7 @@ void Mount::syncGPS()
                 if (activeGPS->getText() != m_GPS->getDeviceName())
                 {
                     activeGPS->setText(m_GPS->getDeviceName().toLatin1().constData());
-                    m_Mount->getDriverInfo()->getClientManager()->sendNewText(activeDevices);
+                    m_Mount->sendNewText(activeDevices);
                 }
             }
         }
@@ -418,7 +418,7 @@ void Mount::syncGPS()
         if (refreshGPS)
         {
             refreshGPS->at(0)->setState(ISS_ON);
-            m_GPS->getDriverInfo()->getClientManager()->sendNewSwitch(refreshGPS);
+            m_GPS->sendNewSwitch(refreshGPS);
             GPSInitialized = true;
         }
     }

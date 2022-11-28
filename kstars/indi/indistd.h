@@ -191,6 +191,13 @@ class GenericDevice : public GDInterface
 
         bool findConcreteDevice(uint32_t interface, QSharedPointer<ConcreteDevice> &device);
 
+        /** @brief Send new Text command to server */
+        void sendNewText(ITextVectorProperty *pp);
+        /** @brief Send new Number command to server */
+        void sendNewNumber(INumberVectorProperty *pp);
+        /** @brief Send new Switch command to server */
+        void sendNewSwitch(ISwitchVectorProperty *pp);
+
         // Convinence functions
         ISD::Mount *getMount();
         ISD::Camera *getCamera();

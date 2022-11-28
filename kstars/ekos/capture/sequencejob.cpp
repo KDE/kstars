@@ -439,7 +439,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneSwitch)
                             oneSwitch->setState(static_cast<ISState>(j.value().toInt()));
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewSwitch(sp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewSwitch(sp);
                 }
                 break;
                 case INDI_TEXT:
@@ -452,7 +452,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneText)
                             oneText->setText(j.value().toString().toLatin1().constData());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewText(tp);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewText(tp);
                 }
                 break;
                 case INDI_NUMBER:
@@ -465,7 +465,7 @@ CAPTUREResult SequenceJob::capture(bool autofocusReady, FITSMode mode)
                         if (oneNumber)
                             oneNumber->setValue(j.value().toDouble());
                     }
-                    captureDeviceAdaptor.data()->getActiveCamera()->getDriverInfo()->getClientManager()->sendNewNumber(np);
+                    captureDeviceAdaptor.data()->getActiveCamera()->sendNewNumber(np);
                 }
                 break;
                 default:
